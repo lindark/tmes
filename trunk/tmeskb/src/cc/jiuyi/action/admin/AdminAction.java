@@ -58,7 +58,7 @@ public class AdminAction extends BaseAdminAction {
 	private RoleService roleService;
 	
 	@Resource
-	private MessageService messageService;
+	private MessageService messageService;  
 	@Resource
 	private ProductService productService;
 	@Resource

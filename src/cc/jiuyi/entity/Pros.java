@@ -17,8 +17,16 @@ public class Pros extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private String proId;
+	private String name; //产品组名称
+	private String proId;//产品组编号
+
+	public String getProId() {
+		return proId;
+	}
+
+	public void setProId(String proId) {
+		this.proId = proId;
+	}
 
 	public String getName() {
 		return name;
@@ -28,14 +36,6 @@ public class Pros extends BaseEntity {
 		this.name = name;
 	}
 
-	public String getProId() {
-		return proId;
-	}
-
-	public void setProId(String proId) {
-		this.proId = proId;
-	}
-	
 	
 
 }

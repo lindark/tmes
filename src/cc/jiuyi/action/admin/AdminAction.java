@@ -14,6 +14,7 @@ import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
+import cc.jiuyi.service.impl.AdminServiceImpl;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;

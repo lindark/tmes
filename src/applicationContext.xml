@@ -106,6 +106,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Message</value>
 				<value>cc.jiuyi.entity.PaymentConfig</value>
 				<value>cc.jiuyi.entity.Dict</value>
+				<value>cc.jiuyi.entity.Pros</value>
 			</list>
 		</property>
 	</bean>

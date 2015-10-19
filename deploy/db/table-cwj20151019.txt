@@ -1,0 +1,24 @@
+create table pros(
+	id VARCHAR(32) NOT NULL,
+	name VARCHAR(32) NOT NULL COMMENT '产品组名称',
+	description VARCHAR(255) COMMENT '描述',
+	PRIMARY KEY (id)
+)ENGINE=INNODB CHARSET=utf8;
+
+create table pro(
+	id VARCHAR(32) NOT NULL,
+	name VARCHAR(32) NOT NULL COMMENT '产品名称',
+	PRIMARY KEY (id)
+)ENGINE=INNODB CHARSET=utf8;
+
+insert into pros(id,name)
+values ('1001','大众',' ')
+
+insert into pros(id,name)
+values ('1002','桑塔纳',' ')
+
+insert into pros(id,name)
+values ('1003','捷达',' ')
+
+insert into pros(id,name)
+values ('1004','宝马',' ')

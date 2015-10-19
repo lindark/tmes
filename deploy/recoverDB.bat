@@ -1,0 +1,1 @@
+mysql --default-character-set=utf8  -h localhost -P 3306 -uroot -pzllc,2009 tcrmnew < 2014-11-10_tcrmnew.sql

@@ -1,0 +1,12 @@
+#Mon Jul 27 10:11:22 CST 2015
+DELEGATES_PREFERENCE=delegateValidatorList
+USER_BUILD_PREFERENCE=enabledBuildValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;
+USER_MANUAL_PREFERENCE=enabledManualValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;
+USER_PREFERENCE=overrideGlobalPreferencestruedisableAllValidationfalseversion1.2.300.me201108091322
+eclipse.preferences.version=1
+override=true
+suspend=false
+vals/com.genuitec.eclipse.struts2.Struts2Validator/global=TT01
+vals/org.eclipse.wst.html.ui.HTMLValidator/global=FF01
+vals/org.eclipse.wst.jsdt.web.core.JsBatchValidator/global=FF02
+vf.version=3

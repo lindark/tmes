@@ -1,0 +1,778 @@
+<#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>系统设置 - Powered By ${systemConfig.systemName}</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<#include "/WEB-INF/template/common/include.ftl">
+<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+$().ready(function() {
+
+	var $isLoginFailureLockInput = $("input[name='systemConfig.isLoginFailureLock']");
+	var $loginFailureLockCountTr = $("#loginFailureLockCountTr");
+	var $loginFailureLockTimeTr = $("#loginFailureLockTimeTr");
+
+	var $smtpFromMail = $("input[name='systemConfig.smtpFromMail']");
+	var $smtpHost = $("input[name='systemConfig.smtpHost']");
+	var $smtpPort = $("input[name='systemConfig.smtpPort']");
+	var $smtpUsername = $("input[name='systemConfig.smtpUsername']");
+	var $smtpPassword = $("input[name='systemConfig.smtpPassword']");
+	var $showSmtpTestWindow = $("#showSmtpTestWindow");
+	
+	var $sapHost = $("input[name='systemConfig.sapHost']");
+	var $sapClient = $("input[name='systemConfig.sapClient']");
+	var $sapSysnr = $("input[name='systemConfig.sapSysnr']");
+	var $sapUser = $("input[name='systemConfig.sapUser']");
+	var $sapPasswd = $("input[name='systemConfig.sapPasswd']");
+	var $sapLang = $("input[name='systemConfig.sapLang']");
+	var $sapCodePage = $("input[name='systemConfig.sapCodePage']");
+	var $showSapTestWindow = $("#showSapTestWindow");
+	
+	var $pointType = $("input[name='systemConfig.pointType']");
+	var $pointScaleTr = $(".pointScaleTr");
+	var $pointScale = $("input[name='systemConfig.pointScale']");
+	
+	$isLoginFailureLockInput.click( function() {
+		$this = $(this);
+		if($this.val() == "true") {
+			$loginFailureLockCountTr.show();
+			$loginFailureLockTimeTr.show();
+		} else {
+			$loginFailureLockCountTr.hide();
+			$loginFailureLockTimeTr.hide();
+		}
+	});
+	
+	// SMTP测试窗口
+	$showSmtpTestWindow.click( function() {
+		var windowHtml = '<form id="smtpTestForm" action="mail!ajaxSendSmtpTest.action"><input type="hidden" name="smtpFromMail" class="{required: true, email: true, messages: {required: \'请填写发件人邮箱!\', email: \'发件人邮箱格式错误!\'}}" value="' + $smtpFromMail.val() + '" /><input type="hidden" name="smtpHost" value="' + $smtpHost.val() + '" class="{required: true, messages: {required: \'请填写SMTP服务器地址!\'}}" /><input type="hidden" name="smtpPort" value="' + $smtpPort.val() + '" class="{required: true, digits: true, messages: {required: \'请填写SMTP服务器端口!\', digits: \'SMTP服务器端口必须为零或正整数!\'}}" /><input type="hidden" name="smtpUsername" value="' + $smtpUsername.val() + '" class="{required: true, messages: {required: \'请填写SMTP会员编号!\'}}" /><input type="hidden" name="smtpPassword" value="' + $smtpPassword.val() + '" class="{required: true, messages: {required: \'请填写SMTP密码!\'}}" />收件人邮箱：<input type="text" name="smtpToMail" class="formText {required: true, email: true, messages: {required: \'请填写收件人邮箱!\', email: \'收件人邮箱格式错误!\'}}" /><div class="blank1"></div><p id="smtpTestStatus"></p><div class="blank1"></div><input type="submit" class="formButton" value="测试发送" /></form>';
+		$.window("邮箱配置测试", windowHtml);
+	});
+	
+	// 提交测试窗口
+	$("#smtpTestForm").livequery("submit", function() {
+		
+		// 表单验证
+		$("#smtpTestForm").validate({
+			invalidHandler: function(form, validator) {
+				$.each(validator.invalid, function(key, value){
+					$.tip(value);
+					return false;
+				});
+			},
+			errorPlacement:function(error, element) {},
+			submitHandler: function(form) {
+				$("#submitButton").attr("disabled", true);
+				$("#smtpTestForm").ajaxSubmit({
+					dataType: "json",
+					beforeSubmit: function(data) {
+						$("#smtpTestStatus").html('<span class="loadingIcon">&nbsp;</span>正在发送测试邮件，请稍后...');
+					},
+					success: function(data) {
+						$("#smtpTestStatus").empty();
+						$("#submitButton").attr("disabled", false);
+						$.closeWindow();
+						$.message(data.status, data.message);
+					}
+				});
+			}
+		});
+	});
+	
+	// 根据积分获取方式显示/隐藏“积分换算比率”
+	$pointType.click( function() {
+		$this = $(this);
+		if($this.val() == "orderAmount") {
+			$pointScale.removeClass("ignoreValidate");
+			$pointScaleTr.show();
+		} else {
+			$pointScale.val("0");
+			$pointScale.addClass("ignoreValidate");
+			$pointScaleTr.hide();
+		}
+	});
+	
+})
+</script>
+<#if !id??>
+	<#assign isAdd = true />
+<#else>
+	<#assign isEdit = true />
+</#if>
+<#include "/WEB-INF/template/common/include_adm_top.ftl">
+<style>
+body{background:#fff;}
+</style>
+</head>
+<body class="no-skin input">
+	
+<!-- add by welson 0728 -->	
+<#include "/WEB-INF/template/admin/admin_navbar.ftl">
+<div class="main-container" id="main-container">
+	<script type="text/javascript">
+		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+	</script>
+	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
+	<div class="main-content">
+	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
+	
+	<!-- ./ add by welson 0728 -->
+	<div class="breadcrumbs" id="breadcrumbs">
+		<script type="text/javascript">
+			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+		</script>
+
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href="admin!index.action">管理中心</a>
+			</li>
+			<li class="active">系统设置</li>
+		</ul><!-- /.breadcrumb -->
+	</div>
+	 
+	<!-- add by welson 0728 -->
+	<div class="page-content">
+					<div class="page-content-area">					
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- ./ add by welson 0728 -->
+
+
+	 
+		<form id="inputForm" class="validate" class="form" action="system_config!update.action" enctype="multipart/form-data" method="post">
+			<div class="blank1"></div>
+			<div id="inputtabs">
+			<ul>
+				<li>
+					<a href="#tabs-1">基本设置</a>
+				</li>
+				<li>
+					<a href="#tabs-2">显示设置</a>
+				</li>
+				<li>
+					<a href="#tabs-3">安全设置</a>
+				</li>
+				<li>
+					<a href="#tabs-4">邮件设置</a>
+				</li>
+				<li>
+					<a href="#tabs-5">SAP设置</a>
+				</li>
+				<li>
+					<a href="#tabs-6">其它设置</a>
+				</li>
+			</ul>
+			<table id="tabs-1" class="inputTable tabContent">
+				<tr>
+					<th>
+						平台名称:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.shopName" class="formText {required: true}" value="${(systemConfig.shopName)!}" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						平台网址:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.shopUrl" class="formText {required: true, url: true}" title="必须以http://开头" value="${(systemConfig.shopUrl)!"http://"}" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						平台Logo:
+					</th>
+					<td>
+						<input type="file" class="btn" name="shopLogo" />&nbsp;&nbsp;&nbsp;<a href="${base}${(systemConfig.shopLogo)!}" class="imagePreview" target="_blank">查看</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						热门搜索关键词:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.hotSearch" class="formText" value="${(systemConfig.hotSearch)!}" title="页面显示的热门搜索关键字,多个关键字请以(${stack.findValue("@cc.jiuyi.bean.SystemConfig@HOT_SEARCH_SEPARATOR")})分隔" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						联系地址:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.address" class="formText" value="${(systemConfig.address)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						服务电话:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.phone" class="formText {phone: true}" value="${(systemConfig.phone)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						邮编:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.zipCode" class="formText {zipCode: true}" value="${(systemConfig.zipCode)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						E-mail:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.email" class="formText {email: true}" value="${(systemConfig.email)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						备案号:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.certtext" class="formText" value="${(systemConfig.certtext)!}" title="填写您在工信部备案管理网站申请的备案编号" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						首页页面关键词:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.metaKeywords" class="formText" value="${(systemConfig.metaKeywords)!}" title="多个关键字请以(,)分隔" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						首页页面描述:
+					</th>
+					<td>
+						<textarea name="systemConfig.metaDescription" class="formTextarea">${(systemConfig.metaDescription)!}</textarea>
+					</td>
+				</tr>
+			</table>
+			<table id="tabs-2" class="inputTable tabContent">
+				<tr>
+					<th>
+						产品图片（大）:
+					</th>
+					<td>
+						<span class="fieldTitle">宽度:</span>
+						<input type="text" name="systemConfig.bigProductImageWidth" class="formText {required: true, digits: true}" value="${(systemConfig.bigProductImageWidth)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+						<span class="fieldTitle">高度:</span>
+						<input type="text" name="systemConfig.bigProductImageHeight" class="formText {required: true, digits: true}" value="${(systemConfig.bigProductImageHeight)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						产品图片（小）:
+					</th>
+					<td>
+						<span class="fieldTitle">宽度:</span>
+						<input type="text" name="systemConfig.smallProductImageWidth" class="formText {required: true, digits: true}" value="${(systemConfig.smallProductImageWidth)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+						<span class="fieldTitle">高度:</span>
+						<input type="text" name="systemConfig.smallProductImageHeight" class="formText {required: true, digits: true}" value="${(systemConfig.smallProductImageHeight)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						产品缩略图:
+					</th>
+					<td>
+						<span class="fieldTitle">宽度:</span>
+						<input type="text" name="systemConfig.thumbnailProductImageWidth" class="formText {required: true, digits: true}" value="${(systemConfig.thumbnailProductImageWidth)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+						<span class="fieldTitle">高度:</span>
+						<input type="text" name="systemConfig.thumbnailProductImageHeight" class="formText {required: true, digits: true}" value="${(systemConfig.thumbnailProductImageHeight)!}" style="width: 50px;" title="单位:像素, 只允许输入零或正整数" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						默认产品图片（大）:
+					</th>
+					<td>
+						<input type="file" class="btn" name="defaultBigProductImage" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base}${(systemConfig.defaultBigProductImagePath)!}" class="imagePreview" target="_blank">查看</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						默认产品图片（小）:
+					</th>
+					<td>
+						<input type="file" class="btn" name="defaultSmallProductImage" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base}${(systemConfig.defaultSmallProductImagePath)!}" class="imagePreview" target="_blank">查看</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						默认缩略图:
+					</th>
+					<td>
+						<input type="file" class="btn" name="defaultThumbnailProductImage" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base}${(systemConfig.defaultThumbnailProductImagePath)!}" class="imagePreview" target="_blank">查看</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						水印图片:
+					</th>
+					<td>
+						<input type="file" class="btn" name="watermarkImage" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base}${(systemConfig.watermarkImagePath)!}" class="imagePreview" target="_blank">查看</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						水印位置:
+					</th>
+					<td>
+						<#list allWatermarkPosition as list>
+						<label class="pull-left inline">
+					   		<small class="muted smaller-90">${action.getText("WatermarkPosition." + list)}&nbsp;</small>
+							<input type="radio" name="systemConfig.watermarkPosition" class="ace" value="${list}" <#if (systemConfig.watermarkPosition == list)!> checked="true"</#if> />
+							<span class="lbl middle"></span>
+						</label>
+					
+						</#list>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						水印透明度:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.watermarkAlpha" class="formText {required: true, digits: true}" value="${(systemConfig.watermarkAlpha)!}" title="取值范围:0-100,  0代表完全透明" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+			</table>
+			<table id="tabs-3" class="inputTable tabContent">
+				<tr>
+					<th>
+						是否开放注册:
+					</th>
+					<td>
+					<label class="pull-left inline">
+					    <small class="muted smaller-90">是:</small>
+						<input type="radio" name="systemConfig.isRegister" class="ace" value="true"<#if (systemConfig.isRegister == true)!> checked</#if> />
+						<span class="lbl middle"></span>
+					</label>
+							
+					<label class="pull-left inline">
+
+					    <small class="muted smaller-90">否:</small>
+						<input type="radio" name="systemConfig.isRegister" class="ace" value="false"<#if (systemConfig.isRegister == false)!> checked</#if> />
+						<span class="lbl middle"></span>
+					</label>	
+					
+					</td>
+				</tr>
+				<tr>
+					<th>
+						是否自动锁定账号:
+					</th>
+					<td>
+					
+					<label class="pull-left inline">
+					    <small class="muted smaller-90">是:</small>
+						<input type="radio" name="systemConfig.isLoginFailureLock" class="ace" value="true"<#if (systemConfig.isLoginFailureLock == true)!> checked</#if> />
+						<span class="lbl middle"></span>
+					</label>
+							
+					<label class="pull-left inline">
+
+					    <small class="muted smaller-90">否:</small>
+						<input type="radio" name="systemConfig.isLoginFailureLock" class="ace" value="false"<#if (systemConfig.isLoginFailureLock == false)!> checked</#if> />
+						<span class="lbl middle"></span>
+					</label> 
+					</td>
+				</tr>
+				<tr id="loginFailureLockCountTr"<#if systemConfig.isLoginFailureLock == false> class="hidden"</#if>>
+					<th>
+						连续登录失败最大次数:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.loginFailureLockCount" class="formText {required: true, positiveInteger: true}" value="${(systemConfig.loginFailureLockCount)!}" title="只允许输入正整数,当连续登录失败次数超过设定值时,系统将自动锁定该账号" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr id="loginFailureLockTimeTr"<#if systemConfig.isLoginFailureLock == false> class="hidden"</#if>>
+					<th>
+						自动解锁时间:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.loginFailureLockTime" class="formText {required: true, digits: true}" value="${(systemConfig.loginFailureLockTime)!}" title="只允许输入零或正整数,账号锁定后,自动解除锁定的时间,单位:分钟,0表示永久锁定" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						允许上传图片文件ext名:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.allowedUploadImageExtension" class="formText" value="${(systemConfig.allowedUploadImageExtension)!}" title="为空表示不允许上传图片文件,多个扩展名请以(${stack.findValue("@cc.jiuyi.bean.SystemConfig@EXTENSION_SEPARATOR")})分隔" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						允许上传媒体文件ext名:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.allowedUploadMediaExtension" class="formText" value="${(systemConfig.allowedUploadMediaExtension)!}" title="为空表示不允许上传媒体文件,多个扩展名请以(${stack.findValue("@cc.jiuyi.bean.SystemConfig@EXTENSION_SEPARATOR")})分隔" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						允许上传其它文件ext名:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.allowedUploadFileExtension" class="formText" value="${(systemConfig.allowedUploadFileExtension)!}" title="为空表示不允许上传其它文件,多个扩展名请以(${stack.findValue("@cc.jiuyi.bean.SystemConfig@EXTENSION_SEPARATOR")})分隔" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						文件上传最大值:
+					</th>
+					<td>
+						<select name="systemConfig.uploadLimit">
+							<option value="512" <#if systemConfig.uploadLimit == 512>selected="selected" </#if>>
+								512K
+							</option>
+							<option value="1024" <#if systemConfig.uploadLimit == 1024>selected="selected" </#if>>
+								1M
+							</option>
+							<option value="2048" <#if systemConfig.uploadLimit == 2048>selected="selected" </#if>>
+								2M
+							</option>
+							<option value="3072" <#if systemConfig.uploadLimit == 3072>selected="selected" </#if>>
+								3M
+							</option>
+							<option value="5120" <#if systemConfig.uploadLimit == 5120>selected="selected" </#if>>
+								5M
+							</option>
+							<option value="0" <#if systemConfig.uploadLimit == 0>selected="selected" </#if>>
+								无限制
+							</option>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+			</table>
+			<table id="tabs-4" class="inputTable tabContent">
+				<tr>
+					<th>
+						发件人邮箱:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.smtpFromMail" class="formText {email: true}" value="${(systemConfig.smtpFromMail)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SMTP服务器地址:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.smtpHost" class="formText" value="${(systemConfig.smtpHost)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SMTP服务器端口:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.smtpPort" class="formText {digits: true}" value="${(systemConfig.smtpPort)!}" title="默认端口为25" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SMTP会员编号:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.smtpUsername" class="formText" value="${(systemConfig.smtpUsername)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SMTP密码:
+					</th>
+					<td>
+						<input type="password" name="systemConfig.smtpPassword" class="formText" title="留空则不进行密码修改" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						邮箱配置测试:
+					</th>
+					<td>
+						<input type="button" id="showSmtpTestWindow" class="formButtonL" value="邮箱配置测试" />
+					</td>
+				</tr>
+			</table>
+			
+			<table id="tabs-5" class="inputTable tabContent">
+				<tr>
+					<th>
+						SAP服务器:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapHost" class="formText " value="${(systemConfig.sapHost)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP Client编号:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapClient" class="formText" value="${(systemConfig.sapClient)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP实例编号:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapSysnr" class="formText" value="${(systemConfig.sapSysnr)!}" title="默认端口为01" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP登陆用户:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapUser" class="formText" value="${(systemConfig.sapUser)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP密码:
+					</th>
+					<td>
+						<input type="password" name="systemConfig.sapPasswd" class="formText" title="留空则不进行密码修改" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP登陆语言:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapLang" class="formText" value="${(systemConfig.sapLang)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP页面编码:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.sapCodePage" class="formText" value="${(systemConfig.sapCodePage)!}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SAP配置测试:
+					</th>
+					<td>
+						<input type="button" id="showSapTestWindow" class="formButtonL" value="SAP配置测试" />
+					</td>
+				</tr>
+			</table>
+			<table id="tabs-6" class="inputTable tabContent">
+				<tr>
+					<th>
+						货币种类:
+					</th>
+					<td>
+						<select id="currencyType" name="systemConfig.currencyType" class="{required: true}">
+							<option value="">请选择...</option>
+							<#list allCurrencyType as list>
+								<option value="${list}"<#if (list == systemConfig.currencyType)!> selected </#if>>
+								${action.getText("CurrencyType." + list)}
+								</option>
+							</#list>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						货币符号:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.currencySign" class="formText {required: true}" value="${systemConfig.currencySign}" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						货币单位:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.currencyUnit" class="formText {required: true}" value="${systemConfig.currencyUnit}" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						产品价格精确位数:
+					</th>
+					<td>
+						<select name="systemConfig.priceScale">
+							<option value="0" <#if systemConfig.priceScale == 0>selected="selected" </#if>>
+								无小数位
+							</option>
+							<option value="1" <#if systemConfig.priceScale == 1>selected="selected" </#if>>
+								1位小数
+							</option>
+							<option value="2" <#if systemConfig.priceScale == 2>selected="selected" </#if>>
+								2位小数
+							</option>
+							<option value="3" <#if systemConfig.priceScale == 3>selected="selected" </#if>>
+								3位小数
+							</option>
+							<option value="4" <#if systemConfig.priceScale == 4>selected="selected" </#if>>
+								4位小数
+							</option>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						产品价格精确方式:
+					</th>
+					<td>
+						<select name="systemConfig.priceRoundType">
+							<#list allRoundType as list>
+								<option value="${list}" <#if systemConfig.priceRoundType == list>selected="selected" </#if>>
+									${action.getText("RoundType." + list)}
+								</option>
+							</#list>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						 订单金额精确位数:
+					</th>
+					<td>
+						<select name="systemConfig.orderScale">
+							<option value="0" <#if systemConfig.orderScale == 0>selected="selected" </#if>>
+								无小数位
+							</option>
+							<option value="1" <#if systemConfig.orderScale == 1>selected="selected" </#if>>
+								1位小数
+							</option>
+							<option value="2" <#if systemConfig.orderScale == 2>selected="selected" </#if>>
+								2位小数
+							</option>
+							<option value="3" <#if systemConfig.orderScale == 3>selected="selected" </#if>>
+								3位小数
+							</option>
+							<option value="4" <#if systemConfig.orderScale == 4>selected="selected" </#if>>
+								4位小数
+							</option>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						订单金额精确方式:
+					</th>
+					<td>
+						<select name="systemConfig.orderRoundType">
+							<#list allRoundType as list>
+								<option value="${list}" <#if systemConfig.orderRoundType == list>selected="selected" </#if>>
+									${action.getText("RoundType." + list)}
+								</option>
+							</#list>
+						</select>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						产品库存报警数量:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.storeAlertCount" class="formText {required: true, digits: true}" value="${systemConfig.storeAlertCount}" title="只允许输入零或正整数" />
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						库存预占时间点:
+					</th>
+					<td>
+						<label title="设置库存预先扣除（占用）的时间点，而系统实际扣除库存点是发货操作" >
+						<select name="systemConfig.storeFreezeTime" class="requireField" >
+							<#list allStoreFreezeTime as list>
+								<option value="${list}" <#if systemConfig.storeFreezeTime == list>selected="selected" </#if>>
+									${action.getText("StoreFreezeTime." + list)}
+								</option>
+							</#list>
+						</select>
+						</label>
+						<label class="requireField">*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						积分获取方式:
+					</th>
+					<td>
+						<#list allPointType as list>
+							 
+							<label class="pull-left inline">
+							    <small class="muted smaller-90">${action.getText("PointType." + list)}&nbsp;</small>
+								<input type="radio" class="ace" name="systemConfig.pointType" value="${list}" <#if systemConfig.pointType == list> checked="true"</#if>  />
+								<span class="lbl middle"></span>
+							</label> 
+						</#list>
+					</td>
+				</tr>
+				<tr class="pointScaleTr<#if systemConfig.pointType != "orderAmount"> hidden</#if>">
+					<th>
+						积分换算比率:
+					</th>
+					<td>
+						<input type="text" name="systemConfig.pointScale" class="formText {required: true, min: 0}<#if systemConfig.pointType != "orderAmount"> ignoreValidate</#if>" value="${systemConfig.pointScale}" title="每消费1元可获得积分数" />
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div class="buttonArea">
+				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+			</div>
+		</form>
+	
+<!-- add by welson 0728 -->	
+				</div><!-- /.col -->
+				</div><!-- /.row -->
+
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+	</div><!-- /.page-content-area -->
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
+</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+	</div><!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+	<!-- ./ add by welson 0728 -->
+
+
+</body>
+</html>

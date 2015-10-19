@@ -1,0 +1,54 @@
+Tomcat内存优化与连接数 
+1, Tomcat内存参数配置
+
+          如果是Win与Linux系统启动Tomcat服务器,需要在tomcat/bin/catalina.sh与/tomcat/bin/catalina.bat两个文件:在两个文件里面加如:
+
+SET CATALINA_OPTS= -Xms1200m -Xmx1200m
+
+可以在命令行下面通过
+
+java -Xmx3000m -version  来测试允许的单个TOMCAT最大内存
+
+2, Tomcat连接数配置
+
+       配置Tomcat连接数.需要在Server.xml文件里面加如:
+
+      maxThreads="150"            表示最多同时处理150个连接 
+      minSpareThreads="25"    表示即使没有人使用也开这么多空线程等待 
+      maxSpareThreads="75" 表示如果最多可以空75个线程，例如某时刻有80人访问，之后没有人访问了，则tomcat不会保留80个空线程，而是关闭5个空的。 
+
+acceptCount="100" 当同时连接的人数达到maxThreads时，还可以接收排队的连接，超过这个连接的则直接返回拒绝连接。            
+
+             connectionTimeout="20000" maxThreads="150" 
+
+               minSpareThreads="25" 
+
+               maxSpareThreads="75" 
+
+             enableLookups="false" 
+
+             acceptCount="100" debug="0" 
+
+              disableUploadTimeout="true"
+             redirectPort="8443" URIEncoding="UTF-8"/>
+
+URIEncoding="UTF-8" 是设定JSP编码格式.
+
+<Connector className="org.apache.coyote.tomcat4.CoyoteConnector" port="8080" minProcessors="5" //这个是什么意思，貌似最小什么线程？ maxProcessors="75" //不明白 enableLookups="true" //不懂 redirectPort="8443" //不懂 acceptCount="100" //不懂 debug="0" 不懂啦 connectionTimeout="20000" //数据库超时吗？ useURIValidationHack="false" //什么验证？不懂 disableUploadTimeout="true" /> //上传等待超时？ 现在我的项目，感觉同一秒内打开多个网页会等待一定时间，就是说在A页没有打开完毕的时候，再打开B页C页是打不开的，必须等A页完全读完，是什么原因？
+
+参考答案：port 指定服务器端要创建的端口号，并在这个断口监听来自客户端的请求
+
+minProcessors 服务器启动时创建的处理请求的线程数
+
+maxProcessors 最大可以创建的处理请求的线程数
+
+enableLookups 如果为true，则可以通过调用request.getRemoteHost()进行DNS查询来得到远程客户端的实际主机名，若为false则不进行DNS查询，而是返回其ip地址
+
+redirectPort 指定服务器正在处理http请求时收到了一个SSL传输请求后重定向的端口号
+
+acceptCount 指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理
+
+
+debug 是用来指定输出信息的详细级别的，值越大输出的信息会越详细。
+
+

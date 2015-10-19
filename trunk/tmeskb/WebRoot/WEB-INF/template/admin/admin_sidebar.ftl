@@ -627,7 +627,7 @@
 			
 			<li class="">
 				<a href="#" class="dropdown-toggle">
-					<i class="menu-icon fa glyphicon-list-alt "></i>
+					<i class="menu-icon fa fa-coffee "></i>
 						基础信息
 					<b class="arrow fa fa-angle-down"></b>
 				</a>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tkwrdp>
+	<description>模板配置文件</description>
+	<dynamicConfig>
+		
+	</dynamicConfig>
+	<htmlConfig>
+		<baseJavascript>
+			<description>baseJavascript</description>
+			<templateFilePath>/WEB-INF/template/common/base_javascript.ftl</templateFilePath>
+			<htmlFilePath>/template/common/js/base.js</htmlFilePath>
+		</baseJavascript>		
+		<errorPage>
+			<description>错误页</description>
+			<templateFilePath>/WEB-INF/template/common/error_page.ftl</templateFilePath>
+			<htmlFilePath>/html/error_page.html</htmlFilePath>
+		</errorPage>
+		<errorPageAccessDenied>
+			<description>权限错误页</description>
+			<templateFilePath>/WEB-INF/template/common/error_page_access_denied.ftl</templateFilePath>
+			<htmlFilePath>/html/error_page_access_denied.html</htmlFilePath>
+		</errorPageAccessDenied>
+		<errorPage500>
+			<description>错误页500</description>
+			<templateFilePath>/WEB-INF/template/common/error_page_500.ftl</templateFilePath>
+			<htmlFilePath>/html/error_page_500.html</htmlFilePath>
+		</errorPage500>
+		<errorPage404>
+			<description>错误页404</description>
+			<templateFilePath>/WEB-INF/template/common/error_page_404.ftl</templateFilePath>
+			<htmlFilePath>/html/error_page_404.html</htmlFilePath>
+		</errorPage404>
+		<errorPage403>
+			<description>错误页403</description>
+			<templateFilePath>/WEB-INF/template/common/error_page_403.ftl</templateFilePath>
+			<htmlFilePath>/html/error_page_403.html</htmlFilePath>
+		</errorPage403>
+	</htmlConfig>
+	<mailConfig>
+		
+	</mailConfig>
+</tkwrdp>

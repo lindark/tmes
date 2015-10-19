@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+   
+	<bean id="mapScheduler" lazy-init="false" autowire="no"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">   
+        <property name="triggers">   
+            <list>   
+	   		<ref local="cronTriggerCA_DocBM"/> 
+            </list>   
+        </property>   
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
+        <property name="configLocation" value="classpath:quartz.properties" /> 
+        <property name="autoStartup" value="true" />      
+    </bean>  
+    
+
+	<!-- 定时任务-编码自动生成 -->
+	<bean name="docBmServiceJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.DocBmServiceJob" />
+    <property name="jobDataAsMap">
+     <map>
+      <entry key="timeout">
+       <value>5000</value>
+      </entry>
+      <!-- <entry key="dictService" value-ref="dictService" /> -->
+     </map>
+    </property>	
+   </bean> 
+   
+    <bean id="cronTriggerCA_DocBM" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="docBmServiceJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 23 15 ? * *</value>
+		  </property>
+    </bean>  
+ 
+</beans>

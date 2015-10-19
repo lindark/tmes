@@ -1,0 +1,768 @@
+#操作员
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `department` varchar(255) default NULL,
+  `email` varchar(255) NOT NULL,
+  `isAccountEnabled` bit(1) NOT NULL,
+  `isAccountExpired` bit(1) NOT NULL,
+  `isAccountLocked` bit(1) NOT NULL,
+  `isCredentialsExpired` bit(1) NOT NULL,
+  `lockedDate` datetime default NULL,
+  `loginDate` datetime default NULL,
+  `loginFailureCount` int(11) NOT NULL,
+  `loginIp` varchar(255) default NULL,
+  `name` varchar(255) default NULL,
+  `password` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#操作角色
+DROP TABLE IF EXISTS `admin_role`;
+CREATE TABLE `admin_role` (
+  `adminSet_id` varchar(32) NOT NULL,
+  `roleSet_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`adminSet_id`,`roleSet_id`),
+  KEY `FK9FC63FA6DAED032` (`adminSet_id`),
+  KEY `FK9FC63FA6C7B24C48` (`roleSet_id`),
+  CONSTRAINT `FK9FC63FA6C7B24C48` FOREIGN KEY (`roleSet_id`) REFERENCES `role` (`id`),
+  CONSTRAINT `FK9FC63FA6DAED032` FOREIGN KEY (`adminSet_id`) REFERENCES `admin` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#注册协议
+DROP TABLE IF EXISTS `agreement`;
+CREATE TABLE `agreement` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `content` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#地区
+DROP TABLE IF EXISTS `area`;
+CREATE TABLE `area` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `name` varchar(255) NOT NULL,
+  `path` text,
+  `parent_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`,`parent_id`),
+  KEY `FK1F44ADB4D9BB21` (`parent_id`),
+  CONSTRAINT `FK1F44ADB4D9BB21` FOREIGN KEY (`parent_id`) REFERENCES `area` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#文章
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `author` varchar(255) default NULL,
+  `content` text NOT NULL,
+  `hits` int(11) NOT NULL,
+  `htmlFilePath` varchar(255) default NULL,
+  `isPublication` bit(1) NOT NULL,
+  `isRecommend` bit(1) NOT NULL,
+  `isTop` bit(1) NOT NULL,
+  `metaDescription` text,
+  `metaKeywords` text,
+  `pageCount` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `articleCategory_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK379164D65A9A516` (`articleCategory_id`),
+  CONSTRAINT `FK379164D65A9A516` FOREIGN KEY (`articleCategory_id`) REFERENCES `articlecategory` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#文章分类
+DROP TABLE IF EXISTS `articlecategory`;
+CREATE TABLE `articlecategory` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `metaDescription` text,
+  `metaKeywords` text,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `path` text,
+  `parent_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FKC9FF4FF4AC430CA0` (`parent_id`),
+  CONSTRAINT `FKC9FF4FF4AC430CA0` FOREIGN KEY (`parent_id`) REFERENCES `articlecategory` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#品牌
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE `brand` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `introduction` text,
+  `logo` varchar(255) default NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `url` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#购物车
+DROP TABLE IF EXISTS `cartitem`;
+CREATE TABLE `cartitem` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `quantity` int(11) NOT NULL,
+  `product_id` varchar(32) NOT NULL,
+  `member_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK4393E73CA10C3E` (`member_id`),
+  KEY `FK4393E73F4E7D716` (`product_id`),
+  CONSTRAINT `FK4393E73CA10C3E` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FK4393E73F4E7D716` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#物流公司
+DROP TABLE IF EXISTS `deliverycorp`;
+CREATE TABLE `deliverycorp` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `url` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#发货项目
+DROP TABLE IF EXISTS `deliveryitem`;
+CREATE TABLE `deliveryitem` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deliveryQuantity` int(11) NOT NULL,
+  `productHtmlFilePath` varchar(255) NOT NULL,
+  `productName` varchar(255) NOT NULL,
+  `productSn` varchar(255) NOT NULL,
+  `shipping_id` varchar(32) default NULL,
+  `product_id` varchar(32) default NULL,
+  `reship_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK326C45475F5222BE` (`shipping_id`),
+  KEY `FK326C4547425C301E` (`reship_id`),
+  KEY `FK326C4547F4E7D716` (`product_id`),
+  CONSTRAINT `FK326C4547425C301E` FOREIGN KEY (`reship_id`) REFERENCES `reship` (`id`),
+  CONSTRAINT `FK326C45475F5222BE` FOREIGN KEY (`shipping_id`) REFERENCES `shipping` (`id`),
+  CONSTRAINT `FK326C4547F4E7D716` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#配送类型
+DROP TABLE IF EXISTS `deliverytype`;
+CREATE TABLE `deliverytype` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `continueWeight` double NOT NULL,
+  `continueWeightPrice` decimal(15,5) NOT NULL,
+  `continueWeightUnit` int(11) NOT NULL,
+  `deliveryMethod` int(11) NOT NULL,
+  `description` text,
+  `firstWeight` double NOT NULL,
+  `firstWeightPrice` decimal(15,5) NOT NULL,
+  `firstWeightUnit` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `defaultDeliveryCorp_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `FK3271596E37A10E7D` (`defaultDeliveryCorp_id`),
+  CONSTRAINT `FK3271596E37A10E7D` FOREIGN KEY (`defaultDeliveryCorp_id`) REFERENCES `deliverycorp` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `deposit`;
+CREATE TABLE `deposit` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `balance` decimal(19,2) NOT NULL,
+  `credit` decimal(19,2) NOT NULL,
+  `debit` decimal(19,2) NOT NULL,
+  `depositType` int(11) NOT NULL,
+  `member_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FKBFDFAE7ECA10C3E` (`member_id`),
+  CONSTRAINT `FKBFDFAE7ECA10C3E` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#页面底部
+DROP TABLE IF EXISTS `footer`;
+CREATE TABLE `footer` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `content` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#友情链接
+DROP TABLE IF EXISTS `friendlink`;
+CREATE TABLE `friendlink` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `logo` varchar(255) default NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#日志
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `actionClassName` varchar(255) NOT NULL,
+  `actionMethodName` varchar(255) NOT NULL,
+  `info` text,
+  `ip` varchar(255) NOT NULL,
+  `operationName` varchar(255) NOT NULL,
+  `operator` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#日志配置
+DROP TABLE IF EXISTS `logconfig`;
+CREATE TABLE `logconfig` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `actionClassName` varchar(255) NOT NULL,
+  `actionMethodName` varchar(255) NOT NULL,
+  `description` text,
+  `operationName` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `operationName` (`operationName`),
+  UNIQUE KEY `actionClassName` (`actionClassName`,`actionMethodName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#客户
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE `member` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deposit` decimal(15,5) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `isAccountEnabled` bit(1) NOT NULL,
+  `isAccountLocked` bit(1) NOT NULL,
+  `lockedDate` datetime default NULL,
+  `loginDate` datetime default NULL,
+  `loginFailureCount` int(11) NOT NULL,
+  `loginIp` varchar(255) default NULL,
+  `password` varchar(255) NOT NULL,
+  `passwordRecoverKey` varchar(255) default NULL,
+  `point` int(11) NOT NULL,
+  `registerIp` varchar(255) NOT NULL,
+  `safeAnswer` varchar(255) default NULL,
+  `safeQuestion` varchar(255) default NULL,
+  `username` varchar(255) NOT NULL,
+  `memberRank_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `FK892776BA60FA1EDE` (`memberRank_id`),
+  CONSTRAINT `FK892776BA60FA1EDE` FOREIGN KEY (`memberRank_id`) REFERENCES `memberrank` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#客户扩展字段-内容
+DROP TABLE IF EXISTS `member_memberattributemapstore`;
+CREATE TABLE `member_memberattributemapstore` (
+  `Member_id` varchar(32) NOT NULL,
+  `element` varchar(255) default NULL,
+  `mapkey_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`Member_id`,`mapkey_id`),
+  KEY `FK854979A267DDC435` (`mapkey_id`),
+  KEY `FK854979A2CA10C3E` (`Member_id`),
+  CONSTRAINT `FK854979A267DDC435` FOREIGN KEY (`mapkey_id`) REFERENCES `memberattribute` (`id`),
+  CONSTRAINT `FK854979A2CA10C3E` FOREIGN KEY (`Member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#客户-产品收藏
+DROP TABLE IF EXISTS `member_product`;
+CREATE TABLE `member_product` (
+  `favoriteMemberSet_id` varchar(32) NOT NULL,
+  `favoriteProductSet_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`favoriteMemberSet_id`,`favoriteProductSet_id`),
+  KEY `FK9460284A15D7A056` (`favoriteProductSet_id`),
+  KEY `FK9460284A686A142C` (`favoriteMemberSet_id`),
+  CONSTRAINT `FK9460284A15D7A056` FOREIGN KEY (`favoriteProductSet_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `FK9460284A686A142C` FOREIGN KEY (`favoriteMemberSet_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#客户扩展字段
+DROP TABLE IF EXISTS `memberattribute`;
+CREATE TABLE `memberattribute` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `attributeOptionStore` varchar(255) default NULL,
+  `attributeType` int(11) NOT NULL,
+  `isEnabled` bit(1) NOT NULL,
+  `isRequired` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#客户等级
+DROP TABLE IF EXISTS `memberrank`;
+CREATE TABLE `memberrank` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `isDefault` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `point` int(11) NOT NULL,
+  `preferentialScale` double NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `point` (`point`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#站内短消息
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `content` text NOT NULL,
+  `deleteStatus` int(11) NOT NULL,
+  `isRead` bit(1) NOT NULL,
+  `isSaveDraftbox` bit(1) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `fromMember_id` varchar(32) default NULL,
+  `toMember_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK9C2397E7145FF3D4` (`fromMember_id`),
+  KEY `FK9C2397E7701A1823` (`toMember_id`),
+  CONSTRAINT `FK9C2397E7145FF3D4` FOREIGN KEY (`fromMember_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FK9C2397E7701A1823` FOREIGN KEY (`toMember_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#导航管理
+DROP TABLE IF EXISTS `navigation`;
+CREATE TABLE `navigation` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `isBlankTarget` bit(1) NOT NULL,
+  `isVisible` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#订单项目
+DROP TABLE IF EXISTS `orderitem`;
+CREATE TABLE `orderitem` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deliveryQuantity` int(11) NOT NULL,
+  `productHtmlFilePath` varchar(255) NOT NULL,
+  `productName` varchar(255) NOT NULL,
+  `productPrice` decimal(15,5) NOT NULL,
+  `productQuantity` int(11) NOT NULL,
+  `productSn` varchar(255) NOT NULL,
+  `totalDeliveryQuantity` int(11) NOT NULL,
+  `order_id` varchar(32) NOT NULL,
+  `product_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK60163F613F4585B6` (`order_id`),
+  KEY `FK60163F61F4E7D716` (`product_id`),
+  CONSTRAINT `FK60163F613F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FK60163F61F4E7D716` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#订单日志
+DROP TABLE IF EXISTS `orderlog`;
+CREATE TABLE `orderlog` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `info` text,
+  `operator` varchar(255) default NULL,
+  `orderLogType` int(11) NOT NULL,
+  `orderSn` varchar(255) NOT NULL,
+  `order_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FK4D6C1D363F4585B6` (`order_id`),
+  CONSTRAINT `FK4D6C1D363F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#订单
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deliveryFee` decimal(15,5) NOT NULL,
+  `deliveryTypeName` varchar(255) NOT NULL,
+  `memo` text,
+  `orderSn` varchar(255) NOT NULL,
+  `orderStatus` int(11) NOT NULL,
+  `paidAmount` decimal(15,5) NOT NULL,
+  `paymentConfigName` varchar(255) NOT NULL,
+  `paymentFee` decimal(15,5) NOT NULL,
+  `paymentStatus` int(11) NOT NULL,
+  `productTotalPrice` decimal(15,5) NOT NULL,
+  `productTotalQuantity` int(11) NOT NULL,
+  `productWeight` double NOT NULL,
+  `productWeightUnit` int(11) NOT NULL,
+  `shipAddress` varchar(255) NOT NULL,
+  `shipArea` varchar(255) NOT NULL,
+  `shipAreaPath` varchar(255) default NULL,
+  `shipMobile` varchar(255) default NULL,
+  `shipName` varchar(255) NOT NULL,
+  `shipPhone` varchar(255) default NULL,
+  `shipZipCode` varchar(255) NOT NULL,
+  `shippingStatus` int(11) NOT NULL,
+  `totalAmount` decimal(15,5) NOT NULL,
+  `member_id` varchar(32) default NULL,
+  `deliveryType_id` varchar(32) default NULL,
+  `paymentConfig_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `orderSn` (`orderSn`),
+  KEY `FKC3DF62E5CA10C3E` (`member_id`),
+  KEY `FKC3DF62E590BFCB96` (`paymentConfig_id`),
+  KEY `FKC3DF62E5FAD364DE` (`deliveryType_id`),
+  CONSTRAINT `FKC3DF62E590BFCB96` FOREIGN KEY (`paymentConfig_id`) REFERENCES `paymentconfig` (`id`),
+  CONSTRAINT `FKC3DF62E5CA10C3E` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+  CONSTRAINT `FKC3DF62E5FAD364DE` FOREIGN KEY (`deliveryType_id`) REFERENCES `deliverytype` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+#付款单
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE `payment` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `bankAccount` varchar(255) default NULL,
+  `bankName` varchar(255) default NULL,
+  `memo` text,
+  `operator` varchar(255) default NULL,
+  `payer` varchar(255) NOT NULL,
+  `paymentConfigName` varchar(255) NOT NULL,
+  `paymentFee` decimal(15,5) NOT NULL,
+  `paymentSn` varchar(255) NOT NULL,
+  `paymentStatus` int(11) NOT NULL,
+  `paymentType` int(11) NOT NULL,
+  `totalAmount` decimal(15,5) NOT NULL,
+  `deposit_id` varchar(32) default NULL,
+  `order_id` varchar(32) default NULL,
+  `paymentConfig_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `paymentSn` (`paymentSn`),
+  KEY `FK3454C9E613C6C4B6` (`deposit_id`),
+  KEY `FK3454C9E690BFCB96` (`paymentConfig_id`),
+  KEY `FK3454C9E63F4585B6` (`order_id`),
+  CONSTRAINT `FK3454C9E613C6C4B6` FOREIGN KEY (`deposit_id`) REFERENCES `deposit` (`id`),
+  CONSTRAINT `FK3454C9E63F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FK3454C9E690BFCB96` FOREIGN KEY (`paymentConfig_id`) REFERENCES `paymentconfig` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#付款方式
+DROP TABLE IF EXISTS `paymentconfig`;
+CREATE TABLE `paymentconfig` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `configObjectStore` varchar(255) default NULL,
+  `description` text,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `paymentConfigType` int(11) NOT NULL,
+  `paymentFee` decimal(15,5) default NULL,
+  `paymentFeeType` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#产品
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `description` text,
+  `freezeStore` int(11) NOT NULL,
+  `htmlFilePath` varchar(255) NOT NULL,
+  `isBest` bit(1) NOT NULL,
+  `isHot` bit(1) NOT NULL,
+  `isMarketable` bit(1) NOT NULL,
+  `isNew` bit(1) NOT NULL,
+  `marketPrice` decimal(15,5) NOT NULL,
+  `metaDescription` text,
+  `metaKeywords` text,
+  `name` varchar(255) NOT NULL,
+  `point` int(11) NOT NULL,
+  `price` decimal(15,5) NOT NULL,
+  `productImageListStore` text,
+  `productSn` varchar(255) NOT NULL,
+  `store` int(11) default NULL,
+  `weight` double NOT NULL,
+  `weightUnit` int(11) NOT NULL,
+  `brand_id` varchar(32) default NULL,
+  `productCategory_id` varchar(32) NOT NULL,
+  `productType_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `productSn` (`productSn`),
+  KEY `FK50C664CF738B3AF6` (`productType_id`),
+  KEY `FK50C664CF59CF1676` (`productCategory_id`),
+  KEY `FK50C664CFF378EF16` (`brand_id`),
+  CONSTRAINT `FK50C664CF59CF1676` FOREIGN KEY (`productCategory_id`) REFERENCES `productcategory` (`id`),
+  CONSTRAINT `FK50C664CF738B3AF6` FOREIGN KEY (`productType_id`) REFERENCES `producttype` (`id`),
+  CONSTRAINT `FK50C664CFF378EF16` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#产品属性-值
+DROP TABLE IF EXISTS `product_productattributemapstore`;
+CREATE TABLE `product_productattributemapstore` (
+  `Product_id` varchar(32) NOT NULL,
+  `element` varchar(255) default NULL,
+  `mapkey_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`Product_id`,`mapkey_id`),
+  KEY `FK7B6203E2B1184188` (`mapkey_id`),
+  KEY `FK7B6203E2F4E7D716` (`Product_id`),
+  CONSTRAINT `FK7B6203E2B1184188` FOREIGN KEY (`mapkey_id`) REFERENCES `productattribute` (`id`),
+  CONSTRAINT `FK7B6203E2F4E7D716` FOREIGN KEY (`Product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#产品属性
+DROP TABLE IF EXISTS `productattribute`;
+CREATE TABLE `productattribute` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `attributeOptionStore` varchar(255) default NULL,
+  `attributeType` int(11) NOT NULL,
+  `isEnabled` bit(1) NOT NULL,
+  `isRequired` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `productType_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`,`productType_id`),
+  KEY `FKDDC65E8D738B3AF6` (`productType_id`),
+  CONSTRAINT `FKDDC65E8D738B3AF6` FOREIGN KEY (`productType_id`) REFERENCES `producttype` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#产品分类
+DROP TABLE IF EXISTS `productcategory`;
+CREATE TABLE `productcategory` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `metaDescription` text,
+  `metaKeywords` text,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `path` text,
+  `parent_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FKD05546EDB2990399` (`parent_id`),
+  CONSTRAINT `FKD05546EDB2990399` FOREIGN KEY (`parent_id`) REFERENCES `productcategory` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#产品类型
+DROP TABLE IF EXISTS `producttype`;
+CREATE TABLE `producttype` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#收货人
+DROP TABLE IF EXISTS `receiver`;
+CREATE TABLE `receiver` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `address` text NOT NULL,
+  `areaPath` text NOT NULL,
+  `isDefault` bit(1) NOT NULL,
+  `mobile` varchar(255) default NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(255) default NULL,
+  `zipCode` varchar(255) NOT NULL,
+  `member_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `FKD3A64E0FCA10C3E` (`member_id`),
+  CONSTRAINT `FKD3A64E0FCA10C3E` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#退款单
+DROP TABLE IF EXISTS `refund`;
+CREATE TABLE `refund` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `bankAccount` varchar(255) default NULL,
+  `bankName` varchar(255) default NULL,
+  `memo` text,
+  `operator` varchar(255) default NULL,
+  `payee` varchar(255) NOT NULL,
+  `paymentConfigName` varchar(255) NOT NULL,
+  `refundSn` varchar(255) NOT NULL,
+  `refundType` int(11) NOT NULL,
+  `totalAmount` decimal(15,5) NOT NULL,
+  `deposit_id` varchar(32) default NULL,
+  `order_id` varchar(32) default NULL,
+  `paymentConfig_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `refundSn` (`refundSn`),
+  KEY `FK91ACCB9813C6C4B6` (`deposit_id`),
+  KEY `FK91ACCB9890BFCB96` (`paymentConfig_id`),
+  KEY `FK91ACCB983F4585B6` (`order_id`),
+  CONSTRAINT `FK91ACCB9813C6C4B6` FOREIGN KEY (`deposit_id`) REFERENCES `deposit` (`id`),
+  CONSTRAINT `FK91ACCB983F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FK91ACCB9890BFCB96` FOREIGN KEY (`paymentConfig_id`) REFERENCES `paymentconfig` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#退货单
+DROP TABLE IF EXISTS `reship`;
+CREATE TABLE `reship` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deliveryCorpName` varchar(255) NOT NULL,
+  `deliveryFee` decimal(19,2) NOT NULL,
+  `deliverySn` varchar(255) default NULL,
+  `deliveryTypeName` varchar(255) NOT NULL,
+  `memo` varchar(255) default NULL,
+  `reshipSn` varchar(255) NOT NULL,
+  `shipAddress` varchar(255) NOT NULL,
+  `shipArea` varchar(255) NOT NULL,
+  `shipAreaPath` varchar(255) default NULL,
+  `shipMobile` varchar(255) default NULL,
+  `shipName` varchar(255) NOT NULL,
+  `shipPhone` varchar(255) default NULL,
+  `shipZipCode` varchar(255) NOT NULL,
+  `order_id` varchar(32) default NULL,
+  `deliveryType_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `reshipSn` (`reshipSn`),
+  KEY `FK91B2830F3F4585B6` (`order_id`),
+  KEY `FK91B2830FFAD364DE` (`deliveryType_id`),
+  CONSTRAINT `FK91B2830F3F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FK91B2830FFAD364DE` FOREIGN KEY (`deliveryType_id`) REFERENCES `deliverytype` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#资源
+DROP TABLE IF EXISTS `resource`;
+CREATE TABLE `resource` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `description` text,
+  `isSystem` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `orderList` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `value` (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#角色
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `description` text,
+  `isSystem` bit(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `value` (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#资源-角色绑定
+DROP TABLE IF EXISTS `role_resource`;
+CREATE TABLE `role_resource` (
+  `roleSet_id` varchar(32) NOT NULL,
+  `resourceSet_id` varchar(32) NOT NULL,
+  PRIMARY KEY  (`roleSet_id`,`resourceSet_id`),
+  KEY `FKE25F2DB7C7B24C48` (`roleSet_id`),
+  KEY `FKE25F2DB75BD93F78` (`resourceSet_id`),
+  CONSTRAINT `FKE25F2DB75BD93F78` FOREIGN KEY (`resourceSet_id`) REFERENCES `resource` (`id`),
+  CONSTRAINT `FKE25F2DB7C7B24C48` FOREIGN KEY (`roleSet_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+#发货单
+DROP TABLE IF EXISTS `shipping`;
+CREATE TABLE `shipping` (
+  `id` varchar(32) NOT NULL,
+  `createDate` datetime default NULL,
+  `modifyDate` datetime default NULL,
+  `deliveryCorpName` varchar(255) NOT NULL,
+  `deliveryFee` decimal(19,2) NOT NULL,
+  `deliverySn` varchar(255) default NULL,
+  `deliveryTypeName` varchar(255) NOT NULL,
+  `memo` varchar(255) default NULL,
+  `shipAddress` varchar(255) NOT NULL,
+  `shipArea` varchar(255) NOT NULL,
+  `shipAreaPath` varchar(255) default NULL,
+  `shipMobile` varchar(255) default NULL,
+  `shipName` varchar(255) NOT NULL,
+  `shipPhone` varchar(255) default NULL,
+  `shipZipCode` varchar(255) NOT NULL,
+  `shippingSn` varchar(255) NOT NULL,
+  `deliveryType_id` varchar(32) default NULL,
+  `order_id` varchar(32) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `shippingSn` (`shippingSn`),
+  KEY `FKE51541CE3F4585B6` (`order_id`),
+  KEY `FKE51541CEFAD364DE` (`deliveryType_id`),
+  CONSTRAINT `FKE51541CE3F4585B6` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FKE51541CEFAD364DE` FOREIGN KEY (`deliveryType_id`) REFERENCES `deliverytype` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

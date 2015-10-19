@@ -1,0 +1,23 @@
+Link安装方式==============>
+采用Link方式安装Properties Editor 
+1.下载Properties Editor，解压，将解压好的文件放到Eclipse安装目录下，新建一文件夹，定义名称为Properties Editor，此文件夹下面的内容为Eclipes,Eclipes文件夹里面 有两个文件夹，分别为Plugins和Features。这是文件的目录结构。 
+
+2.在相同的目录下新建一个文件夹，命名为Links，在里面新建一TXT文件，文件名为步骤一中的文件夹名称（即Properties Editor），里面的内容为 
+Java代码  
+Path=Properties Editor  
+
+Path=Properties Editor
+
+也就是我们在第一步的时候新建的文件夹的路径，这里的是相对路径
+
+下面为在线安装方式=============>
+分享一个不错的编写properties文件的Eclipse插件（plugin），有了它我们在编辑一些简体中文、繁体中文等 Unicode文本时，就不必再使用native2ascii编码了。您可以通过Eclipse中的软件升级（Software Update）安装此插件，步骤如下：
+
+1、展开Eclipse的Help菜单，将鼠标移到Software Update子项，在出现的子菜单中点击Find and Install；
+2、在Install/Update对话框中选择Search for new features to install，点击Next；
+3、在Install对话框中点击New Remote Site；
+4、在New Update Site对话框的Name填入“PropEdit”或其它任意非空字符串，在URL中填入http://propedit.sourceforge.jp/eclipse/updates/；
+5、在Site to include to search列表中，除上一步加入的site外的其它选项去掉，点击Finsih；
+6、在弹出的Updates对话框中的Select the features to install列表中将所有结尾为“3.1.x”的选项去掉（适用于Eclipse 3.2版本的朋友）；
+7、点击Finish关闭对话框；
+8、在下载后，同意安装，再按提示重启Eclipse，在工具条看到形似vi的按钮表示安装成功，插件可用。此时，Eclpise中所有properties文件的文件名前有绿色的P的图标作为标识。 

@@ -1,0 +1,38 @@
+#20130305增加字段-客户描述
+alter table `member` add  `userdesp` varchar(255) NOT NULL COMMENT '客户名称' after `username`;
+
+
+
+DROP TABLE IF EXISTS `saleLeads`;
+CREATE TABLE `saleLeads`( 
+  `id` VARCHAR(32) NOT NULL, 
+  `saleOwner` VARCHAR(32) NOT NULL COMMENT '销售线索所有人',
+  `followUpStatus` VARCHAR(1) DEFAULT 0 COMMENT '跟进状态,0未知,1未处理,2已联系,3关闭',
+  `leadsName` VARCHAR(255) NOT NULL COMMENT '姓名',
+  `sex` INT(1) DEFAULT 0 COMMENT '性别,0未知,1男,2女',
+  `companyName` VARCHAR(255) NOT NULL COMMENT '公司名称',
+  `departmentName` VARCHAR(32) COMMENT '部门名称',
+  `jobTitle` VARCHAR(32) COMMENT '职位',
+  `telephone` VARCHAR(15) COMMENT '电话',
+  `mobile` VARCHAR(18) COMMENT '手机号码',
+  `email` VARCHAR(255) COMMENT '电子邮件',
+  `twitter` VARCHAR(255) COMMENT '微博',
+  `province` VARCHAR(32) COMMENT '省份',
+  `address` VARCHAR(255) COMMENT '地址',
+  `postalCode` VARCHAR(32) COMMENT '邮编',
+  `saleSource` VARCHAR(2) DEFAULT 0 COMMENT '线索来源,0未知,1广告,2研讨会,3搜索引擎,4客户介绍,5其它',
+  `marketActivity` VARCHAR(32) COMMENT '市场活动',
+  `latestActivityTime` DATETIME COMMENT '最新活动记录时间',
+  `latestPeople` VARCHAR(32) COMMENT '最新跟进人',
+  `createDate` DATETIME NOT NULL COMMENT '创建日期',
+  `createUser` VARCHAR(32) NOT NULL COMMENT '创建人',
+  `modifyDate` DATETIME NOT NULL COMMENT '最新修改日',
+  `modifyUser` VARCHAR(32) NOT NULL COMMENT '最新修改人',
+  `remark` VARCHAR(255) COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB CHARSET=utf8;
+
+
+
+
+ 

@@ -1,0 +1,100 @@
+假设安装过一个Mysql 
+1.先安装2个Mysql 其实也就是复制一个Mysql (Mysql5.1  和 Mysql5.2) 
+2.修改端口号和安装地址(my.ini) 这里我们不使用默认端口3306 主要测试 
+ 
+Xml代码  
+Mysql5.1  
+[client]  
+port=3307  
+[mysqld]  
+port=3307  
+basedir="E:/Mysql5.1/"  
+datadir="E:/Mysql5.1/Data/"  
+  
+Mysql5.2  
+[client]  
+port=3308  
+[mysqld]  
+port=3308  
+basedir="E:/Mysql5.2/"  
+datadir="E:/Mysql5.2/Data/"  
+
+3.在Master(Mysql5.1)的数据库中建立一个备份帐户，命令如下 
+ 
+Sql代码  
+GRANT REPLICATION SLAVE ON *.* TO 'slave'@'localhost' IDENTIFIED BY '123456';  
+
+
+4.Master 为Mysql5.1 修改如下(my.ini): 
+ 
+Xml代码  
+[mysqld]  
+
+#Master start   
+#日志输出地址 主要同步使用   
+log-bin=E:\MYSQL5\Data\log-bin.log   
+#同步数据库   
+binlog-do-db=soaposdb  
+#主机id 不能和从机id重复   
+server-id=1    
+#Master end  
+
+5.Slave 为Mysql5.2 修改如下(my.ini): 
+ 
+Xml代码  
+[mysqld]  
+  #Slave start  
+  log-bin=E:\MYSQL5\Data\log-bin.log  
+  #从机id，区别于主机id  
+  server-id=2  
+  #主机ip，供从机连接主机用  
+  master-host=202.91.241.212 
+  #主机端口  
+  master-port=3306  
+  #刚才为从机复制主机数据新建的账号  
+  master-user=root   
+  #刚才为从机复制主机数据新建的密码  
+  master-password=password
+  #重试间隔时间10秒  
+  master-connect-retry=10   
+  #需要同步的数据库  
+  replicate-do-db=soaposdb
+  #启用从库日志，这样可以进行链式复制  
+  log-slave-updates  
+  #从库是否只读，0表示可读写，1表示只读  
+  read-only=0
+  
+  #只复制某个表  
+  #replicate-do-table=tablename                   
+  #只复制某些表（可用匹配符）  
+  #replicate-wild-do-table=tablename%  
+  #只复制某个库  
+  #replicate-do-db=dbname  
+  #不复制某个表  
+  #replicate-ignore-table=tablename  
+  #不复制某些表  
+  #replicate-wild-ignore-table=tablename%  
+  #不复制某个库  
+  #replicate-ignore-db=dbname  
+  #Slave end  
+6.查询当前主机数据库文件和位置 
+  mysql> show master status; 
+  +----------------+----------+--------------+------------------+ 
+  | File           | Position | Binlog_Do_DB | Binlog_Ignore_DB | 
+  +----------------+----------+--------------+------------------+ 
+  | log-bin.000001 |       98 | cnb          |                  | 
+  +----------------+----------+--------------+------------------+ 
+
+6.数据库操作测试如下为在Master(Mysql5.1)端操作 然后查看Slave(Mysql5.2) 
+ 
+Sql代码  
+create databse cnb;  
+    
+  CREATE TABLE `users` (  
+     `id` bigint(20) NOT NULL auto_increment,  
+     `name` varchar(255) default NULL,  
+     PRIMARY KEY  (`id`)  
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;  
+  
+  insert users(name) values('jacky');  
+  

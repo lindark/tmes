@@ -624,6 +624,157 @@
 
 				</ul>
 			</li>
+			
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa glyphicon-list-alt "></i>
+						基础信息
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							产品组管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							产品管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="breed!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							品种管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="bom!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							BOM管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="procedure!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							工艺工序管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="sap!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							SAP生产计划同步管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="change!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							计量单位转换
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="classes!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							班组及班次同步管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="card!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							刷卡设备管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="fault!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							缺陷代码管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<!--
+					<li class="">
+						<a href="#">
+							<i class="menu-icon fa fa-caret-right"></i>
+							定时同步管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="#l">
+							<i class="menu-icon fa fa-caret-right"></i>
+							SAP RFC函数配置
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					-->
+
+				</ul>
+			</li>
 		</ul><!-- /.nav-list -->
 
 		<!-- #section:basics/sidebar.layout.minimize -->

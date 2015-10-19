@@ -36,7 +36,7 @@ import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 
 /**
- * 后台Action类 - 后台管理、管理员
+ * 后台Action类 - 后台管理、管理员 
  */
 
 @ParentPackage("admin")
@@ -91,7 +91,7 @@ public class AdminAction extends BaseAdminAction {
 				} else {
 					addActionError("您的登录名或密码错误!");
 				}
-			} else if (springSecurityLastException instanceof DisabledException) {
+			} else if (springSecurityLastException instanceof DisabledException) {  
 				addActionError("您的账号已被禁用,无法登录!");
 			} else if (springSecurityLastException instanceof LockedException) {
 				addActionError("您的账号已被锁定,无法登录!");

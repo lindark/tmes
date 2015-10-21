@@ -1,50 +1,9 @@
-var grid_data = 
-[ 
-	{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-	{id:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-	{id:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-	{id:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-	{id:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-	{id:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-	{id:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-	{id:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-	{id:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-	{id:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-	{id:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-	{id:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-	{id:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-	{id:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-	{id:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-	{id:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-	{id:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-	{id:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-	{id:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-	{id:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-	{id:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-	{id:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-	{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
-];
-
-var subgrid_data = 
-[
- {id:"1", name:"sub grid item 1", qty: 11},
- {id:"2", name:"sub grid item 2", qty: 3},
- {id:"3", name:"sub grid item 3", qty: 12},
- {id:"4", name:"sub grid item 4", qty: 5},
- {id:"5", name:"sub grid item 5", qty: 2},
- {id:"6", name:"sub grid item 6", qty: 9},
- {id:"7", name:"sub grid item 7", qty: 3},
- {id:"8", name:"sub grid item 8", qty: 8}
-];
-
 jQuery(function($) {
-	//alert(grid_data);
-	var grid_selector = "#grid-table";
-	var pager_selector = "#grid-pager";
-	//resize to fit page size
+	var grid_selector = "#grid-table";//jqgrid table ID
+	var pager_selector = "#grid-pager";//jqgrid pager ID
+	
+	//处理手机自适应，设置jqgrid表格的width等于父节点的width
 	$(window).on('resize.jqGrid', function () {
-		//$(".page-content").width("344");
-		//alert($(".page-content").width());
 		$(grid_selector).jqGrid( 'setGridWidth',$(".page-content").width() );//给jqgrid 的宽度 设定为 page-content的宽度
     })
 	//resize on sidebar collapse/expand
@@ -63,6 +22,8 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
 
+		// 子table 显示
+		/*
 		//subgrid options
 		subGrid : true,
 		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
@@ -87,14 +48,21 @@ jQuery(function($) {
 				]
 			});
 		},
+		*/
 		
-		//data: grid_data,
-		url:"dict!ajlist.action",
+		
+		
+		url:"dict!ajlist.action",//json url
 		datatype:"json",
+		jsonReader: {    //jsonReader来跟服务器端返回的数据做对应  
+            root: "list",  //包含实际数据的数组  
+            repeatitems : false //true:采用jqgrid 标准的json格式,false采用自定义格式     
+        }, 
 		//datatype: "local",
 		height: 250,//weitao 修改此参数可以修改表格的高度
-		colNames:[' ', 'ID','Last Sales','Name', 'Stock', 'Ship via','Notes'],
-		colModel:[
+		colNames:[' ', 'ID','Dictname','deptname'],//TH 名称
+		colModel:[ //设置 table td 的属性，
+	
 			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 				formatter:'actions', 
 				formatoptions:{ 
@@ -105,18 +73,25 @@ jQuery(function($) {
 					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 				}
 			},
+			{name:'id',index:'id', width:60,sorttype:"text",editable: true},
+//			{name:'name1',index:'name1', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'dictkey',index:'dictkey', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'dictdesp',index:'dictdesp', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}}
+			
+			/*
 			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
 			{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 			{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			*/
 		], 
 
 		viewrecords : true,
-		rowNum:10,
-		rowList:[10,20,30],
-		pager : pager_selector,
+		rowNum:10,  //每页显示数量
+		rowList:[10,20,30], //可供选择的选项
+		pager : pager_selector, //分页
 		altRows: true,
 		//toppager: true,
 		
@@ -135,25 +110,28 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
-		caption: "jqGrid with inline editing"
+		editurl: "dict!ajlist.action",//编辑/新增页面调用的url
+		caption: "jqGrid 表格插件" //table 的标题
 
 		//,autowidth: true,
+
+		//分组
+		/*
 		,
 		grouping:true, 
 		groupingView : { 
-			 groupField : ['name'],
+			 groupField : ['dictdesp'],
 			 groupDataSorted : true,
 			 groupSummary : [true],
 			 groupColumnShow : [true],
 			 plusicon : 'fa fa-chevron-down bigger-110',
 			 minusicon : 'fa fa-chevron-up bigger-110'
 		},
-		caption: "Grouping"
-		
+		//caption: "Grouping"
+		*/
 
 	});
-	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+	$(window).triggerHandler('resize.jqGrid');//页面加载jqgrid 调用 resize 事件,用于处理移动端屏幕自适应
 	
 	
 
@@ -162,6 +140,7 @@ jQuery(function($) {
 	//jQuery(grid_selector).filterToolbar({});
 
 
+	
 	//switch element when editing inline
 	function aceSwitch( cellvalue, options, cell ) {
 		setTimeout(function(){
@@ -177,14 +156,16 @@ jQuery(function($) {
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
 	}
-
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: true,
 			editicon : 'ace-icon fa fa-pencil blue',
-			add: true,
+			//add: true,
+			addfunc:function(){
+				//location.href="admin_list.action";
+				alert("OK");
+			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
 			delicon : 'ace-icon fa fa-trash-o red',
@@ -194,6 +175,7 @@ jQuery(function($) {
 			refreshicon : 'ace-icon fa fa-refresh green',
 			view: true,
 			viewicon : 'ace-icon fa fa-search-plus grey',
+			
 		},
 		{
 			//edit record form

@@ -681,9 +681,21 @@
 					</li>
 					
 					<li class="">
+						<a href="process!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							工序管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
 						<a href="procedure!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							工艺工序管理
+							工艺管理
 							<b class="arrow fa"></b>
 						</a>
 

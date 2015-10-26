@@ -181,7 +181,6 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		String property = pager.getProperty();
 		String keyword = pager.getKeyword();
 		String orderBy = pager.getOrderBy();
-		OrderType orderType = pager.getOrderType();
 		
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
 		if (StringUtils.isNotEmpty(property) && StringUtils.isNotEmpty(keyword)) {

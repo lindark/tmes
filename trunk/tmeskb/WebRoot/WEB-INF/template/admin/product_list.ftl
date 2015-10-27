@@ -11,6 +11,12 @@
 		<script type="text/javascript" src="${base}/template/admin/js/product_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		
+		<style>
+			.operateBar{
+				padding:3px 0px;
+			}
+		</style>
 	</head>
 	<body class="no-skin">
 		<!-- add by welson 0728 -->	
@@ -34,7 +40,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">产品列表&nbsp;<span class="pageInfo">总记录数: ${pager.totalCount}(共${pager.pageCount}页)</span></li>
+			<li class="active">产品列表</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -42,22 +48,49 @@
 	<!-- add by welson 0728 -->
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
-					
 					<div class="page-content-area">
-					<!--
-						<div class="page-header">
-							<h1>
-								jqGrid
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Dynamic tables and grids using jqGrid plugin
-								</small>
-							</h1>
-						</div>--><!-- /.page-header -->
-					
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" role="form">
+								   <div class="operateBar">
+								   	<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">ID:</label>
+										<div class="col-sm-4">
+											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">创建日期:</label>
+										<div class="col-sm-4">
+											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">name:</label>
+										<div class="col-sm-4">
+											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">stock:</label>
+										<div class="col-sm-4">
+											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+										<div class="form-group" style="text-align:center">
+											<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-download blue"></i>
+											同步SAP会员
+											</button>
+										</div>
+										
+						
+										<!--
+										<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-download blue"></i>
+											同步SAP会员
+										</button>
+										-->
+									</div>
+								</form>
+								
 								
 								<table id="grid-table"></table>
 

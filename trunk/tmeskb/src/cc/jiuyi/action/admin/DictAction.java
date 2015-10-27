@@ -17,7 +17,6 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.CommonUtil;
-import cc.jiuyi.util.JqgridUtil;
 import cc.jiuyi.util.SpringUtil;
 
 import net.sf.json.JSONArray;

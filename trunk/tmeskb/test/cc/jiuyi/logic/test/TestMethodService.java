@@ -17,11 +17,13 @@ import com.sap.mw.jco.JCO;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
+import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.impl.ArticleServiceImpl;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,7 +45,12 @@ public class TestMethodService extends BaseTestCase {
 		pager.setOrderBy("orderList");
 		pager = dictService.findByPager(pager);
 		System.out.println(pager.getList().size());
-	}	
+	}
+	
+	@Test
+	public void Test(){
+		dictService.ceshi();
+	}
 	
 	
 	

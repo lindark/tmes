@@ -7,12 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * 实体类 - 字典
  */
 
 
 @Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 public class Dict extends BaseEntity {
 
 	private static final long serialVersionUID = -6109590619136943215L;

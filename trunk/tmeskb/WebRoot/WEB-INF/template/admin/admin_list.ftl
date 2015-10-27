@@ -68,7 +68,7 @@ body{background:#fff;}
 					</option>
 					<option value="name" <#if pager.property == "name">selected="selected" </#if>>
 						姓名
-					</option> 
+					</option>
 				</select>
 <input type="text" name="pager.keyword" class="input input-sm" value="${pager.keyword!}" id="form-field-icon-1">
 				<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">

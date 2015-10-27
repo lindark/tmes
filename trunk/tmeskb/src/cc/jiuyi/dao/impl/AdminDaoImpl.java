@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Admin;
 
@@ -28,5 +29,6 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql = "from Admin admin where lower(admin.username) = lower(?)";
 		return (Admin) getSession().createQuery(hql).setParameter(0, username).uniqueResult();
 	}
+	
 	
 }

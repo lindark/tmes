@@ -15,4 +15,6 @@ public interface DictService extends BaseService<Dict, String> {
 	 * 
 	 */
 	public void updateDictValue(String dictname,String dictkey,String dictvalue);
+	
+	public void ceshi();
 }

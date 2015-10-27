@@ -627,6 +627,167 @@
 			
 			<li class="">
 				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-flag "></i>
+						生产管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+				   <li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							领退料
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					 <li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							转储确认
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							交接
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报废
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返工
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返修
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返修收货
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报工
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							入库
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							纸箱收货
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+				 </ul>
+		     </li>
+			
+		<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-key "></i>
+						质检管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+				<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							抽检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							巡检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					
+					<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							半成品巡检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+			</ul>
+		</li>
+		     
+		     
+			<li class="">
+				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-coffee "></i>
 						基础信息
 					<b class="arrow fa fa-angle-down"></b>

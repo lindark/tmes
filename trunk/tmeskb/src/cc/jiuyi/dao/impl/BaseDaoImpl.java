@@ -246,7 +246,12 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
             	wheresql = searchField+" like "+"'%"+searchString+"%'";
             } else if ("nc".equals(searchOper)) {  
             	wheresql = searchField+" not like "+"'%"+searchString+"%'";
-            }  
+            } else if ("in".equals(searchOper)) { //属于
+            	wheresql = searchField+" in "+"('"+searchString+"')";
+            } else if ("ni".equals(searchOper)) { //不属于
+            	wheresql = searchField+" not in "+"('"+searchString+"')";
+            }   
+            
         }  
         return wheresql;  
 	}

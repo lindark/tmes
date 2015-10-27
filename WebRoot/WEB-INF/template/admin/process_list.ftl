@@ -8,7 +8,7 @@
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> 
-		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
@@ -34,7 +34,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">工序列表&nbsp;<span class="pageInfo">总记录数: ${pager.totalCount}(共${pager.pageCount}页)</span></li>
+			<li class="active">工序列表&nbsp;</span></li>
 		</ul>
 	</div>
 	

@@ -1,6 +1,10 @@
 package cc.jiuyi.action.admin;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
@@ -12,6 +16,8 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Process;
 
 /**
@@ -43,9 +49,27 @@ public class ProcessAction extends BaseAdminAction {
 		return LIST;
 	}
 	
+	/**
+	 * ajax 列表
+	 * @return
+	 */
+	public String ajlist(){
+		if(pager == null) {
+			pager = new Pager();
+			pager.setOrderType(OrderType.asc);
+			pager.setOrderBy("orderList");
+		}
+		pager = processService.findByPager(pager);
+		JSONArray jsonArray = JSONArray.fromObject(pager);
+		System.out.println(jsonArray.get(0).toString());
+		 return ajaxJson(jsonArray.get(0).toString());
+		
+	}
+
 	
 	//删除
 	public String delete(){
+		ids=id.split(",");
 		for (String id:ids){
 			Process process=processService.load(id);
 		}
@@ -75,8 +99,6 @@ public class ProcessAction extends BaseAdminAction {
 	}
 		
 
-
-	
 
 	public Process getProcess() {
 		return process;

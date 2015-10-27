@@ -1,5 +1,7 @@
 package cc.jiuyi.service;
 
+import java.util.List;
+
 import cc.jiuyi.entity.Process;
 /**
  * Service接口 - 工序管理
@@ -7,5 +9,12 @@ import cc.jiuyi.entity.Process;
 
 public interface ProcessService extends BaseService<Process, String> {
 
+	/**
+	 * 取出所有Process对象
+	 * @return
+	 */
+	public List<Process> getProcessList();
+	
+	
 	
 }

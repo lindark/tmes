@@ -65,6 +65,7 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 		
 	}
 	
+	
 	public String dictpagerSql(Pager pager){
 		String wheresql = "";
 		Integer ishead=0;

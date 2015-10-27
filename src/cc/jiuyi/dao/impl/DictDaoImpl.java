@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import cc.jiuyi.dao.DictDao;
@@ -43,6 +45,12 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	public Dict getDict(String dictname,String dictkey) {
 		String hql = "from Dict as dict where dict.dictname = ? and dict.dictkey = ? ";
 		return (Dict) getSession().createQuery(hql).setParameter(0, dictname).setParameter(1, dictkey).uniqueResult();
+	}
+	
+	public void ceshi(){
+		System.out.println("OK");
+		getSession().createQuery("from Dict").iterate();
+		
 	}
 	
 }

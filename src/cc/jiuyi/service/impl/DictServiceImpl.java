@@ -38,5 +38,9 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 		dict.setDictvalue(dictvalue);
 		dictDao.update(dict);
 	}
+	
+	public void ceshi(){
+		dictDao.ceshi();
+	}
 
 }

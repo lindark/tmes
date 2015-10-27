@@ -13,4 +13,5 @@ public interface DictDao extends BaseDao<Dict, String> {
 	 * 
 	 */
 	public Dict getDict(String dictname,String dictkey);
+	public void ceshi();
 }

@@ -59,8 +59,9 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize",
 	    	page:"pager.pageNumber",
-	    	search:"pager._search"
-	    	//sort:"orderBy",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    	
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],

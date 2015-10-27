@@ -1,11 +1,18 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Product;
 import cc.jiuyi.service.ProcessService;
 
 /**
@@ -13,6 +20,7 @@ import cc.jiuyi.service.ProcessService;
  * @author Reece
  *
  */
+
 @Service
 public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implements ProcessService{
 
@@ -36,5 +44,10 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 			this.delete(id);
 		}
 	}
-	
+
+	@Override
+	public List<Process> getProcessList() {		
+		return processDao.getProcessList();
+	}
+		
 }

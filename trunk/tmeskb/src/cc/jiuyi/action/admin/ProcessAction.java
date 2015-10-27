@@ -50,7 +50,6 @@ public class ProcessAction extends BaseAdminAction {
 			Process process=processService.load(id);
 		}
 		processService.delete(ids);
-		flushCache();
 		return ajaxJsonSuccessMessage("删除成功");
 	}
 
@@ -75,12 +74,7 @@ public class ProcessAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
-		
-	//更新页面缓存
-	private void flushCache() {
-		Cache cache=ServletCacheAdministrator.getInstance(getRequest().getSession().getServletContext()).getCache(getRequest(), PageContext.APPLICATION_SCOPE);
-		cache.flushAll(new Date());
-	}
+
 
 	
 

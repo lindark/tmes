@@ -1,7 +1,11 @@
 package cc.jiuyi.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.BrandDao;
 import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.MemberRankDao;
@@ -11,6 +15,7 @@ import cc.jiuyi.entity.MemberRank;
 import cc.jiuyi.service.BrandService;
 import cc.jiuyi.service.DictService;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 //import org.springmodules.cache.annotations.CacheFlush;
 
@@ -39,8 +44,9 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 		dictDao.update(dict);
 	}
 	
-	public void ceshi(){
-		dictDao.ceshi();
+	public Pager getDictPager(Pager pager){
+		return dictDao.getDictPager(pager);
 	}
-
+	
+	
 }

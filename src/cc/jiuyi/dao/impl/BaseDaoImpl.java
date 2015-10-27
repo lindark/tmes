@@ -16,6 +16,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -136,7 +137,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		Assert.notNull(entity, "entity is required");
 		getSession().delete(entity);
 	}
-
+	
 	public void delete(PK id) {
 		Assert.notNull(id, "id is required");
 		T entity = load(id);
@@ -214,5 +215,41 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		pager.setList(criteria.list());
 		return pager;
 	}
+
+	@Override
+	public String generateSearchSql(String searchField,
+			String searchString, String searchOper) {
+        String wheresql=""; 
+        if (searchField != null && searchString != null  
+                & searchString.length() > 0 && searchOper != null) {  
+            if ("eq".equals(searchOper)) {  //等于
+            	wheresql = searchField+"="+"'"+searchString+"'";
+            } else if ("ne".equals(searchOper)) { //不等于 
+            	wheresql = searchField+"!="+"'"+searchString+"'";
+            } else if ("lt".equals(searchOper)) { //小于
+            	wheresql = searchField+"<"+"'"+searchString+"'";
+            } else if ("le".equals(searchOper)) { //小于等
+            	wheresql = searchField+"<="+"'"+searchString+"'";
+            } else if ("gt".equals(searchOper)) { //大于
+            	wheresql = searchField+">"+"'"+searchString+"'";
+            } else if ("ge".equals(searchOper)) { //大于等
+            	wheresql = searchField+">="+"'"+searchString+"'";
+            } else if ("bw".equals(searchOper)) { //已...开始
+            	wheresql = searchField+" like "+"'"+searchString+"%'";
+            } else if ("bn".equals(searchOper)) { //不已...开始
+            	wheresql = searchField+" not like "+"'"+searchString+"%'"; 
+            } else if ("ew".equals(searchOper)) { //结束于
+            	wheresql = searchField+" like "+"'%"+searchString+"'"; 
+            } else if ("en".equals(searchOper)) { //不结束于
+            	wheresql = searchField+" not like "+"'%"+searchString+"'";
+            } else if ("cn".equals(searchOper)) { //包含
+            	wheresql = searchField+" like "+"'%"+searchString+"%'";
+            } else if ("nc".equals(searchOper)) {  
+            	wheresql = searchField+" not like "+"'%"+searchString+"%'";
+            }  
+        }  
+        return wheresql;  
+	}
+
 
 }

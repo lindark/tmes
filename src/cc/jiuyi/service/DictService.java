@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
 
@@ -16,5 +17,7 @@ public interface DictService extends BaseService<Dict, String> {
 	 */
 	public void updateDictValue(String dictname,String dictkey,String dictvalue);
 	
-	public void ceshi();
+	public Pager getDictPager(Pager pager);
+	
+	
 }

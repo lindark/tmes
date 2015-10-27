@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 
 /**
@@ -134,6 +135,7 @@ public interface BaseDao<T, PK extends Serializable> {
 	 *            记录ID
 	 */
 	public void delete(PK id);
+	
 
 	/**
 	 * 根据ID数组删除实体对象.
@@ -180,5 +182,14 @@ public interface BaseDao<T, PK extends Serializable> {
 	 * @return Pager对象
 	 */
 	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria);
-
+	
+	
+	/**
+	 * jqgrid　使用，根据传入的searchField,searchString,searchOper,返回whereSql
+	 * @param searchField  属性名
+	 * @param searchString  属性值
+	 * @param searchOper   操作
+	 * @return
+	 */
+	public String generateSearchSql(String searchField,String searchString, String searchOper);
 }

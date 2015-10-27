@@ -57,13 +57,14 @@ jQuery(function($) {
 	          records:"totalCount"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber"
 	    },
-		colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
+		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			
-			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',width:90, editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'id',index:'id', width:60,label:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			{name:'createDate',index:'createDate',label:"创建日期",width:90, editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 			{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
@@ -117,8 +118,8 @@ jQuery(function($) {
 			edit: true,
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(){
-				alert("OK");
+			addfunc:function(rowId){
+				window.location.href="dict!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,

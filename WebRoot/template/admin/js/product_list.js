@@ -58,17 +58,20 @@ jQuery(function($) {
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
-	    	page:"pager.pageNumber"
+	    	page:"pager.pageNumber",
+	    	search:"pager._search"
+	    	//sort:"orderBy",
+	    	
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			
-			{name:'id',index:'id', width:60,label:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",width:90, editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'id',index:'id', label:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'name',index:'name', editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'stock',index:'stock', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+			{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+			{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 
 
 		viewrecords : true,
@@ -93,7 +96,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "#",//nothing is saved
 		caption: "jqGrid with inline editing"
 
 		//,autowidth: true,
@@ -184,10 +187,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

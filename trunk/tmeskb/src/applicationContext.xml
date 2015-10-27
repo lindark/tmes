@@ -108,6 +108,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Dict</value>
 				<value>cc.jiuyi.entity.Pros</value>
 				<value>cc.jiuyi.entity.Process</value>
+				<value>cc.jiuyi.entity.Dump</value>
 			</list>
 		</property>
 	</bean>

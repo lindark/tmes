@@ -46,27 +46,26 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"dict!ajlist.action",
+		url:"process!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize"
 	    },
-		colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
+		colNames:[ 'ID','工序编码','工序名称','状态', ],
 		colModel:[
-			
 			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'processCode',index:'processCode', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'processName',index:'ProcessName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'state',index:'state', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			 
 		], 
 
 		viewrecords : true,
@@ -92,7 +91,7 @@ jQuery(function($) {
 		},
 
 		editurl: "/dummy.html",//nothing is saved
-		caption: "jqGrid with inline editing"
+		caption: "工序管理"
 
 		//,autowidth: true,
 //		,
@@ -136,14 +135,20 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		    addfunc:function(){
+			    window.location.href="process!edit.action";
+		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				alert("OK");
+				window.location.href="process!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			//del: true,
+			delfunc:function(rowId){
+				window.location.href="process!delete.action?id="+rowId;
+			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

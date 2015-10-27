@@ -2,6 +2,7 @@ package cc.jiuyi.dao;
 
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Process;
 
 /**
@@ -18,5 +19,7 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 * @return
 	 */
 	public List<Process> getProcessList();
+	
+	public Pager getDictPager(Pager pager);
 	
 }

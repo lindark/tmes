@@ -668,15 +668,93 @@
 						
 					</li>
 					
+								
+					
 					<li class="">
-						<a href="bom!list.action" >
+						<a href="admin!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							BOM管理
+							车间管理
 							<b class="arrow fa"></b>
 						</a>
 
 						<b class="arrow"></b>
 
+						
+					</li>
+					
+					
+					<li class="">
+						<a href="permission!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							权限管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					
+					<li class="">
+						<a href="post!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							岗位管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+	
+	
+	               <li class="">
+						<a href="area!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							单元管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					
+					
+					<li class="">
+						<a href="callreason!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							呼叫原因管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+						
+					<li class="">
+						<a href="department!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							部门管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>						
+					</li>	
+					
+					<li class="">
+						<a href="locationonside!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							线边仓管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>						
+					</li>	
+					
 						
 					</li>
 					
@@ -693,9 +771,9 @@
 					</li>
 					
 					<li class="">
-						<a href="procedure!list.action" >
+						<a href="factory!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							工艺管理
+						   工厂管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -703,6 +781,9 @@
 
 						
 					</li>
+					
+					
+					
 					
 					<li class="">
 						<a href="sap!list.action" >

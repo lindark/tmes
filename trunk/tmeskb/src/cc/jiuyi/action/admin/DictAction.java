@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +12,13 @@ import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.SystemConfig;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.JqgridUtil;
+import cc.jiuyi.util.SpringUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -44,6 +48,8 @@ public class DictAction extends BaseAdminAction {
 	private static final long serialVersionUID = 1341979251224008699L;
 	
 	private Dict dict;
+	
+
 	@Resource
 	private DictService dictService;
 	
@@ -86,13 +92,23 @@ public class DictAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		pager = dictService.findByPager(pager);
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		pager = dictService.getDictPager(pager);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
-
+	
 	// 删除
 	public String delete() {
 		dictService.delete(ids);

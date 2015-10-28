@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Dump;
 
 /**
@@ -7,5 +8,5 @@ import cc.jiuyi.entity.Dump;
  * 转储管理
  */
 public interface DumpDao extends BaseDao<Dump, String>{
-	
+	public Pager getDumpPager(Pager pager);
 }

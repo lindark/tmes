@@ -91,6 +91,9 @@ public class DumpAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
+		if(pager.is_search()==true && Param != null){//普通搜索功能
+			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+		}
 		pager = dumpService.getDumpPager(pager);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());

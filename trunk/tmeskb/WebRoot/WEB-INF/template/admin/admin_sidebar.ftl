@@ -646,7 +646,7 @@
 					</li>
 					
 					 <li class="">
-						<a href="pro!list.action" >
+						<a href="dump!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							转储确认
 							<b class="arrow fa"></b>

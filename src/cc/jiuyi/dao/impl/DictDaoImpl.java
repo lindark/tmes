@@ -2,6 +2,7 @@ package cc.jiuyi.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cc.jiuyi.bean.Pager;
@@ -52,16 +53,17 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	}
 	
 	
-	public Pager getDictPager(Pager pager) {
+	public Pager getDictPager(Pager pager,Map map) {
 			String wheresql = dictpagerSql(pager);
+			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Dict.class);
 			if(!wheresql.equals("")){
-				DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Dict.class);
-				//detachedCriteria.createAlias("dict", "dict");
 				detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-				return super.findByPager(pager, detachedCriteria);
-			}else{
-				return super.findByPager(pager);
 			}
+			if(map != null){
+//				detachedCriteria.add(Restrictions.like(propertyName, "%"+dfd+"%"));
+//				detachedCriteria.add(Restrictions.b);
+			}
+			return super.findByPager(pager,detachedCriteria);
 		
 	}
 	

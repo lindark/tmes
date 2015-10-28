@@ -241,11 +241,7 @@ body{background:#fff;}
 	
 			
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="刷卡保存" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="submit" class="formButton" value="刷卡提交" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="submit" class="formButton" value="刷卡回复" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="submit" class="formButton" value="刷卡确认" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="submit" class="formButton" value="刷卡关闭" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" class="formButton" value="保存" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>

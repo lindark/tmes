@@ -624,6 +624,67 @@
 
 				</ul>
 			</li>
+			<li class="#">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text"> 异常管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="abnormal!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							异常
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="mass!list.action" >
+							<i class="menu-icon"></i>
+							质量问题单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="model!list.action" >
+							<i class="menu-icon"></i>
+							工模维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+                    
+					<li class="">
+						<a href="craft!list.action" >
+							<i class="menu-icon"></i>
+							工艺维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+                    
+					<li class="">
+						<a href="device!list.action" >
+							<i class="menu-icon"></i>
+							设备维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+
+				</ul>
+			</li>
 			
 			<li class="">
 				<a href="#" class="dropdown-toggle">

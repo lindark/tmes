@@ -10,6 +10,7 @@
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/dump_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
 	<body class="no-skin">
@@ -32,7 +33,7 @@
 		<ul class="breadcrumb">
 			<li>
 				<i class="ace-icon fa fa-home home-icon"></i>
-				<a href="admin!index.action">管理中心</a>
+				<a href="admin!index.action">生产管理</a>
 			</li>
 			<li class="active">转储单&nbsp;<span class="pageInfo"></li>
 		</ul><!-- /.breadcrumb -->
@@ -42,22 +43,42 @@
 	<!-- add by welson 0728 -->
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
-					
 					<div class="page-content-area">
-					<!--
-						<div class="page-header">
-							<h1>
-								jqGrid
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Dynamic tables and grids using jqGrid plugin
-								</small>
-							</h1>
-						</div>--><!-- /.page-header -->
-					
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" id="searchform" action="dump!ajlist.action" role="form">
+								   <div class="operateBar">
+								   	<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单据编号:</label>
+										<div class="col-sm-4">
+											<input type="text" name="dump.voucherId" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">发货日期:</label>
+										<div class="col-sm-4">
+											<input type="text" name="dump.deliveryDate" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">确认人:</label>
+										<div class="col-sm-4">
+											<input type="text" name="dump.confirmUser" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
+											<input type="text" name="dump.state" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+										<div class="form-group" style="text-align:center">
+											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>
+										</div>
+										
+									</div>
+								</form>
+								
 								
 								<table id="grid-table"></table>
 

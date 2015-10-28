@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>jqGrid - Ace Admin</title>
+		<title>转储管理</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
@@ -52,21 +52,21 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单据编号:</label>
 										<div class="col-sm-4">
-											<input type="text" name="dump.voucherId" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="voucherId" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">发货日期:</label>
 										<div class="col-sm-4">
-											<input type="text" name="dump.deliveryDate" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="deliveryDate" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">确认人:</label>
 										<div class="col-sm-4">
-											<input type="text" name="dump.confirmUser" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="confirmUser" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
-											<input type="text" name="dump.state" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 										<div class="form-group" style="text-align:center">
@@ -98,32 +98,7 @@
 			</div><!-- /.main-content -->
 
 			<div class="footer">
-				<div class="footer-inner">
-					<!-- #section:basics/footer -->
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
-
-					<!-- /section:basics/footer -->
-				</div>
+				<#include "/WEB-INF/template/admin/admin_footer.ftl">
 			</div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">

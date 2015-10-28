@@ -58,7 +58,10 @@ jQuery(function($) {
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
-	    	page:"pager.pageNumber"
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
 		colNames:[ '状态','单据编号','日期', '确认人'],
 		colModel:[
@@ -213,11 +216,10 @@ jQuery(function($) {
 				style_search_filters($(this));
 			}
 			,
-			multipleSearch: false,
-			/**
-			multipleGroup:true,
+			multipleSearch: true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
 		},
 		{
 			//view record form

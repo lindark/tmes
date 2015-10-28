@@ -39,10 +39,10 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements Proc
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getDictPager(Pager pager) {
-		String wheresql = dictpagerSql(pager);
+	public Pager getProcessPager(Pager pager) {
+		String wheresql = processpagerSql(pager);
 		if(!wheresql.equals("")){
-			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Dict.class);
+			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Process.class);
 			//detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 			return super.findByPager(pager, detachedCriteria);
@@ -51,7 +51,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements Proc
 		}
      }
 	
-	public String dictpagerSql(Pager pager){
+	public String processpagerSql(Pager pager){
 		String wheresql = "";
 		Integer ishead=0;
 		if(pager.is_search()==true){

@@ -20,6 +20,6 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 */
 	public List<Process> getProcessList();
 	
-	public Pager getDictPager(Pager pager);
+	public Pager getProcessPager(Pager pager);
 	
 }

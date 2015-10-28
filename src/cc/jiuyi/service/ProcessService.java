@@ -2,6 +2,7 @@ package cc.jiuyi.service;
 
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Process;
 /**
  * Service接口 - 工序管理
@@ -14,6 +15,8 @@ public interface ProcessService extends BaseService<Process, String> {
 	 * @return
 	 */
 	public List<Process> getProcessList();
+	
+	public Pager getProcessPager(Pager pager);
 	
 	
 	

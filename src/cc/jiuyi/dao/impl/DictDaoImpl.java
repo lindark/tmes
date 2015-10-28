@@ -84,6 +84,15 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 		System.out.println("wheresql:"+wheresql);
 		return wheresql;
 	}
+
+	@Override
+	public String getDictValueByDictKey(Object dictname, Object dictkey) {
+		// TODO Auto-generated method stub
+		String hql = "from Dict dict where dict.dictname=? and dictkey=?order by dict.dictkey asc";
+		// System.out.println(hql);
+		return ((Dict) getSession().createQuery(hql).setParameter(0, dictname)
+				.setParameter(1, dictkey).list().get(0)).getDictvalue();
+	}
 	
 	
 	

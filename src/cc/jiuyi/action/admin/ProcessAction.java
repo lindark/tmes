@@ -1,24 +1,28 @@
 package cc.jiuyi.action.admin;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
 
-import com.opensymphony.oscache.base.Cache;
-import com.opensymphony.oscache.web.ServletCacheAdministrator;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
-import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.util.ThinkWayUtil;
+
+import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+
 
 /**
  * 后台Action类-工序管理
@@ -36,6 +40,8 @@ public class ProcessAction extends BaseAdminAction {
 	
 	@Resource
 	private ProcessService processService;
+	@Resource
+	private DictService dictService;
 	
 	//添加
 	public String add(){
@@ -45,7 +51,11 @@ public class ProcessAction extends BaseAdminAction {
 
 	//列表
 	public String list(){
-		System.out.println("ok");
+		if(pager == null) {
+			pager = new Pager();
+			pager.setOrderType(OrderType.asc);
+			pager.setOrderBy("orderList");
+		}
 		return LIST;
 	}
 	
@@ -59,7 +69,37 @@ public class ProcessAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		pager = processService.findByPager(pager);
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		if(pager.is_search()==true && Param != null){//普通搜索功能
+			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject filt=JSONObject.fromObject(Param);
+			Pager pager2=new Pager();
+			Map m=new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager2 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager2.getRules());
+			pager.setGroupOp(pager2.getGroupOp());
+			
+		}
+		
+		pager = processService.getProcessPager(pager);
+		List<Process> processList=pager.getList();
+		List<Process> lst = new ArrayList<Process>();
+		for(int i=0;i<processList.size();i++){
+			Process process = (Process)processList.get(i);
+			process.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "processState", process.getState()));
+			lst.add(process);
+		}	
+		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
@@ -67,14 +107,16 @@ public class ProcessAction extends BaseAdminAction {
 	}
 
 	
+	
+	
 	//删除
 	public String delete(){
 		ids=id.split(",");
 		for (String id:ids){
 			Process process=processService.load(id);
 		}
-		processService.delete(ids);
-		return ajaxJsonSuccessMessage("删除成功");
+		redirectionUrl = "process!list.action";
+		return SUCCESS;
 	}
 
 	
@@ -84,6 +126,15 @@ public class ProcessAction extends BaseAdminAction {
 			return INPUT;	
 		}
 		
+	//更新
+		@InputConfig(resultName = "error")
+		public String update() {
+			Process persistent = processService.load(id);
+			BeanUtils.copyProperties(process, persistent, new String[] { "id","createDate", "modifyDate"});
+			processService.update(persistent);
+			redirectionUrl = "process!list.action";
+			return SUCCESS;
+		}
 		
 	//保存
 //	@Validations(

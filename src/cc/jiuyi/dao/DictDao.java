@@ -16,4 +16,10 @@ public interface DictDao extends BaseDao<Dict, String> {
 	public Dict getDict(String dictname,String dictkey);
 	
 	public Pager getDictPager(Pager pager);
+	
+	/**
+	 * 
+	 * 根据dictName=dictName,keyValue=keyValue取出描述
+	 */
+	public String getDictValueByDictKey(Object dictname, Object dictkey);
 }

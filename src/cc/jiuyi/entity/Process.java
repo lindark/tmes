@@ -2,6 +2,7 @@ package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
 
@@ -22,8 +23,15 @@ public class Process extends BaseEntity{
     private String ProcessName;//工序名称
     private String State;//状态
     private String isDel;//是否删除
+    private String StateRemark;//状态描述
 
-       
+    @Transient
+	public String getStateRemark() {
+		return StateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		StateRemark = stateRemark;
+	}
 	public String getProcessCode() {
 		return ProcessCode;
 	}

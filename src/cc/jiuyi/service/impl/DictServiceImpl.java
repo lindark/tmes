@@ -47,6 +47,16 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 	public Pager getDictPager(Pager pager){
 		return dictDao.getDictPager(pager);
 	}
+
+
+	/**
+	 * 
+	 * 根据dictName=dictName,keyValue=keyValue取出描述
+	 */
+	public String getDictValueByDictKey(Object dictName, Object dictKey) {
+		// TODO Auto-generated method stub
+		return dictDao.getDictValueByDictKey(dictName, dictKey);
+	}
 	
 	
 }

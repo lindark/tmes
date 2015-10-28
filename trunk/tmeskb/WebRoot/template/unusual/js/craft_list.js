@@ -179,8 +179,7 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				alert("yes");
-				//location.href="";
+				location.href="craft!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,

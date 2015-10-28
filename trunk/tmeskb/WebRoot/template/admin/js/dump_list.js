@@ -67,7 +67,7 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'voucherId',index:'voucherId', width:200},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
 			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
 			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"}
 		], 

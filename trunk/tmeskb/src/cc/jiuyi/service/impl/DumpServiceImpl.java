@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -23,8 +25,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		super.setBaseDao(dumpDao);
 	}
 	
-	public Pager getDumpPager(Pager pager){
-		return dumpDao.getDumpPager(pager);
+	public Pager getDumpPager(Pager pager,HashMap<String,String> map){
+		return dumpDao.getDumpPager(pager,map);
 	}
 
 }

@@ -17,6 +17,10 @@ public class Device extends BaseEntity{
 	private String maintenanceType;//维修类型
 	private String workShop;//停用车间
 	private String workshopLinkman;//车间联系人
+	private String deviceNo;//设备编号
+	private String deviceName;//设备名称
+	private String deviceModel;//设备型号
+	
 	private Boolean isDown;//是否停机
 	private Boolean isMaintenance;//是否停产维修
 	private String diagnosis;//故障描述
@@ -171,6 +175,24 @@ public class Device extends BaseEntity{
 	}
 	public void setIsDel(String isDel) {
 		this.isDel = isDel;
+	}
+	public String getDeviceNo() {
+		return deviceNo;
+	}
+	public void setDeviceNo(String deviceNo) {
+		this.deviceNo = deviceNo;
+	}
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+	public String getDeviceModel() {
+		return deviceModel;
+	}
+	public void setDeviceModel(String deviceModel) {
+		this.deviceModel = deviceModel;
 	}
 	
 	

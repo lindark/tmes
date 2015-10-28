@@ -34,7 +34,11 @@ $().ready( function() {
 	 * 时间选择控件
 	 */
 	
-	 $("input.datePicker").datepicker({format: 'yyyy-mm-dd',language:'zh-CN'});
+	 $("input.datePicker").datepicker({
+		 format: 'yyyy-mm-dd',
+		 language:'zh-CN',
+		 autoclose: true,
+		 todayBtn:'linked'});
 	
 	// 重新绑定日期选择框
 	$.bindDatePicker = function () {

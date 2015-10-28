@@ -15,6 +15,7 @@ import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.SpringUtil;
@@ -86,6 +87,8 @@ public class DictAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist(){
+		Repairorder repa = new Repairorder();
+		repa.syncRepairorder();
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
@@ -102,7 +105,11 @@ public class DictAction extends BaseAdminAction {
 		}
 		if(pager.is_search()==true && Param != null){//普通搜索功能
 			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			
+
+			JSONObject param = JSONObject.fromObject(Param);
+			dict = (Dict)JSONObject.toBean(param,Dict.class);
+			System.out.println(dict);
+
 		}
 		
 		pager = dictService.getDictPager(pager);

@@ -1,5 +1,7 @@
 package cc.jiuyi.dao;
 
+import java.util.Map;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
@@ -15,7 +17,7 @@ public interface DictDao extends BaseDao<Dict, String> {
 	 */
 	public Dict getDict(String dictname,String dictkey);
 	
-	public Pager getDictPager(Pager pager);
+	public Pager getDictPager(Pager pager,Map map);
 	
 	/**
 	 * 

@@ -10,6 +10,7 @@
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/product_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 		
 		<style>
@@ -52,22 +53,22 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" role="form">
+								<form class="form-horizontal" id="searchform" action="dict!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">ID:</label>
 										<div class="col-sm-4">
-											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="id" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
-											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="createdate" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">name:</label>
 										<div class="col-sm-4">
-											<input type="text" name="pager.keyword" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">stock:</label>
 										<div class="col-sm-4">
@@ -75,19 +76,12 @@
 										</div>
 									</div>
 										<div class="form-group" style="text-align:center">
-											<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-											<i class="ace-icon fa fa-cloud-download blue"></i>
-											同步SAP会员
-											</button>
+											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>
 										</div>
 										
-						
-										<!--
-										<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-											<i class="ace-icon fa fa-cloud-download blue"></i>
-											同步SAP会员
-										</button>
-										-->
 									</div>
 								</form>
 								

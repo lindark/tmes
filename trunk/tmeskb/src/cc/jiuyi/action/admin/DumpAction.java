@@ -1,13 +1,18 @@
 package cc.jiuyi.action.admin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.DumpService;
@@ -77,7 +82,16 @@ public class DumpAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		pager = dumpService.findByPager(pager);
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		pager = dumpService.getDumpPager(pager);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		

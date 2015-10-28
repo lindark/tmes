@@ -77,6 +77,9 @@ public class DumpAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist(){
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
@@ -93,8 +96,12 @@ public class DumpAction extends BaseAdminAction {
 		}
 		if(pager.is_search()==true && Param != null){//普通搜索功能
 			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			String vocherId = obj.get("voucherId").toString();
+			System.out.println(vocherId);
+			map.put("voucherId", vocherId);
 		}
-		pager = dumpService.getDumpPager(pager);
+		pager = dumpService.getDumpPager(pager,map);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		

@@ -41,6 +41,7 @@ public class BaseAdminAction extends ActionSupport {
 	protected String logInfo;// 日志记录信息
 	protected String redirectionUrl;// 操作提示后的跳转URL,为null则返回前一页
 	protected String filters;
+	protected String Param;
 	
 	public String input() {
 		return null;
@@ -250,6 +251,14 @@ public class BaseAdminAction extends ActionSupport {
 
 	public void setFilters(String filters) {
 		this.filters = filters;
+	}
+	
+	public String getParam() {
+		return Param;
+	}
+
+	public void setParam(String param) {
+		Param = param;
 	}
 
 }

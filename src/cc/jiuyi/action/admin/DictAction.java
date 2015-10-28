@@ -91,7 +91,7 @@ public class DictAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		if(pager.is_search()==true && filters != null){//需要查询条件
+		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
 			Map m = new HashMap();
@@ -99,6 +99,9 @@ public class DictAction extends BaseAdminAction {
 			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
+		}
+		if(pager.is_search()==true && Param != null){//普通搜索功能
+			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 		}
 		
 		pager = dictService.getDictPager(pager);

@@ -66,10 +66,10 @@ jQuery(function($) {
 		colNames:[ '状态','单据编号','日期', '确认人'],
 		colModel:[
 			
-			{name:'state',index:'state', width:50,sortable:"true",sorttype:"text"},
-			{name:'voucherId',index:'voucherId', width:90},
-			{name:'deliveryDate',index:'deliveryDate',width:90,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'confirmUser',index:'confirmUser', width:90,sortable:"true",sorttype:"text"}
+			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"},
+			{name:'voucherId',index:'voucherId', width:200},
+			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"}
 		], 
 		//sortable:true,
 		//sortname: "deliveryDate",

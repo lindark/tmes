@@ -49,5 +49,10 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 	public List<Process> getProcessList() {		
 		return processDao.getProcessList();
 	}
+
+	@Override
+	public Pager getProcessPager(Pager pager) {
+		return processDao.getProcessPager(pager);
+	}
 		
 }

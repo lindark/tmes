@@ -87,8 +87,9 @@ public class DictAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist(){
-		Repairorder repa = new Repairorder();
-		repa.syncRepairorder();
+//		Repairorder repa = new Repairorder();
+//		repa.syncRepairorder();
+		HashMap map = new HashMap();
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
@@ -105,14 +106,14 @@ public class DictAction extends BaseAdminAction {
 		}
 		if(pager.is_search()==true && Param != null){//普通搜索功能
 			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-
 			JSONObject param = JSONObject.fromObject(Param);
-			dict = (Dict)JSONObject.toBean(param,Dict.class);
-			System.out.println(dict);
-
+			//dict = (Dict)JSONObject.toBean(param,Dict.class);
+			String startdate = param.get("startdate").toString();
+			String enddate = param.get("enddate").toString();
+			map.put("startdate", startdate);
 		}
 		
-		pager = dictService.getDictPager(pager);
+		pager = dictService.getDictPager(pager,map);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());

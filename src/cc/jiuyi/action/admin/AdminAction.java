@@ -136,6 +136,10 @@ public class AdminAction extends BaseAdminAction {
 	public String index() {
 		return "index";
 	}
+	// 后台首页
+	public String index1() {
+		return "index1";
+	}
 	
 	//出错提示
 	public String error() {

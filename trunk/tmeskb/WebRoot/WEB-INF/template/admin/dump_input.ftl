@@ -118,32 +118,6 @@ body{background:#fff;}
 						
 					</td>
 				</tr>		
-				<tr>
-					<th>
-						&nbsp;
-					</th>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<#if isEdit>
-					<tr>
-						<th>
-							注册日间
-						</th>
-						<td>
-							${(dump.createDate?string("yyyy-MM-dd HH:mm:ss"))!}
-						</td>
-					</tr>
-					<tr>
-						<th>
-							注册IP
-						</th>
-						<td>
-							${(dump.registerIp)!}
-						</td>
-					</tr>
-				</#if>
 				<#list enableddumpAttributeList as list>
 					<tr>
 						<th>

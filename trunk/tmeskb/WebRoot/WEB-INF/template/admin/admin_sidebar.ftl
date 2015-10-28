@@ -48,6 +48,14 @@
 
 				<b class="arrow"></b>
 			</li>
+			<li>
+				<a href="admin!index1.action" >
+					<i class="menu-icon fa fa-tachometer"></i>
+					<span class="menu-text"> 生产首页 </span>
+				</a>
+
+				<b class="arrow"></b>
+			</li>
 
 			<li class="">
 				<a href="#" class="dropdown-toggle">

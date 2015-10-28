@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.DumpService;
@@ -20,6 +21,10 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	@Resource
 	public void setBaseDao(DumpDao dumpDao){
 		super.setBaseDao(dumpDao);
+	}
+	
+	public Pager getDumpPager(Pager pager){
+		return dumpDao.getDumpPager(pager);
 	}
 
 }

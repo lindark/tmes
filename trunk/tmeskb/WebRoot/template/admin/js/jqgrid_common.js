@@ -1,5 +1,5 @@
 	/**
-	 * 格式化日期
+	 * 格式化日期 
 	 */
    function datefmt(jsonDate){
 	    var time = eval(jsonDate).time;
@@ -14,7 +14,18 @@
         return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
 	}
   
-
+   /**
+	 * 格式化日期 不包含小时
+	 */
+  function datefmtTwo(jsonDate){
+	    var time = eval(jsonDate).time;
+       var datetime = new Date();
+       datetime.setTime(time);
+       var year = datetime.getFullYear();
+       var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+       var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+       return year + "-" + month + "-" + date;
+	}
 
 //switch element when editing inline
 	function aceSwitch( cellvalue, options, cell ) {

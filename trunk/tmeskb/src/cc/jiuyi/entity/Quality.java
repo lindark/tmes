@@ -31,6 +31,7 @@ public class Quality extends BaseEntity{
 	
 	private String engineerOpinion;//工程师意见
 	private String isDel;//是否删除	
+	private String state;//状态
 	
 	@Column
 	public String getProductNo() {
@@ -142,6 +143,12 @@ public class Quality extends BaseEntity{
 	}
 	public void setExtrusionBatches(Integer extrusionBatches) {
 		this.extrusionBatches = extrusionBatches;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

@@ -57,14 +57,19 @@ jQuery(function($) {
 	          id:"id"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','工序编码','工序名称','状态', ],
+		colNames:[ 'ID','创建日期','工序编码','工序名称','状态', ],
 		colModel:[
-			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'processCode',index:'processCode', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'processName',index:'ProcessName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'state',index:'state', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'processCode',index:'processCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'processName',index:'ProcessName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'state',index:'state', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
 
@@ -136,8 +141,8 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			//edit: true,
-		    addfunc:function(){
-			    window.location.href="process!edit.action";
+		    editfunc:function(rowId){
+			    window.location.href="process!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,

@@ -102,6 +102,7 @@ public class DictAction extends BaseAdminAction {
 		}
 		if(pager.is_search()==true && Param != null){//普通搜索功能
 			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			
 		}
 		
 		pager = dictService.getDictPager(pager);

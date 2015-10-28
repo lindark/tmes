@@ -79,7 +79,7 @@ body{background:#fff;}
 													<a href="#tabs-3">整改情况跟踪</a>
 												</li>
 												<li>
-													<a href="#tabs-3">相关单据</a>
+													<a href="#tabs-4">相关单据</a>
 												</li>
 											</ul>
 		
@@ -133,7 +133,6 @@ body{background:#fff;}
 					</th>
 					<td>
 						<input type="text" name="quality.samplingAmont" class="formText {required: true, min: 0}" value="${(quality.samplingAmont)!}" />
-						<label class="requireField">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -142,7 +141,6 @@ body{background:#fff;}
 					</th>
 					<td>
 						<input type="text" name="quality.failAmont" class="formText {required: true, min: 0}" value="${(quality.failAmont)!}" />
-						<label class="requireField">*</label>
 					</td>
 				</tr>
 				<tr>
@@ -151,7 +149,6 @@ body{background:#fff;}
 					</th>
 					<td>
 						<input type="text" name="quality.extrusionBatches" class="formText {required: true, min: 0}" value="${(quality.extrusionBatches)!}" />
-						<label class="requireField">*</label>
 					</td>
 				</tr>				
 				<tr>
@@ -167,7 +164,7 @@ body{background:#fff;}
 						计划完成时间:
 					</th>
 					<td>
-						<input type="text" name="quality.overTime" class="formText {required: true, min: 0, messagePosition: '#weightMessagePosition'}" value="${(quality.overTime)!}"/>						
+						<input type="text" name="quality.overTime" class="formText {required: true}" value="${(quality.overTime)!}"/>						
 					</td>
 				</tr>
 				<tr>
@@ -175,7 +172,7 @@ body{background:#fff;}
 						车间整改方案:
 					</th>
 					<td>
-						<input name="quality.rectificationScheme" class="formTextarea" cols="100">${(quality.rectificationScheme)!}</textarea>
+						<input type="text" name="quality.rectificationScheme" class="formText {required: true}" value="${(quality.rectificationScheme)!}"/>
 					</td>
 				</tr>															
 				<tr>

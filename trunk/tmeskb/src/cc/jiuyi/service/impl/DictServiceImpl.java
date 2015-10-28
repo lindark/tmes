@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -44,8 +45,8 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 		dictDao.update(dict);
 	}
 	
-	public Pager getDictPager(Pager pager){
-		return dictDao.getDictPager(pager);
+	public Pager getDictPager(Pager pager,Map map){
+		return dictDao.getDictPager(pager,map);
 	}
 
 

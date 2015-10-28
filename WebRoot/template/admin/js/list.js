@@ -29,4 +29,15 @@ $().ready( function() {
 		
 		return false;
 	});
+	
+	/**
+	 * 时间选择控件
+	 */
+	
+	 $("input.datePicker").datepicker({format: 'yyyy-mm-dd',language:'zh-CN'});
+	
+	// 重新绑定日期选择框
+	$.bindDatePicker = function () {
+		$("input.datePicker").datepicker({format: 'yyyy-mm-dd'});
+	}
 });

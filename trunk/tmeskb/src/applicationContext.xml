@@ -110,6 +110,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Process</value>
 				<value>cc.jiuyi.entity.Dump</value>
 				<value>cc.jiuyi.entity.Locationonside</value>
+				<value>cc.jiuyi.entity.Abnormal</value>
+				<value>cc.jiuyi.entity.Device</value>
+				<value>cc.jiuyi.entity.Craft</value>
+				<value>cc.jiuyi.entity.Model</value>
+				<value>cc.jiuyi.entity.Quality</value>
 			</list>
 		</property>
 	</bean>

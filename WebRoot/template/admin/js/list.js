@@ -13,7 +13,7 @@ $().ready( function() {
 		var ishead= 0;
 		$searchform.find(":input").each(function(i){
 			if($(this).val()){
-				if(ishead=1)
+				if(ishead==1)
 					rules +=",";
 				rules += '"' + $(this).attr("name") + '":"' + $(this).val() + '"';
 				ishead=1;

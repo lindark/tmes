@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -16,24 +17,26 @@ import cc.jiuyi.entity.Dump;
  */
 @Repository
 public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
-	public Pager getDumpPager(Pager pager) {
+	
+	public Pager getDumpPager(Pager pager,HashMap<String,String> map) {
 		String wheresql = dumppagerSql(pager);
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Dump.class);
 		if (!wheresql.equals("")) {
-			DetachedCriteria detachedCriteria = DetachedCriteria
-					.forClass(Dump.class);
-			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-			return super.findByPager(pager, detachedCriteria);
-		} else {
-			return super.findByPager(pager);
 		}
+		System.out.println(map.size());
+		if(map.size()>0){
+			detachedCriteria.add(Restrictions.like("voucherId", "%"+map.get("voucherId")+"%"));
+		}
+		return super.findByPager(pager, detachedCriteria);
 
 	}
 
 	public String dumppagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
-		if (pager.is_search() == true) {
+		if (pager.is_search() == true && pager.getRules() != null) {
 			List list = pager.getRules();
 			for (int i = 0; i < list.size(); i++) {
 				if (ishead == 1) {

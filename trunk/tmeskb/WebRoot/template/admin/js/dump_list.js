@@ -63,7 +63,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '单据编号','日期', '确认人','状态'],
+		colNames:[ '单据编号','发货日期', '确认人','状态'],
 		colModel:[
 			
 			{name:'voucherId',index:'voucherId', width:200},

@@ -48,7 +48,7 @@
 	
 	<!-- add by welson 0728 -->
 				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content">
+				<div class="page-content" id="page-content">
 					<div class="page-content-area">
 						<div class="row">
 							<div class="col-xs-12">
@@ -78,7 +78,7 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
-											<a id="searchButton" href="working_bill!sync.action" class="btn btn-white btn-default btn-sm btn-round">
+											<a id="syncButton"  class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
 											</a>
@@ -123,4 +123,19 @@
 			
 		</script>
 	</body>
+	
+	<script>
+		$(function(){
+			var $syncButton = $("#syncButton");
+			
+			
+			//同步按钮
+			$syncButton.click(function(){
+				loading=new ol.loading({id:"page-content"});
+				loading.show();
+				window.location.href="working_bill!sync.action"
+				return false;
+			})
+		})
+	</script>
 </html>

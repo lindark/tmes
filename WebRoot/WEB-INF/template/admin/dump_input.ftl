@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 
 <title>添加/编辑转储记录 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -51,7 +52,7 @@ body{background:#fff;}
 		<ul class="breadcrumb">
 			<li>
 				<i class="ace-icon fa fa-home home-icon"></i>
-				<a href="admin!index.action">管理中心</a>
+				<a href="admin!index.action">生产管理</a>
 			</li>
 			<li class="active"><#if isAdd??>添加转储记录<#else>编辑转储记录</#if></li>
 		</ul><!-- /.breadcrumb -->
@@ -83,7 +84,7 @@ body{background:#fff;}
 						发货日期:
 					</th>
 					<td>
-							<input type="text" name="dump.deliveryDate" value="${(dump.deliveryDate)!}" class="formText {required: true, minlength: 2, maxlength: 100}" />
+							<input type="text" name="dump.deliveryDate" value="${(dump.deliveryDate)!}" class="formText {required: true, minlength: 2, maxlength: 100} datePicker" />
 							<label class="requireField">*</label>
 						
 					</td>
@@ -103,21 +104,21 @@ body{background:#fff;}
 						状态:
 					</th>
 					<td>
-							<input type="text" name="dump.state" value="${(dump.state)!}" class="formText {required: true, minlength: 2, maxlength: 100}" />
-							<label class="requireField">*</label>
-						
+					<label class="pull-left inline">
+					    <small class="muted smaller-90">已确认:</small>
+						<input type="radio" class="ace" name="dump.state" value="已确认"<#if (dump.state == '已确认')!> checked</#if> />
+						<span class="lbl middle"></span>
+					</label>
+							
+					<label class="pull-left inline">
+
+					    <small class="muted smaller-90">未确认:</small>
+						<input type="radio" class="ace" name="dump.state" value="未确认"<#if (isAdd || dump.state == '未确认')!> checked</#if>  />
+						<span class="lbl middle"></span>
+					</label>	
+					
 					</td>
-				</tr>
-				<tr>
-					<th>
-						是否删除:
-					</th>
-					<td>
-							<input type="text" name="dump.isDel" value="${(dump.isDel)!}" class="formText {required: true, minlength: 1, maxlength: 100}" />
-							<label class="requireField">*</label>
-						
-					</td>
-				</tr>		
+				</tr>	
 				<#list enableddumpAttributeList as list>
 					<tr>
 						<th>

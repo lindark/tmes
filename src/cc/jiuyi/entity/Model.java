@@ -35,6 +35,7 @@ public class Model extends BaseEntity{
 	private String createUser;//创建人
 	private String modifyUser;//修改人
 	private String isDel;//是否删除
+	private String state;
 	
 	public String getProductCode() {
 		return productCode;
@@ -149,6 +150,12 @@ public class Model extends BaseEntity{
 	}
 	public void setIsDel(String isDel) {
 		this.isDel = isDel;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

@@ -106,7 +106,7 @@ body{background:#fff;}
 						生产工序:
 					</th>
 					<td>
-						<select name="quality.process" class="{required: true}">
+						<select name="quality.process">
 							<option value="">请选择...</option>							
 						</select>
 					</td>
@@ -156,7 +156,7 @@ body{background:#fff;}
 						报告时间:
 					</th>
 					<td>
-						<input type="text" name="quality.createDate" class="formText {required: true, min: 0, messagePosition: '#weightMessagePosition'}" value="${(quality.createDate)!}" />						
+						<input type="text" name="quality.createDate" class="formText {required: true, min: 0}" value="${(quality.createDate)!}" />						
 					</td>
 				</tr>
 				<tr>

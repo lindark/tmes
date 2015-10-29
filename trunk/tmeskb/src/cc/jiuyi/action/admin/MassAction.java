@@ -41,6 +41,12 @@ public class MassAction extends BaseAdminAction {
 		return LIST;
 	}
 	
+	public String save() {
+		qualityService.save(quality);
+		redirectionUrl = "mass!list.action";
+		return SUCCESS;
+	}
+	
 	// ajax列表
 	public String ajlist() {
 		if(pager == null) {
@@ -53,9 +59,11 @@ public class MassAction extends BaseAdminAction {
 	}
 
 	// 删除
-	public String delete() throws Exception {			
+	public String delete() throws Exception {
+		ids=id.split(",");
 		qualityService.delete(ids);
-		return ajaxJsonSuccessMessage("删除成功！");
+		redirectionUrl = "mass!list.action";
+		return SUCCESS;
 	}
 
 	public Quality getQuality() {

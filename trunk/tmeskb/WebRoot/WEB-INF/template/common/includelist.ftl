@@ -1,5 +1,5 @@
 <link href="${base}/template/common/css/base.css" rel="stylesheet" type="text/css" />
-
+<link href="${base}/template/admin/css/loading.css" rel="stylesheet" type="text/css" />
 <!--[if !IE]> -->
 <script type="text/javascript">
 	window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery.min.js'>"+"<"+"/script>");
@@ -26,5 +26,7 @@
 <!--<script src="${base}/template/admin/assets/js/ace-elements.min.js"></script>-->
 <script src="${base}/template/admin/assets/js/ace.min.js"></script>
 
+<script src="${base}/template/admin/js/jquery.bgiframe.min.js"></script>
+<script src="${base}/template/admin/js/loading-min.js"></script>
 
 <!--<script type="text/javascript" src="${base}/template/common/js/base.js"></script>-->

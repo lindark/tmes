@@ -126,7 +126,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	public String sync() {
 		Repairorder r = new Repairorder();
 		r.syncRepairorder(workingbillService);//同步
-		return ajaxJsonSuccessMessage("删除成功！");
+		redirectionUrl = "working_bill!list.action";
+		return SUCCESS;
 	}
 
 	// 保存

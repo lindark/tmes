@@ -131,7 +131,7 @@ body{background:#fff;}
 						不良现象描述:
 					</th>
 					<td>
-						<textarea name="model.failDescript" class="formTextarea"></textarea>
+						<input type="text" name="model.failDescript" class="formText {required: true, min: 0}" value="${(model.failDescript)!}" />
 					</td>
 				</tr>
 				<tr>

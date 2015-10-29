@@ -63,8 +63,8 @@ jQuery(function($) {
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productName',index:'productName',width:60, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'group',index:'group', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'process',index:'process', width:60, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+			{name:'group',index:'group', width:160,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'process',index:'process', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 			{name:'createUser',index:'createUser', width:60, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			{name:'state',index:'state', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}}		
 		], 
@@ -117,8 +117,8 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 
 			//edit: true,
-		    editfunc:function(){
-			    location.href="mass!edit.action";
+		    editfunc:function(rowId){
+			    location.href="mass!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
@@ -127,15 +127,18 @@ jQuery(function($) {
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			//del: true,
-			delfunc:function(){
-				location.href="mass!delete.action";
+			delfunc:function(rowId){
+				window.location.href="mass!delete.action?id="+rowId;
 			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			//view: true,
+			viewfunc:function(rowId){
+				location.href="mass!edit.action?id="+rowId;
+			},
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

@@ -1,5 +1,8 @@
 package cc.jiuyi.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,9 +28,26 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		if (!wheresql.equals("")) {
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
-		System.out.println(map.size());
 		if(map.size()>0){
-			detachedCriteria.add(Restrictions.like("voucherId", "%"+map.get("voucherId")+"%"));
+			if(map.get("voucherId")!=null){
+				detachedCriteria.add(Restrictions.like("voucherId", "%"+map.get("voucherId")+"%"));								
+			}
+			if(map.get("deliveryDate")!=null){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date now = new Date();
+				try {
+					Date start = sdf.parse(map.get("deliveryDate"));
+					detachedCriteria.add(Restrictions.between("deliveryDate",start,now));								
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			if(map.get("confirmUser")!=null){
+				detachedCriteria.add(Restrictions.like("confirmUser", "%"+map.get("confirmUser")+"%"));								
+			}
+			if(map.get("state")!=null){
+				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));								
+			}
 		}
 		return super.findByPager(pager, detachedCriteria);
 

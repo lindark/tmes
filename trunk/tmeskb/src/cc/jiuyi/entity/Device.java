@@ -42,7 +42,7 @@ public class Device extends BaseEntity{
 	private String createUser;//创建人
 	private String modifyUser;//最新修改人
 	private String isDel;//是否删除
-	
+	private String state;//状态
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -193,6 +193,12 @@ public class Device extends BaseEntity{
 	}
 	public void setDeviceModel(String deviceModel) {
 		this.deviceModel = deviceModel;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

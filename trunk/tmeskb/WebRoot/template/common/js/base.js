@@ -353,6 +353,7 @@ jQuery(function() {
 		showOtherMonths: true,
 		selectOtherMonths: true});
 	
+    
 	// 重新绑定日期选择框
 	$.bindDatePicker = function () {
 		$("input.datePicker").datepicker({
@@ -416,17 +417,17 @@ jQuery(function() {
 	});
 	
 	// 提示效果
-	$("input[title], label[title]").qtip({
-		content: {
-			text: true
-		},
-		style: {
-			name: "cream",
-			width: {
-				max: 500
-			}
-		}
-	});
+//	$("input[title], label[title]").qtip({
+//		content: {
+//			text: true
+//		},
+//		style: {
+//			name: "cream",
+//			width: {
+//				max: 500
+//			}
+//		}
+//	});
 	
 	// 图片预览
 	$("a.imagePreview").each(function() {

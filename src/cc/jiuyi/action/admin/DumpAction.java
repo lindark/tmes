@@ -97,9 +97,22 @@ public class DumpAction extends BaseAdminAction {
 		if(pager.is_search()==true && Param != null){//普通搜索功能
 			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			String vocherId = obj.get("voucherId").toString();
-			System.out.println(vocherId);
-			map.put("voucherId", vocherId);
+			if(obj.get("voucherId") != null){
+				String vocherId = obj.get("voucherId").toString();
+				map.put("voucherId", vocherId);				
+			}
+			if(obj.get("deliveryDate")!=null){
+				String deliveryDate = obj.get("deliveryDate").toString();
+				map.put("deliveryDate", deliveryDate);				
+			}
+			if(obj.get("confirmUser")!=null){
+				String confirmUser = obj.get("confirmUser").toString();
+				map.put("confirmUser", confirmUser);				
+			}
+			if(obj.get("state")!=null){
+				String state = obj.get("state").toString();
+				map.put("state", state);				
+			}
 		}
 		pager = dumpService.getDumpPager(pager,map);
 		JSONArray jsonArray = JSONArray.fromObject(pager);

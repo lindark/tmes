@@ -119,6 +119,8 @@ public interface BaseDao<T, PK extends Serializable> {
 	 */
 	public void update(T entity);
 	
+	
+	
 	/**
 	 * 删除实体对象.
 	 * 

@@ -117,7 +117,7 @@ public interface BaseService<T, PK extends Serializable> {
 	 *            对象
 	 */
 	public void update(T entity);
-
+	
 	/**
 	 * 删除实体对象.
 	 * 
@@ -180,5 +180,7 @@ public interface BaseService<T, PK extends Serializable> {
 	 * @return Pager对象
 	 */
 	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria);
+	
+
 
 }

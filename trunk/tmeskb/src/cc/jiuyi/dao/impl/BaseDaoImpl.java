@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.BaseDao;
 
@@ -132,6 +133,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		Assert.notNull(entity, "entity is required");
 		getSession().update(entity);
 	}
+	
 
 	public void delete(T entity) {
 		Assert.notNull(entity, "entity is required");
@@ -255,6 +257,25 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
         }  
         return wheresql;  
 	}
+	
+	public String pagerSqlByjqGrid(Pager pager){
+		String wheresql = "";
+		Integer ishead=0;
+		if(pager.is_search()==true && pager.getRules() != null){
+			List list = pager.getRules();
+			for(int i=0;i<list.size();i++){
+				if(ishead==1){
+					wheresql += " "+pager.getGroupOp()+" ";
+				}
+				jqGridSearchDetailTo to = (jqGridSearchDetailTo)list.get(i);
+				wheresql+=" "+this.generateSearchSql(to.getField(), to.getData(), to.getOp())+" ";
+				ishead = 1;
+			}
+			
+		}
+		return wheresql;
+	}
+
 
 
 }

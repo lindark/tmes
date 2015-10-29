@@ -1016,7 +1016,7 @@
 					
 					
 					<li class="">
-						<a href="quality!list.action" >
+						<a href="working_bill!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							SAP生产计划同步管理
 							<b class="arrow fa"></b>

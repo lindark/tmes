@@ -3,6 +3,7 @@ package cc.jiuyi.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -37,6 +38,10 @@ public class ThinkWayUtil {
 	  public static String null2String(String s)
 	    {
 	        return s != null ? s : "";
+	    }
+	  public static String null2String(Object s)
+	    {
+	        return (String) (s != null ? s : "");
 	    }
 	   /**
 	     * @param datetime - 时间格式的字符串”YYYY-MM-DD HH:MM:SS”
@@ -103,5 +108,14 @@ public class ThinkWayUtil {
 	        }
 	        
 	        return calendar ;
+	    }
+	    /**
+	     * 获取系统当前时间
+	     * @return
+	     */
+	    public static String SystemDate(){
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+	    	//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+	    	return df.format(new Date());
 	    }
 }

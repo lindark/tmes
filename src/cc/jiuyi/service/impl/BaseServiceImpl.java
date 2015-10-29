@@ -101,4 +101,6 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 		return baseDao.findByPager(pager, detachedCriteria);
 	}
 
+	
+
 }

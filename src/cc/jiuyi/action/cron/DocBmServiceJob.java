@@ -32,6 +32,7 @@ public class DocBmServiceJob extends MyDetailQuartzJobBean {
  protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
   // TODO Auto-generated method stub
   try{
+	  System.out.println("任务开始");
    log.info("DocBmServiceJob任务开始>........");
    //开始重置编码
    dictService = (DictService)SpringUtil.getBean("dictServiceImpl");

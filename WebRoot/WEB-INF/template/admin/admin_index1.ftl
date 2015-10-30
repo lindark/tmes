@@ -294,7 +294,6 @@
 																<th>
 																	<i class="ace-icon fa fa-caret-right blue"></i>产品名称
 																</th>
-
 																<th>
 																	<i class="ace-icon fa fa-caret-right blue"></i>计划数量
 																</th>
@@ -302,23 +301,28 @@
 																<th class="hidden-480">
 																	<i class="ace-icon fa fa-caret-right blue"></i>产品编号
 																</th>
+																<th class="hidden-480">
+																	<i class="ace-icon fa fa-caret-right blue"></i>随工单编号
+																</th>
 															</tr>
 														</thead>
 
 														<tbody>
 															<#list workingbillList as list>
 																<tr>
-																	<td>${list.maktx}</td>
+																	<td>
+																		<input type="checkbox">&nbsp;${list.maktx}
+																	</td>
 	
 																	<td>
-																		<small>
-																			<s class="red">29.99</s>
-																		</small>
-																		<b class="green">19.99</b>
+																		<b class="green">${list.planCount}</b>
 																	</td>
 	
 																	<td class="hidden-480">
-																		<span class="label label-info arrowed-right arrowed-in">25,208</span>
+																		${list.matnr}
+																	</td>
+																	<td class="hidden-480">
+																		${list.workingBillCode}
 																	</td>
 																</tr>
 															</#list>

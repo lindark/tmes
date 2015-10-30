@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * 实体类 - 质量问题通知单
  */
 @Entity
-@Table(name = "quality_problem")
+@Table(name = "qualityproblem")
 public class Quality extends BaseEntity{
 
 	private static final long serialVersionUID = -7213483823153832426L;

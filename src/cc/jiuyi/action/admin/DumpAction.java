@@ -67,7 +67,7 @@ public class DumpAction extends BaseAdminAction {
 	// 删除
 	public String delete() {
 		ids = id.split(",");
-		dumpService.delete(ids);
+		dumpService.updateisdel(ids, "Y");
 		redirectionUrl = "dump!list.action";
 		return SUCCESS;
 	}
@@ -101,10 +101,10 @@ public class DumpAction extends BaseAdminAction {
 				String vocherId = obj.get("voucherId").toString();
 				map.put("voucherId", vocherId);				
 			}
-			if(obj.get("deliveryDate")!=null){
+			/*if(obj.get("deliveryDate")!=null){
 				String deliveryDate = obj.get("deliveryDate").toString();
 				map.put("deliveryDate", deliveryDate);				
-			}
+			}*/
 			if(obj.get("confirmUser")!=null){
 				String confirmUser = obj.get("confirmUser").toString();
 				map.put("confirmUser", confirmUser);				
@@ -113,6 +113,13 @@ public class DumpAction extends BaseAdminAction {
 				String state = obj.get("state").toString();
 				map.put("state", state);				
 			}
+			if(obj.get("start")!=null&&obj.get("end")!=null){
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+			
 		}
 		pager = dumpService.getDumpPager(pager,map);
 		JSONArray jsonArray = JSONArray.fromObject(pager);

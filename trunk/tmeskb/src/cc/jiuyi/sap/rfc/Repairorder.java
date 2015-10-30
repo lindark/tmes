@@ -20,7 +20,7 @@ public class Repairorder {
 	/**
 	 * 同步随工单信息
 	 */
-	public void syncRepairorder(WorkingBillService workingbillservice){
+	public void syncRepairorder(WorkingBillService workingbillservice) throws Exception{
 		List list = new ArrayList<WorkingBill>();
 		String funcName="Z_TEMS_READ_REPAIRORDER";//函数名称
 		Map<String, String> strMap=new HashMap<String, String>();
@@ -40,6 +40,8 @@ public class Repairorder {
 			workingbill.setWorkingBillCode(table01.getString("ZSGD"));//随工单号
 			workingbill.setProductDate(table01.getString("GLTRS"));//生产日期
 			workingbill.setPlanCount(table01.getString("NEWS"));//计划数
+			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
+			workingbill.setMatnr(table01.getString("PLNBEZ"));//物料编号
 			list.add(workingbill);
 		}
 		workingbillservice.mergeWorkingBill(list);

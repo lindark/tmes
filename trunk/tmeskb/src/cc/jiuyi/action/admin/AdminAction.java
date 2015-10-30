@@ -146,7 +146,7 @@ public class AdminAction extends BaseAdminAction {
 	public String index1() {
 		//workingbillservice.getListWorkingBillByDate(ThinkWayUtil.SystemDate());//目前使用系统固定时间做。测试时修改回来
 		workingbillList = workingbillservice.getListWorkingBillByDate("2015-09-27");//目前使用系统固定时间做。测试时修改回来
-		return "index1";
+		return "teamindex";
 	}
 	
 	//出错提示

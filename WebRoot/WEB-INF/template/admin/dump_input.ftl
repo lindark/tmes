@@ -108,6 +108,7 @@ body{background:#fff;}
 					    <small class="muted smaller-90">已确认:</small>
 						<input type="radio" class="ace" name="dump.state" value="已确认"<#if (dump.state == '已确认')!> checked</#if> />
 						<span class="lbl middle"></span>
+						&nbsp;&nbsp;
 					</label>
 							
 					<label class="pull-left inline">

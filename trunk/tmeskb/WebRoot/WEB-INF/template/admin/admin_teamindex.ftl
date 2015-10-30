@@ -7,6 +7,8 @@
 <title>管理中心 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
+<script src='${base}/template/admin/assets/js/jquery.min.js'></script>
+<script src="${base}/template/admin/js/Main/teamindex.js"></script>
 </head>
 <body class="no-skin">
 
@@ -255,7 +257,7 @@
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="storage" >
 																	<i class="ace-icon fa fa-tasks bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">入库</span>
 																</button>
@@ -326,7 +328,7 @@
 															<#list workingbillList as list>
 																<tr>
 																	<td>
-																		<input type="checkbox" name="WorkingBill.workingBillCode" value="${list.workingBillCode}">&nbsp;${list.maktx}
+																		<input type="checkbox" class="ckbox" name="WorkingBill.workingBillCode" value="${list.workingBillCode}">&nbsp;${list.maktx}
 																	</td>
 	
 																	<td>

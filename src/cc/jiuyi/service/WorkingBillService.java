@@ -30,4 +30,10 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
+	/**
+	 * 根据生产日期取出对应的随工单信息
+	 * @return
+	 */
+	public List getListWorkingBillByDate(String productdate);
+	
 }

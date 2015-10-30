@@ -57,6 +57,10 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 	public void updateisdel(String[] ids, String oper) {
 		workingbilldao.updateisdel(ids, oper);
 	}
+	@Override
+	public List getListWorkingBillByDate(String productdate) {
+		return workingbilldao.getListWorkingBillByDate(productdate);
+	}
 
 
 	

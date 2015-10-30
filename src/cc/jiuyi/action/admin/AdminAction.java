@@ -8,13 +8,16 @@ import javax.servlet.ServletContext;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.impl.AdminServiceImpl;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -52,11 +55,14 @@ public class AdminAction extends BaseAdminAction {
 	private Admin admin;
 	private List<Role> allRole;
 	private List<Role> roleList;
+	private List<WorkingBill> workingbillList;
 
 	@Resource
 	private AdminService adminService;
 	@Resource
 	private RoleService roleService;
+	@Resource
+	private WorkingBillService workingbillservice;
 	
 	@Resource
 	private MessageService messageService;  
@@ -138,6 +144,8 @@ public class AdminAction extends BaseAdminAction {
 	}
 	// 后台首页
 	public String index1() {
+		//workingbillservice.getListWorkingBillByDate(ThinkWayUtil.SystemDate());//目前使用系统固定时间做。测试时修改回来
+		workingbillList = workingbillservice.getListWorkingBillByDate("2015-09-27");//目前使用系统固定时间做。测试时修改回来
 		return "index1";
 	}
 	
@@ -341,5 +349,14 @@ public class AdminAction extends BaseAdminAction {
 	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
+
+	public List<WorkingBill> getWorkingbillList() {
+		return workingbillList;
+	}
+
+	public void setWorkingbillList(List<WorkingBill> workingbillList) {
+		this.workingbillList = workingbillList;
+	}
+	
 
 }

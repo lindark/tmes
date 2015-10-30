@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
@@ -29,4 +30,10 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	/**
+	 * 根据生产日期取出对应的随工单信息
+	 * @return
+	 */
+	public List getListWorkingBillByDate(String productdate);
 }

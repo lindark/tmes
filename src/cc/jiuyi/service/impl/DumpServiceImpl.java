@@ -28,5 +28,9 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	public Pager getDumpPager(Pager pager,HashMap<String,String> map){
 		return dumpDao.getDumpPager(pager,map);
 	}
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		dumpDao.updateisdel(ids, oper);
+	}
 
 }

@@ -182,79 +182,94 @@
 												<div class="widget-main">
 													
 														<div class="row">
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																交接
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-fire bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">交接</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																领退料
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-flask bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">领退料</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																转储确认
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-credit-card bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">转储确认</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																报废
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-inbox bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">报废</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																返工
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-exchange bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">返工</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																返修
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-cog bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">返修</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																返修收货
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-glass bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">返修收货</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																抽检
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-flag bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">抽检</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																巡检
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-leaf bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">巡检</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																半成品巡检
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-star-half-o bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">半成品巡检</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																快速响应
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-volume-up bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">快速响应</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																报工
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-share-alt bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">报工</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																入库
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-tasks bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">入库</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																考勤
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-users bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">考勤</span>
 																</button>
 															</div>
-															<div class="col-md-3 col-sm-4">
-																<button class="btn btn-white btn-default btn-round btn-block">
-																纸箱收货
+															<div class="col-md-3 col-sm-4" style="padding:2px;">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																	<i class="ace-icon fa fa-file-archive-o bigger-110"></i>
+																	<span class="bigger-110 no-text-shadow">纸箱收货</span>
 																</button>
 															</div>
 														</div>
@@ -311,7 +326,7 @@
 															<#list workingbillList as list>
 																<tr>
 																	<td>
-																		<input type="checkbox">&nbsp;${list.maktx}
+																		<input type="checkbox" name="WorkingBill.workingBillCode" value="${list.workingBillCode}">&nbsp;${list.maktx}
 																	</td>
 	
 																	<td>

@@ -82,6 +82,7 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
 											</a>
+											
 										</div>
 										
 									</div>
@@ -131,6 +132,7 @@
 			
 			//同步按钮
 			$syncButton.click(function(){
+				
 				loading=new ol.loading({id:"page-content"});
 				loading.show();
 				window.location.href="working_bill!sync.action"

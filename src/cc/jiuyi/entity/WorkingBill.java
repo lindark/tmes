@@ -27,6 +27,8 @@ public class WorkingBill extends BaseEntity {
 	private String productDate;//生产日期
 	private String planCount;//计划数量
 	private String isdel;//是否删除
+	private String matnr;//物料号
+	private String maktx;//物料描述
 	
 	public String getWorkingBillCode() {
 		return workingBillCode;
@@ -56,5 +58,18 @@ public class WorkingBill extends BaseEntity {
 		else
 			this.isdel = isdel;
 	}
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+	
 
 }

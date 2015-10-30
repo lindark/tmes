@@ -32,12 +32,22 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 			if(map.get("voucherId")!=null){
 				detachedCriteria.add(Restrictions.like("voucherId", "%"+map.get("voucherId")+"%"));								
 			}
-			if(map.get("deliveryDate")!=null){
+			/*if(map.get("deliveryDate")!=null){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date now = new Date();
 				try {
 					Date start = sdf.parse(map.get("deliveryDate"));
 					detachedCriteria.add(Restrictions.between("deliveryDate",start,now));								
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}*/
+			if(map.get("start")!=null || map.get("end")!=null){//生产日期范围
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Date start = sdf.parse(map.get("start"));
+					Date end = sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("deliveryDate",start,end));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -49,6 +59,7 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));								
 			}
 		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 
 	}
@@ -72,5 +83,15 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		}
 		System.out.println("wheresql:" + wheresql);
 		return wheresql;
+	}
+	@Override
+	public void updateisdel(String[] ids,String oper) {
+		for(String id : ids){
+			Dump dump = super.load(id);
+			dump.setIsDel(oper);//标记删除
+			super.update(dump);
+		}
+		
+		
 	}
 }

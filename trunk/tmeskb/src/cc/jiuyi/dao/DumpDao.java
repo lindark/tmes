@@ -11,4 +11,10 @@ import cc.jiuyi.entity.Dump;
  */
 public interface DumpDao extends BaseDao<Dump, String>{
 	public Pager getDumpPager(Pager pager,HashMap<String,String> map);
+	/**
+	 * 标记删除
+	 * @param id
+	 * @param oper Y/N
+	 */
+	public void updateisdel(String[] ids,String oper);
 }

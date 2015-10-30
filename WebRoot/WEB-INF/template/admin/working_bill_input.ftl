@@ -42,7 +42,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active"><#if isAdd??>添加角色<#else>编辑角色</#if></li>
+			<li class="active"><#if isAdd??>添加随工单<#else>编辑随工单</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div> 
 	
@@ -75,37 +75,27 @@ body{background:#fff;}
 						随工单编号:
 					</th>
 					<td>
-						<input type="text" name="role.name" class="formText {required: true, remote: 'role!checkName.action?oldValue=${(role.name?url)!}', messages: {remote: '角色名称已存在!'}}" value="${(role.name)!}" />
+						<input type="text" name="WorkingBill.workingBillCode" class="formText {required: true}" value="${(WorkingBill.workingBillCode)!}" />
 						<label class="requireField">*</label>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						角色标识:
+						生产日期:
 					</th>
 					<td>
-						<input type="text" name="role.value" class="formText {required: true, minlength: 6, prefix: 'ROLE_', remote: 'role!checkValue.action?oldValue=${(role.value?url)!}', messages: {remote: '角色标识已存在!'}}" value="${(role.value)!'ROLE_'}" title="角色标识长度不能小于6,且必须以ROLE_开头" />
+						<input type="text" name="WorkingBill.productDate" class="formText {required: true}" value="${(WorkingBill.productDate)!}"/>
 						<label class="requireField">*</label>
 					</td>
 				</tr>
 				<tr>
 					<th>
-						描述:
+						计划数量
 					</th>
 					<td>
-						<input type="text" name="role.description" class="formText" value="${(role.description)!}" />
+						<input type="text" name="WorkingBill.planCount" class="formText{required: true}" value="${(WorkingBill.planCount)!}" />
 					</td>
 				</tr>
-				<#if (role.isSystem)!false>
-					<tr>
-						<th>
-							&nbsp;
-						</th>
-						<td>
-							<span class="warnInfo"><span class="icon">&nbsp;</span>系统提示：</b>系统内置角色不允许修改!</span>
-						</td>
-					</tr>
-				</#if>
 			</table>
 			<table id="tabs-2" class="inputTable tabContent">
 				<tr>

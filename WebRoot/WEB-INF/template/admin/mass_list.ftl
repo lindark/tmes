@@ -38,7 +38,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">质量问题列表&nbsp;<span class="pageInfo">总记录数: ${pager.totalCount}(共${pager.pageCount}页)</span></li>
+			<li class="active">质量问题列表&nbsp;<span class="pageInfo"></span></li>
 		</ul>
 	</div>	
 	

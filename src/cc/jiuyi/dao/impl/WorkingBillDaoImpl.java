@@ -50,8 +50,8 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 
 	@Override
 	public void updateWorkingBill(WorkingBill workingbill) {
-		String hql="update WorkingBill set productDate = ? ,planCount = ? where workingBillCode = ?";
-		getSession().createQuery(hql).setParameter(0, workingbill.getProductDate()).setParameter(1, workingbill.getPlanCount()).setParameter(2, workingbill.getWorkingBillCode()).executeUpdate();
+		String hql="update WorkingBill set productDate = ? ,planCount = ?,matnr=?,maktx=? where workingBillCode = ?";
+		getSession().createQuery(hql).setParameter(0, workingbill.getProductDate()).setParameter(1, workingbill.getPlanCount()).setParameter(2, workingbill.getMatnr()).setParameter(3, workingbill.getMaktx()).setParameter(4, workingbill.getWorkingBillCode()).executeUpdate();
 	}
 
 	@Override
@@ -63,6 +63,13 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 		}
 		
 		
+	}
+
+	@Override
+	public List getListWorkingBillByDate(String productdate) {
+		String hql = "from WorkingBill where productDate = ?";
+		List list = getSession().createQuery(hql).setParameter(0, productdate).list();
+		return list;
 	}
 	
 	

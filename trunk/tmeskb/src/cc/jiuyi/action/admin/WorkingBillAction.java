@@ -63,7 +63,6 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	// 编辑
 	public String edit() {
-		//dict = dictService.load(id);
 		return INPUT;
 	}
 
@@ -125,7 +124,12 @@ public class WorkingBillAction extends BaseAdminAction {
 	//同步
 	public String sync() {
 		Repairorder r = new Repairorder();
-		r.syncRepairorder(workingbillService);//同步
+		try {
+			r.syncRepairorder(workingbillService);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}//同步
 		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}

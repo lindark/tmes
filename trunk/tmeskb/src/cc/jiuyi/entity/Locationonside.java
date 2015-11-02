@@ -16,6 +16,7 @@ public class Locationonside extends BaseEntity {
 
 	private String locationCode;// 线边仓编码
 	private String locationName;// 线边仓名称
+	private String isDel;//是否删除
 
 	public String getLocationCode() {
 		return locationCode;
@@ -31,6 +32,17 @@ public class Locationonside extends BaseEntity {
 
 	public void setLocationName(String locationName) {
 		this.locationName = locationName;
+	}
+
+	public String getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(String isDel) {
+		if(isDel == null){
+			isDel = "N";
+		}
+		this.isDel = isDel;
 	}
 
 }

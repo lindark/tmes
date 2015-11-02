@@ -63,9 +63,10 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '单据编号','发货日期', '确认人','状态'],
+		colNames:[ 'ID','单据编号','发货日期', '确认人','状态'],
 		colModel:[
 			
+	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'voucherId',index:'voucherId', width:200},
 			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
 			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
@@ -97,7 +98,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "dump!delete.action",//用它做标准删除动作
 		caption: "转储记录"
 
 		//,autowidth: true,
@@ -152,10 +153,10 @@ jQuery(function($) {
 				window.location.href="dump!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="dump!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

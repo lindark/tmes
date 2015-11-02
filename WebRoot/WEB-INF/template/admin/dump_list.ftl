@@ -48,6 +48,14 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								<form class="form-horizontal" id="searchform" action="dump!ajlist.action" role="form">
+									<table class="table table-striped table-bordered table-hover">
+										<tr>
+											<td class="col-sm-1 col-md-offset-1">当前线边仓:</td>
+											<td class="col-sm-11 col-md-offset-11">
+												10001   成型NC导槽线边仓
+											</td>
+										</tr>
+									</table>
 								   <div class="operateBar">
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单据编号:</label>

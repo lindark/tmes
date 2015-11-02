@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -25,9 +27,13 @@ public class LocationonsideServiceImpl extends
 	public void setBaseDao(LocationonsideDao locationonsideDao) {
 		super.setBaseDao(locationonsideDao);
 	}
-	
-	public Pager getLocationPager(Pager pager){
-		return locationonsideDao.getLocationPager(pager);
+
+	public Pager getLocationPager(Pager pager,HashMap<String,String> map){
+		return locationonsideDao.getLocationPager(pager,map);
+	}
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		locationonsideDao.updateisdel(ids, oper);
 	}
 
 }

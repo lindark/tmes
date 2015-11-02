@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
@@ -21,6 +22,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.AccountExpiredException;
@@ -115,7 +117,13 @@ public class AdminAction extends BaseAdminAction {
 			throw new ExceptionInInitializerError();
 		}
 		*/
-		return "login";
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		boolean isMoblie = ThinkWayUtil.JudgeIsMoblie(request);//判断是否moblie
+		if(isMoblie)
+			return "loginapp";
+		else
+			return "login";
 	}
 	
 	// 后台主页面

@@ -68,8 +68,8 @@ jQuery(function($) {
 			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'processName',index:'ProcessName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'state',index:'state', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'processName',index:'processName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
 
@@ -95,7 +95,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "process!delete.adction",//用它做标准删除动作
 		caption: "工序管理"
 
 		//,autowidth: true,

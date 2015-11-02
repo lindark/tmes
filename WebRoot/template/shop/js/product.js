@@ -1,5 +1,3 @@
-
-
 $().ready( function() {
 
 	$productListForm = $("#productListForm");

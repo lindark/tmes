@@ -92,48 +92,22 @@ body{background:#fff;}
 					<th>
 						状态:
 					</th>
-					<td>
-							<input type="text" name="process.state" value="${(process.state)!}" class="formText {required: true, minlength: 1, maxlength: 100}" />
-							<label class="requireField">*</label>
-						
+				<td>
+					<label class="pull-left inline">
+					    <small class="muted smaller-90">已启用:</small>
+						<input type="radio" class="ace" name="process.state" value="1"<#if (process.state == '1')!> checked</#if> />
+						<span class="lbl middle"></span>
+						&nbsp;&nbsp;
+					</label>
+							
+					<label class="pull-left inline">
+
+					    <small class="muted smaller-90">未启用:</small>
+						<input type="radio" class="ace" name="process.state" value="2"<#if (isAdd || process.state == '2')!> checked</#if>  />
+						<span class="lbl middle"></span>
+					</label>						
 					</td>
-				</tr>
-				<tr>
-					<th>
-						是否删除:
-					</th>
-					<td>
-							<input type="text" name="process.isDel" value="${(process.isDel)!}" class="formText {required: true, minlength: 1, maxlength: 100}" />
-							<label class="requireField">*</label>
-						
-					</td>
-				</tr>		
-				<tr>
-					<th>
-						&nbsp;
-					</th>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<#if isEdit>
-					<tr>
-						<th>
-							注册日间
-						</th>
-						<td>
-							${(process.createDate?string("yyyy-MM-dd HH:mm:ss"))!}
-						</td>
-					</tr>
-					<tr>
-						<th>
-							注册IP
-						</th>
-						<td>
-							${(process.registerIp)!}
-						</td>
-					</tr>
-				</#if>
+				</tr>	
 				<#list enabledprocessAttributeList as list>
 					<tr>
 						<th>

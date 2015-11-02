@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Team;
 
 /**
- * Service接口 - 工序管理
+ * Service接口 - 班组管理
  */
 
-public interface ProcessService extends BaseService<Process, String> {
+public interface TeamService extends BaseService<Team, String> {
 
 	/**
-	 * 取出所有Process对象
+	 * 取出所有Team对象
 	 * 
 	 * @return
 	 */
-	public List<Process> getProcessList();
+	public List<Team> getTeamList();
 
-	public Pager getProcessPager(Pager pager, HashMap<String, String> map);
+	public Pager getTeamPager(Pager pager, HashMap<String, String> map);
 	
 	/**
 	 * 标记删除

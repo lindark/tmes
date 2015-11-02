@@ -792,7 +792,7 @@
 					
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="enteringwareHouse!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							入库
 							<b class="arrow fa"></b>
@@ -1040,9 +1040,9 @@
 					</li>
 					
 					<li class="">
-						<a href="classes!list.action" >
+						<a href="team!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							班组及班次同步管理
+							班组管理
 							<b class="arrow fa"></b>
 						</a>
 

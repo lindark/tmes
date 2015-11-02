@@ -17,32 +17,33 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 
 /**
- * 后台Action类-工序管理
+ * 后台Action类-班组管理
  */
 
 @ParentPackage("admin")
-public class ProcessAction extends BaseAdminAction {
+public class TeamAction extends BaseAdminAction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -433964280757192334L;
 
-	private Process process;
+	private Team team;
 	//获取所有状态
 	private List<Dict> allState;
 	
 	@Resource
-	private ProcessService processService;
+	private TeamService teamService;
 	@Resource
 	private DictService dictService;
 	
@@ -88,14 +89,14 @@ public class ProcessAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("processCode") != null) {
+			if (obj.get("teamCode") != null) {
 				System.out.println("obj=" + obj);
-				String processCode = obj.getString("processCode").toString();
-				map.put("processCode", processCode);
+				String teamCode = obj.getString("teamCode").toString();
+				map.put("teamCode", teamCode);
 			}
-			if (obj.get("processName") != null) {
-				String processName = obj.getString("processName").toString();
-				map.put("processName", processName);
+			if (obj.get("teamName") != null) {
+				String teamName = obj.getString("teamName").toString();
+				map.put("teamName", teamName);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
@@ -109,15 +110,20 @@ public class ProcessAction extends BaseAdminAction {
 			}
 		}
 
-			pager = processService.getProcessPager(pager, map);
-			List<Process> processList = pager.getList();
-			List<Process> lst = new ArrayList<Process>();
-			for (int i = 0; i < processList.size(); i++) {
-				Process process = (Process) processList.get(i);
-				process.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "processState", process.getState()));
-				lst.add(process);
+			pager = teamService.getTeamPager(pager, map);
+			List<Team> teamList = pager.getList();
+			List<Team> lst = new ArrayList<Team>();
+			try{
+				for (int i = 0; i < teamList.size(); i++) {
+					Team team = (Team) teamList.get(i);
+					team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "teamState", team.getState()));
+					lst.add(team);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
+			
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		System.out.println(jsonArray.get(0).toString());
@@ -129,28 +135,28 @@ public class ProcessAction extends BaseAdminAction {
 	//删除
 	public String delete(){
 		ids=id.split(",");
-		processService.updateisdel(ids, "Y");
+		teamService.updateisdel(ids, "Y");
 //		for (String id:ids){
 //			Process process=processService.load(id);
 //		}
-		redirectionUrl = "process!list.action";
+		redirectionUrl = "team!list.action";
 		return SUCCESS;
 	}
 
 	
 	//编辑
 		public String edit(){
-			process= processService.load(id);
+			team= teamService.load(id);
 			return INPUT;	
 		}
 		
 	//更新
 		@InputConfig(resultName = "error")
 		public String update() {
-			Process persistent = processService.load(id);
-			BeanUtils.copyProperties(process, persistent, new String[] { "id","createDate", "modifyDate"});
-			processService.update(persistent);
-			redirectionUrl = "process!list.action";
+			Team persistent = teamService.load(id);
+			BeanUtils.copyProperties(team, persistent, new String[] { "id","createDate", "modifyDate"});
+			teamService.update(persistent);
+			redirectionUrl = "team!list.action";
 			return SUCCESS;
 		}
 		
@@ -162,30 +168,28 @@ public class ProcessAction extends BaseAdminAction {
 //			  }
 //			)
 	public String save()throws Exception{
-		processService.save(process);
-		redirectionUrl="process!list.action";
+		teamService.save(team);
+		redirectionUrl="team!list.action";
 		return SUCCESS;	
 	}
 		
-
-
-	public Process getProcess() {
-		return process;
+	public Team getTeam() {
+		return team;
 	}
 
 
-	public void setProcess(Process process) {
-		this.process = process;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 
-	public ProcessService getProcessService() {
-		return processService;
+	public TeamService getTeamService() {
+		return teamService;
 	}
 
 
-	public void setProcessService(ProcessService processService) {
-		this.processService = processService;
+	public void setTeamService(TeamService teamService) {
+		this.teamService = teamService;
 	}
 
 

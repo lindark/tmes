@@ -24,17 +24,12 @@ public class EnteringwareHouse extends BaseEntity {
 	
 	private static final long serialVersionUID = -3066164332463929036L;
 	private Integer totalSingleAmout;//累计根量
-	private Integer totalCaseAmount;//累计箱数
+	private Integer storageAmout;//入库数量
 	//private String ConfirmUser;//确认人 ？？
+	private Date storageDate;//入库时间
 	private String State;//状态
 	private String isdel;//是否删除
 	
-	public Integer getTotalCaseAmount() {
-		return totalCaseAmount;
-	}
-	public void setTotalCaseAmount(Integer totalCaseAmount) {
-		this.totalCaseAmount = totalCaseAmount;
-	}
 	public String getState() {
 		return State;
 	}
@@ -47,6 +42,21 @@ public class EnteringwareHouse extends BaseEntity {
 	public void setTotalSingleAmout(Integer totalSingleAmout) {
 		this.totalSingleAmout = totalSingleAmout;
 	}
+	
+	
+	public Date getStorageDate() {
+		return storageDate;
+	}
+	public void setStorageDate(Date storageDate) {
+		this.storageDate = storageDate;
+	}
+	public Integer getStorageAmout() {
+		return storageAmout;
+	}
+	public void setStorageAmout(Integer storageAmout) {
+		this.storageAmout = storageAmout;
+	}
+	
 	public String getIsdel() {
 		return isdel;
 	}

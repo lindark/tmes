@@ -66,8 +66,8 @@ jQuery(function($) {
 		colNames:[ '线边仓编码','线边仓名称'],
 		colModel:[
 			
-			{name:'locationCode',index:'locationCode', width:200},
-			{name:'locationName',index:'locationName',width:200},
+			{name:'locationCode',index:'locationCode', width:300},
+			{name:'locationName',index:'locationName',width:300},
 		], 
 		
 		viewrecords : true,

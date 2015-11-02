@@ -63,49 +63,39 @@ body{background:#fff;}
 				<li>
 					<a href="#tabs-1">基本信息</a>
 				</li>
-				<li>
-					<a href="#tabs-2">分配资源</a>
-				</li>
 				
 			</ul>
 			
-			<table id="tabs-1" class="inputTable tabContent">
-				<tr>
-					<th>
-						随工单编号:
-					</th>
-					<td>
-						<input type="text" name="WorkingBill.workingBillCode" class="formText {required: true}" value="${(WorkingBill.workingBillCode)!}" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						生产日期:
-					</th>
-					<td>
-						<input type="text" name="WorkingBill.productDate" class="formText {required: true}" value="${(WorkingBill.productDate)!}"/>
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						计划数量
-					</th>
-					<td>
-						<input type="text" name="WorkingBill.planCount" class="formText{required: true}" value="${(WorkingBill.planCount)!}" />
-					</td>
-				</tr>
-			</table>
-			<table id="tabs-2" class="inputTable tabContent">
-				<tr>
-					<td colspan="2">
-						<#list allResource as list>
-							<div style="width: 30%; float: left;"><label><input type="checkbox" name="resourceIds" value="${list.id}" <#if (role.resourceSet.contains(list) == true)!> checked="checked"</#if> />${(list.name)!}</label></div>
-						</#list>
-					</td>
-				</tr>
-			</table>
+			<div id="tabs-1">
+			
+				<!--weitao begin modify-->
+						<div class="profile-user-info profile-user-info-striped">
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 随工单号 </div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="member.userdesp1" value="" class=" input input-sm  formText {required: true}" />
+										</div>
+										<div class="profile-info-name"> 随工单号 </div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="member.userdesp1" value="" class=" input input-sm  formText {required: true}" />
+										</div>
+										
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 随工单号 </div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="member.userdesp3" value="" class=" input input-sm  formText {required: true}" />
+										</div>
+										
+									</div>
+							
+						</div>
+				<!--weitao end modify-->	
+				
+			
 			</div>
 			<div class="buttonArea">
 				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;

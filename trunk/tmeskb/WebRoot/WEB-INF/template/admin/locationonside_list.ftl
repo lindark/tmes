@@ -64,6 +64,10 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											<a id="searchButton" href="dump!sync.action" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												SAP同步
+											</a>
 										</div>
 										
 									</div>

@@ -457,8 +457,9 @@ label.validateError {
 	_padding: 7px;
 	margin-left: 5px;
 	zoom: 1;
-	border: 1px solid #ffca88;
-	background-color: #fffeee;
+	color:red;
+	font-size:12px;
+	border: 0px solid #ffca88;
 }
 
 input.formText {

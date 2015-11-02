@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -17,24 +18,30 @@ import cc.jiuyi.entity.Locationonside;
 @Repository
 public class LocationonsideDaoImpl extends BaseDaoImpl<Locationonside, String>
 		implements LocationonsideDao {
-	public Pager getLocationPager(Pager pager) {
-		String wheresql = locationpagerSql(pager);
+	public Pager getLocationPager(Pager pager,HashMap<String,String> map) {
+		String wheresql = dumppagerSql(pager);
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Locationonside.class);
 		if (!wheresql.equals("")) {
-			DetachedCriteria detachedCriteria = DetachedCriteria
-					.forClass(Locationonside.class);
-			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-			return super.findByPager(pager, detachedCriteria);
-		} else {
-			return super.findByPager(pager);
 		}
+		if(map.size()>0){
+			if(map.get("locationCode")!=null){
+				detachedCriteria.add(Restrictions.like("locationCode", "%"+map.get("locationCode")+"%"));								
+			}
+			if(map.get("locationName")!=null){
+				detachedCriteria.add(Restrictions.like("locationName", "%"+map.get("locationName")+"%"));								
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
 
 	}
 
-	public String locationpagerSql(Pager pager) {
+	public String dumppagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
-		if (pager.is_search() == true) {
+		if (pager.is_search() == true && pager.getRules() != null) {
 			List list = pager.getRules();
 			for (int i = 0; i < list.size(); i++) {
 				if (ishead == 1) {
@@ -48,7 +55,15 @@ public class LocationonsideDaoImpl extends BaseDaoImpl<Locationonside, String>
 			}
 
 		}
-		System.out.println("wheresql:" + wheresql);
 		return wheresql;
+	}
+	@Override
+	public void updateisdel(String[] ids,String oper) {
+		for(String id : ids){
+			Locationonside locationonside = super.load(id);
+			locationonside.setIsDel(oper);//标记删除
+			super.update(locationonside);
+		}
+		
 	}
 }

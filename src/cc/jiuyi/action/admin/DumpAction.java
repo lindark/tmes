@@ -69,7 +69,7 @@ public class DumpAction extends BaseAdminAction {
 		ids = id.split(",");
 		dumpService.updateisdel(ids, "Y");
 		redirectionUrl = "dump!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
 	/**

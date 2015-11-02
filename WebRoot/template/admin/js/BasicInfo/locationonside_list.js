@@ -92,7 +92,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "#",//nothing is saved
+		editurl: "locationonside!delete.action",//用它做标准删除动作
 		caption: "线边仓管理"
 
 		//,autowidth: true,
@@ -147,10 +147,10 @@ jQuery(function($) {
 				window.location.href="locationonside!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="locationonside!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

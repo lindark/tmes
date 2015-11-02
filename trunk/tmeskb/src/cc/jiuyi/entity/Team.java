@@ -7,36 +7,35 @@ import javax.persistence.Transient;
 import org.compass.annotations.Searchable;
 
 /**
- * 实体类 - 工序
+ * 实体类 - 班组
  * @param args
  */
 
 
 @Entity
 @Searchable
-@Table(name = "Process")
-public class Process extends BaseEntity{
+@Table(name = "Team")
+public class Team extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 
-    private String processCode;//工序编码
-    private String processName;//工序名称
+    private String teamCode;//班组编码
+    private String teamName;//班组名称
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
-    
-	public String getProcessCode() {
-		return processCode;
+	public String getTeamCode() {
+		return teamCode;
 	}
-	public void setProcessCode(String processCode) {
-		this.processCode = processCode;
+	public void setTeamCode(String teamCode) {
+		this.teamCode = teamCode;
 	}
-	public String getProcessName() {
-		return processName;
+	public String getTeamName() {
+		return teamName;
 	}
-	public void setProcessName(String processName) {
-		this.processName = processName;
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 	public String getState() {
 		return state;

@@ -28,20 +28,11 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		if (!wheresql.equals("")) {
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
+
 		if(map.size()>0){
 			if(map.get("voucherId")!=null){
 				detachedCriteria.add(Restrictions.like("voucherId", "%"+map.get("voucherId")+"%"));								
 			}
-			/*if(map.get("deliveryDate")!=null){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date now = new Date();
-				try {
-					Date start = sdf.parse(map.get("deliveryDate"));
-					detachedCriteria.add(Restrictions.between("deliveryDate",start,now));								
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}*/
 			if(map.get("start")!=null || map.get("end")!=null){//生产日期范围
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				try {
@@ -58,6 +49,7 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));								
 			}
+			
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

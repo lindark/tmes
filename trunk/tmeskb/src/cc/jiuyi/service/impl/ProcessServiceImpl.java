@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -51,8 +52,17 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 	}
 
 	@Override
-	public Pager getProcessPager(Pager pager) {
-		return processDao.getProcessPager(pager);
+	public Pager getProcessPager(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return processDao.getProcessPager(pager, map);
 	}
+
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		// TODO Auto-generated method stub
+		processDao.updateisdel(ids, oper);
 		
+	}
+
+	
 }

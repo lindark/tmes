@@ -46,14 +46,15 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"dict!ajlist.action",
+		url:"team!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -61,17 +62,15 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
-	    	
 	    },
-		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
+		colNames:[ 'ID','创建日期','工序编码','工序名称','状态', ],
 		colModel:[
-			
-			{name:'id',index:'id', label:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'name',index:'name', editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'stock', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'teamCode',index:'teamCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'teamName',index:'teamName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			 
 		], 
 
 		viewrecords : true,
@@ -96,8 +95,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "#",//nothing is saved
-		caption: "jqGrid with inline editing"
+		editurl: "team!delete.adction",//用它做标准删除动作
+		caption: "班组管理"
 
 		//,autowidth: true,
 //		,
@@ -113,19 +112,48 @@ jQuery(function($) {
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-/*****jqgrid end****/	
 	
+	
+
+	//enable search/filter toolbar
+	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+	//jQuery(grid_selector).filterToolbar({});
+
+
+	//switch element when editing inline
+	function aceSwitch( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=checkbox]')
+				.addClass('ace ace-switch ace-switch-5')
+				.after('<span class="lbl"></span>');
+		}, 0);
+	}
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=text]')
+					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+		}, 0);
+	}
+
+
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		    editfunc:function(rowId){
+			    window.location.href="team!edit.action?id="+rowId;
+		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(rowId){
-				window.location.href="dict!add.action";
+			addfunc:function(){
+				window.location.href="team!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			//del: true,
+			delfunc:function(rowId){
+				window.location.href="team!delete.action?id="+rowId;
+			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -187,10 +215,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			
-			multipleGroup:false,
+			/**
+			multipleGroup:true,
 			showQuery: true
-			
+			*/
 		},
 		{
 			//view record form

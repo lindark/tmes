@@ -52,11 +52,11 @@
 		<smtpPort>25</smtpPort>  
 		<smtpUsername>webmaster</smtpUsername>  
 		<smtpPassword>test</smtpPassword>  
-		<sapHost>192.168.0.50</sapHost>  
-		<sapClient>800</sapClient>  
-		<sapSysnr>10</sapSysnr>  
-		<sapUser>t011</sapUser>  
-		<sapPasswd>112233</sapPasswd>  
+		<sapHost>192.168.29.85</sapHost>  
+		<sapClient>600</sapClient>  
+		<sapSysnr>00</sapSysnr>  
+		<sapUser>abap1</sapUser>  
+		<sapPasswd>123456</sapPasswd>  
 		<sapLang>zh</sapLang>  
 		<sapCodePage>8400</sapCodePage> 
 		<pointType>orderAmount</pointType>  

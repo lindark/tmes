@@ -6,7 +6,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Dump;
 
 /**
- * Service接口 - 管理员
+ * Service接口
  * 转储管理
  */
 public interface DumpService extends BaseService<Dump, String>{

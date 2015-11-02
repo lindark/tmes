@@ -8,7 +8,7 @@
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/admin/js/manage/storage_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/workingbill_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -99,7 +99,7 @@
 														<div class="profile-info-name"> 随工单号 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">${workingbill.workingBillCode}</span>
+															<span class="editable editable-click" id="username">alexdoe</span>
 														</div>
 													</div>
 	
@@ -107,10 +107,9 @@
 														<div class="profile-info-name"> 产品编号 </div>
 	
 														<div class="profile-info-value">
-															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
-															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+															<i class="fa fa-map-marker light-orange bigger-110"></i>
+															<span class="editable editable-click" id="country">Netherlands</span>
+															<span class="editable editable-click" id="city">Amsterdam</span>
 														</div>
 													</div>
 	
@@ -118,7 +117,7 @@
 														<div class="profile-info-name"> 产品名称 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+															<span class="editable editable-click" id="age">38</span>
 														</div>
 													</div>
 	
@@ -137,7 +136,6 @@
 										<!-- /section:custom/widget-box -->
 									</div>
 							
-								
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">	
 									<div class="col-xs-12">					

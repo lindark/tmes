@@ -328,7 +328,7 @@
 															<#list workingbillList as list>
 																<tr>
 																	<td>
-																		<input type="checkbox" class="ckbox" name="WorkingBill.workingBillCode" value="${list.workingBillCode}">&nbsp;${list.maktx}
+																		<input type="checkbox" class="ckbox" name="WorkingBill.workingBillCode" value="${list.id}">&nbsp;${list.maktx}
 																	</td>
 	
 																	<td>

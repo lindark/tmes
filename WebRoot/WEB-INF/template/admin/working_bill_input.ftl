@@ -89,7 +89,11 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<input type="text" name="member.userdesp3" value="" class=" input input-sm  formText {required: true}" />
 										</div>
-										
+										<div class="profile-info-name"> 随工单号 </div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="member.userdesp3" value="" class=" input input-sm  formText {required: true}" />
+										</div>
 									</div>
 							
 						</div>

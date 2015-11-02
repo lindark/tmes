@@ -1,194 +1,126 @@
-<#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
+
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>管理登录 - Powered By ${systemConfig.systemName}</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<#include "/WEB-INF/template/common/include_adm_top.ftl">
-
+<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/jquery-ui.css"/>
+<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/base.css"/>
+<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/register.css"/>
+<script type="text/javascript">
+    pageContextPath = '';
+    resJsPath = '/js';
+    resCssPath = '/css';
+    resImgPath = '/img';
+    NO_PERMISSION_ERROR = "401";
+    DATA_VALIDATE_ERROR = "402";
+    SYSTEM_ERROR = "501";
+</script>
 </head>
-<body class="login-layout">
+<body>
+<div class="wrapper" >
+	<!--left img-->
+	<div class="left_img"></div>
+	<!--right content -->
+	<div class="right_content" id="div_main">
+		<!--main-->
+		<div class="main">
+			<div class="register">
+				<div class="logo"></div>
+				<div id="loginDiv">
+					<h1>登录</h1>
+					<label class="error_info" style="display: none;margin: 0px;"></label>
+					<form action="${base}/admin/loginVerify" method="post" name="login_form" id="login_form">
+						<ul class="register_form">
+							<li class="clear">
+								<input class="input_code" tabindex="1" id="username"  name="j_username" placeholder="请输入手机号/邮箱"/>
+							</li>
+							<li class="clear">
+								<input id="password" type="password" class="input_code" tabindex="2"
+								name="j_password" placeholder="请输入登录密码"/>
+							</li>
+						</ul>
 
-<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="login-container">
-							<div class="center">
-								<h1>
-									<i class="ace-icon fa fa-leaf green"></i>
-									<span class="red">${systemConfig.systemDescription}</span>
-									<span class="white" id="id-text2">${systemConfig.systemVersion}</span>
-								</h1>
-								<h4 class="blue" id="id-company-text">&copy; ${systemConfig.systemName}</h4>
-							</div>
-
-							<div class="space-6"></div>
-
-							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
-												请输入您的登录信息
-											</h4>
-
-											<div class="space-6"></div>
-
-											<form id="loginForm" class="form" action="${base}/admin/loginVerify" method="post">
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="text" id="username" name="j_username" class="form-control" placeholder="会员编号" />
-															<i class="ace-icon fa fa-user"></i>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="password" id="password" name="j_password" class="form-control" placeholder="密码" />
-															<i class="ace-icon fa fa-lock"></i>
-														</span>
-													</label>
-													
-													<div class="space"></div>
-
-													<div class="clearfix">
-														<label class="inline">
-															<input type="text" id="captcha" name="j_captcha" class="form-control" placeholder="验证码" />
-														</label>
-														<div class="width-35 pull-right">
-														<img id="captchaImage" src="${base}/captcha.jpg" alt="换一张" />
-														</div>
-													</div>
-													
-													
-
-													<div class="space"></div>
-
-													<div class="clearfix">
-														<label class="inline">
-															<input type="checkbox" id="isSaveUsername" class="ace" />
-															<span class="lbl"> 记住登陆信息</span>
-														</label>
-
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
-														</button>
-													</div>
-
-													<div class="space-4"></div>
-												</fieldset>
-											</form>
-
-											
-										</div><!-- /.widget-main -->
-
-										<div class="toolbar clearfix">
-											<div>
-												<a href="${base}/" class="forgot-password-link">
-													<i class="ace-icon fa fa-arrow-left"></i>
-													返回首页
-												</a>
-											</div>
-
-											
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.login-box -->
-
-								
-							</div><!-- /.position-relative -->
-
-							<div class="navbar-fixed-top align-right">
-								<br />
-								&nbsp;
-								<a id="btn-login-dark" href="#">Dark</a>
-								&nbsp;
-								<span class="blue">/</span>
-								&nbsp;
-								<a id="btn-login-blur" href="#">Blur</a>
-								&nbsp;
-								<span class="blue">/</span>
-								&nbsp;
-								<a id="btn-login-light" href="#">Light</a>
-								&nbsp; &nbsp; &nbsp;
-							</div>
-						</div>
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div><!-- /.main-content -->
-		</div><!-- /.main-container -->
-		
-		
-	
-	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
-	<script type="text/javascript">
+						<ul class="verification_form register_form" style=" margin-top:0; padding-top:0; border-top:0;">
+							<li  class="clear">
+								<div class="sucess_info">
+									<input class="input_code" type="text" maxlength="4" checkType="verify" id="captcha" name="j_captcha" placeholder="请输入四位识别码"/>
+									<input type="hidden" name="sessionID" class="input_sessionId"/>
+								</div>
+								<span class="verification_img">
+									<div style="text-align:left;"> <img id="captchaImage" style="width:95px;height:45px;" src="${base}/captcha.jpg" alt="换一张"/></div>
+								</span>
+								<span class="dimness">看不清</span>
+								<a href="javascript:;" class="change" id="change">换一张</a>
+							</li>
+						</ul>
+					</form>
+					<div class="register_submit clear">
+						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>
+						<a href="javascript:;" title="登录" class="button_blue button_disable button_waiting" style="display: none">登录中<span></span></a>
+						<!--
+						<span class="register_login">
+							<a href="/global/register.action" title="免费注册">免费注册</a>
+							<span style="margin:0 15px;">|</span>
+							<a href="/global/password-forget.action" title="忘记密码？">忘记密码？</a>
+						</span>
+						-->
+					</div>
+					<!--
+					<div class="mobile_download">
+						<span>手机版客户端：</span>
+						<span><a class="ios_download" onclick="iOSDownload();" href="javascript:;">苹果版客户端下载</a></span>
+						<span><a class="android_download" onclick="androidDownload();" href="javascript:;">安卓版客户端下载</a></span>
+					</div>
+					-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--right content end -->
+</div>
+<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='${base}/template/admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
-
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			jQuery(function($) {
-			 $(document).on('click', '.toolbar a[data-target]', function(e) {
-				e.preventDefault();
-				var target = $(this).data('target');
-				$('.widget-box.visible').removeClass('visible');//hide others
-				$(target).addClass('visible');//show target
-			 });
-			});
-			
-			
-			
-			//you don't need this, just used for changing background
-			jQuery(function($) {
-			 $('#btn-login-dark').on('click', function(e) {
-				$('body').attr('class', 'login-layout');
-				$('#id-text2').attr('class', 'white');
-				$('#id-company-text').attr('class', 'blue');
-				
-				e.preventDefault();
-			 });
-			 $('#btn-login-light').on('click', function(e) {
-				$('body').attr('class', 'login-layout light-login');
-				$('#id-text2').attr('class', 'grey');
-				$('#id-company-text').attr('class', 'blue');
-				
-				e.preventDefault();
-			 });
-			 $('#btn-login-blur').on('click', function(e) {
-				$('body').attr('class', 'login-layout blur-login');
-				$('#id-text2').attr('class', 'white');
-				$('#id-company-text').attr('class', 'light-blue');
-				
-				e.preventDefault();
-			 });
-			  $('#btn-login-light').trigger('click');
-			});
-		</script>
-		
-		
-<script type="text/javascript">
+<script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/core/platform.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/core/jquery.js"></script>
+<script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/core/jquery-ui.js"></script>
+<script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/core/jquery-migrate.js"></script>
+<script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/core/jquery.placeholder.js"></script>
+<script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/common/jquery.jmpopups-0.5.1.rk.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/common/jquery.form-3.45.min.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/page/login/login.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js//common/jquery.watermark.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js//common/jquery.json-2.2.js">
+</script><script type="text/javascript">
 
 // 登录页面若在框架内，则跳出框架
 if (self != top) {
 	top.location = self.location;
 };
 
-jQuery(function() {
+$(function(){
+	var $change = $("#change"); //获取图片的jquery对象
 	var $username = $("#username");
 	var $password = $("#password");
 	var $captcha = $("#captcha");
-	var $captchaImage = $("#captchaImage");
 	var $isSaveUsername = $("#isSaveUsername");
-   
-	// 判断"记住会员编号"功能是否默认选中,并自动填充登录会员编号
+	
+	
+	
+	document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+                      
+             if(e && e.keyCode==13){ // enter 键
+                 //要做的事情
+                 $("#btn_login").trigger("click");
+            }
+        }; 
+	
+	
+	/*
+	// 判断"记住客户编号"功能是否默认选中,并自动填充登录客户编号
 	if(jQuery.cookie("adminUsername") != null) {
 		$isSaveUsername.attr("checked", true);
 		$username.val(jQuery.cookie("adminUsername"));
@@ -197,11 +129,12 @@ jQuery(function() {
 		$isSaveUsername.attr("checked", false);
 		$username.focus();
 	}
-
-	// 提交表单验证,记住登录会员编号
-	$("#loginForm").submit( function() {
+	*/
+	
+	
+	$("#btn_login").click(function(){
 		if ($username.val() == "") {
-			alert("请输入您的会员编号!");
+			alert("请输入您的客户编号!");
 			return false;
 		}
 		if ($password.val() == "") {
@@ -213,16 +146,24 @@ jQuery(function() {
 			return false;
 		}
 		
+		/*
 		if($isSaveUsername.attr("checked") == true) {
 			jQuery.cookie("adminUsername", $username.val(), {expires: 30});
 		} else {
 			jQuery.cookie("adminUsername", null);
 		}
+		*/
 		
+		$("#login_form").submit();
 	});
-
+	
+	
+	
+	
+	
 	// 刷新验证码
-	$captchaImage.click( function() {
+	$change.click( function() {
+		var $captchaImage = $("#captchaImage");
 		var timestamp = (new Date()).valueOf();
 		var imageSrc = $captchaImage.attr("src");
 		if(imageSrc.indexOf("?") >= 0) {
@@ -231,12 +172,12 @@ jQuery(function() {
 		imageSrc = imageSrc + "?timestamp=" + timestamp;
 		$captchaImage.attr("src", imageSrc);
 	});
+});
 
-	<#if (actionErrors?size > 0)>
+<#if (actionErrors?size > 0)>
 		alert("<#list errorMessages as list>${list}\n</#list>");
 	</#if>
 
-});
 </script>
 </body>
 </html>

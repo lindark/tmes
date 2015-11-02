@@ -17,6 +17,7 @@
 											<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
 										</select>
 									</div>
+									
 									<span>&nbsp; 修改皮肤</span>
 								</div>
 

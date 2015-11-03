@@ -17,9 +17,9 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Post;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.PostService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -34,19 +34,19 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
  */
 
 @ParentPackage("admin")
-public class ProcessAction extends BaseAdminAction {
+public class PostAction extends BaseAdminAction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -433964280757192334L;
 
-	private Process process;
+	private Post post;
 	//获取所有状态
 	private List<Dict> allState;
 	
 	@Resource
-	private ProcessService processService;
+	private PostService postService;
 	@Resource
 	private DictService dictService;
 	
@@ -63,11 +63,11 @@ public class ProcessAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<Process> processList = pager.getList();
-//		for (Process process1 : processList) {
-//			process1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"processState", process1.getState()));
+//		List<Post> postList = pager.getList();
+//		for (Post post1 : postList) {
+//			post1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"postState", post1.getState()));
 //		}
-		//dictService.getDictValueByDictKey("processState", process.getState());
+		//dictService.getDictValueByDictKey("postState", post.getState());
 		return LIST;
 	}
 	
@@ -97,14 +97,14 @@ public class ProcessAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("processCode") != null) {
+			if (obj.get("postCode") != null) {
 				System.out.println("obj=" + obj);
-				String processCode = obj.getString("processCode").toString();
-				map.put("processCode", processCode);
+				String postCode = obj.getString("postCode").toString();
+				map.put("postCode", postCode);
 			}
-			if (obj.get("processName") != null) {
-				String processName = obj.getString("processName").toString();
-				map.put("processName", processName);
+			if (obj.get("postName") != null) {
+				String postName = obj.getString("postName").toString();
+				map.put("postName", postName);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
@@ -118,14 +118,14 @@ public class ProcessAction extends BaseAdminAction {
 			}
 		}
 
-			pager = processService.getProcessPager(pager, map);
-			List<Process> processList = pager.getList();
-			List<Process> lst = new ArrayList<Process>();
-			for (int i = 0; i < processList.size(); i++) {
-				Process process = (Process) processList.get(i);
-				process.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "processState", process.getState()));
-				lst.add(process);
+			pager = postService.getPostPager(pager, map);
+			List<Post> postList = pager.getList();
+			List<Post> lst = new ArrayList<Post>();
+			for (int i = 0; i < postList.size(); i++) {
+				Post post = (Post) postList.get(i);
+				post.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "postState", post.getState()));
+				lst.add(post);
 			}
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
@@ -138,71 +138,71 @@ public class ProcessAction extends BaseAdminAction {
 	//删除
 	public String delete(){
 		ids=id.split(",");
-		processService.updateisdel(ids, "Y");
+		postService.updateisdel(ids, "Y");
 //		for (String id:ids){
-//			Process process=processService.load(id);
+//			Post post=postService.load(id);
 //		}
-		redirectionUrl = "process!list.action";
+		redirectionUrl = "post!list.action";
 		return SUCCESS;
 	}
 
 	
 	//编辑
 		public String edit(){
-			process= processService.load(id);
+			post= postService.load(id);
 			return INPUT;	
 		}
 		
 	//更新
 		@InputConfig(resultName = "error")
 		public String update() {
-			Process persistent = processService.load(id);
-			BeanUtils.copyProperties(process, persistent, new String[] { "id","createDate", "modifyDate"});
-			processService.update(persistent);
-			redirectionUrl = "process!list.action";
+			Post persistent = postService.load(id);
+			BeanUtils.copyProperties(post, persistent, new String[] { "id","createDate", "modifyDate"});
+			postService.update(persistent);
+			redirectionUrl = "post!list.action";
 			return SUCCESS;
 		}
 		
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "process.processCode", message = "工序编号不允许为空!"),
-					@RequiredStringValidator(fieldName = "process.processName", message = "工序名称不允许为空!")
+					@RequiredStringValidator(fieldName = "post.postCode", message = "岗位编号不允许为空!"),
+					@RequiredStringValidator(fieldName = "post.postName", message = "岗位名称不允许为空!")
 			  },
 			requiredFields = {
-					@RequiredFieldValidator(fieldName = "process.orderList", message = "排序不允许为空!")
+					@RequiredFieldValidator(fieldName = "post.orderList", message = "排序不允许为空!")
 						
 			}, 
 			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "process.orderList", min = "0", message = "排序必须为零或正整数!")
+					@IntRangeFieldValidator(fieldName = "post.orderList", min = "0", message = "排序必须为零或正整数!")
 				}
 			  
 	)
 	public String save()throws Exception{
-		processService.save(process);
-		redirectionUrl="process!list.action";
+		postService.save(post);
+		redirectionUrl="post!list.action";
 		return SUCCESS;	
 	}
 		
 
 
-	public Process getProcess() {
-		return process;
+	public Post getPost() {
+		return post;
 	}
 
 
-	public void setProcess(Process process) {
-		this.process = process;
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 
-	public ProcessService getProcessService() {
-		return processService;
+	public PostService getPostService() {
+		return postService;
 	}
 
 
-	public void setProcessService(ProcessService processService) {
-		this.processService = processService;
+	public void setPostService(PostService postService) {
+		this.postService = postService;
 	}
 
 

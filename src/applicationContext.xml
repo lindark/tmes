@@ -118,6 +118,10 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.WorkingBill</value>
 				<value>cc.jiuyi.entity.EnteringwareHouse</value>
 				<value>cc.jiuyi.entity.Team</value>
+				<value>cc.jiuyi.entity.Post</value>
+				<value>cc.jiuyi.entity.Factory</value>
+				<value>cc.jiuyi.entity.WorkShop</value>
+				<value>cc.jiuyi.entity.Callreason</value>
 			</list>
 		</property>
 	</bean>

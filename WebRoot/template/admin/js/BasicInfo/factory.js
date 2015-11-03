@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"team!ajlist.action",
+		url:"factory!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -57,20 +57,15 @@ jQuery(function($) {
 	          id:"id"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize",
-	    	page:"pager.pageNumber",
-	    	search:"pager._search",
-	    	sort:"pager.orderBy",
-	    	order:"pager.orderType"
+	    	rows:"pager.pageSize"
 	    },
-		colNames:[ 'ID','创建日期','班组编码','班组名称','状态', ],
-		colModel:[
-			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+		colNames:[ 'ID','创建日期','工厂编码','工厂名称','状态', ],
+		colModel:[		
+			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'teamCode',index:'teamCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'teamName',index:'teamName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'factoryCode',index:'factoryCode', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'factoryName',index:'factoryName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
-			 
 		], 
 
 		viewrecords : true,
@@ -95,8 +90,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "team!delete.adction",//用它做标准删除动作
-		caption: "班组管理"
+		editurl: "factory!delete.adction",//用它做标准删除动作
+		caption: "工厂管理"
 
 		//,autowidth: true,
 //		,
@@ -142,17 +137,17 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
-			    window.location.href="team!edit.action?id="+rowId;
+			    window.location.href="factory!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				window.location.href="team!add.action";
+				window.location.href="factory!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			//del: true,
 			delfunc:function(rowId){
-				window.location.href="team!delete.action?id="+rowId;
+				window.location.href="factory!delete.action?id="+rowId;
 			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,

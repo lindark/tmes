@@ -901,7 +901,7 @@
 								
 					
 					<li class="">
-						<a href="admin!list.action" >
+						<a href="workShop!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							车间管理
 							<b class="arrow fa"></b>

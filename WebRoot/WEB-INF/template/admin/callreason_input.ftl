@@ -76,17 +76,22 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<input type="text" name="callreason.callType" value="${(callreason.callType)!}" class=" input input-sm  formText {required: true}" />
 										</div>
+										
+									</div>
+									<div class="profile-info-row">
 										<div class="profile-info-name"> 呼叫原因 </div>
 					
 										<div class="profile-info-value">
 											<input type="text" name="callreason.callReason" value="${(callreason.callReason)!}" class=" input input-sm  formText {required: true}" />
 										</div>
+									</div>
+									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态 </div>
 					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 											    <small class="muted smaller-90">已确认:</small>
-												<input type="radio" class="ace" name="callreason.state" value="已确认"<#if (callreason.state == '已确认')!> checked</#if> />
+												<input type="radio" class="ace" name="dump.state" value="已确认"<#if (dump.state == '已确认')!> checked</#if> />
 												<span class="lbl middle"></span>
 												&nbsp;&nbsp;
 											</label>
@@ -94,11 +99,9 @@ body{background:#fff;}
 											<label class="pull-left inline">
 
 											    <small class="muted smaller-90">未确认:</small>
-												<input type="radio" class="ace" name="callreason.state" value="未确认"<#if (isAdd || callreason.state == '未确认')!> checked</#if>  />
+												<input type="radio" class="ace" name="dump.state" value="未确认"<#if (isAdd || dump.state == '未确认')!> checked</#if>  />
 												<span class="lbl middle"></span>
 											</label>
-										</div>
-										
 									</div>
 						</div>
 				<!--weitao end modify-->	

@@ -47,7 +47,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="workShop!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="work_shop!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">车间编码:</label>

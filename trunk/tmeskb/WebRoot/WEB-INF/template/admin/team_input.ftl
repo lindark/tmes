@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/编辑工序管理 - Powered By ${systemConfig.systemName}</title>
+<title>添加/编辑班组管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -53,7 +53,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active"><#if isAdd??>添加工序记录<#else>编辑工序记录</#if></li>
+			<li class="active"><#if isAdd??>添加班组记录<#else>编辑班组记录</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -66,7 +66,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>process!save.action<#else>process!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="<#if isAdd??>team!save.action<#else>team!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
@@ -81,34 +81,33 @@ body{background:#fff;}
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 工序编码 </div>					
+										<div class="profile-info-name"> 班组编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="process.processCode" value="${(process.processCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="team.teamCode" value="${(team.teamCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>	
-									
-									<div class="profile-info-row">	
+										
+										
 										<div class="profile-info-name"> 工序名称 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="process.processName" value="${(process.processName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="team.teamName" value="${(team.teamName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
 										
-									
+										
+									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="process.state" value="process.state"<#if (process.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="team.state" value="team.state"<#if (team.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="process.state" value="process.state"<#if (isAdd || process.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="team.state" value="team.state"<#if (isAdd || team.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
@@ -122,68 +121,68 @@ body{background:#fff;}
 						</th>
 						<td>
 							<#if list.attributeType == "text">
-								<input type="text" name="el_${list.id}" class="formText<#if list.isRequired> {required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText<#if list.isRequired> {required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "number">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>number: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>number: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "alphaint">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>lettersonly: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>lettersonly: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "email">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>email: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>email: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "select">
 								<select name="el_${list.id}"<#if list.isRequired> class="{required: true}"</#if>>
 									<option value="">请选择...</option>
 									<#list list.attributeOptionList as attributeOptionList>
-										<option value="${attributeOptionList}"<#if (process.processAttributeMap.get(list)[0] == attributeOptionList)!> selected</#if>>${attributeOptionList}</option>
+										<option value="${attributeOptionList}"<#if (team.teamAttributeMap.get(list)[0] == attributeOptionList)!> selected</#if>>${attributeOptionList}</option>
 									</#list>
 								</select>
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "checkbox">
 								<#list list.attributeOptionList as attributeOptionList>
-									<label><input type="checkbox" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="${attributeOptionList}"<#if (process.processAttributeMap.get(list).contains(attributeOptionList))!> checked</#if>  />${attributeOptionList}</label>
+									<label><input type="checkbox" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="${attributeOptionList}"<#if (team.teamAttributeMap.get(list).contains(attributeOptionList))!> checked</#if>  />${attributeOptionList}</label>
 								</#list>
 								<span id="${list.id}MessagePosition"></span>
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "name">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "gender">
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="male" <#if (process.processAttributeMap.get(list)[0] == "male")!> checked</#if> />${action.getText("Gender.male")}</label>
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="female" <#if (process.processAttributeMap.get(list)[0] == "female")!> checked</#if> />${action.getText("Gender.female")}</label>
+								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="male" <#if (team.teamAttributeMap.get(list)[0] == "male")!> checked</#if> />${action.getText("Gender.male")}</label>
+								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="female" <#if (team.teamAttributeMap.get(list)[0] == "female")!> checked</#if> />${action.getText("Gender.female")}</label>
 								<span id="${list.id}MessagePosition"></span>
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "date">
-								<input type="text" name="el_${list.id}" class="formText datePicker {<#if list.isRequired>required: true, </#if>dateISO: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText datePicker {<#if list.isRequired>required: true, </#if>dateISO: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "area">
-								<input type="text" name="el_${list.id}" class="formText areaSelect<#if list.isRequired> {required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText areaSelect<#if list.isRequired> {required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "address">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "zipCode">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>zipCode: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>zipCode: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "mobile">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>mobile: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>mobile: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "phone">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>phone: true}" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>phone: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "qq">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "msn">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "wangwang">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							<#elseif list.attributeType == "skype">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(process.processAttributeMap.get(list)[0])!}" />
+								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
 								<#if list.isRequired><label class="requireField">*</label></#if>
 							</#if>
 						</td>

@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"team!ajlist.action",
+		url:"post!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -63,12 +63,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','创建日期','班组编码','班组名称','状态', ],
+		colNames:[ 'ID','创建日期','岗位编码','岗位名称','状态', ],
 		colModel:[
 			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'teamCode',index:'teamCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'teamName',index:'teamName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'postCode',index:'postCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'postName',index:'postName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
@@ -95,8 +95,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "team!delete.adction",//用它做标准删除动作
-		caption: "班组管理"
+		editurl: "post!delete.adction",//用它做标准删除动作
+		caption: "岗位管理"
 
 		//,autowidth: true,
 //		,
@@ -142,17 +142,17 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
-			    window.location.href="team!edit.action?id="+rowId;
+			    window.location.href="post!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				window.location.href="team!add.action";
+				window.location.href="post!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			//del: true,
 			delfunc:function(rowId){
-				window.location.href="team!delete.action?id="+rowId;
+				window.location.href="post!delete.action?id="+rowId;
 			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,

@@ -4,11 +4,11 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>工序管理</title>
+		<title>车间管理</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> 
-		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/workshop.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -35,7 +35,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">工序列表</li>
+			<li class="active">车间列表</li>
 		</ul>
 	</div>
 	
@@ -47,18 +47,18 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="process!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="workShop!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">工序编码:</label>
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">车间编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="processCode" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="workShopCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">工序名称:</label>
+										<label class="col-sm-1" style="text-align:right">车间名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="processName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="workShopName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 								   
@@ -67,9 +67,9 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
-										<select name="process.state">
+										<select name="workShop.state">
 							                <#list AllState as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && workShop.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 							                </#list>
 						               </select>
 									  </div>

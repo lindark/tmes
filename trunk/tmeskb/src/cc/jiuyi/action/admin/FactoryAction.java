@@ -17,9 +17,9 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -34,19 +34,19 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
  */
 
 @ParentPackage("admin")
-public class ProcessAction extends BaseAdminAction {
+public class FactoryAction extends BaseAdminAction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -433964280757192334L;
 
-	private Process process;
+	private Factory factory;
 	//获取所有状态
 	private List<Dict> allState;
 	
 	@Resource
-	private ProcessService processService;
+	private FactoryService factoryService;
 	@Resource
 	private DictService dictService;
 	
@@ -63,11 +63,6 @@ public class ProcessAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<Process> processList = pager.getList();
-//		for (Process process1 : processList) {
-//			process1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"processState", process1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("processState", process.getState());
 		return LIST;
 	}
 	
@@ -97,14 +92,14 @@ public class ProcessAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("processCode") != null) {
+			if (obj.get("factoryCode") != null) {
 				System.out.println("obj=" + obj);
-				String processCode = obj.getString("processCode").toString();
-				map.put("processCode", processCode);
+				String factoryCode = obj.getString("factoryCode").toString();
+				map.put("factoryCode", factoryCode);
 			}
-			if (obj.get("processName") != null) {
-				String processName = obj.getString("processName").toString();
-				map.put("processName", processName);
+			if (obj.get("factoryName") != null) {
+				String factoryName = obj.getString("factoryName").toString();
+				map.put("factoryName", factoryName);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
@@ -118,14 +113,14 @@ public class ProcessAction extends BaseAdminAction {
 			}
 		}
 
-			pager = processService.getProcessPager(pager, map);
-			List<Process> processList = pager.getList();
-			List<Process> lst = new ArrayList<Process>();
-			for (int i = 0; i < processList.size(); i++) {
-				Process process = (Process) processList.get(i);
-				process.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "processState", process.getState()));
-				lst.add(process);
+			pager = factoryService.getFactoryPager(pager, map);
+			List<Factory> factoryList = pager.getList();
+			List<Factory> lst = new ArrayList<Factory>();
+			for (int i = 0; i < factoryList.size(); i++) {
+				Factory factory = (Factory) factoryList.get(i);
+				factory.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "factoryState", factory.getState()));
+				lst.add(factory);
 			}
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
@@ -138,71 +133,68 @@ public class ProcessAction extends BaseAdminAction {
 	//删除
 	public String delete(){
 		ids=id.split(",");
-		processService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			Process process=processService.load(id);
-//		}
-		redirectionUrl = "process!list.action";
+		factoryService.updateisdel(ids, "Y");
+		redirectionUrl = "factory!list.action";
 		return SUCCESS;
 	}
 
 	
 	//编辑
 		public String edit(){
-			process= processService.load(id);
+			factory= factoryService.load(id);
 			return INPUT;	
 		}
 		
 	//更新
 		@InputConfig(resultName = "error")
 		public String update() {
-			Process persistent = processService.load(id);
-			BeanUtils.copyProperties(process, persistent, new String[] { "id","createDate", "modifyDate"});
-			processService.update(persistent);
-			redirectionUrl = "process!list.action";
+			Factory persistent = factoryService.load(id);
+			BeanUtils.copyProperties(factory, persistent, new String[] { "id","createDate", "modifyDate"});
+			factoryService.update(persistent);
+			redirectionUrl = "factory!list.action";
 			return SUCCESS;
 		}
 		
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "process.processCode", message = "工序编号不允许为空!"),
-					@RequiredStringValidator(fieldName = "process.processName", message = "工序名称不允许为空!")
+					@RequiredStringValidator(fieldName = "factory.factoryCode", message = "工厂编号不允许为空!"),
+					@RequiredStringValidator(fieldName = "factory.factoryName", message = "工厂名称不允许为空!")
 			  },
 			requiredFields = {
-					@RequiredFieldValidator(fieldName = "process.orderList", message = "排序不允许为空!")
+					@RequiredFieldValidator(fieldName = "factory.orderList", message = "排序不允许为空!")
 						
 			}, 
 			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "process.orderList", min = "0", message = "排序必须为零或正整数!")
+					@IntRangeFieldValidator(fieldName = "factory.orderList", min = "0", message = "排序必须为零或正整数!")
 				}
 			  
 	)
 	public String save()throws Exception{
-		processService.save(process);
-		redirectionUrl="process!list.action";
+		factoryService.save(factory);
+		redirectionUrl="factory!list.action";
 		return SUCCESS;	
 	}
 		
 
 
-	public Process getProcess() {
-		return process;
+	public Factory getFactory() {
+		return factory;
 	}
 
 
-	public void setProcess(Process process) {
-		this.process = process;
+	public void setFactory(Factory factory) {
+		this.factory = factory;
 	}
 
 
-	public ProcessService getProcessService() {
-		return processService;
+	public FactoryService getFactoryService() {
+		return factoryService;
 	}
 
 
-	public void setProcessService(ProcessService processService) {
-		this.processService = processService;
+	public void setFactoryService(FactoryService factoryService) {
+		this.factoryService = factoryService;
 	}
 
 

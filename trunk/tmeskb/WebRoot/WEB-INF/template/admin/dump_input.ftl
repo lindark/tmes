@@ -76,12 +76,14 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<input type="text" name="dump.voucherId" value="${(dump.voucherId)!}" class=" input input-sm  formText {required: true}" />
 										</div>
+										
+									</div>
+									<div class="profile-info-row">
 										<div class="profile-info-name"> 发货日期 </div>
 					
 										<div class="profile-info-value">
 											<input type="text" name="dump.deliveryDate" value="${(dump.deliveryDate)!}" class=" input input-sm  formText {required: true}" />
 										</div>
-										
 									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 确认人 </div>
@@ -89,7 +91,8 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<input type="text" name="dump.confirmUser" value="${(dump.confirmUser)!}" class=" input input-sm  formText {required: true}" />
 										</div>
-										
+									</div>
+									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态 </div>
 					
 										<div class="profile-info-value">
@@ -107,8 +110,6 @@ body{background:#fff;}
 												<span class="lbl middle"></span>
 											</label>
 										</div>
-										
-									</div>
 							
 						</div>
 				<!--weitao end modify-->	

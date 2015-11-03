@@ -766,7 +766,7 @@
 					
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="repair!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							返修
 							<b class="arrow fa"></b>
@@ -777,7 +777,7 @@
 					
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="repairin!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							返修收货
 							<b class="arrow fa"></b>
@@ -799,7 +799,11 @@
 					
 					
 					<li class="">
+<<<<<<< .mine
+						<a href="enteringware_House!list.action" >
+=======
 						<a href="enteringwareHouse!list.action" >
+>>>>>>> .r274
 							<i class="menu-icon fa fa-caret-right"></i>
 							入库
 							<b class="arrow fa"></b>
@@ -873,7 +877,7 @@
 
 				<ul class="submenu">
 					<li class="">
-						<a href="pros!list.action" >
+						<a href="product_group!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							产品组管理
 						</a>
@@ -908,7 +912,11 @@
 								
 					
 					<li class="">
+<<<<<<< .mine
+						<a href="work_shop!list.action" >
+=======
 						<a href="workShop!list.action" >
+>>>>>>> .r274
 							<i class="menu-icon fa fa-caret-right"></i>
 							车间管理
 							<b class="arrow fa"></b>
@@ -1071,7 +1079,7 @@
 					</li>
 					
 					<li class="">
-						<a href="fault!list.action" >
+						<a href="cause!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							缺陷代码管理
 							<b class="arrow fa"></b>

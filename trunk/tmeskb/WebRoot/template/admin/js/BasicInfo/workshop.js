@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"workShop!ajlist.action",
+		url:"work_shop!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -95,7 +95,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "workShop!delete.adction",//用它做标准删除动作
+		editurl: "work_shop!delete.adction",//用它做标准删除动作
 		caption: "车间管理"
 
 		//,autowidth: true,
@@ -142,17 +142,17 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
-			    window.location.href="workShop!edit.action?id="+rowId;
+			    window.location.href="work_shop!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				window.location.href="workShop!add.action";
+				window.location.href="work_shop!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			//del: true,
 			delfunc:function(rowId){
-				window.location.href="workShop!delete.action?id="+rowId;
+				window.location.href="work_shop!delete.action?id="+rowId;
 			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,

@@ -116,6 +116,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Model</value>
 				<value>cc.jiuyi.entity.Quality</value>
 				<value>cc.jiuyi.entity.WorkingBill</value>
+				<value>cc.jiuyi.entity.Department</value>
 				<value>cc.jiuyi.entity.EnteringwareHouse</value>
 				<value>cc.jiuyi.entity.Team</value>
 				<value>cc.jiuyi.entity.Post</value>

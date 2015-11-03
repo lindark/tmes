@@ -570,7 +570,14 @@
 						<b class="arrow"></b>
 					</li>
 					
-					
+					<li class="">
+						<a href="department!list.action" >
+							<i class="menu-icon"></i>
+							部门设置
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 					
 
 

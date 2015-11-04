@@ -61,7 +61,7 @@ body{background:#fff;}
 							<!--./add by welson 0910 -->
 							
 							
-							<form id="inputForm" class="validate" action="<#if isAdd??>mass!save.action<#else>mass!update.action</#if>" method="post" enctype="multipart/form-data" >
+							<form id="inputForm" class="validate" action="<#if isAdd??>craft!save.action<#else>craft!update.action</#if>" method="post" enctype="multipart/form-data" >
 								<input type="hidden" name="id" value="${id}" />
 								
 								
@@ -97,6 +97,7 @@ body{background:#fff;}
 						<input type="text" class="formText" name="craft.cabinetCode" value="${(craft.cabinetCode)!}" />
 					</td>
 				</tr>
+				<!-- 
 				<tr>
 					<th>
 						时间:
@@ -104,7 +105,8 @@ body{background:#fff;}
 					<td>
 						<input type="text" class="formText" name="craft.createDate" value="${(craft.createDate)!}" />
 					</td>
-				</tr>
+				</tr> -->
+				
 				<tr>
 					<th>
 						班组:
@@ -160,7 +162,7 @@ body{background:#fff;}
 					<td>
 						<input type="text" name="craft.resultCode_process" class="formText {required: true}" value="${(craft.resultCode_process)!}"/>						
 					</td>
-				</tr>
+				</tr> 
 																						
 			</table>
 			

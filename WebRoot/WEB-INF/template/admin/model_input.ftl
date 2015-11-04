@@ -61,7 +61,7 @@ body{background:#fff;}
 							<!--./add by welson 0910 -->
 							
 							
-							<form id="inputForm" class="validate" action="<#if isAdd??>mass!save.action<#else>mass!update.action</#if>" method="post" enctype="multipart/form-data" >
+							<form id="inputForm" class="validate" action="<#if isAdd??>model!save.action<#else>model!update.action</#if>" method="post" enctype="multipart/form-data" >
 								<input type="hidden" name="id" value="${id}" />
 								
 								
@@ -94,14 +94,15 @@ body{background:#fff;}
 					<td>
 						<input type="text" class="formText" name="model.productCode" value="${(model.productCode)!}" />
 					</td>
-				</tr>				
+				</tr>	
+							<!-- 
 				<tr>
 					<th>
 						时间:
 					</th>
 					<td>
 						<input type="text" class="formText" name="model.createDate" value="${(model.createDate)!}" />
-					</td>
+					</td>-->
 					<th>
 						班组:
 					</th>
@@ -115,7 +116,7 @@ body{background:#fff;}
 						种类:
 					</th>
 					<td>
-					   	<select name="model.type.id" class="{required: true}">
+					   	<select name="model.type.id">
 							<option value="">请选择...</option>
 						</select>
 					</td>
@@ -141,7 +142,7 @@ body{background:#fff;}
 					<td>
 						<input type="text" name="model.insepector" class="formText {required: true, min: 0}" value="${(model.insepector)!}" />
 					</td>
-					<th>
+					<!--<th>
 						确认时间:
 					</th>
 					<td>
@@ -161,20 +162,20 @@ body{background:#fff;}
 					<td>
 						<input type="text" name="model.arriveTime" class="formText {required: true}" value="${(model.arriveTime)!}"/>						
 					</td>
-				</tr>				
+				</tr>-->				
 				<tr>
 					<th>
 						维修人员:
 					</th>
 					<td>
 						<input type="text" name="model.fixer" class="formText {required: true}" value="${(model.fixer)!}"/>
-					</td>
+					</td><!-- 
 					<th>
 						维修时间:
 					</th>
 					<td>
 						<input type="text" name="model.fixTime" class="formText {required: true}" value="${(model.fixTime)!}"/>
-					</td>
+					</td> -->
 				</tr>															
 				<tr>
 					<th>
@@ -199,7 +200,7 @@ body{background:#fff;}
 					<td>
 						<input type="text" name="model.measure" class="formText {required: true}" value="${(model.measure)!}"/>
 					</td>
-				</tr>
+				</tr> 
 			</table>
 			
 			

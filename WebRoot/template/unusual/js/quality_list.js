@@ -46,27 +46,32 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"mass!ajlist.action",
+		url:"quality!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+		    search:"pager._search",
+		    sort:"pager.orderBy",
+		    order:"pager.orderType"
 	    },
-		colNames:[ '时间','产品名称','班组', '工序', '检验人','状态'],
+		colNames:[ '时间','产品名称','班组', '工序', '创建人','状态'],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productName',index:'productName',width:60, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'group',index:'group', width:160,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'process',index:'process', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'createUser',index:'createUser', width:60, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'state',index:'state', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}}		
+			{name:'productName',index:'productName',width:60, editable:true},
+			{name:'team',index:'team', width:160,editable: true},
+			{name:'process',index:'process', width:160, editable: true},
+			{name:'createUser',index:'createUser', width:60, editable: true},
+			{name:'state',index:'state', width:60,editable: true}		
 		], 
 
 		viewrecords : true,
@@ -91,7 +96,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "quality!delete.action",
 		caption: "质量问题通知单记录"
 
 	});
@@ -118,32 +123,24 @@ jQuery(function($) {
 		{ 
 			//edit: true,
 		    editfunc:function(rowId){
-			    location.href="mass!edit.action?id="+rowId;
+			    location.href="quality!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				location.href="mass!add.action";
+				location.href="quality!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
-				window.location.href="mass!delete.action?id="+rowId;
-			},
+			del: true,			
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			//view: true,
-			viewfunc:function(rowId){
-				location.href="mass!edit.action?id="+rowId;
-			},
+			view: true,		
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
-			//edit record form
-			//closeAfterEdit: true,
 			//width: 700,
 			recreateForm: true,
 			beforeShowForm : function(e) {

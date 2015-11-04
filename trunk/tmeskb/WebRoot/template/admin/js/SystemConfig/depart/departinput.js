@@ -60,9 +60,9 @@ jiuyi.admin.depart.dialog = function($dom,callback){
 				text: "保存",
 				"class" : "btn btn-primary btn-xs",
 				click: function() {
-					var flag = callback();
-					if(flag)
-						$(this).dialog("close");
+					$(this).dialog("close");
+					callback();
+						
 				} 
 			}
 		]

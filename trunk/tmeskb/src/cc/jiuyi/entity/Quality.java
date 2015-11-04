@@ -1,16 +1,12 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * 实体类 - 质量问题通知单
  */
 @Entity
-//@Table(name = "qualityproblem")
 public class Quality extends BaseEntity{
 
 	private static final long serialVersionUID = -7213483223153832423L;
@@ -18,7 +14,7 @@ public class Quality extends BaseEntity{
 	private String productNo;//产品编号
 	private String productName;//产品名称
 	private String process;//工序
-	private String group;//班组
+	private String team;//班组
 	private String problemDescription;//问题描述
 	private String createUser;//创建人
 	private String modifyUser;//修改人
@@ -30,8 +26,9 @@ public class Quality extends BaseEntity{
 	private Date overTime;//计划完成时间
 	
 	private String engineerOpinion;//工程师意见
-	private String isDel;//是否删除	
+	private String isDel;//是否删除*/	
 	private String state;//状态
+	
 	public String getProductNo() {
 		return productNo;
 	}
@@ -50,12 +47,7 @@ public class Quality extends BaseEntity{
 	public void setProcess(String process) {
 		this.process = process;
 	}
-	public String getGroup() {
-		return group;
-	}
-	public void setGroup(String group) {
-		this.group = group;
-	}
+
 	public String getProblemDescription() {
 		return problemDescription;
 	}
@@ -121,6 +113,12 @@ public class Quality extends BaseEntity{
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getTeam() {
+		return team;
+	}
+	public void setTeam(String team) {
+		this.team = team;
 	}
 	
 	

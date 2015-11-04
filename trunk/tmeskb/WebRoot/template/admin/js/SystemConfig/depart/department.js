@@ -31,8 +31,9 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 				},
 				success: function(data) {
 					$.tip(data.status, data.message);
+					alert(data.parentDept);
 					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-					zTree.cancelEditName(data.deptName);
+					zTree.addNodes(treeNode, {id:data.id,pId:data.parentDept,name:data.deptName});
 				}
 			});
 		});

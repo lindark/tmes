@@ -45,7 +45,7 @@ jiuyi.admin.browser.dialog = function($dom,title,callback){
 	var dialog = $dom.removeClass('hide').dialog({
 		modal: true,
 		width:"60%",
-		//height:"auto",
+		height:"auto",
 		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>"+title+"</h4></div>",
 		title_html: true,
 		buttons: [ 
@@ -60,7 +60,6 @@ jiuyi.admin.browser.dialog = function($dom,title,callback){
 				text: "保存",
 				"class" : "btn btn-primary btn-xs",
 				click: function() {
-					$(this).dialog("close");
 					callback();
 						
 				} 

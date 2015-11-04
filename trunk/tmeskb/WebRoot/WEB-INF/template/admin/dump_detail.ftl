@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>转储明细</title>
+		<title>转储详细信息</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
@@ -36,7 +36,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">转储明细</li>
+			<li class="active">转储详细信息</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -99,7 +99,7 @@
 														<div class="profile-info-name"> 班组编号 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username"></span>
+															<span class="editable editable-click" id="username">1000</span>
 														</div>
 													</div>
 	
@@ -108,7 +108,7 @@
 	
 														<div class="profile-info-value">
 															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username"></span>
+															<span class="editable editable-click" id="username">01班</span>
 															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
 															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
 														</div>
@@ -118,7 +118,7 @@
 														<div class="profile-info-name"> 产品名称 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age"></span>
+															<span class="editable editable-click" id="age">神龙M3/M4/后门右窗台外密封条/9802280980</span>
 														</div>
 													</div>
 	
@@ -126,7 +126,7 @@
 														<div class="profile-info-name"> 班组/班次 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<span class="editable editable-click" id="signup">早班</span>
 														</div>
 													</div>
 

@@ -1,8 +1,12 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.QualityDao;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.QualityService;
@@ -20,5 +24,9 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 	@Resource
 	public void setBaseDao(QualityDao qualityDao) {
 		super.setBaseDao(qualityDao);
+	}
+	
+	public Pager getQualityPager(Pager pager,HashMap<String,String> map){
+		return qualityDao.getQualityPager(pager,map);
 	}
 }

@@ -660,7 +660,7 @@
 					</li>
 
 					<li class="">
-						<a href="mass!list.action" >
+						<a href="quality!list.action" >
 							<i class="menu-icon"></i>
 							质量问题单
 						</a>

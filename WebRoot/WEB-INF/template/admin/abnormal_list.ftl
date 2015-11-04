@@ -10,10 +10,21 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <#include "/WEB-INF/template/common/includelist.ftl">
+<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery-ui.min.css" />
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
+<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
+		
 <script type="text/javascript"
 	src="${base}/template/unusual/js/abnormal_list.js"></script>
 <script type="text/javascript"
+	src="${base}/template/unusual/js/ring.js"></script>
+<script type="text/javascript"
+	src="${base}/template/unusual/js/ring_input.js"></script>
+<script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
+
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin">
@@ -25,6 +36,8 @@
 				ace.settings.check('main-container', 'fixed')
 			} catch (e) {
 			}
+			
+			
 		</script>
 		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 		<div class="main-content">
@@ -300,7 +313,10 @@ th {
 			class="btn-scroll-up btn btn-sm btn-inverse"> <i
 			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i> </a>
 	</div>
-
+	
+    <div class="dialog-message hide" id="dialog-message">   
+	</div>
+	
 	<script type="text/javascript">
 		
 	</script>

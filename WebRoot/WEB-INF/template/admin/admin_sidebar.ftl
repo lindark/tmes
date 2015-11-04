@@ -799,11 +799,10 @@
 					
 					
 					<li class="">
-<<<<<<< .mine
+
 						<a href="enteringware_House!list.action" >
-=======
-						<a href="enteringwareHouse!list.action" >
->>>>>>> .r274
+
+
 							<i class="menu-icon fa fa-caret-right"></i>
 							入库
 							<b class="arrow fa"></b>
@@ -886,9 +885,9 @@
 					</li>
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="material!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							产品管理
+							产品Bom管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -897,26 +896,13 @@
 						
 					</li>
 					
-					<li class="">
-						<a href="breed!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							品种管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
 					
 								
 					
 					<li class="">
-<<<<<<< .mine
+
 						<a href="work_shop!list.action" >
-=======
-						<a href="workShop!list.action" >
->>>>>>> .r274
+
 							<i class="menu-icon fa fa-caret-right"></i>
 							车间管理
 							<b class="arrow fa"></b>
@@ -955,7 +941,7 @@
 	
 	
 	               <li class="">
-						<a href="area!list.action" >
+						<a href="factory_unit!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							单元管理
 							<b class="arrow fa"></b>
@@ -1043,7 +1029,7 @@
 					</li>
 					
 					<li class="">
-						<a href="change!list.action" >
+						<a href="unit_conversion!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							计量单位转换
 							<b class="arrow fa"></b>
@@ -1067,7 +1053,7 @@
 					</li>
 					
 					<li class="">
-						<a href="card!list.action" >
+						<a href="card_management!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							刷卡设备管理
 							<b class="arrow fa"></b>

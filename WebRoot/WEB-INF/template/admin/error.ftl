@@ -59,12 +59,14 @@ body{background:#fff;}
 													
 													<p class="alert alert-danger">
 														<#if (errorMessages?size > 0)!>
+															${errorMessages} 1
 															<#list errorMessages as list>${list}<br></#list>
 														<#elseif (actionMessages?size > 0)!>
+															${actionMessages} 2
 															<#list actionMessages as list>${list}<br></#list>
 														<#elseif (fieldErrors?size > 0)!>
-															<#list (fieldErrors?keys)! as key>
-																${key}
+															<#list (fieldErrors?values)! as value>
+																${value}
 															</#list>
 														<#else>
 															亲，您的操作出现错误了~

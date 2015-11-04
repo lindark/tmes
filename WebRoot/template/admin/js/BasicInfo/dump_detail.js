@@ -102,7 +102,7 @@ jQuery(function($) {
 		},
 
 		editurl: "dump!delete.action",//用它做标准删除动作
-		caption: "转储记录"
+		caption: "转储详细信息"
 
 		//,autowidth: true,
 //		,
@@ -146,26 +146,20 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-			editfunc:function(rowId){
-				window.location.href="dump!edit.action?id="+rowId;
-			},
+			edit: false,
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
-				window.location.href="dump!add.action";
-			},
+			add: false,
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			/*delfunc:function(rowId){
 				window.location.href="dump!delete.action?id="+rowId;
 			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

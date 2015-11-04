@@ -71,16 +71,7 @@ jQuery(function($) {
 			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
 			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
 			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"},
-			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-				formatter:'actions', 
-				formatoptions:{ 
-					keys:true,
-					delbutton: false,//disable delete button
-					
-					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-				}
-			}
+			{name:'myac',index:'myac', width:80, fixed:true, sortable:false, resize:false}
 
 
 		], 
@@ -98,7 +89,16 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        
+        gridComplete : function() {
+        	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+        	 for ( var i = 0; i < ids.length; i++) {
+        		 var cl = ids[i];
+        		 be = "<a href='dump!detail.action?id="+ids[i]+"'>查看</a>";
+        		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { myac : be  });
+        	 }
+        },
+        
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){

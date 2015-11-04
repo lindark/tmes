@@ -16,11 +16,12 @@
 		
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/admin_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/depart/department.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/depart/departinput.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		

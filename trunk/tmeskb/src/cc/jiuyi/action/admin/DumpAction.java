@@ -15,7 +15,9 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.service.WorkingBillService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -34,8 +36,11 @@ public class DumpAction extends BaseAdminAction {
 	private DumpService dumpService;
 
 	public String list() {
-		//pager = dumpService.findByPager(pager);
 		return "list";
+	}
+	
+	public String detail(){
+		return "detail";
 	}
 
 	// 添加

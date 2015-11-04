@@ -14,5 +14,16 @@ import cc.jiuyi.entity.WorkingBill;
  */
 
 public interface DepartmentService extends BaseService<Department, String> {
+	/**
+	 * 标记删除
+	 * @param ids
+	 * @param oper
+	 */
+	public void updateisdel(String[] ids,String oper);
 	
+	/**
+	 * 查询所有，查询标记未删除的数据
+	 * @return
+	 */
+	public List getAllByHql();
 }

@@ -66,7 +66,7 @@ public class DepartmentAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list(){
-		list = deptservice.getAll();
+		list = deptservice.getAllByHql();
 		return "list";
 	}
 	/**
@@ -98,6 +98,7 @@ public class DepartmentAction extends BaseAdminAction {
 		jsonMap.put(MESSAGE, "部门添加成功");
 		jsonMap.put("id", id);//将id 返回
 		jsonMap.put("deptName", department.getDeptName());//将name 返回
+		jsonMap.put("parentDept", department.getParentDept().getId());//将父节点返回
 		return ajaxJson(jsonMap);
 	}
 	
@@ -114,6 +115,19 @@ public class DepartmentAction extends BaseAdminAction {
 		jsonMap.put(MESSAGE, "部门修改成功");
 		jsonMap.put("id", department.getId());//将id 返回
 		jsonMap.put("deptName", department.getDeptName());//将name 返回
+		return ajaxJson(jsonMap);
+	}
+	
+	/**
+	 * 删除
+	 * @return
+	 */
+	public String delete(){
+		ids = id.split(",");
+		deptservice.updateisdel(ids, "Y");//删除
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "部门删除成功");
 		return ajaxJson(jsonMap);
 	}
 

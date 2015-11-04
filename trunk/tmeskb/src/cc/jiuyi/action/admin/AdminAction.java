@@ -13,10 +13,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.ProductService;
@@ -68,6 +70,8 @@ public class AdminAction extends BaseAdminAction {
 	private List<Role> allRole;
 	private List<Role> roleList;
 	private List<WorkingBill> workingbillList;
+	private String departid;
+	private String departName;
 
 	@Resource
 	private AdminService adminService;
@@ -86,6 +90,8 @@ public class AdminAction extends BaseAdminAction {
 	private ArticleService articleService;
 	@Resource
 	private ServletContext servletContext;
+	@Resource
+	private DepartmentService departmentservice;
 	
 	// 登录页面
 	public String login() {
@@ -191,6 +197,8 @@ public class AdminAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
+		Department depart = departmentservice.get(departid);
+		departName = depart.getDeptName();
 		return INPUT;
 	}
 
@@ -421,6 +429,22 @@ public class AdminAction extends BaseAdminAction {
 	public void setWorkingbillList(List<WorkingBill> workingbillList) {
 		this.workingbillList = workingbillList;
 	}
-	
 
+	public String getDepartid() {
+		return departid;
+	}
+
+	public void setDepartid(String departid) {
+		this.departid = departid;
+	}
+
+	public String getDepartName() {
+		return departName;
+	}
+
+	public void setDepartName(String departName) {
+		this.departName = departName;
+	}
+	
+	
 }

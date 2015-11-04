@@ -271,7 +271,6 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 				wheresql+=" "+this.generateSearchSql(to.getField(), to.getData(), to.getOp())+" ";
 				ishead = 1;
 			}
-			
 		}
 		return wheresql;
 	}

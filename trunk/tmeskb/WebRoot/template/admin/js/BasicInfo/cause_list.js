@@ -109,7 +109,7 @@ jQuery(function($) {
 				},
 
 				editurl: "cause!delete.action",//用它做标准删除动作
-				caption : "呼叫原因"
+				caption : "缺陷代码管理"
 
 			// ,autowidth: true,
 			// ,

@@ -17,7 +17,6 @@ $(function(){
 		if(flag)
 		jiuyi.admin.browser.dialog($dom,title,function(){
 			var $inputForm = $("#inputForm");
-			alert($inputForm);
 			$inputForm.submit();
 //			$.ajax({	
 //				url: $departform.attr("action"),

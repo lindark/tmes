@@ -50,6 +50,12 @@ public class ModelAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	public String save() {
+		modelService.save(model);
+		redirectionUrl = "model!list.action";
+		return SUCCESS;
+	}
 
 	// 删除
 	public String delete() throws Exception {			

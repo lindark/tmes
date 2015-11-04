@@ -33,7 +33,7 @@
 		
 		var zNodes =[
 	     		<#list list as department>
-	     			{ id:"${department.id}", pId:"${department.parentDept}", name:"${department.deptName}"},
+	     			{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}"},
 	     		</#list>
 	     	];
 

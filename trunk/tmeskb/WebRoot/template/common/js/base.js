@@ -411,6 +411,7 @@ jQuery(function() {
 			}
 		},
 		submitHandler: function(form) {
+			alert("OK");
 			$(form).find(":submit").attr("disabled", true);
 			form.submit();
 		}

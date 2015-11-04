@@ -51,6 +51,11 @@ public class AbnormalAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	// 添加
+	public String addMessage() {
+		return "abnormal_message";
+	}
 
 	// 删除
 	public String delete() throws Exception {	

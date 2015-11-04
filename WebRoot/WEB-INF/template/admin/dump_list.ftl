@@ -96,10 +96,6 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
 											</a>
-											<a id="detailButton" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												转储明细
-											</a>
 										</div>
 										
 									</div>
@@ -139,15 +135,4 @@
 			
 		</script>
 	</body>
-	<script>
-		$(function(){
-			var $detailButton = $("#detailButton");
-			
-			
-			//转储明细按钮
-			$detailButton.click(function(){
-				window.location.href="dump!detail.action";
-			})
-		})
-	</script>
 </html>

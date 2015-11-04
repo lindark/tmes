@@ -81,7 +81,10 @@
 										</div>
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
+										        <option value="已确认">已确认</option>   
+										        <option value="未确认">未确认</option>   
+										      </select>   
 										</div>
 									</div>
 										<div class="form-group" style="text-align:center">
@@ -92,6 +95,10 @@
 											<a id="searchButton" href="dump!sync.action" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
+											</a>
+											<a id="detailButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												转储明细
 											</a>
 										</div>
 										
@@ -132,4 +139,15 @@
 			
 		</script>
 	</body>
+	<script>
+		$(function(){
+			var $detailButton = $("#detailButton");
+			
+			
+			//转储明细按钮
+			$detailButton.click(function(){
+				window.location.href="dump!detail.action";
+			})
+		})
+	</script>
 </html>

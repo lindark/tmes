@@ -14,6 +14,7 @@
 		<!-- 无需进行权限验证的路径 -->
 		<sec:intercept-url pattern="/admin/admin!login.action" filters="none" />
 		<sec:intercept-url pattern="/template/*" filters="none" />
+		
 
 		<!-- login-page 登录页面 -->
 		<!-- default-target-url 登录成功后跳转的URL -->

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -27,7 +28,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String password;// 密码
 	private String email;// E-mail
 	private String name;// 姓名
-	private String department;// 部门
 	private Boolean isAccountEnabled;// 账号是否启用
 	private Boolean isAccountLocked;// 账号是否锁定
 	private Boolean isAccountExpired;// 账号是否过期
@@ -37,8 +37,20 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Date loginDate;// 最后登录日期
 	private String loginIp;// 最后登录IP
 	
+	
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
+	private Department department;//部门
+
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 
 	@Column(updatable = false, nullable = false, unique = true)
 	public String getUsername() {
@@ -73,14 +85,6 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
 	}
 
 	@Column(nullable = false)

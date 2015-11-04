@@ -36,6 +36,7 @@ public class Department extends BaseEntity {
 	
 	private Department parentDept;//上级部门
 	private Set<Department> childDept;//下级部门
+	private Set<Admin> admin;//员工
 	
 	public String getDeptName() {
 		return deptName;
@@ -44,8 +45,14 @@ public class Department extends BaseEntity {
 		this.deptName = deptName;
 	}
 	
-	
-//	@JoinColumn(name="parentDept")
+	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+	public Set<Admin> getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Set<Admin> admin) {
+		this.admin = admin;
+	}
+	//	@JoinColumn(name="parentDept")
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Department getParentDept() {
 		return parentDept;

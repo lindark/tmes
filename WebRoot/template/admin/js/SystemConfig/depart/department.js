@@ -14,7 +14,7 @@ jiuyi.admin.depart.initTree = function(nodes){
  * 添加部门
  */
 jiuyi.admin.depart.addHandle = function(treeNode){
-	var url = "department!add.action?id="+treeNode.id;
+	var url = "department!add.action?pid="+treeNode.id;
 	var $dom = $("#dialog-message");
 	var flag = jiuyi.admin.depart.inputdata(url,$dom);
 	if(flag)
@@ -29,12 +29,9 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 					$(this).attr("disabled", true);
 				},
 				success: function(data) {
-					alert(data.status);
-//					$deleteButton.attr("href", "javascript:void(0)")
-//					if (data.status == "success") {
-//						$idsCheckedCheck.parent().parent().remove();
-//					}
-//					$.tip(data.status, data.message);
+					$.tip(data.status, data.message);
+					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+					zTree.cancelEditName(data.deptName);
 				}
 			});
 		});
@@ -43,7 +40,31 @@ jiuyi.admin.depart.addHandle = function(treeNode){
  * 修改部门
  */
 jiuyi.admin.depart.editHandle = function(treeId, treeNode){
-	alert("修改");
+	var url = "department!edit.action?id="+treeNode.id;
+	var $dom = $("#dialog-message");
+	var flag = jiuyi.admin.depart.inputdata(url,$dom);
+	if(flag)
+		jiuyi.admin.depart.dialog($dom,function(){
+			var $departform = $("#departform");
+			$.ajax({
+				url: $departform.attr("action"),
+				data: $departform.serialize(),
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+				},
+				success: function(data) {
+					$.tip(data.status, data.message);
+					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+					var node = zTree.getNodeByParam("id", data.id, null);
+					node.name=data.deptName;
+					zTree.updateNode(node);
+				}
+			});
+		});
+	
+	return false;
 }
 /**
  * 删除部门
@@ -74,7 +95,7 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 			},
 			callback: {
 				beforeDrag: beforeDrag,
-				beforeEditName: beforeEditName,
+				beforeEditName: editHandle,
 				beforeRemove: beforeRemove,
 				beforeRename: beforeRename,
 				onRemove: onRemove,
@@ -150,14 +171,13 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 		var btn = $("#addBtn_"+treeNode.id);
 		if (btn) btn.bind("click", function(){
 			if(addHandle) addHandle(treeNode);
-			//var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-			//zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+			
 			return false;
 		});
 	};
 	function removeHoverDom(treeId, treeNode) {
-		//$("#addBtn_"+treeNode.id).unbind().remove();
-		removeBeforeHandle(treeNode.id);
+		$("#addBtn_"+treeNode.id).unbind().remove();
+		//removeBeforeHandle(treeNode.id);
 	};
 	function selectAll() {
 		var zTree = $.fn.zTree.getZTreeObj("ingageTree");

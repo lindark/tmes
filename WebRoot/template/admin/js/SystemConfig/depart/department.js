@@ -69,8 +69,35 @@ jiuyi.admin.depart.editHandle = function(treeId, treeNode){
 /**
  * 删除部门
  */
-jiuyi.admin.depart.removeBeforeHandle = function(rowId){
-	//alert("shan'chu");
+jiuyi.admin.depart.removeBeforeHandle = function(treeNode){
+	var flag = confirm("您确定要删除吗?");
+	var isdel= false;
+	if(flag){
+		var url = "department!delete.action?id="+treeNode.id;
+		$.ajax({
+			url: url,
+			//data: $departform.serialize(),
+			dataType: "json",
+			async: false,
+			success: function(data) {
+				$.tip(data.status, data.message);
+				isdel = true;
+			},error:function(data){
+				alert("系统出现错误，请联系系统管理员");
+			}
+		});
+	}
+	return isdel;
+}
+
+/**
+ * 点击部门
+ */
+jiuyi.admin.depart.clickHandle = function(treeNode){
+	$("#grid-table").jqGrid('setGridParam',{
+		url:"admin!ajlist.action?departid="+treeNode.id,
+		page:1
+	}).trigger("reloadGrid");
 }
 
 
@@ -99,7 +126,8 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 				beforeRemove: beforeRemove,
 				beforeRename: beforeRename,
 				onRemove: onRemove,
-				onRename: onRename
+				onRename: onRename,
+				onClick: onClick
 			}
 		};	
 	
@@ -179,6 +207,11 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 		$("#addBtn_"+treeNode.id).unbind().remove();
 		//removeBeforeHandle(treeNode.id);
 	};
+	
+	function onClick(event,treeId,treeNode){
+		if(clickHandle){clickHandle(treeNode)}
+	}
+	
 	function selectAll() {
 		var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 		zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");

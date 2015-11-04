@@ -63,26 +63,17 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','单据编号','发货日期', '确认人','状态','操作'],
+		colNames:[ 'ID','组件编码','组件名称', '批次','组件数量','单位','来源库存地点','去向库存地点'],
 		colModel:[
 			
 	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'voucherId',index:'voucherId', width:200},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
-			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
-			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"},
-			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-				formatter:'actions', 
-				formatoptions:{ 
-					keys:true,
-					delbutton: false,//disable delete button
-					
-					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-				}
-			}
-
-
+			{name:'componentCode',index:'componentCode', width:150},
+			{name:'componentName',index:'componentName', width:150},
+			{name:'batch',index:'batch', width:100},
+			{name:'componentNum',index:'componentNum', width:100},
+			{name:'unit',index:'unit', width:100},
+			{name:'sourceLocation',index:'sourceLocation', width:150,sortable:"true",sorttype:"text"},
+			{name:'saveLocation',index:'saveLocation', width:150,sortable:"true",sorttype:"text"}
 		], 
 		//sortable:true,
 		//sortname: "deliveryDate",

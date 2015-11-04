@@ -1,6 +1,35 @@
 $register("jiuyi.admin.depart");
 $(function(){
+	jiuyi.admin.depart.MenuBarToggle();
+	$(window).resize(function(){
+		var winwidth = $(window).width();//浏览器宽度
+		if(winwidth < 480){//手机
+			$("#toggleMenuBar").triggerHandler("click");
+		}
+	});
 })
+
+/**
+ * 显示隐藏左边部门选择功能
+ */
+jiuyi.admin.depart.MenuBarToggle = function(){
+	var ishead=0;
+	$("#toggleMenuBar").click(function(){
+		if(ishead==0){
+			$("#left_tree").hide();
+		    $("#right_grid").css('margin-left',14);
+		    $(this).removeClass("arrow_left").addClass("arrow_right");
+			ishead=1;
+		}else{
+			$("#left_tree").show();
+            $("#right_grid").css('margin-left',201);
+            $(this).removeClass("arrow_right").addClass("arrow_left");
+            ishead=0;
+		}
+		$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+	});
+	
+}
 
 /**
  * 初始化ztree

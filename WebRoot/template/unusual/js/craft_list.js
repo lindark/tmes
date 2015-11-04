@@ -62,8 +62,8 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'createDate',index:'createDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsName',index:'productsName',width:120, editable:true},
-			{name:'cabinetCode',index:'cabinetCode', width:120,editable: true},
+			{name:'productsName',index:'productsName',editable:true},
+			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
 			{name:'classes',index:'classes', width:160, editable: true},
 			{name:'repairName',index:'repairName', width:160, editable: true},			
 			{name:'state',index:'state', width:20, sortable:false,editable: true}		
@@ -117,14 +117,20 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		    editfunc:function(){
+			    location.href="craft!edit.action?id="+rowId;
+		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
 				location.href="craft!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			//del: true,
+			delfunc:function(rowId){
+				location.href="craft!delete.action?id="+rowId;
+			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

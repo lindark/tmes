@@ -50,12 +50,19 @@ public class CraftAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
-		
+	
+	public String save() {		
+		craftService.save(craft);	
+		redirectionUrl = "craft!list.action";
+		return SUCCESS;
+	}
 		
 	// 删除
-	public String delete() throws Exception {			
+	public String delete() throws Exception {
+		ids=id.split(",");
 		craftService.delete(ids);
-		return ajaxJsonSuccessMessage("删除成功！");
+		redirectionUrl = "craft!list.action";
+		return SUCCESS;
 	}
 
 	public Craft getCraft() {

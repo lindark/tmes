@@ -40,7 +40,6 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			
 			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
 			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
 			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
@@ -73,7 +72,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "working_bill!delete.action",//用它做标准删除动作
+		//editurl: "working_bill!delete.action",//用它做标准删除动作
 		caption: "员工列表"
 
 	});

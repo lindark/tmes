@@ -46,7 +46,7 @@ jiuyi.admin.depart.dialog = function($dom,callback){
 		modal: true,
 		width:"60%",
 		//height:"auto",
-		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i> 新增部门</h4></div>",
+		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>新增部门</h4></div>",
 		title_html: true,
 		buttons: [ 
 			{

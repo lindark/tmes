@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
 <title>转储单 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
@@ -82,7 +81,8 @@ body{background:#fff;}
 										<div class="profile-info-name"> 发货日期 </div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="dump.deliveryDate" value="${(dump.deliveryDate)!}" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="dump.deliveryDate" value="${(dump.deliveryDate)!}" class="formText {required: true, minlength: 2, maxlength: 100} datePicker" />
+											
 										</div>
 									</div>
 									<div class="profile-info-row">

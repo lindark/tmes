@@ -1,7 +1,9 @@
 package cc.jiuyi.action.admin;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -56,6 +58,8 @@ public class DepartmentAction extends BaseAdminAction {
 	
 	private List<Department> list;
 	private Department department;
+	private String pid;//父节点id
+	private String pname;//父节点名称
 	
 	/**
 	 * 跳转List 页面
@@ -70,7 +74,16 @@ public class DepartmentAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String add(){
-		department = deptservice.load(id);//获取的是父节点的属性
+		Department depart = deptservice.get(pid);
+		pname = depart.getDeptName();
+		return "input";
+	}
+	/**
+	 * 修改页面
+	 * @return
+	 */
+	public String edit(){
+		department = deptservice.load(id);//获取的当前节点的属性
 		return "input";
 	}
 	
@@ -79,8 +92,29 @@ public class DepartmentAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String save(){
-		
-		return ajaxJsonSuccessMessage("部门添加成功");
+		id = deptservice.save(department);
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "部门添加成功");
+		jsonMap.put("id", id);//将id 返回
+		jsonMap.put("deptName", department.getDeptName());//将name 返回
+		return ajaxJson(jsonMap);
+	}
+	
+	/**
+	 * 修改
+	 * @return
+	 */
+	public String update(){
+		if(department.getParentDept().getId().equals(""))//如果传过来的是空字符串，将parentdept赋值成空
+			department.setParentDept(null);
+		deptservice.update(department);
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "部门修改成功");
+		jsonMap.put("id", department.getId());//将id 返回
+		jsonMap.put("deptName", department.getDeptName());//将name 返回
+		return ajaxJson(jsonMap);
 	}
 
 	public List<Department> getList() {
@@ -96,6 +130,19 @@ public class DepartmentAction extends BaseAdminAction {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
+	public String getPid() {
+		return pid;
+	}
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+	
 	
 	
 	

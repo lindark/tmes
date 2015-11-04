@@ -1,4 +1,4 @@
-$register("jiuyi.admin.depart");
+$register("jiuyi.admin.browser");
 $(function(){
 
 })
@@ -7,7 +7,7 @@ $(function(){
 /*
  * 生成html 给 弹出层内容
  */
-jiuyi.admin.depart.inputdata = function(url,$dom){
+jiuyi.admin.browser.inputdata = function(url,$dom){
 	var flag = false;
 	var url=url;
 	$.ajax({
@@ -33,7 +33,7 @@ jiuyi.admin.depart.inputdata = function(url,$dom){
 /**
  * dialog 弹出层
  */
-jiuyi.admin.depart.dialog = function($dom,callback){
+jiuyi.admin.browser.dialog = function($dom,title,callback){
 	$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
 		_title: function(title) {
 			var $title = this.options.title || '&nbsp;'
@@ -46,7 +46,7 @@ jiuyi.admin.depart.dialog = function($dom,callback){
 		modal: true,
 		width:"60%",
 		//height:"auto",
-		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>新增部门</h4></div>",
+		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>"+title+"</h4></div>",
 		title_html: true,
 		buttons: [ 
 			{

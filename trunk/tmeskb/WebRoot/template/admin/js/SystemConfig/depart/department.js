@@ -16,9 +16,10 @@ jiuyi.admin.depart.initTree = function(nodes){
 jiuyi.admin.depart.addHandle = function(treeNode){
 	var url = "department!add.action?pid="+treeNode.id;
 	var $dom = $("#dialog-message");
-	var flag = jiuyi.admin.depart.inputdata(url,$dom);
+	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+	var title = "新增部门";
 	if(flag)
-		jiuyi.admin.depart.dialog($dom,function(){
+		jiuyi.admin.browser.dialog($dom,title,function(){
 			var $departform = $("#departform");
 			$.ajax({
 				url: $departform.attr("action"),
@@ -42,9 +43,10 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 jiuyi.admin.depart.editHandle = function(treeId, treeNode){
 	var url = "department!edit.action?id="+treeNode.id;
 	var $dom = $("#dialog-message");
-	var flag = jiuyi.admin.depart.inputdata(url,$dom);
+	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+	var title = "修改部门";
 	if(flag)
-		jiuyi.admin.depart.dialog($dom,function(){
+		jiuyi.admin.browser.dialog($dom,title,function(){
 			var $departform = $("#departform");
 			$.ajax({
 				url: $departform.attr("action"),

@@ -69,9 +69,9 @@ jQuery(function($) {
 	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'voucherId',index:'voucherId', width:200},
 			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
-			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
+			{name:'confirmUser',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
-			{name:'myac',index:'myac', width:80, fixed:true, sortable:false, resize:false}
+			{name:'myac',index:'myac', width:100, fixed:true, sortable:false, resize:false}
 
 
 		], 
@@ -95,7 +95,8 @@ jQuery(function($) {
         	 for ( var i = 0; i < ids.length; i++) {
         		 var cl = ids[i];
         		 be = "<a href='dump!detail.action?id="+ids[i]+"'>查看</a>";
-        		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { myac : be  });
+        		 bc = "&nbsp;&nbsp;&nbsp;<a href='dump!confirm.action?id="+ids[i]+"'>刷卡确认</a>";
+        		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { myac : be+bc });
         	 }
         },
         

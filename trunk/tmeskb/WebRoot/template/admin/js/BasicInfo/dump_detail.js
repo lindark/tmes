@@ -45,7 +45,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"dump!ajlist.action",
+		url:"dump!ajlist.action",//可写sap同步方法
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -67,25 +67,25 @@ jQuery(function($) {
 		colModel:[
 			
 	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'componentCode',index:'componentCode', width:150},
-			{name:'componentName',index:'componentName', width:150},
-			{name:'batch',index:'batch', width:100},
-			{name:'componentNum',index:'componentNum', width:100},
-			{name:'unit',index:'unit', width:100},
-			{name:'sourceLocation',index:'sourceLocation', width:150,sortable:"true",sorttype:"text"},
-			{name:'saveLocation',index:'saveLocation', width:150,sortable:"true",sorttype:"text"}
+	        {name:'materialCode',index:'materialCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	        {name:'materialName',index:'materialName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	        {name:'batch',index:'batch', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	        {name:'materialAmount',index:'materialAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	        {name:'materialUnit',index:'materialUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	        {name:'sourceLocation',index:'sourceLocation', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'storeLocation',index:'storeLocation', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}}
 		], 
 		//sortable:true,
 		//sortname: "deliveryDate",
 		//sortorder: "desc",
 
 		viewrecords : true,
-		rowNum:10,
+		rowNum: 10,
 		rowList:[10,20,30],
 		pager : pager_selector,
 		altRows: true,
 		//toppager: true,
-		
+		pgbuttons:false,
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
@@ -101,7 +101,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "dump!delete.action",//用它做标准删除动作
+		editurl: "material!delete.action",//用它做标准删除动作
 		caption: "转储详细信息"
 
 		//,autowidth: true,
@@ -152,7 +152,7 @@ jQuery(function($) {
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			/*delfunc:function(rowId){
-				window.location.href="dump!delete.action?id="+rowId;
+				window.location.href="material!delete.action?id="+rowId;
 			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: false,

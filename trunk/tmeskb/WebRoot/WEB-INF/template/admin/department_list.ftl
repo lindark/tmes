@@ -25,7 +25,6 @@
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		
-		
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 
 		
@@ -39,8 +38,6 @@
 	     	];
 
 			jiuyi.admin.depart.initTree(zNodes);
-	         
-	         
 	         $("#ingageTree a:first").trigger("click");
 	})
 </script>
@@ -52,8 +49,9 @@
 
 </style>
 	</head>
-	<body class="no-skin">
-		<!-- add by welson 0728 -->	
+<body class="no-skin list">
+	
+<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -64,7 +62,8 @@
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-     <div class="breadcrumbs" id="breadcrumbs">
+	
+<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -74,54 +73,96 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">部门用户管理</li>
+			<li class="active">地区管理&nbsp;<span class="pageInfo">总记录数: </span></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
+
 	
-	 <div class="right_content">
-		 	 <div class="left_tree left_tree_position " id="left_tree">
-		        <div class="tree_top">
-		            <h5><span>部门列表</span></h5>
-		        </div>
-		        <div id="treeDiv">
-		            <ul id="ingageTree" class="ztree"></ul>
-		        </div>
-		        <div class="tree_bottom">
-		           <!-- <a href="javascript:void(0);" title="部门合并" class="group_merge" id="merge_a">部门合并</a> -->
-		        </div>
-	    	</div><!--left_tree-->
-    		<div class="right_grid" id="right_grid">
-    		<a href="javascript:void(0);" class="tool_bar arrow_left" id="toggleMenuBar"></a>
-    			<div class="top_tool">
-                <input type="hidden" id="departId_hidden">
-                <a href="javascript:void(0)" title="新建用户" id="userAddBtn" class="green_button">新建用户</a>
-                <a href="javascript:void(0)" title="删除用户" id="userDeleteBtn" class="green_button">删除用户</a>
-            	</div>
-	            <div class="grid_style_01">
-	                <div class="list_area">
-		                <table id="grid-table"></table>
-						<div id="grid-pager"></div>
-	                
-	                </div>
-	                <div id="listGridPager"></div>
-	            </div>
-	    		
-    		</div>
-    	
-	 </div><!--right_content-->
-	
-	
+	<!-- add by welson 0728 -->
+	<div class="page-content">
+					<div class="page-content-area">					
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- ./ add by weitao  -->
+									 <div class="right_content">
+									 	 <div class="left_tree left_tree_position " id="left_tree">
+									        <div class="tree_top">
+									            <h5><span>部门列表</span></h5>
+									        </div>
+									        <div id="treeDiv">
+									            <ul id="ingageTree" class="ztree"></ul>
+									        </div>
+									        <div class="tree_bottom">
+									           <!-- <a href="javascript:void(0);" title="部门合并" class="group_merge" id="merge_a">部门合并</a> -->
+									        </div>
+								    	</div><!--left_tree-->
+							    		<div class="right_grid" id="right_grid">
+							    		<a href="javascript:void(0);" class="tool_bar arrow_left" id="toggleMenuBar"></a>
+							    			<div class="top_tool">
+							                <input type="hidden" id="departId_hidden">
+							                <a href="javascript:void(0)" title="新建用户" id="userAddBtn" class="green_button">新建用户</a>
+							                <a href="javascript:void(0)" title="删除用户" id="userDeleteBtn" class="green_button">删除用户</a>
+							            	</div>
+								            <div class="grid_style_01">
+								                <div class="list_area">
+									                <table id="grid-table"></table>
+													<div id="grid-pager"></div>
+								                
+								                </div>
+								                <div id="listGridPager"></div>
+								            </div>
+								    		
+							    		</div>
+							    	
+								 </div><!--right_content-->
+								
+			
+								<!-- add by weitao -->	
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content-area -->
+				<!-- PAGE CONTENT ENDS -->
+
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+	</div><!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+	<!-- ./ add by welson 0728 -->
+
+<!-- 弹出层 -->
+<div id="dialog-message">
 </div>
-
-
-<!--弹出层 weitao add-->
-	<div class="dialog-message hide" id="dialog-message">
-	</div>
-
-<!--弹出层weitao end-->
+<!-- 弹出层end -->
 </body>
-	</script><script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.min.js">
-	</script><script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js">
-	</script><script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js">
 
+<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.min.js"></script>
+<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
+<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+ 
 </html>
+<script type="text/javascript">
+	/**
+	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
+	 */
+	
+	$(function(){
+		var ishead=0;
+		$("#ace-settings-btn").click(function(){
+			if(ishead==0){
+				ishead=1;
+				$("#ace-settings-box").addClass("open");
+			}else{
+				ishead=0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		
+		$(".btn-colorpicker").click(function(){
+			$(".dropdown-colorpicker").addClass("open");
+		})
+	})
+	
+	
+</script>

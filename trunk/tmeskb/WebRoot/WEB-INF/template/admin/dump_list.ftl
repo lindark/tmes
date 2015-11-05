@@ -82,6 +82,7 @@
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
+											 	<option value="">全选</option> 
 										        <option value="1">已确认</option>   
 										        <option value="2">未确认</option>   
 										      </select>   
@@ -92,9 +93,13 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
-											<a id="searchButton" href="dump!sync.action" class="btn btn-white btn-default btn-sm btn-round">
+											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
+											</a>
+											<a id="confirmsButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												刷卡确认
 											</a>
 										</div>
 										

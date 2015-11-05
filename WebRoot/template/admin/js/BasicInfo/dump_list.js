@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'voucherId',index:'voucherId', width:200},
 			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
 			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
-			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
 			{name:'myac',index:'myac', width:80, fixed:true, sortable:false, resize:false}
 
 

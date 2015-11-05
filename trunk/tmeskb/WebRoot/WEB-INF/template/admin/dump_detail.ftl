@@ -99,7 +99,7 @@
 														<div class="profile-info-name"> 班组编号 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">1000</span>
+															<span class="editable editable-click" id="username">1001</span>
 														</div>
 													</div>
 	
@@ -126,7 +126,7 @@
 														<div class="profile-info-name"> 班组/班次 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">早班</span>
+															<span class="editable editable-click" id="signup">2010/06/20</span>
 														</div>
 													</div>
 

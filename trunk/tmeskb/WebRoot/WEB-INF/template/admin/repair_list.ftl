@@ -46,42 +46,98 @@
 					<div class="page-content-area">
 						<div class="row">
 							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="repair!ajlist.action" role="form">
-								   <div class="operateBar">
-								   	<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">返修部位:</label>
-										<div class="col-sm-4">
-											<input type="text" name="repairPart" class="input input-sm form-control" value="" id="form-field-icon-1">
+							
+							<div class="row">
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<!-- #section:custom/widget-box -->
+										<div class="widget-box">
+											<div class="widget-header">
+												<h5 class="widget-title">当前随工单信息</h5>
+
+												<!-- #section:custom/widget-box.toolbar -->
+												<div class="widget-toolbar">
+													<div class="widget-menu">
+														<a href="#" data-action="settings" data-toggle="dropdown">
+															<i class="ace-icon fa fa-bars"></i>
+														</a>
+
+														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
+															<li>
+																<a data-toggle="tab" href="#dropdown1">Option#1</a>
+															</li>
+
+															<li>
+																<a data-toggle="tab" href="#dropdown2">Option#2</a>
+															</li>
+														</ul>
+													</div>
+
+													<a href="#" data-action="fullscreen" class="orange2">
+														<i class="ace-icon fa fa-expand"></i>
+													</a>
+
+													<a href="#" data-action="reload">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse">
+														<i class="ace-icon fa fa-chevron-up"></i>
+													</a>
+
+													<a href="#" data-action="close">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+												</div>
+
+												<!-- /section:custom/widget-box.toolbar -->
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 随工单号 </div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="username">${workingbill.workingBillCode}</span>
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 产品编号 </div>
+	
+														<div class="profile-info-value">
+															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
+															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 产品名称 </div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 班组/班次 </div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">2010/06/20</span>
+														</div>
+													</div>
+
+												</div>
+											</div>
 										</div>
-										<label class="col-sm-1" style="text-align:right">责任工序:</label>
-										<div class="col-sm-4">
-											<input type="text" name="processResponse" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
+
+										<!-- /section:custom/widget-box -->
 									</div>
-									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">责任人:</label>
-										<div class="col-sm-4">
-											<input type="text" name="duty" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-										<label class="col-sm-1" style="text-align:right">状态:</label>
-										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-									</div>
-										<div class="form-group" style="text-align:center">
-											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												搜索
-											</a>
-											<a id="searchButton" href="repair!sync.action" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												SAP同步
-											</a>
-										</div>
-										
-									</div>
-								</form>
+							
+								
 								
 								
 								<table id="grid-table"></table>

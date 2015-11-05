@@ -3,6 +3,7 @@
 $().ready( function() {
 	var $searchButton = $("#searchButton");//搜索
 	var $searchform= $("#searchform");//搜索表单
+	var $confirmsButton = $("#confirmsButton");//刷卡确认
 	
 	// 滑动提示框
 	$("body").prepend('<div id="tipWindow" class="tipWindow"><span class="icon"> </span><span class="messageText"></span></div>');
@@ -31,7 +32,13 @@ $().ready( function() {
 		
 		return false;
 	});
-	
+	/**
+	 * 批量刷卡确认
+	 */
+	$confirmsButton.click(function(){
+		var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		window.location.href="dump!confirms.action?id="+id;
+	});
 	/**
 	 * 时间选择控件
 	 */

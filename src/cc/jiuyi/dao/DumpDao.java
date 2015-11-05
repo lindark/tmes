@@ -22,7 +22,7 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	public void updateDump(Dump dump);
 	
 	/**
-	 * 根据物料凭证号取出对应的随工单信息
+	 * 根据物料凭证号取出对应的物料信息
 	 * @return
 	 */
 	public List getListDumpById(String voucherId);

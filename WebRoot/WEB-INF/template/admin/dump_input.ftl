@@ -98,7 +98,7 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 											    <small class="muted smaller-90">已确认:</small>
-												<input type="radio" class="ace" name="dump.state" value="已确认"<#if (dump.state == '已确认')!> checked</#if> />
+												<input type="radio" class="ace" name="dump.state" value="1"<#if (dump.state == '1')!> checked</#if> />
 												<span class="lbl middle"></span>
 												&nbsp;&nbsp;
 											</label>
@@ -106,7 +106,7 @@ body{background:#fff;}
 											<label class="pull-left inline">
 
 											    <small class="muted smaller-90">未确认:</small>
-												<input type="radio" class="ace" name="dump.state" value="未确认"<#if (isAdd || dump.state == '未确认')!> checked</#if>  />
+												<input type="radio" class="ace" name="dump.state" value="2"<#if (isAdd || dump.state == '2')!> checked</#if>  />
 												<span class="lbl middle"></span>
 											</label>
 										</div>

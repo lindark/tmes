@@ -147,13 +147,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="material.state" value="material.state"<#if (material.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="material.state" value="1"<#if (material.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="material.state" value="material.state"<#if (isAdd || material.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="material.state" value="2"<#if (isAdd || material.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
@@ -252,9 +252,6 @@ body{background:#fff;}
 	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 </div><!-- /.page-content -->
 				</div><!-- /.main-content -->
-	</div><!-- /.main-container -->
-	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
-	<!-- ./ add by welson 0728 -->
 
 
 </body>

@@ -63,9 +63,9 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','创建日期','工序编码','工序名称','状态', ],
+		colNames:[ '创建日期','工序编码','工序名称','状态', ],
 		colModel:[
-			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	

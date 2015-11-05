@@ -142,7 +142,7 @@ public class CardManagementAction extends BaseAdminAction {
 //		for (String id:ids){
 //			CardManagement cardManagement=cardManagementService.load(id);
 //		}
-		redirectionUrl = "cardManagement!list.action";
+		redirectionUrl = "card_management!list.action";
 		return SUCCESS;
 	}
 
@@ -159,7 +159,7 @@ public class CardManagementAction extends BaseAdminAction {
 			CardManagement persistent = cardManagementService.load(id);
 			BeanUtils.copyProperties(cardManagement, persistent, new String[] { "id","createDate", "modifyDate"});
 			cardManagementService.update(persistent);
-			redirectionUrl = "cardManagement!list.action";
+			redirectionUrl = "card_management!list.action";
 			return SUCCESS;
 		}
 		
@@ -168,19 +168,13 @@ public class CardManagementAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "cardManagement.posCode", message = "刷卡机编码不允许为空!"),
 					@RequiredStringValidator(fieldName = "cardManagement.pcIp", message = "电脑IP不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "cardManagement.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "cardManagement.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
+			  }
 			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		cardManagementService.save(cardManagement);
-		redirectionUrl="cardManagement!list.action";
+		redirectionUrl="card_management!list.action";
 		return SUCCESS;	
 	}
 		

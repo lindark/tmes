@@ -18,6 +18,8 @@ import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.service.CallreasonService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 呼叫原因
@@ -49,6 +51,15 @@ public class CallreasonAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	//保存
+		@Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "callreason.callType", message = "呼叫类型不允许为空!"),
+						@RequiredStringValidator(fieldName = "callreason.callReason", message = "呼叫原因不允许为空!")
+				  }
+				  
+		)
+	@InputConfig(resultName = "error")
 	public String save() {
 		callreasonService.save(callreason);
 		redirectionUrl = "callreason!list.action";

@@ -142,7 +142,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 //		for (String id:ids){
 //			FactoryUnit factoryUnit=factoryUnitService.load(id);
 //		}
-		redirectionUrl = "factoryUnit!list.action";
+		redirectionUrl = "factory_unit!list.action";
 		return SUCCESS;
 	}
 
@@ -159,7 +159,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			FactoryUnit persistent = factoryUnitService.load(id);
 			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate", "modifyDate"});
 			factoryUnitService.update(persistent);
-			redirectionUrl = "factoryUnit!list.action";
+			redirectionUrl = "factory_unit!list.action";
 			return SUCCESS;
 		}
 		
@@ -168,19 +168,13 @@ public class FactoryUnitAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "factoryUnit.factoryUnitCode", message = "单元编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "factoryUnit.factoryUnitName", message = "单元名称不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "factoryUnit.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "factoryUnit.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
+			  }
 			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		factoryUnitService.save(factoryUnit);
-		redirectionUrl="factoryUnit!list.action";
+		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	
 	}
 		

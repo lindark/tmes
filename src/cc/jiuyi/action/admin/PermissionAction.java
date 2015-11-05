@@ -35,12 +35,11 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 @ParentPackage("admin")
 public class PermissionAction extends BaseAdminAction {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -433964280757192334L;
-
+	private static final long serialVersionUID = -5757137082961513058L;
+	
 	private Permission permission;
 	//获取所有状态
 	private List<Dict> allState;
@@ -168,16 +167,10 @@ public class PermissionAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "permission.permissionName", message = "权限名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "permission.permissionType", message = "权限类型不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "permission.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "permission.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
+			  }
 			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		permissionService.save(permission);
 		redirectionUrl="permission!list.action";

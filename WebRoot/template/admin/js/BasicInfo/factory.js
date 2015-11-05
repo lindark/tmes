@@ -59,9 +59,9 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize"
 	    },
-		colNames:[ 'ID','创建日期','工厂编码','工厂名称','状态', ],
+		colNames:['创建日期','工厂编码','工厂名称','状态', ],
 		colModel:[		
-			{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
+			//{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'factoryCode',index:'factoryCode', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryName',index:'factoryName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},	

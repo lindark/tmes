@@ -142,7 +142,7 @@ public class UnitConversionAction extends BaseAdminAction {
 //		for (String id:ids){
 //			UnitConversion unitConversion=unitConversionService.load(id);
 //		}
-		redirectionUrl = "unitConversion!list.action";
+		redirectionUrl = "unit_conversion!list.action";
 		return SUCCESS;
 	}
 
@@ -159,7 +159,7 @@ public class UnitConversionAction extends BaseAdminAction {
 			UnitConversion persistent = unitConversionService.load(id);
 			BeanUtils.copyProperties(unitConversion, persistent, new String[] { "id","createDate", "modifyDate"});
 			unitConversionService.update(persistent);
-			redirectionUrl = "unitConversion!list.action";
+			redirectionUrl = "unit_conversion!list.action";
 			return SUCCESS;
 		}
 		
@@ -168,21 +168,18 @@ public class UnitConversionAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "unitConversion.unitCode", message = "单位编码不允许为空!"),
 					@RequiredStringValidator(fieldName = "unitConversion.unitDescription", message = "单位描述不允许为空!"),
-					@RequiredStringValidator(fieldName = "unitConversion.conversationRatio", message = "兑换比例不允许为空!"),
-					@RequiredStringValidator(fieldName = "unitConversion.convertUnit", message = "转换单位不允许为空!"),
+					@RequiredStringValidator(fieldName = "unitConversion.convertUnit", message = "转换单位不允许为空!")
 			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "unitConversion.orderList", message = "排序不允许为空!")
-						
-			}, 
 			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "unitConversion.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
-			  
+				@IntRangeFieldValidator(fieldName = "unitConversion.conversationRatio", min = "0", message = "兑换比例必须为零或正整数!")		
+			}
+			
+			
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		unitConversionService.save(unitConversion);
-		redirectionUrl="unitConversion!list.action";
+		redirectionUrl="unit_conversion!list.action";
 		return SUCCESS;	
 	}
 		

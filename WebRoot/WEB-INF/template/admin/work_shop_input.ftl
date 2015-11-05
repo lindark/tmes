@@ -66,7 +66,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>workShop!save.action<#else>workShop!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="<#if isAdd??>work_shop!save.action<#else>work_shop!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
@@ -102,13 +102,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="workShop.state" value="workShop.state"<#if (workShop.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="workShop.state" value="1"<#if (workShop.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="workShop.state" value="workShop.state"<#if (isAdd || workShop.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="workShop.state" value="2"<#if (isAdd || workShop.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	

@@ -80,7 +80,7 @@ jQuery(function($) {
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 					{name:'productGroupCode',index:'productGroupCode', width:200},
 					{name:'productGroupName',index:'productGroupName', width:200,sortable:"true",sorttype:"text"},
-					{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"}
+					{name:'state',index:'state', width:200,sortable:"true",sorttype:"text"}
 				], 
 				// sortable:true,
 				// sortname: "deliveryDate",

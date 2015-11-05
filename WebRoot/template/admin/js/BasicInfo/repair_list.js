@@ -125,8 +125,8 @@ jQuery(function($) {
 					sortable : "true",
 					sorttype : "text"
 				}, {
-					name : 'state',
-					index : 'state',
+					name : 'stateRemark',
+					index : 'stateRemark',
 					width : 100,
 					sortable : "true",
 					sorttype : "text"

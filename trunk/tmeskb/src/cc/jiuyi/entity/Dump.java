@@ -21,6 +21,8 @@ public class Dump extends BaseEntity{
 	private String state;//状态
 	private String isDel;//是否删除
 	private String confirmUser;//确认人
+	private String stateRemark;//状态描述
+	
 	public String getVoucherId() {
 		return voucherId;
 	}
@@ -53,6 +55,12 @@ public class Dump extends BaseEntity{
 	}
 	public void setConfirmUser(String confirmUser) {
 		this.confirmUser = confirmUser;
+	}
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
 	}
 	
 }

@@ -197,7 +197,7 @@
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="dump">
 																	<i class="ace-icon fa fa-credit-card bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">转储确认</span>
 																</button>
@@ -215,13 +215,13 @@
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="repair">
 																	<i class="ace-icon fa fa-cog bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">返修</span>
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="repairin">
 																	<i class="ace-icon fa fa-glass bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">返修收货</span>
 																</button>

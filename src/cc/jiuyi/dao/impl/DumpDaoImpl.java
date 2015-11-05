@@ -83,7 +83,21 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 			dump.setIsDel(oper);//标记删除
 			super.update(dump);
 		}
-		
+	}
+
+	@Override
+	public void updateDump(Dump dump) {
+		String hql="update Dump set deliveryDate = ?,state=?,confirmUser=? where voucherId = ?";
+		getSession().createQuery(hql).setParameter(0, dump.getDeliveryDate()).setParameter(1, dump.getState()).setParameter(2, dump.getConfirmUser()).setParameter(3, dump.getVoucherId()).executeUpdate();
 		
 	}
+
+	@Override
+	public List getListDumpById(String voucherId) {
+		String hql = "from Dump where voucherId = ?";
+		List list = getSession().createQuery(hql).setParameter(0, voucherId).list();
+		return list;
+	}
+	
+	
 }

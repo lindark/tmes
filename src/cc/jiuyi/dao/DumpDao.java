@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Dump;
@@ -17,4 +18,12 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public void updateDump(Dump dump);
+	
+	/**
+	 * 根据物料凭证号取出对应的随工单信息
+	 * @return
+	 */
+	public List getListDumpById(String voucherId);
 }

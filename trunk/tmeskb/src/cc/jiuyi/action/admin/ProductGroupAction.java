@@ -18,6 +18,8 @@ import cc.jiuyi.entity.ProductGroup;
 import cc.jiuyi.service.ProductGroupService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 缺陷代码管理
@@ -49,6 +51,14 @@ public class ProductGroupAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	//保存
+		@Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "productGroup.productGroupCode", message = "产品组编号不允许为空!"),
+						@RequiredStringValidator(fieldName = "productGroup.productName", message = "产品组名字不允许为空!")
+				  }						  
+		)
+	@InputConfig(resultName = "error")
 	public String save() {
 		productGroupService.save(productGroup);
 		redirectionUrl = "product_group!list.action";

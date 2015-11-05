@@ -63,9 +63,9 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','创建日期','组件类型','组件编码','组件名称','来源库存地点','去向库存地点','组件单位','组件数量','批次','状态', ],
+		colNames:[ '创建日期','组件类型','组件编码','组件名称','来源库存地点','去向库存地点','组件单位','组件数量','批次','状态', ],
 		colModel:[
-			{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+			
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'materialType',index:'materialType', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialCode',index:'materialCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},

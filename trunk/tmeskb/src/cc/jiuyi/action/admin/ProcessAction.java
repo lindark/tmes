@@ -168,16 +168,10 @@ public class ProcessAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "process.processCode", message = "工序编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "process.processName", message = "工序名称不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "process.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "process.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
+			  }
 			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		processService.save(process);
 		redirectionUrl="process!list.action";

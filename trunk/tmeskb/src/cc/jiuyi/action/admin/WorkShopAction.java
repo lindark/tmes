@@ -36,11 +36,9 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 @ParentPackage("admin")
 public class WorkShopAction extends BaseAdminAction {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -433964280757192334L;
-
+	
+	private static final long serialVersionUID = 2620132694715802014L;
+	
 	private WorkShop workShop;
 	//获取所有状态
 	private List<Dict> allState;
@@ -142,7 +140,7 @@ public class WorkShopAction extends BaseAdminAction {
 //		for (String id:ids){
 //			WorkShop workShop=workShopService.load(id);
 //		}
-		redirectionUrl = "workShop!list.action";
+		redirectionUrl = "work_shop!list.action";
 		return SUCCESS;
 	}
 
@@ -159,7 +157,7 @@ public class WorkShopAction extends BaseAdminAction {
 			WorkShop persistent = workShopService.load(id);
 			BeanUtils.copyProperties(workShop, persistent, new String[] { "id","createDate", "modifyDate"});
 			workShopService.update(persistent);
-			redirectionUrl = "workShop!list.action";
+			redirectionUrl = "work_shop!list.action";
 			return SUCCESS;
 		}
 		
@@ -168,19 +166,13 @@ public class WorkShopAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "workShop.workShopCode", message = "车间编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "workShop.workShopName", message = "车间名称不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "workShop.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "workShop.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
+			  }
 			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		workShopService.save(workShop);
-		redirectionUrl="workShop!list.action";
+		redirectionUrl="work_shop!list.action";
 		return SUCCESS;	
 	}
 		

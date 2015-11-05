@@ -101,13 +101,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="team.state" value="team.state"<#if (team.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="team.state" value="1"<#if (team.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="team.state" value="team.state"<#if (isAdd || team.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="team.state" value="2"<#if (isAdd || team.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	

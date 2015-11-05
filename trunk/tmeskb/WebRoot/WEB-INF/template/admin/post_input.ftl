@@ -102,13 +102,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="post.state" value="post.state"<#if (post.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="post.state" value="1"<#if (post.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="post.state" value="post.state"<#if (isAdd || post.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="post.state" value="2"<#if (isAdd || post.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	

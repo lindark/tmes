@@ -24,6 +24,8 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 
 /**
@@ -161,12 +163,14 @@ public class TeamAction extends BaseAdminAction {
 		}
 		
 	//保存
-//	@Validations(
-//			requiredStrings = {
-//					@RequiredStringValidator(fieldName = "process.processCode", message = "工序编码不允许为空!"), 
-//					@RequiredStringValidator(fieldName = "process.processName", message = "工序名称不允许为空!")
-//			  }
-//			)
+	@Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "team.teamCode", message = "班组编号不允许为空!"),
+						@RequiredStringValidator(fieldName = "team.teamName", message = "班组名称不允许为空!")
+				  }
+				  
+		)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		teamService.save(team);
 		redirectionUrl="team!list.action";

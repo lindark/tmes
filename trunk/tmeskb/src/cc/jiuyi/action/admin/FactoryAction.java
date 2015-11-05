@@ -160,16 +160,9 @@ public class FactoryAction extends BaseAdminAction {
 			requiredStrings = {
 					@RequiredStringValidator(fieldName = "factory.factoryCode", message = "工厂编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "factory.factoryName", message = "工厂名称不允许为空!")
-			  },
-			requiredFields = {
-					@RequiredFieldValidator(fieldName = "factory.orderList", message = "排序不允许为空!")
-						
-			}, 
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "factory.orderList", min = "0", message = "排序必须为零或正整数!")
-				}
-			  
+			  }			  
 	)
+	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		factoryService.save(factory);
 		redirectionUrl="factory!list.action";

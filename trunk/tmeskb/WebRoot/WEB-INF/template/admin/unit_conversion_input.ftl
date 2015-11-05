@@ -66,7 +66,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>unitConversion!save.action<#else>unitConversion!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="<#if isAdd??>unit_conversion!save.action<#else>unit_conversion!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
@@ -90,7 +90,7 @@ body{background:#fff;}
 										
 										<div class="profile-info-name"> 单位描述 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="unitConversion.unitDescription" value="${(unitConversion.unitDescription)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="unitConversion.unitDescription" value="${(unitConversion.unitDescription)!}" class=" input input-sm  formText {required: true,minlength:1,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
@@ -116,13 +116,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="unitConversion.state" value="unitConversion.state"<#if (unitConversion.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="unitConversion.state" value="1"<#if (unitConversion.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="unitConversion.state" value="unitConversion.state"<#if (isAdd || unitConversion.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="unitConversion.state" value="2"<#if (isAdd || unitConversion.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	

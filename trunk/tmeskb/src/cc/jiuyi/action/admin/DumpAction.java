@@ -85,6 +85,19 @@ public class DumpAction extends BaseAdminAction {
 		redirectionUrl = "dump!list.action";
 		return SUCCESS;
 	}
+	
+	public String confirms(){
+		ids = id.split(",");
+		for(int i = 0;i<ids.length;i++){
+			dump = dumpService.load(ids[i]);
+			dump.setState(CONFIRMED);
+			admin = adminService.getLoginAdmin();
+			dump.setConfirmUser(admin.getUsername());
+			dumpService.save(dump);
+		}
+		redirectionUrl = "dump!list.action";
+		return SUCCESS;
+	}
 
 	@InputConfig(resultName = "error")
 	public String update() {

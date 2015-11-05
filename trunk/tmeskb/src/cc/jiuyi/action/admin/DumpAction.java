@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,9 +17,14 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.DumpSync;
+import cc.jiuyi.sap.rfc.Repairorder;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -34,6 +41,8 @@ public class DumpAction extends BaseAdminAction {
 
 	@Resource
 	private DumpService dumpService;
+	@Resource
+	private DictService dictService;
 
 	public String list() {
 		return "list";
@@ -127,10 +136,32 @@ public class DumpAction extends BaseAdminAction {
 			
 		}
 		pager = dumpService.getDumpPager(pager,map);
+		List<Dump> dumpList = pager.getList();
+		List<Dump> lst = new ArrayList<Dump>();
+		for (int i = 0; i < dumpList.size(); i++) {
+			Dump dump = (Dump) dumpList.get(i);
+			dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "dumpState", dump.getState()));
+			lst.add(dump);
+		}
+	pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
+	
+	//同步
+		public String sync() {
+			DumpSync d = new DumpSync();
+			try {
+				d.syncRepairorder(dumpService);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ERROR;
+			}//同步
+			redirectionUrl = "dump!list.action";
+			return SUCCESS;
+		}
 
 	public Dump getDump() {
 		return dump;

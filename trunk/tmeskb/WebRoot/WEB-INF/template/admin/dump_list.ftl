@@ -82,8 +82,8 @@
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
-										        <option value="已确认">已确认</option>   
-										        <option value="未确认">未确认</option>   
+										        <option value="1">已确认</option>   
+										        <option value="2">未确认</option>   
 										      </select>   
 										</div>
 									</div>

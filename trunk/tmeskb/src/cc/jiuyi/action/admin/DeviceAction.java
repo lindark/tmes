@@ -52,9 +52,17 @@ public class DeviceAction extends BaseAdminAction {
 	}
 		
 	// 删除
-	public String delete() throws Exception {			
+	public String delete() throws Exception {	
+		ids=id.split(",");
 		deviceService.delete(ids);
-		return ajaxJsonSuccessMessage("删除成功！");
+		redirectionUrl = "device!list.action";
+		return SUCCESS;
+	}
+	
+	public String save(){
+		deviceService.save(device);
+		redirectionUrl = "device!list.action";
+		return SUCCESS;
 	}
 
 	public Device getDevice() {

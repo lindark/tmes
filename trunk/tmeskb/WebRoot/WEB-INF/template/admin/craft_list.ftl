@@ -10,6 +10,7 @@
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/unusual/js/craft_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
 	<body class="no-skin">
@@ -44,21 +45,39 @@
 				<div class="page-content">
 					
 					<div class="page-content-area">
-					<!--
-						<div class="page-header">
-							<h1>
-								jqGrid
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Dynamic tables and grids using jqGrid plugin
-								</small>
-							</h1>
-						</div>--><!-- /.page-header -->
 					
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								
+								 <form class="form-horizontal" id="searchform" action="craft!ajlist.action" role="form">
+								   <div class="operateBar">
+								   	<div class="form-group">
+										<label class="col-sm-2" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
+											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">日期:</label>
+										<div class="col-sm-4">
+											<div class="input-daterange input-group">
+												<input type="text" class="input-sm form-control datePicker" name="start">
+												<span class="input-group-addon">
+													<i class="fa fa-exchange"></i>
+												</span>
+
+												<input type="text" class="input-sm form-control datePicker" name="end">
+											</div>
+										</div>									
+									</div>
+									
+										<div class="form-group" style="text-align:center">
+											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>										
+										</div>
+										
+									</div>
+								</form>
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
@@ -76,36 +95,7 @@
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
              <#include "/WEB-INF/template/admin/admin_footer.ftl">
-             <!-- 
-			<div class="footer">
-				<div class="footer-inner">
-					
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
-
-					
-				</div>
-			</div> -->
-
+            
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>

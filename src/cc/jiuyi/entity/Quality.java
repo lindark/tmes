@@ -26,7 +26,7 @@ public class Quality extends BaseEntity{
 	private Date overTime;//计划完成时间
 	
 	private String engineerOpinion;//工程师意见
-	private String isDel;//是否删除*/	
+	private String isDel;//是否删除	
 	private String state;//状态
 	
 	public String getProductNo() {

@@ -93,7 +93,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "model!delete.action",//nothing is saved
 		caption: "工模维修单记录"	
 
 	});
@@ -119,7 +119,10 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		    editfunc:function(rowId){
+		       location.href="model!edit.action?id="+rowId;
+	        },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){

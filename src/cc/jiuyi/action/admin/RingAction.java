@@ -11,4 +11,9 @@ public class RingAction extends BaseAdminAction {
 	public String add() {
 		return INPUT;
 	}
+	
+	// 清单
+	public String list() {
+		return LIST;
+	}
 }

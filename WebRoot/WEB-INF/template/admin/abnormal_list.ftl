@@ -280,9 +280,5 @@ th {
 	
     <div class="dialog-message hide" id="dialog-message">   
 	</div>
-	
-	<script type="text/javascript">
-		
-	</script>
 </body>
 </html>

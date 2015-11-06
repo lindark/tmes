@@ -58,7 +58,8 @@ public class ModelAction extends BaseAdminAction {
 	}
 
 	// 删除
-	public String delete() throws Exception {			
+	public String delete() throws Exception {	
+		ids=id.split(",");
 		modelService.delete(ids);
 		return ajaxJsonSuccessMessage("删除成功！");
 	}

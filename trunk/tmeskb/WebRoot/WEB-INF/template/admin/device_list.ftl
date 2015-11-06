@@ -58,7 +58,35 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								
+								 <form class="form-horizontal" id="searchform" action="device!ajlist.action" role="form">
+								   <div class="operateBar">
+								   	<div class="form-group">
+										<label class="col-sm-2" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
+											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">日期:</label>
+										<div class="col-sm-4">
+											<div class="input-daterange input-group">
+												<input type="text" class="input-sm form-control datePicker" name="start">
+												<span class="input-group-addon">
+													<i class="fa fa-exchange"></i>
+												</span>
+
+												<input type="text" class="input-sm form-control datePicker" name="end">
+											</div>
+										</div>									
+									</div>
+									
+										<div class="form-group" style="text-align:center">
+											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>										
+										</div>
+										
+									</div>
+								</form>
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>

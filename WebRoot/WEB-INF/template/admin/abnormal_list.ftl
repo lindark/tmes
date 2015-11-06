@@ -21,8 +21,6 @@
 <script type="text/javascript"
 	src="${base}/template/unusual/js/ring.js"></script>
 <script type="text/javascript"
-	src="${base}/template/unusual/js/ring_input.js"></script>
-<script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -47,28 +45,7 @@
 	padding: 10px 5px;
 	margin: 6px 3px;
 }
-
-button {
-	width: 136px;
-	height: 36px;
-	padding: 3px 3px;
-	margin: 3px 3px;
-	/*background-color: #00DB00;*/
-	color: #FFFFFF
-}
-
-.call {
-	width: 100px;
-	height: 60px;
-	padding: 16px 6px;
-	margin-left: 200px;
-	margin-top: 30px;
-	background-color: #edf4eb;
-	border-color: #a7c9a1;
-	color: #6ea465;
-	font-size: 20px
-}
-
+.call{margin-top:60px;margin-left:190px;width:100px;}
 th {
 	height: 28px;
 	width: 200px;
@@ -134,54 +111,48 @@ th {
 
 										<div class="widget-body">
 											<div class="widget-main">
-												<div class="profile-info-row">
-													<div class="profile-info-name">工厂</div>
-													<div class="profile-info-value">建新赵氏集团密封条厂</div>
+											    <div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 工厂</div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="username">建新赵氏集团密封条厂</span>
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name">车间</div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="username">密封条</span>			
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 单元 </div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">1单元</span>
+														</div>
+													</div>
+	
+													<div class="profile-info-row">
+														<div class="profile-info-name"> 班组</div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">01班</span>
+														</div>
+													</div>
+
+                                                    <div class="profile-info-row">
+														<div class="profile-info-name">时间</div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">2015-09-21</span>
+														</div>
+													</div>
 												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">车间</div>
-													<div class="profile-info-value">封条厂</div>
-												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">单元</div>
-													<div class="profile-info-value">1单元</div>
-												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">班组</div>
-													<div class="profile-info-value">01班</div>
-												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">时间</div>
-													<div class="profile-info-value">2015-09-21</div>
-												</div>
-												<!--   <table>
-												    <tr>
-												    <th>工厂:</th>
-						                            <td>${(abnormal.productName)!}建新赵氏集团密封条厂</td>
-					                                </tr>
-					                                <tr>
-												    <th>车间:</th>
-						                            <td>${(abnormal.productName)!}密封条</td>
-					                                </tr>
-						                            <tr>
-												    <th>单元:</th>
-						                            <td>${(abnormal.productName)!}1单元</td>
-					                                </tr>
-					                                <tr>
-												    <th>班组:</th>
-						                            <td>${(abnormal.productName)!}01班</td>
-					                                </tr>
-												    <tr>
-												    <th>时间:</th>
-						                            <td>${(abnormal.productName)!}2015-09-16</td>
-					                                </tr>
-												    </table>
-													<!-- <p class="alert alert-info">
-														Nunc
-													</p>
-													<p class="alert alert-success">
-														Raw
-													</p> -->
+																																															
 											</div>
 										</div>
 									</div>
@@ -219,18 +190,10 @@ th {
 										</div>
 
 										<div class="widget-body">
-											<div class="widget-main">
-                                              
-												 <p class="alert alert-success"
-													style="height:160px;background-color:white">
-													<button class="call">呼叫</button>
-												    <!-- 
-													<div class="col-md-3 col-sm-4">
-													   <button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                                         <span class="bigger-110 no-text-shadow">呼叫</span>
-									                   </button>
-									                 </div>  -->
-												</p> 
+											<div class="widget-main" style="height:183px;">                                             							 
+													
+												<button class="btn btn-success call">呼叫</button>										   
+												<div style="position:absolute;top:200px;height:30px;"><span class="person"></span></div>
 											</div>
 										</div>
 									</div>
@@ -238,42 +201,42 @@ th {
 							</div>
 
 							<div class="row buttons">
-							    <!-- 
+							     
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">创建质量问题单</span>
-									</button>
-								</div> -->
-								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">创建工模维修单</span>
+                                      <span class="bigger-110 no-text-shadow"><a href="quality!add.action">创建质量问题单</a></span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">创建工艺维修单</span>
+                                      <span class="bigger-110 no-text-shadow"><a href="model!add.action">创建工模维修单</a></span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">创建设备维修单</span>
+                                      <span class="bigger-110 no-text-shadow"><a href="craft!add.action">创建工艺维修单</a></span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">响应刷卡</span>
+                                      <span class="bigger-110 no-text-shadow"><a href="device!add.action">创建设备维修单</a></span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow">撤销呼叫</span>
+                                      <span class="bigger-110 no-text-shadow"><a href="">响应刷卡</a></span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
+                                      <span class="bigger-110 no-text-shadow"><a href="">撤销呼叫</a></span>
+									</button>
+								</div>
+								<!-- <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
                                       <span class="bigger-110 no-text-shadow">关闭异常</span>
 									</button>
-								</div>
+								</div> -->
 							</div>
 
 							<table id="grid-table"></table>
@@ -290,7 +253,8 @@ th {
 				</div>
 			</div>
 		</div>
-
+		<#include "/WEB-INF/template/admin/admin_footer.ftl">
+       <!-- 
 		<div class="footer">
 			<div class="footer-inner">
 
@@ -305,9 +269,9 @@ th {
 							class="ace-icon fa fa-rss-square orange bigger-150"></i> </a> </span>
 				</div>
 
-				<!-- /section:basics/footer -->
+				
 			</div>
-		</div>
+		</div> -->
 
 		<a href="#" id="btn-scroll-up"
 			class="btn-scroll-up btn btn-sm btn-inverse"> <i

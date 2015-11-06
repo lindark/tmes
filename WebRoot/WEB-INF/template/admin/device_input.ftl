@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/编辑设备维修单 - Powered By ${systemConfig.systemName}</title>
+<title>添加/编辑工模维修单 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -32,9 +32,7 @@ body{background:#fff;}
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-
-
-    <div class="breadcrumbs" id="breadcrumbs">
+	<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -44,200 +42,221 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active"><#if isAdd??>添加设备维修单<#else>编辑设备维修单</#if></li>
+			<li class="active"><#if isAdd??>添加工模维修单<#else>编辑工模维修单</#if></li>
 		</ul><!-- /.breadcrumb -->
-	</div>
+	</div> 
 	
-
 	
-								
-		<div class="blank1"></div>
-		<!-- add by welson 0728 -->
+	<!-- add by welson 0728 -->
 	<div class="page-content">
 					<div class="page-content-area">					
 
 						<div class="row">
 							<div class="col-xs-12">
-							<!--./add by welson 0910 -->
-							
-							
-							<form id="inputForm" class="validate" action="<#if isAdd??>mass!save.action<#else>mass!update.action</#if>" method="post" enctype="multipart/form-data" >
-								<input type="hidden" name="id" value="${id}" />
+								<!-- ./ add by welson 0728 -->
 								
-								
-							<div id="inputtabs">
-											<ul>
-												<li>
-													<a href="#tabs-1">单据信息</a>
-												</li>
-
-												<li>
-													<a href="#tabs-2">单据日志</a>
-												</li>												
-												<li>
-													<a href="#tabs-3">相关单据</a>
-												</li>
-											</ul>
-		
-			<table id="tabs-1" class="inputTable tabContent">
-				<tr>
-					<th>
-						类型:
-					</th>
-					<td>
-						<select name="device.maintenanceType" class="{required: true}">
-							<option value="">请选择...</option>							
-						</select>
-					</td>
-					<th>
-						设备编号:
-					</th>
-					<td>
-						<select name="device.maintenanceType" class="{required: true}">
-							<option value="">请选择...</option>							
-						</select>
-					</td>
-				</tr>
-
-				<tr>
-					<th>
-						停用车间:
-					</th>
-					<td>
-						<input type="text" class="formText" name="device.workShop" value="${(device.workShop)!}" />
-					</td>
-					<th>
-						车间联系人:
-					</th>
-					<td>
-						<input type="text" class="formText" name="device.workshopLinkman" value="${(device.workshopLinkman)!}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						是否停机:
-					</th>
-					<td>
-						<input type="text" class="formText" name="device.isDown" value="${(device.isDown)!}" />
-					</td>
-					<th>
-						停产维修:
-					</th>
-					<td>
-						<input type="text" class="formText" name="device.isMaintenance" value="${(device.isMaintenance)!}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						故障描述:
-					</th>
-					<td>
-					    <input type="text" class="formText" name="device.diagnosis" value="${(device.diagnosis)!}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						处理开始时间:
-					</th>
-					<td>
-						<input type="text" name="device.beginTime" class="formText {required: true, min: 0}" value="${(device.beginTime)!}" />
-					</td>
-					<th>
-						处理结束时间:
-					</th>
-					<td>
-						<input type="text" name="device.dndTime" class="formText {required: true, min: 0}" value="${(device.dndTime)!}" />
-					</td>
-				</tr>				
-				<tr>
-					<th>
-						处理人员:
-					</th>
-					<td>
-						<input type="text" name="device.disposalWorkers" class="formText {required: true, min: 0}" value="${(device.disposalWorkers)!}" />
-					</td>
-				</tr>				
-				<tr>
-					<th>
-						总维修时间:
-					</th>
-					<td>
-						<input type="text" name="device.totalMaintenanceTime" class="formText {required: true, min: 0}" value="${(device.totalMaintenanceTime)!}" />						
-					</td>
-					<th>
-						总停机时间:
-					</th>
-					<td>
-						<input type="text" name="device.totalDownTime" class="formText {required: true}" value="${(device.totalDownTime)!}"/>						
-					</td>
-				</tr>
-				<tr>
-					<th>
-						故障性质:
-					</th>
-					<td>
-						<select name="device.faultCharacter" class="{required: true}">
-							<option value="">请选择...</option>							
-						</select>
-					</td>
-				</tr>															
-				<tr>
-					<th>
-						处理过程:
-					</th>
-					<td>
-						<input type="text" name="device.process" class="formText {required: true}" value="${(device.process)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						原因分析:
-					</th>
-					<td>
-						<input type="text" name="device.causeAnalysis" class="formText {required: true}" value="${(device.causeAnalysis)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						预防对策:
-					</th>
-					<td>
-						<input type="text" name="device.preventionCountermeasures" class="formText {required: true}" value="${(device.preventionCountermeasures)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						接到电话号码:
-					</th>
-					<td>
-						<input type="text" name="device.phone" class="formText {required: true}" value="${(device.phone)!}"/>
-					</td>
-					<th>
-						接到电话时间:
-					</th>
-					<td>
-						<input type="text" name="device.callTime" class="formText {required: true}" value="${(device.callTime)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						到达现场时间:
-					</th>
-					<td>
-						<input type="text" name="device.arrivedTime" class="formText {required: true}" value="${(device.arrivedTime)!}"/>
-					</td>
-					<th>
-						服务态度:
-					</th>
-					<td>
-						<select name="device.serviceAttitude" class="{required: true}">
-							<option value="">请选择...</option>							
-						</select>
-					</td>
-				</tr>
-			</table>
+		<form id="inputForm" class="validate" action="<#if isAdd??>device!save.action<#else>device!update.action</#if>" method="post">
+			<input type="hidden" name="id" value="${id}" />
 			
+			<div id="inputtabs">
+			<ul>
+				<li>
+					<a href="#tabs-1">基本信息</a>
+				</li>
+				<li>
+					<a href="#tabs-2">单据日志</a>
+				</li>
+				<li>
+					<a href="#tabs-3">相关单据</a>
+				</li>
+			</ul>
 			
+			<div id="tabs-1">
+			
+				<!--weitao begin modify-->
+						<div class="profile-user-info profile-user-info-striped">
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 类型 </div>
+					
+										<div class="profile-info-value">
+										    <select name="device.maintenanceType">							
+								<option value="1">
+									停线维修
+								</option>
+								<option value="2">
+									插针保养
+								</option>
+						</select>
+											<!-- <input type="text" name="quality.productName" value="${(quality.productName)!}" class=" input input-sm  formText {required: true}" /> -->
+										</div>
+										 <div class="profile-info-name"> 设备编号</div>
+					
+										<div class="profile-info-value">
+											 <select name="device.deviceNo">							
+								<option value="1">
+									130032
+								</option>
+								<option value="2">
+									130031
+								</option>
+						</select>
+										</div> 
+										
+									</div>
+									 
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 设备名称</div>
+					
+										<div class="profile-info-value">							
+								<input type="text" name="device.deviceName" value="${(device.deviceName)!}" class=" input input-sm  formText {required: true}" />									
+										</div>
+										<div class="profile-info-name">设备型号</div>
+					
+										<div class="profile-info-value">
+											 <select name="device.deviceModel">							
+								<option value="1">
+									z-00A
+								</option>
+								<option value="2">
+									z-00B
+								</option>
+						</select>
+										</div>
+									</div>									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">使用车间</div>
+									    <div class="profile-info-value">
+									          <select name="device.workShop">							
+								<option value="1">
+									A
+								</option>
+								<option value="2">
+									B
+								</option>
+						</select>
+											<!-- <input type="text" name="device.workShop" value="${(device.workShop)!}" class=" input input-sm  formText {required: true}" /> -->
+										</div>
+										 <div class="profile-info-name">车间联系人</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.workshopLinkman" value="${(device.workshopLinkman)!}" class="input input-sm formText {required: true}"/>
+										</div>									
+									</div>		
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">是否停机</div>
+									    <div class="profile-info-value">
+									          <select name="device.isDown">							
+								                  <option value="1">是</option>
+								                  <option value="2">否</option>
+						                      </select>									
+										</div>
+										<div class="profile-info-name">停产维修</div>
+									    <div class="profile-info-value">
+									          <select name="device.isMaintenance">							
+								                  <option value="1">是</option>
+								                  <option value="2">否</option>
+						                      </select>									
+										</div>
+									</div>
+																																	
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 处理开始时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.beginTime" value="${(device.beginTime)!}" class="formText {required: true} datePicker"/>
+										</div>
+										<div class="profile-info-name"> 处理结束时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.dndTime" value="${(device.dndTime)!}" class="formText {required: true} datePicker" />
+										</div>
+									</div> 
+									
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 处理人员</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.disposalWorkers" value="${(device.disposalWorkers)!}" class=" input input-sm  formText {required: true}" />
+										</div>									
+									</div>
+									
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">总维修时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.totalMaintenanceTime" value="${(device.totalMaintenanceTime)!}" class=" input input-sm  formText {required: true}" />
+										</div>	
+										<div class="profile-info-name"> 总停机时间</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.totalDownTime" value="${(device.totalDownTime)!}" class="input input-sm  formText {required: true}" />
+										</div>
+									</div>	
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">故障性质</div>
+									    <div class="profile-info-value">
+									        <select name="device.faultCharacter">							
+								                  <option value="1">操作不当</option>
+								                  <option value="2">点检维护不当</option>
+						                      </select>												
+										</div>											
+									</div>	
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">故障原因</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
+										</div>											
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">处理过程</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.process" value="${(device.process)!}" class=" input input-sm  formText {required: true}" />
+										</div>											
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">原因分析</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
+										</div>											
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">预防对策</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
+										</div>											
+									</div>	
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">接到电话号码</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.phone" value="${(device.phone)!}" class=" input input-sm  formText {required: true}" />
+										</div>	
+										<div class="profile-info-name"> 接到电话时间</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.callTime" value="${(device.callTime)!}" class="formText {required: true} datePicker" />
+										</div>
+									</div>		
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">到达现场时间</div>
+									    <div class="profile-info-value">
+											<input type="text" name="device.arrivedTime" value="${(device.arrivedTime)!}" class="formText {required: true} datePicker" />
+										</div>	
+										<div class="profile-info-name">服务态度</div>
+									    <div class="profile-info-value">
+									        <select name="device.serviceAttitude">							
+								                  <option value="1">非常满意</option>
+								                  <option value="2">满意</option>
+						                     </select>													
+										</div>
+									</div>												
+							
+						</div>
+						
+				<!--weitao end modify-->	
+				
+			
+			</div>
 			
 			<table id="tabs-2" class="inputTable tabContent">
 				<tbody><tr class="title">
@@ -257,17 +276,14 @@ body{background:#fff;}
 					</td>					
 				</tr>
 		</tbody>
-			</table>		
-			
+			</table>
+														
 			<table id="tabs-3" class="inputTable tabContent">
 				
 			</table>
 			
-			</div>
-	
-			
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="保存" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>
@@ -285,9 +301,7 @@ body{background:#fff;}
 				</div><!-- /.main-content -->
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
-	
-	
 	<!-- ./ add by welson 0728 -->
-	
+
 </body>
 </html>

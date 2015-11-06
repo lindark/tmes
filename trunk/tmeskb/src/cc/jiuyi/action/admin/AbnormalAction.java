@@ -1,5 +1,9 @@
 package cc.jiuyi.action.admin;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
@@ -55,6 +59,31 @@ public class AbnormalAction extends BaseAdminAction {
 	// 添加
 	public String addMessage() {
 		return "abnormal_message";
+	}
+	
+	public String save() {	
+		
+		abnormal.setCallDate(new Date());
+		abnormal.setCreateDate(new Date());
+		abnormal.setModifyDate(new Date());
+		abnormal.setReplyDate(new Date());
+		
+		abnormal.setCreateUser("张三");
+		abnormal.setModifyUser("张三");
+		abnormal.setIniitiator("张三");
+		abnormal.setIsDel("N");
+		abnormal.setFactoryName("建新赵氏密封条工厂");
+		abnormal.setHandlingTime(new Integer(0));
+		abnormal.setResponsor("李四");
+		abnormal.setShopName("2车间");
+		abnormal.setState("未确定");
+		abnormal.setUnitName("2单元");
+		
+		abnormalService.save(abnormal);
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "呼叫成功");	
+		return ajaxJson(jsonMap);
 	}
 
 	// 删除

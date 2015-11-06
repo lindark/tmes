@@ -75,10 +75,11 @@
 					</div><!-- /.page-content-area -->
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
-
+             <#include "/WEB-INF/template/admin/admin_footer.ftl">
+             <!-- 
 			<div class="footer">
 				<div class="footer-inner">
-					<!-- #section:basics/footer -->
+					
 					<div class="footer-content">
 						<span class="bigger-120">
 							<span class="blue bolder">Ace</span>
@@ -101,9 +102,9 @@
 						</span>
 					</div>
 
-					<!-- /section:basics/footer -->
+					
 				</div>
-			</div>
+			</div> -->
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>

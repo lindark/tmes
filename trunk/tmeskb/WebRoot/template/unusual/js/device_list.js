@@ -93,7 +93,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "device!delete.action",//nothing is saved
 		caption: "设备维修记录"
 
 		//,autowidth: true,
@@ -138,7 +138,10 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+			editfunc:function(rowId){
+				location.href="device!edit.action?id="+rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){

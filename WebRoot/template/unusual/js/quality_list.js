@@ -137,7 +137,10 @@ jQuery(function($) {
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,		
+			//view: true,	
+			addfunc:function(){
+				location.href="quality!add.action";
+			},
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

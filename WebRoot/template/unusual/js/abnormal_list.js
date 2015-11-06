@@ -92,7 +92,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "abnormal!delete.action",//nothing is saved
 		caption: "异常清单"
 
 	});
@@ -121,10 +121,10 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,			
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="abnormal!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

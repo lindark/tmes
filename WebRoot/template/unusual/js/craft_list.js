@@ -91,7 +91,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "/dummy.html",//nothing is saved
+		editurl: "craft!delete.action",//nothing is saved
 		caption: "工艺维修单记录"
 
 	});
@@ -127,10 +127,10 @@ jQuery(function($) {
 				location.href="craft!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				location.href="craft!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

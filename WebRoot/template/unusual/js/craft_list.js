@@ -58,14 +58,13 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize"
 	    },
-		colNames:[ '时间','产品名称','机台号', '班组', '维修人员','状态'],
+		colNames:[ '时间','产品名称','机台号', '班组', '状态'],
 		colModel:[
 			
 			{name:'createDate',index:'createDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsName',index:'productsName',editable:true},
 			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
-			{name:'classes',index:'classes', width:160, editable: true},
-			{name:'repairName',index:'repairName', width:160, editable: true},			
+			{name:'classes',index:'classes', width:160, editable: true},		
 			{name:'state',index:'state', width:20, sortable:false,editable: true}		
 		], 
 

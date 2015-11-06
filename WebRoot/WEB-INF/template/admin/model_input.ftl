@@ -32,9 +32,7 @@ body{background:#fff;}
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-
-
-    <div class="breadcrumbs" id="breadcrumbs">
+	<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -46,164 +44,151 @@ body{background:#fff;}
 			</li>
 			<li class="active"><#if isAdd??>添加工模维修单<#else>编辑工模维修单</#if></li>
 		</ul><!-- /.breadcrumb -->
-	</div>
+	</div> 
 	
-
 	
-								
-		<div class="blank1"></div>
-		<!-- add by welson 0728 -->
+	<!-- add by welson 0728 -->
 	<div class="page-content">
 					<div class="page-content-area">					
 
 						<div class="row">
 							<div class="col-xs-12">
-							<!--./add by welson 0910 -->
-							
-							
-							<form id="inputForm" class="validate" action="<#if isAdd??>model!save.action<#else>model!update.action</#if>" method="post" enctype="multipart/form-data" >
-								<input type="hidden" name="id" value="${id}" />
+								<!-- ./ add by welson 0728 -->
 								
-								
-							<div id="inputtabs">
-											<ul>
-												<li>
-													<a href="#tabs-1">单据信息</a>
-												</li>
-
-												<li>
-													<a href="#tabs-2">单据日志</a>
-												</li>												
-												<li>
-													<a href="#tabs-3">相关单据</a>
-												</li>
-											</ul>
-		
-			<table id="tabs-1" class="inputTable tabContent">
-				<tr>
-					<th>
-						产品名称:
-					</th>
-					<td>
-						<input type="text" name="model.productName" class="formText {required: true}" value="${(model.productName)!}" />
-						<label class="requireField">*</label>
-					</td>
-					<th>
-						产品编号:
-					</th>
-					<td>
-						<input type="text" class="formText" name="model.productCode" value="${(model.productCode)!}" />
-					</td>
-				</tr>	
-							<!-- 
-				<tr>
-					<th>
-						时间:
-					</th>
-					<td>
-						<input type="text" class="formText" name="model.createDate" value="${(model.createDate)!}" />
-					</td>-->
-					<th>
-						班组:
-					</th>
-					<td>
-						<input type="text" class="formText" name="model.teamId" value="${(model.teamId)!}" />
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						种类:
-					</th>
-					<td>
-					   	<select name="model.type.id">
-							<option value="">请选择...</option>
+		<form id="inputForm" class="validate" action="<#if isAdd??>model!save.action<#else>model!update.action</#if>" method="post">
+			<input type="hidden" name="id" value="${id}" />
+			
+			<div id="inputtabs">
+			<ul>
+				<li>
+					<a href="#tabs-1">基本信息</a>
+				</li>
+				<li>
+					<a href="#tabs-2">单据日志</a>
+				</li>
+				<li>
+					<a href="#tabs-3">相关单据</a>
+				</li>
+			</ul>
+			
+			<div id="tabs-1">
+			
+				<!--weitao begin modify-->
+						<div class="profile-user-info profile-user-info-striped">
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 产品编号 </div>
+					
+										<div class="profile-info-value">
+										    <select name="model.productNo">							
+								<option value="1">
+									40010021
+								</option>
+								<option value="2">
+									40010021
+								</option>
 						</select>
-					</td>
-					<th>
-						提报人:
-					</th>
-					<td>
-						<input type="text" name="model.initiator" class="formText {required: true, min: 0}" value="${(model.initiator)!}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						不良现象描述:
-					</th>
-					<td>
-						<input type="text" name="model.failDescript" class="formText {required: true, min: 0}" value="${(model.failDescript)!}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						检验员:
-					</th>
-					<td>
-						<input type="text" name="model.insepector" class="formText {required: true, min: 0}" value="${(model.insepector)!}" />
-					</td>
-					<!--<th>
-						确认时间:
-					</th>
-					<td>
-						<input type="text" name="model.confirmTime" class="formText {required: true, min: 0}" value="${(model.confirmTime)!}" />
-					</td>
-				</tr>				
-				<tr>
-					<th>
-						通知时间:
-					</th>
-					<td>
-						<input type="text" name="model.noticeTime" class="formText {required: true, min: 0}" value="${(model.noticeTime)!}" />						
-					</td>
-					<th>
-						到场时间:
-					</th>
-					<td>
-						<input type="text" name="model.arriveTime" class="formText {required: true}" value="${(model.arriveTime)!}"/>						
-					</td>
-				</tr>-->				
-				<tr>
-					<th>
-						维修人员:
-					</th>
-					<td>
-						<input type="text" name="model.fixer" class="formText {required: true}" value="${(model.fixer)!}"/>
-					</td><!-- 
-					<th>
-						维修时间:
-					</th>
-					<td>
-						<input type="text" name="model.fixTime" class="formText {required: true}" value="${(model.fixTime)!}"/>
-					</td> -->
-				</tr>															
-				<tr>
-					<th>
-						故障原因:
-					</th>
-					<td>
-						<input type="text" name="model.faultCause" class="formText {required: true}" value="${(model.faultCause)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						处理方法和结果:
-					</th>
-					<td>
-						<input type="text" name="model.resolve" class="formText {required: true}" value="${(model.resolve)!}"/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						长期预防措施:
-					</th>
-					<td>
-						<input type="text" name="model.measure" class="formText {required: true}" value="${(model.measure)!}"/>
-					</td>
-				</tr> 
-			</table>
+											<!-- <input type="text" name="quality.productName" value="${(quality.productName)!}" class=" input input-sm  formText {required: true}" /> -->
+										</div>
+										 <div class="profile-info-name"> 产品名称</div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="model.productName" value="${(model.productName)!}" class=" input input-sm  formText {required: true}" />
+										</div> 
+										
+									</div>
+									 
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 班组</div>
+					
+										<div class="profile-info-value">							
+								<input type="text" name="model.teamId" value="${(model.teamId)!}" class=" input input-sm  formText {required: true}" />									
+										</div>
+										<div class="profile-info-name">种类 </div>
+					
+										<div class="profile-info-value">
+											 <select name="model.type">							
+								<option value="1">
+									工装
+								</option>
+								<option value="2">
+									接角
+								</option>
+						</select>
+										</div>
+									</div>									
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 提报人 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.initiator" value="${(model.initiator)!}" class=" input input-sm  formText {required: true}" />
+										</div>
+										 <div class="profile-info-name">发起时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.createDate" value="${(model.createDate)!}" class="formText {required: true} datePicker"/>
+										</div>									
+									</div>																										
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 通知时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.noticeTime" value="${(model.noticeTime)!}" class="formText {required: true} datePicker"/>
+										</div>
+										<div class="profile-info-name"> 到场时间 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.arriveTime" value="${(model.arriveTime)!}" class="formText {required: true} datePicker" />
+										</div>
+									</div> 
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 维修人员</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.fixer" value="${(model.fixer)!}" class=" input input-sm  formText {required: true}" />
+										</div>
+										 <div class="profile-info-name"> 维修时间</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.fixTime" value="${(model.fixTime)!}" class=" input input-sm  formText {required: true}" />
+										</div>
+									</div>
+									<div class="profile-info-row">
+									    <div class="profile-info-name"> 检验员 </div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.insepector" value="${(model.insepector)!}" class=" input input-sm  formText {required: true}" />
+										</div>	
+										<div class="profile-info-name"> 确认时间</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.confirmTime" value="${(model.confirmTime)!}" class="formText {required: true} datePicker" />
+										</div>
+									</div>	
+									
+									<div class="profile-info-row">
+									    <div class="profile-info-name">故障原因</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.faultCause" value="${(model.faultCause)!}" class=" input input-sm  formText {required: true}" />
+										</div>	
+										<div class="profile-info-name">处理方法与结果</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.resolve" value="${(model.resolve)!}" class="input input-sm  formText {required: true}" />
+										</div>
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">长期预防措施</div>
+									    <div class="profile-info-value">
+											<input type="text" name="model.measure" value="${(model.measure)!}" class=" input input-sm  formText {required: true}" />
+										</div>											
+									</div>															
+							
+						</div>
+						<div class="profile-user-info profile-user-info-striped">
+						  <div class="profile-info-row">
+									    <div class="profile-info-name"> 不良现象描述 </div>
+									    <div class="profile-info-value">
+											<!-- <input type="text" name="quality.problemDescription" value="${(quality.problemDescription)!}" class=" input input-sm  formText {required: true}" /> -->
+										    <textarea name="model.failDescript" class="formTextarea"></textarea>
+										</div>
+							</div>
+						</div>
+				<!--weitao end modify-->	
+				
 			
-			
+			</div>
 			
 			<table id="tabs-2" class="inputTable tabContent">
 				<tbody><tr class="title">
@@ -223,17 +208,14 @@ body{background:#fff;}
 					</td>					
 				</tr>
 		</tbody>
-			</table>			
-			
+			</table>
+														
 			<table id="tabs-3" class="inputTable tabContent">
 				
 			</table>
 			
-			</div>
-	
-			
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="保存" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>
@@ -251,9 +233,7 @@ body{background:#fff;}
 				</div><!-- /.main-content -->
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
-	
-	
 	<!-- ./ add by welson 0728 -->
-	
+
 </body>
 </html>

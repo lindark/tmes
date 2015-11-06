@@ -31,37 +31,37 @@ public class QualityAction extends BaseAdminAction {
 	private QualityService qualityService;
 	
 	// 添加
-		public String add() {
-			return INPUT;
-		}
+	public String add() {
+		return INPUT;
+	}
 
-		// 编辑
-		public String edit() {
-			quality = qualityService.load(id);
-			return INPUT;
-		}
+	// 编辑
+	public String edit() {
+		quality = qualityService.load(id);
+		return INPUT;
+	}
 
-		// 列表
-		public String list() {
-			//pager = qualityService.findByPager(pager);
-			return LIST;
-		}
+	// 列表
+	public String list() {
+		//pager = qualityService.findByPager(pager);
+		return LIST;
+	}
 
-		/* ajax列表
-		public String ajlist() {
-			if(pager == null) {
-				pager = new Pager();
-			}
-			pager = qualityService.findByPager(pager);
-			JSONArray jsonArray = JSONArray.fromObject(pager);
-			return ajaxJson(jsonArray.get(0).toString());
-		}*/
+	// ajax列表
+	public String ajlist() {
+		if(pager == null) {
+			pager = new Pager();
+		}
+		pager = qualityService.findByPager(pager);
+		JSONArray jsonArray = JSONArray.fromObject(pager);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
 		
 		
 		/**
 		 * ajax 列表
 		 * @return
-		 */
+		 *//*
 		public String ajlist(){
 			HashMap<String,String> map = new HashMap<String,String>();
 			if(pager == null) {
@@ -98,9 +98,13 @@ public class QualityAction extends BaseAdminAction {
 			System.out.println(jsonArray.get(0).toString());
 			 return ajaxJson(jsonArray.get(0).toString());
 			
-		}
+		}*/
 		
-		public String save() {		
+		public String save() {
+			quality.setCreateUser("张三");
+			quality.setIsDel("N");
+			quality.setModifyUser("张三");
+			quality.setState("未确定");
 			qualityService.save(quality);	
 			redirectionUrl = "quality!list.action";
 			return SUCCESS;

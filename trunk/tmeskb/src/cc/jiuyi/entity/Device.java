@@ -31,6 +31,7 @@ public class Device extends BaseEntity{
 	private Double totalMaintenanceTime;//总维修时间
 	private Double totalDownTime;//总停机时间
 	private String faultCharacter;//故障性质
+	private String faultReason;//故障原因
 	
 	private String process;//处理过程
 	private String causeAnalysis;//原因分析
@@ -43,6 +44,7 @@ public class Device extends BaseEntity{
 	private String modifyUser;//最新修改人
 	private String isDel;//是否删除
 	private String state;//状态
+	
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -200,7 +202,11 @@ public class Device extends BaseEntity{
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-	
+	public String getFaultReason() {
+		return faultReason;
+	}
+	public void setFaultReason(String faultReason) {
+		this.faultReason = faultReason;
+	}
 	
 }

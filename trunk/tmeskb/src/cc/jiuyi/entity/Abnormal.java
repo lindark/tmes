@@ -21,6 +21,7 @@ public class Abnormal extends BaseEntity{
 	private Date callDate;//呼叫时间
 	private Date replyDate;// 应答时间
 	private Integer handlingTime;//处理时间
+	
 	private String message;//消息
 	private String iniitiator;//发起人
 	private String responsor;//应答人

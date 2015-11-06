@@ -17,7 +17,14 @@
 			  <td>张三</td>
 			  <td>质检员</td>
 			  <td>18032236212</td>
-			  <td>线边仓缺料了</td>
+			  <td><select name="abnormal.message">							
+								<option value="1">
+									设备出现问题了
+								</option>
+								<option value="2">
+									线边仓缺料了
+								</option>
+						</select></td>
 	        </tr>
 	        <tr>
 	          <td>
@@ -26,7 +33,14 @@
 			  <td>李四</td>
 			  <td>维修员</td>
 			  <td>18032236212</td>
-			  <td>设备出现问题了</td>
+			  <td><select name="abnormal.message">							
+								<option value="1">
+									设备出现问题了
+								</option>
+								<option value="2">
+									线边仓缺料了
+								</option>
+						</select></td>
 	        </tr>
 	        <tr>
 	          <td>
@@ -35,7 +49,14 @@
 			  <td>王五</td>
 			  <td>仓管员</td>
 			  <td>18032236212</td>
-			  <td>线边仓没货了</td>
+			  <td><select name="abnormal.message">							
+								<option value="1">
+									设备出现问题了
+								</option>
+								<option value="2">
+									线边仓缺料了
+								</option>
+						</select></td>
 	        </tr>
 	        </table>	        	
 	</div>

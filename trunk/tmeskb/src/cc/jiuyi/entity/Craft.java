@@ -14,6 +14,8 @@ public class Craft extends BaseEntity{
 	
 	private String cabinetCode;//机台号
 	private String productsName;//产品名称
+	private String productNo;//产品编号
+	
 	private String classes;//班组
 	private String unusualDescription_make;//异常描述_制造
 	private String treatmentMeasure_make;//制造处理措施
@@ -113,5 +115,12 @@ public class Craft extends BaseEntity{
 	public void setState(String state) {
 		this.state = state;
 	}
+	public String getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+	
 	
 }

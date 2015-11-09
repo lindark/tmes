@@ -53,4 +53,6 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, String> i
 		return departmentdao.getAllByHql();
 	}
 
+
+
 }

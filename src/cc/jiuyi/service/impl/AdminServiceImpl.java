@@ -1,9 +1,16 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AdminDao;
+import cc.jiuyi.dao.DepartmentDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.service.AdminService;
 
 import org.springframework.security.Authentication;
@@ -19,6 +26,8 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 
 	@Resource
 	private AdminDao adminDao;
+	@Resource
+	private DepartmentDao departmentdao;
 
 	@Resource
 	public void setBaseDao(AdminDao adminDao) {
@@ -54,5 +63,20 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	public Admin getAdminByUsername(String username) {
 		return adminDao.getAdminByUsername(username);
 	}
+
+	@Override
+	public Pager findPagerByjqGrid(Pager pager, Map map,String departid) {
+		Department department = departmentdao.get(departid);
+		
+		List<Department> list = departmentdao.getChildrenById(departid, null);
+		list.add(department);
+		List<String> idList=new ArrayList<String>();
+		for(Department dt:list){
+			idList.add(dt.getId());
+		}
+		return adminDao.findPagerByjqGrid(pager, map,idList);
+	}
+
+	
 
 }

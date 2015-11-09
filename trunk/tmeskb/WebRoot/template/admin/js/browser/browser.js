@@ -44,7 +44,7 @@ jiuyi.admin.browser.dialog = function($dom,title,callback){
 	}));
 	var dialog = $dom.removeClass('hide').dialog({
 		modal: true,
-		width:"60%",
+		width:"650",
 		height:"auto",
 		title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>"+title+"</h4></div>",
 		title_html: true,

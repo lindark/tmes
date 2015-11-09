@@ -58,7 +58,7 @@
 										
 										<label class="col-sm-1" style="text-align:right">工序名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="processName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="processName" class="input input-sm form-control" value="" id="form-field-icon-1">			
 										</div>
 									</div>
 								   

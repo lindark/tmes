@@ -64,5 +64,11 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		
 	}
 
+	@Override
+	public boolean isExistByProccessCode(String processCode) {
+		// TODO Auto-generated method stub
+		return processDao.isExistByProcessCode(processCode);
+	}
+
 	
 }

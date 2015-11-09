@@ -67,7 +67,4 @@ public class EnteringwareHouse extends BaseEntity {
 			this.isdel = isdel;
 	}
 	
-	
-	
-	
 }

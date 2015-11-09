@@ -28,4 +28,9 @@ public interface ProcessService extends BaseService<Process, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
+	
+	/**
+	 * 根据ProcessCode判断Process是否存在
+	 */
+	public boolean isExistByProccessCode(String processCode);
 }

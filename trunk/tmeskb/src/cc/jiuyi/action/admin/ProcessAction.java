@@ -50,6 +50,16 @@ public class ProcessAction extends BaseAdminAction {
 	@Resource
 	private DictService dictService;
 	
+	//是否已存在ajax验证
+	public String checkProcesssCode(){
+		String processCode=process.getProcessCode();
+		if(processService.isExistByProccessCode(processCode)){
+			return ajaxText("false");
+		}else{
+			return ajaxText("true");
+		}
+	}
+	
 	//添加
 	public String add(){
 		return INPUT;

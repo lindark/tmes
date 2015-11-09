@@ -1,3 +1,26 @@
+//$(function() {
+//	$("#form-field-icon-1").onblur(function() {
+//		var id = $("#form-field-icon-1").val();
+//		$.ajax({
+//			type : "POST",
+//			url : "",
+//			data : {
+//				id : id,
+//			},
+//			dataType : "json",
+//			success : function(data) {
+//				if (data.info) {
+//					alert("success");
+//					return;
+//				} else {
+//					$("#prompt").css("display", "block");
+//				}
+//			},
+//		});
+//	});
+//});
+
+
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";

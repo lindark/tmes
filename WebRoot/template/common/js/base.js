@@ -126,7 +126,7 @@ function orderUnitCurrencyFormat(price) {
 }
 
 jQuery(function() {
-
+//alert("OK");
 	// Tab效果
 	/*
 	$("ul.tab").tabs(".tabContent", {
@@ -411,7 +411,6 @@ jQuery(function() {
 			}
 		},
 		submitHandler: function(form) {
-			alert("OK");
 			$(form).find(":submit").attr("disabled", true);
 			form.submit();
 		}

@@ -29,4 +29,9 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	/**
+	 * 根据工序编码判断此工序是否存在
+	 */
+	public boolean isExistByProcessCode(String processCode);
 }

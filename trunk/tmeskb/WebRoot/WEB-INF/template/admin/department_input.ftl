@@ -1,9 +1,14 @@
+<script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.methods.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.cn.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browserValidate.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
 	<#assign isEdit = true />
 </#if>
-<form type="post" action="<#if isAdd??>department!save.action<#else>department!update.action</#if>" id="departform">
+<form type="post" action="<#if isAdd??>department!save.action<#else>department!update.action</#if>" id="departform" class="validate">
 	<div class="profile-user-info profile-user-info-striped">
 			<div class="profile-info-row">
 				<input type="hidden" name="department.id" value="${(department.id)!}"/> <!--id-->

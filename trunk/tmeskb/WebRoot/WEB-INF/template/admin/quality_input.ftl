@@ -170,7 +170,7 @@ body{background:#fff;}
 									    <div class="profile-info-name"> 质量问题描述 </div>
 									    <div class="profile-info-value">
 											<!-- <input type="text" name="quality.problemDescription" value="${(quality.problemDescription)!}" class=" input input-sm  formText {required: true}" /> -->
-										    <textarea name="quality.problemDescription" class="formTextarea"></textarea>
+										    <textarea name="quality.problemDescription" ></textarea>
 										</div>
 							</div>
 						</div>

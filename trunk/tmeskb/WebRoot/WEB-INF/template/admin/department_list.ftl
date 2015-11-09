@@ -160,28 +160,10 @@
 				$("#ace-settings-box").removeClass("open");
 			}
 		});
-		var ishead1=0;
 		$(".btn-colorpicker").click(function(){
-			
-			if(ishead1==0){
-				ishead1=1;
 				$(".dropdown-colorpicker").addClass("open");
-			}else{
-				ishead1=0;
-				$(".dropdown-colorpicker").removeClass("open");
-			}
 		})
-		var ishead2=0;
-		$(".light-blue").click(function(){
-			if(ishead2==0){
-				ishead2=1;
-				$(this).addClass("open");
-			}else{
-				ishead2=0;
-				$(this).removeClass("open");
-			}
-			
-		})
+		
 		
 		/*
 		var ishead3=0;

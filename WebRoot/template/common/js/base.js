@@ -126,7 +126,7 @@ function orderUnitCurrencyFormat(price) {
 }
 
 jQuery(function() {
-//alert("OK");
+
 	// Tab效果
 	/*
 	$("ul.tab").tabs(".tabContent", {
@@ -137,9 +137,9 @@ jQuery(function() {
 	$("#inputtabs").tabs();
 	
 	// 所见即所得编辑器
-	tinyMCE.init({
-		mode : "textareas"
-	});
+//	tinyMCE.init({
+//		mode : "textareas"
+//	});
 	
 	/*
 	$("textarea.wysiwyg").tinymce({

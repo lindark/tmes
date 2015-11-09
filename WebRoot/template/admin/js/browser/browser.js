@@ -61,7 +61,6 @@ jiuyi.admin.browser.dialog = function($dom,title,callback){
 				"class" : "btn btn-primary btn-xs",
 				click: function() {
 					callback();
-						
 				} 
 			}
 		]

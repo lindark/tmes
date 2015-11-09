@@ -13,7 +13,9 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AbnormalService;
+import cc.jiuyi.service.AdminService;
 
 /**
  * 后台Action类 - 异常
@@ -24,9 +26,12 @@ public class AbnormalAction extends BaseAdminAction {
 	private static final long serialVersionUID = 7823213806344131048L;
 	
 	private Abnormal abnormal;
+	private String loginUsername;
 	
 	@Resource
 	private AbnormalService abnormalService;
+	@Resource
+	private AdminService adminService;
 	
 	// 添加
 	public String add() {
@@ -63,6 +68,12 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	public String save() {	
 		
+		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+		Admin admin = adminService.get("username", loginUsername);
+		
+		System.out.println(admin.getId());
+		
+		System.out.println(id);
 		abnormal.setCallDate(new Date());
 		abnormal.setCreateDate(new Date());
 		abnormal.setModifyDate(new Date());
@@ -100,6 +111,14 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 	public void setAbnormal(Abnormal abnormal) {
 		this.abnormal = abnormal;
+	}
+
+	public String getLoginUsername() {
+		return loginUsername;
+	}
+
+	public void setLoginUsername(String loginUsername) {
+		this.loginUsername = loginUsername;
 	}
 	
 	

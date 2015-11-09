@@ -36,8 +36,13 @@ $().ready( function() {
 	 * 批量刷卡确认
 	 */
 	$confirmsButton.click(function(){
-		var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		window.location.href="dump!confirms.action?id="+id;
+		var id = "";
+		id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		if(id==""){
+			alert("请选择至少一条转储记录！");
+		}else{
+			window.location.href="dump!confirms.action?id="+id;			
+		}
 	});
 	/**
 	 * 时间选择控件

@@ -51,21 +51,22 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 	if(flag)
 		jiuyi.admin.browser.dialog($dom,title,function(){
 			var $departform = $("#departform");
-			$.ajax({
-				url: $departform.attr("action"),
-				data: $departform.serialize(),
-				dataType: "json",
-				async: false,
-				beforeSend: function(data) {
-					$(this).attr("disabled", true);
-				},
-				success: function(data) {
-					$.tip(data.status, data.message);
-					alert(data.parentDept);
-					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-					zTree.addNodes(treeNode, {id:data.id,pId:data.parentDept,name:data.deptName});
-				}
-			});
+			$departform.submit();
+//			$.ajax({
+//				url: $departform.attr("action"),
+//				data: $departform.serialize(),
+//				dataType: "json",
+//				async: false,
+//				beforeSend: function(data) {
+//					$(this).attr("disabled", true);
+//				},
+//				success: function(data) {
+//					$.tip(data.status, data.message);
+//					alert(data.parentDept);
+//					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+//					zTree.addNodes(treeNode, {id:data.id,pId:data.parentDept,name:data.deptName});
+//				}
+//			});
 		});
 }
 /**

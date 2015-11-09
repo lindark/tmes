@@ -164,6 +164,17 @@
 				$(".dropdown-colorpicker").addClass("open");
 		})
 		
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
+			
+		})
 		
 		/*
 		var ishead3=0;

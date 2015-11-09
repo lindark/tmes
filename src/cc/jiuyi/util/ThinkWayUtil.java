@@ -1,11 +1,24 @@
 package cc.jiuyi.util;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONSerializer;
+import net.sf.json.JsonConfig;
+
+import org.compass.core.mapping.json.builder.JsonObjectMappingBuilder;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -153,4 +166,18 @@ public class ThinkWayUtil {
 			}
 			return isMoblie;
 		}
+	    
+	    public static String formatdateDate(Date date){
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        String dd =format.format(date);
+			return dd;
+	    }
+	    public static String formatdateDateTime(Date datetime){
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        String dd =format.format(datetime);
+			return dd;
+	    }
+	    
+	    
+	   
 }

@@ -1,63 +1,39 @@
-<form type="post" action="abnormal!save.action" id="ringForm">
-	<div class="profile-user-info profile-user-info-striped">
-	        <table class="table">
-	        <tr>
-	          <th class="check">
-				<input type="checkbox" class="allCheck" />
-			  </th>
-			  <th><span class="sort" name="">姓名</span></th>
-			  <th><span class="sort" name="">岗位</span></th>
-			  <th><span class="sort" name="">电话</span></th>
-			  <th><span class="sort" name="">消息</span></th>
-	        </tr>
-	        <tr>
-	          <td>
-				<input type="checkbox" name="ids" value="" />
-			  </td>
-			  <td>张三</td>
-			  <td>质检员</td>
-			  <td>18032236212</td>
-			  <td><select name="abnormal.message">							
-								<option value="1">
-									设备出现问题了
-								</option>
-								<option value="2">
-									线边仓缺料了
-								</option>
-						</select></td>
-	        </tr>
-	        <tr>
-	          <td>
-				<input type="checkbox" name="ids" value="" />
-			  </td>
-			  <td>李四</td>
-			  <td>维修员</td>
-			  <td>18032236212</td>
-			  <td><select name="abnormal.message">							
-								<option value="1">
-									设备出现问题了
-								</option>
-								<option value="2">
-									线边仓缺料了
-								</option>
-						</select></td>
-	        </tr>
-	        <tr>
-	          <td>
-				<input type="checkbox" name="ids" value="" />
-			  </td>
-			  <td>王五</td>
-			  <td>仓管员</td>
-			  <td>18032236212</td>
-			  <td><select name="abnormal.message">							
-								<option value="1">
-									设备出现问题了
-								</option>
-								<option value="2">
-									线边仓缺料了
-								</option>
-						</select></td>
-	        </tr>
-	        </table>	        	
+<script type="text/javascript" src="${base} /template/admin/js/browser/adminBrowser.js"></script>
+<div class="row">
+	<div class="col-xs-12 ">
+		<div class="ceshi">
+		<form class="form-horizontal" id="searchform"
+			action="product_group!ajlist.action" role="form">
+			<div class="operateBar">
+				<div class="form-group">
+					<label class="col-sm-2 col-md-offset-1" style="text-align:right">产品组编码:</label>
+					<div class="col-sm-3">
+						<input type="text" name="productGroupCode"
+							class="input input-sm form-control" value=""
+							id="form-field-icon-1">
+					</div>
+					<label class="col-sm-2" style="text-align:right">产品组名称:</label>
+					<div class="col-sm-3">
+						<input type="text" name="productGroupName"
+							class="input input-sm form-control" value=""
+							id="form-field-icon-1">
+					</div>
+				</div>
+				<div class="form-group" style="text-align:center">
+					<a id="searchButton"
+						class="btn btn-white btn-default btn-sm btn-round"> <i
+						class="ace-icon fa fa-filter blue"></i> 搜索 </a> <a id="searchButton"
+						href="product_group!sync.action"
+						class="btn btn-white btn-default btn-sm btn-round"> <i
+						class="ace-icon fa fa-filter blue"></i> SAP同步 </a>
+				</div>
+
+			</div>
+		</form>
+		
+		<table id="grid-table"></table>
+
+		<div id="grid-pager"></div>
+		</div>
 	</div>
-</form>
+</div>

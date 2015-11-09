@@ -2,12 +2,12 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var dialogwidth=0;
 	//resize to fit page size
-	$(window).on('resize.jqGrid', function () {
-		alert("1");
-		$(grid_selector).jqGrid( 'setGridWidth', $("#dialog-message").width() );
+	$("#dialog-message").on('resize.jqGrid', function () {
+		dialogwidth = $(".ceshi").width();
+		$(grid_selector).jqGrid( 'setGridWidth',  dialogwidth);
     })
-    alert($("#dialog-message").width());
 	//resize on sidebar collapse/expand
 	var parent_column = $(grid_selector).closest('[class*="col-"]');
 	$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {

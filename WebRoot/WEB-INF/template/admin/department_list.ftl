@@ -30,7 +30,6 @@
 		
 <script>
 	$(function(){
-		
 		var zNodes =[
 	     		<#list list as department>
 	     			{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}"},
@@ -136,11 +135,13 @@
 </div>
 <!-- 弹出层end -->
 </body>
+<!--
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.min.js"></script>
+	  -->
+	 <script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
 
-<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.min.js"></script>
-<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
-<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
- 
 </html>
 <script type="text/javascript">
 	/**
@@ -158,10 +159,45 @@
 				$("#ace-settings-box").removeClass("open");
 			}
 		});
-		
+		var ishead1=0;
 		$(".btn-colorpicker").click(function(){
-			$(".dropdown-colorpicker").addClass("open");
+			
+			if(ishead1==0){
+				ishead1=1;
+				$(".dropdown-colorpicker").addClass("open");
+			}else{
+				ishead1=0;
+				$(".dropdown-colorpicker").removeClass("open");
+			}
 		})
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
+			
+		})
+		
+		/*
+		var ishead3=0;
+		$(".hsub").click(function(){
+			if(ishead3==0){
+				alert("OK");
+				ishead3=1;
+				$(".hsub").addClass("open");
+				//$(this).find(".submenu").removeClass("nav-hide");
+			}else{
+				ishead3=0;
+				//$(this).removeClass("open");
+				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+			}
+			
+		})
+		*/
 	})
 	
 	

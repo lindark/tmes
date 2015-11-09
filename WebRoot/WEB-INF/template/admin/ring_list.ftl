@@ -1,7 +1,6 @@
-<script type="text/javascript" src="${base} /template/admin/js/browser/adminBrowser.js"></script>
+
 <div class="row">
-	<div class="col-xs-12 ">
-		<div class="ceshi">
+	<div class="col-xs-12 ceshi">
 		<form class="form-horizontal" id="searchform"
 			action="product_group!ajlist.action" role="form">
 			<div class="operateBar">
@@ -34,6 +33,6 @@
 		<table id="grid-table"></table>
 
 		<div id="grid-pager"></div>
-		</div>
 	</div>
 </div>
+<script type="text/javascript" src="${base} /template/admin/js/browser/adminBrowser.js"></script>

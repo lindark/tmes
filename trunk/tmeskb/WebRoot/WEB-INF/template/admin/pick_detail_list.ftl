@@ -8,7 +8,7 @@
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/admin/js/manage/pick_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/manage/pickDetail_list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -51,96 +51,18 @@
 									<div class="col-xs-12 col-sm-6 widget-container-col">
 										<!-- #section:custom/widget-box -->
 										<div class="widget-box">
-											<div class="widget-header">
-												<h5 class="widget-title">当前随工单信息</h5>
-
-												<!-- #section:custom/widget-box.toolbar -->
-												<div class="widget-toolbar">
-													<div class="widget-menu">
-														<a href="#" data-action="settings" data-toggle="dropdown">
-															<i class="ace-icon fa fa-bars"></i>
-														</a>
-
-														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-															<li>
-																<a data-toggle="tab" href="#dropdown1">Option#1</a>
-															</li>
-
-															<li>
-																<a data-toggle="tab" href="#dropdown2">Option#2</a>
-															</li>
-														</ul>
-													</div>
-
-													<a href="#" data-action="fullscreen" class="orange2">
-														<i class="ace-icon fa fa-expand"></i>
-													</a>
-
-													<a href="#" data-action="reload">
-														<i class="ace-icon fa fa-refresh"></i>
-													</a>
-
-													<a href="#" data-action="collapse">
-														<i class="ace-icon fa fa-chevron-up"></i>
-													</a>
-
-													<a href="#" data-action="close">
-														<i class="ace-icon fa fa-times"></i>
-													</a>
-												</div>
-
+											
 												<!-- /section:custom/widget-box.toolbar -->
 											</div>
 
-											<div class="widget-body">
-												<div class="widget-main">
-													<div class="profile-user-info profile-user-info-striped">
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 随工单号 </div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">${workingbill.workingBillCode}</span>
-														</div>
-													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 产品编号 </div>
-	
-														<div class="profile-info-value">
-															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
-															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
-														</div>
-													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 产品名称 </div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
-														</div>
-													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 班组/班次 </div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
-														</div>
-													</div>
-
-												</div>
-											</div>
-										</div>
-
+				
 										<!-- /section:custom/widget-box -->
 									</div>
 									<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-sm btn-info btn-round">
-                                      <span class="ace-icon fa fa-floppy-o bigger-120 blue no-text-shadow"><a href="pickDetail!add.action">创建领/退料单</a></span>                          
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
+                                      <span class="bigger-110 no-text-shadow"><a href="pickDetail!add.action">创建领/退料单</a></span>
 									</button>
-								   </div>
+								</div>
 							
 								
 								<!-- PAGE CONTENT BEGINS -->

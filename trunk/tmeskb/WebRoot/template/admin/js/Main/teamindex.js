@@ -3,6 +3,9 @@ $(function() {
 	var $dump = $("#dump");// 转储
 	var $repair = $("#repair");// 返修
 	var $repairin = $("#repairin");// 返修收货
+	var $repairin = $("#repairin");// 返修收货
+    var $pick = $("#pick");// 领退料
+	
 
 	/**
 	 * 入库按钮点击
@@ -17,6 +20,24 @@ $(function() {
 				}
 
 			});
+	
+	/**
+	 * 领/退料按钮点击
+	 */
+	$pick
+	.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "pick!list.action?workingBillId="
+					+ id;
+		}
+
+	});
+	
+	
+	
+	
 	/**
 	 * 转储按钮点击
 	 */

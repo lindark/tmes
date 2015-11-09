@@ -26,4 +26,6 @@ public interface DepartmentService extends BaseService<Department, String> {
 	 * @return
 	 */
 	public List getAllByHql();
+	
+
 }

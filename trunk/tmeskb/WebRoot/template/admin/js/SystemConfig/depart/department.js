@@ -7,6 +7,7 @@ $(function(){
 			$("#toggleMenuBar").triggerHandler("click");
 		}
 	});
+	$(window).triggerHandler('resize');
 })
 
 /**
@@ -128,6 +129,7 @@ jiuyi.admin.depart.removeBeforeHandle = function(treeNode){
 jiuyi.admin.depart.clickHandle = function(treeNode){
 	$("#grid-table").jqGrid('setGridParam',{
 		url:"admin!ajlist.action?departid="+treeNode.id,
+		datatype:"json",
 		page:1
 	}).trigger("reloadGrid");
 }

@@ -37,6 +37,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Date loginDate;// 最后登录日期
 	private String loginIp;// 最后登录IP
 	
+	private String departName;//部门名称
+	private String isDel;//是否删除
+	
 	
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -195,5 +198,26 @@ public class Admin extends BaseEntity implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return !this.isCredentialsExpired;
 	}
+	@Transient
+	public String getDepartName() {
+		return departName;
+	}
+
+	public void setDepartName(String departName) {
+		this.departName = departName;
+	}
+
+	public String getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(String isDel) {
+		if(isDel == null){
+			this.isDel ="N";
+		}else
+			this.isDel = isDel;
+	}
+	
+	
 
 }

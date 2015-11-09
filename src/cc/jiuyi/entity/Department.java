@@ -63,7 +63,7 @@ public class Department extends BaseEntity {
 	
 	//@OneToMany(targetEntity= Department.class,cascade = {CascadeType.ALL},mappedBy="parentDept")
 	//@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="parentDept")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="parentDept")
 	public Set<Department> getChildDept() {
 		return childDept;
 	}

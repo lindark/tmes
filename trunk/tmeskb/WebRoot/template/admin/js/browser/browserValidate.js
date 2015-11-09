@@ -1,5 +1,5 @@
 $(function(){
-	// 表单验证
+	// 表单验证 ajax 
 	$("form.validate").validate({
 		errorClass: "validateError",
 		ignore: ".ignoreValidate",
@@ -17,9 +17,22 @@ $(function(){
 			}
 		},
 		submitHandler: function(form) {
-			alert("进不来");
-			$(form).find(":submit").attr("disabled", true);
-			form.submit();
+			$.ajax({	
+				url: $(form).attr("action"),
+				data: $(form).serialize(),
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+				},
+				success: function(data) {
+					$.tip(data.status, data.message);
+					var $dom = $("#dialog-message");
+					$dom.dialog( "close" ); 
+//					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+//					zTree.cancelEditName(data.deptName);
+				}
+			});
 		}
 	});
 	

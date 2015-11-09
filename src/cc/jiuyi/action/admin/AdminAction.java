@@ -299,8 +299,8 @@ public class AdminAction extends BaseAdminAction {
 		String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 		admin.setPassword(passwordMd5);
 		adminService.save(admin);
-		redirectionUrl = "admin!list.action";
-		return SUCCESS;
+		//redirectionUrl = "admin!list.action";
+		return ajaxJsonSuccessMessage("保存成功！");
 	}
 
 	// 更新
@@ -336,8 +336,7 @@ public class AdminAction extends BaseAdminAction {
 		}
 		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities"});
 		adminService.update(persistent);
-		redirectionUrl = "admin!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("保存成功！");
 	}
 	
 	/*

@@ -224,7 +224,7 @@ public class AdminAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("department.deptName");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
 			if(!filters.equals("")){
@@ -237,31 +237,29 @@ public class AdminAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		if(pager.is_search()==true && Param != null){//普通搜索功能
-			if(!Param.equals("")){
-			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-//				JSONObject param = JSONObject.fromObject(Param);
-//				String start = ThinkWayUtil.null2String(param.get("start"));
-//				String end = ThinkWayUtil.null2String(param.get("end"));
-//				String workingBillCode = ThinkWayUtil.null2String(param.get("workingBillCode"));//随工单
-//				map.put("start", start);
-//				map.put("end", end);
-//				map.put("workingBillCode", workingBillCode);
-			}
-		}
 		
-		pager = adminService.findByPager(pager);
-		JsonConfig jsonConfig = new JsonConfig();
+		pager = adminService.findPagerByjqGrid(pager,map,departid);
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Admin admin  = (Admin)pagerlist.get(i);
+			admin.setRoleSet(null);
+			admin.setAuthorities(null);
+			admin.setDepartName(admin.getDepartment().getDeptName());
+			admin.setDepartment(null);
+			pagerlist.set(i, admin);
+		}
+		pager.setList(pagerlist);
+		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
-		 return ajaxJson(jsonArray.get(0).toString());
-		
+		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
 
 	// 删除
 	public String delete() {
+		ids = id.split(",");
 		adminService.delete(ids);
 		return ajaxJsonSuccessMessage("删除成功！");
 	}

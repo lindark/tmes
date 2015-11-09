@@ -34,4 +34,29 @@ $(function(){
 //			});
 		});
 	});
+	
+	
+	/**
+	 * 删除按钮点击
+	 */
+	$userDeleteBtn.click(function(){
+		var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		var url="admin!delete.action?id="+ids;
+		alert(ids);
+		$.ajax({	
+			url: url,
+			//data: "{\"id\":\""+ids+"\"}",
+			dataType: "json",
+			async: false,
+			beforeSend: function(data) {
+				$(this).attr("disabled", true);
+			},
+			success: function(data) {
+				alert(data);
+//				$.tip(data.status, data.message);
+//				var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+//				zTree.cancelEditName(data.deptName);
+			}
+		});
+	});
 })

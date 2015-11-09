@@ -1,5 +1,9 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 
 /**
@@ -20,4 +24,11 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 */
 	public Admin getAdminByUsername(String username);
 
+	/**
+	 * jqgrid 分页
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager findPagerByjqGrid(Pager pager,Map map,List list);
 }

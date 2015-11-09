@@ -54,8 +54,8 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>dump!save.action<#else>dump!update.action</#if>" method="post">
-			<input type="hidden" name="id" value="${id}" />
+		<form id="inputForm" action="<#if isAdd??>dump!save.action<#else>dump!update.action</#if>" method="post">
+			
 			
 			<div id="inputtabs">
 			<ul>

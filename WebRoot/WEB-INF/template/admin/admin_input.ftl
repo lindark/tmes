@@ -104,7 +104,7 @@
 			</div>
 			<div class="profile-user-info profile-user-info-striped">
 				<div class="profile-info-row">
-					<input type="hidden" name="department.id" value=""/> <!--id-->
+					<input type="hidden" name="admin.department.id" value="${(departid)!}"/> 
 					<div class="profile-info-name"> 部门： </div>
 	
 					<div class="profile-info-value">
@@ -115,11 +115,10 @@
 			</div>
 			<div class="profile-user-info profile-user-info-striped">
 				<div class="profile-info-row">
-					<input type="hidden" name="department.id" value=""/> <!--id-->
 					<div class="profile-info-name"> 姓名： </div>
 	
 					<div class="profile-info-value">
-						<input type="text" name="department.deptName" class=" input input-sm  formText {required: true}" value="${(department.deptName)!}"/>
+						<input type="text" name="admin.name" class=" input input-sm  formText {required: true}" value="${(admin.name)!}"/>
 					</div>
 				
 				</div>

@@ -1,6 +1,6 @@
 jQuery(function($) {
-	var grid_selector = "#grid-table";
-	var pager_selector = "#grid-pager";
+	var grid_selector = "#grid-table1";
+	var pager_selector = "#grid-pager1";
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );

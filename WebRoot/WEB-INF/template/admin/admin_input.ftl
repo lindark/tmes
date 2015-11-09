@@ -12,7 +12,7 @@
 		<form id="inputForm" class="validate" action="<#if isAdd??>admin!save.action<#else>admin!update.action</#if>" method="post">
 			<div class="profile-user-info profile-user-info-striped">
 				<div class="profile-info-row">
-					<input type="hidden" name="department.id" value=""/> <!--id-->
+					<input type="hidden" name="id" value="${(admin.id)!}"/> <!--id-->
 					<div class="profile-info-name"> 登录名： </div>
 	
 					<div class="profile-info-value">
@@ -35,6 +35,9 @@
 					<div class="profile-info-value">
 						<input type="password" id="password" name="admin.password"<#if isAdd??>class="formText {required: true, minlength: 4, maxlength: 20}"<#else>class="formText {minlength: 4, maxlength: 20}"</#if> title="密码长度只允许在4-20之间" />
 						<label class="requireField">*</label>
+						<#if isEdit??>
+							<span class="warnInfo"><span class="icon">&nbsp;</span>如果要修改密码,请填写密码,若留空,密码将保持不变!</span>
+						</#if>
 					</div>
 				
 				</div>
@@ -104,13 +107,21 @@
 			</div>
 			<div class="profile-user-info profile-user-info-striped">
 				<div class="profile-info-row">
+				<#if isAdd??>
 					<input type="hidden" name="admin.department.id" value="${(departid)!}"/> 
 					<div class="profile-info-name"> 部门： </div>
 	
 					<div class="profile-info-value">
 						${(departName)!}
 					</div>
-				
+				<#else>
+					<input type="hidden" name="admin.department.id" value="${(admin.department.id)!}"/> 
+					<div class="profile-info-name"> 部门： </div>
+	
+					<div class="profile-info-value">
+						${(admin.department.deptName)!}
+					</div>
+				</#if>
 				</div>
 			</div>
 			<div class="profile-user-info profile-user-info-striped">
@@ -123,4 +134,5 @@
 				
 				</div>
 			</div>
+			
 		</form>

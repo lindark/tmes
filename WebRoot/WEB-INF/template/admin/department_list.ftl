@@ -101,6 +101,7 @@
 							    			<div class="top_tool">
 							                <input type="hidden" id="departId_hidden">
 							                <a href="javascript:void(0)" title="新建用户" id="userAddBtn" class="green_button">新建用户</a>
+							                <a href="javascript:void(0)" title="编辑用户" id="userEditBtn" class="green_button">编辑用户</a>
 							                <a href="javascript:void(0)" title="删除用户" id="userDeleteBtn" class="green_button">删除用户</a>
 							            	</div>
 								            <div class="grid_style_01">

@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
@@ -8,6 +9,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.ThinkWayUtil;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -37,14 +39,16 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	}
 	
 	
-	public Pager findPagerByjqGrid(Pager pager,Map map){
+	public Pager findPagerByjqGrid(Pager pager,Map map,List list){
+		String wheresql = pagerSqlByjqGrid(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
-		if(map != null && map.size()>0){
-			if(!map.get("workingBillCode").equals("")){
-				//detachedCriteria.add(Restrictions.like("workingBillCode","%"+map.get("workingBillCode").toString()+"%"));
-			}
+		detachedCriteria.createAlias("department", "department");
+		if(!wheresql.equals("")){
+			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
-		//detachedCriteria.add(Restrictions.eq("isdel", "N"));//取出未删除标记数据
+		
+		detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
 	}
 	

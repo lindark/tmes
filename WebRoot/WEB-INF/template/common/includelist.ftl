@@ -28,6 +28,5 @@
 
 <script src="${base}/template/admin/js/jquery.bgiframe.min.js"></script>
 <script src="${base}/template/admin/js/loading-min.js"></script>
-<script src="${base}/template/admin/assets/js/ace.min.js"></script>
 <!--<script type="text/javascript" src="${base}/template/common/js/base.js"></script>-->
 

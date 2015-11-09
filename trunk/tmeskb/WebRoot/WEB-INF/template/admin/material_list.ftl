@@ -13,8 +13,9 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
-	<body class="no-skin">
+	<body class="no-skin list">
 	
+<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -41,7 +42,6 @@
 	
 	
 		<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
 					<div class="page-content-area">
 						<div class="row">
@@ -116,6 +116,7 @@
 			</div><!-- /.main-content -->
 
             <#include "/WEB-INF/template/admin/admin_footer.ftl">
+            <#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 			
 

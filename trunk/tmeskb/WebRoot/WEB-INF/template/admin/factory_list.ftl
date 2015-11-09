@@ -13,8 +13,9 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
-	<body class="no-skin">
+	<body class="no-skin list">
 	
+<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -116,6 +117,7 @@
 			</div><!-- /.main-content -->
 
 			<#include "/WEB-INF/template/admin/admin_footer.ftl">
+			<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 			
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">

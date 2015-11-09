@@ -17,8 +17,7 @@ import org.compass.annotations.Searchable;
 @Table(name = "Material")
 public class Material extends BaseEntity{
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 3127378125225966530L;
 	private String materialType;//组件类型
     private String materialCode;//组件编码
     private String materialName;//组件名称

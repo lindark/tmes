@@ -18,6 +18,8 @@ import cc.jiuyi.service.DictService;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
+import org.springmodules.cache.annotations.CacheFlush;
+import org.springmodules.cache.annotations.Cacheable;
 //import org.springmodules.cache.annotations.CacheFlush;
 
 /**
@@ -37,8 +39,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 	
 	
 	//根据dictname和dictkey更新dictvalue
-	//@CacheFlush(modelId = "flushing")
-	
+	@CacheFlush(modelId="flushing")
 	public void updateDictValue(String dictname,String dictkey,String dictvalue) {
 		Dict dict = dictDao.getDict(dictname, dictkey);
 		dict.setDictvalue(dictvalue);
@@ -54,8 +55,10 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 	 * 
 	 * 根据dictName=dictName,keyValue=keyValue取出描述
 	 */
+	@Cacheable(modelId="caching")
 	public String getDictValueByDictKey(Object dictName, Object dictKey) {
 		// TODO Auto-generated method stub
+		System.out.println("没有缓存，执行了JDBC动作");
 		return dictDao.getDictValueByDictKey(dictName, dictKey);
 	}
 	

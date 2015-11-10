@@ -58,7 +58,6 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 	@Cacheable(modelId="caching")
 	public String getDictValueByDictKey(Object dictName, Object dictKey) {
 		// TODO Auto-generated method stub
-		System.out.println("没有缓存，执行了JDBC动作");
 		return dictDao.getDictValueByDictKey(dictName, dictKey);
 	}
 	

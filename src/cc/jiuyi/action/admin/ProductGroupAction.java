@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
- * 缺陷代码管理
+ * 产品组管理
  * 
  */
 @ParentPackage("admin")

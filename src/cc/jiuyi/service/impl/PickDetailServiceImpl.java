@@ -1,6 +1,5 @@
 package cc.jiuyi.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.PickDetailDao;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.service.PickDetailService;
 
@@ -61,11 +61,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		
 	}
 
-//	@Override
-//	public boolean isExistByProccessCode(String pickDetailCode) {
-//		// TODO Auto-generated method stub
-//		return pickDetailDao.isExistByPickDetailCode(pickDetailCode);
-//	}
+	@Override
+	public List<Material> getMantrBom(String matnr) {
+		// TODO Auto-generated method stub
+		return pickDetailDao.getMantrBom(matnr);
+	}
+
 
 	
 }

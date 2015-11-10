@@ -138,7 +138,7 @@
 									</div>
 									<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-sm btn-info btn-round">
-                                      <span class="ace-icon fa fa-floppy-o bigger-120 blue no-text-shadow"><a href="pickDetail!add.action">创建领/退料单</a></span>                          
+                                      <span class="ace-icon fa fa-floppy-o bigger-120 blue no-text-shadow"><a href="pick_detail!list.action?matnr=${workingbill.matnr}">创建领/退料单</a></span>                          
 									</button>
 								   </div>
 							

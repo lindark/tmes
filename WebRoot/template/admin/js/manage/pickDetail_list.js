@@ -22,34 +22,28 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid({
 		
 		url:"pick_detail!ajlist.action",
-		datatype: "json",
+		datatype: "local",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
-	          root:"list",
-	          total:"pageCount",
-	          records:"totalCount"
+	          root:"list"
+	         // total:"pageCount",
+	          //records:"totalCount"
 	        },
-	    prmNames : {
-	    	rows:"pager.pageSize",
-	    	page:"pager.pageNumber",
-	    	search:"pager._search",
-	    	sort:"pager.orderBy",
-	    	order:"pager.orderType"
-	    	
-	    },
-		colNames:['组件编码','组件名称', '库存数量','操作'],
+	    
+		colNames:['组件编码','组件名称', '库存数量','领料数量','操作'],
 		colModel:[
 		    {name:'materialCode',index:'materialCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stockAmount',index:'materialName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'pickAmount',index:'pickAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'pickType',index:'pickType', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}}
 		], 
 
 		viewrecords : true,
-		rowNum:10,
-		rowList:[10,20,30],
-		pager : pager_selector,
+		rowNum:"all",
+		//rowList:[10,20,30],
+		//pager : pager_selector,
 		altRows: true,
 		//toppager: true,
 		
@@ -81,7 +75,7 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
-				window.location.href="working_bill!add.action";
+				window.location.href="pick_detail!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,

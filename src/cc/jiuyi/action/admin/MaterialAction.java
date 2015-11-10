@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.service.DictService;
@@ -122,7 +123,8 @@ public class MaterialAction extends BaseAdminAction {
 			List<Material> materialList = pager.getList();
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
-				Material material = (Material) materialList.get(i);
+				Material material  = (Material)materialList.get(i);
+				material.setWorkingBillSet(null);
 				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "materialState", material.getState()));
 				lst.add(material);

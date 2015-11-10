@@ -14,15 +14,14 @@ import org.compass.annotations.Searchable;
 
 @Entity
 @Searchable
-@Table(name = "PickType")
+@Table(name = "PickDetail")
 public class PickDetail extends BaseEntity{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 5863643257488788810L;
-	
-	
+
 	private String pickType;//领料类型
     private Integer pickAmount;//领料数量
     private Integer StockAmount;//库存数量
@@ -31,7 +30,9 @@ public class PickDetail extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
       
-	
+	private String materialCode;//编码
+	private String materialName;//组件名称
+    
 	public String getPickType() {
 		return pickType;
 	}
@@ -78,6 +79,22 @@ public class PickDetail extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@Transient
+	public String getMaterialCode() {
+		return materialCode;
+	}
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+	
+	 @Transient
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 
    

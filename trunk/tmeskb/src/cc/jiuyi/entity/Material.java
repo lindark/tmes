@@ -1,6 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,6 +23,7 @@ import org.compass.annotations.Searchable;
 public class Material extends BaseEntity{
 
 	private static final long serialVersionUID = 3127378125225966530L;
+	private String productCode;//产品编码
 	private String materialType;//组件类型
     private String materialCode;//组件编码
     private String materialName;//组件名称
@@ -30,7 +36,15 @@ public class Material extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
-    
+	private Set<WorkingBill> workingBillSet;//随工单
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "materialSet")
+	public Set<WorkingBill> getWorkingBillSet() {
+		return workingBillSet;
+	}
+	public void setWorkingBillSet(Set<WorkingBill> workingBillSet) {
+		this.workingBillSet = workingBillSet;
+	}
 	
 	
 	public String getMaterialType() {
@@ -104,6 +118,14 @@ public class Material extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
    

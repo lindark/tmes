@@ -17,7 +17,6 @@ import org.compass.annotations.Searchable;
 @Table(name = "Pick")
 public class Pick extends BaseEntity{
 
-	
 
     /**
 	 * 

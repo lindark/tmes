@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.ParseException;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.PickDetailDao;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.PickDetail;
 
 /**
@@ -107,6 +106,13 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 			pickDetail.setIsDel(oper);//标记删除
 			super.update(pickDetail);
 		}
+		
+	}
+
+	@Override
+	public List<Material> getMantrBom(String matnr) {
+		String hql="from Material where productCode = ?";
+		return getSession().createQuery(hql).setParameter(0, matnr).list();
 		
 	}
 

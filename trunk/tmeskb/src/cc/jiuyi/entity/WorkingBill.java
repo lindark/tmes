@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -29,6 +30,19 @@ public class WorkingBill extends BaseEntity {
 	private String isdel;//是否删除
 	private String matnr;//物料号
 	private String maktx;//物料描述
+	
+	private Set<Material> materialSet;//组件
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
+
+	public Set<Material> getMaterialSet() {
+		return materialSet;
+	}
+	public void setMaterialSet(Set<Material> materialSet) {
+		this.materialSet = materialSet;
+	}
+	
 	
 	public String getWorkingBillCode() {
 		return workingBillCode;

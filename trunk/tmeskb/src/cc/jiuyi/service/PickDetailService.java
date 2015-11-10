@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.PickDetail;
 
 /**
@@ -28,5 +29,5 @@ public interface PickDetailService extends BaseService<PickDetail, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	
+	public List<Material> getMantrBom(String matnr);
 }

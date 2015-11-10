@@ -12,7 +12,15 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
-		
+<script type="text/javascript">
+$(function(){
+	$("#grid-table").jqGrid('setGridParam',{
+		url:"pick_detail!ajlist.action?matnr="+${matnr},
+		datatype:"json",
+		page:1
+	}).trigger("reloadGrid");
+});
+</script>
 	</head>
 	<body class="no-skin list">
 <!-- add by welson 0728 -->	
@@ -50,19 +58,12 @@
 								<div class="row">
 									<div class="col-xs-12 col-sm-6 widget-container-col">
 										<!-- #section:custom/widget-box -->
-										<div class="widget-box">
-											
-												<!-- /section:custom/widget-box.toolbar -->
-											</div>
+										
 
 				
 										<!-- /section:custom/widget-box -->
 									</div>
-									<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="pickDetail!add.action">创建领/退料单</a></span>
-									</button>
-								</div>
+									
 							
 								
 								<!-- PAGE CONTENT BEGINS -->

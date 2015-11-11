@@ -5,7 +5,7 @@ $(function() {
 	var $repairin = $("#repairin");// 返修收货
 	var $repairin = $("#repairin");// 返修收货
     var $pick = $("#pick");// 领退料
-	
+	var $qResponse=$("#qResponse");//快速响应
 
 	/**
 	 * 入库按钮点击
@@ -61,7 +61,18 @@ $(function() {
 	$repairin.click(function() {
 		window.location.href = "repairin!list.action";
 	});
+	
+	
+	/**
+	 * 快速响应按钮点击
+	 */
+	$qResponse.click(function() {
+			window.location.href = "abnormal!list.action";
+	});
+	
 })
+
+	
 
 /**
  * 获取checkbox的ID值

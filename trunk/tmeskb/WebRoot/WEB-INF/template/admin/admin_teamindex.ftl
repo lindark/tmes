@@ -378,7 +378,7 @@
 			// (string | mandatory) the heading of the notification
 			title: '通知!',
 			// (string | mandatory) the text inside the notification
-			text: '您当前尚未绑定"生产日期"和"班次"信息，无法加载数据,请点击<a href="#" class="orange">绑定生产日期和班次</a> 进行绑定，绑定后，随工单将自动加载',
+			text: '您当前尚未绑定"生产日期"和"班次"信息，无法加载数据,请点击<a href="admin!product.action" class="orange">绑定生产日期和班次</a> 进行绑定，绑定后，随工单将自动加载',
 			class_name: 'gritter-success'
 		});
 

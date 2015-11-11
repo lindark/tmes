@@ -713,6 +713,16 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
+					<li class="">
+						<a href="admin!product.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							生产日期/班次绑定
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
 				   <li class="">
 						<a href="pro!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

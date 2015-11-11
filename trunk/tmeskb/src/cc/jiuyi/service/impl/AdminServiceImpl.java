@@ -67,10 +67,9 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, Map map,String departid) {
 		Department department = departmentdao.get(departid);
-		List<String> idList=new ArrayList<String>();
-		if(department.getParentDept() == null){//如果当前部门没有上级，表示他是最上级，不需要递归取下级，直接查询全部
-			idList.add(department.getId());
-		}else{
+		List<String> idList= null;
+		if(department.getParentDept() != null){
+			idList = new ArrayList<String>();
 			List<Department> list = departmentdao.getChildrenById(departid, null);
 			list.add(department);
 			for(Department dt:list){

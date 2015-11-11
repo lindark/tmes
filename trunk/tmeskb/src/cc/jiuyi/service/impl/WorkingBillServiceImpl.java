@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 		workingbilldao.updateisdel(ids, oper);
 	}
 	@Override
-	public List getListWorkingBillByDate(String productdate) {
+	public List getListWorkingBillByDate(Date productdate) {
 		return workingbilldao.getListWorkingBillByDate(productdate);
 	}
 	

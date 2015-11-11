@@ -73,11 +73,6 @@ public class ProcessAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<Process> processList = pager.getList();
-//		for (Process process1 : processList) {
-//			process1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"processState", process1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("processState", process.getState());
 		return LIST;
 	}
 	

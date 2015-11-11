@@ -24,6 +24,7 @@ import cc.jiuyi.service.WorkingBillService;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 //import org.springmodules.cache.annotations.CacheFlush;
+import org.springmodules.cache.annotations.Cacheable;
 
 /**
  * Service实现类 - 随工单
@@ -61,7 +62,12 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 	public List getListWorkingBillByDate(String productdate) {
 		return workingbilldao.getListWorkingBillByDate(productdate);
 	}
-
+	
+	@Cacheable(modelId="caching")
+	public WorkingBill get(String id) {
+		System.out.println("调用DB数据库");
+		return workingbilldao.get(id);
+	}
 
 	
 }

@@ -1,5 +1,6 @@
-
 jQuery(function($) {
+	
+	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -84,7 +85,8 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
-				window.location.href="working_bill!add.action";
+				var workingBillId = $("#workingBillId").val();
+				window.location.href="enteringware_house!add.action?workingBillId="+workingBillId;
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,

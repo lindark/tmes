@@ -1,7 +1,16 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * 实体类 - 质量问题通知单
@@ -28,6 +37,9 @@ public class Quality extends BaseEntity{
 	private String engineerOpinion;//工程师意见
 	private String isDel;//是否删除	
 	private String state;//状态
+	private Abnormal abnormal;//异常
+	
+	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	
 	public String getProductNo() {
 		return productNo;
@@ -121,5 +133,21 @@ public class Quality extends BaseEntity{
 		this.team = team;
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Abnormal getAbnormal() {
+		return abnormal;
+	}
+	public void setAbnormal(Abnormal abnormal) {
+		this.abnormal = abnormal;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quality")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<FlowingRectify> getFlowingRectify() {
+		return flowingRectify;
+	}
+	public void setFlowingRectify(Set<FlowingRectify> flowingRectify) {
+		this.flowingRectify = flowingRectify;
+	}
 	
 }

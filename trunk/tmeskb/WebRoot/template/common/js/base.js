@@ -397,6 +397,7 @@ jQuery(function() {
 	$("form.validate").validate({
 		errorClass: "validateError",
 		ignore: ".ignoreValidate",
+		onkeyup:false,
 		errorPlacement: function(error, element) {
 			var messagePosition = element.metadata().messagePosition;
 			if("undefined" != typeof messagePosition && messagePosition != "") {

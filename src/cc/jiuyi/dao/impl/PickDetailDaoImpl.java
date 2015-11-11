@@ -116,6 +116,14 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		
 	}
 
+//	@Override
+//	public Material getMaterialNameById(String id) {
+//		String hql="from Material where id=?";
+//		return (Material) getSession().createQuery(hql).setParameter(0, id).list();
+//	}
+
+	
+
 //	@SuppressWarnings("unchecked")
 //	public boolean isExistByPickDetailCode(String pickDetailCode) {
 //		String hql="from PickDetail pickDetail where lower(pickDetail.pickDetailCode)=lower(?)";

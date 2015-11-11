@@ -113,8 +113,6 @@ jQuery(function($) {
 		}, 0);
 	}
 
-
-
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 
 			edit: false,		   

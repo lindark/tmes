@@ -130,6 +130,15 @@ public class DepartmentAction extends BaseAdminAction {
 		jsonMap.put(MESSAGE, "部门删除成功");
 		return ajaxJson(jsonMap);
 	}
+	
+	/**
+	 * 检查部门名称
+	 * @return
+	 */
+	public String CheckDeptName(){
+		//暂时不需要使用
+		return ajaxText("true");
+	}
 
 	public List<Department> getList() {
 		return list;

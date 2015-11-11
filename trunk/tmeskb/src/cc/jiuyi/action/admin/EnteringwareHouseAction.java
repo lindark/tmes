@@ -12,6 +12,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -27,6 +28,8 @@ import cc.jiuyi.util.ThinkWayUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -64,6 +67,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 	private String workingBillId;
 	private WorkingBill workingbill;
+	private EnteringwareHouse enteringwareHouse;
 
 	/**
 	 * 跳转list 页面
@@ -72,6 +76,17 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String list(){
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
+	}
+	
+	public String add(){
+		workingbill = workingBillService.get(workingBillId);
+		return INPUT;
+	}
+	
+	public String save(){
+		enteringwareHouseService.save(enteringwareHouse);
+		redirectionUrl="enteringware_house!list.action?workingBillId="+enteringwareHouse.getWorkingbill().getId();
+		return SUCCESS;
 	}
 	
 	/**
@@ -96,21 +111,21 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		if(pager.is_search()==true && Param != null){//普通搜索功能
-//			if(!Param.equals("")){
-//			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-//				JSONObject param = JSONObject.fromObject(Param);
-//				String start = ThinkWayUtil.null2String(param.get("start"));
-//				String end = ThinkWayUtil.null2String(param.get("end"));
-//				String workingBillCode = ThinkWayUtil.null2String(param.get("workingBillCode"));//随工单
-//				map.put("start", start);
-//				map.put("end", end);
-//				map.put("workingBillCode", workingBillCode);
-//			}
-		}
 		
-		pager = enteringwareHouseService.findPagerByjqGrid(pager, map);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		pager = enteringwareHouseService.findByPager(pager);
+		
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			EnteringwareHouse enteringwarehouse  = (EnteringwareHouse)pagerlist.get(i);
+			enteringwarehouse.setWorkingbill(null);
+			pagerlist.set(i, enteringwarehouse);
+		}
+		pager.setList(pagerlist);
+		
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 		
@@ -131,6 +146,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
+	}
+
+	public EnteringwareHouse getEnteringwareHouse() {
+		return enteringwareHouse;
+	}
+
+	public void setEnteringwareHouse(EnteringwareHouse enteringwareHouse) {
+		this.enteringwareHouse = enteringwareHouse;
 	}
 	
 	

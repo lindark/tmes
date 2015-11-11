@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * 实体类 - 角色
@@ -23,6 +24,17 @@ public class Role extends BaseEntity {
 	
 	private Set<Admin> adminSet;// 管理员
 	private Set<Resource> resourceSet;// 资源
+	private Set<AccessResource> accessResourceSet;//权限对象
+
+	
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	public Set<AccessResource> getAccessResourceSet() {
+		return accessResourceSet;
+	}
+
+	public void setAccessResourceSet(Set<AccessResource> accessResourceSet) {
+		this.accessResourceSet = accessResourceSet;
+	}
 
 	@Column(nullable = false, unique = true)
 	public String getName() {

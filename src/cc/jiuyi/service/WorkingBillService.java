@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,6 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 * 根据生产日期取出对应的随工单信息
 	 * @return
 	 */
-	public List getListWorkingBillByDate(String productdate);
+	public List getListWorkingBillByDate(Date productdate);
 	
 }

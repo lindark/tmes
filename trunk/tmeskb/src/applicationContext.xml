@@ -130,6 +130,9 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.FactoryUnit</value>
 				<value>cc.jiuyi.entity.CardManagement</value>
 				<value>cc.jiuyi.entity.Permission</value>
+				<value>cc.jiuyi.entity.AccessObject</value>
+				<value>cc.jiuyi.entity.AccessResource</value>
+				
 			</list>
 		</property>
 	</bean>

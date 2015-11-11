@@ -34,6 +34,8 @@ public class AccessResource extends BaseEntity {
 	public void setAccessobjectSet(Set<AccessObject> accessobjectSet) {
 		this.accessobjectSet = accessobjectSet;
 	}
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Role getRole() {
 		return role;
@@ -41,6 +43,8 @@ public class AccessResource extends BaseEntity {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Resource getResource() {
 		return resource;

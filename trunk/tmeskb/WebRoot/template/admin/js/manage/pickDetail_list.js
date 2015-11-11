@@ -285,38 +285,25 @@ jQuery(function($) {
 			// });
 			//
 			// }
-//			$("#grid-table tr").each(function(element) {
-//				var text = $(this).attr("id");
-//				alert(text);
-//				$.ajax({
-//					url : "pick_detail!addAmount.action?text=",
-//					dataType : "json",
-//					async : false,
-//					success : function(data) {
-//						alert("SUCCESS");
-//					}
-//				});
-//			});	
 			
 
-			
+			var text="";
 			$("#grid-table tr").each(function(element) {
-				var text = $(this).attr("id");
-				alert(text);				
-			  });	
-                 $.ajax({
-					url : "pick_detail!addAmount.action?text=",
-					dataType : "json",
-					async : false,					
-					success : function(data) {
-						alert("SUCCESS");
-					}
-				});
-
+					text = text+$(this).attr("id")+"&";					
+			 });
+			alert(text);
+			$.ajax({
+				url : "pick_detail!addAmount.action?text=",
+				dataType : "json",
+				async : false,					
+				success : function(data) {
+					alert("SUCCESS");
+				}
+			});
 			
-			
+	
 			alert($("#inputform").serialize());
-			//alert($("#inputform").attr("action"));
+			alert($("#inputform").attr("action"));
 			$.ajax({
 				url : $("#inputform").attr("action"),
 				data:$("#inputform").serialize(),

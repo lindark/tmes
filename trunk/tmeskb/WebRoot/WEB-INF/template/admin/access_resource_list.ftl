@@ -13,7 +13,7 @@
 
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-	<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/ermissions/accessobject_list.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/ermissions/accessresource_list.js"></script>
 	<style type="text/css">
 		.operateBar{
 			padding:3px 0px;
@@ -58,17 +58,17 @@
 								<!-- ./ add by weitao  -->
 									<form action="member!list.action" method="post" id="inputForm">
 										<div class="operateBar">
-											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_object!add.action">
+											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_resource!add.action">
 																<i class="ace-icon fa fa-pencil-square-o blue"></i>
-																添加权限对象
+																添加权限资源对象
 											</a>
-											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_object!add.action">
+											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_resource!add.action">
 																<i class="ace-icon fa fa-pencil-square-o blue"></i>
-																修改权限对象
+																修改权限资源对象
 											</a>
-											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_object!add.action">
+											<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="access_resource!add.action">
 																<i class="ace-icon fa fa-pencil-square-o blue"></i>
-																删除权限对象
+																删除权限资源对象
 											</a>
 											<select name="pager.property">
 												<option value="username">

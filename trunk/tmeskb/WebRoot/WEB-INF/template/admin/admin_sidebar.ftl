@@ -570,6 +570,14 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="">
+								<a href="access_resource!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									权限资源对象
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 
 						</ul>
 					</li>

@@ -31,11 +31,20 @@ public class WorkingBill extends BaseEntity {
 	private String matnr;//物料号
 	private String maktx;//物料描述
 	
+	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
+	
+	
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	public Set<EnteringwareHouse> getEnteringwareHouse() {
+		return enteringwareHouse;
+	}
+	public void setEnteringwareHouse(Set<EnteringwareHouse> enteringwareHouse) {
+		this.enteringwareHouse = enteringwareHouse;
+	}
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
-
 	public Set<Material> getMaterialSet() {
 		return materialSet;
 	}

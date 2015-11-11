@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -30,11 +31,20 @@ public class EnteringwareHouse extends BaseEntity {
 	private String State;//状态
 	private String isdel;//是否删除
 	
+	private WorkingBill workingbill;//随工单
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
+	}
 	public String getState() {
 		return State;
 	}
 	public void setState(String state) {
-		State = state;
+			State = state;
 	}
 	public Integer getTotalSingleAmout() {
 		return totalSingleAmout;

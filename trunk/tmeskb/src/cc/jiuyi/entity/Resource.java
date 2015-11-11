@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
@@ -26,6 +27,30 @@ public class Resource extends BaseEntity {
 	private Integer orderList;// 排序
 	
 	private Set<Role> roleSet;// 权限
+	
+	//private Set<AccessObject> accessobjectSet;//权限对象
+	private Set<AccessResource> accessResourceSet;//权限资源对象
+
+	
+	@OneToMany(mappedBy = "resource", fetch = FetchType.LAZY)
+	public Set<AccessResource> getAccessResourceSet() {
+		return accessResourceSet;
+	}
+
+	public void setAccessResourceSet(Set<AccessResource> accessResourceSet) {
+		this.accessResourceSet = accessResourceSet;
+	}
+
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "resource")
+//	public Set<AccessObject> getAccessobjectSet() {
+//		return accessobjectSet;
+//	}
+//
+//	
+//
+//	public void setAccessobjectSet(Set<AccessObject> accessobjectSet) {
+//		this.accessobjectSet = accessobjectSet;
+//	}
 
 	@Column(nullable = false, unique = true)
 	public String getName() {

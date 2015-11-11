@@ -25,7 +25,7 @@ public class WorkingBill extends BaseEntity {
 	private static final long serialVersionUID = 2547319998033961001L;
 	
 	private String workingBillCode;//随工单编号
-	private String productDate;//生产日期
+	private Date productDate;//生产日期
 	private String planCount;//计划数量
 	private String isdel;//是否删除
 	private String matnr;//物料号
@@ -59,10 +59,11 @@ public class WorkingBill extends BaseEntity {
 	public void setWorkingBillCode(String workingBillCode) {
 		this.workingBillCode = workingBillCode;
 	}
-	public String getProductDate() {
+	
+	public Date getProductDate() {
 		return productDate;
 	}
-	public void setProductDate(String productDate) {
+	public void setProductDate(Date productDate) {
 		this.productDate = productDate;
 	}
 	public String getPlanCount() {

@@ -36,15 +36,24 @@ $(function() {
 	$responsecar.click(function() {
 		alert("f");
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
-		alert(i);
-		window.location.href = "abnormal!update.action?aid="+i;
+		if(i.length<=0){
+			alert("请至少选择一个异常");
+			return false;
+		}else{
+			window.location.href = "abnormal!update.action?aid="+i;
+		}
+		
     });
 	
 	var $cancelcal = $("#cancelcal");// 撤销呼叫
 	$cancelcal.click(function() {
 		alert("o");
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
-		alert(i);
-		window.location.href = "abnormal!update.action?cancelId="+i;
+		if(i.length<=0){
+			alert("请至少选择一个异常");
+			return false;
+		}else{
+			window.location.href = "abnormal!update.action?cancelId="+i;
+		}		
     });
 })

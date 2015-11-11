@@ -169,7 +169,9 @@ public class AdminAction extends BaseAdminAction {
 	// 后台首页
 	public String index1() {
 		//workingbillservice.getListWorkingBillByDate(ThinkWayUtil.SystemDate());//目前使用系统固定时间做。测试时修改回来
-		workingbillList = workingbillservice.getListWorkingBillByDate("2015-09-27");//目前使用系统固定时间做。测试时修改回来
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin.getProductDate());//目前使用系统固定时间做。测试时修改回来
 		return "teamindex";
 	}
 	
@@ -206,6 +208,13 @@ public class AdminAction extends BaseAdminAction {
 	public String edit() {
 		admin = adminService.load(id);
 		return INPUT;
+	}
+	
+	// 绑定生产日期和班次
+	public String product() {
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		return "product";
 	}
 
 	// 列表
@@ -337,6 +346,14 @@ public class AdminAction extends BaseAdminAction {
 		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
+	}
+	
+	public String productupdate(){
+		Admin persistent = adminService.load(id);
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities"});
+		adminService.update(persistent);
+		return SUCCESS;
+		
 	}
 	
 	/*

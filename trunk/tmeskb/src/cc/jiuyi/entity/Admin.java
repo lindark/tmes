@@ -39,6 +39,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private String departName;//部门名称
 	private String isDel;//是否删除
+	private String shift;//班次
+	private Date productDate;//生产日期
 	
 	
 	private Set<Role> roleSet;// 管理角色
@@ -216,6 +218,22 @@ public class Admin extends BaseEntity implements UserDetails {
 			this.isDel ="N";
 		}else
 			this.isDel = isDel;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public Date getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(Date productDate) {
+		this.productDate = productDate;
 	}
 	
 	

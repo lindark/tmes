@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.dao.DepartmentDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.WorkingBill;
 
@@ -48,5 +49,6 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 		}
 		return temp;
 	}
+
 	
 }

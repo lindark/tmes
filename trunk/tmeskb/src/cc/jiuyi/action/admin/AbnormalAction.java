@@ -9,11 +9,15 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
+
+import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 
@@ -27,6 +31,8 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	private Abnormal abnormal;
 	private String loginUsername;
+	private String aid;
+	private String cancelId;
 	
 	@Resource
 	private AbnormalService abnormalService;
@@ -61,6 +67,26 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
+	@InputConfig(resultName = "error")
+	public String update() {
+		
+		if(aid!=null){
+			
+		    Abnormal persistent = abnormalService.load(aid);
+		    persistent.setReplyDate(new Date());
+		    persistent.setState("已确定");
+		    persistent.setHandlingTime(1);
+		    abnormalService.update(persistent);
+		}else if(cancelId!=null){
+			Abnormal persistent = abnormalService.load(cancelId);
+			persistent.setState("已撤销");
+			abnormalService.update(persistent);
+		}
+		
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
+	}
+	
 	// 添加
 	public String addMessage() {
 		return "abnormal_message";
@@ -77,7 +103,7 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setCallDate(new Date());
 		abnormal.setCreateDate(new Date());
 		abnormal.setModifyDate(new Date());
-		abnormal.setReplyDate(new Date());
+		//abnormal.setReplyDate(new Date());
 		
 		abnormal.setCreateUser("张三");
 		abnormal.setModifyUser("张三");
@@ -89,6 +115,7 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setShopName("2车间");
 		abnormal.setState("未确定");
 		abnormal.setUnitName("2单元");
+		abnormal.setTeamId("02");
 		
 		abnormalService.save(abnormal);
 		Map<String, String> jsonMap = new HashMap<String, String>();
@@ -119,6 +146,22 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setLoginUsername(String loginUsername) {
 		this.loginUsername = loginUsername;
+	}
+
+	public String getAid() {
+		return aid;
+	}
+
+	public void setAid(String aid) {
+		this.aid = aid;
+	}
+
+	public String getCancelId() {
+		return cancelId;
+	}
+
+	public void setCancelId(String cancelId) {
+		this.cancelId = cancelId;
 	}
 	
 	

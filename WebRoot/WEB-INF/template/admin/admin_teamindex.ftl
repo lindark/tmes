@@ -245,7 +245,7 @@
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="qResponse">
 																	<i class="ace-icon fa fa-volume-up bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">快速响应</span>
 																</button>

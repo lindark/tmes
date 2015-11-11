@@ -67,7 +67,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private String matnr;
     private String[] rbg;
     private String[] pt;
-    private String[] text;
+    private String text;
 	
     
     
@@ -317,20 +317,14 @@ public class PickDetailAction extends BaseAdminAction {
 	}
 
 
-	public String[] getText() {
+	public String getText() {
 		return text;
 	}
 
 
-	public void setText(String[] text) {
+	public void setText(String text) {
 		this.text = text;
 	}
-
-
-	
-
-
-	
 
 	
 }

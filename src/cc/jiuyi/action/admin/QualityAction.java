@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,7 +17,11 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.service.AbnormalService;
+import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -26,12 +31,23 @@ public class QualityAction extends BaseAdminAction {
 	private static final long serialVersionUID = -3242463207248131962L;
 
 	private Quality quality;
+	private String aid;
+	private Abnormal abnormal;
+	private String abnormalId;
 	
+	private List<FlowingRectify> flowingRectifys;
 	@Resource
 	private QualityService qualityService;
+	@Resource
+	private AbnormalService abnormalService;
+	@Resource
+	private FlowingRectifyService flowingRectifyService;
 	
 	// 添加
 	public String add() {
+		if(aid!=null){
+			abnormal=abnormalService.load(aid);
+		}		
 		return INPUT;
 	}
 
@@ -101,11 +117,20 @@ public class QualityAction extends BaseAdminAction {
 		}*/
 		
 		public String save() {
+			abnormal=abnormalService.load(abnormalId);
+			quality.setAbnormal(abnormal);
 			quality.setCreateUser("张三");
 			quality.setIsDel("N");
 			quality.setModifyUser("张三");
 			quality.setState("未确定");
-			qualityService.save(quality);	
+			qualityService.save(quality);
+			
+			for(int i=0;i<flowingRectifys.size();i++){
+				FlowingRectify v=flowingRectifys.get(i);
+				v.setQuality(quality);
+				flowingRectifyService.save(v);
+			}
+			
 			redirectionUrl = "quality!list.action";
 			return SUCCESS;
 		}
@@ -133,6 +158,38 @@ public class QualityAction extends BaseAdminAction {
 
 		public void setQuality(Quality quality) {
 			this.quality = quality;
+		}
+
+		public String getAid() {
+			return aid;
+		}
+
+		public void setAid(String aid) {
+			this.aid = aid;
+		}
+
+		public Abnormal getAbnormal() {
+			return abnormal;
+		}
+
+		public void setAbnormal(Abnormal abnormal) {
+			this.abnormal = abnormal;
+		}
+
+		public String getAbnormalId() {
+			return abnormalId;
+		}
+
+		public void setAbnormalId(String abnormalId) {
+			this.abnormalId = abnormalId;
+		}
+
+		public List<FlowingRectify> getFlowingRectifys() {
+			return flowingRectifys;
+		}
+
+		public void setFlowingRectifys(List<FlowingRectify> flowingRectifys) {
+			this.flowingRectifys = flowingRectifys;
 		}
 		
 		

@@ -115,15 +115,13 @@ public class TeamAction extends BaseAdminAction {
 			pager = teamService.getTeamPager(pager, map);
 			List<Team> teamList = pager.getList();
 			List<Team> lst = new ArrayList<Team>();
-			try{
-				for (int i = 0; i < teamList.size(); i++) {
-					Team team = (Team) teamList.get(i);
-					team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "teamState", team.getState()));
-					lst.add(team);
-				}
-			}catch(Exception e){
-				e.printStackTrace();
+			for (int i = 0; i < teamList.size(); i++) {
+				Team team = (Team) teamList.get(i);
+				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "teamState", team.getState()));
+				
+				team.setAdmin(null);
+				lst.add(team);
 			}
 			
 		pager.setList(lst);

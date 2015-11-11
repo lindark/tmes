@@ -99,7 +99,7 @@ body
 	font-weight:normal;
 	color:#343d47;
 	margin-top:25px;
-	font-family:"榛戜綋";
+	font-family:"姒涙垳缍�;
 }
 .register h1 span{
  color: #f2680b;
@@ -182,7 +182,7 @@ body
 	font-size:16px;
 	margin:12px 0 0 10px;
 }
-.register_form li input
+.register_form li input,select
 {
 	height:42px;
 	line-height:42px;
@@ -1058,7 +1058,7 @@ a.app_download:hover
 	background:url(/static/img/register/maintenance_close_hover.png) center no-repeat;
 }
 
-/*娴忚鍣ㄥ垽鏂�/
+/*濞村繗顬囬崳銊ュ灲閺傦拷/
 .shade_div_dark
 {   
     background: none repeat scroll 0 0 #000000;
@@ -1179,7 +1179,7 @@ span.browser_chorme{
 	text-decoration:none;
 }
 
-/*閭�鐮乧heckbox*/
+/*闁拷顕惍涔eckbox*/
 
 /*jquery ui checkbox*/
 .invited_checkbox
@@ -1219,7 +1219,7 @@ span.browser_chorme{
 	display: inline-block;
 }
 
-/*娉ㄥ唽鎴愬姛*/
+/*濞夈劌鍞介幋鎰*/
 .reg_success{
 	font-size: 16px;
 	color: #677687;

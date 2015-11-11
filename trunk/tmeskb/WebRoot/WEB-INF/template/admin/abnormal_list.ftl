@@ -21,6 +21,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/abnormal_list.js"></script>
+				<script type="text/javascript"src="${base}/template/admin/js/unusual/js/abnormal.js"></script>
         <script type="text/javascript"src="${base}/template/admin/js/unusual/js/ring.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
@@ -217,33 +218,33 @@ th {
 							<div class="row buttons">
 							     
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="quality!add.action">创建质量问题单</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
+                                      <span class="bigger-110 no-text-shadow">创建质量问题单</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="model!add.action">创建工模维修单</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="modelrep">
+                                      <span class="bigger-110 no-text-shadow">创建工模维修单</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="craft!add.action">创建工艺维修单</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="craftrep">
+                                      <span class="bigger-110 no-text-shadow">创建工艺维修单</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="device!add.action">创建设备维修单</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="devicerep">
+                                      <span class="bigger-110 no-text-shadow">创建设备维修单</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="">响应刷卡</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="responsecar">
+                                      <span class="bigger-110 no-text-shadow">响应刷卡</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span class="bigger-110 no-text-shadow"><a href="">撤销呼叫</a></span>
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="cancelcal">
+                                      <span class="bigger-110 no-text-shadow">撤销呼叫</span>
 									</button>
 								</div>
 								<!-- <div class="col-md-2 col-sm-4" >

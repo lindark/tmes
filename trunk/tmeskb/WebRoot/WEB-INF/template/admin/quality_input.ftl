@@ -9,6 +9,7 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="${base}/template/admin/js/unusual/js/quality.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -17,6 +18,9 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}
+.deleteImage, #addImage, #removeImage {
+	cursor: pointer;
+}
 </style>
 </head>
 <body class="no-skin input">
@@ -57,7 +61,7 @@ body{background:#fff;}
 								
 		<form id="inputForm" class="validate" action="<#if isAdd??>quality!save.action<#else>quality!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
-			
+			<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -90,8 +94,7 @@ body{background:#fff;}
 								<option value="2">
 									40010021
 								</option>
-						</select>
-											<!-- <input type="text" name="quality.productName" value="${(quality.productName)!}" class=" input input-sm  formText {required: true}" /> -->
+						</select>											
 										</div>
 										 <div class="profile-info-name"> 产品名称</div>
 					
@@ -112,15 +115,14 @@ body{background:#fff;}
 								<option value="2">
 									接角
 								</option>
-						</select>
-										<!-- 	<input type="text" name="quality.process" value="${(quality.process)!}" class=" input input-sm  formText {required: true}" /> -->
+						</select>										
 										</div>
 										<div class="profile-info-name"> 班组 </div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="quality.team" value="${(quality.team)!}" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="quality.team" value="${(abnormal.teamId)!}" class=" input input-sm  formText {required: true}" />
 										</div>
-									</div>									
+									</div>																		
 									<div class="profile-info-row">
 									    <div class="profile-info-name"> 抽检数量 </div>
 									    <div class="profile-info-value">
@@ -147,30 +149,32 @@ body{background:#fff;}
 									    <div class="profile-info-value">
 											<input type="text" name="quality.extrusionBatches" value="${(quality.extrusionBatches)!}" class=" input input-sm  formText {required: true}" />
 										</div>
-									</div>
-																		
-									<!-- 
-									<div class="profile-info-row">									    
-										<div class="profile-info-name"> 车间整改方案</div>
-									    <div class="profile-info-value">
-											<input type="text" name="quality.rectificationScheme" value="${(quality.rectificationScheme)!}" class=" input input-sm  formText {required: true}" />
-										</div>
-									</div>
-									
-									<div class="profile-info-row">
-									    <div class="profile-info-name"> 工程师意见</div>
-									    <div class="profile-info-value">
-											<input type="text" name="quality.engineerOpinion" value="${(quality.engineerOpinion)!}" class=" input input-sm  formText {required: true}" />
-										</div>										
-									</div>  -->
+									</div>									
 							
 						</div>
 						<div class="profile-user-info profile-user-info-striped">
 						  <div class="profile-info-row">
 									    <div class="profile-info-name"> 质量问题描述 </div>
-									    <div class="profile-info-value">
-											<!-- <input type="text" name="quality.problemDescription" value="${(quality.problemDescription)!}" class=" input input-sm  formText {required: true}" /> -->
-										    <textarea name="quality.problemDescription" ></textarea>
+									    <div class="profile-info-value">											
+										    <textarea name="quality.problemDescription" style="width:600px;">${(quality.problemDescription)!}</textarea>
+										</div>
+							</div>
+						</div>
+						
+						<div class="profile-user-info profile-user-info-striped">
+						  <div class="profile-info-row">
+									    <div class="profile-info-name">车间整改方案</div>
+									    <div class="profile-info-value">											
+										    <textarea name="quality.rectificationScheme" style="width:600px;">${(quality.rectificationScheme)!}</textarea>
+										</div>
+							</div>
+						</div>
+						
+						<div class="profile-user-info profile-user-info-striped">
+						  <div class="profile-info-row">
+									    <div class="profile-info-name">工程师意见</div>
+									    <div class="profile-info-value">											
+										    <textarea name="quality.engineerOpinion" style="width:600px;">${(quality.engineerOpinion)!} </textarea>
 										</div>
 							</div>
 						</div>
@@ -198,27 +202,45 @@ body{background:#fff;}
 				</tr>
 		</tbody>
 			</table>
-			
-			
-			
-			
-			<table id="tabs-3" class="inputTable tabContent">
-				<tbody><tr class="title">
+			  
+			<table id="tabs-3" class="inputTable tabContent">		   									
+				<tbody>
+			<tr class="title">			   
 				<th>时间</th>
 				<th>内容</th>
-				<th>操作</th>
+				<th>操作人</th>
 			</tr>
-				<tr>
+			<#if (quality==null||quality.flowingRectify==null||(quality.flowingRectify)!?size==0)>
+			<tr  class="zg">				
 					<td>
-						2015-09-16 09:20
+						<input type="text" name="flowingRectifys[0].createDate" value="" class="formText {required: true} datePicker"/>
 					</td>
-					<td>						
-						工序XX问题已解决			
-					</td>
+					<td>	
+					    <input type="text" name="flowingRectifys[0].content" value=""	style="width:360px;"/>			
+						
+					</td>	
+					<td><input type="text" name="flowingRectifys[0].createUser" value=""/></td>		
+			</tr>
+			<#else>
+			  <#list (quality.flowingRectify)! as list>
+			     <tr  class="zg">				
 					<td>
-						编辑
-					</td>					
-				</tr>
+						<input type="text" name="flowingRectifys[${list_index}].createDate" value="${list.createDate}" class="formText {required: true} datePicker"/>
+					</td>
+					<td>	
+					    <input type="text" name="flowingRectifys[${list_index}].content" value="${list.content}"	style="width:360px;"/>			
+						
+					</td>	
+					<td><input type="text" name="flowingRectifys[${list_index}].createUser" value="${list.createUser}"/>			</td>		
+			    </tr>
+			  </#list>
+			</#if>
+			<tr>
+					<td colspan="3">
+						<img src="${base}/template/admin/images/input_add_icon.gif" id="addImage" alt="增加选项" />&nbsp;&nbsp;&nbsp;&nbsp;
+						<img src="${base}/template/admin/images/input_remove_icon.gif" id="removeImage" alt="减少选项" />
+					</td>
+			</tr>
 		</tbody>
 			</table>
 			

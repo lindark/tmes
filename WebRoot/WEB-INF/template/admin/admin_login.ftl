@@ -34,12 +34,13 @@
 					<form action="${base}/admin/loginVerify" method="post" name="login_form" id="login_form">
 						<ul class="register_form">
 							<li class="clear">
-								<input class="input_code" tabindex="1" id="username"  name="j_username" placeholder="请输入手机号/邮箱"/>
+								<input class="input_code" tabindex="1" id="username"  name="j_username" placeholder="请输入登录名"/>
 							</li>
 							<li class="clear">
 								<input id="password" type="password" class="input_code" tabindex="2"
 								name="j_password" placeholder="请输入登录密码"/>
 							</li>
+							
 						</ul>
 
 						<ul class="verification_form register_form" style=" margin-top:0; padding-top:0; border-top:0;">
@@ -57,7 +58,8 @@
 						</ul>
 					</form>
 					<div class="register_submit clear">
-						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>
+						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>&nbsp;
+						<a id="btn_login" href="javascript:;" title="刷卡登陆" class="button_blue ">刷卡登陆</a>
 						<a href="javascript:;" title="登录" class="button_blue button_disable button_waiting" style="display: none">登录中<span></span></a>
 						<!--
 						<span class="register_login">

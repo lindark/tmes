@@ -7,8 +7,10 @@
 <title>管理中心 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
+<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery.gritter.css" />
 <script src='${base}/template/admin/assets/js/jquery.min.js'></script>
 <script src="${base}/template/admin/js/Main/teamindex.js"></script>
+<script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 </head>
 <body class="no-skin">
 
@@ -371,7 +373,17 @@
 	
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 		
-		
+		<script type="text/javascript">
+		$.gritter.add({
+			// (string | mandatory) the heading of the notification
+			title: '通知!',
+			// (string | mandatory) the text inside the notification
+			text: '您当前尚未绑定"生产日期"和"班次"信息，无法加载数据,请点击<a href="#" class="orange">绑定生产日期和班次</a> 进行绑定，绑定后，随工单将自动加载',
+			class_name: 'gritter-success'
+		});
+
+
+		</script>
 		
 </body>
 </html>

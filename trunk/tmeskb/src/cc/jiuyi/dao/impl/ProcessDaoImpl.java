@@ -96,7 +96,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 			}
 
 		}
-		//System.out.println("wheresql:" + wheresql);
+		System.out.println("wheresql:" + wheresql);
 		return wheresql;
 	}
 

@@ -56,6 +56,17 @@ public class MaterialAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	//是否已存在ajax验证
+	public String checkMaterialCode(){
+		String materialCode=material.getMaterialCode();
+		System.out.println("组件编码为:"+material.getMaterialCode());
+		if(materialService.isExistByMaterialCode(materialCode)){
+			return ajaxText("false");
+		}else{
+			return ajaxText("true");
+		}
+	}
+	
 
 	//列表
 	public String list(){

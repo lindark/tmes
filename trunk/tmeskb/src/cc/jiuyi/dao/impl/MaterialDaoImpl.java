@@ -108,4 +108,17 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		}
 		
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean isExistByMaterialCode(String materialCode) {
+		String hql="from Material material where lower(material.materialCode=lower(?)";
+		Material material=(Material) getSession().createQuery(hql).setParameter(0, materialCode).uniqueResult();
+		System.out.println(hql);
+		if(material!=null){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

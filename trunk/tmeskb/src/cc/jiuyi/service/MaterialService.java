@@ -27,5 +27,11 @@ public interface MaterialService extends BaseService<Material, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	
+	/**
+	 * 根据组件编码判断此组件是否存在
+	 */
+	public boolean isExistByMaterialCode(String materialCode);
 
 }

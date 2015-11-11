@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +41,6 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 @ParentPackage("admin")
 public class PickDetailAction extends BaseAdminAction {
-
-	
-
 	/**
 	 * 
 	 */
@@ -67,19 +65,44 @@ public class PickDetailAction extends BaseAdminAction {
 	private Admin admin;
 	private Material material;
 	private String matnr;
+    private String[] rbg;
+    private String[] pt;
+    private String[] text;
 	
+    
+    
+	public String addAmount() {
+		for (int i = 0; i < pt.length; i++) {	
+			//System.out.println(Arrays.toString(text));
+			if (!pt.equals("")) {
+				System.out.println(Arrays.toString(pt));
+				for (int j = 0; j < rbg.length; j++) {
+					if (rbg.equals("1")) {
+						pickDetail.setPickType("1");
+					} else {
+						pickDetail.setPickType("2");
+					}
+
+				}
+			}
+		}
+		
+		pickDetail.setMaterialCode(material.getMaterialCode());
+		pickDetail.setMaterialName(material.getMaterialName());
+		pickDetailService.save(pickDetail);
+		
+		redirectionUrl = "pick!list.action";
+		return SUCCESS;
+	}
 	
+    
 	//添加
 	public String add(){
 		return INPUT;
 	}
 
-
 	//列表
 	public String list(){
-		
-		
-		
 		return LIST;
 	}
 	
@@ -95,6 +118,7 @@ public class PickDetailAction extends BaseAdminAction {
 		for (int i = 0; i < pickDetail.size(); i++) {
 			Material mate=pickDetail.get(i);
 			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("id", mate.getId());
 			map.put("materialCode", mate.getMaterialCode());
 			map.put("materialName", mate.getMaterialName());
 			list.add(map);
@@ -213,6 +237,100 @@ public class PickDetailAction extends BaseAdminAction {
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
 	}
+
+	public WorkingBillService getWorkingBillService() {
+		return workingBillService;
+	}
+
+
+
+	public void setWorkingBillService(WorkingBillService workingBillService) {
+		this.workingBillService = workingBillService;
+	}
+
+
+
+	public AdminService getAdminService() {
+		return adminService;
+	}
+
+
+
+	public void setAdminService(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
+
+
+	public MaterialService getMaterialService() {
+		return materialService;
+	}
+
+
+
+	public void setMaterialService(MaterialService materialService) {
+		this.materialService = materialService;
+	}
+
+
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+
+
+	public Material getMaterial() {
+		return material;
+	}
+
+
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
+
+	public String[] getRbg() {
+		return rbg;
+	}
+
+
+	public void setRbg(String[] rbg) {
+		this.rbg = rbg;
+	}
+
+
+	public String[] getPt() {
+		return pt;
+	}
+
+
+	public void setPt(String[] pt) {
+		this.pt = pt;
+	}
+
+
+	public String[] getText() {
+		return text;
+	}
+
+
+	public void setText(String[] text) {
+		this.text = text;
+	}
+
+
 	
+
+
+	
+
 	
 }

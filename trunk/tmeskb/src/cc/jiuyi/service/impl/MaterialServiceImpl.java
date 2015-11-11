@@ -63,5 +63,11 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 		
 	}
 
+	@Override
+	public boolean isExistByMaterialCode(String materialCode) {
+		// TODO Auto-generated method stub
+		return materialDao.isExistByMaterialCode(materialCode);
+	}
+
 	
 }

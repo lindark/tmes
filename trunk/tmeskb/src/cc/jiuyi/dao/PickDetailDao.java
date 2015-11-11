@@ -32,4 +32,6 @@ public interface PickDetailDao extends BaseDao<PickDetail,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public List<Material> getMantrBom(String matnr);
+	
+	//public Material getMaterialNameById(String id);
 }

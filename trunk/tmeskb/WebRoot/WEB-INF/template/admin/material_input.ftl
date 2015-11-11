@@ -55,7 +55,8 @@ body {
 
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
-						href="admin!index.action">管理中心</a></li>
+						href="admin!index.action">管理中心</a>
+					</li>
 					<li class="active"><#if
 						isAdd??>添加产品Bom记录<#else>编辑产品Bom记录</#if></li>
 				</ul>
@@ -77,7 +78,8 @@ body {
 								<input type="hidden" name="id" value="${id}" />
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">产品Bom信息</a></li>
+										<li><a href="#tabs-1">产品Bom信息</a>
+										</li>
 
 									</ul>
 
@@ -86,14 +88,14 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-											<div class="profile-info-name">产品编码</div>
+												<div class="profile-info-name">产品编码</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.productCode"
 														value="${(material.productCode)!}"
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											
+
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">组件类型</div>
@@ -107,10 +109,12 @@ body {
 
 												<div class="profile-info-name">组件编码</div>
 												<div class="profile-info-value">
-													<input type="text" name="material.materialCode"
-														value="${(material.materialCode)!}"
-														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-													<label class="requireField">*</label>
+													<#if isAdd??> <input type="text" name="material.materialCode"
+														class="formText {required: true,minlength:2,maxlength: 100,materialCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'组件编码已存在'}}" />
+													<label class="requireField">*</label> <#else>
+													${material.materialCode} <input type="hidden"
+														name="material.materialCode"
+														value="${(material.materialCode)!}" /> </#if>
 												</div>
 											</div>
 

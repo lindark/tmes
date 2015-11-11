@@ -33,6 +33,7 @@ $(function(){
 	<div class="main-content">
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
+	                              
 	<!-- ./ add by welson 0728 -->
      <div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
@@ -57,23 +58,25 @@ $(function(){
 							<div class="col-xs-12">
 								<div class="row">
 									<div class="col-xs-12 col-sm-6 widget-container-col">
-										<!-- #section:custom/widget-box -->
-										
-
-				
-										<!-- /section:custom/widget-box -->
 									</div>
 									
 							
 								
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">	
-									<div class="col-xs-12">					
+									<div class="col-xs-12">			
+									<form id="inputform" action="pick_detail!addAmount.action">	
 										<table id="grid-table"></table>
 		
 										<div id="grid-pager"></div>
+									</form>	
 									</div>
 								</div>
+								<div class=" col-sm-11" style="text-align:right;">
+									<button	class="btn btn-white btn-sm btn-info btn-round" id="btnSubmit">
+                                      <span class="ace-icon fa fa-floppy-o bigger-120 blue no-text-shadow"><a href="javascript:void(0);">刷卡提交</a></span>                          
+									</button>
+								   </div>
 								<script type="text/javascript">
 									var $path_base = "${base}/template/admin";//in Ace demo this will be used for editurl parameter
 								</script>
@@ -84,6 +87,7 @@ $(function(){
 					</div><!-- /.page-content-area -->
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
+                                   <
 
 			<#include "/WEB-INF/template/admin/admin_footer.ftl">
             <#include "/WEB-INF/template/common/include_adm_bottom.ftl">

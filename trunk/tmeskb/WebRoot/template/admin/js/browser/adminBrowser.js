@@ -75,7 +75,7 @@ jQuery(function($) {
 		},
 
 		//editurl: "working_bill!delete.action",//用它做标准删除动作
-		caption: "员工列表"
+		//caption: "员工列表"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

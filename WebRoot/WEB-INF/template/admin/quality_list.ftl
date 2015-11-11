@@ -7,20 +7,34 @@
 		<title>质量问题清单</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/style.css"/>
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/setstyle.css"/>
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/ztree/css/zTreeStyle/zTreeStyle.css"/>
+		<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery-ui.min.css" />
+		
+		
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/unusual/js/quality_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
+		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/quality_list.js"></script>
+		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
+		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 		
-		<style>
-			.operateBar{
-				padding:3px 0px;
-			}
-		</style>
+		
+
+<style type="text/css">
+	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+}
+</style>
 	</head>
-	<body class="no-skin">
-		<!-- add by welson 0728 -->	
+<body class="no-skin list">
+	
+<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -31,7 +45,8 @@
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-     <div class="breadcrumbs" id="breadcrumbs">
+	
+<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -41,18 +56,17 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">质量问题单列表</li>
+			<li class="active">质量问题单&nbsp;<span class="pageInfo"></span></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
-	
+
 	
 	<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content" id="page-content">
-					<div class="page-content-area">
+	<div class="page-content">
+					<div class="page-content-area">					
+
 						<div class="row">
 							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
 								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
@@ -98,26 +112,60 @@
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 					</div><!-- /.page-content-area -->
-				</div><!-- /.page-content -->
-			</div><!-- /.main-content -->
+				<!-- PAGE CONTENT ENDS -->
 
-			<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+	</div><!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+	<!-- ./ add by welson 0728 -->
 
-					<!-- /section:basics/footer -->
-				</div>
-			</div>
+<!-- 弹出层 -->
+<div id="dialog-message">
+</div>
+<!-- 弹出层end -->
+</body>
 
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
-		
-		
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
 
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			
-		</script>
-	</body>
-		
 </html>
+<script type="text/javascript">
+	/**
+	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
+	 */
+	
+	$(function(){
+		var ishead=0;
+		$("#ace-settings-btn").click(function(){
+			if(ishead==0){
+				ishead=1;
+				$("#ace-settings-box").addClass("open");
+			}else{
+				ishead=0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		$(".btn-colorpicker").click(function(){
+				$(".dropdown-colorpicker").addClass("open");
+		})
+		
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
+			
+		})
+
+
+	})
+	
+	
+</script>

@@ -40,14 +40,15 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	
 	
 	public Pager findPagerByjqGrid(Pager pager,Map map,List list){
-		String wheresql = pagerSqlByjqGrid(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
-		detachedCriteria.createAlias("department", "department");
+		String wheresql = pagerSqlByjqGrid(pager);
 		if(!wheresql.equals("")){
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
-		
-		detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
+		if(list !=null){
+			detachedCriteria.createAlias("department", "department");
+			detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
+		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
 	}

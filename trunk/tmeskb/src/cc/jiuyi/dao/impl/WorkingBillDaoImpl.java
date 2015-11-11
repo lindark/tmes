@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,7 +67,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 	}
 
 	@Override
-	public List getListWorkingBillByDate(String productdate) {
+	public List getListWorkingBillByDate(Date productdate) {
 		String hql = "from WorkingBill where productDate = ?";
 		List list = getSession().createQuery(hql).setParameter(0, productdate).list();
 		return list;

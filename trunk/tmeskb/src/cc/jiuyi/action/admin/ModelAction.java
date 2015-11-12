@@ -7,7 +7,11 @@ import net.sf.json.JSONArray;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.service.AbnormalService;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ModelService;
 
 /**
@@ -20,12 +24,23 @@ public class ModelAction extends BaseAdminAction {
 	private static final long serialVersionUID = -5323263207248342963L;
 	
 	private Model model;
+	private String loginUsername;
+	private String aid;
+	private Abnormal abnormal;
+	private String abnormalId;
 	
 	@Resource
 	private ModelService modelService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private AbnormalService abnormalService;
 	
 	// 添加
 	public String add() {
+		if(aid!=null){
+			abnormal=abnormalService.load(aid);
+		}	
 		return INPUT;
 	}
 
@@ -52,6 +67,13 @@ public class ModelAction extends BaseAdminAction {
 	}
 	
 	public String save() {
+		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+		Admin admin = adminService.get("username", loginUsername);
+		model.setCreateUser(admin.getId());
+		model.setModifyUser(admin.getId());
+		abnormal=abnormalService.load(abnormalId);
+		model.setAbnormal(abnormal);
+		model.setState("已提交");
 		modelService.save(model);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
@@ -70,6 +92,38 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+	public String getLoginUsername() {
+		return loginUsername;
+	}
+
+	public void setLoginUsername(String loginUsername) {
+		this.loginUsername = loginUsername;
+	}
+
+	public String getAid() {
+		return aid;
+	}
+
+	public void setAid(String aid) {
+		this.aid = aid;
+	}
+
+	public Abnormal getAbnormal() {
+		return abnormal;
+	}
+
+	public void setAbnormal(Abnormal abnormal) {
+		this.abnormal = abnormal;
+	}
+
+	public String getAbnormalId() {
+		return abnormalId;
+	}
+
+	public void setAbnormalId(String abnormalId) {
+		this.abnormalId = abnormalId;
 	}
 	
 	

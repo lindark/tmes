@@ -1,16 +1,30 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
+
+import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.CraftService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 工艺维修单
@@ -47,10 +61,20 @@ public class CraftAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		pager = craftService.findByPager(pager);
+		//pager = craftService.findByPager(pager);
 		return LIST;
 	}
-
+    
+	@InputConfig(resultName = "error")
+	public String update() {
+		Craft persistent = craftService.load(id);
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id" });
+		craftService.update(persistent);
+		redirectionUrl = "craft!list.action";
+		return SUCCESS;
+	}
+	
+	/*
 	// ajax列表
 	public String ajlist() {
 		if(pager == null) {
@@ -59,12 +83,79 @@ public class CraftAction extends BaseAdminAction {
 		pager = craftService.findByPager(pager);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
+	}*/
+	
+    public String ajlist(){
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		if(pager == null) {
+			pager = new Pager();
+			pager.setOrderType(OrderType.asc);
+			pager.setOrderBy("orderList");
+		}
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		System.out.println("ok");
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+		/*	if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}*/
+			if (obj.get("classes") != null) {
+				System.out.println("obj=" + obj);
+				String classes = obj.getString("classes").toString();
+				map.put("classes", classes);
+			}
+			/*
+			if (obj.get("workShopName") != null) {
+				String workShopName = obj.getString("workShopName").toString();
+				map.put("workShopName", workShopName);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+			if(obj.get("start")!=null&&obj.get("end")!=null){
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}*/
+		}
+		System.out.println("e");
+			pager = craftService.getCraftPager(pager, map);
+			/*List<Craft> craftList = pager.getList();
+			List<Craft> lst = new ArrayList<Craft>();
+			for (int i = 0; i < craftList.size(); i++) {
+				craft craft = (craft) craftList.get(i);
+				workShop.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "workShopState", workShop.getState()));
+				lst.add(workShop);
+			}
+		pager.setList(lst);*/
+			System.out.println(pager.getList().size());
+			System.out.println("y");
+		JSONArray jsonArray = JSONArray.fromObject(pager);
+		System.out.println(jsonArray.get(0).toString());
+		 return ajaxJson(jsonArray.get(0).toString());
+		
 	}
 	
 	public String save() {	
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
 		craft.setState("已提交");
+		craft.setIsDel("N");
 		craftService.save(craft);	
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;

@@ -44,14 +44,52 @@ jiuyi.admin.depart.initTree = function(nodes){
  * 添加部门
  */
 jiuyi.admin.depart.addHandle = function(treeNode){
-	var url = "department!add.action?pid="+treeNode.id;
-	var $dom = $("#dialog-message");
-	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+//	var url = "department!add.action?pid="+treeNode.id;
+//	var $dom = $("#dialog-message");
+//	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+//	var title = "新增部门";
+//	if(flag)
+//		jiuyi.admin.browser.dialog($dom,title,function(){
+//			var $departform = $("#departform");
+//			$departform.submit();
+////			$.ajax({
+////				url: $departform.attr("action"),
+////				data: $departform.serialize(),
+////				dataType: "json",
+////				async: false,
+////				beforeSend: function(data) {
+////					$(this).attr("disabled", true);
+////				},
+////				success: function(data) {
+////					$.tip(data.status, data.message);
+////					alert(data.parentDept);
+////					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+////					zTree.addNodes(treeNode, {id:data.id,pId:data.parentDept,name:data.deptName});
+////				}
+////			});
+//		});
 	var title = "新增部门";
-	if(flag)
-		jiuyi.admin.browser.dialog($dom,title,function(){
-			var $departform = $("#departform");
-			$departform.submit();
+	var width="1000px";
+	var height="500px";
+	var content="department!add.action?pid="+treeNode.id;
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+    	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+    	var docu = iframeWin.document;//获取document 对象
+    	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+    	
+	});
+}
+/**
+ * 修改部门
+ */
+jiuyi.admin.depart.editHandle = function(treeId, treeNode){
+//	var url = "department!edit.action?id="+treeNode.id;
+//	var $dom = $("#dialog-message");
+//	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+//	var title = "修改部门";
+//	if(flag)
+//		jiuyi.admin.browser.dialog($dom,title,function(){
+//			var $departform = $("#departform");
 //			$.ajax({
 //				url: $departform.attr("action"),
 //				data: $departform.serialize(),
@@ -62,42 +100,23 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 //				},
 //				success: function(data) {
 //					$.tip(data.status, data.message);
-//					alert(data.parentDept);
 //					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-//					zTree.addNodes(treeNode, {id:data.id,pId:data.parentDept,name:data.deptName});
+//					var node = zTree.getNodeByParam("id", data.id, null);
+//					node.name=data.deptName;
+//					zTree.updateNode(node);
 //				}
 //			});
-		});
-}
-/**
- * 修改部门
- */
-jiuyi.admin.depart.editHandle = function(treeId, treeNode){
-	var url = "department!edit.action?id="+treeNode.id;
-	var $dom = $("#dialog-message");
-	var flag = jiuyi.admin.browser.inputdata(url,$dom);
+//		});
 	var title = "修改部门";
-	if(flag)
-		jiuyi.admin.browser.dialog($dom,title,function(){
-			var $departform = $("#departform");
-			$.ajax({
-				url: $departform.attr("action"),
-				data: $departform.serialize(),
-				dataType: "json",
-				async: false,
-				beforeSend: function(data) {
-					$(this).attr("disabled", true);
-				},
-				success: function(data) {
-					$.tip(data.status, data.message);
-					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-					var node = zTree.getNodeByParam("id", data.id, null);
-					node.name=data.deptName;
-					zTree.updateNode(node);
-				}
-			});
-		});
-	
+	var width="1000px";
+	var height="500px";
+	var content="department!edit.action?id="+treeNode.id;
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+    	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+    	var docu = iframeWin.document;//获取document 对象
+    	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+    	
+	});
 	return false;
 }
 /**

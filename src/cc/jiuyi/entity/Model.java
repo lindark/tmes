@@ -3,6 +3,8 @@ package cc.jiuyi.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,6 +38,7 @@ public class Model extends BaseEntity{
 	private String modifyUser;//修改人
 	private String isDel;//是否删除
 	private String state;
+	private Abnormal abnormal;//异常
 	
 	public String getProductCode() {
 		return productCode;
@@ -156,6 +159,14 @@ public class Model extends BaseEntity{
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Abnormal getAbnormal() {
+		return abnormal;
+	}
+	public void setAbnormal(Abnormal abnormal) {
+		this.abnormal = abnormal;
 	}
 	
 	

@@ -7,7 +7,9 @@ $(function(){
 		var title = "呼叫人员";
 		if(flag)
 		jiuyi.admin.browser.dialog($dom,title,function(){
-			alert("to");
+			alert("o");
+			var i=$("#grid-table2").jqGrid('getGridParam','selarrrow');	
+			alert(i);
 			/*
 			var $ringForm = $("#ringForm");
 			alert("ok");

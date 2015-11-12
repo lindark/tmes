@@ -254,7 +254,7 @@ public class AdminAction extends BaseAdminAction {
 			admin.setAuthorities(null);
 			admin.setDepartName(admin.getDepartment().getDeptName());
 			admin.setDepartment(null);
-			admin.setTeam(null);
+			//admin.setTeam(null);
 			pagerlist.set(i, admin);
 		}
 		pager.setList(pagerlist);

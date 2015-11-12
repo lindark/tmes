@@ -4,6 +4,10 @@ $(function(){
 	var $userDeleteBtn = $("#userDeleteBtn");//删除用户
 	var $userEditBtn = $("#userEditBtn");//编辑用户
 	
+	
+
+
+	
 	/**
 	 * 添加按钮点击
 	 */
@@ -11,14 +15,14 @@ $(function(){
 		var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 		var nodes = zTree.getSelectedNodes();
 		var departid = nodes[0].id;//获取ztree 选择节点的id
-		var url = "admin!add.action?departid="+departid;
-		var $dom = $("#dialog-message");
-		var flag = jiuyi.admin.browser.inputdata(url,$dom);
 		var title = "新增员工";
-		if(flag)
-		jiuyi.admin.browser.dialog($dom,title,function(){
-			var $inputForm = $("#inputForm");
-			$inputForm.submit();
+		var width="1000px";
+		var height="500px";
+		var content="admin!add.action?departid="+departid;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var docu = iframeWin.document;//获取document 对象
+        	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
 			var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 			var nodes = zTree.getSelectedNodes();
 			$("#grid-table").jqGrid('setGridParam',{
@@ -27,6 +31,8 @@ $(function(){
 				page:1
 			}).trigger("reloadGrid");
 		});
+		
+		
 	});
 	
 	
@@ -72,14 +78,14 @@ $(function(){
 			alert("请选择一条记录");
 			return false;
 		}
-		var url = "admin!edit.action?id="+ids;
-		var $dom = $("#dialog-message");
-		var flag = jiuyi.admin.browser.inputdata(url,$dom);
 		var title = "编辑员工";
-		if(flag)
-		jiuyi.admin.browser.dialog($dom,title,function(){
-			var $inputForm = $("#inputForm");
-			$inputForm.submit();
+		var width="1000px";
+		var height="500px";
+		var content="admin!edit.action?id="+ids;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var docu = iframeWin.document;//获取document 对象
+        	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
 			var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 			var nodes = zTree.getSelectedNodes();
 			$("#grid-table").jqGrid('setGridParam',{

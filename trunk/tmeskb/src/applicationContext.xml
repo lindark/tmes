@@ -134,7 +134,6 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.AccessObject</value>
 				<value>cc.jiuyi.entity.AccessResource</value>
 				<value>cc.jiuyi.entity.Products</value>
-				<value>cc.jiuyi.entity.HandOver</value>
 				<value>cc.jiuyi.entity.HandOverProcess</value>
 				<value>cc.jiuyi.entity.FlowingRectify</value>				
 				<value>cc.jiuyi.entity.DailyWork</value>		

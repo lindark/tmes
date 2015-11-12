@@ -5,11 +5,15 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
+
+import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ModelService;
@@ -54,6 +58,15 @@ public class ModelAction extends BaseAdminAction {
 	public String list() {
 		pager = modelService.findByPager(pager);
 		return LIST;
+	}
+	
+	@InputConfig(resultName = "error")
+	public String update() {
+		Model persistent = modelService.load(id);
+		BeanUtils.copyProperties(model, persistent, new String[] { "id" });
+		modelService.update(persistent);
+		redirectionUrl = "model!list.action";
+		return SUCCESS;
 	}
 	
 	// ajax列表

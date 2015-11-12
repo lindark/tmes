@@ -724,7 +724,7 @@
 					</li>
 					
 				   <li class="">
-						<a href="pro!list.action" >
+						<a href="pick!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							领退料
 							<b class="arrow fa"></b>
@@ -744,7 +744,7 @@
 					</li>
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="handover!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							交接
 							<b class="arrow fa"></b>
@@ -891,6 +891,15 @@
 						<a href="product_group!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							产品组管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="products!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							产品管理
 						</a>
 
 						<b class="arrow"></b>

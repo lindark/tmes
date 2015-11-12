@@ -31,6 +31,17 @@ public class WorkingBill extends BaseEntity {
 	private String matnr;//物料号
 	private String maktx;//物料描述
 	
+	private Set<DailyWork> dailyWork;//报工
+	
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	public Set<DailyWork> getDailyWork() {
+		return dailyWork;
+	}
+	public void setDailyWork(Set<DailyWork> dailyWork) {
+		this.dailyWork = dailyWork;
+	}
+	
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
 	

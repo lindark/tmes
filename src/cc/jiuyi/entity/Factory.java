@@ -26,6 +26,7 @@ public class Factory extends BaseEntity{
     private String stateRemark;//状态描述
     
     
+    
 	
 	public String getFactoryCode() {
 		return factoryCode;

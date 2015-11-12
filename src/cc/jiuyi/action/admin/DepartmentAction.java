@@ -75,6 +75,11 @@ public class DepartmentAction extends BaseAdminAction {
 		return "list";
 	}
 	
+	public String browser(){
+		list = deptservice.getAllByHql();
+		return "browser";
+	}
+	
 	public String listajax(){
 		list = deptservice.getAllByHql();
 		

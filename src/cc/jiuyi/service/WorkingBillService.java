@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.WorkingBill;
@@ -35,6 +36,6 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 * 根据生产日期取出对应的随工单信息
 	 * @return
 	 */
-	public List getListWorkingBillByDate(Date productdate);
+	public List getListWorkingBillByDate(Admin admin);
 	
 }

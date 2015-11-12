@@ -17,10 +17,10 @@
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/craft_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -67,12 +67,16 @@
 
 						<div class="row">
 							<div class="col-xs-12">
-								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="craft!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">状态:</label>
+										<!-- <label class="col-sm-2" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div> -->
+										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<div class="col-sm-4">
+											<input type="text" name="classes" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>
 										<label class="col-sm-1" style="text-align:right">日期:</label>
 										<div class="col-sm-4">

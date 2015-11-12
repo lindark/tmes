@@ -1,6 +1,6 @@
 $(function(){
 	// 表单验证 ajax 
-	$("form.validate").validate({
+	$("form.validateajax").validate({
 		errorClass: "validateError",
 		ignore: ".ignoreValidate",
 		onkeyup:false,
@@ -27,11 +27,15 @@ $(function(){
 					$(this).attr("disabled", true);
 				},
 				success: function(data) {
-					$.tip(data.status, data.message);
-					var $dom = $("#dialog-message");
-					$dom.dialog( "close" ); 
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.msg('保存成功');
+					parent.layer.close(index);
 //					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 //					zTree.cancelEditName(data.deptName);
+				},error:function(data){
+					layer.alert("新增失败",{
+						shade: 0
+					});
 				}
 			});
 		}

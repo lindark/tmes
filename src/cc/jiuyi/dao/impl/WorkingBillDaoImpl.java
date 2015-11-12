@@ -73,6 +73,8 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
 		return list;
 	}
+
+
 	
 	
 }

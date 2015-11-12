@@ -99,7 +99,7 @@ body {
 
 												<div class="profile-info-value">
 													<input type="text" name="craft.classes"
-														value="${(craft.classes)!}"
+														value="${(abnormal.teamId)!}"
 														class=" input input-sm  formText {required: true}" />
 												</div>
 												<div class="profile-info-name">机台号</div>

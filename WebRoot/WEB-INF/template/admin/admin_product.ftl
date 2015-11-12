@@ -86,14 +86,14 @@ body {
 												<div class="profile-info-name">生产日期</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker"/>
+													<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker formText {required: true}"/>
 												</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">班次</div>
 
 												<div class="profile-info-value">
-													<select name="admin.shift">
+													<select name="admin.shift" class="formText {required: true}">
 														<option></option>
 														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
 														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>

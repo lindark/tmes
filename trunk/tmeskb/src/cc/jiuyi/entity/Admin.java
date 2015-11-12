@@ -46,8 +46,18 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
 	private Department department;//部门
+	private Team team;//班组
 
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Department getDepartment() {
 		return department;

@@ -1,5 +1,8 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Craft;
 
 /**
@@ -7,4 +10,5 @@ import cc.jiuyi.entity.Craft;
  */
 public interface CraftDao extends BaseDao<Craft, String> {
 
+	public Pager getCraftPager(Pager pager,HashMap<String,String>map);
 }

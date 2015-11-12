@@ -1,6 +1,6 @@
 
 jQuery(function($) {
-	var grid_selector = "#grid-table";
+	var grid_selector = "#grid-table2";
 	var pager_selector = "#grid-pager";
 	var dialogwidth=0;
 	//resize to fit page size
@@ -23,8 +23,8 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"admin!ajlist.action",
-		datatype: "local",
+		url:"admin!ajlist1.action",
+		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
@@ -45,8 +45,8 @@ jQuery(function($) {
 			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
 			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
 			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
-			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}},
-			{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
+			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}}
+			//{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
 			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 

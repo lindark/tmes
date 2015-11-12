@@ -38,6 +38,8 @@ public class Abnormal extends BaseEntity{
 	private String isDel;//是否删除
 	
 	private Set<Quality> qualitySet;//质量问题单
+	private Set<Model> modelSet;//工模维修单
+	private Set<Craft> craftSet;//工艺维修单
 	
 	@Column
 	public String getFactoryName() {
@@ -157,6 +159,24 @@ public class Abnormal extends BaseEntity{
 	}	
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<Model> getModelSet() {
+		return modelSet;
+	}
+	public void setModelSet(Set<Model> modelSet) {
+		this.modelSet = modelSet;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<Craft> getCraftSet() {
+		return craftSet;
+	}
+	public void setCraftSet(Set<Craft> craftSet) {
+		this.craftSet = craftSet;
 	}
 	
 		

@@ -20,9 +20,11 @@ $(function(){
 		var height="500px";
 		var content="admin!add.action?departid="+departid;
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+			
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         	var docu = iframeWin.document;//获取document 对象
         	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+        	//$(docu).find("#inputForm").submit(); //有问题，没解决
 			var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 			var nodes = zTree.getSelectedNodes();
 			$("#grid-table").jqGrid('setGridParam',{
@@ -40,7 +42,7 @@ $(function(){
 	 * 删除按钮点击
 	 */
 	$userDeleteBtn.click(function(){
-		var flag = confirm("是否确认删除？");
+		var flag = confirm("您确定要删除吗?");
 		if(flag == false) return false;
 		var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		var url="admin!delete.action?id="+ids;
@@ -53,7 +55,7 @@ $(function(){
 				$(this).attr("disabled", true);
 			},
 			success: function(data) {
-				$.tip(data.status, data.message);
+				layer.msg(data.message);
 				var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 				var nodes = zTree.getSelectedNodes();
 				$("#grid-table").jqGrid('setGridParam',{
@@ -63,6 +65,7 @@ $(function(){
 				}).trigger("reloadGrid");
 			}
 		});
+		
 	});
 	
 	/**

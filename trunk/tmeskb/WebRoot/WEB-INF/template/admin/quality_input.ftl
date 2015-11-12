@@ -202,7 +202,45 @@ body{background:#fff;}
 				</tr>
 		</tbody>
 			</table>
-			  
+			 <div id="tabs-3">
+			      <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+											<thead>
+												<tr>
+													<th class="center">
+														<label class="position-relative">
+															<input type="checkbox" class="ace">
+															<span class="lbl"></span>
+														</label>
+													</th>
+													<th>时间</th>
+													<th>内容</th>
+													<th class="hidden-480">caozuoren</th>
+													
+												</tr>
+											</thead>
+
+											<tbody>
+												
+												<tr>
+													<td class="center">
+														<label class="position-relative">
+															<input type="checkbox" class="ace">
+															<span class="lbl"></span>
+														</label>
+													</td>
+
+													<td>
+														<a href="#">base.com</a>
+													</td>
+													<td>$35</td>
+													<td class="hidden-480">2,595</td>
+																										
+												</tr>								
+												
+											</tbody>
+										</table>
+			 </div>
+			 <!-- 
 			<table id="tabs-3" class="inputTable tabContent">		   									
 				<tbody>
 			<tr class="title">			   
@@ -242,7 +280,7 @@ body{background:#fff;}
 					</td>
 			</tr>
 		</tbody>
-			</table>
+			</table> -->
 			
 			<table id="tabs-4" class="inputTable tabContent">
 				

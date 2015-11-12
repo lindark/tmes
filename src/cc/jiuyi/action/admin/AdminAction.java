@@ -54,20 +54,18 @@ import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 
 /**
- * 后台Action类 - 后台管理、管理员
+ * 后台Action类 - 后台管理、管理员 
  */
 
 @ParentPackage("admin")
 public class AdminAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5383463207248344967L;
-
-	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring
-																									// security
-																									// 最后登录异常Session名称
+	
+	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring security 最后登录异常Session名称
 
 	private String loginUsername;
-
+	
 	private Admin admin;
 	private List<Role> allRole;
 	private List<Role> roleList;
@@ -81,9 +79,9 @@ public class AdminAction extends BaseAdminAction {
 	private RoleService roleService;
 	@Resource
 	private WorkingBillService workingbillservice;
-
+	
 	@Resource
-	private MessageService messageService;
+	private MessageService messageService;  
 	@Resource
 	private ProductService productService;
 	@Resource
@@ -94,7 +92,7 @@ public class AdminAction extends BaseAdminAction {
 	private ServletContext servletContext;
 	@Resource
 	private DepartmentService departmentservice;
-
+	
 	// 登录页面
 	public String login() {
 		String error = getParameter("error");
@@ -105,17 +103,13 @@ public class AdminAction extends BaseAdminAction {
 		Exception springSecurityLastException = (Exception) getSession(SPRING_SECURITY_LAST_EXCEPTION);
 		if (springSecurityLastException != null) {
 			if (springSecurityLastException instanceof BadCredentialsException) {
-				loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME"))
-						.toLowerCase();
+				loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
 				Admin admin = adminService.get("username", loginUsername);
 				if (admin != null) {
-					int loginFailureLockCount = getSystemConfig()
-							.getLoginFailureLockCount();
+					int loginFailureLockCount = getSystemConfig().getLoginFailureLockCount();
 					int loginFailureCount = admin.getLoginFailureCount();
-					if (getSystemConfig().getIsLoginFailureLock()
-							&& loginFailureLockCount - loginFailureCount <= 3) {
-						addActionError("若连续" + loginFailureLockCount
-								+ "次密码输入错误,您的账号将被锁定!");
+					if (getSystemConfig().getIsLoginFailureLock() && loginFailureLockCount - loginFailureCount <= 3) {
+						addActionError("若连续" + loginFailureLockCount + "次密码输入错误,您的账号将被锁定!");
 					} else {
 						addActionError("您的登录名或密码错误!");
 					}
@@ -134,63 +128,63 @@ public class AdminAction extends BaseAdminAction {
 			getSession().remove(SPRING_SECURITY_LAST_EXCEPTION);
 		}
 		/*
-		 * String k = (String) servletContext.getAttribute("TKWRDP" + "_" +
-		 * "KEY"); if (!StringUtils.containsIgnoreCase(k, "tkwrdp")) { throw new
-		 * ExceptionInInitializerError(); }
-		 */
-
+		String k = (String) servletContext.getAttribute("TKWRDP" + "_" + "KEY");
+		if (!StringUtils.containsIgnoreCase(k, "tkwrdp")) {
+			throw new ExceptionInInitializerError();
+		}
+		*/
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
-		boolean isMoblie = ThinkWayUtil.JudgeIsMoblie(request);// 判断是否moblie
-		if (isMoblie)
+		boolean isMoblie = ThinkWayUtil.JudgeIsMoblie(request);//判断是否moblie
+		if(isMoblie)
 			return "loginapp";
 		else
 			return "login";
 	}
-
+	
 	// 后台主页面
 	public String main() {
 		return "main";
 	}
-
+	
 	// 后台Header
 	public String header() {
 		return "header";
 	}
-
+	
 	// 后台菜单
 	public String menu() {
 		return "menu";
 	}
-
+	
 	// 后台中间(显示/隐藏菜单)
 	public String middle() {
 		return "middle";
 	}
-
+	
 	// 后台首页
 	public String index() {
 		return "index";
 	}
-
 	// 后台首页
 	public String index1() {
-		// workingbillservice.getListWorkingBillByDate(ThinkWayUtil.SystemDate());//目前使用系统固定时间做。测试时修改回来
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin
-				.getProductDate());// 目前使用系统固定时间做。测试时修改回来
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//
 		return "teamindex";
 	}
-
-	// 出错提示
+	
+	//出错提示
 	public String error() {
 		return "error";
 	}
-
-	// 成功提示
+	
+	//成功提示
 	public String success() {
 		return "success";
 	}
+	
+	
 
 	// 是否已存在 ajax验证
 	public String checkUsername() {
@@ -214,7 +208,7 @@ public class AdminAction extends BaseAdminAction {
 		admin = adminService.load(id);
 		return INPUT;
 	}
-
+	
 	// 绑定生产日期和班次
 	public String product() {
 		admin = adminService.getLoginAdmin();
@@ -224,51 +218,53 @@ public class AdminAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		// pager = adminService.findByPager(pager);
+		//pager = adminService.findByPager(pager);
 		return LIST;
 	}
-
+	
+	
 	/**
 	 * ajax 列表
-	 * 
 	 * @return
 	 */
-	public String ajlist() {
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager == null) {
+	public String ajlist(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("department.deptName");
 		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
-			if (!filters.equals("")) {
+		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
+			if(!filters.equals("")){
 				JSONObject filt = JSONObject.fromObject(filters);
 				Pager pager1 = new Pager();
-				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
 				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
 				pager.setRules(pager1.getRules());
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-
-		pager = adminService.findPagerByjqGrid(pager, map, departid);
+		
+		pager = adminService.findPagerByjqGrid(pager,map,departid);
 		List pagerlist = pager.getList();
-		for (int i = 0; i < pagerlist.size(); i++) {
-			Admin admin = (Admin) pagerlist.get(i);
+		for(int i =0; i < pagerlist.size();i++){
+			Admin admin  = (Admin)pagerlist.get(i);
 			admin.setRoleSet(null);
 			admin.setAuthorities(null);
 			admin.setDepartName(admin.getDepartment().getDeptName());
 			admin.setDepartment(null);
+			admin.setTeam(null);
 			pagerlist.set(i, admin);
 		}
 		pager.setList(pagerlist);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
 
 	// 删除
 	public String delete() {
@@ -278,34 +274,49 @@ public class AdminAction extends BaseAdminAction {
 	}
 
 	// ajax列表
-	public String ajlist1() {
-		if (pager == null) {
-			pager = new Pager();
+		public String ajlist1() {
+			if (pager == null) {
+				pager = new Pager();
 
+			}
+			pager = adminService.findByPager(pager);
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Admin admin = (Admin) pagerlist.get(i);
+				admin.setRoleSet(null);
+				admin.setAuthorities(null);
+				admin.setDepartName(admin.getDepartment().getDeptName());
+				admin.setDepartment(null);
+				pagerlist.set(i, admin);
+			}
+			
+			pager.setList(pagerlist);
+			JSONArray jsonArray = JSONArray.fromObject(pager);
+			return ajaxJson(jsonArray.get(0).toString());
 		}
-		pager = adminService.findByPager(pager);
-		List pagerlist = pager.getList();
-		for (int i = 0; i < pagerlist.size(); i++) {
-			Admin admin = (Admin) pagerlist.get(i);
-			admin.setRoleSet(null);
-			admin.setAuthorities(null);
-			admin.setDepartName(admin.getDepartment().getDeptName());
-			admin.setDepartment(null);
-			pagerlist.set(i, admin);
-		}
-		
-		pager.setList(pagerlist);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		return ajaxJson(jsonArray.get(0).toString());
-	}
-
+	
+	
 	// 保存
-	@Validations(requiredStrings = {
+	@Validations(
+		requiredStrings = {
 			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
 			@RequiredStringValidator(fieldName = "admin.password", message = "密码不允许为空!"),
-			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!") }, requiredFields = { @RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!") }, stringLengthFields = {
+			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
+		},
+		requiredFields = {
+			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
+		},
+		stringLengthFields = {
 			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
-			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!") }, emails = { @EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!") }, regexFields = { @RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") })
+			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!")
+		},
+		emails = {
+			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
+		},
+		regexFields = {
+			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
+		}
+	)
 	@InputConfig(resultName = "error")
 	public String save() {
 		if (roleList == null || roleList.size() == 0) {
@@ -320,16 +331,29 @@ public class AdminAction extends BaseAdminAction {
 		String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 		admin.setPassword(passwordMd5);
 		adminService.save(admin);
-		// redirectionUrl = "admin!list.action";
+		//redirectionUrl = "admin!list.action";
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
 
 	// 更新
-	@Validations(requiredStrings = {
+	@Validations(
+		requiredStrings = {
 			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
-			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!") }, requiredFields = { @RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!") }, stringLengthFields = {
+			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
+		},
+		requiredFields = {
+			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
+		},
+		stringLengthFields = {
 			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
-			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!") }, emails = { @EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!") }, regexFields = { @RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") })
+			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!") },
+		emails = {
+			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
+		},
+		regexFields = {
+			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
+		}
+	)
 	@InputConfig(resultName = "error")
 	public String update() {
 		Admin persistent = adminService.load(id);
@@ -342,71 +366,74 @@ public class AdminAction extends BaseAdminAction {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 			persistent.setPassword(passwordMd5);
 		}
-		BeanUtils.copyProperties(admin, persistent, new String[] { "id",
-				"createDate", "modifyDate", "username", "password",
-				"isAccountLocked", "isAccountExpired", "isCredentialsExpired",
-				"loginFailureCount", "lockedDate", "loginDate", "loginIp",
-				"authorities" });
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
-
-	public String productupdate() {
+	
+	
+	@Validations(
+			requiredFields = {
+					@RequiredFieldValidator(fieldName = "admin.productDate", message = "生产日期不能为空!"),
+					@RequiredFieldValidator(fieldName = "admin.shift", message = "班次不能为空!"),
+				}
+		)
+		@InputConfig(resultName = "error")
+	public String productupdate(){
 		Admin persistent = adminService.load(id);
-		BeanUtils.copyProperties(admin, persistent, new String[] { "id",
-				"createDate", "modifyDate", "username", "password", "email",
-				"name", "isAccountEnabled", "isAccountLocked",
-				"isAccountExpired", "isCredentialsExpired",
-				"loginFailureCount", "lockedDate", "loginDate", "loginIp",
-				"isDel", "roleSet", "department", "authorities" });
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities"});
 		adminService.update(persistent);
 		return SUCCESS;
-
+		
 	}
-
+	
 	/*
-	 * // 获取未批准订单数 public Long getUnprocessedOrderCount() { return
-	 * orderService.getUnprocessedOrderCount(); }
-	 * 
-	 * // 获取已支付未发货订单数 public Long getPaidUnshippedOrderCount() { return
-	 * orderService.getPaidUnshippedOrderCount(); }
-	 */
-
+	// 获取未批准订单数
+	public Long getUnprocessedOrderCount() {
+		return orderService.getUnprocessedOrderCount();
+	}
+	
+	// 获取已支付未发货订单数
+	public Long getPaidUnshippedOrderCount() {
+		return orderService.getPaidUnshippedOrderCount();
+	}
+	*/
+	
 	// 获取未读消息数
 	public Long getUnreadMessageCount() {
 		return messageService.getUnreadMessageCount();
 	}
-
+	
 	// 获取商品库存报警数
 	public Long getStoreAlertCount() {
 		return productService.getStoreAlertCount();
 	}
-
+	
 	// 获取已上架商品数
 	public Long getMarketableProductCount() {
 		return productService.getMarketableProductCount();
 	}
-
+	
 	// 获取已下架商品数
 	public Long getUnMarketableProductCount() {
 		return productService.getUnMarketableProductCount();
 	}
-
+	
 	// 获取会员总数
 	public Long getMemberTotalCount() {
 		return memberService.getTotalCount();
 	}
-
+	
 	// 获取文章总数
 	public Long getArticleTotalCount() {
 		return articleService.getTotalCount();
 	}
-
+	
 	// freemarker静态方法调用
 	public TemplateHashModel getStatics() {
 		return BeansWrapper.getDefaultInstance().getStaticModels();
 	}
-
+	
 	public String getLoginUsername() {
 		return loginUsername;
 	}
@@ -463,5 +490,6 @@ public class AdminAction extends BaseAdminAction {
 	public void setDepartName(String departName) {
 		this.departName = departName;
 	}
-
+	
+	
 }

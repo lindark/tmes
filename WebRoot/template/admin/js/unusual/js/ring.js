@@ -6,7 +6,9 @@ $(function(){
 		var flag = jiuyi.admin.browser.inputdata(url,$dom);
 		var title = "呼叫人员";
 		if(flag)
-		jiuyi.admin.browser.dialog($dom,title,function(){			
+		jiuyi.admin.browser.dialog($dom,title,function(){
+			alert("to");
+			/*
 			var $ringForm = $("#ringForm");
 			alert("ok");
 			var ps=$("input[name='ids']:checked").parent().next().text();
@@ -23,7 +25,7 @@ $(function(){
 					alert("ye");
 					//window.location.href="abnormal!list.action";
 				}			
-			});
+			});*/
 			
 			
 		});		

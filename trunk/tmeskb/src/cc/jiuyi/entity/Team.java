@@ -31,15 +31,6 @@ public class Team extends BaseEntity{
     private String stateRemark;//状态描述
     
     
-    private Set<Admin> admin;//员工
-    
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="team")
-	public Set<Admin> getAdmin() {
-		return admin;
-	}
-	public void setAdmin(Set<Admin> admin) {
-		this.admin = admin;
-	}
 	public String getTeamCode() {
 		return teamCode;
 	}

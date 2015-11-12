@@ -120,7 +120,7 @@ public class TeamAction extends BaseAdminAction {
 				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "teamState", team.getState()));
 				
-				team.setAdmin(null);
+				//team.setAdmin(null);
 				lst.add(team);
 			}
 			

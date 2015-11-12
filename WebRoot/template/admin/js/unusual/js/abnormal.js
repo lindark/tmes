@@ -30,6 +30,21 @@ $(function() {
 		
     });
 	
+	var $craftrep = $("#craftrep");// 工艺
+	$craftrep.click(function() {		
+		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
+		if(i.length<=0){
+			alert("请选择一个异常");
+			return false;
+		}else if(i.length>1){
+			alert("请选择一个异常");
+			return false;
+		}else{
+			window.location.href = "craft!add.action?aid="+i;
+		}
+		
+    });
+	
 	var $responsecar = $("#responsecar");// 响应刷卡cancelcal
 	$responsecar.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');

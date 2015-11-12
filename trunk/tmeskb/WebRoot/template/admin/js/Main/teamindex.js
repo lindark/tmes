@@ -4,8 +4,10 @@ $(function() {
 	var $repair = $("#repair");// 返修
 	var $repairin = $("#repairin");// 返修收货
 	var $repairin = $("#repairin");// 返修收货
-    var $pick = $("#pick");// 领退料
-	var $qResponse=$("#qResponse");//快速响应
+	var $pick = $("#pick");// 领退料
+	var $qResponse = $("#qResponse");//快速响应
+	var $handoverprocess = $("#handoverprocess");//交接
+	var $dailywork =$("#dailywork");//报工
 
 	/**
 	 * 入库按钮点击
@@ -21,29 +23,44 @@ $(function() {
 
 			});
 	
-	/**
-	 * 领/退料按钮点击
-	 */
-	$pick
+	$dailywork
 	.click(function() {
 		var istrue = ckboxChick();
 		if (istrue) {
 			var id = getCKboxById();
-			window.location.href = "pick!list.action?workingBillId="
+			window.location.href = "daily_work!list.action?workingBillId="
 					+ id;
 		}
 
 	});
-	
-	
-	
-	
+
+	/**
+	 * 领/退料按钮点击
+	 */
+	$pick.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "pick!list.action?workingBillId=" + id;
+		}
+
+	});
+
+	/**
+	 * 交接按钮点击
+	 */
+	$handoverprocess.click(function() {
+		window.location.href = "hand_over_process!add.action";
+	});
+
 	/**
 	 * 转储按钮点击
 	 */
 	$dump.click(function() {
-			window.location.href = "dump!list.action";
+		window.location.href = "dump!list.action";
 	});
+	
+	
 	/**
 	 * 返修按钮点击
 	 */
@@ -51,8 +68,7 @@ $(function() {
 		var istrue = ckboxChick();
 		if (istrue) {
 			var id = getCKboxById();
-			window.location.href = "repair!list.action?workingBillId="
-					+ id;
+			window.location.href = "repair!list.action?workingBillId=" + id;
 		}
 	});
 	/**
@@ -61,18 +77,15 @@ $(function() {
 	$repairin.click(function() {
 		window.location.href = "repairin!list.action";
 	});
-	
-	
+
 	/**
 	 * 快速响应按钮点击
 	 */
 	$qResponse.click(function() {
-			window.location.href = "abnormal!list.action";
+		window.location.href = "abnormal!list.action";
 	});
-	
-})
 
-	
+})
 
 /**
  * 获取checkbox的ID值

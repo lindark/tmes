@@ -61,10 +61,10 @@ jQuery(function($) {
 		colNames:[ '时间','产品名称','机台号', '班组', '状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsName',index:'productsName',editable:true},
-			{name:'cabinetCode',index:'cabinetCode', width:120,editable: true},
-			{name:'classes',index:'classes', width:120, editable: true},		
+			{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'productsName',index:'productsName',width:160,editable:true},
+			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
+			{name:'classes',index:'classes', width:160, editable: true},		
 			{name:'state',index:'state', width:60, sortable:false,editable: true}		
 		], 
 
@@ -121,10 +121,10 @@ jQuery(function($) {
 			    location.href="craft!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
+			add: false,
+			/*addfunc:function(){
 				location.href="craft!add.action";
-			},
+			},*/
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
 			/*delfunc:function(rowId){

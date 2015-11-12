@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * 实体类 - 工艺维修单
  */
 @Entity
-@Table(name = "processfix")
+//@Table(name = "processfix")
 public class Craft extends BaseEntity{
 
 	private static final long serialVersionUID = -3213423223153832326L;

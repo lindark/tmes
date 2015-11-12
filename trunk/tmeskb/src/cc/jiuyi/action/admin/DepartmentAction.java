@@ -24,6 +24,11 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.impl.AdminServiceImpl;
 import cc.jiuyi.util.ThinkWayUtil;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
@@ -69,6 +74,25 @@ public class DepartmentAction extends BaseAdminAction {
 		list = deptservice.getAllByHql();
 		return "list";
 	}
+	
+	public String listajax(){
+		list = deptservice.getAllByHql();
+		
+		for(int i =0; i < list.size();i++){
+			Department department  = (Department)list.get(i);
+			department.setAdmin(null);
+			department.setChildDept(null);
+			department.setParentDept(null);
+			list.set(i, department);
+		}
+		
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		JSONArray jsonArray = JSONArray.fromObject(list,jsonConfig);
+		System.out.println(jsonArray.toString());
+		return ajaxJson(jsonArray.toString());
+	}
+	
 	/**
 	 * 添加页面
 	 * @return

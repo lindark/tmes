@@ -1,38 +1,104 @@
-<script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.methods.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.cn.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/browser/browserValidate.js"></script>
-<#if !id??>
-	<#assign isAdd = true />
-<#else>
-	<#assign isEdit = true />
-</#if>
-<form type="post" action="<#if isAdd??>department!save.action<#else>department!update.action</#if>" id="departform" class="validate">
-	<div class="profile-user-info profile-user-info-striped">
-			<div class="profile-info-row">
-				<input type="hidden" name="department.id" value="${(department.id)!}"/> <!--id-->
-				<div class="profile-info-name"> 部门名称 </div>
+<#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-				<div class="profile-info-value">
-					<input type="text" name="department.deptName" class=" input input-sm  formText {required: true}" value="${(department.deptName)!}"/>
-				</div>
-				
-			</div>
-			<div class="profile-info-row">
-				<div class="profile-info-name"> 上级部门 </div>
+<title>部门管理 - Powered By ${systemConfig.systemName}</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<#include "/WEB-INF/template/common/include.ftl">
+<link href="${base}/template/admin/css/input.css" rel="stylesheet"
+	type="text/css" />
+<#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
+</#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
+<style>
+body {
+	background: #fff;
+}
+</style>
+<script type="text/javascript"
+	src="${base}/template/admin/js/browser/browserValidate.js"></script>
+</head>
+<body class="no-skin input">
 
-				<div class="profile-info-value">
-				<#if isAdd??>
-					<input type="hidden" name="department.parentDept.id" value="${(pid)!}"/>
-					<span>${(pname)!}</span>
-				<#else>
-					<input type="hidden" name="department.parentDept.id" value="${(department.parentDept.id)!}"/>
-					<span>${(department.parentDept.deptName)!}</span>
-				</#if>
+	<!-- add by welson 0728 -->
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+		<div class="main-content">
+
+			<!-- add by welson 0728 -->
+			<div class="page-content">
+				<div class="page-content-area">
+
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- ./ add by welson 0728 -->
+
+							<form type="post"
+								action="<#if isAdd??>department!save.action<#else>department!update.action</#if>"
+								id="departform" class="validateajax">
+								<div class="profile-user-info profile-user-info-striped">
+									<div class="profile-info-row">
+										<input type="hidden" name="department.id"
+											value="${(department.id)!}" />
+										<!--id-->
+										<div class="profile-info-name">部门名称</div>
+
+										<div class="profile-info-value">
+											<input type="text" name="department.deptName"
+												class=" input input-sm  formText {required: true}"
+												value="${(department.deptName)!}" />
+										</div>
+
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">上级部门</div>
+
+										<div class="profile-info-value">
+											<#if isAdd??> <input type="hidden"
+												name="department.parentDept.id" value="${(pid)!}" /> <span>${(pname)!}</span>
+											<#else> <input type="hidden" name="department.parentDept.id"
+												value="${(department.parentDept.id)!}" /> <span>${(department.parentDept.deptName)!}</span>
+											</#if>
+										</div>
+
+									</div>
+
+								</div>
+								<div class="buttonArea" style="display:none">
+										<input type="submit" class="formButton" id="submit_btn" value="确  定"
+											hidefocus="true" />
+									</div>
+							</form>
+
+							<!-- add by welson 0728 -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+
+					<!-- PAGE CONTENT ENDS -->
 				</div>
-			
+				<!-- /.col -->
 			</div>
-	
+			<!-- /.row -->
+		</div>
+		<!-- /.page-content-area -->
 	</div>
-</form>
+	<!-- /.page-content -->
+	</div>
+	<!-- /.main-content -->
+	</div>
+	<!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
+	<!-- ./ add by welson 0728 -->
+
+</body>
+</html>
+

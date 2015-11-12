@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +16,12 @@ import org.springframework.beans.BeanUtils;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.QualityService;
-import cc.jiuyi.util.ThinkWayUtil;
 
 @ParentPackage("admin")
 public class QualityAction extends BaseAdminAction {
@@ -128,6 +126,8 @@ public class QualityAction extends BaseAdminAction {
 			for(int i=0;i<flowingRectifys.size();i++){
 				FlowingRectify v=flowingRectifys.get(i);
 				v.setQuality(quality);
+				v.setCreateDate(new Date());
+				v.setCreateUser("张三");
 				flowingRectifyService.save(v);
 			}
 			
@@ -140,6 +140,13 @@ public class QualityAction extends BaseAdminAction {
 			Quality persistent = qualityService.load(id);
 			BeanUtils.copyProperties(quality, persistent, new String[] { "id" });
 			qualityService.update(persistent);
+			
+			for(int i=0;i<flowingRectifys.size();i++){
+				FlowingRectify v=flowingRectifys.get(i);
+				v.setQuality(persistent);
+				flowingRectifyService.save(v);
+			}
+				
 			redirectionUrl = "quality!list.action";
 			return SUCCESS;
 		}

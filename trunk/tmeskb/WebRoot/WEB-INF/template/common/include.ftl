@@ -48,5 +48,5 @@
 <!--[if lte IE 6]>
 <script type="text/javascript" src="${base}/template/common/js/belatedPNG.js"></script>
 <![endif]-->
-
+<script src="${base}/template/admin/js/layer/layer.js"></script>
 <script type="text/javascript" src="${base}/template/common/js/base.js"></script>

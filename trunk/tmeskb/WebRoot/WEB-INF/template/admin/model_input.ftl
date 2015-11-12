@@ -79,7 +79,7 @@ body{background:#fff;}
 										<div class="profile-info-name"> 产品编号 </div>
 					
 										<div class="profile-info-value">
-										    <select name="model.productNo">							
+										    <select name="model.productCode">							
 								<option value="1">
 									40010021
 								</option>
@@ -121,11 +121,22 @@ body{background:#fff;}
 									    <div class="profile-info-value">
 											<input type="text" name="model.initiator" value="${(model.initiator)!}" class=" input input-sm  formText {required: true}" />
 										</div>
-										 <div class="profile-info-name">发起时间 </div>
+										 <div class="profile-info-name">时间 </div>
 									    <div class="profile-info-value">
 											<input type="text" name="model.createDate" value="${(model.createDate)!}" class="formText {required: true} datePicker"/>
 										</div>									
-									</div>																										
+									</div>
+							</div>
+							
+						<div class="profile-user-info profile-user-info-striped">
+						  <div class="profile-info-row">
+									    <div class="profile-info-name"> 不良现象描述 </div>
+									    <div class="profile-info-value">
+											<textarea name="model.failDescript" style="width:600px;">${(model.failDescript)!} </textarea>
+										</div>
+							</div>
+						</div>
+							<div class="profile-user-info profile-user-info-striped">																										
 									
 									<div class="profile-info-row">
 									    <div class="profile-info-name"> 通知时间 </div>
@@ -176,15 +187,7 @@ body{background:#fff;}
 									</div>															
 							
 						</div>
-						<div class="profile-user-info profile-user-info-striped">
-						  <div class="profile-info-row">
-									    <div class="profile-info-name"> 不良现象描述 </div>
-									    <div class="profile-info-value">
-											<!-- <input type="text" name="quality.problemDescription" value="${(quality.problemDescription)!}" class=" input input-sm  formText {required: true}" /> -->
-										    <textarea name="model.failDescript" class="formTextarea"></textarea>
-										</div>
-							</div>
-						</div>
+						
 				<!--weitao end modify-->	
 				
 			

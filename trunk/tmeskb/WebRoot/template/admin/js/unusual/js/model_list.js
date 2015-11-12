@@ -124,10 +124,10 @@ jQuery(function($) {
 		       location.href="model!edit.action?id="+rowId;
 	        },
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
+			add: false,
+			/*addfunc:function(){
 				location.href="model!add.action";
-			},
+			},*/
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
 			delicon : 'ace-icon fa fa-trash-o red',

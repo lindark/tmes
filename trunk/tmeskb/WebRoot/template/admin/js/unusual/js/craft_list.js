@@ -63,9 +63,9 @@ jQuery(function($) {
 			
 			{name:'createDate',index:'createDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsName',index:'productsName',editable:true},
-			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
-			{name:'classes',index:'classes', width:160, editable: true},		
-			{name:'state',index:'state', width:20, sortable:false,editable: true}		
+			{name:'cabinetCode',index:'cabinetCode', width:120,editable: true},
+			{name:'classes',index:'classes', width:120, editable: true},		
+			{name:'state',index:'state', width:60, sortable:false,editable: true}		
 		], 
 
 		viewrecords : true,
@@ -117,7 +117,7 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			//edit: true,
-		    editfunc:function(){
+		    editfunc:function(rowId){
 			    location.href="craft!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',

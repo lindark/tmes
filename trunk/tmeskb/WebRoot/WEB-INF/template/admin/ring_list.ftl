@@ -13,7 +13,7 @@
 					</div>
 					<label class="col-sm-2" style="text-align:right">名称:</label>
 					<div class="col-sm-3">
-						<input type="text" name="productGroupName"
+						<input type="text" name="adminName"
 							class="input input-sm form-control" value=""
 							id="form-field-icon-1">
 					</div>
@@ -27,7 +27,7 @@
 			</div>
 		</form>
 		
-		<table id="grid-table"></table>
+		<table id="grid-table2"></table>
 
 		<div id="grid-pager"></div>
 	</div>

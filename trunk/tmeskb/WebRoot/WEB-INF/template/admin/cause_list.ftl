@@ -50,11 +50,11 @@
 								<form class="form-horizontal" id="searchform" action="cause!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">原因编码:</label>
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">代码编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="causeCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">原因名称:</label>
+										<label class="col-sm-1" style="text-align:right">代码名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="causeName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>

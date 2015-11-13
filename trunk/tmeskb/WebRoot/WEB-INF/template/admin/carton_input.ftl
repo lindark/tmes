@@ -102,7 +102,7 @@ body {
 
 												<div class="profile-info-value">
 													<input type="text" name="carton.cartonAmount"
-														value=""
+														value="${(carton.cartonAmount)!}"
 														class=" input input-sm" />
 												</div>
 											</div>

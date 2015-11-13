@@ -57,7 +57,7 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 			if(map.get("factoryCode")!=null){
 			    detachedCriteria.add(Restrictions.like("factoryCode", "%"+map.get("factoryCode")+"%"));
 			}		
-			if(map.get("factorysName")!=null){
+			if(map.get("factoryName")!=null){
 				detachedCriteria.add(Restrictions.like("factoryName", "%"+map.get("factoryName")+"%"));
 			}
 			if(map.get("state")!=null){

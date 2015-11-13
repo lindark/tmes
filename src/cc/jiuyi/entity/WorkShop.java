@@ -1,6 +1,8 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -25,8 +27,16 @@ public class WorkShop extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
+    private Factory factory;//工厂
     
-	
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Factory getFactory() {
+		return factory;
+	}
+	public void setFactory(Factory factory) {
+		this.factory = factory;
+	}
 	public String getWorkShopCode() {
 		return workShopCode;
 	}

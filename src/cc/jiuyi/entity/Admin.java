@@ -40,7 +40,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String departName;//部门名称
 	private String isDel;//是否删除
 	private String shift;//班次
-	private Date productDate;//生产日期
+	private String productDate;//生产日期
 	
 	
 	private Set<Role> roleSet;// 管理角色
@@ -229,11 +229,11 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.shift = shift;
 	}
 
-	public Date getProductDate() {
+	public String getProductDate() {
 		return productDate;
 	}
 
-	public void setProductDate(Date productDate) {
+	public void setProductDate(String productDate) {
 		this.productDate = productDate;
 	}
 	

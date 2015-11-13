@@ -1,6 +1,10 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,10 +28,19 @@ public class Factory extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private String workshopName;//工厂名称
+    
+    private Set<WorkShop> workshop;//车间
     
     
     
-	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factory")
+	public Set<WorkShop> getWorkshop() {
+		return workshop;
+	}
+	public void setWorkshop(Set<WorkShop> workshop) {
+		this.workshop = workshop;
+	}
 	public String getFactoryCode() {
 		return factoryCode;
 	}
@@ -64,6 +77,13 @@ public class Factory extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	@Transient
+	public String getWorkshopName() {
+		return workshopName;
+	}
+	public void setWorkshopName(String workshopName) {
+		this.workshopName = workshopName;
 	}
 
    

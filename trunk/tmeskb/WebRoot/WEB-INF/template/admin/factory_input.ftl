@@ -83,8 +83,14 @@ body{background:#fff;}
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 工厂编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="factory.factoryCode" value="${(factory.factoryCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
+										    <#if isAdd??>
+										        <input type="text" name="factory.factoryCode" value="${(factory.factoryCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100, remote: 'factory!checkFactoryCode.action', messages: {remote: '工厂编码已存在!'}}" />
+											    <label class="requireField">*</label>	
+										    <#else>
+										        ${(factory.factoryCode)!}
+										         <input type="hidden" name="factory.factoryCode" value="${(factory.factoryCode)!}"/>
+										    </#if>
+											
 										</div>
 									</div>	
 									

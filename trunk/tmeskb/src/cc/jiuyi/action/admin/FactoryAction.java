@@ -143,7 +143,7 @@ public class FactoryAction extends BaseAdminAction {
 		ids = id.split(",");
 		factoryService.updateisdel(ids, "Y");
 		redirectionUrl = "factory!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
 	// 编辑

@@ -59,6 +59,12 @@ public class FactoryServiceImpl extends BaseServiceImpl<Factory, String>implemen
 		factoryDao.updateisdel(ids, oper);
 	}
 
+	@Override
+	public boolean isExistByFactoryCode(String factoryCode) {
+		// TODO Auto-generated method stub
+		return factoryDao.isExistByFactoryCode(factoryCode);
+	}
+
 
 	
 }

@@ -114,9 +114,15 @@ body {
 												<div class="profile-info-name">班组</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="quality.team"
+												    <#if isAdd??>
+												       <input type="text" name="quality.team"
 														value="${(abnormal.teamId)!}"
 														class=" input input-sm  formText {required: true}" />
+												    <#else>
+												       <input type="text" name="quality.team"
+														value="${(quality.team)!}"
+														class=" input input-sm  formText {required: true}" />
+												    </#if>													
 												</div>
 											</div>
 											<div class="profile-info-row">

@@ -32,7 +32,7 @@ public class CauseDaoImpl extends BaseDaoImpl<Cause, String> implements
 			}
 			if (map.get("causeType") != null) {
 				detachedCriteria.add(Restrictions.eq("causeType",
-						"%" + map.get("causeType") + "%"));
+						map.get("causeType")));
 			}
 			if (map.get("causeName") != null) {
 				detachedCriteria.add(Restrictions.like("causeName",

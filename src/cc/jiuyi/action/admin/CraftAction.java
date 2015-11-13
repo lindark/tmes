@@ -75,17 +75,6 @@ public class CraftAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
-	/*
-	// ajax列表
-	public String ajlist() {
-		if(pager == null) {
-			pager = new Pager();
-		}
-		pager = craftService.findByPager(pager);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		return ajaxJson(jsonArray.get(0).toString());
-	}*/
-	
     public String ajlist(){
 		
 		HashMap<String, String> map = new HashMap<String, String>();

@@ -34,6 +34,7 @@ public class AbnormalAction extends BaseAdminAction {
 	private String loginUsername;
 	private String aid;
 	private String cancelId;
+	private String callId;
 	
 	@Resource
 	private AbnormalService abnormalService;
@@ -64,6 +65,17 @@ public class AbnormalAction extends BaseAdminAction {
 
 		}
 		pager = abnormalService.findByPager(pager);
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Abnormal abnormal  = (Abnormal)pagerlist.get(i);
+			abnormal.setCraftSet(null);
+			abnormal.setModelSet(null);
+			abnormal.setQualitySet(null);
+			pagerlist.set(i, abnormal);
+		}
+		pager.setList(pagerlist);
+		
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -98,9 +110,6 @@ public class AbnormalAction extends BaseAdminAction {
 		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
 		Admin admin = adminService.get("username", loginUsername);
 		
-		System.out.println(admin.getId());
-		
-		System.out.println(id);
 		abnormal.setCallDate(new Date());
 		abnormal.setCreateDate(new Date());
 		abnormal.setModifyDate(new Date());
@@ -112,11 +121,12 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setIsDel("N");
 		abnormal.setFactoryName("建新赵氏密封条工厂");
 		abnormal.setHandlingTime(new Integer(0));
-		abnormal.setResponsor("李四");
+		abnormal.setResponsor(callId);
 		abnormal.setShopName("2车间");
 		abnormal.setState("未确定");
 		abnormal.setUnitName("2单元");
 		abnormal.setTeamId("02");
+		abnormal.setMessage("设备出现问题");
 		
 		abnormalService.save(abnormal);
 		Map<String, String> jsonMap = new HashMap<String, String>();
@@ -163,6 +173,14 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCancelId(String cancelId) {
 		this.cancelId = cancelId;
+	}
+
+	public String getCallId() {
+		return callId;
+	}
+
+	public void setCallId(String callId) {
+		this.callId = callId;
 	}
 	
 	

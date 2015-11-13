@@ -31,12 +31,16 @@ public class CauseDaoImpl extends BaseDaoImpl<Cause, String> implements
 						"%" + map.get("causeCode") + "%"));
 			}
 			if (map.get("causeType") != null) {
-				detachedCriteria.add(Restrictions.like("causeType",
+				detachedCriteria.add(Restrictions.eq("causeType",
 						"%" + map.get("causeType") + "%"));
 			}
 			if (map.get("causeName") != null) {
 				detachedCriteria.add(Restrictions.like("causeName",
 						"%" + map.get("causeName") + "%"));
+			}
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like("state",
+						"%" + map.get("state") + "%"));
 			}
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据

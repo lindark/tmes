@@ -70,6 +70,12 @@ public class ProductsServiceImpl extends BaseServiceImpl<Products, String>implem
 		return productsDao.isExistByProductsCode(productsCode);
 	}
 
+	@Override
+	public boolean isExistByMaterialGroup(String materialGroup) {
+		
+		return productsDao.isExistByMaterialGroup(materialGroup);
+	}
+
 	
 	
 }

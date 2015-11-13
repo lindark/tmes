@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,11 +76,6 @@ public class MaterialAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<Material> materialList = pager.getList();
-//		for (Material material1 : materialList) {
-//			material1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"materialState", material1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("materialState", material.getState());
 		return LIST;
 	}
 	
@@ -152,9 +148,6 @@ public class MaterialAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		materialService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			Material material=materialService.load(id);
-//		}
 		redirectionUrl = "material!list.action";
 		return SUCCESS;
 	}
@@ -179,11 +172,10 @@ public class MaterialAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "material.materialType", message = "组件类型不允许为空!"),
+					@RequiredStringValidator(fieldName = "material.materialType", message = "产品名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.batch", message = "批次不允许为空!")
 			  }
 			
 			  

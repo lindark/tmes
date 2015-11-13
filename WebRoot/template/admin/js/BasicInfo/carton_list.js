@@ -88,6 +88,7 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
+        footerrow: true,
         
 		loadComplete : function() {
 			var table = this;
@@ -99,6 +100,19 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
+		gridComplete: function () {
+            var rowNum = parseInt($(this).getGridParam("records"), 10);
+            if (rowNum > 0) {
+                $(".ui-jqgrid-sdiv").show();
+                var cartonAmount = jQuery(this).getCol("cartonAmount", false, "sum");
+                var materialCode = jQuery(this).getCol("materialCode");
+                $(this).footerData("set", {
+                	materialCode: "累计纸箱数："+cartonAmount+"个"
+	            });
+	        }else {
+	            $(".ui-jqgrid-sdiv").hide();
+	        }
+	    }, //底部合计
 
 		editurl: "carton!delete.action",//用它做标准删除动作
 		caption: "转储记录"

@@ -100,8 +100,16 @@ body{background:#fff;}
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 班组</div>
 					
-										<div class="profile-info-value">							
-								<input type="text" name="model.teamId" value="${(abnormal.teamId)!}" class=" input input-sm  formText {required: true}" />									
+										<div class="profile-info-value">
+										<#if isAdd??>
+												       <input type="text" name="model.teamId"
+														value="${(abnormal.teamId)!}"
+														class=" input input-sm  formText {required: true}" />
+												    <#else>
+												       <input type="text" name="model.teamId"
+														value="${(model.teamId)!}"
+														class=" input input-sm  formText {required: true}" />
+										</#if>															
 										</div>
 										<div class="profile-info-name">种类 </div>
 					

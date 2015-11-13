@@ -13,6 +13,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.FactoryDao;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.Process;
 
 /**
@@ -106,4 +107,16 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 			super.update(factory);
 		}
    }
+
+	@SuppressWarnings("unchecked")
+	public boolean isExistByFactoryCode(String factoryCode) {
+		String hql = "from Factory factory where lower(factory.factoryCode) = lower(?)";
+		Factory factory = (Factory) getSession().createQuery(hql).setParameter(0, factoryCode).uniqueResult();
+		if (factory != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

@@ -57,7 +57,11 @@ jQuery(function($) {
 	          id:"id"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
 		colNames:['创建日期','工厂编码','工厂名称','状态', ],
 		colModel:[		
@@ -145,10 +149,10 @@ jQuery(function($) {
 				window.location.href="factory!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="factory!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

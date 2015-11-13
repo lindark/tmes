@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
+import cc.jiuyi.util.ThinkWayUtil;
+
 /**
  * 实体类 - 入库
  */
@@ -57,8 +59,12 @@ public class EnteringwareHouse extends BaseEntity {
 	public Date getStorageDate() {
 		return storageDate;
 	}
-	public void setStorageDate(Date storageDate) {
-		this.storageDate = storageDate;
+	public void setStorageDate(Date storageDate){
+		if(storageDate == null){
+			this.storageDate = new Date();//插入当前系统时间
+		}else{
+			this.storageDate = storageDate;
+		}
 	}
 	public Integer getStorageAmout() {
 		return storageAmout;

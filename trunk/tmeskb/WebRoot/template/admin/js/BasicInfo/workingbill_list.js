@@ -42,7 +42,9 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'workingBillCode',label:"随工单编号",width:200,index:'workingBillCode',label:"随工单编号",editable:false},
+			{name:'workingBillCode',label:"随工单编号",width:200,index:'workingBillCode',editable:false},
+			{name:'matnr',label:"产品编码",width:200,index:'matnr',editable:false},
+			{name:'maktx',label:"产品描述",width:200,index:'maktx',editable:false},
 			{name:'productDate',label:"生产日期",width:200,index:'productDate', editable: false},
 			{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},

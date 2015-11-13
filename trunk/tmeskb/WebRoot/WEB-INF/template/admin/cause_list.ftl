@@ -51,16 +51,31 @@
 								   <div class="operateBar">
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">原因编码:</label>
-										<div class="col-sm-2">
+										<div class="col-sm-4">
 											<input type="text" name="causeCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">原因类型:</label>
-										<div class="col-sm-2">
-											<input type="text" name="causeType" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
 										<label class="col-sm-1" style="text-align:right">原因名称:</label>
-										<div class="col-sm-2">
+										<div class="col-sm-4">
 											<input type="text" name="causeName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">代码类型:</label>
+										<div class="col-sm-4">
+											 <select name="causeType" id="form-field-icon-1" class="input input-sm form-control"> 
+											 	<option value="">全选</option> 
+										        <option value="抽检">抽检</option>   
+										        <option value="巡检">巡检</option> 
+										        <option value="半成品巡检">半成品巡检</option>   
+										      </select>   
+										</div>
+										<label class="col-sm-1" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
+											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
+											 	<option value="">全选</option> 
+										        <option value="1">已启用</option>   
+										        <option value="2">未启用</option>   
+										      </select>   
 										</div>
 									</div>
 										<div class="form-group" style="text-align:center">

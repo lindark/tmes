@@ -79,19 +79,44 @@ body{background:#fff;}
 										
 									</div>
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 原因类型 </div>
-					
-										<div class="profile-info-value">
-											<input type="text" name="cause.causeType" value="${(cause.causeType)!}" class=" input input-sm  formText {required: true}" />
-										</div>
-									</div>
-									<div class="profile-info-row">
-										<div class="profile-info-name"> 原因名称 </div>
+										<div class="profile-info-name"> 原因描述 </div>
 					
 										<div class="profile-info-value">
 											<input type="text" name="cause.causeName" value="${(cause.causeName)!}" class=" input input-sm  formText {required: true}" />
 										</div>
 									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 原因类型 </div>
+					
+										<div class="profile-info-value">
+											<select name="cause.causeType" id="form-field-icon-1"> 
+										        <option value="抽检">抽检</option>   
+										        <option value="巡检">巡检</option> 
+										        <option value="半成品巡检">半成品巡检</option>   
+										      </select> 
+										</div>
+									</div>
+									
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 状态 </div>
+					
+										<div class="profile-info-value">
+											<label class="pull-left inline">
+											    <small class="muted smaller-90">已启用:</small>
+												<input type="radio" class="ace" name="cause.state" value="1"<#if (cause.state == '1')!> checked</#if> />
+												<span class="lbl middle"></span>
+												&nbsp;&nbsp;
+											</label>
+											
+											<label class="pull-left inline">
+
+											    <small class="muted smaller-90">未启用:</small>
+												<input type="radio" class="ace" name="cause.state" value="2"<#if (isAdd || cause.state == '2')!> checked</#if>  />
+												<span class="lbl middle"></span>
+											</label>
+										</div>
+									</div>
+									
 						</div>
 				<!--weitao end modify-->	
 				

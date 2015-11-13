@@ -74,7 +74,7 @@ jQuery(function($) {
 					sort : "pager.orderBy",
 					order : "pager.orderType"
 				},
-				colNames:[ 'ID','原因编码','原因类型', '原因名称','状态'],
+				colNames:[ 'ID','代码编码','代码类型', '代码描述','状态'],
 				colModel:[
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 					{name:'causeCode',index:'causeCode', width:200},

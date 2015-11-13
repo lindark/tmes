@@ -74,7 +74,12 @@ body{background:#fff;}
 										<div class="profile-info-name"> 代码编码</div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="cause.causeCode" value="${(cause.causeCode)!}" class=" input input-sm  formText {required: true, remote: 'cause!checkCauseCode.action', messages: {remote: '代码编码已存在!'}}" />
+											<#if isAdd??>
+												<input type="text" name="cause.causeCode" value="${(cause.causeCode)!}" class=" input input-sm  formText {required: true, remote: 'cause!checkCauseCode.action', messages: {remote: '代码编码已存在!'}}" />
+										    <#else>
+										        ${(cause.causeCode)!}
+										         <input type="hidden" name="cause.causeCode" value="${(cause.causeCode)!}" readonly:"readonly"/>
+										    </#if>
 										</div>
 										
 									</div>

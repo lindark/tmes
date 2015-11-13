@@ -95,7 +95,8 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 			}
 
 		}
-		//System.out.println("wheresql:" + wheresql);
+		wheresql=wheresql.replace("state='启用'", "state='1'");
+		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
 	}
 

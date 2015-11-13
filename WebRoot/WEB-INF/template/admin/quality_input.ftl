@@ -234,9 +234,9 @@ body {
 												<#else> <#list (quality.flowingRectify)! as list>
 												<tr class="zg">
 													
-												<td><input type="text"
+												<!--<td>  <input type="text"
 														name="flowingRectifys[${list_index}].createDate"
-														value="${list.createDate}"/></td>	
+														value="${list.createDate}"/></td>	-->
 													<td><textarea name="flowingRectifys[${list_index}].content"
 														style="width:600px;">${list.content}</textarea></td>
 												</tr>

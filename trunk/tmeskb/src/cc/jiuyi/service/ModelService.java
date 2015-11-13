@@ -1,5 +1,8 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Model;
 
 
@@ -8,4 +11,5 @@ import cc.jiuyi.entity.Model;
  */
 public interface ModelService extends BaseService<Model, String> {
 
+	public Pager getModelPager(Pager pager, HashMap<String, String> map);
 }

@@ -57,7 +57,7 @@ body{background:#fff;}
 								
 		<form id="inputForm" class="validate" action="<#if isAdd??>model!save.action<#else>model!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
-			
+			 <input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -101,7 +101,7 @@ body{background:#fff;}
 										<div class="profile-info-name"> 班组</div>
 					
 										<div class="profile-info-value">							
-								<input type="text" name="model.teamId" value="${(model.teamId)!}" class=" input input-sm  formText {required: true}" />									
+								<input type="text" name="model.teamId" value="${(abnormal.teamId)!}" class=" input input-sm  formText {required: true}" />									
 										</div>
 										<div class="profile-info-name">种类 </div>
 					

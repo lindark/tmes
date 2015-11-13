@@ -63,14 +63,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '单据编号','收货日期','物料编号','产品名称','数量', '确认人','状态'],
+		colNames:[ '纸箱编码','纸箱描述','数量','收货日期', '确认人','状态'],
 		colModel:[
 			
-			{name:'voucherId',index:'voucherId', width:200},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date"},
 			{name:'materialCode',index:'materialCode', width:200},
-			{name:'productName',index:'productName', width:200},
+			{name:'cartonDescribe',index:'cartonDescribe', width:200},
 			{name:'cartonAmount',index:'cartonAmount', width:200},
+			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'confirmUser',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 

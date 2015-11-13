@@ -74,25 +74,35 @@ body{background:#fff;}
 										<div class="profile-info-name"> 随工单号 </div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="member.userdesp1" value="" class=" input input-sm  formText {required: true}" />
-										</div>
-										<div class="profile-info-name"> 随工单号 </div>
-					
-										<div class="profile-info-value">
-											<input type="text" name="member.userdesp1" value="" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="workingbill.workingBillCode" value="${(workingbill.workingBillCode)! }" class=" input input-sm  formText {required: true}" />
 										</div>
 										
 									</div>
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 随工单号 </div>
+										<div class="profile-info-name"> 产品编码 </div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="member.userdesp3" value="" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="workingbill.matnr" value="${(workingbill.matnr)! }" class=" input input-sm  formText {required: true}" />
 										</div>
-										<div class="profile-info-name"> 随工单号 </div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 产品名称 </div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="member.userdesp3" value="" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="workingbill.maktx" value="${(workingbill.maktx)! }" class=" input input-sm  formText {required: true}" />
+										</div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 生产日期 </div>
+					
+										<div class="profile-info-value">
+											<input type="text" name="workingbill.productDate" value="${(workingbill.productDate)! }" class="datePicker input input-sm  formText {required: true}" />
+										</div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">计划数量 </div>
+										<div class="profile-info-value">
+											<input type="text" name="workingbill.planCount" value="${(workingbill.planCount)! }" class=" input input-sm  formText {required: true}" />
 										</div>
 									</div>
 							

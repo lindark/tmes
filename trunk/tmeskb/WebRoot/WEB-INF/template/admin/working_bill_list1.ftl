@@ -19,9 +19,8 @@
 			}
 		</style>
 	</head>
-<body class="no-skin list">
-	
-<!-- add by welson 0728 -->	
+	<body class="no-skin">
+		<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -32,8 +31,7 @@
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-	
-<div class="breadcrumbs" id="breadcrumbs">
+     <div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -43,19 +41,19 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">生产计划管理</li>
+			<li class="active">随工单列表</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
-
+	
 	
 	<!-- add by welson 0728 -->
-	<div class="page-content">
-					<div class="page-content-area">					
-
+				<!-- /section:basics/content.breadcrumbs -->
+				<div class="page-content" id="page-content">
+					<div class="page-content-area">
 						<div class="row">
 							<div class="col-xs-12">
-								<!-- ./ add by weitao  -->
-									<form class="form-horizontal" id="searchform" action="working_bill!ajlist.action" role="form">
+								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" id="searchform" action="working_bill!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
 										<label class="col-sm-2" style="text-align:right">随工单编号:</label>
@@ -89,27 +87,44 @@
 										
 									</div>
 								</form>
-									<table id="grid-table"></table>
+								
+								
+								<table id="grid-table"></table>
 
-									<div id="grid-pager"></div>
-								<!-- add by weitao -->	
+								<div id="grid-pager"></div>
+								
+								
+									
+								<script type="text/javascript">
+									var $path_base = "${base}/template/admin";//in Ace demo this will be used for editurl parameter
+								</script>
+
+								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 					</div><!-- /.page-content-area -->
-				<!-- PAGE CONTENT ENDS -->
+				</div><!-- /.page-content -->
+			</div><!-- /.main-content -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
-	</div><!-- /.page-content -->
-	</div><!-- /.main-content -->
-	</div><!-- /.main-container -->
-	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
-	<!-- ./ add by welson 0728 -->
+			<#include "/WEB-INF/template/admin/admin_footer.ftl">
 
+					<!-- /section:basics/footer -->
+					<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+						<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+					</a>
+				</div>
 
-</body>
+			
+		
+		
 
-</html>
-<script>
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			
+		</script>
+	</body>
+	
+	<script>
 		$(function(){
 			var $syncButton = $("#syncButton");
 			
@@ -124,56 +139,4 @@
 			})
 		})
 	</script>
-
-<script type="text/javascript">
-	/**
-	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
-	 */
-	
-	$(function(){
-		var ishead=0;
-		$("#ace-settings-btn").click(function(){
-			if(ishead==0){
-				ishead=1;
-				$("#ace-settings-box").addClass("open");
-			}else{
-				ishead=0;
-				$("#ace-settings-box").removeClass("open");
-			}
-		});
-		$(".btn-colorpicker").click(function(){
-				$(".dropdown-colorpicker").addClass("open");
-		})
-		
-		var ishead2=0;
-		$(".light-blue").click(function(){
-			if(ishead2==0){
-				ishead2=1;
-				$(this).addClass("open");
-			}else{
-				ishead2=0;
-				$(this).removeClass("open");
-			}
-			
-		})
-		
-		/*
-		var ishead3=0;
-		$(".hsub").click(function(){
-			if(ishead3==0){
-				alert("OK");
-				ishead3=1;
-				$(".hsub").addClass("open");
-				//$(this).find(".submenu").removeClass("nav-hide");
-			}else{
-				ishead3=0;
-				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
-			}
-			
-		})
-		*/
-	})
-	
-	
-</script>
+</html>

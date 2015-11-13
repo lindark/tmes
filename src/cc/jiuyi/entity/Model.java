@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * 实体类 - 工模维修单
  */
 @Entity
-@Table(name = "jigfix")
+//@Table(name = "jigfix")
 public class Model extends BaseEntity{
 
 	private static final long serialVersionUID = -7213423823153832326L;

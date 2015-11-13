@@ -10,6 +10,7 @@ $(function(){
 			alert("o");
 			var i=$("#grid-table2").jqGrid('getGridParam','selarrrow');	
 			alert(i);
+			window.location.href="abnormal!save.action?callId="+i;
 			/*
 			var $ringForm = $("#ringForm");
 			alert("ok");

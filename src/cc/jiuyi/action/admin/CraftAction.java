@@ -20,6 +20,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalService;
@@ -68,7 +69,7 @@ public class CraftAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Craft persistent = craftService.load(id);
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id" });
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "classes","abnormal_id","isDel","state"});
 		craftService.update(persistent);
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
@@ -103,7 +104,7 @@ public class CraftAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		System.out.println("ok");
+
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
@@ -116,35 +117,26 @@ public class CraftAction extends BaseAdminAction {
 				String classes = obj.getString("classes").toString();
 				map.put("classes", classes);
 			}
-			/*
-			if (obj.get("workShopName") != null) {
-				String workShopName = obj.getString("workShopName").toString();
-				map.put("workShopName", workShopName);
-			}
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
-			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
-			}*/
-		}
-		System.out.println("e");
-			pager = craftService.getCraftPager(pager, map);
-			/*List<Craft> craftList = pager.getList();
-			List<Craft> lst = new ArrayList<Craft>();
-			for (int i = 0; i < craftList.size(); i++) {
-				craft craft = (craft) craftList.get(i);
-				workShop.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "workShopState", workShop.getState()));
-				lst.add(workShop);
 			}
-		pager.setList(lst);*/
-			System.out.println(pager.getList().size());
-			System.out.println("y");
+			
+		}
+
+		pager = craftService.getCraftPager(pager, map);
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Craft craft  = (Craft)pagerlist.get(i);
+			craft.setAbnormal(null);
+			pagerlist.set(i, craft);
+		}
+		pager.setList(pagerlist);
+
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());

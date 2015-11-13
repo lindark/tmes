@@ -469,36 +469,21 @@ body{background:#fff;}
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
 	<!-- ./ add by welson 0728 -->
-    
-    <script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='${base}/template/admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-	</script>
-	  <script src="${base}/template/admin/assets/js/bootstrap.min.js"></script>
+    <!-- 
+   <script src="${base }/template/admin/assets/js/fuelux/fuelux.wizard.min.js"></script>
+    <script type="text/javascript" src="${base}/template/admin/js/manage/handovercontrol.js"></script>
+	 -->
 	  
 	  
 	    <script src="${base}/template/admin/assets/js/fuelux/fuelux.wizard.min.js"></script>
-		<script src="${base}/template/admin/assets/js/jquery.validate.min.js"></script>
 		<script src="${base}/template/admin/assets/js/additional-methods.min.js"></script>
-		<script src="${base}/template/admin/assets/js/bootbox.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.maskedinput.min.js"></script>
 		<script src="${base}/template/admin/assets/js/select2.min.js"></script>
 
-		<!-- ace scripts -->
-		<script src="${base}/template/admin/assets/js/ace-elements.min.js"></script>
-		<script src="${base}/template/admin/assets/js/ace.min.js"></script>	
-
         <script type="text/javascript" src="${base}/template/admin/js/manage/handovercontrol.js"></script>
          
-	    <link rel="stylesheet" href="${base}/ace/assets/css/ace.onpage-help.css" />
-		<link rel="stylesheet" href="${base}/ace/docs/assets/js/themes/sunburst.css" />
 
-		<script src="${base}/ace/assets/js/ace/elements.onpage-help.js"></script>
-		<script src="${base}/ace/assets/js/ace/ace.onpage-help.js"></script>
-		<script src="${base}/ace/docs/assets/js/rainbow.js"></script>
-		<script src="${base}/ace/docs/assets/js/language/generic.js"></script>
-		<script src="${base}/ace/docs/assets/js/language/html.js"></script>
-		<script src="${base}/ace/docs/assets/js/language/css.js"></script>
-		<script src="${base}/ace/docs/assets/js/language/javascript.js"></script>
+
 
 </body>
 </html>

@@ -33,4 +33,10 @@ public interface ProductsService extends BaseService<Products, String> {
 	 * 根据ProductsCode判断Products是否存在
 	 */
 	public boolean isExistByProductsCode(String productsCode);
+	
+	
+	/**
+	 * 根据物料编码判断此物料组是否存在
+	 */
+	public boolean isExistByMaterialGroup(String materialGroup);
 }

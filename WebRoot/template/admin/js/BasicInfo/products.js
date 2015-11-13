@@ -1,3 +1,4 @@
+
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -19,32 +20,6 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
-		//direction: "rtl",
-
-		//subgrid options
-		subGrid : false,
-		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-		//datatype: "xml",
-		subGridOptions : {
-			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-			openicon : "ace-icon fa fa-chevron-right center orange"
-		},
-		//for this example we are using local data
-		subGridRowExpanded: function (subgridDivId, rowId) {
-			var subgridTableId = subgridDivId + "_t";
-			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-			$("#" + subgridTableId).jqGrid({
-				datatype: 'local',
-				data: subgrid_data,
-				colNames: ['No','Item Name','Qty'],
-				colModel: [
-					{ name: 'id', width: 50 },
-					{ name: 'name', width: 150 },
-					{ name: 'qty', width: 50 }
-				]
-			});
-		},
 		
 		url:"products!ajlist.action",
 		datatype: "json",
@@ -53,8 +28,7 @@ jQuery(function($) {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount",
-	          id:"id"
+	          records:"totalCount"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -62,11 +36,14 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
+	    	
 	    },
-		colNames:[ '创建日期','产品编码','产品名称','状态', ],
+		colNames:[ '创建日期','物料组','物料描述','产品编码','产品名称','状态', ],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'materialGroup',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
@@ -95,65 +72,26 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "products!delete.adction",//用它做标准删除动作
+		editurl: "products!delete.action",//用它做标准删除动作
 		caption: "产品管理"
-
-		//,autowidth: true,
-//		,
-//		grouping:true, 
-//		groupingView : { 
-//			 groupField : ['name'],
-//			 groupDataSorted : true,
-//			 plusicon : 'fa fa-chevron-down bigger-110',
-//			 minusicon : 'fa fa-chevron-up bigger-110'
-//		},
-//		caption: "Grouping"
-		
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	
-
-	//enable search/filter toolbar
-	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-	//jQuery(grid_selector).filterToolbar({});
-
-
-	//switch element when editing inline
-	function aceSwitch( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=checkbox]')
-				.addClass('ace ace-switch ace-switch-5')
-				.after('<span class="lbl"></span>');
-		}, 0);
-	}
-	//enable datepicker
-	function pickDate( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=text]')
-					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
-		}, 0);
-	}
-
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			//edit: true,
-		    editfunc:function(rowId){
-			    window.location.href="products!edit.action?id="+rowId;
-		    },
+		    editfunc : function(rowId) {
+				window.location.href = "products!edit.action?id=" + rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(){
+			addfunc:function(rowId){
 				window.location.href="products!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
-				window.location.href="products!delete.action?id="+rowId;
-			},
+			del: true,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -215,10 +153,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

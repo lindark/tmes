@@ -18,6 +18,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -60,6 +61,16 @@ public class ProductsAction extends BaseAdminAction {
 		}
 	}
 	
+	//是否已存在ajax验证
+	public String checkMaterialGroup(){
+		String materialGroup=products.getMaterialGroup();
+		if(productsService.isExistByMaterialGroup(materialGroup)){
+			return ajaxText("false");
+		}else{
+			return ajaxText("true");
+		}
+	}
+	
 	//添加
 	public String add(){
 		return INPUT;
@@ -73,11 +84,6 @@ public class ProductsAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<Products> productsList = pager.getList();
-//		for (Products products1 : productsList) {
-//			products1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"productsState", products1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("productsState", products.getState());
 		return LIST;
 	}
 	
@@ -85,7 +91,7 @@ public class ProductsAction extends BaseAdminAction {
 	 * ajax 列表
 	 * @return
 	 */
-	public String ajlist(){
+    public String ajlist(){
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
@@ -149,9 +155,6 @@ public class ProductsAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		productsService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			Products products=productsService.load(id);
-//		}
 		redirectionUrl = "products!list.action";
 		return SUCCESS;
 	}
@@ -176,6 +179,8 @@ public class ProductsAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
+					@RequiredStringValidator(fieldName = "products.materialGroup", message = "物料组不允许为空!"),
+					@RequiredStringValidator(fieldName = "products.materialDescript", message = "物料描述不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsCode", message = "产品编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsName", message = "产品名称不允许为空!")
 			  }

@@ -50,6 +50,21 @@
 								<form class="form-horizontal" id="searchform" action="material!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品编码:</label>
+										<div class="col-sm-4">
+											<input type="text" name="productCode" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										
+										<label class="col-sm-1" style="text-align:right">产品名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="materialType" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+									
+									
+									
+								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">组件编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="materialCode" class="input input-sm form-control" value="" id="form-field-icon-1">

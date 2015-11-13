@@ -120,4 +120,17 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 			return false;
 		}
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean isExistByMaterialGroup(String materialGroup) {
+		String hql="from Products products where lower(products.materialGroup)=lower(?)";
+		Products products=(Products)getSession().createQuery(hql).setParameter(0, materialGroup).uniqueResult();
+		System.out.println(hql);
+		if(products !=null){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

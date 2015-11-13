@@ -1,6 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,24 +22,37 @@ import org.compass.annotations.Searchable;
 @Table(name = "Products")
 public class Products extends BaseEntity{
 
-	
-
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8443400047987324790L;
+	private static final long serialVersionUID = -4071870474412048180L;
+	
 	
 	private String productsCode;//产品编码
     private String productsName;//产品名称
+    private String materialGroup;//物料组
+    private String materialDescript;//物料描述
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
-    
+
 	
+	private Set<Material> material;//产品
+
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="products")
+	public Set<Material> getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Set<Material> material) {
+		this.material = material;
+	}
+
 	public String getProductsCode() {
 		return productsCode;
 	}
+
 	public void setProductsCode(String productsCode) {
 		this.productsCode = productsCode;
 	}
@@ -67,6 +85,22 @@ public class Products extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+
+	public String getMaterialGroup() {
+		return materialGroup;
+	}
+
+	public void setMaterialGroup(String materialGroup) {
+		this.materialGroup = materialGroup;
+	}
+
+	public String getMaterialDescript() {
+		return materialDescript;
+	}
+
+	public void setMaterialDescript(String materialDescript) {
+		this.materialDescript = materialDescript;
 	}
 
    

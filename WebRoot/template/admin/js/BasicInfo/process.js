@@ -169,7 +169,7 @@ jQuery(function($) {
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(){
+			addfunc:function(rowId){
 				window.location.href="process!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',

@@ -31,7 +31,15 @@ public interface ProductsDao extends BaseDao<Products,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	/**
-	 * 根据工序编码判断此产品是否存在
+	 * 根据产品编码判断此产品是否存在
 	 */
 	public boolean isExistByProductsCode(String productsCode);
+	
+	/**
+	 * 根据物料编码判断此物料组是否存在
+	 */
+	public boolean isExistByMaterialGroup(String materialGroup);
+	
+	
+	
 }

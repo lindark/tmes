@@ -26,12 +26,11 @@ import org.springframework.security.userdetails.UserDetails;
 @Table(name = "DailyWork")
 public class DailyWork extends BaseEntity {
 
-	
-	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3012671741484935155L;
+	private static final long serialVersionUID = 232434065942453328L;
+	
 	
 	private Integer totalAmout;//累计报工根量
 	private Integer enterAmout;//报工数量

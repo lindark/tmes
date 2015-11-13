@@ -17,8 +17,6 @@
 </script>
 <script src="${base}/template/admin/assets/js/bootstrap.min.js"></script>
 <!-- page specific plugin scripts -->
-<script src="${base}/template/admin/assets/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="${base}/template/admin/assets/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
 <script src="${base}/template/admin/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
 <script src="${base}/template/admin/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
 

@@ -37,6 +37,17 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 			if(map.get("classes")!=null){
 			    detachedCriteria.add(Restrictions.like("classes", "%"+map.get("classes")+"%"));
 			}
+			
+			if(map.get("start")!=null||map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 			/*
 			if(map.get("workShopName")!=null){
 				detachedCriteria.add(Restrictions.like("workShopName", "%"+map.get("workShopName")+"%"));
@@ -55,7 +66,6 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 				}
 			}*/
 		}
-		System.out.println("k");
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

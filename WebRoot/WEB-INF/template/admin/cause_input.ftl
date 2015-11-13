@@ -71,22 +71,22 @@ body{background:#fff;}
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 原因编码</div>
+										<div class="profile-info-name"> 代码编码</div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="cause.causeCode" value="${(cause.causeCode)!}" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="cause.causeCode" value="${(cause.causeCode)!}" class=" input input-sm  formText {required: true, remote: 'cause!checkCauseCode.action', messages: {remote: '代码编码已存在!'}}" />
 										</div>
 										
 									</div>
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 原因描述 </div>
+										<div class="profile-info-name"> 代码描述 </div>
 					
 										<div class="profile-info-value">
 											<input type="text" name="cause.causeName" value="${(cause.causeName)!}" class=" input input-sm  formText {required: true}" />
 										</div>
 									</div>
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 原因类型 </div>
+										<div class="profile-info-name"> 代码类型 </div>
 					
 										<div class="profile-info-value">
 											<select name="cause.causeType" id="form-field-icon-1"> 

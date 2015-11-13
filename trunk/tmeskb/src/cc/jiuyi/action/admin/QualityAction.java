@@ -67,6 +67,16 @@ public class QualityAction extends BaseAdminAction {
 			pager = new Pager();
 		}
 		pager = qualityService.findByPager(pager);
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Quality quality  = (Quality)pagerlist.get(i);
+			quality.setAbnormal(null);
+			quality.setFlowingRectify(null);
+			pagerlist.set(i, quality);
+		}
+		pager.setList(pagerlist);
+		
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -139,13 +149,7 @@ public class QualityAction extends BaseAdminAction {
 		public String update() {
 			Quality persistent = qualityService.load(id);
 			BeanUtils.copyProperties(quality, persistent, new String[] { "id" });
-			qualityService.update(persistent);
-			
-			for(int i=0;i<flowingRectifys.size();i++){
-				FlowingRectify v=flowingRectifys.get(i);
-				v.setQuality(persistent);
-				flowingRectifyService.save(v);
-			}
+			qualityService.update(persistent);						
 				
 			redirectionUrl = "quality!list.action";
 			return SUCCESS;

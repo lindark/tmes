@@ -74,12 +74,13 @@ jQuery(function($) {
 					sort : "pager.orderBy",
 					order : "pager.orderType"
 				},
-				colNames:[ 'ID','原因编码','原因类型', '原因名称'],
+				colNames:[ 'ID','原因编码','原因类型', '原因名称','状态'],
 				colModel:[
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 					{name:'causeCode',index:'causeCode', width:200},
 					{name:'causeType',index:'causeType', width:200,sortable:"true",sorttype:"text"},
-					{name:'causeName',index:'causeName', width:200,sortable:"true",sorttype:"text"}
+					{name:'causeName',index:'causeName', width:200,sortable:"true",sorttype:"text"},
+					{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 				], 
 				// sortable:true,
 				// sortname: "deliveryDate",

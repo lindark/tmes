@@ -122,6 +122,7 @@ public class DictAction extends BaseAdminAction {
 	
 	// 删除
 	public String delete() {
+		ids = id.split(",");
 		dictService.delete(ids);
 		return ajaxJsonSuccessMessage("删除成功！");
 	}

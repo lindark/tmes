@@ -65,13 +65,12 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			
-			{name:'id',index:'id', label:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'name',index:'name', editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'stock', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'id',index:'id', label:"ID", sorttype:"int", editable: true,summaryType:'sum',hidden:true},
+			{name:'dictname',index:'dictname',label:"字典名称",editable:true, sorttype:"date",unformat: pickDate,},
+			{name:'dictdesp',index:'dictdesp',label:"字典描述", editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'dictkey',index:'dictkey',label:"Key", editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+			{name:'dictvalue',index:'dictvalue',label:"Value",  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+			{name:'orderList',index:'orderList',label:"排序",  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 
 
 		viewrecords : true,
@@ -96,8 +95,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "#",//nothing is saved
-		caption: "jqGrid with inline editing"
+		editurl: "dict!delete.action",//nothing is saved
+		caption: "数据字典"
 
 		//,autowidth: true,
 //		,
@@ -118,7 +117,10 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+			editfunc:function(rowId){
+				window.location.href="dict!edit.action?id="+rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){

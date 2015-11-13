@@ -71,7 +71,7 @@ body{background:#fff;}
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">工序信息</a>
+					<a href="#tabs-1">工厂信息</a>
 				</li>
 				
 			</ul>

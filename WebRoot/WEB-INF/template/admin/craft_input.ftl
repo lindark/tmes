@@ -98,9 +98,15 @@ body {
 												<div class="profile-info-name">班组</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="craft.classes"
+												    <#if isAdd??>
+												       <input type="text" name="craft.classes"
 														value="${(abnormal.teamId)!}"
 														class=" input input-sm  formText {required: true}" />
+												    <#else>
+												       <input type="text" name="craft.classes"
+														value="${(craft.classes)!}"
+														class=" input input-sm  formText {required: true}" />
+												    </#if>									
 												</div>
 												<div class="profile-info-name">机台号</div>
 

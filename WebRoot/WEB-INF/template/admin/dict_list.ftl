@@ -7,7 +7,8 @@
 <title>字典列表 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-<script type="text/javascript" src="${base}/template/admin/js/jqgridlist.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/dict_list.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}

@@ -53,15 +53,20 @@ jQuery(function($) {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
-		colNames:[ '时间','产品名称','机台号', '班组', '状态'],
+		colNames:['产品名称','机台号', '班组', '状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsName',index:'productsName',width:160,editable:true},
 			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
 			{name:'classes',index:'classes', width:160, editable: true},		

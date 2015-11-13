@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,7 +17,10 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Cause;
+import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.CauseService;
+import cc.jiuyi.service.DictService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -32,6 +37,8 @@ public class CauseAction extends BaseAdminAction {
 	
 	@Resource
 	private CauseService causeService;
+	@Resource
+	private DictService dictService;
 	
 	public String list() {
 		//pager = causeService.findByPager(pager);
@@ -108,9 +115,22 @@ public class CauseAction extends BaseAdminAction {
 			if(obj.get("causeName")!=null){
 				String causeName = obj.get("causeName").toString();
 				map.put("causeName", causeName);				
-			}		
+			}	
+			if (obj.get("state") != null) {
+				String state = obj.get("state").toString();
+				map.put("state", state);
+			}
 		}
 		pager = causeService.getCausePager(pager,map);
+		List<Cause> causeList = pager.getList();
+		List<Cause> lst = new ArrayList<Cause>();
+		for (int i = 0; i < causeList.size(); i++) {
+			Cause cause = (Cause) causeList.get(i);
+			cause.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"causeState", cause.getState()));
+			lst.add(cause);
+		}
+		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		

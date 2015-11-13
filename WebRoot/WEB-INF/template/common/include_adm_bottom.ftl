@@ -1,18 +1,19 @@
 		<!-- basic scripts -->
 		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery.min.js'>"+"<"+"/script>");
-		</script>
-		<!-- <![endif]-->
-		<!--[if IE]>
-		<script type="text/javascript">
-		 window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery1x.min.js'>"+"<"+"/script>");
-		</script>
-		<![endif]-->
-		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='${base}/template/admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
-		
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='${base}/template/admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
 		<script src="${base}/template/admin/assets/js/bootstrap.min.js"></script>
 		
 		

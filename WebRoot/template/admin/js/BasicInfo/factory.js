@@ -94,7 +94,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "factory!delete.adction",//用它做标准删除动作
+		editurl: "factory!delete.action",//用它做标准删除动作
 		caption: "工厂管理"
 
 		//,autowidth: true,

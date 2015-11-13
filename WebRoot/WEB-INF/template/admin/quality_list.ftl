@@ -70,9 +70,9 @@
 								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">状态:</label>
+										<label class="col-sm-2" style="text-align:right">班组:</label>
 										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">日期:</label>
 										<div class="col-sm-4">

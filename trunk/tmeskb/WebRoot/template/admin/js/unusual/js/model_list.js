@@ -56,7 +56,11 @@ jQuery(function($) {
 	          records:"totalCount"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+		    search:"pager._search",
+		    sort:"pager.orderBy",
+		    order:"pager.orderType"
 	    },
 		colNames:[ '时间','产品编号','产品名称', '种类', '班组','故障原因','维修人','状态'],
 		colModel:[

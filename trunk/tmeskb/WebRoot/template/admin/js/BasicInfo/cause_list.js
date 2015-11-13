@@ -80,7 +80,7 @@ jQuery(function($) {
 					{name:'causeCode',index:'causeCode', width:200},
 					{name:'causeType',index:'causeType', width:200,sortable:"true",sorttype:"text"},
 					{name:'causeName',index:'causeName', width:200,sortable:"true",sorttype:"text"},
-					{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+					{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"local"}
 				], 
 				// sortable:true,
 				// sortname: "deliveryDate",

@@ -1,5 +1,7 @@
 package cc.jiuyi.action.admin;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
@@ -75,6 +77,14 @@ public class ModelAction extends BaseAdminAction {
 			pager = new Pager();
 		}
 		pager = modelService.findByPager(pager);
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Model model  = (Model)pagerlist.get(i);
+			model.setAbnormal(null);
+			pagerlist.set(i, model);
+		}
+		pager.setList(pagerlist);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}

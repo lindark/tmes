@@ -115,6 +115,8 @@ public class WorkingBillAction extends BaseAdminAction {
 		for(int i =0; i < pagerlist.size();i++){
 			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
 			workingbill.setEnteringwareHouse(null);
+			workingbill.setDailyWork(null);
+			workingbill.setMaterialSet(null);
 			pagerlist.set(i, workingbill);
 		}
 		pager.setList(pagerlist);
@@ -150,45 +152,41 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(
-		requiredStrings = { 
-			@RequiredStringValidator(fieldName = "dict.dictname", message = "字典名不允许为空!"),
-			@RequiredStringValidator(fieldName = "dict.dictkey", message = "字典Key不允许为空!"),
-			@RequiredStringValidator(fieldName = "dict.dictvalue", message = "字典Value不允许为空!")
-		},
-		requiredFields = { 
-			@RequiredFieldValidator(fieldName = "dict.orderList", message = "排序不允许为空!")
-		},
-		intRangeFields = {
-			@IntRangeFieldValidator(fieldName = "dict.orderList", min = "0", message = "排序必须为零或正整数!")
-		}
-	)
+			requiredStrings = { 
+				@RequiredStringValidator(fieldName = "workingbill.workingBillCode", message = "随工单号不能为空!"),
+				@RequiredStringValidator(fieldName = "workingbill.productDate", message = "生产日期不能为空!"),
+				@RequiredStringValidator(fieldName = "workingbill.matnr", message = "产品编号不能为空!"),
+				@RequiredStringValidator(fieldName = "workingbill.maktx", message = "产品描述不能为空!")
+			},
+			requiredFields = { 
+				@RequiredFieldValidator(fieldName = "workingbill.planCount", message = "计划数量不能为空!")
+			}
+		)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		//workingbillService.save(dict);
-		redirectionUrl = "dict!list.action";
+		workingbillService.save(workingbill);
+		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}
 	
 	// 更新
 	@Validations(
 		requiredStrings = { 
-			@RequiredStringValidator(fieldName = "dict.dictname", message = "字典名不允许为空!"),
-			@RequiredStringValidator(fieldName = "dict.dictkey", message = "字典Key不允许为空!"),
-			@RequiredStringValidator(fieldName = "dict.dictvalue", message = "字典Value不允许为空!")
+			@RequiredStringValidator(fieldName = "workingbill.workingBillCode", message = "随工单号不能为空!"),
+			@RequiredStringValidator(fieldName = "workingbill.productDate", message = "生产日期不能为空!"),
+			@RequiredStringValidator(fieldName = "workingbill.matnr", message = "产品编号不能为空!"),
+			@RequiredStringValidator(fieldName = "workingbill.maktx", message = "产品描述不能为空!")
 		},
 		requiredFields = { 
-			@RequiredFieldValidator(fieldName = "dict.orderList", message = "排序不允许为空!")
-		},
-		intRangeFields = {
-			@IntRangeFieldValidator(fieldName = "dict.orderList", min = "0", message = "排序必须为零或正整数!")
+			@RequiredFieldValidator(fieldName = "workingbill.planCount", message = "计划数量不能为空!")
 		}
 	)
 	@InputConfig(resultName = "error")
 	public String update() throws Exception {
-		//Dict persistent = dictService.load(id);
-		//BeanUtils.copyProperties(dict, persistent, new String[]{"id", "createDate", "modifyDate"});
-		//dictService.update(persistent);
-		redirectionUrl = "dict!list.action";
+		WorkingBill persistent = workingbillService.load(id);
+		BeanUtils.copyProperties(workingbill, persistent, new String[]{"id", "createDate"});
+		workingbillService.update(persistent);
+		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}
 

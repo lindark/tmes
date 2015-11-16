@@ -94,33 +94,6 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-//	public String processpagerSql(Pager pager,DetachedCriteria detachedCriteria) {
-//		String wheresql = "";
-//		Integer ishead = 0;
-//		if (pager.is_search() == true && pager.getRules() != null) {
-//			List list = pager.getRules();
-//			for (int i = 0; i < list.size(); i++) 
-//			{
-//				if (ishead == 1) 
-//				{
-//					wheresql += " " + pager.getGroupOp() + " ";
-//				}
-//				//filed查询字段，op查询操作,data选择的查询值
-//				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-//				wheresql += " "
-//						+ super.generateSearchSql(to.getField(), to.getData(),
-//								to.getOp(),detachedCriteria) + " ";
-//				ishead = 1;
-//			}
-//
-//		}
-//		System.out.println("wheresql:" + wheresql);
-//		System.out.println("wheresql.length()="+wheresql.length());
-//		wheresql=wheresql.replace("state='启用'", "state='1'");
-//		wheresql=wheresql.replace("state='未启用'", "state='2'");
-//		return wheresql;
-//	}
-
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		for(String id:ids){

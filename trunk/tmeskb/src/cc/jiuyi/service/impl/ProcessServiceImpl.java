@@ -70,5 +70,25 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		return processDao.isExistByProcessCode(processCode);
 	}
 
-	
+	/**
+	 * 查询一个带联表
+	 */
+	@Override
+	public Process getOne(String id)
+	{
+		return this.processDao.getOne(id);
+	}
+
+	/**
+	 * 检查工序编码是否存在
+	 */
+	public boolean getCk(String info)
+	{
+		List<Process>list=this.processDao.getCk(info);
+		if(list.size()>0)
+		{
+			return false;
+		}
+		return true;
+	}
 }

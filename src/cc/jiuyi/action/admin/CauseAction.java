@@ -37,9 +37,9 @@ public class CauseAction extends BaseAdminAction {
 	private static final long serialVersionUID = 8114269369652720624L;
 
 	private Cause cause;
-	//获取所有状态
+	// 获取所有状态
 	private List<Dict> allState;
-	//获取所有代码类型
+	// 获取所有代码类型
 	private List<Dict> allCauseType;
 
 	@Resource
@@ -77,6 +77,13 @@ public class CauseAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
+	//更新
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "cause.causeCode", message = "代码编码不允许为空!"),
+			@RequiredStringValidator(fieldName = "cause.causeType", message = "代码类型不允许为空!"),
+			@RequiredStringValidator(fieldName = "cause.causeName", message = "代码描述不允许为空!") }
+
+	)
 	@InputConfig(resultName = "error")
 	public String update() {
 		Cause persistent = causeService.load(id);
@@ -171,7 +178,7 @@ public class CauseAction extends BaseAdminAction {
 		this.cause = cause;
 	}
 
-	//获取所有状态
+	// 获取所有状态
 	public List<Dict> getAllState() {
 		return dictService.getList("dictname", "StateRemark");
 	}

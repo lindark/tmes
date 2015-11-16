@@ -52,9 +52,9 @@ public class WorkShopServiceImpl extends BaseServiceImpl<WorkShop, String>implem
 	}
 
 	@Override
-	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map) {
+	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map,String factoryName) {
 		// TODO Auto-generated method stub
-		return workShopDao.getWorkShopPager(pager, map);
+		return workShopDao.getWorkShopPager(pager, map,factoryName);
 	}
 
 	@Override

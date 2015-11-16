@@ -121,6 +121,11 @@ public class WorkShopAction extends BaseAdminAction {
 				String workShopName = obj.getString("workShopName").toString();
 				map.put("workShopName", workShopName);
 			}
+			
+			if (obj.get("factoryName") != null) {
+				String factoryName = obj.getString("factoryName").toString();
+				map.put("factoryName", factoryName);
+			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
@@ -195,6 +200,7 @@ public class WorkShopAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{	
 		factory=factoryService.load(factoryId);
+		workShop.setFactoryName(factory.getFactoryName());
 		workShop.setFactory(factory);
 		workShopService.save(workShop);
 		redirectionUrl="work_shop!list.action";

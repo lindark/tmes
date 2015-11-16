@@ -43,14 +43,9 @@ public class PostDaoImpl extends BaseDaoImpl<Post, String> implements PostDao {
 	}
 
 	public Pager getPostPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = PostpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Post.class);
-		if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
-		//System.out.println(map.size());
+		pagerSqlByjqGrid(pager,detachedCriteria);
 		if (map.size() > 0) {
 			if(map.get("postCode")!=null){
 			    detachedCriteria.add(Restrictions.like("postCode", "%"+map.get("postCode")+"%"));
@@ -76,26 +71,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, String> implements PostDao {
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String PostpagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
 
-		}
-		//System.out.println("wheresql:" + wheresql);
-		return wheresql;
-	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

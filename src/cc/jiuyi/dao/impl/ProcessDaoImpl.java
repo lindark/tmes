@@ -48,7 +48,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		String wheresql = processpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Process.class);
-		detachedCriteria.createAlias("workingBill", "wb");//表名，别名
+		detachedCriteria.createAlias("products", "pr");//表名，别名
 		System.out.println("=========================wheresql="+wheresql);
 		if (!wheresql.equals("")) 
 		{
@@ -84,12 +84,12 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 			//产品编码
 			if(map.get("xproductnum")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("workingBill.matnr", "%"+map.get("xproductnum")+"%"));
+				detachedCriteria.add(Restrictions.like("products.productsCode", "%"+map.get("xproductnum")+"%"));
 			}
 			//产品名称
 			if(map.get("xproductname")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("workingBill.maktx", "%"+map.get("xproductname")+"%"));
+				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("xproductname")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
@@ -132,7 +132,6 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean isExistByProcessCode(String processCode) {
 		String hql="from Process process where lower(process.processCode)=lower(?)";
 		Process process=(Process)getSession().createQuery(hql).setParameter(0, processCode).uniqueResult();
@@ -150,7 +149,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	public Process getOne(String id)
 	{
 		Process p=null;
-		String hql=" from Process as a inner join fetch a.workingBill where a.id=?";
+		String hql=" from Process as a inner join fetch a.products where a.id=?";
 		p=(Process)this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 		return p;
 	}

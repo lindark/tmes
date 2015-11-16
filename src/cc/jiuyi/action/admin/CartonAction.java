@@ -26,6 +26,8 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 纸箱
@@ -35,7 +37,7 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 public class CartonAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 5682952528834965226L;
-	
+
 	private static final String CONFIRMED = "1";
 	private static final String UNDO = "3";
 
@@ -71,18 +73,40 @@ public class CartonAction extends BaseAdminAction {
 		return INPUT;
 	}
 
-	public String save() {
+	// 保存
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
+
+	)
+	@InputConfig(resultName = "error")
+	public String save() throws Exception {
+		if (cartonService.getTotalCount() <= 0) {
+			carton.setTotalAmount("0");
+		}else{
+			carton.setTotalAmount(cartonService.getAll().get(0).getTotalAmount());			
+		}
 		cartonService.save(carton);
-		redirectionUrl="carton!list.action?workingBillId="+carton.getWorkingbill().getId();
+		redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
+	//查询数据库中是否有是否删除为'N'的
+	public boolean getN(){
+		List<Carton> cartons = cartonService.getAll();
+		for (int i = 0; i < cartons.size(); i++) {
+			//if(cartons.get(i).getIsDel())
+		}
+		return true;
+	}
+	// 更新
 	@InputConfig(resultName = "error")
 	public String update() {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
-		redirectionUrl="carton!list.action?workingBillId="+carton.getWorkingbill().getId();
+		redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
@@ -90,36 +114,65 @@ public class CartonAction extends BaseAdminAction {
 	public String delete() {
 		ids = id.split(",");
 		cartonService.updateisdel(ids, "Y");
-		redirectionUrl="carton!list.action?workingBillId="+carton.getWorkingbill().getId();
+		redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
-	
-	//刷卡确认
-	public String confirms(){
+
+	// 刷卡确认
+	public String confirms() {
 		ids = id.split(",");
-		for(int i = 0;i<ids.length;i++){
+		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			carton.setState(CONFIRMED);
 			admin = adminService.getLoginAdmin();
 			carton.setConfirmUser(admin.getId());
+			addTotal(carton);
 			cartonService.save(carton);
 		}
-		redirectionUrl="carton!list.action?workingBillId="+carton.getWorkingbill().getId();
+		redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
-	//刷卡撤销
-		public String undo(){
-			ids = id.split(",");
-			for(int i = 0;i<ids.length;i++){
-				carton = cartonService.load(ids[i]);
-				carton.setState(UNDO);
-				admin = adminService.getLoginAdmin();
-				carton.setConfirmUser(admin.getId());
-				cartonService.save(carton);
-			}
-			redirectionUrl="carton!list.action?workingBillId="+carton.getWorkingbill().getId();
-			return SUCCESS;
+
+	// 根据给定纸箱，将其他纸箱的累计数量全部加上该纸箱的收货数量
+	public void addTotal(Carton carton) {
+		List<Carton> cartons = cartonService.getAll();
+		for (int i = 0; i < cartons.size(); i++) {
+			cartons.get(i).setTotalAmount(
+					Integer.parseInt(cartons.get(i).getTotalAmount())
+							+ Integer.parseInt(carton.getCartonAmount()) + "");
+			cartonService.save(cartons.get(i));
 		}
+	}
+	
+	// 根据给定纸箱，将其他纸箱的累计数量全部减去该纸箱的收货数量
+	
+	public void minusTotal(Carton carton){
+		List<Carton> cartons = cartonService.getAll();
+		for (int i = 0; i < cartons.size(); i++) {
+			cartons.get(i).setTotalAmount(
+					Integer.parseInt(cartons.get(i).getTotalAmount())
+							- Integer.parseInt(carton.getCartonAmount()) + "");
+			cartonService.save(cartons.get(i));
+		}
+	}
+
+	// 刷卡撤销
+	public String undo() {
+		ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			carton = cartonService.load(ids[i]);
+			carton.setState(UNDO);
+			admin = adminService.getLoginAdmin();
+			carton.setConfirmUser(admin.getId());
+			minusTotal(carton);
+			cartonService.save(carton);
+		}
+		redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();
+		return SUCCESS;
+	}
 
 	/**
 	 * ajax 列表
@@ -148,8 +201,8 @@ public class CartonAction extends BaseAdminAction {
 		List<Carton> lst = new ArrayList<Carton>();
 		for (int i = 0; i < cartonList.size(); i++) {
 			Carton carton = (Carton) cartonList.get(i);
-			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"cartonState", carton.getState()));
+			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "cartonState", carton.getState()));
 			carton.setWorkingbill(null);
 			lst.add(carton);
 		}

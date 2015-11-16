@@ -16,6 +16,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.MaterialDao;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 
 /**
  * Dao实现类 - Material
@@ -121,6 +122,13 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Products> getProductsList() {
+		String hql = "From Products products order by products.id asc products.crateDate desc";
+		return getSession().createQuery(hql).list();
 	}
 
 //	@Override

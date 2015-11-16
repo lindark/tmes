@@ -6,6 +6,7 @@ import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 
 /**
  * Dao接口 -产品Bom管理
@@ -36,10 +37,11 @@ public interface MaterialDao extends BaseDao<Material,String> {
 	 */
 	public boolean isExistByMaterialCode(String materialCode);
 	
-//	/**
-//	 * 获取所有产品编码和产品名称
-//	 */
-//    public List<Map<String,String>> getProductsCode(String productsCode);
+	
+	/**
+	 * 获取所有产品对象
+	 */
+    public List<Products> getProductsList();
 	
 	
 

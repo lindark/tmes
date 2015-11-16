@@ -91,9 +91,13 @@ body{background:#fff;}
 
 												<div class="profile-info-name">产品编码</div>
 												<div class="profile-info-value">
-													<input type="text" name="material.productCode"
-														value="${(material.productCode)!}"
-														class=" input input-sm formText {digits:true,required: true,minlength:2,maxlength: 100}" />
+													<select name="material.products.id" class="{required: true}"
+														style="width:200px;">
+														<option value="">请选择...</option> 
+														<#list productsList as list>
+														<option value="${list.id}"<#if (list.id == material.products.id)!> selected</#if>> ${list.name}</option>
+														</#list>
+													</select>
 													<label class="requireField">*</label>
 												</div>
 											</div>

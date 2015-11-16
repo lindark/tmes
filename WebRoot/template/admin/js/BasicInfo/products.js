@@ -43,9 +43,9 @@ jQuery(function($) {
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialGroup',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'materialGroup',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 

@@ -188,7 +188,6 @@ public class ProductsAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "products.materialGroup", message = "物料组不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.materialDescript", message = "物料描述不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsCode", message = "产品编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsName", message = "产品名称不允许为空!")

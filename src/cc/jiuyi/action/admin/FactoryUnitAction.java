@@ -93,7 +93,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -120,7 +120,15 @@ public class FactoryUnitAction extends BaseAdminAction {
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
-			}			
+			}
+			if (obj.get("factoryName") != null) {
+				String factoryName = obj.getString("factoryName").toString();
+				map.put("factoryName", factoryName);
+			}
+			if (obj.get("workShopName") != null) {
+				String workShopName = obj.getString("workShopName").toString();
+				map.put("workShopName", workShopName);
+			}
 		}
 
 			pager = factoryUnitService.getFactoryUnitPager(pager, map);

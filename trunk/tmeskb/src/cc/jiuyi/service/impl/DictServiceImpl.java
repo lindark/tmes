@@ -60,6 +60,13 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 		// TODO Auto-generated method stub
 		return dictDao.getDictValueByDictKey(dictName, dictKey);
 	}
+
+	//获取dict的html标签,状态
+	@Override
+	public List<Dict> getState(String dictname)
+	{
+		return this.dictDao.getSate(dictname);
+	}
 	
 	
 }

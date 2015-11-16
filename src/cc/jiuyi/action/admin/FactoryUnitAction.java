@@ -47,6 +47,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	private FactoryUnit factoryUnit;
 	//获取所有状态
 	private List<Dict> allState;
+	private String workShopId;
+	private WorkShop workShop;
 	
 	@Resource
 	private FactoryUnitService factoryUnitService;
@@ -170,7 +172,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")
 		public String update() {
 			FactoryUnit persistent = factoryUnitService.load(id);
-			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate", "modifyDate"});
+			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate", "modifyDate","workShop"});
 			factoryUnitService.update(persistent);
 			redirectionUrl = "factory_unit!list.action";
 			return SUCCESS;
@@ -186,6 +188,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
+		workShop=workShopService.load(workShopId);
+		factoryUnit.setWorkShop(workShop);
 		factoryUnitService.save(factoryUnit);
 		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	
@@ -237,4 +241,22 @@ public class FactoryUnitAction extends BaseAdminAction {
 	public List<WorkShop> getFactoryList() {
 		return workShopService.getAll();
 	}
+
+	public String getWorkShopId() {
+		return workShopId;
+	}
+
+	public void setWorkShopId(String workShopId) {
+		this.workShopId = workShopId;
+	}
+
+	public WorkShop getWorkShop() {
+		return workShop;
+	}
+
+	public void setWorkShop(WorkShop workShop) {
+		this.workShop = workShop;
+	}
+	
+	
 }

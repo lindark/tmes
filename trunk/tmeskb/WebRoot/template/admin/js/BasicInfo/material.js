@@ -53,7 +53,7 @@ jQuery(function($) {
 			{name:'materialUnit',index:'materialUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialAmount',index:'materialAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'batch',index:'batch', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}}		 
 			
 		], 
 
@@ -91,6 +91,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		   editfunc : function(rowId) {
+			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+		    	if(ids.length>1){
+		    		alert("只能选择一条记录！");
+		    		return false;
+		    	}
 				window.location.href = "material!edit.action?id=" + rowId;
 			},
 			editicon : 'ace-icon fa fa-pencil blue',

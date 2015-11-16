@@ -53,6 +53,12 @@ public class DictAction extends BaseAdminAction {
 	@Resource
 	private DictService dictService;
 	
+	//获取dict的html标签
+	public String getDict1() {
+		//dictService.getList("dict.dictname", dict.getDictname());
+		return ajaxHtml("<select><option>111</option></select>");
+	}
+	
 	// 添加
 	public String add() {
 		return INPUT;

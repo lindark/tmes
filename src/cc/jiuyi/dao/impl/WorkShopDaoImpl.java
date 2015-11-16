@@ -45,14 +45,16 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map) {
+	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map,String factoryName) {
 		String wheresql = workShoppagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(WorkShop.class);
+		detachedCriteria.createAlias("factory", "factory");
 		if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
+		
 		//System.out.println(map.size());
 		if (map.size() > 0) {
 			if(map.get("workShopCode")!=null){
@@ -65,11 +67,13 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
 			
-			if(map.get("factoryName")!=null){
-				detachedCriteria.add(Restrictions.like("factoryName", "%"+map.get("factoryName")+"%"));
+			if(map.get("factoryName1")!=null){
+				
+				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
+				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName1")+"%"));
 			}			
 		}		
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		//detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 

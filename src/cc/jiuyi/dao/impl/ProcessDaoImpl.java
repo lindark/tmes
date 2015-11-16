@@ -49,7 +49,6 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Process.class);
 		detachedCriteria.createAlias("products", "pr");//表名，别名
-		System.out.println("=========================wheresql="+wheresql);
 		if (!wheresql.equals("")) 
 		{
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
@@ -84,15 +83,16 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 			//产品编码
 			if(map.get("xproductnum")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("products.productsCode", "%"+map.get("xproductnum")+"%"));
+				detachedCriteria.add(Restrictions.like("pr.productsCode", "%"+map.get("xproductnum")+"%"));
 			}
 			//产品名称
 			if(map.get("xproductname")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("xproductname")+"%"));
+				detachedCriteria.add(Restrictions.like("pr.productsName", "%"+map.get("xproductname")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		System.out.println(detachedCriteria);
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -111,7 +111,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(),null) + " ";
 				ishead = 1;
 			}
 

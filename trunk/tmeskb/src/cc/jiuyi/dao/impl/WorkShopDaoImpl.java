@@ -64,17 +64,10 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
-			/*
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}*/
+			
+			if(map.get("factoryName")!=null){
+				detachedCriteria.add(Restrictions.like("factoryName", "%"+map.get("factoryName")+"%"));
+			}			
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.WorkShopDao;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.WorkShop;
 
 /**
@@ -63,6 +64,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
+			/*
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
@@ -72,7 +74,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 				}catch(Exception e){
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
@@ -95,7 +97,8 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 			}
 
 		}
-		//System.out.println("wheresql:" + wheresql);
+		wheresql=wheresql.replace("state='启用'", "state='1'");
+		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
 	}
 
@@ -107,5 +110,16 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 			super.update(workShop);
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean isExistByWorkShopCode(String workShopCode) {
+		String hql = "from WorkShop workShop where lower(workShop.workShopCode) = lower(?)";
+		WorkShop workShop = (WorkShop) getSession().createQuery(hql).setParameter(0, workShopCode).uniqueResult();
+		if (workShop != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

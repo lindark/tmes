@@ -91,10 +91,10 @@ jQuery(function($) {
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'xproductnum',index:'pr1_.productsCode',label:"产品编号",width:70, editable: false},
 			{name:'xproductname',index:'pr1_.productsName',label:"产品名称",width:190, editable: false},
-			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
 			{name:'processCode',index:'processCode',label:"工序编码", width:70,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:70,label:"状态", sortable:false,editable: false,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'this_.state', width:70,label:"状态", sortable:false,editable: false,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
 			 
 		], 
 

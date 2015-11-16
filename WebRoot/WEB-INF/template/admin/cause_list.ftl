@@ -54,7 +54,7 @@
 										<div class="col-sm-4">
 											<input type="text" name="causeCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">代码名称:</label>
+										<label class="col-sm-1" style="text-align:right">代码描述:</label>
 										<div class="col-sm-4">
 											<input type="text" name="causeName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
@@ -63,18 +63,19 @@
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">代码类型:</label>
 										<div class="col-sm-4">
 											 <select name="causeType" id="form-field-icon-1" class="input input-sm form-control"> 
-											 	<option value="">空</option> 
-										        <option value="1">抽检</option>   
-										        <option value="2">巡检</option> 
-										        <option value="3">半成品巡检</option>   
+											 	<option value="">全选</option> 
+								                <#list allCauseType as list>
+									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.causeType == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								                </#list>   
 										      </select>   
 										</div>
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
-											 	<option value="">空</option> 
-										        <option value="1">已启用</option>   
-										        <option value="2">未启用</option>   
+											 	<option value="">全选</option> 
+								                <#list allState as list>
+									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								                </#list>    
 										      </select>   
 										</div>
 									</div>

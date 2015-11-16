@@ -95,9 +95,9 @@ body{background:#fff;}
 					
 										<div class="profile-info-value">
 											<select name="cause.causeType" id="form-field-icon-1"> 
-										        <option value="1">抽检</option>   
-										        <option value="2">巡检</option> 
-										        <option value="3">半成品巡检</option>   
+										        <#list allCauseType as list>
+									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.causeType == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								                </#list>   
 										      </select> 
 										</div>
 									</div>
@@ -107,7 +107,7 @@ body{background:#fff;}
 					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
-											    <small class="muted smaller-90">已启用:</small>
+											    <small class="muted smaller-90">启用:</small>
 												<input type="radio" class="ace" name="cause.state" value="1"<#if (cause.state == '1')!> checked</#if> />
 												<span class="lbl middle"></span>
 												&nbsp;&nbsp;

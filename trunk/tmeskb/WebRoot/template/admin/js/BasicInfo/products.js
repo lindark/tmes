@@ -46,7 +46,7 @@ jQuery(function($) {
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}		 
+			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=productsState"}}		 
 		], 
 
 		viewrecords : true,
@@ -82,6 +82,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc : function(rowId) {
+		    	var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+		    	if(ids.length>1){
+		    		alert("只能选择一条记录！");
+		    		return false;
+		    	}
 				window.location.href = "products!edit.action?id=" + rowId;
 			},
 			editicon : 'ace-icon fa fa-pencil blue',

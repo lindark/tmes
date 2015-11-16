@@ -80,32 +80,20 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-						             <div class="profile-info-row">
-										<div class="profile-info-name"> 物料组 </div>					
+						            <div class="profile-info-row">	
+										<div class="profile-info-name"> 产品名称 </div>					
 										<div class="profile-info-value">
-										<#if isAdd??>
-											<input type="text" name="products.materialGroup" class="formText {required: true,minlength:2,maxlength: 100,productsGroup:true,remote:'products!checkMaterialGroup.action',messages:{remote:'物料组已存在'}}" />
-											<label class="requireField">*</label>
-										<#else>
-										    ${products.materialGroup}
-										    <input type="hidden" name="products.materialGroup" value="${(products.materialGroup)!}"/>
-										</#if>	
-										</div>
-									</div>	
-									
-									<div class="profile-info-row">	
-										<div class="profile-info-name"> 物料组描述 </div>					
-										<div class="profile-info-value">
-											<input type="text" name="products.materialDescript" value="${(products.materialDescript)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="products.productsName" value="${(products.productsName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
+									
 									
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 产品编码 </div>					
 										<div class="profile-info-value">
 										<#if isAdd??>
-											<input type="text" name="products.productsCode" class="formText {required: true,minlength:2,maxlength: 100,productsCode:true,remote:'products!checkProductsCode.action',messages:{remote:'产品编码已存在'}}" />
+											<input type="text" name="products.productsCode" class="formText {digits:true,required: true,minlength:2,maxlength: 100,productsCode:true,remote:'products!checkProductsCode.action',messages:{remote:'产品编码已存在'}}" />
 											<label class="requireField">*</label>
 										<#else>
 										    ${products.productsCode}
@@ -114,13 +102,25 @@ body{background:#fff;}
 										</div>
 									</div>	
 									
-									<div class="profile-info-row">	
-										<div class="profile-info-name"> 产品名称 </div>					
+						             <div class="profile-info-row">
+										<div class="profile-info-name"> 物料组 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="products.productsName" value="${(products.productsName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="products.materialGroup" value="${(products.materialGroup)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
+									</div>	
+									
+								  <!--<div class="profile-info-row">	
+										<div class="profile-info-name"> 物料组描述 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="products.materialDescript" value="${(products.materialDescript)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>  -->
+									
+									
+									
+									
 
 
 											<div class="profile-info-row">

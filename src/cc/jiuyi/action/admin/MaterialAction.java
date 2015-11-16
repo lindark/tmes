@@ -1,7 +1,6 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,16 +16,16 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -44,6 +43,7 @@ public class MaterialAction extends BaseAdminAction {
 	private static final long serialVersionUID = -433964280757192334L;
 
 	private Material material;
+	private Products products;
 	//获取所有状态
 	private List<Dict> allState;
 	
@@ -51,6 +51,8 @@ public class MaterialAction extends BaseAdminAction {
 	private MaterialService materialService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private ProductsService productsService;
 	
 	//添加
 	public String add(){
@@ -68,7 +70,21 @@ public class MaterialAction extends BaseAdminAction {
 		}
 	}
 	
-
+	
+	public String getList(){
+		List<Products> list=productsService.getAll();
+		List<Map<String,Object>> optionList=new ArrayList<Map<String,Object>>();
+		for(Products products:list){
+			Map<String,Object>map=new HashMap<String,Object>();
+			map.put("productCode", products.getProductsCode());
+			optionList.add(map);
+		}
+		JSONArray jsonArray=JSONArray.fromObject(optionList);		
+		return ajaxJson(jsonArray.toString());	
+	}
+	
+	
+	
 	//列表
 	public String list(){
 		if(pager == null) {
@@ -179,8 +195,9 @@ public class MaterialAction extends BaseAdminAction {
 					@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
 			  },
 			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "products.materialAmount", message = "产品数量不能为空!")
+					@IntRangeFieldValidator(fieldName = "products.materialAmount",min="0", message = "产品数量必须为零或正整数!")
 			}
+			
 			
 			  
 	)

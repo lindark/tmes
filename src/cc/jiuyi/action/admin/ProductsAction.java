@@ -183,8 +183,8 @@ public class ProductsAction extends BaseAdminAction {
 					@RequiredStringValidator(fieldName = "products.materialDescript", message = "物料描述不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsCode", message = "产品编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "products.productsName", message = "产品名称不允许为空!")
-			  }
-			  
+			}
+					  
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{

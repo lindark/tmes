@@ -48,26 +48,33 @@ public class DictAction extends BaseAdminAction {
 	private static final long serialVersionUID = 1341979251224008699L;
 	
 	private Dict dict;
-	
 
 	@Resource
 	private DictService dictService;
 	
-	//获取dict的html标签
+	//获取dict的html标签,状态
 	public String getDict1() {
-		List<Dict> list=dictService.getList("dict.dictname", dict.getDictname());
-		if(list.size()>0)
+		try
 		{
-			String str="<select>";
-			for(int i=0;i<list.size();i++)
+			List<Dict> list=dictService.getState(dict.getDictname());
+			if(list.size()>0)
 			{
-				Dict d=list.get(i);
-				str+="<option value="+d.getDictkey()+">"+d.getDictvalue()+"</option>";
+				String str="<select>";
+				for(int i=0;i<list.size();i++)
+				{
+					Dict d=list.get(i);
+					str+="<option value="+d.getDictkey()+">"+d.getDictvalue()+"</option>";
+				}
+				str+="</select>";
+				return ajaxHtml(str);
 			}
-			str+="</select>";
-			return ajaxHtml(str);
 		}
-		return ajaxHtml("<select><option></option></select>");
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return ajaxHtml("<select><option></option></select>");
+		}
+		return null;
 	}
 	
 	// 添加

@@ -89,7 +89,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 

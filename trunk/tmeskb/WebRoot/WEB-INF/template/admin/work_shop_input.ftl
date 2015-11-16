@@ -90,11 +90,11 @@ body {
 											
 												<div class="profile-info-name">工厂名称</div>
 												<div class="profile-info-value">
-													<select name="workShop.factory.id" class="{required: true}"
+													<select name="factoryId" class="{required: true}"
 														style="width:200px;">
 														<option value="">请选择...</option> 
 														<#list factoryList as list>
-														<option value="${list.id}"<#if (list.id == workShop.factory.id)!> selected</#if>> ${list.name}</option>
+														<option value="${list.id}" <#if (list.id == workShop.factory.id)!> selected</#if>>${list.factoryName}</option>
 														</#list>
 													</select>
 													<label class="requireField">*</label>

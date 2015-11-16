@@ -90,7 +90,7 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String> i
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 

@@ -54,37 +54,15 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	
 	
 	public Pager getDictPager(Pager pager,Map map) {
-			String wheresql = dictpagerSql(pager);
+			
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Dict.class);
-			if(!wheresql.equals("")){
-				detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-			}
+			pagerSqlByjqGrid(pager,detachedCriteria);
 			if(map != null){
 //				detachedCriteria.add(Restrictions.like(propertyName, "%"+dfd+"%"));
 //				detachedCriteria.add(Restrictions.b);
 			}
 			return super.findByPager(pager,detachedCriteria);
 		
-	}
-	
-	
-	public String dictpagerSql(Pager pager){
-		String wheresql = "";
-		Integer ishead=0;
-		if(pager.is_search()==true){
-			List list = pager.getRules();
-			for(int i=0;i<list.size();i++){
-				if(ishead==1){
-					wheresql += " "+pager.getGroupOp()+" ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo)list.get(i);
-				wheresql+=" "+super.generateSearchSql(to.getField(), to.getData(), to.getOp())+" ";
-				ishead = 1;
-			}
-			
-		}
-		System.out.println("wheresql:"+wheresql);
-		return wheresql;
 	}
 
 	@Override
@@ -94,6 +72,15 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 		// System.out.println(hql);
 		return ((Dict) getSession().createQuery(hql).setParameter(0, dictname)
 				.setParameter(1, dictkey).list().get(0)).getDictvalue();
+	}
+
+	//获取dict的html标签,状态
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Dict> getSate(String dictname)
+	{
+		String hql="from Dict as a where a.dictname=?";
+		return this.getSession().createQuery(hql).setParameter(0, dictname).list();
 	}
 	
 	

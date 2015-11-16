@@ -90,7 +90,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 
@@ -111,7 +111,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 
 	@Override
 	public List<Material> getMantrBom(String matnr) {
-		String hql="from Material where productCode = ?";
+		String hql="from Material where productCodes = ?";
 		return getSession().createQuery(hql).setParameter(0, matnr).list();
 		
 	}

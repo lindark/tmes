@@ -155,7 +155,7 @@ public class ProcessAction extends BaseAdminAction {
 			}
 			pager.setList(list2);
 			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 gaoyf
+			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());

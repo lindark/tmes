@@ -138,27 +138,27 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc:function(rowId){
+			edit: false,
+		   /* editfunc:function(rowId){
 			    window.location.href="work_shop!edit.action?id="+rowId;
-		    },
+		    },*/
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
+			add: false,
+			/*addfunc:function(){
 				window.location.href="work_shop!add.action";
-			},
+			},*/
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			/*
 			delfunc:function(rowId){
 				window.location.href="work_shop!delete.action?id="+rowId;
 			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
+			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

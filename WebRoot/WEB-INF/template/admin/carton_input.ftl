@@ -98,6 +98,13 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
+												<div class="profile-info-name">累计纸箱数量</div>
+
+												<div class="profile-info-value">
+													<span class="editable editable-click" id="age">${workingbill.cartonTotalAmount}</span>
+												</div>
+											</div>
+											<div class="profile-info-row">
 												<div class="profile-info-name">本次纸箱收货数</div>
 
 												<div class="profile-info-value">

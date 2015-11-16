@@ -6,9 +6,7 @@ $(function(){
 	 * 添加按钮点击
 	 */
 	$userAddBtn.click(function(){
-		//var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-		//var nodes = zTree.getSelectedNodes();
-		//var departid = nodes[0].id;//获取ztree 选择节点的id
+		
 		var title = "车间";
 		var width="800px";
 		var height="650px";
@@ -18,6 +16,8 @@ $(function(){
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         	var docu = iframeWin.document;//获取document 对象
         	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+        	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+        	alert(ids);
         	alert("into");
         	//$(docu).find("#inputForm").submit(); //有问题，没解决
 			//var zTree = $.fn.zTree.getZTreeObj("ingageTree");

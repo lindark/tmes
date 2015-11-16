@@ -34,4 +34,14 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 * 根据工序编码判断此工序是否存在
 	 */
 	public boolean isExistByProcessCode(String processCode);
+
+	/**
+	 * 查询一个带联表
+	 */
+	public Process getOne(String id);
+
+	/**
+	 * 检查工序编码是否存在
+	 */
+	public List<Process> getCk(String info);
 }

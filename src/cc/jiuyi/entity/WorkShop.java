@@ -26,6 +26,7 @@ public class WorkShop extends BaseEntity{
 
     private String workShopCode;//车间编码
     private String workShopName;//车间名称
+    private String factoryName;//工厂名称
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
@@ -84,9 +85,11 @@ public class WorkShop extends BaseEntity{
 	public void setFactoryUnitSet(Set<FactoryUnit> factoryUnitSet) {
 		this.factoryUnitSet = factoryUnitSet;
 	}
-
-   
-
-    
+	public String getFactoryName() {
+		return factoryName;
+	}
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
+	}
 	
 }

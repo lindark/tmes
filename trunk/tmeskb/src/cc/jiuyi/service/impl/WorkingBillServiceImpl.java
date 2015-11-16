@@ -14,7 +14,6 @@ import cc.jiuyi.dao.BrandDao;
 import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.MemberRankDao;
 import cc.jiuyi.dao.WorkingBillDao;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.MemberRank;
@@ -61,14 +60,23 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 		workingbilldao.updateisdel(ids, oper);
 	}
 	@Override
-	public List getListWorkingBillByDate(Admin admin) {
-		return workingbilldao.getListWorkingBillByDate(admin);
+	public List getListWorkingBillByDate(Date productdate) {
+		return workingbilldao.getListWorkingBillByDate(productdate);
 	}
 	
 	@Cacheable(modelId="caching")
 	public WorkingBill get(String id) {
 		System.out.println("调用DB数据库");
 		return workingbilldao.get(id);
+	}
+	
+	/**
+	 * 查询随工单表中的id 和 产品名称maktx
+	 */
+	@Override
+	public List<WorkingBill> getIdsAndNames()
+	{
+		return this.workingbilldao.getIdsAndNames();
 	}
 
 	

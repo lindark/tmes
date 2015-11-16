@@ -78,7 +78,7 @@ body{background:#fff;}
 												<input type="text" name="cause.causeCode" value="${(cause.causeCode)!}" class=" input input-sm  formText {required: true, remote: 'cause!checkCauseCode.action', messages: {remote: '代码编码已存在!'}}" />
 										    <#else>
 										        ${(cause.causeCode)!}
-										         <input type="hidden" name="cause.causeCode" value="${(cause.causeCode)!}" readonly:"readonly"/>
+										         <input type="hidden" name="cause.causeCode" value="${(cause.causeCode)!}"/>
 										    </#if>
 										</div>
 										
@@ -95,9 +95,9 @@ body{background:#fff;}
 					
 										<div class="profile-info-value">
 											<select name="cause.causeType" id="form-field-icon-1"> 
-										        <option value="抽检">抽检</option>   
-										        <option value="巡检">巡检</option> 
-										        <option value="半成品巡检">半成品巡检</option>   
+										        <option value="1">抽检</option>   
+										        <option value="2">巡检</option> 
+										        <option value="3">半成品巡检</option>   
 										      </select> 
 										</div>
 									</div>

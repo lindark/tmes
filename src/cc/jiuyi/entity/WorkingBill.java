@@ -29,7 +29,7 @@ public class WorkingBill extends BaseEntity {
 	private String planCount;//计划数量
 	private String isdel;//是否删除
 	private String matnr;//物料号
-	private String maktx;//物料描述
+	private String maktx;//物料        描述
 	
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件

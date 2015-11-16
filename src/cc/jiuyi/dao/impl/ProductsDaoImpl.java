@@ -45,14 +45,10 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	}
 
 	public Pager getProductsPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = productspagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Products.class);
-		if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
-		//System.out.println(map.size());
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		
 		if (map.size() > 0) {
 			if(map.get("productsCode")!=null){
 			    detachedCriteria.add(Restrictions.like("productsCode", "%"+map.get("productsCode")+"%"));
@@ -78,26 +74,7 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String productspagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() ==  true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
-				ishead = 1;
-			}
 
-		}
-		System.out.println("wheresql:" + wheresql);
-		return wheresql;
-	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

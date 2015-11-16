@@ -45,11 +45,11 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 
 	public Pager getProcessPager(Pager pager, HashMap<String, String> map) 
 	{
-		String wheresql = processpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Process.class);
+		String wheresql = processpagerSql(pager,detachedCriteria);
 		detachedCriteria.createAlias("products", "pr");//表名，别名
-		if (!wheresql.equals("")) 
+		if (!(wheresql.replace(" ", "")).equals(""))
 		{
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
@@ -96,7 +96,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String processpagerSql(Pager pager) {
+	public String processpagerSql(Pager pager,DetachedCriteria detachedCriteria) {
 		String wheresql = "";
 		Integer ishead = 0;
 		if (pager.is_search() == true && pager.getRules() != null) {
@@ -111,12 +111,13 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(),null) + " ";
+								to.getOp(),detachedCriteria) + " ";
 				ishead = 1;
 			}
 
 		}
 		System.out.println("wheresql:" + wheresql);
+		System.out.println("wheresql.length()="+wheresql.length());
 		wheresql=wheresql.replace("state='启用'", "state='1'");
 		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;

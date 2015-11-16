@@ -17,8 +17,11 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.ProductCategory;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -47,6 +50,18 @@ public class WorkShopAction extends BaseAdminAction {
 	private WorkShopService workShopService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private FactoryService factoryService;
+	
+	// 是否已存在 ajax验证
+	public String checkworkShopCode() {
+		String workShopCode = workShop.getWorkShopCode();
+		if (workShopService.isExistByWorkShopCode(workShopCode)) {
+			return ajaxText("false");
+		} else {
+			return ajaxText("true");
+		}
+	}
 	
 	//添加
 	public String add(){
@@ -123,6 +138,8 @@ public class WorkShopAction extends BaseAdminAction {
 				WorkShop workShop = (WorkShop) workShopList.get(i);
 				workShop.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "workShopState", workShop.getState()));
+				workShop.setFactory(null);
+				workShop.setFactoryUnitSet(null);
 				lst.add(workShop);
 			}
 		pager.setList(lst);
@@ -137,11 +154,8 @@ public class WorkShopAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		workShopService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			WorkShop workShop=workShopService.load(id);
-//		}
 		redirectionUrl = "work_shop!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
 	
@@ -152,6 +166,13 @@ public class WorkShopAction extends BaseAdminAction {
 		}
 		
 	//更新
+		@Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "workShop.workShopCode", message = "车间编号不允许为空!"),
+						@RequiredStringValidator(fieldName = "workShop.workShopName", message = "车间名称不允许为空!")
+				  }
+				  
+		)
 		@InputConfig(resultName = "error")
 		public String update() {
 			WorkShop persistent = workShopService.load(id);
@@ -170,13 +191,16 @@ public class WorkShopAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{
+	public String save()throws Exception{		
 		workShopService.save(workShop);
 		redirectionUrl="work_shop!list.action";
 		return SUCCESS;	
 	}
 		
-
+	// 获取所有工厂
+	public List<Factory> getFactoryList() {
+		return factoryService.getAll();
+	}
 
 	public WorkShop getWorkShop() {
 		return workShop;
@@ -200,7 +224,7 @@ public class WorkShopAction extends BaseAdminAction {
 
 	//获取所有状态
 	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
+		return dictService.getList("dictname", "stateRemark");
 	}
 
 

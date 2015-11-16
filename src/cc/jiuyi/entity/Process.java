@@ -1,6 +1,8 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -25,7 +27,10 @@ public class Process extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
+    private WorkingBill workingBill;//随工单
     
+    private String xproductnum;//产品编码
+    private String xproductname;//产品名称
 	public String getProcessCode() {
 		return processCode;
 	}
@@ -61,6 +66,33 @@ public class Process extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkingBill getWorkingBill()
+	{
+		return workingBill;
+	}
+	public void setWorkingBill(WorkingBill workingBill)
+	{
+		this.workingBill = workingBill;
+	}
+	@Transient
+	public String getXproductnum()
+	{
+		return xproductnum;
+	}
+	public void setXproductnum(String xproductnum)
+	{
+		this.xproductnum = xproductnum;
+	}
+	@Transient
+	public String getXproductname()
+	{
+		return xproductname;
+	}
+	public void setXproductname(String xproductname)
+	{
+		this.xproductname = xproductname;
 	}
 
    

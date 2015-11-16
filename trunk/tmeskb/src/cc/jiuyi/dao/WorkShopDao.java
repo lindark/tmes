@@ -29,4 +29,6 @@ public interface WorkShopDao extends BaseDao<WorkShop,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public boolean isExistByWorkShopCode(String workShopCode);
 }

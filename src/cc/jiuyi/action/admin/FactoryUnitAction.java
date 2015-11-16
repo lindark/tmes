@@ -17,9 +17,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -49,12 +52,23 @@ public class FactoryUnitAction extends BaseAdminAction {
 	private FactoryUnitService factoryUnitService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private WorkShopService workShopService;
 	
 	//添加
 	public String add(){
 		return INPUT;
 	}
 
+	// 是否已存在 ajax验证
+	public String checkFactoryUnitCode() {
+		String factoryUnitCode = factoryUnit.getFactoryUnitCode();
+		if (factoryUnitService.isExistByFactoryUnitCode(factoryUnitCode)) {
+			return ajaxText("false");
+		} else {
+			return ajaxText("true");
+		}
+	}
 
 	//列表
 	public String list(){
@@ -109,13 +123,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
-			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
+			}			
 		}
 
 			pager = factoryUnitService.getFactoryUnitPager(pager, map);
@@ -125,6 +133,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 				FactoryUnit factoryUnit = (FactoryUnit) factoryUnitList.get(i);
 				factoryUnit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "factoryUnitState", factoryUnit.getState()));
+				factoryUnit.setWorkShop(null);
 				lst.add(factoryUnit);
 			}
 		pager.setList(lst);
@@ -139,11 +148,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		factoryUnitService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			FactoryUnit factoryUnit=factoryUnitService.load(id);
-//		}
 		redirectionUrl = "factory_unit!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
 	
@@ -154,6 +160,13 @@ public class FactoryUnitAction extends BaseAdminAction {
 		}
 		
 	//更新
+		@Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "factoryUnit.factoryUnitCode", message = "单元编号不允许为空!"),
+						@RequiredStringValidator(fieldName = "factoryUnit.factoryUnitName", message = "单元名称不允许为空!")
+				  }
+				  
+		)
 		@InputConfig(resultName = "error")
 		public String update() {
 			FactoryUnit persistent = factoryUnitService.load(id);
@@ -202,7 +215,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 
 	//获取所有状态
 	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
+		return dictService.getList("dictname", "stateRemark");
 	}
 
 
@@ -220,5 +233,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 		this.dictService = dictService;
 	}
 	
-	
+	// 获取所有车间
+	public List<WorkShop> getFactoryList() {
+		return workShopService.getAll();
+	}
 }

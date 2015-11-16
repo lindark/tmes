@@ -19,7 +19,7 @@ import org.compass.annotations.Searchable;
 
 @Entity
 @Searchable
-@Table(name = "WorkShop")
+//@Table(name = "WorkShop")
 public class WorkShop extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;

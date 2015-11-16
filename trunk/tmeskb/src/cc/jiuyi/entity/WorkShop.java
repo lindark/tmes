@@ -77,7 +77,7 @@ public class WorkShop extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="workshop")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workShop")
 	public Set<FactoryUnit> getFactoryUnitSet() {
 		return factoryUnitSet;
 	}

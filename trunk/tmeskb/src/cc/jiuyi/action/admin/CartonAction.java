@@ -80,6 +80,8 @@ public class CartonAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
+		admin = adminService.loadLoginAdmin();
+		carton.setAdmin(admin);
 		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
@@ -128,6 +130,7 @@ public class CartonAction extends BaseAdminAction {
 			if (!CONFIRMED.equals(carton.getState())) {
 				carton.setState(CONFIRMED);
 				admin = adminService.getLoginAdmin();
+				carton.setAdmin(admin);
 				carton.setConfirmUser(admin.getId());
 				cartonService.save(carton);
 				addTotal(Integer.parseInt(carton.getCartonAmount()));
@@ -181,6 +184,7 @@ public class CartonAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			admin = adminService.getLoginAdmin();
+			carton.setAdmin(admin);
 			carton.setConfirmUser(admin.getId());
 			if (CONFIRMED.equals(carton.getState())) {
 				minusTotal(carton);
@@ -224,7 +228,12 @@ public class CartonAction extends BaseAdminAction {
 			Carton carton = (Carton) cartonList.get(i);
 			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "cartonState", carton.getState()));
+			if(carton.getConfirmUser()!=null){
+				Admin admin = adminService.load(carton.getConfirmUser());
+				carton.setAdminName(admin.getName());				
+			}
 			carton.setWorkingbill(null);
+			carton.setAdmin(null);
 			lst.add(carton);
 		}
 		pager.setList(lst);

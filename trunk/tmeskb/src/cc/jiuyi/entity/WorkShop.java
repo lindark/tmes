@@ -1,8 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -28,7 +31,7 @@ public class WorkShop extends BaseEntity{
     private String stateRemark;//状态描述
     
     private Factory factory;//工厂
-    
+    private Set<FactoryUnit> factoryUnitSet;//单元
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Factory getFactory() {
@@ -72,6 +75,14 @@ public class WorkShop extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workshop")
+	public Set<FactoryUnit> getFactoryUnitSet() {
+		return factoryUnitSet;
+	}
+	public void setFactoryUnitSet(Set<FactoryUnit> factoryUnitSet) {
+		this.factoryUnitSet = factoryUnitSet;
 	}
 
    

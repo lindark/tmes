@@ -29,4 +29,6 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public boolean isExistByFactoryUnitCode(String factoryUnitCode);
 }

@@ -63,13 +63,15 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['创建日期','单元编码','单元名称','状态', ],
+		colNames:['工厂名称','车间名称','单元编码','单元名称',],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'factoryName',index:'factoryName', width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'workShopName',index:'workShopName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryUnitCode',index:'factoryUnitCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'factoryUnitName',index:'factoryUnitName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'factoryUnitName',index:'factoryUnitName', width:100,editable: true,editoptions:{size:"20",maxlength:"30"}}
+			//{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
 
@@ -142,6 +144,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
+		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
 			    window.location.href="factory_unit!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -216,10 +223,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+	
 		},
 		{
 			//view record form

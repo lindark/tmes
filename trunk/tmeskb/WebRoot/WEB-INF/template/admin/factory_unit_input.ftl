@@ -88,15 +88,13 @@ body{background:#fff;}
 											
 												<div class="profile-info-name">车间名称</div>
 												<div class="profile-info-value">
-												    <a id="userAddBtn">点击</a>
-													<select name="workShopId" class="{required: true}"
-														style="width:200px;">
-														<option value="">请选择...</option> 
-														<#list workShopList as list>
-														<option value="${list.id}"<#if (list.id == factoryUnit.workShop.id)!> selected</#if>> ${list.workShopName}</option>
-														</#list>
-													</select>
-													<label class="requireField">*</label>
+												    <button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>
+												     <#if isAdd??>
+				                                     <input type="text" name="workShopId" value="" id="workShopId" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+										         	 <label class="requireField">*</label>	
+										         	 <#else>
+										         	 ${(factoryUnit.workShop.factory.factoryName)!}     ${(factoryUnit.workShop.workShopName)!}   
+										         	 </#if>	
 												</div>
 											</div>
 						            

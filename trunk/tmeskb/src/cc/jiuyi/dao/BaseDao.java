@@ -193,5 +193,5 @@ public interface BaseDao<T, PK extends Serializable> {
 	 * @param searchOper   操作
 	 * @return
 	 */
-	public String generateSearchSql(String searchField,String searchString, String searchOper);
+	public String generateSearchSql(String searchField,String searchString, String searchOper,DetachedCriteria detachedCriteria);
 }

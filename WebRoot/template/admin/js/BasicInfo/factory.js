@@ -69,7 +69,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'factoryCode',index:'factoryCode', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryName',index:'factoryName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 		], 
 
 		viewrecords : true,

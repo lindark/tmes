@@ -52,9 +52,9 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	}
 
 	@Override
-	public Pager getMaterialPager(Pager pager, HashMap<String, String> map) {
+	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName) {
 		// TODO Auto-generated method stub
-		return materialDao.getMaterialPager(pager, map);
+		return materialDao.getMaterialPager(pager, map,productsName);
 	}
 
 	@Override

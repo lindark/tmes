@@ -21,7 +21,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"material!ajlist.action",
+		url:"products!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -38,25 +38,16 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '展开层','产品编码','产品名称','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', ],
-		colModel:[		
+		colNames:[ '产品编码','产品名称','物料组'],
+		colModel:[
+			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'spread',index:'spread', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'project',index:'project', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'projectType',index:'projectType', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'runOver',index:'runOver', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'exception',index:'exception', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialCode',index:'materialCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialName',index:'materialName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialUnit',index:'materialUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialAmount',index:'materialAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'batch',index:'batch', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
-			
+			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			//{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}		 
 		], 
-
 
 		viewrecords : true,
 		rowNum:10,
@@ -80,8 +71,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "material!delete.action",//用它做标准删除动作
-		caption: "产品Bom"
+		editurl: "products!delete.action",//用它做标准删除动作
+		caption: "产品管理"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -90,13 +81,13 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			//edit: true,
-		   editfunc : function(rowId) {
-				window.location.href = "material!edit.action?id=" + rowId;
+		    editfunc : function(rowId) {
+				window.location.href = "products!edit.action?id=" + rowId;
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
-				window.location.href="material!add.action";
+				window.location.href="products!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
@@ -145,7 +136,7 @@ jQuery(function($) {
 				form.data('styled', true);
 			},
 			onClick : function(e) {
-		       //alert(1);
+				alert(1);
 			}
 		},
 		{
@@ -175,23 +166,6 @@ jQuery(function($) {
 			}
 		}
 	)
-	
-	
-	//自动感应框
-	 var appManT;	 
-	 $.ajax({
-	async : false,
- 	url: "material!getList.action",
- 	type:"post",
- 	data: null,
- 	dataType:"json", 
- 	success: function(data){
- 		//alert(1);
- 		appManT = data;
- 	}
-	}); 
-	
-	
 
 
 });

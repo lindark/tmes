@@ -26,7 +26,7 @@ public interface MaterialService extends BaseService<Material, String> {
 	 */
 	public List<Products> getProductsList();
 
-	public Pager getMaterialPager(Pager pager, HashMap<String, String> map);
+	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName);
 	
 	/**
 	 * 标记删除

@@ -44,8 +44,12 @@ public class MaterialAction extends BaseAdminAction {
 
 	private Material material;
 	private Products products;
+
 	//获取所有状态
 	private List<Dict> allState;
+	private String productsCode;
+	private String productsName;
+	private String productsid;
 	
 	@Resource
 	private MaterialService materialService;
@@ -54,15 +58,19 @@ public class MaterialAction extends BaseAdminAction {
 	@Resource
 	private ProductsService productsService;
 	
+	
 	//添加
 	public String add(){
+//		Products products=productsService.get(productsid);
+//		productsCode=products.getProductsCode();
+//		productsName=products.getProductsName();
 		return INPUT;
 	}
 
 	//是否已存在ajax验证
 	public String checkMaterialCode(){
 		String materialCode=material.getMaterialCode();
-		System.out.println("组件编码为:"+material.getMaterialCode());
+		//System.out.println("组件编码为:"+material.getMaterialCode());
 		if(materialService.isExistByMaterialCode(materialCode)){
 			return ajaxText("false");
 		}else{
@@ -76,7 +84,7 @@ public class MaterialAction extends BaseAdminAction {
 		List<Map<String,Object>> optionList=new ArrayList<Map<String,Object>>();
 		for(Products products:list){
 			Map<String,Object>map=new HashMap<String,Object>();
-			map.put("productCode", products.getProductsCode());
+			map.put("productCodes", products.getProductsCode());
 			optionList.add(map);
 		}
 		JSONArray jsonArray=JSONArray.fromObject(optionList);		
@@ -103,10 +111,9 @@ public class MaterialAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if(pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -126,6 +133,10 @@ public class MaterialAction extends BaseAdminAction {
 				String materialCode = obj.getString("materialCode").toString();
 				map.put("materialCode", materialCode);
 			}
+			if (obj.get("productsName1") != null) {
+				String factoryName1 = obj.getString("productsName1").toString();
+				map.put("productsName1", factoryName1);
+			}
 			if (obj.get("materialName") != null) {
 				String materialName = obj.getString("materialName").toString();
 				map.put("materialName", materialName);
@@ -142,7 +153,7 @@ public class MaterialAction extends BaseAdminAction {
 			}
 		}
 
-			pager = materialService.getMaterialPager(pager, map);
+			pager = materialService.getMaterialPager(pager, map, productsName);
 			List<Material> materialList = pager.getList();
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
@@ -150,6 +161,7 @@ public class MaterialAction extends BaseAdminAction {
 				material.setWorkingBillSet(null);
 				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "materialState", material.getState()));
+				material.setProducts(null);
 				lst.add(material);
 			}
 		pager.setList(lst);
@@ -178,8 +190,8 @@ public class MaterialAction extends BaseAdminAction {
 	//更新
     @Validations(
 				requiredStrings = {
-						@RequiredStringValidator(fieldName = "material.productCode", message = "产品编码不允许为空!"),
-						@RequiredStringValidator(fieldName = "material.materialType", message = "产品名称不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
@@ -203,8 +215,8 @@ public class MaterialAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "material.productCode", message = "产品编码不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.materialType", message = "产品名称不允许为空!"),
+					@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
+					@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
@@ -269,5 +281,47 @@ public class MaterialAction extends BaseAdminAction {
 	public List<Products> getProductsList(){
 		return productsService.getAll();		
 	}
+
+	public Products getProducts() {
+		return products;
+	}
+
+	public void setProducts(Products products) {
+		this.products = products;
+	}
+
+	public String getProductsCode() {
+		return productsCode;
+	}
+
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+
+	public String getProductsid() {
+		return productsid;
+	}
+
+	public void setProductsid(String productsid) {
+		this.productsid = productsid;
+	}
+
+	public ProductsService getProductsService() {
+		return productsService;
+	}
+
+	public void setProductsService(ProductsService productsService) {
+		this.productsService = productsService;
+	}
+
+	public String getProductsName() {
+		return productsName;
+	}
+
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+	
+	
 	
 }

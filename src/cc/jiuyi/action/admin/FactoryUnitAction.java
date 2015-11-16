@@ -79,11 +79,6 @@ public class FactoryUnitAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<FactoryUnit> factoryUnitList = pager.getList();
-//		for (FactoryUnit factoryUnit1 : factoryUnitList) {
-//			factoryUnit1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"factoryUnitState", factoryUnit1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("factoryUnitState", factoryUnit.getState());
 		return LIST;
 	}
 	

@@ -95,10 +95,9 @@ public class ProductsAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if(pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -146,7 +145,6 @@ public class ProductsAction extends BaseAdminAction {
 			}
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
@@ -166,6 +164,10 @@ public class ProductsAction extends BaseAdminAction {
 			products= productsService.load(id);
 			return INPUT;	
 		}
+		
+	    public String browser(){
+	    	return "browser";
+	    }
 		
 	//更新
 		@Validations(

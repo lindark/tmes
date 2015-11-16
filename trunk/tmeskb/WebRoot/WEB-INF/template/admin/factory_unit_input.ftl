@@ -9,6 +9,10 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/unit.js"></script>
 <script type="text/javascript">
 $().ready( function() {
 
@@ -84,12 +88,12 @@ body{background:#fff;}
 											
 												<div class="profile-info-name">车间名称</div>
 												<div class="profile-info-value">
-												    
-													<select name="factoryUnit。workShop.id" class="{required: true}"
+												    <a id="userAddBtn">点击</a>
+													<select name="workShopId" class="{required: true}"
 														style="width:200px;">
 														<option value="">请选择...</option> 
 														<#list workShopList as list>
-														<option value="${list.id}"<#if (list.id == factoryUnit.workShop.id)!> selected</#if>> ${list.name}</option>
+														<option value="${list.id}"<#if (list.id == factoryUnit.workShop.id)!> selected</#if>> ${list.workShopName}</option>
 														</#list>
 													</select>
 													<label class="requireField">*</label>

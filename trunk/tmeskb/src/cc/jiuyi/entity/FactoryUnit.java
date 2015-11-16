@@ -1,6 +1,8 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -14,7 +16,7 @@ import org.compass.annotations.Searchable;
 
 @Entity
 @Searchable
-@Table(name = "FactoryUnit")
+//@Table(name = "FactoryUnit")
 public class FactoryUnit extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
@@ -23,9 +25,8 @@ public class FactoryUnit extends BaseEntity{
     private String factoryUnitName;//单元描述
     private String state;//状态
     private String isDel;//是否删除
-    private String stateRemark;//状态描述
-    
-
+    private String stateRemark;//状态描述    
+    private WorkShop workShop;//车间
     
 	public String getFactoryUnitCode() {
 		return factoryUnitCode;
@@ -62,6 +63,14 @@ public class FactoryUnit extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkShop getWorkShop() {
+		return workShop;
+	}
+	public void setWorkShop(WorkShop workShop) {
+		this.workShop = workShop;
 	}
 
    

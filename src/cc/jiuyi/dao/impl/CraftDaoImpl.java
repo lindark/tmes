@@ -82,7 +82,7 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 

@@ -30,17 +30,18 @@ public class Factory extends BaseEntity{
     private String stateRemark;//状态描述
     private String workshopName;//工厂名称
     
-    private Set<WorkShop> workshop;//车间
+    private Set<WorkShop> workShopSet;//车间
     
     
     
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="factory")
-	public Set<WorkShop> getWorkshop() {
-		return workshop;
+	public Set<WorkShop> getWorkShopSet() {
+		return workShopSet;
 	}
-	public void setWorkshop(Set<WorkShop> workshop) {
-		this.workshop = workshop;
+	public void setWorkShopSet(Set<WorkShop> workShopSet) {
+		this.workShopSet = workShopSet;
 	}
+	
 	public String getFactoryCode() {
 		return factoryCode;
 	}

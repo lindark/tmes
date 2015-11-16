@@ -38,13 +38,13 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '创建日期','物料组','物料描述','产品编码','产品名称','状态', ],
+		colNames:[ '产品编码','产品名称','物料组','状态', ],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'materialGroup',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialGroup',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 

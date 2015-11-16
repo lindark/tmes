@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/编辑产品Bom管理 - Powered By ${systemConfig.systemName}</title>
+<title>添加/编辑产品管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -53,7 +53,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active"><#if isAdd??>添加产品Bom记录<#else>编辑产品Bom记录</#if></li>
+			<li class="active"><#if isAdd??>添加产品记录<#else>编辑产品记录</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -65,26 +65,27 @@ body{background:#fff;}
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
-							<form id="inputForm"
-								action="<#if isAdd??>material!save.action<#else>material!update.action</#if>"
-								method="post">
-								<input type="hidden" name="id" value="${id}" />
-								<div id="inputtabs">
-									<ul>
-										<li><a href="#tabs-1">产品Bom信息</a></li>
-
-									</ul>
-
-									<div id="tabs-1">
-
-										<!--weitao begin modify-->
-										<div class="profile-user-info profile-user-info-striped">
+								
+		<form id="inputForm" class="validate" action="<#if isAdd??>products!save.action<#else>products!update.action</#if>" method="post">
+			<input type="hidden" name="id" value="${id}" />
+			<div id="inputtabs">
+			<ul>
+				<li>
+					<a href="#tabs-1">产品信息</a>
+				</li>
+				
+			</ul>
+			
+			<div id="tabs-1">
+			
+				<!--weitao begin modify-->
+						<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">展开层</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.spread"
 														value="${(material.spread)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
+														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 
@@ -92,7 +93,7 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<input type="text" name="material.productCode"
 														value="${(material.productCode)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
+														class=" input input-sm formText {digits:true,required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 											</div>
@@ -112,7 +113,7 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<#if isAdd??> <input type="text"
 														name="material.materialCode"
-														class="formText {required: true,minlength:2,maxlength: 100,materialCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'组件编码已存在'}}" />
+														class="formText {digits:true,required: true,minlength:2,maxlength: 100,materialCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'组件编码已存在'}}" />
 													<label class="requireField">*</label> <#else>
 													${material.materialCode} <input type="hidden"
 														name="material.materialCode"
@@ -165,7 +166,7 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<input type="text" name="material.materialAmount"
 														value="${(material.materialAmount)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
+														class=" input input-sm formText {digits:true,required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 
@@ -215,19 +216,14 @@ body{background:#fff;}
 												</div>
 											</div>
 										</div>
-
-
-										<div class="buttonArea">
-											<input type="submit" class="formButton" value="确定"
-												hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-												type="button" class="formButton"
-												onclick="window.history.back(); return false;"
-												value="返  回" hidefocus="true" />
-										</div>
-							</form>
-
-
-							<!-- add by welson 0728 -->	
+				
+			<div class="buttonArea">
+				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+			</div>
+		</form>
+	
+<!-- add by welson 0728 -->	
 				</div><!-- /.col -->
 				</div><!-- /.row -->
 

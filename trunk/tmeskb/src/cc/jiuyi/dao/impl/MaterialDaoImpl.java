@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.ParseException;
 
@@ -121,4 +122,11 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			return false;
 		}
 	}
+
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Map<String, String>> getProductsCode(String productsCode) {
+//		String hql="Select (";
+//		return null;
+//	}
 }

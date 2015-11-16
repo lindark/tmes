@@ -38,9 +38,9 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '创建日期','展开层','产品编码','产品名称','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', ],
+		colNames:[ '展开层','产品编码','产品名称','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', ],
 		colModel:[		
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'spread',index:'spread', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productCode',index:'productCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialType',index:'materialType', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
@@ -88,7 +88,10 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		   editfunc : function(rowId) {
+				window.location.href = "material!edit.action?id=" + rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
@@ -171,6 +174,23 @@ jQuery(function($) {
 			}
 		}
 	)
+	
+	
+	//自动感应框
+	 var appManT;	 
+	 $.ajax({
+	async : false,
+ 	url: "material!getList.action",
+ 	type:"post",
+ 	data: null,
+ 	dataType:"json", 
+ 	success: function(data){
+ 		alert(1);
+ 		appManT = data;
+ 	}
+	}); 
+	
+	
 
 
 });

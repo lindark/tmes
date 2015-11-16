@@ -70,10 +70,11 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
-										<select name="products.state">
-							                <#list AllState as list>
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+							                <option value="">全选</option> 
+							                <#list allState as list>
 								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && products.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>
+							                </#list>              
 						               </select>
 									  </div>
 									  
@@ -82,7 +83,7 @@
 										
 										
 										
-										<label class="col-sm-1" style="text-align:right">创建日期:</label>
+										<!-- <label class="col-sm-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker" name="start">
@@ -92,7 +93,7 @@
 
 												<input type="text" class="input-sm form-control datePicker" name="end">
 											</div>
-										</div>
+										</div> -->
 									</div>	
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">

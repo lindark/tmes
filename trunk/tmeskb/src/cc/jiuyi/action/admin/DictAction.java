@@ -55,8 +55,19 @@ public class DictAction extends BaseAdminAction {
 	
 	//获取dict的html标签
 	public String getDict1() {
-		//dictService.getList("dict.dictname", dict.getDictname());
-		return ajaxHtml("<select><option>111</option></select>");
+		List<Dict> list=dictService.getList("dict.dictname", dict.getDictname());
+		if(list.size()>0)
+		{
+			String str="<select>";
+			for(int i=0;i<list.size();i++)
+			{
+				Dict d=list.get(i);
+				str+="<option value="+d.getDictkey()+">"+d.getDictvalue()+"</option>";
+			}
+			str+="</select>";
+			return ajaxHtml(str);
+		}
+		return ajaxHtml("<select><option></option></select>");
 	}
 	
 	// 添加

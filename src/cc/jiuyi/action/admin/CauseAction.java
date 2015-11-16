@@ -62,7 +62,7 @@ public class CauseAction extends BaseAdminAction {
 	@Validations(requiredStrings = {
 			@RequiredStringValidator(fieldName = "cause.causeCode", message = "代码编码不允许为空!"),
 			@RequiredStringValidator(fieldName = "cause.causeType", message = "代码类型不允许为空!"),
-			@RequiredStringValidator(fieldName = "cause.causeName", message = "代码描述不允许为空!")}
+			@RequiredStringValidator(fieldName = "cause.causeName", message = "代码描述不允许为空!") }
 
 	)
 	@InputConfig(resultName = "error")
@@ -139,6 +139,8 @@ public class CauseAction extends BaseAdminAction {
 			Cause cause = (Cause) causeList.get(i);
 			cause.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "causeState", cause.getState()));
+			cause.setCauseTypeRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "causeTypeRemark", cause.getCauseType()));
 			lst.add(cause);
 		}
 		pager.setList(lst);
@@ -146,16 +148,16 @@ public class CauseAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
-	
+
 	// 是否已存在 ajax验证
-		public String checkCauseCode() {
-			String causeCode = cause.getCauseCode();
-			if (causeService.isExist("causeCode", causeCode)) {
-				return ajaxText("false");
-			} else {
-				return ajaxText("true");
-			}
+	public String checkCauseCode() {
+		String causeCode = cause.getCauseCode();
+		if (causeService.isExist("causeCode", causeCode)) {
+			return ajaxText("false");
+		} else {
+			return ajaxText("true");
 		}
+	}
 
 	public Cause getCause() {
 		return cause;

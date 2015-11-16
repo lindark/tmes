@@ -78,9 +78,9 @@ jQuery(function($) {
 				colModel:[
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 					{name:'causeCode',index:'causeCode', width:200},
-					{name:'causeTypeRemark',index:'causeTypeRemark', width:200,sortable:"true",sorttype:"text"},
+					{name:'causeTypeRemark',index:'causeType', width:200,sortable:"true",sorttype:"text"},
 					{name:'causeName',index:'causeName', width:200,sortable:"true",sorttype:"text"},
-					{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"local"}
+					{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=causeState"}}
 				], 
 				// sortable:true,
 				// sortname: "deliveryDate",

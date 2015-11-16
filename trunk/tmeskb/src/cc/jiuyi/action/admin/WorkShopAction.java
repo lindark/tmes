@@ -43,8 +43,10 @@ public class WorkShopAction extends BaseAdminAction {
 	private static final long serialVersionUID = 2620132694715802014L;
 	
 	private WorkShop workShop;
+	private Factory factory;
 	//获取所有状态
 	private List<Dict> allState;
+	private String factoryId;
 	
 	@Resource
 	private WorkShopService workShopService;
@@ -176,7 +178,7 @@ public class WorkShopAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")
 		public String update() {
 			WorkShop persistent = workShopService.load(id);
-			BeanUtils.copyProperties(workShop, persistent, new String[] { "id","createDate", "modifyDate"});
+			BeanUtils.copyProperties(workShop, persistent, new String[] { "id","createDate", "modifyDate","factory"});
 			workShopService.update(persistent);
 			redirectionUrl = "work_shop!list.action";
 			return SUCCESS;
@@ -191,7 +193,9 @@ public class WorkShopAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{		
+	public String save()throws Exception{	
+		factory=factoryService.load(factoryId);
+		workShop.setFactory(factory);
 		workShopService.save(workShop);
 		redirectionUrl="work_shop!list.action";
 		return SUCCESS;	
@@ -240,6 +244,22 @@ public class WorkShopAction extends BaseAdminAction {
 
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
+	}
+
+	public String getFactoryId() {
+		return factoryId;
+	}
+
+	public void setFactoryId(String factoryId) {
+		this.factoryId = factoryId;
+	}
+
+	public Factory getFactory() {
+		return factory;
+	}
+
+	public void setFactory(Factory factory) {
+		this.factory = factory;
 	}
 	
 	

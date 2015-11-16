@@ -25,28 +25,26 @@ public class WorkingBill extends BaseEntity {
 	private static final long serialVersionUID = 2547319998033961001L;
 	
 	private String workingBillCode;//随工单编号
-	private String productDate;//生产日期
-	private Integer planCount;//计划数量
+	private Date productDate;//生产日期
+	private String planCount;//计划数量
 	private String isdel;//是否删除
 	private String matnr;//物料号
 	private String maktx;//物料描述
 	
-	private Set<DailyWork> dailyWork;//报工
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
+	//private Set<Sample> sample;//抽检
+	private Set<Process> process;//工序
 	
-
-	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
-	public Set<DailyWork> getDailyWork() {
-		return dailyWork;
+	/*@OneToMany(mappedBy="workingBill",fetch=FetchType.LAZY)
+	public Set<Sample> getSample()
+	{
+		return sample;
 	}
-	public void setDailyWork(Set<DailyWork> dailyWork) {
-		this.dailyWork = dailyWork;
-	}
-	
-	
-	
-	
+	public void setSample(Set<Sample> sample)
+	{
+		this.sample = sample;
+	}*/
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouse() {
 		return enteringwareHouse;
@@ -55,6 +53,15 @@ public class WorkingBill extends BaseEntity {
 		this.enteringwareHouse = enteringwareHouse;
 	}
 	
+	@OneToMany(mappedBy="workingBill",fetch=FetchType.LAZY)
+	public Set<Process> getProcess()
+	{
+		return process;
+	}
+	public void setProcess(Set<Process> process)
+	{
+		this.process = process;
+	}
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	public Set<Material> getMaterialSet() {
@@ -72,16 +79,16 @@ public class WorkingBill extends BaseEntity {
 		this.workingBillCode = workingBillCode;
 	}
 	
-	public String getProductDate() {
+	public Date getProductDate() {
 		return productDate;
 	}
-	public void setProductDate(String productDate) {
+	public void setProductDate(Date productDate) {
 		this.productDate = productDate;
 	}
-	public Integer getPlanCount() {
+	public String getPlanCount() {
 		return planCount;
 	}
-	public void setPlanCount(Integer planCount) {
+	public void setPlanCount(String planCount) {
 		this.planCount = planCount;
 	}
 	//@Column(name = "isdel", columnDefinition = "enum default N")

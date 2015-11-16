@@ -54,13 +54,9 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	
 	
 	public Pager getDictPager(Pager pager,Map map) {
-			
 			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Dict.class);
 			pagerSqlByjqGrid(pager,detachedCriteria);
-			if(map != null){
-//				detachedCriteria.add(Restrictions.like(propertyName, "%"+dfd+"%"));
-//				detachedCriteria.add(Restrictions.b);
-			}
+
 			return super.findByPager(pager,detachedCriteria);
 		
 	}

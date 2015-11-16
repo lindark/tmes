@@ -65,6 +65,9 @@ public class Carton extends BaseEntity {
 	}
 
 	public void setTotalAmount(String totalAmount) {
+		if(totalAmount==null){
+			totalAmount = "0";
+		}
 		this.totalAmount = totalAmount;
 	}
 

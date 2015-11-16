@@ -39,6 +39,7 @@ public class CartonAction extends BaseAdminAction {
 	private static final long serialVersionUID = 5682952528834965226L;
 
 	private static final String CONFIRMED = "1";
+	private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 
 	private Carton carton;
@@ -74,31 +75,30 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
+	@Validations(requiredStrings = { @RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
 
 	)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		if (cartonService.getTotalCount() <= 0) {
-			carton.setTotalAmount("0");
-		}else{
-			carton.setTotalAmount(cartonService.getAll().get(0).getTotalAmount());			
-		}
 		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
-	//查询数据库中是否有是否删除为'N'的
-	public boolean getN(){
+	// 取出数据库中是否有是否删除为'N'的,并且状态为已确认
+	public List<Carton> getNS() {
 		List<Carton> cartons = cartonService.getAll();
+		List<Carton> nCartons = new ArrayList<Carton>();
 		for (int i = 0; i < cartons.size(); i++) {
-			//if(cartons.get(i).getIsDel())
+			if ("N".equals(cartons.get(i).getIsDel())
+					&& CONFIRMED.equals(cartons.get(i).getState())) {
+				nCartons.add(cartons.get(i));
+			}
 		}
-		return true;
+		return nCartons;
 	}
+
 	// 更新
 	@InputConfig(resultName = "error")
 	public String update() {
@@ -127,29 +127,41 @@ public class CartonAction extends BaseAdminAction {
 			carton.setState(CONFIRMED);
 			admin = adminService.getLoginAdmin();
 			carton.setConfirmUser(admin.getId());
-			addTotal(carton);
 			cartonService.save(carton);
+			addTotal(Integer.parseInt(carton.getCartonAmount()));
 		}
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
-	// 根据给定纸箱，将其他纸箱的累计数量全部加上该纸箱的收货数量
-	public void addTotal(Carton carton) {
-		List<Carton> cartons = cartonService.getAll();
+	// 获取当前数据中isdel为N，state为1的最大的cartonAmount
+	public int findMax() {
+		List<Carton> cartons = getNS();
+		int max = 0;
 		for (int i = 0; i < cartons.size(); i++) {
-			cartons.get(i).setTotalAmount(
-					Integer.parseInt(cartons.get(i).getTotalAmount())
-							+ Integer.parseInt(carton.getCartonAmount()) + "");
+			int nowAmount = Integer.parseInt(cartons.get(i).getTotalAmount());
+			if (max < nowAmount) {
+				max = nowAmount;
+			}
+		}
+		return max;
+	}
+
+	// 根据给定纸箱，将其他纸箱的累计数量全部加上该纸箱的收货数量
+	public void addTotal(Integer cartonAmount) {
+		List<Carton> cartons = getNS();
+		int max = 0;
+		max = findMax();
+		for (int i = 0; i < cartons.size(); i++) {
+			cartons.get(i).setTotalAmount(max + cartonAmount + "");
 			cartonService.save(cartons.get(i));
 		}
 	}
-	
+
 	// 根据给定纸箱，将其他纸箱的累计数量全部减去该纸箱的收货数量
-	
-	public void minusTotal(Carton carton){
-		List<Carton> cartons = cartonService.getAll();
+	public void minusTotal(Carton carton) {
+		List<Carton> cartons = getNS();
 		for (int i = 0; i < cartons.size(); i++) {
 			cartons.get(i).setTotalAmount(
 					Integer.parseInt(cartons.get(i).getTotalAmount())
@@ -163,10 +175,12 @@ public class CartonAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
-			carton.setState(UNDO);
 			admin = adminService.getLoginAdmin();
 			carton.setConfirmUser(admin.getId());
-			minusTotal(carton);
+			if(CONFIRMED.equals(carton.getState())){
+				minusTotal(carton);				
+			}
+			carton.setState(UNDO);
 			cartonService.save(carton);
 		}
 		redirectionUrl = "carton!list.action?workingBillId="

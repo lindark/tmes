@@ -1,8 +1,10 @@
 package cc.jiuyi.dao.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.impl.CriteriaImpl;
+import org.hibernate.impl.CriteriaImpl.Subcriteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -220,61 +224,101 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 
 	@Override
 	public String generateSearchSql(String searchField,
-			String searchString, String searchOper) {
+			String searchString, String searchOper,DetachedCriteria detachedCriteria) {
         String wheresql=""; 
+        String propertyString="";
         if (searchField != null && searchString != null  
                 & searchString.length() > 0 && searchOper != null) {  
+			if (searchField.contains(".")) { 
+				String propertyPrefix = StringUtils.substringBefore(searchField, ".");
+				String propertySuffix = StringUtils.substringAfter(searchField, ".");
+				if(!this.existAlias(detachedCriteria, propertyPrefix, propertyPrefix))//判断alias 是否已经有创建过,没有创建过，及创建，已经创建过就不需要创建了，不处理同一表的关联处理
+					detachedCriteria.createAlias(propertyPrefix, propertyPrefix);
+				propertyString= propertyPrefix+"."+propertySuffix;
+			}
             if ("eq".equals(searchOper)) {  //等于
-            	wheresql = searchField+"="+"'"+searchString+"'";
-            } else if ("ne".equals(searchOper)) { //不等于 
-            	wheresql = searchField+"!="+"'"+searchString+"'";
+            	detachedCriteria.add(Restrictions.eq(propertyString, searchString));
+            } else if ("ne".equals(searchOper)) { //不等于
+            	detachedCriteria.add(Restrictions.ne(propertyString, searchString));
             } else if ("lt".equals(searchOper)) { //小于
-            	wheresql = searchField+"<"+"'"+searchString+"'";
+            	detachedCriteria.add(Restrictions.lt(propertyString, searchString));
             } else if ("le".equals(searchOper)) { //小于等
-            	wheresql = searchField+"<="+"'"+searchString+"'";
+            	detachedCriteria.add(Restrictions.le(propertyString, searchString));
             } else if ("gt".equals(searchOper)) { //大于
-            	wheresql = searchField+">"+"'"+searchString+"'";
+            	detachedCriteria.add(Restrictions.gt(propertyString, searchString));
             } else if ("ge".equals(searchOper)) { //大于等
-            	wheresql = searchField+">="+"'"+searchString+"'";
+            	detachedCriteria.add(Restrictions.ge(propertyString, searchString));
             } else if ("bw".equals(searchOper)) { //已...开始
-            	wheresql = searchField+" like "+"'"+searchString+"%'";
+            	detachedCriteria.add(Restrictions.like(propertyString, searchString+"%"));
             } else if ("bn".equals(searchOper)) { //不已...开始
-            	wheresql = searchField+" not like "+"'"+searchString+"%'"; 
+            	detachedCriteria.add(Restrictions.not(Restrictions.like(propertyString, searchString+"%")));
             } else if ("ew".equals(searchOper)) { //结束于
-            	wheresql = searchField+" like "+"'%"+searchString+"'"; 
+            	detachedCriteria.add(Restrictions.like(propertyString, "%"+searchString));
             } else if ("en".equals(searchOper)) { //不结束于
-            	wheresql = searchField+" not like "+"'%"+searchString+"'";
+            	detachedCriteria.add(Restrictions.not(Restrictions.like(propertyString, "%"+searchString)));
             } else if ("cn".equals(searchOper)) { //包含
-            	wheresql = searchField+" like "+"'%"+searchString+"%'";
-            } else if ("nc".equals(searchOper)) {  
-            	wheresql = searchField+" not like "+"'%"+searchString+"%'";
+            	detachedCriteria.add(Restrictions.like(propertyString, "%"+searchString+"%"));
+            } else if ("nc".equals(searchOper)) { //不包含  
+            	detachedCriteria.add(Restrictions.not(Restrictions.like(propertyString, "%"+searchString+"%")));
             } else if ("in".equals(searchOper)) { //属于
-            	wheresql = searchField+" in "+"('"+searchString+"')";
+            	detachedCriteria.add(Restrictions.sqlRestriction(searchString + " in ("+propertyString+")"));
             } else if ("ni".equals(searchOper)) { //不属于
-            	wheresql = searchField+" not in "+"('"+searchString+"')";
+            	detachedCriteria.add(Restrictions.sqlRestriction(searchString + " not in ("+propertyString+")"));
             }   
             
         }  
         return wheresql;  
 	}
 	
-	public String pagerSqlByjqGrid(Pager pager){
+	public void pagerSqlByjqGrid(Pager pager,DetachedCriteria detachedCriteria){
 		String wheresql = "";
 		Integer ishead=0;
 		if(pager.is_search()==true && pager.getRules() != null){
 			List list = pager.getRules();
 			for(int i=0;i<list.size();i++){
-				if(ishead==1){
-					wheresql += " "+pager.getGroupOp()+" ";
-				}
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo)list.get(i);
-				wheresql+=" "+this.generateSearchSql(to.getField(), to.getData(), to.getOp())+" ";
-				ishead = 1;
+				wheresql+=" "+this.generateSearchSql(to.getField(), to.getData(), to.getOp(),detachedCriteria)+" ";
 			}
 		}
-		return wheresql;
 	}
 
+	public boolean existAlias(Criteria c, String path, String alias){
+  	  Iterator itm = ((CriteriaImpl)c).iterateSubcriteria();
+  	  while(itm.hasNext()){
+  	   Subcriteria sub =  (Subcriteria)itm.next();
+  	   if(alias.equals(sub.getAlias()) || path.equals(sub.getPath())){
+  	    return true;
+  	   }
+  	  }
+  	  return false;
+  	 }
 
+	/**
+	 * 通过反射获取 alias 是否已经创建过
+	 * @param c
+	 * @param path
+	 * @param alias
+	 * @return
+	 */
+	 public boolean existAlias(DetachedCriteria c, String path, String alias){
+	  Class clazz = c.getClass(); //获取 class
+	   Field field = null;
+	   CriteriaImpl ci =null;
+		try {
+			field = clazz.getDeclaredField("criteria");//获取 criteria 的所有方法，包括private
+			field.setAccessible(true); //设置访问权限，可以访问final 修饰符的属性或方法
+  	    ci = (CriteriaImpl)field.get(c);
+	    	
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return existAlias(ci, path, alias);
+	 }
 
 }

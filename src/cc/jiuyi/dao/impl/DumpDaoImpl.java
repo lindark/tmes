@@ -68,7 +68,7 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 

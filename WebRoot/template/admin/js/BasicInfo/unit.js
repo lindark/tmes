@@ -1,7 +1,8 @@
 
 $(function(){
 	var $userAddBtn = $("#userAddBtn");//添加用户
-
+	 var $workShopId=$("#workShopId1");
+	 var $workShopId2=$("#workShopId2");
 	/**
 	 * 添加按钮点击
 	 */
@@ -14,9 +15,15 @@ $(function(){
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 			
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-        var docu = iframeWin.document;//获取document 对象
+        var work = iframeWin.getGridId();
+        var id=work.split(",");
+        alert(id[0]);
+        $workShopId.val(id[0]);
+        $workShopId2.val(id[1]);
+        alert(id[1]);
+       // var docu = iframeWin.document;//获取document 对象
         //var ids=$('#grid-table').jqGrid('getGridParam','selarrrow’);
-        var ids =  $(docu).find("#grid-table").jqGrid('getGridParam','selarrrow');
+       // var ids =  $(docu).find("#grid-table").jqGrid('getGridParam','selarrrow');
         	//var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
        //    alert(ids); 
 //           if(ids.length >1){

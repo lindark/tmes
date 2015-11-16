@@ -101,12 +101,21 @@
 															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
 														</div>
 													</div>
-
+													
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组/班次</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="signup">2010/06/20</span>
+														</div>
+													</div>
+													
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">累计纸箱数量</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.cartonTotalAmount}</span>
 														</div>
 													</div>
 
@@ -118,25 +127,25 @@
 							</div>
 							<div>
 								<div class="col-md-3 col-sm-4" style="padding:2px;">
-									<button class="btn btn-white btn-success btn-bold btn-round" id="addCarton">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addCarton">
 										<i class="ace-icon fa fa-file-archive-o bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">创建纸箱收货</span>
 									</button>
 								</div>
 								<div class="col-md-3 col-sm-4" style="padding:2px;">
-									<button class="btn btn-white btn-success btn-bold btn-round" id="confirmCarton">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
 										<i class="ace-icon fa fa-credit-card bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">刷卡确认</span>
 									</button>
 								</div>
 								<div class="col-md-3 col-sm-4" style="padding:2px;">
-									<button class="btn btn-white btn-success btn-bold btn-round" id="undoCarton">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
 										<i class="ace-icon fa fa-credit-card bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
 								</div>
 								<div class="col-md-3 col-sm-4" style="padding:2px;">
-									<button class="btn btn-white btn-success btn-bold btn-round" id="returnCarton">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnCarton">
 										<i class="ace-icon fa fa-exchange bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
@@ -197,22 +206,24 @@
 			
 		});
 		$("#confirmCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条纸箱记录！");
 			}else{
-				window.location.href="carton!confirms.action?id="+id;			
+				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});
 		$("#undoCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条纸箱记录！");
 			}else{
-				window.location.href="carton!undo.action?id="+id;			
+				window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});

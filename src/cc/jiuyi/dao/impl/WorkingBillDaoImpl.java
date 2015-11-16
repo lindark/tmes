@@ -10,7 +10,6 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.WorkingBillDao;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.Product;
@@ -68,13 +67,21 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 	}
 
 	@Override
-	public List getListWorkingBillByDate(Admin admin) {
-		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
-		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
+	public List getListWorkingBillByDate(Date productdate) {
+		String hql = "from WorkingBill where productDate = ?";
+		List list = getSession().createQuery(hql).setParameter(0, productdate).list();
 		return list;
 	}
 
-
+	/**
+	 * 查询随工单表中的id 和 产品名称maktx
+	 */
+	@SuppressWarnings("unchecked")
+	public List<WorkingBill> getIdsAndNames()
+	{
+		String hql=" from WorkingBill";
+		return this.getSession().createQuery(hql).list();
+	}
 	
 	
 }

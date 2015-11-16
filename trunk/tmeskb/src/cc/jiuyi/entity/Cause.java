@@ -15,12 +15,13 @@ public class Cause extends BaseEntity {
 
 	private static final long serialVersionUID = -7677927911812294207L;
 
-	private String causeCode;// 原因编码
-	private String causeType;// 原因类型
-	private String causeName;// 原因名称
+	private String causeCode;// 代码编码
+	private String causeType;// 代码类型
+	private String causeName;// 代码名称
 	private String isDel;// 是否删除
 	private String state;//状态
 	private String stateRemark;//状态描述
+	private String causeTypeRemark;//代码类型描述
 
 	public String getCauseCode() {
 		return causeCode;
@@ -75,5 +76,14 @@ public class Cause extends BaseEntity {
 
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+
+	@Transient
+	public String getCauseTypeRemark() {
+		return causeTypeRemark;
+	}
+
+	public void setCauseTypeRemark(String causeTypeRemark) {
+		this.causeTypeRemark = causeTypeRemark;
 	}
 }

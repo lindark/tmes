@@ -115,7 +115,7 @@ public class WorkingBillAction extends BaseAdminAction {
 		for(int i =0; i < pagerlist.size();i++){
 			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
 			workingbill.setEnteringwareHouse(null);
-			workingbill.setDailyWork(null);
+			//workingbill.setDailyWork(null);
 			workingbill.setMaterialSet(null);
 			pagerlist.set(i, workingbill);
 		}

@@ -89,8 +89,8 @@ jQuery(function($) {
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'xproductnum',index:'wb1_.matnr',label:"产品编号",width:70, editable: false},
-			{name:'xproductname',index:'wb1_.maktx',label:"产品名称",width:190, editable: false},
+			{name:'xproductnum',index:'pr1_.productsCode',label:"产品编号",width:70, editable: false},
+			{name:'xproductname',index:'pr1_.productsName',label:"产品名称",width:190, editable: false},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode',label:"工序编码", width:70,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	

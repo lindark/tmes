@@ -271,7 +271,7 @@
 																</button>
 															</div>
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
+																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="carton">
 																	<i class="ace-icon fa fa-file-archive-o bigger-110"></i>
 																	<span class="bigger-110 no-text-shadow">纸箱收货</span>
 																</button>

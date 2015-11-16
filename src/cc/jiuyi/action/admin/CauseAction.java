@@ -17,6 +17,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Cause;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
@@ -36,6 +37,10 @@ public class CauseAction extends BaseAdminAction {
 	private static final long serialVersionUID = 8114269369652720624L;
 
 	private Cause cause;
+	//获取所有状态
+	private List<Dict> allState;
+	//获取所有代码类型
+	private List<Dict> allCauseType;
 
 	@Resource
 	private CauseService causeService;
@@ -165,6 +170,23 @@ public class CauseAction extends BaseAdminAction {
 
 	public void setCause(Cause cause) {
 		this.cause = cause;
+	}
+
+	//获取所有状态
+	public List<Dict> getAllState() {
+		return dictService.getList("dictname", "StateRemark");
+	}
+
+	public void setAllState(List<Dict> allState) {
+		this.allState = allState;
+	}
+
+	public List<Dict> getAllCauseType() {
+		return dictService.getList("dictname", "causeTypeRemark");
+	}
+
+	public void setAllCauseType(List<Dict> allCauseType) {
+		this.allCauseType = allCauseType;
 	}
 
 }

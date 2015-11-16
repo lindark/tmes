@@ -155,6 +155,11 @@ jQuery(function($) {
 			{ // navbar options
 				// edit: true,
 				editfunc : function(rowId) {
+					var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+					if(ids.length>1){
+						alert("请选择一条记录");
+						return false;
+					}
 					window.location.href = "cause!edit.action?id=" + rowId;
 				},
 				editicon : 'ace-icon fa fa-pencil blue',

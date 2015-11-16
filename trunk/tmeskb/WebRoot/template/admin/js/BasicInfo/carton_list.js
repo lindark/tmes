@@ -88,7 +88,7 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-        footerrow: true,
+        //footerrow: true,
         
 		loadComplete : function() {
 			var table = this;

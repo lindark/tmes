@@ -121,17 +121,19 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
+		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
-			if(!CONFIRMED.equals(carton.getState())){
+			if (!CONFIRMED.equals(carton.getState())) {
 				carton.setState(CONFIRMED);
 				admin = adminService.getLoginAdmin();
 				carton.setConfirmUser(admin.getId());
 				cartonService.save(carton);
-				addTotal(Integer.parseInt(carton.getCartonAmount()));				
+				addTotal(Integer.parseInt(carton.getCartonAmount()));
 			}
 		}
+		workingbill.setCartonTotalAmount(findMax() + "");
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -174,13 +176,15 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String undo() {
+		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			admin = adminService.getLoginAdmin();
 			carton.setConfirmUser(admin.getId());
-			if(CONFIRMED.equals(carton.getState())){
-				minusTotal(carton);				
+			if (CONFIRMED.equals(carton.getState())) {
+				minusTotal(carton);
+				workingbill.setCartonTotalAmount(findMax() + "");
 			}
 			carton.setTotalAmount("0");
 			carton.setState(UNDO);

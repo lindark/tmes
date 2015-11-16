@@ -69,7 +69,7 @@
 									  <div class="col-sm-4">
 										<input type="text" name="factoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
 									  </div>
-									  <label class="col-sm-1 col-md-offset-1" style="text-align:right">车间名称:</label>
+									  <label class="col-sm-1" style="text-align:right">车间名称:</label>
 									  <div class="col-sm-4">
 										<input type="text" name="workShopName" class="input input-sm form-control" value="" id="form-field-icon-1">
 									  </div>

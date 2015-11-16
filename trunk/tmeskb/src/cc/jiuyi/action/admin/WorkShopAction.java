@@ -173,6 +173,11 @@ public class WorkShopAction extends BaseAdminAction {
 			return INPUT;	
 		}
 		
+		//浏览按钮
+	public String browser(){
+		return "browser";	
+	}
+		
 	//更新
 		@Validations(
 				requiredStrings = {

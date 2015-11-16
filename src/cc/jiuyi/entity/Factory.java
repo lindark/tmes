@@ -23,8 +23,8 @@ public class Factory extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 
-    private String factoryCode;//工序编码
-    private String factoryName;//工序名称
+    private String factoryCode;//工厂编码
+    private String factoryName;//工厂名称
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述

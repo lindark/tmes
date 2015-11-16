@@ -180,6 +180,7 @@ public class CartonAction extends BaseAdminAction {
 			if(CONFIRMED.equals(carton.getState())){
 				minusTotal(carton);				
 			}
+			carton.setTotalAmount("0");
 			carton.setState(UNDO);
 			cartonService.save(carton);
 		}

@@ -46,14 +46,16 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 	}
 
 	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map,String factoryName) {
-		String wheresql = workShoppagerSql(pager);
+		//String wheresql = workShoppagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(WorkShop.class);
-		detachedCriteria.createAlias("factory", "factory");
-		if (!wheresql.equals("")) {
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!super.existAlias(detachedCriteria, "factory", "factory"))
+			detachedCriteria.createAlias("factory", "factory");//表名，别名
+		/*if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		
 		//System.out.println(map.size());
 		if (map.size() > 0) {
@@ -76,7 +78,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 		//detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-
+/*
 	public String workShoppagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
@@ -97,7 +99,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 		wheresql=wheresql.replace("state='启用'", "state='1'");
 		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
-	}
+	}*/
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

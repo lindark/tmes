@@ -64,5 +64,11 @@ public class WorkShopServiceImpl extends BaseServiceImpl<WorkShop, String>implem
 		
 	}
 
+	@Override
+	public boolean isExistByWorkShopCode(String workShopCode) {
+		// TODO Auto-generated method stub
+		return workShopDao.isExistByWorkShopCode(workShopCode);
+	}
+
 	
 }

@@ -13,6 +13,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.MaterialDao;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.MaterialService;
 
 /**
@@ -67,6 +68,12 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	public boolean isExistByMaterialCode(String materialCode) {
 		// TODO Auto-generated method stub
 		return materialDao.isExistByMaterialCode(materialCode);
+	}
+
+	@Override
+	public List<Products> getProductsList() {
+		// TODO Auto-generated method stub
+		return materialDao.getProductsList();
 	}
 
 	

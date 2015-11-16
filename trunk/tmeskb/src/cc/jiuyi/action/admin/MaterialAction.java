@@ -176,6 +176,21 @@ public class MaterialAction extends BaseAdminAction {
 		}
 		
 	//更新
+    @Validations(
+				requiredStrings = {
+						@RequiredStringValidator(fieldName = "material.productCode", message = "产品编码不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.materialType", message = "产品名称不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
+						@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
+				  },
+				intRangeFields = {
+						@IntRangeFieldValidator(fieldName = "products.materialAmount",min="0", message = "产品数量必须为零或正整数!")
+				}
+				
+				
+				  
+		)
 		@InputConfig(resultName = "error")
 		public String update() {
 			Material persistent = materialService.load(id);
@@ -250,5 +265,9 @@ public class MaterialAction extends BaseAdminAction {
 		this.dictService = dictService;
 	}
 	
+	//获取所有产品
+	public List<Products> getProductsList(){
+		return productsService.getAll();		
+	}
 	
 }

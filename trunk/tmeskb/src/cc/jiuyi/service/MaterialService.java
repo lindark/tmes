@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 
 /**
  * Service接口 - 产品Bom管理
@@ -18,6 +19,12 @@ public interface MaterialService extends BaseService<Material, String> {
 	 * @return
 	 */
 	public List<Material> getMaterialList();
+	
+	/**
+	 * 取出所有Products对象
+	 *
+	 */
+	public List<Products> getProductsList();
 
 	public Pager getMaterialPager(Pager pager, HashMap<String, String> map);
 	

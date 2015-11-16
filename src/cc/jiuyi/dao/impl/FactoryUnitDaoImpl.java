@@ -14,6 +14,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.FactoryUnitDao;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.WorkShop;
 
 /**
  * Dao实现类 - factoryUnit
@@ -62,16 +63,7 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
+			
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
@@ -94,7 +86,8 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			}
 
 		}
-		//System.out.println("wheresql:" + wheresql);
+		wheresql=wheresql.replace("state='启用'", "state='1'");
+		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
 	}
 
@@ -106,5 +99,16 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			super.update(factoryUnit);
 		}
 		
+	}
+
+	@Override
+	public boolean isExistByFactoryUnitCode(String factoryUnitCode) {
+		String hql = "from FactoryUnit factoryUnit where lower(factoryUnit.factoryUnitCode) = lower(?)";
+		FactoryUnit factoryUnit = (FactoryUnit) getSession().createQuery(hql).setParameter(0, factoryUnitCode).uniqueResult();
+		if (factoryUnit != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

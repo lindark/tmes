@@ -45,13 +45,17 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 	}
 
 	public Pager getFactoryUnitPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = factoryUnitpagerSql(pager);
+		//String wheresql = factoryUnitpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(FactoryUnit.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!super.existAlias(detachedCriteria, "workshop", "workshop"))
+			detachedCriteria.createAlias("workshop", "workshop");//表名，别名
+		/*
 		if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		//System.out.println(map.size());
 		if (map.size() > 0) {
 			if(map.get("factoryUnitCode")!=null){
@@ -63,12 +67,22 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
-			
+            if(map.get("workShopName")!=null){
+				
+				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
+				detachedCriteria.add(Restrictions.like("workshop.workShopName", "%"+map.get("workShopName")+"%"));
+			}
+            if(map.get("factoryName")!=null){
+				
+				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
+				detachedCriteria.add(Restrictions.like("workshop.factory.factoryName", "%"+map.get("factoryName")+"%"));
+			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
+	/*
 	public String factoryUnitpagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
@@ -89,7 +103,7 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		wheresql=wheresql.replace("state='启用'", "state='1'");
 		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
-	}
+	}*/
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

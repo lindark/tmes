@@ -28,4 +28,5 @@ public interface WorkShopService extends BaseService<WorkShop, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
+	public boolean isExistByWorkShopCode(String workShopCode);
 }

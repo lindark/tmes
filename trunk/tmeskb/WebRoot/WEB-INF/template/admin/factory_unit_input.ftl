@@ -80,11 +80,32 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
+						            <div class="profile-info-row">
+											
+												<div class="profile-info-name">车间名称</div>
+												<div class="profile-info-value">
+												    
+													<select name="factoryUnit。workShop.id" class="{required: true}"
+														style="width:200px;">
+														<option value="">请选择...</option> 
+														<#list workShopList as list>
+														<option value="${list.id}"<#if (list.id == factoryUnit.workShop.id)!> selected</#if>> ${list.name}</option>
+														</#list>
+													</select>
+													<label class="requireField">*</label>
+												</div>
+											</div>
+						            
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 单元编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="factoryUnit.factoryUnitCode" value="${(factoryUnit.factoryUnitCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
+										    <#if isAdd??>
+										        <input type="text" name="factoryUnit.factoryUnitCode" value="${(factoryUnit.factoryUnitCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100, remote: 'factory_unit!checkFactoryUnitCode.action', messages: {remote: '单元编码已存在!'}}" />
+											    <label class="requireField">*</label>	
+										    <#else>
+										        ${(factoryUnit.factoryUnitCode)!}
+										         <input type="hidden" name="factoryUnit.factoryUnitCode" value="${(factoryUnit.factoryUnitCode)!}"/>
+										    </#if>										
 										</div>
 									</div>	
 									

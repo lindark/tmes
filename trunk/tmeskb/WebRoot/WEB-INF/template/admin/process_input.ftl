@@ -20,17 +20,7 @@ $().ready( function() {
 	$(".areaSelect").lSelect({
 		url: "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
 	});
-	//如果是修改，给selec默认值
-	var proid=$("#proid").val();
-	if(proid!=null)
-	{
-		$("#proname_select option").each(function(){
-			if($(this).val()==proid)
-			{
-				$(this).attr("selected",true);
-			}
-		});
-	}
+	
 	//表单监控
 	form_ck();
 	//提交事件,判断工序名是否为空
@@ -167,7 +157,6 @@ body{background:#fff;}
 								
 		<form id="inputForm" class="validate" action="<#if isAdd??>process!save.action<#else>process!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
-			<input type="hidden" id="proid" value="${(process.workingBill.id)! }"/>
 			<input type="hidden" id="xcode" value="${(process.processCode)!}" />
 			<div id="inputtabs">
 			<ul>
@@ -204,13 +193,7 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name"><label class="mymust">*</label> 产品名称 </div>					
 										<div class="profile-info-value">
-											<select id="proname_select" name="process.workingBill.id">
-												<#if ar?exists>
-													<#list ar as x>
-														<option value="${(x.id)!}">${(x.maktx)! }</option>
-													</#list>
-												</#if>
-											</select>
+											<input type="text" />
 										</div>
 									</div>
 									

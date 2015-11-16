@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.ParseException;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -45,34 +43,53 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getProcessPager(Pager pager, HashMap<String, String> map) {
+	public Pager getProcessPager(Pager pager, HashMap<String, String> map) 
+	{
 		String wheresql = processpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Process.class);
-		if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
+		detachedCriteria.createAlias("workingBill", "wb");//表名，别名
+		System.out.println("=========================wheresql="+wheresql);
+		if (!wheresql.equals("")) 
+		{
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
-		//System.out.println(map.size());
-		if (map.size() > 0) {
-			if(map.get("processCode")!=null){
+		if (map.size() > 0)
+		{
+			if(map.get("processCode")!=null)
+			{
 			    detachedCriteria.add(Restrictions.like("processCode", "%"+map.get("processCode")+"%"));
 			}		
-			if(map.get("processName")!=null){
+			if(map.get("processName")!=null)
+			{
 				detachedCriteria.add(Restrictions.like("processName", "%"+map.get("processName")+"%"));
 			}
-			if(map.get("state")!=null){
+			if(map.get("state")!=null)
+			{
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
-			if(map.get("start")!=null||map.get("end")!=null){
+			if(map.get("start")!=null||map.get("end")!=null)
+			{
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
+				try
+				{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
+				}catch(Exception e)
+				{
 					e.printStackTrace();
 				}
+			}
+			//产品编码
+			if(map.get("xproductnum")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("workingBill.matnr", "%"+map.get("xproductnum")+"%"));
+			}
+			//产品名称
+			if(map.get("xproductname")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("workingBill.maktx", "%"+map.get("xproductname")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
@@ -84,10 +101,13 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		Integer ishead = 0;
 		if (pager.is_search() == true && pager.getRules() != null) {
 			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
+			for (int i = 0; i < list.size(); i++) 
+			{
+				if (ishead == 1) 
+				{
 					wheresql += " " + pager.getGroupOp() + " ";
 				}
+				//filed查询字段，op查询操作,data选择的查询值
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
@@ -97,6 +117,8 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 
 		}
 		System.out.println("wheresql:" + wheresql);
+		wheresql=wheresql.replace("state='启用'", "state='1'");
+		wheresql=wheresql.replace("state='未启用'", "state='2'");
 		return wheresql;
 	}
 
@@ -120,5 +142,26 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * 查询一个带联表
+	 */
+	public Process getOne(String id)
+	{
+		Process p=null;
+		String hql=" from Process as a inner join fetch a.workingBill where a.id=?";
+		p=(Process)this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+		return p;
+	}
+	
+	/**
+	 * 检查工序编码是否存在
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Process> getCk(String info)
+	{
+		String hql=" from Process as a inner join fetch a.workingBill where a.processCode=? and a.isDel='N'";
+		return this.getSession().createQuery(hql).setParameter(0, info).list();
 	}
 }

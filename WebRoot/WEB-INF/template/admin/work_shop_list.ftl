@@ -68,7 +68,7 @@
 								   	<div class="form-group">
 								   	   <label class="col-sm-1 col-md-offset-1" style="text-align:right">工厂名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="factoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="factoryName1" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">

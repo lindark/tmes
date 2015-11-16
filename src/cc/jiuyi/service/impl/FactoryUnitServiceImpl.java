@@ -61,5 +61,11 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 		
 	}
 
+	@Override
+	public boolean isExistByFactoryUnitCode(String factoryUnitCode) {
+		// TODO Auto-generated method stub
+		return factoryUnitDao.isExistByFactoryUnitCode(factoryUnitCode);
+	}
+
 	
 }

@@ -141,6 +141,7 @@ public class ProductsAction extends BaseAdminAction {
 				Products products = (Products) productsList.get(i);
 				products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "productsState", products.getState()));
+				products.setMaterial(null);
 				lst.add(products);
 			}
 		pager.setList(lst);

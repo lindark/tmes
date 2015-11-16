@@ -60,6 +60,7 @@ public class DictAction extends BaseAdminAction {
 			if(list.size()>0)
 			{
 				String str="<select>";
+				str+="<option value=''></option>";
 				for(int i=0;i<list.size();i++)
 				{
 					Dict d=list.get(i);

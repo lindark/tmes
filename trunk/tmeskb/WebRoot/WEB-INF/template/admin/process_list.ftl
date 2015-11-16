@@ -52,6 +52,22 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form class="form-horizontal" id="searchform" action="process!ajlist.action" role="form">
 								   <div class="operateBar">
+								   
+								   
+								   <div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品编码:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xproductnum" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										
+										<label class="col-sm-1" style="text-align:right">产品名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xproductname" class="input input-sm form-control" value="" id="form-field-icon-1">			
+										</div>
+									</div>
+								   
+								   
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">工序编码:</label>
 										<div class="col-sm-4">
@@ -70,14 +86,19 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
-										<select name="process.state">
+										<select name="state">
+											<!-- 
 							                <#list AllState as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
 							                </#list>
+							                 -->
+							                 <option></option>
+							                <option value="1">启用</option>
+							                <option value="2">未启用</option>
 						               </select>
 									  </div>
 										
-										
+										<!-- 
 										<label class="col-sm-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
@@ -89,6 +110,7 @@
 												<input type="text" class="input-sm form-control datePicker" name="end">
 											</div>
 										</div>
+										 -->
 									</div>	
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
@@ -161,7 +183,7 @@
 			}
 			
 		})
-		
+		$("#fbox_grid-table_search").click(function(){alert(0);});
 		/*
 		var ishead3=0;
 		$(".hsub").click(function(){

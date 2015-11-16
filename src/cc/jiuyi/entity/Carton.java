@@ -24,8 +24,10 @@ public class Carton extends BaseEntity {
 	private String isDel;// 是否删除
 	private String confirmUser;// 确认人
 	private String stateRemark;// 状态描述
+	private String adminName;//确认人的名字
 
 	private WorkingBill workingbill;// 随工单
+	private Admin admin;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -34,6 +36,15 @@ public class Carton extends BaseEntity {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	public String getCartonCode() {
@@ -109,4 +120,14 @@ public class Carton extends BaseEntity {
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
+
+	@Transient
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+	
 }

@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
@@ -26,4 +27,7 @@ public interface DictService extends BaseService<Dict, String> {
 	 *
 	 */
 	public String getDictValueByDictKey(Object dictName, Object keyValue);
+
+	//获取dict的html标签,状态
+	public List<Dict> getState(String dictname);
 }

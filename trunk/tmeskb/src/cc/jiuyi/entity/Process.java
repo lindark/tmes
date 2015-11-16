@@ -27,7 +27,7 @@ public class Process extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
-    private WorkingBill workingBill;//随工单
+    private Products products;//产品表
     
     private String xproductnum;//产品编码
     private String xproductname;//产品名称
@@ -68,13 +68,13 @@ public class Process extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
-	public WorkingBill getWorkingBill()
+	public Products getProducts()
 	{
-		return workingBill;
+		return products;
 	}
-	public void setWorkingBill(WorkingBill workingBill)
+	public void setProducts(Products products)
 	{
-		this.workingBill = workingBill;
+		this.products = products;
 	}
 	@Transient
 	public String getXproductnum()

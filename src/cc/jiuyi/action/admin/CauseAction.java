@@ -103,8 +103,7 @@ public class CauseAction extends BaseAdminAction {
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
-		if (pager == null) {
-			pager = new Pager();
+		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}

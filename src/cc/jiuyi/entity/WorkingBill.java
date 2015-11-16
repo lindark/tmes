@@ -34,7 +34,6 @@ public class WorkingBill extends BaseEntity {
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
 	//private Set<Sample> sample;//抽检
-	private Set<Process> process;//工序
 	
 	/*@OneToMany(mappedBy="workingBill",fetch=FetchType.LAZY)
 	public Set<Sample> getSample()
@@ -53,15 +52,6 @@ public class WorkingBill extends BaseEntity {
 		this.enteringwareHouse = enteringwareHouse;
 	}
 	
-	@OneToMany(mappedBy="workingBill",fetch=FetchType.LAZY)
-	public Set<Process> getProcess()
-	{
-		return process;
-	}
-	public void setProcess(Set<Process> process)
-	{
-		this.process = process;
-	}
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	public Set<Material> getMaterialSet() {

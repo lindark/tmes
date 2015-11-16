@@ -90,7 +90,7 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
 				wheresql += " "
 						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp()) + " ";
+								to.getOp(), null) + " ";
 				ishead = 1;
 			}
 

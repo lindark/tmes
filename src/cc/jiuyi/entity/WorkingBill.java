@@ -25,8 +25,8 @@ public class WorkingBill extends BaseEntity {
 	private static final long serialVersionUID = 2547319998033961001L;
 	
 	private String workingBillCode;//随工单编号
-	private Date productDate;//生产日期
-	private String planCount;//计划数量
+	private String productDate;//生产日期
+	private Integer planCount;//计划数量
 	private String isdel;//是否删除
 	private String matnr;//物料号
 	private String maktx;//物料        描述
@@ -79,16 +79,16 @@ public class WorkingBill extends BaseEntity {
 		this.workingBillCode = workingBillCode;
 	}
 	
-	public Date getProductDate() {
+	public String getProductDate() {
 		return productDate;
 	}
-	public void setProductDate(Date productDate) {
+	public void setProductDate(String productDate) {
 		this.productDate = productDate;
 	}
-	public String getPlanCount() {
+	public Integer getPlanCount() {
 		return planCount;
 	}
-	public void setPlanCount(String planCount) {
+	public void setPlanCount(Integer planCount) {
 		this.planCount = planCount;
 	}
 	//@Column(name = "isdel", columnDefinition = "enum default N")

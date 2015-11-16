@@ -47,12 +47,10 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Process.class);
-		String wheresql = processpagerSql(pager,detachedCriteria);
-		detachedCriteria.createAlias("products", "pr");//表名，别名
-		if (!(wheresql.replace(" ", "")).equals(""))
-		{
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!super.existAlias(detachedCriteria, "products", "products"))
+			detachedCriteria.createAlias("products", "products");//表名，别名
+		
 		if (map.size() > 0)
 		{
 			if(map.get("processCode")!=null)
@@ -83,12 +81,12 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 			//产品编码
 			if(map.get("xproductnum")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("pr.productsCode", "%"+map.get("xproductnum")+"%"));
+				detachedCriteria.add(Restrictions.like("products.productsCode", "%"+map.get("xproductnum")+"%"));
 			}
 			//产品名称
 			if(map.get("xproductname")!=null)
 			{
-				detachedCriteria.add(Restrictions.like("pr.productsName", "%"+map.get("xproductname")+"%"));
+				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("xproductname")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
@@ -96,32 +94,32 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String processpagerSql(Pager pager,DetachedCriteria detachedCriteria) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) 
-			{
-				if (ishead == 1) 
-				{
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				//filed查询字段，op查询操作,data选择的查询值
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(),detachedCriteria) + " ";
-				ishead = 1;
-			}
-
-		}
-		System.out.println("wheresql:" + wheresql);
-		System.out.println("wheresql.length()="+wheresql.length());
-		wheresql=wheresql.replace("state='启用'", "state='1'");
-		wheresql=wheresql.replace("state='未启用'", "state='2'");
-		return wheresql;
-	}
+//	public String processpagerSql(Pager pager,DetachedCriteria detachedCriteria) {
+//		String wheresql = "";
+//		Integer ishead = 0;
+//		if (pager.is_search() == true && pager.getRules() != null) {
+//			List list = pager.getRules();
+//			for (int i = 0; i < list.size(); i++) 
+//			{
+//				if (ishead == 1) 
+//				{
+//					wheresql += " " + pager.getGroupOp() + " ";
+//				}
+//				//filed查询字段，op查询操作,data选择的查询值
+//				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
+//				wheresql += " "
+//						+ super.generateSearchSql(to.getField(), to.getData(),
+//								to.getOp(),detachedCriteria) + " ";
+//				ishead = 1;
+//			}
+//
+//		}
+//		System.out.println("wheresql:" + wheresql);
+//		System.out.println("wheresql.length()="+wheresql.length());
+//		wheresql=wheresql.replace("state='启用'", "state='1'");
+//		wheresql=wheresql.replace("state='未启用'", "state='2'");
+//		return wheresql;
+//	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

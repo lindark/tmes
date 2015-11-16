@@ -69,7 +69,7 @@ public class ProcessAction extends BaseAdminAction {
 	
 	//添加
 	public String add(){
-		ar=getIdsAndNames();
+		//ar=getIdsAndNames();
 		return INPUT;
 	}
 
@@ -147,15 +147,15 @@ public class ProcessAction extends BaseAdminAction {
 			for (int i = 0; i < processList.size(); i++) 
 			{
 				Process p =processList.get(i);
-				p.setXproductnum(p.getWorkingBill().getMatnr());//产品编码
-				p.setXproductname(p.getWorkingBill().getMaktx());//产品名称
+				p.setXproductnum(p.getProducts().getProductsCode());//产品编码
+				p.setXproductname(p.getProducts().getProductsName());//产品名称
 				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "processState", p.getState()));
 				list2.add(p);
 			}
 			pager.setList(list2);
 			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setExcludes(new String[]{"workingBill"});//除去联级workingBill属性 gaoyf
+			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 gaoyf
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
@@ -190,7 +190,7 @@ public class ProcessAction extends BaseAdminAction {
 	{
 		try
 		{
-			ar=getIdsAndNames();
+			//ar=getIdsAndNames();
 			process=getOne(id);
 			return INPUT;
 		}
@@ -232,9 +232,9 @@ public class ProcessAction extends BaseAdminAction {
 	}
 		
 	/**
-	 * 查询随工单表中的id 和 产品名称maktx
+	 * 查询产品表中的id 和 产品名称maktx
 	 */
-	public List<WorkingBill> getIdsAndNames()
+	/*public List<WorkingBill> getIdsAndNames()
 	{
 		List<WorkingBill> l=null;
 		try
@@ -246,7 +246,7 @@ public class ProcessAction extends BaseAdminAction {
 			e.printStackTrace();
 		}
 		return l;
-	}
+	}*/
 	
 	/**
 	 * 检查工序编码是否存在

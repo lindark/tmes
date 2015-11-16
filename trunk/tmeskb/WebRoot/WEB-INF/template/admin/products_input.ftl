@@ -128,7 +128,7 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<label class="pull-left inline"> <small
 														class="muted smaller-90">启用:</small> <input type="radio"
-<%--														class="ace" name="products.state" value="1"<#if--%>
+														class="ace" name="products.state" value="1"<#if
 														(products.state == '1')!> checked</#if> /> <span
 														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
 														class="pull-left inline"> <small

@@ -23,7 +23,7 @@ public interface MaterialDao extends BaseDao<Material,String> {
 	 */
 	public List<Material> getMaterialList();
 	
-	public Pager getMaterialPager(Pager pager,HashMap<String,String>map);
+	public Pager getMaterialPager(Pager pager,HashMap<String,String>map,String productsName);
 
 	/**
 	 * 标记删除

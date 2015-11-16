@@ -79,11 +79,6 @@ public class WorkShopAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-//		List<WorkShop> workShopList = pager.getList();
-//		for (WorkShop workShop1 : workShopList) {
-//			workShop1.setState(ThinkWayUtil.getDictValueByDictKey(dictService,"workShopState", workShop1.getState()));
-//		}
-		//dictService.getDictValueByDictKey("workShopState", workShop.getState());
 		return LIST;
 	}
 	

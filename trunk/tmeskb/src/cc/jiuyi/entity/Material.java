@@ -27,8 +27,8 @@ public class Material extends BaseEntity{
 	 */
 	private static final long serialVersionUID = 994338331353572158L;
 	
-	private String productCode;//产品编码
-	private String materialType;//组件类型
+	private String productsCode;//产品编码
+	private String productsName;//产品名称
     private String materialCode;//组件编码
     private String materialName;//组件名称
     private String materialUnit;//组件单位
@@ -66,11 +66,18 @@ public class Material extends BaseEntity{
 	}
 	
 	
-	public String getMaterialType() {
-		return materialType;
+	
+	public String getProductsCode() {
+		return productsCode;
 	}
-	public void setMaterialType(String materialType) {
-		this.materialType = materialType;
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+	public String getProductsName() {
+		return productsName;
+	}
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
 	}
 	public String getMaterialCode() {
 		return materialCode;
@@ -127,12 +134,7 @@ public class Material extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 		
-	public String getProductCode() {
-		return productCode;
-	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+
 	public Integer getSpread() {
 		return spread;
 	}

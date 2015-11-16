@@ -21,7 +21,7 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements 
 	
 	
 	public Pager findPagerByjqGrid(Pager pager,Map map){
-		String wheresql = super.pagerSqlByjqGrid(pager);
+		String wheresql = super.pagerSqlByjqGrid(pager, null);
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(DailyWork.class);
 		if(!wheresql.equals("")){
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));

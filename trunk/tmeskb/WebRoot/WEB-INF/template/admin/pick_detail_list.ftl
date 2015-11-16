@@ -72,9 +72,9 @@ $(function(){
 									</form>	
 									</div>
 								</div>
-								<div class=" col-sm-11" style="text-align:right;">
-									<button	class="btn btn-white btn-sm btn-info btn-round" id="btnSubmit">
-                                      <span class="ace-icon fa fa-floppy-o bigger-120 blue no-text-shadow"><a href="javascript:void(0);">刷卡提交</a></span>                          
+								<div class="col-md-2 col-sm-4" style="text-align:right;">
+									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="btnSubmit">
+                                      <span><a href="javascript:void(0);">刷卡提交</a></span>                          
 									</button>
 								   </div>
 								<script type="text/javascript">

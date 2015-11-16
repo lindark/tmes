@@ -9,6 +9,10 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/matbrower.js"></script>
 <script type="text/javascript">
 $().ready( function() {
 
@@ -91,11 +95,12 @@ body{background:#fff;}
 
 												<div class="profile-info-name">产品编码</div>
 												<div class="profile-info-value">
-													<select name="material.products.id" class="{required: true}"
+												 <a id="userAddBtn">点击</a>
+													<select name="productsCode" class="{required: true}"
 														style="width:200px;">
 														<option value="">请选择...</option> 
 														<#list productsList as list>
-														<option value="${list.id}"<#if (list.id == material.products.id)!> selected</#if>> ${list.name}</option>
+														<option value="${list.id}" <#if (list.id == material.products.id)!> selected</#if>>${list.productsCode}</option>
 														</#list>
 													</select>
 													<label class="requireField">*</label>
@@ -106,8 +111,8 @@ body{background:#fff;}
 											<div class="profile-info-row">
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-													<input type="text" name="material.materialType"
-														value="${(material.materialType)!}"
+													<input type="text" name="material.productsName"
+														value="${(material.productsName)!}"
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
@@ -208,7 +213,7 @@ body{background:#fff;}
 												<div class="profile-info-name">状态</div>
 												<div class="profile-info-value">
 													<label class="pull-left inline"> <small
-														class="muted smaller-90">已 启用:</small> <input type="radio"
+														class="muted smaller-90">启用:</small> <input type="radio"
 														class="ace" name="material.state" value="1"<#if
 														(material.state == '1')!> checked</#if> /> <span
 														class="lbl middle"></span> &nbsp;&nbsp; </label> <label

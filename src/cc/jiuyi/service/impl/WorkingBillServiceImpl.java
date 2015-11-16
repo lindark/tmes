@@ -14,6 +14,7 @@ import cc.jiuyi.dao.BrandDao;
 import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.MemberRankDao;
 import cc.jiuyi.dao.WorkingBillDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.MemberRank;
@@ -60,8 +61,8 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 		workingbilldao.updateisdel(ids, oper);
 	}
 	@Override
-	public List getListWorkingBillByDate(Date productdate) {
-		return workingbilldao.getListWorkingBillByDate(productdate);
+	public List getListWorkingBillByDate(Admin admin) {
+		return workingbilldao.getListWorkingBillByDate(admin);
 	}
 	
 	@Cacheable(modelId="caching")

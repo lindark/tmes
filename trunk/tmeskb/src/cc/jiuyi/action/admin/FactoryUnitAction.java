@@ -138,6 +138,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 				FactoryUnit factoryUnit = (FactoryUnit) factoryUnitList.get(i);
 				factoryUnit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "factoryUnitState", factoryUnit.getState()));
+				factoryUnit.setFactoryName(factoryUnit.getWorkShop().getFactory().getFactoryName());
 				factoryUnit.setWorkShop(null);
 				lst.add(factoryUnit);
 			}

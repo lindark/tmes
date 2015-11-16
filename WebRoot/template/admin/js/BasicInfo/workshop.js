@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'workShopCode',index:'workShopCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'workShopName',index:'workShopName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
 
@@ -149,10 +149,11 @@ jQuery(function($) {
 				window.location.href="work_shop!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
+			del: true,
+			/*
 			delfunc:function(rowId){
 				window.location.href="work_shop!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

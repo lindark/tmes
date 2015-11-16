@@ -19,7 +19,7 @@ public interface WorkShopService extends BaseService<WorkShop, String> {
 	 */
 	public List<WorkShop> getWorkShopList();
 
-	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map);
+	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map,String factoryName);
 	
 	/**
 	 * 标记删除

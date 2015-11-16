@@ -124,11 +124,13 @@ public class CartonAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
-			carton.setState(CONFIRMED);
-			admin = adminService.getLoginAdmin();
-			carton.setConfirmUser(admin.getId());
-			cartonService.save(carton);
-			addTotal(Integer.parseInt(carton.getCartonAmount()));
+			if(!CONFIRMED.equals(carton.getState())){
+				carton.setState(CONFIRMED);
+				admin = adminService.getLoginAdmin();
+				carton.setConfirmUser(admin.getId());
+				cartonService.save(carton);
+				addTotal(Integer.parseInt(carton.getCartonAmount()));				
+			}
 		}
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();

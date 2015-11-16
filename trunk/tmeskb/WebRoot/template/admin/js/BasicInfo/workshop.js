@@ -63,9 +63,9 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['创建日期','车间编码','车间名称','状态', ],
+		colNames:['工厂名称','车间编码','车间名称','状态', ],
 		colModel:[
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'factoryName',index:'factoryName',editable: true},
 			{name:'workShopCode',index:'workShopCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'workShopName',index:'workShopName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}

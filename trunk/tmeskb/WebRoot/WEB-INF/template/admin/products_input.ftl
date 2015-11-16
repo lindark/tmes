@@ -80,16 +80,7 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-						            <div class="profile-info-row">	
-										<div class="profile-info-name"> 产品名称 </div>					
-										<div class="profile-info-value">
-											<input type="text" name="products.productsName" value="${(products.productsName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
-										</div>
-									</div>
-									
-									
-									<div class="profile-info-row">
+						            <div class="profile-info-row">
 										<div class="profile-info-name"> 产品编码 </div>					
 										<div class="profile-info-value">
 										<#if isAdd??>
@@ -101,7 +92,16 @@ body{background:#fff;}
 										</#if>	
 										</div>
 									</div>	
+																		
+						            <div class="profile-info-row">	
+										<div class="profile-info-name"> 产品名称 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="products.productsName" value="${(products.productsName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
 									
+						
 						             <div class="profile-info-row">
 										<div class="profile-info-name"> 物料组 </div>					
 										<div class="profile-info-value">

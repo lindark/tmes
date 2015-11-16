@@ -33,4 +33,12 @@ public interface ProcessService extends BaseService<Process, String> {
 	 * 根据ProcessCode判断Process是否存在
 	 */
 	public boolean isExistByProccessCode(String processCode);
+
+	//查询一个带联表
+	public Process getOne(String id);
+
+	/**
+	 * 检查工序编码是否存在
+	 */
+	public boolean getCk(String info);
 }

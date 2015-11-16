@@ -90,6 +90,7 @@ body {
 											
 												<div class="profile-info-name">工厂名称</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<select name="factoryId" class="{required: true}"
 														style="width:200px;">
 														<option value="">请选择...</option> 
@@ -98,6 +99,12 @@ body {
 														</#list>
 													</select>
 													<label class="requireField">*</label>
+													<#else>
+													${(workShop.factory.factoryName)!}
+													<input type="hidden"
+														name="factoryId"
+														value="${(workShop.factory.id)!}" />
+													</#if> 
 												</div>
 											</div> 
 											

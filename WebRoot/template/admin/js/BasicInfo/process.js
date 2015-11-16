@@ -1,26 +1,3 @@
-//$(function() {
-//	$("#form-field-icon-1").onblur(function() {
-//		var id = $("#form-field-icon-1").val();
-//		$.ajax({
-//			type : "POST",
-//			url : "",
-//			data : {
-//				id : id,
-//			},
-//			dataType : "json",
-//			success : function(data) {
-//				if (data.info) {
-//					alert("success");
-//					return;
-//				} else {
-//					$("#prompt").css("display", "block");
-//				}
-//			},
-//		});
-//	});
-//});
-
-
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -86,18 +63,16 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+		//colNames:['创建日期','工厂编码','工厂名称','状态', ],
+	    colModel:[	
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'xproductnum',index:'pr1_.productsCode',label:"产品编号",width:70, editable: false},
-			{name:'xproductname',index:'pr1_.productsName',label:"产品名称",width:190, editable: false},
-			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
+			{name:'xproductnum',index:'products.productsCode',label:"产品编号",width:70, editable: false},
+			{name:'xproductname',index:'products.productsName',label:"产品名称",width:190, editable: false},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode',label:"工序编码", width:70,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'this_.state', width:70,label:"状态", sortable:false,editable: false,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
-			 
-		], 
-
+			{name:'stateRemark',index:'state', width:70,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action"}}
+		],
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -166,7 +141,7 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			//edit: true,
-		    editfunc:function(rowId){
+		  editfunc:function(rowId){
 			    window.location.href="process!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -240,10 +215,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form
@@ -257,3 +232,4 @@ jQuery(function($) {
 
 
 });
+

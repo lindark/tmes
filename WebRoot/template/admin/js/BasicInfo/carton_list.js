@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'cartonDescribe',index:'cartonDescribe', width:200},
 			{name:'cartonAmount',index:'cartonAmount', width:200},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'confirmUser',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 
 		], 

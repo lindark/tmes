@@ -235,6 +235,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 				if(!this.existAlias(detachedCriteria, propertyPrefix, propertyPrefix))//判断alias 是否已经有创建过,没有创建过，及创建，已经创建过就不需要创建了，不处理同一表的关联处理
 					detachedCriteria.createAlias(propertyPrefix, propertyPrefix);
 				propertyString= propertyPrefix+"."+propertySuffix;
+			}else{
+				propertyString= searchField;
 			}
             if ("eq".equals(searchOper)) {  //等于
             	detachedCriteria.add(Restrictions.eq(propertyString, searchString));

@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode',label:"工序编码", width:70,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:70,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action"}}
+			{name:'stateRemark',index:'state', width:70,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processState"}}
 		],
 		viewrecords : true,
 		rowNum:10,

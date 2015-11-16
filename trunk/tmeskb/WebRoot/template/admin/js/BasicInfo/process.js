@@ -86,13 +86,15 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '创建日期','工序编码','工序名称','状态', ],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'processCode',index:'processCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'processName',index:'processName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'xproductnum',index:'wb1_.matnr',label:"产品编号",width:70, editable: false},
+			{name:'xproductname',index:'wb1_.maktx',label:"产品名称",width:190, editable: false},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'processCode',index:'processCode',label:"工序编码", width:70,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'processName',index:'processName',label:"工序名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'state', width:70,label:"状态", sortable:false,editable: false,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 			 
 		], 
 
@@ -169,7 +171,7 @@ jQuery(function($) {
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(rowId){
+			addfunc:function(){
 				window.location.href="process!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',

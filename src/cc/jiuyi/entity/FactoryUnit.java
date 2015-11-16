@@ -27,7 +27,9 @@ public class FactoryUnit extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述    
     private WorkShop workShop;//车间
-    
+    private String workShopName;
+    private String factoryName;
+     
 	public String getFactoryUnitCode() {
 		return factoryUnitCode;
 	}
@@ -71,6 +73,20 @@ public class FactoryUnit extends BaseEntity{
 	}
 	public void setWorkShop(WorkShop workShop) {
 		this.workShop = workShop;
+	}
+	@Transient
+	public String getWorkShopName() {
+		return workShopName;
+	}
+	public void setWorkShopName(String workShopName) {
+		this.workShopName = workShopName;
+	}
+	@Transient
+	public String getFactoryName() {
+		return factoryName;
+	}
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
 	}
 
    

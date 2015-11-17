@@ -109,12 +109,12 @@ public class AbnormalAction extends BaseAdminAction {
 			
 		    Abnormal persistent = abnormalService.load(aid);
 		    persistent.setReplyDate(new Date());
-		    persistent.setState("已确定");
+		    persistent.setState("2");
 		    persistent.setHandlingTime(1);
 		    abnormalService.update(persistent);
 		}else if(cancelId!=null){
 			Abnormal persistent = abnormalService.load(cancelId);
-			persistent.setState("已撤销");
+			persistent.setState("4");
 			abnormalService.update(persistent);
 		}
 		

@@ -115,19 +115,26 @@ public class AbnormalAction extends BaseAdminAction {
 		    Abnormal persistent = abnormalService.load(aid);
 		    persistent.setReplyDate(new Date());
 		    persistent.setState("2");
-		    persistent.setHandlingTime(1);
+		    Date date = new Date();
+		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/1000*60);
+		    persistent.setHandlingTime(time);
 		    abnormalService.update(persistent);
 		}else if(cancelId!=null){
 			Abnormal persistent = abnormalService.load(cancelId);
 			persistent.setState("4");
+			persistent.setReplyDate(new Date());
+			Date date = new Date();
+		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/1000*60);
+		    persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
-		}else if(closeId!=null){
-			String id[]=closeId.split(",");
-			for(int i=0;i<=id.length;i++){
-				Abnormal persistent=abnormalService.load(id[i]);
+		}else if(closeId!=null){			
+				Abnormal persistent=abnormalService.load(closeId);
 				persistent.setState("3");
-				abnormalService.update(persistent);
-			}			
+				persistent.setReplyDate(new Date());
+				Date date = new Date();
+			    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+			    persistent.setHandlingTime(time);
+				abnormalService.update(persistent);				
 		}
 		
 		redirectionUrl = "abnormal!list.action";

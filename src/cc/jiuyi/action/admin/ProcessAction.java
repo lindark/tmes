@@ -20,9 +20,11 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -45,16 +47,17 @@ public class ProcessAction extends BaseAdminAction {
 
 	private Process process;
 	//获取所有状态
-	private List<Dict> allState;
 	private List<WorkingBill>ar;
 	private String info;
-	
+	private Products products;
 	@Resource
 	private ProcessService processService;
 	@Resource
 	private DictService dictService;
 	@Resource
 	private WorkingBillService wbService;
+	@Resource
+	private ProductsService pdService;
 	
 	//是否已存在ajax验证
 	public String checkProcesssCode()
@@ -147,15 +150,16 @@ public class ProcessAction extends BaseAdminAction {
 			for (int i = 0; i < processList.size(); i++) 
 			{
 				Process p =processList.get(i);
-				p.setXproductnum(p.getProducts().getProductsCode());//产品编码
-				p.setXproductname(p.getProducts().getProductsName());//产品名称
+				//p.setXproductnum(p.getProducts());//产品编码
+				//p.setXproductname(p.getProducts().getProductsName());//产品名称
 				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "processState", p.getState()));
+				p.setProducts(null);
 				list2.add(p);
 			}
 			pager.setList(list2);
 			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
+			//jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
@@ -269,6 +273,65 @@ public class ProcessAction extends BaseAdminAction {
 		
 	}
 	
+	/**
+	 * 根据工序id查询对应产品的所有
+	 */
+	public String getProductsList()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		try
+		{
+			if(pager == null) {
+				pager = new Pager();
+				//pager.setOrderType(OrderType.asc);
+				//pager.setOrderBy("orderList");
+			}
+			if(pager.is_search()==true && filters != null){//需要查询条件
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+			
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if(obj.get("start")!=null&&obj.get("end")!=null){
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
+				//产品编码
+				if(obj.get("xproductnum")!=null)
+				{
+					map.put("xproductnum", obj.get("xproductnum").toString());
+				}
+				//产品名称
+				if(obj.get("xproductname")!=null)
+				{
+					map.put("xproductname", obj.get("xproductname").toString());
+				}
+			}
+			pager = processService.getProductsList(pager, map);
+			List<Process> list = pager.getList();
+			pager.setList(list);
+			JsonConfig jsonConfig=new JsonConfig();
+			//jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+			System.out.println(jsonArray.get(0).toString());
+			return ajaxJson(jsonArray.get(0).toString());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	/***/
 	public Process getProcess() {
 		return process;
@@ -288,18 +351,6 @@ public class ProcessAction extends BaseAdminAction {
 	public void setProcessService(ProcessService processService) {
 		this.processService = processService;
 	}
-
-
-	//获取所有状态
-	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
-	}
-
-
-	public void setAllState(List<Dict> allState) {
-		this.allState = allState;
-	}
-
 
 	public DictService getDictService() {
 		return dictService;
@@ -328,6 +379,16 @@ public class ProcessAction extends BaseAdminAction {
 	public void setInfo(String info)
 	{
 		this.info = info;
+	}
+
+	public Products getProducts()
+	{
+		return products;
+	}
+
+	public void setProducts(Products products)
+	{
+		this.products = products;
 	}
 	
 }

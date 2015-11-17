@@ -75,7 +75,7 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName1")+"%"));
 			}			
 		}		
-		//detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 /*

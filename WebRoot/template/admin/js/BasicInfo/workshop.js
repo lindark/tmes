@@ -94,7 +94,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "work_shop!delete.adction",//用它做标准删除动作
+		editurl: "work_shop!delete.action",//用它做标准删除动作
 		caption: "车间管理"
 
 		//,autowidth: true,

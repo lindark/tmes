@@ -1,4 +1,12 @@
 $(function() {
+	
+	var $callRing = $("#callRing");// 呼叫
+	$callRing.click(function() {
+		alert("in");
+			window.location.href = "abnormal!add.action";		
+    });
+	
+	
 	var $modelrep = $("#modelrep");// 工模
 	$modelrep.click(function() {		
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
@@ -64,6 +72,19 @@ $(function() {
 			alert("请至少选择一个异常");
 			return false;
 		}else{
+			window.location.href = "abnormal!update.action?cancelId="+i;
+		}		
+    });
+	
+	var $closeAbn = $("#closeAbn");// 关闭异常
+	$closeAbn.click(function() {
+		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+		if(i.length<=0){
+			alert("请至少选择一个异常");
+			return false;
+		}else{
+			var rowData = $("#grid-table1").jqGrid('getRowData',i);
+			var rowName=rowData.workShopName;
 			window.location.href = "abnormal!update.action?cancelId="+i;
 		}		
     });

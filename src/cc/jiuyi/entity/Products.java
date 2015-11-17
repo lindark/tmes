@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,10 +36,19 @@ public class Products extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-    
-
 	
 	private Set<Material> material;//产    品
+	private Set<Process> process;//工序
+	
+	@ManyToMany(fetch=FetchType.LAZY,mappedBy = "products")
+	public Set<Process> getProcess()
+	{
+		return process;
+	}
+	public void setProcess(Set<Process> process)
+	{
+		this.process = process;
+	}
 
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="products")
 	public Set<Material> getMaterial() {

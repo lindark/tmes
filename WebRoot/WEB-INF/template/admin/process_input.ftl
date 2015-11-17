@@ -10,103 +10,21 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process_input.js"></script>
 <style type="text/css">
 	.mymust{color: red;font-size: 10px;}
+	.p_name{width:300px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
 </style>
 <script type="text/javascript">
 $().ready( function() {
-
 	// 地区选择菜单
 	$(".areaSelect").lSelect({
 		url: "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
 	});
-	
-	//表单监控
-	form_ck();
-	//提交事件,判断工序名是否为空
-	$("#btn_sub").click(function(){
-		var processcode=$("#processcode").val().replace(" ","");//工序编码
-		var processname=$("#processname").val().replace(" ","");//工序名称
-		var xcode=$("#xcode").val();//工序编码,用于判断：1.不为空表示修改，可以为原名不用判断是否存在，  2.为空表示新增，需要判断是否已存在
-		if((processcode==""||processcode==null)||(processname==""||processname==null))
-		{
-			layer.alert("必填数据不能为空,请查看!",8,false);
-		}
-		else
-		{
-			$("#processcode").val(processcode);//去空
-			$("#processname").val(processname);//去空
-			//新增
-			if(xcode==null||xcode=="")
-			{
-				sub_ck(processcode);
-			}
-			else
-			{
-				//修改，因为工序编码为只读不需要判断，如果需要判断的时候用注释部分的
-				$("#inputForm").submit();
-				/*
-				if(xcode==processcode)
-				{
-					$("#inputForm").submit();
-				}
-				else
-				{
-					sub_ck(processcode);
-				}
-				*/
-				
-			}
-		}
-	});
 });
-
-//表单监控
-function form_ck()
-{
-	$("#processcode").blur(function(){
-		var pcode=$("#processcode").val().replace(" ","");//工序编码
-		if(pcode==""||pcode==null)
-		{
-			$("#span_code").text("工序编码不能为空!");
-			$("#processcode").val("");//清空，针对只有空格的
-		}
-		else
-		{
-			$("#span_code").text("");
-			$("#processcode").val(pcode);//去空
-		}
-	});
-	$("#processname").blur(function(){
-		var pname=$("#processname").val().replace(" ","");//工序名称
-		if(pname==""||pname==null)
-		{
-			$("#span_name").text("工序名称不能为空!");
-			$("#processname").val("");//清空，针对只有空格的
-		}
-		else
-		{
-			$("#span_name").text("");
-			$("#processname").val(pname);//去空
-		}
-	});
-}
-
-//查检提交
-function sub_ck(val)
-{
-	$.post("process!getCk.action",{info:val},function(data){
-		if(data.message=="s")
-		{
-			$("#inputForm").submit();
-		}
-		else if(data.message=="e")
-		{
-			layer.alert("工序编号已存在,添加失败!",8,false);
-			$("#span_code").text("工序编码已存在!");
-		}
-	},"json");
-}
 </script>
 <#if !id??>
 	<#assign isAdd = true />
@@ -158,6 +76,8 @@ body{background:#fff;}
 		<form id="inputForm" class="validate" action="<#if isAdd??>process!save.action<#else>process!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<input type="hidden" id="xcode" value="${(process.processCode)!}" />
+			<input type="text" id="productsId" name="products.id" value=""/>
+			<input type="text" id="productsName" name="products.productsName" value=""/>
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -171,34 +91,41 @@ body{background:#fff;}
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<div class="profile-info-name"> <label class="mymust">*</label>工序编码 </div>					
+										<div class="profile-info-name"> 工序编码 </div>					
 										<div class="profile-info-value">
 										<#if isAdd??>
-											<input id="processcode" type="text" name="process.processCode" value="${(process.processCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />&nbsp;&nbsp;<span id="span_code" class="mymust"></span>
+											<input id="processcode" type="text" name="process.processCode" value="${(process.processCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" /><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" class="mymust"></span>
 											<!-- <input id="processcode" type="text" name="process.processCode" class="formText {required: true,minlength:2,maxlength: 100,processCode:true,remote:'process!checkProcesssCode.action',messages:{remote:'工序编码已存在'}}" /> -->
 										<#else>
 										    ${process.processCode}
-										    <input id="processcode" type="hidden" name="process.processCode" value="${(process.processCode)!}"/><span id="span_code" style="display: none"></span>
+										    <input id="processcode" type="hidden" name="process.processCode" value="${(process.processCode)!}"/><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" style="display: none"></span>
 										</#if>	
 										</div>
 									</div>	
 									
 									<div class="profile-info-row">	
-										<div class="profile-info-name"> <label class="mymust">*</label>工序名称 </div>					
+										<div class="profile-info-name">工序名称 </div>					
 										<div class="profile-info-value">
-											<input id="processname" type="text" name="process.processName" value="${(process.processName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />&nbsp;&nbsp;<span id="span_name" class="mymust"></span>
+											<input id="processname" type="text" name="process.processName" value="${(process.processName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" /><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_name" class="mymust"></span>
 										</div>
 									</div>
 									
 									<div class="profile-info-row">	
-										<div class="profile-info-name"><label class="mymust">*</label> 产品名称 </div>					
+										<div class="profile-info-name">产品名称 </div>	
 										<div class="profile-info-value">
-											<input type="text" />
+											<label id="product_name" class="p_name">&nbsp;</label>
+											<!-- 	
+											<input id="product_name" name="product_name" class="p_name" type="text" value="${(process.products.productsName)! }" />
+											
+											<label class="requireField">*</label>&nbsp;&nbsp;
+											 -->
+											 <label class="requireField">*</label>
+											 &nbsp;&nbsp;<span id="span_name" class="mymust"></span>
 										</div>
 									</div>
 									
 									<div class="profile-info-row">
-										<div class="profile-info-name"><label class="mymust">*</label> 状态</div>					
+										<div class="profile-info-name">状态</div>					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
@@ -235,7 +162,5 @@ body{background:#fff;}
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
 	<!-- ./ add by welson 0728 -->
-
-
 </body>
 </html>

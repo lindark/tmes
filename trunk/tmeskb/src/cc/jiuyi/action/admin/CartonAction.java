@@ -180,32 +180,7 @@ public class CartonAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("cartonCode") != null) {
-				System.out.println("obj=" + obj);
-				String cartonCode = obj.getString("cartonCode").toString();
-				map.put("cartonCode", cartonCode);
-			}
-			if (obj.get("cartonDescribe") != null) {
-				String cartonDescribe = obj.getString("cartonDescribe")
-						.toString();
-				map.put("cartonDescribe", cartonDescribe);
-			}
-			if (obj.get("cartonAmount") != null) {
-				String cartonAmount = obj.getString("cartonAmount").toString();
-				map.put("cartonAmount", cartonAmount);
-			}
-			if (obj.get("adminName") != null) {
-				String adminName = obj.getString("adminName").toString();
-				map.put("adminName", adminName);
-			}
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
-			}
-		}
+	
 		pager = cartonService.getCartonPager(pager, map);
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();

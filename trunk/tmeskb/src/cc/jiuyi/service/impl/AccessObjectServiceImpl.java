@@ -11,6 +11,7 @@ import cc.jiuyi.dao.AccessObjectDao;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.dao.DepartmentDao;
 import cc.jiuyi.entity.AccessObject;
+import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.service.AccessObjectService;
@@ -26,9 +27,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, String> implements AccessObjectService {
+	
+	@Resource
+	private AccessObjectDao accessobjectdao;
+	
 	@Resource
 	public void setBaseDao(AccessObjectDao accessobjectdao) {
 		super.setBaseDao(accessobjectdao);
+	}
+	
+	@Override
+	public List<AccessObject> findTypeList(String value) {
+		return accessobjectdao.findTypeList(value);
 	}
 
 }

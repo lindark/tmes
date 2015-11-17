@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -15,9 +17,13 @@ import cc.jiuyi.service.AccessResourceService;
 
 @Service
 public class AccessResourceServiceImpl extends BaseServiceImpl<AccessResource, String> implements AccessResourceService {
+	
+	
 	@Resource
 	public void setBaseDao(AccessResourceDao accessresourcedao) {
 		super.setBaseDao(accessresourcedao);
 	}
+
+	
 
 }

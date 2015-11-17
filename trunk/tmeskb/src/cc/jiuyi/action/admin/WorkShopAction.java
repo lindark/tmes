@@ -47,7 +47,7 @@ public class WorkShopAction extends BaseAdminAction {
 	//获取所有状态
 	private List<Dict> allState;
 	private String factoryId;
-	private String factoryName;
+	private String factoryName1;
 	
 	@Resource
 	private WorkShopService workShopService;
@@ -133,7 +133,7 @@ public class WorkShopAction extends BaseAdminAction {
 			}
 		}
 
-			pager = workShopService.getWorkShopPager(pager, map,factoryName);
+			pager = workShopService.getWorkShopPager(pager, map,factoryName1);
 			List<WorkShop> workShopList = pager.getList();
 			List<WorkShop> lst = new ArrayList<WorkShop>();
 			for (int i = 0; i < workShopList.size(); i++) {
@@ -269,12 +269,12 @@ public class WorkShopAction extends BaseAdminAction {
 		this.factory = factory;
 	}
 
-	public String getFactoryName() {
-		return factoryName;
+	public String getFactoryName1() {
+		return factoryName1;
 	}
 
-	public void setFactoryName(String factoryName) {
-		this.factoryName = factoryName;
+	public void setFactoryName1(String factoryName1) {
+		this.factoryName1 = factoryName1;
 	}
 	
 	

@@ -89,9 +89,10 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setModelSet(null);
 			abnormal.setQualitySet(null);
 			abnormal.setAdminSet(null);
-			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "abnormalState", abnormal.getState()));
-			abnormal.setCallReason(abnormal.getCallreasonSet().toString());
+			/*abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "abnormalState", abnormal.getState()));*/
+			String callR=callReasonService.load(abnormal.getMessage()).getCallReason();
+			abnormal.setCallReason(callR);
 			abnormal.setCallreasonSet(null);
 			pagerlist.set(i, abnormal);
 		}

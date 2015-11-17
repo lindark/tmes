@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var workingBillId = $("#workingBillId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -45,7 +46,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"carton!ajlist.action",
+		url:"carton!ajlist.action?workingBillId="+workingBillId,
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -115,7 +116,7 @@ jQuery(function($) {
 	    }, //底部合计
 
 		editurl: "carton!delete.action",//用它做标准删除动作
-		caption: "转储记录"
+		caption: "纸箱记录"
 
 		//,autowidth: true,
 //		,
@@ -159,8 +160,8 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-			editfunc:function(rowId){
+			edit: false,
+			/*editfunc:function(rowId){
 				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(ids.length>1){
 					alert("请选择一条记录");
@@ -169,18 +170,18 @@ jQuery(function($) {
 				var workingBillId = $("#workingBillId").val();
 				window.location.href="carton!edit.action?id="+rowId+"&workingBillId="+workingBillId;
 			},
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
+			editicon : 'ace-icon fa fa-pencil blue',*/
+			add: false,
+			/*addfunc:function(){
 				var workingBillId = $("#workingBillId").val();
 				window.location.href="carton!add.action?workingBillId="+workingBillId;
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			addicon : 'ace-icon fa fa-plus-circle purple',*/
+			del: false,
 			/*delfunc:function(rowId){
 				window.location.href="carton!delete.action?id="+rowId;
 			},*/
-			delicon : 'ace-icon fa fa-trash-o red',
+			//delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,

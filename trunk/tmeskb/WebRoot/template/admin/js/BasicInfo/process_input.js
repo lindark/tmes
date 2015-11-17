@@ -97,8 +97,8 @@ function showproducts()
 {
 	var title = "选择产品";
 	var width="800px";
-	var height="500px";
-	var content="products!ajlist.action";//"process!browser.action";//"process!getProductsList.action";
+	var height="632px";
+	var content="products!list2.action";//"process!browser.action";//"process!getProductsList.action";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();

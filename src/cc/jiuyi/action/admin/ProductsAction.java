@@ -17,15 +17,15 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -46,10 +46,16 @@ public class ProductsAction extends BaseAdminAction {
 	//获取所有状态
 	private List<Dict> allState;
 	
+	private Material material;
+	
+	private String materialId;
+	
 	@Resource
 	private ProductsService productsService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private MaterialService materialService;
 	
 	//是否已存在ajax验证
 	public String checkProductsCode(){
@@ -244,6 +250,32 @@ public class ProductsAction extends BaseAdminAction {
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
 	}
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
+	public String getMaterialId() {
+		return materialId;
+	}
+
+	public void setMaterialId(String materialId) {
+		this.materialId = materialId;
+	}
+
+	public MaterialService getMaterialService() {
+		return materialService;
+	}
+
+	public void setMaterialService(MaterialService materialService) {
+		this.materialService = materialService;
+	}
+	
+	
 	
 	
 }

@@ -90,9 +90,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);			
 			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
@@ -139,6 +138,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 				factoryUnit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "factoryUnitState", factoryUnit.getState()));
 				factoryUnit.setFactoryName(factoryUnit.getWorkShop().getFactory().getFactoryName());
+				factoryUnit.setWorkShopName(factoryUnit.getWorkShop().getWorkShopName());
 				factoryUnit.setWorkShop(null);
 				lst.add(factoryUnit);
 			}

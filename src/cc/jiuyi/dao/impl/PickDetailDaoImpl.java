@@ -48,27 +48,27 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(PickDetail.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if (map.size() > 0) {
+//		if (map.size() > 0) {
 //			if(map.get("pickDetailCode")!=null){
 //			    detachedCriteria.add(Restrictions.like("pickDetailCode", "%"+map.get("pickDetailCode")+"%"));
 //			}		
 //			if(map.get("pickDetailName")!=null){
 //				detachedCriteria.add(Restrictions.like("pickDetailName", "%"+map.get("pickDetailName")+"%"));
 //			}
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}		
+//			if(map.get("state")!=null){
+//				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
+//			}
+//			if(map.get("start")!=null||map.get("end")!=null){
+//				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+//				try{
+//					Date start=sdf.parse(map.get("start"));
+//					Date end=sdf.parse(map.get("end"));
+//					detachedCriteria.add(Restrictions.between("createDate", start, end));
+//				}catch(Exception e){
+//					e.printStackTrace();
+//				}
+//			}
+//		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
@@ -85,30 +85,13 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Material> getMantrBom(String matnr) {
-		String hql="from Material where productCodes = ?";
+		String hql="from Material where productsCode = ?";
 		return getSession().createQuery(hql).setParameter(0, matnr).list();
 		
 	}
 
-//	@Override
-//	public Material getMaterialNameById(String id) {
-//		String hql="from Material where id=?";
-//		return (Material) getSession().createQuery(hql).setParameter(0, id).list();
-//	}
 
-	
-
-//	@SuppressWarnings("unchecked")
-//	public boolean isExistByPickDetailCode(String pickDetailCode) {
-//		String hql="from PickDetail pickDetail where lower(pickDetail.pickDetailCode)=lower(?)";
-//		PickDetail pickDetail=(PickDetail)getSession().createQuery(hql).setParameter(0, pickDetailCode).uniqueResult();
-//		System.out.println(hql);
-//		if(pickDetail !=null){
-//			return true;
-//		}else{
-//			return false;
-//		}
-//	}
 }

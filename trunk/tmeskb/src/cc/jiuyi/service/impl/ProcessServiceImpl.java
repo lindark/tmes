@@ -93,9 +93,8 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		return true;
 	}
 
-	@Override
-	public Pager getProductsList(Pager pager, HashMap<String, String> map)
+	/*public Pager getProductsList(Pager pager, HashMap<String, String> map)
 	{
 		return this.processDao.getProductsList(pager,map);
-	}
+	}*/
 }

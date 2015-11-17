@@ -52,6 +52,7 @@
 		jQuery(function($) {
 			var path = document.location.pathname;
 			var actionName = path.replace(/\/admin\//, '');
+			//alert(actionName);
 			var str = actionName.substring(actionName.indexOf("!") + 1,actionName.indexOf("."));
 			var flag = urleach(actionName);
 			if(flag==false)

@@ -79,6 +79,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		return adminDao.findPagerByjqGrid(pager, map,idList);
 	}
 
+	@Override
+	public Pager getAdminPager(Pager pager, Map map, String departName) {
+		// TODO Auto-generated method stub
+		return adminDao.getAdminPager(pager,map,departName);
+	}
+
 	
 
 }

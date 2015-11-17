@@ -316,6 +316,7 @@ public class AdminAction extends BaseAdminAction {
 				admin.setDepartName(admin.getDepartment().getDeptName());
 				admin.setDepartment(null);
 				admin.setAbnormal(null);
+				admin.setCartonConfirmUser(null);
 				pagerlist.set(i, admin);
 				//pagerlist.add(admin);
 			}

@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/编辑产品管理 - Powered By ${systemConfig.systemName}</title>
+<title>添加/编辑产品Bom管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -53,7 +53,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active"><#if isAdd??>添加产品记录<#else>编辑产品记录</#if></li>
+			<li class="active"><#if isAdd??>添加产品Bom记录<#else>编辑产品Bom记录</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -71,7 +71,7 @@ body{background:#fff;}
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">产品信息</a>
+					<a href="#tabs-1">产品Bom信息</a>
 				</li>
 				
 			</ul>

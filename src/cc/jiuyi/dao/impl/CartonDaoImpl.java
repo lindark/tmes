@@ -22,11 +22,12 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 		CartonDao {
 
 	@Override
-	public Pager getCartonPager(Pager pager, HashMap<String, String> map) {
+	public Pager getCartonPager(Pager pager, HashMap<String, String> map,String workingbillId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Carton.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("workingbill.id", workingbillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

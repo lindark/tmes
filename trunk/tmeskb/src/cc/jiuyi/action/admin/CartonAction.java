@@ -27,6 +27,7 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -76,9 +77,7 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(requiredStrings = { @RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
-
-	)
+	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
@@ -88,11 +87,9 @@ public class CartonAction extends BaseAdminAction {
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
-	
-	// 更新
-	@Validations(requiredStrings = { @RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
 
-	)
+	// 更新
+	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String update() {
 		Carton persistent = cartonService.load(id);
@@ -125,9 +122,8 @@ public class CartonAction extends BaseAdminAction {
 				admin = adminService.getLoginAdmin();
 				carton.setAdmin(admin);
 				carton.setConfirmUser(admin.getId());
-				workingbill.setCartonTotalAmount(Integer.parseInt(workingbill
-						.getCartonTotalAmount())
-						+ Integer.parseInt(carton.getCartonAmount()) + "");
+				workingbill.setCartonTotalAmount(workingbill
+						.getCartonTotalAmount() + carton.getCartonAmount());
 				cartonService.update(carton);
 			}
 		}
@@ -147,7 +143,8 @@ public class CartonAction extends BaseAdminAction {
 			carton.setAdmin(admin);
 			carton.setConfirmUser(admin.getId());
 			if (CONFIRMED.equals(carton.getState())) {
-				workingbill.setCartonTotalAmount(Integer.parseInt(workingbill.getCartonTotalAmount())-Integer.parseInt(carton.getCartonAmount())+"");
+				workingbill.setCartonTotalAmount(workingbill
+						.getCartonTotalAmount() - carton.getCartonAmount());
 			}
 			carton.setState(UNDO);
 			cartonService.update(carton);
@@ -180,8 +177,8 @@ public class CartonAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-	
-		pager = cartonService.getCartonPager(pager, map);
+
+		pager = cartonService.getCartonPager(pager, map, workingBillId);
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();
 		for (int i = 0; i < cartonList.size(); i++) {

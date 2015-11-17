@@ -12,6 +12,14 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		<script type="text/javascript">
+			$(document).keydown(function(event){
+				if(event.keyCode==13)
+				{
+					$("#searchButton").click();
+				}
+			});
+		</script>
 	</head>
 	
 	<body class="no-skin list">
@@ -53,7 +61,7 @@
 								<form class="form-horizontal" id="searchform" action="process!ajlist.action" role="form">
 								   <div class="operateBar">
 								   
-								   
+								   <!-- 
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品编码:</label>
 										<div class="col-sm-4">
@@ -66,7 +74,7 @@
 											<input type="text" name="xproductname" class="input input-sm form-control" value="" id="form-field-icon-1">			
 										</div>
 									</div>
-								   
+								   -->
 								   
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">工序编码:</label>
@@ -147,12 +155,13 @@
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 			</a>
+			<div id="show_products"></div>
 		</div><!-- /.main-container -->
 
 		
 
 		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
+<script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
 	 */

@@ -41,9 +41,10 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
-			{name:'accObjName',label:"权限对象名称",width:200,index:'accObjName',editable:true,editrules : {required : true}},
-			{name:'type',label:"权限对象类型",width:200,index:'type',editable:true,editrules : {email : true}},
-			{name:'createDate',label:"创建日期",width:200,index:'createDate', editable: true,editrules : {required : true}},
+			{name:'accObjkey',label:"权限对象Key",width:200,index:'accObjkey',editable:true},
+			{name:'accObjName',label:"权限对象名称",width:200,index:'accObjName',editable:true},
+			{name:'typeName',label:"权限对象类型",width:200,index:'type',editable:true},
+			{name:'modifyDate',label:"修改日期",width:200,index:'createDate', editable: true,formatter:datefmt},
 			//{name:'resourceName',label:"资源名称",width:200,index:'resourceName', editable: true,editrules : {required : true}}
 		], 
 

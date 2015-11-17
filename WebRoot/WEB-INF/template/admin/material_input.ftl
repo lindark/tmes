@@ -57,6 +57,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
+			
 			<li class="active"><#if isAdd??>添加产品记录<#else>编辑产品记录</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
@@ -70,7 +71,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>products!save.action<#else>products!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="<#if isAdd??>material!save.action<#else>material!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
@@ -93,44 +94,33 @@ body{background:#fff;}
 													<label class="requireField">*</label>
 												</div>
 
-												<div class="profile-info-name">产品编码</div>
+											<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-												 <a id="userAddBtn">点击</a>
-													<select name="productsCode" class="{required: true}"
-														style="width:200px;">
-														<option value="">请选择...</option> 
-														<#list productsList as list>
-														<option value="${list.id}" <#if (list.id == material.products.id)!> selected</#if>>${list.productsCode}</option>
-														</#list>
-													</select>
-													<label class="requireField">*</label>
+												 <input type="hidden" id="productId" name="material.products.id" value=""  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
+												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>					                                    
+				                                     <span id ="productName"></span>
+										         	 <label class="requireField">*</label>	
+										         	 <#else>
+										         	 ${(material.products.productsName)!}     ${(material.products.productsCode)!}   
+										         	 </#if>	
 												</div>
 											</div>
 
 
 											<div class="profile-info-row">
-												<div class="profile-info-name">产品名称</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.productsName"
-														value="${(material.productsName)!}"
-														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-
-
 												<div class="profile-info-name">组件编码</div>
 												<div class="profile-info-value">
 													<#if isAdd??> <input type="text"
 														name="material.materialCode"
-														class="formText {digits:true,required: true,minlength:2,maxlength: 100,materialCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'组件编码已存在'}}" />
+														value="${(material.materialCode)!}"
+														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100, remote: 'material!checkMaterialCode.action', messages: {remote: '组件编码已存在!'}}" />
 													<label class="requireField">*</label> <#else>
-													${material.materialCode} <input type="hidden"
+													${(material.materialCode)!} <input type="hidden"
 														name="material.materialCode"
 														value="${(material.materialCode)!}" /> </#if>
 												</div>
-											</div>
 
-											<div class="profile-info-row">
+
 												<div class="profile-info-name">组件名称</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.materialName"
@@ -138,28 +128,29 @@ body{background:#fff;}
 														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
+												
+											</div>
 
-
-												<div class="profile-info-name">溢出指示符</div>
+											<div class="profile-info-row">
+											<div class="profile-info-name">溢出指示符</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.runOver"
 														value="${(material.runOver)!}"
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
-
-
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">例外</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.exception"
 														value="${(material.exception)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
+														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
+											</div>
 
 
+											<div class="profile-info-row">
 												<div class="profile-info-name">组件单位</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.materialUnit"
@@ -167,19 +158,18 @@ body{background:#fff;}
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
-
-
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">组件数量</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.materialAmount"
 														value="${(material.materialAmount)!}"
-														class=" input input-sm formText {digits:true,required: true,minlength:2,maxlength: 100}" />
+														class=" input input-sm formText {digits:true,required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
+											</div>
 
 
+											<div class="profile-info-row">
 												<div class="profile-info-name">批次</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.batch"
@@ -187,19 +177,18 @@ body{background:#fff;}
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
-
-
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">项目</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.project"
 														value="${(material.project)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
+														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
+											</div>
 
 
+											<div class="profile-info-row">
 												<div class="profile-info-name">项目类别</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.projectType"
@@ -207,9 +196,7 @@ body{background:#fff;}
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
-
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">状态</div>
 												<div class="profile-info-value">
 													<label class="pull-left inline"> <small
@@ -223,7 +210,7 @@ body{background:#fff;}
 														(isAdd || material.state == '2')!> checked</#if> /> <span
 														class="lbl middle"></span> </label>
 												</div>
-											</div>
+											</div>							
 										</div>
 				
 			<div class="buttonArea">

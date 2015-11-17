@@ -67,7 +67,7 @@ jQuery(function($) {
 			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'iniitiator',index:'iniitiator', width:60, editable: true},
 			{name:'responsor',index:'responsor', width:60,editable: true},
-			{name:'stateRemark',index:'stateRemark', width:60,editable: true,search:false}
+			{name:'state',index:'state', width:60,editable: true,search:false}
 		], 
 
 		viewrecords : true,

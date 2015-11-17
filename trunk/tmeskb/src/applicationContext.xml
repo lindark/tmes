@@ -116,13 +116,6 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Model</value>
 				<value>cc.jiuyi.entity.Quality</value>
 				<value>cc.jiuyi.entity.WorkingBill</value>
-				<value>cc.jiuyi.entity.Repair</value>
-				<value>cc.jiuyi.entity.Repairin</value>
-				<value>cc.jiuyi.entity.EnteringwareHouse</value>
-				<value>cc.jiuyi.entity.Callreason</value>
-				<value>cc.jiuyi.entity.WorkShop</value>
-				<value>cc.jiuyi.entity.Cause</value>
-				<value>cc.jiuyi.entity.ProductGroup</value>
 				<value>cc.jiuyi.entity.Department</value>
 				<value>cc.jiuyi.entity.EnteringwareHouse</value>
 				<value>cc.jiuyi.entity.Team</value>
@@ -130,7 +123,6 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Factory</value>
 				<value>cc.jiuyi.entity.WorkShop</value>
 				<value>cc.jiuyi.entity.Callreason</value>
-				<value>cc.jiuyi.entity.Permission</value>
 				<value>cc.jiuyi.entity.Carton</value>
 				<value>cc.jiuyi.entity.Material</value>
 				<value>cc.jiuyi.entity.Cause</value>
@@ -138,6 +130,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ProductGroup</value>
 				<value>cc.jiuyi.entity.FactoryUnit</value>
 				<value>cc.jiuyi.entity.CardManagement</value>
+				<value>cc.jiuyi.entity.Permission</value>
 				<value>cc.jiuyi.entity.FlowingRectify</value>
 				<value>cc.jiuyi.entity.AccessObject</value>
 				<value>cc.jiuyi.entity.AccessResource</value>

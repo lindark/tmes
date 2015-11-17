@@ -5,14 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Products;
 
 /**
  * Dao实现类 - process
@@ -45,11 +47,10 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 
 	public Pager getProcessPager(Pager pager, HashMap<String, String> map) 
 	{
-		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(Process.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Process.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(!super.existAlias(detachedCriteria, "products", "products"))
-			detachedCriteria.createAlias("products", "products");//表名，别名
+		//if(!super.existAlias(detachedCriteria, "products", "products"))
+		//	detachedCriteria.createAlias("products", "products");//表名，别名
 		
 		if (map.size() > 0)
 		{
@@ -78,16 +79,16 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 					e.printStackTrace();
 				}
 			}
-			//产品编码
-			if(map.get("xproductnum")!=null)
-			{
-				detachedCriteria.add(Restrictions.like("products.productsCode", "%"+map.get("xproductnum")+"%"));
-			}
-			//产品名称
-			if(map.get("xproductname")!=null)
-			{
-				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("xproductname")+"%"));
-			}
+//			//产品编码
+//			if(map.get("xproductnum")!=null)
+//			{
+//				detachedCriteria.add(Restrictions.like("products.productsCode", "%"+map.get("xproductnum")+"%"));
+//			}
+//			//产品名称
+//			if(map.get("xproductname")!=null)
+//			{
+//				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("xproductname")+"%"));
+//			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		System.out.println(detachedCriteria);
@@ -134,5 +135,45 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	{
 		String hql=" from Process as a inner join fetch a.workingBill where a.processCode=? and a.isDel='N'";
 		return this.getSession().createQuery(hql).setParameter(0, info).list();
+	}
+
+	/**
+	 * 根据工序id查询对应产品的所有
+	 */
+	@Override
+	public Pager getProductsList(Pager pager, HashMap<String, String> map)
+	{
+		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Products.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if (map.size() > 0)
+		{
+			if(map.get("start")!=null||map.get("end")!=null)
+			{
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try
+				{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			//产品编码
+			if(map.get("xproductnum")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("productsCode", "%"+map.get("xproductnum")+"%"));
+			}
+			//产品名称
+			if(map.get("xproductname")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("productsName", "%"+map.get("xproductname")+"%"));
+			}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		System.out.println(detachedCriteria);
+		return super.findByPager(pager, detachedCriteria);
 	}
 }

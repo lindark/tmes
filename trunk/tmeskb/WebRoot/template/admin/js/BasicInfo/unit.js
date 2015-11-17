@@ -17,23 +17,9 @@ $(function(){
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         var work = iframeWin.getGridId();
         var id=work.split(",");
-        alert(id[0]);
         $workShopId.val(id[0]);
         $workShopId2.val(id[1]);
-        alert(id[1]);
-       // var docu = iframeWin.document;//获取document 对象
-        //var ids=$('#grid-table').jqGrid('getGridParam','selarrrow’);
-       // var ids =  $(docu).find("#grid-table").jqGrid('getGridParam','selarrrow');
-        	//var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
-       //    alert(ids); 
-//           if(ids.length >1){
-//				alert("请选择一条记录");
-//				return false;
-//			}
-//        	$("#workShopId").text(ids);
-        	/*var docu = iframeWin.document;//获取document 对象
-        	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮*/
-        	          	     	
+        layer.close(index);            	          	     	
 		});
 		
 		

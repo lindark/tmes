@@ -88,7 +88,7 @@ body{background:#fff;}
 											<tbody>
 												<tr>					
 													<td>
-													    <input type="text" name="name" id="name"　value=""/>
+													    <input type="text" name="name" id="name"　value="" class="{required: true}"/>
 														<input type="hidden" name="nameId" id="nameId"　value=""/>
 													</td>
 													<td>

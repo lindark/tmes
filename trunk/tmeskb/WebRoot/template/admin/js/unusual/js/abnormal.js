@@ -85,7 +85,7 @@ $(function() {
 		}else{
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
 			var rowName=rowData.workShopName;
-			window.location.href = "abnormal!update.action?cancelId="+i;
+			window.location.href = "abnormal!update.action?closeId="+i;
 		}		
     });
 })

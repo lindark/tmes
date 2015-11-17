@@ -60,7 +60,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>product_group!save.action<#else>product_group!update.action</#if>"
+								action="<#if isAdd??>access_resource!save.action<#else>access_resource!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${id}" />
 
@@ -97,6 +97,7 @@ body {
 															${(list.name)!}
 														</label>
 													</#list>
+													
 												</div>
 											</div>
 										</div>

@@ -67,8 +67,8 @@ jQuery(function($) {
 		colModel:[		
 			//{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'factoryCode',index:'factoryCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'factoryName',index:'factoryName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'factoryCode',index:'factoryCode', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'factoryName',index:'factoryName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
 		], 
 

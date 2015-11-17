@@ -136,31 +136,53 @@ jQuery(function() {
 	
 	$("#inputtabs").tabs();
 	
-	// 所见即所得编辑器
+//	// 所见即所得编辑器
 //	tinyMCE.init({
-//		mode : "textareas"
+//		mode : "specific_textareas"
+//	});
+//	
+//	
+//	$("textarea.wysiwyg").tinymce({
+//		script_url: tkwrdp.base + "/template/common/tiny_mce/tinymce.min.js",
+//		language: "zh",
+//		theme: "advance",
+//		plugins: "table,advimage,inlinepopups,preview,media,contextmenu,paste,fullscreen",
+//		theme_advanced_buttons1: "code,fullscreen,preview,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,styleselect,formatselect,fontselect,fontsizeselect",
+//		theme_advanced_buttons2: "undo,redo,|,link,unlink,anchor,|,sub,sup,|,forecolor,backcolor,image,media,tablecontrols",
+//		theme_advanced_buttons3: "",
+//		theme_advanced_toolbar_location: "top",
+//		theme_advanced_toolbar_align: "left",
+//		content_css: "lightgray/content.css",
+//		template_external_list_url: "lists/template_list.js",
+//		external_link_list_url: "lists/link_list.js",
+//		external_image_list_url: "lists/image_list.js",
+//		media_external_list_url: "lists/media_list.js",
+//		relative_urls: false,
+//		remove_script_host: false
 //	});
 	
-	/*
-	$("textarea.wysiwyg").tinymce({
-		script_url: tkwrdp.base + "/template/common/tiny_mce/tinymce.min.js",
-		language: "zh",
-		theme: "advance",
-		plugins: "table,advimage,inlinepopups,preview,media,contextmenu,paste,fullscreen",
-		theme_advanced_buttons1: "code,fullscreen,preview,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,styleselect,formatselect,fontselect,fontsizeselect",
-		theme_advanced_buttons2: "undo,redo,|,link,unlink,anchor,|,sub,sup,|,forecolor,backcolor,image,media,tablecontrols",
-		theme_advanced_buttons3: "",
-		theme_advanced_toolbar_location: "top",
-		theme_advanced_toolbar_align: "left",
-		content_css: "lightgray/content.css",
-		template_external_list_url: "lists/template_list.js",
-		external_link_list_url: "lists/link_list.js",
-		external_image_list_url: "lists/image_list.js",
-		media_external_list_url: "lists/media_list.js",
-		relative_urls: false,
-		remove_script_host: false
+	/**
+	 * select 框 更改
+	 */
+	$(".chosen-select").chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true}); 
+
+	
+	$(window)
+	.off('resize.chosen')
+	.on('resize.chosen', function() {
+		$('.chosen-select').each(function() {
+			 var $this = $(this);
+			 //$this.next().css({'width': $this.parent().width()});
+			 $this.next().css({'width': '200px'});
+		})
+	}).trigger('resize.chosen');
+	
+	$('#chosen-multiple-style').on('click', function(e){
+		var target = $(e.target).find('input[type=radio]');
+		var which = parseInt(target.val());
+		if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+		 else $('#form-field-select-4').removeClass('tag-input-style');
 	});
-	*/
 
 	// 内容窗口
 	$("body").prepend('<div id="contentWindow" class="contentWindow"><div class="windowTop"><div class="windowTitle"></div><a class="messageClose windowClose" href="#" hidefocus="true"></a></div><div class="windowMiddle"><div class="windowContent"></div></div><div class="windowBottom"></div></div>');

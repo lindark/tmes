@@ -64,10 +64,10 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'handlingTime',index:'handlingTime', width:160,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'message',index:'message', width:160, editable: true},
+			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'iniitiator',index:'iniitiator', width:60, editable: true},
 			{name:'responsor',index:'responsor', width:60,editable: true},
-			{name:'state',index:'state', width:60,editable: true}
+			{name:'stateRemark',index:'stateRemark', width:60,editable: true,search:false}
 		], 
 
 		viewrecords : true,

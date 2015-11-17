@@ -54,6 +54,7 @@ jiuyi.admin.browser.dialog = function(title,width,height,content,callback){
         area: [width, height],//弹出框的高度，宽度
         content:content,
         yes:function(index,layero){
+        	
         	callback(index,layero);
         }
 

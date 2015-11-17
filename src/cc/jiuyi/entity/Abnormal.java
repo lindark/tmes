@@ -46,6 +46,8 @@ public class Abnormal extends BaseEntity{
 	private Set<Callreason> callreasonSet;//
 	
 	private String callReason;
+	private String originator;
+	private String answer;
 	
 	@Column
 	public String getFactoryName() {
@@ -217,6 +219,22 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@Transient
+	public String getOriginator() {
+		return originator;
+	}
+	public void setOriginator(String originator) {
+		this.originator = originator;
+	}
+	
+	@Transient
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 	
 		

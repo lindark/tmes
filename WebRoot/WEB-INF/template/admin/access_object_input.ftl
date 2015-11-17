@@ -10,6 +10,8 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+
+
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -45,7 +47,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active"><#if isAdd??>添加产品对象<#else>编辑产品对象</#if></li>
+					<li class="active"><#if isAdd??>添加权限对象<#else>编辑权限对象</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -74,12 +76,22 @@ body {
 
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-info-row">
+												<div class="profile-info-name">权限对象Key</div>
+
+												<div class="profile-info-value">
+													<input type="text" name="accessObject.accObjkey"
+														value="${(accessObject.accObjkey)! }"
+														class=" input input-sm  formText {required: true}" />
+												</div>
+
+											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">权限对象描述</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="accessObject.AccObjName"
-														value=""
+													<input type="text" name="accessObject.accObjName"
+														value="${(accessObject.accObjName)! }"
 														class=" input input-sm  formText {required: true}" />
 												</div>
 
@@ -88,28 +100,50 @@ body {
 												<div class="profile-info-name">权限对象类型</div>
 
 												<div class="profile-info-value">
-													<select class="select formText {required: true}" name="accessObject.type">
-														<option value=""></option>
-														<option value="button">按钮</option>
-														<option value="select">下拉框</option>
-														<option value="menu">菜单</option>
+													<select class="select formText {required: true}" name="accessObject.type" id="accessType">
+														<option value="">请选择...</option>
+														<#list	allDict as list>
+														<option value="${list.dictkey }" <#if (list.dictkey ==accessObject.type)!> selected</#if>>${list.dictvalue }</option>
+														</#list>
 													</select>
 												</div>
 											</div>
+											
 											<div class="profile-info-row">
+												<div class="profile-info-name">所属资源</div>
+
+												<div class="profile-info-value">
+													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="分配所属资源" name="accessObject.resource.id">
+																	<option value="">&nbsp;</option>
+																	<#list	allRes as list>
+																		<option value="${list.id}" <#if (list.id ==accessObject.resource.id)!> selected</#if>>${(list.name)! }</option>
+																	</#list>
+													</select>
+													<label id="resMessagePosition"></label>
+												</div>
+											</div>
+											<div class="profile-info-row hide">
 												<div class="profile-info-name">请求地址</div>
 
 												<div class="profile-info-value">
 													<input type="text" name="accessObject.requesturl"
-														value=""
+														value="${(ccessObject.requesturl)! }"
 														class=" input input-sm" />
 												</div>
 											</div>
-											<div class="profile-info-row">
+											<div class="profile-info-row hide">
 												<div class="profile-info-name">数据字典id</div>
 
 												<div class="profile-info-value">
-												
+													
+												</div>
+											</div>
+											<div class="profile-info-row ">
+												<div class="profile-info-name">按钮html编辑器</div>
+
+												<div class="profile-info-value">
+													
+													<textarea name="accessObject.htmlarea" class="form-control" id="form-field-8" placeholder="Default Text" style="margin: 0px -0.015625px 0px 0px; height: 52px; width: 331px;">${(accessObject.htmlarea)! }</textarea>
 												</div>
 											</div>
 										</div>
@@ -151,3 +185,15 @@ body {
 
 </body>
 </html>
+<script type="text/javascript">
+	$(function(){
+		var $accessType =  $("#accessType");//权限对象类型
+		$accessType.change(function(){
+			var sVal = $(this).val();
+			if(sVal=="button"){//按钮
+				
+			}
+		})
+		
+	})
+</script>

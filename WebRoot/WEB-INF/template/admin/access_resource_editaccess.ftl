@@ -60,7 +60,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>product_group!save.action<#else>product_group!update.action</#if>"
+								action="access_resource!saveaccess.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" />
 
@@ -82,9 +82,9 @@ body {
 														<div class="widget-main no-padding">
 															<ul class="list-unstyled list-striped pricing-table-header">
 																<li>
-																	<#list allAccessobject as list>
+																	<#list accessResource.resource.accessobjectSet as list>
 																		<label>
-																			<input type="checkbox" class="ace" name="accessobjectlist.id" class="{required: true}" value="${list.id}" />
+																			<input type="checkbox" class="ace" name="accessobjectlist.id" class="{required: true}" value="${list.id}" <#if (accessResource.accessobjectSet.contains(list) == true)!>checked="checked"</#if> />
 																			<span class="lbl"> ${(list.accObjName)!}</span>
 																		</label>
 																	</#list>
@@ -114,7 +114,7 @@ body {
 											<div class="widget-body">
 												<div class="widget-main no-padding">
 													<ul class="list-unstyled list-striped pricing-table-header">
-														<li>Disk Space</li>
+														<li>${(btnhtml)! }</li>
 													</ul>
 												</div>
 											</div>
@@ -153,3 +153,4 @@ body {
 
 </body>
 </html>
+

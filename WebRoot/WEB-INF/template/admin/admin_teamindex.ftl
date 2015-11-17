@@ -186,6 +186,7 @@
 												<div class="widget-main">
 													
 														<div class="row">
+															<!-- ${(btnhtml)! } -->
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
 																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="handoverprocess">
 																	<i class="ace-icon fa fa-fire bigger-110"></i>

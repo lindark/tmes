@@ -97,7 +97,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "factory_unit!delete.adction",//用它做标准删除动作
+		editurl: "factory_unit!delete.action",//用它做标准删除动作
 		caption: "单元管理"
 
 		//,autowidth: true,

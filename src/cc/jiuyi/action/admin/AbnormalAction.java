@@ -18,9 +18,14 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CallreasonService;
+import cc.jiuyi.service.DictService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 异常
@@ -35,11 +40,17 @@ public class AbnormalAction extends BaseAdminAction {
 	private String aid;
 	private String cancelId;
 	private String callId;
+	private String nameId;
+	private String callReasonId;
 	
 	@Resource
 	private AbnormalService abnormalService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private CallreasonService callReasonService;
+	@Resource
+	private DictService dictService;
 	
 	// 添加
 	public String add() {
@@ -54,8 +65,13 @@ public class AbnormalAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		pager = abnormalService.findByPager(pager);
+		//pager = abnormalService.findByPager(pager);
 		return LIST;
+	}
+	
+	// 列表
+	public String browser() {
+		return "browser";
 	}
 	
 	// ajax列表
@@ -72,6 +88,11 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setCraftSet(null);
 			abnormal.setModelSet(null);
 			abnormal.setQualitySet(null);
+			abnormal.setAdminSet(null);
+			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "abnormalState", abnormal.getState()));
+			abnormal.setCallReason(abnormal.getCallreasonSet().toString());
+			abnormal.setCallreasonSet(null);
 			pagerlist.set(i, abnormal);
 		}
 		pager.setList(pagerlist);
@@ -108,31 +129,35 @@ public class AbnormalAction extends BaseAdminAction {
 	public String save() {	
 		
 		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-		Admin admin = adminService.get("username", loginUsername);
-		
+		Admin admin1 = adminService.get("username", loginUsername);
+		Abnormal abnormal = new Abnormal();
 		abnormal.setCallDate(new Date());
-		abnormal.setCreateDate(new Date());
-		abnormal.setModifyDate(new Date());
-		//abnormal.setReplyDate(new Date());
-		
-		abnormal.setCreateUser("张三");
-		abnormal.setModifyUser("张三");
-		abnormal.setIniitiator("张三");
+
+		Admin admin = adminService.load(nameId);
+		Date date = new Date();
+		System.out.println(date);
+		//abnormal.setCallDate(date);
+		System.out.println(abnormal);
+		abnormal.setResponsor(admin.getName());
+
+		abnormal.setCreateUser(admin1.getId());
+
+		abnormal.setModifyUser(admin1.getId());
+		abnormal.setIniitiator(admin1.getId());
+
 		abnormal.setIsDel("N");
 		abnormal.setFactoryName("建新赵氏密封条工厂");
-		abnormal.setHandlingTime(new Integer(0));
-		abnormal.setResponsor(callId);
+		//abnormal.setHandlingTime(new Integer(0));
+		
 		abnormal.setShopName("2车间");
-		abnormal.setState("未确定");
+		abnormal.setState("0");
 		abnormal.setUnitName("2单元");
 		abnormal.setTeamId("02");
-		abnormal.setMessage("设备出现问题");
-		
+		abnormal.setMessage(callReasonId);
+
 		abnormalService.save(abnormal);
-		Map<String, String> jsonMap = new HashMap<String, String>();
-		jsonMap.put(STATUS, SUCCESS);
-		jsonMap.put(MESSAGE, "呼叫成功");	
-		return ajaxJson(jsonMap);
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
 	}
 
 	// 删除
@@ -181,6 +206,27 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCallId(String callId) {
 		this.callId = callId;
+	}
+
+	public String getNameId() {
+		return nameId;
+	}
+
+	public void setNameId(String nameId) {
+		this.nameId = nameId;
+	}
+	
+	// 获取所有原因
+	public List<Callreason> getCallReasonList() {
+		return callReasonService.getAll();
+	}
+
+	public String getCallReasonId() {
+		return callReasonId;
+	}
+
+	public void setCallReasonId(String callReasonId) {
+		this.callReasonId = callReasonId;
 	}
 	
 	

@@ -45,5 +45,5 @@ public interface AdminService extends BaseService<Admin, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager,Map map,String departid);
 
-	
+	public Pager getAdminPager(Pager pager,Map map,String departName);
 }

@@ -27,8 +27,6 @@ public class Material extends BaseEntity{
 	 */
 	private static final long serialVersionUID = 994338331353572158L;
 	
-	private String productsCode;//产品编码
-	private String productsName;//产品名称
     private String materialCode;//组件编码
     private String materialName;//组件名称
     private String materialUnit;//组件单位
@@ -42,8 +40,11 @@ public class Material extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-  
     
+    
+    private String productsCode;
+    private String productsName;
+
 	private Products products;// 产品Bom
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -64,21 +65,7 @@ public class Material extends BaseEntity{
 	public void setWorkingBillSet(Set<WorkingBill> workingBillSet) {
 		this.workingBillSet = workingBillSet;
 	}
-	
-	
-	
-	public String getProductsCode() {
-		return productsCode;
-	}
-	public void setProductsCode(String productsCode) {
-		this.productsCode = productsCode;
-	}
-	public String getProductsName() {
-		return productsName;
-	}
-	public void setProductsName(String productsName) {
-		this.productsName = productsName;
-	}
+
 	public String getMaterialCode() {
 		return materialCode;
 	}
@@ -164,6 +151,22 @@ public class Material extends BaseEntity{
 	}
 	public void setException(String exception) {
 		this.exception = exception;
+	}
+	
+	 @Transient
+	public String getProductsCode() {
+		return productsCode;
+	}
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+	
+	@Transient
+	public String getProductsName() {
+		return productsName;
+	}
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
 	}
 
    

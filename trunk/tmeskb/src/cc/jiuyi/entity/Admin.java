@@ -42,7 +42,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String isDel;//是否删除
 	private String shift;//班次
 	private String productDate;//生产日期
-	
+	private String phoneNo;//手机号
+	private Abnormal abnormal;//异常
+
 	
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -247,6 +249,21 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.productDate = productDate;
 	}
 	
-	
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Abnormal getAbnormal() {
+		return abnormal;
+	}
+
+	public void setAbnormal(Abnormal abnormal) {
+		this.abnormal = abnormal;
+	}
 
 }

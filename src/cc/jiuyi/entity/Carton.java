@@ -18,7 +18,7 @@ public class Carton extends BaseEntity {
 	private static final long serialVersionUID = -8927337834611798560L;
 	private String cartonCode;// 纸箱编码
 	private String cartonDescribe;// 纸箱描述
-	private String cartonAmount;// 纸箱数量
+	private Integer cartonAmount;// 纸箱数量
 	//private String totalAmount;// 纸箱总数
 	private String state;// 状态
 	private String isDel;// 是否删除
@@ -63,11 +63,11 @@ public class Carton extends BaseEntity {
 		this.cartonDescribe = cartonDescribe;
 	}
 
-	public String getCartonAmount() {
+	public Integer getCartonAmount() {
 		return cartonAmount;
 	}
 
-	public void setCartonAmount(String cartonAmount) {
+	public void setCartonAmount(Integer cartonAmount) {
 		this.cartonAmount = cartonAmount;
 	}
 

@@ -13,12 +13,14 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
@@ -66,8 +68,24 @@ public class AccessResourceAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String editaccess(){
-		
+		getBtnhtml();
+		//allAccessobject = accessobjectservice.getAll();
+		accessResource = accessresourceservice.load(id);
 		return "editaccess";
+	}
+	
+	/**
+	 * 保存权限对象
+	 * @return
+	 */
+	public String saveaccess(){
+		AccessResource accessResource = accessresourceservice.load(id);
+//		AccessResource persistent = accessresourceservice.load(id);
+		accessResource.setAccessobjectSet(new HashSet<AccessObject>(accessobjectlist));
+//		BeanUtils.copyProperties(accessResource, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities"});
+		accessresourceservice.update(accessResource);
+		redirectionUrl="access_resource!list.action";
+		return SUCCESS;
 	}
 	
 	/**
@@ -131,7 +149,6 @@ public class AccessResourceAction extends BaseAdminAction {
 	}
 
 	public List<AccessObject> getAllAccessobject() {
-		this.allAccessobject = accessobjectservice.getAll();
 		return allAccessobject;
 	}
 

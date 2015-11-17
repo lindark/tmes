@@ -66,7 +66,7 @@ body {
 								<input type="hidden" class="input input-sm" name="carton.workingbill.id" value="${workingbill.id} ">
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">纸箱记录提交</a></li>
+										<li><a href="#tabs-1">创建纸箱收货</a></li>
 
 									</ul>
 
@@ -110,7 +110,8 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="carton.cartonAmount"
 														value="${(carton.cartonAmount)!}"
-														class=" input input-sm" />
+														class=" input input-sm formText {required: true,min: 0}" />
+													<label class="requireField">*</label>
 												</div>
 											</div>
 										</div>

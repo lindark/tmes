@@ -125,28 +125,24 @@
 									</div>
 								</div>
 							</div>
-							<div>
-								<div class="col-md-3 col-sm-4" style="padding:2px;">
+							<div class="row buttons">
+								<div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addCarton">
-										<i class="ace-icon fa fa-file-archive-o bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">创建纸箱收货</span>
 									</button>
 								</div>
-								<div class="col-md-3 col-sm-4" style="padding:2px;">
+								<div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
-										<i class="ace-icon fa fa-credit-card bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">刷卡确认</span>
 									</button>
 								</div>
-								<div class="col-md-3 col-sm-4" style="padding:2px;">
+								<div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
-										<i class="ace-icon fa fa-credit-card bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
 								</div>
-								<div class="col-md-3 col-sm-4" style="padding:2px;">
+								<div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnCarton">
-										<i class="ace-icon fa fa-exchange bigger-110"></i>
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
 								</div>

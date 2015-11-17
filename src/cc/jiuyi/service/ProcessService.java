@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Products;
 
 /**
  * Service接口 - 工序管理
@@ -41,4 +42,9 @@ public interface ProcessService extends BaseService<Process, String> {
 	 * 检查工序编码是否存在
 	 */
 	public boolean getCk(String info);
+
+	/**
+	 * 根据工序id查询对应产品的所有
+	 */
+	public Pager getProductsList(Pager pager, HashMap<String, String> map);
 }

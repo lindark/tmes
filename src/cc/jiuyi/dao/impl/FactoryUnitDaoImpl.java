@@ -49,8 +49,12 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(FactoryUnit.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+		System.out.println("o");
+		if(!super.existAlias(detachedCriteria, "workShop", "workShop")){
 			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
+		    detachedCriteria.createAlias("workShop.factory", "factory");
+		    System.out.println("o");
+	    }
 		/*
 		if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");

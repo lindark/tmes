@@ -67,6 +67,7 @@ public class AdminAction extends BaseAdminAction {
 	private String loginUsername;
 	
 	private Admin admin;
+	private String adminDeptName;
 	private List<Role> allRole;
 	private List<Role> roleList;
 	private List<WorkingBill> workingbillList;
@@ -254,6 +255,7 @@ public class AdminAction extends BaseAdminAction {
 			admin.setAuthorities(null);
 			admin.setDepartName(admin.getDepartment().getDeptName());
 			admin.setDepartment(null);
+			admin.setAbnormal(null);
 			//admin.setTeam(null);
 			pagerlist.set(i, admin);
 		}
@@ -275,11 +277,37 @@ public class AdminAction extends BaseAdminAction {
 
 	// ajax列表
 		public String ajlist1() {
-			if (pager == null) {
-				pager = new Pager();
-
+			HashMap<String, String> map = new HashMap<String, String>();
+			
+			if (pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
 			}
-			pager = adminService.findByPager(pager);
+			if(pager.is_search()==true && filters != null){//需要查询条件
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+			
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("adminName") != null) {
+					System.out.println("obj=" + obj);
+					String adminName = obj.getString("adminName").toString();
+					map.put("adminName", adminName);
+				}
+				if (obj.get("adminDeptName") != null) {
+					String adminDeptName = obj.getString("adminDeptName").toString();
+					map.put("adminDeptName", adminDeptName);
+				}
+								
+			}
+			pager = adminService.getAdminPager(pager,map,adminDeptName);
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Admin admin = (Admin) pagerlist.get(i);
@@ -287,7 +315,9 @@ public class AdminAction extends BaseAdminAction {
 				admin.setAuthorities(null);
 				admin.setDepartName(admin.getDepartment().getDeptName());
 				admin.setDepartment(null);
+				admin.setAbnormal(null);
 				pagerlist.set(i, admin);
+				//pagerlist.add(admin);
 			}
 			
 			pager.setList(pagerlist);
@@ -489,6 +519,14 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setDepartName(String departName) {
 		this.departName = departName;
+	}
+
+	public String getAdminDeptName() {
+		return adminDeptName;
+	}
+
+	public void setAdminDeptName(String adminDeptName) {
+		this.adminDeptName = adminDeptName;
 	}
 	
 	

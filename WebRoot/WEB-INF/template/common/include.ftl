@@ -2,7 +2,7 @@
 <link href="${base}/template/common/css/jquery.datepicker.css" rel="stylesheet" type="text/css" />
 <link href="${base}/template/common/css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <link href="${base}/template/common/css/jquery.zoomimage.css" rel="stylesheet" type="text/css" />
-
+<link rel="stylesheet" href="${base}/template/admin/assets/css/chosen.css" />
 
 
 <!--[if !IE]> -->
@@ -51,4 +51,5 @@
 <script type="text/javascript" src="${base}/template/common/js/belatedPNG.js"></script>
 <![endif]-->
 <script src="${base}/template/admin/js/layer/layer.js"></script>
+<script src="${base}/template/admin/assets/js/chosen.jquery.min.js"></script>
  <script type="text/javascript" src="${base}/template/common/js/base.js"></script>

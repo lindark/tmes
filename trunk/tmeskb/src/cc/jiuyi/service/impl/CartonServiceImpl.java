@@ -30,8 +30,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 	}
 
 	@Override
-	public Pager getCartonPager(Pager pager, HashMap<String, String> map) {
-		return cartonDao.getCartonPager(pager, map);
+	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
+			String workingbillId) {
+		return cartonDao.getCartonPager(pager, map, workingbillId);
 	}
 
 	@Override

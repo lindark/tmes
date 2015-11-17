@@ -10,7 +10,7 @@ import cc.jiuyi.entity.Carton;
  * Service接口 纸箱
  */
 public interface CartonService extends BaseService<Carton, String> {
-	public Pager getCartonPager(Pager pager, HashMap<String, String> map);
+	public Pager getCartonPager(Pager pager, HashMap<String, String> map,String workingbillId);
 
 	/**
 	 * 标记删除

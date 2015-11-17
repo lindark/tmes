@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'cartonAmount',index:'cartonAmount', width:200},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'stateRemark', width:100,sortable:"true",sorttype:"text",editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}}
 
 		], 
 		//sortable:true,
@@ -161,6 +161,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 			editfunc:function(rowId){
+				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length>1){
+					alert("请选择一条记录");
+					return false;
+				}
 				var workingBillId = $("#workingBillId").val();
 				window.location.href="carton!edit.action?id="+rowId+"&workingBillId="+workingBillId;
 			},

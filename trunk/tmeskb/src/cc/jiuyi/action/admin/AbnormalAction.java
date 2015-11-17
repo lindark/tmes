@@ -94,6 +94,10 @@ public class AbnormalAction extends BaseAdminAction {
 					dictService, "abnormalState", abnormal.getState()));
 			String callR=callReasonService.load(abnormal.getMessage()).getCallReason();
 			abnormal.setCallReason(callR);
+			String org=adminService.load(abnormal.getIniitiator()).getName();
+			abnormal.setOriginator(org);
+			String ans=adminService.load(abnormal.getResponsor()).getName();
+			abnormal.setAnswer(ans);
 			abnormal.setCallreasonSet(null);
 			pagerlist.set(i, abnormal);
 		}
@@ -118,9 +122,12 @@ public class AbnormalAction extends BaseAdminAction {
 			persistent.setState("4");
 			abnormalService.update(persistent);
 		}else if(closeId!=null){
-			Abnormal persistent = abnormalService.load(closeId);
-			persistent.setState("3");
-			abnormalService.update(persistent);
+			String id[]=closeId.split(",");
+			for(int i=0;i<=id.length;i++){
+				Abnormal persistent=abnormalService.load(id[i]);
+				persistent.setState("3");
+				abnormalService.update(persistent);
+			}			
 		}
 		
 		redirectionUrl = "abnormal!list.action";

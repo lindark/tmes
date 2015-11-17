@@ -42,11 +42,13 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
-			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
-			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
-			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}}
-			//{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
+			//{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
+			//{name:'username',label:"登陆名",width:120,index:'username',editable:true,editrules : {required : true}},
+			{name:'departName',label:"部门",width:120,index:'department.deptName', editable: true},			
+			{name:'name',label:"姓名",width:240,index:'name', editable: true,editrules : {required : true}},
+			{name:'phoneNo',label:"phoneNo",width:200,index:'phoneNO',editable:true,editrules : {phoneNo : true}},
+			{name:'email',label:"E-mail",width:180,index:'email',editable:true,editrules : {email : true}}
+
 			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
@@ -90,11 +92,11 @@ jQuery(function($) {
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
+			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

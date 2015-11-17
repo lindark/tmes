@@ -58,7 +58,7 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else{
+		}else{			
 			window.location.href = "abnormal!update.action?aid="+i;
 		}
 		
@@ -70,7 +70,7 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else{
+		}else{			
 			window.location.href = "abnormal!update.action?cancelId="+i;
 		}		
     });
@@ -82,8 +82,6 @@ $(function() {
 			alert("请至少选择一个异常");
 			return false;
 		}else{
-			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			var rowName=rowData.workShopName;
 			window.location.href = "abnormal!update.action?closeId="+i;
 		}		
     });

@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.dao.AccessResourceDao;
@@ -12,5 +14,7 @@ import cc.jiuyi.entity.AccessResource;
 
 @Repository
 public class AccessResourceDaoImpl extends BaseDaoImpl<AccessResource, String> implements AccessResourceDao {
+
+	
 
 }

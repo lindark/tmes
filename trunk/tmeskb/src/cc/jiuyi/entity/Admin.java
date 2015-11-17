@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
@@ -46,8 +47,17 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
 	private Department department;//部门
-
 	
+	private Set<Carton> cartonConfirmUser;//纸箱收货确认人
+
+	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	public Set<Carton> getCartonConfirmUser() {
+		return cartonConfirmUser;
+	}
+
+	public void setCartonConfirmUser(Set<Carton> cartonConfirmUser) {
+		this.cartonConfirmUser = cartonConfirmUser;
+	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Department getDepartment() {

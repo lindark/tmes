@@ -2,7 +2,6 @@ $(function() {
 	
 	var $callRing = $("#callRing");// 呼叫
 	$callRing.click(function() {
-		alert("in");
 			window.location.href = "abnormal!add.action";		
     });
 	

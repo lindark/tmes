@@ -2,6 +2,9 @@
 	 * 格式化日期 
 	 */
    function datefmt(jsonDate){
+	  //  if(jsonDate==null)
+	  //  return false;
+	   if(jsonDate!=null){
 	    var time = eval(jsonDate).time;
         var datetime = new Date();
         datetime.setTime(time);
@@ -12,6 +15,9 @@
         var minute = datetime.getMinutes()< 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
         var second = datetime.getSeconds()< 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
         return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+	   }else{
+		   return "";
+	   }
 	}
   
    /**

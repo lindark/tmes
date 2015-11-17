@@ -80,9 +80,9 @@ public class CartonAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
+		cartonService.save(carton);
 		admin = adminService.loadLoginAdmin();
 		carton.setAdmin(admin);
-		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -102,11 +102,16 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 更新
+	@Validations(requiredStrings = { @RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
+
+	)
 	@InputConfig(resultName = "error")
 	public String update() {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
+		admin = adminService.loadLoginAdmin();
+		carton.setAdmin(admin);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -137,6 +142,7 @@ public class CartonAction extends BaseAdminAction {
 			}
 		}
 		workingbill.setCartonTotalAmount(findMax() + "");
+		workingBillService.update(workingbill);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -189,6 +195,7 @@ public class CartonAction extends BaseAdminAction {
 			if (CONFIRMED.equals(carton.getState())) {
 				minusTotal(carton);
 				workingbill.setCartonTotalAmount(findMax() + "");
+				workingBillService.update(workingbill);
 			}
 			carton.setTotalAmount("0");
 			carton.setState(UNDO);
@@ -221,6 +228,32 @@ public class CartonAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("cartonCode") != null) {
+				System.out.println("obj=" + obj);
+				String cartonCode = obj.getString("cartonCode").toString();
+				map.put("cartonCode", cartonCode);
+			}
+			if (obj.get("cartonDescribe") != null) {
+				String cartonDescribe = obj.getString("cartonDescribe")
+						.toString();
+				map.put("cartonDescribe", cartonDescribe);
+			}
+			if (obj.get("cartonAmount") != null) {
+				String cartonAmount = obj.getString("cartonAmount").toString();
+				map.put("cartonAmount", cartonAmount);
+			}
+			if (obj.get("adminName") != null) {
+				String adminName = obj.getString("adminName").toString();
+				map.put("adminName", adminName);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+		}
 		pager = cartonService.getCartonPager(pager, map);
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();
@@ -228,9 +261,9 @@ public class CartonAction extends BaseAdminAction {
 			Carton carton = (Carton) cartonList.get(i);
 			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "cartonState", carton.getState()));
-			if(carton.getConfirmUser()!=null){
+			if (carton.getConfirmUser() != null) {
 				Admin admin = adminService.load(carton.getConfirmUser());
-				carton.setAdminName(admin.getName());				
+				carton.setAdminName(admin.getName());
 			}
 			carton.setWorkingbill(null);
 			carton.setAdmin(null);

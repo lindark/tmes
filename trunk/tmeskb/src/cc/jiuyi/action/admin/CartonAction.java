@@ -11,6 +11,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.hibernate.type.IntegerType;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
@@ -87,20 +88,7 @@ public class CartonAction extends BaseAdminAction {
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
 	}
-
-	// 取出数据库中是否有是否删除为'N'的,并且状态为已确认
-	public List<Carton> getNS() {
-		List<Carton> cartons = cartonService.getAll();
-		List<Carton> nCartons = new ArrayList<Carton>();
-		for (int i = 0; i < cartons.size(); i++) {
-			if ("N".equals(cartons.get(i).getIsDel())
-					&& CONFIRMED.equals(cartons.get(i).getState())) {
-				nCartons.add(cartons.get(i));
-			}
-		}
-		return nCartons;
-	}
-
+	
 	// 更新
 	@Validations(requiredStrings = { @RequiredStringValidator(fieldName = "carton.cartonAmount", message = "纸箱数量不允许为空!") }
 
@@ -137,50 +125,16 @@ public class CartonAction extends BaseAdminAction {
 				admin = adminService.getLoginAdmin();
 				carton.setAdmin(admin);
 				carton.setConfirmUser(admin.getId());
-				cartonService.save(carton);
-				addTotal(Integer.parseInt(carton.getCartonAmount()));
+				workingbill.setCartonTotalAmount(Integer.parseInt(workingbill
+						.getCartonTotalAmount())
+						+ Integer.parseInt(carton.getCartonAmount()) + "");
+				cartonService.update(carton);
 			}
 		}
-		workingbill.setCartonTotalAmount(findMax() + "");
 		workingBillService.update(workingbill);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
-	}
-
-	// 获取当前数据中isdel为N，state为1的最大的cartonAmount
-	public int findMax() {
-		List<Carton> cartons = getNS();
-		int max = 0;
-		for (int i = 0; i < cartons.size(); i++) {
-			int nowAmount = Integer.parseInt(cartons.get(i).getTotalAmount());
-			if (max < nowAmount) {
-				max = nowAmount;
-			}
-		}
-		return max;
-	}
-
-	// 根据给定纸箱，将其他纸箱的累计数量全部加上该纸箱的收货数量
-	public void addTotal(Integer cartonAmount) {
-		List<Carton> cartons = getNS();
-		int max = 0;
-		max = findMax();
-		for (int i = 0; i < cartons.size(); i++) {
-			cartons.get(i).setTotalAmount(max + cartonAmount + "");
-			cartonService.save(cartons.get(i));
-		}
-	}
-
-	// 根据给定纸箱，将其他纸箱的累计数量全部减去该纸箱的收货数量
-	public void minusTotal(Carton carton) {
-		List<Carton> cartons = getNS();
-		for (int i = 0; i < cartons.size(); i++) {
-			cartons.get(i).setTotalAmount(
-					Integer.parseInt(cartons.get(i).getTotalAmount())
-							- Integer.parseInt(carton.getCartonAmount()) + "");
-			cartonService.save(cartons.get(i));
-		}
 	}
 
 	// 刷卡撤销
@@ -193,14 +147,12 @@ public class CartonAction extends BaseAdminAction {
 			carton.setAdmin(admin);
 			carton.setConfirmUser(admin.getId());
 			if (CONFIRMED.equals(carton.getState())) {
-				minusTotal(carton);
-				workingbill.setCartonTotalAmount(findMax() + "");
-				workingBillService.update(workingbill);
+				workingbill.setCartonTotalAmount(Integer.parseInt(workingbill.getCartonTotalAmount())-Integer.parseInt(carton.getCartonAmount())+"");
 			}
-			carton.setTotalAmount("0");
 			carton.setState(UNDO);
-			cartonService.save(carton);
+			cartonService.update(carton);
 		}
+		workingBillService.update(workingbill);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;

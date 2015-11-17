@@ -96,8 +96,9 @@ body{background:#fff;}
 
 											<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-												 <input type="hidden" id="productId" name="material.products.id" value=""  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
-												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>					                                    
+												 <input type="hidden" id="productId" name="material.products.id" value="${material.products.id}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
+												    <button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>	
+												    <#if isAdd??>				                                    
 				                                     <span id ="productName"></span>
 										         	 <label class="requireField">*</label>	
 										         	 <#else>

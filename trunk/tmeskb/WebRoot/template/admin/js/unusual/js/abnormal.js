@@ -58,8 +58,14 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else{			
-			window.location.href = "abnormal!update.action?aid="+i;
+		}else if(i.length==1){	
+			var rowData = $("#grid-table1").jqGrid('getRowData',i);
+			alert(rowData);
+			alert(rowData.state);
+			if(rowData.state==0){
+				window.location.href = "abnormal!update.action?aid="+i;
+			}
+			
 		}
 		
     });
@@ -70,8 +76,10 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else{			
+		}else{	
+			if(rowData.state==0){
 			window.location.href = "abnormal!update.action?cancelId="+i;
+			}
 		}		
     });
 	

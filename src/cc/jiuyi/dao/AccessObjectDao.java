@@ -1,6 +1,9 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
+
 import cc.jiuyi.entity.AccessObject;
+import cc.jiuyi.entity.AccessResource;
 
 
 
@@ -9,5 +12,10 @@ import cc.jiuyi.entity.AccessObject;
  */
 
 public interface AccessObjectDao extends BaseDao<AccessObject, String> {
-	
+	/**
+	 * 根据 type 的值获取list 集合
+	 * @param value
+	 * @return
+	 */
+	public List<AccessObject> findTypeList(String value);
 }

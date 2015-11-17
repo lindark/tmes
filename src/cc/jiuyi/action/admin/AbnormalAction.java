@@ -42,6 +42,7 @@ public class AbnormalAction extends BaseAdminAction {
 	private String callId;
 	private String nameId;
 	private String callReasonId;
+	private String closeId;
 	
 	@Resource
 	private AbnormalService abnormalService;
@@ -89,8 +90,8 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setModelSet(null);
 			abnormal.setQualitySet(null);
 			abnormal.setAdminSet(null);
-			/*abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "abnormalState", abnormal.getState()));*/
+			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "abnormalState", abnormal.getState()));
 			String callR=callReasonService.load(abnormal.getMessage()).getCallReason();
 			abnormal.setCallReason(callR);
 			abnormal.setCallreasonSet(null);
@@ -116,6 +117,10 @@ public class AbnormalAction extends BaseAdminAction {
 			Abnormal persistent = abnormalService.load(cancelId);
 			persistent.setState("4");
 			abnormalService.update(persistent);
+		}else if(closeId!=null){
+			Abnormal persistent = abnormalService.load(closeId);
+			persistent.setState("3");
+			abnormalService.update(persistent);
 		}
 		
 		redirectionUrl = "abnormal!list.action";
@@ -139,7 +144,7 @@ public class AbnormalAction extends BaseAdminAction {
 		System.out.println(date);
 		//abnormal.setCallDate(date);
 		System.out.println(abnormal);
-		abnormal.setResponsor(admin.getName());
+		abnormal.setResponsor(admin.getId());
 
 		abnormal.setCreateUser(admin1.getId());
 
@@ -228,6 +233,14 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCallReasonId(String callReasonId) {
 		this.callReasonId = callReasonId;
+	}
+
+	public String getCloseId() {
+		return closeId;
+	}
+
+	public void setCloseId(String closeId) {
+		this.closeId = closeId;
 	}
 	
 	

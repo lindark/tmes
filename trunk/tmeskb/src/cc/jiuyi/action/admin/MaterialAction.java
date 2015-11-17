@@ -152,7 +152,7 @@ public class MaterialAction extends BaseAdminAction {
 				map.put("end", end);
 			}
 		}
-
+            List<HashMap> list=new ArrayList<HashMap>();
 			pager = materialService.getMaterialPager(pager, map, productsName);
 			List<Material> materialList = pager.getList();
 			List<Material> lst = new ArrayList<Material>();
@@ -161,6 +161,8 @@ public class MaterialAction extends BaseAdminAction {
 				material.setWorkingBillSet(null);
 				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "materialState", material.getState()));
+				material.setProductsCode(material.getProducts().getProductsCode());
+				material.setProductsName(material.getProducts().getProductsName());
 				material.setProducts(null);
 				lst.add(material);
 			}
@@ -190,8 +192,8 @@ public class MaterialAction extends BaseAdminAction {
 	//更新
     @Validations(
 				requiredStrings = {
-						@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
-						@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
+						//@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
+						//@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
 						@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
@@ -215,8 +217,8 @@ public class MaterialAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
+					//@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
+					//@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
 					@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
@@ -230,6 +232,7 @@ public class MaterialAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
+		
 		materialService.save(material);
 		redirectionUrl="material!list.action";
 		return SUCCESS;	
@@ -321,6 +324,8 @@ public class MaterialAction extends BaseAdminAction {
 	public void setProductsName(String productsName) {
 		this.productsName = productsName;
 	}
+
+
 	
 	
 	

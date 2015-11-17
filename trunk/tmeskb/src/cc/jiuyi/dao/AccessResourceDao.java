@@ -1,5 +1,7 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
+
 import cc.jiuyi.entity.AccessResource;
 
 
@@ -10,5 +12,6 @@ import cc.jiuyi.entity.AccessResource;
  */
 
 public interface AccessResourceDao extends BaseDao<AccessResource, String> {
+	
 	
 }

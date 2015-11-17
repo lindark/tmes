@@ -18,7 +18,7 @@ $(function(){
         	//alert(iframeWin);
         	 var work = iframeWin.getGridId();
              var id=work.split(",");
-             alert(id);
+             //alert(id);
              $productId.val(id[1]);
              $productName.text(id[0]);
              layer.close(index);            	          	     	

@@ -46,5 +46,5 @@ public interface ProcessService extends BaseService<Process, String> {
 	/**
 	 * 根据工序id查询对应产品的所有
 	 */
-	public Pager getProductsList(Pager pager, HashMap<String, String> map);
+	//public Pager getProductsList(Pager pager, HashMap<String, String> map);
 }

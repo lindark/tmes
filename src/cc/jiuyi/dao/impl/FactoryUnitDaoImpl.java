@@ -49,8 +49,8 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(FactoryUnit.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(!super.existAlias(detachedCriteria, "workshop", "workshop"))
-			detachedCriteria.createAlias("workshop", "workshop");//表名，别名
+		if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
 		/*
 		if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
@@ -70,12 +70,12 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
             if(map.get("workShopName")!=null){
 				
 				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
-				detachedCriteria.add(Restrictions.like("workshop.workShopName", "%"+map.get("workShopName")+"%"));
+				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("workShopName")+"%"));
 			}
             if(map.get("factoryName")!=null){
 				
 				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
-				detachedCriteria.add(Restrictions.like("workshop.factory.factoryName", "%"+map.get("factoryName")+"%"));
+				detachedCriteria.add(Restrictions.like("workShop.factory.factoryName", "%"+map.get("factoryName")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据

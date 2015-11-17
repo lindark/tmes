@@ -83,9 +83,8 @@ public class FactoryAction extends BaseAdminAction {
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件

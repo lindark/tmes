@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -36,10 +37,15 @@ public class Abnormal extends BaseEntity{
 	private String modifyUser;//修改人
 	private String state;//状态	
 	private String isDel;//是否删除
+	private String stateRemark;//状态描述
 	
 	private Set<Quality> qualitySet;//质量问题单
 	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
+	private Set<Admin> adminSet;//人员
+	private Set<Callreason> callreasonSet;//
+	
+	private String callReason;
 	
 	@Column
 	public String getFactoryName() {
@@ -177,6 +183,40 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setCraftSet(Set<Craft> craftSet) {
 		this.craftSet = craftSet;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<Admin> getAdminSet() {
+		return adminSet;
+	}
+	public void setAdminSet(Set<Admin> adminSet) {
+		this.adminSet = adminSet;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<Callreason> getCallreasonSet() {
+		return callreasonSet;
+	}
+	public void setCallreasonSet(Set<Callreason> callreasonSet) {
+		this.callreasonSet = callreasonSet;
+	}
+	
+	@Transient
+	public String getCallReason() {
+		return callReason;
+	}
+	public void setCallReason(String callReason) {
+		this.callReason = callReason;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
 	}
 	
 		

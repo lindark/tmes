@@ -110,7 +110,7 @@ body {
 		var rowName=rowData.productsName;
 		//alert(rowName);
 		//alert(ids);
-		//var work=""+rowName+""+","+ids;
+		var work=""+rowName+""+","+ids;
 		return work;
 	}
 	

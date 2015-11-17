@@ -79,7 +79,7 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
             if(map.get("factoryName")!=null){
 				
 				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
-				detachedCriteria.add(Restrictions.like("workShop.factory.factoryName", "%"+map.get("factoryName")+"%"));
+				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据

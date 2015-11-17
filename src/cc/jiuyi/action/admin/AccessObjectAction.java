@@ -13,14 +13,18 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.service.AccessObjectService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 权限对象 
@@ -34,10 +38,12 @@ public class AccessObjectAction extends BaseAdminAction {
 	private AccessObjectService accessobjectservice;
 	@Resource
 	private ResourceService resourceService;
+	@Resource
+	private DictService dictService;
 	
 	private AccessObject accessObject;
 	private List<cc.jiuyi.entity.Resource> allRes;
-
+	private List<Dict> allDict;
 	public String list(){
 		
 		return LIST;
@@ -70,7 +76,11 @@ public class AccessObjectAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
 			AccessObject accessObject  = (AccessObject)pagerlist.get(i);
+			String typeName = ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject", accessObject.getType());
+			accessObject.setTypeName(typeName);
+			accessObject.setResourceName(accessObject.getResource().getId());
 			accessObject.setAccessResourceSet(null);
+			accessObject.setResource(null);
 			pagerlist.set(i, accessObject);
 		}
 		pager.setList(pagerlist);
@@ -91,8 +101,31 @@ public class AccessObjectAction extends BaseAdminAction {
 		return INPUT;
 	}
 	
+	/**
+	 * 添加方法
+	 * @return
+	 */
+	public String edit(){
+		accessObject = accessobjectservice.get(id);
+		return INPUT;
+	}
+	
 	public String save(){
 		accessobjectservice.save(accessObject);
+		redirectionUrl = "access_object!list.action";
+		return SUCCESS;
+	}
+	
+	public String update(){
+		AccessObject persistent = accessobjectservice.load(id);
+		BeanUtils.copyProperties(accessObject, persistent, new String[] {"id", "createDate"});
+		accessobjectservice.update(persistent);
+		redirectionUrl = "access_object!list.action";
+		return SUCCESS;
+	}
+	
+	public String delete(){
+		accessobjectservice.delete(ids);
 		return SUCCESS;
 	}
 
@@ -111,6 +144,15 @@ public class AccessObjectAction extends BaseAdminAction {
 
 	public void setAllRes(List<cc.jiuyi.entity.Resource> allRes) {
 		this.allRes = allRes;
+	}
+
+	public List<Dict> getAllDict() {
+		allDict =  dictService.getList("dictname", "accessobject");
+		return allDict;
+	}
+
+	public void setAllDict(List<Dict> allDict) {
+		this.allDict = allDict;
 	}
 
 	

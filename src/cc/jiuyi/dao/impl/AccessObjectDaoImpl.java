@@ -7,6 +7,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AccessObjectDao;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.AccessObject;
+import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -22,5 +23,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AccessObjectDaoImpl extends BaseDaoImpl<AccessObject, String> implements AccessObjectDao {
-
+	@Override
+	public List<AccessObject> findTypeList(String value) {
+		String hql="form AccessObject where type=?";
+		return getSession().createQuery(hql).setParameter(0, value).list();
+	}
 }

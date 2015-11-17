@@ -227,14 +227,18 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 			String searchString, String searchOper,DetachedCriteria detachedCriteria) {
         String wheresql=""; 
         String propertyString="";
+        String tableName="";
         if (searchField != null && searchString != null  
                 & searchString.length() > 0 && searchOper != null) {  
 			if (searchField.contains(".")) { 
-				String propertyPrefix = StringUtils.substringBefore(searchField, ".");
-				String propertySuffix = StringUtils.substringAfter(searchField, ".");
-				if(!this.existAlias(detachedCriteria, propertyPrefix, propertyPrefix))//判断alias 是否已经有创建过,没有创建过，及创建，已经创建过就不需要创建了，不处理同一表的关联处理
-					detachedCriteria.createAlias(propertyPrefix, propertyPrefix);
-				propertyString= propertyPrefix+"."+propertySuffix;
+				String propertyPrefix = StringUtils.substringBeforeLast(searchField, ".");
+				String propertySuffix = StringUtils.substringAfterLast(searchField, ".");
+				tableName = StringUtils.substringAfterLast(propertyPrefix, ".");
+				if(tableName.equals(""))//表示不是存在多个表的情况
+					tableName = propertyPrefix;
+				if(!this.existAlias(detachedCriteria, propertyPrefix, tableName))//判断alias 是否已经有创建过,没有创建过，及创建，已经创建过就不需要创建了，不处理同一表的关联处理
+					detachedCriteria.createAlias(propertyPrefix, tableName);
+				propertyString= tableName+"."+propertySuffix;
 			}else{
 				propertyString= searchField;
 			}

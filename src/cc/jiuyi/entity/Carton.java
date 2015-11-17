@@ -19,7 +19,7 @@ public class Carton extends BaseEntity {
 	private String cartonCode;// 纸箱编码
 	private String cartonDescribe;// 纸箱描述
 	private String cartonAmount;// 纸箱数量
-	private String totalAmount;// 纸箱总数
+	//private String totalAmount;// 纸箱总数
 	private String state;// 状态
 	private String isDel;// 是否删除
 	private String confirmUser;// 确认人
@@ -71,7 +71,7 @@ public class Carton extends BaseEntity {
 		this.cartonAmount = cartonAmount;
 	}
 
-	public String getTotalAmount() {
+	/*public String getTotalAmount() {
 		return totalAmount;
 	}
 
@@ -80,7 +80,7 @@ public class Carton extends BaseEntity {
 			totalAmount = "0";
 		}
 		this.totalAmount = totalAmount;
-	}
+	}*/
 
 	public String getState() {
 		return state;

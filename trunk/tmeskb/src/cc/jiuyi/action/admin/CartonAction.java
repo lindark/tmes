@@ -81,9 +81,9 @@ public class CartonAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		cartonService.save(carton);
 		admin = adminService.loadLoginAdmin();
 		carton.setAdmin(admin);
+		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;

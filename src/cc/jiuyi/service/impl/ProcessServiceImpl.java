@@ -14,6 +14,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Product;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.ProcessService;
 
 /**
@@ -90,5 +91,11 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public Pager getProductsList(Pager pager, HashMap<String, String> map)
+	{
+		return this.processDao.getProductsList(pager,map);
 	}
 }

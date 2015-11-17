@@ -140,7 +140,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	/**
 	 * 根据工序id查询对应产品的所有
 	 */
-	@Override
+	/*
 	public Pager getProductsList(Pager pager, HashMap<String, String> map)
 	{
 		
@@ -175,5 +175,5 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		System.out.println(detachedCriteria);
 		return super.findByPager(pager, detachedCriteria);
-	}
+	}*/
 }

@@ -276,7 +276,7 @@ public class ProcessAction extends BaseAdminAction {
 	/**
 	 * 根据工序id查询对应产品的所有
 	 */
-	public String getProductsList()
+	/*public String getProductsList()
 	{
 		HashMap<String, String> map = new HashMap<String, String>();
 		try
@@ -316,7 +316,7 @@ public class ProcessAction extends BaseAdminAction {
 					map.put("xproductname", obj.get("xproductname").toString());
 				}
 			}
-			pager = processService.getProductsList(pager, map);
+			//pager = processService.getProductsList(pager, map);
 			List<Process> list = pager.getList();
 			pager.setList(list);
 			JsonConfig jsonConfig=new JsonConfig();
@@ -330,7 +330,7 @@ public class ProcessAction extends BaseAdminAction {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	/***/
 	public Process getProcess() {

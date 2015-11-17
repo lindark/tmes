@@ -111,3 +111,22 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+</html>
+<script type="text/javascript">
+	function getGridId(){
+		var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		if(ids.length <1){
+			alert("请选择一条记录");
+			return false;
+		}
+		if(ids.length >1){
+			alert("请选择一条记录");
+			return false;
+		}
+		var rowData = $("#grid-table").jqGrid('getRowData',ids);
+		var rowName=rowData.workShopName;
+		var work=""+rowName+""+","+ids;
+		return work;
+	}
+	
+</script>

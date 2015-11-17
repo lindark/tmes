@@ -21,16 +21,6 @@ jQuery(function($) {
 				}
 			})
 
-	// jQuery(grid_selector).jqGrid({
-	// onSelectRow: function(id){
-	// if(id && id!==lastSel){
-	// jQuery('pickAmount').restoreRow(lastSel);
-	// lastSel=id;
-	// }
-	// jQuery(grid_selector).editRow(id, true);
-	// }
-	//    	
-	// });
 
 	jQuery(grid_selector)
 			.jqGrid(
@@ -245,48 +235,8 @@ jQuery(function($) {
 				}
 			})
 
-	// function style_edit_form(form) {
-	// alert(1);
-	// form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' ,
-	// autoclose:true})
-	// .end().find('input[name=pickType]')
-	// .addClass('ace ace-switch ace-switch-5').after('<span
-	// class="lbl"></span>');
-	// var buttons = form.next().find('.EditButton .fm-button');
-	// buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon,
-	// s-icon
-	// buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa
-	// fa-check"></i>');
-	// buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
-	//		
-	// buttons = form.next().find('.navButton a');
-	// buttons.find('.ui-icon').hide();
-	// buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
-	// buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
-	// }
-
 	$(function() {
 		$("#btnSubmit").click(function() {
-			// var val=$('input:radio[name="rbg"]:checked').val();
-			// var val1=$("input[name='pt']").val()
-			// if(val==null){
-			// alert("请选择类型!");
-			// return false;
-			// }
-			// else{
-			// alert(val);
-			// $.ajax({
-			// url:"pick_detail!addAmount.action",
-			// dataType:"json",
-			// async:false,
-			// success:function(data){
-			// alert("SUCCESS");
-			// }
-			// });
-			//
-			// }
-			
-
 			var text="";
 			$("#grid-table tr").each(function(element) {
 					text = text+$(this).attr("id")+"&";					

@@ -1,5 +1,7 @@
 package cc.jiuyi.service;
 
+import java.util.List;
+
 import cc.jiuyi.entity.AccessResource;
 
 
@@ -9,4 +11,5 @@ import cc.jiuyi.entity.AccessResource;
 
 public interface AccessResourceService extends BaseService<AccessResource, String> {
 
+	
 }

@@ -40,13 +40,9 @@ jQuery(function($) {
 	    },
 		colNames:[ '产品编码','产品名称','物料组'],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'productsCode',index:'productsCode',width:360,editable: true},
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			//{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}		 
+			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}}
 		], 
 
 		viewrecords : true,
@@ -80,17 +76,11 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc : function(rowId) {
-				window.location.href = "products!edit.action?id=" + rowId;
-			},
+			edit: false,
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				window.location.href="products!add.action";
-			},
+			add: false,
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

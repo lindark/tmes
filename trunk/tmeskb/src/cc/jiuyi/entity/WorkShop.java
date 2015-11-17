@@ -85,6 +85,7 @@ public class WorkShop extends BaseEntity{
 	public void setFactoryUnitSet(Set<FactoryUnit> factoryUnitSet) {
 		this.factoryUnitSet = factoryUnitSet;
 	}
+	@Transient
 	public String getFactoryName() {
 		return factoryName;
 	}

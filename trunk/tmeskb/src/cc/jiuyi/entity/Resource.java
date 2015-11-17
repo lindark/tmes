@@ -28,7 +28,7 @@ public class Resource extends BaseEntity {
 	
 	private Set<Role> roleSet;// 权限
 	
-	//private Set<AccessObject> accessobjectSet;//权限对象
+	private Set<AccessObject> accessobjectSet;//权限对象
 	private Set<AccessResource> accessResourceSet;//权限资源对象
 
 	
@@ -41,16 +41,16 @@ public class Resource extends BaseEntity {
 		this.accessResourceSet = accessResourceSet;
 	}
 
-//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "resource")
-//	public Set<AccessObject> getAccessobjectSet() {
-//		return accessobjectSet;
-//	}
-//
-//	
-//
-//	public void setAccessobjectSet(Set<AccessObject> accessobjectSet) {
-//		this.accessobjectSet = accessobjectSet;
-//	}
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "resource")
+	public Set<AccessObject> getAccessobjectSet() {
+		return accessobjectSet;
+	}
+
+	
+
+	public void setAccessobjectSet(Set<AccessObject> accessobjectSet) {
+		this.accessobjectSet = accessobjectSet;
+	}
 
 	@Column(nullable = false, unique = true)
 	public String getName() {

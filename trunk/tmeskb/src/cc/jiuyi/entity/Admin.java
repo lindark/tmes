@@ -51,6 +51,16 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Department department;//部门
 	
 	private Set<Carton> cartonConfirmUser;//纸箱收货确认人
+	private Set<DailyWork> dailyWorkConfirmUser;//报工确认人
+
+	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	public Set<DailyWork> getDailyWorkConfirmUser() {
+		return dailyWorkConfirmUser;
+	}
+
+	public void setDailyWorkConfirmUser(Set<DailyWork> dailyWorkConfirmUser) {
+		this.dailyWorkConfirmUser = dailyWorkConfirmUser;
+	}
 
 	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
 	public Set<Carton> getCartonConfirmUser() {

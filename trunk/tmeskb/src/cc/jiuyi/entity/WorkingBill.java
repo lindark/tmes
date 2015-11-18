@@ -31,6 +31,7 @@ public class WorkingBill extends BaseEntity {
 	private String matnr;//物料号
 	private String maktx;//物料        描述
 	private Integer cartonTotalAmount;//纸箱累计收货数量
+	private Integer dailyWorkTotalAmount;//累计报工数量
 	
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
@@ -112,6 +113,15 @@ public class WorkingBill extends BaseEntity {
 			cartonTotalAmount = 0;
 		}
 		this.cartonTotalAmount = cartonTotalAmount;
+	}
+	public Integer getDailyWorkTotalAmount() {
+		return dailyWorkTotalAmount;
+	}
+	public void setDailyWorkTotalAmount(Integer dailyWorkTotalAmount) {
+		if(dailyWorkTotalAmount == null){
+			dailyWorkTotalAmount = 0;
+		}
+		this.dailyWorkTotalAmount = dailyWorkTotalAmount;
 	}
 	
 

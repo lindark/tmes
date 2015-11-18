@@ -22,6 +22,9 @@ public class Repair extends BaseEntity{
 	private String duty;//责任批次
 	private String confirmUser;//确认人
 	private String isDel;//是否删除
+	private String state;//状态
+	private String stateRemark;//状态描述
+	
 	public String getRepairPart() {
 		return repairPart;
 	}
@@ -66,6 +69,18 @@ public class Repair extends BaseEntity{
 			isDel = "N";
 		}
 		this.isDel = isDel;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
 	}
 	
 }

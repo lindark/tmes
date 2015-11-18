@@ -1,31 +1,19 @@
 <#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta charset="utf-8" />
-<title>报工管理</title>
-<meta name="description"
-	content="Dynamic tables and grids using jqGrid plugin" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-
-<#include "/WEB-INF/template/common/includelist.ftl">
-<!--modify weitao-->
-
-<#include "/WEB-INF/template/common/include_adm_top.ftl">
-<script type="text/javascript"
-	src="${base}/template/admin/js/jqgrid_common.js"></script>
-<script type="text/javascript"
-	src="${base}/template/admin/js/manage/enter_list.js"></script>
-<style type="text/css">
-.operateBar {
-	padding: 3px 0px;
-}
-</style>
-</head>
-<body class="no-skin list">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>管理中心</title>
+		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
+		<script type="text/javascript" src="${base}/template/admin/js/manage/daily_work_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+	</head>
+	<body class="no-skin list">
 
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
@@ -53,7 +41,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">报工</li>
+					<li class="active">报工单</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -113,7 +101,7 @@
 															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
 														</div>
 													</div>
-
+													
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组/班次</div>
 
@@ -121,11 +109,42 @@
 															<span class="editable editable-click" id="signup">2010/06/20</span>
 														</div>
 													</div>
+													
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">累计报工数量</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.dailyWorkTotalAmount}</span>
+														</div>
+													</div>
 
 												</div>
 											</div>
 										</div>
 									</div>
+								</div>
+							</div>
+							<div class="row buttons">
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addCarton">
+										<span class="bigger-110 no-text-shadow">创建报工单</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
+										<span class="bigger-110 no-text-shadow">刷卡确认</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
+										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnCarton">
+										<span class="bigger-110 no-text-shadow">返回</span>
+									</button>
 								</div>
 							</div>
 							<div class="row">
@@ -176,6 +195,38 @@
 				$("#ace-settings-box").removeClass("open");
 			}
 		});
+		
+		$("#addCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			window.location.href="daily_work!add.action?workingBillId="+workingBillId;
+			
+		});
+		$("#confirmCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="daily_work!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#undoCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条报工记录！");
+			}else{
+				window.location.href="daily_work!undo.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#returnCarton").click(function(){
+			window.history.back();
+		});
+		
 		$(".btn-colorpicker").click(function() {
 			$(".dropdown-colorpicker").addClass("open");
 		})

@@ -98,12 +98,20 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
+												<div class="profile-info-name">累计报工数量</div>
+
+												<div class="profile-info-value">
+													<span class="editable editable-click" id="age">${workingbill.dailyWorkTotalAmount}</span>
+												</div>
+											</div>
+											<div class="profile-info-row">
 												<div class="profile-info-name">报工数量</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="dailyWork.enterAmout"
-														value=""
-														class=" input input-sm" />
+													<input type="text" name="dailyWork.enterAmount"
+														value="${(dailyWork.enterAmount)!}"
+														class=" input input-sm formText {required: true,min: 0}" />
+													<label class="requireField">*</label>
 												</div>
 											</div>
 										</div>

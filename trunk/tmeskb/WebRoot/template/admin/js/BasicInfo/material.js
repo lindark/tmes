@@ -1,5 +1,5 @@
 
-jQuery(function($) {
+jQuery(function($){
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -20,6 +20,7 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
+
 		
 		url:"material!ajlist.action",
 		datatype: "json",
@@ -38,7 +39,7 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '展开层','产品编码','产品名称','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', ],
+		colNames:[ '展开层','产品编码','产品名称','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', '是否为纸箱'],
 		colModel:[		
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'spread',index:'spread', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
@@ -53,8 +54,8 @@ jQuery(function($) {
 			{name:'materialUnit',index:'materialUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialAmount',index:'materialAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'batch',index:'batch', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}}		 
-			
+			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}},	 
+			{name:'stateCarton',index:'isCarton', width:200, label:"纸箱状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=iscartonSate"}}		 
 		], 
 
 

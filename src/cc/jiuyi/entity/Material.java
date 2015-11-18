@@ -40,6 +40,8 @@ public class Material extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private String isCarton;//是否为纸箱
+    private String stateCarton;//纸箱状态描述
     
     
     private String productsCode;//产品编码
@@ -167,6 +169,21 @@ public class Material extends BaseEntity{
 	}
 	public void setProductsName(String productsName) {
 		this.productsName = productsName;
+	}
+	
+	public String getIsCarton() {
+		return isCarton;
+	}
+	public void setIsCarton(String isCarton) {
+		this.isCarton = isCarton;
+	}
+	
+	@Transient
+	public String getStateCarton() {
+		return stateCarton;
+	}
+	public void setStateCarton(String stateCarton) {
+		this.stateCarton = stateCarton;
 	}
 
    

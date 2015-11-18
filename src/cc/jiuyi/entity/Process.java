@@ -98,9 +98,4 @@ public class Process extends BaseEntity{
 	{
 		this.xproductname = xproductname;
 	}
-
-   
-
-    
-	
 }

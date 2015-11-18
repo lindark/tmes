@@ -129,17 +129,19 @@ body {
 	function getGridId(){
 		var ids=$("#grid-table2").jqGrid('getGridParam','selarrrow');
 		if(ids.length <1){
-			alert("请选择一条记录");
+			alert("请至少选择一条记录");
 			return false;
 		}
-		if(ids.length >1){
-			alert("请选择一条记录");
-			return false;
+		var arrayObj = new Array();
+		for(var i=0;i<ids.length;i++){
+			var rowData = $("#grid-table2").jqGrid('getRowData',ids[i]);//获取每一行的对象
+			alert(rowData.departName);
+			arrayObj[i] = rowData;
+			
 		}
-		var rowData = $("#grid-table2").jqGrid('getRowData',ids);
-		var rowName=rowData.name;
-		var work=""+rowName+""+","+ids;
-		return work;
+		//var rowName=rowData.name;
+		//var work=""+rowName+""+","+ids;
+		return arrayObj;
 	}
 	
 </script>

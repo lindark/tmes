@@ -35,17 +35,8 @@ public class WorkingBill extends BaseEntity {
 	
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;//组件
-	//private Set<Sample> sample;//抽检
+
 	
-	/*@OneToMany(mappedBy="workingBill",fetch=FetchType.LAZY)
-	public Set<Sample> getSample()
-	{
-		return sample;
-	}
-	public void setSample(Set<Sample> sample)
-	{
-		this.sample = sample;
-	}*/
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouse() {
 		return enteringwareHouse;

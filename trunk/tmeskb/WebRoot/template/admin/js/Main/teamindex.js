@@ -5,10 +5,10 @@ $(function() {
 	var $repairin = $("#repairin");// 返修收货
 	var $repairin = $("#repairin");// 返修收货
 	var $pick = $("#pick");// 领退料
-	var $qResponse = $("#qResponse");//快速响应
-	var $handoverprocess = $("#handoverprocess");//交接
-	var $dailywork =$("#dailywork");//报工
-	var $carton = $("#carton");//纸箱收货
+	var $qResponse = $("#qResponse");// 快速响应
+	var $handoverprocess = $("#handoverprocess");// 交接
+	var $dailywork = $("#dailywork");// 报工
+	var $carton = $("#carton");// 纸箱收货
 
 	/**
 	 * 入库按钮点击
@@ -23,17 +23,15 @@ $(function() {
 				}
 
 			});
-	
+
 	/**
 	 * 领/退料按钮点击
 	 */
-	$pick
-	.click(function() {
+	$pick.click(function() {
 		var istrue = ckboxChick();
 		if (istrue) {
 			var id = getCKboxById();
-			window.location.href = "pick!list.action?workingBillId="
-					+ id;
+			window.location.href = "pick!list.action?workingBillId=" + id;
 		}
 
 	});
@@ -55,13 +53,24 @@ $(function() {
 	 * 纸箱收货按钮点击
 	 */
 	$carton.click(function() {
-				var istrue = ckboxChick();
-				if (istrue) {
-					var id = getCKboxById();
-					window.location.href = "carton!list.action?workingBillId="+ id;
-				}
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "carton!list.action?workingBillId=" + id;
+		}
 
-			});
+	});
+	/**
+	 * 报工按钮点击
+	 */
+	$dailywork.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "daily_work!list.action?workingBillId=" + id;
+		}
+
+	});
 	/**
 	 * 返修按钮点击
 	 */
@@ -69,8 +78,7 @@ $(function() {
 		var istrue = ckboxChick();
 		if (istrue) {
 			var id = getCKboxById();
-			window.location.href = "repair!list.action?workingBillId="
-					+ id;
+			window.location.href = "repair!list.action?workingBillId=" + id;
 		}
 	});
 	/**
@@ -79,17 +87,15 @@ $(function() {
 	$repairin.click(function() {
 		window.location.href = "repairin!list.action";
 	});
-	
-	
+
 	/**
 	 * 快速响应按钮点击
 	 */
 	$qResponse.click(function() {
 		window.location.href = "abnormal!list.action";
 	});
-	
-})
 
+})
 
 /**
  * 获取checkbox的ID值

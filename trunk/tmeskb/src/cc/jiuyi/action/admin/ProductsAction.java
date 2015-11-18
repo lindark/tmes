@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -45,7 +47,7 @@ public class ProductsAction extends BaseAdminAction {
 	private Products products;
 	//获取所有状态
 	private List<Dict> allState;
-	
+	private cc.jiuyi.entity.Process process;
 	private Material material;
 	
 	private String materialId;
@@ -56,7 +58,8 @@ public class ProductsAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private MaterialService materialService;
-	
+	@Resource
+	private ProcessService processService;
 	//是否已存在ajax验证
 	public String checkProductsCode(){
 		String productsCode=products.getProductsCode();
@@ -97,15 +100,18 @@ public class ProductsAction extends BaseAdminAction {
 	 * ajax 列表
 	 * @return
 	 */
-    public String ajlist(){
+    public String ajlist()
+    {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager.getOrderBy().equals("")) {
+		if(pager.getOrderBy().equals(""))
+		{
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
-		if(pager.is_search()==true && filters != null){//需要查询条件
+		if(pager.is_search()==true && filters != null)
+		{//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
 			Map m = new HashMap();
@@ -115,46 +121,57 @@ public class ProductsAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 		
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+		if (pager.is_search() == true && Param != null)
+		{// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("productsCode") != null) {
+			if (obj.get("productsCode") != null) 
+			{
 				System.out.println("obj=" + obj);
 				String productsCode = obj.getString("productsCode").toString();
 				map.put("productsCode", productsCode);
 			}
-			if (obj.get("productsName") != null) {
+			if (obj.get("productsName") != null)
+			{
 				String productsName = obj.getString("productsName").toString();
 				map.put("productsName", productsName);
 			}
-			if (obj.get("state") != null) {
+			if (obj.get("state") != null)
+			{
 				String state = obj.getString("state").toString();
 				map.put("state", state);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if(obj.get("start")!=null&&obj.get("end")!=null)
+			{
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
 			}
 		}
-
+		try
+		{
 			pager = productsService.getProductsPager(pager, map);
-			List<Products> productsList = pager.getList();
-			List<Products> lst = new ArrayList<Products>();
-			for (int i = 0; i < productsList.size(); i++) {
-				Products products = (Products) productsList.get(i);
-				products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "productsState", products.getState()));
-				products.setMaterial(null);
-				lst.add(products);
-			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+			
+		List<Products> productsList = pager.getList();
+		List<Products> lst = new ArrayList<Products>();
+		for (int i = 0; i < productsList.size(); i++)
+		{
+			Products products = (Products) productsList.get(i);
+			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "productsState", products.getState()));
+			products.setMaterial(null);
+			lst.add(products);
+		}
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
-		 return ajaxJson(jsonArray.get(0).toString());
-		
-	}
-	
+		return ajaxJson(jsonArray.get(0).toString());
+    }
 	
 	//删除
 	public String delete(){
@@ -209,8 +226,7 @@ public class ProductsAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
-
-
+	
 	public Products getProducts() {
 		return products;
 	}
@@ -276,6 +292,14 @@ public class ProductsAction extends BaseAdminAction {
 	}
 	
 	
-	
-	
+
+	public cc.jiuyi.entity.Process getProcess()
+	{
+		return process;
+	}
+
+	public void setProcess(cc.jiuyi.entity.Process process)
+	{
+		this.process = process;
+	}
 }

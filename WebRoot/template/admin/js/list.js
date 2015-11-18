@@ -10,7 +10,6 @@ $().ready( function() {
 	 * 搜索按钮
 	 */
 	$searchButton.click(function(){
-		
 		var rules = "";
 		var ishead= 0;
 		$searchform.find(":input").each(function(i){

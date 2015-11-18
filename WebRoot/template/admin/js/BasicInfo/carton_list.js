@@ -64,13 +64,14 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '纸箱编码','纸箱描述','数量','收货日期', '确认人','状态'],
+		colNames:[ '纸箱编码','纸箱描述','数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
 			{name:'cartonCode',index:'cartonCode', width:200},
 			{name:'cartonDescribe',index:'cartonDescribe', width:200},
 			{name:'cartonAmount',index:'cartonAmount', width:200},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}}
 

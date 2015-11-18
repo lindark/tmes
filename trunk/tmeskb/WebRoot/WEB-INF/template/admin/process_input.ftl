@@ -16,7 +16,7 @@
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process_input.js"></script>
 <style type="text/css">
 	.mymust{color: red;font-size: 10px;}
-	.p_name{width:300px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
+	.p_name{width:420px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
 </style>
 <script type="text/javascript">
 $().ready( function() {
@@ -76,8 +76,8 @@ body{background:#fff;}
 		<form id="inputForm" class="validate" action="<#if isAdd??>process!save.action<#else>process!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<input type="hidden" id="xcode" value="${(process.processCode)!}" />
-			<input type="text" id="productsId" name="products.id" value=""/>
-			<input type="text" id="productsName" name="products.productsName" value=""/>
+			<input type="hidden" id="productsId" name="products.id" value=""/>
+			<input type="hidden" id="productsName" name="products.productsName" value=""/>
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -98,32 +98,32 @@ body{background:#fff;}
 											<!-- <input id="processcode" type="text" name="process.processCode" class="formText {required: true,minlength:2,maxlength: 100,processCode:true,remote:'process!checkProcesssCode.action',messages:{remote:'工序编码已存在'}}" /> -->
 										<#else>
 										    ${process.processCode}
-										    <input id="processcode" type="hidden" name="process.processCode" value="${(process.processCode)!}"/><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" style="display: none"></span>
+										    <input id="processcode" type="hidden" name="process.processCode" value="${(process.processCode)!}"/><!-- <label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" style="display: none"></span> -->
 										</#if>	
 										</div>
 									</div>	
 									
-									<div class="profile-info-row">	
+									<div class="profile-info-row">
 										<div class="profile-info-name">工序名称 </div>					
 										<div class="profile-info-value">
 											<input id="processname" type="text" name="process.processName" value="${(process.processName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" /><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_name" class="mymust"></span>
 										</div>
 									</div>
-									
+									<!-- 
+									<#if isAdd??>
 									<div class="profile-info-row">	
+										
 										<div class="profile-info-name">产品名称 </div>	
 										<div class="profile-info-value">
 											<label id="product_name" class="p_name">&nbsp;</label>
-											<!-- 	
-											<input id="product_name" name="product_name" class="p_name" type="text" value="${(process.products.productsName)! }" />
-											
-											<label class="requireField">*</label>&nbsp;&nbsp;
-											 -->
 											 <label class="requireField">*</label>
-											 &nbsp;&nbsp;<span id="span_name" class="mymust"></span>
+											 
 										</div>
 									</div>
-									
+									<#else>
+										<span style="display: none;" id="product_name" >1</span>
+									</#if>
+									 -->
 									<div class="profile-info-row">
 										<div class="profile-info-name">状态</div>					
 										<div class="profile-info-value">

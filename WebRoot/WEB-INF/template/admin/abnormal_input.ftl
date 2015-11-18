@@ -12,7 +12,6 @@
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/unusual/js/call.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}
@@ -86,7 +85,7 @@ body{background:#fff;}
 											</thead>
 
 											<tbody>
-												<tr>					
+												<tr class="person">					
 													<td>
 													    <input type="text" name="name" id="name"　value="" class="{required: true}" readonly="readonly"/>
 														<input type="hidden" name="nameId" id="nameId"　value=""/>
@@ -133,4 +132,52 @@ body{background:#fff;}
 
 
 </body>
+<script type="text/javascript">
+$(function(){
+	var callList = "${(callReasonList)!}";
+	var $userAddBtn = $("#userAddBtn");//添加用户
+	 var $name=$("#name");
+	 var $nameId=$("#nameId");
+	/**
+	 * 添加按钮点击
+	 */
+	$userAddBtn.click(function(){
+		var title = "人员";
+		var width="800px";
+		var height="600px";
+		var content="abnormal!browser.action";
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+			
+        var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        var work = iframeWin.getGridId();
+        
+        var size=1;
+        var html = '<tr><td><input type="text" name="adminSet['+size+'].name" id="name"　value="" class="{required: true}" readonly="readonly"/><input type="hidden" name="adminSet['+size+'].id" id="nameId"　value=""/></td><td><select name="callReasonId" class="{required: true}" style="width:200px;"><option id="choose" value="">请选择...</option></select></td></tr>';
+        /* 
+        var cal=callList.substring(1,callList.length-1);
+        var message=cal.split(",");
+        for(var i=0;i<message.length;i++){
+        	var html1='<option value="message[i].id">message[i].callReason</option>';
+        	$("#choose").append(html1);
+        }*/
+        alert(work); 
+        var id=work.split(",");
+        $name.val(id[0]);
+        $nameId.val(id[1]);
+        if($(".person").length > 0) {
+			$(".person:last").after(html);
+		} 
+        layer.close(index);            	          	     	
+		});
+		
+		
+	});
+	
+	
+	
+})
+
+
+
+</script>
 </html>

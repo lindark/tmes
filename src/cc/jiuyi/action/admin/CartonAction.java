@@ -19,10 +19,12 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -48,6 +50,7 @@ public class CartonAction extends BaseAdminAction {
 	private String workingBillId;
 	private WorkingBill workingbill;
 	private Admin admin;
+	private String matnr;
 
 	@Resource
 	private CartonService cartonService;
@@ -57,6 +60,8 @@ public class CartonAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private MaterialService materialService;
 
 	public String list() {
 		workingbill = workingBillService.get(workingBillId);
@@ -241,4 +246,22 @@ public class CartonAction extends BaseAdminAction {
 		this.workingbill = workingbill;
 	}
 
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public MaterialService getMaterialService() {
+		return materialService;
+	}
+
+	public void setMaterialService(MaterialService materialService) {
+		this.materialService = materialService;
+	}
+
+	
+	
 }

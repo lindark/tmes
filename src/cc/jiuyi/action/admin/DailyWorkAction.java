@@ -74,9 +74,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String save() {
+	public String save() throws Exception{
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setAdmin(admin);
+		dailyWork.setCreateUser(admin.getId());
 		dailyWorkService.save(dailyWork);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
@@ -86,7 +87,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() {
+	public String update() throws Exception{
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);
@@ -194,6 +195,8 @@ public class DailyWorkAction extends BaseAdminAction {
 				Admin admin = adminService.load(dailyWork.getConfirmUser());
 				dailyWork.setAdminName(admin.getName());
 			}
+			admin = adminService.load(dailyWork.getCreateUser());
+			dailyWork.setCreateName(admin.getName());
 			dailyWork.setWorkingbill(null);
 			dailyWork.setAdmin(null);
 			lst.add(dailyWork);

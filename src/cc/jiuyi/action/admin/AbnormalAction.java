@@ -101,7 +101,7 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setOriginator(org);
 			String ans=adminService.load(abnormal.getResponsor()).getName();
 			abnormal.setAnswer(ans);
-			abnormal.setCallreasonSet(null);			
+			abnormal.setCallreasonSet(null);
 			pagerlist.set(i, abnormal);
 		}
 		pager.setList(pagerlist);

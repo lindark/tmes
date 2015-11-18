@@ -13,7 +13,6 @@
 	type="text/css" />
 <script type="text/javascript" src="${base}/template/admin/js/browser/adminBrowser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 
 <style>
@@ -22,7 +21,31 @@ body {
 }
 
 </style>
-
+<script>
+	$(function(){
+		var $searchButton = $("#searchButton");//搜索
+		var $searchform = $("#searchform");
+		$searchButton.click(function(){
+			var rules = "";
+			var ishead= 0;
+			$searchform.find(":input").each(function(i){
+				if($(this).val()){
+					if(ishead==1)
+						rules +=",";
+					rules += '"' + $(this).attr("name") + '":"' + $(this).val() + '"';
+					ishead=1;
+				}
+				
+			});
+			ParamJson = '{' + rules + '}';
+			var postData = $("#grid-table2").jqGrid("getGridParam", "postData");
+	        $.extend(postData, { Param: ParamJson });
+	        $("#grid-table2").jqGrid("setGridParam", { search: true }).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
+		
+			return false;
+		});
+	})
+</script>
 </head>
 <body class="no-skin input">
 

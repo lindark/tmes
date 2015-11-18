@@ -43,7 +43,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;//班次
 	private String productDate;//生产日期
 	private String phoneNo;//手机号
-	private Abnormal abnormal;//异常
+	private Set<Abnormal> abnormalSet;//异常
 
 	
 	private Set<Role> roleSet;// 管理角色
@@ -257,13 +257,14 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.phoneNo = phoneNo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Abnormal getAbnormal() {
-		return abnormal;
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<Abnormal> getAbnormalSet() {
+		return abnormalSet;
 	}
 
-	public void setAbnormal(Abnormal abnormal) {
-		this.abnormal = abnormal;
+	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
+		this.abnormalSet = abnormalSet;
 	}
 
+	
 }

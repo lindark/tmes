@@ -58,6 +58,11 @@ public class ProductsServiceImpl extends BaseServiceImpl<Products, String>implem
 	}
 
 	@Override
+	public Pager getProductsPager2(Pager pager, HashMap<String, String> map,String id) {
+		// TODO Auto-generated method stub
+		return productsDao.getProductsPager2(pager, map,id);
+	}
+	@Override
 	public void updateisdel(String[] ids, String oper) {
 		// TODO Auto-generated method stub
 		productsDao.updateisdel(ids, oper);

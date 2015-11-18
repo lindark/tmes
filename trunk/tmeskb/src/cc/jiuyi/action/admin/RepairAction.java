@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,10 +14,14 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Repair;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.RepairService;
+import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -32,9 +38,16 @@ public class RepairAction extends BaseAdminAction{
 	
 	@Resource
 	private RepairService repairService;
+	@Resource
+	private WorkingBillService workingBillService;
+	@Resource
+	private DictService dictService;
+	
+	private String workingBillId;
+	private WorkingBill workingbill;
 	
 	public String list() {
-		//pager = repairService.findByPager(pager);
+		workingbill = workingBillService.get(workingBillId);
 		return "list";
 	}
 
@@ -115,6 +128,15 @@ public class RepairAction extends BaseAdminAction{
 			}
 		}
 		pager = repairService.getRepairPager(pager,map);
+		List<Repair> repairList = pager.getList();
+		List<Repair> lst = new ArrayList<Repair>();
+		for (int i = 0; i < repairList.size(); i++) {
+			Repair repair = (Repair) repairList.get(i);
+			repair.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"repairState", repair.getState()));
+			lst.add(repair);
+		}
+		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		
@@ -126,6 +148,22 @@ public class RepairAction extends BaseAdminAction{
 
 	public void setRepair(Repair repair) {
 		this.repair = repair;
+	}
+
+	public String getWorkingBillId() {
+		return workingBillId;
+	}
+
+	public void setWorkingBillId(String workingBillId) {
+		this.workingBillId = workingBillId;
+	}
+
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
 	}
 	
 

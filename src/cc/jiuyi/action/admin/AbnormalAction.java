@@ -119,7 +119,7 @@ public class AbnormalAction extends BaseAdminAction {
 		    persistent.setReplyDate(new Date());
 		    persistent.setState("2");
 		    Date date = new Date();
-		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+		    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 		    persistent.setHandlingTime(time);
 		    abnormalService.update(persistent);
 		}else if(aids!=null){
@@ -130,7 +130,7 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setReplyDate(new Date());
 				    persistent.setState("2");
 				    Date date = new Date();
-				    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+				    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 				    persistent.setHandlingTime(time);
 				    abnormalService.update(persistent);
 				}
@@ -140,7 +140,7 @@ public class AbnormalAction extends BaseAdminAction {
 			persistent.setState("4");
 			persistent.setReplyDate(new Date());
 			Date date = new Date();
-		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+		    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 		    persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
 		}else if(cancelIds!=null){
@@ -151,7 +151,7 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
-				    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+				    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 				    persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
 				}
@@ -163,7 +163,7 @@ public class AbnormalAction extends BaseAdminAction {
 				persistent.setState("3");
 				persistent.setReplyDate(new Date());
 				Date date = new Date();
-			    int time=(int)(date.getTime()-persistent.getCreateDate().getTime());
+			    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 			    persistent.setHandlingTime(time);
 				abnormalService.update(persistent);				
 		}else if(closeIds!=null){
@@ -175,7 +175,7 @@ public class AbnormalAction extends BaseAdminAction {
 					if(persistent.getReplyDate()==null){
 						persistent.setReplyDate(new Date());
 						Date date = new Date();
-					    int time=(int)(date.getTime()-persistent.getCreateDate().getTime());
+					    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 					    persistent.setHandlingTime(time);
 					}
 					abnormalService.update(persistent);	

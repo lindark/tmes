@@ -85,13 +85,6 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Material> getMantrBom(String matnr) {
-		String hql="from Material where productsCode = ?";
-		return getSession().createQuery(hql).setParameter(0, matnr).list();
-		
-	}
-
+	
 
 }

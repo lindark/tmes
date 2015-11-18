@@ -61,11 +61,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		
 	}
 
-	@Override
-	public List<Material> getMantrBom(String matnr) {
-		// TODO Auto-generated method stub
-		return pickDetailDao.getMantrBom(matnr);
-	}
+	
 
 
 	

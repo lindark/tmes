@@ -118,7 +118,7 @@ body{background:#fff;}
 													<label class="requireField">*</label> <#else>
 													${(material.materialCode)!} <input type="hidden"
 														name="material.materialCode"
-														value="${(material.materialCode)!}" /> </#if>
+														value="${(material.materialCode)!}" /></#if>
 												</div>
 
 

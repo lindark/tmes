@@ -75,6 +75,12 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 		// TODO Auto-generated method stub
 		return materialDao.getProductsList();
 	}
+	
+	@Override
+	public List<Material> getMantrBom(String matnr) {
+		// TODO Auto-generated method stub
+		return materialDao.getMantrBom(matnr);
+	}
 
 	
 }

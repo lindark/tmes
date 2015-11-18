@@ -112,6 +112,13 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Material> getMantrBom(String matnr) {
+		String hql="from Material where products.productsCode = ?";
+		return getSession().createQuery(hql).setParameter(0, matnr).list();
+		
+	}
 
 }

@@ -211,7 +211,23 @@ body{background:#fff;}
 														(isAdd || material.state == '2')!> checked</#if> /> <span
 														class="lbl middle"></span> </label>
 												</div>
-											</div>							
+											</div>
+																						
+											<div class="profile-info-row">											
+												<div class="profile-info-name">是否为纸箱</div>
+												<div class="profile-info-value">
+													<label class="pull-left inline">是<small
+														class="muted smaller-90">:</small> <input type="radio"
+														class="ace" name="material.isCarton" value="Y"<#if
+														(material.isCarton == 'Y')!> checked</#if> /> <span
+														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
+														class="pull-left inline"> <small
+														class="muted smaller-90">否:</small> <input type="radio"
+														class="ace" name="material.isCarton" value="N"<#if
+														(isAdd || material.isCarton == 'N')!> checked</#if> /> <span
+														class="lbl middle"></span> </label>
+												</div>
+											</div>												
 										</div>
 				
 			<div class="buttonArea">

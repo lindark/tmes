@@ -3,6 +3,8 @@ package cc.jiuyi.entity;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -42,7 +44,27 @@ public class Rework extends BaseEntity{
     private String isQualifieds;//是否合格描述
     private String isCompeletes;//是否完工描述
   
+    private WorkingBill workingbill;//随工单
+    private Admin admin;
     
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
     
 	public Integer getReworkCount() {
 		return reworkCount;

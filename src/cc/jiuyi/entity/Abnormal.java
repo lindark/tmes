@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -187,8 +188,7 @@ public class Abnormal extends BaseEntity{
 		this.craftSet = craftSet;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "abnormalSet")
 	public Set<Admin> getAdminSet() {
 		return adminSet;
 	}

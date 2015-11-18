@@ -40,5 +40,7 @@ public interface MaterialService extends BaseService<Material, String> {
 	 * 根据组件编码判断此组件是否存在
 	 */
 	public boolean isExistByMaterialCode(String materialCode);
+	
+	public List<Material> getMantrBom(String matnr);
 
 }

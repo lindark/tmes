@@ -112,7 +112,7 @@ public class PickDetailAction extends BaseAdminAction {
 	 */
 	public String ajlist(){
 
-		List<Material> pickDetail = pickDetailService.getMantrBom(matnr);
+		List<Material> pickDetail = materialService.getMantrBom(matnr);
 
 		List<HashMap> list=new ArrayList<HashMap>();
 		for (int i = 0; i < pickDetail.size(); i++) {

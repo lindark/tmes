@@ -40,9 +40,9 @@ jQuery(function($) {
 	    },
 		colNames:['创建日期','确认人', '状态'],
 		colModel:[
-            {name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-            {name:'confirmUser',index:'confirmUser', width:200,editable: true},
-			{name:'stateRemark',index:'状态', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'confirmUser',index:'confirmUser', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'state', width:400, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
 		], 
 
 		viewrecords : true,
@@ -68,7 +68,7 @@ jQuery(function($) {
 		},
 
 		editurl: "pick!delete.action",//用它做标准删除动作
-		caption: "领/退料单"
+		caption: "领/退料管理"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -76,7 +76,15 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		    editfunc : function(rowId) {
+		    	var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+		    	if(ids.length>1){
+		    		alert("只能选择一条记录！");
+		    		return false;
+		    	}
+				//window.location.href = "products!edit.action?id=" + rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){

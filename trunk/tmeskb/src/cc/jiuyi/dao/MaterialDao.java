@@ -43,6 +43,11 @@ public interface MaterialDao extends BaseDao<Material,String> {
 	 */
     public List<Products> getProductsList();
 	
-	
+    /**
+     * 根据随工单中的产品编码查组件Bom
+     * @param matnr
+     * @return
+     */
+    public List<Material> getMantrBom(String matnr);
 
 }

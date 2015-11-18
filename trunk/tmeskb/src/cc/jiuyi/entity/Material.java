@@ -42,7 +42,7 @@ public class Material extends BaseEntity{
     private String stateRemark;//状态描述
     
     
-    private String productsCode;
+    private String productsCode;//产品编码
     private String productsName;
 
 	private Products products;// 产品Bom
@@ -153,7 +153,7 @@ public class Material extends BaseEntity{
 		this.exception = exception;
 	}
 	
-	 @Transient
+	@Transient
 	public String getProductsCode() {
 		return productsCode;
 	}

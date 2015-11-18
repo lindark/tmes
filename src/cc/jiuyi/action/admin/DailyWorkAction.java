@@ -35,6 +35,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 @ParentPackage("admin")
 public class DailyWorkAction extends BaseAdminAction {
+	
 
 	private static final long serialVersionUID = 352880047222902914L;
 

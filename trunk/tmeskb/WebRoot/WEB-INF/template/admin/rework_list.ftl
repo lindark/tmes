@@ -66,47 +66,102 @@
 					<div class="page-content-area">					
 
 						<div class="row">
-							<div class="col-xs-12">
-								<form class="form-horizontal" id="searchform" action="rework!ajlist.action" role="form">
-								   <div class="operateBar">
-								   	<div class="form-group">
-										<label class="col-sm-1" style="text-align:right">日期:</label>
-										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
+						<div class="col-xs-12">
+							<!-- ./ add by weitao  -->
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header">
+											<h4 class="widget-title lighter">随工单信息</h4>
 
-												<input type="text" class="input-sm form-control datePicker" name="end">
+											<div class="widget-toolbar no-border">
+												<a href="#" data-action="settings"> <i
+													class="ace-icon fa fa-cog"></i> </a> <a href="#"
+													data-action="reload"> <i class="ace-icon fa fa-refresh"></i>
+												</a> <a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a> <a href="#"
+													data-action="close"> <i class="ace-icon fa fa-times"></i>
+												</a>
 											</div>
-										</div>									
-									</div>
-									
-										<div class="form-group" style="text-align:center">
-											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												搜索
-											</a>										
 										</div>
-										
+
+										<div class="widget-body">
+											<div
+												class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name">随工单号</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click">${workingbill.workingBillCode}</span>
+														</div>
+													</div>
+
+													<div class="profile-info-row">
+														<div class="profile-info-name">产品编号</div>
+
+														<div class="profile-info-value">
+															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
+															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+														</div>
+													</div>
+
+													<div class="profile-info-row">
+														<div class="profile-info-name">产品名称</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组/班次</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">2010/06/20</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-								</form>
-								
-								
-								<table id="grid-table"></table>
+								</div>
+							</div>
+							<div class="row buttons">
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addRework">
+										<span class="bigger-110 no-text-shadow">创建返工单</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
+										<span class="bigger-110 no-text-shadow">刷卡确认</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
+										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnRework">
+										<span class="bigger-110 no-text-shadow">返回</span>
+									</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<table id="grid-table"></table>
 
-								<div id="grid-pager"></div>
-								
-								
-									
-								<script type="text/javascript">
-									var $path_base = "${base}/template/admin";//in Ace demo this will be used for editurl parameter
-								</script>
-
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
+										<div id="grid-pager"></div>
+								</div>
+							</div>
+							<!-- add by weitao -->
+						</div>
+						<!-- /.col -->
+					</div>
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
@@ -144,6 +199,39 @@
 				$("#ace-settings-box").removeClass("open");
 			}
 		});
+		
+		$("#addRework").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			window.location.href="rework!add.action?workingBillId="+workingBillId;
+			
+		});
+		$("#confirmCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#undoCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#returnRework").click(function(){
+			window.history.back();
+		});
+		
+		
 		$(".btn-colorpicker").click(function(){
 				$(".dropdown-colorpicker").addClass("open");
 		})

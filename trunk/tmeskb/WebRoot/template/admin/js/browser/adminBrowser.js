@@ -42,7 +42,7 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			//{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
+			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
 			//{name:'username',label:"登陆名",width:120,index:'username',editable:true,editrules : {required : true}},
 			{name:'departName',label:"部门",width:120,index:'department.deptName', editable: true},			
 			{name:'name',label:"姓名",width:240,index:'name', editable: true,editrules : {required : true}},

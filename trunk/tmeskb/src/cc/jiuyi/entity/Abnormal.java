@@ -196,8 +196,7 @@ public class Abnormal extends BaseEntity{
 		this.adminSet = adminSet;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "abnormalSet")
 	public Set<Callreason> getCallreasonSet() {
 		return callreasonSet;
 	}

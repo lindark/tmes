@@ -74,7 +74,39 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-
+	public Pager getProductsPager2(Pager pager, HashMap<String, String> map,String id) {
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Products.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		
+		if (map.size() > 0) {
+			if(map.get("productsCode")!=null){
+			    detachedCriteria.add(Restrictions.like("productsCode", "%"+map.get("productsCode")+"%"));
+			}		
+			if(map.get("productsName")!=null){
+				detachedCriteria.add(Restrictions.like("productsName", "%"+map.get("productsName")+"%"));
+			}
+			if(map.get("state")!=null){
+				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
+			}
+			if(map.get("start")!=null||map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		
+		if(!existAlias(detachedCriteria, "process", "process"))
+			detachedCriteria.createAlias("process", "process");
+		detachedCriteria.add(Restrictions.eq("process.id", id));
+		return super.findByPager(pager, detachedCriteria);
+	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
@@ -86,7 +118,6 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean isExistByProductsCode(String productsCode) {
 		String hql="from Products products where lower(products.productsCode)=lower(?)";
 		Products products=(Products)getSession().createQuery(hql).setParameter(0, productsCode).uniqueResult();
@@ -99,7 +130,6 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean isExistByMaterialGroup(String materialGroup) {
 		String hql="from Products products where lower(products.materialGroup)=lower(?)";
 		Products products=(Products)getSession().createQuery(hql).setParameter(0, materialGroup).uniqueResult();

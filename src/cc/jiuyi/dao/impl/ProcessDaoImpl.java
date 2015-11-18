@@ -122,7 +122,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	public Process getOne(String id)
 	{
 		Process p=null;
-		String hql=" from Process as a inner join fetch a.products where a.id=?";
+		String hql=" from Process as a where a.id=?";
 		p=(Process)this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 		return p;
 	}
@@ -133,7 +133,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 	@SuppressWarnings("unchecked")
 	public List<Process> getCk(String info)
 	{
-		String hql=" from Process as a inner join fetch a.workingBill where a.processCode=? and a.isDel='N'";
+		String hql=" from Process as a where a.processCode=? and a.isDel='N'";
 		return this.getSession().createQuery(hql).setParameter(0, info).list();
 	}
 

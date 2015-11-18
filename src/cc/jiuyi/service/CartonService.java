@@ -1,16 +1,19 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
+import cc.jiuyi.entity.Material;
 
 /**
  * Service接口 纸箱
  */
 public interface CartonService extends BaseService<Carton, String> {
-	public Pager getCartonPager(Pager pager, HashMap<String, String> map,String workingbillId);
+	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
+			String workingbillId);
 
 	/**
 	 * 标记删除

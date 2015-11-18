@@ -27,6 +27,7 @@ public class DailyWork extends BaseEntity {
 	private String adminName;// 确认人的名字
 	private String createName;//创建人的名字
 
+	
 	private WorkingBill workingbill;// 随工单
 	private Admin admin;
 

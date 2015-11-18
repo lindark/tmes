@@ -20,7 +20,7 @@ public interface ProductsService extends BaseService<Products, String> {
 	public List<Products> getProductsList();
 
 	public Pager getProductsPager(Pager pager, HashMap<String, String> map);
-	
+	public Pager getProductsPager2(Pager pager, HashMap<String, String> map,String id);
 	/**
 	 * 标记删除
 	 * @param ids

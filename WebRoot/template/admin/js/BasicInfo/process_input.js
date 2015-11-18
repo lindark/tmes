@@ -7,7 +7,9 @@ $(function(){
 	$("#btn_sub").click(function(){
 		var processcode=$("#processcode").val().replace(" ","");//工序编码
 		var processname=$("#processname").val().replace(" ","");//工序名称
+		//var productsval=$("#product_name").text().replace(" ","");//产品产品名称
 		var xcode=$("#xcode").val();//工序编码,用于判断：1.不为空表示修改，可以为原名不用判断是否存在，  2.为空表示新增，需要判断是否已存在
+		//alert(processcode+","+processname);
 		if((processcode==""||processcode==null)||(processname==""||processname==null))
 		{
 			layer.alert("必填数据不能为空,请查看!",8,false);
@@ -91,57 +93,19 @@ function sub_ck(val)
 		}
 	},"json");
 }
-var $productsId=$("#productsId");
-var $productsName=$("#productsName");
 function showproducts()
 {
 	var title = "选择产品";
 	var width="800px";
 	var height="632px";
-	var content="products!list2.action";//"process!browser.action";//"process!getProductsList.action";
+	var content="process!list2.action";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		$productsId.val(id[0]);//产品id
-		$productsName.val(id[1]);//产品名称
+		$("#productsId").val(id[0]);//产品id
+		$("#productsName").val(id[1]);//产品名称
+		$("#product_name").text(id[1]);
 		layer.close(index); 
 	});
-	/*layer.open({
-		type:2,
-		area:['800px','500px'],
-		fix:false,//不固定
-		title:false,
-		content:'process!findByPagerAndValue.action'
-	});*/
-	//var win=window.showModalDialog(url,window);
-	/*var win=window.showModalDialog("process!findByPagerAndValue.action","");
-	win.location.reload();*/
 }
-
-
-/*var $userAddBtn = $("#userAddBtn");//添加用户
-var $workShopId=$("#workShopId1");
-var $workShopId2=$("#workShopId2");
-*//**
-* 添加按钮点击
-*//*
-$userAddBtn.click(function(){
-	
-	var title = "车间";
-	var width="800px";
-	var height="600px";
-	var content="work_shop!browser.action";
-	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
-		
-   var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-   var work = iframeWin.getGridId();
-   var id=work.split(",");
-   $workShopId.val(id[0]);
-   $workShopId2.val(id[1]);
-   layer.close(index);            	          	     	
-	});
-	
-	
-});
-*/

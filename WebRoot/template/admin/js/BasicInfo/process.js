@@ -89,7 +89,7 @@ jQuery(function($) {
           	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
           	 for ( var i = 0; i < ids.length; i++) {
           		 var cl = ids[i];
-          		 be = "<a href='process!getProducts.action?id="+ids[i]+"'>[查看]</a>";
+          		 be = "<a href='process!relevant.action?id="+ids[i]+"'>[查看]</a>";
           		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { showproducts : be });
           	 }
           },

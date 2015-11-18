@@ -46,9 +46,9 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"process!ajlist2.action",
+		url:"process!ajlist3.action?id="+$("#getid").val(),
 		datatype: "json",
-		height: "322",//weitao 修改此参数可以修改表格的高度
+		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -63,13 +63,15 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:['工厂名称','车间编码','车间名称',],
-		colModel:[
-			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'productsCode',index:'productsCode',label:"产品编号",width:100, editable: false},
-			{name:'productsName',index:'productsName',label:"产品名称",width:400, editable: false}				
-		], 
-
+		//colNames:['创建日期','工厂编码','工厂名称','状态', ],
+	    colModel:[	
+			{name:'id',index:'id', sorttype:"int",label:"ID",editable: false,hidden:true},
+			{name:'productsCode',index:'productsCode',label:"产品编号",width:200, editable: false},
+			{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
+			{name:'stateRemark',index:'state',label:"状态",width:200, editable: false}
+			
+			//{name:"relevant",label:"操作",width:100, sortable:false, resize:false}
+		],
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -80,7 +82,16 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        
+      /* gridComplete : function() {
+          	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+          	 for ( var i = 0; i < ids.length; i++) {
+          		 var cl = ids[i];
+          		 be = "<a href='products!delrelevant.action?id="+ids[i]+"'>[删除]</a>";
+          		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { relevant : be });
+          	 }
+          },*/
+        
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -92,8 +103,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		//editurl: "work_shop!delete.adction"//用它做标准删除动作
-		//caption: "车间管理"
+		editurl: "products!delete.adction",//用它做标准删除动作
+		caption: "产品管理"
 
 		//,autowidth: true,
 //		,
@@ -137,21 +148,12 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc:function(rowId){
-			   // window.location.href="work_shop!edit.action?id="+rowId;
-		    },
+			edit: false,
+		
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
-				window.location.href="work_shop!add.action";
-			},
+			add:false,
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
-			/*
-			delfunc:function(rowId){
-				window.location.href="work_shop!delete.action?id="+rowId;
-			},*/
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -213,10 +215,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form
@@ -230,3 +232,4 @@ jQuery(function($) {
 
 
 });
+

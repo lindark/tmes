@@ -22,7 +22,7 @@ public interface ProductsDao extends BaseDao<Products,String> {
 	public List<Products> getProductsList();
 	
 	public Pager getProductsPager(Pager pager,HashMap<String,String>map);
-
+	public Pager getProductsPager2(Pager pager,HashMap<String,String>map,String id);
 	/**
 	 * 标记删除
 	 * @param id

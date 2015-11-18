@@ -23,8 +23,10 @@ public class Carton extends BaseEntity {
 	private String state;// 状态
 	private String isDel;// 是否删除
 	private String confirmUser;// 确认人
+	private String createUser;//创建人
 	private String stateRemark;// 状态描述
 	private String adminName;//确认人的名字
+	private String createName;//创建人的名字
 
 	private WorkingBill workingbill;// 随工单
 	private Admin admin;
@@ -128,6 +130,23 @@ public class Carton extends BaseEntity {
 
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	@Transient
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
 	}
 	
 }

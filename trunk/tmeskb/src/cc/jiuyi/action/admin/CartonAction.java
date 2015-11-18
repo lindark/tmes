@@ -87,6 +87,7 @@ public class CartonAction extends BaseAdminAction {
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		carton.setAdmin(admin);
+		carton.setCreateUser(admin.getId());
 		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
@@ -96,7 +97,7 @@ public class CartonAction extends BaseAdminAction {
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() {
+	public String update() throws Exception{
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
@@ -223,6 +224,8 @@ public class CartonAction extends BaseAdminAction {
 				Admin admin = adminService.load(carton.getConfirmUser());
 				carton.setAdminName(admin.getName());
 			}
+			admin = adminService.load(carton.getCreateUser());
+			carton.setCreateName(admin.getName());
 			carton.setWorkingbill(null);
 			carton.setAdmin(null);
 			lst.add(carton);

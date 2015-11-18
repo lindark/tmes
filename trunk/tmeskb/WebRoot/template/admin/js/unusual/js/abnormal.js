@@ -55,17 +55,26 @@ $(function() {
 	var $responsecar = $("#responsecar");// 响应刷卡cancelcal
 	$responsecar.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
-		alert(i.length);
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
 		}else if(i.length==1){	
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state==0){
+			if(rowData.state==0){				
 				window.location.href = "abnormal!update.action?aid="+i;
+			}else{
+				alert("异常不能响应");
+				return false;
 			}
 			
 		}else if(i.length>=2){
+			for (var a=0;a<i.length;a++){
+				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
+				if(rowData.state!=0){				
+					alert("异常不能响应");
+					return false;
+				}
+			}
 			window.location.href = "abnormal!update.action?aids="+i;
 		}
 		
@@ -81,8 +90,17 @@ $(function() {
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
 			if(rowData.state==0){
 			  window.location.href = "abnormal!update.action?cancelId="+i;
+			}else{
+				alert("异常不能撤销");
 			}
 		}else if(i.length>=2){
+			for (var a=0;a<i.length;a++){
+				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
+				if(rowData.state!=0){				
+					alert("异常不能撤销");
+					return false;
+				}
+			}
 			window.location.href = "abnormal!update.action?cancelIds="+i;
 		}		
     });
@@ -90,12 +108,17 @@ $(function() {
 	var $closeAbn = $("#closeAbn");// 关闭异常
 	$closeAbn.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
-		alert(i);
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
 		}else if(i.length==1){
-			window.location.href = "abnormal!update.action?closeId="+i;
+			var rowData = $("#grid-table1").jqGrid('getRowData',i);
+			if(rowData.state!=3){
+				window.location.href = "abnormal!update.action?closeId="+i;
+			}else{
+				alert("异常已关闭");
+			}
+			
 		}else if(i.length>=2){
 			window.location.href = "abnormal!update.action?closeIds="+i;
 		}		

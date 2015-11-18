@@ -43,6 +43,9 @@ public class AbnormalAction extends BaseAdminAction {
 	private String nameId;
 	private String callReasonId;
 	private String closeId;
+	private String closeIds;
+	private String cancelIds;
+	private String aids;
 	
 	@Resource
 	private AbnormalService abnormalService;
@@ -98,7 +101,7 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setOriginator(org);
 			String ans=adminService.load(abnormal.getResponsor()).getName();
 			abnormal.setAnswer(ans);
-			abnormal.setCallreasonSet(null);
+			abnormal.setCallreasonSet(null);			
 			pagerlist.set(i, abnormal);
 		}
 		pager.setList(pagerlist);
@@ -116,25 +119,68 @@ public class AbnormalAction extends BaseAdminAction {
 		    persistent.setReplyDate(new Date());
 		    persistent.setState("2");
 		    Date date = new Date();
-		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/1000*60);
+		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
 		    persistent.setHandlingTime(time);
 		    abnormalService.update(persistent);
+		}else if(aids!=null){
+			String id[] =aids.split(",");
+			for(int i=0;i<id.length;i++){
+				Abnormal persistent = abnormalService.load(id[i]);
+				if(persistent.getState()=="0"){
+					persistent.setReplyDate(new Date());
+				    persistent.setState("2");
+				    Date date = new Date();
+				    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+				    persistent.setHandlingTime(time);
+				    abnormalService.update(persistent);
+				}
+			}
 		}else if(cancelId!=null){
 			Abnormal persistent = abnormalService.load(cancelId);
 			persistent.setState("4");
 			persistent.setReplyDate(new Date());
 			Date date = new Date();
-		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/1000*60);
+		    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
 		    persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
-		}else if(closeId!=null){			
+		}else if(cancelIds!=null){
+			String id[] =cancelIds.split(",");
+			for(int i=0;i<id.length;i++){
+				Abnormal persistent = abnormalService.load(id[i]);
+				if(persistent.getState()=="0"){
+					persistent.setState("4");
+					persistent.setReplyDate(new Date());
+					Date date = new Date();
+				    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+				    persistent.setHandlingTime(time);
+					abnormalService.update(persistent);
+				}
+			}
+			
+			
+		}else if(closeId!=null){	
 				Abnormal persistent=abnormalService.load(closeId);
 				persistent.setState("3");
 				persistent.setReplyDate(new Date());
 				Date date = new Date();
-			    int time=(int)(date.getTime()-persistent.getCreateDate().getTime()/60000);
+			    int time=(int)(date.getTime()-persistent.getCreateDate().getTime());
 			    persistent.setHandlingTime(time);
 				abnormalService.update(persistent);				
+		}else if(closeIds!=null){
+			String id[] =closeIds.split(",");
+			for(int i=0;i<id.length;i++){
+				Abnormal persistent=abnormalService.load(id[i]);
+				if(persistent.getState()!="3"){
+					persistent.setState("3");
+					if(persistent.getReplyDate()==null){
+						persistent.setReplyDate(new Date());
+						Date date = new Date();
+					    int time=(int)(date.getTime()-persistent.getCreateDate().getTime());
+					    persistent.setHandlingTime(time);
+					}
+					abnormalService.update(persistent);	
+				}
+			}
 		}
 		
 		redirectionUrl = "abnormal!list.action";
@@ -255,6 +301,30 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCloseId(String closeId) {
 		this.closeId = closeId;
+	}
+
+	public String getCloseIds() {
+		return closeIds;
+	}
+
+	public void setCloseIds(String closeIds) {
+		this.closeIds = closeIds;
+	}
+
+	public String getCancelIds() {
+		return cancelIds;
+	}
+
+	public void setCancelIds(String cancelIds) {
+		this.cancelIds = cancelIds;
+	}
+
+	public String getAids() {
+		return aids;
+	}
+
+	public void setAids(String aids) {
+		this.aids = aids;
 	}
 	
 	

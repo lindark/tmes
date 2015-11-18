@@ -1,6 +1,5 @@
-jQuery(function($) {
-	
-	
+
+jQuery(function($){
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -21,8 +20,9 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
+
 		
-		url:"daily_work!ajlist.action",
+		url:"rework!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -39,13 +39,18 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ 'ID','报工时间','报工数量', '状态'],
-		colModel:[
-			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',index:'createDate',label:"报工日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'enterAmout',label:"报工数量",width:200,index:'enterAmout', editable: false},
-			{name:'State',label:"状态",width:200,index:'State', editable: false}
+		colNames:[ '产品编码','产品名称','确认人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
+		colModel:[	
+			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'confirmUer',index:'confirmUer', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'reworkCount',index:'reworkCount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'reworkAmount',index:'reworkAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'defectAmount',index:'defectAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
+			{name:'isCompeletes',index:'isCompelete', width:200, label:"完工状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
 		], 
+
 
 		viewrecords : true,
 		rowNum:10,
@@ -69,8 +74,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "daily_work!delete.action",//用它做标准删除动作
-		caption: "报工单"
+		editurl: "rework!delete.action",//用它做标准删除动作
+		caption: "报工"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -78,12 +83,19 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			//edit: true,
+		   editfunc : function(rowId) {
+			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+		    	if(ids.length>1){
+		    		alert("只能选择一条记录！");
+		    		return false;
+		    	}
+				window.location.href = "rework!edit.action?id=" + rowId;
+			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="daily_work!add.action?workingBillId="+workingBillId;
+				window.location.href="rework!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
@@ -132,7 +144,7 @@ jQuery(function($) {
 				form.data('styled', true);
 			},
 			onClick : function(e) {
-				alert(1);
+		       //alert(1);
 			}
 		},
 		{

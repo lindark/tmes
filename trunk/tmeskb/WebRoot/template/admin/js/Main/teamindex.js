@@ -9,6 +9,7 @@ $(function() {
 	var $handoverprocess = $("#handoverprocess");// 交接
 	var $dailywork = $("#dailywork");// 报工
 	var $carton = $("#carton");// 纸箱收货
+	var $rework = $("#rework");// 返工
 
 	/**
 	 * 入库按钮点击
@@ -32,6 +33,19 @@ $(function() {
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "pick!list.action?workingBillId=" + id;
+		}
+
+	});
+	
+	
+	/**
+	 * 领/退料按钮点击
+	 */
+	$rework.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "rework!list.action?workingBillId=" + id;
 		}
 
 	});

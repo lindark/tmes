@@ -1,7 +1,10 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.compass.annotations.Searchable;
@@ -20,7 +23,7 @@ public class Callreason extends BaseEntity {
 	private String callReason;//呼叫原因
 	private String state;//状态
 	private String isDel;//是否删除
-	private Abnormal abnormal;//异常
+	private Set<Abnormal> abnormalSet;//异常
 	
 	public String getCallType() {
 		return callType;
@@ -49,13 +52,15 @@ public class Callreason extends BaseEntity {
 		}
 		this.isDel = isDel;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Abnormal getAbnormal() {
-		return abnormal;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<Abnormal> getAbnormalSet() {
+		return abnormalSet;
 	}
-	public void setAbnormal(Abnormal abnormal) {
-		this.abnormal = abnormal;
+	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
+		this.abnormalSet = abnormalSet;
 	}
+
 	
 	
 }

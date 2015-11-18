@@ -58,7 +58,7 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间', '消息', '发起人','应答人','状态'],
+		colNames:[ '呼叫时间','应答时间','处理时间', '消息', '发起人','应答人','状态',""],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
@@ -67,7 +67,9 @@ jQuery(function($) {
 			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true,search:false}
+			{name:'stateRemark',index:'state', width:60,editable: true,search:false},
+			{name:'state',index:'state', width:60,editable: true,hidden:true}
+			
 		], 
 
 		viewrecords : true,

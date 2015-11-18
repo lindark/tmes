@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.CartonDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.service.CartonService;
 
 /**

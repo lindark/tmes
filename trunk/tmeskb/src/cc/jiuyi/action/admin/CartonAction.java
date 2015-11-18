@@ -120,13 +120,13 @@ public class CartonAction extends BaseAdminAction {
 	public String confirms() {
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
-		for(int i = 0;i<ids.length;i++){
+		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
-			if(CONFIRMED.equals(carton.getState())){
+			if (CONFIRMED.equals(carton.getState())) {
 				addActionError("已确认的无须再确认！");
 				return ERROR;
 			}
-			if(UNDO.equals(carton.getState())){
+			if (UNDO.equals(carton.getState())) {
 				addActionError("已撤销的无法再确认！");
 				return ERROR;
 			}
@@ -153,9 +153,9 @@ public class CartonAction extends BaseAdminAction {
 	public String undo() {
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
-		for(int i = 0;i<ids.length;i++){
+		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
-			if(UNDO.equals(carton.getState())){
+			if (UNDO.equals(carton.getState())) {
 				addActionError("已撤销的无法再撤销！");
 				return ERROR;
 			}
@@ -185,6 +185,15 @@ public class CartonAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 		HashMap<String, String> map = new HashMap<String, String>();
+		workingbill = workingBillService.get(workingBillId);
+		List<Material> materials = materialService.getMantrBom(workingbill
+				.getMatnr());
+		Material material = new Material();
+		for (int i = 0; i < materials.size(); i++) {
+			if ("Y".equals(materials.get(i).getIsCarton())) {
+				material = materials.get(i);
+			}
+		}
 
 		if (pager == null) {
 			pager = new Pager();
@@ -208,6 +217,8 @@ public class CartonAction extends BaseAdminAction {
 			Carton carton = (Carton) cartonList.get(i);
 			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "cartonState", carton.getState()));
+			carton.setCartonCode(material.getMaterialCode());
+			carton.setCartonDescribe(material.getMaterialName());
 			if (carton.getConfirmUser() != null) {
 				Admin admin = adminService.load(carton.getConfirmUser());
 				carton.setAdminName(admin.getName());
@@ -254,14 +265,4 @@ public class CartonAction extends BaseAdminAction {
 		this.matnr = matnr;
 	}
 
-	public MaterialService getMaterialService() {
-		return materialService;
-	}
-
-	public void setMaterialService(MaterialService materialService) {
-		this.materialService = materialService;
-	}
-
-	
-	
 }

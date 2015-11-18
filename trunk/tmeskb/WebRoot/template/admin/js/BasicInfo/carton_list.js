@@ -67,7 +67,7 @@ jQuery(function($) {
 		colNames:[ '纸箱编码','纸箱描述','数量','收货日期', '确认人','状态'],
 		colModel:[
 			
-			{name:'materialCode',index:'materialCode', width:200},
+			{name:'cartonCode',index:'cartonCode', width:200},
 			{name:'cartonDescribe',index:'cartonDescribe', width:200},
 			{name:'cartonAmount',index:'cartonAmount', width:200},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},

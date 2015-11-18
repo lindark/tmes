@@ -61,9 +61,6 @@ public class MaterialAction extends BaseAdminAction {
 	
 	//添加
 	public String add(){
-//		Products products=productsService.get(productsid);
-//		productsCode=products.getProductsCode();
-//		productsName=products.getProductsName();
 		return INPUT;
 	}
 
@@ -161,6 +158,8 @@ public class MaterialAction extends BaseAdminAction {
 				material.setWorkingBillSet(null);
 				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "materialState", material.getState()));
+				material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "iscartonSate", material.getIsCarton()));
 				material.setProductsCode(material.getProducts().getProductsCode());
 				material.setProductsName(material.getProducts().getProductsName());
 				material.setProducts(null);

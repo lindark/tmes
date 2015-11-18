@@ -85,6 +85,7 @@ body{background:#fff;}
 											</thead>
 
 											<tbody>
+											<!-- 
 												<tr class="person">					
 													<td>
 													    <input type="text" name="name" id="name"　value="" class="{required: true}" readonly="readonly"/>
@@ -101,7 +102,7 @@ body{background:#fff;}
 													</td>
 													
 												</tr>
-												
+											 -->	
 											</tbody>
 						</table>
 						</div>
@@ -149,10 +150,29 @@ $(function(){
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 			
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-        var work = iframeWin.getGridId();
+        var arrayObj = iframeWin.getGridId();
+        alert(arrayObj.length);
         
-        var size=1;
-        var html = '<tr><td><input type="text" name="adminSet['+size+'].name" id="name"　value="" class="{required: true}" readonly="readonly"/><input type="hidden" name="adminSet['+size+'].id" id="nameId"　value=""/></td><td><select name="callReasonId" class="{required: true}" style="width:200px;"><option id="choose" value="">请选择...</option></select></td></tr>';
+        var size = $("#sample-table-1 tbody tr").length;
+        for(var i=0;i<arrayObj.length;i++){
+        	alert(arrayObj[i].id);
+        	size= size+1;
+        	var html ="<tr>";
+	        	html+="<td>";
+	        	html+="<input type='text' name='adminSet["+size+"].id' value='"+arrayObj[i].id+"'/>";
+	        	html+="</td>";
+	        	html+="<td>";
+	        	html+="<select name='callReasonId' class='{required: true}' style='width:200px;'><option id='choose' value=''>请选择...</option>";
+	        	html+="<#list callReasonList as list><option value='${list.id}'>${list.callReason}</option></#list>";
+				html+=+"</select>";
+	        	html+="</td>";
+        	html +="</tr>";
+        	$("#sample-table-1 tbody").append(html);
+        }
+        
+        
+        //var html = '<tr><td><input type="text" name="adminSet['+size+'].name" id="name"　value="" class="{required: true}" readonly="readonly"/><input type="hidden" name="adminSet['+size+'].id" id="nameId"　value=""/></td><td><select name="callReasonId" class="{required: true}" style="width:200px;"><option id="choose" value="">请选择...</option></select></td></tr>';
+        
         /* 
         var cal=callList.substring(1,callList.length-1);
         var message=cal.split(",");
@@ -160,21 +180,12 @@ $(function(){
         	var html1='<option value="message[i].id">message[i].callReason</option>';
         	$("#choose").append(html1);
         }*/
-        alert(work); 
-        var id=work.split(",");
-        $name.val(id[0]);
-        $nameId.val(id[1]);
-        if($(".person").length > 0) {
-			$(".person:last").after(html);
-		} 
-        layer.close(index);            	          	     	
+        
+      	
+		
+	
 		});
-		
-		
 	});
-	
-	
-	
 })
 
 

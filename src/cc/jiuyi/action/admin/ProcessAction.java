@@ -3,8 +3,10 @@ package cc.jiuyi.action.admin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -46,6 +48,7 @@ public class ProcessAction extends BaseAdminAction {
 	private static final long serialVersionUID = -433964280757192334L;
 
 	private Process process;
+	private List<Products> productsList;
 	//获取所有状态
 	private List<WorkingBill>ar;
 	private String info;
@@ -55,9 +58,8 @@ public class ProcessAction extends BaseAdminAction {
 	@Resource
 	private DictService dictService;
 	@Resource
-	private WorkingBillService wbService;
-	@Resource
 	private ProductsService pdService;
+	private List<Products>productslist;
 	
 	//是否已存在ajax验证
 	public String checkProcesssCode()
@@ -75,6 +77,8 @@ public class ProcessAction extends BaseAdminAction {
 		//ar=getIdsAndNames();
 		return INPUT;
 	}
+	
+	
 
 	//列表
 	public String list(){
@@ -133,7 +137,7 @@ public class ProcessAction extends BaseAdminAction {
 					map.put("end", end);
 				}
 				//产品编码
-				if(obj.get("xproductnum")!=null)
+				/*if(obj.get("xproductnum")!=null)
 				{
 					map.put("xproductnum", obj.get("xproductnum").toString());
 				}
@@ -141,7 +145,7 @@ public class ProcessAction extends BaseAdminAction {
 				if(obj.get("xproductname")!=null)
 				{
 					map.put("xproductname", obj.get("xproductname").toString());
-				}
+				}*/
 			}
 
 			pager = processService.getProcessPager(pager, map);
@@ -210,8 +214,9 @@ public class ProcessAction extends BaseAdminAction {
 	public String update()
 	{
 		Process persistent = processService.load(id);
-		//BeanUtils.copyProperties(process, persistent, new String[] { "id","createDate", "modifyDate"});
+		//persistent.setProducts(new HashSet<Products>(this.productslist));
 		persistent.setModifyDate(new Date());
+		persistent.setProcessName(process.getProcessName());
 		processService.save(persistent);
 		redirectionUrl = "process!list.action";
 		return SUCCESS;
@@ -228,11 +233,18 @@ public class ProcessAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")*/
 	public String save()
 	{
-		process.setIsDel("N");
+		/*ids=id.split(",");
+		Set<Products>plist=new HashSet<Products>();
+		for(int i=0;i<ids.length;i++)
+		{
+			Products p=this.pdService.load(ids[i]);
+			plist.add(p);
+		}
+		process.setProducts(plist);*/
 		process.setCreateDate(new Date());
 		processService.save(process);
 		redirectionUrl="process!list.action";
-		return SUCCESS;	
+		return SUCCESS;
 	}
 		
 	/**
@@ -274,63 +286,172 @@ public class ProcessAction extends BaseAdminAction {
 	}
 	
 	/**
-	 * 根据工序id查询对应产品的所有
+	 * 跳到选择产品页面
 	 */
-	/*public String getProductsList()
+	public String list2(){
+		if(pager == null) {
+			pager = new Pager();
+			pager.setOrderType(OrderType.asc);
+			pager.setOrderBy("orderList");
+		}
+		return "browser";
+	}
+	/**
+	 * 选择产品页面查询
+	 */
+	public String ajlist2()
 	{
+
 		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager.getOrderBy().equals(""))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if(pager.is_search()==true && filters != null)
+		{//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		if (pager.is_search() == true && Param != null)
+		{// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("productsCode") != null) 
+			{
+				System.out.println("obj=" + obj);
+				String productsCode = obj.getString("productsCode").toString();
+				map.put("productsCode", productsCode);
+			}
+			if (obj.get("productsName") != null)
+			{
+				String productsName = obj.getString("productsName").toString();
+				map.put("productsName", productsName);
+			}
+			if (obj.get("state") != null)
+			{
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+			if(obj.get("start")!=null&&obj.get("end")!=null)
+			{
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
 		try
 		{
-			if(pager == null) {
-				pager = new Pager();
-				//pager.setOrderType(OrderType.asc);
-				//pager.setOrderBy("orderList");
-			}
-			if(pager.is_search()==true && filters != null){//需要查询条件
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map m = new HashMap();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
-			
-			if (pager.is_search() == true && Param != null) {// 普通搜索功能
-				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-				JSONObject obj = JSONObject.fromObject(Param);
-				if(obj.get("start")!=null&&obj.get("end")!=null){
-					String start = obj.get("start").toString();
-					String end = obj.get("end").toString();
-					map.put("start", start);
-					map.put("end", end);
-				}
-				//产品编码
-				if(obj.get("xproductnum")!=null)
-				{
-					map.put("xproductnum", obj.get("xproductnum").toString());
-				}
-				//产品名称
-				if(obj.get("xproductname")!=null)
-				{
-					map.put("xproductname", obj.get("xproductname").toString());
-				}
-			}
-			//pager = processService.getProductsList(pager, map);
-			List<Process> list = pager.getList();
-			pager.setList(list);
-			JsonConfig jsonConfig=new JsonConfig();
-			//jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
-			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-			System.out.println(jsonArray.get(0).toString());
-			return ajaxJson(jsonArray.get(0).toString());
+			pager = pdService.getProductsPager(pager, map);
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-	}*/
+			
+		List<Products> productsList = pager.getList();
+		List<Products> lst = new ArrayList<Products>();
+		for (int i = 0; i < productsList.size(); i++)
+		{
+			Products products = (Products) productsList.get(i);
+			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "productsState", products.getState()));
+			products.setMaterial(null);
+			lst.add(products);
+		}
+		pager.setList(lst);
+		JSONArray jsonArray = JSONArray.fromObject(pager);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
+	 * 查看相关产品前，进入到查看页面
+	 */
+	public String relevant()
+	{
+		process = processService.load(id);
+		return "relevant";
+	}
+	/**
+	 * 选择产品页面查询--带工序id
+	 */
+	public String ajlist3()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager.getOrderBy().equals(""))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if(pager.is_search()==true && filters != null)
+		{//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		if (pager.is_search() == true && Param != null)
+		{// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("productsCode") != null) 
+			{
+				System.out.println("obj=" + obj);
+				String productsCode = obj.getString("productsCode").toString();
+				map.put("productsCode", productsCode);
+			}
+			if (obj.get("productsName") != null)
+			{
+				String productsName = obj.getString("productsName").toString();
+				map.put("productsName", productsName);
+			}
+			if (obj.get("state") != null)
+			{
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+		}
+		try
+		{
+			pager = pdService.getProductsPager2(pager, map,id);
+//			process = processService.get(id);
+//			List<Products> products = new ArrayList<Products>(process.getProducts());
+//			pager =new Pager();
+//			pager.setList(products);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+			
+		List<Products> productsList = pager.getList();
+		List<Products> lst = new ArrayList<Products>();
+		for (int i = 0; i < productsList.size(); i++)
+		{
+			Products products = (Products) productsList.get(i);
+			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "productsState", products.getState()));
+			products.setMaterial(null);
+			lst.add(products);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setExcludes(new String[]{"process"});//除去联级products属性 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
 	
 	/***/
 	public Process getProcess() {
@@ -389,6 +510,26 @@ public class ProcessAction extends BaseAdminAction {
 	public void setProducts(Products products)
 	{
 		this.products = products;
+	}
+
+	public List<Products> getProductslist()
+	{
+		return productslist;
+	}
+
+	public void setProductslist(List<Products> productslist)
+	{
+		this.productslist = productslist;
+	}
+
+	public List<Products> getProductsList()
+	{
+		return productsList;
+	}
+
+	public void setProductsList(List<Products> productsList)
+	{
+		this.productsList = productsList;
 	}
 	
 }

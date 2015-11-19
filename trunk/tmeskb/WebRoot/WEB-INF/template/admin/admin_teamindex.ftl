@@ -1,3 +1,4 @@
+<#assign ww=JspTaglibs["/WEB-INF/access.tld"]/> 
 <#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
 <!DOCTYPE html>
 <html>
@@ -54,7 +55,7 @@
 								门户
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									班组门户
+									班组门户 <@ww.access accobjkey="jiaojie"/>
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -186,7 +187,7 @@
 												<div class="widget-main">
 													
 														<div class="row">
-															<!-- ${(btnhtml)! } -->
+															 ${(btnhtml)! } 
 															<div class="col-md-3 col-sm-4" style="padding:2px;">
 																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="handoverprocess">
 																	<i class="ace-icon fa fa-fire bigger-110"></i>

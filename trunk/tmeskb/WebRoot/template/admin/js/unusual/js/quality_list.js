@@ -70,8 +70,8 @@ jQuery(function($) {
 			{name:'productName',index:'productName',width:60, editable:true},
 			{name:'team',index:'team', width:160,editable: true},
 			{name:'process',index:'process', width:160, editable: true},
-			{name:'createUser',index:'createUser', width:60, editable: true},
-			{name:'state',index:'state', width:60,editable: true}		
+			{name:'founder',index:'founder', width:60, editable: true},
+			{name:'stateRemark',index:'stateRemark', width:60,editable: true}		
 		], 
 
 		viewrecords : true,

@@ -12,18 +12,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cc.jiuyi.util.Mapping;
-import cc.jiuyi.util.SAPModel;
-import cc.jiuyi.util.SAPUtil;
-import cc.jiuyi.util.TableModel;
-import cc.jiuyi.util.Util;
 import cc.jiuyi.util.*;
+
+import com.sap.mw.jco.IRepository;
 import com.sap.mw.jco.JCO;
+import com.sap.mw.jco.JCO.Table;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
+import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.impl.ArticleServiceImpl;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -36,6 +37,8 @@ import junit.framework.TestCase;
 public class TestSAPUtilService extends BaseTestCase {
 	@Resource  
 	private DictService dictService;
+	@Resource
+	private WorkingBillService workingbillservice;
 	
 	protected void setUp() {
 		
@@ -98,6 +101,35 @@ public class TestSAPUtilService extends BaseTestCase {
 		SAPModel model=SAPUtil.OperSAP(strMap, pp, tableList, funcName);//访问SAP获取返回数据
 		JCO.ParameterList out=model.getOuts();//返回结构与参数
 		JCO.ParameterList outs=model.getOuttab();//返回表
+	}
+	
+	
+	@Test
+	public void testCeshi(){
+		IRepository repository; 
+		//定义连接 
+		        JCO.Client mConnection ; 
+		//建立连接对象        
+		        mConnection = 
+		        JCO.createClient(   "600",         // SAP client 
+		                    "abap1",            // userid 
+		                    "123456",           // password 
+		                    "zh",                 // language (null for the default language) 
+		                    "192.168.29.85",     // application server host name 
+		                    "00");                // system number 
+ 
+		        mConnection.connect(); 
+		        System.out.println(mConnection.getAttributes()); 
+		        mConnection.disconnect(); 
+		        
+		
+	}
+	
+	
+	@Test
+	public void testSAP(){
+		Repairorder r = new Repairorder();
+		//r.syncRepairorder(workingbillservice);
 	}
 	
 }

@@ -1,11 +1,14 @@
 package cc.jiuyi.util;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.ManyToMany;
@@ -19,6 +22,10 @@ import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 
 import org.compass.core.mapping.json.builder.JsonObjectMappingBuilder;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.impl.CriteriaImpl;
+import org.hibernate.impl.CriteriaImpl.Subcriteria;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -134,6 +141,8 @@ public class ThinkWayUtil {
 	    	return df.format(new Date());
 	    }
 	    
+	    
+	    
 	    /**
 	     * 判断浏览器类型，是否移动端，或者是电脑浏览器
 	     * @param request
@@ -178,6 +187,48 @@ public class ThinkWayUtil {
 			return dd;
 	    }
 	    
+	    /** 
+	     * 排除bean之间的关系字段 
+	     * @param bean 
+	     * @return 
+	     */  
+	    public static String[] getExcludeFields(Object bean) {  
+	        Set<String> list = new HashSet<String>();  
+	        list.add("handler");  
+	        list.add("hibernateLazyInitializer");  
+	        for (Class<?> superClass = bean.getClass(); superClass != Object.class; superClass = superClass  
+	                .getSuperclass()) {  
+	  
+	            Method[] method = superClass.getMethods();//通过反射获取所有的方法
+	            
+	            for(Method m : method){
+	            	 if (m.getAnnotation(OneToOne.class) != null  
+	                        || m.getAnnotation(OneToMany.class) != null  
+	                        || m.getAnnotation(ManyToOne.class) != null  
+	                        || m.getAnnotation(ManyToMany.class) != null) {  
+	                    //list.add(m.get);  
+	                } 
+	            }
+	            
+//	            for (Field field : fields) {
+//	            	Annotation[] annottion = field.getAnnotations();
+//	            	for(int i=0;i<annottion.length;i++){
+//	            		System.out.println(annottion[i]);
+//	            	}
+//	            	
+//	            	
+////	            	System.out.println(field.getAnnotation(ManyToMany.class));
+////	                if (field.getAnnotation(OneToOne.class) != null  
+////	                        || field.getAnnotation(OneToMany.class) != null  
+////	                        || field.getAnnotation(ManyToOne.class) != null  
+////	                        || field.getAnnotation(ManyToMany.class) != null) {  
+////	                    list.add(field.getName());  
+////	                } 
+//	            }  
+	        }  
+	        return list.toArray(new String[list.size()]);  
+	    }  
 	    
-	   
+	    
+	
 }

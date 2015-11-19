@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import cc.jiuyi.entity.AccessObject;
+
 /**
  * 工具类 - 公用
  */
@@ -85,5 +87,7 @@ public class CommonUtil {
 		stringBuffer.deleteCharAt(0);
 		return stringBuffer.toString();
 	}
+	
+	
 
 }

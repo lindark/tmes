@@ -41,4 +41,10 @@ public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, Strin
 		return accessobjectdao.findTypeList(value);
 	}
 
+	@Override
+	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey) {
+		// TODO Auto-generated method stub
+		return accessobjectdao.findResourceList(resourceids,accObjKey);
+	}
+
 }

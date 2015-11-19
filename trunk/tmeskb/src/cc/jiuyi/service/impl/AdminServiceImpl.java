@@ -68,14 +68,14 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	public Pager findPagerByjqGrid(Pager pager, Map map,String departid) {
 		Department department = departmentdao.get(departid);
 		List<String> idList= null;
-		if(department.getParentDept() != null){
+		//if(department.getParentDept() != null){
 			idList = new ArrayList<String>();
 			List<Department> list = departmentdao.getChildrenById(departid, null);
 			list.add(department);
 			for(Department dt:list){
 				idList.add(dt.getId());
 			}
-		}
+		//}
 		return adminDao.findPagerByjqGrid(pager, map,idList);
 	}
 

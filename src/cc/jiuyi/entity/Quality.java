@@ -40,6 +40,7 @@ public class Quality extends BaseEntity{
 	private Abnormal abnormal;//异常
 	
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
+	private Set<UnusualLog> unusualLogSet;//异常日志
 	
 	public String getProductNo() {
 		return productNo;
@@ -149,5 +150,16 @@ public class Quality extends BaseEntity{
 	public void setFlowingRectify(Set<FlowingRectify> flowingRectify) {
 		this.flowingRectify = flowingRectify;
 	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quality")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<UnusualLog> getUnusualLogSet() {
+		return unusualLogSet;
+	}
+	public void setUnusualLogSet(Set<UnusualLog> unusualLogSet) {
+		this.unusualLogSet = unusualLogSet;
+	}
+	
+	
 	
 }

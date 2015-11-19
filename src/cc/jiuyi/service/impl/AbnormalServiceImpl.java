@@ -1,9 +1,12 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Abnormal;
@@ -22,5 +25,11 @@ public class AbnormalServiceImpl extends BaseServiceImpl<Abnormal, String> imple
 	@Resource
 	public void setBaseDao(AbnormalDao abnormalDao) {
 		super.setBaseDao(abnormalDao);
+	}
+
+	@Override
+	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map) {
+	
+		return abnormalDao.getAbnormalPager(pager, map);
 	}
 }

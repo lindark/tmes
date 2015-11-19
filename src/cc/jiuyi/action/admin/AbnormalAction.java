@@ -1,7 +1,9 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.FlowingRectify;
+import cc.jiuyi.entity.Member;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CallreasonService;
@@ -41,12 +45,15 @@ public class AbnormalAction extends BaseAdminAction {
 	private String cancelId;
 	private String callId;
 	private String nameId;
+	
 	private String callReasonId;
 	private String closeId;
 	private String closeIds;
 	private String cancelIds;
 	private String aids;
-	
+	 
+	private List<Admin> adminSet;
+	private List<Callreason> callReasonSet;
 	@Resource
 	private AbnormalService abnormalService;
 	@Resource
@@ -95,12 +102,38 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setAdminSet(null);
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
-			String callR=callReasonService.load(abnormal.getMessage()).getCallReason();
-			abnormal.setCallReason(callR);
+			if(abnormal.getMessage().length()>36){
+				String id=abnormal.getMessage().substring(0, abnormal.getMessage().length()-1);
+				String me[] = id.split(",");
+				StringBuffer s = new StringBuffer();
+				for(int ii=0;ii<me.length;ii++){					
+					String callR=callReasonService.load(me[ii]).getCallReason();
+					s.append(callR+",");
+				}
+				abnormal.setCallReason(s.toString());
+			}else{
+				String id=abnormal.getMessage().substring(0, abnormal.getMessage().length()-1);
+				String callR=callReasonService.load(id).getCallReason();
+				abnormal.setCallReason(callR);
+			}
+			
 			String org=adminService.load(abnormal.getIniitiator()).getName();
 			abnormal.setOriginator(org);
-			String ans=adminService.load(abnormal.getResponsor()).getName();
-			abnormal.setAnswer(ans);
+			
+			if(abnormal.getResponsor().length()>36){
+				String id=abnormal.getResponsor().substring(0, abnormal.getResponsor().length()-1);
+				String me[] = id.split(",");
+				StringBuffer s = new StringBuffer();
+				for(int ii=0;ii<me.length;ii++){												
+						String ans=adminService.load(me[ii]).getName();
+						s.append(ans+",");					
+				}
+				abnormal.setAnswer(s.toString());
+			}else{
+				String id=abnormal.getResponsor().substring(0, abnormal.getResponsor().length()-1);
+				String ans=adminService.load(id).getName();
+				abnormal.setAnswer(ans);
+			}
 			abnormal.setCallreasonSet(null);
 			pagerlist.set(i, abnormal);
 		}
@@ -123,10 +156,11 @@ public class AbnormalAction extends BaseAdminAction {
 		    persistent.setHandlingTime(time);
 		    abnormalService.update(persistent);
 		}else if(aids!=null){
+			System.out.println(aids);
 			String id[] =aids.split(",");
 			for(int i=0;i<id.length;i++){
 				Abnormal persistent = abnormalService.load(id[i]);
-				if(persistent.getState()=="0"){
+				if(persistent.getState().equals("0")){
 					persistent.setReplyDate(new Date());
 				    persistent.setState("2");
 				    Date date = new Date();
@@ -147,7 +181,7 @@ public class AbnormalAction extends BaseAdminAction {
 			String id[] =cancelIds.split(",");
 			for(int i=0;i<id.length;i++){
 				Abnormal persistent = abnormalService.load(id[i]);
-				if(persistent.getState()=="0"){
+				if(persistent.getState().equals("0")){
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
@@ -170,7 +204,7 @@ public class AbnormalAction extends BaseAdminAction {
 			String id[] =closeIds.split(",");
 			for(int i=0;i<id.length;i++){
 				Abnormal persistent=abnormalService.load(id[i]);
-				if(persistent.getState()!="3"){
+				if(persistent.getState()!="3" || persistent.getState()!="4"){
 					persistent.setState("3");
 					if(persistent.getReplyDate()==null){
 						persistent.setReplyDate(new Date());
@@ -196,30 +230,40 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
 		Admin admin1 = adminService.get("username", loginUsername);
+		
 		Abnormal abnormal = new Abnormal();
 		abnormal.setCallDate(new Date());
-
-		Admin admin = adminService.load(nameId);
-		Date date = new Date();
-		System.out.println(date);
-		//abnormal.setCallDate(date);
-		System.out.println(abnormal);
-		abnormal.setResponsor(admin.getId());
-
 		abnormal.setCreateUser(admin1.getId());
-
 		abnormal.setModifyUser(admin1.getId());
 		abnormal.setIniitiator(admin1.getId());
-
 		abnormal.setIsDel("N");
-		abnormal.setFactoryName("建新赵氏密封条工厂");
-		//abnormal.setHandlingTime(new Integer(0));
-		
+		abnormal.setFactoryName("建新赵氏密封条工厂");		
 		abnormal.setShopName("2车间");
 		abnormal.setState("0");
 		abnormal.setUnitName("2单元");
 		abnormal.setTeamId("02");
-		abnormal.setMessage(callReasonId);
+		StringBuffer s = new StringBuffer();
+		List<Admin> list=new ArrayList<Admin>();
+		for (int i = 0; i < adminSet.size(); i++) {
+			Admin v = adminSet.get(i);
+			if(v!=null){
+				list.add(v);
+				s.append(v.getId()+",");
+			}
+		}
+		abnormal.setResponsor(s.toString());
+		
+		StringBuffer s1 = new StringBuffer();
+	    abnormal.setAdminSet(new HashSet<Admin>(list));  
+	    List<Callreason> list1=new ArrayList<Callreason>();
+        for (int i = 0; i < callReasonSet.size(); i++) {
+        	Callreason v = callReasonSet.get(i);
+        	if(v!=null){
+        		list1.add(v);
+        		s1.append(v.getId()+",");
+        	}
+		}
+        abnormal.setMessage(s1.toString());
 
 		abnormalService.save(abnormal);
 		redirectionUrl = "abnormal!list.action";
@@ -325,6 +369,22 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setAids(String aids) {
 		this.aids = aids;
+	}
+
+	public List<Admin> getAdminSet() {
+		return adminSet;
+	}
+
+	public void setAdminSet(List<Admin> adminSet) {
+		this.adminSet = adminSet;
+	}
+
+	public List<Callreason> getCallReasonSet() {
+		return callReasonSet;
+	}
+
+	public void setCallReasonSet(List<Callreason> callReasonSet) {
+		this.callReasonSet = callReasonSet;
 	}
 	
 	

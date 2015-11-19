@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>返修收货单</title>
+		<title>管理中心</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
@@ -13,98 +13,251 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
-	<body class="no-skin">
-		<!-- add by welson 0728 -->	
-<#include "/WEB-INF/template/admin/admin_navbar.ftl">
-<div class="main-container" id="main-container">
-	<script type="text/javascript">
-		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
-	<div class="main-content">
-	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
-	
-	<!-- ./ add by welson 0728 -->
-     <div class="breadcrumbs" id="breadcrumbs">
-		<script type="text/javascript">
-			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-		</script>
+	<body class="no-skin list">
 
-		<ul class="breadcrumb">
-			<li>
-				<i class="ace-icon fa fa-home home-icon"></i>
-				<a href="admin!index.action">生产管理</a>
-			</li>
-			<li class="active">返修收货&nbsp;<span class="pageInfo"></li>
-		</ul><!-- /.breadcrumb -->
-	</div>
-	
-	
 	<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content">
-					<div class="page-content-area">
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="repairin!ajlist.action" role="form">
-								   <div class="operateBar">
-								   	<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">确认人:</label>
-										<div class="col-sm-4">
-											<input type="text" name="confirmUser" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
-										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-									</div>
-										<div class="form-group" style="text-align:center">
-											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												搜索
-											</a>
-											<a id="searchButton" href="repairin!sync.action" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												SAP同步
-											</a>
-										</div>
-										
-									</div>
-								</form>
-								
-								
-								<table id="grid-table"></table>
+	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
+		<div class="main-content">
+			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 
-								<div id="grid-pager"></div>
-								
-								
-									
-								<script type="text/javascript">
-									var $path_base = "${base}/template/admin";//in Ace demo this will be used for editurl parameter
-								</script>
+			<!-- ./ add by welson 0728 -->
 
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content-area -->
-				</div><!-- /.page-content -->
-			</div><!-- /.main-content -->
+			<div class="breadcrumbs" id="breadcrumbs">
+				<script type="text/javascript">
+					try {
+						ace.settings.check('breadcrumbs', 'fixed')
+					} catch (e) {
+					}
+				</script>
 
-			<div class="footer">
-				<#include "/WEB-INF/template/admin/admin_footer.ftl">
+				<ul class="breadcrumb">
+					<li><i class="ace-icon fa fa-home home-icon"></i> <a
+						href="admin!index.action">管理中心</a></li>
+					<li class="active">返修收货</li>
+				</ul>
+				<!-- /.breadcrumb -->
 			</div>
 
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
 
-		
+			<!-- add by welson 0728 -->
+			<div class="page-content">
+				<div class="page-content-area">
 
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			
-		</script>
-	</body>
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- ./ add by weitao  -->
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header">
+											<h4 class="widget-title lighter">随工单信息</h4>
+
+											<div class="widget-toolbar no-border">
+												<a href="#" data-action="settings"> <i
+													class="ace-icon fa fa-cog"></i> </a> <a href="#"
+													data-action="reload"> <i class="ace-icon fa fa-refresh"></i>
+												</a> <a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a> <a href="#"
+													data-action="close"> <i class="ace-icon fa fa-times"></i>
+												</a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div
+												class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name">随工单号</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click">${workingbill.workingBillCode}</span>
+														</div>
+													</div>
+
+													<div class="profile-info-row">
+														<div class="profile-info-name">产品编号</div>
+
+														<div class="profile-info-value">
+															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
+															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+														</div>
+													</div>
+
+													<div class="profile-info-row">
+														<div class="profile-info-name">产品名称</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组/班次</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">2010/06/20</span>
+														</div>
+													</div>
+													
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">累计返修收货数量</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.totalRepairinAmount}</span>
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row buttons">
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addCarton">
+										<span class="bigger-110 no-text-shadow">创建返修收货单</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
+										<span class="bigger-110 no-text-shadow">刷卡确认</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
+										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
+									</button>
+								</div>
+								<div class="col-md-2 col-sm-4">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnCarton">
+										<span class="bigger-110 no-text-shadow">返回</span>
+									</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<table id="grid-table"></table>
+
+										<div id="grid-pager"></div>
+								</div>
+							</div>
+							<!-- add by weitao -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content-area -->
+				<!-- PAGE CONTENT ENDS -->
+
+				<#include "/WEB-INF/template/admin/admin_footer.ftl">
+			</div>
+			<!-- /.page-content -->
+		</div>
+		<!-- /.main-content -->
+	</div>
+	<!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
+	<!-- ./ add by welson 0728 -->
+	<div style="display:none">
+		<input type="hidden" id="workingBillId" value="${workingbill.id}"/>
+	</div>
+
+</body>
+
 </html>
+<script type="text/javascript">
+	/**
+	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
+	 */
+
+	$(function() {
+		var ishead = 0;
+		$("#ace-settings-btn").click(function() {
+			if (ishead == 0) {
+				ishead = 1;
+				$("#ace-settings-box").addClass("open");
+			} else {
+				ishead = 0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		
+		$("#addCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			window.location.href="repairin!add.action?workingBillId="+workingBillId;
+			
+		});
+		$("#confirmCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="repairin!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#undoCarton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条报工记录！");
+			}else{
+				window.location.href="repairin!undo.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#returnCarton").click(function(){
+			window.history.back();
+		});
+		
+		$(".btn-colorpicker").click(function() {
+			$(".dropdown-colorpicker").addClass("open");
+		})
+
+		var ishead2 = 0;
+		$(".light-blue").click(function() {
+			if (ishead2 == 0) {
+				ishead2 = 1;
+				$(this).addClass("open");
+			} else {
+				ishead2 = 0;
+				$(this).removeClass("open");
+			}
+
+		})
+
+		/*
+		var ishead3=0;
+		$(".hsub").click(function(){
+			if(ishead3==0){
+				alert("OK");
+				ishead3=1;
+				$(".hsub").addClass("open");
+				//$(this).find(".submenu").removeClass("nav-hide");
+			}else{
+				ishead3=0;
+				//$(this).removeClass("open");
+				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+			}
+			
+		})
+		 */
+	})
+</script>

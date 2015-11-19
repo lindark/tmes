@@ -113,13 +113,20 @@ $(function() {
 			return false;
 		}else if(i.length==1){
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state!=3){
+			if(rowData.state!=3 && rowData.state!=4){
 				window.location.href = "abnormal!update.action?closeId="+i;
 			}else{
 				alert("异常已关闭");
 			}
 			
 		}else if(i.length>=2){
+			for (var a=0;a<i.length;a++){
+				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
+				if(rowData.state==3 || rowData.state==4){				
+					alert("异常已关闭\撤销");
+					return false;
+				}
+			}
 			window.location.href = "abnormal!update.action?closeIds="+i;
 		}		
     });

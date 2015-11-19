@@ -192,8 +192,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
-		workShop=workShopService.load(workShopId);
-		factoryUnit.setWorkShop(workShop);
+//		workShop=workShopService.load(workShopId);
+//		factoryUnit.setWorkShop(workShop);
 		factoryUnitService.save(factoryUnit);
 		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	

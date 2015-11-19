@@ -1,9 +1,13 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.SystemConfig;
+import cc.jiuyi.entity.AccessObject;
+import cc.jiuyi.entity.AccessResource;
+import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Role;
+import cc.jiuyi.service.AccessResourceService;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.SystemConfigUtil;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.opensymphony.oscache.util.StringUtil;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -25,6 +36,11 @@ import com.opensymphony.xwork2.ActionSupport;
 public class BaseAdminAction extends ActionSupport {
 
 	private static final long serialVersionUID = 6718838822334455667L;
+	
+	@Resource
+	private AdminService adminservice;
+	@Resource
+	private AccessResourceService accessResourceService;
 
 	public static final String VIEW = "view";
 	public static final String LIST = "list";
@@ -42,6 +58,7 @@ public class BaseAdminAction extends ActionSupport {
 	protected String redirectionUrl;// 操作提示后的跳转URL,为null则返回前一页
 	protected String filters;
 	protected String Param;
+	protected String btnhtml;//按钮html页面
 	
 	public String input() {
 		return null;
@@ -260,5 +277,46 @@ public class BaseAdminAction extends ActionSupport {
 	public void setParam(String param) {
 		Param = param;
 	}
+
+	
+	public String getBtnhtml() {
+		StringBuffer strbuf = new StringBuffer();
+		
+//		Admin admin = adminservice.getLoginAdmin();
+//		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());
+//		for(Role role : roleList){
+//			List<AccessResource> accessResourceList = new ArrayList<AccessResource>(role.getAccessResourceSet());//权限资源对象
+//			for(AccessResource accessResource : accessResourceList){
+//				accessResource.getAccessobjectSet();
+//			}
+//		}
+		
+		HttpServletRequest request =  this.getRequest();//获取request
+		String path = request.getRequestURI();//获取当前的path地址
+		//AccessResource accessResource = accessResourceService.get("resource.value", path);//根据path地址判断当前操作的功能
+//		if(accessResource == null){//没有此功能的权限对象
+//			strbuf.append("没找到权限对象");
+//		}else{
+//			List<AccessObject> accessobjectList = new ArrayList<AccessObject>(accessResource.getAccessobjectSet());
+//			for(AccessObject accessobject : accessobjectList){
+//				boolean flag = StringUtil.isEmpty(accessobject.getHtmlarea());//判断是否为空
+//				if(!flag){
+//					strbuf.append(accessobject.getHtmlarea());
+//				}else{
+//					strbuf.append("未找到对应的html");
+//				}
+//			}
+//			
+//		}
+		
+		this.btnhtml = strbuf.toString();
+		return btnhtml;
+	}
+
+	public void setBtnhtml(String btnhtml) {
+		this.btnhtml = btnhtml;
+	}
+	
+	
 
 }

@@ -12,6 +12,14 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		<script type="text/javascript">
+			$(document).keydown(function(event){
+				if(event.keyCode==13)
+				{
+					$("#searchButton").click();
+				}
+			});
+		</script>
 	</head>
 	<body class="no-skin list">
 	
@@ -51,21 +59,44 @@
 								<form class="form-horizontal" id="searchform" action="team!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">班组编码:</label>
+								   		
+								   		<label class="col-sm-1" style="text-align:right">班组编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="teamCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										
-										
-										<label class="col-sm-1" style="text-align:right">班组名称:</label>
+								   		
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">班组名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="teamName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<select name="teamName">
+												<option></option>
+												<option value="早班">早班</option>
+												<option value="中班">中班</option>
+												<option value="晚班">晚班</option>
+											</select>
+										</div>
+									</div>	
+								   
+								   <div class="form-group">
+								   
+								   		<label class="col-sm-1" style="text-align:right">单元名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xfactoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">车间名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xworkShopName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 								   
 								   
-								   
 								   	<div class="form-group">
+								   		
+								   		<label class="col-sm-1" style="text-align:right">工厂名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xfactoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+								   		
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											<select name="state">
@@ -74,20 +105,6 @@
 												<option value="2">未启用</option>
 											</select>
 										</div>
-										
-										<!-- 
-										<label class="col-sm-1" style="text-align:right">创建日期:</label>
-										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>
-										 -->
 									</div>	
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">

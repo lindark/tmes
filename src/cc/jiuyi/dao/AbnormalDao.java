@@ -1,5 +1,8 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
 
 
@@ -8,4 +11,5 @@ import cc.jiuyi.entity.Abnormal;
  */
 public interface AbnormalDao extends BaseDao<Abnormal, String> {
 
+	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map);
 }

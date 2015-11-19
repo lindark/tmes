@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var workingBillId = $("#workingBillId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -45,7 +46,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"repairin!ajlist.action",
+		url:"repairin!ajlist.action?workingBillId="+workingBillId,
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -63,18 +64,15 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ 'ID','单据编号','收货日期','产品组','产品编号','产品名称', '收货数量','确认人','状态'],
+		colNames:[ '收货数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
-	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'voucherId',index:'voucherId', width:200},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true"},
-			{name:'products',index:'products', width:200},
-			{name:'productsCode',index:'productsCode', width:200},
-			{name:'productsName',index:'productsName', width:200},
 			{name:'receiveAmount',index:'receiveAmount', width:200},
-			{name:'confirmUser',index:'confirmUser', width:200,sortable:"true",sorttype:"text"},
-			{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"}
+			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}
+
 		], 
 		//sortable:true,
 		//sortname: "deliveryDate",
@@ -90,7 +88,8 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        //footerrow: true,
+        
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -101,9 +100,8 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-
 		editurl: "repairin!delete.action",//用它做标准删除动作
-		caption: "返修收货"
+		caption: "返修收货记录"
 
 		//,autowidth: true,
 //		,
@@ -147,21 +145,28 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-			editfunc:function(rowId){
-				window.location.href="repairin!edit.action?id="+rowId;
+			edit: false,
+			/*editfunc:function(rowId){
+				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length>1){
+					alert("请选择一条记录");
+					return false;
+				}
+				var workingBillId = $("#workingBillId").val();
+				window.location.href="carton!edit.action?id="+rowId+"&workingBillId="+workingBillId;
 			},
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
-				window.location.href="repairin!add.action";
+			editicon : 'ace-icon fa fa-pencil blue',*/
+			add: false,
+			/*addfunc:function(){
+				var workingBillId = $("#workingBillId").val();
+				window.location.href="carton!add.action?workingBillId="+workingBillId;
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			addicon : 'ace-icon fa fa-plus-circle purple',*/
+			del: false,
 			/*delfunc:function(rowId){
-				window.location.href="repairin!delete.action?id="+rowId;
+				window.location.href="carton!delete.action?id="+rowId;
 			},*/
-			delicon : 'ace-icon fa fa-trash-o red',
+			//delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,

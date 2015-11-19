@@ -80,7 +80,7 @@ body{background:#fff;}
 												<tr>											
 													<th>姓名</th>
 													<th>短信</th>
-													
+													<th>操作</th>
 												</tr>
 											</thead>
 
@@ -162,6 +162,9 @@ $(function(){
 	        	html+="<#list callReasonList as list><option value='${list.id}'>${list.callReason}</option></#list>";
 				html+=+"</select>";
 	        	html+="</td>";
+	        	html+="<td>";
+	        	html+="<span class='deleteImage' style='cursor:pointer'>删除</span>";
+	        	html+="</td>";
         	html +="</tr>";
         	$("#sample-table-1 tbody").append(html);
         }
@@ -169,6 +172,12 @@ $(function(){
 	
 		});
 	});
+	
+	
+	$(".deleteImage").livequery("click", function() {
+		$(this).parent().parent().remove();
+	})
+	
 })
 
 

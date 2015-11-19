@@ -224,35 +224,24 @@ body {
 											</thead>
 
 											<tbody>
-												<#if
-												(quality==null||quality.flowingRectify==null||(quality.flowingRectify)!?size==0)>
+												<#if (quality==null||quality.flowingRectify==null||(quality.flowingRectify)!?size==0)>
 												<tr class="zg">						
-
-												<!--  	<td><input type="text"
-														name="flowingRectifys[0].createDate" value=""
-														class="formText {required: true} datePicker" /></td>-->
-													<td><!--<input type="text"
-														name="flowingRectifys[0].content" value=""
-														style="width:360px;" />  -->
-														<textarea name="flowingRectifys[0].content"
+													<td><textarea name="flowingRectifys[0].content"
 														style="width:600px;"></textarea>
 													</td>
-
 												</tr>
-												<#else> <#list (quality.flowingRectify)! as list>
+												<#else> 
+												<#list (quality.flowingRectify)! as list>
 												<tr class="zg">
-													
-												<!--<td>  <input type="text"
-														name="flowingRectifys[${list_index}].createDate"
-														value="${list.createDate}"/></td>	-->
-													<td><textarea name="flowingRectifys[${list_index}].content"
-														style="width:600px;">${list.content}</textarea></td>
+													<td>
+													<textarea name="flowingRectifys[${list_index}].content"
+														style="width:600px;">${list.content}</textarea>
+													</td>
 												</tr>
-												</#list> </#if>
+												</#list> 
+												</#if>
 												<tr>
 					<td colspan="3">
-					   <!--  <button class="btn btn-xs btn-primary" id="addImage">新增</button>
-					    <button class="btn btn-xs" id="removeImage">删除</button>	--> 
 					    <a id="addImage">新增</a>	
 					    <a id="removeImage">删除</a>				
 					</td>

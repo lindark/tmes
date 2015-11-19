@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,7 +17,9 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Callreason;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.CallreasonService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -122,6 +126,14 @@ public class CallreasonAction extends BaseAdminAction {
 			}		
 		}
 		pager = callreasonService.getCallreasonPager(pager,map);
+		List<Callreason> callreasonList = pager.getList();
+		List<Callreason> lst = new ArrayList<Callreason>();
+		for (int i = 0; i < callreasonList.size(); i++) {
+			Callreason callreason = (Callreason) callreasonList.get(i);
+			callreason.setAbnormalSet(null);
+			lst.add(callreason);
+		}
+		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		 return ajaxJson(jsonArray.get(0).toString());
 		

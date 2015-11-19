@@ -61,5 +61,11 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 		
 	}
 
+	@Override
+	public Integer getSingleConversationRatio(String unitDescription,
+			String convertUnit) {
+		return unitConversionDao.getSingleConversationRatio(unitDescription, convertUnit);
+	}
+
 	
 }

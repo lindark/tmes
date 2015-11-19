@@ -3,7 +3,6 @@ $(function() {
 	var $dump = $("#dump");// 转储
 	var $repair = $("#repair");// 返修
 	var $repairin = $("#repairin");// 返修收货
-	var $repairin = $("#repairin");// 返修收货
 	var $pick = $("#pick");// 领退料
 	var $qResponse = $("#qResponse");// 快速响应
 	var $handoverprocess = $("#handoverprocess");// 交接
@@ -99,7 +98,11 @@ $(function() {
 	 * 返修收货按钮点击
 	 */
 	$repairin.click(function() {
-		window.location.href = "repairin!list.action";
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "repairin!list.action?workingBillId=" + id;
+		}
 	});
 
 	/**

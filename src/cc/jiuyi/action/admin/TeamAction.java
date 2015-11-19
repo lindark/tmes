@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -69,66 +70,94 @@ public class TeamAction extends BaseAdminAction {
 	 * ajax 列表
 	 * @return
 	 */
-	public String ajlist(){
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
-		}
-		if(pager.is_search()==true && filters != null){//需要查询条件
-			JSONObject filt = JSONObject.fromObject(filters);
-			Pager pager1 = new Pager();
-			Map m = new HashMap();
-			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
-			pager.setRules(pager1.getRules());
-			pager.setGroupOp(pager1.getGroupOp());
-		}
-		
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("teamCode") != null) {
-				System.out.println("obj=" + obj);
-				String teamCode = obj.getString("teamCode").toString();
-				map.put("teamCode", teamCode);
+	public String ajlist()
+	{
+		try
+		{
+			HashMap<String, String> map = new HashMap<String, String>();
+			if(pager == null)
+			{
+				pager = new Pager();
+				pager.setOrderType(OrderType.asc);
+				pager.setOrderBy("orderList");
 			}
-			if (obj.get("teamName") != null) {
-				String teamName = obj.getString("teamName").toString();
-				map.put("teamName", teamName);
+			if(pager.is_search()==true && filters != null)
+			{//需要查询条件
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
 			}
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
+			
+			if (pager.is_search() == true && Param != null) 
+			{// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				//班组编码
+				if (obj.get("teamCode") != null) 
+				{
+					System.out.println("obj=" + obj);
+					String teamCode = obj.getString("teamCode").toString();
+					map.put("teamCode", teamCode);
+				}
+				//班级名称
+				if (obj.get("teamName") != null) 
+				{
+					String teamName = obj.getString("teamName").toString();
+					map.put("teamName", teamName);
+				}
+				//状态
+				if (obj.get("state") != null)
+				{
+					String state = obj.getString("state").toString();
+					map.put("state", state);
+				}
+				//单元名称
+				if (obj.get("xfactoryUnitName") != null)
+				{
+					String xfactoryUnitName = obj.getString("xfactoryUnitName").toString();
+					map.put("xfactoryUnitName", xfactoryUnitName);
+				}
+				//车间名称
+				if (obj.get("xworkShopName") != null)
+				{
+					String xworkShopName = obj.getString("xworkShopName").toString();
+					map.put("xworkShopName", xworkShopName);
+				}
+				//工厂名称
+				if (obj.get("xfactoryName") != null)
+				{
+					String xfactoryName = obj.getString("xfactoryName").toString();
+					map.put("xfactoryName", xfactoryName);
+				}
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
 
 			pager = teamService.getTeamPager(pager, map);
 			List<Team> teamList = pager.getList();
 			List<Team> lst = new ArrayList<Team>();
-			for (int i = 0; i < teamList.size(); i++) {
+			for (int i = 0; i < teamList.size(); i++) 
+			{
 				Team team = (Team) teamList.get(i);
-				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "teamState", team.getState()));
-				
-				//team.setAdmin(null);
+				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "teamState", team.getState()));
+				team.setXfactoryUnitName(team.getFactoryUnit().getFactoryUnitName());//单元名称
+				team.setXworkShopName(team.getFactoryUnit().getWorkShop().getWorkShopName());//车间名称
+				team.setXfactoryName(team.getFactoryUnit().getWorkShop().getFactory().getFactoryName());//工厂名称
 				lst.add(team);
 			}
-			
-		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
-		 return ajaxJson(jsonArray.get(0).toString());
-		
+			pager.setList(lst);
+			JsonConfig jsonConfig=new JsonConfig();
+			jsonConfig.setExcludes(new String[]{"factoryUnit"});
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	

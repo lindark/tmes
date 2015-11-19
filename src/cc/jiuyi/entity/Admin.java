@@ -24,7 +24,7 @@ import org.springframework.security.userdetails.UserDetails;
 public class Admin extends BaseEntity implements UserDetails {
 
 	private static final long serialVersionUID = -7519486823153844426L;
-	
+
 	private String username;// 登录名
 	private String password;// 密码
 	private String email;// E-mail
@@ -37,21 +37,22 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Date lockedDate;// 账号锁定日期
 	private Date loginDate;// 最后登录日期
 	private String loginIp;// 最后登录IP
-	
-	private String departName;//部门名称
-	private String isDel;//是否删除
-	private String shift;//班次
-	private String productDate;//生产日期
-	private String phoneNo;//手机号
-	private Set<Abnormal> abnormalSet;//异常
 
-	
+	private String departName;// 部门名称
+	private String isDel;// 是否删除
+	private String shift;// 班次
+	private String productDate;// 生产日期
+	private String phoneNo;// 手机号
+	private Set<Abnormal> abnormalSet;// 异常
+
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
-	private Department department;//部门
-	
-	private Set<Carton> cartonConfirmUser;//纸箱收货确认人
-	private Set<DailyWork> dailyWorkConfirmUser;//报工确认人
+	private Department department;// 部门
+
+	private Set<Carton> cartonConfirmUser;// 纸箱收货确认人
+	private Set<DailyWork> dailyWorkConfirmUser;// 报工确认人
+	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
+	private Set<Repairin> repairinConfirmUser;//返修收货确认人
 
 	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkConfirmUser() {
@@ -69,6 +70,25 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setCartonConfirmUser(Set<Carton> cartonConfirmUser) {
 		this.cartonConfirmUser = cartonConfirmUser;
+	}
+
+	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	public Set<EnteringwareHouse> getEnteringwareHouseConfirmUser() {
+		return enteringwareHouseConfirmUser;
+	}
+
+	public void setEnteringwareHouseConfirmUser(
+			Set<EnteringwareHouse> enteringwareHouseConfirmUser) {
+		this.enteringwareHouseConfirmUser = enteringwareHouseConfirmUser;
+	}
+
+	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	public Set<Repairin> getRepairinConfirmUser() {
+		return repairinConfirmUser;
+	}
+
+	public void setRepairinConfirmUser(Set<Repairin> repairinConfirmUser) {
+		this.repairinConfirmUser = repairinConfirmUser;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -194,7 +214,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setRoleSet(Set<Role> roleSet) {
 		this.roleSet = roleSet;
 	}
-	
+
 	@Transient
 	public GrantedAuthority[] getAuthorities() {
 		return authorities;
@@ -223,6 +243,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return !this.isCredentialsExpired;
 	}
+
 	@Transient
 	public String getDepartName() {
 		return departName;
@@ -237,9 +258,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	}
 
 	public void setIsDel(String isDel) {
-		if(isDel == null){
-			this.isDel ="N";
-		}else
+		if (isDel == null) {
+			this.isDel = "N";
+		} else
 			this.isDel = isDel;
 	}
 
@@ -258,7 +279,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setProductDate(String productDate) {
 		this.productDate = productDate;
 	}
-	
+
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -276,5 +297,4 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.abnormalSet = abnormalSet;
 	}
 
-	
 }

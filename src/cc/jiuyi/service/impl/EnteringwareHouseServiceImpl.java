@@ -26,6 +26,7 @@ import cc.jiuyi.service.WorkingBillService;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
+
 //import org.springmodules.cache.annotations.CacheFlush;
 
 /**
@@ -33,16 +34,28 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class EnteringwareHouseServiceImpl extends BaseServiceImpl<EnteringwareHouse, String> implements EnteringwareHouseService {
+public class EnteringwareHouseServiceImpl extends
+		BaseServiceImpl<EnteringwareHouse, String> implements
+		EnteringwareHouseService {
 	@Resource
 	private EnteringwareHouseDao enteringwareHouseDao;
+
 	@Resource
 	public void setBaseDao(EnteringwareHouseDao enteringwareHouse) {
 		super.setBaseDao(enteringwareHouse);
 	}
+
 	@Override
-	public Pager findPagerByjqGrid(Pager pager, Map map) {
-		return enteringwareHouseDao.findPagerByjqGrid(pager, map);
+	public Pager findPagerByjqGrid(Pager pager, Map map, String workingbillId) {
+		return enteringwareHouseDao
+				.findPagerByjqGrid(pager, map, workingbillId);
 	}
-	
+
+	@Override
+	public Integer getSingleConversationRatio(String unitDescription,
+			String convertUnit) {
+		return enteringwareHouseDao.getSingleConversationRatio(unitDescription,
+				convertUnit);
+	}
+
 }

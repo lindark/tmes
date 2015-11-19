@@ -21,7 +21,7 @@ public interface EnteringwareHouseDao extends BaseDao<EnteringwareHouse, String>
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager,Map map);
+	public Pager findPagerByjqGrid(Pager pager,Map map, String workingbillId);
 	
 	/**
 	 * 标记删除
@@ -30,5 +30,11 @@ public interface EnteringwareHouseDao extends BaseDao<EnteringwareHouse, String>
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-
+	/**
+	 * 根据单位描述与转换单位，查询兑换比例
+	 * @param unitDescription 单位描述
+	 * @param convertUnit 转换单位
+	 * @return
+	 */
+	public Integer getSingleConversationRatio(String unitDescription,String convertUnit);
 }

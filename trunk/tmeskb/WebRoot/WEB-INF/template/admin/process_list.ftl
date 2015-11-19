@@ -94,13 +94,13 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
-										<select name="state">
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
 											<!-- 
 							                <#list AllState as list>
 								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
 							                </#list>
 							                 -->
-							                 <option></option>
+							                <option value="">全选</option>
 							                <option value="1">启用</option>
 							                <option value="2">未启用</option>
 						               </select>

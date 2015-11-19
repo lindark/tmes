@@ -171,7 +171,7 @@ public class AdminAction extends BaseAdminAction {
 	public String index1() {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 		return "teamindex";
 	}
 	
@@ -318,6 +318,8 @@ public class AdminAction extends BaseAdminAction {
 				admin.setAbnormalSet(null);
 				admin.setCartonConfirmUser(null);
 				admin.setDailyWorkConfirmUser(null);
+				admin.setEnteringwareHouseConfirmUser(null);
+				admin.setRepairinConfirmUser(null);
 				pagerlist.set(i, admin);
 				//pagerlist.add(admin);
 			}

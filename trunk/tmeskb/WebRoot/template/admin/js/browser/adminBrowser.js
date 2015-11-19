@@ -46,7 +46,7 @@ jQuery(function($) {
 			//{name:'username',label:"登陆名",width:120,index:'username',editable:true,editrules : {required : true}},
 			{name:'departName',label:"部门",width:120,index:'department.deptName', editable: true},			
 			{name:'name',label:"姓名",width:240,index:'name', editable: true,editrules : {required : true}},
-			{name:'phoneNo',label:"phoneNo",width:200,index:'phoneNO',editable:true,editrules : {phoneNo : true}},
+			{name:'phoneNo',label:"电话",width:200,index:'phoneNO',editable:true,editrules : {phoneNo : true}},
 			{name:'email',label:"E-mail",width:180,index:'email',editable:true,editrules : {email : true}}
 
 			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},

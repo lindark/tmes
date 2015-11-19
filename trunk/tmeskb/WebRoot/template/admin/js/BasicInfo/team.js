@@ -63,14 +63,16 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '创建日期','班组编码','班组名称','状态', ],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'teamCode',index:'teamCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'teamName',index:'teamName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
-			 
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'teamCode',index:'teamCode',label:"班组编码",width:100,editable: true},
+			{name:'teamName',index:'teamName',label:"班组名称", width:100,editable: true},
+			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
+			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
+			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'stateRemark',index:'state',label:"状态",width:100, sortable:false,stype:'select',searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
+			{name:'toedit',label:"操作",width:100,search:false, sortable:false}
 		], 
 
 		viewrecords : true,
@@ -83,7 +85,14 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        gridComplete : function() {
+         	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+         	 for ( var i = 0; i < ids.length; i++) {
+         		 var cl = ids[i];
+         		 be = "<a href='team!eidt.action?id="+ids[i]+"'>[编辑]</a>";
+         		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
+         	 }
+         },
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -215,10 +224,8 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
 			multipleGroup:true,
 			showQuery: true
-			*/
 		},
 		{
 			//view record form

@@ -24,63 +24,116 @@ import cc.jiuyi.util.ThinkWayUtil;
 @Entity
 public class EnteringwareHouse extends BaseEntity {
 
-	
 	private static final long serialVersionUID = -3066164332463929036L;
-	private Integer totalSingleAmout;//累计根量
-	private Integer storageAmout;//入库数量
-	//private String ConfirmUser;//确认人 ？？
-	private Date storageDate;//入库时间
-	private String State;//状态
-	private String isdel;//是否删除
-	
-	private WorkingBill workingbill;//随工单
-	
+	private Integer totalSingleAmount;// 累计根量
+	private Integer storageAmount;// 入库数量
+	private String ConfirmUser;// 确认人
+	private String createUser;// 创建人
+	private String State;// 状态
+	private String isdel;// 是否删除
+	private String stateRemark;// 状态描述
+	private String adminName;// 确认人的名字
+	private String createName;// 创建人的名字
+
+	private WorkingBill workingbill;// 随工单
+	private Admin admin;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
 	}
+
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
 	public String getState() {
 		return State;
 	}
+
 	public void setState(String state) {
-			State = state;
-	}
-	public Integer getTotalSingleAmout() {
-		return totalSingleAmout;
-	}
-	public void setTotalSingleAmout(Integer totalSingleAmout) {
-		this.totalSingleAmout = totalSingleAmout;
-	}
-	
-	
-	public Date getStorageDate() {
-		return storageDate;
-	}
-	public void setStorageDate(Date storageDate){
-		if(storageDate == null){
-			this.storageDate = new Date();//插入当前系统时间
-		}else{
-			this.storageDate = storageDate;
+		if(state == null){
+			state = "2";
 		}
+		State = state;
 	}
-	public Integer getStorageAmout() {
-		return storageAmout;
+
+	public Integer getTotalSingleAmount() {
+		return totalSingleAmount;
 	}
-	public void setStorageAmout(Integer storageAmout) {
-		this.storageAmout = storageAmout;
+
+	public void setTotalSingleAmount(Integer totalSingleAmount) {
+		this.totalSingleAmount = totalSingleAmount;
 	}
-	
+
+	public Integer getStorageAmount() {
+		return storageAmount;
+	}
+
+	public void setStorageAmount(Integer storageAmount) {
+		this.storageAmount = storageAmount;
+	}
+
 	public String getIsdel() {
 		return isdel;
 	}
+
 	public void setIsdel(String isdel) {
-		if(isdel == null)
-			this.isdel="N";
+		if (isdel == null)
+			this.isdel = "N";
 		else
 			this.isdel = isdel;
 	}
-	
+
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+
+	public String getConfirmUser() {
+		return ConfirmUser;
+	}
+
+	public void setConfirmUser(String confirmUser) {
+		ConfirmUser = confirmUser;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	@Transient
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	@Transient
+	public String getCreateName() {
+		return createName;
+	}
+
+	public void setCreateName(String createName) {
+		this.createName = createName;
+	}
 }

@@ -1,5 +1,8 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
 
 /**
@@ -7,4 +10,5 @@ import cc.jiuyi.entity.Abnormal;
  */
 public interface AbnormalService extends BaseService<Abnormal, String> {
 
+	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map);
 }

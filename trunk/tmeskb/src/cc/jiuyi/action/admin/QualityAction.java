@@ -19,12 +19,16 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.service.AbnormalService;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.QualityService;
+import cc.jiuyi.service.UnusualLogService;
 
 @ParentPackage("admin")
 public class QualityAction extends BaseAdminAction {
@@ -35,6 +39,7 @@ public class QualityAction extends BaseAdminAction {
 	private String aid;
 	private Abnormal abnormal;
 	private String abnormalId;
+	private String loginUsername;
 
 	private List<FlowingRectify> flowingRectifys;
 	@Resource
@@ -43,6 +48,10 @@ public class QualityAction extends BaseAdminAction {
 	private AbnormalService abnormalService;
 	@Resource
 	private FlowingRectifyService flowingRectifyService;
+	@Resource
+	private UnusualLogService unusualLogService;
+	@Resource
+	private AdminService adminService;
 
 	// 添加
 	public String add() {
@@ -108,6 +117,7 @@ public class QualityAction extends BaseAdminAction {
 			Quality quality = (Quality) pagerlist.get(i);
 			quality.setAbnormal(null);
 			quality.setFlowingRectify(null);
+			quality.setUnusualLogSet(null);
 			pagerlist.set(i,quality);
 		}
 		pager.setList(pagerlist);
@@ -118,28 +128,19 @@ public class QualityAction extends BaseAdminAction {
 
 	}
 
-	/*
-	 * // ajax列表 public String ajlist() { if(pager == null) { pager = new
-	 * Pager(); } pager = qualityService.findByPager(pager);
-	 * 
-	 * List pagerlist = pager.getList(); for(int i =0; i <
-	 * pagerlist.size();i++){ Quality quality = (Quality)pagerlist.get(i);
-	 * quality.setAbnormal(null); quality.setFlowingRectify(null);
-	 * pagerlist.set(i, quality); } pager.setList(pagerlist);
-	 * 
-	 * JSONArray jsonArray = JSONArray.fromObject(pager); return
-	 * ajaxJson(jsonArray.get(0).toString()); }
-	 */
-
 	public String save() {
+		
+		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+		Admin admin1 = adminService.get("username", loginUsername);
+		
 		abnormal = abnormalService.load(abnormalId);
 		quality.setAbnormal(abnormal);
-		quality.setCreateUser("张三");
+		quality.setCreateUser(admin1.getId());
 		quality.setIsDel("N");
-		quality.setModifyUser("张三");
-		quality.setState("未确定");
+		quality.setModifyUser(admin1.getId());
+		quality.setState("0");
 		qualityService.save(quality);
-
+		
 		for (int i = 0; i < flowingRectifys.size(); i++) {
 			FlowingRectify v = flowingRectifys.get(i);
 			v.setQuality(quality);
@@ -147,7 +148,13 @@ public class QualityAction extends BaseAdminAction {
 			v.setCreateUser("张三");
 			flowingRectifyService.save(v);
 		}
-
+         
+		UnusualLog log = new UnusualLog();
+		log.setOperator(admin1.getName());
+		log.setInfo("已提交");
+		log.setQuality(quality);
+		unusualLogService.save(log);
+		
 		redirectionUrl = "quality!list.action";
 		return SUCCESS;
 	}
@@ -210,4 +217,13 @@ public class QualityAction extends BaseAdminAction {
 		this.flowingRectifys = flowingRectifys;
 	}
 
+	public String getLoginUsername() {
+		return loginUsername;
+	}
+
+	public void setLoginUsername(String loginUsername) {
+		this.loginUsername = loginUsername;
+	}
+
+	
 }

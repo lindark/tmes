@@ -112,7 +112,7 @@
 													
 													
 													<div class="profile-info-row">
-														<div class="profile-info-name">累计返修收货数量</div>
+														<div class="profile-info-name">总返修收货数量</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${workingbill.totalRepairinAmount}</span>

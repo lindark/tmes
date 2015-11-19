@@ -78,19 +78,7 @@
 										<div class="col-sm-4">
 											<input type="text" name="productName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										
-										<!-- 
-										<label class="col-sm-1" style="text-align:right">日期:</label>
-										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>	 -->								
+																									
 									</div>
 									
 										<div class="form-group" style="text-align:center">

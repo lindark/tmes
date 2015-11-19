@@ -205,11 +205,13 @@ body {
 												<th>内容</th>
 												<th>修改人</th>
 											</tr>
+											<#list (quality.unusualLogSet)! as list>
 											<tr>
-												<td>2015-09-16 09:20</td>
-												<td>张三已刷卡</td>
-												<td>张三</td>
+												<td>${(list.createDate)!}</td>
+												<td>${(list.info)!}</td>
+												<td>${(list.operator)!}</td>
 											</tr>
+											</#list>
 										</tbody>
 									</table>
 									<div id="tabs-3">

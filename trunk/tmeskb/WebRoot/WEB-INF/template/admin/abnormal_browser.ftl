@@ -135,12 +135,9 @@ body {
 		var arrayObj = new Array();
 		for(var i=0;i<ids.length;i++){
 			var rowData = $("#grid-table2").jqGrid('getRowData',ids[i]);//获取每一行的对象
-			alert(rowData.departName);
 			arrayObj[i] = rowData;
 			
 		}
-		//var rowName=rowData.name;
-		//var work=""+rowName+""+","+ids;
 		return arrayObj;
 	}
 	

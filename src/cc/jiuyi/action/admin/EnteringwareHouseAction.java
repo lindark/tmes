@@ -59,6 +59,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private UnitConversionService unitConversionService;
 
 	/**
 	 * 跳转list 页面
@@ -90,7 +92,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
-		ratio = enteringwareHouseService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
+		ratio = unitConversionService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -126,7 +128,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 	// 刷卡撤销
 		public String undo() {
-			ratio = enteringwareHouseService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
+			ratio = unitConversionService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
 			workingbill = workingBillService.get(workingBillId);
 			ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {

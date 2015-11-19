@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.ParseException;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -21,8 +19,8 @@ import cc.jiuyi.entity.UnitConversion;
  */
 
 @Repository
-public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String> implements
-		UnitConversionDao {
+public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
+		implements UnitConversionDao {
 
 	@Override
 	public void delete(String id) {
@@ -52,29 +50,33 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String> i
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
-		//System.out.println(map.size());
+		// System.out.println(map.size());
 		if (map.size() > 0) {
-			if(map.get("unitCode")!=null){
-			    detachedCriteria.add(Restrictions.like("unitCode", "%"+map.get("unitCode")+"%"));
-			}		
-			if(map.get("unitDescription")!=null){
-				detachedCriteria.add(Restrictions.like("unitDescription", "%"+map.get("unitDescription")+"%"));
+			if (map.get("unitCode") != null) {
+				detachedCriteria.add(Restrictions.like("unitCode",
+						"%" + map.get("unitCode") + "%"));
 			}
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
+			if (map.get("unitDescription") != null) {
+				detachedCriteria.add(Restrictions.like("unitDescription", "%"
+						+ map.get("unitDescription") + "%"));
 			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like("state",
+						"%" + map.get("state") + "%"));
+			}
+			if (map.get("start") != null || map.get("end") != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Date start = sdf.parse(map.get("start"));
+					Date end = sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate",
+							start, end));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		}		
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -95,17 +97,24 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String> i
 			}
 
 		}
-		//System.out.println("wheresql:" + wheresql);
+		// System.out.println("wheresql:" + wheresql);
 		return wheresql;
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		for(String id:ids){
-			UnitConversion unitConversion=super.load(id);
-			unitConversion.setIsDel(oper);//标记删除
+		for (String id : ids) {
+			UnitConversion unitConversion = super.load(id);
+			unitConversion.setIsDel(oper);// 标记删除
 			super.update(unitConversion);
 		}
-		
+
+	}
+
+	@Override
+	public Integer getSingleConversationRatio(String unitDescription,
+			String convertUnit) {
+		String hql = "select conversationRatio from UnitConversion where unitDescription=? and convertUnit=?";
+		return (Integer) getSession().createQuery(hql).setParameter(0, unitDescription).setParameter(1, convertUnit).uniqueResult();
 	}
 }

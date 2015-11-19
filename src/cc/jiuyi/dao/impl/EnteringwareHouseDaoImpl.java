@@ -45,7 +45,7 @@ public class EnteringwareHouseDaoImpl extends BaseDaoImpl<EnteringwareHouse, Str
 	public Integer getSingleConversationRatio(String unitDescription,
 			String convertUnit) {
 		String hql = "select conversationRatio from unitConversion where unitDescription=? and convertUnit=?";
-		return (Integer) getSession().createQuery(hql).setParameter(0, unitDescription).setParameter(1, convertUnit).uniqueResult();
+		return (Integer) getSession().createQuery(hql).setParameter(0, unitDescription).setParameter(1, convertUnit).list().get(0);
 	}
 
 

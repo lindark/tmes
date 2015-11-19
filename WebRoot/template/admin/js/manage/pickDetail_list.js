@@ -28,7 +28,7 @@ jQuery(function($) {
 
 						url : "pick_detail!ajlist.action",
 						datatype : "local",
-						height : "250",// weitao 修改此参数可以修改表格的高度
+						height : "100%",// weitao 修改此参数可以修改表格的高度
 						jsonReader : {
 							repeatitems : false,
 							root : "list",
@@ -41,7 +41,7 @@ jQuery(function($) {
 						colModel : [ {name : 'ID',
 							index : 'ID',
 							width : 150,
-							editable : true,
+							editable : false,
 							hidden:true,
 							editoptions : {
 								size : "20",
@@ -50,8 +50,8 @@ jQuery(function($) {
 						},{
 							name : 'materialCode',
 							index : 'materialCode',
-							width : 150,
-							editable : true,
+							width : 80,
+							editable : false,
 							editoptions : {
 								size : "20",
 								maxlength : "30"
@@ -60,7 +60,7 @@ jQuery(function($) {
 							name : 'materialName',
 							index : 'materialName',
 							width : 200,
-							editable : true,
+							editable : false,
 							editoptions : {
 								size : "20",
 								maxlength : "30"
@@ -68,8 +68,8 @@ jQuery(function($) {
 						}, {
 							name : 'stockAmount',
 							index : 'materialName',
-							width : 200,
-							editable : true,
+							width : 80,
+							editable : false,
 							editoptions : {
 								size : "20",
 								maxlength : "30"
@@ -77,23 +77,23 @@ jQuery(function($) {
 						}, {
 							name : 'pickAmount',
 							index : 'pickAmount',
-							width : 200,
+							width : 100,
 							editable : true,
 							editoptions : {
 								size : "20",
 								maxlength : "30"
 							}
-						}, {
-							name : 'pickType',
-							index : 'pickType',
-							width : 80,
-							editable : true,
-							edittype : "checkbox",
-							editoptions : {
-								value : "Yes:No"
-							},
-							unformat : aceSwitch
-						} ],
+						},{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
+							formatter:'actions', 
+							formatoptions:{ 
+								keys:true,
+								//delbutton: false,//disable delete button
+								
+								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+							}
+						},
+						],
 
 						viewrecords : true,
 						rowNum : "all",
@@ -107,21 +107,20 @@ jQuery(function($) {
 						multiboxonly : true,
 
 						gridComplete : function() {
-							var ids = jQuery(grid_selector)
-									.jqGrid('getDataIDs');
-							for ( var i = 0; i < ids.length; i++) {
-								var cl = ids[i];
-								be = "<input  type='input' value='' name='pt'/>"
-								br = "<label><select name='rbg'><option value='1'>领料</option><option value='2'>退料</option></select><label>";
-								jQuery(grid_selector).jqGrid('setRowData',
-										ids[i], {
-											pickAmount : be
-										});
-								jQuery(grid_selector).jqGrid('setRowData',
-										ids[i], {
-											pickType : br 
-										});
-							}
+//							var ids = jQuery(grid_selector)
+//									.jqGrid('getDataIDs');
+//							for ( var i = 0; i < ids.length; i++) {
+//								var cl = ids[i];
+//								be = "<input  type='input' value='' name='pt'/>"
+//								br = "<label><select name='rbg'><option value='1'>领料</option><option value='2'>退料</option></select><label>";
+//								jQuery(grid_selector).jqGrid('setRowData',
+//										ids[i], {
+//											pickAmount : be,
+//											pickType : br
+//											
+//										});
+//								
+//							}
 						},
 
 						loadComplete : function() {
@@ -235,36 +234,5 @@ jQuery(function($) {
 				}
 			})
 
-	$(function() {
-		$("#btnSubmit").click(function() {
-			var text="";
-			$("#grid-table tr").each(function(element) {
-					text = text+$(this).attr("id")+"&";					
-			 });
-			alert(text);
-			$.ajax({
-				url : "pick_detail!addAmount.action?text=",
-				dataType : "json",
-				async : false,					
-				success : function(data) {
-					alert("SUCCESS");
-				}
-			});
-			
-	
-			alert($("#inputform").serialize());
-			alert($("#inputform").attr("action"));
-			$.ajax({
-				url : $("#inputform").attr("action"),
-				data:$("#inputform").serialize(),
-				dataType : "json",
-				async : false,
-				success : function(data) {
-					alert("SUCCESS");
-				}
-			});
-
-		});
-	});
 
 });

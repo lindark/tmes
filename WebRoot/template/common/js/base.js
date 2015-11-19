@@ -167,6 +167,14 @@ jQuery(function() {
 	$(".chosen-select").chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true}); 
 
 	
+//	$('#chosen-multiple-style').on('click', function(e){
+//		var target = $(e.target).find('input[type=radio]');
+//		var which = parseInt(target.val());
+//		if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+//		 else $('#form-field-select-4').removeClass('tag-input-style');
+//	});
+
+	
 	$(window)
 	.off('resize.chosen')
 	.on('resize.chosen', function() {

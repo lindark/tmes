@@ -31,11 +31,8 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 	
 	
 	public Pager findPagerByjqGrid(Pager pager,Map map){
-		String wheresql = super.pagerSqlByjqGrid(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(WorkingBill.class);
-		if(!wheresql.equals("")){
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		pagerSqlByjqGrid(pager,detachedCriteria);
 		if(map != null && map.size()>0){
 			if(!map.get("start").equals("") || !map.get("end").equals("")){//生产日期范围
 				String start = map.get("start").equals("")? ThinkWayUtil.SystemDate() : map.get("start").toString();

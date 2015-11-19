@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -38,6 +39,9 @@ public class Quality extends BaseEntity{
 	private String isDel;//是否删除	
 	private String state;//状态
 	private Abnormal abnormal;//异常
+	
+	private String stateRemark;//状态描述    
+	private String founder;
 	
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	private Set<UnusualLog> unusualLogSet;//异常日志
@@ -158,6 +162,22 @@ public class Quality extends BaseEntity{
 	}
 	public void setUnusualLogSet(Set<UnusualLog> unusualLogSet) {
 		this.unusualLogSet = unusualLogSet;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
+	@Transient
+	public String getFounder() {
+		return founder;
+	}
+	public void setFounder(String founder) {
+		this.founder = founder;
 	}
 	
 	

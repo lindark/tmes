@@ -10,9 +10,25 @@ $(function(){
 		//var productsval=$("#product_name").text().replace(" ","");//产品产品名称
 		var xcode=$("#xcode").val();//工序编码,用于判断：1.不为空表示修改，可以为原名不用判断是否存在，  2.为空表示新增，需要判断是否已存在
 		//alert(processcode+","+processname);
+		if(processcode==""||processcode==null)
+		{
+			$("#span_code").text("工序编码不能为空!");
+		}
+		else
+		{
+			$("#span_code").text("");
+		}
+		if(processname==""||processname==null)
+		{
+			$("#span_name").text("工序名称不能为空!");
+		}
+		else
+		{
+			$("#span_name").text("");
+		}
 		if((processcode==""||processcode==null)||(processname==""||processname==null))
 		{
-			layer.alert("必填数据不能为空,请查看!",8,false);
+			//layer.alert("必填数据不能为空,请查看!",8,false);
 		}
 		else
 		{
@@ -88,7 +104,7 @@ function sub_ck(val)
 		}
 		else if(data.message=="e")
 		{
-			layer.alert("工序编号已存在,添加失败!",8,false);
+			//layer.alert("工序编号已存在,添加失败!",8,false);
 			$("#span_code").text("工序编码已存在!");
 		}
 	},"json");

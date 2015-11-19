@@ -3,6 +3,7 @@ package cc.jiuyi.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
 
@@ -56,6 +57,7 @@ public class Dump extends BaseEntity{
 	public void setConfirmUser(String confirmUser) {
 		this.confirmUser = confirmUser;
 	}
+	@Transient
 	public String getStateRemark() {
 		return stateRemark;
 	}

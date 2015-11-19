@@ -1,8 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,7 +32,7 @@ public class FactoryUnit extends BaseEntity{
     private WorkShop workShop;//车间
     private String workShopName;
     private String factoryName;
-     
+    private Set<Team> team;//班组
 	public String getFactoryUnitCode() {
 		return factoryUnitCode;
 	}
@@ -88,9 +91,14 @@ public class FactoryUnit extends BaseEntity{
 	public void setFactoryName(String factoryName) {
 		this.factoryName = factoryName;
 	}
-
-   
-
-    
 	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factoryUnit")
+	public Set<Team> getTeam()
+	{
+		return team;
+	}
+	public void setTeam(Set<Team> team)
+	{
+		this.team = team;
+	}
 }

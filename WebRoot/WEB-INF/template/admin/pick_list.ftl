@@ -9,9 +9,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/manage/pick_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/manage/pick.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		
+	<script type="text/javascript">
+		var productCode = "${workingbill.matnr}";
+	</script>
 		
 	</head>
 	<body class="no-skin list">
@@ -99,7 +104,7 @@
 														<div class="profile-info-name"> 随工单号 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">${workingbill.workingBillCode}</span>
+															<span class="editable editable-click">${workingbill.workingBillCode}</span>
 														</div>
 													</div>
 	
@@ -108,7 +113,7 @@
 	
 														<div class="profile-info-value">
 															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
+															<span class="editable editable-click" id="productCode">${workingbill.matnr}</span>
 															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
 															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
 														</div>
@@ -118,7 +123,7 @@
 														<div class="profile-info-name"> 产品名称 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+															<span class="editable editable-click">${workingbill.maktx}</span>
 														</div>
 													</div>
 	
@@ -126,7 +131,7 @@
 														<div class="profile-info-name"> 班组/班次 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<span class="editable editable-click">2010/06/20</span>
 														</div>
 													</div>
 
@@ -136,13 +141,13 @@
 
 										<!-- /section:custom/widget-box -->
 									</div>
-									<div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block">
-                                      <span><a href="pick_detail!list.action?matnr=${workingbill.matnr}">创建领/退料单</a></span>                          
-									</button>
+									<div>
+									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="javascript:void(0);">
+										<i class="ace-icon fa fa-filter blue"></i>
+										创建领料单
+									</a>
 								   </div>
 							
-								
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">	
 									<div class="col-xs-12">					

@@ -89,7 +89,7 @@ body{background:#fff;}
 												<div class="profile-info-name">车间名称</div>
 												<div class="profile-info-value">
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>			
-				                                     <input type="text" name="workShopId1" value="" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
+				                                     <input type="text" name="factoryUnit.workShop.id" value="" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
 				                                     <input type="hidden" name="workShopId" id="workShopId2" value="" />
 										         	 <label class="requireField">*</label>	
 										         	 <#else>

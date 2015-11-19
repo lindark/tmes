@@ -26,9 +26,11 @@ import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.service.UnusualLogService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 @ParentPackage("admin")
 public class QualityAction extends BaseAdminAction {
@@ -52,6 +54,8 @@ public class QualityAction extends BaseAdminAction {
 	private UnusualLogService unusualLogService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private DictService dictService;
 
 	// 添加
 	public String add() {
@@ -101,12 +105,10 @@ public class QualityAction extends BaseAdminAction {
 			   map.put("team", state);
 			}
 
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
+		   if (obj.get("productName") != null) { 
+			   String productName = obj.getString("productName").toString();
+			   map.put("productName", productName);
+		   }
 
 		}
 
@@ -118,6 +120,9 @@ public class QualityAction extends BaseAdminAction {
 			quality.setAbnormal(null);
 			quality.setFlowingRectify(null);
 			quality.setUnusualLogSet(null);
+			quality.setFounder(adminService.load(quality.getCreateUser()).getName());
+			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "receiptState", quality.getState()));		
 			pagerlist.set(i,quality);
 		}
 		pager.setList(pagerlist);
@@ -162,7 +167,17 @@ public class QualityAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Quality persistent = qualityService.load(id);
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id" });
+        System.out.println("1");
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state"});
+		
+		for (int i = 0; i < flowingRectifys.size(); i++) {
+			FlowingRectify v = flowingRectifys.get(i);
+			v.setQuality(persistent);
+			v.setModifyDate(new Date());
+			v.setModifyUser("李四");
+			flowingRectifyService.save(v);
+		}
+		
 		qualityService.update(persistent);
 
 		redirectionUrl = "quality!list.action";

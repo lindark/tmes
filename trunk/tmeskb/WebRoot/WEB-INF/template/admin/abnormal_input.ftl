@@ -150,7 +150,21 @@ $(function(){
         var arrayObj = iframeWin.getGridId();
         
         var size = $("#sample-table-1 tbody tr").length;
+        var ii=0;
         for(var i=0;i<arrayObj.length;i++){
+        	
+        	$("#sample-table-1 tbody tr td input").each(function(){
+                
+                if($(this).val()==arrayObj[i].id){
+                	alert("存在相同的人员");
+                	ii=1;
+                	return false; 
+                }
+            });
+        	
+        	if(ii==1){
+        		break;
+        	}
         	size= size+1;
         	var html ="<tr>";
 	        	html+="<td>";

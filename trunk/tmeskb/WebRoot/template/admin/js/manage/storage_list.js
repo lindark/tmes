@@ -1,8 +1,7 @@
 jQuery(function($) {
-	
-	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var workingBillId = $("#workingBillId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -22,7 +21,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"enteringware_house!ajlist.action",
+		url:"enteringware_house!ajlist.action?workingBillId="+workingBillId,
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -43,11 +42,11 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'storageDate',label:"入库时间",width:200,index:'storageDate', editable: false},
-			{name:'storageAmout',label:"入库数量",width:200,index:'storageAmout', editable: false},
-			{name:'State',label:"状态",width:200,index:'State', editable: false}
-			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'createDate',label:"入库时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
+			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',label:"状态",width:100,index:'State', editable: false,sortable:"true",sorttype:"text"}
 		], 
 
 		viewrecords : true,
@@ -81,16 +80,9 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="enteringware_house!add.action?workingBillId="+workingBillId;
-			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
-			delicon : 'ace-icon fa fa-trash-o red',
+			edit: false,
+			add: false,
+			del: false,
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,

@@ -66,7 +66,7 @@ jQuery(function($) {
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'teamCode',index:'teamCode',label:"班组编码",width:100,editable: true},
-			{name:'teamName',index:'teamName',label:"班组名称", width:100,editable: true},
+			{name:'teamName',index:'teamName',label:"班组名称", width:100,search:false,editable: true},
 			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
 			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},

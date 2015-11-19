@@ -38,8 +38,8 @@ public class Repairorder {
 			WorkingBill workingbill = new WorkingBill();
 			table01.setRow(i);
 			workingbill.setWorkingBillCode(table01.getString("ZSGD"));//随工单号
-			workingbill.setProductDate(table01.getDate("GLTRS"));//生产日期
-			workingbill.setPlanCount(table01.getString("NEWS"));//计划数
+			workingbill.setProductDate(table01.getString("GLTRS"));//生产日期
+			workingbill.setPlanCount(table01.getInt("NEWS"));//计划数
 			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
 			workingbill.setMatnr(table01.getString("PLNBEZ"));//物料编号
 			list.add(workingbill);

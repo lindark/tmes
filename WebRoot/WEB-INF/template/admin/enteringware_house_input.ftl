@@ -98,7 +98,7 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">入库数量</div>
+												<div class="profile-info-name">本次入库箱数</div>
 
 												<div class="profile-info-value">
 													<input type="text" name="enteringwareHouse.storageAmount"

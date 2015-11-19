@@ -112,10 +112,18 @@
 													
 													
 													<div class="profile-info-row">
-														<div class="profile-info-name">累计入库数量</div>
+														<div class="profile-info-name">累计入库箱数</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${workingbill.totalStorageAmount}</span>
+														</div>
+													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">累计入库根数-测试</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.totalSingleAmount}</span>
 														</div>
 													</div>
 

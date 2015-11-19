@@ -18,16 +18,22 @@ import cc.jiuyi.service.RepairinService;
  */
 @Service
 @Transactional
-public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String> implements RepairinService {
+public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
+		implements RepairinService {
 	@Resource
 	private RepairinDao repairinDao;
+
 	@Resource
-	public void setBaseDao(RepairinDao repairinDao){
+	public void setBaseDao(RepairinDao repairinDao) {
 		super.setBaseDao(repairinDao);
 	}
-	public Pager getRepairinPager(Pager pager,HashMap<String,String> map){
-		return repairinDao.getRepairinPager(pager,map);
+
+	@Override
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
+			String workingbillId) {
+		return repairinDao.findPagerByjqGrid(pager, map, workingbillId);
 	}
+
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		repairinDao.updateisdel(ids, oper);

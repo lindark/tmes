@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,12 +14,20 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.RepairinService;
+import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 返修收货
@@ -27,98 +37,179 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 public class RepairinAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5368121517667092305L;
-	
+
+	private static final String CONFIRMED = "1";
+	private static final String UNCONFIRM = "2";
+	private static final String UNDO = "3";
+
 	private Repairin repairin;
-	
+	private String workingBillId;
+	private WorkingBill workingbill;
+	private Admin admin;
+
 	@Resource
 	private RepairinService repairinService;
-	
+	@Resource
+	private WorkingBillService workingBillService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private DictService dictService;
+
+	/**
+	 * 跳转list 页面
+	 * 
+	 * @return
+	 */
 	public String list() {
-		//pager = repairinService.findByPager(pager);
-		return "list";
+		workingbill = workingBillService.get(workingBillId);
+		return LIST;
 	}
 
 	// 添加
 	public String add() {
+		workingbill = workingBillService.get(workingBillId);
 		return INPUT;
 	}
 
-	// 编辑
-	public String edit() {
-		repairin = repairinService.load(id);
-		return INPUT;
-	}
-
-	public String save() {
+	// 保存
+	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmount", min = "0", message = "返修收货数量必须为零或正整数!") })
+	@InputConfig(resultName = "error")
+	public String save() throws Exception {
+		admin = adminService.loadLoginAdmin();
+		repairin.setAdmin(admin);
+		repairin.setCreateUser(admin.getId());
 		repairinService.save(repairin);
-		redirectionUrl = "repairin!list.action";
+		redirectionUrl = "repairin!list.action?workingBillId="
+				+ repairin.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
+	// 更新
+	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmoun", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() {
+	public String update() throws Exception {
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);
-		redirectionUrl = "repairin!list.action";
+		admin = adminService.loadLoginAdmin();
+		repairin.setAdmin(admin);
+		redirectionUrl = "repairin!list.action?workingBillId="
+				+ repairin.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
-	// 删除
-	public String delete() {
+	// 刷卡确认
+	public String confirms() {
+		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
-		repairinService.updateisdel(ids, "Y");
-		redirectionUrl = "repairin!list.action";
-		return ajaxJsonSuccessMessage("删除成功！");
+		for (int i = 0; i < ids.length; i++) {
+			repairin = repairinService.load(ids[i]);
+			if (CONFIRMED.equals(repairin.getState())) {
+				addActionError("已确认的无须再确认！");
+				return ERROR;
+			}
+			if (UNDO.equals(repairin.getState())) {
+				addActionError("已撤销的无法再确认！");
+				return ERROR;
+			}
+		}
+		for (int i = 0; i < ids.length; i++) {
+			repairin = repairinService.load(ids[i]);
+			if (!CONFIRMED.equals(repairin.getState())) {
+				repairin.setState(CONFIRMED);
+				admin = adminService.getLoginAdmin();
+				repairin.setAdmin(admin);
+				repairin.setConfirmUser(admin.getId());
+				workingbill
+						.setTotalRepairinAmount(workingbill
+								.getTotalRepairinAmount()
+								+ repairin.getReceiveAmount());
+				repairinService.update(repairin);
+			}
+		}
+		workingBillService.update(workingbill);
+		redirectionUrl = "repairin!list.action?workingBillId="
+				+ repairin.getWorkingbill().getId();
+		return SUCCESS;
 	}
 	
-	/**
-	 * ajax 列表
-	 * @return
-	 */
-	public String ajlist(){
-		
-		HashMap<String,String> map = new HashMap<String,String>();
-		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+	// 刷卡撤销
+		public String undo() {
+			workingbill = workingBillService.get(workingBillId);
+			ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				repairin = repairinService.load(ids[i]);
+				if (UNDO.equals(repairin.getState())) {
+					addActionError("已撤销的无法再撤销！");
+					return ERROR;
+				}
+			}
+			for (int i = 0; i < ids.length; i++) {
+				repairin = repairinService.load(ids[i]);
+				admin = adminService.getLoginAdmin();
+				repairin.setAdmin(admin);
+				repairin.setConfirmUser(admin.getId());
+				if (CONFIRMED.equals(repairin.getState())) {
+					workingbill
+					.setTotalRepairinAmount(workingbill
+							.getTotalRepairinAmount()
+							- repairin.getReceiveAmount());
+				}
+				repairin.setState(UNDO);
+				repairinService.update(repairin);
+			}
+			workingBillService.update(workingbill);
+			redirectionUrl = "repairin!list.action?workingBillId="
+					+ repairin.getWorkingbill().getId();
+			return SUCCESS;
 		}
-		if(pager.is_search()==true && filters != null){//需要查询条件
-			JSONObject filt = JSONObject.fromObject(filters);
-			Pager pager1 = new Pager();
-			Map m = new HashMap();
-			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
-			pager.setRules(pager1.getRules());
-			pager.setGroupOp(pager1.getGroupOp());
+
+		/**
+		 * ajax 列表
+		 * 
+		 * @return
+		 */
+		public String ajlist() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			if (pager == null) {
+				pager = new Pager();
+				pager.setOrderType(OrderType.asc);
+				pager.setOrderBy("orderList");
+			}
+			if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+				if (!filters.equals("")) {
+					JSONObject filt = JSONObject.fromObject(filters);
+					Pager pager1 = new Pager();
+					Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+					m.put("rules", jqGridSearchDetailTo.class);
+					pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+					pager.setRules(pager1.getRules());
+					pager.setGroupOp(pager1.getGroupOp());
+				}
+			}
+
+			pager = repairinService.findPagerByjqGrid(pager, map, workingBillId);
+			List<Repairin> repairinList = pager.getList();
+			List<Repairin> lst = new ArrayList<Repairin>();
+			for (int i = 0; i < repairinList.size(); i++) {
+				Repairin repairin = (Repairin) repairinList.get(i);
+				repairin.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "repairinState", repairin.getState()));
+				if (repairin.getConfirmUser() != null) {
+					Admin admin = adminService.load(repairin.getConfirmUser());
+					repairin.setAdminName(admin.getName());
+				}
+				admin = adminService.load(repairin.getCreateUser());
+				repairin.setCreateName(admin.getName());
+				repairin.setWorkingbill(null);
+				repairin.setAdmin(null);
+				lst.add(repairin);
+			}
+			pager.setList(lst);
+			JSONArray jsonArray = JSONArray.fromObject(pager);
+			return ajaxJson(jsonArray.get(0).toString());
 		}
-		if(pager.is_search()==true && Param != null){//普通搜索功能
-			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if(obj.get("receiveAmount") != null){
-				String receiveAmount = obj.get("receiveAmount").toString();
-				map.put("receiveAmount", receiveAmount);				
-			}
-			if(obj.get("totalAmount")!=null){
-				String totalAmount = obj.get("totalAmount").toString();
-				map.put("totalAmount", totalAmount);				
-			}
-			if(obj.get("state")!=null){
-				String state = obj.get("state").toString();
-				map.put("state", state);				
-			}
-			if(obj.get("confirmUser")!=null){
-				String confirmUser = obj.get("confirmUser").toString();
-				map.put("confirmUser", confirmUser);				
-			}
-		}
-		pager = repairinService.getRepairinPager(pager,map);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		 return ajaxJson(jsonArray.get(0).toString());
-		
-	}
 
 	public Repairin getRepairin() {
 		return repairin;
@@ -127,6 +218,29 @@ public class RepairinAction extends BaseAdminAction {
 	public void setRepairin(Repairin repairin) {
 		this.repairin = repairin;
 	}
-	
+
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
+	}
+
+	public String getWorkingBillId() {
+		return workingBillId;
+	}
+
+	public void setWorkingBillId(String workingBillId) {
+		this.workingBillId = workingBillId;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
 
 }

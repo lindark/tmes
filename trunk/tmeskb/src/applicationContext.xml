@@ -140,6 +140,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.DailyWork</value>	
 				<value>cc.jiuyi.entity.Carton</value>	
 				<value>cc.jiuyi.entity.Pick</value>
+				<value>cc.jiuyi.entity.UnusualLog</value>	
 			</list>
 		</property>
 	</bean>

@@ -68,11 +68,11 @@ jQuery(function($) {
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			//{name:'xproductnum',index:'products.productsCode',label:"产品编号",width:70, editable: false},
 			//{name:'xproductname',index:'products.productsName',label:"产品名称",width:190, editable: false},
-			{name:'createDate',index:'createDate',label:"创建日期",width:150,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate',label:"创建日期",width:150,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode',label:"工序编码", width:150,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:150,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:150,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processState"}},
-			{name:"showproducts",label:"相关产品",width:100, sortable:false, resize:false}
+			{name:'stateRemark',index:'state', width:150,label:"状态", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processState"}},
+			{name:"showproducts",label:"相关产品",width:100,search:false, sortable:false, resize:false}
 		],
 		viewrecords : true,
 		rowNum:10,

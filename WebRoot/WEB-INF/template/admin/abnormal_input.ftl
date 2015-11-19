@@ -135,10 +135,7 @@ body{background:#fff;}
 </body>
 <script type="text/javascript">
 $(function(){
-	var callList = "${(callReasonList)!}";
 	var $userAddBtn = $("#userAddBtn");//添加用户
-	 var $name=$("#name");
-	 var $nameId=$("#nameId");
 	/**
 	 * 添加按钮点击
 	 */
@@ -151,38 +148,24 @@ $(function(){
 			
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         var arrayObj = iframeWin.getGridId();
-        alert(arrayObj.length);
         
         var size = $("#sample-table-1 tbody tr").length;
         for(var i=0;i<arrayObj.length;i++){
-        	alert(arrayObj[i].id);
         	size= size+1;
         	var html ="<tr>";
 	        	html+="<td>";
-	        	html+="<input type='text' name='adminSet["+size+"].id' value='"+arrayObj[i].id+"'/>";
+	        	html+="<input type='hidden' name='adminSet["+size+"].id' value='"+arrayObj[i].id+"'/>";
+	        	html+="<input type='text' name='adminSet["+size+"].name' value='"+arrayObj[i].name+"'/>";
 	        	html+="</td>";
 	        	html+="<td>";
-	        	html+="<select name='callReasonId' class='{required: true}' style='width:200px;'><option id='choose' value=''>请选择...</option>";
+	        	html+="<select name='callReasonSet["+size+"].id' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";
 	        	html+="<#list callReasonList as list><option value='${list.id}'>${list.callReason}</option></#list>";
 				html+=+"</select>";
 	        	html+="</td>";
         	html +="</tr>";
         	$("#sample-table-1 tbody").append(html);
         }
-        
-        
-        //var html = '<tr><td><input type="text" name="adminSet['+size+'].name" id="name"　value="" class="{required: true}" readonly="readonly"/><input type="hidden" name="adminSet['+size+'].id" id="nameId"　value=""/></td><td><select name="callReasonId" class="{required: true}" style="width:200px;"><option id="choose" value="">请选择...</option></select></td></tr>';
-        
-        /* 
-        var cal=callList.substring(1,callList.length-1);
-        var message=cal.split(",");
-        for(var i=0;i<message.length;i++){
-        	var html1='<option value="message[i].id">message[i].callReason</option>';
-        	$("#choose").append(html1);
-        }*/
-        
-      	
-		
+        layer.close(index);       
 	
 		});
 	});

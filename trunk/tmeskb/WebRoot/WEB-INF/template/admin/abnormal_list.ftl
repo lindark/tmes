@@ -38,15 +38,9 @@
 
 
 .call {
-	width: 100px;
-	height: 60px;
-	padding: 16px 6px;
-	margin-left: 200px;
-	margin-top: 30px;
-	background-color: #edf4eb;
-	border-color: #a7c9a1;
-	color: #6ea465;
-	font-size: 20px
+    width: 90px;
+	height: 45px;
+	font-size: 16px;
 }
 
 th {
@@ -99,9 +93,9 @@ th {
 						<div class="row">
 							<div class="col-xs-12">
 								<div class="row">
-								<div class="col-xs-12 col-sm-12 widget-container-col">
+								<div class="col-xs-12 col-sm-6 widget-container-col ui-sortable">
 
-									<div class="widget-box transparent">
+									<div class="widget-box ui-sortable-handle">
 										<div class="widget-header">
 											<h4 class="widget-title lighter">当前班组信息</h4>
 
@@ -166,27 +160,78 @@ th {
 
 
 								</div>
+								
+								
+								
+								<div class="col-xs-12 col-sm-6 widget-container-col ui-sortable">
+									<div class="widget-box ui-sortable-handle">
+										<div class="widget-header">
+											<h5 class="widget-title">呼叫人</h5>
+
+
+											<div class="widget-toolbar">
+												<div class="widget-menu">
+													<a data-action="settings" data-toggle="dropdown"> <i
+														class="ace-icon fa fa-bars"></i> </a>
+
+													<ul
+														class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
+
+													</ul>
+												</div>
+
+												<a data-action="fullscreen" class="orange2"> <i
+													class="ace-icon fa fa-expand"></i> </a> <a data-action="reload">
+													<i class="ace-icon fa fa-refresh"></i> </a> <a
+													data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a> <a
+													data-action="close"> <i class="ace-icon fa fa-times"></i>
+												</a>
+											</div>
+
+
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+                                              
+												<div style="height:160px;padding-left:180px;padding-top:45px;"> 
+												<button class="btn btn-success call" id="callRing">呼叫</button> 												
+												</div>
+												 										   
+										
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								
                                
 							</div>
+							
+							
+							
+							
 
 							<div class="row buttons">
 							     
-							    <div class="col-md-2 col-sm-4" >
+							   <!--  <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="callRing">
                                       <span class="bigger-110 no-text-shadow">呼叫</span>
 									</button>
-								</div>
+								</div>--> 
 								
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
 									</button>
 								</div>
-								<!-- <div class="col-md-2 col-sm-4" >
+								 <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="modelrep">
                                       <span class="bigger-110 no-text-shadow">创建工模维修单</span>
 									</button>
-								</div>-->
+								</div>
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="craftrep">
                                       <span class="bigger-110 no-text-shadow">创建工艺维修单</span>

@@ -28,4 +28,12 @@ public class AccessObjectDaoImpl extends BaseDaoImpl<AccessObject, String> imple
 		String hql="form AccessObject where type=?";
 		return getSession().createQuery(hql).setParameter(0, value).list();
 	}
+
+	@Override
+	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey) {
+		String hql="select a from AccessObject a join a.accessResourceSet b where  a.accObjkey = ? and b.id in (:list) ";
+		return getSession().createQuery(hql).setParameter(0, accObjKey).setParameterList("list", resourceids).list();
+	}
+	
+	
 }

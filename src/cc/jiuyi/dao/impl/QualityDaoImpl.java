@@ -23,32 +23,27 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements QualityDao {
     
 	public Pager getQualityPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = qualitypagerSql(pager);
+		//String wheresql = qualitypagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Quality.class);
-		if (!wheresql.equals("")) {
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		/*if (!wheresql.equals("")) {
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		if (map.size() > 0) {
 			if(map.get("team")!=null){
 			    detachedCriteria.add(Restrictions.like("team", "%"+map.get("team")+"%"));
 			}
 			
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}			
+			if(map.get("productName")!=null){
+			    detachedCriteria.add(Restrictions.like("productName", "%"+map.get("productName")+"%"));
+			}	
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
+	/*
 	public String qualitypagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
@@ -67,6 +62,6 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 
 		}
 		return wheresql;
-	}
+	}*/
 	
 }

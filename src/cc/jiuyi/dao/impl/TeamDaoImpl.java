@@ -43,59 +43,57 @@ public class TeamDaoImpl extends BaseDaoImpl<Team, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getTeamPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = teampagerSql(pager);
-		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(Team.class);
-		if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
+	public Pager getTeamPager(Pager pager, HashMap<String, String> map) 
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Team.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!existAlias(detachedCriteria, "factoryUnit", "factoryUnit"))
+		{
+			detachedCriteria.createAlias("factoryUnit", "factoryUnit");
 		}
-		//System.out.println(map.size());
-		if (map.size() > 0) {
-			if(map.get("teamCode")!=null){
+		if(!existAlias(detachedCriteria, "factoryUnit.workShop", "workShop"))
+		{
+			detachedCriteria.createAlias("factoryUnit.workShop", "workShop");
+		}
+		if(!existAlias(detachedCriteria, "factoryUnit.workShop.factory", "factory"))
+		{
+			detachedCriteria.createAlias("factoryUnit.workShop.factory", "factory");
+		}
+		if (map.size() > 0)
+		{
+			//班组编码
+			if(map.get("teamCode")!=null&&!"".equals(map.get("teamCode")))
+			{
 			    detachedCriteria.add(Restrictions.like("teamCode", "%"+map.get("teamCode")+"%"));
-			}		
-			if(map.get("teamName")!=null){
+			}
+			//班组名称
+			if(map.get("teamName")!=null&&!"".equals(map.get("teamName")))
+			{
 				detachedCriteria.add(Restrictions.like("teamName", "%"+map.get("teamName")+"%"));
 			}
-			if(map.get("state")!=null){
+			//状态
+			if(map.get("state")!=null&&!"".equals(map.get("state")))
+			{
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
+			//单元名称
+			if(map.get("xfactoryUnitName")!=null&&!"".equals(map.get("xfactoryUnitName")))
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnit.factoryUnitName", "%"+map.get("xfactoryUnitName")+"%"));
+			}
+			//车间名称
+			if(map.get("xworkShopName")!=null&&!"".equals(map.get("xworkShopName")))
+			{
+				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("xworkShopName")+"%"));
+			}
+			//工厂名称
+			if(map.get("xfactoryName")!=null&&!"".equals(map.get("xfactoryName")))
+			{
+				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("xfactoryName")+"%"));
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
-	}
-
-	public String teampagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		//System.out.println("wheresql:" + wheresql);
-		return wheresql;
 	}
 
 	@Override

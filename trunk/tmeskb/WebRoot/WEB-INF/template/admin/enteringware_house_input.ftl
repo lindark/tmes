@@ -101,9 +101,10 @@ body {
 												<div class="profile-info-name">入库数量</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="enteringwareHouse.storageAmout"
+													<input type="text" name="enteringwareHouse.storageAmount"
 														value=""
-														class=" input input-sm" />
+														class=" input input-sm formText {required: true,min: 0}" />
+													<label class="requireField">*</label>
 												</div>
 											</div>
 										</div>

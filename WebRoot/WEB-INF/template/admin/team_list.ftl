@@ -58,49 +58,49 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form class="form-horizontal" id="searchform" action="team!ajlist.action" role="form">
 								   <div class="operateBar">
+								   
 								   <div class="form-group">
-								   		
-								   		<label class="col-sm-1" style="text-align:right">班组编码:</label>
+									   		<label class="col-sm-1 col-md-offset-1" style="text-align:right">班组编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="teamCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-								   		
+										<label class="col-sm-1" style="text-align:right">单元名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xfactoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										<!--
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">班组名称:</label>
 										<div class="col-sm-4">
-											<select name="teamName">
+											<select name="teamName"  id="form-field-icon-1" class="input input-sm form-control">
 												<option></option>
 												<option value="早班">早班</option>
 												<option value="中班">中班</option>
 												<option value="晚班">晚班</option>
 											</select>
 										</div>
-									</div>	
-								   
-								   <div class="form-group">
-								   
-								   		<label class="col-sm-1" style="text-align:right">单元名称:</label>
-										<div class="col-sm-4">
-											<input type="text" name="xfactoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
+										-->
 										
+									</div>	
+									
+								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">车间名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="xworkShopName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										<label class="col-sm-1" style="text-align:right">工厂名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xfactoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 								   
 								   
 								   	<div class="form-group">
-								   		
-								   		<label class="col-sm-1" style="text-align:right">工厂名称:</label>
-										<div class="col-sm-4">
-											<input type="text" name="xfactoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-								   		
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
-											<select name="state">
-												<option></option>
+											<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+												<option value="">全选</option>
 												<option value="1">启用</option>
 												<option value="2">未启用</option>
 											</select>

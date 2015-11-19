@@ -182,17 +182,17 @@ th {
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4" >
+								<!-- <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="modelrep">
                                       <span class="bigger-110 no-text-shadow">创建工模维修单</span>
 									</button>
-								</div>
-								<!-- <div class="col-md-2 col-sm-4" >
+								</div>-->
+								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="craftrep">
                                       <span class="bigger-110 no-text-shadow">创建工艺维修单</span>
 									</button>
 								</div>
-								
+								<!-- 
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="devicerep">
                                       <span class="bigger-110 no-text-shadow">创建设备维修单</span>

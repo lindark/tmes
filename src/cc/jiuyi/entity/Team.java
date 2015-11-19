@@ -29,7 +29,12 @@ public class Team extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private FactoryUnit factoryUnit;//单元
     
+    //虚拟字段
+    private String xfactoryUnitName;//单元名称
+    private String xworkShopName;//车间名称
+    private String xfactoryName;//工厂名称
     
 	public String getTeamCode() {
 		return teamCode;
@@ -66,6 +71,46 @@ public class Team extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public FactoryUnit getFactoryUnit()
+	{
+		return factoryUnit;
+	}
+	public void setFactoryUnit(FactoryUnit factoryUnit)
+	{
+		this.factoryUnit = factoryUnit;
+	}
+	
+	@Transient
+	public String getXfactoryUnitName()
+	{
+		return xfactoryUnitName;
+	}
+	public void setXfactoryUnitName(String xfactoryUnitName)
+	{
+		this.xfactoryUnitName = xfactoryUnitName;
+	}
+	
+	@Transient
+	public String getXworkShopName()
+	{
+		return xworkShopName;
+	}
+	public void setXworkShopName(String xworkShopName)
+	{
+		this.xworkShopName = xworkShopName;
+	}
+	
+	@Transient
+	public String getXfactoryName()
+	{
+		return xfactoryName;
+	}
+	public void setXfactoryName(String xfactoryName)
+	{
+		this.xfactoryName = xfactoryName;
 	}
 
    

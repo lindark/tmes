@@ -19,4 +19,10 @@ public interface AccessObjectService extends BaseService<AccessObject, String> {
 	 * @return
 	 */
 	public List<AccessObject> findTypeList(String value);
+	
+	/**
+	 * 根据Resource的 id集合 获取资源对象
+	 * @return
+	 */
+	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey);
 }

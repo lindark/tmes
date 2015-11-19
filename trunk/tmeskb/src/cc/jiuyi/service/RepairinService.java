@@ -10,7 +10,14 @@ import cc.jiuyi.entity.Repairin;
  * 转储管理
  */
 public interface RepairinService extends BaseService<Repairin, String> {
-	public Pager getRepairinPager(Pager pager,HashMap<String,String> map);
+	/**
+	 * 分页查询
+	 * 
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String,String> map, String workingbillId);
 	/**
 	 * 标记删除
 	 * @param ids

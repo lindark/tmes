@@ -12,4 +12,11 @@ import cc.jiuyi.entity.Abnormal;
 public interface AbnormalDao extends BaseDao<Abnormal, String> {
 
 	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map);
+	
+	/**
+	 * 标记删除
+	 * @param ids
+	 * @param oper Y/N
+	 */
+	public void updateisdel(String[] ids,String oper);
 }

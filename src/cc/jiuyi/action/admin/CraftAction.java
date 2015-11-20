@@ -19,12 +19,16 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Model;
-import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalService;
+import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CraftLogService;
 import cc.jiuyi.service.CraftService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -40,11 +44,18 @@ public class CraftAction extends BaseAdminAction {
 	private String aid;
 	private Abnormal abnormal;
 	private String abnormalId;
+	private String loginUsername;
 	
 	@Resource
 	private CraftService craftService;
 	@Resource
 	private AbnormalService abnormalService;
+	@Resource
+	private DictService dictService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private CraftLogService craftLogService;
 	
 	// 添加
 	public String add() {
@@ -69,7 +80,7 @@ public class CraftAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Craft persistent = craftService.load(id);
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "classes","abnormal_id","isDel","state"});
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "classes","abnormal","isDel","state"});
 		craftService.update(persistent);
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
@@ -79,10 +90,9 @@ public class CraftAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -97,21 +107,15 @@ public class CraftAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-		/*	if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
-			}*/
-			if (obj.get("classes") != null) {
-				System.out.println("obj=" + obj);
-				String classes = obj.getString("classes").toString();
-				map.put("classes", classes);
+	
+			if (obj.get("team") != null) {
+				String team = obj.getString("team").toString();
+				map.put("team", team);
 			}
 			
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
+			if (obj.get("productName") != null) {
+				String productName = obj.getString("productName").toString();
+				map.put("productName", productName);
 			}
 			
 		}
@@ -122,6 +126,9 @@ public class CraftAction extends BaseAdminAction {
 		for(int i =0; i < pagerlist.size();i++){
 			Craft craft  = (Craft)pagerlist.get(i);
 			craft.setAbnormal(null);
+			craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "receiptState", craft.getState()));
+			craft.setCraftLogSet(null);
 			pagerlist.set(i, craft);
 		}
 		pager.setList(pagerlist);
@@ -133,11 +140,21 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	public String save() {	
+		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+		Admin admin1 = adminService.get("username", loginUsername);
+		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
-		craft.setState("已提交");
+		craft.setState("0");
 		craft.setIsDel("N");
 		craftService.save(craft);	
+		
+		CraftLog log = new CraftLog();
+		log.setOperator(admin1.getName());
+		log.setInfo("已提交");
+		log.setCraft(craft);
+		craftLogService.save(log);
+		
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
 	}
@@ -180,6 +197,14 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setAbnormalId(String abnormalId) {
 		this.abnormalId = abnormalId;
+	}
+
+	public String getLoginUsername() {
+		return loginUsername;
+	}
+
+	public void setLoginUsername(String loginUsername) {
+		this.loginUsername = loginUsername;
 	}
 	
 	

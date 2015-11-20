@@ -207,17 +207,13 @@ body{background:#fff;}
 				<th>内容</th>
 				<th>修改人</th>
 			</tr>
-				<tr>
-					<td>
-						2015-09-16 09:20
-					</td>
-					<td>						
-						张三已刷卡				
-					</td>
-					<td>
-						张三
-					</td>					
-				</tr>
+					<#list (model.modelLogSet)! as list>
+											<tr>
+												<td>${(list.createDate)!}</td>
+												<td>${(list.info)!}</td>
+												<td>${(list.operator)!}</td>
+											</tr>
+					</#list>
 		</tbody>
 			</table>
 														

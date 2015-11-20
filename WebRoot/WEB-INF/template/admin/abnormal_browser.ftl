@@ -86,7 +86,7 @@ body {
 										<div class="col-sm-4">
 											<input type="text" name="adminDeptName"
 												class="input input-sm form-control" value=""
-												id="form-field-icon-1">
+												id="departName">
 										</div>
 									</div>									
 
@@ -140,5 +140,31 @@ body {
 		}
 		return arrayObj;
 	}
+	
+	$("#departName").focus(function(){
+		var offset=$(this).offset();
+		var controlHeight = $(this).height();
+		var left = offset.left+"px";
+		var top = offset.top+controlHeight+"px";
+		layer.open({
+		    type: 2, //page层
+		    area: ['250px', '300px'],
+		    title: false,
+		    shade: 0,
+		    shadeClose:true,
+		    offset:[top,left],
+		    btn:['确定','取消'],
+		    closeBtn:0,
+		    content: 'department!browser.action',
+		    yes:function(index,layero){	
+		    	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+		        var ii= iframeWin.getName();
+		    	$("#departName").val(ii);
+		    	layer.close(index);
+		    }
+		}); 
+	});
+	
+	
 	
 </script>

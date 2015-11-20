@@ -19,7 +19,7 @@ public interface ReworkService extends BaseService<Rework, String> {
 	 */
 	public List<Rework> getReworkList();
 
-	public Pager getReworkPager(Pager pager, HashMap<String, String> map);
+	public Pager getReworkPager(Pager pager, HashMap<String, String> map,String workingbillId);
 	
 	/**
 	 * 标记删除

@@ -1,7 +1,7 @@
-
 jQuery(function($){
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	//var workingBillId=$("#workingBillId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -22,7 +22,7 @@ jQuery(function($){
 	jQuery(grid_selector).jqGrid({
 
 		
-		url:"rework!ajlist.action",
+		url:"rework!ajlist.action?workingBillId="+$("#workingBillId").val(),
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -39,11 +39,13 @@ jQuery(function($){
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '产品编码','产品名称','确认人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
+		colNames:[ '产品编码','产品名称','创建人','确认人','责任人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
 		colModel:[	
 			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'confirmUer',index:'confirmUer', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xcreateUser',index:'createUser.name', width:200,sortable:"true",sorttype:"text"},
+			{name:'xconfirmUser',index:'confirmUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xduty',index:'duty.name', width:100,sortable:"true",sorttype:"text"},
 			{name:'reworkCount',index:'reworkCount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'reworkAmount',index:'reworkAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'defectAmount',index:'defectAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
@@ -75,7 +77,7 @@ jQuery(function($){
 		},
 
 		editurl: "rework!delete.action",//用它做标准删除动作
-		caption: "报工"
+		caption: "返工"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -83,22 +85,22 @@ jQuery(function($){
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
+		   edit: true,
 		   editfunc : function(rowId) {
 			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
 		    	if(ids.length>1){
 		    		alert("只能选择一条记录！");
 		    		return false;
 		    	}
-				window.location.href = "rework!edit.action?id=" + rowId;
+		    	window.location.href = "rework!edit.action?id=" + rowId+"&workingBillId="+$("#workingBillId").val();
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				window.location.href="rework!add.action";
-			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			add: false,
+//			addfunc:function(rowId){
+//				window.location.href="rework!add.action";
+//			},
+//			addicon : 'ace-icon fa fa-plus-circle purple',
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'faultCharacter',index:'faultCharacter', width:160, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			{name:'diagnosis',index:'diagnosis', width:160, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
 			{name:'disposalWorkers',index:'disposalWorkers', width:60, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
-			{name:'state',index:'state', width:60, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}		
+			{name:'state',index:'state', width:60, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}		
 		], 
 
 		viewrecords : true,
@@ -140,6 +140,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 			editfunc:function(rowId){
+				var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
 				location.href="device!edit.action?id="+rowId;
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -210,10 +215,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

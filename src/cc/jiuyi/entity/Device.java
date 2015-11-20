@@ -1,15 +1,22 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * 实体类 - 设备维修单
  */
 @Entity
-@Table(name = "equipmentmaintenance")
 public class Device extends BaseEntity{
 
 	private static final long serialVersionUID = -3212323223153832312L;
@@ -45,6 +52,9 @@ public class Device extends BaseEntity{
 	private String isDel;//是否删除
 	private String state;//状态
 	
+	private Abnormal abnormal;//异常
+	private String stateRemark;//状态描述    
+	private Set<DeviceLog> deviceLogSet;//设备日志
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -208,5 +218,31 @@ public class Device extends BaseEntity{
 	public void setFaultReason(String faultReason) {
 		this.faultReason = faultReason;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Abnormal getAbnormal() {
+		return abnormal;
+	}
+	public void setAbnormal(Abnormal abnormal) {
+		this.abnormal = abnormal;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<DeviceLog> getDeviceLogSet() {
+		return deviceLogSet;
+	}
+	public void setDeviceLogSet(Set<DeviceLog> deviceLogSet) {
+		this.deviceLogSet = deviceLogSet;
+	}
+	
 	
 }

@@ -25,6 +25,4 @@ public interface RepairinDao extends BaseDao<Repairin, String>{
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
-	public void updateState(String[] ids,WorkingBill workingbill,Repairin repairin,Admin admin);
-	public void updateStates(String[] ids,WorkingBill workingbill,Repairin repairin,Admin admin);
 }

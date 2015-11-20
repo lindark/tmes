@@ -87,9 +87,9 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	// ajax列表
 	public String ajlist() {
-		if(pager == null) {
-			pager = new Pager();
-
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		pager = abnormalService.findByPager(pager);
 		

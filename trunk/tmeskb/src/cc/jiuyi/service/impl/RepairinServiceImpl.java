@@ -24,7 +24,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	private RepairinDao repairinDao;
 	@Resource
 	private WorkingBillDao workingBillDao;
-	
+
 	@Resource
 	public void setBaseDao(RepairinDao repairinDao) {
 		super.setBaseDao(repairinDao);
@@ -42,38 +42,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	}
 
 	@Override
-	public void updateState(String[] ids, WorkingBill workingbill,
-			Repairin repairin, Admin admin) {
-		for (int i = 0; i < ids.length; i++) {
-			repairin = repairinDao.load(ids[i]);
-			if (!"1".equals(repairin.getState())) {
-				repairin.setState("1");
-				repairin.setConfirmUser(admin);
-				workingbill
-						.setTotalRepairinAmount(workingbill
-								.getTotalRepairinAmount()
-								+ repairin.getReceiveAmount());
-				repairinDao.update(repairin);
-			}
-		}
+	public void updateState(WorkingBill workingbill, Repairin repairin) {
+		repairinDao.update(repairin);
 		workingBillDao.update(workingbill);
 	}
 
-	@Override
-	public void updateStates(String[] ids, WorkingBill workingbill,
-			Repairin repairin, Admin admin) {
-		for (int i = 0; i < ids.length; i++) {
-			repairin = repairinDao.load(ids[i]);
-			repairin.setConfirmUser(admin);
-			if ("1".equals(repairin.getState())) {
-				workingbill
-				.setTotalRepairinAmount(workingbill
-						.getTotalRepairinAmount()
-						- repairin.getReceiveAmount());
-			}
-			repairin.setState("3");
-			repairinDao.update(repairin);
-		}
-		workingBillDao.update(workingbill);
-	}
 }

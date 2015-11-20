@@ -111,8 +111,19 @@ public class RepairinAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		admin = adminService.getLoginAdmin();
-		repairinService.updateState(ids, workingbill, repairin, admin);
+		for (int i = 0; i < ids.length; i++) {
+			repairin = repairinService.load(ids[i]);
+			if (!CONFIRMED.equals(repairin.getState())) {
+				admin = adminService.getLoginAdmin();
+				repairin.setState(CONFIRMED);
+				repairin.setConfirmUser(admin);
+				workingbill
+						.setTotalRepairinAmount(workingbill
+								.getTotalRepairinAmount()
+								+ repairin.getReceiveAmount());
+				repairinService.updateState(workingbill, repairin);
+			}
+		}
 		redirectionUrl = "repairin!list.action?workingBillId="
 				+ repairin.getWorkingbill().getId();
 		return SUCCESS;
@@ -130,7 +141,18 @@ public class RepairinAction extends BaseAdminAction {
 				}
 			}
 			admin = adminService.getLoginAdmin();
-			repairinService.updateStates(ids, workingbill, repairin, admin);
+			for (int i = 0; i < ids.length; i++) {
+				repairin = repairinService.load(ids[i]);
+				repairin.setConfirmUser(admin);
+				if (CONFIRMED.equals(repairin.getState())) {
+					workingbill
+					.setTotalRepairinAmount(workingbill
+							.getTotalRepairinAmount()
+							- repairin.getReceiveAmount());
+				}
+				repairin.setState(UNDO);
+				repairinService.updateState(workingbill, repairin);
+			}
 			redirectionUrl = "repairin!list.action?workingBillId="
 					+ repairin.getWorkingbill().getId();
 			return SUCCESS;

@@ -134,7 +134,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理措施</div>
 													<div class="profile-info-value">
-													    <textarea name="craft.unusualDescription_process" style="width:600px;">${(craft.unusualDescription_process)!} </textarea>								
+													    <textarea name="craft.treatmentMeasure_make" style="width:600px;">${(craft.treatmentMeasure_make)!} </textarea>								
 													</div>
 												</div>
 											
@@ -144,7 +144,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理结果</div>
 													<div class="profile-info-value">
-													    <textarea name="craft.resultCode_process" style="width:600px;">${(craft.resultCode_process)!} </textarea>				
+													    <textarea name="craft.resultCode_make" style="width:600px;">${(craft.resultCode_make)!} </textarea>				
 													</div>
 												</div>
 											</div>
@@ -161,7 +161,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">工艺处理措施</div>
 													<div class="profile-info-value">
-													  <textarea name="craft.treatmentMeasure_make" style="width:600px;">${(craft.treatmentMeasure_make)!} </textarea>													
+													  <textarea name="craft.treatmentMeasure_process" style="width:600px;">${(craft.treatmentMeasure_process)!} </textarea>													
 													</div>
 												</div>
 												<div class="profile-info-row">
@@ -185,11 +185,13 @@ body {
 												<th>内容</th>
 												<th>修改人</th>
 											</tr>
+											<#list (craft.craftLogSet)! as list>
 											<tr>
-												<td>2015-09-16 09:20</td>
-												<td>张三已刷卡</td>
-												<td>张三</td>
+												<td>${(list.createDate)!}</td>
+												<td>${(list.info)!}</td>
+												<td>${(list.operator)!}</td>
 											</tr>
+											</#list>
 										</tbody>
 									</table>
 

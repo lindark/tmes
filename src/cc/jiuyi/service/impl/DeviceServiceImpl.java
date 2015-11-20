@@ -1,9 +1,12 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ArticleDao;
 import cc.jiuyi.dao.CraftDao;
 import cc.jiuyi.dao.DeviceDao;
@@ -23,5 +26,11 @@ public class DeviceServiceImpl extends BaseServiceImpl<Device, String> implement
 	@Resource
 	public void setBaseDao(DeviceDao deviceDao) {
 		super.setBaseDao(deviceDao);
+	}
+
+	@Override
+	public Pager getDevicePager(Pager pager, HashMap<String, String> map) {
+	
+		return deviceDao.getDevicePager(pager,map);
 	}
 }

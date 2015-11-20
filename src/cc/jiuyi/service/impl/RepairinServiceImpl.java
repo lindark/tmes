@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.dao.RepairinDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.RepairinService;
 
 /**
@@ -37,5 +39,17 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		repairinDao.updateisdel(ids, oper);
+	}
+
+	@Override
+	public void updateState(String[] ids, WorkingBill workingbill,
+			Repairin repairin, Admin admin) {
+		repairinDao.updateState(ids, workingbill, repairin, admin);
+	}
+
+	@Override
+	public void updateStates(String[] ids, WorkingBill workingbill,
+			Repairin repairin, Admin admin) {
+		repairinDao.updateStates(ids, workingbill, repairin, admin);
 	}
 }

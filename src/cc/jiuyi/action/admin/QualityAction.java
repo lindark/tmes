@@ -166,7 +166,6 @@ public class QualityAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Quality persistent = qualityService.load(id);
-        System.out.println("1");
 		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state"});
 		
 		for (int i = 0; i < flowingRectifys.size(); i++) {

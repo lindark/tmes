@@ -3,7 +3,9 @@ package cc.jiuyi.service;
 import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口
@@ -24,4 +26,6 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	public void updateState(String[] ids,WorkingBill workingbill,Repairin repairin,Admin admin);
+	public void updateStates(String[] ids,WorkingBill workingbill,Repairin repairin,Admin admin);
 }

@@ -15,6 +15,7 @@ import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.RepairinService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Service实现类 返修收货
@@ -25,7 +26,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	@Resource
 	private RepairinDao repairinDao;
 	@Resource
-	private WorkingBillDao workingBillDao;
+	private WorkingBillService workingbillService;
 	@Resource
 	private AdminService adminservice;
 
@@ -51,19 +52,22 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	 */
 	public synchronized void updateState(List<Repairin> list,String statu,String workingbillid) {
 		Admin admin = adminservice.getLoginAdmin();
-		WorkingBill workingbill = workingBillDao.get(workingbillid);
+		WorkingBill workingbill = workingbillService.get(workingbillid);
 		Integer totalamount = workingbill.getTotalRepairinAmount();
 		for(int i=0;i<list.size();i++){
 			Repairin repairin = list.get(i);
-			totalamount =repairin.getReceiveAmount() + totalamount;
+			if(statu.equals("1")){
+				totalamount =repairin.getReceiveAmount() + totalamount;				
+			}
+			if(statu.equals("3")&&repairin.getState().equals("1")){
+				totalamount -= repairin.getReceiveAmount();
+			}
 			repairin.setConfirmUser(admin);
+			repairin.setState(statu);
 			repairinDao.update(repairin);
 		}
-		if(1==1){
-			throw new RuntimeException();
-		}
 		workingbill.setTotalRepairinAmount(totalamount);
-		workingBillDao.update(workingbill);
+		workingbillService.update(workingbill);
 	}
 
 }

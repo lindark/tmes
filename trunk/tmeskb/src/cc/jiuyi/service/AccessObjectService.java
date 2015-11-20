@@ -7,6 +7,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Role;
 
 /**
  * Service接口 - 权限对象
@@ -24,5 +25,5 @@ public interface AccessObjectService extends BaseService<AccessObject, String> {
 	 * 根据Resource的 id集合 获取资源对象
 	 * @return
 	 */
-	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey);
+	public AccessObject getAccessObjectList(String accObjKey,List<Role> roleList);
 }

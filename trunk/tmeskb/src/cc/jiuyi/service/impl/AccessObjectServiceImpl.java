@@ -14,12 +14,14 @@ import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AdminService;
 
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springmodules.cache.annotations.Cacheable;
 
 /**
  * Service实现类 - 权限对象
@@ -42,9 +44,14 @@ public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, Strin
 	}
 
 	@Override
-	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey) {
-		// TODO Auto-generated method stub
-		return accessobjectdao.findResourceList(resourceids,accObjKey);
+	@Cacheable(modelId="caching")
+	public AccessObject getAccessObjectList(String accObjKey,List<Role> rolelist){
+		Object[] obj = new Object[rolelist.size()];
+		for(int i=0;i<rolelist.size();i++){
+			Role role = rolelist.get(i);
+			obj[i] = role.getId();
+		}
+		return accessobjectdao.getAccessObjectList(accObjKey,obj);
 	}
 
 }

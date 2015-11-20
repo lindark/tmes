@@ -30,9 +30,9 @@ public class AccessObjectDaoImpl extends BaseDaoImpl<AccessObject, String> imple
 	}
 
 	@Override
-	public List<AccessObject> findResourceList(Object[] resourceids,String accObjKey) {
-		String hql="select a from AccessObject a join a.accessResourceSet b where  a.accObjkey = ? and b.id in (:list) ";
-		return getSession().createQuery(hql).setParameter(0, accObjKey).setParameterList("list", resourceids).list();
+	public AccessObject getAccessObjectList(String accObjKey,Object[] rolelist) { //setCacheable  使用查询缓存
+		String hql="select a from AccessObject a join a.accessResourceSet b where  a.accObjkey = ? and b.role.id in(:list)";
+		return (AccessObject) getSession().createQuery(hql).setParameter(0, accObjKey).setParameterList("list", rolelist).uniqueResult();
 	}
 	
 	

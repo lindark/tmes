@@ -55,7 +55,7 @@
 								门户
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									班组门户 <@ww.access accobjkey="jiaojie"/>
+									班组门户
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -187,97 +187,21 @@
 												<div class="widget-main">
 													
 														<div class="row">
-															 ${(btnhtml)! } 
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="handoverprocess">
-																	<i class="ace-icon fa fa-fire bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">交接</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="pick">
-																	<i class="ace-icon fa fa-credit-card bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">领退料</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="dump">
-																	<i class="ace-icon fa fa-credit-card bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">转储确认</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-inbox bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">报废</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-exchange bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">返工</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="repair">
-																	<i class="ace-icon fa fa-cog bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">返修</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="repairin">
-																	<i class="ace-icon fa fa-glass bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">返修收货</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-flag bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">抽检</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-leaf bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">巡检</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-star-half-o bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">半成品巡检</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="qResponse">
-																	<i class="ace-icon fa fa-volume-up bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">快速响应</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="dailywork">
-																	<i class="ace-icon fa fa-share-alt bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">报工</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="storage" >
-																	<i class="ace-icon fa fa-tasks bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">入库</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block">
-																	<i class="ace-icon fa fa-users bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">考勤</span>
-																</button>
-															</div>
-															<div class="col-md-3 col-sm-4" style="padding:2px;">
-																<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="carton">
-																	<i class="ace-icon fa fa-file-archive-o bigger-110"></i>
-																	<span class="bigger-110 no-text-shadow">纸箱收货</span>
-																</button>
-															</div>
+															  <@ww.access accobjkey="handover"/> <!--交接 -->
+															  <@ww.access accobjkey="getmaterial"/><!--领退料 -->
+															  <@ww.access accobjkey="dumpconfirm"/><!--转储确认 -->
+															  <@ww.access accobjkey="scrap"/><!--报废 -->
+															  <@ww.access accobjkey="rework"/><!--返工 -->
+															  <@ww.access accobjkey="repair"/><!--返修 -->
+															  <@ww.access accobjkey="repairgoods"/><!--返修收货 -->
+															  <@ww.access accobjkey="sampling"/><!--抽检 -->
+															  <@ww.access accobjkey="inspection"/><!--巡检 -->
+															  <@ww.access accobjkey="halfinspection"/><!--半成品巡检 -->
+															  <@ww.access accobjkey="quickresponse"/><!--快速响应 -->
+															  <@ww.access accobjkey="sttm"/><!--报工 -->
+															  <@ww.access accobjkey="putstorage"/><!--入库 -->
+															  <@ww.access accobjkey="attendance"/><!--考勤 -->
+															  <@ww.access accobjkey="cartonreceiving"/><!--纸箱收货 -->
 														</div>
 														
 														

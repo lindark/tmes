@@ -13,8 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
@@ -55,6 +53,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<DailyWork> dailyWorkConfirmUser;// 报工确认人
 	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
 	private Set<Repairin> repairinConfirmUser;//返修收货确认人
+	
+	private Set<Repairin> repairinCreateUser;//返修收货创建人
 
 	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkConfirmUser() {
@@ -84,13 +84,22 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.enteringwareHouseConfirmUser = enteringwareHouseConfirmUser;
 	}
 
-	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<Repairin> getRepairinConfirmUser() {
 		return repairinConfirmUser;
 	}
 
 	public void setRepairinConfirmUser(Set<Repairin> repairinConfirmUser) {
 		this.repairinConfirmUser = repairinConfirmUser;
+	}
+	
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Repairin> getRepairinCreateUser() {
+		return repairinCreateUser;
+	}
+
+	public void setRepairinCreateUser(Set<Repairin> repairinCreateUser) {
+		this.repairinCreateUser = repairinCreateUser;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

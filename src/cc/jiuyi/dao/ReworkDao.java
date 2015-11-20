@@ -20,7 +20,7 @@ public interface ReworkDao extends BaseDao<Rework, String> {
 	public List<Rework> getReworkList();
 	
 	
-	public Pager getReworkPager(Pager pager,HashMap<String,String> map);
+	public Pager getReworkPager(Pager pager,HashMap<String,String> map,String workingbillId);
 	
 
 	/**

@@ -62,17 +62,15 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '时间','产品编号','产品名称', '种类', '班组','故障原因','维修人','状态'],
+		colNames:[ '时间','产品名称', '班组','故障原因','维修人','状态'],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productCode',index:'productCode',editable:true},
 			{name:'productName',index:'productName',editable: true},
-			{name:'type',index:'type', width:120, editable: true},
 			{name:'teamId',index:'teamId', width:120, editable: true},
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
 			{name:'fixer',index:'fixer',sortable:false,editable: true},
-			{name:'state',index:'state',sortable:false,editable: true,search:false}		
+			{name:'stateRemark',index:'state',sortable:false,editable: true,search:false}		
 		], 
 
 		viewrecords : true,

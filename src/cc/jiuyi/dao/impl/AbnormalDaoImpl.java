@@ -23,7 +23,7 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
-		//detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 }

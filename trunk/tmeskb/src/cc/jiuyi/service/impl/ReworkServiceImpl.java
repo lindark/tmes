@@ -52,9 +52,9 @@ public class ReworkServiceImpl extends BaseServiceImpl<Rework, String>implements
 	}
 
 	@Override
-	public Pager getReworkPager(Pager pager, HashMap<String, String> map) {
+	public Pager getReworkPager(Pager pager, HashMap<String, String> map,String workingbillId) {
 		// TODO Auto-generated method stub
-		return reworkDao.getReworkPager(pager, map);
+		return reworkDao.getReworkPager(pager, map,workingbillId);
 	}
 
 	@Override

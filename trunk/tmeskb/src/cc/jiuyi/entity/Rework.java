@@ -34,18 +34,28 @@ public class Rework extends BaseEntity{
 	private String rectify;//整改方案
 	private String isCompelete;//是否完工
 	private Timestamp completeDate;//完工时间
-	private String duty;//责任人
-	private String confirmUer;//确认人
     private String state;//返工状态
     private String isDel;//是否删除
+	private Admin duty;//责任人
+	private Admin confirmUser;//确认人
+    private Admin createUser;//创建人
+    private Admin modifyUser;//修改人
+    
+    private String xduty;//责任人名
+    private String xcreateUser;//创建人名
+    private String xconfirmUser;//确认人名
+    private String xmodifyUser;//修改人名
     
     
     private String stateRemark;//返工状态描述
     private String isQualifieds;//是否合格描述
     private String isCompeletes;//是否完工描述
+   
   
     private WorkingBill workingbill;//随工单
-    private Admin admin;
+    
+    private String productsCode;//产品编码
+    private String productsName;//产品名称
     
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,15 +65,6 @@ public class Rework extends BaseEntity{
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
 	}
     
 	public Integer getReworkCount() {
@@ -114,22 +115,16 @@ public class Rework extends BaseEntity{
 	public void setCompleteDate(Timestamp completeDate) {
 		this.completeDate = completeDate;
 	}
-	public String getDuty() {
-		return duty;
-	}
-	public void setDuty(String duty) {
-		this.duty = duty;
-	}
-	public String getConfirmUer() {
-		return confirmUer;
-	}
-	public void setConfirmUer(String confirmUer) {
-		this.confirmUer = confirmUer;
-	}
+	
+
+
 	public String getState() {
 		return state;
 	}
 	public void setState(String state) {
+		if(state==null){
+			state="1";
+		}
 		this.state = state;
 	}
 	public String getIsDel() {
@@ -165,6 +160,91 @@ public class Rework extends BaseEntity{
 	public void setIsCompeletes(String isCompeletes) {
 		this.isCompeletes = isCompeletes;
 	}
+
+	@Transient
+	public String getProductsCode() {
+		return productsCode;
+	}
+
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+
+	@Transient
+	public String getProductsName() {
+		return productsName;
+	}
+
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+	@Transient
+	public String getXduty() {
+		return xduty;
+	}
+
+	public void setXduty(String xduty) {
+		this.xduty = xduty;
+	}
+	@Transient
+	public String getXcreateUser() {
+		return xcreateUser;
+	}
+
+	public void setXcreateUser(String xcreateUser) {
+		this.xcreateUser = xcreateUser;
+	}
+	@Transient
+	public String getXconfirmUser() {
+		return xconfirmUser;
+	}
+
+	public void setXconfirmUser(String xconfirmUser) {
+		this.xconfirmUser = xconfirmUser;
+	}
+	@Transient
+	public String getXmodifyUser() {
+		return xmodifyUser;
+	}
+
+	public void setXmodifyUser(String xmodifyUser) {
+		this.xmodifyUser = xmodifyUser;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getDuty() {
+		return duty;
+	}
+
+	public void setDuty(Admin duty) {
+		this.duty = duty;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Admin confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Admin createUser) {
+		this.createUser = createUser;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(Admin modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
+//------------
 
 
     

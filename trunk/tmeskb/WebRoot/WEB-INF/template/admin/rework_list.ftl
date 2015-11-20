@@ -136,12 +136,7 @@
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
-										<span class="bigger-110 no-text-shadow">刷卡确认</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
+									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoRework">
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
 								</div>
@@ -171,6 +166,9 @@
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
 	<!-- ./ add by welson 0728 -->
+	<div style="display:none">
+		<input type="hidden" id="workingBillId" value="${workingbill.id}"/>
+	</div>
 
 <!-- 弹出层 -->
 <div id="dialog-message">
@@ -202,28 +200,61 @@
 		
 		$("#addRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="rework!add.action?workingBillId="+workingBillId;
+			window.location.href="rework!add.action?workingBillId="+$("#workingBillId").val();
 			
 		});
-		$("#confirmCarton").click(function(){
+		
+		
+		$("#completeRework").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			//alert(id);
+			if(id.length>1){
+	    		alert("只能选择一条返工记录！");
+	    		return false;
+	    	}if(id==""){
+	    		alert("至少选择一条返工记录");
+	    		return false;
+	    	}else{
+	    		window.location.href = "rework!compelete.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
+	    	}	
+		});
+		
+		
+		$("#checkRework").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			//alert(id);
+			if(id.length>1){
+	    		alert("只能选择一条返工记录！");
+	    		return false;
+	    	}if(id==""){
+	    		alert("至少选择一条返工记录");
+	    		return false;
+	    	}else{
+	    		window.location.href = "rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
+	    	}	
+		});
+		
+		$("#confirmRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条返工记录！");
 			}else{
-				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
 			}
 			
 		});
-		$("#undoCarton").click(function(){
+		$("#undoRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条返工记录！");
 			}else{
-				window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
+				window.location.href="carton!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
 			}
 			
 		});

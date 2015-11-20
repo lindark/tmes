@@ -57,6 +57,48 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private Set<Repairin> repairinCreateUser;//返修收货创建人
 
+	private Set<Rework> duty;//责任人名
+	private Set<Rework> confirmUser;//创建人名
+	private Set<Rework> createUser;//确认人名
+	private Set<Rework> modifyUser;//修改人名
+	
+	//责任人名
+	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
+	public Set<Rework> getDuty() {
+		return duty;
+	}
+
+	public void setDuty(Set<Rework> duty) {
+		this.duty = duty;
+	}
+	//创建人名
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Rework> getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Set<Rework> confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+	//确认人名
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Rework> getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Set<Rework> createUser) {
+		this.createUser = createUser;
+	}
+	//修改人名
+	@OneToMany(mappedBy = "modifyUser", fetch = FetchType.LAZY)
+	public Set<Rework> getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(Set<Rework> modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+	
 	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkConfirmUser() {
 		return dailyWorkConfirmUser;

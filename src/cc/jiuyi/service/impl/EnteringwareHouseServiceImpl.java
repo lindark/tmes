@@ -58,4 +58,9 @@ public class EnteringwareHouseServiceImpl extends
 				convertUnit);
 	}
 
+	@Override
+	public List<EnteringwareHouse> getByBill(String workingBillId) {
+		return enteringwareHouseDao.getByBill(workingBillId);
+	}
+
 }

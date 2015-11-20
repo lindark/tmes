@@ -165,7 +165,6 @@ $(function(){
         	if(ii==1){
         		break;
         	}
-        	size= size+1;
         	var html ="<tr>";
 	        	html+="<td>";
 	        	html+="<input type='hidden' name='adminSet["+size+"].id' value='"+arrayObj[i].id+"'/>";
@@ -181,6 +180,7 @@ $(function(){
 	        	html+="</td>";
         	html +="</tr>";
         	$("#sample-table-1 tbody").append(html);
+        	size=size+1;
         }
         layer.close(index);       
 	

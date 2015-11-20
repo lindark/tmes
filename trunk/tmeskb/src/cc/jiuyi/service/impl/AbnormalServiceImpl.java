@@ -28,9 +28,9 @@ public class AbnormalServiceImpl extends BaseServiceImpl<Abnormal, String> imple
 	}
 
 	@Override
-	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map) {
+	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map,String id) {
 	
-		return abnormalDao.getAbnormalPager(pager, map);
+		return abnormalDao.getAbnormalPager(pager, map,id);
 	}
 	
 	@Override

@@ -50,33 +50,10 @@
 					
 
 					<div class="page-content-area">
-						<div class="page-header">
-							<h1>
-								门户
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									班组门户
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
 
 						<div class="row">
 							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								<div class="alert alert-block alert-success">
-									<button type="button" class="close" data-dismiss="alert">
-										<i class="ace-icon fa fa-times"></i>
-									</button>
-
-									<i class="ace-icon fa fa-check green"></i>
-
-									欢迎使用
-									<strong class="green">
-										${systemConfig.systemDescription}
-										<small>(${systemConfig.systemVersion})</small>
-									</strong>,
-	最好用的协同管理平台.全新的用户体验。
-								</div>
+								
 								<div class="row">
 								
 									<div class="col-xs-12 col-sm-6 widget-container-col">

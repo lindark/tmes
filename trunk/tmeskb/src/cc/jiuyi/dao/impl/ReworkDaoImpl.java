@@ -42,26 +42,36 @@ public class ReworkDaoImpl extends BaseDaoImpl<Rework, String> implements Rework
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getReworkPager(Pager pager, HashMap<String, String> map) {
+	public Pager getReworkPager(Pager pager, HashMap<String, String> map,String workingbillId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Rework.class);
-		pagerSqlByjqGrid(pager,detachedCriteria);
-		if (map.size() > 0) {		
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}		
+		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
+		{
+			detachedCriteria.createAlias("workingbill", "workingbill");
+		}
+		//责任人
+		if(!this.existAlias(detachedCriteria, "duty", "duty"))
+		{
+			detachedCriteria.createAlias("duty", "duty");
+		}
+		//确认人
+		/*if(!this.existAlias(detachedCriteria, "confirmUser", "confirmUser"))
+		{
+			detachedCriteria.createAlias("confirmUser", "confirmUser");
+		}*/
+		//创建人
+		if(!this.existAlias(detachedCriteria, "createUser", "createUser"))
+		{
+			detachedCriteria.createAlias("createUser", "createUser");
+		}
+		//修改人
+/*		if(!this.existAlias(detachedCriteria, "modifyUser", "modifyUser"))
+		{
+			detachedCriteria.createAlias("modifyUser", "modifyUser");
+		}*/
+		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("workingbill.id", workingbillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

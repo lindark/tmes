@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UnusualLog extends BaseEntity {
 
-	private static final long serialVersionUID = -4294124902010236826L;
+	private static final long serialVersionUID = -4292124902020236826L;
 	private String operator;// 操作员
 	private String info;// 日志信息
 	private Quality quality;//质量问题

@@ -306,22 +306,25 @@ public class AdminAction extends BaseAdminAction {
 			pager = adminService.getAdminPager(pager,map,adminDeptName);
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
-				Admin admin = (Admin) pagerlist.get(i);
-				admin.setRoleSet(null);
-				admin.setAuthorities(null);
+				Admin admin = (Admin) pagerlist.get(i);				
 				admin.setDepartName(admin.getDepartment().getDeptName());
+				/*admin.setRoleSet(null);
+				admin.setAuthorities(null);
 				admin.setDepartment(null);
 				admin.setAbnormalSet(null);
 				admin.setCartonConfirmUser(null);
 				admin.setDailyWorkConfirmUser(null);
 				admin.setEnteringwareHouseConfirmUser(null);
-				admin.setRepairinConfirmUser(null);
+				admin.setRepairinConfirmUser(null);*/
 				pagerlist.set(i, admin);
 				//pagerlist.add(admin);
 			}
 			
 			pager.setList(pagerlist);
-			JSONArray jsonArray = JSONArray.fromObject(pager);
+			JsonConfig jsonConfig=new JsonConfig(); 
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段  
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			return ajaxJson(jsonArray.get(0).toString());
 		}
 	

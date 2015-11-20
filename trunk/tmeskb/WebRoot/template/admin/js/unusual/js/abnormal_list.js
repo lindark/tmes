@@ -56,9 +56,13 @@ jQuery(function($) {
 	          records:"totalCount"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间', '消息', '发起人','应答人','状态',""],
+		colNames:[ '呼叫时间','应答时间','处理时间', '消息', '发起人','应答人','状态',"zt"],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
@@ -67,8 +71,8 @@ jQuery(function($) {
 			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true,search:false},
-			{name:'state',index:'state', width:60,editable: true,hidden:true}
+			{name:'stateRemark',index:'state', width:60,editable: true},
+			{name:'state',index:'state', width:60,editable: true}
 			
 		], 
 

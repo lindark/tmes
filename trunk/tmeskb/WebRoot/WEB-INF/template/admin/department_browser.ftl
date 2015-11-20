@@ -111,4 +111,11 @@ function onClick(event, treeId, treeNode, clickFlag) {
 	src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
 </html>
 
-
+<script>
+function getName(){
+	var zTree = $.fn.zTree.getZTreeObj("ingageTree");
+	var nodes = zTree.getSelectedNodes();
+	var departName = nodes[0].name;
+	return departName;
+}
+</script>

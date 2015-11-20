@@ -18,11 +18,14 @@ import cc.jiuyi.entity.Factory;
 @Repository
 public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements AbnormalDao {
 
-	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map) {
+	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map,String id) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
+		if(!super.existAlias(detachedCriteria, "admin", "admin"))
+			detachedCriteria.createAlias("admin", "admin");//表名，别名
+		detachedCriteria.add(Restrictions.eq("admin.id", id));//当前登陆人员
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

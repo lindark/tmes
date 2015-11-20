@@ -57,7 +57,7 @@ body{background:#fff;}
 								
 		<form id="inputForm" class="validate" action="<#if isAdd??>device!save.action<#else>device!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
-			
+			<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -198,33 +198,12 @@ body{background:#fff;}
 								                  <option value="1">操作不当</option>
 								                  <option value="2">点检维护不当</option>
 						                      </select>												
-										</div>											
-									</div>	
-									
-									<div class="profile-info-row">
-									    <div class="profile-info-name">故障原因</div>
+										</div>
+										<div class="profile-info-name">故障原因</div>
 									    <div class="profile-info-value">
 											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
-										</div>											
-									</div>	
-									<div class="profile-info-row">
-									    <div class="profile-info-name">处理过程</div>
-									    <div class="profile-info-value">
-											<input type="text" name="device.process" value="${(device.process)!}" class=" input input-sm  formText {required: true}" />
-										</div>											
-									</div>	
-									<div class="profile-info-row">
-									    <div class="profile-info-name">原因分析</div>
-									    <div class="profile-info-value">
-											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
-										</div>											
-									</div>	
-									<div class="profile-info-row">
-									    <div class="profile-info-name">预防对策</div>
-									    <div class="profile-info-value">
-											<input type="text" name="device.faultReason" value="${(device.faultReason)!}" class=" input input-sm  formText {required: true}" />
-										</div>											
-									</div>	
+										</div>												
+									</div>																												
 									
 									<div class="profile-info-row">
 									    <div class="profile-info-name">接到电话号码</div>
@@ -249,7 +228,26 @@ body{background:#fff;}
 								                  <option value="2">满意</option>
 						                     </select>													
 										</div>
-									</div>												
+									</div>	
+									<!-- 
+									<div class="profile-info-row">
+									    <div class="profile-info-name">处理过程</div>
+									    <div class="profile-info-value">
+											<textarea name="device.process" style="width:600px;">${(device.process)!} </textarea>							
+										</div>											
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">原因分析</div>
+									    <div class="profile-info-value">
+									    <textarea name="device.causeAnalysis" style="width:600px;">${(device.causeAnalysis)!} </textarea>											
+										</div>											
+									</div>	
+									<div class="profile-info-row">
+									    <div class="profile-info-name">预防对策</div>
+									    <div class="profile-info-value">
+									        <textarea name="device.preventionCountermeasures" style="width:600px;">${(device.preventionCountermeasures)!} </textarea>											
+										</div>											
+									</div>	 -->											
 							
 						</div>
 						
@@ -264,17 +262,13 @@ body{background:#fff;}
 				<th>内容</th>
 				<th>修改人</th>
 			</tr>
-				<tr>
-					<td>
-						2015-09-16 09:20
-					</td>
-					<td>						
-						张三已刷卡				
-					</td>
-					<td>
-						张三
-					</td>					
-				</tr>
+			<#list (device.deviceLogSet)! as list>
+											<tr>
+												<td>${(list.createDate)!}</td>
+												<td>${(list.info)!}</td>
+												<td>${(list.operator)!}</td>
+											</tr>
+											</#list>
 		</tbody>
 			</table>
 														

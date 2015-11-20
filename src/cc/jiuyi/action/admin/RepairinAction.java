@@ -91,7 +91,6 @@ public class RepairinAction extends BaseAdminAction {
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);
-		admin = adminService.loadLoginAdmin();
 		redirectionUrl = "repairin!list.action?workingBillId="
 				+ repairin.getWorkingbill().getId();
 		return SUCCESS;

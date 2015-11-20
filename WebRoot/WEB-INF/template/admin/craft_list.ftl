@@ -70,25 +70,15 @@
 								<form class="form-horizontal" id="searchform" action="craft!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<!-- <label class="col-sm-2" style="text-align:right">状态:</label>
-										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div> -->
+										
 										<label class="col-sm-2" style="text-align:right">班组:</label>
 										<div class="col-sm-4">
-											<input type="text" name="classes" class="input input-sm form-control" value="" id="form-field-icon-2">
+											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>
-										<label class="col-sm-1" style="text-align:right">日期:</label>
+										<label class="col-sm-2" style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>									
+											<input type="text" name="productName" class="input input-sm form-control" value="" id="form-field-icon-2">
+										</div>						
 									</div>
 									
 										<div class="form-group" style="text-align:center">

@@ -26,6 +26,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.impl.CriteriaImpl;
 import org.hibernate.impl.CriteriaImpl.Subcriteria;
+import org.springframework.util.StringUtils;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -192,40 +193,26 @@ public class ThinkWayUtil {
 	     * @param bean 
 	     * @return 
 	     */  
-	    public static String[] getExcludeFields(Object bean) {  
+	    public static String[] getExcludeFields(Class clazz) {  
 	        Set<String> list = new HashSet<String>();  
 	        list.add("handler");  
 	        list.add("hibernateLazyInitializer");  
-	        for (Class<?> superClass = bean.getClass(); superClass != Object.class; superClass = superClass  
-	                .getSuperclass()) {  
-	  
-	            Method[] method = superClass.getMethods();//通过反射获取所有的方法
+	          
+	            Method[] method = clazz.getMethods();//通过反射获取所有的方法
 	            
 	            for(Method m : method){
 	            	 if (m.getAnnotation(OneToOne.class) != null  
 	                        || m.getAnnotation(OneToMany.class) != null  
 	                        || m.getAnnotation(ManyToOne.class) != null  
 	                        || m.getAnnotation(ManyToMany.class) != null) {  
-	                    //list.add(m.get);  
+	            		String name= m.getName().replace("get", "");
+	            		String oldfirst =name.substring(0, 1);
+	            		String newfirst = oldfirst.toLowerCase();//转换为小写
+	            		name = name.replace(oldfirst, newfirst);
+	                    list.add(name);  
 	                } 
 	            }
-	            
-//	            for (Field field : fields) {
-//	            	Annotation[] annottion = field.getAnnotations();
-//	            	for(int i=0;i<annottion.length;i++){
-//	            		System.out.println(annottion[i]);
-//	            	}
-//	            	
-//	            	
-////	            	System.out.println(field.getAnnotation(ManyToMany.class));
-////	                if (field.getAnnotation(OneToOne.class) != null  
-////	                        || field.getAnnotation(OneToMany.class) != null  
-////	                        || field.getAnnotation(ManyToOne.class) != null  
-////	                        || field.getAnnotation(ManyToMany.class) != null) {  
-////	                    list.add(field.getName());  
-////	                } 
-//	            }  
-	        }  
+
 	        return list.toArray(new String[list.size()]);  
 	    }  
 	    

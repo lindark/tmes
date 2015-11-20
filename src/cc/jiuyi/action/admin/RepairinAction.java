@@ -77,8 +77,7 @@ public class RepairinAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
-		repairin.setAdmin(admin);
-		repairin.setCreateUser(admin.getId());
+		repairin.setCreateUser(admin);
 		repairinService.save(repairin);
 		redirectionUrl = "repairin!list.action?workingBillId="
 				+ repairin.getWorkingbill().getId();
@@ -93,7 +92,6 @@ public class RepairinAction extends BaseAdminAction {
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);
 		admin = adminService.loadLoginAdmin();
-		repairin.setAdmin(admin);
 		redirectionUrl = "repairin!list.action?workingBillId="
 				+ repairin.getWorkingbill().getId();
 		return SUCCESS;
@@ -119,8 +117,7 @@ public class RepairinAction extends BaseAdminAction {
 			if (!CONFIRMED.equals(repairin.getState())) {
 				repairin.setState(CONFIRMED);
 				admin = adminService.getLoginAdmin();
-				repairin.setAdmin(admin);
-				repairin.setConfirmUser(admin.getId());
+				repairin.setConfirmUser(admin);
 				workingbill
 						.setTotalRepairinAmount(workingbill
 								.getTotalRepairinAmount()
@@ -148,8 +145,7 @@ public class RepairinAction extends BaseAdminAction {
 			for (int i = 0; i < ids.length; i++) {
 				repairin = repairinService.load(ids[i]);
 				admin = adminService.getLoginAdmin();
-				repairin.setAdmin(admin);
-				repairin.setConfirmUser(admin.getId());
+				repairin.setConfirmUser(admin);
 				if (CONFIRMED.equals(repairin.getState())) {
 					workingbill
 					.setTotalRepairinAmount(workingbill
@@ -197,13 +193,12 @@ public class RepairinAction extends BaseAdminAction {
 				repairin.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "repairinState", repairin.getState()));
 				if (repairin.getConfirmUser() != null) {
-					Admin admin = adminService.load(repairin.getConfirmUser());
-					repairin.setAdminName(admin.getName());
+					repairin.setAdminName(repairin.getConfirmUser().getName());
 				}
-				admin = adminService.load(repairin.getCreateUser());
-				repairin.setCreateName(admin.getName());
+				repairin.setCreateName(repairin.getCreateUser().getName());
 				repairin.setWorkingbill(null);
-				repairin.setAdmin(null);
+				repairin.setConfirmUser(null);
+				repairin.setCreateUser(null);
 				lst.add(repairin);
 			}
 			pager.setList(lst);

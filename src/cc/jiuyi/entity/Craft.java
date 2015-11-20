@@ -1,9 +1,16 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * 实体类 - 工艺维修单
@@ -33,6 +40,9 @@ public class Craft extends BaseEntity{
 	private String isDel;//是否删除
 	private String state;//
 	private Abnormal abnormal;//异常
+	
+	private String stateRemark;//状态描述 
+	private Set<CraftLog> craftLogSet;//异常日志
 	
 	public String getCabinetCode() {
 		return cabinetCode;
@@ -133,5 +143,22 @@ public class Craft extends BaseEntity{
 		this.abnormal = abnormal;
 	}
 	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "craft")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<CraftLog> getCraftLogSet() {
+		return craftLogSet;
+	}
+	public void setCraftLogSet(Set<CraftLog> craftLogSet) {
+		this.craftLogSet = craftLogSet;
+	}
 	
 }

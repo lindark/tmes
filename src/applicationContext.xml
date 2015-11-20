@@ -68,11 +68,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<!-- 格式化输出到控制台的SQL语句 -->
 				hibernate.format_sql=${hibernate.format_sql}
 				<!-- 是否开启二级缓存 -->
-				hibernate.cache.use_second_level_cache=false
+				hibernate.cache.use_second_level_cache=true
 				<!-- 配置二级缓存产品 -->
 				hibernate.cache.provider_class=org.hibernate.cache.OSCacheProvider
 				<!-- 是否开启查询缓存 -->
-				hibernate.cache.use_query_cache=false
+				hibernate.cache.use_query_cache=true
 				<!-- 数据库批量查询数 -->
 				hibernate.jdbc.fetch_size=50
 				<!-- 数据库批量更新数 -->
@@ -123,7 +123,6 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Factory</value>
 				<value>cc.jiuyi.entity.WorkShop</value>
 				<value>cc.jiuyi.entity.Callreason</value>
-				<value>cc.jiuyi.entity.Carton</value>
 				<value>cc.jiuyi.entity.Material</value>
 				<value>cc.jiuyi.entity.Cause</value>
 				<value>cc.jiuyi.entity.UnitConversion</value>

@@ -100,6 +100,7 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setModelSet(null);
 			abnormal.setQualitySet(null);
 			abnormal.setAdminSet(null);
+			abnormal.setDeviceSet(null);
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
 			if(abnormal.getMessage().length()>36){

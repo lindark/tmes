@@ -1,11 +1,17 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * 实体类 - 工模维修单
@@ -39,6 +45,9 @@ public class Model extends BaseEntity{
 	private String isDel;//是否删除
 	private String state;
 	private Abnormal abnormal;//异常
+	
+	private String stateRemark;//状态描述 
+	private Set<ModelLog> modelLogSet;//异常日志
 	
 	public String getProductCode() {
 		return productCode;
@@ -167,6 +176,23 @@ public class Model extends BaseEntity{
 	}
 	public void setAbnormal(Abnormal abnormal) {
 		this.abnormal = abnormal;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<ModelLog> getModelLogSet() {
+		return modelLogSet;
+	}
+	public void setModelLogSet(Set<ModelLog> modelLogSet) {
+		this.modelLogSet = modelLogSet;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
 	}
 	
 	

@@ -251,20 +251,13 @@ public class AdminAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
 			Admin admin  = (Admin)pagerlist.get(i);
-			//String[] s = ThinkWayUtil.getExcludeFields(admin);
-			admin.setRoleSet(null);
-			admin.setAuthorities(null);
 			admin.setDepartName(admin.getDepartment().getDeptName());
-			admin.setDepartment(null);
-			admin.setAbnormalSet(null);
-			admin.setDailyWorkConfirmUser(null);
-			admin.setCartonConfirmUser(null);
-			//admin.setTeam(null);
 			pagerlist.set(i, admin);
 		}
 		pager.setList(pagerlist);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());

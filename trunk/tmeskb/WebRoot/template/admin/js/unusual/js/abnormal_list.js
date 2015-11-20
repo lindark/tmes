@@ -67,9 +67,9 @@ jQuery(function($) {
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'handlingTime',index:'handlingTime', width:160,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'handlingTime',index:'handlingTime', width:160,editable: true},
 			{name:'callReason',index:'callReason', width:160, editable: true},
-			{name:'originator',index:'originator', width:60, editable: true},
+			{name:'originator',index:'iniitiator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
 			{name:'stateRemark',index:'state', width:60,editable: true},
 			{name:'state',index:'state', width:60,editable: true}

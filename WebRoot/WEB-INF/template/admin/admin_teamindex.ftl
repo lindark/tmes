@@ -58,56 +58,20 @@
 								
 									<div class="col-xs-12 col-sm-6 widget-container-col">
 										<!-- #section:custom/widget-box -->
-										<div class="widget-box">
+										<div class="widget-box transparent">
 											<div class="widget-header">
-												<h5 class="widget-title">当前班组信息</h5>
-
-												<!-- #section:custom/widget-box.toolbar -->
-												<div class="widget-toolbar">
-													<div class="widget-menu">
-														<a href="#" data-action="settings" data-toggle="dropdown">
-															<i class="ace-icon fa fa-bars"></i>
-														</a>
-
-														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-															<li>
-																<a data-toggle="tab" href="#dropdown1">Option#1</a>
-															</li>
-
-															<li>
-																<a data-toggle="tab" href="#dropdown2">Option#2</a>
-															</li>
-														</ul>
-													</div>
-
-													<a href="#" data-action="fullscreen" class="orange2">
-														<i class="ace-icon fa fa-expand"></i>
-													</a>
-
-													<a href="#" data-action="reload">
-														<i class="ace-icon fa fa-refresh"></i>
-													</a>
-
+												<h4 class="widget-title lighter">班组信息</h4>
+												<div class="widget-toolbar no-border">
 													<a href="#" data-action="collapse">
 														<i class="ace-icon fa fa-chevron-up"></i>
 													</a>
 
-													<a href="#" data-action="close">
-														<i class="ace-icon fa fa-times"></i>
-													</a>
 												</div>
-
-												<!-- /section:custom/widget-box.toolbar -->
 											</div>
 
 											<div class="widget-body">
-												<div class="widget-main">
-													<p class="alert alert-info">
-														<div class="hr hr2"></div>
-													</p>
-													<p class="alert alert-success">
-														空空空
-													</p>
+												<div class="widget-main padding-6 no-padding-left no-padding-right">
+													 
 												</div>
 											</div>
 										</div>
@@ -117,77 +81,38 @@
 									
 									<!--按钮组start-->
 									<div class="col-xs-12 col-sm-6 widget-container-col">
-										<!-- #section:custom/widget-box -->
-										<div class="widget-box">
+										<div class="widget-box transparent">
 											<div class="widget-header">
-												<h5 class="widget-title">按钮组</h5>
-
-												<!-- #section:custom/widget-box.toolbar -->
-												<div class="widget-toolbar">
-													<div class="widget-menu">
-														<a href="#" data-action="settings" data-toggle="dropdown">
-															<i class="ace-icon fa fa-bars"></i>
-														</a>
-
-														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-															<li>
-																<a data-toggle="tab" href="#dropdown1">Option#1</a>
-															</li>
-
-															<li>
-																<a data-toggle="tab" href="#dropdown2">Option#2</a>
-															</li>
-														</ul>
-													</div>
-
-													<a href="#" data-action="fullscreen" class="orange2">
-														<i class="ace-icon fa fa-expand"></i>
-													</a>
-
-													<a href="#" data-action="reload">
-														<i class="ace-icon fa fa-refresh"></i>
-													</a>
-
+												<h4 class="widget-title lighter">按钮组</h4>
+												<div class="widget-toolbar no-border">
 													<a href="#" data-action="collapse">
 														<i class="ace-icon fa fa-chevron-up"></i>
 													</a>
 
-													<a href="#" data-action="close">
-														<i class="ace-icon fa fa-times"></i>
-													</a>
 												</div>
-
-												<!-- /section:custom/widget-box.toolbar -->
 											</div>
 
 											<div class="widget-body">
-												<div class="widget-main">
-													
-														<div class="row">
-															  <@ww.access accobjkey="handover"/> <!--交接 -->
-															  <@ww.access accobjkey="getmaterial"/><!--领退料 -->
-															  <@ww.access accobjkey="dumpconfirm"/><!--转储确认 -->
-															  <@ww.access accobjkey="scrap"/><!--报废 -->
-															  <@ww.access accobjkey="rework"/><!--返工 -->
-															  <@ww.access accobjkey="repair"/><!--返修 -->
-															  <@ww.access accobjkey="repairgoods"/><!--返修收货 -->
-															  <@ww.access accobjkey="sampling"/><!--抽检 -->
-															  <@ww.access accobjkey="inspection"/><!--巡检 -->
-															  <@ww.access accobjkey="halfinspection"/><!--半成品巡检 -->
-															  <@ww.access accobjkey="quickresponse"/><!--快速响应 -->
-															  <@ww.access accobjkey="sttm"/><!--报工 -->
-															  <@ww.access accobjkey="putstorage"/><!--入库 -->
-															  <@ww.access accobjkey="attendance"/><!--考勤 -->
-															  <@ww.access accobjkey="cartonreceiving"/><!--纸箱收货 -->
-														</div>
-														
-														
-													
+												<div class="widget-main padding-6 no-padding-left no-padding-right">
+													  <@ww.access accobjkey="handover"/> <!--交接 -->
+													  <@ww.access accobjkey="getmaterial"/><!--领退料 -->
+													  <@ww.access accobjkey="dumpconfirm"/><!--转储确认 -->
+													  <@ww.access accobjkey="scrap"/><!--报废 -->
+													  <@ww.access accobjkey="rework"/><!--返工 -->
+													  <@ww.access accobjkey="repair"/><!--返修 -->
+													  <@ww.access accobjkey="repairgoods"/><!--返修收货 -->
+													  <@ww.access accobjkey="sampling"/><!--抽检 -->
+													  <@ww.access accobjkey="inspection"/><!--巡检 -->
+													  <@ww.access accobjkey="halfinspection"/><!--半成品巡检 -->
+													  <@ww.access accobjkey="quickresponse"/><!--快速响应 -->
+													  <@ww.access accobjkey="sttm"/><!--报工 -->
+													  <@ww.access accobjkey="putstorage"/><!--入库 -->
+													  <@ww.access accobjkey="attendance"/><!--考勤 -->
+													  <@ww.access accobjkey="cartonreceiving"/><!--纸箱收货 -->
 												</div>
 											</div>
 										</div>
-
-										<!-- /section:custom/widget-box -->
+										
 									</div>
 									<!--按钮组end-->
 								</div>

@@ -7,13 +7,34 @@
 		<title>设备维修清单</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/style.css"/>
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/setstyle.css"/>
+		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/ztree/css/zTreeStyle/zTreeStyle.css"/>
+		<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery-ui.min.css" />
+		
+		
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/unusual/js/device_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
+		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/device_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
+		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		
+		
+
+<style type="text/css">
+	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+}
+</style>
 	</head>
-	<body class="no-skin">
-		<!-- add by welson 0728 -->	
+<body class="no-skin list">
+	
+<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -24,7 +45,8 @@
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 	<!-- ./ add by welson 0728 -->
-     <div class="breadcrumbs" id="breadcrumbs">
+	
+<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -34,48 +56,29 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">设备维修单列表&nbsp;<span class="pageInfo"></span></li>
+			<li class="active">设备维修单&nbsp;<span class="pageInfo"></span></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
-	
+
 	
 	<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content">
-					
-					<div class="page-content-area">
-					<!--
-						<div class="page-header">
-							<h1>
-								jqGrid
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Dynamic tables and grids using jqGrid plugin
-								</small>
-							</h1>
-						</div>--><!-- /.page-header -->
-					
+	<div class="page-content">
+					<div class="page-content-area">					
+
 						<div class="row">
 							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								 <form class="form-horizontal" id="searchform" action="device!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="device!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">状态:</label>
+										
+										<label class="col-sm-2" style="text-align:right">班组:</label>
 										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>
-										<label class="col-sm-1" style="text-align:right">日期:</label>
+										<label class="col-sm-2" style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>									
+											<input type="text" name="productName" class="input input-sm form-control" value="" id="form-field-icon-2">
+										</div>						
 									</div>
 									
 										<div class="form-group" style="text-align:center">
@@ -87,6 +90,8 @@
 										
 									</div>
 								</form>
+								
+								
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
@@ -101,49 +106,60 @@
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 					</div><!-- /.page-content-area -->
-				</div><!-- /.page-content -->
-			</div><!-- /.main-content -->
-             <#include "/WEB-INF/template/admin/admin_footer.ftl">
-             <!-- 
-			<div class="footer">
-				<div class="footer-inner">
-					
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
-						</span>
+				<!-- PAGE CONTENT ENDS -->
 
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+	</div><!-- /.main-container -->
+	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+	<!-- ./ add by welson 0728 -->
 
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
+<!-- 弹出层 -->
+<div id="dialog-message">
+</div>
+<!-- 弹出层end -->
+</body>
 
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
+	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
 
-					
-				</div>
-			</div> -->
-
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
-
-		
-
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			
-		</script>
-	</body>
 </html>
+<script type="text/javascript">
+	/**
+	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
+	 */
+	
+	$(function(){
+		var ishead=0;
+		$("#ace-settings-btn").click(function(){
+			if(ishead==0){
+				ishead=1;
+				$("#ace-settings-box").addClass("open");
+			}else{
+				ishead=0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		$(".btn-colorpicker").click(function(){
+				$(".dropdown-colorpicker").addClass("open");
+		})
+		
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
+			
+		})
+
+
+	})
+	
+	
+</script>

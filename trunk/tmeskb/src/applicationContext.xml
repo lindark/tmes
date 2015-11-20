@@ -144,6 +144,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Rework</value>
 				<value>cc.jiuyi.entity.UnusualLog</value>
 				<value>cc.jiuyi.entity.Repairin</value>	
+				<value>cc.jiuyi.entity.CraftLog</value>
 			</list>
 		</property>
 	</bean>

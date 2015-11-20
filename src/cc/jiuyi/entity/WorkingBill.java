@@ -33,7 +33,6 @@ public class WorkingBill extends BaseEntity {
 	private Integer cartonTotalAmount;// 纸箱累计收货数量
 	private Integer dailyWorkTotalAmount;// 累计报工数量
 	private Integer totalSingleAmount;// 累计入库根量
-	private Integer totalStorageAmount;// 累计入库数量
 	private Integer totalRepairinAmount;// 累计返修收货数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
@@ -142,17 +141,6 @@ public class WorkingBill extends BaseEntity {
 			totalSingleAmount = 0;
 		}
 		this.totalSingleAmount = totalSingleAmount;
-	}
-
-	public Integer getTotalStorageAmount() {
-		return totalStorageAmount;
-	}
-
-	public void setTotalStorageAmount(Integer totalStorageAmount) {
-		if (totalStorageAmount == null) {
-			totalStorageAmount = 0;
-		}
-		this.totalStorageAmount = totalStorageAmount;
 	}
 
 	public Integer getTotalRepairinAmount() {

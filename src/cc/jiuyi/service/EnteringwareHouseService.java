@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
@@ -32,4 +33,5 @@ public interface EnteringwareHouseService extends
 	public Integer getSingleConversationRatio(String unitDescription,
 			String convertUnit);
 
+	public List<EnteringwareHouse> getByBill(String workingBillId);
 }

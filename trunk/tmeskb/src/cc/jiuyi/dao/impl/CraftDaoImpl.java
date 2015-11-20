@@ -23,71 +23,23 @@ import cc.jiuyi.entity.WorkShop;
 public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao {
 
 	public Pager getCraftPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = craftpagerSql(pager);
+
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Craft.class);
-		if (!wheresql.equals("")) {
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
-		if (map.size() > 0) {
-			/*if(map.get("state")!=null){
-			    detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}*/
+		pagerSqlByjqGrid(pager,detachedCriteria);
 
-			if(map.get("classes")!=null){
-			    detachedCriteria.add(Restrictions.like("classes", "%"+map.get("classes")+"%"));
+		if (map.size() > 0) {			
+			
+			if(map.get("team")!=null){
+			    detachedCriteria.add(Restrictions.like("classes", "%"+map.get("team")+"%"));
 			}
 			
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-			/*
-			if(map.get("workShopName")!=null){
-				detachedCriteria.add(Restrictions.like("workShopName", "%"+map.get("workShopName")+"%"));
-			}
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}*/
+			if(map.get("productName")!=null){
+			    detachedCriteria.add(Restrictions.like("productsName", "%"+map.get("productName")+"%"));
+			}			
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
-	}
-
-	public String craftpagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		return wheresql;
 	}
 
 }

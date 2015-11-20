@@ -89,10 +89,9 @@ public class ModelAction extends BaseAdminAction {
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -147,7 +146,7 @@ public class ModelAction extends BaseAdminAction {
 		model.setModifyUser(admin.getId());
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
-		model.setMeasure("N");
+		model.setIsDel("N");
 		model.setState("0");
 		modelService.save(model);
 		

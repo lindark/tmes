@@ -56,7 +56,7 @@
 
 				<b class="arrow"></b>
 			</li>
-
+			<!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-desktop"></i>
@@ -179,7 +179,8 @@
 					</li>
 				</ul>
 			</li>
-
+ -->
+ 	<!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-users"></i>
@@ -221,7 +222,8 @@
 					
 				</ul>
 			</li>
-
+ -->
+ <!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-book"></i>
@@ -369,27 +371,27 @@
 					</li>
 				</ul>
 			</li>
-			
-			
+		 -->	
+		
+		<!-- 
 		    <li class="">
 
 				<a href="build_html!allInput.action" >
 							<i class="menu-icon fa fa-gavel"></i>
 							<span class="menu-text">
 						一键内容更新
-						<!-- #section:basics/sidebar.layout.badge -->
 						<span class="badge badge-transparent tooltip-error" title="" data-original-title="更新后会立即呈现给用户">
 							<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
 						</span>
 
-						<!-- /section:basics/sidebar.layout.badge -->
 					</span>
 					
 						</a>
 
 						<b class="arrow"></b>
 		    </li>
-
+		 -->
+		 <!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-user"></i>
@@ -447,8 +449,8 @@
 					
 				</ul>
 			</li>
-			
-			
+			 -->
+			<!-- 
 			<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-envelope-o"></i>
@@ -493,9 +495,242 @@
 						</ul>
 					</li>
 			
+			 -->
+
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-flag "></i>
+						生产管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="admin!product.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							生产日期/班次绑定
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+				   <li class="">
+						<a href="pick!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							领退料
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					 <li class="">
+						<a href="dump!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							转储确认
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					<li class="">
+						<a href="handover!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							交接
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报废
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返工
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					
+					<li class="">
+						<a href="repair!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返修
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="repairin!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返修收货
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报工
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					
+					<li class="">
+
+						<a href="enteringware_House!list.action" >
 
 
+							<i class="menu-icon fa fa-caret-right"></i>
+							入库
+							<b class="arrow fa"></b>
+						</a>
 
+						<b class="arrow"></b>	
+					</li>
+					
+					<li class="">
+						<a href="pro!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							纸箱收货
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+				 </ul>
+		     </li>
+
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-key "></i>
+						质检管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+				<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							抽检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							巡检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					
+					<li class="">
+						<a href="pros!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							半成品巡检
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+			</ul>
+		</li>
+		
+		<li class="#">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text"> 异常管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="abnormal!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							异常
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="quality!list.action" >
+							<i class="menu-icon"></i>
+							质量问题单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="model!list.action" >
+							<i class="menu-icon"></i>
+							工模维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+                    
+					<li class="">
+						<a href="craft!list.action" >
+							<i class="menu-icon"></i>
+							工艺维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+                    
+					<li class="">
+						<a href="device!list.action" >
+							<i class="menu-icon"></i>
+							设备维修单
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+
+				</ul>
+			</li>
 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
@@ -641,240 +876,10 @@
 
 				</ul>
 			</li>
-			<li class="#">
-				<a href="" class="dropdown-toggle">
-					<i class="menu-icon fa fa-video-camera"></i>
-					<span class="menu-text"> 异常管理 </span>
-
-					<b class="arrow fa fa-angle-down"></b>
-				</a>
-
-				<b class="arrow"></b>
-
-				<ul class="submenu">
-					<li class="">
-						<a href="abnormal!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							异常
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-					<li class="">
-						<a href="quality!list.action" >
-							<i class="menu-icon"></i>
-							质量问题单
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
-					<li class="">
-						<a href="model!list.action" >
-							<i class="menu-icon"></i>
-							工模维修单
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
-                    
-					<li class="">
-						<a href="craft!list.action" >
-							<i class="menu-icon"></i>
-							工艺维修单
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-                    
-					<li class="">
-						<a href="device!list.action" >
-							<i class="menu-icon"></i>
-							设备维修单
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
-
-				</ul>
-			</li>
 			
-			<li class="">
-				<a href="#" class="dropdown-toggle">
-					<i class="menu-icon fa fa-flag "></i>
-						生产管理
-					<b class="arrow fa fa-angle-down"></b>
-				</a>
-
-				<b class="arrow"></b>
-
-				<ul class="submenu">
-					<li class="">
-						<a href="admin!product.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							生产日期/班次绑定
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-				   <li class="">
-						<a href="pick!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							领退料
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					 <li class="">
-						<a href="dump!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							转储确认
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					<li class="">
-						<a href="handover!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							交接
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							报废
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							返工
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					
-					<li class="">
-						<a href="repair!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							返修
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="repairin!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							返修收货
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							报工
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-
-						<a href="enteringware_House!list.action" >
-
-
-							<i class="menu-icon fa fa-caret-right"></i>
-							入库
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							纸箱收货
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-				 </ul>
-		     </li>
 			
-		<li class="">
-				<a href="#" class="dropdown-toggle">
-					<i class="menu-icon fa fa-key "></i>
-						质检管理
-					<b class="arrow fa fa-angle-down"></b>
-				</a>
-
-				<b class="arrow"></b>
-
-				<ul class="submenu">
-				<li class="">
-						<a href="pros!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							抽检
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
-					<li class="">
-						<a href="pros!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							巡检
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
-					
-					<li class="">
-						<a href="pros!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							半成品巡检
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-			</ul>
-		</li>
+			
+		
 		     
 		     
 			<li class="">

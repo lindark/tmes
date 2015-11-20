@@ -72,7 +72,7 @@ jQuery(function($) {
 			{name:'teamId',index:'teamId', width:120, editable: true},
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
 			{name:'fixer',index:'fixer',sortable:false,editable: true},
-			{name:'state',index:'state',sortable:false,editable: true}		
+			{name:'state',index:'state',sortable:false,editable: true,search:false}		
 		], 
 
 		viewrecords : true,
@@ -125,6 +125,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
+		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
 		       location.href="model!edit.action?id="+rowId;
 	        },
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -193,10 +198,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

@@ -67,8 +67,12 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 	
 	@Cacheable(modelId="caching")
 	public WorkingBill get(String id) {
-		System.out.println("调用DB数据库");
 		return workingbilldao.get(id);
+	}
+	
+	@Cacheable(modelId="flushing")
+	public void update(WorkingBill workingbill){
+		workingbilldao.update(workingbill);
 	}
 	
 	/**

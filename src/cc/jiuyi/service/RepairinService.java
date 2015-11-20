@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
@@ -26,5 +27,5 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
-	public void updateState(WorkingBill workingbill,Repairin repairin);
+	public void updateState(List<Repairin> list,String statu,String workingbillid);
 }

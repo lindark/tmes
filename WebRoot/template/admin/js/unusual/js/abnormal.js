@@ -52,6 +52,22 @@ $(function() {
 		
     });
 	
+	
+	var $devicerep = $("#devicerep");//设备
+	$devicerep.click(function() {		
+		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
+		if(i.length<=0){
+			alert("请选择一个异常");
+			return false;
+		}else if(i.length>1){
+			alert("请选择一个异常");
+			return false;
+		}else{
+			window.location.href = "device!add.action?aid="+i;
+		}
+		
+    });
+	
 	var $responsecar = $("#responsecar");// 响应刷卡cancelcal
 	$responsecar.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');

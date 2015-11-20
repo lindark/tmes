@@ -46,40 +46,4 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 			super.update(repairin);
 		}
 	}
-
-	@Override
-	public void updateState(String[] ids, WorkingBill workingbill,Repairin repairin,Admin admin) {
-		for (int i = 0; i < ids.length; i++) {
-			repairin = repairinService.load(ids[i]);
-			if (!"1".equals(repairin.getState())) {
-				repairin.setState("1");
-				repairin.setConfirmUser(admin);
-				workingbill
-						.setTotalRepairinAmount(workingbill
-								.getTotalRepairinAmount()
-								+ repairin.getReceiveAmount());
-				repairinService.update(repairin);
-			}
-		}
-		workingBillService.update(workingbill);
-	}
-
-	@Override
-	public void updateStates(String[] ids, WorkingBill workingbill,
-			Repairin repairin, Admin admin) {
-		for (int i = 0; i < ids.length; i++) {
-			repairin = repairinService.load(ids[i]);
-			repairin.setConfirmUser(admin);
-			if ("1".equals(repairin.getState())) {
-				workingbill
-				.setTotalRepairinAmount(workingbill
-						.getTotalRepairinAmount()
-						- repairin.getReceiveAmount());
-			}
-			repairin.setState("3");
-			repairinService.update(repairin);
-		}
-		workingBillService.update(workingbill);
-		
-	}
 }

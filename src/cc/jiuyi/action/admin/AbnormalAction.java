@@ -275,10 +275,10 @@ public class AbnormalAction extends BaseAdminAction {
 	// 删除
 	public String delete() throws Exception {	
 		ids=id.split(",");
-		abnormalService.delete(ids);
+		abnormalService.updateisdel(ids, "Y");
+		//abnormalService.delete(ids);
 		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
-		//return ajaxJsonSuccessMessage("删除成功！");
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
 	public Abnormal getAbnormal() {

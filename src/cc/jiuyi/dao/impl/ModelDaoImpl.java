@@ -23,12 +23,13 @@ import cc.jiuyi.entity.Model;
 public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao {
 
 	public Pager getModelPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = modelpagerSql(pager);
+		//String wheresql = modelpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Model.class);
-		if (!wheresql.equals("")) {
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		/*if (!wheresql.equals("")) {
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		if (map.size() > 0) {
 			/*if(map.get("state")!=null){
 			    detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
@@ -38,22 +39,15 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			    detachedCriteria.add(Restrictions.like("teamId", "%"+map.get("teamId")+"%"));
 			}
 			
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
+			if(map.get("productName")!=null){
+			    detachedCriteria.add(Restrictions.like("productName", "%"+map.get("productName")+"%"));
 			}
 			
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-
+  /*
 	public String modelpagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
@@ -72,6 +66,6 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 
 		}
 		return wheresql;
-	}
+	}*/
 	
 }

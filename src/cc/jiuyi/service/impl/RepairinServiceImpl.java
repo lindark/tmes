@@ -59,6 +59,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			repairin.setConfirmUser(admin);
 			repairinDao.update(repairin);
 		}
+		if(1==1){
+			throw new RuntimeException();
+		}
 		workingbill.setTotalRepairinAmount(totalamount);
 		workingBillDao.update(workingbill);
 	}

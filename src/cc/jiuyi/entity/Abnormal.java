@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -31,19 +32,15 @@ public class Abnormal extends BaseEntity{
 	private Date replyDate;// 应答时间
 	private Integer handlingTime;//处理时间
 	
-	private String message;//消息
-	private String iniitiator;//发起人
-	private String responsor;//应答人
-	private String createUser;//创建人
-	private String modifyUser;//修改人
 	private String state;//状态	
 	private String isDel;//是否删除
 	private String stateRemark;//状态描述
 	
+	private Admin iniitiator;//发起人
+	private Set<Admin> responsorSet;//应答人
 	private Set<Quality> qualitySet;//质量问题单
 	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
-	private Set<Admin> adminSet;//人员
 	private Set<Callreason> callreasonSet;//呼叫原因
 	private Set<Device> deviceSet;//工艺维修单
 	private Set<AbnormalLog> AbnormalLogSet;//异常日志
@@ -100,46 +97,22 @@ public class Abnormal extends BaseEntity{
 		this.handlingTime = handlingTime;
 	}
 	
-	@Column
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
 	
-	@Column
-	public String getIniitiator() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getIniitiator() {
 		return iniitiator;
 	}
-	public void setIniitiator(String iniitiator) {
+	public void setIniitiator(Admin iniitiator) {
 		this.iniitiator = iniitiator;
 	}
 	
-	@Column
-	public String getResponsor() {
-		return responsor;
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<Admin> getResponsorSet() {
+		return responsorSet;
 	}
-	public void setResponsor(String responsor) {
-		this.responsor = responsor;
+	public void setResponsorSet(Set<Admin> responsorSet) {
+		this.responsorSet = responsorSet;
 	}
-	
-	@Column
-	public String getCreateUser() {
-		return createUser;
-	}
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-	
-	@Column
-	public String getModifyUser() {
-		return modifyUser;
-	}
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-	
 	@Column
 	public String getState() {
 		return state;
@@ -173,7 +146,6 @@ public class Abnormal extends BaseEntity{
 	}
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
 	public Set<Model> getModelSet() {
 		return modelSet;
 	}
@@ -182,7 +154,6 @@ public class Abnormal extends BaseEntity{
 	}
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
 	public Set<Craft> getCraftSet() {
 		return craftSet;
 	}
@@ -190,13 +161,7 @@ public class Abnormal extends BaseEntity{
 		this.craftSet = craftSet;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "abnormalSet")
-	public Set<Admin> getAdminSet() {
-		return adminSet;
-	}
-	public void setAdminSet(Set<Admin> adminSet) {
-		this.adminSet = adminSet;
-	}
+	
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "abnormalSet")
 	public Set<Callreason> getCallreasonSet() {
@@ -239,7 +204,6 @@ public class Abnormal extends BaseEntity{
 	}
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
 	public Set<Device> getDeviceSet() {
 		return deviceSet;
 	}
@@ -248,7 +212,6 @@ public class Abnormal extends BaseEntity{
 	}
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
 	public Set<AbnormalLog> getAbnormalLogSet() {
 		return AbnormalLogSet;
 	}

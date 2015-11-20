@@ -2,8 +2,6 @@ package cc.jiuyi.dao.impl;
 
 import java.util.HashMap;
 
-import javax.annotation.Resource;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -13,9 +11,6 @@ import cc.jiuyi.dao.RepairinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.RepairinService;
-import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Dao接口 - 返修收货
@@ -23,10 +18,6 @@ import cc.jiuyi.service.WorkingBillService;
 @Repository
 public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 		RepairinDao {
-	@Resource
-	private WorkingBillService workingBillService;
-	@Resource
-	private RepairinService repairinService;
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId) {

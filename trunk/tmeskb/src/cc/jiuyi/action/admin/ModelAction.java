@@ -21,10 +21,14 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ModelLogService;
 import cc.jiuyi.service.ModelService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 工模维修单
@@ -47,6 +51,10 @@ public class ModelAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private AbnormalService abnormalService;
+	@Resource
+	private ModelLogService modelLogService;
+	@Resource
+	private DictService dictService;
 
 	// 添加
 	public String add() {
@@ -71,7 +79,7 @@ public class ModelAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Model persistent = modelService.load(id);
-		BeanUtils.copyProperties(model, persistent, new String[] { "id" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state" });
 		modelService.update(persistent);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
@@ -104,11 +112,9 @@ public class ModelAction extends BaseAdminAction {
 				map.put("teamId", teamId);
 			}
 
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
+			if (obj.get("productName") != null) {
+				String productName = obj.getString("productName").toString();
+				map.put("productName", productName);
 			}
 
 		}
@@ -119,6 +125,9 @@ public class ModelAction extends BaseAdminAction {
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
 			model.setAbnormal(null);
+			model.setModelLogSet(null);
+			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "receiptState", model.getState()));	
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);
@@ -129,17 +138,6 @@ public class ModelAction extends BaseAdminAction {
 
 	}
 
-	/*
-	 * // ajax列表 public String ajlist() { if(pager == null) { pager = new
-	 * Pager(); } pager = modelService.findByPager(pager);
-	 * 
-	 * List pagerlist = pager.getList(); for(int i =0; i <
-	 * pagerlist.size();i++){ Model model = (Model)pagerlist.get(i);
-	 * model.setAbnormal(null); pagerlist.set(i, model); }
-	 * pager.setList(pagerlist); JSONArray jsonArray =
-	 * JSONArray.fromObject(pager); return
-	 * ajaxJson(jsonArray.get(0).toString()); }
-	 */
 
 	public String save() {
 		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME"))
@@ -149,8 +147,15 @@ public class ModelAction extends BaseAdminAction {
 		model.setModifyUser(admin.getId());
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
-		model.setState("已提交");
+		model.setMeasure("N");
+		model.setState("0");
 		modelService.save(model);
+		
+		ModelLog log = new ModelLog();
+		log.setInfo("已提交");
+		log.setOperator(admin.getName());
+		log.setModel(model);
+		modelLogService.save(log);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
 	}

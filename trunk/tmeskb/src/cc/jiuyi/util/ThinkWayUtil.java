@@ -208,7 +208,7 @@ public class ThinkWayUtil {
 	            		String name= m.getName().replace("get", "");
 	            		String oldfirst =name.substring(0, 1);
 	            		String newfirst = oldfirst.toLowerCase();//转换为小写
-	            		name = name.replace(oldfirst, newfirst);
+	            		name = name.replaceFirst(oldfirst, newfirst);
 	                    list.add(name);  
 	                } 
 	            }

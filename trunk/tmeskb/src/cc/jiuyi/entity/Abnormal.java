@@ -46,6 +46,7 @@ public class Abnormal extends BaseEntity{
 	private Set<Admin> adminSet;//人员
 	private Set<Callreason> callreasonSet;//呼叫原因
 	private Set<Device> deviceSet;//工艺维修单
+	private Set<AbnormalLog> AbnormalLogSet;//异常日志
 	
 	private String callReason;
 	private String originator;
@@ -244,6 +245,15 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setDeviceSet(Set<Device> deviceSet) {
 		this.deviceSet = deviceSet;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	@Cascade(value = { CascadeType.DELETE })
+	public Set<AbnormalLog> getAbnormalLogSet() {
+		return AbnormalLogSet;
+	}
+	public void setAbnormalLogSet(Set<AbnormalLog> abnormalLogSet) {
+		AbnormalLogSet = abnormalLogSet;
 	}
 	
 		

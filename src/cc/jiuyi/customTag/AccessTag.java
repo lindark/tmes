@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.opensymphony.oscache.util.StringUtil;
+
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
@@ -49,31 +51,11 @@ public class AccessTag extends TagSupport {
 		AccessResourceService accessResourceService = (AccessResourceService)web.getBean("accessResourceServiceImpl");
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());//获取当前登录身份的角色
-		List<AccessResource> accessList = accessResourceService.findAccessByRoles(roleList);//获取角色对应的资源对象
-		Object[] accessobj = new Object[accessList.size()];
-		for(int i=0;i<accessList.size();i++){
-			AccessResource accessresource = accessList.get(i);
-			accessobj[i] = accessresource.getId();
-		}
-		List<AccessObject> accessObjList = accessObjectservice.findResourceList(accessobj,accobjkey);
-		
-		/*去除重复*/
-		List<AccessObject> listtemp = new ArrayList<AccessObject>();
-		for(int i=0;i<accessObjList.size();i++){
-			AccessObject accessobject = accessObjList.get(i);
-			if(listtemp.contains(accessobject)){
-				accessObjList.remove(i);
-			}else{
-				listtemp.add(accessobject);
-			}
-		}
-		html.append("");
-		for(int i=0;i<accessObjList.size();i++){
-			AccessObject accessobject = accessObjList.get(i);
+		AccessObject accessobject = accessObjectservice.getAccessObjectList(accobjkey, roleList);//获取角色对应的资源对象
+		if(accessobject == null)
+			html.append("");
+		else
 			html.append(accessobject.getHtmlarea());
-		}
-		
-
 		JspWriter out = pageContext.getOut();
 		try {
 			out.write(html.toString());

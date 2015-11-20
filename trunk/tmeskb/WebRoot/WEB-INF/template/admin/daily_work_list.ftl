@@ -81,14 +81,8 @@
 														<div class="profile-info-value">
 															<span class="editable editable-click">${workingbill.workingBillCode}</span>
 														</div>
-														<div class="profile-info-name">产品名称</div>
-
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
-														</div>
-													</div>
-
-													<div class="profile-info-row">
+														
+														
 														<div class="profile-info-name">产品编号</div>
 
 														<div class="profile-info-value">
@@ -97,13 +91,21 @@
 															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
 															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
 														</div>
+													</div>
+
+													<div class="profile-info-row">
 														<div class="profile-info-name">班组/班次</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="signup">2010/06/20</span>
 														</div>
-													</div>													
-													
+														<div class="profile-info-name">产品名称</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+														
+													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">累计报工数量</div>
 

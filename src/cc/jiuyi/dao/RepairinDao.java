@@ -6,11 +6,11 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
+
 /**
- * Dao接口
- * 返修收获
+ * Dao接口 返修收获
  */
-public interface RepairinDao extends BaseDao<Repairin, String>{
+public interface RepairinDao extends BaseDao<Repairin, String> {
 	/**
 	 * 分页查询
 	 * 
@@ -18,11 +18,15 @@ public interface RepairinDao extends BaseDao<Repairin, String>{
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager, HashMap<String,String> map, String workingbillId);
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
+			String workingbillId);
+
 	/**
 	 * 标记删除
+	 * 
 	 * @param id
-	 * @param oper Y/N
+	 * @param oper
+	 *            Y/N
 	 */
-	public void updateisdel(String[] ids,String oper);
+	public void updateisdel(String[] ids, String oper);
 }

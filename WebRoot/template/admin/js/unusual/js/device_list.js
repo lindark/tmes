@@ -65,10 +65,10 @@ jQuery(function($) {
 			{name:'workShop',index:'workShop',width:60, editable:true, sorttype:"date",unformat: pickDate},
 			{name:'workshopLinkman',index:'workshopLinkman', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'maintenanceType',index:'maintenanceType', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'faultCharacter',index:'faultCharacter', width:160, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'diagnosis',index:'diagnosis', width:160, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
-			{name:'disposalWorkers',index:'disposalWorkers', width:60, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
-			{name:'state',index:'state', width:60, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}		
+			{name:'faultCharacter',index:'faultCharacter', width:160, editable: true,edittype:"select"},
+			{name:'diagnosis',index:'diagnosis', width:160, sortable:false,editable: true,edittype:"textarea"},
+			{name:'disposalWorkers',index:'disposalWorkers', width:60, sortable:false,editable: true,edittype:"textarea"},
+			{name:'stateRemark',index:'state', width:60, sortable:false,editable: true,edittype:"textarea", search:false}		
 		], 
 
 		viewrecords : true,
@@ -148,10 +148,7 @@ jQuery(function($) {
 				location.href="device!edit.action?id="+rowId;
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
-				location.href="device!add.action";
-			},
+			add: false,			
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
 			delicon : 'ace-icon fa fa-trash-o red',

@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,7 @@ import cc.jiuyi.dao.WorkingBillDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.RepairinService;
 
 /**
@@ -24,6 +26,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	private RepairinDao repairinDao;
 	@Resource
 	private WorkingBillDao workingBillDao;
+	@Resource
+	private AdminService adminservice;
 
 	@Resource
 	public void setBaseDao(RepairinDao repairinDao) {
@@ -42,8 +46,20 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	}
 
 	@Override
-	public void updateState(WorkingBill workingbill, Repairin repairin) {
-		repairinDao.update(repairin);
+	/**
+	 * 考虑线程同步
+	 */
+	public synchronized void updateState(List<Repairin> list,String statu,String workingbillid) {
+		Admin admin = adminservice.getLoginAdmin();
+		WorkingBill workingbill = workingBillDao.get(workingbillid);
+		Integer totalamount = workingbill.getTotalRepairinAmount();
+		for(int i=0;i<list.size();i++){
+			Repairin repairin = list.get(i);
+			totalamount =repairin.getReceiveAmount() + totalamount;
+			repairin.setConfirmUser(admin);
+			repairinDao.update(repairin);
+		}
+		workingbill.setTotalRepairinAmount(totalamount);
 		workingBillDao.update(workingbill);
 	}
 

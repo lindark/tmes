@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -46,6 +47,14 @@ public class EnteringwareHouseDaoImpl extends BaseDaoImpl<EnteringwareHouse, Str
 			String convertUnit) {
 		String hql = "select conversationRatio from unitConversion where unitDescription=? and convertUnit=?";
 		return (Integer) getSession().createQuery(hql).setParameter(0, unitDescription).setParameter(1, convertUnit).list().get(0);
+	}
+
+
+
+	@Override
+	public List<EnteringwareHouse> getByBill(String workingBillId) {
+		String hql = "from EnteringwareHouse as a where a.state='1' and a.workingbill.id=?";
+		return getSession().createQuery(hql).setParameter(0, workingBillId).list();
 	}
 
 

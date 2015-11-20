@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Brand;
-import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
-import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Dao接口 - 随工单
@@ -37,4 +34,6 @@ public interface EnteringwareHouseDao extends BaseDao<EnteringwareHouse, String>
 	 * @return
 	 */
 	public Integer getSingleConversationRatio(String unitDescription,String convertUnit);
+	
+	public List<EnteringwareHouse> getByBill(String workingBillId);
 }

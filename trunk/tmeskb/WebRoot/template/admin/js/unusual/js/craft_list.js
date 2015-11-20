@@ -67,10 +67,10 @@ jQuery(function($) {
 		colModel:[
 			
 			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsName',index:'productsName',width:160,editable:true},
-			{name:'cabinetCode',index:'cabinetCode', width:160,editable: true},
-			{name:'classes',index:'classes', width:160, editable: true},		
-			{name:'state',index:'state', width:60, sortable:false,editable: true}		
+			{name:'productsName',index:'productsName',width:60,editable:true},
+			{name:'cabinetCode',index:'cabinetCode', width:260,editable: true},
+			{name:'classes',index:'classes', width:260, editable: true},		
+			{name:'stateRemark',index:'state', width:60, sortable:false,editable: true,search:false}		
 		], 
 
 		viewrecords : true,
@@ -123,6 +123,11 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
+		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
 			    location.href="craft!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -196,10 +201,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

@@ -87,11 +87,12 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	// ajax列表
 	public String ajlist() {
+		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
-		pager = abnormalService.findByPager(pager);
+		pager = abnormalService.getAbnormalPager(pager,map);
 		
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){

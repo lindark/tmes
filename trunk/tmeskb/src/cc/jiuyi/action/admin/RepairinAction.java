@@ -130,7 +130,7 @@ public class RepairinAction extends BaseAdminAction {
 				}
 			}
 			admin = adminService.getLoginAdmin();
-			repairinService.updateState(ids, workingbill, repairin, admin);
+			repairinService.updateStates(ids, workingbill, repairin, admin);
 			redirectionUrl = "repairin!list.action?workingBillId="
 					+ repairin.getWorkingbill().getId();
 			return SUCCESS;

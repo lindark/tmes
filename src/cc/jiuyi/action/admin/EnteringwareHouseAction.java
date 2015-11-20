@@ -48,7 +48,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private EnteringwareHouse enteringwareHouse;
 	private Admin admin;
-	private Integer ratio;//箱与个的转换比率
+	private Integer ratio;// 箱与个的转换比率
+	private Integer totalAmount = 0;
 
 	@Resource
 	private WorkingBillService workingBillService;
@@ -68,6 +69,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	 */
 	public String list() {
 		workingbill = workingBillService.get(workingBillId);
+		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+				.getByBill(workingBillId);
+		for (int i = 0; i < enteringwares.size(); i++) {
+			totalAmount += enteringwares.get(i).getStorageAmount();
+		}
 		return LIST;
 	}
 
@@ -91,7 +97,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
-		ratio = unitConversionService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
+		ratio = unitConversionService.getSingleConversationRatio(
+				UNITDESCRIPTION, CONVERTUNIT);
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -112,10 +119,10 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				admin = adminService.getLoginAdmin();
 				enteringwareHouse.setAdmin(admin);
 				enteringwareHouse.setConfirmUser(admin.getId());
-				workingbill.setTotalStorageAmount(workingbill
-						.getTotalStorageAmount()
-						+ enteringwareHouse.getStorageAmount());
-				workingbill.setTotalSingleAmount(workingbill.getTotalStorageAmount()*ratio);
+				// workingbill.setTotalSingleAmount(workingbill.getTotalStorageAmount()*ratio);
+				workingbill.setTotalSingleAmount(workingbill
+						.getTotalSingleAmount()
+						+ enteringwareHouse.getStorageAmount() * ratio);
 				enteringwareHouseService.update(enteringwareHouse);
 			}
 		}
@@ -124,36 +131,35 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				+ enteringwareHouse.getWorkingbill().getId();
 		return SUCCESS;
 	}
-	
+
 	// 刷卡撤销
-		public String undo() {
-			ratio = unitConversionService.getSingleConversationRatio(UNITDESCRIPTION, CONVERTUNIT);
-			workingbill = workingBillService.get(workingBillId);
-			ids = id.split(",");
-			for (int i = 0; i < ids.length; i++) {
-				enteringwareHouse = enteringwareHouseService.load(ids[i]);
-				if (UNDO.equals(enteringwareHouse.getState())) {
-					addActionError("已撤销的无法再撤销！");
-					return ERROR;
-				}
+	public String undo() {
+		ratio = unitConversionService.getSingleConversationRatio(
+				UNITDESCRIPTION, CONVERTUNIT);
+		workingbill = workingBillService.get(workingBillId);
+		ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			enteringwareHouse = enteringwareHouseService.load(ids[i]);
+			if (UNDO.equals(enteringwareHouse.getState())) {
+				addActionError("已撤销的无法再撤销！");
+				return ERROR;
 			}
-			for (int i = 0; i < ids.length; i++) {
-				enteringwareHouse = enteringwareHouseService.load(ids[i]);
-				admin = adminService.getLoginAdmin();
-				enteringwareHouse.setAdmin(admin);
-				enteringwareHouse.setConfirmUser(admin.getId());
-				workingbill.setTotalStorageAmount(workingbill
-						.getTotalStorageAmount()
-						- enteringwareHouse.getStorageAmount());
-				workingbill.setTotalSingleAmount(workingbill.getTotalStorageAmount()*ratio);
-				enteringwareHouse.setState(UNDO);
-				enteringwareHouseService.update(enteringwareHouse);
-			}
-			workingBillService.update(workingbill);
-			redirectionUrl = "enteringware_house!list.action?workingBillId="
-					+ enteringwareHouse.getWorkingbill().getId();
-			return SUCCESS;
 		}
+		for (int i = 0; i < ids.length; i++) {
+			enteringwareHouse = enteringwareHouseService.load(ids[i]);
+			admin = adminService.getLoginAdmin();
+			enteringwareHouse.setAdmin(admin);
+			enteringwareHouse.setConfirmUser(admin.getId());
+			workingbill.setTotalSingleAmount(workingbill.getTotalSingleAmount()
+					- enteringwareHouse.getStorageAmount() * ratio);
+			enteringwareHouse.setState(UNDO);
+			enteringwareHouseService.update(enteringwareHouse);
+		}
+		workingBillService.update(workingbill);
+		redirectionUrl = "enteringware_house!list.action?workingBillId="
+				+ enteringwareHouse.getWorkingbill().getId();
+		return SUCCESS;
+	}
 
 	/**
 	 * ajax 列表
@@ -178,15 +184,19 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		pager = enteringwareHouseService.findPagerByjqGrid(pager, map, workingBillId);
+		pager = enteringwareHouseService.findPagerByjqGrid(pager, map,
+				workingBillId);
 		List<EnteringwareHouse> enteringwareHouseList = pager.getList();
 		List<EnteringwareHouse> lst = new ArrayList<EnteringwareHouse>();
 		for (int i = 0; i < enteringwareHouseList.size(); i++) {
-			EnteringwareHouse enteringwareHouse = (EnteringwareHouse) enteringwareHouseList.get(i);
-			enteringwareHouse.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "enteringwareState", enteringwareHouse.getState()));
+			EnteringwareHouse enteringwareHouse = (EnteringwareHouse) enteringwareHouseList
+					.get(i);
+			enteringwareHouse.setStateRemark(ThinkWayUtil
+					.getDictValueByDictKey(dictService, "enteringwareState",
+							enteringwareHouse.getState()));
 			if (enteringwareHouse.getConfirmUser() != null) {
-				Admin admin = adminService.load(enteringwareHouse.getConfirmUser());
+				Admin admin = adminService.load(enteringwareHouse
+						.getConfirmUser());
 				enteringwareHouse.setAdminName(admin.getName());
 			}
 			admin = adminService.load(enteringwareHouse.getCreateUser());
@@ -239,6 +249,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	public void setRatio(Integer ratio) {
 		this.ratio = ratio;
+	}
+
+	public Integer getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(Integer totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 }

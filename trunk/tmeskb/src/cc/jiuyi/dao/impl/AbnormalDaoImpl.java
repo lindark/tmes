@@ -26,4 +26,13 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		for(String id:ids){
+			Abnormal abnormal=super.load(id);
+			abnormal.setIsDel(oper);//标记删除
+			super.update(abnormal);
+		}
+   }
 }

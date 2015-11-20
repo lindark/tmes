@@ -20,14 +20,13 @@ public class Repairin extends BaseEntity {
 	private Integer receiveAmount;// 收获数量
 	private String state;// 状态
 	private String isDel;// 是否删除
-	private String confirmUser;// 确认人
-	private String createUser;// 创建人
+	private Admin confirmUser;// 确认人
+	private Admin createUser;// 创建人
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
 
 	private WorkingBill workingbill;// 随工单
-	private Admin admin;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -36,15 +35,6 @@ public class Repairin extends BaseEntity {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
 	}
 
 	public Integer getReceiveAmount() {
@@ -76,20 +66,22 @@ public class Repairin extends BaseEntity {
 		}
 		this.isDel = isDel;
 	}
-
-	public String getConfirmUser() {
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getConfirmUser() {
 		return confirmUser;
 	}
 
-	public void setConfirmUser(String confirmUser) {
+	public void setConfirmUser(Admin confirmUser) {
 		this.confirmUser = confirmUser;
 	}
 
-	public String getCreateUser() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getCreateUser() {
 		return createUser;
 	}
 
-	public void setCreateUser(String createUser) {
+	public void setCreateUser(Admin createUser) {
 		this.createUser = createUser;
 	}
 

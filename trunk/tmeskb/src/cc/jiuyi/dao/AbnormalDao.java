@@ -11,7 +11,7 @@ import cc.jiuyi.entity.Abnormal;
  */
 public interface AbnormalDao extends BaseDao<Abnormal, String> {
 
-	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map);
+	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map,String id);
 	
 	/**
 	 * 标记删除

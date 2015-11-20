@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'team',index:'team', width:160,editable: true},
 			{name:'process',index:'process', width:160, editable: true},
 			{name:'founder',index:'founder', width:60, editable: true},
-			{name:'stateRemark',index:'stateRemark', width:60,editable: true}		
+			{name:'stateRemark',index:'stateRemark', width:60,editable: true,search:false}		
 		], 
 
 		viewrecords : true,
@@ -123,6 +123,11 @@ jQuery(function($) {
 		{ 
 			//edit: true,
 		    editfunc:function(rowId){
+		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
 			    location.href="quality!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',

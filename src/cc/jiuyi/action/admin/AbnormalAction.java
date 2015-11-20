@@ -31,6 +31,7 @@ import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CallreasonService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -90,78 +91,53 @@ public class AbnormalAction extends BaseAdminAction {
 	// ajax列表
 	public String ajlist() {
 		
-//		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-//		Admin admin1 = adminService.get("username", loginUsername);
-//		
-//		HashMap<String, String> map = new HashMap<String, String>();
-//		if (pager.getOrderBy().equals("")) {
-//			pager.setOrderType(OrderType.desc);
-//			pager.setOrderBy("modifyDate");
-//		}
-//		
-//		if (pager.is_search() == true && filters != null) {// 需要查询条件
-//			JSONObject filt = JSONObject.fromObject(filters);
-//			Pager pager1 = new Pager();
-//			Map m = new HashMap();
-//			m.put("rules", jqGridSearchDetailTo.class);
-//			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-//			pager.setRules(pager1.getRules());
-//			pager.setGroupOp(pager1.getGroupOp());
-//		}
-//		
-//		pager = abnormalService.getAbnormalPager(pager,map,admin1.getId());
-//		
-//		List pagerlist = pager.getList();
-//		for(int i =0; i < pagerlist.size();i++){
-//			Abnormal abnormal  = (Abnormal)pagerlist.get(i);
-//			abnormal.setCraftSet(null);
-//			abnormal.setModelSet(null);
-//			abnormal.setQualitySet(null);
-//			abnormal.setAdminSet(null);
-//			abnormal.setDeviceSet(null);
-//			abnormal.setAbnormalLogSet(null);
-//			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-//					dictService, "abnormalState", abnormal.getState()));
-//			if(abnormal.getMessage().length()>36){
-//				String id=abnormal.getMessage().substring(0, abnormal.getMessage().length()-1);
-//				String me[] = id.split(",");
-//				StringBuffer s = new StringBuffer();
-//				for(int ii=0;ii<me.length;ii++){					
-//					String callR=callReasonService.load(me[ii]).getCallReason();
-//					s.append(callR+",");
-//				}
-//				abnormal.setCallReason(s.toString());
-//			}else{
-//				String id=abnormal.getMessage().substring(0, abnormal.getMessage().length()-1);
-//				String callR=callReasonService.load(id).getCallReason();
-//				abnormal.setCallReason(callR);
-//			}
-//			
-//			String org=adminService.load(abnormal.getIniitiator().getId()).getName();
-//			abnormal.setOriginator(org);
-//			
-//			if(abnormal.getResponsor().length()>36){
-//				String id=abnormal.getResponsor().substring(0, abnormal.getResponsor().length()-1);
-//				String me[] = id.split(",");
-//				StringBuffer s = new StringBuffer();
-//				for(int ii=0;ii<me.length;ii++){												
-//						String ans=adminService.load(me[ii]).getName();
-//						s.append(ans+",");					
-//				}
-//				abnormal.setAnswer(s.toString());
-//			}else{
-//				String id=abnormal.getResponsor().substring(0, abnormal.getResponsor().length()-1);
-//				String ans=adminService.load(id).getName();
-//				abnormal.setAnswer(ans);
-//			}
-//			abnormal.setCallreasonSet(null);
-//			pagerlist.set(i, abnormal);
-//		}
-//		pager.setList(pagerlist);*/
-//		
-//		JSONArray jsonArray = JSONArray.fromObject(pager);
-//		return ajaxJson(jsonArray.get(0).toString());
-//	}
+		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+		Admin admin1 = adminService.get("username", loginUsername);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		pager = abnormalService.getAbnormalPager(pager,map,admin1.getId());
+		
+		List pagerlist = pager.getList();
+		for(int i =0; i < pagerlist.size();i++){
+			Abnormal abnormal  = (Abnormal)pagerlist.get(i);
+			List<Callreason> callreasonList = new ArrayList<Callreason>(abnormal.getCallreasonSet());//消息
+			List<String> strlist = new ArrayList<String>();
+			for(Callreason callreason : callreasonList){
+				String str = callreason.getCallReason();
+				strlist.add(str);
+			}
+			String comlist = CommonUtil.toString(strlist, ",");//获取问题的字符串
+			
+			List<Admin> respon = new ArrayList<Admin>(abnormal.getResponsorSet());
+			for(Admin admin : respon){
+				String str = admin.getName();
+				//respon.add(str);
+			}
+			//String comlist = CommonUtil.toString(respon, ",");//获取问题的字符串
+			abnormal.setCallReason(comlist);
+			
+			pagerlist.set(i, abnormal);
+		}
+		
+		
+		JSONArray jsonArray = JSONArray.fromObject(pager);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
 //	
 //	@InputConfig(resultName = "error")
 //	public String update() {
@@ -237,9 +213,9 @@ public class AbnormalAction extends BaseAdminAction {
 //			}
 //		}
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
-	}
+//		redirectionUrl = "abnormal!list.action";
+//		return SUCCESS;
+//	}
 	
 	// 添加
 	public String addMessage() {

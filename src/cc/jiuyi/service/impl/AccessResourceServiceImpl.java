@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springmodules.cache.annotations.CacheFlush;
+import org.springmodules.cache.annotations.Cacheable;
 
 import cc.jiuyi.dao.AccessResourceDao;
 import cc.jiuyi.entity.AccessResource;
@@ -40,7 +42,10 @@ public class AccessResourceServiceImpl extends BaseServiceImpl<AccessResource, S
 		return accessResourcedao.findAccessByRoles(roleids);
 	}
 
-	
+	@CacheFlush(modelId="flushing")
+	public void update(AccessResource accessResource) {
+		accessResourcedao.update(accessResource);
+	}
 
 	
 

@@ -6,6 +6,7 @@ import java.util.List;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 - 工序管理
@@ -47,4 +48,11 @@ public interface ProcessService extends BaseService<Process, String> {
 	 * 根据工序id查询对应产品的所有
 	 */
 	//public Pager getProductsList(Pager pager, HashMap<String, String> map);
+	
+	/**
+	 * 根据产品编号获取对应的所有工序
+	 * @param productsCode
+	 * @return
+	 */
+	public List<Process> findProcess(List<WorkingBill> workingbill);
 }

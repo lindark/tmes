@@ -58,14 +58,14 @@ body {
 
 									<tbody>
 										<#list workingbillList as list>
-										<tr>
-											<td class="center">${list.workingBillCode }</td>
-											<td class="center">${list.matnr }</td>
-											<td class="center">${list.maktx }</td>
-											<td class="center">
-												<input type="text"/>
-											</td>
-										</tr>
+											<tr>
+												<td class="center">${list.workingBillCode }</td>
+												<td class="center">${list.matnr }</td>
+												<td class="center">${list.maktx }</td>
+												<td class="center">
+													<input type="text"/>
+												</td>
+											</tr>
 										</#list>
 
 									</tbody>

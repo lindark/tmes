@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -127,6 +129,7 @@ public class ReworkAction extends BaseAdminAction {
 				List<Rework> reworkList = pager.getList();
 				List<Rework> lst = new ArrayList<Rework>();
 				for (int i = 0; i < reworkList.size(); i++) {
+					System.out.println(reworkList.size());
 					Rework rework = (Rework) reworkList.get(i);
 					rework.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "reworkState", rework.getState()));
@@ -138,15 +141,23 @@ public class ReworkAction extends BaseAdminAction {
 					rework.setProductsName(rework.getWorkingbill().getMaktx());
 					rework.setXduty(rework.getDuty().getName());//责任人名
 				    rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
-				    rework.setXconfirmUser("确认人");
-				    rework.setXmodifyUser("修改人");
+				    System.out.println(rework.getConfirmUser());
+				    if(rework.getConfirmUser()!=null){
+				    	rework.setXconfirmUser(rework.getConfirmUser().getName());
+				    }
+				    if(rework.getModifyUser()!=null){
+				    	rework.setXmodifyUser(rework.getModifyUser().getName());
+				    }
 				    //rework.setXconfirmUser(rework.getConfirmUser().getName());//确认人名
 				   // rework.setXmodifyUser(rework.getModifyUser().getName());//修改人名
 					lst.add(rework);
 				}
 				
 			pager.setList(lst);
-			JSONArray jsonArray = JSONArray.fromObject(pager);
+			JsonConfig jsonConfig=new JsonConfig(); 
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Rework.class));//排除有关联关系的属性字段  
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			 return ajaxJson(jsonArray.get(0).toString());
 		} catch (Exception e) {
@@ -216,12 +227,22 @@ public class ReworkAction extends BaseAdminAction {
 		admin= adminService.getLoginAdmin();
 		//rework.setCreateUser(admin.getId());
 		rework.setCreateUser(admin);
+		rework.setModifyUser(admin);
 		reworkService.save(rework);
 		redirectionUrl="rework!list.action?workingBillId="
 				+ rework.getWorkingbill().getId();
 		return SUCCESS;	
 	}
 		
+	public String confirm() throws Exception{
+		admin=adminService.getLoginAdmin();
+		rework.setConfirmUser(admin);
+		rework.setModifyUser(admin);
+		reworkService.save(rework);
+		redirectionUrl="rework!list.action?workingBillId="
+				+rework.getWorkingbill().getId();
+		return SUCCESS;
+	}
 
 	public String compelete(){
 		//workingbill=workingBillService.get(workingBillId);

@@ -161,6 +161,7 @@ public class AbnormalAction extends BaseAdminAction {
 		    
 		    Admin admin = adminService.getLoginAdmin();
 		    
+		    System.out.println(persistent.getSwiptCardSet());
 		    if(persistent.getSwiptCardSet()!=null){
 		    	
 		    List<SwiptCard>  swiptCardList= new ArrayList(persistent.getSwiptCardSet());
@@ -189,6 +190,7 @@ public class AbnormalAction extends BaseAdminAction {
 		    }
 		    
 		    }else{
+		    	
 			    if(persistent.getResponsorSet().size()>1){
 			    	persistent.setState("1");
 				}else{

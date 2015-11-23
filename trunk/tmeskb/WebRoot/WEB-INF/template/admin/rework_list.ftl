@@ -130,21 +130,24 @@
 								</div>
 							</div>
 							<div class="row buttons">
-								<div class="col-md-2 col-sm-4">
+								
 									<button class="btn btn-white btn-success btn-bold btn-round " id="addRework">
 										<span class="bigger-110 no-text-shadow">创建返工单</span>
 									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
+
+                                    <button class="btn btn-white btn-success btn-bold btn-round " id="editRework">
+										<span class="bigger-110 no-text-shadow">编辑返工单</span>
+									</button>
+
 									<button class="btn btn-white btn-success btn-bold btn-round" id="undoRework">
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
+
+
 									<button class="btn btn-white btn-success btn-bold btn-round" id="returnRework">
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
-								</div>
+				
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
@@ -205,10 +208,9 @@
 		});
 		
 		
-		$("#completeRework").click(function(){
+		$("#editRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			//alert(id);
 			if(id.length>1){
 	    		alert("只能选择一条返工记录！");
 	    		return false;
@@ -216,7 +218,7 @@
 	    		alert("至少选择一条返工记录");
 	    		return false;
 	    	}else{
-	    		window.location.href = "rework!compelete.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
+	    		window.location.href = "rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
 	    	}	
 		});
 		

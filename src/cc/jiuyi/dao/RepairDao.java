@@ -10,7 +10,15 @@ import cc.jiuyi.entity.Repair;
  * 返修
  */
 public interface RepairDao extends BaseDao<Repair, String>{
-	public Pager getRepairPager(Pager pager,HashMap<String,String> map);
+	/**
+	 * 分页查询
+	 * 
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
+			String workingbillId);
 	
 	/**
 	 * 标记删除

@@ -71,6 +71,8 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
 		return list;
 	}
+	
+	
 
 	/**
 	 * 查询随工单表中的id 和 产品名称maktx

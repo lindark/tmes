@@ -121,4 +121,10 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		
 	}
 
+	@Override
+	public List<Material> getMantrBom(Object[] matnrs) {
+		String hql="from Material where products.productsCode in (:list)";
+		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
+	}
+
 }

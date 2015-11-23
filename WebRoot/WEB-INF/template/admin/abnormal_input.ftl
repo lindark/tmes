@@ -173,6 +173,9 @@ $(function(){
 	
 	$(".deleteImage").livequery("click", function() {
 		$(this).parent().parent().remove();
+		if($("#sample-table-1 tbody tr").length<=0){
+			$("#sure").hide();
+		}
 	})
 	
 	var i = $("#sample-table-1 tbody tr").length;

@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'repairAmount',index:'repairAmount', width:100},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'responseRemark',index:'processResponse', width:100,sortable:"true",sorttype:"text"},
-			{name:'duty',index:'duty', width:100,sortable:"true",sorttype:"text"},
+			{name:'dutyName',index:'dutyName', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}

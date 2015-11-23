@@ -51,6 +51,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		//if(!super.existAlias(detachedCriteria, "products", "products"))
 		//	detachedCriteria.createAlias("products", "products");//表名，别名
+		
 		if (map.size() > 0)
 		{
 			if(map.get("processCode")!=null)
@@ -175,4 +176,12 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		System.out.println(detachedCriteria);
 		return super.findByPager(pager, detachedCriteria);
 	}*/
+	
+	
+	public List<Process> findProcess(Object[] productsCodes){
+		String hql="select distinct a from Process a join a.products b where b.productsCode in (:list)";
+		return getSession().createQuery(hql).setParameterList("list", productsCodes).list();
+	}
+	
+	
 }

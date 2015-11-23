@@ -202,27 +202,19 @@ body{background:#fff;}
 										
 							
 				
-			<div class="buttonArea" >
-				                 <div class="col-md-1 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="completeRework" type=button>
+			<div class="buttonArea" >			              
+									<button class="btn btn-white btn-success btn-bold btn-round" id="completeRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡提交</span>
 									</button>									
-								</div>
-								<div class="col-md-1 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="checkRework" type=button>
+									<button class="btn btn-white btn-success btn-bold btn-round" id="checkRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡审核</span>
 									</button>
-								</div>
-								<div class="col-md-1 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmRework" type=button>
+									<button class="btn btn-white btn-success btn-bold btn-round" id="confirmRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡确认</span>
 									</button>
-								</div>
-								<div class="col-md-1 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnRework" type=button>
+									<button class="btn btn-white btn-success btn-bold btn-round" id="returnRework" type=button>
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
-								</div>
 			</div>
 		</form>
 	

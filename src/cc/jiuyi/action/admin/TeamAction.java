@@ -271,12 +271,7 @@ public class TeamAction extends BaseAdminAction {
 	public String update() 
 	{
 		Team t1 = teamService.load(id);
-		t1.setModifyDate(new Date());//修改日期
-		t1.setTeamCode(team.getTeamCode());//班组编码
-		t1.setTeamName(team.getTeamName());//班组名称
-		FactoryUnit fu=this.fuService.load(team.getFactoryUnit().getId());//单元
-		t1.setFactoryUnit(fu);//单元
-		t1.setState(team.getState());//状态
+		BeanUtils.copyProperties(team, t1, new String[] { "id"});//除了id不修改，其他都修改，自动完成设值操作
 		teamService.update(t1);
 		redirectionUrl = "team!list.action";
 		return SUCCESS;

@@ -45,7 +45,7 @@ jQuery(function($) {
 			{name:'accObjName',label:"权限对象名称",width:200,index:'accObjName',editable:true},
 			{name:'typeName',label:"权限对象类型",width:200,index:'type',editable:true},
 			{name:'modifyDate',label:"修改日期",width:200,index:'createDate', editable: true,formatter:datefmt},
-			//{name:'resourceName',label:"资源名称",width:200,index:'resourceName', editable: true,editrules : {required : true}}
+			{name:'resourceName',label:"资源名称",width:200,index:'resourceName', editable: true,editrules : {required : true}}
 		], 
 
 		viewrecords : true,
@@ -58,7 +58,11 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        grouping:true,
+        groupingView : {
+          groupField : ['accObjName']
+        },
+       
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -70,8 +74,10 @@ jQuery(function($) {
 			}, 0);
 		},
 
+		
 		//editurl: "working_bill!delete.action",//用它做标准删除动作
-		caption: "权限对象"
+		caption: "权限对象",
+		
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

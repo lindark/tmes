@@ -43,8 +43,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
-	//private Set<Abnormal> abnormalSet;// 异常
-	private Set<Abnormal> abnormalList;//
+	private Set<Abnormal> abnormalList;//一个发起人对应多个异常
+	private Set<Abnormal> abnormalSet;//应答人与异常多对多
+	private SwiptCard swiptCard;//刷卡
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -342,14 +343,6 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.phoneNo = phoneNo;
 	}
 
-	/*@ManyToMany(fetch = FetchType.LAZY)
-	public Set<Abnormal> getAbnormalSet() {
-		return abnormalSet;
-	}
-
-	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
-		this.abnormalSet = abnormalSet;
-	}*/
 
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="iniitiator")
 	public Set<Abnormal> getAbnormalList() {
@@ -358,6 +351,24 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setAbnormalList(Set<Abnormal> abnormalList) {
 		this.abnormalList = abnormalList;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="admin")
+	public Set<Abnormal> getAbnormalSet() {
+		return abnormalSet;
+	}
+
+	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
+		this.abnormalSet = abnormalSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
+	public SwiptCard getSwiptCard() {
+		return swiptCard;
+	}
+
+	public void setSwiptCard(SwiptCard swiptCard) {
+		this.swiptCard = swiptCard;
 	}
 	
 	

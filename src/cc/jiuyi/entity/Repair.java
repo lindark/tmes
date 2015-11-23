@@ -28,6 +28,7 @@ public class Repair extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
+	private String responseRemark;//责任工序描述
 
 	private WorkingBill workingbill;// 随工单
 
@@ -137,6 +138,15 @@ public class Repair extends BaseEntity {
 
 	public void setCreateName(String createName) {
 		this.createName = createName;
+	}
+
+	@Transient
+	public String getResponseRemark() {
+		return responseRemark;
+	}
+
+	public void setResponseRemark(String responseRemark) {
+		this.responseRemark = responseRemark;
 	}
 
 }

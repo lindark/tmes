@@ -10,9 +10,6 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -141,9 +138,9 @@ body {
 												<div class="profile-info-name">责任工序</div>
 
 												<div class="profile-info-value">
-													<select name="repair.processResponse" id="form-field-icon-1" class="chosen-select"> 
+													<select name="repair.processResponse.id" id="form-field-icon-1" class="chosen-select"> 
 												        <#list allProcess as list>
-											            <option value="${list.value}"<#if ((isAdd && list.isDefault) || (isEdit && "repair.processResponse" == list.dictkey))!> selected</#if>>${list.processName}</option>
+											            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

@@ -52,6 +52,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private List<Process> processList;
 	private List<WorkingBill> workingbillList;
 	private List<Material> materialList;
+	private String matnr;//组件编码
 	
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -69,6 +70,10 @@ public class HandOverProcessAction extends BaseAdminAction {
 	
 	//添加
 	public String add(){
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		//Material material = materialservice.get("materialCode",matnr);
+		//workingbillList = workingbillservice.findListWorkingBill(material.getProducts().getma, admin.getProductDate(), admin.getShift());
 		return INPUT;
 	}
 
@@ -226,6 +231,16 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setMaterialList(List<Material> materialList) {
 		this.materialList = materialList;
+	}
+
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
 	}
 	
 	

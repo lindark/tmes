@@ -142,8 +142,8 @@ body {
 
 												<div class="profile-info-value">
 													<select name="repair.processResponse" id="form-field-icon-1" class="chosen-select"> 
-												        <#list allResponse as list>
-											            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && "repair.processResponse" == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+												        <#list allProcess as list>
+											            <option value="${list.value}"<#if ((isAdd && list.isDefault) || (isEdit && "repair.processResponse" == list.dictkey))!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

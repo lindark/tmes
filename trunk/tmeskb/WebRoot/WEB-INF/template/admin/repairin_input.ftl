@@ -66,7 +66,7 @@ body {
 								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} ">
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">报工管理</a></li>
+										<li><a href="#tabs-1">返修收货管理</a></li>
 
 									</ul>
 

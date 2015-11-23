@@ -37,8 +37,58 @@ public class WorkingBill extends BaseEntity {
 
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;// 组件
+	private Set<Rework> rework;
+    private Set<DailyWork> dailyWork;
+    private Set<Carton> carton;
+    private Set<Repair> repair;
+    private Set<Repairin> repairin;
+    
+    
+    @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+    public Set<Repairin> getRepairin() {
+		return repairin;
+	}
 
-	
+	public void setRepairin(Set<Repairin> repairin) {
+		this.repairin = repairin;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+    public Set<Repair> getRepair() {
+		return repair;
+	}
+
+	public void setRepair(Set<Repair> repair) {
+		this.repair = repair;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+    public Set<Carton> getCarton() {
+		return carton;
+	}
+
+	public void setCarton(Set<Carton> carton) {
+		this.carton = carton;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	public Set<DailyWork> getDailyWork() {
+		return dailyWork;
+	}
+
+	public void setDailyWork(Set<DailyWork> dailyWork) {
+		this.dailyWork = dailyWork;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	public Set<Rework> getRework() {
+		return rework;
+	}
+
+	public void setRework(Set<Rework> rework) {
+		this.rework = rework;
+	}
+
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouse() {
 		return enteringwareHouse;

@@ -183,7 +183,7 @@ public class ReworkAction extends BaseAdminAction {
 		public String edit(){
 	    workingbill = workingBillService.get(workingBillId);
 		rework = reworkService.load(id);
-		if(rework.getState()!=UNDO){
+		if(rework.getState().equals(UNDO)){
 			addActionError("已撤销的无法再编辑！");
 			return ERROR;
 		}					
@@ -239,6 +239,7 @@ public class ReworkAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
+	//刷卡审核
 	public String check() throws Exception{
 		Rework persistent = reworkService.load(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
@@ -252,6 +253,7 @@ public class ReworkAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
+	//刷卡确认
 	public String confirm() throws Exception{
 		Rework persistent = reworkService.load(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});

@@ -98,14 +98,14 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<input type="text" name="rework.reworkCount" "
 														value="${(rework.reworkCount)!}"
-														class=" input input-sm formText {minlength:0,maxlength: 100}" />													
+														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />													
 												</div>
 
 											<div class="profile-info-name">翻包数量</div>
 												<div class="profile-info-value">
 													<input type="text" name="rework.reworkAmount"
 														value="${(rework.reworkAmount)!}"
-														class=" input input-sm formText {minlength:0,maxlength: 100}" />
+														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />
 												</div>
 											</div>
 
@@ -115,7 +115,7 @@ body{background:#fff;}
 												<div class="profile-info-value">
 													<input type="text" name="rework.defectAmount"
 														value="${(rework.defectAmount)!}"
-														class=" input input-sm formText {minlength:0,maxlength: 100}" />													
+														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />													
 												</div>
 
 
@@ -136,7 +136,7 @@ body{background:#fff;}
 												<div class="profile-info-name">问题描述:</div>
 												<div class="profile-info-value">
 													<textarea name="rework.problem"
-														style="width:600px;">${(rework.problem)!}</textarea>
+														style="width:600px;" class=" formText {required: true,minlength:0,maxlength: 100}">${(rework.problem)!}</textarea>
 												</div>
 											</div>
 										</div>
@@ -148,7 +148,7 @@ body{background:#fff;}
 												<div class="profile-info-name">整改方案:</div>
 												<div class="profile-info-value">
 													<textarea name="rework.rectify"
-														style="width:600px;">${(rework.rectify)!}</textarea>
+														style="width:600px;" class=" formText {required: true,minlength:0,maxlength: 100}">${(rework.rectify)!}</textarea>
 												</div>
 											</div>
 										</div>
@@ -176,7 +176,7 @@ body{background:#fff;}
 										   <div class="profile-info-name">完工日期</div>
 										     <div class="profile-info-value">
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker " name="rework.completeDate" value="${(rework.completeDate)!}" onchange=out(this); >
+												<input type="text" class="input-sm form-control datePicker " name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
 											</div>
 											</div>						
 										 </div>
@@ -207,7 +207,7 @@ body{background:#fff;}
 										<span class="bigger-110 no-text-shadow">刷卡提交</span>
 									</button>									
 									<button class="btn btn-white btn-success btn-bold btn-round" id="checkRework" type=button>
-										<span class="bigger-110 no-text-shadow">刷卡审核</span>
+										<span class="bigger-110 no-text-shadow">刷卡回复</span>
 									</button>
 									<button class="btn btn-white btn-success btn-bold btn-round" id="confirmRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡确认</span>

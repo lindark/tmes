@@ -186,7 +186,10 @@ public class ReworkAction extends BaseAdminAction {
 		if(rework.getState().equals(UNDO)){
 			addActionError("已撤销的无法再编辑！");
 			return ERROR;
-		}					
+		}if(rework.getState().equals("3")){
+			addActionError("已返工的无法再编辑！");
+			return ERROR;
+		}
 			return INPUT;	
 		}
 		

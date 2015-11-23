@@ -17,6 +17,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -46,6 +47,7 @@ public class RepairAction extends BaseAdminAction {
 	private String workingBillId;
 	private WorkingBill workingbill;
 	private Admin admin;
+	private List<Dict> allResponse;
 
 	@Resource
 	private RepairService repairService;
@@ -205,6 +207,14 @@ public class RepairAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public List<Dict> getAllResponse() {
+		return dictService.getList("dictname", "repairResponse");
+	}
+
+	public void setAllResponse(List<Dict> allResponse) {
+		this.allResponse = allResponse;
 	}
 
 }

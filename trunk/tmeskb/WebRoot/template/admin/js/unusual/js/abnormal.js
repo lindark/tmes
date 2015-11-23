@@ -76,7 +76,7 @@ $(function() {
 			return false;
 		}else if(i.length==1){	
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state==0){				
+			if(rowData.state==0 || rowData.state==1){				
 				window.location.href = "abnormal!update.action?aid="+i;
 			}else{
 				alert("异常不能响应");
@@ -104,7 +104,7 @@ $(function() {
 			return false;
 		}else if(i.length==1){	
 			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state==0){
+			if(rowData.state==0 || rowData.state==1){
 			  window.location.href = "abnormal!update.action?cancelId="+i;
 			}else{
 				alert("异常不能撤销");

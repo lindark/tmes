@@ -45,6 +45,7 @@ public class ReworkAction extends BaseAdminAction {
 	private static final long serialVersionUID = -6552767291676622701L;
 	
 	private static final String COMPELETE ="Y";
+	private static final String UNDO="4";
 	
 	private Rework rework;
 	private Admin admin;
@@ -234,41 +235,52 @@ public class ReworkAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
-	public String confirm() throws Exception{
+	public String check() throws Exception{
+		Rework persistent = reworkService.load(id);
+		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
 		admin=adminService.getLoginAdmin();
-		rework.setConfirmUser(admin);
-		rework.setModifyUser(admin);
-		reworkService.save(rework);
+		persistent.setConfirmUser(admin);
+		persistent.setModifyUser(admin);
+		persistent.setState("2");
+		reworkService.save(persistent);
+		redirectionUrl="rework!list.action?workingBillId="
+				+rework.getWorkingbill().getId();
+		return SUCCESS;
+	}
+	
+	public String confirm() throws Exception{
+		Rework persistent = reworkService.load(id);
+		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
+		admin=adminService.getLoginAdmin();
+		persistent.setConfirmUser(admin);
+		persistent.setModifyUser(admin);
+		persistent.setState("3");
+		reworkService.save(persistent);
 		redirectionUrl="rework!list.action?workingBillId="
 				+rework.getWorkingbill().getId();
 		return SUCCESS;
 	}
 
-	public String compelete(){
-		//workingbill=workingBillService.get(workingBillId);
-		ids=id.split(",");
+	// 刷卡撤销
+	public String undo() {
+		workingbill = workingBillService.get(workingBillId);
+		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			rework=reworkService.load(ids[i]);
-			if(COMPELETE.equals(rework.getIsCompelete())){
-				addActionError("次返工单已经完工!");
+			rework = reworkService.load(ids[i]);
+			if (UNDO.equals(rework.getState())) {
+				addActionError("已撤销的无法再撤销！");
 				return ERROR;
-			}		
-		}
-		for (int i = 0; i < ids.length; i++) {
-			rework=reworkService.load(ids[i]);
-			if(!COMPELETE.equals(rework.getIsCompelete())){
-				rework.setIsCompelete(COMPELETE);
-				admin=adminService.getLoginAdmin();
-				//rework.setAdmin(admin);
-				//rework.setConfirmUser(admin.getId());
-				reworkService.update(rework);				
 			}
-			
 		}
-		redirectionUrl="rework!list.action?workingBillId="+ rework.getWorkingbill().getId();
-		return SUCCESS;
 		
+		rework.setState(UNDO);
+		reworkService.update(rework);
+		workingBillService.update(workingbill);
+		redirectionUrl = "rework!list.action?workingBillId="
+				+ rework.getWorkingbill().getId();
+		return SUCCESS;
 	}
+
 
 	public Rework getRework() {
 		return rework;

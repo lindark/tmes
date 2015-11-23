@@ -41,6 +41,18 @@ public interface MaterialService extends BaseService<Material, String> {
 	 */
 	public boolean isExistByMaterialCode(String materialCode);
 	
+	/**
+     * 根据随工单中的产品编码查组件Bom
+     * @param matnr
+     * @return
+     */
 	public List<Material> getMantrBom(String matnr);
+	
+	/**
+     * 根据随工单中的产品编码查组件Bom
+     * @param matnr
+     * @return
+     */
+	public List<Material> getMantrBom(Object[] matnrs);
 
 }

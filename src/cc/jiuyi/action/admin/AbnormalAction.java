@@ -159,48 +159,71 @@ public class AbnormalAction extends BaseAdminAction {
 		    Abnormal persistent = abnormalService.load(aid);
 		    persistent.setReplyDate(new Date());
 		    
-		    Admin admin = adminService.getLoginAdmin();
+		    Admin admin = adminService.getLoginAdmin();		  
 		    
-		    System.out.println(persistent.getSwiptCardSet());
 		    if(persistent.getSwiptCardSet().size()>0){
-		    	System.out.println("i");
+
 		    List<SwiptCard>  swiptCardList= new ArrayList(persistent.getSwiptCardSet());
-		    System.out.println(swiptCardList.size());
-		    System.out.println(persistent.getResponsorSet().size());
+
 		    for(SwiptCard s:swiptCardList){
 		    	if(s.getType().equals("0")){
 		    		List<Admin> adminList = new ArrayList(s.getAdminSet());
-		    		System.out.println(!adminList.contains(admin));
+
 		    		if(!adminList.contains(admin)){
 		    			
 		    			SwiptCard swiptCard = new SwiptCard();
 		    			swiptCard.setAbnormal(persistent);
-		    			List<Admin> adminSet = new ArrayList<Admin>();
-		    			adminSet.add(admin);
-		    			swiptCard.setAdminSet(new HashSet<Admin>(adminSet));
+		    			List<Admin> adminSet1 = new ArrayList<Admin>();
+		    			adminSet1.add(admin);
+		    			swiptCard.setAdminSet(new HashSet<Admin>(adminSet1));
+		    			swiptCard.setType("0");
+		    			swiptCardService.save(swiptCard); 
 		    			
-                        if(persistent.getResponsorSet().size()==swiptCard.getAdminSet().size()){
+		    			List<SwiptCard> swiptList = new ArrayList<SwiptCard>();		    			
+		    			for(SwiptCard ss:persistent.getSwiptCardSet()){
+		    				if(ss.getType().equals("0")){		 				
+		    					swiptList.add(ss);
+		    				}
+		    			}
+
+                        if(persistent.getResponsorSet().size()==swiptList.size()+1){
                         	persistent.setState("2");
 		    			}else{
 		    				persistent.setState("1");
 		    			}
-		    			swiptCard.setType("0");
-		    			swiptCardService.save(swiptCard); 			
+		    						
 		    		}
 		    	}
 		    }
 		    
 		    }else{
-		    	System.out.println("u");
+
 			    if(persistent.getResponsorSet().size()>1){
-			    	persistent.setState("1");
+
+			    	if(persistent.getResponsorSet().contains(admin)){
+			    		persistent.setState("1");
+				    	SwiptCard swiptCard = new SwiptCard();
+		    			swiptCard.setAbnormal(persistent);
+		    			List<Admin> adminSet1 = new ArrayList<Admin>();
+		    			adminSet1.add(admin);
+		    			swiptCard.setAdminSet(new HashSet<Admin>(adminSet1));
+		    			swiptCard.setType("0");
+		    			swiptCardService.save(swiptCard); 	
+			    	}
+			    	
 				}else{
 					persistent.setState("2");
+					SwiptCard swiptCard = new SwiptCard();
+	    			swiptCard.setAbnormal(persistent);
+	    			List<Admin> adminSet = new ArrayList<Admin>();
+	    			adminSet.add(admin);
+	    			swiptCard.setAdminSet(new HashSet<Admin>(adminSet));
+	    			swiptCard.setType("0");
+	    			swiptCardService.save(swiptCard); 
 				}
 		    	
 		    }
-		    System.out.println("3");
-		    //集合中不存在admin*/
+
 		    Date date = new Date();
 		    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);
 		    persistent.setHandlingTime(time);
@@ -210,7 +233,7 @@ public class AbnormalAction extends BaseAdminAction {
 			String id[] =aids.split(",");
 			for(int i=0;i<id.length;i++){
 				Abnormal persistent = abnormalService.load(id[i]);
-				if(persistent.getState().equals("0")){
+				if(persistent.getState().equals("0") || persistent.getState().equals("1") ){
 					persistent.setReplyDate(new Date());
 				    persistent.setState("2");
 				    Date date = new Date();
@@ -231,7 +254,7 @@ public class AbnormalAction extends BaseAdminAction {
 			String id[] =cancelIds.split(",");
 			for(int i=0;i<id.length;i++){
 				Abnormal persistent = abnormalService.load(id[i]);
-				if(persistent.getState().equals("0")){
+				if(persistent.getState().equals("0") || persistent.getState().equals("1")){
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();

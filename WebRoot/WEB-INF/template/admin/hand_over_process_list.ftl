@@ -15,7 +15,8 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <script src="${base}/template/admin/assets/js/ace-extra.min.js"></script>
 <script src="${base }/template/admin/js/manage/handover.js"></script>
-
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <style type="text/css">
 .ztree li span.button.add {
 	margin-left: 2px;

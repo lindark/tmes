@@ -45,7 +45,7 @@ public class ReworkDaoImpl extends BaseDaoImpl<Rework, String> implements Rework
 	public Pager getReworkPager(Pager pager, HashMap<String, String> map,String workingbillId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Rework.class);
-		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
+	/*	if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
 		{
 			detachedCriteria.createAlias("workingbill", "workingbill");
 		}
@@ -53,17 +53,17 @@ public class ReworkDaoImpl extends BaseDaoImpl<Rework, String> implements Rework
 		if(!this.existAlias(detachedCriteria, "duty", "duty"))
 		{
 			detachedCriteria.createAlias("duty", "duty");
-		}
+		}*/
 		//确认人
 		/*if(!this.existAlias(detachedCriteria, "confirmUser", "confirmUser"))
 		{
 			detachedCriteria.createAlias("confirmUser", "confirmUser");
 		}*/
 		//创建人
-		if(!this.existAlias(detachedCriteria, "createUser", "createUser"))
-		{
-			detachedCriteria.createAlias("createUser", "createUser");
-		}
+//		if(!this.existAlias(detachedCriteria, "createUser", "createUser"))
+//		{
+//			detachedCriteria.createAlias("createUser", "createUser");
+//		}
 		//修改人
 /*		if(!this.existAlias(detachedCriteria, "modifyUser", "modifyUser"))
 		{

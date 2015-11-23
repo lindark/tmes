@@ -45,63 +45,32 @@ body {
 							<form id="inputForm" class="validateajax"
 								action="<#if isAdd??>admin!save.action<#else>admin!update.action</#if>"
 								method="post">
-								
+
 								<table class="table table-striped table-bordered">
-															<thead>
-																<tr>
-																	<th class="center">#</th>
-																	<th>Product</th>
-																	<th class="hidden-xs">Description</th>
-																	<th class="hidden-480">Discount</th>
-																	<th>Total</th>
-																</tr>
-															</thead>
+									<thead>
+										<tr>
+											<th class="center">随工单号</th>
+											<th>产品编号</th>
+											<th>产品名称</th>
+											<th>交接数量</th>
+										</tr>
+									</thead>
 
-															<tbody>
-																<tr>
-																	<td class="center">1</td>
+									<tbody>
+										<#list workingbillList as list>
+										<tr>
+											<td class="center">${list.workingBillCode }</td>
+											<td class="center">${list.matnr }</td>
+											<td class="center">${list.maktx }</td>
+											<td class="center">
+												<input type="text"/>
+											</td>
+										</tr>
+										</#list>
 
-																	<td>
-																		<a href="#">google.com</a>
-																	</td>
-																	<td class="hidden-xs">
-																		1 year domain registration
-																	</td>
-																	<td class="hidden-480"> --- </td>
-																	<td>$10</td>
-																</tr>
+									</tbody>
+								</table>
 
-																<tr>
-																	<td class="center">2</td>
-
-																	<td>
-																		<a href="#">yahoo.com</a>
-																	</td>
-																	<td class="hidden-xs">
-																		5 year domain registration
-																	</td>
-																	<td class="hidden-480"> 5% </td>
-																	<td>$45</td>
-																</tr>
-
-																<tr>
-																	<td class="center">3</td>
-																	<td>Hosting</td>
-																	<td class="hidden-xs"> 1 year basic hosting </td>
-																	<td class="hidden-480"> 10% </td>
-																	<td>$90</td>
-																</tr>
-
-																<tr>
-																	<td class="center">4</td>
-																	<td>Design</td>
-																	<td class="hidden-xs"> Theme customization </td>
-																	<td class="hidden-480"> 50% </td>
-																	<td>$250</td>
-																</tr>
-															</tbody>
-														</table>
-								
 							</form>
 
 							<!-- add by welson 0728 -->

@@ -107,6 +107,9 @@ public class Rework extends BaseEntity{
 		return isCompelete;
 	}
 	public void setIsCompelete(String isCompelete) {
+		if(isCompelete==null){
+			isCompelete="N";
+		}
 		this.isCompelete = isCompelete;
 	}
 	public Timestamp getCompleteDate() {
@@ -116,8 +119,6 @@ public class Rework extends BaseEntity{
 		this.completeDate = completeDate;
 	}
 	
-
-
 	public String getState() {
 		return state;
 	}

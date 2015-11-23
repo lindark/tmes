@@ -312,17 +312,6 @@ $(function(){
 	});
 	
 	
-	$("#undoRework").click(function(){
-		var workingBillId = $("#workingBillId").val();
-		var id = "";
-		id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		if(id==""){
-			alert("请选择至少一条返工记录！");
-		}else{
-			window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
-		}
-		
-	});
 	$("#returnRework").click(function(){
 		window.history.back();
 	});

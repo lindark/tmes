@@ -162,6 +162,8 @@ public class RepairAction extends BaseAdminAction {
 			Repair repair = (Repair) repairList.get(i);
 			repair.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "repairState", repair.getState()));
+			repair.setResponseRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "repairResponse", repair.getProcessResponse()));
 			if (repair.getConfirmUser() != null) {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}

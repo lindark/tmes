@@ -18,10 +18,12 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -48,6 +50,7 @@ public class RepairAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private List<Dict> allResponse;
+	private List<Process> allProcess;
 
 	@Resource
 	private RepairService repairService;
@@ -57,6 +60,8 @@ public class RepairAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private ProcessService processService;
 
 	public String list() {
 		workingbill = workingBillService.get(workingBillId);
@@ -66,6 +71,9 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
+		workingbills.add(workingbill);
+		allProcess = processService.findProcess(workingbills);
 		return INPUT;
 	}
 
@@ -221,6 +229,14 @@ public class RepairAction extends BaseAdminAction {
 
 	public void setAllResponse(List<Dict> allResponse) {
 		this.allResponse = allResponse;
+	}
+
+	public List<Process> getAllProcess() {
+		return allProcess;
+	}
+
+	public void setAllProcess(List<Process> allProcess) {
+		this.allProcess = allProcess;
 	}
 
 }

@@ -33,18 +33,6 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 		super.setBaseDao(materialDao);
 	}
 	
-	@Override
-	public void delete(String id) {
-		Material material = materialDao.load(id);
-		this.delete(material);
-	}
-
-	@Override
-	public void delete(String[] ids) {
-		for (String id : ids) {
-			this.delete(id);
-		}
-	}
 
 	@Override
 	public List<Material> getMaterialList() {		
@@ -80,6 +68,12 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	public List<Material> getMantrBom(String matnr) {
 		// TODO Auto-generated method stub
 		return materialDao.getMantrBom(matnr);
+	}
+
+	@Override
+	public List<Material> getMantrBom(Object[] matnrs) {
+		// TODO Auto-generated method stub
+		return materialDao.getMantrBom(matnrs);
 	}
 
 	

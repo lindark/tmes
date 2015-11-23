@@ -97,7 +97,10 @@
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
-								
+								<br/>
+								<div class="buttonArea">
+									<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+								</div>
 								
 									
 								<script type="text/javascript">

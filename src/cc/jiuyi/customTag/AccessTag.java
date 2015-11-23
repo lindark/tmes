@@ -2,6 +2,7 @@ package cc.jiuyi.customTag;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.SpringUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 自定义标签 --- 权限 
@@ -42,6 +44,7 @@ public class AccessTag extends TagSupport {
 	
 	@Override
 	public int doStartTag() throws JspException {
+		System.out.println("开始时间:"+new Date());
 		System.out.println("调用doStartTag()方法");
 		HttpServletRequest request =(HttpServletRequest) pageContext.getRequest();
 		StringBuffer html = new StringBuffer();
@@ -63,6 +66,12 @@ public class AccessTag extends TagSupport {
 			e.printStackTrace();
 		}
 		return super.doStartTag();
+	}
+	
+	@Override
+	public int doEndTag() throws JspException {
+		System.out.println("结束时间:"+new Date());
+		return super.doEndTag();
 	}
 
 	public String getAccobjkey() {

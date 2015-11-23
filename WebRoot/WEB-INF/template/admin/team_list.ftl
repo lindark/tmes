@@ -64,40 +64,31 @@
 										<div class="col-sm-4">
 											<input type="text" name="teamCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">单元名称:</label>
+										
+										<label class="col-sm-1" style="text-align:right">班组名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="teamName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>	
+									
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单元名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="xfactoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										
-										<!--
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">班组名称:</label>
-										<div class="col-sm-4">
-											<select name="teamName"  id="form-field-icon-1" class="input input-sm form-control">
-												<option></option>
-												<option value="早班">早班</option>
-												<option value="中班">中班</option>
-												<option value="晚班">晚班</option>
-											</select>
-										</div>
-										-->
-										
-									</div>	
-									
-								   <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">车间名称:</label>
+										<label class="col-sm-1" style="text-align:right">车间名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="xworkShopName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										
-										<label class="col-sm-1" style="text-align:right">工厂名称:</label>
+									</div>
+									
+								   <div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">工厂名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="xfactoryName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-									</div>
-								   
-								   
-								   	<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
+										<label class="col-sm-1" style="text-align:right">状态:</label>
 										<div class="col-sm-4">
 											<select name="state" id="form-field-icon-1" class="input input-sm form-control">
 												<option value="">全选</option>
@@ -105,7 +96,7 @@
 												<option value="2">未启用</option>
 											</select>
 										</div>
-									</div>	
+									</div>
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>

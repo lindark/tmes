@@ -84,25 +84,7 @@ body{background:#fff;}
 												</tr>
 											</thead>
 
-											<tbody>
-											<!-- 
-												<tr class="person">					
-													<td>
-													    <input type="text" name="name" id="name"　value="" class="{required: true}" readonly="readonly"/>
-														<input type="hidden" name="nameId" id="nameId"　value=""/>
-													</td>
-													<td>
-													    <select name="callReasonId" class="{required: true}"
-														style="width:200px;">
-														<option value="">请选择...</option> 
-														<#list callReasonList as list>
-														<option value="${list.id}">${list.callReason}</option>
-														</#list>
-													</select>
-													</td>
-													
-												</tr>
-											 -->	
+											<tbody>											
 											</tbody>
 						</table>
 						</div>

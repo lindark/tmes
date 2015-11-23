@@ -106,6 +106,9 @@ public class Repair extends BaseEntity {
 	}
 
 	public void setState(String state) {
+		if (state == null) {
+			state = "2";
+		}
 		this.state = state;
 	}
 

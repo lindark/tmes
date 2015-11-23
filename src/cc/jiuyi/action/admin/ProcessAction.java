@@ -163,7 +163,7 @@ public class ProcessAction extends BaseAdminAction {
 			}
 			pager.setList(list2);
 			JsonConfig jsonConfig=new JsonConfig();
-			//jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
+			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
@@ -210,14 +210,14 @@ public class ProcessAction extends BaseAdminAction {
 	}
 		
 	//更新
-	@InputConfig(resultName = "error")
 	public String update()
 	{
 		Process persistent = processService.load(id);
 		//persistent.setProducts(new HashSet<Products>(this.productslist));
 		persistent.setModifyDate(new Date());
 		persistent.setProcessName(process.getProcessName());
-		processService.save(persistent);
+		persistent.setState(process.getState());
+		processService.update(persistent);
 		redirectionUrl = "process!list.action";
 		return SUCCESS;
 	}

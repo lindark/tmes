@@ -44,4 +44,11 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 * 检查工序编码是否存在
 	 */
 	public List<Process> getCk(String info);
+	
+	/**
+	 * 根据产品编号获取对应的所有工序
+	 * @param productsCode
+	 * @return
+	 */
+	public List<Process> findProcess(Object[] productsCodes);
 }

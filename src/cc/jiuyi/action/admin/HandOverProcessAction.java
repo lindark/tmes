@@ -57,11 +57,6 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	//列表
 	public String list(){
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
-		}
 		return LIST;
 	}
 	

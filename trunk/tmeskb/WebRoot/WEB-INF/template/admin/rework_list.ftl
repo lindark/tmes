@@ -135,11 +135,11 @@
 										<span class="bigger-110 no-text-shadow">创建返工单</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4">
+								<!-- <div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoRework">
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
-								</div>
+								</div> -->
 								<div class="col-md-2 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnRework">
 										<span class="bigger-110 no-text-shadow">返回</span>

@@ -147,6 +147,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ModelLog</value>
 				<value>cc.jiuyi.entity.DeviceLog</value>
 				<value>cc.jiuyi.entity.AbnormalLog</value>
+				<value>cc.jiuyi.entity.SwiptCard</value>
 			</list>
 		</property>
 	</bean>

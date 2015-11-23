@@ -13,10 +13,18 @@ import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
+import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -41,12 +49,22 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private HandOverProcess handOverProcess;
 	//获取所有状态
 	private List<Dict> allState;
+	private List<Process> processList;
+	private List<WorkingBill> workingbillList;
+	private List<Material> materialList;
 	
 	@Resource
 	private HandOverProcessService handOverProcessService;
 	@Resource
 	private DictService dictService;
-	
+	@Resource 
+	private WorkingBillService workingbillservice;
+	@Resource 
+	private AdminService adminservice;
+	@Resource
+	private ProcessService processservice;
+	@Resource
+	private MaterialService materialservice;
 	
 	
 	//添加
@@ -57,6 +75,22 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	//列表
 	public String list(){
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取当前身份的所有随工单对象
+		
+		Object[] obj = new Object[workingbillList.size()];
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			obj[i] = workingbill.getMatnr();
+		}
+		materialList = materialservice.getMantrBom(obj);//取出随工单对应的物料BOM
+		
+		processList = processservice.findProcess(workingbillList);//取出当前随工单的所有工序
+		if(processList.size() <=0){
+			addActionError("未找到一条工序记录");
+			return ERROR;
+		}
 		return LIST;
 	}
 	
@@ -70,7 +104,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			List<HandOverProcess> handOverProcessList = pager.getList();
 			List<HandOverProcess> lst = new ArrayList<HandOverProcess>();
 			for (int i = 0; i < handOverProcessList.size(); i++) {
-				HandOverProcess handOverProcess = (HandOverProcess) handOverProcessList.get(i);
+				HandOverProcess handOverProcess = handOverProcessList.get(i);
 				handOverProcess.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "handOverProcessState", handOverProcess.getState()));
 				lst.add(handOverProcess);
@@ -162,6 +196,36 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
+	}
+
+
+	public List<Process> getProcessList() {
+		return processList;
+	}
+
+
+	public void setProcessList(List<Process> processList) {
+		this.processList = processList;
+	}
+
+
+	public List<WorkingBill> getWorkingbillList() {
+		return workingbillList;
+	}
+
+
+	public void setWorkingbillList(List<WorkingBill> workingbillList) {
+		this.workingbillList = workingbillList;
+	}
+
+
+	public List<Material> getMaterialList() {
+		return materialList;
+	}
+
+
+	public void setMaterialList(List<Material> materialList) {
+		this.materialList = materialList;
 	}
 	
 	

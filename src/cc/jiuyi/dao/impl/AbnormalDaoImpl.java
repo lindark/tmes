@@ -23,18 +23,17 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
-		if(!super.existAlias(detachedCriteria, "iniitiator", "admin"))
-			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/
-		//detachedCriteria.add(Restrictions.eq("admin.id", id));//当前登陆人员
-		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1"))
-			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/
-		
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id),   
-				Restrictions.eq("admin1.id", id)));  
-		
+		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
+			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
+		}
+		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
+			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
+		}
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id), Restrictions.eq("admin1.id", id)));
+		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
-	}
+	}  				
 	
 	@Override
 	public void updateisdel(String[] ids, String oper) {

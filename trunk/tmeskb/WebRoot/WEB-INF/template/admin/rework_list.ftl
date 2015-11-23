@@ -131,17 +131,17 @@
 							</div>
 							<div class="row buttons">
 								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addRework">
+									<button class="btn btn-white btn-success btn-bold btn-round " id="addRework">
 										<span class="bigger-110 no-text-shadow">创建返工单</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoRework">
+									<button class="btn btn-white btn-success btn-bold btn-round" id="undoRework">
 										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
 									</button>
 								</div>
 								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnRework">
+									<button class="btn btn-white btn-success btn-bold btn-round" id="returnRework">
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
 								</div>
@@ -254,7 +254,7 @@
 			if(id==""){
 				alert("请选择至少一条返工记录！");
 			}else{
-				window.location.href="r!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
+				window.location.href="rework!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
 			}
 			
 		});

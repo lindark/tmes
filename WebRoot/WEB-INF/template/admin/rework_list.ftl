@@ -254,7 +254,7 @@
 			if(id==""){
 				alert("请选择至少一条返工记录！");
 			}else{
-				window.location.href="carton!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
+				window.location.href="rework!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
 			}
 			
 		});

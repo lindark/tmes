@@ -30,7 +30,7 @@ public class SwiptCard extends BaseEntity{
 		this.type = type;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "swiptCard")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="swiptCard")
 	public Set<Admin> getAdminSet() {
 		return adminSet;
 	}

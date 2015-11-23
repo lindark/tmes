@@ -29,6 +29,8 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 
@@ -186,9 +188,6 @@ public class ReworkAction extends BaseAdminAction {
 		if(rework.getState().equals(UNDO)){
 			addActionError("已撤销的无法再编辑！");
 			return ERROR;
-		}if(rework.getState().equals("3")){
-			addActionError("已返工的无法再编辑！");
-			return ERROR;
 		}
 			return INPUT;	
 		}
@@ -196,9 +195,15 @@ public class ReworkAction extends BaseAdminAction {
 	//更新
 		@Validations(
 				requiredStrings = {
+						@RequiredStringValidator(fieldName = "rework.problem", message = "问题不允许为空!"),
+						@RequiredStringValidator(fieldName = "rework.rectify", message = "调整方案不允许为空!"),
 						
 				  },
 					intRangeFields = {
+						@IntRangeFieldValidator(fieldName = "rework.reworkCount",min="0", message = "翻包次数必须为零或正整数!"),
+						@IntRangeFieldValidator(fieldName = "rework.reworkAmount",min="0", message = "翻包数量必须为零或正整数!"),
+						@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")
+						
 						
 				}
 				  
@@ -223,10 +228,15 @@ public class ReworkAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
+					@RequiredStringValidator(fieldName = "rework.problem", message = "问题不允许为空!"),
+					@RequiredStringValidator(fieldName = "rework.rectify", message = "调整方案不允许为空!"),
 					
 			  },
 				intRangeFields = {
-					
+					@IntRangeFieldValidator(fieldName = "rework.reworkCount",min="0", message = "翻包次数必须为零或正整数!"),
+					@IntRangeFieldValidator(fieldName = "rework.reworkAmount",min="0", message = "翻包数量必须为零或正整数!"),
+					@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")
+		
 			}
 			  
 	)
@@ -242,14 +252,14 @@ public class ReworkAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
-	//刷卡审核
+	//刷卡回复
 	public String check() throws Exception{
 		Rework persistent = reworkService.load(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
 		admin=adminService.getLoginAdmin();
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
-		persistent.setState("2");
+		persistent.setState("3");
 		reworkService.save(persistent);
 		redirectionUrl="rework!list.action?workingBillId="
 				+rework.getWorkingbill().getId();
@@ -263,7 +273,7 @@ public class ReworkAction extends BaseAdminAction {
 		admin=adminService.getLoginAdmin();
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
-		persistent.setState("3");
+		persistent.setState("2");
 		reworkService.save(persistent);
 		redirectionUrl="rework!list.action?workingBillId="
 				+rework.getWorkingbill().getId();

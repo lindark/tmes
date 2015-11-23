@@ -181,8 +181,12 @@ public class ReworkAction extends BaseAdminAction {
 	
 	//编辑
 		public String edit(){
-		workingbill = workingBillService.get(workingBillId);
-		rework = reworkService.load(id);					
+	    workingbill = workingBillService.get(workingBillId);
+		rework = reworkService.load(id);
+		if(rework.getState()!=UNDO){
+			addActionError("已撤销的无法再编辑！");
+			return ERROR;
+		}					
 			return INPUT;	
 		}
 		
@@ -271,8 +275,7 @@ public class ReworkAction extends BaseAdminAction {
 				addActionError("已撤销的无法再撤销！");
 				return ERROR;
 			}
-		}
-		
+		}	
 		rework.setState(UNDO);
 		reworkService.update(rework);
 		workingBillService.update(workingbill);

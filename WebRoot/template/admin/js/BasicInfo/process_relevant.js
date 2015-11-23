@@ -68,8 +68,7 @@ jQuery(function($) {
 			{name:'id',index:'id', sorttype:"int",label:"ID",editable: false,hidden:true},
 			{name:'productsCode',index:'productsCode',label:"产品编号",width:200, editable: false},
 			{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
-			{name:'stateRemark',index:'state',label:"状态",width:200, editable: false}
-			
+			{name:'stateRemark',index:'state',label:"状态",width:200, editable: true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processState"}}
 			//{name:"relevant",label:"操作",width:100, sortable:false, resize:false}
 		],
 		viewrecords : true,

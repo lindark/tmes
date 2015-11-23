@@ -66,15 +66,14 @@ jQuery(function($) {
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'teamCode',index:'teamCode',label:"班组编码",width:100,editable: true},
-			{name:'teamName',index:'teamName',label:"班组名称", width:100,search:false,editable: true},
+			{name:'teamName',index:'teamName',label:"班组名称", width:100,search:true,editable: true},
 			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
 			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'stateRemark',index:'state',label:"状态",width:100, sortable:false,stype:'select',searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
+			{name:'stateRemark',index:'state',label:"状态",width:100,editable:true,stype:'select',searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
 			{name:'toedit',label:"操作",width:100,search:false, sortable:false}
 		], 
-
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -89,15 +88,14 @@ jQuery(function($) {
          	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
          	 for ( var i = 0; i < ids.length; i++) {
          		 var cl = ids[i];
-         		 be = "<a href='team!eidt.action?id="+ids[i]+"'>[编辑]</a>";
+         		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
          		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
          	 }
          },
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
-				styleCheckbox(table);
-				
+				styleCheckbox(table);				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
@@ -224,7 +222,7 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			multipleGroup:true,
+			multipleGroup:false,
 			showQuery: true
 		},
 		{

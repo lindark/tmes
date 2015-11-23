@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.dao.FactoryUnitDao;
 import cc.jiuyi.dao.TeamDao;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.TeamService;
@@ -23,6 +24,9 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 
 	@Resource
 	private TeamDao teamDao;
+	
+	@Resource
+	private FactoryUnitDao fuDao;
 	
 	@Resource
 	public void setBaseDao(TeamDao teamDao){
@@ -60,5 +64,28 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 		
 	}
 
+	/**
+	 * 分页条件查询单元
+	 */
+	@Override
+	public Pager getFuPager(Pager pager, HashMap<String, String> map)
+	{
+		return this.fuDao.getFuPager(pager,map);
+	}
+
+	/**
+	 * 根据班组编码查询 
+	 */
+	public List<Team> getByCode(String code)
+	{
+		return this.teamDao.getByCode(code);
+	}
 	
+	/**
+	 * 根据id联表查询
+	 */
+	public Team getOneById(String id)
+	{
+		return this.teamDao.getOneById(id);
+	}
 }

@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript">
-</script>
+</script> 
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -176,7 +176,7 @@ body{background:#fff;}
 										   <div class="profile-info-name">完工日期</div>
 										     <div class="profile-info-value">
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="rework.completeDate" value="${(rework.completeDate)!}" onchange=out(this); >
+												<input type="text" class="input-sm form-control datePicker " name="rework.completeDate" value="${(rework.completeDate)!}" onchange=out(this); >
 											</div>
 											</div>						
 										 </div>
@@ -202,25 +202,23 @@ body{background:#fff;}
 										
 							
 				
-			<div class="buttonArea">
-				<!--  <input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />-->
-				                 <div class="col-md-2 col-sm-4">
+			<div class="buttonArea" >
+				                 <div class="col-md-1 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="completeRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡提交</span>
 									</button>									
 								</div>
-								<div class="col-md-2 col-sm-4">
+								<div class="col-md-1 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="checkRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡审核</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4">
+								<div class="col-md-1 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmRework" type=button>
 										<span class="bigger-110 no-text-shadow">刷卡确认</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4">
+								<div class="col-md-1 col-sm-4">
 									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnRework" type=button>
 										<span class="bigger-110 no-text-shadow">返回</span>
 									</button>
@@ -306,38 +304,22 @@ $(function(){
 	});
 	
 	
-	$("#completeRework").click(function(){
-		//id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		//alert(id);
-		
-    		$("#inputForm").submit();  		    		
+	$("#completeRework").click(function(){		
+    	$("#inputForm").submit();  		    		
 	});
 	
 	
 	$("#checkRework").click(function(){
-		var workingBillId = $("#workingBillId").val();
-		var id = "";
-		id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		if(id==""){
-			alert("请选择至少一条返工记录！");
-		}else{
-			document.inputForm.action="rework!confirm.action";
-			$("#inputForm").submit(); 			
-		}
+	    document.inputForm.action="rework!check.action";
+	    $("#inputForm").submit(); 			
 	});
 	
 	$("#confirmRework").click(function(){
-		var workingBillId = $("#workingBillId").val();
-		var id = "";
-		id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		if(id==""){
-			alert("请选择至少一条返工记录！");
-		}else{
-			document.inputForm.action="rework!confirm.action";
-			$("#inputForm").submit(); 			
-		}
-		
+		document.inputForm.action="rework!confirm.action";
+		$("#inputForm").submit(); 			
 	});
+	
+	
 	$("#undoRework").click(function(){
 		var workingBillId = $("#workingBillId").val();
 		var id = "";

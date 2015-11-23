@@ -53,7 +53,7 @@ $(function() {
 	 * 交接按钮点击
 	 */
 	$handoverprocess.click(function() {
-		window.location.href = "hand_over_process!add.action";
+		window.location.href = "hand_over_process!list.action";
 	});
 
 	/**

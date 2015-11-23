@@ -23,11 +23,7 @@ import org.hibernate.annotations.CascadeType;
 public class Abnormal extends BaseEntity{
 
 	private static final long serialVersionUID = -7513486823153842426L;
-	
-	private String factoryName;//工厂
-	private String shopName;//车间
-	private String unitName;//单元
-	private String teamId;//班组
+
 	private Date callDate;//呼叫时间
 	private Date replyDate;// 应答时间
 	private Integer handlingTime;//处理时间
@@ -44,34 +40,11 @@ public class Abnormal extends BaseEntity{
 	private Set<Callreason> callreasonSet;//呼叫原因
 	private Set<Device> deviceSet;//工艺维修单
 	private Set<AbnormalLog> AbnormalLogSet;//异常日志
+	private Set<SwiptCard> swiptCardSet;//刷卡
 	
 	private String callReason;
 	private String originator;
 	private String answer;
-	
-	@Column
-	public String getFactoryName() {
-		return factoryName;
-	}
-	public void setFactoryName(String factoryName) {
-		this.factoryName = factoryName;
-	}
-	
-	@Column
-	public String getShopName() {
-		return shopName;
-	}
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
-	}
-	
-	@Column
-	public String getUnitName() {
-		return unitName;
-	}
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
-	}
 	
 	@Column
 	public Date getCallDate() {
@@ -138,13 +111,6 @@ public class Abnormal extends BaseEntity{
 		this.qualitySet = qualitySet;
 	}
 	
-	public String getTeamId() {
-		return teamId;
-	}	
-	public void setTeamId(String teamId) {
-		this.teamId = teamId;
-	}
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
 	public Set<Model> getModelSet() {
 		return modelSet;
@@ -163,7 +129,7 @@ public class Abnormal extends BaseEntity{
 	
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "abnormalSet")
+	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Callreason> getCallreasonSet() {
 		return callreasonSet;
 	}
@@ -217,6 +183,14 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setAbnormalLogSet(Set<AbnormalLog> abnormalLogSet) {
 		AbnormalLogSet = abnormalLogSet;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	public Set<SwiptCard> getSwiptCardSet() {
+		return swiptCardSet;
+	}
+	public void setSwiptCardSet(Set<SwiptCard> swiptCardSet) {
+		this.swiptCardSet = swiptCardSet;
 	}
 	
 		

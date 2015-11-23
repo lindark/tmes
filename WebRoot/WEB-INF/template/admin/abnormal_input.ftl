@@ -91,7 +91,7 @@ body{background:#fff;}
 								
 	       
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" class="formButton" id="sure" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 			
@@ -162,6 +162,7 @@ $(function(){
 	        	html+="</td>";
         	html +="</tr>";
         	$("#sample-table-1 tbody").append(html);
+        	$("#sure").show();
         	size=size+1;
         }
         layer.close(index);       
@@ -173,6 +174,12 @@ $(function(){
 	$(".deleteImage").livequery("click", function() {
 		$(this).parent().parent().remove();
 	})
+	
+	var i = $("#sample-table-1 tbody tr").length;
+	if(i<=0){
+		$("#sure").hide();
+	}
+	
 	
 })
 

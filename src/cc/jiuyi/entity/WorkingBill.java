@@ -1,19 +1,12 @@
 package cc.jiuyi.entity;
 
-import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Transient;
-
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
 
 /**
  * 实体类 - 随工单
@@ -34,6 +27,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer dailyWorkTotalAmount;// 累计报工数量
 	private Integer totalSingleAmount;// 累计入库根量
 	private Integer totalRepairinAmount;// 累计返修收货数量
+	private Integer totalRepairAmount;// 累计返修数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Material> materialSet;// 组件
@@ -202,6 +196,17 @@ public class WorkingBill extends BaseEntity {
 			totalRepairinAmount = 0;
 		}
 		this.totalRepairinAmount = totalRepairinAmount;
+	}
+
+	public Integer getTotalRepairAmount() {
+		return totalRepairAmount;
+	}
+
+	public void setTotalRepairAmount(Integer totalRepairAmount) {
+		if (totalRepairAmount == null) {
+			totalRepairAmount = 0;
+		}
+		this.totalRepairAmount = totalRepairAmount;
 	}
 
 }

@@ -19,7 +19,6 @@ public class Repair extends BaseEntity {
 	private static final long serialVersionUID = -1226180317662591944L;
 	private String repairPart;// 返修部位
 	private Integer repairAmount;// 返修数量
-	private String processResponse;// 责任工序
 	private String duty;// 责任人
 	private Admin confirmUser;// 确认人
 	private Admin createUser;// 创建人
@@ -28,10 +27,20 @@ public class Repair extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
-	private String responseRemark;//责任工序描述
 	private String dutyName;//责任人名字
+	private Process processResponse;// 责任工序
+	private String responseName;//责任工序名称
 
 	private WorkingBill workingbill;// 随工单
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Process getProcessResponse() {
+		return processResponse;
+	}
+
+	public void setProcessResponse(Process processResponse) {
+		this.processResponse = processResponse;
+	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -56,14 +65,6 @@ public class Repair extends BaseEntity {
 
 	public void setRepairAmount(Integer repairAmount) {
 		this.repairAmount = repairAmount;
-	}
-
-	public String getProcessResponse() {
-		return processResponse;
-	}
-
-	public void setProcessResponse(String processResponse) {
-		this.processResponse = processResponse;
 	}
 	
 	public String getDuty() {
@@ -142,21 +143,21 @@ public class Repair extends BaseEntity {
 	}
 
 	@Transient
-	public String getResponseRemark() {
-		return responseRemark;
-	}
-
-	public void setResponseRemark(String responseRemark) {
-		this.responseRemark = responseRemark;
-	}
-
-	@Transient
 	public String getDutyName() {
 		return dutyName;
 	}
 
 	public void setDutyName(String dutyName) {
 		this.dutyName = dutyName;
+	}
+
+	@Transient
+	public String getResponseName() {
+		return responseName;
+	}
+
+	public void setResponseName(String responseName) {
+		this.responseName = responseName;
 	}
 
 }

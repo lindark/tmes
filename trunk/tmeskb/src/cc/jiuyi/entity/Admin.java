@@ -55,7 +55,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<DailyWork> dailyWorkConfirmUser;// 报工确认人
 	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
 	private Set<Repairin> repairinConfirmUser;//返修收货确认人
-	
 	private Set<Repairin> repairinCreateUser;//返修收货创建人
 
 	private Set<Rework> duty;//责任人名

@@ -103,6 +103,24 @@ public class TeamDaoImpl extends BaseDaoImpl<Team, String> implements
 			team.setIsDel(oper);//标记删除
 			super.update(team);
 		}
-		
+	}
+	
+	/**
+	 * 根据班组编码查询 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Team> getByCode(String code)
+	{
+		String hql="from Team as a where a.isDel='N' and a.teamCode=?";
+		return this.getSession().createQuery(hql).setParameter(0, code).list();
+	}
+	
+	/**
+	 * 根据id联表查询
+	 */
+	public Team getOneById(String id)
+	{
+		String hql="from Team a inner join fetch a.factoryUnit b where a.id=?";
+		return (Team) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 	}
 }

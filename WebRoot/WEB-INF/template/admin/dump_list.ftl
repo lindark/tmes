@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
-	<body class="no-skin">
+	<body class="no-skin list">
 		<!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -124,9 +124,9 @@
 				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
 
-			<div class="footer">
-				<#include "/WEB-INF/template/admin/admin_footer.ftl">
-			</div>
+			<#include "/WEB-INF/template/admin/admin_footer.ftl">
+			<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+			
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
 				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
@@ -137,7 +137,56 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+	/**
+	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
+	 */
+	
+	$(function(){
+		var ishead=0;
+		$("#ace-settings-btn").click(function(){
+			if(ishead==0){
+				ishead=1;
+				$("#ace-settings-box").addClass("open");
+			}else{
+				ishead=0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		$(".btn-colorpicker").click(function(){
+				$(".dropdown-colorpicker").addClass("open");
+		})
+		
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
 			
-		</script>
+		})
+		
+		/*
+		var ishead3=0;
+		$(".hsub").click(function(){
+			if(ishead3==0){
+				alert("OK");
+				ishead3=1;
+				$(".hsub").addClass("open");
+				//$(this).find(".submenu").removeClass("nav-hide");
+			}else{
+				ishead3=0;
+				//$(this).removeClass("open");
+				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+			}
+			
+		})
+		*/
+	})
+	
+	
+</script>
 	</body>
 </html>

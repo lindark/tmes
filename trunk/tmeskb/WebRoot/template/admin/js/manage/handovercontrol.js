@@ -10,7 +10,7 @@ jQuery(function($) {
 				var $validation = false;
 				$('#fuelux-wizard')
 				.ace_wizard({
-					//step: 2 //optional argument. wizard will jump to step "2" at first
+					step: 1 //optional argument. wizard will jump to step "2" at first
 				})
 				.on('change' , function(e, info){
 					if(info.step == 1 && $validation) {
@@ -18,26 +18,19 @@ jQuery(function($) {
 					}
 				})
 				.on('finished', function(e) {
+					alert("?");
 					
-					bootbox.dialog({
-						message: "Thank you! Your information was successfully saved!", 
-						buttons: {
-							"success" : {
-								"label" : "OK",
-								"className" : "btn-sm btn-primary"
-							}
-						}
-					});
 				}).on('stepclick', function(e){
-					//alert("OK");
-					//e.preventDefault();//this will prevent clicking and selecting steps
+//					alert("OK");
+//					e.preventDefault();//this will prevent clicking and selecting steps
 				});
 			
 			
 				//jump to a step
-				$('#step-jump').on('click', function() {
-					var wizard = $('#fuelux-wizard').data('wizard')
-					wizard.currentStep = 3;
+				$('.step-jump').on('click', function() {
+					var step = $(this).find(".step").text();
+					var wizard = $('#fuelux-wizard').data('wizard');
+					wizard.currentStep = step;
 					wizard.setState();
 				})
 				//determine selected step
@@ -64,13 +57,13 @@ jQuery(function($) {
 				//documentation : http://docs.jquery.com/Plugins/Validation/validate
 			
 			
-				$.mask.definitions['~']='[+-]';
-				$('#phone').mask('(999) 999-9999');
-			
-				jQuery.validator.addMethod("phone", function (value, element) {
-					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
-				}, "Enter a valid phone number.");
-			
+//				$.mask.definitions['~']='[+-]';
+//				$('#phone').mask('(999) 999-9999');
+//			
+//				jQuery.validator.addMethod("phone", function (value, element) {
+//					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+//				}, "Enter a valid phone number.");
+//			
 //				$('#validation-form').validate({
 //					errorElement: 'div',
 //					errorClass: 'help-block',

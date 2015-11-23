@@ -85,29 +85,6 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	/*
-	public String factoryUnitpagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		wheresql=wheresql.replace("state='启用'", "state='1'");
-		wheresql=wheresql.replace("state='未启用'", "state='2'");
-		return wheresql;
-	}*/
-
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		for(String id:ids){
@@ -127,5 +104,44 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * 分页条件查询单元
+	 */
+	@Override
+	public Pager getFuPager(Pager pager, HashMap<String, String> map)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(FactoryUnit.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+		{
+			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
+		}
+		if(!super.existAlias(detachedCriteria, "workShop.factory", "factory"))
+		{
+			detachedCriteria.createAlias("workShop.factory", "factory");
+		}
+		if (map.size() > 0) 
+		{
+			if(map.get("factoryUnitCode")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnitCode", "%"+map.get("factoryUnitCode")+"%"));
+			}		
+			if(map.get("factoryUnitName")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnitName", "%"+map.get("factoryUnitName")+"%"));
+			}
+		    if(map.get("workShopName")!=null)
+		    {
+				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("workShopName")+"%"));
+			}
+		    if(map.get("factoryName")!=null)
+		    {
+				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName")+"%"));
+			}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
 	}
 }

@@ -16,11 +16,11 @@ import org.compass.annotations.Searchable;
 @Searchable
 public class Repair extends BaseEntity {
 
-	private static final long serialVersionUID = 6929717789149204532L;
+	private static final long serialVersionUID = -1226180317662591944L;
 	private String repairPart;// 返修部位
 	private Integer repairAmount;// 返修数量
 	private String processResponse;// 责任工序
-	private String duty;// 责任人
+	private Admin duty;// 责任人
 	private Admin confirmUser;// 确认人
 	private Admin createUser;// 创建人
 	private String isDel;// 是否删除
@@ -29,6 +29,7 @@ public class Repair extends BaseEntity {
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
 	private String responseRemark;//责任工序描述
+	private String dutyName;//责任人名字
 
 	private WorkingBill workingbill;// 随工单
 
@@ -64,12 +65,13 @@ public class Repair extends BaseEntity {
 	public void setProcessResponse(String processResponse) {
 		this.processResponse = processResponse;
 	}
-
-	public String getDuty() {
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getDuty() {
 		return duty;
 	}
 
-	public void setDuty(String duty) {
+	public void setDuty(Admin duty) {
 		this.duty = duty;
 	}
 
@@ -147,6 +149,15 @@ public class Repair extends BaseEntity {
 
 	public void setResponseRemark(String responseRemark) {
 		this.responseRemark = responseRemark;
+	}
+
+	@Transient
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
 	}
 
 }

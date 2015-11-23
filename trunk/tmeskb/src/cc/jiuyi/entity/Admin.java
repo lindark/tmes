@@ -59,11 +59,21 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Repairin> repairinCreateUser;//返修收货创建人
 	private Set<Repair> repairCreateUser;//返修创建人
 
+	private Set<Repair> repairDuty;//返修责任人
 	private Set<Rework> duty;//责任人名
 	private Set<Rework> confirmUser;//创建人名
 	private Set<Rework> createUser;//确认人名
 	private Set<Rework> modifyUser;//修改人名
 	
+	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
+	public Set<Repair> getRepairDuty() {
+		return repairDuty;
+	}
+
+	public void setRepairDuty(Set<Repair> repairDuty) {
+		this.repairDuty = repairDuty;
+	}
+
 	//责任人名
 	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
 	public Set<Rework> getDuty() {

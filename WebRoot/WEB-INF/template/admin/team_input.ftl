@@ -9,9 +9,18 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/team_input.js"></script>
+
+<style type="text/css">
+	.mymust{color: red;font-size: 10px;}
+	.class_label_xfuname{width:200px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
+</style>
 <script type="text/javascript">
 $().ready( function() {
-
 	// 地区选择菜单
 	$(".areaSelect").lSelect({
 		url: "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
@@ -66,142 +75,73 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>team!save.action<#else>team!update.action</#if>" method="post">
-			<input type="hidden" name="id" value="${id}" />
-			<div id="inputtabs">
-			<ul>
-				<li>
-					<a href="#tabs-1">班组信息</a>
-				</li>
-				
-			</ul>
+			<form id="inputForm" class="validate" action="<#if isAdd??>team!save.action<#else>team!update.action</#if>" method="post">
+				<input type="hidden" name="id" value="${id}" />
+				<input id="xfuid" type="hidden" name="team.factoryUnit.id" value="${(team.xfactoryUnitId)! }" />
+				<input id="xcode" type="hidden" value="${(team.teamCode)!}" />
+				<div id="inputtabs">
+					<ul>
+						<li>
+							<a href="#tabs-1">班组信息</a>
+						</li>
+					</ul>
 			
-			<div id="tabs-1">
-			
+					<div id="tabs-1">
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-									<div class="profile-info-row">
-										<div class="profile-info-name"> 班组编码 </div>					
-										<div class="profile-info-value">
-											<input type="text" name="team.teamCode" value="${(team.teamCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
-										</div>
-										
-										
-										<div class="profile-info-name"> 班组名称 </div>					
-										<div class="profile-info-value">
-											<input type="text" name="team.teamName" value="${(team.teamName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
-										</div>
-										
-										
-									</div>
-									<div class="profile-info-row">
-										<div class="profile-info-name"> 状态</div>					
-										<div class="profile-info-value">
-											<label class="pull-left inline">
-					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="team.state" value="1"<#if (team.state == '1')!> checked</#if> />
-						                       <span class="lbl middle"></span>
-						                         &nbsp;&nbsp;
-					                        </label>						
-					                        <label class="pull-left inline">
-					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="team.state" value="2"<#if (isAdd || team.state == '2')!> checked</#if>  />
-						                         <span class="lbl middle"></span>
-					                        </label>		
-										</div>	
-									</div>							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 班组编码 </div>					
+								<div class="profile-info-value">
+									<input id="team_code" type="text" name="team.teamCode" value="${(team.teamCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_tcode" class="mymust"></span>
+								</div>
+							</div>
+							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 班组名称 </div>					
+								<div class="profile-info-value">
+									<input id="team_name" type="text" name="team.teamName" value="${(team.teamName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_tname" class="mymust"></span>
+								</div>
+							</div>
+							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 单元名称 </div>					
+								<div class="profile-info-value">
+									<label id="label_xfuname" class="class_label_xfuname">${(team.xfactoryUnitName)!}&nbsp;</label>
+									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_xfuname" class="mymust"></span>
+								</div>
+							</div>
+									
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 状态</div>					
+								<div class="profile-info-value">
+									<label class="pull-left inline">
+					                	<small class="muted smaller-90">已启用:</small>
+						            	<input type="radio" class="ace" name="team.state" value="1"<#if (team.state == '1')!> checked</#if> />
+						            	<span class="lbl middle"></span>
+						                 &nbsp;&nbsp;
+					                </label>						
+					                <label class="pull-left inline">
+					                	<small class="muted smaller-90">未启用:</small>
+						            	<input type="radio" class="ace" name="team.state" value="2"<#if (isAdd || team.state == '2')!> checked</#if>  />
+						            	<span class="lbl middle"></span>
+					                </label>		
+								</div>	
+							</div>							
 						</div>
-				
-				<#list enabledprocessAttributeList as list>
-					<tr>
-						<th>
-							${list.name}:
-						</th>
-						<td>
-							<#if list.attributeType == "text">
-								<input type="text" name="el_${list.id}" class="formText<#if list.isRequired> {required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "number">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>number: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "alphaint">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>lettersonly: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "email">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>email: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "select">
-								<select name="el_${list.id}"<#if list.isRequired> class="{required: true}"</#if>>
-									<option value="">请选择...</option>
-									<#list list.attributeOptionList as attributeOptionList>
-										<option value="${attributeOptionList}"<#if (team.teamAttributeMap.get(list)[0] == attributeOptionList)!> selected</#if>>${attributeOptionList}</option>
-									</#list>
-								</select>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "checkbox">
-								<#list list.attributeOptionList as attributeOptionList>
-									<label><input type="checkbox" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="${attributeOptionList}"<#if (team.teamAttributeMap.get(list).contains(attributeOptionList))!> checked</#if>  />${attributeOptionList}</label>
-								</#list>
-								<span id="${list.id}MessagePosition"></span>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "name">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "gender">
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="male" <#if (team.teamAttributeMap.get(list)[0] == "male")!> checked</#if> />${action.getText("Gender.male")}</label>
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="female" <#if (team.teamAttributeMap.get(list)[0] == "female")!> checked</#if> />${action.getText("Gender.female")}</label>
-								<span id="${list.id}MessagePosition"></span>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "date">
-								<input type="text" name="el_${list.id}" class="formText datePicker {<#if list.isRequired>required: true, </#if>dateISO: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "area">
-								<input type="text" name="el_${list.id}" class="formText areaSelect<#if list.isRequired> {required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "address">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "zipCode">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>zipCode: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "mobile">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>mobile: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "phone">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>phone: true}" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "qq">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "msn">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "wangwang">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "skype">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(team.teamAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							</#if>
-						</td>
-					</tr>
-				</#list>
-			</table>
-			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
-			</div>
-		</form>
-	
+						<div class="buttonArea">
+							<input id="btn_sub" type="button" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+						</div>
+					</div>
+				</div>
+			</form>
 <!-- add by welson 0728 -->	
 				</div><!-- /.col -->
 				</div><!-- /.row -->
 
 				<!-- PAGE CONTENT ENDS -->
-			</div><!-- /.col -->
-		</div><!-- /.row -->
 	</div><!-- /.page-content-area -->
 	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 </div><!-- /.page-content -->

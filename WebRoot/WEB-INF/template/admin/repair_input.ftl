@@ -128,17 +128,13 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">责任人</div>
+												<div class="profile-info-name">责任人/批次</div>
 
 												<div class="profile-info-value">
-													<input type="hidden" id="adminId" name="repair.duty.id" value="${(repair.duty.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
-												    
-												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
-				                                     <span id ="adminName"></span>
-										         	 <label class="requireField">*</label>	
-										         	 <#else>
-										         	 ${(repair.duty.name)!}    
-										         	 </#if>
+													<input type="text" name="repair.duty"
+														value="${(repair.duty)!}"
+														class=" input input-sm formText {required: true}" />
+													<label class="requireField">*</label>
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -190,34 +186,4 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
-<script type="text/javascript">
-$(function(){
-	var $userAddBtn = $("#userAddBtn");//添加用户
-	 var $adminId=$("#adminId");
-	 var $adminName=$("#adminName");
-	/**
-	 * 添加按钮点击
-	 */
-	$userAddBtn.click(function(){
-		var title = "人员";
-		var width="800px";
-		var height="600px";
-		var content="repair!browser.action";
-		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
-			
-        var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-        var work = iframeWin.getGridId();
-        //alert(work);
-        var id=work.split(",");
-        $adminId.val(id[1]);
-        $adminName.text(id[0]);
-        layer.close(index);            	          	     	
-        
-       
-	  });
-	 	
-	});
-	
-})
-</script>
 </html>

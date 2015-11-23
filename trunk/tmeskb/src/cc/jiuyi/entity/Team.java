@@ -32,6 +32,8 @@ public class Team extends BaseEntity{
     private FactoryUnit factoryUnit;//单元
     
     //虚拟字段
+    private String xfactoryUnitId;//
+    private String xfactoryUnitCode;//单元编码
     private String xfactoryUnitName;//单元名称
     private String xworkShopName;//车间名称
     private String xfactoryName;//工厂名称
@@ -112,9 +114,25 @@ public class Team extends BaseEntity{
 	{
 		this.xfactoryName = xfactoryName;
 	}
-
-   
-
-    
 	
+	@Transient
+	public String getXfactoryUnitCode()
+	{
+		return xfactoryUnitCode;
+	}
+	public void setXfactoryUnitCode(String xfactoryUnitCode)
+	{
+		this.xfactoryUnitCode = xfactoryUnitCode;
+	}
+	
+	@Transient
+	public String getXfactoryUnitId()
+	{
+		return xfactoryUnitId;
+	}
+	public void setXfactoryUnitId(String xfactoryUnitId)
+	{
+		this.xfactoryUnitId = xfactoryUnitId;
+	}
+
 }

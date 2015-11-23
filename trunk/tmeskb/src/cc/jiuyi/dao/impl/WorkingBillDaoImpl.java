@@ -65,14 +65,10 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 	}
 
 	
-//	public List getListWorkingBillByDate(Admin admin) {
-//		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
-//		System.out.println(hql);
-//		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
 	@Override
 	public List getListWorkingBillByDate(Admin admin) {
-		String hql = "from WorkingBill where productDate = ?";
-		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).list();
+		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
+		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
 		return list;
 	}
 

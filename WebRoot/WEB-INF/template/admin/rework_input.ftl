@@ -62,7 +62,8 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if>"	method="post">
+		<form id="inputForm"
+		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if>"	method="post">
 			<input type="hidden" name="id" value="${(id)!}" />
 			<input type="hidden" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
 			<div id="inputtabs">
@@ -157,13 +158,13 @@ body{background:#fff;}
 										  <div class="profile-info-row">
 												<div class="profile-info-name">责任人</div>
 												<div class="profile-info-value">
-												 <input type="text" id="adminId" name="rework.duty.id" value="${(rework.admin.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
+												 <input type="hidden" id="adminId" name="rework.duty.id" value="${(rework.duty.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="adminName"></span>
 										         	 <label class="requireField">*</label>	
 										         	 <#else>
-										         	 ${(rework.admin.adminName)!}    
+										         	 ${(rework.duty.name)!}    
 										         	 </#if>									
 										    </div>
 										 </div>
@@ -188,12 +189,12 @@ body{background:#fff;}
 													<label class="pull-left inline"> <small
 														class="muted smaller-90">已完工:</small> <input type="radio"
 														class="ace" name="rework.isCompelete" value="Y"<#if
-														(rework.isQualified == 'Y')!> checked</#if> /> <span
+														(rework.isCompelete == 'Y')!> checked</#if> /> <span
 														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
 														class="pull-left inline"> <small
 														class="muted smaller-90">未完工:</small> <input type="radio"
 														class="ace" name="rework.isCompelete" value="N"<#if
-														(isAdd || rework.isQualified == 'N')!> checked</#if> /> <span》
+														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span》
 														class="lbl middle"></span> </label>
 												</div>															
 										</div>
@@ -261,7 +262,7 @@ $(function(){
 			
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         var work = iframeWin.getGridId();
-        alert(work);
+        //alert(work);
         var id=work.split(",");
         $adminId.val(id[1]);
         $adminName.text(id[0]);
@@ -315,18 +316,14 @@ $(function(){
 	
 	$("#checkRework").click(function(){
 		var workingBillId = $("#workingBillId").val();
+		var id = "";
 		id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		//alert(id);
-		if(id.length>1){
-    		alert("只能选择一条返工记录！");
-    		return false;
-    	}if(id==""){
-    		alert("至少选择一条返工记录");
-    		return false;
-    	}else{
-    		alert(0);
-    		$("#inputForm").submit();  		
-    	}	
+		if(id==""){
+			alert("请选择至少一条返工记录！");
+		}else{
+			document.inputForm.action="rework!confirm.action";
+			$("#inputForm").submit(); 			
+		}
 	});
 	
 	$("#confirmRework").click(function(){
@@ -336,7 +333,8 @@ $(function(){
 		if(id==""){
 			alert("请选择至少一条返工记录！");
 		}else{
-			$("#inputForm").submit();  			
+			document.inputForm.action="rework!confirm.action";
+			$("#inputForm").submit(); 			
 		}
 		
 	});

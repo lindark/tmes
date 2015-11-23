@@ -213,10 +213,9 @@ public class ProcessAction extends BaseAdminAction {
 	public String update()
 	{
 		Process persistent = processService.load(id);
+		BeanUtils.copyProperties(process, persistent, new String[] { "id"});//除了id不修改，其他都修改，自动完成设值操作
 		//persistent.setProducts(new HashSet<Products>(this.productslist));
 		persistent.setModifyDate(new Date());
-		persistent.setProcessName(process.getProcessName());
-		persistent.setState(process.getState());
 		processService.update(persistent);
 		redirectionUrl = "process!list.action";
 		return SUCCESS;

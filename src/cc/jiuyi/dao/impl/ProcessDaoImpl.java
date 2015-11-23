@@ -51,7 +51,6 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		//if(!super.existAlias(detachedCriteria, "products", "products"))
 		//	detachedCriteria.createAlias("products", "products");//表名，别名
-		
 		if (map.size() > 0)
 		{
 			if(map.get("processCode")!=null)

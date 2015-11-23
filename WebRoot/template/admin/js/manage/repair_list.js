@@ -70,7 +70,7 @@ jQuery(function($) {
 	        {name:'repairPart',index:'repairPart', width:200,sortable:"true",sorttype:"text"},
 			{name:'repairAmount',index:'repairAmount', width:100},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'processResponse',index:'processResponse', width:100,sortable:"true",sorttype:"text"},
+			{name:'responseRemark',index:'processResponse', width:100,sortable:"true",sorttype:"text"},
 			{name:'duty',index:'duty', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

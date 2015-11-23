@@ -131,6 +131,10 @@ public class RepairAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
+	public String browser() {
+		return "browser";
+	}
+
 	/**
 	 * ajax 列表
 	 * 
@@ -168,9 +172,11 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
+			repair.setDutyName(repair.getDuty().getName());
 			repair.setWorkingbill(null);
 			repair.setConfirmUser(null);
 			repair.setCreateUser(null);
+			repair.setDuty(null);
 			lst.add(repair);
 		}
 		pager.setList(lst);

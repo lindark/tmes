@@ -353,7 +353,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.abnormalList = abnormalList;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY,mappedBy="admin")
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="responsorSet")
 	public Set<Abnormal> getAbnormalSet() {
 		return abnormalSet;
 	}
@@ -362,7 +362,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.abnormalSet = abnormalSet;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
+	@ManyToOne(fetch = FetchType.LAZY)
 	public SwiptCard getSwiptCard() {
 		return swiptCard;
 	}

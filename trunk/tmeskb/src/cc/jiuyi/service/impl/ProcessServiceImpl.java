@@ -15,6 +15,7 @@ import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Product;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.ProcessService;
 
 /**
@@ -91,6 +92,18 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<Process> findProcess(List<WorkingBill> workingbills) {
+		Object[] obj = new Object[workingbills.size()];
+		
+		for(int i=0;i<workingbills.size();i++){
+			WorkingBill workingbill = workingbills.get(i);
+			String matnr = workingbill.getMatnr();
+			obj[i] = matnr;
+		}
+		return processDao.findProcess(obj);
 	}
 
 	/*public Pager getProductsList(Pager pager, HashMap<String, String> map)

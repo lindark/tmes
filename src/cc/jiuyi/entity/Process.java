@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -34,6 +35,16 @@ public class Process extends BaseEntity{
     
     private String xproductnum;//产品编码
     private String xproductname;//产品名称
+    
+    private Set<Repair> repairProcess;//返修责任工序
+    
+    @OneToMany(mappedBy = "processResponse", fetch = FetchType.LAZY)
+	public Set<Repair> getRepairProcess() {
+		return repairProcess;
+	}
+	public void setRepairProcess(Set<Repair> repairProcess) {
+		this.repairProcess = repairProcess;
+	}
 	public String getProcessCode() {
 		return processCode;
 	}

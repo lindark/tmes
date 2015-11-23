@@ -8,24 +8,10 @@
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		
-		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/style.css"/>
-		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/setstyle.css"/>
-		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/ztree/css/zTreeStyle/zTreeStyle.css"/>
-		<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery-ui.min.css" />
-		
-		
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
-		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
-		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/hanoverprocess_list.js"></script>
-		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
-		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
-		
-		
+		<script src="${base}/template/admin/assets/js/ace-extra.min.js"></script>		
+		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/quality.js"></script>
 
 <style type="text/css">
 	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
@@ -67,40 +53,72 @@
 
 						<div class="row">
 							<div class="col-xs-12">
-								<form class="form-horizontal" id="searchform" action="hand_over_process!ajlist.action" role="form">
-								   <div class="operateBar">
-								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">状态:</label>
-										<div class="col-sm-4">
-											<input type="text" name="state" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-										<label class="col-sm-1" style="text-align:right">日期:</label>
-										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>									
-									</div>
-									
-										<div class="form-group" style="text-align:center">
-											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												搜索
-											</a>										
-										</div>
+								
+								<div class="widget-box">
+									<div class="widget-header widget-header-blue widget-header-flat">
 										
+										<div class="widget-toolbar">
+										
+										</div>
 									</div>
-								</form>
-								
-								
-								<table id="grid-table"></table>
 
-								<div id="grid-pager"></div>
+									<div class="widget-body">
+										<div class="widget-main">
+											<!-- #section:plugins/fuelux.wizard -->
+											<div id="fuelux-wizard" data-target="#step-container">
+												<!-- #section:plugins/fuelux.wizard.steps -->
+												<ul class="wizard-steps">
+													<li data-target="#step1" class="step-jump">
+														<span class="step">1</span>
+														<span class="title">裁切</span>
+													</li>
+
+													<li data-target="#step2" class="step-jump">
+														<span class="step">2</span>
+														<span class="title">接角</span>
+													</li>
+
+													<li data-target="#step3" class="step-jump">
+														<span class="step">3</span>
+														<span class="title">植絨</span>
+													</li>
+
+													<li data-target="#step4" class="step-jump">
+														<span class="step">4</span>
+														<span class="title">清洗</span>
+													</li>
+												</ul>
+
+												<!-- /section:plugins/fuelux.wizard.steps -->
+											</div>
+
+											<hr />
+
+											<div class="step-content pos-rel" id="step-container">
+												<div class="step-pane active" id="step1">
+													11 测试1
+												</div>
+
+												<div class="step-pane" id="step2">
+													12测试2
+												</div>
+
+												<div class="step-pane" id="step3">
+													13测试3
+												</div>
+
+												<div class="step-pane" id="step4">
+													14测试4
+												</div>
+											</div>
+
+											<!-- /section:plugins/fuelux.wizard.container -->
+											
+
+											<!-- /section:plugins/fuelux.wizard -->
+										</div><!-- /.widget-main -->
+									</div><!-- /.widget-body -->
+								</div>
 								
 								
 									
@@ -121,15 +139,15 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
 	<!-- ./ add by welson 0728 -->
 
-<!-- 弹出层 -->
-<div id="dialog-message">
-</div>
-<!-- 弹出层end -->
 </body>
 
-	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.js"></script>
-	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
-	<script type="text/javascript" src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
+	<script src="${base}/template/admin/assets/js/fuelux/fuelux.wizard.min.js"></script>
+	<script src="${base}/template/admin/assets/js/jquery.validate.min.js"></script>
+		<script src="${base}/template/admin/assets/js/additional-methods.min.js"></script>
+		<script src="${base}/template/admin/assets/js/jquery.maskedinput.min.js"></script>
+		<script src="${base}/template/admin/assets/js/select2.min.js"></script>
+
+        <script type="text/javascript" src="${base}/template/admin/js/manage/handovercontrol.js"></script>
 
 </html>
 <script type="text/javascript">

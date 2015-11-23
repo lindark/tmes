@@ -28,4 +28,19 @@ public interface TeamService extends BaseService<Team, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
+	/**
+	 * 分页条件查询单元
+	 */
+	public Pager getFuPager(Pager pager, HashMap<String, String> map);
+
+	/**
+	 * 根据班组编码查询 
+	 */
+	public List<Team> getByCode(String code);
+
+	/**
+	 * 根据id联表查询
+	 */
+	public Team getOneById(String id);
+
 }

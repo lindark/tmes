@@ -211,11 +211,12 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 	</bean>
 
 	<!-- 重建索引配置 -->
+	<!-- 
 	<bean id="indexBuilder" class="cc.jiuyi.common.CompassIndexBuilder">
 		<property name="compassGps" ref="compassGps" />
 		<property name="lazyTime" value="30" />
 	</bean>
-	
+	 -->
 	<!-- SMTP邮件服务配置 -->
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="javaMailProperties">

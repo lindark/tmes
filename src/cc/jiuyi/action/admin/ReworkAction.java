@@ -31,7 +31,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 
 /**
- * 后台Action类-工序管理
+ * 后台Action类-返工管理
  */
 
 @ParentPackage("admin")

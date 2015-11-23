@@ -58,7 +58,7 @@ body {
 										<div class="profile-info-name">登录名：</div>
 
 										<div class="profile-info-value">
-											<input type="text" id="ceshi" name="" value="" /> <#if
+										<#if
 											isAdd??> <input type="text" name="admin.username"
 												class="input input-sm formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}"
 												title="登录名只允许包含中文、英文、数字和下划线" /> <label class="requireField">*</label>
@@ -246,27 +246,3 @@ body {
 
 </body>
 </html>
-<script>
-
-	$("#ceshi").focus(function(){
-		var offset=$(this).offset();
-		var controlHeight = $(this).height();
-		var left = offset.left+"px";
-		var top = offset.top+controlHeight+"px";
-		layer.open({
-		    type: 2, //page层
-		    area: ['250px', '300px'],
-		    title: false,
-		    shade: 0,
-		    shadeClose:true,
-		    offset:[top,left],
-		    btn:['确定','取消'],
-		    closeBtn:0,
-		    content: 'department!browser.action',
-		    yes:function(index,layero){
-		    	alert("OK");
-		    }
-		}); 
-	});
-	
-</script>

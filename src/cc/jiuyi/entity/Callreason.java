@@ -53,7 +53,7 @@ public class Callreason extends BaseEntity {
 		this.isDel = isDel;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "callreasonSet")
 	public Set<Abnormal> getAbnormalSet() {
 		return abnormalSet;
 	}

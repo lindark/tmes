@@ -31,4 +31,9 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByFactoryUnitCode(String factoryUnitCode);
+
+	/**
+	 * 分页条件查询单元
+	 */
+	public Pager getFuPager(Pager pager, HashMap<String, String> map);
 }

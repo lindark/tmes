@@ -20,7 +20,7 @@ public class Repair extends BaseEntity {
 	private String repairPart;// 返修部位
 	private Integer repairAmount;// 返修数量
 	private String processResponse;// 责任工序
-	private Admin duty;// 责任人
+	private String duty;// 责任人
 	private Admin confirmUser;// 确认人
 	private Admin createUser;// 创建人
 	private String isDel;// 是否删除
@@ -66,12 +66,11 @@ public class Repair extends BaseEntity {
 		this.processResponse = processResponse;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getDuty() {
+	public String getDuty() {
 		return duty;
 	}
 
-	public void setDuty(Admin duty) {
+	public void setDuty(String duty) {
 		this.duty = duty;
 	}
 

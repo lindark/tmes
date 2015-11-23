@@ -29,4 +29,14 @@ public interface TeamDao extends BaseDao<Team,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+
+	/**
+	 * 根据班组编码查询 
+	 */
+	public List<Team> getByCode(String code);
+
+	/**
+	 * 根据id联表查询
+	 */
+	public Team getOneById(String id);
 }

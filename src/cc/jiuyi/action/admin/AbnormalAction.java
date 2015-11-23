@@ -162,10 +162,11 @@ public class AbnormalAction extends BaseAdminAction {
 		    Admin admin = adminService.getLoginAdmin();
 		    
 		    System.out.println(persistent.getSwiptCardSet());
-		    if(persistent.getSwiptCardSet()!=null){
-		    	
+		    if(persistent.getSwiptCardSet().size()>0){
+		    	System.out.println("i");
 		    List<SwiptCard>  swiptCardList= new ArrayList(persistent.getSwiptCardSet());
 		    System.out.println(swiptCardList.size());
+		    System.out.println(persistent.getResponsorSet().size());
 		    for(SwiptCard s:swiptCardList){
 		    	if(s.getType().equals("0")){
 		    		List<Admin> adminList = new ArrayList(s.getAdminSet());
@@ -190,7 +191,7 @@ public class AbnormalAction extends BaseAdminAction {
 		    }
 		    
 		    }else{
-		    	
+		    	System.out.println("u");
 			    if(persistent.getResponsorSet().size()>1){
 			    	persistent.setState("1");
 				}else{
@@ -198,6 +199,7 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 		    	
 		    }
+		    System.out.println("3");
 		    //集合中不存在admin*/
 		    Date date = new Date();
 		    int time=(int)((date.getTime()-persistent.getCreateDate().getTime())/60000);

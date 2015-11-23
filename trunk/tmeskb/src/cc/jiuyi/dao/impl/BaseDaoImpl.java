@@ -208,6 +208,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		
 		criteria.setProjection(null);
 		criteria.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+		criteria.setResultTransformer(criteria.DISTINCT_ROOT_ENTITY);
 		criteria.setFirstResult((pageNumber - 1) * pageSize);
 		criteria.setMaxResults(pageSize);
 		if (StringUtils.isNotEmpty(orderBy) && orderType != null) {

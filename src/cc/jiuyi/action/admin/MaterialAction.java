@@ -160,8 +160,8 @@ public class MaterialAction extends BaseAdminAction {
 						dictService, "materialState", material.getState()));
 				material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "iscartonSate", material.getIsCarton()));
-				material.setProductsCode(material.getProducts().getProductsCode());
-				material.setProductsName(material.getProducts().getProductsName());
+				//material.setProductsCode(material.getProducts().getProductsCode());
+				//material.setProductsName(material.getProducts().getProductsName());
 				material.setProducts(null);
 				lst.add(material);
 			}

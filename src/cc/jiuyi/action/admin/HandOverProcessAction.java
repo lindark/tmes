@@ -52,7 +52,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private List<Process> processList;
 	private List<WorkingBill> workingbillList;
 	private List<Material> materialList;
+	private List<HandOverProcess> handoverprocessList;
 	private String matnr;//组件编码
+	private Material material;//组件
 	
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -72,8 +74,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String add(){
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		//Material material = materialservice.get("materialCode",matnr);
-		//workingbillList = workingbillservice.findListWorkingBill(material.getProducts().getma, admin.getProductDate(), admin.getShift());
+		material = materialservice.get("materialCode",matnr);
+		workingbillList = workingbillservice.findListWorkingBill(material.getProducts().getProductsCode(), admin.getProductDate(), admin.getShift());
 		return INPUT;
 	}
 
@@ -241,6 +243,26 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+
+
+	public List<HandOverProcess> getHandoverprocessList() {
+		return handoverprocessList;
+	}
+
+
+	public void setHandoverprocessList(List<HandOverProcess> handoverprocessList) {
+		this.handoverprocessList = handoverprocessList;
+	}
+
+
+	public Material getMaterial() {
+		return material;
+	}
+
+
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 	
 	

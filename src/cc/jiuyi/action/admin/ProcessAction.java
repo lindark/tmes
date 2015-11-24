@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
@@ -158,12 +159,12 @@ public class ProcessAction extends BaseAdminAction {
 				//p.setXproductname(p.getProducts().getProductsName());//产品名称
 				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "processState", p.getState()));
-				p.setProducts(null);
 				list2.add(p);
 			}
 			pager.setList(list2);
 			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性 
+			jsonConfig.setExcludes(new String[]{"products"});//除去联级products属性
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Process.class));//排除有关联关系的属性字段 
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
@@ -216,6 +217,8 @@ public class ProcessAction extends BaseAdminAction {
 		BeanUtils.copyProperties(process, persistent, new String[] { "id"});//除了id不修改，其他都修改，自动完成设值操作
 		//persistent.setProducts(new HashSet<Products>(this.productslist));
 		persistent.setModifyDate(new Date());
+		persistent.setProcessName(process.getProcessName());
+		persistent.setState(process.getState());
 		processService.update(persistent);
 		redirectionUrl = "process!list.action";
 		return SUCCESS;

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 
 /**
@@ -39,4 +41,6 @@ public interface ProductsService extends BaseService<Products, String> {
 	 * 根据物料编码判断此物料组是否存在
 	 */
 	public boolean isExistByMaterialGroup(String materialGroup);
+	public List<Process> getAllProcess();
+	public List<Material> getAllMaterial();
 }

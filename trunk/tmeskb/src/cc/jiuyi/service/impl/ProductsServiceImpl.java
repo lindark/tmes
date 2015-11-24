@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.ProductsDao;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Product;
 import cc.jiuyi.service.ProductsService;
@@ -79,6 +81,16 @@ public class ProductsServiceImpl extends BaseServiceImpl<Products, String>implem
 	public boolean isExistByMaterialGroup(String materialGroup) {
 		
 		return productsDao.isExistByMaterialGroup(materialGroup);
+	}
+
+	@Override
+	public List<Material> getAllMaterial() {
+		return productsDao.getAllMaterial();
+	}
+
+	@Override
+	public List<Process> getAllProcess() {
+		return productsDao.getAllProcess();
 	}
 
 	

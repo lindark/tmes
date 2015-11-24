@@ -113,9 +113,8 @@ body {
 											<div class="widget-main no-padding">
 												<select multiple="" name="ids" id="processChose"
 													class="chosen-select">
-													<option value="">&nbsp;</option> <#list allProcess as
-													list>
-													<option value="${list.id}">${list.processName}</option>
+													<#list allProcess as list>
+														<option value="${list.id}">${list.processName}</option>
 													</#list>
 												</select>
 											</div>

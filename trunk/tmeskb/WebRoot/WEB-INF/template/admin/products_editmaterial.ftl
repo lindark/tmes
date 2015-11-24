@@ -113,7 +113,6 @@ body {
 													<div class="widget-body">
 														<div class="widget-main no-padding">
 															<select multiple="" name="ids" id="materialChose" class="chosen-select"> 
-																<option value="" >&nbsp;</option>
 														        <#list allMaterial as list>
 													            <option value="${list.id}">${list.materialName}</option>
 												                </#list>   

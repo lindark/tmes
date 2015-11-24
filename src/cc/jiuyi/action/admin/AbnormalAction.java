@@ -155,49 +155,49 @@ public class AbnormalAction extends BaseAdminAction {
 
 	@InputConfig(resultName = "error")
 	public String update() {
-
+		Admin admin = adminService.getLoginAdmin();
 		if (aid != null) {
 
 			Abnormal persistent = abnormalService.load(aid);
-			persistent.setReplyDate(new Date());
-
-			Admin admin = adminService.getLoginAdmin();
+			persistent.setReplyDate(new Date());			
 
 			if (persistent.getSwiptCardSet().size() > 0) {
-
-				List<SwiptCard> swiptCardList = new ArrayList(
-						persistent.getSwiptCardSet());
-
+				List<SwiptCard> swiptCardList = new ArrayList(persistent.getSwiptCardSet());
+				System.out.println(swiptCardList.size());
 				for (SwiptCard s : swiptCardList) {
+					System.out.println(s.getType().equals("0"));
 					if (s.getType().equals("0")) {
+						System.out.println(s.getAdminSet().size());
 						List<Admin> adminList = new ArrayList(s.getAdminSet());
-
-						if (!adminList.contains(admin)) {
-
-							SwiptCard swiptCard = new SwiptCard();
-							swiptCard.setAbnormal(persistent);
-							List<Admin> adminSet1 = new ArrayList<Admin>();
-							adminSet1.add(admin);
-							swiptCard
-									.setAdminSet(new HashSet<Admin>(adminSet1));
-							swiptCard.setType("0");
-							swiptCardService.save(swiptCard);
-
-							List<SwiptCard> swiptList = new ArrayList<SwiptCard>();
-							for (SwiptCard ss : persistent.getSwiptCardSet()) {
-								if (ss.getType().equals("0")) {
-									swiptList.add(ss);
+						System.out.println(adminList.toString());
+						System.out.println(adminList.contains(admin));
+						System.out.println("aaaaaaa");
+						
+							if (persistent.getResponsorSet().contains(admin)) {
+								SwiptCard swiptCard = new SwiptCard();
+								swiptCard.setAbnormal(persistent);
+								List<Admin> adminSet1 = new ArrayList<Admin>();
+								adminSet1.add(admin);
+								swiptCard.setAdminSet(new HashSet<Admin>(adminSet1));
+								swiptCard.setType("0");
+								swiptCardService.save(swiptCard);
+								List<SwiptCard> swiptList = new ArrayList<SwiptCard>();
+								for (SwiptCard ss : persistent.getSwiptCardSet()) {
+									if (ss.getType().equals("0")) {
+										swiptList.add(ss);
+									}
 								}
+
+								if (persistent.getResponsorSet().size() == swiptList.size() + 1) {
+									persistent.setState("2");
+								} else {
+									persistent.setState("1");
+								}
+							}else{
+								addActionError("刷卡错误!");
 							}
 
-							if (persistent.getResponsorSet().size() == swiptList
-									.size() + 1) {
-								persistent.setState("2");
-							} else {
-								persistent.setState("1");
-							}
-
-						}
+						
 					}
 				}
 
@@ -214,9 +214,12 @@ public class AbnormalAction extends BaseAdminAction {
 						swiptCard.setAdminSet(new HashSet<Admin>(adminSet1));
 						swiptCard.setType("0");
 						swiptCardService.save(swiptCard);
+					}else{
+						addActionError("刷卡错误!");
 					}
 
 				} else {
+					if (persistent.getResponsorSet().contains(admin)) {
 					persistent.setState("2");
 					SwiptCard swiptCard = new SwiptCard();
 					swiptCard.setAbnormal(persistent);
@@ -225,13 +228,15 @@ public class AbnormalAction extends BaseAdminAction {
 					swiptCard.setAdminSet(new HashSet<Admin>(adminSet));
 					swiptCard.setType("0");
 					swiptCardService.save(swiptCard);
+					}else{
+						addActionError("刷卡错误!");
+					}
 				}
 
 			}
 
 			Date date = new Date();
-			int time = (int) ((date.getTime() - persistent.getCreateDate()
-					.getTime()) / 60000);
+			int time = (int) ((date.getTime() - persistent.getCreateDate().getTime()) / 60000);
 			persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
 		} else if (aids != null) {
@@ -239,18 +244,89 @@ public class AbnormalAction extends BaseAdminAction {
 			String id[] = aids.split(",");
 			for (int i = 0; i < id.length; i++) {
 				Abnormal persistent = abnormalService.load(id[i]);
-				if (persistent.getState().equals("0")
-						|| persistent.getState().equals("1")) {
+				if (persistent.getState().equals("0") || persistent.getState().equals("1")) {
+					if (persistent.getResponsorSet().contains(admin)) {
 					persistent.setReplyDate(new Date());
-					persistent.setState("2");
+					if(persistent.getResponsorSet().size()==1){
+						persistent.setState("2");
+						SwiptCard swiptCard = new SwiptCard();
+						swiptCard.setAbnormal(persistent);
+						List<Admin> adminSet = new ArrayList<Admin>();
+						adminSet.add(admin);
+						swiptCard.setAdminSet(new HashSet<Admin>(adminSet));
+						swiptCard.setType("0");
+						swiptCardService.save(swiptCard);
+					}else{
+						SwiptCard swiptCard = new SwiptCard();
+						swiptCard.setAbnormal(persistent);
+						List<Admin> adminSet = new ArrayList<Admin>();
+						adminSet.add(admin);
+						swiptCard.setAdminSet(new HashSet<Admin>(adminSet));
+						swiptCard.setType("0");
+						swiptCardService.save(swiptCard);
+						List<SwiptCard> swiptList = new ArrayList<SwiptCard>();
+						for (SwiptCard ss : persistent.getSwiptCardSet()) {
+							if (ss.getType().equals("0")) {
+								swiptList.add(ss);
+							}
+						}
+
+						if (persistent.getResponsorSet().size() == swiptList.size() + 1) {
+							persistent.setState("2");
+						} else {
+							persistent.setState("1");
+						}
+					}
+					
 					Date date = new Date();
-					int time = (int) ((date.getTime() - persistent
-							.getCreateDate().getTime()) / 60000);
+					int time = (int) ((date.getTime() - persistent.getCreateDate().getTime()) / 60000);
 					persistent.setHandlingTime(time);
+					abnormalService.update(persistent);
+					}
+				}
+			}
+
+		}
+
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
+	}
+
+	public String close() {
+		if (closeId != null) {
+			Abnormal persistent = abnormalService.load(closeId);
+			persistent.setState("3");
+			persistent.setReplyDate(new Date());
+			Date date = new Date();
+			int time = (int) ((date.getTime() - persistent.getCreateDate()
+					.getTime()) / 60000);
+			persistent.setHandlingTime(time);
+			abnormalService.update(persistent);
+
+		} else if (closeIds != null) {
+			String id[] = closeIds.split(",");
+			for (int i = 0; i < id.length; i++) {
+				Abnormal persistent = abnormalService.load(id[i]);
+				if (persistent.getState() != "3"
+						|| persistent.getState() != "4") {
+					persistent.setState("3");
+					if (persistent.getReplyDate() == null) {
+						persistent.setReplyDate(new Date());
+						Date date = new Date();
+						int time = (int) ((date.getTime() - persistent
+								.getCreateDate().getTime()) / 60000);
+						persistent.setHandlingTime(time);
+					}
 					abnormalService.update(persistent);
 				}
 			}
-		} else if (cancelId != null) {
+		}
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
+	}
+	
+	public String cancel() {
+		if (cancelId != null) {
 			Abnormal persistent = abnormalService.load(cancelId);
 			persistent.setState("4");
 			persistent.setReplyDate(new Date());
@@ -279,35 +355,7 @@ public class AbnormalAction extends BaseAdminAction {
 				persistent.setHandlingTime(time);
 				abnormalService.update(persistent);
 			}
-		} else if(closeId!=null){
-			Abnormal persistent = abnormalService.load(closeId);
-			persistent.setState("3");
-			persistent.setReplyDate(new Date());
-			Date date = new Date();
-			int time = (int) ((date.getTime() - persistent
-					.getCreateDate().getTime()) / 60000);
-			persistent.setHandlingTime(time);
-			abnormalService.update(persistent);
-			
-		}else if (closeIds != null) {
-			String id[] = closeIds.split(",");
-			for (int i = 0; i < id.length; i++) {
-				Abnormal persistent = abnormalService.load(id[i]);
-				if (persistent.getState() != "3"
-						|| persistent.getState() != "4") {
-					persistent.setState("3");
-					if (persistent.getReplyDate() == null) {
-						persistent.setReplyDate(new Date());
-						Date date = new Date();
-						int time = (int) ((date.getTime() - persistent
-								.getCreateDate().getTime()) / 60000);
-						persistent.setHandlingTime(time);
-					}
-					abnormalService.update(persistent);
-				}
-			}
 		}
-
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}

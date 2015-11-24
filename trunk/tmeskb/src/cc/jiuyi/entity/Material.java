@@ -42,12 +42,11 @@ public class Material extends BaseEntity{
     private String stateRemark;//状态描述
     private String isCarton;//是否为纸箱
     private String stateCarton;//纸箱状态描述
-    
-    
     private String productsCode;//产品编码
     private String productsName;
 
 	private Products products;// 产品Bom
+	private Set<HandOverProcess> handoverprocessSet;//交接
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
@@ -184,6 +183,13 @@ public class Material extends BaseEntity{
 	}
 	public void setStateCarton(String stateCarton) {
 		this.stateCarton = stateCarton;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="material")
+	public Set<HandOverProcess> getHandoverprocessSet() {
+		return handoverprocessSet;
+	}
+	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
+		this.handoverprocessSet = handoverprocessSet;
 	}
 
    

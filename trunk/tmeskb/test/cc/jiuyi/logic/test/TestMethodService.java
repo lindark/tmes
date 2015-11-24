@@ -82,23 +82,28 @@ public class TestMethodService extends BaseTestCase {
 	public void Test1(){
 
 		Object[] obj = new Object[2];
-		obj[0] = "402880f151148a9301511490270a0001";
-		obj[1] = "4028841450f07ce80150f07d89b30001";
-		String accobjkey="lingliao";
-		List<AccessObject> objlist = accessobjectservice.findResourceList(obj,accobjkey);
-		
-		List<AccessObject> listtemp = new ArrayList<AccessObject>();
-		for(int i=0;i<objlist.size();i++){
-			AccessObject accessobject = objlist.get(i);
-			if(listtemp.contains(accessobject)){
-				System.out.println(accessobject);
-			}else{
-				listtemp.add(accessobject);
-			}
-		}
+		obj[0] = "402881862bec2a21012bec2b70510002";
+		obj[1] = "402881ed4ef6864e014ef687e48d0002";
+		String accobjkey="handover";
+		List list = new ArrayList<Role>();
+		Role role = new Role();
+		role.setId("402881862bec2a21012bec2b70510002");
+		list.add(role);
+		Role role1 = new Role();
+		role1.setId("402881ed4ef6864e014ef687e48d0002");
+		list.add(role1);
+		//List<AccessObject> objlist = accessobjectservice.getAccessObjectList(accobjkey,list);
 		
 		System.out.println();
+		//List<AccessObject> objlist1 = accessobjectservice.getAccessObjectList(accobjkey,list);
+		System.out.println();
+	}
+	
+	@Test
+	public void Test2(){
 		
+		Admin admin = new Admin();
+		ThinkWayUtil.getExcludeFields(Admin.class);
 	}
 	
 }

@@ -1,6 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,7 +28,12 @@ public class HandOverProcess extends BaseEntity{
 	private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-      
+    private Integer amount;//数量
+    
+    private Process process;//工序
+    private Material material;//物料组件
+    private WorkingBill afterworkingbill;//下班随工单
+    private WorkingBill beforworkingbill;//上班随工单 
 
 	public String getState() {
 		return state;
@@ -48,9 +58,45 @@ public class HandOverProcess extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-
+	public Integer getAmount() {
+		return amount;
+	}
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Process getProcess() {
+		return process;
+	}
+	public void setProcess(Process process) {
+		this.process = process;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Material getMaterial() {
+		return material;
+	}
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public WorkingBill getAfterworkingbill() {
+		return afterworkingbill;
+	}
+	public void setAfterworkingbill(WorkingBill afterworkingbill) {
+		this.afterworkingbill = afterworkingbill;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public WorkingBill getBeforworkingbill() {
+		return beforworkingbill;
+	}
+	public void setBeforworkingbill(WorkingBill beforworkingbill) {
+		this.beforworkingbill = beforworkingbill;
+	}
+	
+	
+	
    
-
+	
     
 	
 }

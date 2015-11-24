@@ -83,6 +83,11 @@ public class WorkingBillServiceImpl extends BaseServiceImpl<WorkingBill, String>
 	{
 		return this.workingbilldao.getIdsAndNames();
 	}
+	@Override
+	public List<WorkingBill> findListWorkingBill(String matnr,
+			String productDate, String shift) {
+		return workingbilldao.findListWorkingBill(matnr, productDate, shift);
+	}
 
 	
 }

@@ -85,4 +85,9 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> impleme
 	}
 	
 	
+	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift){
+		String hql="from WorkingBill where matnr = ? and productDate = ? and workingBillCode like ?";
+		return getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).setParameter(2, "%"+shift).list();
+	}
+	
 }

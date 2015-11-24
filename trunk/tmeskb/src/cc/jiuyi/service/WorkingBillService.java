@@ -43,4 +43,13 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public List<WorkingBill> getIdsAndNames();
 	
+	/**
+	 * 条件查询随工单
+	 * @param matnr 物料号
+	 * @param productDate 生产日期
+	 * @param shift 班次
+	 * @return
+	 */
+	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift);
+	
 }

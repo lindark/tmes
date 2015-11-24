@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 
 /**
@@ -40,6 +42,7 @@ public interface ProductsDao extends BaseDao<Products,String> {
 	 */
 	public boolean isExistByMaterialGroup(String materialGroup);
 	
-	
+	public List<Process> getAllProcess();
+	public List<Material> getAllMaterial();
 	
 }

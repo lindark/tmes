@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.ProductsDao;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 
 /**
@@ -139,5 +139,19 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		}else{
 			return false;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Process> getAllProcess() {
+		String hql = "from Process";
+		return getSession().createQuery(hql).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Material> getAllMaterial() {
+		String hql = "from Material";
+		return getSession().createQuery(hql).list();
 	}
 }

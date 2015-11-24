@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,18 +47,13 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 	}
 
 	public Pager getWorkShopPager(Pager pager, HashMap<String, String> map,String factoryName) {
-		//String wheresql = workShoppagerSql(pager);
+
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(WorkShop.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		if(!super.existAlias(detachedCriteria, "factory", "factory"))
 			detachedCriteria.createAlias("factory", "factory");//表名，别名
-		/*if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}*/
-		
-		//System.out.println(map.size());
+
 		if (map.size() > 0) {
 			if(map.get("workShopCode")!=null){
 			    detachedCriteria.add(Restrictions.like("workShopCode", "%"+map.get("workShopCode")+"%"));
@@ -69,37 +65,13 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
 			
-			if(map.get("factoryName1")!=null){
-				
-				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
+			if(map.get("factoryName1")!=null){								
 				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName1")+"%"));
 			}			
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-/*
-	public String workShoppagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		wheresql=wheresql.replace("state='启用'", "state='1'");
-		wheresql=wheresql.replace("state='未启用'", "state='2'");
-		return wheresql;
-	}*/
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
@@ -120,5 +92,12 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 		} else {
 			return false;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Factory> getAllFactory(){
+		String hql = "from Factory factory where lower(factory.isDel) = lower(?)";
+		List<Factory> factoryList=getSession().createQuery(hql).setParameter(0, "N").list();
+		return factoryList;
 	}
 }

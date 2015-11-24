@@ -60,8 +60,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="products!saveprocess.action"
-								method="post">
+								action="products!saveprocess.action" method="post">
 								<input type="hidden" name="id" value="${id}" />
 
 								<div id="inputtabs">
@@ -70,68 +69,70 @@ body {
 
 									</ul>
 									<div class="widget-body">
-											<div
-												class="widget-main padding-6 no-padding-left no-padding-right">
-												<div class="profile-user-info profile-user-info-striped">
-													<div class="profile-info-row">
-														<div class="profile-info-name">产品编号</div>
+										<div
+											class="widget-main padding-6 no-padding-left no-padding-right">
+											<div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name">产品编号</div>
 
-														<div class="profile-info-value">
-															<span class="editable editable-click">${products.productsCode}</span>
-														</div>
+													<div class="profile-info-value">
+														<span class="editable editable-click">${products.productsCode}</span>
 													</div>
-													<div class="profile-info-row">
-														<div class="profile-info-name">产品名称</div>
-
-														<div class="profile-info-value">
-															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username">${products.productsName}</span>
-															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
-														</div>
-													</div>
-													<div class="profile-info-row">
-														<div class="profile-info-name">物料组</div>
-
-														<div class="profile-info-value">
-															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="username">${products.materialGroup}</span>
-															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
-														</div>
-													</div>
-													
 												</div>
+												<div class="profile-info-row">
+													<div class="profile-info-name">产品名称</div>
+
+													<div class="profile-info-value">
+														<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+														<span class="editable editable-click" id="username">${products.productsName}</span>
+														<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+														<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+													</div>
+												</div>
+												<div class="profile-info-row">
+													<div class="profile-info-name">物料组</div>
+
+													<div class="profile-info-value">
+														<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+														<span class="editable editable-click" id="username">${products.materialGroup}</span>
+														<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+														<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+													</div>
+												</div>
+
 											</div>
 										</div>
-
-										<div class="widget-box transparent">
-													<div class="widget-header">
-														<h5 class="widget-title bigger lighter">相关工序</h5>
-													</div>
-
-													<div class="widget-body">
-														<div class="widget-main no-padding">
-															<select multiple="" name="ids" id="form-field-icon-1" class="chosen-select"> 
-																<option value="" >&nbsp;</option>
-														        <#list allProcess as list>
-													            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.processName}</option>
-												                </#list>   
-														    </select>
-														</div>
-													</div>
-												</div>
-										<!--weitao end modify-->
-
-
 									</div>
-									<div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
+
+									<div class="widget-box transparent">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter">相关工序</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<select multiple="" name="ids" id="processChose"
+													class="chosen-select">
+													<option value="">&nbsp;</option> <#list allProcess as
+													list>
+													<option value="${list.id}"<#if (list.id ==
+														products.process)> selected</#if>>${list.processName}</option>
+													</#list>
+												</select>
+											</div>
+										</div>
 									</div>
+									<!--weitao end modify-->
+
+
+								</div>
+								<div class="buttonArea">
+									<input type="submit" class="formButton" value="确  定"
+										hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+										type="button" class="formButton"
+										onclick="window.history.back(); return false;" value="返  回"
+										hidefocus="true" />
+								</div>
 							</form>
 
 							<!-- add by welson 0728 -->
@@ -154,5 +155,22 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script>
+$(function(){
+	$("#processChose").find("option").each(function(){
+		var processVal = $(this).val();
+		var processid = "";
+		<#list products.process as list>
+			processid = "${list.id}";
+			if(processVal == processid){
+				$(this).attr("selected","selected");
+			}
+		</#list>
+		
+	})
+	$("#dialogOLanguage").trigger("chosen:updated");	
+})
+	
+</script>
 </html>
 

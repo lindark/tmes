@@ -91,7 +91,7 @@ body {
 												<div class="profile-info-name">工厂名称</div>
 												<div class="profile-info-value">
 												    <#if isAdd??>
-													<select name="factoryId" class="{required: true}"
+													<select class="chosen-select" name="factoryId" class="{required: true}"
 														style="width:200px;">
 														<option value="">请选择...</option> 
 														<#list factoryList as list>

@@ -2,8 +2,10 @@ package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -19,6 +21,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
@@ -51,6 +54,9 @@ public class ProductsAction extends BaseAdminAction {
 	private Material material;
 	
 	private String materialId;
+	
+	private List<Process> allProcess;
+	private List<Material> allMaterial;
 	
 	@Resource
 	private ProductsService productsService;
@@ -226,7 +232,41 @@ public class ProductsAction extends BaseAdminAction {
 		redirectionUrl="products!list.action";
 		return SUCCESS;	
 	}
+	
+	//编辑相关工序
+	public String editprocess(){
+		products = productsService.load(id);
+		allProcess = productsService.getAllProcess();
+		return "editprocess";
+	}
 		
+	//编辑相关BOOM
+	public String editmaterial(){
+		products = productsService.load(id);
+		allMaterial = productsService.getAllMaterial();
+		return "editmaterial";
+	}
+	
+	//保存相关工序
+	public String saveprocess(){
+		try {
+			Products pt = productsService.get(id);
+			List<Process> prolist = new ArrayList<Process>();
+			for(int i=0;i<ids.length;i++){
+				Process process = new Process();
+				process.setId(ids[i]);
+				prolist.add(process);
+			}
+			pt.setProcess(new HashSet<Process>(prolist));
+			productsService.update(pt);				
+			redirectionUrl = "products!list.action";
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 	
 	public Products getProducts() {
 		return products;
@@ -303,4 +343,23 @@ public class ProductsAction extends BaseAdminAction {
 	{
 		this.process = process;
 	}
+
+	public List<Process> getAllProcess() {
+		return allProcess;
+	}
+
+	public void setAllProcess(List<Process> allProcess) {
+		this.allProcess = allProcess;
+	}
+
+	public List<Material> getAllMaterial() {
+		return allMaterial;
+	}
+
+	public void setAllMaterial(List<Material> allMaterial) {
+		this.allMaterial = allMaterial;
+	}
+
+
+	
 }

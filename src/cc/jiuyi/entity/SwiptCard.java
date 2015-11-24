@@ -18,7 +18,7 @@ public class SwiptCard extends BaseEntity{
 	
 	private String type;//刷卡类型
 	
-	private Set<Admin> adminSet;//
+	private Admin admin;//
 	
 	private Abnormal abnormal;//异常
 	
@@ -30,19 +30,19 @@ public class SwiptCard extends BaseEntity{
 		this.type = type;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="swiptCard")
-	public Set<Admin> getAdminSet() {
-		return adminSet;
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getAdmin() {
+		return admin;
 	}
 
-	public void setAdminSet(Set<Admin> adminSet) {
-		this.adminSet = adminSet;
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Abnormal getAbnormal() {
 		return abnormal;
-	}
+	}	
 
 	public void setAbnormal(Abnormal abnormal) {
 		this.abnormal = abnormal;

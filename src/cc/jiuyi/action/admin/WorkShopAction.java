@@ -210,7 +210,7 @@ public class WorkShopAction extends BaseAdminAction {
 		
 	// 获取所有工厂
 	public List<Factory> getFactoryList() {
-		return factoryService.getAll();
+		return workShopService.getAllFactory();
 	}
 
 	public WorkShop getWorkShop() {

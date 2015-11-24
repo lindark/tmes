@@ -49,7 +49,7 @@ public class Products extends BaseEntity{
 		this.process = process;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="products")
+	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Material> getMaterial() {
 		return material;
 	}

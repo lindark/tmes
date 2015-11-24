@@ -235,29 +235,39 @@ public class ProductsAction extends BaseAdminAction {
 	public String saveprocess() {
 		Products pt = productsService.get(id);
 		List<Process> prolist = new ArrayList<Process>();
-		for (int i = 0; i < ids.length; i++) {
-			Process process = new Process();
-			process.setId(ids[i]);
-			prolist.add(process);
+		if (ids == null) {
+			pt.setProcess(null);
+		} else {
+			for (int i = 0; i < ids.length; i++) {
+				Process process = new Process();
+				process.setId(ids[i]);
+				prolist.add(process);
+			}
+			pt.setProcess(new HashSet<Process>(prolist));
 		}
-		pt.setProcess(new HashSet<Process>(prolist));
 		productsService.update(pt);
 		redirectionUrl = "products!list.action";
 		return SUCCESS;
 	}
-	
+
 	// 保存相关Boom
-		public String savematerial() {
-			Products pt = productsService.get(id);
-			List<Material> materialList = materialService.get(ids);
-			for (int i = 0; i < materialList.size(); i++) {
-				Material material = materialList.get(i);
-				material.setProducts(pt);
-				materialService.update(material);
+	public String savematerial() {
+		Products pt = productsService.get(id);
+		List<Material> matlist = new ArrayList<Material>();
+		if (ids == null) {
+			pt.setMaterial(null);
+		} else {
+			for (int i = 0; i < ids.length; i++) {
+				Material material = new Material();
+				material.setId(ids[i]);
+				matlist.add(material);
 			}
-			redirectionUrl = "products!list.action";
-			return SUCCESS;
+			pt.setMaterial(new HashSet<Material>(matlist));
 		}
+		productsService.update(pt);
+		redirectionUrl = "products!list.action";
+		return SUCCESS;
+	}
 
 	public Products getProducts() {
 		return products;

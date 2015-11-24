@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -55,6 +56,7 @@ public class AbnormalAction extends BaseAdminAction {
 	private String closeIds;
 	private String cancelIds;
 	private String aids;
+	private Admin admin;
 
 	private List<Admin> adminSet;
 	private List<Callreason> callReasonSet;
@@ -82,6 +84,7 @@ public class AbnormalAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		// pager = abnormalService.findByPager(pager);
 		return LIST;
 	}
@@ -152,49 +155,48 @@ public class AbnormalAction extends BaseAdminAction {
 
 	@InputConfig(resultName = "error")
 	public String update() {
-		String ids[] = aids.split(",");
 		Admin admin1 = adminService.getLoginAdmin();
-		for(int i=0;i<ids.length;i++){
-			Abnormal persistent = abnormalService.load(ids[i]);					
-			if (persistent.getResponsorSet().contains(admin1)) {
-				List<Admin> adminList = new ArrayList<Admin>();
+		List<Abnormal> abnormalList = abnormalService.get(ids);
+
+		for (int i = 0; i < abnormalList.size(); i++) {
+			List<Admin> adminList = null;
+			Abnormal persistent = abnormalList.get(i);
+			Set<Admin> responsorSet = persistent.getResponsorSet();
+			if (responsorSet.contains(admin1)) {
+				adminList = new ArrayList<Admin>();
 				for (SwiptCard s : persistent.getSwiptCardSet()) {
 					if (s.getType().equals("0")) {
 						adminList.add(s.getAdmin());
 					}
 				}
-				if(adminList.contains(admin1)){
-					addActionError("已完成刷卡!");
+				if (adminList.contains(admin1)) {
+					addActionError("请勿重复刷卡!");
 					return ERROR;
 				}
-				if(persistent.getResponsorSet().size()==(adminList.size()+1)){
+				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
-					SwiptCard swiptCard = new SwiptCard();
-					swiptCard.setAbnormal(persistent);
-	                swiptCard.setAdmin(admin1);
-					swiptCard.setType("0");
-					swiptCardService.save(swiptCard);
-				}else{
+				} else {
 					persistent.setState("1");
-					SwiptCard swiptCard = new SwiptCard();
-					swiptCard.setAbnormal(persistent);
-	                swiptCard.setAdmin(admin1);
-					swiptCard.setType("0");
-					swiptCardService.save(swiptCard);
+
 				}
-				
-			}else{
+				SwiptCard swiptCard = new SwiptCard();
+				swiptCard.setAbnormal(persistent);
+				swiptCard.setAdmin(admin1);
+				swiptCard.setType("0");
+				swiptCardService.save(swiptCard);
+			} else {
 				addActionError("刷卡错误!");
 				return ERROR;
 			}
 
-			    persistent.setReplyDate(new Date());
-				Date date = new Date();
-				int time = (int) ((date.getTime() - persistent.getCreateDate().getTime()) / 60000);
-				persistent.setHandlingTime(time);
-				abnormalService.update(persistent);
+			persistent.setReplyDate(new Date());
+			Date date = new Date();
+			int time = (int) ((date.getTime() - persistent.getCreateDate()
+					.getTime()) / 60000);
+			persistent.setHandlingTime(time);
+			abnormalService.update(persistent);
 		}
-			
+
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
@@ -204,37 +206,39 @@ public class AbnormalAction extends BaseAdminAction {
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-		  if (persistent.getIniitiator().equals(admin3)) {
-			if (persistent.getState() != "3" & persistent.getState() != "4") {
-				persistent.setState("3");
-				if (persistent.getReplyDate() == null) {
-					persistent.setReplyDate(new Date());
-					Date date = new Date();
-					int time = (int) ((date.getTime() - persistent.getCreateDate().getTime()) / 60000);
-					persistent.setHandlingTime(time);
+			if (persistent.getIniitiator().equals(admin3)) {
+				if (persistent.getState() != "3" & persistent.getState() != "4") {
+					persistent.setState("3");
+					if (persistent.getReplyDate() == null) {
+						persistent.setReplyDate(new Date());
+						Date date = new Date();
+						int time = (int) ((date.getTime() - persistent
+								.getCreateDate().getTime()) / 60000);
+						persistent.setHandlingTime(time);
+					}
+					abnormalService.update(persistent);
+				} else {
+					addActionError("刷卡错误!");
+					return ERROR;
 				}
-				abnormalService.update(persistent);
-			}else{
-				addActionError("刷卡错误!");
+			} else {
+				addActionError("您没有关闭的权限!");
 				return ERROR;
 			}
-		  }else{
-			  addActionError("您没有关闭的权限!");
-				return ERROR;
-		  }
 		}
 
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
-	
+
 	public String cancel() {
 		Admin admin2 = adminService.getLoginAdmin();
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if(persistent.getIniitiator().equals(admin2)){
-				if (persistent.getState().equals("0") || persistent.getState().equals("1")) {
+			if (persistent.getIniitiator().equals(admin2)) {
+				if (persistent.getState().equals("0")
+						|| persistent.getState().equals("1")) {
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
@@ -242,21 +246,22 @@ public class AbnormalAction extends BaseAdminAction {
 							.getCreateDate().getTime()) / 60000);
 					persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
-				}else{
+				} else {
 					addActionError("该异常不能撤销!");
 					return ERROR;
 				}
-			}else{
+			} else {
 				addActionError("您没有撤销的权限!");
 				return ERROR;
 			}
-			
+
 			Date date = new Date();
-			int time = (int) ((date.getTime() - persistent.getCreateDate().getTime()) / 60000);
+			int time = (int) ((date.getTime() - persistent.getCreateDate()
+					.getTime()) / 60000);
 			persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
 		}
-		
+
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
@@ -308,7 +313,6 @@ public class AbnormalAction extends BaseAdminAction {
 		this.loginUsername = loginUsername;
 	}
 
-	
 	public String getCallId() {
 		return callId;
 	}
@@ -376,6 +380,14 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCallReasonSet(List<Callreason> callReasonSet) {
 		this.callReasonSet = callReasonSet;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 }

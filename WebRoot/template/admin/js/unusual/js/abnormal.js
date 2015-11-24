@@ -74,19 +74,10 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else if(i.length==1){	
-			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state==0 || rowData.state==1){				
-				window.location.href = "abnormal!update.action?aid="+i;
-			}else{
-				alert("异常不能响应");
-				return false;
-			}
-			
-		}else if(i.length>=2){
+		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
-				if(rowData.state!=0){				
+				if(rowData.state!=0 & rowData.state!=1){				
 					alert("异常不能响应");
 					return false;
 				}
@@ -102,23 +93,17 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else if(i.length==1){	
-			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state==0 || rowData.state==1){
-			  window.location.href = "abnormal!update.action?cancelId="+i;
-			}else{
-				alert("异常不能撤销");
-			}
-		}else if(i.length>=2){
+		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
-				if(rowData.state!=0){				
-					alert("异常不能撤销");
+				if(rowData.state==3 || rowData.state==4 || rowData.state==2){				
+					alert("异常已关闭/撤销/正处理");
 					return false;
 				}
 			}
-			window.location.href = "abnormal!update.action?cancelIds="+i;
-		}		
+			window.location.href = "abnormal!cancel.action?cancelIds="+i;
+		}
+				
     });
 	
 	var $closeAbn = $("#closeAbn");// 关闭异常
@@ -127,15 +112,7 @@ $(function() {
 		if(i.length<=0){
 			alert("请至少选择一个异常");
 			return false;
-		}else if(i.length==1){
-			var rowData = $("#grid-table1").jqGrid('getRowData',i);
-			if(rowData.state!=3 && rowData.state!=4){
-				window.location.href = "abnormal!update.action?closeId="+i;
-			}else{
-				alert("异常已关闭/撤销");
-			}
-			
-		}else if(i.length>=2){
+		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
 				if(rowData.state==3 || rowData.state==4){				
@@ -143,7 +120,7 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!update.action?closeIds="+i;
-		}		
+			window.location.href = "abnormal!close.action?closeIds="+i;
+		}
     });
 })

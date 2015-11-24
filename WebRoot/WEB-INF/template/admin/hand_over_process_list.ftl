@@ -98,8 +98,10 @@
 															<li data-target="#step_${(list.id)! }" class="step-jump">
 																<span class="step">${num }</span>
 																<span class="title">${(list.processName)! }</span>
+																<input type="hidden" class="process" value="${list.id}"/>
 															</li>
 														</#list>
+														
 													</ul>
 
 													<!-- /section:plugins/fuelux.wizard.steps -->

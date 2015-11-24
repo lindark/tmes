@@ -189,16 +189,12 @@
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content-area -->
-				</div><!-- /.page-content -->
 				
-				
-				</div><!-- /.main-content--add by welson 0728  -->
-		<#include "/WEB-INF/template/admin/admin_footer.ftl"><!-- /.add by welson 0728  -->
-	</div><!-- /.main-container--add by welson 0728 -->			
 	
-	
+	</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+	<#include "/WEB-INF/template/admin/admin_footer.ftl"><!-- /.add by welson 0728  -->
+	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 		
 		<script type="text/javascript">

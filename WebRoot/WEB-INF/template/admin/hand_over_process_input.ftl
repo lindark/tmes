@@ -43,9 +43,11 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validateajax"
-								action="<#if isAdd??>admin!save.action<#else>admin!update.action</#if>"
+								action="<#if isAdd??>hand_over_process!save.action<#else>hand_over_process!update.action</#if>"
 								method="post">
-
+								<!-- hide 块 start -->
+									
+								<!-- hide 块 end-->
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>
@@ -57,20 +59,27 @@ body {
 									</thead>
 
 									<tbody>
+										<#assign  num=0/>
 										<#list workingbillList as list>
 											<tr>
 												<td class="center">${list.workingBillCode }</td>
 												<td class="center">${list.matnr }</td>
 												<td class="center">${list.maktx }</td>
 												<td class="center">
-													<input type="text"/>
+													<input type="hidden" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
+													<input type="hidden" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
+													<input type="text" name="handoverprocessList[${num }].amount" value=""/><!-- 数量 -->
 												</td>
 											</tr>
+											<#assign  num=num+1/>
 										</#list>
 
 									</tbody>
 								</table>
-
+								<div class="buttonArea" style="display:none">
+									<input type="submit" class="formButton" id="submit_btn"
+										value="确  定" hidefocus="true" />
+								</div>
 							</form>
 
 							<!-- add by welson 0728 -->

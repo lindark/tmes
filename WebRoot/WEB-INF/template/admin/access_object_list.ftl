@@ -96,9 +96,10 @@
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	
 	</div><!-- /.page-content -->
 	</div><!-- /.main-content -->
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div><!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
 	<!-- ./ add by welson 0728 -->

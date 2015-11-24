@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -80,6 +82,9 @@ public class RepairAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
+		if(repair.getProcessResponse().getId().equals("")){
+			repair.setProcessResponse(null);
+		}
 		admin = adminService.loadLoginAdmin();
 		repair.setCreateUser(admin);
 		repairService.save(repair);
@@ -177,15 +182,16 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
-			repair.setResponseName(repair.getProcessResponse().getProcessName());
-			repair.setWorkingbill(null);
-			repair.setConfirmUser(null);
-			repair.setCreateUser(null);
-			repair.setProcessResponse(null);
+			if(repair.getProcessResponse()!=null){
+				repair.setResponseName(repair.getProcessResponse().getProcessName());				
+			}
 			lst.add(repair);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repair.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

@@ -81,7 +81,7 @@ public class Process extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="process")
 	public Set<Products> getProducts()
 	{
 		return products;

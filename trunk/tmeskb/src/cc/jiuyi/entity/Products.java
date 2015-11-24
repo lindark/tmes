@@ -20,7 +20,6 @@ import org.compass.annotations.Searchable;
 
 @Entity
 @Searchable
-@Table(name = "Products")
 public class Products extends BaseEntity{
 
 	/**
@@ -40,7 +39,7 @@ public class Products extends BaseEntity{
 	private Set<Material> material;//产    品
 	private Set<Process> process;//工序
 	
-	@ManyToMany(fetch=FetchType.LAZY,mappedBy = "products")
+	@ManyToMany(fetch=FetchType.LAZY)
 	public Set<Process> getProcess()
 	{
 		return process;

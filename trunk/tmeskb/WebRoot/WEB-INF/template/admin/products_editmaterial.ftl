@@ -45,7 +45,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">编辑相关工序</li>
+					<li class="active">编辑相关Boom</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -60,13 +60,13 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="products!saveprocess.action"
+								action="products!savematerial.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" />
 
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">相关工序管理</a></li>
+										<li><a href="#tabs-1">相关Boom管理</a></li>
 
 									</ul>
 									<div class="widget-body">
@@ -107,15 +107,15 @@ body {
 
 										<div class="widget-box transparent">
 													<div class="widget-header">
-														<h5 class="widget-title bigger lighter">相关工序</h5>
+														<h5 class="widget-title bigger lighter">相关Boom</h5>
 													</div>
 
 													<div class="widget-body">
 														<div class="widget-main no-padding">
 															<select multiple="" name="ids" id="form-field-icon-1" class="chosen-select"> 
 																<option value="" >&nbsp;</option>
-														        <#list allProcess as list>
-													            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.processName}</option>
+														        <#list allMaterial as list>
+													            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.materialName}</option>
 												                </#list>   
 														    </select>
 														</div>

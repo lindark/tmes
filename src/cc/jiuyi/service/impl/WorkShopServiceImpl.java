@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.WorkShopDao;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.entity.Product;
 import cc.jiuyi.service.WorkShopService;
@@ -68,6 +69,11 @@ public class WorkShopServiceImpl extends BaseServiceImpl<WorkShop, String>implem
 	public boolean isExistByWorkShopCode(String workShopCode) {
 		// TODO Auto-generated method stub
 		return workShopDao.isExistByWorkShopCode(workShopCode);
+	}
+
+	@Override
+	public List<Factory> getAllFactory() {
+		return workShopDao.getAllFactory();
 	}
 
 	

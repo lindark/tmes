@@ -115,8 +115,7 @@ body {
 													class="chosen-select">
 													<option value="">&nbsp;</option> <#list allProcess as
 													list>
-													<option value="${list.id}"<#if (list.id ==
-														products.process)> selected</#if>>${list.processName}</option>
+													<option value="${list.id}">${list.processName}</option>
 													</#list>
 												</select>
 											</div>
@@ -168,7 +167,7 @@ $(function(){
 		</#list>
 		
 	})
-	$("#dialogOLanguage").trigger("chosen:updated");	
+	$("#processChose").trigger("chosen:updated");	
 })
 	
 </script>

@@ -139,6 +139,7 @@ body {
 
 												<div class="profile-info-value">
 													<select name="repair.processResponse.id" id="form-field-icon-1" class="chosen-select"> 
+														<option value="" >&nbsp;</option>
 												        <#list allProcess as list>
 											            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.processName}</option>
 										                </#list>   

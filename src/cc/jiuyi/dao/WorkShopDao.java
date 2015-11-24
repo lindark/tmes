@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.WorkShop;
 
 /**
@@ -31,4 +32,6 @@ public interface WorkShopDao extends BaseDao<WorkShop,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByWorkShopCode(String workShopCode);
+	
+	public List<Factory> getAllFactory();
 }

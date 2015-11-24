@@ -52,7 +52,6 @@ public class AbnormalAction extends BaseAdminAction {
 	private String nameId;
 
 	private String callReasonId;
-	private String closeId;
 	private String closeIds;
 	private String cancelIds;
 	private String aids;
@@ -337,14 +336,6 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCallReasonId(String callReasonId) {
 		this.callReasonId = callReasonId;
-	}
-
-	public String getCloseId() {
-		return closeId;
-	}
-
-	public void setCloseId(String closeId) {
-		this.closeId = closeId;
 	}
 
 	public String getCloseIds() {

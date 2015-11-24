@@ -58,10 +58,10 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-        grouping:true,
-        groupingView : {
-          groupField : ['accObjName']
-        },
+//        grouping:true,
+//        groupingView : {
+//          groupField : ['accObjName']
+//        },
        
 		loadComplete : function() {
 			var table = this;

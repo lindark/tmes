@@ -112,10 +112,10 @@ body {
 
 													<div class="widget-body">
 														<div class="widget-main no-padding">
-															<select multiple="" name="ids" id="form-field-icon-1" class="chosen-select"> 
+															<select multiple="" name="ids" id="materialChose" class="chosen-select"> 
 																<option value="" >&nbsp;</option>
 														        <#list allMaterial as list>
-													            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.materialName}</option>
+													            <option value="${list.id}">${list.materialName}</option>
 												                </#list>   
 														    </select>
 														</div>
@@ -154,5 +154,22 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script>
+$(function(){
+	$("#materialChose").find("option").each(function(){
+		var materialVal = $(this).val();
+		var materialid = "";
+		<#list products.material as list>
+			materialid = "${list.id}";
+			if(materialVal == materialid){
+				$(this).attr("selected","selected");
+			}
+		</#list>
+		
+	})
+	$("#materialChose").trigger("chosen:updated");	
+})
+	
+</script>
 </html>
 

@@ -30,13 +30,12 @@ public class Process extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-    
-    private Set<Products> products;//产品表
-    
     private String xproductnum;//产品编码
     private String xproductname;//产品名称
     
+    private Set<Products> products;//产品表
     private Set<Repair> repairProcess;//返修责任工序
+    private Set<HandOverProcess> handoverprocessSet;//交接
     
     @OneToMany(mappedBy = "processResponse", fetch = FetchType.LAZY)
 	public Set<Repair> getRepairProcess() {
@@ -109,4 +108,13 @@ public class Process extends BaseEntity{
 	{
 		this.xproductname = xproductname;
 	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="process")
+	public Set<HandOverProcess> getHandoverprocessSet() {
+		return handoverprocessSet;
+	}
+	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
+		this.handoverprocessSet = handoverprocessSet;
+	}
+	
+	
 }

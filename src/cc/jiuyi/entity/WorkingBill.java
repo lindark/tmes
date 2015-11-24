@@ -36,6 +36,8 @@ public class WorkingBill extends BaseEntity {
     private Set<Carton> carton;
     private Set<Repair> repair;
     private Set<Repairin> repairin;
+    private Set<HandOverProcess> afterhandoverprocessSet;//交下班
+    private Set<HandOverProcess> beforhandoverprocessSet;//接上班
     
     
     @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
@@ -209,4 +211,26 @@ public class WorkingBill extends BaseEntity {
 		this.totalRepairAmount = totalRepairAmount;
 	}
 
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="afterworkingbill")
+	public Set<HandOverProcess> getAfterhandoverprocessSet() {
+		return afterhandoverprocessSet;
+	}
+
+	public void setAfterhandoverprocessSet(
+			Set<HandOverProcess> afterhandoverprocessSet) {
+		this.afterhandoverprocessSet = afterhandoverprocessSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="beforworkingbill")
+	public Set<HandOverProcess> getBeforhandoverprocessSet() {
+		return beforhandoverprocessSet;
+	}
+
+	public void setBeforhandoverprocessSet(
+			Set<HandOverProcess> beforhandoverprocessSet) {
+		this.beforhandoverprocessSet = beforhandoverprocessSet;
+	}
+	
+	
+
+	
 }

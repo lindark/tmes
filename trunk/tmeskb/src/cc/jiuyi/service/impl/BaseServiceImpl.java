@@ -44,6 +44,10 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 	public List<T> getList(String propertyName, Object value) {
 		return baseDao.getList(propertyName, value);
 	}
+	
+	public List<T> getList(String[] propertyNames, Object[] propertyValues){
+		return baseDao.getList(propertyNames, propertyValues);
+	}
 
 	public List<T> getAll() {
 		return baseDao.getAll();

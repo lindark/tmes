@@ -144,7 +144,7 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Process> getAllProcess() {
-		String hql = "from Process as as a where a.isDel='N'";
+		String hql = "from Process as a where a.isDel='N'";
 		return getSession().createQuery(hql).list();
 	}
 

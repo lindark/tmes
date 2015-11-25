@@ -144,7 +144,6 @@ public class ReworkAction extends BaseAdminAction {
 					rework.setProductsName(rework.getWorkingbill().getMaktx());
 					rework.setXduty(rework.getDuty().getName());//责任人名
 				    rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
-				    System.out.println(rework.getConfirmUser());
 				    if(rework.getConfirmUser()!=null){
 				    	rework.setXconfirmUser(rework.getConfirmUser().getName());
 				    }

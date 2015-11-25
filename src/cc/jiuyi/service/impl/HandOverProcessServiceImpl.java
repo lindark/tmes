@@ -60,4 +60,12 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		
 	}
 	
+	@Override
+	public void save(List<HandOverProcess> handoverprocessList) {
+		for(HandOverProcess handoverprocess : handoverprocessList){
+			handOverProcessDao.save(handoverprocess);
+		}
+		
+	}
+	
 }

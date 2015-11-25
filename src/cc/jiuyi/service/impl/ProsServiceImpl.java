@@ -12,6 +12,7 @@ import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.dao.ProsDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.ProductType;
 import cc.jiuyi.entity.Pros;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.ProsService;
@@ -33,104 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ProsServiceImpl implements ProsService {
+public class ProsServiceImpl extends BaseServiceImpl<Pros, String> implements ProsService {
 	@Resource
 	private ProsDao prosdao;
 
-	@Override
-	public Pros get(String id) {
-		return null;
-	}
-
-	@Override
-	public Pros load(String id) {
-		return null;
-	}
-
-	@Override
-	public List<Pros> get(String[] ids) {
-		return null;
-	}
-
-	@Override
-	public Pros get(String propertyName, Object value) {
-		return null;
-	}
-
-	@Override
-	public List<Pros> getList(String propertyName, Object value) {
-		return null;
-	}
-
-	@Override
-	public List<Pros> getAll() {
-		return null;
-	}
-
-	@Override
-	public Long getTotalCount() {
-		return null;
-	}
-
-	@Override
-	public boolean isUnique(String propertyName, Object oldValue,
-			Object newValue) {
-		return false;
-	}
-
-	@Override
-	public boolean isExist(String propertyName, Object value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String save(Pros entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(Pros entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(Pros entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(String id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(String[] ids) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void flush() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void evict(Object object) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Pager findByPager(Pager pager) {

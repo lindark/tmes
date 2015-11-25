@@ -52,4 +52,11 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 * @return
 	 */
 	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift);
+
+	/**
+	 * 根据最后一个字符和生产日期判断是否存在
+	 * @param laststr
+	 * @return
+	 */
+	public boolean isExist(String laststr,String productdate);
 }

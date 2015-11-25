@@ -63,6 +63,17 @@ public interface BaseDao<T, PK extends Serializable> {
 	 * @return 实体对象集合
 	 */
 	public List<T> getList(String propertyName, Object value);
+	
+	/**
+	 * 根据属性名和属性值获取实体对象集合.
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param value
+	 *            属性值
+	 * @return 实体对象集合
+	 */
+	public List<T> getList(String[] propertyNames, Object[] propertyValues);
 
 	/**
 	 * 获取所有实体对象集合.

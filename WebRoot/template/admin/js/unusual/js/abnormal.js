@@ -82,7 +82,7 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!update.action?aids="+i;
+			window.location.href = "abnormal!update.action?ids="+i;
 		}
 		
     });

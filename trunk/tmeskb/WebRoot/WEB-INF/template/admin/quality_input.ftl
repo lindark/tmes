@@ -307,7 +307,6 @@ body {
 	<!-- ./ add by welson 0728 -->
 <script>
 $(function() {
-	alert("wssa");
 	$("#sample-table-1 tbody .zg .text").attr("disabled",true);
 	
 	$(".save").live("click", function() {

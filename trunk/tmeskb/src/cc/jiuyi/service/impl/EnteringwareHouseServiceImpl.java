@@ -14,11 +14,14 @@ import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.EnteringwareHouseDao;
 import cc.jiuyi.dao.MemberRankDao;
 import cc.jiuyi.dao.WorkingBillDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Brand;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.MemberRank;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BrandService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EnteringwareHouseService;
@@ -39,6 +42,10 @@ public class EnteringwareHouseServiceImpl extends
 		EnteringwareHouseService {
 	@Resource
 	private EnteringwareHouseDao enteringwareHouseDao;
+	@Resource
+	private WorkingBillService workingbillService;
+	@Resource
+	private AdminService adminservice;
 
 	@Resource
 	public void setBaseDao(EnteringwareHouseDao enteringwareHouse) {
@@ -61,6 +68,29 @@ public class EnteringwareHouseServiceImpl extends
 	@Override
 	public List<EnteringwareHouse> getByBill(String workingBillId) {
 		return enteringwareHouseDao.getByBill(workingBillId);
+	}
+
+	@Override
+	public void updateState(List<EnteringwareHouse> list, String statu,
+			String workingbillid,Integer ratio) {
+		Admin admin = adminservice.getLoginAdmin();
+		WorkingBill workingbill = workingbillService.get(workingbillid);
+		Integer totalamount = workingbill.getTotalSingleAmount();
+		for (int i = 0; i < list.size(); i++) {
+			EnteringwareHouse enteringwareHouse = list.get(i);
+			if (statu.equals("1")) {
+				totalamount = enteringwareHouse.getStorageAmount()*ratio + totalamount;
+			}
+			if (statu.equals("3") && enteringwareHouse.getState().equals("1")) {
+				totalamount -= enteringwareHouse.getStorageAmount()*ratio;
+			}
+			enteringwareHouse.setConfirmUser(admin);
+			enteringwareHouse.setState(statu);
+			enteringwareHouseDao.update(enteringwareHouse);
+		}
+		workingbill.setTotalSingleAmount(totalamount);
+		workingbillService.update(workingbill);
+		
 	}
 
 }

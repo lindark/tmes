@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
@@ -87,8 +89,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save() {
 		admin = adminService.loadLoginAdmin();
-		enteringwareHouse.setAdmin(admin);
-		enteringwareHouse.setCreateUser(admin.getId());
+		enteringwareHouse.setCreateUser(admin);
 		enteringwareHouseService.save(enteringwareHouse);
 		redirectionUrl = "enteringware_house!list.action?workingBillId="
 				+ enteringwareHouse.getWorkingbill().getId();
@@ -99,7 +100,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String confirms() {
 		ratio = unitConversionService.getSingleConversationRatio(
 				UNITDESCRIPTION, CONVERTUNIT);
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
@@ -112,21 +112,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			enteringwareHouse = enteringwareHouseService.load(ids[i]);
-			if (!CONFIRMED.equals(enteringwareHouse.getState())) {
-				enteringwareHouse.setState(CONFIRMED);
-				admin = adminService.getLoginAdmin();
-				enteringwareHouse.setAdmin(admin);
-				enteringwareHouse.setConfirmUser(admin.getId());
-				// workingbill.setTotalSingleAmount(workingbill.getTotalStorageAmount()*ratio);
-				workingbill.setTotalSingleAmount(workingbill
-						.getTotalSingleAmount()
-						+ enteringwareHouse.getStorageAmount() * ratio);
-				enteringwareHouseService.update(enteringwareHouse);
-			}
-		}
-		workingBillService.update(workingbill);
+		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
+		enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
+				ratio);
 		redirectionUrl = "enteringware_house!list.action?workingBillId="
 				+ enteringwareHouse.getWorkingbill().getId();
 		return SUCCESS;
@@ -136,7 +124,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String undo() {
 		ratio = unitConversionService.getSingleConversationRatio(
 				UNITDESCRIPTION, CONVERTUNIT);
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
@@ -145,17 +132,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			enteringwareHouse = enteringwareHouseService.load(ids[i]);
-			admin = adminService.getLoginAdmin();
-			enteringwareHouse.setAdmin(admin);
-			enteringwareHouse.setConfirmUser(admin.getId());
-			workingbill.setTotalSingleAmount(workingbill.getTotalSingleAmount()
-					- enteringwareHouse.getStorageAmount() * ratio);
-			enteringwareHouse.setState(UNDO);
-			enteringwareHouseService.update(enteringwareHouse);
-		}
-		workingBillService.update(workingbill);
+		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
+		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio);
 		redirectionUrl = "enteringware_house!list.action?workingBillId="
 				+ enteringwareHouse.getWorkingbill().getId();
 		return SUCCESS;
@@ -195,18 +173,19 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 					.getDictValueByDictKey(dictService, "enteringwareState",
 							enteringwareHouse.getState()));
 			if (enteringwareHouse.getConfirmUser() != null) {
-				Admin admin = adminService.load(enteringwareHouse
-						.getConfirmUser());
-				enteringwareHouse.setAdminName(admin.getName());
+				enteringwareHouse.setAdminName(enteringwareHouse
+						.getConfirmUser().getName());
 			}
-			admin = adminService.load(enteringwareHouse.getCreateUser());
-			enteringwareHouse.setCreateName(admin.getName());
-			enteringwareHouse.setWorkingbill(null);
-			enteringwareHouse.setAdmin(null);
+			enteringwareHouse.setCreateName(enteringwareHouse.getCreateUser()
+					.getName());
 			lst.add(enteringwareHouse);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(EnteringwareHouse.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

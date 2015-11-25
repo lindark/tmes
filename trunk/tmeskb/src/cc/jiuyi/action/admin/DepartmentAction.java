@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,15 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DepartmentService;
+import cc.jiuyi.service.FactoryService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
+import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.impl.AdminServiceImpl;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -60,11 +69,21 @@ public class DepartmentAction extends BaseAdminAction {
 	private static final long serialVersionUID = 3142941564892040221L;
 	@Resource
 	private DepartmentService deptservice;
-	
+	@Resource
+	private FactoryService factoryservice;
+	@Resource
+	private WorkShopService workshopservice;
+	@Resource
+	private FactoryUnitService factoryunitservice;
+	@Resource
+	private TeamService teamservice;
 	private List<Department> list;
 	private Department department;
 	private String pid;//父节点id
 	private String pname;//父节点名称
+	private String factoryid;
+	private String workshopid;
+	private String factoryunitid;
 	
 	/**
 	 * 跳转List 页面
@@ -116,6 +135,86 @@ public class DepartmentAction extends BaseAdminAction {
 		return "input";
 	}
 	
+	
+	/**
+	 * 获取factory的json集合
+	 * @return
+	 */
+	public String getFactory(){
+		
+		List<Factory> factoryList = factoryservice.getList("isDel", "N");
+		JSONArray json = new JSONArray();
+		for(Factory factory : factoryList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", factory.getFactoryName());
+			jo.put("value", factory.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("factory", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
+	/**
+	 * 获取workshop的json集合
+	 * @return
+	 */
+	public String getWorkshop(){
+		String[] proName={"isDel","factory.id"};
+		String[] proValue={"N",factoryid};
+		List<WorkShop> workshopList = workshopservice.getList(proName, proValue);
+		JSONArray json = new JSONArray();
+		for(WorkShop workshop : workshopList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", workshop.getWorkShopName());
+			jo.put("value", workshop.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("workshop", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
+	/**
+	 * 获取factoryunit的json集合
+	 * @return
+	 */
+	public String getFactoryunit(){
+		String[] proName={"isDel","workShop.id"};
+		String[] proValue={"N",workshopid};
+		List<FactoryUnit> factoryunitList = factoryunitservice.getList(proName, proValue);
+		JSONArray json = new JSONArray();
+		for(FactoryUnit factoryunit : factoryunitList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", factoryunit.getFactoryUnitName());
+			jo.put("value", factoryunit.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("factoryunit", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
+	/**
+	 * 获取team的json集合
+	 * @return
+	 */
+	public String getTeam(){
+		String[] proName={"isDel","factoryUnit.id"};
+		String[] proValue={"N",factoryunitid};
+		List<Team> teamList = teamservice.getList(proName, proValue);
+		JSONArray json = new JSONArray();
+		for(Team team : teamList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", team.getTeamName());
+			jo.put("value", team.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("team", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
 	/**
 	 * 保存
 	 * @return
@@ -138,7 +237,9 @@ public class DepartmentAction extends BaseAdminAction {
 	public String update(){
 		if(department.getParentDept().getId().equals(""))//如果传过来的是空字符串，将parentdept赋值成空
 			department.setParentDept(null);
-		deptservice.update(department);
+		Department persistent = deptservice.load(department.getId());
+		BeanUtils.copyProperties(department, persistent, new String[] {"id", "isDel"});
+		deptservice.update(persistent);
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		jsonMap.put(STATUS, SUCCESS);
 		jsonMap.put(MESSAGE, "部门修改成功");
@@ -193,6 +294,30 @@ public class DepartmentAction extends BaseAdminAction {
 	}
 	public void setPname(String pname) {
 		this.pname = pname;
+	}
+
+	public String getFactoryid() {
+		return factoryid;
+	}
+
+	public void setFactoryid(String factoryid) {
+		this.factoryid = factoryid;
+	}
+
+	public String getWorkshopid() {
+		return workshopid;
+	}
+
+	public void setWorkshopid(String workshopid) {
+		this.workshopid = workshopid;
+	}
+
+	public String getFactoryunitid() {
+		return factoryunitid;
+	}
+
+	public void setFactoryunitid(String factoryunitid) {
+		this.factoryunitid = factoryunitid;
 	}
 	
 	

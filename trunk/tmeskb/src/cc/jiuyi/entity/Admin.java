@@ -48,6 +48,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<SwiptCard> swiptCardSet;// 刷卡
 	private Set<Quality> qualitySet;// 质量问题单
 	private Set<FlowingRectify> flowingRectifySet;// 整改情况跟踪
+	private Set<Model> modelSet;//一个人创建多个工模维修单
+	private Set<Model> modelSet1;//一个人检验多个工模维修单
+	private Set<Model> modelSet2;//一个人维修多个工模维修单
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -463,4 +466,30 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.flowingRectifySet = flowingRectifySet;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "initiator")
+	public Set<Model> getModelSet() {
+		return modelSet;
+	}
+
+	public void setModelSet(Set<Model> modelSet) {
+		this.modelSet = modelSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "insepector")
+	public Set<Model> getModelSet1() {
+		return modelSet1;
+	}
+
+	public void setModelSet1(Set<Model> modelSet1) {
+		this.modelSet1 = modelSet1;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fixer")
+	public Set<Model> getModelSet2() {
+		return modelSet2;
+	}
+
+	public void setModelSet2(Set<Model> modelSet2) {
+		this.modelSet2 = modelSet2;
+	}
 }

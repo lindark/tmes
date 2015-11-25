@@ -125,27 +125,23 @@
 									</div>
 								</div>
 							</div>
-							<div class="row buttons">
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="addCarton">
-										<span class="bigger-110 no-text-shadow">创建入库单</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="confirmCarton">
-										<span class="bigger-110 no-text-shadow">刷卡确认</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="undoCarton">
-										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="returnCarton">
-										<span class="bigger-110 no-text-shadow">返回</span>
-									</button>
-								</div>
+							<div class="row buttons col-md-8 col-sm-4">
+								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-filter blue"></i>
+									创建入库单
+								</a>
+								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-filter blue"></i>
+									刷卡确认
+								</a>
+								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-filter blue"></i>
+									刷卡撤销
+								</a>
+								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-filter blue"></i>
+									返回
+								</a>
 							</div>
 							<div class="row">
 								<div class="col-xs-12">

@@ -21,13 +21,10 @@ public class Quality extends BaseEntity{
 
 	private static final long serialVersionUID = -7213483223153832423L;
 	
-	private String productNo;//产品编号
-	private String productName;//产品名称
 	private String process;//工序
 	private String team;//班组
 	private String problemDescription;//问题描述
-	private String createUser;//创建人
-	private String modifyUser;//修改人
+	private Admin creater;//创建人
 	
 	private Integer samplingAmont;//抽检数量
 	private Integer failAmont;//缺陷数量
@@ -42,22 +39,13 @@ public class Quality extends BaseEntity{
 	
 	private String stateRemark;//状态描述    
 	private String founder;
+	private Products products;//产品
+	
+	private String productsName;
 	
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	private Set<UnusualLog> unusualLogSet;//异常日志
 	
-	public String getProductNo() {
-		return productNo;
-	}
-	public void setProductNo(String productNo) {
-		this.productNo = productNo;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 	public String getProcess() {
 		return process;
 	}
@@ -71,18 +59,7 @@ public class Quality extends BaseEntity{
 	public void setProblemDescription(String problemDescription) {
 		this.problemDescription = problemDescription;
 	}
-	public String getCreateUser() {
-		return createUser;
-	}
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-	public String getModifyUser() {
-		return modifyUser;
-	}
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
+
 	public Integer getSamplingAmont() {
 		return samplingAmont;
 	}
@@ -178,6 +155,30 @@ public class Quality extends BaseEntity{
 	}
 	public void setFounder(String founder) {
 		this.founder = founder;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Products getProducts() {
+		return products;
+	}
+	public void setProducts(Products products) {
+		this.products = products;
+	}
+	
+	@Transient
+	public String getProductsName() {
+		return productsName;
+	}
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getCreater() {
+		return creater;
+	}
+	public void setCreater(Admin creater) {
+		this.creater = creater;
 	}
 	
 	

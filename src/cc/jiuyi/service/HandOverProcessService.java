@@ -28,5 +28,10 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	
+	/**
+	 * 保存集合对象
+	 * @param handoverprocessList
+	 * @return
+	 */
+	public void save(List<HandOverProcess> handoverprocessList);
 }

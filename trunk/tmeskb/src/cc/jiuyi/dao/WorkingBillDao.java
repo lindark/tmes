@@ -51,7 +51,7 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 * @param shift 班次
 	 * @return
 	 */
-	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift);
+	public List<WorkingBill> findListWorkingBill(Object[] productsid,String productDate,String shift);
 
 	/**
 	 * 根据最后一个字符和生产日期判断是否存在

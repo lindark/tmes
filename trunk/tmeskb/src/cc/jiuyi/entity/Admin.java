@@ -43,9 +43,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
-	private Set<Abnormal> abnormalList;//一个发起人对应多个异常
-	private Set<Abnormal> abnormalSet;//应答人与异常多对多
-	private Set<SwiptCard> swiptCardSet;//刷卡
+	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
+	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
+	private Set<SwiptCard> swiptCardSet;// 刷卡
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -54,20 +54,20 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Carton> cartonConfirmUser;// 纸箱收货确认人
 	private Set<DailyWork> dailyWorkConfirmUser;// 报工确认人
 	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
-	private Set<Repairin> repairinConfirmUser;//返修收货确认人
-	private Set<Repair> repairConfirmUser;//返修收货确认人
-	private Set<Repairin> repairinCreateUser;//返修收货创建人
-	private Set<Repair> repairCreateUser;//返修创建人
+	private Set<Repairin> repairinConfirmUser;// 返修收货确认人
+	private Set<Repair> repairConfirmUser;// 返修收货确认人
+	private Set<Repairin> repairinCreateUser;// 返修收货创建人
+	private Set<Repair> repairCreateUser;// 返修创建人
 	private Set<Carton> cartonCreateUser;//纸箱收货创建人
 	private Set<DailyWork> dailyWorkCreateUser;//报工创建人
 	private Set<EnteringwareHouse> enteringwareHouseCreateUser;//入库创建人
 
-	private Set<Rework> duty;//责任人名
-	private Set<Rework> confirmUser;//创建人名
-	private Set<Rework> createUser;//确认人名
-	private Set<Rework> modifyUser;//修改人名
+	private Set<Rework> duty;// 责任人名
+	private Set<Rework> confirmUser;// 创建人名
+	private Set<Rework> createUser;// 确认人名
+	private Set<Rework> modifyUser;// 修改人名
 
-	//责任人名
+	// 责任人名
 	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
 	public Set<Rework> getDuty() {
 		return duty;
@@ -76,7 +76,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setDuty(Set<Rework> duty) {
 		this.duty = duty;
 	}
-	//创建人名
+
+	// 创建人名
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<Rework> getConfirmUser() {
 		return confirmUser;
@@ -85,7 +86,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setConfirmUser(Set<Rework> confirmUser) {
 		this.confirmUser = confirmUser;
 	}
-	//确认人名
+
+	// 确认人名
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<Rework> getCreateUser() {
 		return createUser;
@@ -94,7 +96,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setCreateUser(Set<Rework> createUser) {
 		this.createUser = createUser;
 	}
-	//修改人名
+
+	// 修改人名
 	@OneToMany(mappedBy = "modifyUser", fetch = FetchType.LAZY)
 	public Set<Rework> getModifyUser() {
 		return modifyUser;
@@ -103,7 +106,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setModifyUser(Set<Rework> modifyUser) {
 		this.modifyUser = modifyUser;
 	}
-	
+
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkConfirmUser() {
 		return dailyWorkConfirmUser;
@@ -186,7 +189,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setRepairinConfirmUser(Set<Repairin> repairinConfirmUser) {
 		this.repairinConfirmUser = repairinConfirmUser;
 	}
-	
+
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<Repairin> getRepairinCreateUser() {
 		return repairinCreateUser;
@@ -393,8 +396,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.phoneNo = phoneNo;
 	}
 
-
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="iniitiator")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "iniitiator")
 	public Set<Abnormal> getAbnormalList() {
 		return abnormalList;
 	}
@@ -403,7 +405,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.abnormalList = abnormalList;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY,mappedBy="responsorSet")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "responsorSet")
 	public Set<Abnormal> getAbnormalSet() {
 		return abnormalSet;
 	}
@@ -411,8 +413,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
 		this.abnormalSet = abnormalSet;
 	}
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="admin")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
 	public Set<SwiptCard> getSwiptCardSet() {
 		return swiptCardSet;
 	}
@@ -420,7 +422,5 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setSwiptCardSet(Set<SwiptCard> swiptCardSet) {
 		this.swiptCardSet = swiptCardSet;
 	}
-	
-	
 
 }

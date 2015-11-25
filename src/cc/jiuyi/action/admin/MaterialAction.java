@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
@@ -155,7 +158,6 @@ public class MaterialAction extends BaseAdminAction {
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
 				Material material  = (Material)materialList.get(i);
-				material.setWorkingBillSet(null);
 				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "materialState", material.getState()));
 				material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(
@@ -166,7 +168,10 @@ public class MaterialAction extends BaseAdminAction {
 				lst.add(material);
 			}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig(); 
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Material.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		

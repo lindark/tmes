@@ -16,6 +16,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -69,10 +70,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		material = materialservice.get("materialCode", matnr);
-		workingbillList = workingbillservice.findListWorkingBill(material
-				.getProducts().getProductsCode(), admin.getProductDate(), admin
-				.getShift());
+		List<Products> prouctsSet = new ArrayList<Products>(material.getProducts());//产品列表
+		Object[] list = new Object[2];
+		for(int i=0;i<prouctsSet.size();i++){
+			Products products = prouctsSet.get(i);
+			list[i] = products.getProductsCode();
+		}
+//		String[] proName = {""};
+//		workingbillservice.getList(propertyNames, propertyValues);
+		workingbillList = workingbillservice.findListWorkingBill(list, admin.getProductDate(), admin.getShift());
 		return INPUT;
+	}
+	//获取数量
+	public String getAmount(){
+		
+		return null;
 	}
 
 	// 列表

@@ -31,4 +31,5 @@ public interface FactoryDao extends BaseDao<Factory,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByFactoryCode(String factoryCode);
+	
 }

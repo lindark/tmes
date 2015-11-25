@@ -118,7 +118,7 @@ th {
 														<div class="profile-info-name"> 工厂</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">建新赵氏集团密封条厂</span>
+															<span class="editable editable-click" id="username"></span>
 														</div>
 													</div>
 	
@@ -126,7 +126,7 @@ th {
 														<div class="profile-info-name">车间</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">密封条</span>			
+															<span class="editable editable-click" id="username"></span>			
 														</div>
 													</div>
 	
@@ -134,7 +134,7 @@ th {
 														<div class="profile-info-name"> 单元 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">1单元</span>
+															<span class="editable editable-click" id="age"></span>
 														</div>
 													</div>
 	
@@ -142,17 +142,17 @@ th {
 														<div class="profile-info-name"> 班组</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">01班</span>
+															<span class="editable editable-click" id="signup"></span>
 														</div>
 													</div>
 
-                                                    <div class="profile-info-row">
+                                                  <div class="profile-info-row">
 														<div class="profile-info-name">时间</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2015-09-21</span>
+															<span class="editable editable-click" id="signup"></span>
 														</div>
-													</div>
+													</div> 
 												</div>
 											</div>
 										</div>

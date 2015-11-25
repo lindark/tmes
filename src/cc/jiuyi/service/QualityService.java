@@ -12,4 +12,11 @@ import cc.jiuyi.entity.Quality;
 public interface QualityService extends BaseService<Quality, String> {
 
 	public Pager getQualityPager(Pager pager,HashMap<String,String> map);
+	
+	/**
+	 * 标记删除
+	 * @param ids
+	 * @param oper Y/N
+	 */
+	public void updateisdel(String[] ids,String oper);
 }

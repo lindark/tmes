@@ -1,28 +1,26 @@
 <#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<title>领/退料</title>
-		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/admin/js/manage/pickDetail_list.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
-		<#include "/WEB-INF/template/common/include_adm_top.ftl">
-<script type="text/javascript">
-$(function(){
-	$("#grid-table").jqGrid('setGridParam',{
-		url:"pick_detail!ajlist.action?matnr="+${matnr},
-		datatype:"json",
-		page:1
-	}).trigger("reloadGrid");
-});
-</script>
-	</head>
-	<body class="no-skin list">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>领/退料管理 - Powered By ${systemConfig.systemName}</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+<#include "/WEB-INF/template/common/includelist.ftl">
+<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<link href="${base}/template/admin/css/input.css" rel="stylesheet"
+	type="text/css" />
+<#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
+</#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
+<style>
+body {
+	background: #fff;
+}
+</style>
+</head>
+<body class="no-skin input">
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -33,8 +31,7 @@ $(function(){
 	<div class="main-content">
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
-	                              
-	<!-- ./ add by welson 0728 -->
+
      <div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -45,75 +42,100 @@ $(function(){
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">领/退料</li>
-		</ul><!-- /.breadcrumb -->
+			<li class="active">领/退料列表</li>
+		</ul>
 	</div>
-	
-	
-	<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
-				<div class="page-content" id="page-content">					
-					<div class="page-content-area">
-						<div class="row">
-							<div class="col-xs-12">
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 widget-container-col">
-									</div>
-									
-							
-								
-								<!-- PAGE CONTENT BEGINS -->
-								<div class="row">	
-									<div class="col-xs-12">			
-									<form id="inputform" action="pick_detail!addAmount.action">	
-										<table id="grid-table"></table>
-		
-										<div id="grid-pager"></div>
-									</form>	
-									</div>
-								</div>
-								<div class="col-md-2 col-sm-4" style="text-align:right;">
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="btnSubmit">
-                                      <span><a href="javascript:void(0);">刷卡提交</a></span>                          
+
+			<!-- add by welson 0728 -->
+			<div class="page-content">
+				<div class="page-content-area">
+
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- ./ add by welson 0728 -->
+
+							<form id="inputForm" name="inputForm" class="validate"
+								action="<#if isAdd??>pick_detail!save.action<#else>pick_detail!update.action</#if>"
+								method="post">
+                            <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
+								<table class="table table-striped table-bordered" id="mytable">
+									<thead>
+										<tr>
+											<th style="text-align:center;">组件编号</th>
+											<th style="text-align:center;">组件名称</th>
+											<th style="text-align:center;">库存数量</th>
+											<th style="text-align:center;">领/退料数量</th>
+											<th style="text-align:center;">操作类型</th>
+										</tr>
+									</thead>
+
+									<tbody>
+									    <#assign  num=0/>
+										<#list materialList as list>
+											<tr id="tr_1">
+												<td class="center" name="">${(list.materialCode)! }</td>
+												<td class="center" name="">${(list.materialName)! }</td>
+												<td class="center" ></td>
+												<td class="center">
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" />
+													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
+												</td>
+												<td class="center">
+													<select name="pickDetailList[${(num)}].pickType">
+													    <option></option>
+													    <option>领料</option>
+													    <option>退料</option>
+													</select>
+												</td>											
+											</tr>
+											<#assign num=num+1/>
+										</#list>
+
+									</tbody>
+								</table>
+
+							</form>
+
+                                     <button class="btn btn-white btn-success btn-bold" id="addPick" type=button>
+										<span class="bigger-110 no-text-shadow">刷卡提交</span>
 									</button>
-								   </div>
-								<script type="text/javascript">
-									var $path_base = "${base}/template/admin";//in Ace demo this will be used for editurl parameter
-								</script>
+									<button class="btn btn-white btn-success btn-bold" id="returnPick" type=button>
+										<span class="bigger-110 no-text-shadow">返回</span>
+									</button>
+							<!-- add by welson 0728 -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
 
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content-area -->
-				</div><!-- /.page-content -->
-			</div><!-- /.main-content -->
-                                   <
-
-			<#include "/WEB-INF/template/admin/admin_footer.ftl">
-            <#include "/WEB-INF/template/common/include_adm_bottom.ftl">
-					<!-- /section:basics/footer -->
+					<!-- PAGE CONTENT ENDS -->
 				</div>
+				<!-- /.col -->
 			</div>
-
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
-		
-		
-
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			
-		</script>
-	</body>
-	
-	<script type="text/javascript">
+			<!-- /.row -->
+		</div>
+		<!-- /.page-content-area -->
+	</div>
+	<!-- /.main-container -->
+	 <#include "/WEB-INF/template/admin/admin_footer.ftl">
+      <#include "/WEB-INF/template/common/include_adm_bottom.ftl">
+	<!-- ./ add by welson 0728 -->
+<script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
 	 */
 	
-	$(function(){
+	$(function(){		
+		$("#addPick").click(function(){
+			document.inputForm.action="pick_detail!save.action";
+			$("#inputForm").submit();
+		});
+		
+		$("#returnPick").click(function(){
+			window.history.back();
+		});
+		
 		var ishead=0;
 		$("#ace-settings-btn").click(function(){
 			if(ishead==0){
@@ -139,25 +161,17 @@ $(function(){
 			}
 			
 		})
-		
-		/*
-		var ishead3=0;
-		$(".hsub").click(function(){
-			if(ishead3==0){
-				alert("OK");
-				ishead3=1;
-				$(".hsub").addClass("open");
-				//$(this).find(".submenu").removeClass("nav-hide");
-			}else{
-				ishead3=0;
-				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
-			}
-			
-		})
-		*/
 	})
 	
+	$(function(){
+		$("#mytable td").each(function(){
+			 var value = $(this).text();
+			 //alert(value);
+			});
+     });
+	
+
 	
 </script>
+</body>
 </html>

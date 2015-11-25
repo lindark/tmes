@@ -38,6 +38,7 @@ public class Products extends BaseEntity{
 	
 	private Set<Material> material;//产    品
 	private Set<Process> process;//工序
+	private Set<Quality> qualitySet;//质量问题单
 	
 	@ManyToMany(fetch=FetchType.LAZY)
 	public Set<Process> getProcess()
@@ -102,6 +103,14 @@ public class Products extends BaseEntity{
 
 	public void setMaterialGroup(String materialGroup) {
 		this.materialGroup = materialGroup;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	public Set<Quality> getQualitySet() {
+		return qualitySet;
+	}
+	public void setQualitySet(Set<Quality> qualitySet) {
+		this.qualitySet = qualitySet;
 	}
 
 //	public String getMaterialDescript() {

@@ -32,5 +32,9 @@ public class ModelServiceImpl extends BaseServiceImpl<Model, String> implements 
 		return modelDao.getModelPager(pager,map);
 	}
 	
-	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		// TODO Auto-generated method stub
+		modelDao.updateisdel(ids, oper);
+	}
 }

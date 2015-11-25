@@ -46,6 +46,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
 	private Set<SwiptCard> swiptCardSet;// 刷卡
+	private Set<Quality> qualitySet;// 质量问题单
+	private Set<FlowingRectify> flowingRectifySet;// 整改情况跟踪
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -58,9 +60,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Repair> repairConfirmUser;// 返修收货确认人
 	private Set<Repairin> repairinCreateUser;// 返修收货创建人
 	private Set<Repair> repairCreateUser;// 返修创建人
-	private Set<Carton> cartonCreateUser;//纸箱收货创建人
-	private Set<DailyWork> dailyWorkCreateUser;//报工创建人
-	private Set<EnteringwareHouse> enteringwareHouseCreateUser;//入库创建人
+	private Set<Carton> cartonCreateUser;// 纸箱收货创建人
+	private Set<DailyWork> dailyWorkCreateUser;// 报工创建人
+	private Set<EnteringwareHouse> enteringwareHouseCreateUser;// 入库创建人
 
 	private Set<Rework> duty;// 责任人名
 	private Set<Rework> confirmUser;// 创建人名
@@ -152,7 +154,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setRepairCreateUser(Set<Repair> repairCreateUser) {
 		this.repairCreateUser = repairCreateUser;
 	}
-	
+
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<Carton> getCartonCreateUser() {
 		return cartonCreateUser;
@@ -161,7 +163,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setCartonCreateUser(Set<Carton> cartonCreateUser) {
 		this.cartonCreateUser = cartonCreateUser;
 	}
-	
+
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkCreateUser() {
 		return dailyWorkCreateUser;
@@ -170,7 +172,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setDailyWorkCreateUser(Set<DailyWork> dailyWorkCreateUser) {
 		this.dailyWorkCreateUser = dailyWorkCreateUser;
 	}
-	
+
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouseCreateUser() {
 		return enteringwareHouseCreateUser;
@@ -421,6 +423,24 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setSwiptCardSet(Set<SwiptCard> swiptCardSet) {
 		this.swiptCardSet = swiptCardSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "creater")
+	public Set<Quality> getQualitySet() {
+		return qualitySet;
+	}
+
+	public void setQualitySet(Set<Quality> qualitySet)	{
+		this.qualitySet = qualitySet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "operater")
+	public Set<FlowingRectify> getFlowingRectifySet(){
+		return flowingRectifySet;
+	}
+
+	public void setFlowingRectifySet(Set<FlowingRectify> flowingRectifySet) {
+		this.flowingRectifySet = flowingRectifySet;
 	}
 
 }

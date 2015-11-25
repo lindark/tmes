@@ -92,11 +92,11 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		return this.getSession().createQuery(hql).list();
 	}
 
-	public List<WorkingBill> findListWorkingBill(String matnr,
+	public List<WorkingBill> findListWorkingBill(Object[] productsid,
 			String productDate, String shift) {
-		String hql = "from WorkingBill where matnr = ? and productDate = ? and workingBillCode like ?";
-		return getSession().createQuery(hql).setParameter(0, matnr)
-				.setParameter(1, productDate).setParameter(2, "%" + shift)
+		String hql = "from WorkingBill where productDate = ? and workingBillCode like ? and matnr in (:list)";
+		return getSession().createQuery(hql)
+				.setParameter(0, productDate).setParameter(1, "%" + shift).setParameterList("list", productsid)
 				.list();
 	}
 

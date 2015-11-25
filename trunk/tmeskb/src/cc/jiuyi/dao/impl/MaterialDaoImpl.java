@@ -49,7 +49,6 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Material.class);
-		detachedCriteria.createAlias("products", "products");
 		pagerSqlByjqGrid(pager,detachedCriteria);
 	
 		if (map.size() > 0) {
@@ -61,9 +60,6 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			}
 			if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-			if(map.get("productsName1")!=null){
-				detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productsName1")+"%"));
 			}
 //			if(map.get("start")!=null||map.get("end")!=null){
 //				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -123,7 +119,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 
 	@Override
 	public List<Material> getMantrBom(Object[] matnrs) {
-		String hql="from Material where products.productsCode in (:list)";
+		String hql="select a from Material a join a.products b where b.productsCode in (:list)";
 		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
 	}
 

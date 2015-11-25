@@ -64,7 +64,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '收货数量','收货日期','创建人', '确认人','状态'],
+		colNames:[ '返修收货数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
 			{name:'receiveAmount',index:'receiveAmount', width:200},

@@ -124,7 +124,7 @@
 							<div class="row buttons col-md-8 col-sm-4">
 								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-filter blue"></i>
-									创建返修收货单
+									创建返修单
 								</a>
 								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-filter blue"></i>

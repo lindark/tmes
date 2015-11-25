@@ -50,6 +50,7 @@ public class BaseAdminAction extends ActionSupport {
 	public static final String ERROR = "error";
 	public static final String MESSAGE = "message";
 	public static final String CONTENT = "content";
+	public static final String ID="id";
 	
 	protected String id;
 	protected String[] ids;

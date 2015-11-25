@@ -50,6 +50,6 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 * @param shift 班次
 	 * @return
 	 */
-	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift);
+	public List<WorkingBill> findListWorkingBill(Object[] productsid,String productDate,String shift);
 	
 }

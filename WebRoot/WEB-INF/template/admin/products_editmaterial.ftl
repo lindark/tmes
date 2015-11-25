@@ -45,7 +45,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">编辑相关Boom</li>
+					<li class="active">编辑相关Bom</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -66,7 +66,7 @@ body {
 
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">相关Boom管理</a></li>
+										<li><a href="#tabs-1">相关Bom管理</a></li>
 
 									</ul>
 									<div class="widget-body">
@@ -107,7 +107,7 @@ body {
 
 										<div class="widget-box transparent">
 													<div class="widget-header">
-														<h5 class="widget-title bigger lighter">相关Boom</h5>
+														<h5 class="widget-title bigger lighter">相关Bom</h5>
 													</div>
 
 													<div class="widget-body">

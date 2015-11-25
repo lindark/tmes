@@ -81,7 +81,7 @@ body {
 														<select name="factoryid" class="factory select"  data-first-title="---选择工厂---" data-url="department!getFactory.action" data-json-space="factory"></select>
 														<select name="workshopid"	class="workshop select"  data-first-title="---选择车间---" data-url="department!getWorkshop.action" data-json-space="workshop"></select>
 														<select name="factoryunitid"	class="factoryunit select"  data-first-title="---选择单元---" data-url="department!getFactoryunit.action" data-json-space="factoryunit"></select>
-														<select class="team select" disabled="disabled" data-first-title="---选择班组---" data-url="department!getTeam.action" data-json-space="team"></select>
+														<select name="department.team.id" class="team select" data-first-title="---选择班组---" data-url="department!getTeam.action" data-json-space="team"></select>
 													</div>
 												</fieldset>
 											</div>

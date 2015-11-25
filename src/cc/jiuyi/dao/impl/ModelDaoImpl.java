@@ -14,6 +14,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.ModelDao;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Quality;
 
 /**
  * Dao实现类 - 工模
@@ -23,17 +24,11 @@ import cc.jiuyi.entity.Model;
 public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao {
 
 	public Pager getModelPager(Pager pager, HashMap<String, String> map) {
-		//String wheresql = modelpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Model.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		/*if (!wheresql.equals("")) {
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}*/
+
 		if (map.size() > 0) {
-			/*if(map.get("state")!=null){
-			    detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}*/
 
 			if(map.get("teamId")!=null){
 			    detachedCriteria.add(Restrictions.like("teamId", "%"+map.get("teamId")+"%"));
@@ -47,25 +42,14 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-  /*
-	public String modelpagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		return wheresql;
-	}*/
 	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		for(String id:ids){
+			Model model=super.load(id);
+			model.setIsDel(oper);//标记删除
+			super.update(model);
+		}
+   }
+  
 }

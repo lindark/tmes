@@ -9,6 +9,12 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/unusual/js/model.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -75,8 +81,8 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-									<div class="profile-info-row">
-										<div class="profile-info-name"> 产品编号 </div>
+								 	<div class="profile-info-row">
+									<!--	<div class="profile-info-name"> 产品编号 </div>
 					
 										<div class="profile-info-value">
 										    <select name="model.productCode">							
@@ -87,30 +93,33 @@ body{background:#fff;}
 									40010021
 								</option>
 						</select>
-											<!-- <input type="text" name="quality.productName" value="${(quality.productName)!}" class=" input input-sm  formText {required: true}" /> -->
-										</div>
+											
+										</div> -->
 										 <div class="profile-info-name"> 产品名称</div>
 					
 										<div class="profile-info-value">
-											<input type="text" name="model.productName" value="${(model.productName)!}" class=" input input-sm  formText {required: true}" />
+											<#if isAdd??>
+												    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>
+												    <input type="text" name="model.products.productsName" id="productName1" class=" input input-sm  formText {required: true}" readOnly="true" />
+													<input type="hidden" name="model.products.id" id="productNa" value=""/>
+											<#else>
+													${(quality.products.productsName)!}
+											</#if>
 										</div> 
+										
+										<div class="profile-info-name"> 班组</div>
+					
+										<div class="profile-info-value">										
+												       <input type="text" name="model.teamId"
+														value="${(model.teamId)!}"
+														class=" input input-sm  formText {required: true}" />																					
+										</div>
+										
 										
 									</div>
 									 
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 班组</div>
-					
-										<div class="profile-info-value">
-										<#if isAdd??>
-												       <input type="text" name="model.teamId"
-														value="${(abnormal.teamId)!}"
-														class=" input input-sm  formText {required: true}" />
-												    <#else>
-												       <input type="text" name="model.teamId"
-														value="${(model.teamId)!}"
-														class=" input input-sm  formText {required: true}" />
-										</#if>															
-										</div>
+									
 										<div class="profile-info-name">种类 </div>
 					
 										<div class="profile-info-value">
@@ -123,17 +132,19 @@ body{background:#fff;}
 								</option>
 						</select>
 										</div>
-									</div>									
-									<div class="profile-info-row">
-									    <div class="profile-info-name"> 提报人 </div>
+										
+										 <div class="profile-info-name"> 提报人 </div>
 									    <div class="profile-info-value">
-											<input type="text" name="model.initiator" value="${(model.initiator)!}" class=" input input-sm  formText {required: true}" />
+									        <#if isAdd??>
+									           <input type="text" name="model.initiator.name" value="${(abnormal.iniitiator.name)!}" class=" input input-sm  formText {required: true}" />
+									           <input type="hidden" name="model.initiator.id" value="${(abnormal.iniitiator.id)!}" class=" input input-sm  formText {required: true}" />
+									        <#else>
+													${(model.initiator.name)!}
+											</#if>
+											
 										</div>
-										 <div class="profile-info-name">时间 </div>
-									    <div class="profile-info-value">
-											<input type="text" name="model.createDate" value="${(model.createDate)!}" class="formText {required: true} datePicker"/>
-										</div>									
-									</div>
+									</div>									
+									
 							</div>
 							
 						<div class="profile-user-info profile-user-info-striped">

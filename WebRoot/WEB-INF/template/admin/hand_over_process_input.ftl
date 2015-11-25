@@ -43,7 +43,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validateajax"
-								action="<#if isAdd??>hand_over_process!save.action<#else>hand_over_process!update.action</#if>"
+								action="hand_over_process!save.action"
 								method="post">
 								<!-- hide 块 start -->
 									
@@ -68,6 +68,7 @@ body {
 												<td class="center">
 													<input type="hidden" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
 													<input type="hidden" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
+													<input type="hidden" name="handoverprocessList[${num }].process.id" value="${processid }"/><!-- 工序-->
 													<input type="text" name="handoverprocessList[${num }].amount" value=""/><!-- 数量 -->
 												</td>
 											</tr>

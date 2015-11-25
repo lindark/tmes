@@ -103,7 +103,6 @@ public class Abnormal extends BaseEntity{
 	}
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
-	@Cascade(value = { CascadeType.DELETE })
 	public Set<Quality> getQualitySet() {
 		return qualitySet;
 	}

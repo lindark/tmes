@@ -47,7 +47,7 @@ public class Material extends BaseEntity{
 	private Set<Products> products;// 产品Bom
 	private Set<HandOverProcess> handoverprocessSet;//交接
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="material")
 	public Set<Products> getProducts() {
 		return products;
 	}

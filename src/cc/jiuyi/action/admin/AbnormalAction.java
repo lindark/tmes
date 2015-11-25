@@ -24,6 +24,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Dump;
@@ -31,6 +32,7 @@ import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.SwiptCard;
+import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CallreasonService;
@@ -70,6 +72,8 @@ public class AbnormalAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private SwiptCardService swiptCardService;
+	@Resource
+	private AbnormalLogService abnormalLogService;
 
 	// 添加
 	public String add() {
@@ -139,8 +143,23 @@ public class AbnormalAction extends BaseAdminAction {
 				anslist.add(str);
 			}
 			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
+			String ablists="";
+			if(abnormal.getAbnormalLogSet().size()>0){
+				List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(
+						abnormal.getAbnormalLogSet());
+				List<String> ablist = new ArrayList<String>();
+				for (AbnormalLog abnormalLog : abLog) {
+					String str = abnormalLog.getInfo();
+					ablist.add(str);
+				}
+				ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
+			}else{
+				ablists="";
+			}
+					
 			abnormal.setCallReason(comlist);
 			abnormal.setAnswer(anslist1);
+			abnormal.setLog(ablists);
 			abnormal.setOriginator(abnormal.getIniitiator().getName());
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
@@ -157,7 +176,7 @@ public class AbnormalAction extends BaseAdminAction {
 	public String update() {
 		Admin admin1 = adminService.getLoginAdmin();
 		List<Abnormal> abnormalList = abnormalService.get(ids);
-
+        String person = admin1.getName();
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;
 			Abnormal persistent = abnormalList.get(i);
@@ -184,6 +203,13 @@ public class AbnormalAction extends BaseAdminAction {
 				swiptCard.setAdmin(admin1);
 				swiptCard.setType("0");
 				swiptCardService.save(swiptCard);
+				
+				AbnormalLog abnormalLog = new AbnormalLog();
+				abnormalLog.setAbnormal(persistent);				
+				abnormalLog.setInfo(person+"已刷卡");
+				abnormalLog.setOperator(admin1);
+				abnormalLogService.save(abnormalLog);
+				
 			} else {
 				addActionError("刷卡错误!");
 				return ERROR;

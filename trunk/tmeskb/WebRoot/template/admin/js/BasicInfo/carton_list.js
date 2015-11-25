@@ -64,11 +64,11 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '纸箱编码','纸箱描述','数量','收货日期','创建人', '确认人','状态'],
+		colNames:[ /*'纸箱编码','纸箱描述',*/'数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
-			{name:'cartonCode',index:'cartonCode', width:200},
-			{name:'cartonDescribe',index:'cartonDescribe', width:200},
+			/*{name:'cartonCode',index:'cartonCode', width:200},
+			{name:'cartonDescribe',index:'cartonDescribe', width:200},*/
 			{name:'cartonAmount',index:'cartonAmount', width:200},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},

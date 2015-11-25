@@ -66,7 +66,7 @@ jQuery(function($) {
        	 for ( var i = 0; i < ids.length; i++) {
        		 var cl = ids[i];
        		 be = "<a href='products!editprocess.action?id="+ids[i]+"'>相关工序</a>";
-       		 bc = "&nbsp;&nbsp;&nbsp;<a href='products!editmaterial.action?id="+ids[i]+"'>相关BOOM</a>";
+       		 bc = "&nbsp;&nbsp;&nbsp;<a href='products!editmaterial.action?id="+ids[i]+"'>相关BOM</a>";
        		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { myac : be+bc });
        	 }
        },

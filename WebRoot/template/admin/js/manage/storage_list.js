@@ -46,7 +46,7 @@ jQuery(function($) {
 			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',label:"状态",width:100,index:'State', editable: false,sortable:"true",sorttype:"text"}
+			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'State', editable: false,sortable:"true",sorttype:"text"}
 		], 
 
 		viewrecords : true,
@@ -77,6 +77,25 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//未确认
+		if(rawObject.state=="2")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已确认
+		if(rawObject.state=="1")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		//已撤销
+		if(rawObject.state=="3")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+	}
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options

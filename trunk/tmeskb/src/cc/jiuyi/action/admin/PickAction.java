@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickDetailService;
@@ -59,7 +62,7 @@ public class PickAction extends BaseAdminAction {
 	
 	private String workingBillId;
 	private WorkingBill workingbill;
-	
+
 	//添加
 	public String add(){
 		return INPUT;
@@ -73,7 +76,9 @@ public class PickAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
+		
 		workingbill=workingBillService.get(workingBillId);
+
 		return LIST;
 	}
 	
@@ -122,11 +127,19 @@ public class PickAction extends BaseAdminAction {
 				Pick pick = (Pick) pickList.get(i);
 				pick.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "pickState", pick.getState()));
+				if(pick.getConfirmUser()!=null){
+					pick.setXconfirmUser(pick.getConfirmUser().getName());
+				}
+				if(pick.getCreateUser()!=null){
+					pick.setXcreateUser(pick.getCreateUser().getName());
+				}	
 				lst.add(pick);
 			}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
+		JsonConfig jsonConfig=new JsonConfig(); 
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Rework.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
@@ -243,6 +256,7 @@ public class PickAction extends BaseAdminAction {
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
 	}
+
 	
 	
 }

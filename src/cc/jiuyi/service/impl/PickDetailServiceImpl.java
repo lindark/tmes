@@ -13,9 +13,11 @@ import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Service实现类 -领/退料
@@ -38,6 +40,8 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	private AdminService adminService;
 	@Resource
 	private PickService pickService;
+	@Resource
+	private WorkingBillService workingBillService;
 	
 	
 	@Override
@@ -72,16 +76,17 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	}
 
 	@Override
-	public void save(List<PickDetail> pickDetailList) {
+	public void save(List<PickDetail> pickDetailList,String workingBillId) {
 		Admin admin=adminService.getLoginAdmin();
+		WorkingBill workingBill=workingBillService.get(workingBillId);
 		String s="";
 		Pick pk=new Pick();
 		if(pickDetailList.size()>0){
 			Pick pick=new Pick();
 			pick.setCreateDate(new Date());
-			pick.setConfirmUser(admin);
 			pick.setCreateUser(admin);
 			pick.setState("1");
+			pick.setWorkingbill(workingBill);
 			s=this.pickService.save(pick);
 		}
 		if(s!=null&&!"".equals(s)){
@@ -90,6 +95,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		for(int i=0;i<pickDetailList.size();i++){
 			PickDetail p=pickDetailList.get(i);			
 			p.setConfirmUser(admin);
+		    p.setWorkingbill(workingBill);
 			p.setPick(pk);
 			if(p.getPickAmount()!=null&&!"".equals(p.getPickAmount())){
 			  this.pickDetailDao.save(p);

@@ -1,25 +1,20 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -27,11 +22,9 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 
@@ -50,6 +43,8 @@ public class PickDetailAction extends BaseAdminAction {
 	//获取所有状态
 	private List<Dict> allState;
 	
+	private Pick pick;
+	
 	@Resource
 	private PickDetailService pickDetailService;
 	@Resource
@@ -61,36 +56,55 @@ public class PickDetailAction extends BaseAdminAction {
 	@Resource
 	private MaterialService materialService;
 	
-	private WorkingBill workingBill;
+	private WorkingBill workingbill;
+	private String workingBillId;
+	
+	
+	public String getWokingBillId() {
+		return workingBillId;
+	}
+	public void setWokingBillId(String wokingBillId) {
+		this.workingBillId = wokingBillId;
+	}
+
+
 	private Admin admin;
 	private Material material;
 	private String matnr;
     private String[] rbg;
     private String[] pt;
     private String text;
-	
-    
-    
-	public String addAmount() {
-		for (int i = 0; i < pt.length; i++) {	
-			//System.out.println(Arrays.toString(text));
-			if (!pt.equals("")) {
-				System.out.println(Arrays.toString(pt));
-				for (int j = 0; j < rbg.length; j++) {
-					if (rbg.equals("1")) {
-						pickDetail.setPickType("1");
-					} else {
-						pickDetail.setPickType("2");
-					}
+    private List<Material> materialList;
+    private List<PickDetail> pickDetailList;
+ 
+	public List<PickDetail> getPickDetailList() {
+		return pickDetailList;
+	}
 
-				}
-			}
-		}
+
+	public void setPickDetailList(List<PickDetail> pickDetailList) {
+		this.pickDetailList = pickDetailList;
+	}
+
+	public String addAmount() {
+//		for (int i = 0; i < pt.length; i++) {	
+//			//System.out.println(Arrays.toString(text));
+//			if (!pt.equals("")) {
+//				System.out.println(Arrays.toString(pt));
+//				for (int j = 0; j < rbg.length; j++) {
+//					if (rbg.equals("1")) {
+//						pickDetail.setPickType("1");
+//					} else {
+//						pickDetail.setPickType("2");
+//					}
+//
+//				}
+//			}
+//		}
 		
 		pickDetail.setMaterialCode(material.getMaterialCode());
 		pickDetail.setMaterialName(material.getMaterialName());
 		pickDetailService.save(pickDetail);
-		
 		redirectionUrl = "pick!list.action";
 		return SUCCESS;
 	}
@@ -103,9 +117,23 @@ public class PickDetailAction extends BaseAdminAction {
 
 	//列表
 	public String list(){
+		Admin admin=adminService.getLoginAdmin();
+		admin=adminService.get(admin.getId());
+		materialList=materialService.getMantrBom(matnr);
+		workingbill = workingBillService.get(workingBillId);	
 		return LIST;
 	}
 	
+	public String getWorkingBillId() {
+		return workingBillId;
+	}
+
+
+	public void setWorkingBillId(String workingBillId) {
+		this.workingBillId = workingBillId;
+	}
+
+
 	/**
 	 * ajax 列表
 	 * @return
@@ -113,7 +141,6 @@ public class PickDetailAction extends BaseAdminAction {
 	public String ajlist(){
 
 		List<Material> pickDetail = materialService.getMantrBom(matnr);
-
 		List<HashMap> list=new ArrayList<HashMap>();
 		for (int i = 0; i < pickDetail.size(); i++) {
 			Material mate=pickDetail.get(i);
@@ -160,7 +187,7 @@ public class PickDetailAction extends BaseAdminAction {
 	//保存
 	@Validations(
 			requiredStrings = {
-					@RequiredStringValidator(fieldName = "pickDetail.pickType", message = "领料类型不能为空!"),
+					//@RequiredStringValidator(fieldName = "pickDetail.pickType", message = "领料类型不能为空!"),
 					
 			  },
 			intRangeFields = {
@@ -171,9 +198,10 @@ public class PickDetailAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
-		pickDetailService.save(pickDetail);
-		redirectionUrl="pick_detail!list.action";
-		return SUCCESS;	
+		workingbill = workingBillService.get(workingBillId);
+		pickDetailService.save(pickDetailList,workingBillId);
+		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
+		return SUCCESS;
 	}
 		
 
@@ -219,13 +247,15 @@ public class PickDetailAction extends BaseAdminAction {
 	}
 
 
-	public WorkingBill getWorkingBill() {
-		return workingBill;
+	
+
+	public WorkingBill getWorkingbill() {
+		return workingbill;
 	}
 
 
-	public void setWorkingBill(WorkingBill workingBill) {
-		this.workingBill = workingBill;
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
 	}
 
 
@@ -326,5 +356,26 @@ public class PickDetailAction extends BaseAdminAction {
 		this.text = text;
 	}
 
+
+	public List<Material> getMaterialList() {
+		return materialList;
+	}
+
+
+	public void setMaterialList(List<Material> materialList) {
+		this.materialList = materialList;
+	}
+	
+	public Pick getPick() {
+		return pick;
+	}
+	public void setPick(Pick pick) {
+		this.pick = pick;
+	}
+
+
+
+	
+	
 	
 }

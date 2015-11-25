@@ -1,6 +1,8 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,46 +25,73 @@ public class PickDetail extends BaseEntity{
 	private static final long serialVersionUID = 5863643257488788810L;
 
 	private String pickType;//领料类型
-    private Integer pickAmount;//领料数量
-    private Integer StockAmount;//库存数量
-    private String ConfirmUser;//确认人
-    private String state;//状态
+    private String pickAmount;//领料数量
+    private Integer stockAmount;//库存数量
+   // private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private Admin confirmUser;//确认人
       
-	private String materialCode;//编码
+	private String materialCode;//组件编码
 	private String materialName;//组件名称
-    
+	
+	private Pick pick;//领料主表
+	
+    private WorkingBill workingbill;//随工单
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
+	}
+	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Pick getPick() {
+		return pick;
+	}
+	public void setPick(Pick pick) {
+		this.pick = pick;
+	}
 	public String getPickType() {
 		return pickType;
 	}
 	public void setPickType(String pickType) {
 		this.pickType = pickType;
 	}
-	public Integer getPickAmount() {
+	
+	
+	public String getPickAmount() {
 		return pickAmount;
 	}
-	public void setPickAmount(Integer pickAmount) {
+	public void setPickAmount(String pickAmount) {
 		this.pickAmount = pickAmount;
 	}
 	public Integer getStockAmount() {
-		return StockAmount;
+		return stockAmount;
 	}
 	public void setStockAmount(Integer stockAmount) {
-		StockAmount = stockAmount;
+		this.stockAmount = stockAmount;
 	}
-	public String getConfirmUser() {
-		return ConfirmUser;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getConfirmUser() {
+		return confirmUser;
 	}
-	public void setConfirmUser(String confirmUser) {
-		ConfirmUser = confirmUser;
+	public void setConfirmUser(Admin confirmUser) {
+		this.confirmUser = confirmUser;
 	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
+	
+//	public String getState() {
+//		return state;
+//	}
+//	
+//	public void setState(String state) {
+//		this.state = state;
+//	}
 	public String getIsDel() {
 		return isDel;
 	}
@@ -97,8 +126,5 @@ public class PickDetail extends BaseEntity{
 		this.materialName = materialName;
 	}
 
-   
-
-    
 	
 }

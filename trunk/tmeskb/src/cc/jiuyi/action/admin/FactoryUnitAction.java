@@ -140,6 +140,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 				factoryUnit.setFactoryName(factoryUnit.getWorkShop().getFactory().getFactoryName());
 				factoryUnit.setWorkShopName(factoryUnit.getWorkShop().getWorkShopName());
 				factoryUnit.setWorkShop(null);
+				factoryUnit.setTeam(null);
 				lst.add(factoryUnit);
 			}
 		pager.setList(lst);
@@ -192,8 +193,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
-//		workShop=workShopService.load(workShopId);
-//		factoryUnit.setWorkShop(workShop);
+		workShop=workShopService.load(workShopId);
+		factoryUnit.setWorkShop(workShop);
 		factoryUnitService.save(factoryUnit);
 		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	

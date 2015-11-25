@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dailyWorkState"}}
+			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dailyWorkState"}}
 
 		], 
 		//sortable:true,
@@ -139,6 +139,25 @@ jQuery(function($) {
 			$(cell) .find('input[type=text]')
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
+	}
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//未确认
+		if(rawObject.state=="2")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已确认
+		if(rawObject.state=="1")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		//已撤销
+		if(rawObject.state=="3")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
 	}
 
 

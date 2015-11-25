@@ -144,14 +144,14 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Process> getAllProcess() {
-		String hql = "from Process";
+		String hql = "from Processas as a where a.isDel='N'";
 		return getSession().createQuery(hql).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Material> getAllMaterial() {
-		String hql = "from Material";
+		String hql = "from Material as a where a.isDel='N'";
 		return getSession().createQuery(hql).list();
 	}
 }

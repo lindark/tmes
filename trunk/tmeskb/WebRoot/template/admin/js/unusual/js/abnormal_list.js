@@ -62,16 +62,17 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间', '消息', '发起人','应答人','状态',"zt"],
+		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt",],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'handlingTime',index:'handlingTime', width:160,editable: true},
+			{name:'handlingTime',index:'handlingTime', width:60,editable: true},
+			{name:'log',index:'log', width:100,editable: true},
 			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true},
+			{name:'stateRemark',index:'state', width:60,editable: true,cellattr:addstyle},
 			{name:'state',index:'state', width:60,editable: true,hidden:true}
 			
 		], 
@@ -118,6 +119,41 @@ jQuery(function($) {
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
 	}
+	
+	
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//未响应
+		if(rawObject.state=="0")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		
+		//未完全响应
+		if(rawObject.state=="1")
+		{
+			return "style='color:#FFBB66;font-weight:bold;'";
+		}
+		
+		//处理中
+		if(rawObject.state=="2")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		//已撤销
+		if(rawObject.state=="3")
+		{
+			return "style='color:#AAAAAA;font-weight:bold;'";
+		}
+		
+		//已撤销
+		if(rawObject.state=="4")
+		{
+			return "style='color:#DDDDDD;font-weight:bold;'";
+		}
+	}
+
 
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 

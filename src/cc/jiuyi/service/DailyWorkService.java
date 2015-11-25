@@ -1,7 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.DailyWork;
@@ -18,6 +18,9 @@ public interface DailyWorkService extends BaseService<DailyWork, String> {
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager, HashMap<String,String> map, String workingbillId);
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
+			String workingbillId);
 
+	public void updateState(List<DailyWork> list, String statu,
+			String workingbillid);
 }

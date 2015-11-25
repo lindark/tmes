@@ -21,15 +21,13 @@ public class DailyWork extends BaseEntity {
 	private Integer enterAmount;// 报工数量
 	private String State;// 状态
 	private String isDel;// 是否删除
-	private String confirmUser;// 确认人
-	private String createUser;//创建人
+	private Admin confirmUser;// 确认人
+	private Admin createUser;// 创建人
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
-	private String createName;//创建人的名字
+	private String createName;// 创建人的名字
 
-	
 	private WorkingBill workingbill;// 随工单
-	private Admin admin;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -38,15 +36,6 @@ public class DailyWork extends BaseEntity {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
 	}
 
 	public String getState() {
@@ -60,13 +49,6 @@ public class DailyWork extends BaseEntity {
 		State = state;
 	}
 
-	/*
-	 * public Integer getTotalAmout() { return totalAmout; }
-	 * 
-	 * public void setTotalAmout(Integer totalAmout) { this.totalAmout =
-	 * totalAmout; }
-	 */
-
 	public Integer getEnterAmount() {
 		return enterAmount;
 	}
@@ -75,12 +57,6 @@ public class DailyWork extends BaseEntity {
 		this.enterAmount = enterAmount;
 	}
 
-	// public Date getEnterDate() {
-	// return enterDate;
-	// }
-	// public void setEnterDate(Date enterDate) {
-	// this.enterDate = enterDate;
-	// }
 	public String getIsDel() {
 		return isDel;
 	}
@@ -90,14 +66,6 @@ public class DailyWork extends BaseEntity {
 			isDel = "N";
 		}
 		this.isDel = isDel;
-	}
-
-	public String getConfirmUser() {
-		return confirmUser;
-	}
-
-	public void setConfirmUser(String confirmUser) {
-		this.confirmUser = confirmUser;
 	}
 
 	@Transient
@@ -118,14 +86,6 @@ public class DailyWork extends BaseEntity {
 		this.adminName = adminName;
 	}
 
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
 	@Transient
 	public String getCreateName() {
 		return createName;
@@ -133,6 +93,24 @@ public class DailyWork extends BaseEntity {
 
 	public void setCreateName(String createName) {
 		this.createName = createName;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Admin confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Admin createUser) {
+		this.createUser = createUser;
 	}
 
 }

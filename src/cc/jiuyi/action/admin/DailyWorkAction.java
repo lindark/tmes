@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
+import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
@@ -35,7 +38,6 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 @ParentPackage("admin")
 public class DailyWorkAction extends BaseAdminAction {
-	
 
 	private static final long serialVersionUID = 352880047222902914L;
 
@@ -75,10 +77,9 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String save() throws Exception{
+	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
-		dailyWork.setAdmin(admin);
-		dailyWork.setCreateUser(admin.getId());
+		dailyWork.setCreateUser(admin);
 		dailyWorkService.save(dailyWork);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
@@ -88,12 +89,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() throws Exception{
+	public String update() throws Exception {
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);
-		admin = adminService.loadLoginAdmin();
-		dailyWork.setAdmin(admin);
 		redirectionUrl = "dailyWork!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
 		return SUCCESS;
@@ -101,7 +100,6 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			dailyWork = dailyWorkService.load(ids[i]);
@@ -114,19 +112,8 @@ public class DailyWorkAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			dailyWork = dailyWorkService.load(ids[i]);
-			if (!CONFIRMED.equals(dailyWork.getState())) {
-				dailyWork.setState(CONFIRMED);
-				admin = adminService.getLoginAdmin();
-				dailyWork.setAdmin(admin);
-				dailyWork.setConfirmUser(admin.getId());
-				workingbill.setDailyWorkTotalAmount(workingbill
-						.getDailyWorkTotalAmount() + dailyWork.getEnterAmount());
-				dailyWorkService.update(dailyWork);
-			}
-		}
-		workingBillService.update(workingbill);
+		List<DailyWork> list = dailyWorkService.get(ids);
+		dailyWorkService.updateState(list, CONFIRMED, workingBillId);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
 		return SUCCESS;
@@ -134,7 +121,6 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String undo() {
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			dailyWork = dailyWorkService.load(ids[i]);
@@ -143,19 +129,8 @@ public class DailyWorkAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			dailyWork = dailyWorkService.load(ids[i]);
-			admin = adminService.getLoginAdmin();
-			dailyWork.setAdmin(admin);
-			dailyWork.setConfirmUser(admin.getId());
-			if (CONFIRMED.equals(dailyWork.getState())) {
-				workingbill.setDailyWorkTotalAmount(workingbill
-						.getDailyWorkTotalAmount() - dailyWork.getEnterAmount());
-			}
-			dailyWork.setState(UNDO);
-			dailyWorkService.update(dailyWork);
-		}
-		workingBillService.update(workingbill);
+		List<DailyWork> list = dailyWorkService.get(ids);
+		dailyWorkService.updateState(list, UNDO, workingBillId);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
 		return SUCCESS;
@@ -193,17 +168,16 @@ public class DailyWorkAction extends BaseAdminAction {
 			dailyWork.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "dailyWorkState", dailyWork.getState()));
 			if (dailyWork.getConfirmUser() != null) {
-				Admin admin = adminService.load(dailyWork.getConfirmUser());
-				dailyWork.setAdminName(admin.getName());
+				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			admin = adminService.load(dailyWork.getCreateUser());
-			dailyWork.setCreateName(admin.getName());
-			dailyWork.setWorkingbill(null);
-			dailyWork.setAdmin(null);
+			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(DailyWork.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 

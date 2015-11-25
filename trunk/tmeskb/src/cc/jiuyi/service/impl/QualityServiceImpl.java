@@ -29,4 +29,10 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 	public Pager getQualityPager(Pager pager,HashMap<String,String> map){
 		return qualityDao.getQualityPager(pager,map);
 	}
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		// TODO Auto-generated method stub
+		qualityDao.updateisdel(ids, oper);
+	}
 }

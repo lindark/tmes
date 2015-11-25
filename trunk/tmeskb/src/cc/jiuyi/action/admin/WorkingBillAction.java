@@ -15,6 +15,7 @@ import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.AccessObject;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.Repairorder;
@@ -114,15 +115,14 @@ public class WorkingBillAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
 			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
-			workingbill.setEnteringwareHouse(null);
 			//workingbill.setDailyWork(null);
-			workingbill.setMaterialSet(null);
 			pagerlist.set(i, workingbill);
 		}
 		pager.setList(pagerlist);
 		
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(WorkingBill.class));//排除有关联关系的属性字段 
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());

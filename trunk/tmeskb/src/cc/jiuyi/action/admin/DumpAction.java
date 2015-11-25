@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,12 +20,10 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.DumpSync;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpService;
-import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -80,7 +80,6 @@ public class DumpAction extends BaseAdminAction {
 		dump = dumpService.load(id);
 		dump.setState(CONFIRMED);
 		admin = adminService.getLoginAdmin();
-		dump.setConfirmUser(admin.getUsername());
 		dumpService.save(dump);
 		redirectionUrl = "dump!list.action";
 		return SUCCESS;
@@ -92,7 +91,6 @@ public class DumpAction extends BaseAdminAction {
 			dump = dumpService.load(ids[i]);
 			dump.setState(CONFIRMED);
 			admin = adminService.getLoginAdmin();
-			dump.setConfirmUser(admin.getUsername());
 			dumpService.save(dump);
 		}
 		redirectionUrl = "dump!list.action";
@@ -177,7 +175,10 @@ public class DumpAction extends BaseAdminAction {
 			lst.add(dump);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

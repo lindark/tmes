@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,11 +20,13 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -55,6 +59,8 @@ public class ModelAction extends BaseAdminAction {
 	private ModelLogService modelLogService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private AbnormalLogService abnormalLogService;
 
 	// 添加
 	public String add() {
@@ -72,8 +78,12 @@ public class ModelAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		pager = modelService.findByPager(pager);
+		//pager = modelService.findByPager(pager);
 		return LIST;
+	}
+	
+	public String browser(){
+		return "browser";
 	}
 
 	@InputConfig(resultName = "error")
@@ -123,15 +133,18 @@ public class ModelAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
-			model.setAbnormal(null);
-			model.setModelLogSet(null);
+			/*model.setAbnormal(null);
+			model.setModelLogSet(null);*/
+			model.setProductName(model.getProducts().getProductsName());
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));	
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);
-
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Model.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
@@ -139,11 +152,9 @@ public class ModelAction extends BaseAdminAction {
 
 
 	public String save() {
-		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME"))
-				.toLowerCase();
-		Admin admin = adminService.get("username", loginUsername);
-		model.setCreateUser(admin.getId());
-		model.setModifyUser(admin.getId());
+
+		Admin admin = adminService.getLoginAdmin();
+
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
 		model.setIsDel("N");
@@ -155,6 +166,13 @@ public class ModelAction extends BaseAdminAction {
 		log.setOperator(admin.getName());
 		log.setModel(model);
 		modelLogService.save(log);
+		
+		AbnormalLog abnormalLog = new AbnormalLog();
+		abnormalLog.setAbnormal(abnormal);
+		abnormalLog.setInfo("已开工模维修单");
+		abnormalLog.setOperator(admin);
+		abnormalLogService.save(abnormalLog);
+		
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
 	}
@@ -162,7 +180,8 @@ public class ModelAction extends BaseAdminAction {
 	// 删除
 	public String delete() throws Exception {
 		ids = id.split(",");
-		modelService.delete(ids);
+		modelService.updateisdel(ids, "Y");
+		redirectionUrl = "model!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 

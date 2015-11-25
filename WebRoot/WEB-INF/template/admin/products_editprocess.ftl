@@ -10,6 +10,16 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+<script type="text/javascript">
+	$().ready(function() {
+
+		// 地区选择菜单
+		$(".areaSelect").lSelect({
+			url : "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
+		});
+
+	});
+</script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -34,6 +44,7 @@ body {
 			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 
 			<!-- ./ add by welson 0728 -->
+
 			<div class="breadcrumbs" id="breadcrumbs">
 				<script type="text/javascript">
 					try {
@@ -44,7 +55,8 @@ body {
 
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
-						href="admin!index.action">管理中心</a></li>
+						href="admin!index.action">管理中心</a>
+					</li>
 					<li class="active">编辑相关工序</li>
 				</ul>
 				<!-- /.breadcrumb -->
@@ -60,77 +72,72 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="products!saveprocess.action" method="post">
+								action="products!saveprocess.action"
+								method="post">
 								<input type="hidden" name="id" value="${id}" />
-
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">相关工序管理</a></li>
+										<li><a href="#tabs-1">相关工序管理</a>
+										</li>
 
 									</ul>
-									<div class="widget-body">
-										<div
-											class="widget-main padding-6 no-padding-left no-padding-right">
-											<div class="profile-user-info profile-user-info-striped">
-												<div class="profile-info-row">
-													<div class="profile-info-name">产品编号</div>
 
-													<div class="profile-info-value">
-														<span class="editable editable-click">${products.productsCode}</span>
-													</div>
+									<div id="tabs-1">
+
+										<!--weitao begin modify-->
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">产品编号</div>
+
+												<div class="profile-info-value">
+													<span class="editable editable-click">${products.productsCode}</span>
 												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">产品名称</div>
-
-													<div class="profile-info-value">
-														<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-														<span class="editable editable-click" id="username">${products.productsName}</span>
-														<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-														<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
-													</div>
-												</div>
-												<div class="profile-info-row">
-													<div class="profile-info-name">物料组</div>
-
-													<div class="profile-info-value">
-														<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-														<span class="editable editable-click" id="username">${products.materialGroup}</span>
-														<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
-														<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
-													</div>
-												</div>
-
 											</div>
-										</div>
-									</div>
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">产品名称</div>
 
-									<div class="widget-box transparent">
-										<div class="widget-header">
-											<h5 class="widget-title bigger lighter">相关工序</h5>
-										</div>
+												<div class="profile-info-value">
+													<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+													<span class="editable editable-click" id="username">${products.productsName}</span>
+													<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+													<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+												</div>
+											</div>
 
-										<div class="widget-body">
-											<div class="widget-main no-padding">
-												<select multiple="" name="ids" id="processChose"
+											<div class="profile-info-row">
+												<div class="profile-info-name">物料组</div>
+
+												<div class="profile-info-value">
+													<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
+													<span class="editable editable-click" id="username">${products.materialGroup}</span>
+													<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
+													<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
+												</div>
+											</div>
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">相关工序</div>
+
+												<div class="profile-info-value">
+													<select multiple="" name="ids" id="processChose"
 													class="chosen-select">
 													<#list allProcess as list>
 														<option value="${list.id}">${list.processName}</option>
 													</#list>
 												</select>
+												</div>
 											</div>
+
 										</div>
-									</div>
-									<!--weitao end modify-->
-
-
-								</div>
-								<div class="buttonArea">
-									<input type="submit" class="formButton" value="确  定"
-										hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-										type="button" class="formButton"
-										onclick="window.history.back(); return false;" value="返  回"
-										hidefocus="true" />
-								</div>
+																				
+										<div class="buttonArea">
+											<input type="submit" class="formButton" value="确  定"
+												hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+												type="button" class="formButton"
+												onclick="window.history.back(); return false;" value="返  回"
+												hidefocus="true" />
+										</div>
 							</form>
 
 							<!-- add by welson 0728 -->
@@ -144,13 +151,18 @@ body {
 				<!-- /.col -->
 			</div>
 			<!-- /.row -->
-			<#include "/WEB-INF/template/admin/admin_footer.ftl">
 		</div>
 		<!-- /.page-content-area -->
+		<#include "/WEB-INF/template/admin/admin_footer.ftl">
+	</div>
+	<!-- /.page-content -->
+	</div>
+	<!-- /.main-content -->
 	</div>
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
+
 
 </body>
 <script>
@@ -171,4 +183,3 @@ $(function(){
 	
 </script>
 </html>
-

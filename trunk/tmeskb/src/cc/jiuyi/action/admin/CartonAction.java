@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.hibernate.type.IntegerType;
@@ -20,6 +22,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
@@ -86,8 +89,7 @@ public class CartonAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
-		carton.setAdmin(admin);
-		carton.setCreateUser(admin.getId());
+		carton.setCreateUser(admin);
 		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
@@ -101,8 +103,6 @@ public class CartonAction extends BaseAdminAction {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
-		admin = adminService.loadLoginAdmin();
-		carton.setAdmin(admin);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -119,7 +119,6 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
@@ -132,19 +131,8 @@ public class CartonAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			carton = cartonService.load(ids[i]);
-			if (!CONFIRMED.equals(carton.getState())) {
-				carton.setState(CONFIRMED);
-				admin = adminService.getLoginAdmin();
-				carton.setAdmin(admin);
-				carton.setConfirmUser(admin.getId());
-				workingbill.setCartonTotalAmount(workingbill
-						.getCartonTotalAmount() + carton.getCartonAmount());
-				cartonService.update(carton);
-			}
-		}
-		workingBillService.update(workingbill);
+		List<Carton> list = cartonService.get(ids);
+		cartonService.updateState(list, CONFIRMED, workingBillId);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -161,19 +149,8 @@ public class CartonAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}
-		for (int i = 0; i < ids.length; i++) {
-			carton = cartonService.load(ids[i]);
-			admin = adminService.getLoginAdmin();
-			carton.setAdmin(admin);
-			carton.setConfirmUser(admin.getId());
-			if (CONFIRMED.equals(carton.getState())) {
-				workingbill.setCartonTotalAmount(workingbill
-						.getCartonTotalAmount() - carton.getCartonAmount());
-			}
-			carton.setState(UNDO);
-			cartonService.update(carton);
-		}
-		workingBillService.update(workingbill);
+		List<Carton> list = cartonService.get(ids);
+		cartonService.updateState(list, UNDO, workingBillId);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
 		return SUCCESS;
@@ -186,7 +163,7 @@ public class CartonAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 		HashMap<String, String> map = new HashMap<String, String>();
-		workingbill = workingBillService.get(workingBillId);
+		/*workingbill = workingBillService.get(workingBillId);
 		List<Material> materials = materialService.getMantrBom(workingbill
 				.getMatnr());
 		Material material = new Material();
@@ -194,7 +171,7 @@ public class CartonAction extends BaseAdminAction {
 			if ("Y".equals(materials.get(i).getIsCarton())) {
 				material = materials.get(i);
 			}
-		}
+		}*/
 
 		if (pager == null) {
 			pager = new Pager();
@@ -218,20 +195,19 @@ public class CartonAction extends BaseAdminAction {
 			Carton carton = (Carton) cartonList.get(i);
 			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "cartonState", carton.getState()));
-			carton.setCartonCode(material.getMaterialCode());
-			carton.setCartonDescribe(material.getMaterialName());
+			/*carton.setCartonCode(material.getMaterialCode());
+			carton.setCartonDescribe(material.getMaterialName());*/
 			if (carton.getConfirmUser() != null) {
-				Admin admin = adminService.load(carton.getConfirmUser());
-				carton.setAdminName(admin.getName());
+				carton.setAdminName(carton.getConfirmUser().getName());
 			}
-			admin = adminService.load(carton.getCreateUser());
-			carton.setCreateName(admin.getName());
-			carton.setWorkingbill(null);
-			carton.setAdmin(null);
+			carton.setCreateName(carton.getCreateUser().getName());
 			lst.add(carton);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Carton.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

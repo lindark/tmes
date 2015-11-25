@@ -30,7 +30,6 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairAmount;// 累计返修数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
-	private Set<Material> materialSet;// 组件
 	private Set<Rework> rework;
     private Set<DailyWork> dailyWork;
     private Set<Carton> carton;
@@ -94,15 +93,7 @@ public class WorkingBill extends BaseEntity {
 		this.enteringwareHouse = enteringwareHouse;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
-	public Set<Material> getMaterialSet() {
-		return materialSet;
-	}
-
-	public void setMaterialSet(Set<Material> materialSet) {
-		this.materialSet = materialSet;
-	}
+	
 
 	public String getWorkingBillCode() {
 		return workingBillCode;

@@ -161,6 +161,7 @@ public class ProductsAction extends BaseAdminAction {
 					dictService, "productsState", products.getState()));
 			products.setMaterial(null);
 			products.setProcess(null);
+			products.setQualitySet(null);
 			lst.add(products);
 		}
 		pager.setList(lst);

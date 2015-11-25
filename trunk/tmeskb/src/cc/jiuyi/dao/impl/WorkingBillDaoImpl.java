@@ -27,67 +27,84 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String> implements WorkingBillDao {
-	
-	
-	public Pager findPagerByjqGrid(Pager pager,Map map){
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(WorkingBill.class);
-		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(map != null && map.size()>0){
-			if(!map.get("start").equals("") || !map.get("end").equals("")){//生产日期范围
-				String start = map.get("start").equals("")? ThinkWayUtil.SystemDate() : map.get("start").toString();
-				String end = map.get("end").equals("")? ThinkWayUtil.SystemDate() : map.get("end").toString();
-				detachedCriteria.add(Restrictions.between("productDate", start, end));
+public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
+		implements WorkingBillDao {
+
+	public Pager findPagerByjqGrid(Pager pager, Map map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(WorkingBill.class);
+		pagerSqlByjqGrid(pager, detachedCriteria);
+		if (map != null && map.size() > 0) {
+			if (!map.get("start").equals("") || !map.get("end").equals("")) {// 生产日期范围
+				String start = map.get("start").equals("") ? ThinkWayUtil
+						.SystemDate() : map.get("start").toString();
+				String end = map.get("end").equals("") ? ThinkWayUtil
+						.SystemDate() : map.get("end").toString();
+				detachedCriteria.add(Restrictions.between("productDate", start,
+						end));
 			}
-			if(!map.get("workingBillCode").equals("")){
-				detachedCriteria.add(Restrictions.like("workingBillCode","%"+map.get("workingBillCode").toString()+"%"));
+			if (!map.get("workingBillCode").equals("")) {
+				detachedCriteria.add(Restrictions.like("workingBillCode", "%"
+						+ map.get("workingBillCode").toString() + "%"));
 			}
 		}
-		detachedCriteria.add(Restrictions.eq("isdel", "N"));//取出未删除标记数据
-		return super.findByPager(pager,detachedCriteria);
+		detachedCriteria.add(Restrictions.eq("isdel", "N"));// 取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
 	}
 
 	@Override
 	public void updateWorkingBill(WorkingBill workingbill) {
-		String hql="update WorkingBill set productDate = ? ,planCount = ?,matnr=?,maktx=? where workingBillCode = ?";
-		getSession().createQuery(hql).setParameter(0, workingbill.getProductDate()).setParameter(1, workingbill.getPlanCount()).setParameter(2, workingbill.getMatnr()).setParameter(3, workingbill.getMaktx()).setParameter(4, workingbill.getWorkingBillCode()).executeUpdate();
+		String hql = "update WorkingBill set productDate = ? ,planCount = ?,matnr=?,maktx=? where workingBillCode = ?";
+		getSession().createQuery(hql)
+				.setParameter(0, workingbill.getProductDate())
+				.setParameter(1, workingbill.getPlanCount())
+				.setParameter(2, workingbill.getMatnr())
+				.setParameter(3, workingbill.getMaktx())
+				.setParameter(4, workingbill.getWorkingBillCode())
+				.executeUpdate();
 	}
 
 	@Override
-	public void updateisdel(String[] ids,String oper) {
-		for(String id : ids){
+	public void updateisdel(String[] ids, String oper) {
+		for (String id : ids) {
 			WorkingBill workingbill = super.load(id);
-			workingbill.setIsdel(oper);//标记删除
+			workingbill.setIsdel(oper);// 标记删除
 			super.update(workingbill);
 		}
-		
-		
+
 	}
 
-	
 	@Override
 	public List getListWorkingBillByDate(Admin admin) {
 		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
-		List list = getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, "%"+admin.getShift()).list();
+		List list = getSession().createQuery(hql)
+				.setParameter(0, admin.getProductDate())
+				.setParameter(1, "%" + admin.getShift()).list();
 		return list;
 	}
-	
-	
 
 	/**
 	 * 查询随工单表中的id 和 产品名称maktx
 	 */
 	@SuppressWarnings("unchecked")
-	public List<WorkingBill> getIdsAndNames()
-	{
-		String hql=" from WorkingBill";
+	public List<WorkingBill> getIdsAndNames() {
+		String hql = " from WorkingBill";
 		return this.getSession().createQuery(hql).list();
 	}
-	
-	
-	public List<WorkingBill> findListWorkingBill(String matnr,String productDate,String shift){
-		String hql="from WorkingBill where matnr = ? and productDate = ? and workingBillCode like ?";
-		return getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).setParameter(2, "%"+shift).list();
+
+	public List<WorkingBill> findListWorkingBill(String matnr,
+			String productDate, String shift) {
+		String hql = "from WorkingBill where matnr = ? and productDate = ? and workingBillCode like ?";
+		return getSession().createQuery(hql).setParameter(0, matnr)
+				.setParameter(1, productDate).setParameter(2, "%" + shift)
+				.list();
 	}
-	
+
+	@Override
+	public boolean isExist(String laststr,String productdate) {
+		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and ";
+		WorkingBill workingbill = (WorkingBill) getSession().createQuery(hql).setParameter(0, productdate).setParameter(1, "%"+laststr).uniqueResult();
+		return (workingbill != null);
+	}
+
 }

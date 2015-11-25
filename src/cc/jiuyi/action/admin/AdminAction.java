@@ -169,7 +169,7 @@ public class AdminAction extends BaseAdminAction {
 	}
 	// 后台首页
 	public String index1() {
-		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 		return "teamindex";

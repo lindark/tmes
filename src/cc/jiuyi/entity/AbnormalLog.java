@@ -13,18 +13,11 @@ import javax.persistence.ManyToOne;
 public class AbnormalLog extends BaseEntity {
 
 	private static final long serialVersionUID = -4234122902010236826L;
-	private String operator;// 操作员
+	private Admin operator;// 操作员
 	private String info;// 日志信息
 	 
 	private Abnormal abnormal;//异常
 
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
 
 	public String getInfo() {
 		return info;
@@ -42,6 +35,15 @@ public class AbnormalLog extends BaseEntity {
 
 	public void setAbnormal(Abnormal abnormal) {
 		this.abnormal = abnormal;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getOperator() {
+		return operator;
+	}
+
+	public void setOperator(Admin operator) {
+		this.operator = operator;
 	}
 	
 	

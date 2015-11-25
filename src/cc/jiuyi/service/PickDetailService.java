@@ -29,5 +29,5 @@ public interface PickDetailService extends BaseService<PickDetail, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	
+	public void save(List<PickDetail> pickDetailList,String woringBillId);
 }

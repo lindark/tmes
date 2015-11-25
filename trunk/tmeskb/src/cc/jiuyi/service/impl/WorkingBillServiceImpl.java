@@ -91,9 +91,9 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public List<WorkingBill> findListWorkingBill(String matnr,
+	public List<WorkingBill> findListWorkingBill(Object[] productsid,
 			String productDate, String shift) {
-		return workingbilldao.findListWorkingBill(matnr, productDate, shift);
+		return workingbilldao.findListWorkingBill(productsid, productDate, shift);
 	}
 	
 	/**

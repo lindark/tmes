@@ -45,6 +45,7 @@ public class Abnormal extends BaseEntity{
 	private String callReason;
 	private String originator;
 	private String answer;
+	private String log;
 	
 	@Column
 	public Date getCallDate() {
@@ -190,6 +191,14 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setSwiptCardSet(Set<SwiptCard> swiptCardSet) {
 		this.swiptCardSet = swiptCardSet;
+	}
+	
+	@Transient
+	public String getLog() {
+		return log;
+	}
+	public void setLog(String log) {
+		this.log = log;
 	}
 	
 		

@@ -22,15 +22,14 @@ public class Model extends BaseEntity{
 
 	private static final long serialVersionUID = -7213423823153832326L;
 	
-	private String productCode;//产品编号
-	private String productName;//产品名称
+    private Products products;
 	private String type;//种类
 	private String teamId;//班组
-	private String initiator;//提报人
+	private Admin initiator;//提报人
 	private String failDescript;//不良现象描述
 	private Integer defaltNo;//缺陷数量
-	private String insepector;//检验员
-	private String fixer;//维修人员
+	private Admin insepector;//检验员
+	private Admin fixer;//维修人员
 	
 	private Date confirmTime;//确认时间
 	private Date arriveTime;//到场时间
@@ -40,26 +39,20 @@ public class Model extends BaseEntity{
 	private String resolve;//处理方法及结果
 	private String measure;//预防措施
 	
-	private String createUser;//创建人
-	private String modifyUser;//修改人
 	private String isDel;//是否删除
 	private String state;
 	private Abnormal abnormal;//异常
 	
 	private String stateRemark;//状态描述 
-	private Set<ModelLog> modelLogSet;//异常日志
-	
-	public String getProductCode() {
-		return productCode;
+	private Set<ModelLog> modelLogSet;//异常日志 
+	private String productName;//产品名称	
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Products getProducts() {
+		return products;
 	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProducts(Products products) {
+		this.products = products;
 	}
 	public String getType() {
 		return type;
@@ -73,12 +66,7 @@ public class Model extends BaseEntity{
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
 	}
-	public String getInitiator() {
-		return initiator;
-	}
-	public void setInitiator(String initiator) {
-		this.initiator = initiator;
-	}
+
 	public String getFailDescript() {
 		return failDescript;
 	}
@@ -91,18 +79,7 @@ public class Model extends BaseEntity{
 	public void setDefaltNo(Integer defaltNo) {
 		this.defaltNo = defaltNo;
 	}
-	public String getInsepector() {
-		return insepector;
-	}
-	public void setInsepector(String insepector) {
-		this.insepector = insepector;
-	}
-	public String getFixer() {
-		return fixer;
-	}
-	public void setFixer(String fixer) {
-		this.fixer = fixer;
-	}
+
 	public Date getConfirmTime() {
 		return confirmTime;
 	}
@@ -145,18 +122,8 @@ public class Model extends BaseEntity{
 	public void setMeasure(String measure) {
 		this.measure = measure;
 	}
-	public String getCreateUser() {
-		return createUser;
-	}
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-	public String getModifyUser() {
-		return modifyUser;
-	}
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
+
+
 	public String getIsDel() {
 		return isDel;
 	}
@@ -194,6 +161,39 @@ public class Model extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
+	
+	@Transient
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getInitiator() {
+		return initiator;
+	}
+	public void setInitiator(Admin initiator) {
+		this.initiator = initiator;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getInsepector() {
+		return insepector;
+	}
+	public void setInsepector(Admin insepector) {
+		this.insepector = insepector;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getFixer() {
+		return fixer;
+	}
+	public void setFixer(Admin fixer) {
+		this.fixer = fixer;
+	}
+	
 	
 	
 }

@@ -112,4 +112,6 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 		}
 	}
 	
+	
+	
 }

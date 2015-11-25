@@ -45,20 +45,27 @@ public class Material extends BaseEntity{
     private String productsCode;//产品编码
     private String productsName;
 
-	private Products products;// 产品Bom
+//	private Products products;// 产品Bom
+    private Set<Products> products;
+	
+	//假字段
+	private String mynum;//顺序
+
 	private Set<HandOverProcess> handoverprocessSet;//交接
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Products getProducts() {
+
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy="material")
+	public Set<Products> getProducts() {
 		return products;
 	}
-	public void setProducts(Products products) {
+	public void setProducts(Set<Products> products) {
 		this.products = products;
 	}
 	
 	private Set<WorkingBill> workingBillSet;//随工单
 	
 	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "materialSet")
 	public Set<WorkingBill> getWorkingBillSet() {
 		return workingBillSet;
@@ -184,6 +191,15 @@ public class Material extends BaseEntity{
 	public void setStateCarton(String stateCarton) {
 		this.stateCarton = stateCarton;
 	}
+
+	@Transient
+	public String getMynum() {
+		return mynum;
+	}
+	public void setMynum(String mynum) {
+		this.mynum = mynum;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="material")
 	public Set<HandOverProcess> getHandoverprocessSet() {
 		return handoverprocessSet;
@@ -191,6 +207,7 @@ public class Material extends BaseEntity{
 	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
 		this.handoverprocessSet = handoverprocessSet;
 	}
+
 
    
 

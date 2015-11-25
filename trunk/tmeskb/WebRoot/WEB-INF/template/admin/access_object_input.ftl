@@ -114,7 +114,7 @@ body {
 
 												<div class="profile-info-value">
 													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="分配所属资源" name="accessObject.resource.id">
-																	<option value="">&nbsp;</option>
+																	<option value=""></option>
 																	<#list	allRes as list>
 																		<option value="${list.id}" <#if (list.id ==accessObject.resource.id)!> selected</#if>>${(list.name)! }</option>
 																	</#list>

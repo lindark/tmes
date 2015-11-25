@@ -9,12 +9,18 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <#include "/WEB-INF/template/common/includelist.ftl">
-<script type="text/javascript" src="${base}/template/common/js/jquery.form.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.methods.js"></script>
-<script type="text/javascript" src="${base}/template/common/js/jquery.validate.cn.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/browser/browserValidate.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.form.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.metadata.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.methods.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.cn.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/browser/browserValidate.js"></script>
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -58,8 +64,7 @@ body {
 										<div class="profile-info-name">登录名：</div>
 
 										<div class="profile-info-value">
-										<#if
-											isAdd??> <input type="text" name="admin.username"
+											<#if isAdd??> <input type="text" name="admin.username"
 												class="input input-sm formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}"
 												title="登录名只允许包含中文、英文、数字和下划线" /> <label class="requireField">*</label>
 											<#else> ${(admin.username)!} <input type="hidden"
@@ -126,10 +131,9 @@ body {
 											<#list allRole as list> <label> <input
 												type="checkbox" name="roleList.id"
 												class="{required: true, messages: {required: '请至少选择一个角色!'}, messagePosition: '#roleMessagePosition'}"
-												value="${list.id}"<#if
-												(admin.roleSet.contains(list) == true)!>
-												checked="checked"</#if> /> ${(list.name)!} </label> </#list> <span
-												id="roleMessagePosition"></span>
+												value="${list.id}"<#if (admin.roleSet.contains(list)
+												== true)!> checked="checked"</#if> /> ${(list.name)!} </label>
+											</#list> <span id="roleMessagePosition"></span>
 										</div>
 
 									</div>
@@ -198,18 +202,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<div class="profile-info-name">班组：</div>
-
-										<div class="profile-info-value">
-											<input type="text" name="admin.team.id"
-												class=" input input-sm  formText {required: true}"
-												value="${(admin.team.teamName)!}" />
-										</div>
-
-									</div>
-								</div>
-								<div class="profile-user-info profile-user-info-striped">
-									<div class="profile-info-row">
 										<div class="profile-info-name">状态：</div>
 
 										<div class="profile-info-value">
@@ -245,4 +237,31 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script type="text/javascript">
+	$(function(){
+		$("ceshi").focus(function(){
+			layer.open({
+				type : 2, 
+				area : [ '250px', '300px' ],
+				title : false,
+				shade : 0,
+				shadeClose : true,
+				offset : [ top, left ],
+				btn : [ '确定', '取消' ],
+				closeBtn : 0,
+				content : 'team!browser.action',
+				yes : function(index, layero) {
+					//var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+					//var ii = iframeWin.getName();
+					//$("#departName").val(ii);
+					//layer.close(index);
+				}
+			});
+			
+		})
+		
+	})
+
+	
+</script>
 </html>

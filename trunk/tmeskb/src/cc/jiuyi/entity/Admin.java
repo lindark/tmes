@@ -51,6 +51,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Model> modelSet;//一个人创建多个工模维修单
 	private Set<Model> modelSet1;//一个人检验多个工模维修单
 	private Set<Model> modelSet2;//一个人维修多个工模维修单
+	private Set<AbnormalLog> abnormalLogSet;//异常日志
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -492,4 +493,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setModelSet2(Set<Model> modelSet2) {
 		this.modelSet2 = modelSet2;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "operator")
+	public Set<AbnormalLog> getAbnormalLogSet() {
+		return abnormalLogSet;
+	}
+
+	public void setAbnormalLogSet(Set<AbnormalLog> abnormalLogSet) {
+		this.abnormalLogSet = abnormalLogSet;
+	}
+	
+	
 }

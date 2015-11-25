@@ -66,8 +66,8 @@ jQuery(function($) {
 		colNames:[ '时间','产品名称','班组', '工序', '创建人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productName',index:'productName',width:60, editable:true},
+			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
+			{name:'productsName',index:'productsName',width:60, editable:true},
 			{name:'team',index:'team', width:160,editable: true},
 			{name:'process',index:'process', width:160, editable: true},
 			{name:'founder',index:'founder', width:60, editable: true},

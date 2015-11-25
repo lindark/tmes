@@ -58,11 +58,13 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
 	private Set<Repairin> repairinConfirmUser;// 返修收货确认人
 	private Set<Repair> repairConfirmUser;// 返修收货确认人
+	private Set<Dump> dumpConfirmUser;//转储确认人
 	private Set<Repairin> repairinCreateUser;// 返修收货创建人
 	private Set<Repair> repairCreateUser;// 返修创建人
 	private Set<Carton> cartonCreateUser;// 纸箱收货创建人
 	private Set<DailyWork> dailyWorkCreateUser;// 报工创建人
 	private Set<EnteringwareHouse> enteringwareHouseCreateUser;// 入库创建人
+	private Set<Dump> dumpCreateUser;//转储创建人
 
 	private Set<Rework> duty;// 责任人名
 	private Set<Rework> confirmUser;// 创建人名
@@ -145,6 +147,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setRepairConfirmUser(Set<Repair> repairConfirmUser) {
 		this.repairConfirmUser = repairConfirmUser;
 	}
+	
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Dump> getDumpConfirmUser() {
+		return dumpConfirmUser;
+	}
+
+	public void setDumpConfirmUser(Set<Dump> dumpConfirmUser) {
+		this.dumpConfirmUser = dumpConfirmUser;
+	}
 
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<Repair> getRepairCreateUser() {
@@ -181,6 +192,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setEnteringwareHouseCreateUser(
 			Set<EnteringwareHouse> enteringwareHouseCreateUser) {
 		this.enteringwareHouseCreateUser = enteringwareHouseCreateUser;
+	}
+	
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Dump> getDumpCreateUser() {
+		return dumpCreateUser;
+	}
+
+	public void setDumpCreateUser(Set<Dump> dumpCreateUser) {
+		this.dumpCreateUser = dumpCreateUser;
 	}
 
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)

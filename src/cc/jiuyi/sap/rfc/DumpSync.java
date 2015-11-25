@@ -39,7 +39,7 @@ public class DumpSync {
 			dump.setVoucherId(table01.getString(""));// 物料凭证号
 			dump.setDeliveryDate(sdf.parse(table01.getString("")));//发货日期
 			dump.setState(table01.getString(""));// 状态
-			dump.setConfirmUser(table01.getString(""));// 确认人
+			//dump.setConfirmUser(table01.getString(""));// 确认人
 			list.add(dump);
 		}
 		dumpService.mergeDump(list);

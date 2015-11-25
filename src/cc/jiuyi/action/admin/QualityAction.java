@@ -21,11 +21,13 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
+import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -58,6 +60,8 @@ public class QualityAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private AbnormalLogService abnormalLogService;
 
 	// 添加
 	public String add() {
@@ -143,20 +147,18 @@ public class QualityAction extends BaseAdminAction {
 		quality.setIsDel("N");
 		quality.setState("0");
 		qualityService.save(quality);
-		
-		/*for (int i = 0; i < flowingRectifys.size(); i++) {
-			FlowingRectify v = flowingRectifys.get(i);
-			v.setQuality(quality);
-			v.setCreateDate(new Date());
-			v.setCreateUser("张三");
-			flowingRectifyService.save(v);
-		}*/
          
 		UnusualLog log = new UnusualLog();
 		log.setOperator(admin.getName());
 		log.setInfo("已提交");
 		log.setQuality(quality);
 		unusualLogService.save(log);
+		
+		AbnormalLog abnormalLog = new AbnormalLog();
+		abnormalLog.setAbnormal(abnormal);
+		abnormalLog.setInfo("已开质量问题单");
+		abnormalLog.setOperator(admin);
+		abnormalLogService.save(abnormalLog);
 		
 		redirectionUrl = "quality!list.action";
 		return SUCCESS;

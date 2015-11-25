@@ -142,9 +142,25 @@
 										<!-- /section:custom/widget-box -->
 									</div>
 									<div>
-									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="javascript:void(0);">
-										<i class="ace-icon fa fa-filter blue"></i>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
+										<i class="ace-icon fa fa-folder-open-o"></i>
 										创建领料单
+									</button>
+									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}">
+										<i class="ace-icon fa fa-folder-open-o"></i>
+										创建领料单
+									</a>
+									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
+										查看领料单
+									</a>
+									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+										<i class="ace-icon fa fa-cloud-upload"></i>
+										刷卡确认
+									</a>
+									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										刷卡撤销
 									</a>
 								   </div>
 							

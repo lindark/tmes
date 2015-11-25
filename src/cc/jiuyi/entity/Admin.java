@@ -60,6 +60,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Repair> repairCreateUser;//返修创建人
 	private Set<Carton> cartonCreateUser;//纸箱收货创建人
 	private Set<DailyWork> dailyWorkCreateUser;//报工创建人
+	private Set<EnteringwareHouse> enteringwareHouseCreateUser;//入库创建人
 
 	private Set<Rework> duty;//责任人名
 	private Set<Rework> confirmUser;//创建人名
@@ -121,7 +122,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.cartonConfirmUser = cartonConfirmUser;
 	}
 
-	@OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouseConfirmUser() {
 		return enteringwareHouseConfirmUser;
 	}
@@ -165,6 +166,16 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setDailyWorkCreateUser(Set<DailyWork> dailyWorkCreateUser) {
 		this.dailyWorkCreateUser = dailyWorkCreateUser;
+	}
+	
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<EnteringwareHouse> getEnteringwareHouseCreateUser() {
+		return enteringwareHouseCreateUser;
+	}
+
+	public void setEnteringwareHouseCreateUser(
+			Set<EnteringwareHouse> enteringwareHouseCreateUser) {
+		this.enteringwareHouseCreateUser = enteringwareHouseCreateUser;
 	}
 
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)

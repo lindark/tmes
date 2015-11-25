@@ -34,4 +34,7 @@ public interface EnteringwareHouseService extends
 			String convertUnit);
 
 	public List<EnteringwareHouse> getByBill(String workingBillId);
+
+	public void updateState(List<EnteringwareHouse> list, String statu,
+			String workingbillid,Integer ratio);
 }

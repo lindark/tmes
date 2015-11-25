@@ -27,8 +27,8 @@ public class EnteringwareHouse extends BaseEntity {
 	private static final long serialVersionUID = -3066164332463929036L;
 	private Integer totalSingleAmount;// 累计根量
 	private Integer storageAmount;// 入库数量
-	private String ConfirmUser;// 确认人
-	private String createUser;// 创建人
+	private Admin confirmUser;// 确认人
+	private Admin createUser;// 创建人
 	private String State;// 状态
 	private String isdel;// 是否删除
 	private String stateRemark;// 状态描述
@@ -36,7 +36,6 @@ public class EnteringwareHouse extends BaseEntity {
 	private String createName;// 创建人的名字
 
 	private WorkingBill workingbill;// 随工单
-	private Admin admin;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -45,15 +44,6 @@ public class EnteringwareHouse extends BaseEntity {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
 	}
 
 	public String getState() {
@@ -103,22 +93,6 @@ public class EnteringwareHouse extends BaseEntity {
 		this.stateRemark = stateRemark;
 	}
 
-	public String getConfirmUser() {
-		return ConfirmUser;
-	}
-
-	public void setConfirmUser(String confirmUser) {
-		ConfirmUser = confirmUser;
-	}
-
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
 	@Transient
 	public String getAdminName() {
 		return adminName;
@@ -136,4 +110,23 @@ public class EnteringwareHouse extends BaseEntity {
 	public void setCreateName(String createName) {
 		this.createName = createName;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Admin confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Admin createUser) {
+		this.createUser = createUser;
+	}
+	
 }

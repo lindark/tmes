@@ -42,7 +42,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	}
 
 	@Override
-	public void updateState(List<DailyWork> list, String statu,
+	public synchronized void updateState(List<DailyWork> list, String statu,
 			String workingbillid) {
 		Admin admin = adminservice.getLoginAdmin();
 		WorkingBill workingbill = workingbillService.get(workingbillid);

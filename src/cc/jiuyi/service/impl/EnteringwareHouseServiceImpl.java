@@ -71,7 +71,7 @@ public class EnteringwareHouseServiceImpl extends
 	}
 
 	@Override
-	public void updateState(List<EnteringwareHouse> list, String statu,
+	public synchronized void updateState(List<EnteringwareHouse> list, String statu,
 			String workingbillid,Integer ratio) {
 		Admin admin = adminservice.getLoginAdmin();
 		WorkingBill workingbill = workingbillService.get(workingbillid);

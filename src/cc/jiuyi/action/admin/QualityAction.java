@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -116,45 +118,42 @@ public class QualityAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Quality quality = (Quality) pagerlist.get(i);
-			quality.setAbnormal(null);
-			quality.setFlowingRectify(null);
-			quality.setUnusualLogSet(null);
-			quality.setFounder(adminService.load(quality.getCreateUser()).getName());
+			quality.setProductsName(quality.getProducts().getProductsName());
+			quality.setFounder(quality.getCreater().getName());
 			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", quality.getState()));		
 			pagerlist.set(i,quality);
 		}
 		pager.setList(pagerlist);
-
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Quality.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
 
 	public String save() {
-		
-		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-		Admin admin1 = adminService.get("username", loginUsername);
-		
+				
+		Admin admin = adminService.getLoginAdmin();
 		abnormal = abnormalService.load(abnormalId);
 		quality.setAbnormal(abnormal);
-		quality.setCreateUser(admin1.getId());
+		quality.setCreater(admin);
 		quality.setIsDel("N");
-		quality.setModifyUser(admin1.getId());
 		quality.setState("0");
 		qualityService.save(quality);
 		
-		for (int i = 0; i < flowingRectifys.size(); i++) {
+		/*for (int i = 0; i < flowingRectifys.size(); i++) {
 			FlowingRectify v = flowingRectifys.get(i);
 			v.setQuality(quality);
 			v.setCreateDate(new Date());
 			v.setCreateUser("张三");
 			flowingRectifyService.save(v);
-		}
+		}*/
          
 		UnusualLog log = new UnusualLog();
-		log.setOperator(admin1.getName());
+		log.setOperator(admin.getName());
 		log.setInfo("已提交");
 		log.setQuality(quality);
 		unusualLogService.save(log);
@@ -166,28 +165,32 @@ public class QualityAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Quality persistent = qualityService.load(id);
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater"});
 		
-		for (int i = 0; i < flowingRectifys.size(); i++) {
+	/*	for (int i = 0; i < flowingRectifys.size(); i++) {
 			FlowingRectify v = flowingRectifys.get(i);
 			v.setQuality(persistent);
 			v.setModifyDate(new Date());
 			v.setModifyUser("李四");
 			flowingRectifyService.save(v);
-		}
+		}*/
 		
 		qualityService.update(persistent);
 
 		redirectionUrl = "quality!list.action";
 		return SUCCESS;
 	}
+	
+	public String browser(){
+		return "browser";
+	}
 
 	// 删除
 	public String delete() throws Exception {
 		ids = id.split(",");
-		qualityService.delete(ids);
+		qualityService.updateisdel(ids, "Y");
 		redirectionUrl = "quality!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
 	public Quality getQuality() {

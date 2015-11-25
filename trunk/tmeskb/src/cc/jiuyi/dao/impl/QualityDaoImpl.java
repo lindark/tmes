@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.QualityDao;
+import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -23,45 +24,36 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements QualityDao {
     
 	public Pager getQualityPager(Pager pager, HashMap<String, String> map) {
-		//String wheresql = qualitypagerSql(pager);
+
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Quality.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		/*if (!wheresql.equals("")) {
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}*/
+
+		if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		}
+		
 		if (map.size() > 0) {
 			if(map.get("team")!=null){
 			    detachedCriteria.add(Restrictions.like("team", "%"+map.get("team")+"%"));
 			}
 			
 			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("productName", "%"+map.get("productName")+"%"));
+			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
 			}	
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	/*
-	public String qualitypagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		for(String id:ids){
+			Quality quality=super.load(id);
+			quality.setIsDel(oper);//标记删除
+			super.update(quality);
 		}
-		return wheresql;
-	}*/
+   }
 	
 }

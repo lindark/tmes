@@ -80,4 +80,14 @@ public class CauseDaoImpl extends BaseDaoImpl<Cause, String> implements
 		}
 
 	}
+
+	/**
+	 * 获取缺陷表中关于抽检的内容
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Cause> getBySample(String type)
+	{
+		String hql="from Cause where isDel='N' and causeType=?";
+		return this.getSession().createQuery(hql).setParameter(0, type).list();
+	}
 }

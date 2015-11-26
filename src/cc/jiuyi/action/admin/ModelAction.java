@@ -49,6 +49,7 @@ public class ModelAction extends BaseAdminAction {
 	private String aid;
 	private Abnormal abnormal;
 	private String abnormalId;
+	private Admin admin;
 
 	@Resource
 	private ModelService modelService;
@@ -68,6 +69,8 @@ public class ModelAction extends BaseAdminAction {
 		if (aid != null) {
 			abnormal = abnormalService.load(aid);
 		}
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		return INPUT;
 	}
 
@@ -90,7 +93,7 @@ public class ModelAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Model persistent = modelService.load(id);
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId" });
 		modelService.update(persistent);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
@@ -134,8 +137,7 @@ public class ModelAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
-			/*model.setAbnormal(null);
-			model.setModelLogSet(null);*/
+            model.setTeamName(model.getTeamId().getTeamName());
 			model.setProductName(model.getProducts().getProductsName());
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));	
@@ -231,4 +233,13 @@ public class ModelAction extends BaseAdminAction {
 		return dictService.getList("dictname", "modelType");
 	}
 
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	
 }

@@ -32,6 +32,12 @@ public class CraftServiceImpl extends BaseServiceImpl<Craft, String> implements 
 	public Pager getCraftPager(Pager pager, HashMap<String, String> map) {
 		return craftDao.getCraftPager(pager,map);
 	}
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		// TODO Auto-generated method stub
+		craftDao.updateisdel(ids, oper);
+	}
 }
 
 

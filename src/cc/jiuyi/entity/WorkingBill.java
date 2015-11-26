@@ -6,13 +6,19 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 实体类 - 随工单
  */
 
 @Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class WorkingBill extends BaseEntity {
 
 	private static final long serialVersionUID = 2547319998033961001L;
@@ -28,6 +34,8 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalSingleAmount;// 累计入库根量
 	private Integer totalRepairinAmount;// 累计返修收货数量
 	private Integer totalRepairAmount;// 累计返修数量
+	
+	private Integer amount;//交接数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Rework> rework;//返工
@@ -240,6 +248,7 @@ public class WorkingBill extends BaseEntity {
 			Set<HandOverProcess> afterhandoverprocessSet) {
 		this.afterhandoverprocessSet = afterhandoverprocessSet;
 	}
+
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="beforworkingbill")
 	public Set<HandOverProcess> getBeforhandoverprocessSet() {
 		return beforhandoverprocessSet;
@@ -249,6 +258,17 @@ public class WorkingBill extends BaseEntity {
 			Set<HandOverProcess> beforhandoverprocessSet) {
 		this.beforhandoverprocessSet = beforhandoverprocessSet;
 	}
+
+	@Transient
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+	}
+
+	
+	
 	
 	
 

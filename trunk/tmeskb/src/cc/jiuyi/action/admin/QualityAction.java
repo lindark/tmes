@@ -124,6 +124,7 @@ public class QualityAction extends BaseAdminAction {
 			Quality quality = (Quality) pagerlist.get(i);
 			quality.setProductsName(quality.getProducts().getProductsName());
 			quality.setFounder(quality.getCreater().getName());
+			quality.setProcessName(quality.getProcess().getProcessName());
 			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", quality.getState()));		
 			pagerlist.set(i,quality);
@@ -167,15 +168,7 @@ public class QualityAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Quality persistent = qualityService.load(id);
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater"});
-		
-	/*	for (int i = 0; i < flowingRectifys.size(); i++) {
-			FlowingRectify v = flowingRectifys.get(i);
-			v.setQuality(persistent);
-			v.setModifyDate(new Date());
-			v.setModifyUser("李四");
-			flowingRectifyService.save(v);
-		}*/
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater","process"});
 		
 		qualityService.update(persistent);
 

@@ -38,11 +38,12 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:['创建日期','确认人', '状态'],
+		colNames:['创建日期','创建人','确认人', '状态'],
 		colModel:[
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'confirmUser',index:'confirmUser', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:400, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
+			{name:'createDate',index:'createDate',lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xcreateUser',index:'createUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xconfirmUser',index:'confirmUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'state', width:300, cellattr:addstyle,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
 		], 
 
 		viewrecords : true,
@@ -73,25 +74,47 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//未确认
+		if(rawObject.state=="1")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已确认
+		if(rawObject.state=="2")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		//已撤销
+		if(rawObject.state=="3")
+		{
+			return "style='color:purple;font-weight:bold;'";
+		}
+	}
+	
+	
+	
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc : function(rowId) {
-		    	var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
-		    	if(ids.length>1){
-		    		alert("只能选择一条记录！");
-		    		return false;
-		    	}
-				//window.location.href = "products!edit.action?id=" + rowId;
-			},
+		    edit: false,
+//		    editfunc : function(rowId) {
+//		    	var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+//		    	if(ids.length>1){
+//		    		alert("只能选择一条记录！");
+//		    		return false;
+//		    	}
+//				//window.location.href = "products!edit.action?id=" + rowId;
+//			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(rowId){
 				window.location.href="working_bill!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

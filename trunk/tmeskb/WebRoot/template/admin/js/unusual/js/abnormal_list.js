@@ -127,30 +127,30 @@ jQuery(function($) {
 		//未响应
 		if(rawObject.state=="0")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:red;'";
 		}
 		
 		//未完全响应
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;font-weight:bold;'";
+			return "style='color:#FFBB66;'";
 		}
 		
 		//处理中
 		if(rawObject.state=="2")
 		{
-			return "style='color:green;font-weight:bold;'";
+			return "style='color:green;'";
 		}
 		//已撤销
 		if(rawObject.state=="3")
 		{
-			return "style='color:#AAAAAA;font-weight:bold;'";
+			return "style='color:#AAAAAA;'";
 		}
 		
 		//已撤销
 		if(rawObject.state=="4")
 		{
-			return "style='color:#DDDDDD;font-weight:bold;'";
+			return "style='color:#DDDDDD;'";
 		}
 	}
 

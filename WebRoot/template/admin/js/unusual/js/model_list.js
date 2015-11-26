@@ -67,7 +67,7 @@ jQuery(function($) {
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
 			{name:'productName',index:'productName',editable: true},
-			{name:'teamId',index:'teamId', width:120, editable: true},
+			{name:'teamName',index:'teamName', width:120, editable: true},
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
 			{name:'fixer',index:'fixer',sortable:false,editable: true},
 			{name:'stateRemark',index:'state',sortable:false,editable: true,search:false,cellattr:addstyle}		
@@ -123,19 +123,19 @@ jQuery(function($) {
 		//未响应
 		if(rawObject.state=="0")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:red;'";
 		}
 		
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;font-weight:bold;'";
+			return "style='color:#FFBB66;'";
 		}
 		
 		//已完结
 		if(rawObject.state=="2")
 		{
-			return "style='color:green;font-weight:bold;'";
+			return "style='color:green;'";
 		}
 	}
 

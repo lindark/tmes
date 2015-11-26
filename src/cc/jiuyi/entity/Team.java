@@ -40,6 +40,16 @@ public class Team extends BaseEntity {
 	private Set<Department> departmentSet; 
 	private Set<Quality> qualitySet;
 	private Set<Model> modelSet;
+	private Set<Craft> craftSet;
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
+	public Set<Craft> getCraftSet() {
+		return craftSet;
+	}
+
+	public void setCraftSet(Set<Craft> craftSet) {
+		this.craftSet = craftSet;
+	}	
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="teamId")
 	public Set<Model> getModelSet() {
@@ -165,5 +175,6 @@ public class Team extends BaseEntity {
 	public void setXfactoryUnitId(String xfactoryUnitId) {
 		this.xfactoryUnitId = xfactoryUnitId;
 	}
+	
 
 }

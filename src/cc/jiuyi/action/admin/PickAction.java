@@ -18,10 +18,12 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
@@ -40,15 +42,19 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 public class PickAction extends BaseAdminAction {
 
 
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2128586659077049709L;
+	private static final long serialVersionUID = 6045295823911487260L;
+	
+	private static final String CONFIRMED="2";
+	private static final String REPEAL="3";
 	
 	private Pick pick;
 	//获取所有状态
 	private List<Dict> allState;
+	private Admin admin;
 	
 	@Resource
 	private PickService pickService;
@@ -58,6 +64,8 @@ public class PickAction extends BaseAdminAction {
 	private WorkingBillService workingBillService;
 	@Resource
 	private PickDetailService pickDetailService;
+	@Resource
+	private AdminService adminService;
 	
 	
 	private String workingBillId;
@@ -90,10 +98,9 @@ public class PickAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if(pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -184,7 +191,49 @@ public class PickAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
+	//刷卡确认
+	public String confirms(){
+		ids= id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			pick=pickService.load(ids[i]);
+			if(REPEAL.equals(pick.getState())){
+				addActionError("已撤销的无法再撤销");
+				return ERROR;
+			}
+		 admin=adminService.getLoginAdmin();
+		 Pick persistent=pickService.load(id);
+		 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
+		 persistent.setState("2");
+		 persistent.setConfirmUser(admin);
+		 pickService.save(persistent);
+		 redirectionUrl="pick!list.action?workingBillId="
+				 +pick.getWorkingbill().getId();
+		}
+		return SUCCESS;
+	}
+	
+	//刷卡撤销
+		public String repeal(){
+			ids= id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				pick=pickService.load(ids[i]);
+				if(REPEAL.equals(pick.getState())){
+					addActionError("已撤销的无法再确认");
+					return ERROR;
+				}
+			 admin=adminService.getLoginAdmin();
+			 Pick persistent=pickService.load(id);
+			 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
+			 persistent.setState("3");
+			 persistent.setConfirmUser(admin);
+			 pickService.save(persistent);
+			 redirectionUrl="pick!list.action?workingBillId="
+					 +pick.getWorkingbill().getId();
+			}
+			return SUCCESS;
+		}
 
+	
 	
 
 	public WorkingBillService getWorkingBillService() {

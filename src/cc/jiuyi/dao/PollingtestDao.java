@@ -6,8 +6,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Pollingtest;
 
 /**
- * Dao接口
- * 巡检
+ * Dao接口 巡检
  */
 public interface PollingtestDao extends BaseDao<Pollingtest, String> {
 	/**
@@ -19,11 +18,13 @@ public interface PollingtestDao extends BaseDao<Pollingtest, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId);
-	
+
 	/**
 	 * 标记删除
+	 * 
 	 * @param id
-	 * @param oper Y/N
+	 * @param oper
+	 *            Y/N
 	 */
-	public void updateisdel(String[] ids,String oper);
+	public void updateisdel(String[] ids, String oper);
 }

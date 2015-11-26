@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -34,5 +35,13 @@ public class CauseServiceImpl extends BaseServiceImpl<Cause, String> implements
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		causeDao.updateisdel(ids, oper);
+	}
+	/**
+	 * 获取缺陷表中关于抽检的内容
+	 */
+	@Override
+	public List<Cause> getBySample(String type)
+	{
+		return this.causeDao.getBySample(type);
 	}
 }

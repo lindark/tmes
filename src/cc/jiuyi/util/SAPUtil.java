@@ -125,7 +125,6 @@ public class SAPUtil {
 		    JCO.Function bapi = ft.getFunction();
 	    	JCO.ParameterList  parameterList=bapi.getImportParameterList();//获得输入表的参数
 			JCO.ParameterList   inputtable= bapi.getTableParameterList();//输入表的处理
-			
 			//JCO.Table  IT_ITEM=inputtable.getTable("IT_ITEM");
 			/*
 			 * 输入参数

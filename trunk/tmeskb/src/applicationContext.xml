@@ -151,6 +151,8 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Repair</value>
 				<value>cc.jiuyi.entity.Pollingtest</value>
 				<value>cc.jiuyi.entity.PollingtestRecord</value>
+				<value>cc.jiuyi.entity.Sample</value>
+				<value>cc.jiuyi.entity.SampleRecord</value>
 			</list>
 		</property>
 	</bean>

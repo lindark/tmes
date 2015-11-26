@@ -1,3 +1,4 @@
+
 package cc.jiuyi.entity;
 
 import java.util.Date;
@@ -78,10 +79,36 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Rework> modifyUser;//返工修改人名
 	
 	private Set<PickDetail> pickDetailConfirmUser;//领料从表确认人
-	
 	private Set<Pick> pickConfirmUser;//领料主表确认人
 	private Set<Pick> pickCreateUser;//领料主表创建人
+	private Set<ItermediateTest> intermediateTestConfirmUser;//半成品巡检确认人
+	private Set<ItermediateTest> intermediateTestCreateUser;//半成品巡检创建人
+	
+	
+	//半成品巡检确认人
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<ItermediateTest> getIntermediateTestConfirmUser() {
+		return intermediateTestConfirmUser;
+	}
 
+	public void setIntermediateTestConfirmUser(
+			Set<ItermediateTest> intermediateTestConfirmUser) {
+		this.intermediateTestConfirmUser = intermediateTestConfirmUser;
+	}
+
+	//半成品巡检创建人
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<ItermediateTest> getIntermediateTestCreateUser() {
+		return intermediateTestCreateUser;
+	}
+
+	public void setIntermediateTestCreateUser(
+			Set<ItermediateTest> intermediateTestCreateUser) {
+		this.intermediateTestCreateUser = intermediateTestCreateUser;
+	}
+
+	
+	
 	//领料主表确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<Pick> getPickConfirmUser() {

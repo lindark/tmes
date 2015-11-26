@@ -199,24 +199,30 @@ body{background:#fff;}
 												</div>															
 										</div>
 								</div>
-										
-							
-				
-			<div class="buttonArea" >			              
-									<button class="btn btn-white btn-success btn-bold btn-round" id="completeRework" type=button>
-										<span class="bigger-110 no-text-shadow">刷卡提交</span>
+							</div>
+						</form>				
+						
+						<div>	
+				  
+				              
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
 									</button>									
-									<button class="btn btn-white btn-success btn-bold btn-round" id="checkRework" type=button>
-										<span class="bigger-110 no-text-shadow">刷卡回复</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="checkRework" type=button>
+										<i class="ace-icon glyphicon glyphicon-ok"></i>
+										刷卡回复
 									</button>
-									<button class="btn btn-white btn-success btn-bold btn-round" id="confirmRework" type=button>
-										<span class="bigger-110 no-text-shadow">刷卡确认</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmRework" type=button>
+										<i class="ace-icon fa fa-cloud-upload"></i>
+										刷卡确认
 									</button>
-									<button class="btn btn-white btn-success btn-bold btn-round" id="returnRework" type=button>
-										<span class="bigger-110 no-text-shadow">返回</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework" type=button>
+										<i class="ace-icon fa fa-home"></i>
+										返回
 									</button>
-			</div>
-		</form>
+                 	</div>
+	
 	
 <!-- add by welson 0728 -->	
 				</div><!-- /.col -->

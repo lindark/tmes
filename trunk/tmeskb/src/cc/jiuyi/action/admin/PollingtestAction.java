@@ -13,6 +13,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -21,7 +22,6 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pollingtest;
-import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
@@ -75,6 +75,14 @@ public class PollingtestAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	// 编辑
+	public String edit() {
+		pollingtest = pollingtestService.load(id);
+		workingbill = workingBillService.get(workingBillId);
+		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
+		return INPUT;
+	}
+
 	// 保存
 	public String save() {
 		admin = adminService.getLoginAdmin();
@@ -82,6 +90,16 @@ public class PollingtestAction extends BaseAdminAction {
 		pollingtestService.save(pollingtest);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
+		return SUCCESS;
+	}
+
+	public String update() {
+		Pollingtest persistent = pollingtestService.load(id);
+		BeanUtils
+				.copyProperties(pollingtest, persistent, new String[] { "id" });
+		pollingtestService.update(persistent);
+		redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ persistent.getWorkingbill().getId();
 		return SUCCESS;
 	}
 

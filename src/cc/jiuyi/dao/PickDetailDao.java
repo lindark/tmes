@@ -32,5 +32,12 @@ public interface PickDetailDao extends BaseDao<PickDetail,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	
+	/**
+	 * 根据id取领料从表数据
+	 * @param id
+	 * @return
+	 */
+	public List<PickDetail> getPickDetail(String id);
+	
 	
 }

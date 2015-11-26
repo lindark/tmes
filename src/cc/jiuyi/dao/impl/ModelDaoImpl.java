@@ -28,6 +28,10 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 				.forClass(Model.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
+		if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		}
+		
 		if (map.size() > 0) {
 
 			if(map.get("teamId")!=null){
@@ -35,7 +39,7 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			}
 			
 			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("productName", "%"+map.get("productName")+"%"));
+			    detachedCriteria.add(Restrictions.like("products.productName", "%"+map.get("productName")+"%"));
 			}
 			
 		}

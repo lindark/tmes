@@ -23,6 +23,7 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
@@ -223,6 +224,11 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setAbnormalId(String abnormalId) {
 		this.abnormalId = abnormalId;
+	}
+	
+	// 获取所有状态
+	public List<Dict> getAllState() {
+		return dictService.getList("dictname", "modelType");
 	}
 
 }

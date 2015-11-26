@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -19,11 +21,14 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.WorkShop;
+import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CraftLogService;
@@ -45,6 +50,7 @@ public class CraftAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private String loginUsername;
+	private Admin admin;
 	
 	@Resource
 	private CraftService craftService;
@@ -56,12 +62,16 @@ public class CraftAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private CraftLogService craftLogService;
+	@Resource
+	private AbnormalLogService abnormalLogService;
 	
 	// 添加
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
 		}	
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		return INPUT;
 	}
 
@@ -80,7 +90,7 @@ public class CraftAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Craft persistent = craftService.load(id);
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "classes","abnormal","isDel","state"});
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","state","products","creater"});
 		craftService.update(persistent);
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
@@ -129,19 +139,22 @@ public class CraftAction extends BaseAdminAction {
 			craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", craft.getState()));
 			craft.setCraftLogSet(null);
+			craft.setProductsName(craft.getProducts().getProductsName());
+			craft.setTeamName(craft.getTeam().getTeamName());
 			pagerlist.set(i, craft);
 		}
 		pager.setList(pagerlist);
-
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Craft.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
 	
 	public String save() {	
-		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-		Admin admin1 = adminService.get("username", loginUsername);
+		Admin admin = adminService.getLoginAdmin();
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
@@ -150,10 +163,16 @@ public class CraftAction extends BaseAdminAction {
 		craftService.save(craft);	
 		
 		CraftLog log = new CraftLog();
-		log.setOperator(admin1.getName());
+		log.setOperator(admin.getName());
 		log.setInfo("已提交");
 		log.setCraft(craft);
 		craftLogService.save(log);
+				
+		AbnormalLog abnormalLog = new AbnormalLog();
+		abnormalLog.setAbnormal(abnormal);
+		abnormalLog.setInfo("已开工艺维修单");
+		abnormalLog.setOperator(admin);
+		abnormalLogService.save(abnormalLog);
 		
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
@@ -162,9 +181,10 @@ public class CraftAction extends BaseAdminAction {
 	// 删除
 	public String delete() throws Exception {
 		ids=id.split(",");
-		craftService.delete(ids);
+		craftService.updateisdel(ids, "Y");
+		//craftService.delete(ids);
 		redirectionUrl = "craft!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
 	public Craft getCraft() {
@@ -206,6 +226,17 @@ public class CraftAction extends BaseAdminAction {
 	public void setLoginUsername(String loginUsername) {
 		this.loginUsername = loginUsername;
 	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
 	
-	
+	// 获取所有机台号
+	public List<Dict> getAllCode() {
+		return dictService.getList("dictname", "machineNo");
+	}
 }

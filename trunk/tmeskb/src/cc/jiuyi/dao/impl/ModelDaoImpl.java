@@ -32,10 +32,14 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			detachedCriteria.createAlias("products", "products");//表名，别名*/							
 		}
 		
+		if(!super.existAlias(detachedCriteria, "teamId", "team")){
+			detachedCriteria.createAlias("teamId", "team");//表名，别名*/							
+		}
+		
 		if (map.size() > 0) {
 
 			if(map.get("teamId")!=null){
-			    detachedCriteria.add(Restrictions.like("teamId", "%"+map.get("teamId")+"%"));
+			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("teamId")+"%"));
 			}
 			
 			if(map.get("productName")!=null){

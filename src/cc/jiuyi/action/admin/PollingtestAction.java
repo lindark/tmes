@@ -13,7 +13,6 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -90,16 +89,6 @@ public class PollingtestAction extends BaseAdminAction {
 		pollingtestService.save(pollingtest);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
-		return SUCCESS;
-	}
-
-	public String update() {
-		Pollingtest persistent = pollingtestService.load(id);
-		BeanUtils
-				.copyProperties(pollingtest, persistent, new String[] { "id" });
-		pollingtestService.update(persistent);
-		redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ persistent.getWorkingbill().getId();
 		return SUCCESS;
 	}
 

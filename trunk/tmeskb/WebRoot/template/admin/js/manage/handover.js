@@ -9,7 +9,7 @@ $(function(){
 		var title = "工序交接";
 		var width="800px";
 		var height="400px";
-		var content="hand_over_process!add.action?matnr="+materialCode+"&processid="+active;
+		var content="hand_over_process!add.action?materialCode="+materialCode+"&processid="+active;
 		layer.open({
 	        type: 2,
 	        //skin: 'layui-layer-lan',

@@ -28,8 +28,8 @@ public class Model extends BaseEntity{
 	private Admin initiator;//提报人
 	private String failDescript;//不良现象描述
 	private Integer defaltNo;//缺陷数量
-	private Admin insepector;//检验员
-	private Admin fixer;//维修人员
+	private String insepector;//检验员
+	private String fixer;//维修人员
 	
 	private Date confirmTime;//确认时间
 	private Date arriveTime;//到场时间
@@ -177,22 +177,19 @@ public class Model extends BaseEntity{
 	public void setInitiator(Admin initiator) {
 		this.initiator = initiator;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getInsepector() {
+	public String getInsepector() {
 		return insepector;
 	}
-	public void setInsepector(Admin insepector) {
+	public void setInsepector(String insepector) {
 		this.insepector = insepector;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getFixer() {
+	public String getFixer() {
 		return fixer;
 	}
-	public void setFixer(Admin fixer) {
+	public void setFixer(String fixer) {
 		this.fixer = fixer;
 	}
+	
 	
 	
 	

@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.PickDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Service实现类 -领/退料主表
@@ -23,6 +27,10 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 
 	@Resource
 	private PickDao pickDao;
+	@Resource
+	private WorkingBillService workingbillService;
+	@Resource
+	private AdminService adminservice;
 	
 	@Resource
 	public void setBaseDao(PickDao pickDao){
@@ -59,5 +67,7 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 		pickDao.updateisdel(ids, oper);
 		
 	}
+
+
 	
 }

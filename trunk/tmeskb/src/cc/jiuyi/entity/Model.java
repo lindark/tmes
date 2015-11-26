@@ -24,7 +24,7 @@ public class Model extends BaseEntity{
 	
     private Products products;
 	private String type;//种类
-	private String teamId;//班组
+	private Team teamId;//班组
 	private Admin initiator;//提报人
 	private String failDescript;//不良现象描述
 	private Integer defaltNo;//缺陷数量
@@ -46,6 +46,7 @@ public class Model extends BaseEntity{
 	private String stateRemark;//状态描述 
 	private Set<ModelLog> modelLogSet;//异常日志 
 	private String productName;//产品名称	
+	private String teamName;//班组名称
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
@@ -59,12 +60,6 @@ public class Model extends BaseEntity{
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public String getTeamId() {
-		return teamId;
-	}
-	public void setTeamId(String teamId) {
-		this.teamId = teamId;
 	}
 
 	public String getFailDescript() {
@@ -188,6 +183,22 @@ public class Model extends BaseEntity{
 	}
 	public void setFixer(String fixer) {
 		this.fixer = fixer;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Team getTeamId() {
+		return teamId;
+	}
+	public void setTeamId(Team teamId) {
+		this.teamId = teamId;
+	}
+	
+	@Transient
+	public String getTeamName() {
+		return teamName;
+	}
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 	
 	

@@ -89,7 +89,7 @@ public class ModelAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Model persistent = modelService.load(id);
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products" });
 		modelService.update(persistent);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;

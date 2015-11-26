@@ -48,7 +48,7 @@ jQuery(function($){
 			{name:'reworkAmount',index:'reworkAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'defectAmount',index:'defectAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stateRemark',index:'state', width:200, cellattr:addstyle,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
-			{name:'isCompeletes',index:'isCompelete', width:200,label:"完工状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
+			{name:'isCompeletes',index:'isCompelete', width:200,label:"完工状态",cellattr:addstyle1,sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
 		], 
 
 
@@ -80,6 +80,23 @@ jQuery(function($){
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	
+	//给状态加样式
+	function addstyle1(rowId, val, rawObject, cm, rdata)
+	{
+		
+		//待确认
+		if(rawObject.state=="Y")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已确认
+		if(rawObject.state=="N")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		
+	}
 	
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)

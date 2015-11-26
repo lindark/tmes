@@ -72,6 +72,11 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		Assert.notNull(id, "id is required");
 		return (T) getSession().load(entityClass, id);
 	}
+	
+	public T merge(T entity){
+		Assert.notNull(entity, "entity is required");
+		return (T) getSession().merge(entity);
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> get(PK[] ids) {
@@ -120,6 +125,12 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		}
 		return query.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> getList(String propertyName,Object[] objlist){
+		String hql="from "+entityClass.getName()+" as model where model."+propertyName+" in (:list)";
+		return getSession().createQuery(hql).setParameterList("list", objlist).list();		
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> getAll() {
@@ -154,6 +165,28 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		Assert.hasText(propertyName, "propertyName must not be empty");
 		Assert.notNull(value, "value is required");
 		T object = get(propertyName, value);
+		return (object != null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean isExist(String[] propertyNames, Object[] propertyValues) {
+		if (!(propertyNames != null && propertyValues != null && propertyValues.length == propertyNames.length)) {
+			throw new RuntimeException(
+					"请提供正确的参数值！propertyNames与propertyValues必须一一对应!");
+		}
+		String hql = "from " + entityClass.getName()
+				+ " as model where ";
+		for (int i = 0; i < propertyValues.length; i++) {
+			hql += " model." + propertyNames[i] + " = ? ";
+			if (i != propertyValues.length - 1) {
+				hql += " and ";
+			}
+		}
+		Query query = getSession().createQuery(hql);
+		for(int i=0;i<propertyValues.length;i++){
+			query.setParameter(i, propertyValues[i]);
+		}
+		T object = (T) query.uniqueResult();
 		return (object != null);
 	}
 
@@ -382,6 +415,26 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 			e.printStackTrace();
 		}
 		return existAlias(ci, path, alias);
+	}
+
+	public T get(String[] propertyNames, Object[] propertyValues) {
+		if (!(propertyNames != null && propertyValues != null && propertyValues.length == propertyNames.length)) {
+			throw new RuntimeException(
+					"请提供正确的参数值！propertyNames与propertyValues必须一一对应!");
+		}
+		String hql = "from " + entityClass.getName()
+				+ " as model where ";
+		for (int i = 0; i < propertyValues.length; i++) {
+			hql += " model." + propertyNames[i] + " = ? ";
+			if (i != propertyValues.length - 1) {
+				hql += " and ";
+			}
+		}
+		Query query = getSession().createQuery(hql);
+		for(int i=0;i<propertyValues.length;i++){
+			query.setParameter(i, propertyValues[i]);
+		}
+		return (T) query.uniqueResult();
 	}
 
 }

@@ -23,20 +23,8 @@ import cc.jiuyi.entity.HandOverProcess;
 public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String> implements
 		HandOverProcessDao {
 
-	@Override
-	public void delete(String id) {
-		HandOverProcess handOverProcess = load(id);
-		this.delete(handOverProcess);
-	}
+	
 
-	@Override
-	public void delete(String[] ids) {
-		for (String id : ids) {
-			this.delete(id);
-		}
-	}
-
-	@Override
 	@SuppressWarnings("unchecked")
 	public List<HandOverProcess> getHandOverProcessList() {
 		String hql = "From HandOverProcess handOverProcess order by handOverProcess.id asc handOverProcess.crateDate desc";
@@ -94,7 +82,6 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 		return wheresql;
 	}
 
-	@Override
 	public void updateisdel(String[] ids, String oper) {
 		for (String id : ids) {
 			HandOverProcess handOverProcess = super.load(id);
@@ -103,5 +90,12 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 		}
 
 	}
-
+	
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr){
+		String hql="from HandOverProcess a where a.material.materialCode = ? and a.process.id=? and a.beforworkingbill.matnr=?";
+		return (HandOverProcess) getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, processid).setParameter(2, matnr).uniqueResult();
+	}
+	
+	
+	
 }

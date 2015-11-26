@@ -13,6 +13,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.CraftDao;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.WorkShop;
 
 /**
@@ -27,19 +28,36 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Craft.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
+		
+		if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "team", "team")){
+			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+		}
 
 		if (map.size() > 0) {			
 			
 			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("classes", "%"+map.get("team")+"%"));
+			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
 			}
 			
 			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("productsName", "%"+map.get("productName")+"%"));
+			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
 			}			
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		for(String id:ids){
+			Craft craft=super.load(id);
+			craft.setIsDel(oper);//标记删除
+			super.update(craft);
+		}
+   }
 
 }

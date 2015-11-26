@@ -118,7 +118,7 @@ th {
 														<div class="profile-info-name"> 工厂</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username"></span>
+															<span class="editable editable-click" id="username">${(admin.department.team.factoryUnit.workShop.factory.factoryName)!}</span>
 														</div>
 													</div>
 	
@@ -126,7 +126,7 @@ th {
 														<div class="profile-info-name">车间</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username"></span>			
+															<span class="editable editable-click" id="username">${(admin.department.team.factoryUnit.workShop.workShopName)!}</span>			
 														</div>
 													</div>
 	
@@ -134,7 +134,7 @@ th {
 														<div class="profile-info-name"> 单元 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age"></span>
+															<span class="editable editable-click" id="age">${(admin.department.team.factoryUnit.factoryUnitName)!}</span>
 														</div>
 													</div>
 	
@@ -142,17 +142,10 @@ th {
 														<div class="profile-info-name"> 班组</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup"></span>
+															<span class="editable editable-click" id="signup">${admin.department.team.teamName }</span>
 														</div>
 													</div>
-
-                                                  <div class="profile-info-row">
-														<div class="profile-info-name">时间</div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup"></span>
-														</div>
-													</div> 
+    
 												</div>
 											</div>
 										</div>
@@ -193,26 +186,17 @@ th {
 										</div>
 
 										<div class="widget-body">
-											<div class="widget-main">
-                                              
-												<div style="height:160px;padding-left:180px;padding-top:45px;"> 
+											<div class="widget-main">                                             
+												<div style="height:130px;padding-left:186px;padding-top:42px;"> 
 												<button class="btn btn-success call" id="callRing">呼叫</button> 												
-												</div>
-												 										   
-										
+												</div>												 										   										
 											</div>
 										</div>
 									</div>
 								</div>
-								
-								
-								
+																								
                                
-							</div>
-							
-							
-							
-							
+							</div>																												
 
 							<div class="row buttons">
 							     

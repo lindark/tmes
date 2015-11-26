@@ -16,11 +16,14 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
+import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -55,7 +58,12 @@ public class PickDetailAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private MaterialService materialService;
+	@Resource
+	private ProductsService productsServce;
+	@Resource
+	private PickService pickService;
 	
+	private String productsId;
 	private WorkingBill workingbill;
 	private String workingBillId;
 	
@@ -76,6 +84,8 @@ public class PickDetailAction extends BaseAdminAction {
     private String text;
     private List<Material> materialList;
     private List<PickDetail> pickDetailList;
+    private List<PickDetail> pkList;
+    
  
 	public List<PickDetail> getPickDetailList() {
 		return pickDetailList;
@@ -119,18 +129,17 @@ public class PickDetailAction extends BaseAdminAction {
 	public String list(){
 		Admin admin=adminService.getLoginAdmin();
 		admin=adminService.get(admin.getId());
-		materialList=materialService.getMantrBom(matnr);
+		Products products=productsServce.getProducts(matnr);
+		materialList=new ArrayList<Material>(products.getMaterial());
 		workingbill = workingBillService.get(workingBillId);	
 		return LIST;
 	}
 	
-	public String getWorkingBillId() {
-		return workingBillId;
-	}
-
-
-	public void setWorkingBillId(String workingBillId) {
-		this.workingBillId = workingBillId;
+    //查看页面
+	public String view(){
+		pick=pickService.load(id);
+		pkList=pickDetailService.getPickDetail(id);
+		return VIEW;
 	}
 
 
@@ -374,7 +383,14 @@ public class PickDetailAction extends BaseAdminAction {
 	}
 
 
+	public String getWorkingBillId() {
+		return workingBillId;
+	}
 
+
+	public void setWorkingBillId(String workingBillId) {
+		this.workingBillId = workingBillId;
+	}
 	
 	
 	

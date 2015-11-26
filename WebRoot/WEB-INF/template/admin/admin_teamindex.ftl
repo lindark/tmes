@@ -126,7 +126,7 @@
 													  <@ww.access accobjkey="rework"/><!--返工 -->
 													  <@ww.access accobjkey="repair"/><!--返修 -->
 													  <@ww.access accobjkey="repairgoods"/><!--返修收货 -->
-													  <@ww.access accobjkey="sampling"/><!--抽检 -->
+													  <@ww.access accobjkey="sample"/><!--抽检 -->
 													  <@ww.access accobjkey="inspection"/><!--巡检 -->
 													  <@ww.access accobjkey="halfinspection"/><!--半成品巡检 -->
 													  <@ww.access accobjkey="quickresponse"/><!--快速响应 -->

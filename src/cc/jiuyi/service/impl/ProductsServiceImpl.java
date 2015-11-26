@@ -93,6 +93,12 @@ public class ProductsServiceImpl extends BaseServiceImpl<Products, String>implem
 		return productsDao.getAllProcess();
 	}
 
+	@Override
+	public Products getProducts(String matnr) {
+		// TODO Auto-generated method stub
+		return productsDao.getProducts(matnr);
+	}
+
 	
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
@@ -61,11 +62,33 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	}
 	
 	@Override
-	public void save(List<HandOverProcess> handoverprocessList) {
+	public void saveorupdate(List<HandOverProcess> handoverprocessList) {
 		for(HandOverProcess handoverprocess : handoverprocessList){
-			handOverProcessDao.save(handoverprocess);
+			String[] propertyNames = {"material.id","process.id","beforworkingbill.id"};
+			Object[] propertyValues = {handoverprocess.getMaterial().getId(), handoverprocess.getProcess().getId(),handoverprocess.getBeforworkingbill().getId()};
+			HandOverProcess handover = handOverProcessDao.get(propertyNames, propertyValues);
+			if(handover != null){
+				if(handoverprocess.getAmount() <=0){
+					handOverProcessDao.delete(handover);
+				}else{
+					handoverprocess.setId(handover.getId());
+					handOverProcessDao.merge(handoverprocess);//对象不属于持久化
+				}
+			}
+			else{
+				if(handoverprocess.getAmount() > 0){
+					handOverProcessDao.save(handoverprocess);
+				}
+			}
+				
 		}
 		
+	}
+
+	@Override
+	public HandOverProcess findhandoverBypro(String materialCode,
+			String processid, String matnr) {
+		return handOverProcessDao.findhandoverBypro(materialCode, processid, matnr);
 	}
 	
 }

@@ -68,6 +68,10 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 	public PK save(T entity) {
 		return baseDao.save(entity);
 	}
+	
+	public T merge(T entity){
+		return baseDao.merge(entity);
+	}
 
 	public void update(T entity) {
 		baseDao.update(entity);
@@ -103,6 +107,11 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
 	
 	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria) {
 		return baseDao.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<T> getList(String propertyName, Object[] objlist) {
+		return baseDao.getList(propertyName, objlist);
 	}
 
 	

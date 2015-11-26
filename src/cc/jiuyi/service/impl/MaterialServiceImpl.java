@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springmodules.cache.annotations.CacheFlush;
+import org.springmodules.cache.annotations.Cacheable;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -75,6 +77,22 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 		// TODO Auto-generated method stub
 		return materialDao.getMantrBom(matnrs);
 	}
-
+	
+	@Override
+	@Cacheable(modelId="caching")
+	public Material get(String id) {
+		return materialDao.get(id);
+	}
+	@Override
+	@Cacheable(modelId="caching")
+	public Material get(String propertyName, Object value) {
+		return materialDao.get(propertyName, value);
+	}
+	
+	@Override
+	@CacheFlush(modelId="flushing")
+	public void update(Material entity) {
+		materialDao.update(entity);
+	}
 	
 }

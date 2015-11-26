@@ -128,13 +128,12 @@ body {
 
 												<div class="profile-info-value">
 												    <#if isAdd??>
-												       <input type="text" name="quality.team"
-														value="${(abnormal.teamId)!}"
+												       <input type="text" name="quality.team.teamName"
+														value="${(admin.department.team.teamName)!}"
 														class=" input input-sm  formText {required: true}" />
+													   <input type="hidden" name="quality.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
-												       <input type="text" name="quality.team"
-														value="${(quality.team)!}"
-														class=" input input-sm  formText {required: true}" />
+												       ${(quality.team.teamName)!}												       
 												    </#if>													
 												</div>
 												<div class="profile-info-name">挤出批次</div>

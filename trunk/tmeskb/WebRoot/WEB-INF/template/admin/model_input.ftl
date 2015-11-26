@@ -103,9 +103,14 @@ body {
 												<div class="profile-info-name">班组</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="model.teamId"
-														value="${(model.teamId)!}"
+												   <#if isAdd??>
+												       <input type="text" name="model.teamId.teamName"
+														value="${(admin.department.team.teamName)!}"
 														class=" input input-sm  formText {required: true}" />
+													   <input type="hidden" name="model.teamId.id" value="${(admin.department.team.id)!}"/>
+												    <#else>
+												       ${(model.teamId.teamName)!}												       
+												    </#if>									
 												</div>
 
 

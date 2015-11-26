@@ -9,6 +9,18 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <#include "/WEB-INF/template/common/includelist.ftl">
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.form.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.metadata.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.methods.js"></script>
+<script type="text/javascript"
+	src="${base}/template/common/js/jquery.validate.cn.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/browser/browserValidate.js"></script>
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -69,7 +81,7 @@ body {
 													<input type="hidden" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
 													<input type="hidden" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
 													<input type="hidden" name="handoverprocessList[${num }].process.id" value="${processid }"/><!-- 工序-->
-													<input type="text" name="handoverprocessList[${num }].amount" value=""/><!-- 数量 -->
+													<input type="text" class="formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 数量 -->
 												</td>
 											</tr>
 											<#assign  num=num+1/>
@@ -77,6 +89,7 @@ body {
 
 									</tbody>
 								</table>
+								<span id="MessagePosition"></span>
 								<div class="buttonArea" style="display:none">
 									<input type="submit" class="formButton" id="submit_btn"
 										value="确  定" hidefocus="true" />
@@ -110,6 +123,7 @@ body {
 	})
 	
 	function loadHandover(){
+		/*
 		$.ajax({	
 			url: "hand_over_process!getAmount.action",
 			data: $("#inputForm").serialize(),
@@ -125,6 +139,7 @@ body {
 				*/
 			}
 		});
+		*/
 		
 	}
 </script>

@@ -168,7 +168,7 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: true,
+			edit: false,
 			editfunc:function(rowId){
 				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(ids.length>1){

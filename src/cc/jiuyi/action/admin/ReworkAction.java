@@ -95,13 +95,12 @@ public class ReworkAction extends BaseAdminAction {
 	 */
 	public String ajlist(){
 
-		try {
+		
 			HashMap<String, String> map = new HashMap<String, String>();
 			workingbill = workingBillService.get(workingBillId);
-			if(pager == null) {
-				pager = new Pager();
-				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("orderList");
+			if(pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
 			}
 			if(pager.is_search()==true && filters != null){//需要查询条件
 				JSONObject filt = JSONObject.fromObject(filters);
@@ -161,10 +160,7 @@ public class ReworkAction extends BaseAdminAction {
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Rework.class));//排除有关联关系的属性字段  
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 			 return ajaxJson(jsonArray.get(0).toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	
 		
 	}
 	
@@ -289,6 +285,8 @@ public class ReworkAction extends BaseAdminAction {
 				return ERROR;
 			}
 		}	
+		admin=adminService.getLoginAdmin();
+		rework.setConfirmUser(admin);
 		rework.setState(UNDO);
 		reworkService.update(rework);
 		workingBillService.update(workingbill);

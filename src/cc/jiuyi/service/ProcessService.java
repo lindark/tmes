@@ -55,4 +55,10 @@ public interface ProcessService extends BaseService<Process, String> {
 	 * @return
 	 */
 	public List<Process> findProcess(List<WorkingBill> workingbill);
+	
+	/**
+	 * 根据产品id找到所对应的工序
+	 */
+	
+	public List<Process> findProcessByProductsId(String id);
 }

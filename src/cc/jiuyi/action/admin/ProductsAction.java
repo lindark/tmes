@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +21,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
@@ -165,7 +168,10 @@ public class ProductsAction extends BaseAdminAction {
 			lst.add(products);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Products.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 

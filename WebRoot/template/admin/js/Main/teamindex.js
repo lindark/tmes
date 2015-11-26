@@ -140,7 +140,6 @@ function getCKboxById() {
 			id = sId;
 		ishead = 1;
 	});
-	alert(id);
 	return id;
 }
 

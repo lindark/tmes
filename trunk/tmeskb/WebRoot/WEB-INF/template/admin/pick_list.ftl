@@ -50,118 +50,92 @@
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content" id="page-content">					
 					<div class="page-content-area">
-						<div class="row">
-							<div class="col-xs-12">
-								<div class="row">
-									<div class="col-xs-12 col-sm-6 widget-container-col">
-										<!-- #section:custom/widget-box -->
-										<div class="widget-box">
-											<div class="widget-header">
-												<h5 class="widget-title">当前随工单信息</h5>
+							<div class="row">
+						<div class="col-xs-12">
+							<!-- ./ add by weitao  -->
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header">
+											<h4 class="widget-title lighter">随工单信息</h4>
 
-												<!-- #section:custom/widget-box.toolbar -->
-												<div class="widget-toolbar">
-													<div class="widget-menu">
-														<a href="#" data-action="settings" data-toggle="dropdown">
-															<i class="ace-icon fa fa-bars"></i>
-														</a>
-
-														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-															<li>
-																<a data-toggle="tab" href="#dropdown1">Option#1</a>
-															</li>
-
-															<li>
-																<a data-toggle="tab" href="#dropdown2">Option#2</a>
-															</li>
-														</ul>
-													</div>
-
-													<a href="#" data-action="fullscreen" class="orange2">
-														<i class="ace-icon fa fa-expand"></i>
-													</a>
-
-													<a href="#" data-action="reload">
-														<i class="ace-icon fa fa-refresh"></i>
-													</a>
-
-													<a href="#" data-action="collapse">
-														<i class="ace-icon fa fa-chevron-up"></i>
-													</a>
-
-													<a href="#" data-action="close">
-														<i class="ace-icon fa fa-times"></i>
-													</a>
-												</div>
-
-												<!-- /section:custom/widget-box.toolbar -->
+											<div class="widget-toolbar no-border">
+												<a href="#" data-action="settings"> <i
+													class="ace-icon fa fa-cog"></i> </a> <a href="#"
+													data-action="reload"> <i class="ace-icon fa fa-refresh"></i>
+												</a> <a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a> <a href="#"
+													data-action="close"> <i class="ace-icon fa fa-times"></i>
+												</a>
 											</div>
+										</div>
 
-											<div class="widget-body">
-												<div class="widget-main">
-													<div class="profile-user-info profile-user-info-striped">
+										<div class="widget-body">
+											<div
+												class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
-														<div class="profile-info-name"> 随工单号 </div>
-	
+														<div class="profile-info-name">随工单号</div>
+
 														<div class="profile-info-value">
 															<span class="editable editable-click">${workingbill.workingBillCode}</span>
 														</div>
-													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 产品编号 </div>
-	
+														
+														
+														<div class="profile-info-name">产品编号</div>
+
 														<div class="profile-info-value">
 															<!--<i class="fa fa-map-marker light-orange bigger-110"></i>-->
-															<span class="editable editable-click" id="productCode">${workingbill.matnr}</span>
+															<span class="editable editable-click" id="username">${workingbill.matnr}</span>
 															<!--<span	 class="editable editable-click" id="country">Netherlands</span>-->
 															<!--<span class="editable editable-click" id="city">Amsterdam</span>-->
 														</div>
 													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 产品名称 </div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click">${workingbill.maktx}</span>
-														</div>
-													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 班组/班次 </div>
-	
-														<div class="profile-info-value">
-															<span class="editable editable-click">2010/06/20</span>
-														</div>
-													</div>
 
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组/班次</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="signup">2010/06/20</span>
+														</div>
+														<div class="profile-info-name">产品名称</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+														
+													</div>
 												</div>
 											</div>
 										</div>
-
-										<!-- /section:custom/widget-box -->
 									</div>
+								</div>
+							</div>
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
 										创建领料单
 									</button>
-									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}">
+									<!--  <a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}">
 										<i class="ace-icon fa fa-folder-open-o"></i>
 										创建领料单
-									</a>
-									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+									</a>-->
+									<button class="btn btn-white btn-default btn-sm btn-round" id="viewPick" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看领料单
-									</a>
-									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmPick" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
-									</a>
-									<a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="#">
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="repealPick" type=button>
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</a>
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnPick">
+										<i class="ace-icon fa fa-home"></i>
+										返回
+									</button>
 								   </div>
 							
 								<!-- PAGE CONTENT BEGINS -->
@@ -234,22 +208,49 @@
 			
 		})
 		
-		/*
-		var ishead3=0;
-		$(".hsub").click(function(){
-			if(ishead3==0){
-				alert("OK");
-				ishead3=1;
-				$(".hsub").addClass("open");
-				//$(this).find(".submenu").removeClass("nav-hide");
+		$("#addPick").click(function(){
+			window.location.href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
+			
+		});
+		
+		
+		$("#confirmPick").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条记录！");
 			}else{
-				ishead3=0;
-				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+				window.location.href="pick!confirms.action?id="+id;			
 			}
 			
-		})
-		*/
+		});
+		
+		$("#repealPick").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条记录！");
+			}else{
+				window.location.href="pick!repeal.action?id="+id;			
+			}
+			
+		});
+		
+		
+		$("#viewPick").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条记录！");
+			}else{
+				window.location.href="pick_detail!view.action?id="+id;			
+			}
+			
+		});
+		
+		$("#returnPick").click(function(){
+			window.history.back();
+		});
 	})
 	
 	

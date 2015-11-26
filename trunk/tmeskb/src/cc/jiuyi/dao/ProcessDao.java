@@ -51,4 +51,7 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 * @return
 	 */
 	public List<Process> findProcess(Object[] productsCodes);
+	
+	
+	public List<Process> findProcessByProductsId(String id);
 }

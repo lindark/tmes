@@ -11,4 +11,11 @@ import cc.jiuyi.entity.Craft;
 public interface CraftDao extends BaseDao<Craft, String> {
 
 	public Pager getCraftPager(Pager pager,HashMap<String,String>map);
+	
+	/**
+	 * 标记删除
+	 * @param ids
+	 * @param oper Y/N
+	 */
+	public void updateisdel(String[] ids,String oper);
 }

@@ -111,10 +111,13 @@ body {
 												<div class="profile-info-name">生产工序</div>
 
 												<div class="profile-info-value" >
-													<select name="quality.process">
-														<option value="1">裁切</option>
-														<option value="2">接角</option>
+												     <#if isAdd??>												    
+													<select name="quality.process.id" id="processName">
+														
 													</select>
+													<#else>
+													${(quality.process.processName)!}
+													</#if>
 												</div>
 
 											</div>
@@ -258,7 +261,7 @@ body {
 													<div>
 													<input type="hidden" name="flowingId" value="${(list.id)!}"/>
 													<textarea name="flowingRectify.content"
-														style="width:600px;" class="text">${(list.content)!}</textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
+														style="width:600px;" class="text">${(list.content)!}</textarea>${(list.content)!}&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
 													</div>
 													</td>
 												</tr>
@@ -346,9 +349,7 @@ $(function() {
 		} else {
 			alert("请至少保留一个选项!");
 		}
-	})
-	
-	
+	})		
 	
 })
 </script>

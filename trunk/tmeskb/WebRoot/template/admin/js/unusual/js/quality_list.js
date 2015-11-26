@@ -69,9 +69,9 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
 			{name:'productsName',index:'productsName',width:60, editable:true},
 			{name:'team',index:'team', width:160,editable: true},
-			{name:'process',index:'process', width:160, editable: true},
+			{name:'processName',index:'processName', width:160, editable: true},
 			{name:'founder',index:'founder', width:60, editable: true},
-			{name:'stateRemark',index:'stateRemark', width:60,editable: true,search:false}		
+			{name:'stateRemark',index:'state', width:60,editable: true,search:false,cellattr:addstyle}		
 		], 
 
 		viewrecords : true,
@@ -117,6 +117,27 @@ jQuery(function($) {
 		}, 0);
 	}
 
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//已提交
+		if(rawObject.state=="0")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		
+		//已回复
+		if(rawObject.state=="1")
+		{
+			return "style='color:#FFBB66;font-weight:bold;'";
+		}
+		
+		//已完结
+		if(rawObject.state=="2")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+	}
 
 
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,

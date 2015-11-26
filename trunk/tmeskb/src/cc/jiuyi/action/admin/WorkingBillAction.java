@@ -18,7 +18,7 @@ import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.sap.rfc.Repairorder;
+import cc.jiuyi.sap.rfc.impl.RepairorderImpl;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
@@ -139,14 +139,14 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	//同步
 	public String sync() {
-		Repairorder r = new Repairorder();
-		try {
-			r.syncRepairorder(workingbillService);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}//同步
-		redirectionUrl = "working_bill!list.action";
+//		RepairorderImpl r = new RepairorderImpl();
+//		try {
+//			r.syncRepairorder(workingbillService);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return ERROR;
+//		}//同步
+//		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}
 

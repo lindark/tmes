@@ -55,7 +55,7 @@ public class WorkingBillServiceImpl extends
 			boolean flag = workingbilldao.isExist("workingBillCode",
 					workingbill.getWorkingBillCode());
 			if (flag)
-				workingbilldao.updateWorkingBill(workingbill);
+				this.updateWorkingBill(workingbill);
 			else
 				workingbilldao.save(workingbill);
 		}
@@ -113,6 +113,11 @@ public class WorkingBillServiceImpl extends
 		//workingbilldao.isExist("workingBillCode", value)
 		
 		return null;
+	}
+
+	@Cacheable(modelId = "flushing")
+	public void updateWorkingBill(WorkingBill workingbill) {
+		workingbilldao.updateWorkingBill(workingbill);
 	}
 
 }

@@ -45,15 +45,15 @@ public class ReworkDaoImpl extends BaseDaoImpl<Rework, String> implements Rework
 	public Pager getReworkPager(Pager pager, HashMap<String, String> map,String workingbillId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Rework.class);
-	/*	if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
+		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
 		{
 			detachedCriteria.createAlias("workingbill", "workingbill");
 		}
-		//责任人
+		/*//责任人
 		if(!this.existAlias(detachedCriteria, "duty", "duty"))
 		{
 			detachedCriteria.createAlias("duty", "duty");
-		}*/
+		}
 		//确认人
 		/*if(!this.existAlias(detachedCriteria, "confirmUser", "confirmUser"))
 		{

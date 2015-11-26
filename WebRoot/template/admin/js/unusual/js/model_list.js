@@ -65,7 +65,7 @@ jQuery(function($) {
 		colNames:[ '时间','产品名称', '班组','故障原因','维修人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
 			{name:'productName',index:'productName',editable: true},
 			{name:'teamId',index:'teamId', width:120, editable: true},
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},

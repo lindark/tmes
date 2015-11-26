@@ -89,6 +89,7 @@ public class AbnormalAction extends BaseAdminAction {
 	// 列表
 	public String list() {
 		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		// pager = abnormalService.findByPager(pager);
 		return LIST;
 	}

@@ -182,6 +182,13 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		String hql="select distinct a from Process a join a.products b where b.productsCode in (:list)";
 		return getSession().createQuery(hql).setParameterList("list", productsCodes).list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Process> findProcessByProductsId(String id) {
+
+		String hql="select a from Process a join a.products b where b.id=?";
+		return getSession().createQuery(hql).setParameter(0, id).list();
+	}
 	
 	
 }

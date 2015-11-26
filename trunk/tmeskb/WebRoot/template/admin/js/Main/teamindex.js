@@ -9,6 +9,7 @@ $(function() {
 	var $dailywork = $("#dailywork");// 报工
 	var $carton = $("#carton");// 纸箱收货
 	var $rework = $("#rework");// 返工
+	var $pollingtest = $("#pollingtest");//巡检
 
 	/**
 	 * 入库按钮点击
@@ -102,6 +103,17 @@ $(function() {
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "repairin!list.action?workingBillId=" + id;
+		}
+	});
+	
+	/**
+	 * 巡检按钮点击
+	 */
+	$pollingtest.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "pollingtest!list.action?workingBillId=" + id;
 		}
 	});
 

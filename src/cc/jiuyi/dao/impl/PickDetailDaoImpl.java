@@ -85,6 +85,12 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		
 	}
 
+	@Override
+	public List<PickDetail> getPickDetail(String id) {
+		String hql="from PickDetail a inner join fetch a.pick b where b.id=?";
+		return getSession().createQuery(hql).setParameter("list", id).list();
+	}
+
 	
 
 }

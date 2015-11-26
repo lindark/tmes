@@ -29,9 +29,18 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	public void updateisdel(String[] ids,String oper);
 
 	/**
-	 * 保存集合对象
+	 * 保存或更行集合对象
 	 * @param handoverprocessList
 	 * @return
 	 */
-	public void save(List<HandOverProcess> handoverprocessList);
+	public void saveorupdate(List<HandOverProcess> handoverprocessList);
+	
+	/**
+	 * 根据组件编码，工序ID，产品编码获取对象
+	 * @param materialCode 组件编码
+	 * @param processid 工序ID
+	 * @param matnr 产品编码
+	 * @return
+	 */
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr);
 }

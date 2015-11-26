@@ -21,7 +21,7 @@ public class Quality extends BaseEntity{
 
 	private static final long serialVersionUID = -7213483223153832423L;
 	
-	private String process;//工序
+	private Process process;//工序
 	private String team;//班组
 	private String problemDescription;//问题描述
 	private Admin creater;//创建人
@@ -42,17 +42,18 @@ public class Quality extends BaseEntity{
 	private Products products;//产品
 	
 	private String productsName;
+	private String processName;
 	
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	private Set<UnusualLog> unusualLogSet;//异常日志
 	
-	public String getProcess() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Process getProcess() {
 		return process;
 	}
-	public void setProcess(String process) {
+	public void setProcess(Process process) {
 		this.process = process;
 	}
-
 	public String getProblemDescription() {
 		return problemDescription;
 	}
@@ -179,6 +180,14 @@ public class Quality extends BaseEntity{
 	}
 	public void setCreater(Admin creater) {
 		this.creater = creater;
+	}
+	
+	@Transient
+	public String getProcessName() {
+		return processName;
+	}
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 	
 	

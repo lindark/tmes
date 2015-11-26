@@ -81,7 +81,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="pollingtest!save.action"
+								action="<#if isAdd??>pollingtest!save.action<#else>pollingtest!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${(id)!}" /> <input
 									type="hidden" class="input input-sm"

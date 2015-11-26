@@ -102,19 +102,6 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-		gridComplete: function () {
-            var rowNum = parseInt($(this).getGridParam("records"), 10);
-            if (rowNum > 0) {
-                $(".ui-jqgrid-sdiv").show();
-                var cartonAmount = jQuery(this).getCol("cartonAmount", false, "sum");
-                var materialCode = jQuery(this).getCol("materialCode");
-                $(this).footerData("set", {
-                	materialCode: "累计纸箱数："+cartonAmount+"个"
-	            });
-	        }else {
-	            $(".ui-jqgrid-sdiv").hide();
-	        }
-	    }, //底部合计
 
 		editurl: "carton!delete.action",//用它做标准删除动作
 		caption: "纸箱记录"
@@ -181,17 +168,17 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: false,
-			/*editfunc:function(rowId){
+			edit: true,
+			editfunc:function(rowId){
 				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(ids.length>1){
 					alert("请选择一条记录");
 					return false;
 				}
 				var workingBillId = $("#workingBillId").val();
-				window.location.href="carton!edit.action?id="+rowId+"&workingBillId="+workingBillId;
+				window.location.href="pollingtest!edit.action?id="+rowId+"&workingBillId="+workingBillId;
 			},
-			editicon : 'ace-icon fa fa-pencil blue',*/
+			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 			/*addfunc:function(){
 				var workingBillId = $("#workingBillId").val();

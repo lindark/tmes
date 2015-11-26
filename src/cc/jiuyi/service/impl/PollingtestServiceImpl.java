@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.PollingtestDao;
+import cc.jiuyi.dao.RepairDao;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.service.PollingtestService;
 
@@ -21,6 +22,11 @@ public class PollingtestServiceImpl extends
 		BaseServiceImpl<Pollingtest, String> implements PollingtestService {
 	@Resource
 	private PollingtestDao pollingtestDao;
+	
+	@Resource
+	public void setBaseDao(PollingtestDao pollingtestDao) {
+		super.setBaseDao(pollingtestDao);
+	}
 
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,

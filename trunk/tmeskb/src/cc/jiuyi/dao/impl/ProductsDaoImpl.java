@@ -154,4 +154,10 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		String hql = "from Material as a where a.isDel='N'";
 		return getSession().createQuery(hql).list();
 	}
+
+	@Override
+	public Products getProducts(String matnr) {
+		String hql="from Products where productsCode= ?";
+		return (Products) getSession().createQuery(hql).setParameter(0, matnr).uniqueResult();
+	}
 }

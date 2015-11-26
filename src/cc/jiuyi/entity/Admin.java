@@ -51,6 +51,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<FlowingRectify> flowingRectifySet;// 整改情况跟踪
 	private Set<Model> modelSet;//一个人对应多个工模维修单
 	private Set<AbnormalLog> abnormalLogSet;//异常日志
+	private Set<Craft> craftSet;//工艺维修单
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -567,6 +568,16 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setAbnormalLogSet(Set<AbnormalLog> abnormalLogSet) {
 		this.abnormalLogSet = abnormalLogSet;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "creater")
+	public Set<Craft> getCraftSet() {
+		return craftSet;
+	}
+
+	public void setCraftSet(Set<Craft> craftSet) {
+		this.craftSet = craftSet;
+	}
+	
 	
 	
 }

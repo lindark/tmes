@@ -33,7 +33,10 @@ public class BaserfcServiceImpl implements BaserfcService {
 	private Mapping mapping = null;
 	private List<TableModel> tablemodelList = null;
 
-	protected void setProperty(String property) {
+	/**
+	 * 从属性文件中读取
+	 */
+	public void setProperty(String property) {
 		this.property = property;
 	}
 

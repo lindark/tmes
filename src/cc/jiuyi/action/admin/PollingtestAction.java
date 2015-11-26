@@ -86,10 +86,18 @@ public class PollingtestAction extends BaseAdminAction {
 	public String save() {
 		admin = adminService.getLoginAdmin();
 		pollingtest.setPollingtestUser(admin);
+		pollingtest.setPassedPercent(getPercent(
+				pollingtest.getQualifiedAmount(),
+				pollingtest.getPollingtestAmount()));
 		pollingtestService.save(pollingtest);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
+	}
+
+	public String getPercent(Integer qualifiedAmount, Integer pollingtestAmount) {
+		Double percent = ((double) qualifiedAmount) / pollingtestAmount*100;
+		return percent + "%";
 	}
 
 	/**

@@ -153,6 +153,8 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.PollingtestRecord</value>
 				<value>cc.jiuyi.entity.Sample</value>
 				<value>cc.jiuyi.entity.SampleRecord</value>
+				<value>cc.jiuyi.entity.ItermediateTest</value>
+				<value>cc.jiuyi.entity.ItermediateTestDetail</value>
 			</list>
 		</property>
 	</bean>

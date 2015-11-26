@@ -39,7 +39,7 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			}
 			
 			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("products.productName", "%"+map.get("productName")+"%"));
+			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
 			}
 			
 		}

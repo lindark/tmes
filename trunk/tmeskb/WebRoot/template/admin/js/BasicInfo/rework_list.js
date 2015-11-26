@@ -39,18 +39,16 @@ jQuery(function($){
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '产品编码','产品名称','创建人','确认人','责任人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
+		colNames:[ '创建人','确认人','责任人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
 		colModel:[	
-			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name', width:200,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',index:'confirmUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xduty',index:'duty.name', width:100,sortable:"true",sorttype:"text"},
 			{name:'reworkCount',index:'reworkCount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'reworkAmount',index:'reworkAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'defectAmount',index:'defectAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
-			{name:'isCompeletes',index:'isCompelete', width:200, label:"完工状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
+			{name:'stateRemark',index:'state', width:200, cellattr:addstyle,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
+			{name:'isCompeletes',index:'isCompelete', width:200,label:"完工状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
 		], 
 
 
@@ -82,19 +80,47 @@ jQuery(function($){
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	
+	//给状态加样式
+	function addstyle(rowId, val, rawObject, cm, rdata)
+	{
+		//待确认
+		if(rawObject.state=="1")
+		{
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已确认
+		if(rawObject.state=="2")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
+		//已返工
+		if(rawObject.state=="3")
+		{
+			return "style='color:blue;font-weight:bold;'";
+		}
+		//已撤销
+		if(rawObject.state=="4")
+		{
+			return "style='color:purple;font-weight:bold;'";
+		}
+		
+	}
+	
+	
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-		   edit: true,
-		   editfunc : function(rowId) {
-			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
-		    	if(ids.length>1){
-		    		alert("只能选择一条记录！");
-		    		return false;
-		    	}
-		    	window.location.href = "rework!edit.action?id=" + rowId+"&workingBillId="+$("#workingBillId").val();
-			},
-			editicon : 'ace-icon fa fa-pencil blue',
+		   edit: false,
+//		   editfunc : function(rowId) {
+//			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+//		    	if(ids.length>1){
+//		    		alert("只能选择一条记录！");
+//		    		return false;
+//		    	}
+//		    	window.location.href = "rework!edit.action?id=" + rowId+"&workingBillId="+$("#workingBillId").val();
+//			},
+//			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 //			addfunc:function(rowId){
 //				window.location.href="rework!add.action";

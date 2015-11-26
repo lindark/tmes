@@ -74,6 +74,16 @@ public interface BaseService<T, PK extends Serializable> {
 	 * @return 实体对象集合
 	 */
 	public List<T> getList(String[] propertyNames, Object[] propertyValues);
+	/**
+	 * 根据属性名和值的object[] 返回list
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param objlist 属性值的数组集合
+	 *            
+	 * @return 实体对象集合
+	 */
+	public List<T> getList(String propertyName,Object[] objlist);
 
 	/**
 	 * 获取所有实体对象集合.
@@ -121,6 +131,13 @@ public interface BaseService<T, PK extends Serializable> {
 	 * @return ID
 	 */
 	public PK save(T entity);
+	
+	/**
+	 * 保存活修改-非持久化状态
+	 * @param entity
+	 * @return
+	 */
+	public T merge(T entity);
 
 	/**
 	 * 更新实体对象.

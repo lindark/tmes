@@ -52,4 +52,10 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public List<WorkingBill> findListWorkingBill(Object[] productsid,String productDate,String shift);
 	
+	/**
+	 * 修改
+	 * @param workingbill
+	 */
+	public void updateWorkingBill(WorkingBill workingbill);
+	
 }

@@ -35,7 +35,6 @@ public class Pollingtest extends BaseEntity {
 	private String size1;// 尺寸1
 	private String size2;// 尺寸2
 	private String size3;// 尺寸3
-	private String size4;// 尺寸4
 	private Admin pollingtestUser;// 巡检人
 	private Admin confirmUser;// 确认人
 
@@ -167,14 +166,6 @@ public class Pollingtest extends BaseEntity {
 
 	public void setSize3(String size3) {
 		this.size3 = size3;
-	}
-
-	public String getSize4() {
-		return size4;
-	}
-
-	public void setSize4(String size4) {
-		this.size4 = size4;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

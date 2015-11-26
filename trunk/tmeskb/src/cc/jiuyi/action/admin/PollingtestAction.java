@@ -18,10 +18,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.WorkingBillService;
@@ -47,6 +49,7 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
+	private List<Cause> list_cause;//缺陷
 
 	@Resource
 	private PollingtestService pollingtestService;
@@ -56,6 +59,8 @@ public class PollingtestAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private CauseService causeService;
 
 	public String list() {
 		workingbill = workingBillService.get(workingBillId);
@@ -65,7 +70,21 @@ public class PollingtestAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		list_cause=causeService.getBySample("2");//获取缺陷表中关于巡检的内容
 		return INPUT;
+	}
+	
+	//保存
+	public String save() {
+		try {
+			pollingtestService.save(pollingtest);
+			redirectionUrl = "pollingtest!list.action?workingBillId="
+					+ pollingtest.getWorkingbill().getId();
+			return SUCCESS;			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -165,6 +184,14 @@ public class PollingtestAction extends BaseAdminAction {
 
 	public void setAllCraftWork(List<Dict> allCraftWork) {
 		this.allCraftWork = allCraftWork;
+	}
+
+	public List<Cause> getList_cause() {
+		return list_cause;
+	}
+
+	public void setList_cause(List<Cause> list_cause) {
+		this.list_cause = list_cause;
 	}
 
 }

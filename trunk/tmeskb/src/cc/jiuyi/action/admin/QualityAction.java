@@ -46,6 +46,7 @@ public class QualityAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private String loginUsername;
+	private Admin admin;
 
 	private List<FlowingRectify> flowingRectifys;
 	@Resource
@@ -68,6 +69,8 @@ public class QualityAction extends BaseAdminAction {
 		if (aid != null) {
 			abnormal = abnormalService.load(aid);
 		}
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		return INPUT;
 	}
 
@@ -125,6 +128,7 @@ public class QualityAction extends BaseAdminAction {
 			quality.setProductsName(quality.getProducts().getProductsName());
 			quality.setFounder(quality.getCreater().getName());
 			quality.setProcessName(quality.getProcess().getProcessName());
+			quality.setTeamName(quality.getTeam().getTeamName());
 			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", quality.getState()));		
 			pagerlist.set(i,quality);
@@ -168,7 +172,7 @@ public class QualityAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Quality persistent = qualityService.load(id);
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater","process"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater","process","team"});
 		
 		qualityService.update(persistent);
 
@@ -234,6 +238,15 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setLoginUsername(String loginUsername) {
 		this.loginUsername = loginUsername;
+	}
+
+	
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	

@@ -118,7 +118,7 @@ $(function() {
 			window.location.href = "repairin!list.action?workingBillId=" + id;
 		}
 	});
-]	
+	
 	/**
 	 * 巡检按钮点击
 	 */

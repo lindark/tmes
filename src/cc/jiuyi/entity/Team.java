@@ -37,7 +37,17 @@ public class Team extends BaseEntity {
 	private String xworkShopName;// 车间名称
 	private String xfactoryName;// 工厂名称
 
-	private Set<Department> departmentSet;
+	private Set<Department> departmentSet; 
+	private Set<Quality> qualitySet;
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
+	public Set<Quality> getQualitySet() {
+		return qualitySet;
+	}
+
+	public void setQualitySet(Set<Quality> qualitySet) {
+		this.qualitySet = qualitySet;
+	}
 
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
 	public Set<Department> getDepartmentSet() {

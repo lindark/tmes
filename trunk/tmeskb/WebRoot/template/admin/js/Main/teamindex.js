@@ -9,6 +9,7 @@ $(function() {
 	var $dailywork = $("#dailywork");// 报工
 	var $carton = $("#carton");// 纸箱收货
 	var $rework = $("#rework");// 返工
+	var $halfinspection=$("#halfinspection");//半成品巡检
 	var $pollingtest = $("#pollingtest");//巡检
 
 	/**
@@ -37,6 +38,18 @@ $(function() {
 
 	});
 	
+	
+	/**
+	 * 半成品巡检按钮点击
+	 */
+	$halfinspection.click(function() {
+		var istrue = ckboxChick();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "itermediate_test!list.action?workingBillId=" + id;
+		}
+
+	});
 	
 	/**
 	 * 领/退料按钮点击
@@ -105,7 +118,7 @@ $(function() {
 			window.location.href = "repairin!list.action?workingBillId=" + id;
 		}
 	});
-	
+]	
 	/**
 	 * 巡检按钮点击
 	 */
@@ -116,7 +129,7 @@ $(function() {
 			window.location.href = "pollingtest!list.action?workingBillId=" + id;
 		}
 	});
-
+	
 	/**
 	 * 快速响应按钮点击
 	 */
@@ -140,6 +153,7 @@ function getCKboxById() {
 			id = sId;
 		ishead = 1;
 	});
+	alert(id);
 	return id;
 }
 

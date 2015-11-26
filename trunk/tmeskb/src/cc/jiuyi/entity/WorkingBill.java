@@ -265,6 +265,7 @@ public class WorkingBill extends BaseEntity {
 	}
 
 	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
 	

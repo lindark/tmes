@@ -104,6 +104,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		}
 	}
 
+	@Override
+	public List<PickDetail> getPickDetail(String id) {
+		// TODO Auto-generated method stub
+		return pickDetailDao.getPickDetail(id);
+	}
+
 	
 
 

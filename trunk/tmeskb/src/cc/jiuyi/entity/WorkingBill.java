@@ -37,6 +37,9 @@ public class WorkingBill extends BaseEntity {
     private Set<Repairin> repairin;
     private Set<HandOverProcess> afterhandoverprocessSet;//交下班
     private Set<HandOverProcess> beforhandoverprocessSet;//接上班
+    private Set<Pollingtest> pollingtest;//巡检
+    
+    
     private Set<Pick> pick;//领料
     private Set<PickDetail> pickDetail;//领料从表
 
@@ -111,8 +114,15 @@ public class WorkingBill extends BaseEntity {
 	public void setEnteringwareHouse(Set<EnteringwareHouse> enteringwareHouse) {
 		this.enteringwareHouse = enteringwareHouse;
 	}
-
 	
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	public Set<Pollingtest> getPollingtest() {
+		return pollingtest;
+	}
+
+	public void setPollingtest(Set<Pollingtest> pollingtest) {
+		this.pollingtest = pollingtest;
+	}
 
 	public String getWorkingBillCode() {
 		return workingBillCode;

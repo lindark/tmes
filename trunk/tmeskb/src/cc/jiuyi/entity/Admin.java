@@ -61,12 +61,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Repairin> repairinConfirmUser;// 返修收货确认人
 	private Set<Repair> repairConfirmUser;// 返修收货确认人
 	private Set<Dump> dumpConfirmUser;//转储确认人
+	private Set<Pollingtest> pollingtestConfirmUser;//巡检确认人
 	private Set<Repairin> repairinCreateUser;// 返修收货创建人
 	private Set<Repair> repairCreateUser;// 返修创建人
 	private Set<Carton> cartonCreateUser;// 纸箱收货创建人
 	private Set<DailyWork> dailyWorkCreateUser;// 报工创建人
 	private Set<EnteringwareHouse> enteringwareHouseCreateUser;// 入库创建人
 	private Set<Dump> dumpCreateUser;//转储创建人
+	
+	private Set<Pollingtest> pollingtestUser;//巡检人
 
 
 	private Set<Rework> duty;//返工责任人名
@@ -196,6 +199,15 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.dumpConfirmUser = dumpConfirmUser;
 	}
 
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Pollingtest> getPollingtestConfirmUser() {
+		return pollingtestConfirmUser;
+	}
+
+	public void setPollingtestConfirmUser(Set<Pollingtest> pollingtestConfirmUser) {
+		this.pollingtestConfirmUser = pollingtestConfirmUser;
+	}
+
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<Repair> getRepairCreateUser() {
 		return repairCreateUser;
@@ -240,6 +252,15 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setDumpCreateUser(Set<Dump> dumpCreateUser) {
 		this.dumpCreateUser = dumpCreateUser;
+	}
+	
+	@OneToMany(mappedBy = "pollingtestUser", fetch = FetchType.LAZY)
+	public Set<Pollingtest> getPollingtestUser() {
+		return pollingtestUser;
+	}
+
+	public void setPollingtestUser(Set<Pollingtest> pollingtestUser) {
+		this.pollingtestUser = pollingtestUser;
 	}
 
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)

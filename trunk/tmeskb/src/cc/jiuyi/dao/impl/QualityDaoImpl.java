@@ -33,9 +33,13 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			detachedCriteria.createAlias("products", "products");//表名，别名*/							
 		}
 		
+		if(!super.existAlias(detachedCriteria, "team", "team")){
+			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+		}
+		
 		if (map.size() > 0) {
 			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("team", "%"+map.get("team")+"%"));
+			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
 			}
 			
 			if(map.get("productName")!=null){

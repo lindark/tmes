@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -454,6 +455,21 @@ public class ProcessAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	//根据产品id查询对应工序
+	public String getProcessList(){
+		List<Process> processList = processService.findProcessByProductsId(id);		
+		List<Map<String,String>> lists = new ArrayList<Map<String,String>>();
+		for(Process o:processList){
+            Map<String,String> maps = new HashMap<String,String>();
+            maps.put("id", o.getId());
+            maps.put("name", o.getProcessName());
+            lists.add(maps);
+		}      
+        JSONArray json = JSONArray.fromObject(lists);
+        return ajaxText(json.toString());
+	}
+	
 	
 	/***/
 	public Process getProcess() {

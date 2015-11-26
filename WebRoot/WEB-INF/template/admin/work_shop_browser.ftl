@@ -125,6 +125,7 @@ body {
 		}
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
 		var rowName=rowData.workShopName;
+		//alert(rowName);
 		var work=""+rowName+""+","+ids;
 		return work;
 	}

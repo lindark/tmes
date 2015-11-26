@@ -118,7 +118,20 @@ body{background:#fff;}
 											<label class="requireField">*</label>	
 										</div>
 									</div>
-										
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 线边仓编码 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.warehouse" value="${(factoryUnit.warehouse)!}" class=" input input-sm  formText {required: true,digits:true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 线边仓描述</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.warehouseName" value="${(factoryUnit.warehouseName)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>	
 									
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
@@ -136,7 +149,8 @@ body{background:#fff;}
 					                        </label>		
 										</div>	
 									</div>							
-						</div>								
+						</div>
+				
 			</table>
 			<div class="buttonArea">
 				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;

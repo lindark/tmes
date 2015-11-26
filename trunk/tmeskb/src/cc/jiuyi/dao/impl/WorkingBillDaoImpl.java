@@ -79,7 +79,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
 		List list = getSession().createQuery(hql)
 				.setParameter(0, admin.getProductDate())
-				.setParameter(1, "%" + admin.getShift()).list();
+				.setParameter(1, "%" + admin.getShift()).setCacheable(true).list();
 		return list;
 	}
 
@@ -89,14 +89,14 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	@SuppressWarnings("unchecked")
 	public List<WorkingBill> getIdsAndNames() {
 		String hql = " from WorkingBill";
-		return this.getSession().createQuery(hql).list();
+		return this.getSession().createQuery(hql).setCacheable(true).list();
 	}
 
 	public List<WorkingBill> findListWorkingBill(Object[] productsid,
 			String productDate, String shift) {
 		String hql = "from WorkingBill where productDate = ? and workingBillCode like ? and matnr in (:list)";
 		return getSession().createQuery(hql)
-				.setParameter(0, productDate).setParameter(1, "%" + shift).setParameterList("list", productsid)
+				.setParameter(0, productDate).setParameter(1, "%" + shift).setParameterList("list", productsid).setCacheable(true)
 				.list();
 	}
 

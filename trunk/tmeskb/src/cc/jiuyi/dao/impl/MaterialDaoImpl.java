@@ -119,7 +119,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 
 	@Override
 	public List<Material> getMantrBom(Object[] matnrs) {
-		String hql="select a from Material a join a.products b where b.productsCode in (:list)";
+		String hql="select distinct a from Material a join a.products b where b.productsCode in (:list)";
 		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
 	}
 

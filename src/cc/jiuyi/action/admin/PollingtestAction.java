@@ -21,6 +21,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
@@ -49,7 +50,7 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
-	private List<Cause> list_cause;//缺陷
+	private List<Cause> list_cause;// 缺陷
 
 	@Resource
 	private PollingtestService pollingtestService;
@@ -70,21 +71,18 @@ public class PollingtestAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
-		list_cause=causeService.getBySample("2");//获取缺陷表中关于巡检的内容
+		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
 		return INPUT;
 	}
-	
-	//保存
+
+	// 保存
 	public String save() {
-		try {
-			pollingtestService.save(pollingtest);
-			redirectionUrl = "pollingtest!list.action?workingBillId="
-					+ pollingtest.getWorkingbill().getId();
-			return SUCCESS;			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		admin = adminService.getLoginAdmin();
+		pollingtest.setPollingtestUser(admin);
+		pollingtestService.save(pollingtest);
+		redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();
+		return SUCCESS;
 	}
 
 	/**
@@ -144,6 +142,56 @@ public class PollingtestAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
+	}
+
+	// 刷卡确认
+	public String confirms() {
+		admin = adminService.getLoginAdmin();
+		ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			pollingtest = pollingtestService.load(ids[i]);
+			if (CONFIRMED.equals(pollingtest.getState())) {
+				addActionError("已确认的无须再确认！");
+				return ERROR;
+			}
+			if (UNDO.equals(pollingtest.getState())) {
+				addActionError("已撤销的无法再确认！");
+				return ERROR;
+			}
+		}
+		List<Pollingtest> list = pollingtestService.get(ids);
+		for (int i = 0; i < list.size(); i++) {
+			pollingtest = list.get(i);
+			pollingtest.setState(CONFIRMED);
+			pollingtest.setConfirmUser(admin);
+			pollingtestService.update(pollingtest);
+		}
+		redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();
+		return SUCCESS;
+	}
+
+	// 刷卡撤销
+	public String undo() {
+		admin = adminService.getLoginAdmin();
+		ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			pollingtest = pollingtestService.load(ids[i]);
+			if (UNDO.equals(pollingtest.getState())) {
+				addActionError("已撤销的无法再撤销！");
+				return ERROR;
+			}
+		}
+		List<Pollingtest> list = pollingtestService.get(ids);
+		for (int i = 0; i < list.size(); i++) {
+			pollingtest = list.get(i);
+			pollingtest.setState(UNDO);
+			pollingtest.setConfirmUser(admin);
+			pollingtestService.update(pollingtest);
+		}
+		redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();
+		return SUCCESS;
 	}
 
 	public Pollingtest getPollingtest() {

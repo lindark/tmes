@@ -149,7 +149,8 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.AbnormalLog</value>
 				<value>cc.jiuyi.entity.SwiptCard</value>
 				<value>cc.jiuyi.entity.Repair</value>
-				<value>cc.jiuyi.entity.AbnormalLog</value>
+				<value>cc.jiuyi.entity.Pollingtest</value>
+				<value>cc.jiuyi.entity.PollingtestRecord</value>
 			</list>
 		</property>
 	</bean>

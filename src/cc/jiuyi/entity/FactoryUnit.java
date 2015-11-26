@@ -32,6 +32,8 @@ public class FactoryUnit extends BaseEntity{
     private WorkShop workShop;//车间
     private String workShopName;
     private String factoryName;
+    private Integer warehouse;//线边仓
+    private String warehouseName;//线边仓描述
     private Set<Team> team;//班组
 	public String getFactoryUnitCode() {
 		return factoryUnitCode;
@@ -101,4 +103,18 @@ public class FactoryUnit extends BaseEntity{
 	{
 		this.team = team;
 	}
+	public Integer getWarehouse() {
+		return warehouse;
+	}
+	public void setWarehouse(Integer warehouse) {
+		this.warehouse = warehouse;
+	}
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+	
+	
 }

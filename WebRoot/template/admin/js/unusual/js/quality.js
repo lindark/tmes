@@ -24,7 +24,7 @@ $(function() {
 		} else {
 			alert("请至少保留一个选项!");
 		}
-	}		
+	}	
 	
 	
 	// 产品弹出框
@@ -43,8 +43,24 @@ $(function() {
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		$("#productName1").val(id[0]);//产品id
-		$("#productNa").val(id[1]);//产品名称
+		$("#productName1").val(id[0]);//产品名称
+		$("#productNa").val(id[1]);//产品id
+		
+
+		url="process!getProcessList.action?id="+id[1];
+		  $.ajax({
+				url: url,
+				//data: ids,
+				dataType: "json",		
+				success: function(data) {
+					$(data).each(function(n){
+			            $("<option/>").html(this.name).val(this.id)
+			            .appendTo("#processName");
+			        });
+				}
+			});	
+		  
+	
 		layer.close(index); 
 	});
 }

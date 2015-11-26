@@ -30,16 +30,35 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairAmount;// 累计返修数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
-	private Set<Rework> rework;
+	private Set<Rework> rework;//返工
     private Set<DailyWork> dailyWork;
     private Set<Carton> carton;
     private Set<Repair> repair;
     private Set<Repairin> repairin;
     private Set<HandOverProcess> afterhandoverprocessSet;//交下班
     private Set<HandOverProcess> beforhandoverprocessSet;//接上班
-    
-    
+    private Set<Pick> pick;//领料
+    private Set<PickDetail> pickDetail;//领料从表
+
     @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+    public Set<PickDetail> getPickDetail() {
+		return pickDetail;
+	}
+
+	public void setPickDetail(Set<PickDetail> pickDetail) {
+		this.pickDetail = pickDetail;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+    public Set<Pick> getPick() {
+		return pick;
+	}
+
+	public void setPick(Set<Pick> pick) {
+		this.pick = pick;
+	}
+
+	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<Repairin> getRepairin() {
 		return repairin;
 	}

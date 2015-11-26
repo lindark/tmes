@@ -36,6 +36,7 @@ public class Process extends BaseEntity{
     private Set<Products> products;//产品表
     private Set<Repair> repairProcess;//返修责任工序
     private Set<HandOverProcess> handoverprocessSet;//交接
+    private Set<Quality> qualitySet;
     
     @OneToMany(mappedBy = "processResponse", fetch = FetchType.LAZY)
 	public Set<Repair> getRepairProcess() {
@@ -114,6 +115,14 @@ public class Process extends BaseEntity{
 	}
 	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
 		this.handoverprocessSet = handoverprocessSet;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="process")
+	public Set<Quality> getQualitySet() {
+		return qualitySet;
+	}
+	public void setQualitySet(Set<Quality> qualitySet) {
+		this.qualitySet = qualitySet;
 	}
 	
 	

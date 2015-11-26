@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Cause;
@@ -17,4 +18,9 @@ public interface CauseService extends BaseService<Cause, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	/**
+	 * 获取缺陷表中关于抽检的内容
+	 */
+	public List<Cause> getBySample(String type);
 }

@@ -10,6 +10,16 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+<script type="text/javascript"
+	src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/unusual/js/craft.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -76,44 +86,52 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<div class="profile-info-name">产品编号</div>
-
-												<div class="profile-info-value">
-													<select name="craft.productNo">
-														<option value="1">40010021</option>
-														<option value="2">40010021</option>
-													</select>
-												</div>
+											
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">
-													<input type="text" name="craft.productsName"
-														value="${(craft.productsName)!}"
-														class=" input input-sm  formText {required: true}" />
+												    <#if isAdd??>
+													<button type="button" class="btn btn-xs btn-info"
+														id="productId" data-toggle="button">选择</button>
+													<input type="text" name="craft.products.productsName"
+														id="productName1"
+														class=" input input-sm  formText {required: true}"
+														readOnly="true" /> <input type="hidden"
+														name="craft.products.id" id="productNa" value="" />
+													<#else> ${(craft.products.productsName)!} </#if>
+													
 												</div>
+												<div class="profile-info-name">产品编号</div>
+
+												<div class="profile-info-value">
+													  <input type="text"  id="productNo" readOnly="true" name="craft.products.productsCode"
+														value="${(craft.products.productsCode)!}"
+														class=" input input-sm" />
+												</div> 
+												
 
 											</div>
 
 											<div class="profile-info-row">
-												<div class="profile-info-name">班组</div>
+												 <div class="profile-info-name">班组</div>
 
 												<div class="profile-info-value">
-												    <#if isAdd??>
-												       <input type="text" name="craft.classes"
-														value="${(abnormal.teamId)!}"
+												   <#if isAdd??>
+												       <input type="text" name="craft.team.teamName"
+														value="${(admin.department.team.teamName)!}"
 														class=" input input-sm  formText {required: true}" />
+													   <input type="hidden" name="craft.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
-												       <input type="text" name="craft.classes"
-														value="${(craft.classes)!}"
-														class=" input input-sm  formText {required: true}" />
+												       ${(craft.team.teamName)!}												       
 												    </#if>									
 												</div>
 												<div class="profile-info-name">机台号</div>
 
 												<div class="profile-info-value">
 													<select name="craft.cabinetCode">
-														<option value="1">4003</option>
-														<option value="2">4002</option>
+                                                          <#list allCode as list>
+								                             <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && craft.cabinetCode == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+							                             </#list> 
 													</select>
 												</div>
 											</div>

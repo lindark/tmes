@@ -18,7 +18,7 @@ $(function(){
 	        shadeClose: false,
 	        maxmin: true,
 	        scrollbar: false,
-	        btn:['保存','取消'],
+	        btn:['刷卡保存','刷卡提交','刷卡确认','取消'],
 	        area: [width, height],//弹出框的高度，宽度
 	        content:content,
 	        yes:function(index,layero){

@@ -83,8 +83,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 		for(int i=0;i<workingbillList.size();i++){
 			WorkingBill workingbill = workingbillList.get(i);
 			HandOverProcess handoverprocess= handOverProcessService.findhandoverBypro(materialCode, processid, workingbill.getMatnr());
-			if(handoverprocess !=null)
-				workingbill.setAmount(handoverprocess.getAmount());
+			if(handoverprocess !=null){
+				Integer amount = handoverprocess.getAmount();
+				workingbill.setAmount(amount);
+			//	workingbill.setAmount(handoverprocess.getAmount());
+			}
+				
 			workingbillList.set(i, workingbill);
 		}
 		

@@ -15,7 +15,7 @@ import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.sap.rfc.Repairorder;
+import cc.jiuyi.sap.rfc.impl.RepairorderImpl;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.SpringUtil;

@@ -20,7 +20,6 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
-import cc.jiuyi.sap.rfc.DumpSync;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpService;
@@ -185,14 +184,14 @@ public class DumpAction extends BaseAdminAction {
 
 	// 同步
 	public String sync() {
-		DumpSync d = new DumpSync();
-		try {
-			d.syncRepairorder(dumpService);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}// 同步
-		redirectionUrl = "dump!list.action";
+//		DumpSync d = new DumpSync();
+//		try {
+//			d.syncRepairorder(dumpService);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return ERROR;
+//		}// 同步
+//		redirectionUrl = "dump!list.action";
 		return SUCCESS;
 	}
 

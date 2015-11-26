@@ -97,11 +97,13 @@ body {
 
 							</form>
 
-                                     <button class="btn btn-white btn-success btn-bold" id="addPick" type=button>
-										<span class="bigger-110 no-text-shadow">刷卡提交</span>
+                                     <button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
 									</button>
-									<button class="btn btn-white btn-success btn-bold" id="returnPick" type=button>
-										<span class="bigger-110 no-text-shadow">返回</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnPick" type=button>
+										<i class="ace-icon fa fa-home"></i>
+										返回
 									</button>
 							<!-- add by welson 0728 -->
 						</div>

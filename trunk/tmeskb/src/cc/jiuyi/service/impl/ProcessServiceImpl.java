@@ -106,6 +106,12 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		return processDao.findProcess(obj);
 	}
 
+	@Override
+	public List<Process> findProcessByProductsId(String id) {
+		// TODO Auto-generated method stub
+		return processDao.findProcessByProductsId(id);
+	}
+
 	/*public Pager getProductsList(Pager pager, HashMap<String, String> map)
 	{
 		return this.processDao.getProductsList(pager,map);

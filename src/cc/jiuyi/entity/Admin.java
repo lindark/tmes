@@ -68,12 +68,49 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<EnteringwareHouse> enteringwareHouseCreateUser;// 入库创建人
 	private Set<Dump> dumpCreateUser;//转储创建人
 
-	private Set<Rework> duty;// 责任人名
-	private Set<Rework> confirmUser;// 创建人名
-	private Set<Rework> createUser;// 确认人名
-	private Set<Rework> modifyUser;// 修改人名
 
-	// 责任人名
+	private Set<Rework> duty;//返工责任人名
+	private Set<Rework> confirmUser;//返工创建人名
+	private Set<Rework> createUser;//返工确认人名
+	private Set<Rework> modifyUser;//返工修改人名
+	
+	private Set<PickDetail> pickDetailConfirmUser;//领料从表确认人
+	
+	private Set<Pick> pickConfirmUser;//领料主表确认人
+	private Set<Pick> pickCreateUser;//领料主表创建人
+
+	//领料主表确认人
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Pick> getPickConfirmUser() {
+		return pickConfirmUser;
+	}
+
+	public void setPickConfirmUser(Set<Pick> pickConfirmUser) {
+		this.pickConfirmUser = pickConfirmUser;
+	}
+
+	//领料主表创建人
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Pick> getPickCreateUser() {
+		return pickCreateUser;
+	}
+
+	public void setPickCreateUser(Set<Pick> pickCreateUser) {
+		this.pickCreateUser = pickCreateUser;
+	}
+
+	
+	//领料从表确认人
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<PickDetail> getPickDetailConfirmUser() {
+		return pickDetailConfirmUser;
+	}
+
+	public void setPickDetailConfirmUser(Set<PickDetail> pickDetailConfirmUser) {
+		this.pickDetailConfirmUser = pickDetailConfirmUser;
+	}
+
+	//责任人名
 	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
 	public Set<Rework> getDuty() {
 		return duty;

@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 实体类 - 工序交接
@@ -62,6 +64,8 @@ public class HandOverProcess extends BaseEntity{
 		return amount;
 	}
 	public void setAmount(Integer amount) {
+		if(amount == null)
+			amount = 0;
 		this.amount = amount;
 	}
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -92,6 +96,7 @@ public class HandOverProcess extends BaseEntity{
 	public void setBeforworkingbill(WorkingBill beforworkingbill) {
 		this.beforworkingbill = beforworkingbill;
 	}
+	
 	
 	
 	

@@ -29,5 +29,14 @@ public interface HandOverProcessDao extends BaseDao<HandOverProcess,String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
+	/**
+	 * 根据组件编码，工序ID，产品编码获取对象
+	 * @param materialCode 组件编码
+	 * @param processid 工序ID
+	 * @param matnr 产品编码
+	 * @return
+	 */
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr);
+	
 	
 }

@@ -54,6 +54,17 @@ public interface BaseDao<T, PK extends Serializable> {
 	public T get(String propertyName, Object value);
 	
 	/**
+	 * 根据属性名和属性值获取实体对象.
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param value
+	 *            属性值
+	 * @return 实体对象
+	 */
+	public T get(String[] propertyNames, Object[] propertyValues);
+	
+	/**
 	 * 根据属性名和属性值获取实体对象集合.
 	 * 
 	 * @param propertyName
@@ -74,6 +85,17 @@ public interface BaseDao<T, PK extends Serializable> {
 	 * @return 实体对象集合
 	 */
 	public List<T> getList(String[] propertyNames, Object[] propertyValues);
+	
+	/**
+	 * 根据属性名和值的object[] 返回list
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param objlist 属性值的数组集合
+	 *            
+	 * @return 实体对象集合
+	 */
+	public List<T> getList(String propertyName,Object[] objlist);
 
 	/**
 	 * 获取所有实体对象集合.
@@ -112,15 +134,33 @@ public interface BaseDao<T, PK extends Serializable> {
 	 * @return boolean
 	 */
 	public boolean isExist(String propertyName, Object value);
+	
+	/**
+	 * 根据属性名判断数据是否已存在.
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param value
+	 *            值
+	 * @return boolean
+	 */
+	public boolean isExist(String[] propertyNames, Object[] propertyValues);
 
 	/**
-	 * 保存实体对象.
+	 * 保存实体对象-持久化状态.
 	 * 
 	 * @param entity
 	 *            对象
 	 * @return ID
 	 */
 	public PK save(T entity);
+	
+	/**
+	 * 保存活修改-非持久化状态
+	 * @param entity
+	 * @return
+	 */
+	public T merge(T entity);
 
 	/**
 	 * 更新实体对象.

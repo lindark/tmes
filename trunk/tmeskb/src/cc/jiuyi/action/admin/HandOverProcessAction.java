@@ -27,6 +27,8 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
@@ -48,7 +50,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private List<WorkingBill> workingbillList;
 	private List<Material> materialList;
 	private List<HandOverProcess> handoverprocessList;
-	private String matnr;// 组件编码
+	private String materialCode;// 组件编码
 	private Material material;// 组件
 	private String processid;// 工序ID
 
@@ -69,16 +71,23 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String add() {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		material = materialservice.get("materialCode", matnr);
+		material = materialservice.get("materialCode", materialCode);
 		List<Products> prouctsSet = new ArrayList<Products>(material.getProducts());//产品列表
 		Object[] list = new Object[2];
 		for(int i=0;i<prouctsSet.size();i++){
 			Products products = prouctsSet.get(i);
 			list[i] = products.getProductsCode();
 		}
-//		String[] proName = {""};
-//		workingbillservice.getList(propertyNames, propertyValues);
 		workingbillList = workingbillservice.findListWorkingBill(list, admin.getProductDate(), admin.getShift());
+		
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			HandOverProcess handoverprocess= handOverProcessService.findhandoverBypro(materialCode, processid, workingbill.getMatnr());
+			if(handoverprocess !=null)
+				workingbill.setAmount(handoverprocess.getAmount());
+			workingbillList.set(i, workingbill);
+		}
+		
 		return INPUT;
 	}
 	//获取数量
@@ -158,29 +167,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(requiredStrings = {
-
-	}
-
-	)
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		for (int i = 0; i < handoverprocessList.size(); i++) {
-			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			WorkingBill beforeworkingbill = handoverprocess
-					.getBeforworkingbill();// 上班随工单
-			String workingbillCode = beforeworkingbill.getWorkingBillCode();// 上班随工单编号
-			String laststr = workingbillCode.substring(
-					workingbillCode.length() - 1, workingbillCode.length());// 取最后一个值
-			String beforestr = workingbillCode.substring(0,
-					workingbillCode.length() - 1);// 取前面的值
-			Integer last = Integer.parseInt(laststr) + 1; 
-			
-			// handoverprocess.setAfterworkingbill(afterworkingbill);
-		}
-		handOverProcessService.save(handoverprocessList);
+		handOverProcessService.saveorupdate(handoverprocessList);
 		redirectionUrl = "hand_over_process!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("保存成功!");
 	}
 
 	public HandOverProcess getHandOverProcess() {
@@ -241,14 +232,14 @@ public class HandOverProcessAction extends BaseAdminAction {
 		this.materialList = materialList;
 	}
 
-	public String getMatnr() {
-		return matnr;
-	}
+	
 
-	public void setMatnr(String matnr) {
-		this.matnr = matnr;
+	public String getMaterialCode() {
+		return materialCode;
 	}
-
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
 	public List<HandOverProcess> getHandoverprocessList() {
 		return handoverprocessList;
 	}

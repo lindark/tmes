@@ -68,7 +68,7 @@
 						<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by weitao  -->
-							<div class="row">
+					<div class="row">
 								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
@@ -95,9 +95,8 @@
 														<div class="profile-info-value">
 															<span class="editable editable-click">${workingbill.workingBillCode}</span>
 														</div>
-													</div>
-
-													<div class="profile-info-row">
+														
+														
 														<div class="profile-info-name">产品编号</div>
 
 														<div class="profile-info-value">
@@ -109,19 +108,17 @@
 													</div>
 
 													<div class="profile-info-row">
-														<div class="profile-info-name">产品名称</div>
-
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
-														</div>
-													</div>
-													
-													<div class="profile-info-row">
 														<div class="profile-info-name">班组/班次</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="signup">2010/06/20</span>
 														</div>
+														<div class="profile-info-name">产品名称</div>
+
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+														</div>
+														
 													</div>
 												</div>
 											</div>
@@ -129,23 +126,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="row buttons">
-								
-									<button class="btn btn-white btn-success btn-bold btn-round " id="addRework">
-										<span class="bigger-110 no-text-shadow">创建返工单</span>
+							 <div>
+									<button class="btn btn-white btn-default btn-sm btn-round " id="addRework">
+										<i class="ace-icon fa fa-folder-open-o"></i>
+										创建返工单
 									</button>
 
-                                    <button class="btn btn-white btn-success btn-bold btn-round " id="editRework">
-										<span class="bigger-110 no-text-shadow">编辑返工单</span>
+                                    <button class="btn btn-white btn-default btn-sm btn-round" id="editRework">
+										<i class="ace-icon fa fa-pencil-square-o"></i>
+										编辑返工单
 									</button>
 
-									<button class="btn btn-white btn-success btn-bold btn-round" id="undoRework">
-										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
+										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										刷卡撤销
 									</button>
 
 
-									<button class="btn btn-white btn-success btn-bold btn-round" id="returnRework">
-										<span class="bigger-110 no-text-shadow">返回</span>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
+										<i class="ace-icon fa fa-home"></i>
+										返回
 									</button>
 				
 							</div>

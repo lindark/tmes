@@ -99,29 +99,47 @@ public class CraftAction extends BaseAdminAction {
 	
 	//刷卡回复
 	public String check() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("3")){
 			addActionError("已关闭的单据无法再回复！");
 			return ERROR;
 		}
+		if(persistent.getState().equals("1")){
+			addActionError("单据已回复！");
+			return ERROR;
+		}
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
-		//admin=adminService.getLoginAdmin();
 		persistent.setState("1");
 		craftService.update(persistent);
+		
+		CraftLog log = new CraftLog();
+		log.setOperator(admin);
+		log.setInfo("已回复");
+		log.setCraft(persistent);
+		craftLogService.save(log);
+		
 		redirectionUrl="craft!list.action";
 		return SUCCESS;
 	}
 	
 	//刷卡关闭
 	public String close() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
-			//admin=adminService.getLoginAdmin();
 			persistent.setState("3");
 			craftService.update(persistent);
+						
+			CraftLog log = new CraftLog();
+			log.setOperator(admin);
+			log.setInfo("已关闭");
+			log.setCraft(persistent);
+			craftLogService.save(log);
+			
 		}else{
-			addActionError("单据已关闭！");
+			addActionError("单据已关闭/未回复！");
 			return ERROR;
 		}
 		
@@ -171,6 +189,8 @@ public class CraftAction extends BaseAdminAction {
 			craft.setAbnormal(null);
 			craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", craft.getState()));
+			craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "machineNo", craft.getCabinetCode()));
 			craft.setCraftLogSet(null);
 			craft.setProductsName(craft.getProducts().getProductsName());
 			craft.setTeamName(craft.getTeam().getTeamName());
@@ -196,7 +216,7 @@ public class CraftAction extends BaseAdminAction {
 		craftService.save(craft);	
 		
 		CraftLog log = new CraftLog();
-		log.setOperator(admin.getName());
+		log.setOperator(admin);
 		log.setInfo("已提交");
 		log.setCraft(craft);
 		craftLogService.save(log);

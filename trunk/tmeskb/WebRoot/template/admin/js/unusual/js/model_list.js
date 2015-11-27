@@ -132,8 +132,14 @@ jQuery(function($) {
 			return "style='color:#FFBB66;'";
 		}
 		
-		//已完结
+		//已确定
 		if(rawObject.state=="2")
+		{
+			return "style='color:#0000FF;'";
+		}
+		
+		//已完结
+		if(rawObject.state=="3")
 		{
 			return "style='color:green;'";
 		}

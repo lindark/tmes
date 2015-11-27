@@ -102,6 +102,7 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡回复
 	public String check() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
 			addActionError("已确定的单据无法再回复！");
@@ -111,10 +112,21 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("已关闭的单据无法再回复！");
 			return ERROR;
 		}
+		if(persistent.getState().equals("1")){
+			addActionError("单据已回复！");
+			return ERROR;
+		}
 		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
 		//admin=adminService.getLoginAdmin();
 		persistent.setState("1");
 		modelService.update(persistent);
+		
+		ModelLog log = new ModelLog();
+		log.setInfo("已回复");
+		log.setOperator(admin);
+		log.setModel(persistent);
+		modelLogService.save(log);
+		
 		redirectionUrl="model!list.action";
 		return SUCCESS;
 	}	
@@ -122,14 +134,21 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡确定
 	public String confirm() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
 			//admin=adminService.getLoginAdmin();
 			persistent.setState("2");
 			modelService.update(persistent);
+			
+			ModelLog log = new ModelLog();
+			log.setInfo("已确认");
+			log.setOperator(admin);
+			log.setModel(persistent);
+			modelLogService.save(log);
 		}else{
-			addActionError("该单据未回复/已关闭！");
+			addActionError("该单据未回复/已关闭/已确认！");
 			return ERROR;
 		}
 				
@@ -139,18 +158,25 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡关闭
 	public String close() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId"});
 			//admin=adminService.getLoginAdmin();
 			persistent.setState("3");
 			modelService.update(persistent);
+			
+			ModelLog log = new ModelLog();
+			log.setInfo("已关闭");
+			log.setOperator(admin);
+			log.setModel(persistent);
+			modelLogService.save(log);
 		}else{
-			addActionError("该单据已关闭/未回复！");
+			addActionError("该单据已关闭/未确认！");
 			return ERROR;
 		}
 		
-		redirectionUrl="craft!list.action";
+		redirectionUrl="model!list.action";
 		return SUCCESS;
 	}		
 
@@ -222,7 +248,7 @@ public class ModelAction extends BaseAdminAction {
 		
 		ModelLog log = new ModelLog();
 		log.setInfo("已提交");
-		log.setOperator(admin.getName());
+		log.setOperator(admin);
 		log.setModel(model);
 		modelLogService.save(log);
 		

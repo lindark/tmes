@@ -202,18 +202,18 @@ body {
 									<button class="btn btn-white btn-default btn-sm btn-round" id="completeCraft" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
-									</button>	
+									</button>&nbsp;&nbsp;	
 									<#else>
 									</#if>	
 									<#if isAdd??><#else>								
 									<button class="btn btn-white btn-default btn-sm btn-round" id="checkCraft" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
-									</button>
+									</button>&nbsp;&nbsp;
 									<button class="btn btn-white btn-default btn-sm btn-round" id="closeCraft" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
-									</button>
+									</button>&nbsp;&nbsp;
 									</#if>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnCraft" type=button>
 										<i class="ace-icon fa fa-home"></i>

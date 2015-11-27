@@ -10,6 +10,7 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -83,8 +84,13 @@ body {
 							<form id="inputForm" class="validate"
 								action="<#if isAdd??>pollingtest!save.action<#else>pollingtest!update.action</#if>"
 								method="post">
-								<input type="hidden" name="id" value="${(id)!}" /> <input
-									type="hidden" class="input input-sm"
+								合格数量：<input type="text" id="input_qulified"  name="pollingtest.qualifiedAmount" value="" />
+								合格率：<input type="text" id="input_qrate" name="pollingtest.passedPercent" value="" />
+								描述ID：<input type="text" id="input_rd" name="pollingtestRecord.recordDescription" />
+								缺陷数量：<input type="text" id="input_rnum" name="pollingtestRecord.recordNum" value="" />
+								my_id<input type="text" id="my_id" name="my_id" />
+								<input type="hidden" name="id" value="${(id)!}" /> 
+								<input type="hidden" class="input input-sm"
 									name="pollingtest.workingbill.id" value="${workingbill.id} ">
 								<div id="inputtabs">
 									<ul>
@@ -120,7 +126,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">巡检数量</div>
 												<div class="profile-info-value">
-													<input type="text" name="pollingtest.pollingtestAmount"
+													<input id="sample_num" type="text" name="pollingtest.pollingtestAmount"
 														value="${(pollingtest.pollingtestAmount)!}"
 														class=" input input-sm formText {required: true,min: 0}" />
 												</div>
@@ -198,15 +204,13 @@ body {
 
 												<div class="profile-info-name">合格数量</div>
 												<div class="profile-info-value">
-													<input type="text" name="pollingtest.qualifiedAmount"
-														value="${(pollingtest.qualifiedAmount)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+													<span id="span_sq">0</span>
 												</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">合格率</div>
 												<div class="profile-info-value">
-													<span class="editable editable-click" id="age">100%</span>
+													<span id="span_qrate" class="editable editable-click" id="age">0%</span>
 												</div>
 											</div>
 										</div>
@@ -221,10 +225,9 @@ body {
 													<#assign num=0 /> <#list list_cause as list>
 													<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
 														<input id="sr_id" type="hidden" value="${(list.id)! }" />
-														<label>${(list.causeName)! }</label> <input
-															id="sr_num${num}" type="text" value=""
-															class=" input-value" /> <input id="sr_num2${num}"
-															type="hidden" value="" />
+														<label>${(list.causeName)! }</label> 
+														<input id="sr_num${num}" type="text" value="" class=" input-value" />
+														<input id="sr_num2${num}" type="hidden" value="" />
 													</div>
 													<#assign num=num+1 /> </#list>
 												</div>
@@ -232,11 +235,18 @@ body {
 										</div>
 									</div>
 									<div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
+										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-upload"></i>
+											刷卡保存
+										</a>
+										<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-upload"></i>
+											刷卡确认
+										</a>
+										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-home"></i>
+											返回
+										</a>
 									</div>
 							</form>
 
@@ -265,3 +275,102 @@ body {
 
 </body>
 </html>
+<script type="text/javascript">
+var qxnums="";
+var qxids="";
+$(function(){
+	//缺陷事件
+	cause_event();
+});
+//缺陷事件
+function cause_event()
+{
+	var i=0;
+	<#list list_cause as list>
+		$("#sr_num"+i).change(function(){
+			var idval=$(this).attr("id");
+			i=idval.substring(idval.length-1,idval.length);
+			var samplenum=$("#sample_num").val();//抽检数量
+			var num_bt=$("#sr_num2"+i).val();//备胎
+			var num_qx=$(this).val().replace(" ","");//缺陷
+			if(num_qx!=null&&num_qx!="")
+			{
+				var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
+				if(reg.test(num_qx))
+				{	
+					num_qx=setScale(num_qx,0,"");//精度--去小数
+					$(this).val(num_qx);
+					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
+					if(num_qx>0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
+					{
+						if(num_bt>0&&num_bt!=null&&num_bt!="")
+						{
+							tocalc(samplenum,num_qx,num_bt);
+						}
+						else
+						{
+							tocalc(samplenum,num_qx,"");
+						}
+					}
+					else
+					{
+						$("#span_tip").text("");
+					}
+				}
+				else
+				{
+					layer.alert("输入不合法!",false);
+					$(this).val("");//缺陷数量
+					$("#sr_num2"+i).val("");//缺陷数量--备胎
+					if(num_bt!=""&&num_bt!=null&&num_bt>0)
+					{
+						tocalc(samplenum,"",num_bt);
+					}
+				}
+			}
+		});
+		i+=1;
+	</#list>
+}
+
+//获取缺陷数量
+function getqxnum()
+{
+	var num_qx=0;
+	var i=0;
+	<#list list_cause as list>
+		var num=$("#sr_num"+i).val();
+		if(num!="0"&&num!=""&&num!=null)
+		{
+			num_qx=floatAdd(num_qx,num);//加法
+		}
+		i+=1;
+	</#list>
+	return num_qx;
+}
+
+//获取缺陷描述的id--字符串形式
+function getqxids()
+{
+	qxids="";
+	qxnums="";
+	var i=0;
+	<#list list_cause as list>
+	var num=$("#sr_num"+i).val();
+	if(num!="0"&&num!=""&&num!=null)
+	{
+		qxnums=qxnums+","+num;
+		var id="${(list.id)! }";
+		qxids=qxids+","+id;
+	}
+	i+=1;
+	</#list>
+	return qxids;
+}
+
+//获取缺陷数量--字符串形式
+function getqxnums()
+{
+	return qxnums;
+}
+</script>	

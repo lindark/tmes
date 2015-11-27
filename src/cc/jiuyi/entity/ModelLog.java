@@ -13,18 +13,10 @@ import javax.persistence.ManyToOne;
 public class ModelLog extends BaseEntity {
 
 	private static final long serialVersionUID = -3294124302010216826L;
-	private String operator;// 操作员
+	private Admin operator;// 操作员
 	private String info;// 日志信息
 	
 	private Model model;//工模
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
 
 	public String getInfo() {
 		return info;
@@ -42,6 +34,15 @@ public class ModelLog extends BaseEntity {
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getOperator() {
+		return operator;
+	}
+
+	public void setOperator(Admin operator) {
+		this.operator = operator;
 	}
 	
 	

@@ -7,12 +7,12 @@ $(function() {
 	
 	
 	$("#checkCraft").click(function(){
-	    document.inputForm.action="craft!check.action";
+		$("#inputForm").attr("action", "craft!check.action");
 	    $("#inputForm").submit(); 			
 	});
 	
 	$("#closeCraft").click(function(){
-		document.inputForm.action="craft!close.action";
+		$("#inputForm").attr("action", "craft!close.action");
 		$("#inputForm").submit(); 			
 	});
 	

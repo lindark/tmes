@@ -1,3 +1,4 @@
+var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -196,17 +197,17 @@ function addstyle(rowId, val, rawObject, cm, rdata)
 	//未确认
 	if(rawObject.state=="1")
 	{
-		return "style='color:red;font-weight:bold;'";
+		return "style='color:#b22;font-weight:bold;'";
 	}
 	//已确认
 	if(rawObject.state=="2")
 	{
-		return "style='color:green;font-weight:bold;'";
+		return "style='color:#006400;font-weight:bold;'";
 	}
 	//已撤销
 	if(rawObject.state=="3")
 	{
-		return "style='color:red;font-weight:bold;'";
+		return "style='color:#d2b48c;font-weight:bold;'";
 	}
 }
 
@@ -220,18 +221,16 @@ function btn_event()
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
-		var info=getId();
-		if(info!=null&&info!="")
+		if(getId())
 		{
-			window.location.href="sample!myaction.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			window.location.href="sample!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
 		}
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
-		var info=getId();
-		if(info!=null&&info!="")
+		if(getId())
 		{
-			window.location.href="sample!myaction.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			window.location.href="sample!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
 		}
 	});
 	//返回
@@ -243,6 +242,12 @@ function btn_event()
 //获取jqGrid表中选择的条数--即数据的ids
 function getId()
 {
-	return $("#grid-table").jqGrid("getGridParam","selarrrow");
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info==null||info=="")
+	{
+		layer.alert("请选择至少一条抽检记录！",false);
+		return false;
+	}
+	return true;
 }
 

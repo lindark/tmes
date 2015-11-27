@@ -1,4 +1,32 @@
 $(function() {
+	
+	$("#completeQuality").click(function(){		
+    	$("#inputForm").submit();  		    		
+	});
+	
+	
+	$("#checkQuality").click(function(){
+	    document.inputForm.action="quality!check.action";
+	    $("#inputForm").submit(); 			
+	});
+	
+	$("#confirmQuality").click(function(){
+	    document.inputForm.action="quality!confirm.action";
+	    $("#inputForm").submit(); 			
+	});
+	
+	$("#closeQuality").click(function(){
+		document.inputForm.action="quality!close.action";
+		$("#inputForm").submit(); 			
+	});
+	
+	
+	$("#returnModel").click(function(){
+		window.history.back();
+	});
+	
+	
+	
 	// 增加选项内容输入框
 	$("#addImage").click( function() {
 		addAttributeOptionTr();

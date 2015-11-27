@@ -1,4 +1,33 @@
 $(function() {	
+	
+	$("#completeModel").click(function(){		
+    	$("#inputForm").submit();  		    		
+	});
+	
+	
+	$("#checkModel").click(function(){
+	    document.inputForm.action="model!check.action";
+	    $("#inputForm").submit(); 			
+	});
+	
+	$("#confirmModel").click(function(){
+	    document.inputForm.action="model!confirm.action";
+	    $("#inputForm").submit(); 			
+	});
+	
+	$("#closeModel").click(function(){
+		document.inputForm.action="model!close.action";
+		$("#inputForm").submit(); 			
+	});
+	
+	
+	$("#returnModel").click(function(){
+		window.history.back();
+	});
+	
+	
+	
+	
 	// 产品弹出框
 	$("#productId").click( function() {
 		showProduct();

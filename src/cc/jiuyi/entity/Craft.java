@@ -42,6 +42,7 @@ public class Craft extends BaseEntity{
 	private Set<CraftLog> craftLogSet;//异常日志
 	private String productsName;//产品名称
 	private String teamName;
+	private String cabinetName;
 	
 	public String getCabinetCode() {
 		return cabinetCode;
@@ -168,6 +169,14 @@ public class Craft extends BaseEntity{
 	}
 	public void setRepairName(String repairName) {
 		this.repairName = repairName;
+	}
+	
+	@Transient
+	public String getCabinetName() {
+		return cabinetName;
+	}
+	public void setCabinetName(String cabinetName) {
+		this.cabinetName = cabinetName;
 	}
 	
 	

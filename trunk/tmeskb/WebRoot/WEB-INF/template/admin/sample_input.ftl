@@ -20,6 +20,7 @@ body {
 .div-value{padding-right:30px;min-width:200px; }
 .div-value2{text-align:right;padding-right:0px;min-width:200px;}
 .input-value{width:80px;height:30px;line-height:30px;}
+.sub-style{float: right;}
 </style>
 </head>
 <body class="no-skin input">
@@ -55,12 +56,12 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate" action="sample!save.action" method="post">
-								合格数量：<input type="text" id="input_qulified"  name="sample.qulified" value="" />
-								合格率：<input type="text" id="input_qrate" name="sample.qulifiedRate" value="" />
-								描述ID：<input type="text" id="input_rd" name="info" />
-								缺陷数量：<input type="text" id="input_rnum" name="info2" value="" />
-								my_id<input type="text" id="my_id" name="my_id" />
-								随工单ID<input type="text" name="sample.workingBill.id" value="${(workingbill.id)! }" />
+								<input type="hidden" id="input_qulified"  name="sample.qulified" value="" />
+								<input type="hidden" id="input_qrate" name="sample.qulifiedRate" value="" />
+								<input type="hidden" id="input_rd" name="info" />
+								<input type="hidden" id="input_rnum" name="info2" value="" />
+								<input type="hidden" id="my_id" name="my_id" />
+								<input type="hidden" name="sample.workingBill.id" value="${(workingbill.id)! }" />
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>
@@ -142,22 +143,20 @@ body {
 											</div>
 										<!-- end msg -->
 									</div>
-									<div class="buttonArea">
-										<div class="col-md-2 col-sm-4">
-											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_save" type="button">
-												<span class="bigger-110 no-text-shadow">刷卡保存</span>
-											</button>
-										</div>
-										<div class="col-md-2 col-sm-4">
-											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_confirm" type="button">
-												<span class="bigger-110 no-text-shadow">刷卡确认</span>
-											</button>
-										</div>
-										<div class="col-md-2 col-sm-4">
-											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_back" type="button">
-												<span class="bigger-110 no-text-shadow">返回</span>
-											</button>
-										</div>
+									<br/>
+									<div class="row buttons col-md-8 col-sm-4 sub-style">
+										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-upload"></i>
+											刷卡保存
+										</a>
+										<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-upload"></i>
+											刷卡确认
+										</a>
+										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-home"></i>
+											返回
+										</a>
 									</div>
 								</div>
 								<!-- end tabs -->

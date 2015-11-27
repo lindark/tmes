@@ -285,7 +285,7 @@ body {
 													<div>
 													<input type="hidden" name="flowingId" value="${(list.id)!}"/>
 													<textarea name="flowingRectify.content"
-														style="width:600px;" class="text">${(list.content)!}</textarea>${(list.content)!}&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
+														style="width:600px;" class="text">${(list.content)!}</textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
 													</div>
 													</td>
 												</tr>
@@ -335,6 +335,7 @@ body {
 <script>
 $(function() {
 	$("#sample-table-1 tbody .zg .text").attr("disabled",true);
+	//$("#sample-table-1 tbody .zg .text").hide();
 	
 	$(".save").live("click", function() {
 		$text =	$(this).prev(); 
@@ -364,6 +365,7 @@ $(function() {
 	
 	$(".edit").livequery("click", function(){
 		$(this).prev().prev().attr("disabled",false);
+
 	})
 	
 	

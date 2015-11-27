@@ -154,7 +154,7 @@ public class QualityAction extends BaseAdminAction {
 		qualityService.save(quality);
          
 		UnusualLog log = new UnusualLog();
-		log.setOperator(admin.getName());
+		log.setOperator(admin);
 		log.setInfo("已提交");
 		log.setQuality(quality);
 		unusualLogService.save(log);
@@ -183,29 +183,48 @@ public class QualityAction extends BaseAdminAction {
 	
 	//刷卡回复
 	public String check() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("3")){
 			addActionError("已关闭的单据无法再回复！");
+			return ERROR;
+		}
+		if(persistent.getState().equals("1")){
+			addActionError("单据已回复！");
 			return ERROR;
 		}
 		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
 		//admin=adminService.getLoginAdmin();
 		persistent.setState("1");
 		qualityService.update(persistent);
+		
+		UnusualLog log = new UnusualLog();
+		log.setOperator(admin);
+		log.setInfo("已回复");
+		log.setQuality(persistent);
+		unusualLogService.save(log);
+		
 		redirectionUrl="quality!list.action";
 		return SUCCESS;
 	}	
 		
 	//刷卡关闭
 	public String close() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
 			//admin=adminService.getLoginAdmin();
 			persistent.setState("3");
 			qualityService.update(persistent);
+			
+			UnusualLog log = new UnusualLog();
+			log.setOperator(admin);
+			log.setInfo("已关闭");
+			log.setQuality(persistent);
+			unusualLogService.save(log);
 		}else{
-			addActionError("单据已关闭！");
+			addActionError("单据已关闭/未回复！");
 			return ERROR;
 		}
 		

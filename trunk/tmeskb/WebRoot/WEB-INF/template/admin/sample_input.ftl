@@ -60,7 +60,7 @@ body {
 								描述ID：<input type="text" id="input_rd" name="info" />
 								缺陷数量：<input type="text" id="input_rnum" name="info2" value="" />
 								my_id<input type="text" id="my_id" name="my_id" />
-								随工单ID<input type="text" name="workingbill" value="${(workingbill.id)! }" />
+								随工单ID<input type="text" name="sample.workingBill.id" value="${(workingbill.id)! }" />
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>
@@ -182,6 +182,8 @@ body {
 </body>
 </html>
 <script type="text/javascript">
+var qxnums="";
+var qxids="";
 $(function(){
 	//缺陷事件
 	cause_event();
@@ -254,11 +256,12 @@ function getqxnum()
 }
 
 //获取缺陷描述的id--字符串形式
-var qxnums="";
+
 function getqxids()
 {
+	qxnums="";
+	qxids="";
 	var i=0;
-	var qxids="";
 	<#list list_cause as list>
 	var num=$("#sr_num"+i).val();
 	if(num!="0"&&num!=""&&num!=null)

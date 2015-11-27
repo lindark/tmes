@@ -17,6 +17,8 @@
 <script src="${base }/template/admin/js/manage/handover.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/manage/handover_list.js"></script>
 <style type="text/css">
 .ztree li span.button.add {
 	margin-left: 2px;
@@ -75,7 +77,7 @@
 									</li>
 									<li><a href="#tabs-2">线边仓交接</a>
 									</li>
-									<li><a href="#tabs-3">总体交接确认</a>
+									<li class="over"><a href="#tabs-3">总体交接确认</a>
 									</li>
 								</ul>
 								<div id="tabs-1">
@@ -135,8 +137,39 @@
 										<!-- /.widget-body -->
 									</div>
 								</div>
-								<div id="tabs-2">tabs-2</div>
-								<div id="tabs-3">tabs-3</div>
+								<div id="tabs-2">
+									<table class="table table-striped table-bordered">
+										<thead>
+											<tr>
+												<th class="center">库存地点</th>
+												<th class="center">物料编码</th>
+												<th class="center">物料描述</th>
+												<th class="center">数量</th>
+											</tr>
+										</thead>
+	
+										<tbody>
+											<#list locationonsideList as list>
+												<tr>
+													<td class="center">${list.locationCode }</td>
+													<td class="center">${list.materialCode }</td>
+													<td class="center">${list.materialName }</td>
+													<td class="center">${list.amount }	</td>
+												</tr>
+											</#list>
+	
+										</tbody>
+									</table>
+								</div>
+								<div id="tabs-3">
+									<div class="ceshi">
+									<table id="grid-table"></table>
+		
+										<div id="grid-pager"></div>
+									</div>
+										
+									
+								</div>
 							</div>
 
 
@@ -179,39 +212,15 @@
 
 </html>
 <script type="text/javascript">
-	/**
-	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
-	 */
-
 	$(function() {
-
 		$("#inputtabs").tabs();
-
-		var ishead = 0;
-		$("#ace-settings-btn").click(function() {
-			if (ishead == 0) {
-				ishead = 1;
-				$("#ace-settings-box").addClass("open");
-			} else {
-				ishead = 0;
-				$("#ace-settings-box").removeClass("open");
-			}
-		});
-		$(".btn-colorpicker").click(function() {
-			$(".dropdown-colorpicker").addClass("open");
+		$(".over").click(function(){
+			$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+			$("#grid-table").jqGrid('setGridParam',{
+				url:"hand_over_process!ajlist.action",
+				datatype:"json",
+				page:1
+			}).trigger("reloadGrid");
 		})
-
-		var ishead2 = 0;
-		$(".light-blue").click(function() {
-			if (ishead2 == 0) {
-				ishead2 = 1;
-				$(this).addClass("open");
-			} else {
-				ishead2 = 0;
-				$(this).removeClass("open");
-			}
-
-		})
-
 	})
 </script>

@@ -10,7 +10,6 @@ $(function(){
 	 * 分配班组点击
 	 */
 	$userTeamBtn.click(function(){
-		alert("?");
 		
 	});
 	

@@ -168,11 +168,12 @@ body {
 					<!-- /.row -->
 				</div>
 				<!-- /.page-content-area -->
-				<#include "/WEB-INF/template/admin/admin_footer.ftl">
+				
 			</div>
 			<!-- /.page-content -->
 		</div>
 		<!-- /.main-content -->
+		<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div>
 	<!-- /.main-container -->
 <#include "/WEB-INF/template/common/include_adm_bottom.ftl">
@@ -187,7 +188,7 @@ $(function(){
 	cause_event();
 	
 	$("#btn_confirm").click(function(){
-		var b=0.0999999999+0.0000000001;
+		var b=$(this).attr("id");
 		alert(b);
 	});
 });
@@ -235,22 +236,23 @@ function sample_event()
 		}
 	
 	});
-	
 }
 //缺陷事件
 function cause_event()
 {
-	var samplenum=$("#sample_num").val();//抽检数量
 	var i=0;
 	<#list list_cause as list>
 		$("#sr_num"+i).change(function(){
+			var idval=$(this).attr("id");
+			i=idval.substring(idval.length-1,idval.length);
+			var samplenum=$("#sample_num").val();//抽检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
 			var num_qx=$(this).val().replace(" ","");//缺陷
 			if(num_qx!=null&&num_qx!="")
 			{
 				var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
 				if(reg.test(num_qx))
-				{
+				{	
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
 					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
@@ -273,7 +275,7 @@ function cause_event()
 					$("#sr_num2"+i).val("");//缺陷数量--备胎
 					if(num_bt!=""&&num_bt!=null&&num_bt>0)
 					{
-						
+						tocalc(samplenum,"",num_bt);
 					}
 				}
 			}
@@ -285,85 +287,18 @@ function cause_event()
 function tocalc(samplenum,qxnum,qxnum_bt)
 {
 	var hgnum=$("#span_sq").text();//合格数量
-	hgnum=floatSub(hgnum,qxnum);//减法--合格数量
+	if(qxnum!="")
+	{
+		hgnum=floatSub(hgnum,qxnum);//减法--合格数量
+	}
+	if(qxnum_bt!="")
+	{
+		hgnum=floatAdd(hgnum,qxnum_bt);//加法--合格数量
+	}
 	var qrnum=floatDiv(hgnum,samplenum);//除法--合格率
 	qrnum=floatMul(qrnum,100);//乘法--合格率
 	qrnum=setScale(qrnum,2,"");//精度--合格率
 	$("#span_sq").text(hgnum);//合格数量
 	$("#span_qrate").text(qrnum+"%");//合格率
-}
-
-//浮点数加法运算
-function floatAdd(arg1, arg2) {
-	var r1, r2, m;
-	try{
-		r1 = arg1.toString().split(".")[1].length;
-	} catch(e) {
-		r1 = 0;
-	}
-	try {
-		r2 = arg2.toString().split(".")[1].length;
-	} catch(e) {
-		r2 = 0;
-	}
-	m = Math.pow(10, Math.max(r1, r2));
-	return (arg1 * m + arg2 * m) / m;
-}
-
-// 浮点数减法运算
-function floatSub(arg1, arg2) {
-	var r1, r2, m, n;
-	try {
-		r1 = arg1.toString().split(".")[1].length;
-	} catch(e) {
-		r1 = 0
-	}
-	try {
-		r2 = arg2.toString().split(".")[1].length;
-	} catch(e) {
-		r2 = 0
-	}
-	m = Math.pow(10, Math.max(r1, r2));
-	n = (r1 >= r2) ? r1 : r2;
-	return ((arg1 * m - arg2 * m) / m).toFixed(n);
-}
-
-// 浮点数乘法运算
-function floatMul(arg1, arg2) {    
-	var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
-	try {
-		m += s1.split(".")[1].length;
-	} catch(e) {}
-	try {
-		m += s2.split(".")[1].length;
-	} catch(e) {}
-	return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
-}
-
-// 浮点数除法运算
-function floatDiv(arg1, arg2) {
-	var t1 = 0, t2 = 0, r1, r2;    
-	try {
-		t1 = arg1.toString().split(".")[1].length;
-	} catch(e) {}
-	try {
-		t2 = arg2.toString().split(".")[1].length;
-	} catch(e) {}
-	with(Math) {
-		r1 = Number(arg1.toString().replace(".", ""));
-		r2 = Number(arg2.toString().replace(".", ""));
-		return (r1 / r2) * pow(10, t2 - t1);
-	}
-}
-
-//设置数值精度
-function setScale(value, scale, roundingMode) {
-	if (roundingMode.toLowerCase() == "roundhalfup") {
-		return (Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale)).toFixed(scale);
-	} else if (roundingMode.toLowerCase() == "roundup") {
-		return (Math.ceil(value * Math.pow(10, scale)) / Math.pow(10, scale)).toFixed(scale);
-	} else {
-		return (Math.floor(value * Math.pow(10, scale)) / Math.pow(10, scale)).toFixed(scale);
-	}
 }
 </script>	

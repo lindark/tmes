@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'faultCharacter',index:'faultCharacter', width:160, editable: true,edittype:"select"},
 			{name:'diagnosis',index:'diagnosis', width:160, sortable:false,editable: true,edittype:"textarea"},
 			{name:'disposalWorkers',index:'disposalWorkers', width:60, sortable:false,editable: true,edittype:"textarea"},
-			{name:'stateRemark',index:'state', width:60, sortable:false,editable: true,edittype:"textarea", search:false,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,edittype:"textarea", search:false,cellattr:addstyle}		
 		], 
 
 		viewrecords : true,

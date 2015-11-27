@@ -1,4 +1,3 @@
-
 package cc.jiuyi.entity;
 
 import java.util.Date;
@@ -14,8 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
+import org.springmodules.cache.annotations.Cacheable;
 
 /**
  * 实体类 - 管理员
@@ -313,6 +316,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Cacheable(modelId = "caching")
 	public Department getDepartment() {
 		return department;
 	}

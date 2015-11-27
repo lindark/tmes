@@ -104,9 +104,10 @@ body {
 												<div class="profile-info-name">产品编号</div>
 
 												<div class="profile-info-value">
+												      <#if isAdd??>
 													  <input type="text"  id="productNo" readOnly="true" name="craft.products.productsCode"
-														value="${(craft.products.productsCode)!}"
-														class=" input input-sm" />
+														value="" class=" input input-sm" />
+													  <#else> ${(craft.products.productsCode)!} </#if>
 												</div> 
 												
 
@@ -247,7 +248,7 @@ body {
 											<tr>
 												<td>${(list.createDate)!}</td>
 												<td>${(list.info)!}</td>
-												<td>${(list.operator)!}</td>
+												<td>${(list.operator.name)!}</td>
 											</tr>
 											</#list>
 										</tbody>

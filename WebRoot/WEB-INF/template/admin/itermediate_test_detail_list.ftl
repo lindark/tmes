@@ -10,6 +10,9 @@
 
 <#include "/WEB-INF/template/common/includelist.ftl">
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>		
+		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_input.js"></script>
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -32,7 +35,7 @@ body {
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 	
 
-     <div class="breadcrumbs" id="breadcrumbs">
+     <!--  <div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -42,9 +45,9 @@ body {
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">领/退料列表</li>
+			<li class="active">半成品巡检列表</li>
 		</ul>
-	</div>
+	</div>-->
 
 			<!-- add by welson 0728 -->
 			<div class="page-content">
@@ -70,6 +73,7 @@ body {
 											<th style="text-align:center;">尺寸4</th>
 											<th style="text-align:center;">尺寸5</th>
 											<th style="text-align:center;">不合格数量/原因</th>
+											
 										</tr>
 									</thead>
 
@@ -99,11 +103,16 @@ body {
 												</td>
 												<td class="center">
 												 <input type="text"/>
+												  <#if isAdd??><button type="button" class="btn btn-xs btn-info itAddBtn"  data-toggle="button">选择</button>				                                    
+				                                     
+										         	 <#else>  
+										          </#if>		
 												</td>										
 											</tr>
 											<#assign num=num+1/>
 										</#list>
 
+                                           
 									</tbody>
 								</table>
 
@@ -139,8 +148,8 @@ body {
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
 	 */
-	
-	$(function(){		
+
+	 $(function(){		
 		$("#addIt").click(function(){
 			document.inputForm.action="pick_detail!save.action";
 			$("#inputForm").submit();
@@ -184,7 +193,30 @@ body {
 			});
      });
 	
-
+	 $(function(){
+		    var workingBillId=$("#workingBillId").val();
+			var $itAddBtn = $(".itAddBtn");//添加用户
+			/**
+			 * 添加按钮点击
+			 */
+			$itAddBtn.click(function(){
+				var title = "不合格原因";
+				var width="800px";
+				var height="400px";
+				var content="itermediate_test_detail!browser.action";
+				jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+				
+		        var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+		        //var work = iframeWin.getGridId();
+		        layer.close(index);            	          	     	
+		        
+		       
+			  });
+			 	
+			});
+			
+		})
+	
 	
 </script>
 </body>

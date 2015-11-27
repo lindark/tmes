@@ -32,6 +32,13 @@ public class HandOverProcess extends BaseEntity{
     private String stateRemark;//状态描述
     private Integer amount;//数量
     
+    /*冗余字段*/
+    private String processName;//工序名称
+    private String materialCode;//物料编码
+    private String materialName;//物料名称
+    private String beforworkingbillCode;//上班随工单编码
+    /*冗余字段end*/
+    
     private Process process;//工序
     private Material material;//物料组件
     private WorkingBill afterworkingbill;//下班随工单
@@ -95,6 +102,34 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setBeforworkingbill(WorkingBill beforworkingbill) {
 		this.beforworkingbill = beforworkingbill;
+	}
+	@Transient
+	public String getProcessName() {
+		return processName;
+	}
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+	@Transient
+	public String getMaterialCode() {
+		return materialCode;
+	}
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+	@Transient
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+	@Transient
+	public String getBeforworkingbillCode() {
+		return beforworkingbillCode;
+	}
+	public void setBeforworkingbillCode(String beforworkingbillCode) {
+		this.beforworkingbillCode = beforworkingbillCode;
 	}
 	
 	

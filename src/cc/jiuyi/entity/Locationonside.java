@@ -14,8 +14,11 @@ public class Locationonside extends BaseEntity {
 
 	private static final long serialVersionUID = 8226157605987504110L;
 
-	private String locationCode;// 线边仓编码
-	private String locationName;// 线边仓名称
+	private String locationCode;// 库存地点
+	private String locationName;// 库存地点描述
+	private String materialCode;//物料编码
+	private String materialName;//物料描述
+	private String amount;//数量
 	private String isDel;//是否删除
 
 	public String getLocationCode() {
@@ -44,5 +47,31 @@ public class Locationonside extends BaseEntity {
 		}
 		this.isDel = isDel;
 	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getMaterialName() {
+		return materialName;
+	}
+
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+	
+	
 
 }

@@ -9,6 +9,7 @@ $(function() {
 	var $dailywork = $("#dailywork");// 报工
 	var $carton = $("#carton");// 纸箱收货
 	var $rework = $("#rework");// 返工
+	var $sample=$("#sample");//抽检
 	var $halfinspection=$("#halfinspection");//半成品巡检
 	var $pollingtest = $("#pollingtest");//巡检
 
@@ -129,7 +130,7 @@ $(function() {
 			window.location.href = "pollingtest!list.action?workingBillId=" + id;
 		}
 	});
-	
+
 	/**
 	 * 快速响应按钮点击
 	 */
@@ -137,6 +138,17 @@ $(function() {
 		window.location.href = "abnormal!list.action";
 	});
 
+	/**
+	 * 抽检
+	 */
+	$sample.click(function(){
+		var istrue=ckboxChick();
+		if(istrue)
+		{
+			var id = getCKboxById();
+			window.location.href = "sample!list.action?wbId=" + id;
+		}
+	});
 })
 
 /**
@@ -153,7 +165,6 @@ function getCKboxById() {
 			id = sId;
 		ishead = 1;
 	});
-	alert(id);
 	return id;
 }
 

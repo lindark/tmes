@@ -203,17 +203,42 @@ body {
 												</div>
 											</div>
 										</div>
+										</form>
 										<!--weitao end modify-->
                                         <div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
+                                        
+                                            <#if isAdd??>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeQuality" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+									</button>	
+									<#else>
+									</#if>	
+									<#if isAdd??><#else>								
+									<button class="btn btn-white btn-default btn-sm btn-round" id="checkQuality" type=button>
+										<i class="ace-icon glyphicon glyphicon-ok"></i>
+										刷卡回复
+									</button>
+									
+									<button class="btn btn-white btn-default btn-sm btn-round" id="closeQuality" type=button>
+										<i class="ace-icon fa fa-cloud-upload"></i>
+										刷卡关闭
+									</button>
+									</#if>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnQuality" type=button>
+										<i class="ace-icon fa fa-home"></i>
+										返回
+									</button>
+                                        
+									<!--  	<input type="submit" class="formButton" value="确  定"
 											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
 											type="button" class="formButton"
 											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
+											hidefocus="true" />-->
 									     </div>
    
 									</div>
-                                    </form>
+                                    
                                     <form id="inputForm1" action="flowing_rectify!save.action" method="post"></form>
                                     
 									<table id="tabs-2" class="inputTable tabContent">

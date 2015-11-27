@@ -52,6 +52,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Model> modelSet;//一个人对应多个工模维修单
 	private Set<AbnormalLog> abnormalLogSet;//异常日志
 	private Set<Craft> craftSet;//工艺维修单
+	private Set<UnusualLog> unusualLogSet;//质量问题单日志
+	private Set<ModelLog> modelLogSet;//工模维修单日志
+	private Set<CraftLog> craftLogSet;//工艺维修单日志
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -576,6 +579,33 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setCraftSet(Set<Craft> craftSet) {
 		this.craftSet = craftSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "operator")
+	public Set<UnusualLog> getUnusualLogSet() {
+		return unusualLogSet;
+	}
+
+	public void setUnusualLogSet(Set<UnusualLog> unusualLogSet) {
+		this.unusualLogSet = unusualLogSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "operator")
+	public Set<ModelLog> getModelLogSet() {
+		return modelLogSet;
+	}
+
+	public void setModelLogSet(Set<ModelLog> modelLogSet) {
+		this.modelLogSet = modelLogSet;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "operator")
+	public Set<CraftLog> getCraftLogSet() {
+		return craftLogSet;
+	}
+
+	public void setCraftLogSet(Set<CraftLog> craftLogSet) {
+		this.craftLogSet = craftLogSet;
 	}
 	
 	

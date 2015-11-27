@@ -72,7 +72,7 @@ jQuery(function($) {
 			{name:'callReason',index:'callReason', width:160, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true,cellattr:addstyle},
+			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle},
 			{name:'state',index:'state', width:60,editable: true,hidden:true}
 			
 		], 

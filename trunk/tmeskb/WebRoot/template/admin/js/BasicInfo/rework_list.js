@@ -47,8 +47,8 @@ jQuery(function($){
 			{name:'reworkCount',index:'reworkCount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'reworkAmount',index:'reworkAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'defectAmount',index:'defectAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, cellattr:addstyle,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
-			{name:'isCompeletes',index:'isCompelete', width:200,label:"完工状态",cellattr:addstyle1,sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
+			{name:'stateRemark',index:'state', width:200, cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
+			{name:'isCompeletes',index:'isCompelete', width:200,label:"完工状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}		 
 		], 
 
 

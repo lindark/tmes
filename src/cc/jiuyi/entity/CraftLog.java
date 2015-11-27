@@ -13,17 +13,18 @@ import javax.persistence.ManyToOne;
 public class CraftLog extends BaseEntity {
 	
 	private static final long serialVersionUID = -4294124902010236826L;
-	private String operator;// 操作员
+	private Admin operator;// 操作员
 	private String info;// 日志信息
 	private Craft craft;//工艺问题
 	
-	
-	public String getOperator() {
+	@ManyToOne(fetch = FetchType.LAZY)	
+	public Admin getOperator() {
 		return operator;
 	}
-	public void setOperator(String operator) {
+	public void setOperator(Admin operator) {
 		this.operator = operator;
 	}
+	
 	public String getInfo() {
 		return info;
 	}

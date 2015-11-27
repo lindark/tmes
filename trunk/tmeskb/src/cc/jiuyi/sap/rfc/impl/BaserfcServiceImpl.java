@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sap.mw.jco.IFunctionTemplate;
 import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.Client;
@@ -18,6 +20,7 @@ import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Repository;
 import com.sap.mw.jco.JCO.Structure;
 import com.sap.mw.jco.JCO.Table;
+import com.sun.xml.internal.ws.api.PropertySet.Property;
 
 import cc.jiuyi.sap.rfc.BaserfcService;
 import cc.jiuyi.util.Mapping;
@@ -27,7 +30,6 @@ import cc.jiuyi.util.SystemConfigUtil;
 import cc.jiuyi.util.TableModel;
 
 public class BaserfcServiceImpl implements BaserfcService {
-
 	private String property;
 	private HashMap<String, Object> parameter = null;
 	private Mapping mapping = null;
@@ -42,7 +44,7 @@ public class BaserfcServiceImpl implements BaserfcService {
 
 	protected String getFunctionName() throws IOException {
 		Properties prop = new Properties();
-		InputStream in = Object.class
+		InputStream in = BaserfcServiceImpl.class
 				.getResourceAsStream("/functionName.properties");
 		prop.load(in);
 		return prop.getProperty(property).trim();
@@ -92,7 +94,6 @@ public class BaserfcServiceImpl implements BaserfcService {
 	 */
 	protected void setParameter(HashMap<String, Object> parameter) {
 		this.parameter = parameter;
-		this.parameter = new HashMap<String, Object>();
 	}
 
 	/**
@@ -100,7 +101,6 @@ public class BaserfcServiceImpl implements BaserfcService {
 	 */
 	protected void setStructure(Mapping mapping) {
 		this.mapping = mapping;
-		this.mapping = new Mapping();
 	}
 
 	/**
@@ -110,7 +110,6 @@ public class BaserfcServiceImpl implements BaserfcService {
 	 */
 	protected void setTable(List<TableModel> tablemodelList) {
 		this.tablemodelList = tablemodelList;
-		this.tablemodelList = new ArrayList<TableModel>();
 	}
 
 	/**
@@ -131,9 +130,9 @@ public class BaserfcServiceImpl implements BaserfcService {
 		JCO.ParameterList inputtable = bapi.getTableParameterList();// 输入表的处理
 
 		if (this.parameter != null) {
-			Set set = this.parameter.keySet();
+			Set set = this.parameter.entrySet();
 			for (Iterator it = set.iterator(); it.hasNext();) {
-				Map.Entry entry = (Map.Entry) it.next();
+				Map.Entry<String, Object> entry = (Map.Entry) it.next();
 				parameterList.setValue((String) entry.getValue(),
 						(String) entry.getKey());
 			}

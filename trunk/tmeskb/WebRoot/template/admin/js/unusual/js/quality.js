@@ -6,17 +6,17 @@ $(function() {
 	
 	
 	$("#checkQuality").click(function(){
-	    document.inputForm.action="quality!check.action";
+		$("#inputForm").attr("action", "quality!check.action");
 	    $("#inputForm").submit(); 			
 	});
 	
 	$("#confirmQuality").click(function(){
-	    document.inputForm.action="quality!confirm.action";
+		$("#inputForm").attr("action", "quality!confirm.action");
 	    $("#inputForm").submit(); 			
 	});
 	
 	$("#closeQuality").click(function(){
-		document.inputForm.action="quality!close.action";
+		$("#inputForm").attr("action", "quality!close.action");
 		$("#inputForm").submit(); 			
 	});
 	

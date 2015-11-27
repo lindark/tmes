@@ -98,6 +98,62 @@ public class ModelAction extends BaseAdminAction {
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
 	}
+	
+	
+	//刷卡回复
+	public String check() throws Exception{
+		Model persistent = modelService.load(id);
+		if(persistent.getState().equals("2")){
+			addActionError("已确定的单据无法再回复！");
+			return ERROR;
+		}
+		if(persistent.getState().equals("3")){
+			addActionError("已关闭的单据无法再回复！");
+			return ERROR;
+		}
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
+		//admin=adminService.getLoginAdmin();
+		persistent.setState("1");
+		modelService.update(persistent);
+		redirectionUrl="model!list.action";
+		return SUCCESS;
+	}	
+	
+	
+	//刷卡确定
+	public String confirm() throws Exception{
+		Model persistent = modelService.load(id);
+		if(persistent.getState().equals("1")){
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
+			//admin=adminService.getLoginAdmin();
+			persistent.setState("2");
+			modelService.update(persistent);
+		}else{
+			addActionError("该单据未回复/已关闭！");
+			return ERROR;
+		}
+				
+		redirectionUrl="model!list.action";
+		return SUCCESS;
+	}	
+	
+	//刷卡关闭
+	public String close() throws Exception{
+		Model persistent = modelService.load(id);
+		if(persistent.getState().equals("2")){
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId"});
+			//admin=adminService.getLoginAdmin();
+			persistent.setState("3");
+			modelService.update(persistent);
+		}else{
+			addActionError("该单据已关闭/未回复！");
+			return ERROR;
+		}
+		
+		redirectionUrl="craft!list.action";
+		return SUCCESS;
+	}		
+
 
 	public String ajlist() {
 

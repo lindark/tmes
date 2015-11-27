@@ -46,6 +46,7 @@ public class PollingtestAction extends BaseAdminAction {
 	private String workingBillId;
 	private WorkingBill workingbill;
 	private Admin admin;
+	private String my_id;
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
@@ -86,18 +87,14 @@ public class PollingtestAction extends BaseAdminAction {
 	public String save() {
 		admin = adminService.getLoginAdmin();
 		pollingtest.setPollingtestUser(admin);
-		pollingtest.setPassedPercent(getPercent(
-				pollingtest.getQualifiedAmount(),
-				pollingtest.getPollingtestAmount()));
+		if("2".equals(my_id)){
+			pollingtest.setConfirmUser(admin);
+			pollingtest.setState(CONFIRMED);
+		}
 		pollingtestService.save(pollingtest);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
-	}
-
-	public String getPercent(Integer qualifiedAmount, Integer pollingtestAmount) {
-		Double percent = ((double) qualifiedAmount) / pollingtestAmount*100;
-		return percent + "%";
 	}
 
 	/**
@@ -255,6 +252,14 @@ public class PollingtestAction extends BaseAdminAction {
 
 	public void setList_cause(List<Cause> list_cause) {
 		this.list_cause = list_cause;
+	}
+
+	public String getMy_id() {
+		return my_id;
+	}
+
+	public void setMy_id(String my_id) {
+		this.my_id = my_id;
 	}
 
 }

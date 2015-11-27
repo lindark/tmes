@@ -84,11 +84,11 @@ body {
 							<form id="inputForm" class="validate"
 								action="<#if isAdd??>pollingtest!save.action<#else>pollingtest!update.action</#if>"
 								method="post">
-								合格数量：<input type="text" id="input_qulified"  name="pollingtest.qualifiedAmount" value="" />
-								合格率：<input type="text" id="input_qrate" name="pollingtest.passedPercent" value="" />
-								描述ID：<input type="text" id="input_rd" name="pollingtestRecord.recordDescription" />
-								缺陷数量：<input type="text" id="input_rnum" name="pollingtestRecord.recordNum" value="" />
-								my_id<input type="text" id="my_id" name="my_id" />
+								<input type="hidden" id="input_qulified"  name="pollingtest.qualifiedAmount" value="" />
+								<input type="hidden" id="input_qrate" name="pollingtest.passedPercent" value="" />
+								<input type="hidden" id="input_rd" name="info" />
+								<input type="hidden" id="input_rnum" name="info2" value="" />
+								<input type="hidden" id="my_id" name="my_id" />
 								<input type="hidden" name="id" value="${(id)!}" /> 
 								<input type="hidden" class="input input-sm"
 									name="pollingtest.workingbill.id" value="${workingbill.id} ">
@@ -135,16 +135,16 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="pollingtest.curingTime1"
 														style="width:10%" value="${(pollingtest.curingTime1)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.curingTime2"
 														style="width:10%" value="${(pollingtest.curingTime2)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.curingTime3"
 														style="width:10%" value="${(pollingtest.curingTime3)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.curingTime4"
 														style="width:10%" value="${(pollingtest.curingTime4)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<span>&nbsp;&nbsp;&nbsp;/秒</span>
 												</div>
 											</div>
@@ -153,7 +153,7 @@ body {
 												<div class="profile-info-name">工艺确认</div>
 												<div class="profile-info-value">
 													<select name="pollingtest.craftWork" id="form-field-icon-1">
-														<option value="">---请选择---</option> <#list allCraftWork as
+														<#list allCraftWork as
 														list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
 															list.isDefault) || (isEdit && pollingtest.craftWork ==
@@ -166,16 +166,16 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="pollingtest.settingTime1"
 														style="width:10%" value="${(pollingtest.settingTime1)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.settingTime2"
 														style="width:10%" value="${(pollingtest.settingTime2)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.settingTime3"
 														style="width:10%" value="${(pollingtest.settingTime3)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<input type="text" name="pollingtest.settingTime4"
 														style="width:10%" value="${(pollingtest.settingTime4)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 													<span>&nbsp;&nbsp;&nbsp;/秒</span>
 												</div>
 											</div>
@@ -184,14 +184,14 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="pollingtest.size1"
 														value="${(pollingtest.size1)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 												</div>
 
 												<div class="profile-info-name">尺寸2</div>
 												<div class="profile-info-value">
 													<input type="text" name="pollingtest.size2"
 														value="${(pollingtest.size2)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -199,7 +199,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="pollingtest.size3"
 														value="${(pollingtest.size3)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {min: 0}" />
 												</div>
 
 												<div class="profile-info-name">合格数量</div>

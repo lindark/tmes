@@ -13,16 +13,18 @@ import javax.persistence.ManyToOne;
 public class UnusualLog extends BaseEntity {
 
 	private static final long serialVersionUID = -4292124902020236826L;
-	private String operator;// 操作员
+	private Admin operator;// 操作员
 	private String info;// 日志信息
 	private Quality quality;//质量问题
 	
-	public String getOperator() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getOperator() {
 		return operator;
 	}
-	public void setOperator(String operator) {
+	public void setOperator(Admin operator) {
 		this.operator = operator;
 	}
+	
 	public String getInfo() {
 		return info;
 	}

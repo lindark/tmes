@@ -1,12 +1,12 @@
 package cc.jiuyi.service.impl;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.dao.CauseDao;
 import cc.jiuyi.dao.SampleDao;
 import cc.jiuyi.dao.SampleRecordDao;
@@ -14,6 +14,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.SampleService;
 
 /**
@@ -31,8 +32,11 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	@Resource
 	private CauseDao causeDao;
 	@Resource
-	private AdminDao adminDao;
-
+	private AdminService adminService;
+	@Resource
+	public void setBaseDao(SampleDao sampleDao) {
+		super.setBaseDao(sampleDao);
+	}
 	/**
 	 * jqGrid查询
 	 * sample_list.ftl页面
@@ -50,8 +54,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	 * @param my_id 1保存/2确认
 	 */
 	@Override
-	public void saveInfo(Sample sample, String info, String info2, String my_id,Admin admin)
+	public void saveInfo(Sample sample, String info, String info2, String my_id)
 	{
+		Admin admin=this.adminService.getLoginAdmin();
 		if(sample!=null)
 		{
 			sample.setSampler(admin);//抽检人
@@ -79,6 +84,22 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 					this.sampleRecordDao.save(sr);
 				}
 			}
+		}
+	}
+
+	/**
+	 * 确认/撤销
+	 */
+	@Override
+	public void updateState(List<Sample> list, String newstate)
+	{
+		Admin admin=this.adminService.getLoginAdmin();
+		for(int i=0;i<list.size();i++)
+		{
+			Sample sample=list.get(i);
+			sample.setState(newstate);
+			sample.setComfirmation(admin);
+			this.sampleDao.update(sample);
 		}
 	}
 }

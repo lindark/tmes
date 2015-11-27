@@ -68,7 +68,7 @@ jQuery(function($) {
 			
 			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsName',index:'productsName',width:60,editable:true},
-			{name:'cabinetName',index:'cabinetName', width:260,editable: true},
+			{name:'cabinetName',index:'cabinetName', width:260,editable: true,search:false,},
 			{name:'teamName',index:'teamName', width:260, editable: true},		
 			{name:'stateRemark',index:'state', width:60, sortable:false,editable: true,search:false,cellattr:addstyle}		
 		], 

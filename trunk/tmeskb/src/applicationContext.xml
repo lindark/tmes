@@ -29,7 +29,6 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 			<list>
 				<value>classpath:/jdbc.properties</value>
 				<value>classpath:/sap.properties</value>
-				<value>classpath:/functionName.properties</value>
 			</list>
 		</property>
 	</bean>

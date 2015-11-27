@@ -1,4 +1,29 @@
 $(function() {	
+	
+	
+	$("#completeCraft").click(function(){		
+    	$("#inputForm").submit();  		    		
+	});
+	
+	
+	$("#checkCraft").click(function(){
+	    document.inputForm.action="craft!check.action";
+	    $("#inputForm").submit(); 			
+	});
+	
+	$("#closeCraft").click(function(){
+		document.inputForm.action="craft!close.action";
+		$("#inputForm").submit(); 			
+	});
+	
+	
+	$("#returnCraft").click(function(){
+		window.history.back();
+	});
+	
+	
+	
+	
 	// 产品弹出框
 	$("#productId").click( function() {
 		showProduct();

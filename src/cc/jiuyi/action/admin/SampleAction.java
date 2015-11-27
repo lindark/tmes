@@ -16,10 +16,12 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SampleService;
@@ -46,6 +48,8 @@ public class SampleAction extends BaseAdminAction
 	private String my_id;//自定义ID
 	private List<Cause> list_cause;//缺陷
 	private List<Dict> list_dict;//抽检类型
+	private String info;
+	private String info2;
 	/**
 	 * service接口
 	 */
@@ -57,6 +61,8 @@ public class SampleAction extends BaseAdminAction
 	private DictService dictService;//字典表
 	@Resource
 	private CauseService causeService;//缺陷表
+	@Resource
+	private AdminService adminService;
 	
 	/**======================end 对象，变量，接口=*=================================*/
 	
@@ -87,11 +93,10 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String save()
 	{
-		if(sample!=null)
-		{
-			this.sampleService.save(sample);
-		}
-		this.redirectionUrl="sample!list.action?workingBillId="+this.sample.getWorkingBill().getId();
+		Admin admin=this.adminService.getLoginAdmin();
+		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
+		this.sampleService.saveInfo(sample,info,info2,my_id,admin);
+		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return SUCCESS;
 	}
 	
@@ -223,7 +228,26 @@ public class SampleAction extends BaseAdminAction
 	{
 		this.list_dict = list_dict;
 	}
-	
+
+	public String getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(String info)
+	{
+		this.info = info;
+	}
+
+	public String getInfo2()
+	{
+		return info2;
+	}
+
+	public void setInfo2(String info2)
+	{
+		this.info2 = info2;
+	}
 	
 	/**==========================end "get/set"====================================*/
 }

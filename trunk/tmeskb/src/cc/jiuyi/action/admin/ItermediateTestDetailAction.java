@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.ItermediateTest;
 import cc.jiuyi.entity.ItermediateTestDetail;
@@ -19,12 +20,11 @@ import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ItermediateTestDetailService;
 import cc.jiuyi.service.ItermediateTestService;
 import cc.jiuyi.service.MaterialService;
-import cc.jiuyi.service.PickDetailService;
-import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 
@@ -47,6 +47,7 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	private ItermediateTestDetail itermediateTestDetail;
 	//获取所有状态
 	private List<Dict> allState;
+	private List<Cause> list_cause;//缺陷代码
 	
 	private ItermediateTest itermediateTest;
 	
@@ -64,6 +65,8 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	private ProductsService productsServce;
 	@Resource
 	private ItermediateTestDetailService itermediateTestDetailService;
+	@Resource
+	private CauseService causeService;
 	
 	private WorkingBill workingbill;
 	private String workingBillId;
@@ -88,11 +91,15 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
     
 	//添加
 	public String add(){
+		workingbill=workingBillService.get(workingBillId);
+		list_cause=causeService.getBySample("3"); //获取缺陷表中关于半成品巡检的内容
 		return INPUT;
 	}
 
 	//列表
 	public String list(){
+		workingbill=workingBillService.get(workingBillId);
+		list_cause=causeService.getBySample("3"); //获取缺陷表中关于半成品巡检的内容
 		Admin admin=adminService.getLoginAdmin();
 		admin=adminService.get(admin.getId());
 		Products products=productsServce.getProducts(matnr);
@@ -103,10 +110,19 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	
     //查看页面
 	public String view(){
+		workingbill=workingBillService.get(workingBillId);
+		list_cause=causeService.getBySample("3"); //获取缺陷表中关于半成品巡检的内容
 		return VIEW;
 	}
 
 
+	// 列表
+	public String browser() {
+		list_cause=causeService.getBySample("3"); //获取缺陷表中关于半成品巡检的内容
+		return "browser";
+	 }
+	
+	
 	/**
 	 * ajax 列表
 	 * @return
@@ -144,6 +160,8 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	//编辑
 		public String edit(){
 			itermediateTestDetail= itermediateTestDetailService.load(id);
+			workingbill=workingBillService.get(workingBillId);
+			list_cause=causeService.getBySample("3");//获取缺陷表中关于半成品巡检的内容
 			return INPUT;	
 		}
 		
@@ -309,6 +327,12 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	public void setItermediateTestDetailList(
 			List<ItermediateTestDetail> itermediateTestDetailList) {
 		this.itermediateTestDetailList = itermediateTestDetailList;
+	}
+	public List<Cause> getList_cause() {
+		return list_cause;
+	}
+	public void setList_cause(List<Cause> list_cause) {
+		this.list_cause = list_cause;
 	}
 	
 	

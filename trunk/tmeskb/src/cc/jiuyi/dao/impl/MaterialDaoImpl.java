@@ -43,7 +43,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@SuppressWarnings("unchecked")
 	public List<Material> getMaterialList() {
 		String hql = "From Material material order by material.id asc material.crateDate desc";
-		return getSession().createQuery(hql).list();
+		return getSession().createQuery(hql).setCacheable(true).list();
 	}
 
 	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName) {
@@ -92,7 +92,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@SuppressWarnings("unchecked")
 	public boolean isExistByMaterialCode(String materialCode) {
 		String hql="from Material material where lower(material.materialCode)=lower(?)";
-		Material material=(Material) getSession().createQuery(hql).setParameter(0, materialCode).uniqueResult();
+		Material material=(Material) getSession().createQuery(hql).setCacheable(true).setParameter(0, materialCode).uniqueResult();
 		System.out.println(hql);
 		if(material!=null){
 			return true;
@@ -105,7 +105,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@SuppressWarnings("unchecked")
 	public List<Products> getProductsList() {
 		String hql = "From Products products order by products.id asc products.crateDate desc";
-		return getSession().createQuery(hql).list();
+		return getSession().createQuery(hql).setCacheable(true).list();
 	}
 
 
@@ -113,14 +113,14 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@Override
 	public List<Material> getMantrBom(String matnr) {
 		String hql="from Material where products.productsCode = ?";
-		return getSession().createQuery(hql).setParameter(0, matnr).list();
+		return getSession().createQuery(hql).setCacheable(true).setParameter(0, matnr).list();
 		
 	}
 
 	@Override
 	public List<Material> getMantrBom(Object[] matnrs) {
 		String hql="select distinct a from Material a join a.products b where b.productsCode in (:list)";
-		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
+		return getSession().createQuery(hql).setCacheable(true).setParameterList("list", matnrs).list();
 	}
 
 }

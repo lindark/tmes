@@ -97,5 +97,10 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 	}
 	
 	
+	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {
+		String hql="from HandOverProcess as model where model."+propertyName+" in (:list) order by "+orderBy+" "+ordertype;
+		return getSession().createQuery(hql).setParameterList("list", objlist).list();		
+	}
+	
 	
 }

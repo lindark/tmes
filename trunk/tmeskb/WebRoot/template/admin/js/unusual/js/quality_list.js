@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'teamName',index:'teamName', width:160,editable: true},
 			{name:'processName',index:'processName', width:160, editable: true},
 			{name:'founder',index:'founder', width:60, editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true,search:false,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,search:false,cellattr:addstyle}		
 		], 
 
 		viewrecords : true,

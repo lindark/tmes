@@ -14,6 +14,10 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -86,7 +90,9 @@ public class PollingtestAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String save() {
+	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
+	@InputConfig(resultName = "error")
+	public String save() throws Exception {
 		admin = adminService.getLoginAdmin();
 		pollingtestService.saveInfo(pollingtest, info, info2, my_id, admin);
 		redirectionUrl = "pollingtest!list.action?workingBillId="

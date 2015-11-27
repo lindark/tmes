@@ -91,4 +91,9 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		return handOverProcessDao.findhandoverBypro(materialCode, processid, matnr);
 	}
 	
+	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {
+		return handOverProcessDao.getList(propertyName, objlist, orderBy, ordertype);
+	}
+	
+	
 }

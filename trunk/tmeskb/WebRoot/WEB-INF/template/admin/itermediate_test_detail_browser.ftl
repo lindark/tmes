@@ -30,18 +30,6 @@ body {
 		
 		</script>
 		<div class="main-content">
-			
-			<!-- ./ add by welson 0728 -->
-			<div class="breadcrumbs" id="breadcrumbs">
-				<script type="text/javascript">try {ace.settings.check('breadcrumbs', 'fixed')} catch (e) {}</script>
-				<ul class="breadcrumb">
-					<li><i class="ace-icon fa fa-home home-icon"></i> 
-					<a href="admin!index.action">管理中心</a></li>
-					<li class="active">半成品巡检单</li>
-				</ul>
-				<!-- /.breadcrumb -->
-			</div>
-
 			<!-- add by welson 0728 -->
 			<div class="page-content">
 				<div class="page-content-area">

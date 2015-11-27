@@ -133,7 +133,7 @@ jQuery(function($) {
 		}
 		
 		//已完结
-		if(rawObject.state=="2")
+		if(rawObject.state=="3")
 		{
 			return "style='color:green;'";
 		}

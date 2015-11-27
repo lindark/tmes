@@ -38,5 +38,15 @@ public interface HandOverProcessDao extends BaseDao<HandOverProcess,String> {
 	 */
 	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr);
 	
+	/**
+	 * 根据propertyName + objlist 的结果集 排序
+	 * @param propertyName
+	 * @param objlist
+	 * @param orderBy
+	 * @param ordertype
+	 * @return
+	 */
+	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype);
+	
 	
 }

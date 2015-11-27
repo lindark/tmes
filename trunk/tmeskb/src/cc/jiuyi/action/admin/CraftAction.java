@@ -27,6 +27,7 @@ import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -93,6 +94,38 @@ public class CraftAction extends BaseAdminAction {
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","state","products","creater"});
 		craftService.update(persistent);
 		redirectionUrl = "craft!list.action";
+		return SUCCESS;
+	}
+	
+	//刷卡回复
+	public String check() throws Exception{
+		Craft persistent = craftService.load(id);
+		if(persistent.getState().equals("3")){
+			addActionError("已关闭的单据无法再回复！");
+			return ERROR;
+		}
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
+		//admin=adminService.getLoginAdmin();
+		persistent.setState("1");
+		craftService.update(persistent);
+		redirectionUrl="craft!list.action";
+		return SUCCESS;
+	}
+	
+	//刷卡关闭
+	public String close() throws Exception{
+		Craft persistent = craftService.load(id);
+		if(persistent.getState().equals("1")){
+			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
+			//admin=adminService.getLoginAdmin();
+			persistent.setState("3");
+			craftService.update(persistent);
+		}else{
+			addActionError("单据已关闭！");
+			return ERROR;
+		}
+		
+		redirectionUrl="craft!list.action";
 		return SUCCESS;
 	}
 	

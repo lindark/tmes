@@ -1,7 +1,8 @@
 package cc.jiuyi.service;
 
+import java.util.List;
+
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Sample;
 
 /**
@@ -24,7 +25,13 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @param info 缺陷IDs
 	 * @param info2 缺陷数量
 	 * @param my_id 1保存/2确认
-	 * @param admin 当前登录人
 	 */
-	public void saveInfo(Sample sample, String info, String info2, String my_id, Admin admin);
+	public void saveInfo(Sample sample, String info, String info2, String my_id);
+
+	/**
+	 * 确认/撤销
+	 * @param list
+	 * @param newstate
+	 */
+	public void updateState(List<Sample> list, String newstate);
 }

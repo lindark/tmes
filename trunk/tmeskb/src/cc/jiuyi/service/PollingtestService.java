@@ -3,6 +3,7 @@ package cc.jiuyi.service;
 import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pollingtest;
 
 /**
@@ -27,4 +28,6 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
+	
+	public void saveInfo(Pollingtest pollingtest, String info, String info2, String my_id, Admin admin);
 }

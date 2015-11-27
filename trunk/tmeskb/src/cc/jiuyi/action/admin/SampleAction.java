@@ -16,12 +16,10 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SampleService;
@@ -61,8 +59,6 @@ public class SampleAction extends BaseAdminAction
 	private DictService dictService;//字典表
 	@Resource
 	private CauseService causeService;//缺陷表
-	@Resource
-	private AdminService adminService;
 	
 	/**======================end 对象，变量，接口=*=================================*/
 	
@@ -93,9 +89,8 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String save()
 	{
-		Admin admin=this.adminService.getLoginAdmin();
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
-		this.sampleService.saveInfo(sample,info,info2,my_id,admin);
+		this.sampleService.saveInfo(sample,info,info2,my_id);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return SUCCESS;
 	}
@@ -159,12 +154,59 @@ public class SampleAction extends BaseAdminAction
 	}
 
 	/**
-	 * my_id=1--确认操作
-	 * my_id=2--撤销操作
+	 * 刷卡确认/刷卡撤销
+	 * my_id=1--确认
+	 * my_id=2--撤销
 	 */
-	public String myaction()
+	public String confirmOrRevoke()
 	{
-		return null;
+		try
+		{
+			ids=info.split(",");
+			String newstate="1";
+			for(int i=0;i<ids.length;i++)
+			{
+				this.sample=this.sampleService.load(ids[i]);
+				String state=sample.getState();
+				//确认
+				if("1".equals(my_id))
+				{
+					newstate="2";
+					//已经确认的不能重复确认
+					if("2".equals(state))
+					{
+						addActionError("已确认的无须再确认！");
+						return ERROR;
+					}
+					//已经撤销的不能再确认
+					if("3".equals(state))
+					{
+						addActionError("已撤销的无法再确认！");
+						return ERROR;
+					}
+				}
+				//撤销
+				if("2".equals(my_id))
+				{
+					newstate="3";
+					//已经撤销的不能再确认
+					if("3".equals(state))
+					{
+						addActionError("已撤销的无法再撤销！");
+						return ERROR;
+					}
+				}
+			}
+			List<Sample>list=this.sampleService.get(ids);
+			this.sampleService.updateState(list,newstate);
+			this.redirectionUrl="sample!list.action?wbId="+wbId;
+			return SUCCESS;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	/**==========================end 方法========================================*/
 	

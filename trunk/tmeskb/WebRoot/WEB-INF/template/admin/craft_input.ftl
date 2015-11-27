@@ -190,11 +190,51 @@ body {
 												</div>
 											</div>
 										
-
+                                  </form>
 										<!--weitao end modify-->
-
+							   <div class="buttonArea">	
+				  
+				                  <!--   <button class="btn btn-white btn-default btn-sm btn-round" id="saveCraft" type=button>
+										<i class="ace-icon glyphicon  fa-square-o"></i>
+										刷卡保存
+									</button> -->
+									<#if isAdd??>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeCraft" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+									</button>	
+									<#else>
+									</#if>	
+									<#if isAdd??><#else>								
+									<button class="btn btn-white btn-default btn-sm btn-round" id="checkCraft" type=button>
+										<i class="ace-icon glyphicon glyphicon-ok"></i>
+										刷卡回复
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="closeCraft" type=button>
+										<i class="ace-icon fa fa-cloud-upload"></i>
+										刷卡关闭
+									</button>
+									</#if>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnCraft" type=button>
+										<i class="ace-icon fa fa-home"></i>
+										返回
+									</button>
+                 	            </div>
+									<!-- 	<div class="buttonArea">
+										<input type="submit" class="formButton" value="确  定"
+											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+											type="button" class="formButton"
+											onclick="window.history.back(); return false;" value="返  回"
+											hidefocus="true" />
+									    </div> -->
+							
+                                 
+                                 
+                                 
+                                 
 
 									</div>
+									
 
 									<table id="tabs-2" class="inputTable tabContent">
 										<tbody>
@@ -217,14 +257,7 @@ body {
 
 									</table>
 
-									<div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
-									</div>
-							</form>
+								
 
 							<!-- add by welson 0728 -->
 						</div>

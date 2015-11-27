@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
@@ -30,4 +31,6 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 	public void updateisdel(String[] ids, String oper);
 	
 	public void saveInfo(Pollingtest pollingtest, String info, String info2, String my_id, Admin admin);
+	
+	public void confirm(List<Pollingtest> list,Admin admin,String stu);
 }

@@ -2,6 +2,7 @@ package cc.jiuyi.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -86,6 +87,16 @@ public class PollingtestServiceImpl extends
 			}
 		}
 		
+	}
+
+	@Override
+	public void confirm(List<Pollingtest> list,Admin admin,String stu) {
+		for (int i = 0; i < list.size(); i++) {
+			Pollingtest pollingtest = list.get(i);
+			pollingtest.setState(stu);				
+			pollingtest.setConfirmUser(admin);
+			pollingtestDao.update(pollingtest);
+		}
 	}
 
 }

@@ -169,12 +169,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		for (int i = 0; i < list.size(); i++) {
-			pollingtest = list.get(i);
-			pollingtest.setState(CONFIRMED);
-			pollingtest.setConfirmUser(admin);
-			pollingtestService.update(pollingtest);
-		}
+		pollingtestService.confirm(list, admin,CONFIRMED);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
@@ -192,12 +187,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		for (int i = 0; i < list.size(); i++) {
-			pollingtest = list.get(i);
-			pollingtest.setState(UNDO);
-			pollingtest.setConfirmUser(admin);
-			pollingtestService.update(pollingtest);
-		}
+		pollingtestService.confirm(list, admin,UNDO);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;

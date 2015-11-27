@@ -9,6 +9,7 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -53,13 +54,13 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate"
-								action="<#if isAdd??>repair!save.action<#else>reppair!update.action</#if>"
-								method="post">
+							<form id="inputForm" class="validate" action="sample!save.action" method="post">
 								合格数量：<input type="text" id="input_qulified"  name="sample.qulified" value="" />
 								合格率：<input type="text" id="input_qrate" name="sample.qulifiedRate" value="" />
-								描述ID：<input type="text" id="input_rd" name="sampleRecord.recordDescription" />
-								缺陷数量：<input type="text" id="input_rnum" name="sampleRecord.recordNum" value="" />
+								描述ID：<input type="text" id="input_rd" name="info" />
+								缺陷数量：<input type="text" id="input_rnum" name="info2" value="" />
+								my_id<input type="text" id="my_id" name="my_id" />
+								随工单ID<input type="text" name="workingbill" value="${(workingbill.id)! }" />
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>
@@ -110,14 +111,14 @@ body {
 													</div>
 													<div class="profile-info-name">合格率</div>  
 													<div class="profile-info-value">
-														<span id="span_qrate">0%</span>
+														<span id="span_qrate">0.00%</span>
 													</div>
 												</div>
 											</div>
 											<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row ceshi">
 													<div class="profile-info-value">
-														&nbsp;
+														<sapn id="span_tip" style="color:red;"></sapn>
 													</div>
 												</div>
 												
@@ -143,12 +144,12 @@ body {
 									</div>
 									<div class="buttonArea">
 										<div class="col-md-2 col-sm-4">
-											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_confirm" type="button">
+											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_save" type="button">
 												<span class="bigger-110 no-text-shadow">刷卡保存</span>
 											</button>
 										</div>
 										<div class="col-md-2 col-sm-4">
-											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_revoke" type="button">
+											<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_confirm" type="button">
 												<span class="bigger-110 no-text-shadow">刷卡确认</span>
 											</button>
 										</div>
@@ -182,61 +183,9 @@ body {
 </html>
 <script type="text/javascript">
 $(function(){
-	//抽检数量事件
-	sample_event();
 	//缺陷事件
 	cause_event();
-	
-	$("#btn_confirm").click(function(){
-		var b=$(this).attr("id");
-		alert(b);
-	});
 });
-
-//抽检数量事件
-function sample_event()
-{
-	$("#sample_num").change(function(){
-		var samplenum=$(this).val().replace(" ","");
-		if(samplenum!=null&&samplenum!="")
-		{
-			var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
-			if(reg.test(samplenum))
-			{
-				samplenum=setScale(samplenum,0,"");
-				$(this).val(samplenum);
-				$("#span_sq").text(samplenum);//合格数量
-				if(samplenum>0)
-				{
-					var num_qx=0;
-					var i=0;
-					<#list list_cause as list>
-						var num=$("#sr_num"+i).val();
-						if(num!="0"&&num!=""&&num!=null)
-						{
-							num_qx=floatAdd(num_qx,num);//加法
-						}
-						i+=1;
-					</#list>
-					tocalc(samplenum,num_qx,"")
-				}
-				else
-				{
-					$("#span_sq").text("0");//合格数量
-					$("#span_qrate").text("0%");//合格率
-				}
-			}
-			else
-			{
-				layer.alert("输入不合法!",false);
-				$(this).val("");
-				$("#span_sq").text("0");//合格数量
-				$("#span_qrate").text("0%");//合格率
-			}
-		}
-	
-	});
-}
 //缺陷事件
 function cause_event()
 {
@@ -256,7 +205,7 @@ function cause_event()
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
 					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
-					if(num_qx>0&&(samplenum>0&&samplenum!=null&&samplenum!=""))
+					if(num_qx>0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
 					{
 						if(num_bt>0&&num_bt!=null&&num_bt!="")
 						{
@@ -266,6 +215,10 @@ function cause_event()
 						{
 							tocalc(samplenum,num_qx,"");
 						}
+					}
+					else
+					{
+						$("#span_tip").text("");
 					}
 				}
 				else
@@ -283,22 +236,45 @@ function cause_event()
 		i+=1;
 	</#list>
 }
-//计算并赋值：抽取数量，缺陷数量,缺陷数量备胎
-function tocalc(samplenum,qxnum,qxnum_bt)
+
+//获取缺陷数量
+function getqxnum()
 {
-	var hgnum=$("#span_sq").text();//合格数量
-	if(qxnum!="")
+	var num_qx=0;
+	var i=0;
+	<#list list_cause as list>
+		var num=$("#sr_num"+i).val();
+		if(num!="0"&&num!=""&&num!=null)
+		{
+			num_qx=floatAdd(num_qx,num);//加法
+		}
+		i+=1;
+	</#list>
+	return num_qx;
+}
+
+//获取缺陷描述的id--字符串形式
+var qxnums="";
+function getqxids()
+{
+	var i=0;
+	var qxids="";
+	<#list list_cause as list>
+	var num=$("#sr_num"+i).val();
+	if(num!="0"&&num!=""&&num!=null)
 	{
-		hgnum=floatSub(hgnum,qxnum);//减法--合格数量
+		qxnums=qxnums+","+num;
+		var id="${(list.id)! }";
+		qxids=qxids+","+id;
 	}
-	if(qxnum_bt!="")
-	{
-		hgnum=floatAdd(hgnum,qxnum_bt);//加法--合格数量
-	}
-	var qrnum=floatDiv(hgnum,samplenum);//除法--合格率
-	qrnum=floatMul(qrnum,100);//乘法--合格率
-	qrnum=setScale(qrnum,2,"");//精度--合格率
-	$("#span_sq").text(hgnum);//合格数量
-	$("#span_qrate").text(qrnum+"%");//合格率
+	i+=1;
+	</#list>
+	return qxids;
+}
+
+//获取缺陷数量--字符串形式
+function getqxnums()
+{
+	return qxnums;
 }
 </script>	

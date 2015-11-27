@@ -10,6 +10,11 @@ $(function(){
 	$("#btn_confirm").click(function(){
 		sub_event("2");
 	});
+	
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
+	});
 });
 //抽检数量事件
 function sample_event()

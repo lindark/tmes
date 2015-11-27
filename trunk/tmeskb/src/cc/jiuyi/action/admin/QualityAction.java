@@ -180,6 +180,39 @@ public class QualityAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
+	
+	//刷卡回复
+	public String check() throws Exception{
+		Quality persistent = qualityService.load(id);
+		if(persistent.getState().equals("3")){
+			addActionError("已关闭的单据无法再回复！");
+			return ERROR;
+		}
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
+		//admin=adminService.getLoginAdmin();
+		persistent.setState("1");
+		qualityService.update(persistent);
+		redirectionUrl="quality!list.action";
+		return SUCCESS;
+	}	
+		
+	//刷卡关闭
+	public String close() throws Exception{
+		Quality persistent = qualityService.load(id);
+		if(persistent.getState().equals("1")){
+			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
+			//admin=adminService.getLoginAdmin();
+			persistent.setState("3");
+			qualityService.update(persistent);
+		}else{
+			addActionError("单据已关闭！");
+			return ERROR;
+		}
+		
+		redirectionUrl="quality!list.action";
+		return SUCCESS;
+	}			
+	
 	public String browser(){
 		return "browser";
 	}

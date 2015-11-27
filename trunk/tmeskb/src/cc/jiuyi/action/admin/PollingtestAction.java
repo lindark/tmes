@@ -47,6 +47,8 @@ public class PollingtestAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private String my_id;
+	private String info;
+	private String info2;
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
@@ -86,12 +88,7 @@ public class PollingtestAction extends BaseAdminAction {
 	// 保存
 	public String save() {
 		admin = adminService.getLoginAdmin();
-		pollingtest.setPollingtestUser(admin);
-		if("2".equals(my_id)){
-			pollingtest.setConfirmUser(admin);
-			pollingtest.setState(CONFIRMED);
-		}
-		pollingtestService.save(pollingtest);
+		pollingtestService.saveInfo(pollingtest, info, info2, my_id, admin);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
@@ -260,6 +257,22 @@ public class PollingtestAction extends BaseAdminAction {
 
 	public void setMy_id(String my_id) {
 		this.my_id = my_id;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	public String getInfo2() {
+		return info2;
+	}
+
+	public void setInfo2(String info2) {
+		this.info2 = info2;
 	}
 
 }

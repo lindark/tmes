@@ -102,27 +102,23 @@
 									</div>
 								</div>
 							</div>
-							<div class="row buttons">
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_creat" type="button">
-										<span class="bigger-110 no-text-shadow">创建抽检单</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_confirm" type="button">
-										<span class="bigger-110 no-text-shadow">刷卡确认</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_revoke" type="button">
-										<span class="bigger-110 no-text-shadow">刷卡撤销</span>
-									</button>
-								</div>
-								<div class="col-md-2 col-sm-4">
-									<button class="btn btn-white btn-success btn-bold btn-round btn-block" id="btn_back" type="button">
-										<span class="bigger-110 no-text-shadow">返回</span>
-									</button>
-								</div>
+							<div class="row buttons col-md-8 col-sm-4">
+								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-folder-open-o"></i>
+									创建返修单
+								</a>
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-cloud-upload"></i>
+									刷卡确认
+								</a>
+								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-remove"></i>
+									刷卡撤销
+								</a>
+								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-home"></i>
+									返回
+								</a>
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
@@ -151,53 +147,3 @@
 	<input type="hidden" id="wbId" value="${workingbill.id}"/>
 </body>
 </html>
-<script type="text/javascript">
-	/**
-	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
-	 */
-/*
-	$(function() {
-		var ishead = 0;
-		$("#ace-settings-btn").click(function() {
-			if (ishead == 0) {
-				ishead = 1;
-				$("#ace-settings-box").addClass("open");
-			} else {
-				ishead = 0;
-				$("#ace-settings-box").removeClass("open");
-			}
-		});
-		$(".btn-colorpicker").click(function() {
-			$(".dropdown-colorpicker").addClass("open");
-		})
-
-		var ishead2 = 0;
-		$(".light-blue").click(function() {
-			if (ishead2 == 0) {
-				ishead2 = 1;
-				$(this).addClass("open");
-			} else {
-				ishead2 = 0;
-				$(this).removeClass("open");
-			}
-
-		})
-*/
-		/*
-		var ishead3=0;
-		$(".hsub").click(function(){
-			if(ishead3==0){
-				alert("OK");
-				ishead3=1;
-				$(".hsub").addClass("open");
-				//$(this).find(".submenu").removeClass("nav-hide");
-			}else{
-				ishead3=0;
-				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
-			}
-			
-		})
-		 */
-	})
-</script>

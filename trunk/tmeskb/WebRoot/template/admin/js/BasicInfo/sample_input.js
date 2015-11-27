@@ -1,5 +1,4 @@
 $(function(){
-	
 	//抽检数量事件
 	sample_event();
 	//刷卡保存

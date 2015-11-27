@@ -10,7 +10,7 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_input.js"></script>
+<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pollingtest_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -290,7 +290,7 @@ function cause_event()
 		$("#sr_num"+i).change(function(){
 			var idval=$(this).attr("id");
 			i=idval.substring(idval.length-1,idval.length);
-			var samplenum=$("#sample_num").val();//抽检数量
+			var samplenum=$("#sample_num").val();//巡检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
 			var num_qx=$(this).val().replace(" ","");//缺陷
 			if(num_qx!=null&&num_qx!="")

@@ -276,7 +276,7 @@ body {
 											<tr>
 												<td>${(list.createDate)!}</td>
 												<td>${(list.info)!}</td>
-												<td>${(list.operator)!}</td>
+												<td>${(list.operator.name)!}</td>
 											</tr>
 											</#list>
 										</tbody>

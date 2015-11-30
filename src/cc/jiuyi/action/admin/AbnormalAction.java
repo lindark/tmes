@@ -212,15 +212,15 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormalLogService.save(abnormalLog);
 				
 			} else {
-				addActionError("刷卡错误!");
+				addActionError("您不是应答人，刷卡错误!");
 				return ERROR;
 			}
 
 			persistent.setReplyDate(new Date());
-			Date date = new Date();
+			/*Date date = new Date();
 			int time = (int) ((date.getTime() - persistent.getCreateDate()
 					.getTime()) / 60000);
-			persistent.setHandlingTime(time);
+			persistent.setHandlingTime(time);*/
 			abnormalService.update(persistent);
 		}
 
@@ -245,7 +245,7 @@ public class AbnormalAction extends BaseAdminAction {
 					}
 					abnormalService.update(persistent);
 				} else {
-					addActionError("刷卡错误!");
+					addActionError("异常已撤销/关闭!");
 					return ERROR;
 				}
 			} else {

@@ -65,8 +65,8 @@ jQuery(function($) {
 		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt",],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'replyDate',index:'replyDate',sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'handlingTime',index:'handlingTime', width:60,editable: true},
 			{name:'log',index:'log', width:100,editable: true},
 			{name:'callReason',index:'callReason', width:160, editable: true},

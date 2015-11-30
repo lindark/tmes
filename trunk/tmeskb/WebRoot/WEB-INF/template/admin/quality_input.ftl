@@ -99,8 +99,8 @@ body {
 
 												<div class="profile-info-value">
 												    <#if isAdd??>
-												    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>
-												    <input type="text" name="quality.products.productsName" id="productName1" class=" input input-sm  formText {required: true}" readOnly="true" />
+												    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>											 
+												    <span id="productName1"></span>
 													<input type="hidden" name="quality.products.id" id="productNa" value=""/>
 													<#else>
 													${(quality.products.productsName)!}
@@ -128,9 +128,10 @@ body {
 
 												<div class="profile-info-value">
 												    <#if isAdd??>
-												       <input type="text" name="quality.team.teamName"
+												      <!--  <input type="text" name="quality.team.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/>
+														class=" input input-sm  formText {required: true}" readonly="readonly"/> -->
+														<span>${(admin.department.team.teamName)!}</span>
 													   <input type="hidden" name="quality.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(quality.team.teamName)!}												       

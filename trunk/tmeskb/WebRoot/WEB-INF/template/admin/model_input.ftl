@@ -106,7 +106,7 @@ body {
 												   <#if isAdd??>
 												       <input type="text" name="model.teamId.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true}" readonly="readonly"/>
 													   <input type="hidden" name="model.teamId.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(model.teamId.teamName)!}												       
@@ -134,7 +134,7 @@ body {
 													<#if isAdd??> <input type="text"
 														name="model.initiator.name"
 														value="${(abnormal.iniitiator.name)!}"
-														class=" input input-sm  formText {required: true}" /> <input
+														class=" input input-sm  formText {required: true}" readonly="readonly"/> <input
 														type="hidden" name="model.initiator.id"
 														value="${(abnormal.iniitiator.id)!}"
 														class=" input input-sm  formText {required: true}" />
@@ -194,6 +194,8 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value">
+												  <!-- <button type="button" class="btn btn-xs btn-info"
+														id="faultReason" data-toggle="button">选择</button> -->  
 													<input type="text" name="model.faultCause"
 														value="${(model.faultCause)!}"
 														class=" input input-sm  formText {required: true}" />

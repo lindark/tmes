@@ -55,17 +55,19 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate" action="sample!save.action" method="post">
-								<input type="hidden" id="input_qulified"  name="sample.qulified" value="" />
-								<input type="hidden" id="input_qrate" name="sample.qulifiedRate" value="" />
-								<input type="hidden" id="input_rd" name="info" />
+							<form id="inputForm" class="validate" action="<#if add??>sample!save.action</#if><#if edit??>sample!update.action</#if><#if show??></#if>" method="post">
+								<input type="hidden" id="input_qulified"  name="sample.qulified" value="${(sample.qulified)! }" />
+								<input type="hidden" id="input_qrate" name="sample.qulifiedRate" value="${(sample.qulifiedRate)! }" />
+								<input type="hidden" id="input_rd" name="info"  value="" />
 								<input type="hidden" id="input_rnum" name="info2" value="" />
-								<input type="hidden" id="my_id" name="my_id" />
+								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
 								<input type="hidden" name="sample.workingBill.id" value="${(workingbill.id)! }" />
+								<input type="hidden" id="id" name="sample.id" value="${(sample.id)! }" />
+								
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">返修单</a></li>
+										<li><a href="#tabs-1">抽检单</a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
 										<!-- msg start -->
@@ -92,27 +94,41 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">抽检数量</div>
 													<div class="profile-info-value">
-														<input id="sample_num" type="text" name="sample.sampleNum" value="" class=" input input-sm  formText" />
+														<#if show??>
+															<span>${(sample.sampleNum)! }</span>
+														<#else>
+															<input id="sample_num" type="text" name="sample.sampleNum" value="${(sample.sampleNum)! }" class=" input input-sm  formText" />
+														</#if>
 														<label class="requireField">*</label>
 													</div>
 													<div class="profile-info-name">抽检类型</div>
 													<div class="profile-info-value">
-														<select name="sample.sampleType" id="sample_type" class="input input-sm form-control chosen-select">
-															<#list list_dict as dlist>
-																<option value="${(dlist.dictkey)! }">${(dlist.dictvalue)! }</option>
-															</#list>
-														</select>
+														<#if show??>
+															<span>${sampletype! }</span>
+														<#else>
+															<select name="sample.sampleType" id="sample_type" class="input input-sm form-control chosen-select">
+																<#list list_dict as dlist>
+																<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==sample.sampleType)!>selected</#if>>${(dlist.dictvalue)! }</option>
+																</#list>
+															</select>
+														</#if>
 														<label class="requireField">*</label>
 													</div>
 												</div>
 												<div class="profile-info-row">
 													<div class="profile-info-name">合格数量</div>
 													<div class="profile-info-value">
-														<span id="span_sq">0</span>
+														<span id="span_sq">${(sample.qulified)! }</span>
 													</div>
 													<div class="profile-info-name">合格率</div>  
 													<div class="profile-info-value">
-														<span id="span_qrate">0.00%</span>
+														
+															<#if add??>
+																<span id="span_qrate">0.00%</span>
+															<#else>
+																<span id="span_qrate">${(sample.qulifiedRate)! }</span>
+															</#if>
+														
 													</div>
 												</div>
 											</div>
@@ -128,16 +144,27 @@ body {
 												</div>
 												<div class="profile-info-row ceshi">
 													<div class="profile-info-value div-value">
-														<#assign num=0 />
-														<#list list_cause as list>
-															<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
-																<input id="sr_id" type="hidden" value="${(list.id)! }"/>
-																<label>${(list.causeName)! }</label>
-																<input id="sr_num${num}" type="text" value="" class=" input-value" />
-																<input id="sr_num2${num}" type="hidden" value="" />
-															</div>
-															<#assign num=num+1 />
-														</#list>
+														<#if show??>
+															<#list list_samrecord as list>
+																<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
+																	<label>${(list.recordDescription)! }</label>
+																	<input type="text" value="${(list.recordNum)! }" readonly="readonly" class=" input-value" />
+																</div>
+															</#list>
+														<#else>
+															<#assign num=0 />
+															<#if list_cause??>
+																<#list list_cause as list>
+																	<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
+																		<input id="sr_id" type="hidden" value="${(list.id)! }"/>
+																		<label>${(list.causeName)! }</label>
+																		<input id="sr_num${num}" type="text" value="${(list.causeNum)! }" class=" input-value" />
+																		<input id="sr_num2${num}" type="hidden" value="${(list.causeNum)! }" />
+																	</div>
+																	<#assign num=num+1 />
+																</#list>
+															</#if>
+														</#if>
 													</div>
 												</div>
 											</div>
@@ -145,6 +172,7 @@ body {
 									</div>
 									<br/>
 									<div class="row buttons col-md-8 col-sm-4 sub-style">
+										<#if show??><#else>
 										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡保存
@@ -153,6 +181,7 @@ body {
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡确认
 										</a>
+										</#if>
 										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-home"></i>
 											返回
@@ -186,6 +215,8 @@ var qxids="";
 $(function(){
 	//缺陷事件
 	cause_event();
+	//必填提示隐藏/显示
+	tip_event();
 });
 //缺陷事件
 function cause_event()
@@ -265,9 +296,9 @@ function getqxids()
 	var num=$("#sr_num"+i).val();
 	if(num!="0"&&num!=""&&num!=null)
 	{
-		qxnums=qxnums+","+num;
+		qxnums+=num+",";
 		var id="${(list.id)! }";
-		qxids=qxids+","+id;
+		qxids+=id+",";
 	}
 	i+=1;
 	</#list>
@@ -278,5 +309,13 @@ function getqxids()
 function getqxnums()
 {
 	return qxnums;
+}
+
+//必填提示隐藏/显示
+function tip_event()
+{
+	<#if show??>
+		$(".requireField").hide();
+	</#if>
 }
 </script>	

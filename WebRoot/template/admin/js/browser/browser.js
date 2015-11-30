@@ -17,7 +17,7 @@ $(function(){
 jiuyi.admin.browser.dialog = function(title,width,height,content,callback){
 	layer.open({
         type: 2,
-        //skin: 'layui-layer-lan',
+        skin: 'layui-layer-lan',
         title: title,
         fix: false,
         shadeClose: false,

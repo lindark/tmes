@@ -1,3 +1,4 @@
+
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
@@ -154,10 +155,9 @@ public class RepairAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
 			if (!filters.equals("")) {

@@ -39,5 +39,9 @@
 <![endif]-->
 
 
-
+<style>
+.access{
+	display:none;
+}
+</style>
 <!-- basic scripts -->

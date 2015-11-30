@@ -46,7 +46,7 @@
 		<script src="${base}/template/admin/docs/assets/js/language/css.js"></script>
 		<script src="${base}/template/admin/docs/assets/js/language/javascript.js"></script>
 		<script type="text/javascript" src="${base}/template/common/js/jquery.cookie.js"></script>
-		
+		<#include "/WEB-INF/template/common/include_access.ftl">
 	<script type="text/javascript">
 	    //open Menu
 		jQuery(function($) {

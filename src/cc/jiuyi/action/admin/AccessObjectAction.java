@@ -21,6 +21,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ResourceService;
@@ -44,6 +45,7 @@ public class AccessObjectAction extends BaseAdminAction {
 	private AccessObject accessObject;
 	private List<cc.jiuyi.entity.Resource> allRes;
 	private List<Dict> allDict;
+	private List<Dict> allDictState;
 	public String list(){
 		
 		return LIST;
@@ -91,6 +93,7 @@ public class AccessObjectAction extends BaseAdminAction {
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
 	
 	
 	/**
@@ -154,6 +157,15 @@ public class AccessObjectAction extends BaseAdminAction {
 
 	public void setAllDict(List<Dict> allDict) {
 		this.allDict = allDict;
+	}
+
+	public List<Dict> getAllDictState() {
+		allDictState =  dictService.getList("dictname", "accessobject_state");
+		return allDictState;
+	}
+
+	public void setAllDictState(List<Dict> allDictState) {
+		this.allDictState = allDictState;
 	}
 
 	

@@ -25,5 +25,5 @@ public interface AccessObjectService extends BaseService<AccessObject, String> {
 	 * 根据Resource的 id集合 获取资源对象
 	 * @return
 	 */
-	public AccessObject getAccessObjectList(String accObjKey,List<Role> roleList);
+	public List<AccessObject> getAccessObjectList(String path,List<Role> roleList);
 }

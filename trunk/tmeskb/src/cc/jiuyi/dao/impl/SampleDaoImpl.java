@@ -19,11 +19,16 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 	 * jqGrid查询
 	 * sample_list.ftl页面
 	 */
-	public Pager getSamplePager(Pager pager)
+	public Pager getSamplePager(Pager pager,String wbId)
 	{
 		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Sample.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));		
+		if(!existAlias(detachedCriteria, "workingBill", "workingBill"))
+		{
+			detachedCriteria.createAlias("workingBill", "workingBill");
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));
+		detachedCriteria.add(Restrictions.eq("workingBill.id", wbId));
 		return super.findByPager(pager,detachedCriteria);
 	}
 	

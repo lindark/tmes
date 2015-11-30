@@ -79,6 +79,16 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 		return this.getSession().createQuery(hql).setParameter(0, dictname).list();
 	}
 	
-	
+	/**
+	 * 根据状态获取抽检类型
+	 */
+	@SuppressWarnings("unchecked")
+	public String getByState(String dictname,String state)
+	{
+		String hql="from Dict as a where a.dictname=? and a.dictkey=?";
+		List<Dict> list=this.getSession().createQuery(hql).setParameter(0, dictname).setParameter(1, state).list();
+		Dict d=list.get(0);
+		return d.getDictvalue();
+	}
 	
 }

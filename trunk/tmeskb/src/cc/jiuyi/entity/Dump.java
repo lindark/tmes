@@ -20,6 +20,7 @@ public class Dump extends BaseEntity {
 	private static final long serialVersionUID = -2687433396607084358L;
 
 	private String voucherId;// 物料凭证号
+	private String mjahr;//凭证年度
 	private Date deliveryDate;// 发货日期
 	private String state;// 状态
 	private String isDel;// 是否删除
@@ -107,6 +108,14 @@ public class Dump extends BaseEntity {
 
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+
+	public String getMjahr() {
+		return mjahr;
+	}
+
+	public void setMjahr(String mjahr) {
+		this.mjahr = mjahr;
 	}
 
 }

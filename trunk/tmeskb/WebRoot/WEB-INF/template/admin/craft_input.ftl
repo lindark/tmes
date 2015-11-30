@@ -119,9 +119,10 @@ body {
 
 												<div class="profile-info-value">
 												   <#if isAdd??>
-												       <input type="text" name="craft.team.teamName"
+												      <span>${(admin.department.team.teamName)!}</span>
+												     <!--  <input type="text" name="craft.team.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/>
+														class=" input input-sm  formText {required: true}" readonly="readonly"/> --> 
 													   <input type="hidden" name="craft.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(craft.team.teamName)!}												       

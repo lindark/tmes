@@ -35,8 +35,8 @@ jQuery(function($) {
 	    	
 	    },
 		colModel:[
-			{name:'processName',index:'process.processName',width:200,label:"工序名称",sortable:false},
-			{name:'materialCode',index:'materialCode',label:"物料编码", width:200,sortable:false},
+			{name:'processName',index:'process.processName',width:60,label:"工序名称",sortable:false},
+			{name:'materialCode',index:'materialCode',label:"物料编码", width:80,sortable:false},
 			{name:'materialName',index:'materialName',label:"物料描述", width:200,sortable:false},
 			{name:'beforworkingbillCode',index:'beforworkingbillCode',label:"上班随工单", width:200,sortable:false},
 			{name:'amount',index:'amount',label:"数量", width:200,sortable:false},

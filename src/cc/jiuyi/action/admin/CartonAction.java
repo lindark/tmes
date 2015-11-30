@@ -163,20 +163,10 @@ public class CartonAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 		HashMap<String, String> map = new HashMap<String, String>();
-		/*workingbill = workingBillService.get(workingBillId);
-		List<Material> materials = materialService.getMantrBom(workingbill
-				.getMatnr());
-		Material material = new Material();
-		for (int i = 0; i < materials.size(); i++) {
-			if ("Y".equals(materials.get(i).getIsCarton())) {
-				material = materials.get(i);
-			}
-		}*/
 
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

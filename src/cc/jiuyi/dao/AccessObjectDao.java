@@ -23,5 +23,5 @@ public interface AccessObjectDao extends BaseDao<AccessObject, String> {
 	 * 根据Resource的 id集合 获取资源对象
 	 * @return
 	 */
-	public AccessObject getAccessObjectList(String accObjKey,Object[] rolelist);
+	public List<AccessObject> getAccessObjectList(String path,Object[] rolelist);
 }

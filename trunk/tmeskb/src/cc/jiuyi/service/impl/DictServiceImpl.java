@@ -68,5 +68,11 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 		return this.dictDao.getSate(dictname);
 	}
 	
-	
+	/**
+	 * 根据状态获取抽检类型
+	 */
+	public String getByState(String dictname,String state)
+	{
+		return this.dictDao.getByState(dictname,state);
+	}
 }

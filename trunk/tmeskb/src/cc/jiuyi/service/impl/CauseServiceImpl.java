@@ -42,6 +42,8 @@ public class CauseServiceImpl extends BaseServiceImpl<Cause, String> implements
 	@Override
 	public List<Cause> getBySample(String type)
 	{
-		return this.causeDao.getBySample(type);
+		List<Cause> list = this.causeDao.getBySample(type);
+		
+		return list;
 	}
 }

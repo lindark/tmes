@@ -45,13 +45,13 @@ public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, Strin
 
 	@Override
 	@Cacheable(modelId="caching")
-	public AccessObject getAccessObjectList(String accObjKey,List<Role> rolelist){
+	public List<AccessObject> getAccessObjectList(String path,List<Role> rolelist){
 		Object[] obj = new Object[rolelist.size()];
 		for(int i=0;i<rolelist.size();i++){
 			Role role = rolelist.get(i);
 			obj[i] = role.getId();
 		}
-		return accessobjectdao.getAccessObjectList(accObjKey,obj);
+		return accessobjectdao.getAccessObjectList(path,obj);
 	}
 
 }

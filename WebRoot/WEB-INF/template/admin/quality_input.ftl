@@ -101,7 +101,7 @@ body {
 												    <#if isAdd??>
 												    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>											 
 												    <span id="productName1"></span>
-													<input type="hidden" name="quality.products.id" id="productNa" value=""/>
+													<input type="hidden" name="quality.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else>
 													${(quality.products.productsName)!}
 													</#if>	

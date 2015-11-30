@@ -74,7 +74,6 @@ $(function() {
 		var id=work.split(",");
 		$("#productName1").text(id[0]);//产品id productName1
 		$("#productNa").val(id[1]);//产品名称
-		alert(work);
 		layer.close(index); 
 	});
 }

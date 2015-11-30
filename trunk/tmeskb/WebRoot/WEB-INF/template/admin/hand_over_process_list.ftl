@@ -27,6 +27,9 @@
 	vertical-align: top;
 	*vertical-align: middle
 }
+.buttonArea{
+	padding:2px;
+}
 }
 </style>
 </head>
@@ -168,7 +171,16 @@
 										<div id="grid-pager"></div>
 									</div>
 										
-									
+									<div class="buttonArea">
+										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+										</button>&nbsp;&nbsp;
+										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡确认
+										</button>
+									</div>
 								</div>
 							</div>
 

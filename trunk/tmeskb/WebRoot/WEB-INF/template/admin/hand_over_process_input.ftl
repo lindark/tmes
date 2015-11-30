@@ -115,32 +115,5 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
-<script type="text/javascript">
-	
-	$(function(){
-		loadHandover();//加载数量信息
-		
-	})
-	
-	function loadHandover(){
-		/*
-		$.ajax({	
-			url: "hand_over_process!getAmount.action",
-			data: $("#inputForm").serialize(),
-			dataType: "json",
-			async: false,
-			success: function(data) {
-				alert(data);
-			},error:function(data){
-				/*
-				layer.alert("操作失败",{
-					shade: 0
-				});
-				*/
-			}
-		});
-		*/
-		
-	}
-</script>
+
 </html>

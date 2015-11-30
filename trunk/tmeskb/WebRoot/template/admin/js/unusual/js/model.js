@@ -17,7 +17,9 @@ $(function() {
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		$("#productName1").val(id[0]);//产品id
+		//$("#productName1").val(id[0]);//产品id
+		alert("2");
+		$("#productName1").html(id[0]);
 		$("#productNa").val(id[1]);//产品名称
 		layer.close(index); 
 	});

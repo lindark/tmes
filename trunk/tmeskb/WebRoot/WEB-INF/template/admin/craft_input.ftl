@@ -98,7 +98,7 @@ body {
 														id="productName1"
 														class=" input input-sm  formText {required: true}"
 														readOnly="true" /> --> <input type="hidden"
-														name="craft.products.id" id="productNa" value="" />
+														name="craft.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(craft.products.productsName)!} </#if>
 													
 												</div>
@@ -145,7 +145,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造异常描述</div>
 													<div class="profile-info-value">
-													     <textarea name="craft.unusualDescription_make" style="width:600px;">${(craft.unusualDescription_make)!} </textarea>			
+													     <textarea name="craft.unusualDescription_make" style="width:600px;" class="formText {required: true}">${(craft.unusualDescription_make)!} </textarea>			
 													</div>
 												</div>
 											
@@ -155,7 +155,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理措施</div>
 													<div class="profile-info-value">
-													    <textarea name="craft.treatmentMeasure_make" style="width:600px;">${(craft.treatmentMeasure_make)!} </textarea>								
+													    <textarea name="craft.treatmentMeasure_make" style="width:600px;" class="formText {required: true}">${(craft.treatmentMeasure_make)!} </textarea>								
 													</div>
 												</div>
 											
@@ -165,7 +165,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理结果</div>
 													<div class="profile-info-value">
-													    <textarea name="craft.resultCode_make" style="width:600px;">${(craft.resultCode_make)!} </textarea>				
+													    <textarea name="craft.resultCode_make" style="width:600px;" class="formText {required: true}">${(craft.resultCode_make)!} </textarea>				
 													</div>
 												</div>
 											</div>

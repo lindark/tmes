@@ -140,7 +140,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.extrusionBatches"
 														value="${(quality.extrusionBatches)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" />
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -148,13 +148,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.samplingAmont"
 														value="${(quality.samplingAmont)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" />
 												</div>
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
 													<input type="text" name="quality.failAmont"
 														value="${(quality.failAmont)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" />
 												</div>
 											</div>
 
@@ -163,13 +163,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.createDate"
 														value="${(quality.createDate)!}"
-														class="formText {required: true} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 												<div class="profile-info-name">计划完成时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="quality.overTime"
 														value="${(quality.overTime)!}"
-														class="formText {required: true} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 

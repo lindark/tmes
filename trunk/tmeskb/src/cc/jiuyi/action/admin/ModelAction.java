@@ -15,6 +15,8 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -235,7 +237,10 @@ public class ModelAction extends BaseAdminAction {
 
 	}
 
-
+	// 保存
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "model.products.id", message = "产品名称不允许为空!")})		
+	@InputConfig(resultName = "error")	
 	public String save() {
 
 		Admin admin = adminService.getLoginAdmin();
@@ -258,7 +263,7 @@ public class ModelAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "model!list.action";
+		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
 

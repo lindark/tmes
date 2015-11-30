@@ -21,6 +21,9 @@ import com.sap.mw.jco.JCO.Table;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
+import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
@@ -39,7 +42,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private DictService dictService;
 	@Resource
 	private WorkingBillService workingbillservice;
-	
+	@Resource
+	private DumpRfc dumprfc;
 	protected void setUp() {
 		
 	}
@@ -128,8 +132,27 @@ public class TestSAPUtilService extends BaseTestCase {
 	
 	@Test
 	public void testSAP(){
-		Repairorder r = new Repairorder();
+		//Repairorder r = new Repairorder();
 		//r.syncRepairorder(workingbillservice);
+	}
+	@Test
+	public void testMaterialDocument() throws IOException, CustomerException{
+		List<Object> list=dumprfc.findMaterialDocument("1805", "20150901", "20151001");
+		List<Dump> l1=(List) list.get(0);
+		for(int i=0;i<l1.size();i++){
+			Dump d=l1.get(i);
+			System.out.println("物料凭证："+d.getVoucherId());
+			System.out.println("凭证日期："+d.getMjahr());
+		}
+		List<DumpDetail> l2=(List) list.get(1);
+		for(int i=0;i<l2.size();i++){
+			DumpDetail d=l2.get(i);
+			System.out.println("物料凭证："+d.getVoucherId());
+			System.out.println("凭证日期："+d.getMjahr());
+			System.out.println("物料编码："+d.getMatnr());
+			System.out.println("物料描述："+d.getMaktx());
+			System.out.println("库存地点："+d.getLgort());
+		}
 	}
 	
 }

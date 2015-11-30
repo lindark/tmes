@@ -16,12 +16,16 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Sample;
+import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.SampleRecordService;
 import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -48,6 +52,12 @@ public class SampleAction extends BaseAdminAction
 	private List<Dict> list_dict;//抽检类型
 	private String info;
 	private String info2;
+	private Admin admin;
+	private String add;
+	private String edit;
+	private String show;
+	private List<SampleRecord>list_samrecord;//缺陷记录
+	private String sampletype;//抽检类型
 	/**
 	 * service接口
 	 */
@@ -59,7 +69,10 @@ public class SampleAction extends BaseAdminAction
 	private DictService dictService;//字典表
 	@Resource
 	private CauseService causeService;//缺陷表
-	
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private SampleRecordService srService;//缺陷记录
 	/**======================end 对象，变量，接口=*=================================*/
 	
 	/**======================方法start==========================================*/
@@ -69,6 +82,9 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String list()
 	{
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		System.out.println(admin.getShift());
 		this.workingbill=this.workingBillService.get(wbId);
 		return LIST;
 	}
@@ -79,9 +95,10 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String add()
 	{
-		this.workingbill=this.workingBillService.get(wbId);
-		this.list_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的内容
-		this.list_dict=this.dictService.getState("sampleType");//获取缺陷类型
+		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+		this.list_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
+		this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
+		this.add="add";
 		return INPUT;
 	}
 	/**
@@ -120,7 +137,7 @@ public class SampleAction extends BaseAdminAction
 				pager.setRules(pg1.getRules());
 				pager.setGroupOp(pg1.getGroupOp());
 			}
-			pager=this.sampleService.getSamplePager(pager);
+			pager=this.sampleService.getSamplePager(pager,wbId);
 			@SuppressWarnings("unchecked")
 			List<Sample>samplelist=pager.getList();
 			List<Sample>samplelist2=new ArrayList<Sample>();
@@ -208,6 +225,70 @@ public class SampleAction extends BaseAdminAction
 			return null;
 		}
 	}
+	
+	/**
+	 * 编辑前
+	 */
+	public String edit()
+	{
+		try
+		{
+			this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+			List<Cause> l_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
+			this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
+			this.sample=this.sampleService.load(id);
+			this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
+			list_cause=new ArrayList<Cause>();
+			for(int i=0;i<l_cause.size();i++)
+			{
+				Cause c=l_cause.get(i);
+				for(int j=0;j<list_samrecord.size();j++)
+				{
+					SampleRecord sr=list_samrecord.get(j);
+					if(c!=null&&sr!=null)
+					{
+						if(c.getId().equals(sr.getCauseId()))
+						{
+							c.setCauseNum(sr.getRecordNum());
+						}
+					}
+				}
+				this.list_cause.add(c);
+			}
+			this.edit="edit";
+			return INPUT;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 修改
+	 */
+	public String update()
+	{
+		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
+		this.sampleService.updateInfo(sample,info,info2,my_id);
+		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 查询一个，查看功能，不能编辑
+	 */
+	public String show()
+	{
+		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+		this.sample=this.sampleService.load(id);
+		this.sampletype=this.dictService.getByState("sampleType",sample.getState());//根据状态获取抽检类型
+		this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
+		this.show="show";
+		return INPUT;
+	}
+	
 	/**==========================end 方法========================================*/
 	
 	/**=========================="get/set"  start===============================*/
@@ -289,6 +370,66 @@ public class SampleAction extends BaseAdminAction
 	public void setInfo2(String info2)
 	{
 		this.info2 = info2;
+	}
+
+	public Admin getAdmin()
+	{
+		return admin;
+	}
+
+	public void setAdmin(Admin admin)
+	{
+		this.admin = admin;
+	}
+
+	public String getAdd()
+	{
+		return add;
+	}
+
+	public void setAdd(String add)
+	{
+		this.add = add;
+	}
+
+	public String getEdit()
+	{
+		return edit;
+	}
+
+	public void setEdit(String edit)
+	{
+		this.edit = edit;
+	}
+
+	public String getShow()
+	{
+		return show;
+	}
+
+	public void setShow(String show)
+	{
+		this.show = show;
+	}
+
+	public List<SampleRecord> getList_samrecord()
+	{
+		return list_samrecord;
+	}
+
+	public void setList_samrecord(List<SampleRecord> list_samrecord)
+	{
+		this.list_samrecord = list_samrecord;
+	}
+
+	public String getSampletype()
+	{
+		return sampletype;
+	}
+
+	public void setSampletype(String sampletype)
+	{
+		this.sampletype = sampletype;
 	}
 	
 	/**==========================end "get/set"====================================*/

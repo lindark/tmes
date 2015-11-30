@@ -161,7 +161,7 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,			
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			/*delfunc:function(rowId){
 				window.location.href="abnormal!delete.action?id="+rowId;
 			},*/

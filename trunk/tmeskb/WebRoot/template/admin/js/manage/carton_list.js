@@ -69,7 +69,7 @@ jQuery(function($) {
 			
 			/*{name:'cartonCode',index:'cartonCode', width:200},
 			{name:'cartonDescribe',index:'cartonDescribe', width:200},*/
-			{name:'cartonAmount',index:'cartonAmount', width:200},
+			{name:'cartonAmount',index:'cartonAmount', width:200,sorttype:"int"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

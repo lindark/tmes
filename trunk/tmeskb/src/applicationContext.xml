@@ -156,6 +156,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ItermediateTest</value>
 				<value>cc.jiuyi.entity.ItermediateTestDetail</value>
 				<value>cc.jiuyi.entity.IpRecord</value>
+				<value>cc.jiuyi.entity.FaultReason</value>
 			</list>
 		</property>
 	</bean>

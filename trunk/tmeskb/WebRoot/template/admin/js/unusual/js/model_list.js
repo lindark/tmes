@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
 			{name:'fixer',index:'fixer',sortable:false,editable: true},
 			{name:'stateRemark',index:'state',sortable:true,editable: true,search:false,cellattr:addstyle}		
-		
+			], 
 
 		viewrecords : true,
 		rowNum:10,

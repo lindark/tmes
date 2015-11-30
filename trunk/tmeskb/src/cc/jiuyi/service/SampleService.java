@@ -17,7 +17,7 @@ public interface SampleService extends BaseService<Sample, String>
 	 * jqGrid查询
 	 * sample_list.ftl页面
 	 */
-	public Pager getSamplePager(Pager pager);
+	public Pager getSamplePager(Pager pager,String wbId);
 
 	/**
 	 * 新增
@@ -34,4 +34,13 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @param newstate
 	 */
 	public void updateState(List<Sample> list, String newstate);
+
+	/**
+	 * 
+	 * @param sample 抽检单
+	 * @param info 缺陷IDs
+	 * @param info2 缺陷数量
+	 * @param my_id 1保存/2确认
+	 */
+	public void updateInfo(Sample sample, String info, String info2, String my_id);
 }

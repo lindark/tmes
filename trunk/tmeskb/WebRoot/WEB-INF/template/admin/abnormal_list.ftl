@@ -99,7 +99,7 @@ th {
 										<div class="widget-header">
 											<h4 class="widget-title lighter">当前班组信息</h4>
 
-											<div class="widget-toolbar no-border">
+										<!--  <div class="widget-toolbar no-border">
 												<a href="#" data-action="settings"> <i
 													class="ace-icon fa fa-cog"></i> </a> <a href="#"
 													data-action="reload"> <i class="ace-icon fa fa-refresh"></i>
@@ -107,7 +107,7 @@ th {
 													class="ace-icon fa fa-chevron-up"></i> </a> <a href="#"
 													data-action="close"> <i class="ace-icon fa fa-times"></i>
 												</a>
-											</div>
+											</div>-->	
 
 										</div>
 
@@ -162,7 +162,7 @@ th {
 											<h5 class="widget-title">呼叫人</h5>
 
 
-											<div class="widget-toolbar">
+											<!-- <div class="widget-toolbar">
 												<div class="widget-menu">
 													<a data-action="settings" data-toggle="dropdown"> <i
 														class="ace-icon fa fa-bars"></i> </a>
@@ -180,7 +180,7 @@ th {
 													class="ace-icon fa fa-chevron-up"></i> </a> <a
 													data-action="close"> <i class="ace-icon fa fa-times"></i>
 												</a>
-											</div>
+											</div> -->
 
 
 										</div>

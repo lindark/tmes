@@ -153,13 +153,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="model.noticeTime"
 														value="${(model.noticeTime)!}"
-														class="formText {required: true} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.arriveTime"
 														value="${(model.arriveTime)!}"
-														class="formText {required: true} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -173,7 +173,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="model.fixTime"
 														value="${(model.fixTime)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" />
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -187,7 +187,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="formText {required: true} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 

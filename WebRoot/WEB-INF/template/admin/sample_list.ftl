@@ -85,7 +85,11 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">班次</div>
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">早班</span>
+															<span class="editable editable-click" id="signup">
+																<#if (admin.shift == "1")!>早</#if>
+																<#if (admin.shift == "2")!>中</#if>
+																<#if (admin.shift == "3")!>晚</#if>
+															</span>
 														</div>
 													</div>
 													<!-- 
@@ -114,6 +118,14 @@
 								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
+								</a>
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									刷卡编辑
+								</a>
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									刷卡查看
 								</a>
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>

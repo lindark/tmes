@@ -36,11 +36,15 @@ public class FaultReasonAction extends BaseAdminAction {
 	private static final long serialVersionUID = 7323213806324131048L;
 	
 	private FaultReason faultReason;
-	// 获取所有状态
-	private List<Dict> allType;
+	
 	private String faultReasonId;
+	private String type;
+	private String faultId;
+	
+	// 获取所有类型
+	private List<Dict> allType;
 	// 获取所有状态
-	private List<Dict> allState;
+	private List<Dict> allState;	
 	
 	@Resource
 	private FaultReasonService faultReasonService;
@@ -159,6 +163,66 @@ public class FaultReasonAction extends BaseAdminAction {
 		return SUCCESS;
 	}	
 	
+	/**
+	 * 获取type的json集合
+	 * @return
+	 */
+	public String getType(){
+		
+		List<Dict> dictList = dictService.getList("dictname", "faultType");;
+		JSONArray json = new JSONArray();
+		for(Dict dict : dictList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", dict.getDictvalue());
+			jo.put("value", dict.getDictkey());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("type", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
+	
+	/**
+	 * 获取faultReason的json集合
+	 * @return
+	 */
+	public String getChild(){
+		String[] proName={"isDel","faultParent.id"};
+		String[] proValue={"N",faultId};
+		List<FaultReason> faultReasonList = faultReasonService.getList(proName, proValue);
+		JSONArray json = new JSONArray();
+		for(FaultReason faultReason : faultReasonList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", faultReason.getReasonName());
+			jo.put("value", faultReason.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("child", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
+	/**
+	 * 获取faultReason的json集合
+	 * @return
+	 */
+	public String getAll(){
+		String[] proName={"isDel","type"};
+		String[] proValue={"N",type};
+		List<FaultReason> faultReasonList = faultReasonService.getList(proName, proValue);
+		JSONArray json = new JSONArray();
+		for(FaultReason faultReason : faultReasonList){
+			JSONObject jo = new JSONObject();
+			jo.put("name", faultReason.getReasonName());
+			jo.put("value", faultReason.getId());
+			json.add(jo);
+		}
+		JSONObject jsonobj = new JSONObject();
+		jsonobj.put("faultReason", json);
+		return ajaxJson(jsonobj.toString());
+	}
+	
 	public FaultReason getFaultReason() {
 		return faultReason;
 	}
@@ -197,6 +261,18 @@ public class FaultReasonAction extends BaseAdminAction {
 
 	public void setAllState(List<Dict> allState) {
 		this.allState = allState;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getFaultId() {
+		return faultId;
+	}
+
+	public void setFaultId(String faultId) {
+		this.faultId = faultId;
 	}	
 	
 	

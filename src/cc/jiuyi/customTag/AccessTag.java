@@ -11,6 +11,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -54,17 +57,27 @@ public class AccessTag extends TagSupport {
 		AccessResourceService accessResourceService = (AccessResourceService)web.getBean("accessResourceServiceImpl");
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());//获取当前登录身份的角色
-		AccessObject accessobject = accessObjectservice.getAccessObjectList(accobjkey, roleList);//获取角色对应的资源对象
-		if(accessobject == null)
-			html.append("");
-		else
-			html.append(accessobject.getHtmlarea());
+		
+		String path = request.getRequestURI();
+		List<AccessObject> accessobjectList = accessObjectservice.getAccessObjectList(path, roleList);//获取角色对应的资源对象
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i<accessobjectList.size();i++){
+			AccessObject accessobject = accessobjectList.get(i);
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("accObjkey", accessobject.getAccObjkey());//key
+			jsonobj.put("accObjName", accessobject.getAccObjName());//值
+			jsonobj.put("state", accessobject.getState());//状态
+			jsonarray.add(jsonobj);
+		}
+		JSONObject json = new JSONObject();
+		json.put("list", jsonarray);
 		JspWriter out = pageContext.getOut();
 		try {
-			out.write(html.toString());
+			out.write(json.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return super.doStartTag();
 	}
 	

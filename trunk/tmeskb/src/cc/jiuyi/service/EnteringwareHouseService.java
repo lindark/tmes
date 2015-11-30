@@ -30,8 +30,6 @@ public interface EnteringwareHouseService extends
 	 *            转换单位
 	 * @return
 	 */
-	public Integer getSingleConversationRatio(String unitDescription,
-			String convertUnit);
 
 	public List<EnteringwareHouse> getByBill(String workingBillId);
 

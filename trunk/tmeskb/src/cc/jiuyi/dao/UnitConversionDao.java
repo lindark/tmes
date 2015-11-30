@@ -43,4 +43,5 @@ public interface UnitConversionDao extends BaseDao<UnitConversion, String> {
 	 */
 	public Integer getSingleConversationRatio(String unitDescription,
 			String convertUnit);
+	public Integer getRatioByCode(String unitCode);
 }

@@ -59,13 +59,6 @@ public class EnteringwareHouseServiceImpl extends
 	}
 
 	@Override
-	public Integer getSingleConversationRatio(String unitDescription,
-			String convertUnit) {
-		return enteringwareHouseDao.getSingleConversationRatio(unitDescription,
-				convertUnit);
-	}
-
-	@Override
 	public List<EnteringwareHouse> getByBill(String workingBillId) {
 		return enteringwareHouseDao.getByBill(workingBillId);
 	}

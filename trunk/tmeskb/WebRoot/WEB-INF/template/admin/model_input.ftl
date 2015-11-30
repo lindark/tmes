@@ -92,11 +92,12 @@ body {
 													<#if isAdd??>
 													<button type="button" class="btn btn-xs btn-info"
 														id="productId" data-toggle="button">选择</button>
-													<input type="text" name="model.products.productsName"
+													<!--  <input type="text" name="model.products.productsName"
 														id="productName1"
 														class=" input input-sm  formText {required: true}"
-														readOnly="true" /> <input type="hidden"
-														name="model.products.id" id="productNa" value="" />
+														readOnly="true" />-->
+														<span id="productName1"></span> <input type="hidden"
+														name="model.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(model.products.productsName)!} </#if>
 												</div>
 
@@ -104,9 +105,10 @@ body {
 
 												<div class="profile-info-value">
 												   <#if isAdd??>
-												       <input type="text" name="model.teamId.teamName"
+												      <!--  <input type="text" name="model.teamId.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/>
+														class=" input input-sm  formText {required: true}" readonly="readonly"/>--> 
+														<span>${(admin.department.team.teamName)!}</span>
 													   <input type="hidden" name="model.teamId.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(model.teamId.teamName)!}												       
@@ -131,10 +133,12 @@ body {
 
 												<div class="profile-info-name">提报人</div>
 												<div class="profile-info-value">
-													<#if isAdd??> <input type="text"
+													<#if isAdd??> 
+													<!--  <input type="text"
 														name="model.initiator.name"
 														value="${(abnormal.iniitiator.name)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/> <input
+														class=" input input-sm  formText {required: true}" readonly="readonly"/>-->
+														<span>${(abnormal.iniitiator.name)!}</span> <input
 														type="hidden" name="model.initiator.id"
 														value="${(abnormal.iniitiator.id)!}"
 														class=" input input-sm  formText {required: true}" />

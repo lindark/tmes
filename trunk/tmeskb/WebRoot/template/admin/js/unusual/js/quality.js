@@ -21,7 +21,7 @@ $(function() {
 	});
 	
 	
-	$("#returnModel").click(function(){
+	$("#returnQuality").click(function(){
 		window.history.back();
 	});
 	

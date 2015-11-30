@@ -15,6 +15,6 @@ public interface SampleDao extends BaseDao<Sample, String>
 	 * jqGrid查询
 	 * sample_list.ftl页面
 	 */
-	public Pager getSamplePager(Pager pager);
+	public Pager getSamplePager(Pager pager,String wbId);
 
 }

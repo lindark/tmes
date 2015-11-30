@@ -152,7 +152,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">工艺确认</div>
 												<div class="profile-info-value">
-													<select name="pollingtest.craftWork" id="form-field-icon-1">
+													<select name="pollingtest.craftWork" id="form-field-icon-1" class="chosen-select">
 														<#list allCraftWork as
 														list>
 														<option value="${list.dictkey}"<#if ((isAdd &&

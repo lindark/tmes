@@ -130,7 +130,7 @@ body {
 												    <#if isAdd??>
 												       <input type="text" name="quality.team.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true}" readonly="readonly"/>
 													   <input type="hidden" name="quality.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(quality.team.teamName)!}												       

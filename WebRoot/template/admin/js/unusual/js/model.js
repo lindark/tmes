@@ -1,5 +1,31 @@
 $(function() {	
 	
+	
+	// 故障原因
+	$("#faultReason").click( function() {
+		showProduct();
+	})
+	
+	
+	function showProduct()
+{
+	var title = "选择产品";
+	var width="800px";
+	var height="632px";
+	var content="model!browser.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		$("#productName1").val(id[0]);//产品id
+		$("#productNa").val(id[1]);//产品名称
+		layer.close(index); 
+	});
+}
+	
+	
+	
+	
 	$("#completeModel").click(function(){		
     	$("#inputForm").submit();  		    		
 	});

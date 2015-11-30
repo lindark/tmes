@@ -39,5 +39,6 @@ public interface UnitConversionService extends BaseService<UnitConversion, Strin
 	 */
 	public Integer getSingleConversationRatio(String unitDescription,
 			String convertUnit);
+	public Integer getRatioByCode(String unitCode);
 
 }

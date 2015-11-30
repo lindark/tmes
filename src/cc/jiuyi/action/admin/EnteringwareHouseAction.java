@@ -43,8 +43,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private static final String CONFIRMED = "1";
 	private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
-	private static final String UNITDESCRIPTION = "箱";
-	private static final String CONVERTUNIT = "个";
+	private static final String UNITCODE = "1001";
 
 	private String workingBillId;
 	private WorkingBill workingbill;
@@ -98,8 +97,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String confirms() {
-		ratio = unitConversionService.getSingleConversationRatio(
-				UNITDESCRIPTION, CONVERTUNIT);
+		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
@@ -122,8 +120,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String undo() {
-		ratio = unitConversionService.getSingleConversationRatio(
-				UNITDESCRIPTION, CONVERTUNIT);
+		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);

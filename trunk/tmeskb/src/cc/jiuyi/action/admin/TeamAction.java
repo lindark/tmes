@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Team;
@@ -165,7 +166,7 @@ public class TeamAction extends BaseAdminAction {
 			}
 			pager.setList(lst);
 			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig.setExcludes(new String[] { "factoryUnit" });
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Team.class));//排除有关联关系的属性字段 
 			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 			return ajaxJson(jsonArray.get(0).toString());
 		} catch (Exception e) {

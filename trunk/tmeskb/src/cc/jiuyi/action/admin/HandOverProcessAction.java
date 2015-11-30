@@ -37,6 +37,7 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
+import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.Table;
 
 /**
@@ -122,7 +123,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);// 获取当前身份的所有随工单对象
-
+		if(workingbillList.size() <=0){
+			addActionError("未找到任何随工单数据");
+			return ERROR;
+		}
+		
 		Object[] obj = new Object[workingbillList.size()];
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
@@ -151,6 +156,10 @@ public class HandOverProcessAction extends BaseAdminAction {
 			addActionError(e.getMsgDes());
 			e.printStackTrace();
 			return ERROR;
+		}catch(Exception e){
+			addActionError("系统出现问题，请联系系统管理员");
+			e.printStackTrace();
+			return ERROR;
 		}
 		return LIST;
 	}
@@ -167,12 +176,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 		Object[] obj = new Object[workingbillList.size()];
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
-			obj[i] = workingbill.getId();
+			obj[i] = workingbill.getMatnr();
 		}
 		
-		
+		materialList = materialservice.getMantrBom(obj);// 取出随工单对应的物料BOM
 		handoverprocessList = handOverProcessService.getList(
-				"beforworkingbill.id", obj, orderBy, orderType);
+				"beforworkingbill.matnr", obj, orderBy, orderType);
 
 		for (int i = 0; i < handoverprocessList.size(); i++) {
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
@@ -187,7 +196,37 @@ public class HandOverProcessAction extends BaseAdminAction {
 			handoverprocessList.set(i, handoverprocess);
 		}
 		
-		//locationonsideList = rfc.findWarehouse(warehouse, materialCodeList);
+		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouse();// 获取人员对应单元对应的线边仓数据
+		List<String> materialCodeList = new ArrayList<String>();
+		for (Material material : materialList) {
+			materialCodeList.add(material.getMaterialCode());
+		}
+		try {
+			locationonsideList = rfc.findWarehouse(warehouse, materialCodeList);
+			for(int i=0;i<locationonsideList.size();i++){
+				HandOverProcess handoverprocess = new HandOverProcess();
+				Locationonside location = (Locationonside)locationonsideList.get(i);
+				handoverprocess.setProcessName("线边仓");
+				handoverprocess.setMaterialCode(location.getMaterialCode());
+				handoverprocess.setMaterialName(location.getMaterialName());
+				handoverprocess.setAmount(new Double(location.getAmount()).intValue());
+				handoverprocessList.add(handoverprocess);
+			}
+		} catch (IOException e) {
+			addActionError("IO操作失败");
+			e.printStackTrace();
+			return ERROR;
+		} catch (CustomerException e) {
+			addActionError(e.getMsgDes());
+			e.printStackTrace();
+			return ERROR;
+		}catch(Exception e){
+			addActionError("系统出现问题，请联系系统管理员");
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return ERROR;
+		}
 
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
@@ -198,6 +237,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 		JSONObject jsonobject = new JSONObject();
 		jsonobject.put("list", jsonArray);
 		return ajaxJson(jsonobject.toString());
+	}
+	
+	/**
+	 * 刷卡提交
+	 * @return
+	 */
+	public String submit(){
+		
+		return null;
 	}
 	
 

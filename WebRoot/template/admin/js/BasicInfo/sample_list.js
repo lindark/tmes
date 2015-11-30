@@ -2,6 +2,7 @@ var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var wbId=$("#wbId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -47,7 +48,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"sample!ajlist.action",
+		url:"sample!ajlist.action?wbId="+wbId,
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -67,7 +68,6 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'xstate',index:'state',label:"状态",width:70,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleState"}},
 			{name:'createDate',index:'createDate',label:"日期",width:130,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xproductnum',index:'workingBill.matnr',label:"产品编号",width:100,editable: false},
 			{name:'xproductname',index:'workingBill.maktx',label:"产品名称",width:100,editable: false},
@@ -76,7 +76,9 @@ jQuery(function($) {
 			{name:'sampleNum',index:'sampleNum',label:"抽检数量",width:90,editable: false,search:false},
 			{name:'qulified',index:'qulified',label:"合格数量",width:90,editable: false,search:false},
 			{name:'qulifiedRate',index:'qulifiedRate',label:"合格率",width:90,editable: false,search:false},
-			{name:'xsampletype',index:'sampleType',label:"抽检类型",width:90,editable: false,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleType"}}
+			{name:'xsampletype',index:'sampleType',label:"抽检类型",width:90,editable: false,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleType"}},
+			{name:'xstate',index:'state',label:"状态",width:70,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -87,7 +89,6 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -97,7 +98,6 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-
 		editurl: "sample!delete.action",//用它做标准删除动作
 		caption: "抽检单"
 	});
@@ -108,14 +108,14 @@ jQuery(function($) {
 		{ 	//navbar options
 			edit: false,
 			//editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			add: false,
 			addfunc:function(rowId){
 				var workingBillId = $("#workingBillId").val();
 				window.location.href="sample!add.action?workingBillId="+workingBillId;
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
-			delicon : 'ace-icon fa fa-trash-o red',
+			//addicon : 'ace-icon fa fa-plus-circle purple',
+			del: false,
+			//delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
@@ -192,20 +192,20 @@ jQuery(function($) {
 });
 
 //给状态加样式
-function addstyle(rowId, val, rawObject, cm, rdata)
+function addstyle(rowId, val, rowObject, cm, rdata)
 {
 	//未确认
-	if(rawObject.state=="1")
+	if(rowObject.state=="1")
 	{
 		return "style='color:#b22;font-weight:bold;'";
 	}
 	//已确认
-	if(rawObject.state=="2")
+	if(rowObject.state=="2")
 	{
 		return "style='color:#006400;font-weight:bold;'";
 	}
 	//已撤销
-	if(rawObject.state=="3")
+	if(rowObject.state=="3")
 	{
 		return "style='color:#d2b48c;font-weight:bold;'";
 	}
@@ -237,6 +237,29 @@ function btn_event()
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	//刷卡编辑
+	$("#btn_edit").click(function(){
+		if(getId2())
+		{
+			var rowData = $("#grid-table").jqGrid('getRowData',info);
+			var row_state=rowData.state;
+			if(row_state=="2"||row_state=="3")
+			{
+				layer.alert("已确认或已撤销的抽检单无法再编辑!",false);
+			}
+			else
+			{
+				window.location.href="sample!edit.action?id="+info+"&wbId="+wbId;
+			}
+		}
+	});
+	//刷卡查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			window.location.href="sample!show.action?id="+info+"&wbId="+wbId;
+		}
+	});
 }
 
 //获取jqGrid表中选择的条数--即数据的ids
@@ -249,5 +272,20 @@ function getId()
 		return false;
 	}
 	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.alert("请选择一条抽检记录！",false);
+		return false;
+	}
 }
 

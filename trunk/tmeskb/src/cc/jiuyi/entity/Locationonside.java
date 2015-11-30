@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import org.compass.annotations.Searchable;
 
 /**
- * 实体类——线边仓
+ * 实体类——线边仓交接
  * 
  */
 @Entity

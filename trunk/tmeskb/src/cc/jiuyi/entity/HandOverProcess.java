@@ -42,7 +42,10 @@ public class HandOverProcess extends BaseEntity{
     private Process process;//工序
     private Material material;//物料组件
     private WorkingBill afterworkingbill;//下班随工单
-    private WorkingBill beforworkingbill;//上班随工单 
+    private WorkingBill beforworkingbill;//上班随工单
+    private Admin saveadmin;//保存人
+    private Admin submitadmin;//提交人
+    private Admin approvaladmin;//确认人
 
 	public String getState() {
 		return state;
@@ -130,6 +133,28 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setBeforworkingbillCode(String beforworkingbillCode) {
 		this.beforworkingbillCode = beforworkingbillCode;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getSaveadmin() {
+		return saveadmin;
+	}
+	public void setSaveadmin(Admin saveadmin) {
+		this.saveadmin = saveadmin;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getSubmitadmin() {
+		return submitadmin;
+	}
+	public void setSubmitadmin(Admin submitadmin) {
+		this.submitadmin = submitadmin;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getApprovaladmin() {
+		return approvaladmin;
+	}
+	public void setApprovaladmin(Admin approvaladmin) {
+		this.approvaladmin = approvaladmin;
 	}
 	
 	

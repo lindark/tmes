@@ -30,6 +30,7 @@ public class AccessObject extends BaseEntity {
 	private String htmlarea;//按钮代码编辑器
 	private Resource resource;
 	private String typeName;//数据字典名称
+	private String state;//状态
 	
 	@ManyToMany(mappedBy = "accessobjectSet", fetch = FetchType.LAZY)
 	public Set<AccessResource> getAccessResourceSet() {
@@ -95,6 +96,12 @@ public class AccessObject extends BaseEntity {
 	}
 	public void setHtmlarea(String htmlarea) {
 		this.htmlarea = htmlarea;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

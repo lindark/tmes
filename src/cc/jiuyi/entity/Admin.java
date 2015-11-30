@@ -91,6 +91,13 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<ItermediateTest> intermediateTestConfirmUser;//半成品巡检确认人
 	private Set<ItermediateTest> intermediateTestCreateUser;//半成品巡检创建人
 	
+	private Set<HandOverProcess> savehandoverprocessSet;//保存人
+	private Set<HandOverProcess> submithandoverprocessSet;//提交人
+	private Set<HandOverProcess> approvalhandoverprocessSet;//确认人
+	
+	private Set<HandOver> savehandoverSet;//提交人
+	private Set<HandOver> approvalhandoverSet;//审批人
+	
 	
 	//半成品巡检确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
@@ -610,6 +617,51 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setCraftLogSet(Set<CraftLog> craftLogSet) {
 		this.craftLogSet = craftLogSet;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="saveadmin")
+	public Set<HandOverProcess> getSavehandoverprocessSet() {
+		return savehandoverprocessSet;
+	}
+
+	public void setSavehandoverprocessSet(
+			Set<HandOverProcess> savehandoverprocessSet) {
+		this.savehandoverprocessSet = savehandoverprocessSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="submitadmin")
+	public Set<HandOverProcess> getSubmithandoverprocessSet() {
+		return submithandoverprocessSet;
+	}
+
+	public void setSubmithandoverprocessSet(
+			Set<HandOverProcess> submithandoverprocessSet) {
+		this.submithandoverprocessSet = submithandoverprocessSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="approvaladmin")
+	public Set<HandOverProcess> getApprovalhandoverprocessSet() {
+		return approvalhandoverprocessSet;
+	}
+
+	public void setApprovalhandoverprocessSet(
+			Set<HandOverProcess> approvalhandoverprocessSet) {
+		this.approvalhandoverprocessSet = approvalhandoverprocessSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="submitadmin")
+	public Set<HandOver> getSavehandoverSet() {
+		return savehandoverSet;
+	}
+
+	public void setSavehandoverSet(Set<HandOver> savehandoverSet) {
+		this.savehandoverSet = savehandoverSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="approvaladmin")
+	public Set<HandOver> getApprovalhandoverSet() {
+		return approvalhandoverSet;
+	}
+
+	public void setApprovalhandoverSet(Set<HandOver> approvalhandoverSet) {
+		this.approvalhandoverSet = approvalhandoverSet;
 	}
 	
 	

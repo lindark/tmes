@@ -93,10 +93,11 @@ body {
 												    <#if isAdd??>
 													<button type="button" class="btn btn-xs btn-info"
 														id="productId" data-toggle="button">选择</button>
-													<input type="text" name="craft.products.productsName"
+													<span id="productName1"></span>
+													<!-- <input type="text" name="craft.products.productsName"
 														id="productName1"
 														class=" input input-sm  formText {required: true}"
-														readOnly="true" /> <input type="hidden"
+														readOnly="true" /> --> <input type="hidden"
 														name="craft.products.id" id="productNa" value="" />
 													<#else> ${(craft.products.productsName)!} </#if>
 													
@@ -106,7 +107,7 @@ body {
 												<div class="profile-info-value">
 												      <#if isAdd??>
 													  <input type="text"  id="productNo" readOnly="true" name="craft.products.productsCode"
-														value="" class=" input input-sm" />
+														value="" class="input input-sm" />
 													  <#else> ${(craft.products.productsCode)!} </#if>
 												</div> 
 												
@@ -120,7 +121,7 @@ body {
 												   <#if isAdd??>
 												       <input type="text" name="craft.team.teamName"
 														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true}" readonly="readonly"/>
 													   <input type="hidden" name="craft.team.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
 												       ${(craft.team.teamName)!}												       

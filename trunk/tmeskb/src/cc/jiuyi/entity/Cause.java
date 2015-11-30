@@ -23,6 +23,9 @@ public class Cause extends BaseEntity {
 	private String stateRemark;//状态描述
 	private String causeTypeRemark;//代码类型描述
 
+	//假字段
+	private String causeNum;//缺陷数量
+	
 	public String getCauseCode() {
 		return causeCode;
 	}
@@ -86,4 +89,16 @@ public class Cause extends BaseEntity {
 	public void setCauseTypeRemark(String causeTypeRemark) {
 		this.causeTypeRemark = causeTypeRemark;
 	}
+
+	@Transient
+	public String getCauseNum()
+	{
+		return causeNum;
+	}
+
+	public void setCauseNum(String causeNum)
+	{
+		this.causeNum = causeNum;
+	}
+	
 }

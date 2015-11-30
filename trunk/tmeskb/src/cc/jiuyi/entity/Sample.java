@@ -1,12 +1,9 @@
 package cc.jiuyi.entity;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 /**
  * 抽检
@@ -26,7 +23,6 @@ public class Sample extends BaseEntity
 	private Admin comfirmation;//确认人
 	private WorkingBill workingBill;//随工单
 	private String isDel;
-	private Set<SampleRecord>sampleRecord;//抽检缺陷记录表
 	
 	//不在数据库生成的字段，用在查询页面
 	private String xsampler;//抽检人
@@ -198,17 +194,4 @@ public class Sample extends BaseEntity
 	{
 		this.xsampletype = xsampletype;
 	}
-	//抽检缺陷记录
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="sample")
-	public Set<SampleRecord> getSampleRecord()
-	{
-		return sampleRecord;
-	}
-
-	public void setSampleRecord(Set<SampleRecord> sampleRecord)
-	{
-		this.sampleRecord = sampleRecord;
-	}
-	
-	
 }

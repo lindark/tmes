@@ -10,8 +10,6 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-
-
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -100,42 +98,38 @@ body {
 												<div class="profile-info-name">权限对象类型</div>
 
 												<div class="profile-info-value">
-													<select class="select formText {required: true}" name="accessObject.type" id="accessType">
-														<option value="">请选择...</option>
+													<select class="select formText {required: true} chosen-select" name="accessObject.type" id="accessType">
+														 <option value="">请选择...</option>
 														<#list	allDict as list>
 														<option value="${list.dictkey }" <#if (list.dictkey ==accessObject.type)!> selected</#if>>${list.dictvalue }</option>
 														</#list>
 													</select>
+													
 												</div>
 											</div>
-											
+											<div class="profile-info-row">
+												<div class="profile-info-name">状态</div>
+
+												<div class="profile-info-value">
+													<select class="chosen-select" name="accessObject.state" data-placeholder="请选择...">
+														 <option></option>
+														<#list	allDictState as list>
+															<option value="${list.dictkey}" <#if (list.dictkey ==accessObject.state)!> selected</#if>>${(list.dictvalue)! }</option>
+														</#list>
+													</select>
+												</div>
+											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">所属资源</div>
 
 												<div class="profile-info-value">
-													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="分配所属资源" name="accessObject.resource.id">
+													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="请选择..." name="accessObject.resource.id">
 																	<option value=""></option>
 																	<#list	allRes as list>
 																		<option value="${list.id}" <#if (list.id ==accessObject.resource.id)!> selected</#if>>${(list.name)! }</option>
 																	</#list>
 													</select>
 													<label id="resMessagePosition"></label>
-												</div>
-											</div>
-											<div class="profile-info-row hide">
-												<div class="profile-info-name">请求地址</div>
-
-												<div class="profile-info-value">
-													<input type="text" name="accessObject.requesturl"
-														value="${(ccessObject.requesturl)! }"
-														class=" input input-sm" />
-												</div>
-											</div>
-											<div class="profile-info-row hide">
-												<div class="profile-info-name">数据字典id</div>
-
-												<div class="profile-info-value">
-													
 												</div>
 											</div>
 											<div class="profile-info-row ">
@@ -184,16 +178,6 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+
 </html>
-<script type="text/javascript">
-	$(function(){
-		var $accessType =  $("#accessType");//权限对象类型
-		$accessType.change(function(){
-			var sVal = $(this).val();
-			if(sVal=="button"){//按钮
-				
-			}
-		})
-		
-	})
-</script>
+

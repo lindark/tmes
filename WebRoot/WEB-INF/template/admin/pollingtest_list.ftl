@@ -117,6 +117,14 @@
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建巡检单
 								</a>
+								<a id="editButton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-pencil-square-o"></i>
+									编辑
+								</a>
+								<a id="checkButton" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
+									查看
+								</a>
 								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
@@ -184,6 +192,28 @@
 			window.location.href="pollingtest!add.action?workingBillId="+workingBillId;
 			
 		});
+		$("#editButton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="pollingtest!edit.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
+		$("#checkButton").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条纸箱记录！");
+			}else{
+				window.location.href="pollingtest!detail.action?id="+id+"&workingBillId="+workingBillId;			
+			}
+			
+		});
 		$("#confirmCarton").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
@@ -226,21 +256,5 @@
 
 		})
 
-		/*
-		var ishead3=0;
-		$(".hsub").click(function(){
-			if(ishead3==0){
-				alert("OK");
-				ishead3=1;
-				$(".hsub").addClass("open");
-				//$(this).find(".submenu").removeClass("nav-hide");
-			}else{
-				ishead3=0;
-				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
-			}
-			
-		})
-		 */
 	})
 </script>

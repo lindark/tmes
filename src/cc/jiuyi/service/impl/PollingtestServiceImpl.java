@@ -74,19 +74,19 @@ public class PollingtestServiceImpl extends
 			String[] qxids = info.split(",");// 缺陷IDS
 			String[] qxnums = info2.split(",");// 缺陷nums
 			Pollingtest pollingtest2 = this.pollingtestDao.load(pollingtestId);
-			if (qxids.length > 0) {
-				for (int i = 0; i < qxids.length; i++) {
-					if (qxids[i] != null && !"".equals(qxids[i])) {
-						PollingtestRecord pr = new PollingtestRecord();
-						Cause cause = this.causeDao.get(qxids[i]);// 根据缺陷ID查询
-						pr.setCreateDate(new Date());// 初始化创建日期
-						pr.setModifyDate(new Date());// 初始化修改日期
-						pr.setPollingtest(pollingtest2);// 巡检单对象
-						pr.setRecordDescription(cause.getCauseName());
-						pr.setRecordNum(qxnums[i]);// 缺陷数量
-						pr.setCauseId(qxids[i]);//缺陷ID
-						this.pollingtestRecordDao.save(pr);
-					}
+			for(int i=0;i<qxids.length;i++)
+			{
+				if(qxids[i]!=null&&!"".equals(qxids[i]))
+				{
+					PollingtestRecord pr = new PollingtestRecord();
+					Cause cause = this.causeDao.get(qxids[i]);// 根据缺陷ID查询
+					pr.setCreateDate(new Date());// 初始化创建日期
+					pr.setModifyDate(new Date());// 初始化修改日期
+					pr.setPollingtest(pollingtest2);// 巡检单对象
+					pr.setRecordDescription(cause.getCauseName());
+					pr.setRecordNum(qxnums[i]);// 缺陷数量
+					pr.setCauseId(qxids[i]);//缺陷ID
+					this.pollingtestRecordDao.save(pr);
 				}
 			}
 		}
@@ -120,9 +120,9 @@ public class PollingtestServiceImpl extends
 		/**缺陷记录更新*/
 		String[]qxids=info.split(",");//缺陷IDS
 		String[]qxnums=info2.split(",");//缺陷nums
-		if(qxids.length>0)
+		for(int i=0;i<qxids.length;i++)
 		{
-			for(int i=0;i<qxids.length;i++)
+			if(qxids[i]!=null&&!"".equals(qxids[i]))
 			{
 				Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
 				//根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增

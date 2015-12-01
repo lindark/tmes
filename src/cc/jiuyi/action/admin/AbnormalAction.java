@@ -127,6 +127,7 @@ public class AbnormalAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
+			List<Admin> adminList = null;
 			List<Callreason> callreasonList = new ArrayList<Callreason>(
 					abnormal.getCallreasonSet());// 消息
 			List<String> strlist = new ArrayList<String>();
@@ -138,9 +139,23 @@ public class AbnormalAction extends BaseAdminAction {
 
 			List<Admin> respon = new ArrayList<Admin>(
 					abnormal.getResponsorSet());
+			
+			adminList = new ArrayList<Admin>();
+			for (SwiptCard s : abnormal.getSwiptCardSet()) {
+				if (s.getType().equals("0")) {
+					adminList.add(s.getAdmin());
+				}
+			}
+			
 			List<String> anslist = new ArrayList<String>();
+			
 			for (Admin admin : respon) {
-				String str = admin.getName();
+				String str;
+				if(adminList.contains(admin)){
+					str = "<span style='color:red'>"+admin.getName()+"</span>";
+				}else{
+					str = admin.getName();							
+				}
 				anslist.add(str);
 			}
 			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
@@ -217,10 +232,6 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 
 			persistent.setReplyDate(new Date());
-			/*Date date = new Date();
-			int time = (int) ((date.getTime() - persistent.getCreateDate()
-					.getTime()) / 60000);
-			persistent.setHandlingTime(time);*/
 			abnormalService.update(persistent);
 		}
 

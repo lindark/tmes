@@ -84,9 +84,10 @@ public class PickAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		
-		workingbill=workingBillService.get(workingBillId);
-
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		System.out.println(admin.getShift());
+		this.workingbill=workingBillService.get(workingBillId);
 		return LIST;
 	}
 	
@@ -304,6 +305,16 @@ public class PickAction extends BaseAdminAction {
 
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
+	}
+
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	

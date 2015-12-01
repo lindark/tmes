@@ -67,8 +67,9 @@ public class CartonAction extends BaseAdminAction {
 	private MaterialService materialService;
 
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
-		return "list";
+		return LIST;
 	}
 
 	// 添加
@@ -232,6 +233,14 @@ public class CartonAction extends BaseAdminAction {
 
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 }

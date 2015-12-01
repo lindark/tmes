@@ -43,7 +43,6 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		for(PickDetail p:pickdetail){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterialCode());//物料编码
-			item.put("MEINS", p.getMeins());//单位
 			item.put("ZSFSL", p.getPickAmount());//领退料数量
 			item.put("CHARG", p.getCharg());//批号
 			item.put("ITEM_TEXT", p.getItem_text());//项目文本

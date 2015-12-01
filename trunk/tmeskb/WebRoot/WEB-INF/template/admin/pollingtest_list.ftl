@@ -97,7 +97,11 @@
 														<div class="profile-info-name">班组/班次</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<span class="editable editable-click" id="signup">
+																<#if (admin.shift == "1")!>早</#if>
+																<#if (admin.shift == "2")!>中</#if>
+																<#if (admin.shift == "3")!>晚</#if>
+															</span>
 														</div>
 														<div class="profile-info-name">产品名称</div>
 
@@ -113,27 +117,27 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建巡检单
 								</a>
-								<a id="editButton" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-pencil-square-o"></i>
-									编辑
-								</a>
-								<a id="checkButton" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
-									查看
-								</a>
-								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
-								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
 								</a>
-								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
+								</a>
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
+								</a>
+								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回
 								</a>
@@ -170,91 +174,3 @@
 </body>
 
 </html>
-<script type="text/javascript">
-	/**
-	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
-	 */
-
-	$(function() {
-		var ishead = 0;
-		$("#ace-settings-btn").click(function() {
-			if (ishead == 0) {
-				ishead = 1;
-				$("#ace-settings-box").addClass("open");
-			} else {
-				ishead = 0;
-				$("#ace-settings-box").removeClass("open");
-			}
-		});
-		
-		$("#addCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			window.location.href="pollingtest!add.action?workingBillId="+workingBillId;
-			
-		});
-		$("#editButton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条纸箱记录！");
-			}else{
-				window.location.href="pollingtest!edit.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#checkButton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条纸箱记录！");
-			}else{
-				window.location.href="pollingtest!detail.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#confirmCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条纸箱记录！");
-			}else{
-				window.location.href="pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#undoCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条纸箱记录！");
-			}else{
-				window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#returnCarton").click(function(){
-			window.history.back();
-		});
-		
-		$(".btn-colorpicker").click(function() {
-			$(".dropdown-colorpicker").addClass("open");
-		})
-
-		var ishead2 = 0;
-		$(".light-blue").click(function() {
-			if (ishead2 == 0) {
-				ishead2 = 1;
-				$(this).addClass("open");
-			} else {
-				ishead2 = 0;
-				$(this).removeClass("open");
-			}
-
-		})
-
-	})
-</script>

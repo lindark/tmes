@@ -82,14 +82,14 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>pollingtest!save.action<#else>pollingtest!update.action</#if>"
+								action="<#if add??>pollingtest!save.action</#if><#if edit??>pollingtest!update.action</#if><#if show??></#if>"
 								method="post">
-								<input type="hidden" id="input_qulified"  name="pollingtest.qualifiedAmount" value="" />
-								<input type="hidden" id="input_qrate" name="pollingtest.passedPercent" value="" />
+								<input type="hidden" id="input_qulified"  name="pollingtest.qualifiedAmount" value="${(pollingtest.qualifiedAmount)! }" />
+								<input type="hidden" id="input_qrate" name="pollingtest.passedPercent" value="${(pollingtest.passedPercent)! }" />
 								<input type="hidden" id="input_rd" name="info" />
 								<input type="hidden" id="input_rnum" name="info2" value="" />
-								<input type="hidden" id="my_id" name="my_id" />
-								<input type="hidden" name="id" value="${(id)!}" /> 
+								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }"/>
+								<input type="hidden" name="pollingtest.id" value="${(pollingtest.id)!}" /> 
 								<input type="hidden" class="input input-sm"
 									name="pollingtest.workingbill.id" value="${workingbill.id} ">
 								<div id="inputtabs">
@@ -126,23 +126,27 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">巡检数量</div>
 												<div class="profile-info-value">
+													<#if show??>
+															<span>${(pollingtest.pollingtestAmount)! }</span>
+													<#else>
 													<input id="sample_num" type="text" name="pollingtest.pollingtestAmount"
 														value="${(pollingtest.pollingtestAmount)!}"
 														class=" input input-sm formText {required: true,min: 0}" />
+													</#if>
 												</div>
 
 												<div class="profile-info-name">硫化时间</div>
 												<div class="profile-info-value">
-													<input type="text" name="pollingtest.curingTime1"
+													<input type="text" name="pollingtest.curingTime1" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.curingTime1)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.curingTime2"
+													<input type="text" name="pollingtest.curingTime2" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.curingTime2)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.curingTime3"
+													<input type="text" name="pollingtest.curingTime3" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.curingTime3)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.curingTime4"
+													<input type="text" name="pollingtest.curingTime4" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.curingTime4)!}"
 														class=" input input-sm formText {min: 0}" />
 													<span>&nbsp;&nbsp;&nbsp;/秒</span>
@@ -152,6 +156,9 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">工艺确认</div>
 												<div class="profile-info-value">
+												<#if show??>
+													<span>${pollingtestType! }</span>
+												<#else>
 													<select name="pollingtest.craftWork" id="form-field-icon-1" class="chosen-select">
 														<#list allCraftWork as
 														list>
@@ -160,20 +167,21 @@ body {
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
 													</select>
+												</#if>
 												</div>
 
 												<div class="profile-info-name">固化时间</div>
 												<div class="profile-info-value">
-													<input type="text" name="pollingtest.settingTime1"
+													<input type="text" name="pollingtest.settingTime1" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.settingTime1)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.settingTime2"
+													<input type="text" name="pollingtest.settingTime2" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.settingTime2)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.settingTime3"
+													<input type="text" name="pollingtest.settingTime3" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.settingTime3)!}"
 														class=" input input-sm formText {min: 0}" />
-													<input type="text" name="pollingtest.settingTime4"
+													<input type="text" name="pollingtest.settingTime4" <#if show??>readonly="readonly"</#if>
 														style="width:10%" value="${(pollingtest.settingTime4)!}"
 														class=" input input-sm formText {min: 0}" />
 													<span>&nbsp;&nbsp;&nbsp;/秒</span>
@@ -182,35 +190,51 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">尺寸1</div>
 												<div class="profile-info-value">
+													<#if show??>
+															<span>${(pollingtest.size1)! }</span>
+													<#else>
 													<input type="text" name="pollingtest.size1"
 														value="${(pollingtest.size1)!}"
 														class=" input input-sm formText {min: 0}" />
+													</#if>
 												</div>
 
 												<div class="profile-info-name">尺寸2</div>
 												<div class="profile-info-value">
+												<#if show??>
+														<span>${(pollingtest.size2)! }</span>
+												<#else>
 													<input type="text" name="pollingtest.size2"
 														value="${(pollingtest.size2)!}"
 														class=" input input-sm formText {min: 0}" />
+												</#if>
 												</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">尺寸3</div>
 												<div class="profile-info-value">
+												<#if show??>
+														<span>${(pollingtest.size3)! }</span>
+												<#else>
 													<input type="text" name="pollingtest.size3"
 														value="${(pollingtest.size3)!}"
 														class=" input input-sm formText {min: 0}" />
+												</#if>
 												</div>
 
 												<div class="profile-info-name">合格数量</div>
 												<div class="profile-info-value">
-													<span id="span_sq">0</span>
+													<span id="span_sq">${(pollingtest.qualifiedAmount)! }</span>
 												</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">合格率</div>
 												<div class="profile-info-value">
-													<span id="span_qrate" class="editable editable-click" id="age">0%</span>
+													<#if add??>
+														<span id="span_qrate">0.00%</span>
+													<#else>
+														<span id="span_qrate">${(pollingtest.passedPercent)! }</span>
+													</#if>
 												</div>
 											</div>
 										</div>
@@ -222,19 +246,33 @@ body {
 											<div class="profile-info-name div-name">不合格原因</div>
 											<div class="profile-info-row ceshi">
 												<div class="profile-info-value div-value">
-													<#assign num=0 /> <#list list_cause as list>
+												<#if show??>
+													<#list list_pollingtestRecord as list>
 													<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
-														<input id="sr_id" type="hidden" value="${(list.id)! }" />
-														<label>${(list.causeName)! }</label> 
-														<input id="sr_num${num}" type="text" value="" class=" input-value" />
-														<input id="sr_num2${num}" type="hidden" value="" />
+														<label>${(list.recordDescription)! }</label> 
+														<input id="sr_num${num}" type="text" value="${(list.recordNum)! }" class=" input-value" readonly="readonly" />
 													</div>
-													<#assign num=num+1 /> </#list>
+													</#list>
+												<#else>
+													<#assign num=0 /> 
+													<#if list_cause??>
+														<#list list_cause as list>
+														<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
+															<input id="sr_id" type="hidden" value="${(list.id)! }" />
+															<label>${(list.causeName)! }</label> 
+															<input id="sr_num${num}" type="text" value="${(list.causeNum)! }" class=" input-value" />
+															<input id="sr_num2${num}" type="hidden" value="${(list.causeNum)! }" />
+														</div>
+														<#assign num=num+1 /> 
+														</#list>
+													</#if>
+												</#if>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="buttonArea">
+										<#if show??><#else>
 										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡保存
@@ -243,6 +281,7 @@ body {
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡确认
 										</a>
+										</#if>
 										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-home"></i>
 											返回
@@ -281,6 +320,8 @@ var qxids="";
 $(function(){
 	//缺陷事件
 	cause_event();
+	//必填提示隐藏/显示
+	tip_event();
 });
 //缺陷事件
 function cause_event()
@@ -350,18 +391,19 @@ function getqxnum()
 }
 
 //获取缺陷描述的id--字符串形式
+
 function getqxids()
 {
-	qxids="";
 	qxnums="";
+	qxids="";
 	var i=0;
 	<#list list_cause as list>
 	var num=$("#sr_num"+i).val();
 	if(num!="0"&&num!=""&&num!=null)
 	{
-		qxnums=qxnums+","+num;
+		qxnums+=num+",";
 		var id="${(list.id)! }";
-		qxids=qxids+","+id;
+		qxids+=id+",";
 	}
 	i+=1;
 	</#list>
@@ -372,5 +414,13 @@ function getqxids()
 function getqxnums()
 {
 	return qxnums;
+}
+
+//必填提示隐藏/显示
+function tip_event()
+{
+	<#if show??>
+		$(".requireField").hide();
+	</#if>
 }
 </script>	

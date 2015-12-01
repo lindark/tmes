@@ -63,7 +63,7 @@ body{background:#fff;}
 								<!-- ./ add by welson 0728 -->
 								
 		<form id="inputForm"
-		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if>"	method="post">
+		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if><#if show??></#if>"	method="post">
 			<input type="hidden" name="id" value="${(id)!}" />
 			<input type="hidden" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
 			<div id="inputtabs">
@@ -96,16 +96,22 @@ body{background:#fff;}
 											<div class="profile-info-row">
 												<div class="profile-info-name">翻包次数</div>
 												<div class="profile-info-value">
-													<input type="text" name="rework.reworkCount" "
-														value="${(rework.reworkCount)!}"
-														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />													
+												   <#if show??>
+															<span>${(rework.reworkCount)! }</span>
+												   <#else>
+													<input type="text" name="rework.reworkCount" value="${(rework.reworkCount)!}" class=" input input-sm formText"/> 										
+												   </#if>
+												   <label class="requireField">*</label>
 												</div>
 
 											<div class="profile-info-name">翻包数量</div>
 												<div class="profile-info-value">
-													<input type="text" name="rework.reworkAmount"
-														value="${(rework.reworkAmount)!}"
-														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />
+												  <#if show??>
+															<span>${(rework.reworkAmount)! }</span>
+												  <#else>
+													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm formText"/>
+												 </#if>
+												<label class="requireField">*</label>
 												</div>
 											</div>
 
@@ -113,20 +119,27 @@ body{background:#fff;}
 											<div class="profile-info-row">
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
-													<input type="text" name="rework.defectAmount"
-														value="${(rework.defectAmount)!}"
-														class=" input input-sm formText {required: true,digits:true,minlength:0,maxlength: 100}" />													
-												</div>
+												<#if show??>
+													 <span>${(rework.defectAmount)! }</span>
+												  <#else>
+													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm formText" />	
+												</#if>
+												<label class="requireField">*</label>												
+											 </div>
 
 
 												<div class="profile-info-name">是否合格</div>
 												<div class="profile-info-value">
-													<select name=rework.isQualified id="form-field-icon-1"
-														class="input input-sm form-control">
+												     <#if show??>
+														<span>${isQualified! }</span>
+													<#else>
+													<select name=rework.isQualified id="form-field-icon-1" class="input input-sm form-control">
 														<option value="">--</option> <#list allCheck as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&list.isDefault) || (isEdit && rework.isQualified ==list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
 													</select>
+													</#if>
+														<label class="requireField">*</label>
 												</div>												
 											</div>
 										</div>
@@ -135,8 +148,12 @@ body{background:#fff;}
 											<div class="profile-info-row">
 												<div class="profile-info-name">问题描述:</div>
 												<div class="profile-info-value">
-													<textarea name="rework.problem"
-														style="width:600px;" class=" formText {required: true,minlength:0,maxlength: 100}">${(rework.problem)!}</textarea>
+												 <#if show??>
+													 <span>${(rework.problem)! }</span>
+												  <#else>
+													<textarea name="rework.problem" style="width:600px;" class="input input-sm formText">${(rework.problem)!}</textarea>
+													</#if>
+												   <label class="requireField">*</label>
 												</div>
 											</div>
 										</div>
@@ -147,8 +164,12 @@ body{background:#fff;}
 											<div class="profile-info-row">
 												<div class="profile-info-name">整改方案:</div>
 												<div class="profile-info-value">
-													<textarea name="rework.rectify"
-														style="width:600px;" class=" formText {required: true,minlength:0,maxlength: 100}">${(rework.rectify)!}</textarea>
+												<#if show??>
+													 <span>${(rework.rectify)! }</span>
+												  <#else>
+													<textarea name="rework.rectify" style="width:600px;" class="input input-sm formText">${(rework.rectify)!}</textarea>
+												</#if>
+												   <label class="requireField">*</label>
 												</div>
 											</div>
 										</div>
@@ -158,6 +179,9 @@ body{background:#fff;}
 										  <div class="profile-info-row">
 												<div class="profile-info-name">责任人</div>
 												<div class="profile-info-value">
+												 <#if show??>
+													 <span>${(rework.duty.name)! }</span>
+												 <#else>
 												 <input type="hidden" id="adminId" name="rework.duty.id" value="${(rework.duty.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
@@ -165,8 +189,9 @@ body{background:#fff;}
 										         	 <label class="requireField">*</label>	
 										         	 <#else>
 										         	 ${(rework.duty.name)!}    
-										         	 </#if>									
-										    </div>
+										         	 </#if>	
+										         	 </#if>								
+										        </div>
 										 </div>
 										</div>
 										
@@ -175,9 +200,13 @@ body{background:#fff;}
 										  <div class="profile-info-row">
 										   <div class="profile-info-name">完工日期</div>
 										     <div class="profile-info-value">
+										      <#if show??>
+													 <span>${(rework.completeDate)! }</span>
+											  <#else>
 												<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker " name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
 											</div>
+											</#if>
 											</div>						
 										 </div>
 										</div>
@@ -186,6 +215,9 @@ body{background:#fff;}
 										<div class="profile-user-info profile-user-info-striped">
 										 <div class="profile-info-name">是否完工</div>
 												<div class="profile-info-value">
+												<#if show??>
+													<span>${isCompelete! }</span>
+												<#else>
 													<label class="pull-left inline"> <small
 														class="muted smaller-90">已完工:</small> <input type="radio"
 														class="ace" name="rework.isCompelete" value="Y"<#if
@@ -196,6 +228,7 @@ body{background:#fff;}
 														class="ace" name="rework.isCompelete" value="N"<#if
 														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span》
 														class="lbl middle"></span> </label>
+													</#if>
 												</div>															
 										</div>
 								</div>
@@ -204,7 +237,7 @@ body{background:#fff;}
 						
 						<div>	
 				  
-				              
+				                  <#if show??><#else>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
@@ -217,6 +250,7 @@ body{background:#fff;}
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
 									</button>
+									</#if>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework" type=button>
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -242,6 +276,10 @@ body{background:#fff;}
 
 </body>
 <script type="text/javascript">
+$(function(){
+	//必填提示隐藏/显示
+	tip_event();
+});
 $(function(){
 	var $userAddBtn = $("#userAddBtn");//添加用户
 	 var $adminId=$("#adminId");
@@ -281,7 +319,6 @@ if(date1.getMilliseconds()>date2.getMilliseconds()){
 return;
 }
 }
-
 
 $(function(){
 	var ishead=0;
@@ -341,6 +378,15 @@ $(function(){
 
 
 })
+
+function tip_event()
+{
+	<#if show??>
+		$(".requireField").hide();
+	</#if>
+}
+
+
 
 
 </script>

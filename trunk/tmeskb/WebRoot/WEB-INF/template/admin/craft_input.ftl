@@ -102,14 +102,14 @@ body {
 													<#else> ${(craft.products.productsName)!} </#if>
 													
 												</div>
-												<div class="profile-info-name">产品编号</div>
+											<!-- 	<div class="profile-info-name">产品编号</div>
 
 												<div class="profile-info-value">
 												      <#if isAdd??>
 													  <input type="text"  id="productNo" readOnly="true" name="craft.products.productsCode"
 														value="" class="input input-sm" />
 													  <#else> ${(craft.products.productsCode)!} </#if>
-												</div> 
+												</div>  -->
 												
 
 											</div>

@@ -3,14 +3,14 @@ package cc.jiuyi.dao;
 import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Equipment;
+import cc.jiuyi.entity.Equipments;
 
 /**
  * Dao接口 - 设备
  */
-public interface EquipmentDao extends BaseDao<Equipment, String> {
+public interface EquipmentDao extends BaseDao<Equipments, String> {
 
-public Pager getEquipmentPager(Pager pager,HashMap<String,String>map);
+   public Pager getEquipmentPager(Pager pager,HashMap<String,String>map);
 	
 	/**
 	 * 标记删除

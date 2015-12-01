@@ -70,9 +70,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			String sampleId=this.sampleDao.save(sample);
 			String[]qxids=info.split(",");//缺陷IDS
 			String[]qxnums=info2.split(",");//缺陷nums
-			if(qxids.length>0)
+			for(int i=0;i<qxids.length;i++)
 			{
-				for(int i=0;i<qxids.length;i++)
+				if(qxids[i]!=null&&!qxids[i].equals(""))
 				{
 					SampleRecord sr=new SampleRecord();
 					Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
@@ -131,9 +131,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		/**缺陷记录更新*/
 		String[]qxids=info.split(",");//缺陷IDS
 		String[]qxnums=info2.split(",");//缺陷nums
-		if(qxids.length>0)
+		for(int i=0;i<qxids.length;i++)
 		{
-			for(int i=0;i<qxids.length;i++)
+			if(qxids[i]!=null&&!qxids[i].equals(""))
 			{
 				Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
 				//根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增

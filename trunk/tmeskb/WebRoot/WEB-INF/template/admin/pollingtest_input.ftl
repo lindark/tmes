@@ -241,7 +241,9 @@ body {
 										<!--weitao end modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row ceshi">
-												<div class="profile-info-value">&nbsp;</div>
+												<div class="profile-info-value">
+													<sapn id="span_tip" style="color:red;"></sapn>
+												</div>
 											</div>
 											<div class="profile-info-name div-name">不合格原因</div>
 											<div class="profile-info-row ceshi">
@@ -368,6 +370,13 @@ function cause_event()
 						tocalc(samplenum,"",num_bt);
 					}
 				}
+			}
+			else{
+				$("#sr_num2"+i).val("");//缺陷数量--备胎
+				if(num_bt!=""&&num_bt!=null&&num_bt>0)
+				{
+					tocalc(samplenum,"",num_bt);
+				}				
 			}
 		});
 		i+=1;

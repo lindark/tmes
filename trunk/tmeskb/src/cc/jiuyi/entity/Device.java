@@ -53,6 +53,7 @@ public class Device extends BaseEntity{
 	private String state;//状态
 	
 	private Abnormal abnormal;//异常
+	private Equipments equipments;//设备
 	private String stateRemark;//状态描述    
 	private Set<DeviceLog> deviceLogSet;//设备日志
 	
@@ -242,6 +243,14 @@ public class Device extends BaseEntity{
 	}
 	public void setDeviceLogSet(Set<DeviceLog> deviceLogSet) {
 		this.deviceLogSet = deviceLogSet;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Equipments getEquipments() {
+		return equipments;
+	}
+	public void setEquipments(Equipments equipments) {
+		this.equipments = equipments;
 	}
 	
 	

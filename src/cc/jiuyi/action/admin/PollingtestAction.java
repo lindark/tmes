@@ -25,10 +25,13 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.PollingtestRecord;
+import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.PollingtestRecordService;
 import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -53,10 +56,15 @@ public class PollingtestAction extends BaseAdminAction {
 	private String my_id;
 	private String info;
 	private String info2;
+	private String pollingtestType;// 巡检类型
+	private String add;
+	private String edit;
+	private String show;
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
 	private List<Cause> list_cause;// 缺陷
+	private List<PollingtestRecord> list_pollingtestRecord;
 
 	@Resource
 	private PollingtestService pollingtestService;
@@ -68,8 +76,11 @@ public class PollingtestAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private CauseService causeService;
+	@Resource
+	private PollingtestRecordService pollingtestRecordService;
 
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
 		return "list";
 	}
@@ -78,23 +89,72 @@ public class PollingtestAction extends BaseAdminAction {
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
 		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
+		this.add="add";
 		return INPUT;
 	}
 
 	// 编辑
 	public String edit() {
-		pollingtest = pollingtestService.load(id);
-		workingbill = workingBillService.get(workingBillId);
-		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
-		return INPUT;
+		try {
+			
+			pollingtest = pollingtestService.load(id);
+			workingbill = workingBillService.get(workingBillId);
+			List<Cause> l_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
+			list_pollingtestRecord = pollingtestRecordService.findByPollingtestId(id);
+			list_cause=new ArrayList<Cause>();
+			for(int i=0;i<l_cause.size();i++)
+			{
+				Cause c=l_cause.get(i);
+				for(int j=0;j<list_pollingtestRecord.size();j++)
+				{
+					PollingtestRecord sr=list_pollingtestRecord.get(j);
+					if(c!=null&&sr!=null)
+					{
+						if(c.getId().equals(sr.getCauseId()))
+						{
+							c.setCauseNum(sr.getRecordNum());
+						}
+					}
+				}
+				this.list_cause.add(c);
+			}
+			this.edit="edit";
+			return INPUT;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		admin = adminService.getLoginAdmin();
-		pollingtestService.saveInfo(pollingtest, info, info2, my_id, admin);
+		pollingtestService.saveInfo(pollingtest, info, info2, my_id);
+		redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();
+		return SUCCESS;
+	}
+
+	// 查看
+	public String show() {
+		pollingtest = pollingtestService.load(id);
+		workingbill = workingBillService.get(workingBillId);
+		pollingtestType = ThinkWayUtil.getDictValueByDictKey(dictService,
+				"craftWorkRemark", pollingtest.getCraftWork());
+		list_pollingtestRecord = pollingtestRecordService
+				.findByPollingtestId(id);
+		this.show="show";
+		return INPUT;
+	}
+	
+	/**
+	 * 修改
+	 */
+	public String update()
+	{
+		//保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
+		this.pollingtestService.updateInfo(pollingtest,info,info2,my_id);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
@@ -174,7 +234,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		pollingtestService.confirm(list, admin,CONFIRMED);
+		pollingtestService.confirm(list, admin, CONFIRMED);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
@@ -192,7 +252,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		pollingtestService.confirm(list, admin,UNDO);
+		pollingtestService.confirm(list, admin, UNDO);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
@@ -268,6 +328,47 @@ public class PollingtestAction extends BaseAdminAction {
 
 	public void setInfo2(String info2) {
 		this.info2 = info2;
+	}
+
+	public List<PollingtestRecord> getList_pollingtestRecord() {
+		return list_pollingtestRecord;
+	}
+
+	public void setList_pollingtestRecord(
+			List<PollingtestRecord> list_pollingtestRecord) {
+		this.list_pollingtestRecord = list_pollingtestRecord;
+	}
+
+	public String getPollingtestType() {
+		return pollingtestType;
+	}
+
+	public void setPollingtestType(String pollingtestType) {
+		this.pollingtestType = pollingtestType;
+	}
+
+	public String getAdd() {
+		return add;
+	}
+
+	public void setAdd(String add) {
+		this.add = add;
+	}
+
+	public String getEdit() {
+		return edit;
+	}
+
+	public void setEdit(String edit) {
+		this.edit = edit;
+	}
+
+	public String getShow() {
+		return show;
+	}
+
+	public void setShow(String show) {
+		this.show = show;
 	}
 
 }

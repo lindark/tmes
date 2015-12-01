@@ -29,8 +29,12 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
-	
-	public void saveInfo(Pollingtest pollingtest, String info, String info2, String my_id, Admin admin);
-	
-	public void confirm(List<Pollingtest> list,Admin admin,String stu);
+
+	public void saveInfo(Pollingtest pollingtest, String info, String info2,
+			String my_id);
+
+	public void confirm(List<Pollingtest> list, Admin admin, String stu);
+
+	public void updateInfo(Pollingtest pollingtest, String info, String info2,
+			String my_id);
 }

@@ -97,7 +97,11 @@
 														<div class="profile-info-name">班组/班次</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<span class="editable editable-click" id="signup">
+																<#if (admin.shift == "1")!>早</#if>
+																<#if (admin.shift == "2")!>中</#if>
+																<#if (admin.shift == "3")!>晚</#if>
+															</span>
 														</div>
 														<div class="profile-info-name">产品名称</div>
 

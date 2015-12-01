@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"factory!ajlist.action",
+		url:"equipments!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -95,7 +95,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "equipment!delete.action",//用它做标准删除动作
+		editurl: "equipments!delete.action",//用它做标准删除动作
 		caption: "工厂管理"
 
 		//,autowidth: true,
@@ -147,12 +147,12 @@ jQuery(function($) {
 					alert("请选择一条记录");
 					return false;
 				}
-			    window.location.href="equipment!edit.action?id="+rowId;
+			    window.location.href="equipments!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
 			addfunc:function(){
-				window.location.href="equipment!add.action";
+				window.location.href="equipments!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,		

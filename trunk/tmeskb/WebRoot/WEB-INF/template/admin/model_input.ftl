@@ -20,12 +20,18 @@
 	src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/unusual/js/model.js"></script>
+<script type="text/javascript"
+	src="${base }/template/admin/js/jquery.cxselect-1.3.7/js/jquery.cxselect.min.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body {
-	background: #fff;
+	background: #fff;	
 }
+/*
+.div_all_background{background-color:#000; opacity:0.05;z-index:10;width:1400px;height:1800px;}
+#main-container{z-index:9;}
+#dialog{z-index:10;background: #fff;}*/
 </style>
 </head>
 <body class="no-skin input">
@@ -198,11 +204,22 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value">
-												  <!-- <button type="button" class="btn btn-xs btn-info"
-														id="faultReason" data-toggle="button">选择</button> -->  
-													<input type="text" name="model.faultCause"
-														value="${(model.faultCause)!}"
-														class=" input input-sm  formText {required: true}" />
+												     <button type="button" class="btn btn-xs btn-info"
+														id="faultReason" data-toggle="button">选择</button>								     
+												      <#if isAdd??> 
+												      <fieldset id="self-data">
+													    <div class="form">
+												        <select name="type" class="type select"  data-first-title="---选择类型---" data-value="" data-url="fault_reason!getType.action" data-json-space="type"></select>
+												        <select name="faultId" class="faultReason select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getAll.action" data-json-space="faultReason"></select>		
+												        <select name="faultReasonSet.id" class="child select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getChild.action" data-json-space="child"></select>													
+												        </div>
+												      </fieldset>
+												      <#else>
+												          <#list model.faultReasonSet as list> 
+												          ${(list.reasonName)!} 
+												          </#list> 
+												      </#if>
+														
 												</div>
 												<div class="profile-info-name">处理方法与结果</div>
 												<div class="profile-info-value">
@@ -220,7 +237,7 @@ body {
 												</div>
 											</div>
 
-										</div>
+										</div>																	 
 
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
@@ -307,6 +324,10 @@ body {
 			<!-- /.row -->
 		</div>
 		<!-- /.page-content-area -->
+		
+		
+		
+		
 		<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div>
 	<!-- /.page-content -->
@@ -316,6 +337,44 @@ body {
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-
+    <!-- <div id="all_background" class="div_all_background"
+			style="display:none"></div>
+	</div>
+	<div id="dialog" style="display:none"> 
+												        <fieldset id="self-data">
+													    <div class="form">
+												        <select name="type" class="type select"  data-first-title="---选择类型---" data-value="" data-url="fault_reason!getType.action" data-json-space="type"></select>
+												        <select name="faultId" class="faultReason select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getAll.action" data-json-space="faultReason"></select>		
+												        <select name="child" class="child select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getChild.action" data-json-space="child"></select>													
+												        </div>
+												        </fieldset>
+										 </div> -->
 </body>
+<script type="text/javascript">
+
+	$(function() {
+		
+		$("#self-data").cxSelect({
+			selects: ['type', 'faultReason', 'child'],
+			jsonName: 'name',
+			jsonValue: 'value'
+		},function(select){//回调
+			$(select).trigger("chosen:updated"); 
+			$(select).chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true});
+		});	
+		
+		
+		 /*	$("#faultReason").click(function(){
+			$("#all_background")
+			.css("display","block");
+			$("#dialog").css("display","block");
+	       $("#main-container").css(
+			"display","none");
+		})*/
+		
+		
+	})
+
+</script>
+
 </html>

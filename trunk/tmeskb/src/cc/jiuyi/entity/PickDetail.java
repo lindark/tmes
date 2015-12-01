@@ -40,8 +40,11 @@ public class PickDetail extends BaseEntity{
 	private String item_text;//项目文本
 	private String orderid;//工单号
 	private Pick pick;//领料主表
+
+	
 	
     private WorkingBill workingbill;//随工单
+   
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -133,7 +136,7 @@ public class PickDetail extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 	
-	@Transient
+	
 	public String getMaterialCode() {
 		return materialCode;
 	}
@@ -141,7 +144,7 @@ public class PickDetail extends BaseEntity{
 		this.materialCode = materialCode;
 	}
 	
-	 @Transient
+	
 	public String getMaterialName() {
 		return materialName;
 	}

@@ -43,6 +43,12 @@ function sample_event()
 				$("#span_tip").text("");
 			}
 		}
+		else{
+			$("#span_sq").text("0");//合格数量
+			$("#input_qulified").val("-1");//合格数量
+			$("#span_qrate").text("0.00%");//合格率
+			$("#span_tip").text("");
+		}
 	
 	});
 }

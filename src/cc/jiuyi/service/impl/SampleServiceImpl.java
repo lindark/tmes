@@ -154,6 +154,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 				{
 					//新增
 					SampleRecord sr=new SampleRecord();
+					sr.setCreateDate(new Date());//初始化创建日期
 					sr.setModifyDate(new Date());//初始化修改日期
 					sr.setSampleId(sample.getId());//抽检单id
 					sr.setRecordDescription(cause.getCauseName());

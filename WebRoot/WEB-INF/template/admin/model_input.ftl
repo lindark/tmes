@@ -204,7 +204,10 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value">
-												     <button type="button" class="btn btn-xs btn-info"
+												   <input type="text" name="model.faultCause"
+														value="${(model.faultCause)!}"
+														class="input input-sm  formText {required: true}" />
+												   <!--    <button type="button" class="btn btn-xs btn-info"
 														id="faultReason" data-toggle="button">选择</button>								     
 												      <#if isAdd??> 
 												      <fieldset id="self-data">
@@ -218,7 +221,7 @@ body {
 												          <#list model.faultReasonSet as list> 
 												          ${(list.reasonName)!} 
 												          </#list> 
-												      </#if>
+												      </#if>-->
 														
 												</div>
 												<div class="profile-info-name">处理方法与结果</div>

@@ -39,9 +39,9 @@ jQuery(function($) {
 	    },
 		colNames:['创建日期','创建人','确认人', '状态'],
 		colModel:[
-			{name:'createDate',index:'createDate',lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'xcreateUser',index:'createUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'xconfirmUser',index:'confirmUser.name', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'createDate',index:'createDate',search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xcreateUser',index:'createUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xconfirmUser',index:'confirmUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:300,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
 		], 
 
@@ -108,10 +108,10 @@ jQuery(function($) {
 //				//window.location.href = "products!edit.action?id=" + rowId;
 //			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				window.location.href="working_bill!add.action";
-			},
+			add: false,
+//			addfunc:function(rowId){
+//				window.location.href="working_bill!add.action";
+//			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',

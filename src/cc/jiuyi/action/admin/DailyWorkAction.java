@@ -65,6 +65,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
 	}

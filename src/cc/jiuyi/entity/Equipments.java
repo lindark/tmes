@@ -1,6 +1,10 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
@@ -19,6 +23,7 @@ public class Equipments extends BaseEntity{
 	
     private String state;//状态
     private String isDel;//是否删除
+    private Set<Device> deviceSet;//设备维修单
     
     private String stateRemark;//状态描述
     private String versionReamrk;//型号描述
@@ -73,6 +78,14 @@ public class Equipments extends BaseEntity{
 	}
 	public void setVersionReamrk(String versionReamrk) {
 		this.versionReamrk = versionReamrk;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipments")
+	public Set<Device> getDeviceSet() {
+		return deviceSet;
+	}
+	public void setDeviceSet(Set<Device> deviceSet) {
+		this.deviceSet = deviceSet;
 	}
     
     

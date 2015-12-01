@@ -1,5 +1,4 @@
 $(function(){
-	
 	//巡检数量事件
 	sample_event();
 	//刷卡保存
@@ -10,6 +9,11 @@ $(function(){
 	//刷卡确认
 	$("#btn_confirm").click(function(){
 		sub_event("2");
+	});
+	
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
 	});
 });
 //巡检数量事件

@@ -3,12 +3,12 @@ package cc.jiuyi.service;
 import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Equipment;
+import cc.jiuyi.entity.Equipments;
 
 /**
  * Service接口 - 设备
  */
-public interface EquipmentService extends BaseService<Equipment, String> {
+public interface EquipmentService extends BaseService<Equipments, String> {
 
 	public Pager getEquipmentPager(Pager pager,HashMap<String,String>map);
 	

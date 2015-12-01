@@ -175,7 +175,7 @@ body {
 										<#if show??><#else>
 										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>
-											刷卡保存
+											刷卡提交
 										</a>
 										<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>

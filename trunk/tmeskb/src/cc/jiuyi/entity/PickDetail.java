@@ -1,5 +1,7 @@
 package cc.jiuyi.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -34,7 +36,9 @@ public class PickDetail extends BaseEntity{
       
 	private String materialCode;//组件编码
 	private String materialName;//组件名称
-	
+	private String charg;//批号
+	private String item_text;//项目文本
+	private String orderid;//工单号
 	private Pick pick;//领料主表
 	
     private WorkingBill workingbill;//随工单
@@ -64,6 +68,25 @@ public class PickDetail extends BaseEntity{
 	}
 	
 	
+	
+	public String getCharg() {
+		return charg;
+	}
+	public void setCharg(String charg) {
+		this.charg = charg;
+	}
+	public String getItem_text() {
+		return item_text;
+	}
+	public void setItem_text(String item_text) {
+		this.item_text = item_text;
+	}
+	public String getOrderid() {
+		return orderid;
+	}
+	public void setOrderid(String orderid) {
+		this.orderid = orderid;
+	}
 	public String getPickAmount() {
 		return pickAmount;
 	}

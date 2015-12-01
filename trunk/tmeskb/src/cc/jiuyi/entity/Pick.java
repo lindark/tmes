@@ -1,5 +1,6 @@
 package cc.jiuyi.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -39,8 +40,11 @@ public class Pick extends BaseEntity{
 	private WorkingBill workingbill;//随工单
 	private String xconfirmUser;//确认人名
 	private String xcreateUser;// 创建人
-	
-	
+	private String move_type;//移动类型
+	private String budat;//过账日期
+	private String werks;//工厂
+	private String lgort;//库存地点
+	private String ztext;//抬头文本
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -76,6 +80,37 @@ public class Pick extends BaseEntity{
 	}
 	
 	
+	
+	public String getBudat() {
+		return budat;
+	}
+	public void setBudat(String budat) {
+		this.budat = budat;
+	}
+	public String getWerks() {
+		return werks;
+	}
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+	public String getLgort() {
+		return lgort;
+	}
+	public void setLgort(String lgort) {
+		this.lgort = lgort;
+	}
+	public String getZtext() {
+		return ztext;
+	}
+	public void setZtext(String ztext) {
+		this.ztext = ztext;
+	}
+	public String getMove_type() {
+		return move_type;
+	}
+	public void setMove_type(String move_type) {
+		this.move_type = move_type;
+	}
 	public String getState() {
 		return state;
 	}

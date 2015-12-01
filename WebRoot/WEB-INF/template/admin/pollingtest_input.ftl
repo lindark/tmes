@@ -195,7 +195,7 @@ body {
 													<#else>
 													<input type="text" name="pollingtest.size1"
 														value="${(pollingtest.size1)!}"
-														class=" input input-sm formText {min: 0}" />
+														class=" input input-sm" />
 													</#if>
 												</div>
 
@@ -206,7 +206,7 @@ body {
 												<#else>
 													<input type="text" name="pollingtest.size2"
 														value="${(pollingtest.size2)!}"
-														class=" input input-sm formText {min: 0}" />
+														class=" input input-sm" />
 												</#if>
 												</div>
 											</div>
@@ -218,7 +218,7 @@ body {
 												<#else>
 													<input type="text" name="pollingtest.size3"
 														value="${(pollingtest.size3)!}"
-														class=" input input-sm formText {min: 0}" />
+														class=" input input-sm" />
 												</#if>
 												</div>
 
@@ -342,7 +342,7 @@ function cause_event()
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
 					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
-					if(num_qx>0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
+					if(num_qx>=0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
 					{
 						if(num_bt>0&&num_bt!=null&&num_bt!="")
 						{

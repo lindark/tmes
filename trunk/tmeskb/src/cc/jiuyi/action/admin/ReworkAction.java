@@ -53,7 +53,10 @@ public class ReworkAction extends BaseAdminAction {
 	private Admin admin;
 	private String workingBillId;
 	private WorkingBill workingbill;
-	
+	private String show;
+	private String isQualified;//是否合格
+	private String isCompelete;//是否完工
+
 	private List<Dict> allCheck;
 	
 	//获取所有状态
@@ -85,9 +88,27 @@ public class ReworkAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list(){
-		workingbill=workingBillService.get(workingBillId);
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		this.workingbill=this.workingBillService.get(workingBillId);
 		return LIST;
 	}
+	
+	
+	/**
+	 * 查询一个，查看功能，不能编辑
+	 */
+	public String show()
+	{
+		this.workingbill=this.workingBillService.get(workingBillId);//获取随工单的信息
+		this.rework=this.reworkService.load(id);
+		this.isQualified=this.dictService.getByState("isQualifieds", rework.getIsQualified());
+		this.isCompelete=this.dictService.getByState("isCompeletes", rework.getIsCompelete());
+		this.show="show";
+		return INPUT;
+	}
+	
+	
 	
 	/**
 	 * ajax 列表
@@ -372,7 +393,29 @@ public class ReworkAction extends BaseAdminAction {
 		this.allCheck = allCheck;
 	}
 
+	public String getShow() {
+		return show;
+	}
 
+	public void setShow(String show) {
+		this.show = show;
+	}
+
+	public String getIsCompelete() {
+		return isCompelete;
+	}
+
+	public void setIsCompelete(String isCompelete) {
+		this.isCompelete = isCompelete;
+	}
+
+	public String getIsQualified() {
+		return isQualified;
+	}
+
+	public void setIsQualified(String isQualified) {
+		this.isQualified = isQualified;
+	}
 
 	
 	

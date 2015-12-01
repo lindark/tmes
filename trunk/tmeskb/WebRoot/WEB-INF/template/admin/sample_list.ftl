@@ -121,11 +121,11 @@
 								</a>
 								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
-									刷卡编辑
+									编辑
 								</a>
 								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
-									刷卡查看
+									查看
 								</a>
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>

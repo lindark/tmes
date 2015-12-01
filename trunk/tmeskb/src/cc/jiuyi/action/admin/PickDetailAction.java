@@ -139,6 +139,8 @@ public class PickDetailAction extends BaseAdminAction {
 	public String view(){
 		pick=pickService.load(id);
 		pkList=pickDetailService.getPickDetail(id);
+		Products products=productsServce.getProducts(matnr);
+		materialList=new ArrayList<Material>(products.getMaterial());
 		return VIEW;
 	}
 
@@ -213,7 +215,13 @@ public class PickDetailAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 		
-
+//有问题
+//	public String check(){
+//		workingbill = workingBillService.get(workingBillId);
+//		pickDetailService.save(pickDetailList,workingBillId);	
+//		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
+//		return SUCCESS;
+//	}
 
 	public PickDetail getPickDetail() {
 		return pickDetail;
@@ -390,6 +398,12 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setWorkingBillId(String workingBillId) {
 		this.workingBillId = workingBillId;
+	}
+	public List<PickDetail> getPkList() {
+		return pkList;
+	}
+	public void setPkList(List<PickDetail> pkList) {
+		this.pkList = pkList;
 	}
 	
 	

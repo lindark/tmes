@@ -122,9 +122,9 @@ public class SampleAction extends BaseAdminAction
 			if(pager==null)
 			{
 				pager=new Pager();
-				pager.setOrderType(OrderType.desc);
-				pager.setOrderBy("modifyDate");
 			}
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 			//jqGrid条件查询
 			if(pager.is_search()==true&&filters!=null)
 			{
@@ -282,7 +282,7 @@ public class SampleAction extends BaseAdminAction
 	{
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 		this.sample=this.sampleService.load(id);
-		this.sampletype=this.dictService.getByState("sampleType",sample.getState());//根据状态获取抽检类型
+		this.sampletype=this.dictService.getByState("sampleType",sample.getSampleType());//根据状态获取抽检类型
 		this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
 		this.show="show";
 		return INPUT;

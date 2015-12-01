@@ -237,7 +237,7 @@ function cause_event()
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
 					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
-					if(num_qx>0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
+					if(num_qx>=0&&(samplenum>=0&&samplenum!=null&&samplenum!=""))
 					{
 						if(num_bt>0&&num_bt!=null&&num_bt!="")
 						{

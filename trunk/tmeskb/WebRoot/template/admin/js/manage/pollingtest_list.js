@@ -141,6 +141,7 @@ jQuery(function($) {
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
+			del:false,
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,

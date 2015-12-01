@@ -1116,7 +1116,7 @@
 					</li>
 					
 						<li class="">
-						<a href="equipment!list.action" >
+						<a href="equipments!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							设备管理
 							<b class="arrow fa"></b>

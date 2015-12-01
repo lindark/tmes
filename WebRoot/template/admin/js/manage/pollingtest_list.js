@@ -2,6 +2,7 @@ jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	var workingBillId = $("#workingBillId").val();
+	var id = "";
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -64,7 +65,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '巡检数量','合格数量','合格率','巡检日期','巡检人', '确认人','状态'],
+		colNames:[ '巡检数量','合格数量','合格率','巡检日期','巡检人', '确认人','状态','状态'],
 		colModel:[
 			
 			{name:'pollingtestAmount',index:'pollingtestAmount', width:200,sortable:"true",sorttype:"text"},
@@ -73,7 +74,8 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'pollingtestUserName',index:'pollingtestUserName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}}
+			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 
 		], 
 		//sortable:true,
@@ -105,30 +107,10 @@ jQuery(function($) {
 
 		editurl: "carton!delete.action",//用它做标准删除动作
 		caption: "纸箱记录"
-
-		//,autowidth: true,
-//		,
-//		grouping:true, 
-//		groupingView : { 
-//			 groupField : ['name'],
-//			 groupDataSorted : true,
-//			 plusicon : 'fa fa-chevron-down bigger-110',
-//			 minusicon : 'fa fa-chevron-up bigger-110'
-//		},
-//		caption: "Grouping"
 		
-
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-	
-	
 
-	//enable search/filter toolbar
-	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-	//jQuery(grid_selector).filterToolbar({});
-
-
-	//switch element when editing inline
 	function aceSwitch( cellvalue, options, cell ) {
 		setTimeout(function(){
 			$(cell) .find('input[type=checkbox]')
@@ -143,27 +125,6 @@ jQuery(function($) {
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
 	}
-	
-	//给状态加样式
-	function addstyle(rowId, val, rawObject, cm, rdata)
-	{
-		//未确认
-		if(rawObject.state=="2")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
-		//已确认
-		if(rawObject.state=="1")
-		{
-			return "style='color:green;font-weight:bold;'";
-		}
-		//已撤销
-		if(rawObject.state=="3")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
-	}
-
 
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
@@ -180,16 +141,6 @@ jQuery(function($) {
 			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
-			/*addfunc:function(){
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="carton!add.action?workingBillId="+workingBillId;
-			},
-			addicon : 'ace-icon fa fa-plus-circle purple',*/
-			del: false,
-			/*delfunc:function(rowId){
-				window.location.href="carton!delete.action?id="+rowId;
-			},*/
-			//delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
@@ -198,9 +149,6 @@ jQuery(function($) {
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
-			//edit record form
-			//closeAfterEdit: true,
-			//width: 700,
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				var form = $(e[0]);
@@ -264,5 +212,104 @@ jQuery(function($) {
 		}
 	)
 
-
+	//按钮事件
+	btn_event();
 });
+
+//给状态加样式
+function addstyle(rowId, val, rowObject, cm, rdata)
+{
+	//未确认
+	if(rowObject.state=="2")
+	{
+		return "style='color:red;font-weight:bold;'";
+	}
+	//已确认
+	if(rowObject.state=="1")
+	{
+		return "style='color:#006400;font-weight:bold;'";
+	}
+	//已撤销
+	if(rowObject.state=="3")
+	{
+		return "style='color:#d2b48c;font-weight:bold;'";
+	}
+}
+
+//按钮事件
+function btn_event()
+{
+	var workingBillId = $("#workingBillId").val();
+	//创建巡检单
+	$("#btn_creat").click(function(){
+		window.location.href="pollingtest!add.action?workingBillId="+workingBillId;
+	});
+	//刷卡确认
+	$("#btn_confirm").click(function(){
+		if(getId())
+		{
+			window.location.href="pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId;
+		}
+	});
+	//刷卡撤销
+	$("#btn_revoke").click(function(){
+		if(getId())
+		{
+			window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;
+		}
+	});
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
+	});
+	//编辑
+	$("#btn_edit").click(function(){
+		if(getId2())
+		{
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
+			if(row_state=="1"||row_state=="3")
+			{
+				layer.alert("已确认或已撤销的巡检单无法再编辑!",false);
+			}
+			else
+			{
+				window.location.href="pollingtest!edit.action?id="+id+"&workingBillId="+workingBillId;
+			}
+		}
+	});
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			window.location.href="pollingtest!show.action?id="+id+"&workingBillId="+workingBillId;
+		}
+	});
+}
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id==null||id=="")
+	{
+		layer.alert("请选择至少一条巡检记录！",false);
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.alert("请选择一条巡检记录！",false);
+		return false;
+	}
+}

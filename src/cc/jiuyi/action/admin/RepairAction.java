@@ -66,6 +66,7 @@ public class RepairAction extends BaseAdminAction {
 	private ProcessService processService;
 
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
 		return "list";
 	}

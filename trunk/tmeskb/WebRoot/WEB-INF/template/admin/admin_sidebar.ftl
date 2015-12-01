@@ -1115,6 +1115,18 @@
 						
 					</li>
 					
+						<li class="">
+						<a href="equipment!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							设备管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
 					<!--
 					<li class="">
 						<a href="#">

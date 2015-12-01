@@ -10,7 +10,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.dao.EquipmentDao;
 import cc.jiuyi.entity.Abnormal;
-import cc.jiuyi.entity.Equipment;
+import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.EquipmentService;
 
@@ -19,7 +19,7 @@ import cc.jiuyi.service.EquipmentService;
  */
 
 @Service
-public class EquipmentServiceImpl extends BaseServiceImpl<Equipment, String> implements EquipmentService {
+public class EquipmentServiceImpl extends BaseServiceImpl<Equipments, String> implements EquipmentService {
 
 	@Resource
 	private EquipmentDao equipmentDao;

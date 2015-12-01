@@ -84,7 +84,6 @@ public class SampleAction extends BaseAdminAction
 	{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		System.out.println(admin.getShift());
 		this.workingbill=this.workingBillService.get(wbId);
 		return LIST;
 	}
@@ -123,8 +122,8 @@ public class SampleAction extends BaseAdminAction
 			if(pager==null)
 			{
 				pager=new Pager();
-				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("orderList");
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
 			}
 			//jqGrid条件查询
 			if(pager.is_search()==true&&filters!=null)

@@ -68,7 +68,7 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',index:'createDate',label:"日期",width:130,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'modifyDate',index:'modifyDate',label:"日期",width:130,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xproductnum',index:'workingBill.matnr',label:"产品编号",width:100,editable: false},
 			{name:'xproductname',index:'workingBill.maktx',label:"产品名称",width:100,editable: false},
 			{name:'xsampler',index:'sampler.name',label:"抽检人",width:100,editable: false,search:false},

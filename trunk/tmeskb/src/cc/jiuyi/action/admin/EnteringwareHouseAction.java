@@ -69,6 +69,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list() {
+		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
 		List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);

@@ -69,7 +69,7 @@ jQuery(function($) {
 			{name:'productName',index:'productName',editable: true},
 			{name:'teamName',index:'teamName', width:120, editable: true},
 			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
-			{name:'fixer',index:'fixer',sortable:false,editable: true},
+			{name:'repairName',index:'fixer.name',sortable:false,editable: true},
 			{name:'stateRemark',index:'state',sortable:true,editable: true,search:false,cellattr:addstyle}		
 			], 
 

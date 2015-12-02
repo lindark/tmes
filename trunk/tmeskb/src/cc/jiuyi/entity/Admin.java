@@ -47,6 +47,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
+	
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
 	private Set<SwiptCard> swiptCardSet;// 刷卡
@@ -61,6 +62,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Device> deviceWorkSet;//车间联系人与设备维修单
 	private Set<Device> deviceDisposalSet;//处理人员与设备维修单
 	private Set<DeviceLog> deviceLogSet;//设备维修单日志
+	private Set<Model> modelSet1;//一个维修员对应多个工模维修单
+	private Set<Model> modelSet2;//一个检验员对应多个工模维修单
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -692,6 +695,24 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setDeviceLogSet(Set<DeviceLog> deviceLogSet) {
 		this.deviceLogSet = deviceLogSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="fixer")
+	public Set<Model> getModelSet1() {
+		return modelSet1;
+	}
+
+	public void setModelSet1(Set<Model> modelSet1) {
+		this.modelSet1 = modelSet1;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="insepector")
+	public Set<Model> getModelSet2() {
+		return modelSet2;
+	}
+
+	public void setModelSet2(Set<Model> modelSet2) {
+		this.modelSet2 = modelSet2;
 	}
 	
 	

@@ -26,9 +26,11 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.service.ArticleService;
@@ -52,6 +54,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private DumpRfc dumprfc;
 	@Resource
 	private PickRfc pickrfc;
+	@Resource
+	private MaterialRfc materialrfc;
 	protected void setUp() {
 		
 	}
@@ -183,6 +187,23 @@ public class TestSAPUtilService extends BaseTestCase {
 	catch(Exception e){e.printStackTrace();}
 	}
 	
+	@Test
+	public void testGetBom(){
+		try{
+			List<Material> list=materialrfc.getBomList("30300115", "1000");
+			for(int i=0;i<list.size();i++){
+				Material m=list.get(i);
+				System.out.println(m.getMaterialName());
+				System.out.println(m.getMaterialCode());
+				System.out.println(m.getMaterialAmount());
+				System.out.println(m.getMaterialUnit());
+			}
+		}catch(CustomerException e){
+			e.printStackTrace();
+			System.out.println(e.getMsgDes());
+		}
+		catch(Exception e){e.printStackTrace();}
+	}
 }
 
 

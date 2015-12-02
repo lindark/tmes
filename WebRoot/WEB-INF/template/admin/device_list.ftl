@@ -71,13 +71,13 @@
 								   <div class="operateBar">
 								   	<div class="form-group">
 										
-										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<label class="col-sm-2" style="text-align:right">车间:</label>
 										<div class="col-sm-4">
-											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-2">
+											<input type="text" name="workShopName1" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>
-										<label class="col-sm-2" style="text-align:right">产品名称:</label>
+										<label class="col-sm-2" style="text-align:right">维修人:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productName" class="input input-sm form-control" value="" id="form-field-icon-2">
+											<input type="text" name="repairPerson" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>						
 									</div>
 									

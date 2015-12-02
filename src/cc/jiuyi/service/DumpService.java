@@ -26,4 +26,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
+	public void confirmDump(String[] ids,List<Dump> dumpList);
+	
 }

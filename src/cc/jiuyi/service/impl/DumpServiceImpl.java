@@ -36,5 +36,19 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		return dumpDao.findPagerByjqGrid(pager, map);
 	}
 
+	@Override
+	public void confirmDump(String[] ids, List<Dump> dumpList) {
+		for (int i = 0; i < ids.length; i++) {
+			for (int j = 0; j < dumpList.size(); j++) {
+				Dump dump = dumpList.get(j);
+				if(ids[i].equals(dump.getVoucherId())){
+					//System.out.println("保存保存保存保存保存保存保存");
+					dumpDao.save(dump);
+				}
+			}			
+		}
+		
+	}
+
 
 }

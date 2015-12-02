@@ -11,7 +11,8 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>		
+		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>	
+		<script type="text/javascript" src="${base}/template/admin/js/manage/it.js"></script>	
 		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_input.js"></script>
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
@@ -33,9 +34,8 @@ body {
 	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 	<div class="main-content">
 	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
-	
 
-     <!--  <div class="breadcrumbs" id="breadcrumbs">
+<div class="breadcrumbs" id="breadcrumbs">
 		<script type="text/javascript">
 			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 		</script>
@@ -47,8 +47,7 @@ body {
 			</li>
 			<li class="active">半成品巡检列表</li>
 		</ul>
-	</div>-->
-
+	</div>
 			<!-- add by welson 0728 -->
 			<div class="page-content">
 				<div class="page-content-area">
@@ -61,19 +60,20 @@ body {
 								action="<#if isAdd??>pick_detail!save.action<#else>pick_detail!update.action</#if>"
 								method="post">
                             <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
+                            <div>
 								<table class="table table-striped table-bordered" id="mytable">
 									<thead>
 										<tr>
-											<th style="text-align:center;">组件编号</th>
-											<th style="text-align:center;">组件名称</th>
-											<th style="text-align:center;">检验数量</th>
-											<th style="text-align:center;">尺寸1</th>
-											<th style="text-align:center;">尺寸2</th>
-											<th style="text-align:center;">尺寸3</th>
-											<th style="text-align:center;">尺寸4</th>
-											<th style="text-align:center;">尺寸5</th>
-											<th style="text-align:center;">不合格数量/原因</th>
-											
+										
+											<th class="center";">组件编号</th>
+											<th class="center";">组件名称</th>
+											<th class="center";">检验数量</th>
+											<th class="center";">尺寸1</th>
+											<th class="center";">尺寸2</th>
+											<th class="center";">尺寸3</th>
+											<th class="center";">尺寸4</th>
+											<th class="center";">尺寸5</th>
+											<th class="center";">不合格数量/原因</th>											
 										</tr>
 									</thead>
 
@@ -84,25 +84,25 @@ body {
 												<td class="center" name="">${(list.materialCode)! }</td>
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center">
-												   <input type="text"/>
+												   <input type="text"  class="input input-sm form-control"/>
 												</td>
 												<td class="center">
-												   <input type="text"/>
+												   <input type="text"  class="input input-sm form-control"/>
 												</td>
 												<td class="center">
-												   <input type="text"/>
+												   <input type="text"  class="input input-sm form-control"/>
 												</td>	
 												<td class="center"> 
-												   <input type="text"/>
+												   <input type="text"  class="input input-sm form-control"/>
 											    </td>
 												<td class="center">
-												  <input type="text"/>
+												  <input type="text"  class="input input-sm form-control"/>
 												</td>
 												<td class="center"> 
-												  <input type="text"/>
+												  <input type="text"  class="input input-sm form-control"/>
 												</td>
 												<td class="center">
-												 <input type="text"/>
+												 <input type="text"  class="input input-sm form-control"/>
 												  <#if isAdd??><button type="button" class="btn btn-xs btn-info itAddBtn"  data-toggle="button">选择</button>				                                    
 				                                     
 										         	 <#else>  
@@ -115,7 +115,7 @@ body {
                                            
 									</tbody>
 								</table>
-
+</div>
 							</form>
 
                                      <button class="btn btn-white btn-default btn-sm btn-round" id="addIt" type=button>
@@ -193,29 +193,7 @@ body {
 			});
      });
 	
-	 $(function(){
-		    var workingBillId=$("#workingBillId").val();
-			var $itAddBtn = $(".itAddBtn");//添加用户
-			/**
-			 * 添加按钮点击
-			 */
-			$itAddBtn.click(function(){
-				var title = "不合格原因";
-				var width="800px";
-				var height="400px";
-				var content="itermediate_test_detail!browser.action";
-				jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
-				
-		        var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-		        //var work = iframeWin.getGridId();
-		        layer.close(index);            	          	     	
-		        
-		       
-			  });
-			 	
-			});
-			
-		})
+	
 	
 	
 </script>

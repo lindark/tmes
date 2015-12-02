@@ -85,11 +85,9 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">班次</div>
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">
-																<#if (admin.shift == "1")!>早</#if>
-																<#if (admin.shift == "2")!>中</#if>
-																<#if (admin.shift == "3")!>晚</#if>
-															</span>
+															<#if (admin.shift == "1")!><span class="editable editable-click" id="signup">早</span></#if>
+															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">中</span></#if>
+															<#if (admin.shift == "3")!><span class="editable editable-click" id="signup">晚</span></#if>
 														</div>
 													</div>
 													<!-- 

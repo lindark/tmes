@@ -107,7 +107,7 @@
 							<div class="row buttons col-md-8 col-sm-4">
 								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-folder-open-o"></i>
-									创建返修单
+									创建抽检单
 								</a>
 								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>

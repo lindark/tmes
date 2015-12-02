@@ -92,14 +92,16 @@
 														</div>
 													</div>
 
-													<div class="profile-info-row">
-														<div class="profile-info-name">班组/班次</div>
-
+													<div class="profile-info-row">												
+														<div class="profile-info-name">班次</div>
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<#if (admin.shift == "1")!><span class="editable editable-click" id="signup">早</span></#if>
+															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">中</span></#if>
+															<#if (admin.shift == "3")!><span class="editable editable-click" id="signup">晚</span></#if>
 														</div>
+														
+														
 														<div class="profile-info-name">产品名称</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
 														</div>
@@ -240,12 +242,15 @@
 		$("#viewPick").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条记录！");
+			if(id.length>1){
+				alert("只能选择一条领退料记录！");
+				return false;
+			}if(id==""){
+				alert("至少选择一条领退料记录！");
+				return false;
 			}else{
-				window.location.href="pick_detail!view.action?id="+id;			
-			}
-			
+				window.location.href="pick_detail!view.action?id="+id+"&matnr="+${(workingbill.matnr)!};				
+			}			
 		});
 		
 		$("#returnPick").click(function(){

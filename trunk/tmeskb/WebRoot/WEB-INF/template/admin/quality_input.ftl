@@ -26,6 +26,7 @@ body {
 .deleteImage,#addImage,#removeImage {
 	cursor: pointer;
 }
+.profile-user-info-striped{border:0px;}
 </style>
 </head>
 <body class="no-skin input">

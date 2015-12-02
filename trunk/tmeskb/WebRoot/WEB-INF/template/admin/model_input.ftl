@@ -28,6 +28,7 @@
 body {
 	background: #fff;	
 }
+.profile-user-info-striped{border:0px;}
 /*
 .div_all_background{background-color:#000; opacity:0.05;z-index:10;width:1400px;height:1800px;}
 #main-container{z-index:9;}

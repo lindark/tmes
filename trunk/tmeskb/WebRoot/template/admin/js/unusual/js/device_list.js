@@ -58,16 +58,15 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize"
 	    },
-		colNames:[ '时间','车间','车间联系人', '维修类型','故障性质','故障原因','维修人','状态'],
+		colNames:[ '时间','车间','车间联系人', '维修类型','故障原因','维修人','状态'],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'workShop',index:'workShop',width:60, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'workshopLinkman',index:'workshopLinkman', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'maintenanceType',index:'maintenanceType', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'faultCharacter',index:'faultCharacter', width:160, editable: true,edittype:"select"},
-			{name:'diagnosis',index:'diagnosis', width:160, sortable:false,editable: true,edittype:"textarea"},
-			{name:'disposalWorkers',index:'disposalWorkers', width:60, sortable:false,editable: true,edittype:"textarea"},
+			{name:'workShopName',index:'workShop.name',width:60, editable:true, sorttype:"date",unformat: pickDate},
+			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'repairType',index:'maintenanceType', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
+			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,edittype:"textarea"},
+			{name:'repairName',index:'disposalWorkers.name', width:60, sortable:false,editable: true,edittype:"textarea"},
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,edittype:"textarea", search:false,cellattr:addstyle}		
 		], 
 

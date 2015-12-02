@@ -99,10 +99,6 @@ body {
 													<#if isAdd??>
 													<button type="button" class="btn btn-xs btn-info"
 														id="productId" data-toggle="button">选择</button>
-													<!--  <input type="text" name="model.products.productsName"
-														id="productName1"
-														class=" input input-sm  formText {required: true}"
-														readOnly="true" />-->
 														<span id="productName1"></span> <input type="hidden"
 														name="model.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(model.products.productsName)!} </#if>
@@ -111,10 +107,7 @@ body {
 												<div class="profile-info-name">班组</div>
 
 												<div class="profile-info-value">
-												   <#if isAdd??>
-												      <!--  <input type="text" name="model.teamId.teamName"
-														value="${(admin.department.team.teamName)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/>--> 
+												   <#if isAdd??> 
 														<span>${(admin.department.team.teamName)!}</span>
 													   <input type="hidden" name="model.teamId.id" value="${(admin.department.team.id)!}"/>
 												    <#else>
@@ -140,11 +133,7 @@ body {
 
 												<div class="profile-info-name">提报人</div>
 												<div class="profile-info-value">
-													<#if isAdd??> 
-													<!--  <input type="text"
-														name="model.initiator.name"
-														value="${(abnormal.iniitiator.name)!}"
-														class=" input input-sm  formText {required: true}" readonly="readonly"/>-->
+													<#if isAdd??> 	
 														<span>${(abnormal.iniitiator.name)!}</span> <input
 														type="hidden" name="model.initiator.id"
 														value="${(abnormal.iniitiator.id)!}"
@@ -176,9 +165,13 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">维修人员</div>
 												<div class="profile-info-value">
-													<input type="text" name="model.fixer"
-														value="${(model.fixer)!}"
-														class=" input input-sm  formText {required: true}" />
+												    <#if isAdd??>
+													<button type="button" class="btn btn-xs btn-info"
+														id="repairId" data-toggle="button">选择</button>
+														<span id="repairName1"></span> <input type="hidden"
+														name="model.fixer.id" id="repairNa" value="" class="formText {required: true}"/>
+													<#else> ${(model.fixer.name)!} </#if>
+
 												</div>
 												<div class="profile-info-name">维修时间</div>
 												<div class="profile-info-value">
@@ -190,9 +183,13 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">检验员</div>
 												<div class="profile-info-value">
-													<input type="text" name="model.insepector"
-														value="${(model.insepector)!}"
-														class=" input input-sm  formText {required: true}" />
+												    <#if isAdd??>
+													<button type="button" class="btn btn-xs btn-info"
+														id="insepectorId" data-toggle="button">选择</button>
+														<span id="insepectorName1"></span> <input type="hidden"
+														name="model.insepector.id" id="insepectorNa" value="" class="formText {required: true}"/>
+													<#else> ${(model.insepector.name)!} </#if>
+
 												</div>
 												<div class="profile-info-name">确认时间</div>
 												<div class="profile-info-value">
@@ -204,35 +201,26 @@ body {
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
-												<div class="profile-info-value">
-												   <input type="text" name="model.faultCause"
-														value="${(model.faultCause)!}"
-														class="input input-sm  formText {required: true}" />
-												   <!--    <button type="button" class="btn btn-xs btn-info"
-														id="faultReason" data-toggle="button">选择</button>								     
-												      <#if isAdd??> 
-												      <fieldset id="self-data">
-													    <div class="form">
-												        <select name="type" class="type select"  data-first-title="---选择类型---" data-value="" data-url="fault_reason!getType.action" data-json-space="type"></select>
-												        <select name="faultId" class="faultReason select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getAll.action" data-json-space="faultReason"></select>		
-												        <select name="faultReasonSet.id" class="child select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getChild.action" data-json-space="child"></select>													
-												        </div>
-												      </fieldset>
-												      <#else>
-												          <#list model.faultReasonSet as list> 
-												          ${(list.reasonName)!} 
-												          </#list> 
-												      </#if>-->
-														
+												<div class="profile-info-value" id="reason">
+						                               <#if isAdd??>
+						                               
+												       <button type="button" class="btn btn-xs btn-info"
+														id="faultReason" data-toggle="button">选择</button>
+													   <#else>
+													    <#list model.faultReasonSet as list> 
+												         <span> ${(list.reasonName)!}</span>&nbsp;&nbsp;&nbsp; 
+												        </#list> 
+												       </#if>																			
 												</div>
-												<div class="profile-info-name">处理方法与结果</div>
+												
+											</div>
+											<div class="profile-info-row">
+											    <div class="profile-info-name">处理方法与结果</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.resolve"
 														value="${(model.resolve)!}"
 														class="input input-sm  formText {required: true}" />
 												</div>
-											</div>
-											<div class="profile-info-row">
 												<div class="profile-info-name">长期预防措施</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.measure"
@@ -280,11 +268,7 @@ body {
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-										<!-- <input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" /> -->
+										
 									</div>
 							
 										<!--weitao end modify-->
@@ -340,22 +324,10 @@ body {
 	</div>
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
-	<!-- ./ add by welson 0728 -->
-    <!-- <div id="all_background" class="div_all_background"
-			style="display:none"></div>
-	</div>
-	<div id="dialog" style="display:none"> 
-												        <fieldset id="self-data">
-													    <div class="form">
-												        <select name="type" class="type select"  data-first-title="---选择类型---" data-value="" data-url="fault_reason!getType.action" data-json-space="type"></select>
-												        <select name="faultId" class="faultReason select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getAll.action" data-json-space="faultReason"></select>		
-												        <select name="child" class="child select"  data-first-title="---选择原因---" data-value="" data-url="fault_reason!getChild.action" data-json-space="child"></select>													
-												        </div>
-												        </fieldset>
-										 </div> -->
+	<!-- ./ add by welson 0728 -->    
 </body>
 <script type="text/javascript">
-
+/*
 	$(function() {
 		
 		$("#self-data").cxSelect({
@@ -374,10 +346,10 @@ body {
 			$("#dialog").css("display","block");
 	       $("#main-container").css(
 			"display","none");
-		})*/
+		})
 		
 		
-	})
+	})*/
 
 </script>
 

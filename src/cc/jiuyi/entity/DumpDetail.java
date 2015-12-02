@@ -14,13 +14,14 @@ public class DumpDetail extends BaseEntity{
 	private String lgort;//库存地点
 	private String charg;//批号
 	private String meins;//基本单位
-	private String meneg;//数量
+	private String menge;//数量
 	
-	public String getMeneg() {
-		return meneg;
+	
+	public String getMenge() {
+		return menge;
 	}
-	public void setMeneg(String meneg) {
-		this.meneg = meneg;
+	public void setMenge(String menge) {
+		this.menge = menge;
 	}
 	public String getVoucherId() {
 		return voucherId;

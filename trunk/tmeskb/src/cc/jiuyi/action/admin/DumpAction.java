@@ -1,6 +1,9 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +23,11 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -40,7 +45,11 @@ public class DumpAction extends BaseAdminAction {
 
 	private Dump dump;
 	private Admin admin;
-
+	private String warehouse;
+	private String warehouseName;
+	
+	@Resource
+	private DumpRfcImpl dumpRfc;
 	@Resource
 	private DumpService dumpService;
 	@Resource
@@ -49,6 +58,10 @@ public class DumpAction extends BaseAdminAction {
 	private AdminService adminService;
 
 	public String list() {
+		admin = adminService.getLoginAdmin();
+		admin = adminService.load(admin.getId());
+		warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
+		warehouseName = admin.getDepartment().getTeam().getFactoryUnit().getWarehouseName();
 		return "list";
 	}
 
@@ -121,6 +134,9 @@ public class DumpAction extends BaseAdminAction {
 	public String ajlist() {
 
 		HashMap<String, String> map = new HashMap<String, String>();
+		admin = adminService.getLoginAdmin();
+		admin = adminService.load(admin.getId());
+		warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
 
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -135,49 +151,33 @@ public class DumpAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("voucherId") != null) {
-				String vocherId = obj.get("voucherId").toString();
-				map.put("voucherId", vocherId);
-			}
-			/*
-			 * if(obj.get("deliveryDate")!=null){ String deliveryDate =
-			 * obj.get("deliveryDate").toString(); map.put("deliveryDate",
-			 * deliveryDate); }
-			 */
-			if (obj.get("confirmUser") != null) {
-				String confirmUser = obj.get("confirmUser").toString();
-				map.put("confirmUser", confirmUser);
-			}
-			if (obj.get("state") != null) {
-				String state = obj.get("state").toString();
-				map.put("state", state);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-
+		pager = dumpService.findPagerByjqGrid(pager, map);
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String today = sdf.format(date);
+			List<Dump> dList = dumpRfc.findMaterialDocument("1805","20150901", "20151001");
+			pager.setList(dList);
+			JsonConfig jsonConfig=new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return null;
 		}
-		pager = dumpService.getDumpPager(pager, map);
-		List<Dump> dumpList = pager.getList();
-		List<Dump> lst = new ArrayList<Dump>();
-		for (int i = 0; i < dumpList.size(); i++) {
+		//List<Dump> lst = new ArrayList<Dump>();
+		//List<Dump> dumpList = pager.getList();
+		/*for (int i = 0; i < dumpList.size(); i++) {
 			Dump dump = (Dump) dumpList.get(i);
 			dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
 					"dumpState", dump.getState()));
 			lst.add(dump);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig=new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
-		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
+		}*/
 
 	}
 
@@ -216,6 +216,30 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setAdminService(AdminService adminService) {
 		this.adminService = adminService;
+	}
+
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+
+	public DumpRfcImpl getDumpRfc() {
+		return dumpRfc;
+	}
+
+	public void setDumpRfc(DumpRfcImpl dumpRfc) {
+		this.dumpRfc = dumpRfc;
 	}
 
 }

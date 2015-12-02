@@ -1,6 +1,5 @@
 $(function() {	
 	
-	
 	$("#completeCraft").click(function(){		
     	$("#inputForm").submit();  		    		
 	});
@@ -35,15 +34,14 @@ $(function() {
 	var title = "选择产品";
 	var width="800px";
 	var height="632px";
-	var content="model!browser.action";
+	var content="craft!browser.action";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		//$("#productName1").val(id[0]);//产品id
-		$("#productName1").html(id[0]);
+		$("#productName1").text(id[0]);
 		$("#productNa").val(id[1]);//产品名称
-		$("#productNo").val(id[2]);//产品编码
+		$("#productNo").text(id[2]);//产品编码
 		layer.close(index); 
 	});
 }

@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
@@ -52,6 +54,7 @@ public class ModelAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private Admin admin;
+	private List<FaultReason> faultReasonSet;
 
 	@Resource
 	private ModelService modelService;
@@ -84,18 +87,29 @@ public class ModelAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		//pager = modelService.findByPager(pager);
 		return LIST;
 	}
 	
 	public String browser(){
 		return "browser";
 	}
+	
+	public String reason(){
+		return "reason";
+	}
+	
+	public String repair(){
+		return "repair";
+	}
+	
+	public String insepector(){
+		return "insepector";
+	}
 
 	@InputConfig(resultName = "error")
 	public String update() {
 		Model persistent = modelService.load(id);
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId","insepector","fixer" });
 		modelService.update(persistent);
 		redirectionUrl = "model!list.action";
 		return SUCCESS;
@@ -118,8 +132,7 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
-		//admin=adminService.getLoginAdmin();
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer" });
 		persistent.setState("1");
 		modelService.update(persistent);
 		
@@ -139,8 +152,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId" });
-			//admin=adminService.getLoginAdmin();
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer" });
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -163,8 +175,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId"});
-			//admin=adminService.getLoginAdmin();
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -180,8 +191,7 @@ public class ModelAction extends BaseAdminAction {
 		
 		redirectionUrl="model!list.action";
 		return SUCCESS;
-	}		
-
+	}	
 
 	public String ajlist() {
 
@@ -224,7 +234,8 @@ public class ModelAction extends BaseAdminAction {
             model.setTeamName(model.getTeamId().getTeamName());
 			model.setProductName(model.getProducts().getProductsName());
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", model.getState()));	
+					dictService, "receiptState", model.getState()));
+			model.setRepairName(model.getFixer().getName());
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);
@@ -247,6 +258,7 @@ public class ModelAction extends BaseAdminAction {
 
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
+		model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		model.setIsDel("N");
 		model.setState("0");
 		modelService.save(model);
@@ -326,6 +338,14 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public List<FaultReason> getFaultReasonSet() {
+		return faultReasonSet;
+	}
+
+	public void setFaultReasonSet(List<FaultReason> faultReasonSet) {
+		this.faultReasonSet = faultReasonSet;
 	}
 
 	

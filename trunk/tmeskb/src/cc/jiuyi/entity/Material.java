@@ -29,9 +29,9 @@ public class Material extends BaseEntity{
     private String materialCode;//组件编码
     private String materialName;//组件名称
     private String materialUnit;//组件单位
-    private Integer materialAmount;//组件数量
-    private Integer spread;//展开层
-    private Integer project;//项目
+    private Double materialAmount;//组件数量
+    private Double spread;//展开层
+    private String project;//项目
     private String runOver;//溢出指示符
     private String projectType;//项目类别
     private String exception;//例外
@@ -75,12 +75,7 @@ public class Material extends BaseEntity{
 	public void setMaterialUnit(String materialUnit) {
 		this.materialUnit = materialUnit;
 	}
-	public Integer getMaterialAmount() {
-		return materialAmount;
-	}
-	public void setMaterialAmount(Integer materialAmount) {
-		this.materialAmount = materialAmount;
-	}
+	
 	public String getBatch() {
 		return batch;
 	}
@@ -110,18 +105,23 @@ public class Material extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-		
 
-	public Integer getSpread() {
+	public Double getMaterialAmount() {
+		return materialAmount;
+	}
+	public void setMaterialAmount(Double materialAmount) {
+		this.materialAmount = materialAmount;
+	}
+	public Double getSpread() {
 		return spread;
 	}
-	public void setSpread(Integer spread) {
+	public void setSpread(Double spread) {
 		this.spread = spread;
 	}
-	public Integer getProject() {
+	public String getProject() {
 		return project;
 	}
-	public void setProject(Integer project) {
+	public void setProject(String project) {
 		this.project = project;
 	}
 	public String getRunOver() {

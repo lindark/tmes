@@ -85,7 +85,6 @@ body{background:#fff;}
 										<div class="profile-info-name"> 原因类型</div>					
 										<div class="profile-info-value">
 											<select name="faultReason.type" style="width:200px;">
-							                <option value="">全选</option> 
 							                <#list allType as list>
 								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && faultReason.type == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 							                </#list>              

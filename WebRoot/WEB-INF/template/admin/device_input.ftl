@@ -23,6 +23,7 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}
+.profile-user-info-striped{border:0px;}
 </style>
 </head>
 <body class="no-skin input">

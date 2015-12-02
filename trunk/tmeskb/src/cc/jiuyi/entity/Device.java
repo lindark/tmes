@@ -22,18 +22,18 @@ public class Device extends BaseEntity{
 	private static final long serialVersionUID = -3212323223153832312L;
 	
 	private String maintenanceType;//维修类型
-	private String workShop;//停用车间
-	private String workshopLinkman;//车间联系人
-	private String deviceNo;//设备编号
+	private WorkShop workShop;//停用车间
+	private Admin workshopLinkman;//车间联系人
+	/*private String deviceNo;//设备编号
 	private String deviceName;//设备名称
-	private String deviceModel;//设备型号
+	private String deviceModel;//设备型号*/
 	
 	private Boolean isDown;//是否停机
 	private Boolean isMaintenance;//是否停产维修
 	private String diagnosis;//故障描述
 	private Date beginTime;//处理开始时间
 	private Date dndTime;//处理结束时间
-	private String disposalWorkers;//处理人员
+	private Admin disposalWorkers;//处理人员
 	
 	private Double totalMaintenanceTime;//总维修时间
 	private Double totalDownTime;//总停机时间
@@ -47,15 +47,18 @@ public class Device extends BaseEntity{
 	private Date callTime;//接到电话时间
 	private Date arrivedTime;//到达现场时间
 	private String serviceAttitude;//服务态度
-	private String createUser;//创建人
-	private String modifyUser;//最新修改人
 	private String isDel;//是否删除
 	private String state;//状态
+	private String changeAccessoryAmountType;//更换零部件数量及型号
 	
 	private Abnormal abnormal;//异常
 	private Equipments equipments;//设备
 	private String stateRemark;//状态描述    
-	private Set<DeviceLog> deviceLogSet;//设备日志
+	private Set<DeviceLog> deviceLogSet;//设备日志 
+	private String workShopName;//车间名
+	private String contactName;//车间联系人
+	private String repairName;//维修人
+	private String repairType;//维修类型
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -63,18 +66,7 @@ public class Device extends BaseEntity{
 	public void setMaintenanceType(String maintenanceType) {
 		this.maintenanceType = maintenanceType;
 	}
-	public String getWorkShop() {
-		return workShop;
-	}
-	public void setWorkShop(String workShop) {
-		this.workShop = workShop;
-	}
-	public String getWorkshopLinkman() {
-		return workshopLinkman;
-	}
-	public void setWorkshopLinkman(String workshopLinkman) {
-		this.workshopLinkman = workshopLinkman;
-	}
+
 	public Boolean getIsDown() {
 		return isDown;
 	}
@@ -105,12 +97,7 @@ public class Device extends BaseEntity{
 	public void setDndTime(Date dndTime) {
 		this.dndTime = dndTime;
 	}
-	public String getDisposalWorkers() {
-		return disposalWorkers;
-	}
-	public void setDisposalWorkers(String disposalWorkers) {
-		this.disposalWorkers = disposalWorkers;
-	}
+
 	public Double getTotalMaintenanceTime() {
 		return totalMaintenanceTime;
 	}
@@ -171,42 +158,13 @@ public class Device extends BaseEntity{
 	public void setServiceAttitude(String serviceAttitude) {
 		this.serviceAttitude = serviceAttitude;
 	}
-	public String getCreateUser() {
-		return createUser;
-	}
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-	public String getModifyUser() {
-		return modifyUser;
-	}
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
 	public String getIsDel() {
 		return isDel;
 	}
 	public void setIsDel(String isDel) {
 		this.isDel = isDel;
 	}
-	public String getDeviceNo() {
-		return deviceNo;
-	}
-	public void setDeviceNo(String deviceNo) {
-		this.deviceNo = deviceNo;
-	}
-	public String getDeviceName() {
-		return deviceName;
-	}
-	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName;
-	}
-	public String getDeviceModel() {
-		return deviceModel;
-	}
-	public void setDeviceModel(String deviceModel) {
-		this.deviceModel = deviceModel;
-	}
+	
 	public String getState() {
 		return state;
 	}
@@ -252,6 +210,70 @@ public class Device extends BaseEntity{
 	public void setEquipments(Equipments equipments) {
 		this.equipments = equipments;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkShop getWorkShop() {
+		return workShop;
+	}
+	public void setWorkShop(WorkShop workShop) {
+		this.workShop = workShop;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getWorkshopLinkman() {
+		return workshopLinkman;
+	}
+	public void setWorkshopLinkman(Admin workshopLinkman) {
+		this.workshopLinkman = workshopLinkman;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getDisposalWorkers() {
+		return disposalWorkers;
+	}
+	public void setDisposalWorkers(Admin disposalWorkers) {
+		this.disposalWorkers = disposalWorkers;
+	}
+	
+	public String getChangeAccessoryAmountType() {
+		return changeAccessoryAmountType;
+	}
+	public void setChangeAccessoryAmountType(String changeAccessoryAmountType) {
+		this.changeAccessoryAmountType = changeAccessoryAmountType;
+	}
+	
+	@Transient
+	public String getWorkShopName() {
+		return workShopName;
+	}
+	public void setWorkShopName(String workShopName) {
+		this.workShopName = workShopName;
+	}
+	
+	@Transient
+	public String getContactName() {
+		return contactName;
+	}
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+	
+	@Transient
+	public String getRepairName() {
+		return repairName;
+	}
+	public void setRepairName(String repairName) {
+		this.repairName = repairName;
+	}
+	
+	@Transient
+	public String getRepairType() {
+		return repairType;
+	}
+	public void setRepairType(String repairType) {
+		this.repairType = repairType;
+	}
+	
 	
 	
 }

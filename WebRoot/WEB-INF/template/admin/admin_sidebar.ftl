@@ -1126,13 +1126,24 @@
 
 						
 					</li>
-					
-					</li>
+								
 					
 						<li class="">
 						<a href="handlemeans_results!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							故障处理方法与结果管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="longtime_preventstep!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							长期预防措施管理
 							<b class="arrow fa"></b>
 						</a>
 

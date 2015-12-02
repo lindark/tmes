@@ -33,4 +33,10 @@ public class DeviceServiceImpl extends BaseServiceImpl<Device, String> implement
 	
 		return deviceDao.getDevicePager(pager,map);
 	}
+	
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		// TODO Auto-generated method stub
+		deviceDao.updateisdel(ids, oper);
+	}
 }

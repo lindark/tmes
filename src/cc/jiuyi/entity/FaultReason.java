@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -25,6 +26,7 @@ public class FaultReason extends BaseEntity{
 	
 	private FaultReason faultParent;//上级原因
 	private Set<FaultReason> faultReasonSet;//下级原因
+	private Set<Model> modelSet;//工模维修单
 	
     private String stateRemark;//状态描述
     private String typeReamrk;//类型描述
@@ -90,6 +92,14 @@ public class FaultReason extends BaseEntity{
 	}
 	public void setTypeReamrk(String typeReamrk) {
 		this.typeReamrk = typeReamrk;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "faultReasonSet")
+	public Set<Model> getModelSet() {
+		return modelSet;
+	}
+	public void setModelSet(Set<Model> modelSet) {
+		this.modelSet = modelSet;
 	}
 	
 	

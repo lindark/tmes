@@ -160,6 +160,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.FaultReason</value>
 				<value>cc.jiuyi.entity.Equipments</value>
 				<value>cc.jiuyi.entity.HandlemeansResults</value>
+				<value>cc.jiuyi.entity.LongtimePreventstep</value>
 			</list>
 		</property>
 	</bean>

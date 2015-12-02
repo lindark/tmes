@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.util.CustomerException;
@@ -68,6 +70,8 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		}
 		return locationonsideList;
 	}
+
+	
 	
 	
 }

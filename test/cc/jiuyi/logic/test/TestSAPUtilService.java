@@ -4,6 +4,9 @@ import javax.annotation.Resource;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +26,10 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
@@ -44,6 +50,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private WorkingBillService workingbillservice;
 	@Resource
 	private DumpRfc dumprfc;
+	@Resource
+	private PickRfc pickrfc;
 	protected void setUp() {
 		
 	}
@@ -135,24 +143,44 @@ public class TestSAPUtilService extends BaseTestCase {
 		//Repairorder r = new Repairorder();
 		//r.syncRepairorder(workingbillservice);
 	}
-	@Test
+	@Test//测试获取物料凭证
 	public void testMaterialDocument() throws IOException, CustomerException{
-		List<Object> list=dumprfc.findMaterialDocument("1805", "20150901", "20151001");
-		List<Dump> l1=(List) list.get(0);
-		for(int i=0;i<l1.size();i++){
-			Dump d=l1.get(i);
+		List<Dump> list=dumprfc.findMaterialDocument("1805", "20150901", "20151001");
+		
+		for(int i=0;i<list.size();i++){
+			Dump d=list.get(i);
 			System.out.println("物料凭证："+d.getVoucherId());
 			System.out.println("凭证日期："+d.getMjahr());
 		}
-		List<DumpDetail> l2=(List) list.get(1);
-		for(int i=0;i<l2.size();i++){
-			DumpDetail d=l2.get(i);
-			System.out.println("物料凭证："+d.getVoucherId());
-			System.out.println("凭证日期："+d.getMjahr());
-			System.out.println("物料编码："+d.getMatnr());
-			System.out.println("物料描述："+d.getMaktx());
-			System.out.println("库存地点："+d.getLgort());
-		}
+		
+	}
+	
+	@Test//测试领退料
+	public void testCrtMblnr(){
+		try{
+		
+		Pick p = new Pick();
+		p.setBudat("2015-11-01");
+		p.setLgort("2201");//库存地点
+		p.setZtext("测试凭证");//抬头文本
+		p.setWerks("1000");//工厂
+		p.setMove_type("261");//移动类型
+		List<PickDetail> list=new ArrayList<PickDetail>();
+		PickDetail pd = new PickDetail();
+		pd.setCharg("15091901");//批次
+		pd.setMaterialCode("10490284");//物料编码
+		//pd.setMeins("PC");//单位
+		pd.setOrderid("100116549");//工单
+		pd.setPickAmount("5");//数量
+		pd.setItem_text("文本");//文本
+		list.add(pd);
+		String mblnr=pickrfc.MaterialDocumentCrt(p, list);
+		System.out.println("物料凭证："+mblnr);
+	}catch(CustomerException e){
+		e.printStackTrace();
+		System.out.println(e.getMsgDes());
+	}
+	catch(Exception e){e.printStackTrace();}
 	}
 	
 }

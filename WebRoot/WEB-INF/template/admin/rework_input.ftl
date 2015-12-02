@@ -99,7 +99,7 @@ body{background:#fff;}
 												   <#if show??>
 															<span>${(rework.reworkCount)! }</span>
 												   <#else>
-													<input type="text" name="rework.reworkCount" value="${(rework.reworkCount)!}" class=" input input-sm formText"/> 										
+													<input type="text" name="rework.reworkCount" value="${(rework.reworkCount)!}" class=" input input-sm formText {required: true}" /> 										
 												   </#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -109,7 +109,7 @@ body{background:#fff;}
 												  <#if show??>
 															<span>${(rework.reworkAmount)! }</span>
 												  <#else>
-													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm formText"/>
+													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm formText {required: true}"/>
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
@@ -122,7 +122,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(rework.defectAmount)! }</span>
 												  <#else>
-													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm formText" />	
+													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm formText {required: true}" />	
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
@@ -133,7 +133,7 @@ body{background:#fff;}
 												     <#if show??>
 														<span>${isQualified! }</span>
 													<#else>
-													<select name=rework.isQualified id="form-field-icon-1" class="input input-sm form-control">
+													<select name=rework.isQualified id="form-field-icon-1" class=" {required: true}">
 														<option value="">--</option> <#list allCheck as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&list.isDefault) || (isEdit && rework.isQualified ==list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
@@ -151,7 +151,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(rework.problem)! }</span>
 												  <#else>
-													<textarea name="rework.problem" style="width:600px;" class="input input-sm formText">${(rework.problem)!}</textarea>
+													<textarea name="rework.problem" style="width:600px;" class="input input-sm formText {required: true}">${(rework.problem)!}</textarea>
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -167,7 +167,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(rework.rectify)! }</span>
 												  <#else>
-													<textarea name="rework.rectify" style="width:600px;" class="input input-sm formText">${(rework.rectify)!}</textarea>
+													<textarea name="rework.rectify" style="width:600px;" class="input input-sm formText {required: true}">${(rework.rectify)!}</textarea>
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -204,7 +204,7 @@ body{background:#fff;}
 													 <span>${(rework.completeDate)! }</span>
 											  <#else>
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker " name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
+												<input type="text" class="input-sm form-control datePicker {required: true}" name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
 											</div>
 											</#if>
 											</div>						
@@ -213,8 +213,8 @@ body{background:#fff;}
 										
 										
 										<div class="profile-user-info profile-user-info-striped">
-										 <div class="profile-info-name">是否完工</div>
-												<div class="profile-info-value">
+										 <div class="profile-info-name ">是否完工</div>
+												<div class="profile-info-value {required: true}">
 												<#if show??>
 													<span>${isCompelete! }</span>
 												<#else>
@@ -226,7 +226,7 @@ body{background:#fff;}
 														class="pull-left inline"> <small
 														class="muted smaller-90">未完工:</small> <input type="radio"
 														class="ace" name="rework.isCompelete" value="N"<#if
-														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span》
+														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span
 														class="lbl middle"></span> </label>
 													</#if>
 												</div>															

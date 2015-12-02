@@ -47,7 +47,9 @@ public class DumpAction extends BaseAdminAction {
 	private Admin admin;
 	private String warehouse;
 	private String warehouseName;
-	
+	private String dumpId;
+	private List<Dump> dumpList;
+
 	@Resource
 	private DumpRfcImpl dumpRfc;
 	@Resource
@@ -60,8 +62,10 @@ public class DumpAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.load(admin.getId());
-		warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		warehouseName = admin.getDepartment().getTeam().getFactoryUnit().getWarehouseName();
+		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouse();
+		warehouseName = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouseName();
 		return "list";
 	}
 
@@ -83,30 +87,30 @@ public class DumpAction extends BaseAdminAction {
 	}
 
 	public String save() {
-		dumpService.save(dump);
 		redirectionUrl = "dump!list.action";
 		return SUCCESS;
 	}
 
+	/**
+	 * 刷卡确认
+	 * 
+	 * @return
+	 */
 	public String confirm() {
-		dump = dumpService.load(id);
-		dump.setState(CONFIRMED);
-		admin = adminService.getLoginAdmin();
-		dumpService.save(dump);
-		redirectionUrl = "dump!list.action";
-		return SUCCESS;
-	}
-	
-	public String confirms(){
-		ids = id.split(",");
-		for(int i = 0;i<ids.length;i++){
-			dump = dumpService.load(ids[i]);
-			dump.setState(CONFIRMED);
-			admin = adminService.getLoginAdmin();
-			dumpService.save(dump);
+		try {
+			String[] ids = dumpId.split(",");
+			dumpList = dumpRfc.findMaterialDocument("1805", "20150901","20151001");
+			dumpService.confirmDump(ids, dumpList);
+			redirectionUrl = "dump!list.action";
+			return SUCCESS;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return null;
 		}
-		redirectionUrl = "dump!list.action";
-		return SUCCESS;
+		
 	}
 
 	@InputConfig(resultName = "error")
@@ -136,7 +140,8 @@ public class DumpAction extends BaseAdminAction {
 		HashMap<String, String> map = new HashMap<String, String>();
 		admin = adminService.getLoginAdmin();
 		admin = adminService.load(admin.getId());
-		warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
+		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouse();
 
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -156,12 +161,14 @@ public class DumpAction extends BaseAdminAction {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String today = sdf.format(date);
-			List<Dump> dList = dumpRfc.findMaterialDocument("1805","20150901", "20151001");
-			pager.setList(dList);
-			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
-			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+			dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
+					"20151001");
+			pager.setList(dumpList);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig
+					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 			return ajaxJson(jsonArray.get(0).toString());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -170,27 +177,27 @@ public class DumpAction extends BaseAdminAction {
 			e.printStackTrace();
 			return null;
 		}
-		//List<Dump> lst = new ArrayList<Dump>();
-		//List<Dump> dumpList = pager.getList();
-		/*for (int i = 0; i < dumpList.size(); i++) {
-			Dump dump = (Dump) dumpList.get(i);
-			dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"dumpState", dump.getState()));
-			lst.add(dump);
-		}*/
+		// List<Dump> lst = new ArrayList<Dump>();
+		// List<Dump> dumpList = pager.getList();
+		/*
+		 * for (int i = 0; i < dumpList.size(); i++) { Dump dump = (Dump)
+		 * dumpList.get(i);
+		 * dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
+		 * "dumpState", dump.getState())); lst.add(dump); }
+		 */
 
 	}
 
 	// 同步
 	public String sync() {
-//		DumpSync d = new DumpSync();
-//		try {
-//			d.syncRepairorder(dumpService);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return ERROR;
-//		}// 同步
-//		redirectionUrl = "dump!list.action";
+		// DumpSync d = new DumpSync();
+		// try {
+		// d.syncRepairorder(dumpService);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// return ERROR;
+		// }// 同步
+		// redirectionUrl = "dump!list.action";
 		return SUCCESS;
 	}
 
@@ -240,6 +247,22 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setDumpRfc(DumpRfcImpl dumpRfc) {
 		this.dumpRfc = dumpRfc;
+	}
+
+	public String getDumpId() {
+		return dumpId;
+	}
+
+	public void setDumpId(String dumpId) {
+		this.dumpId = dumpId;
+	}
+
+	public List<Dump> getDumpList() {
+		return dumpList;
+	}
+
+	public void setDumpList(List<Dump> dumpList) {
+		this.dumpList = dumpList;
 	}
 
 }

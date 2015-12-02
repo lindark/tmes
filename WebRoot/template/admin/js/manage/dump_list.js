@@ -252,4 +252,13 @@ function btn_event()
 		}
 		window.location.href="dump_detail!list.action?dumpId="+dumpId;
 	});
+	//刷卡确认
+	$("#btn_confirm").click(function(){
+		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		if(dumpId.length <1){
+			alert("请选择一条记录");
+			return false;
+		}
+		window.location.href="dump!confirm.action?dumpId="+dumpId;
+	});
 }

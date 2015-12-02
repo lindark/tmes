@@ -65,7 +65,7 @@ jQuery(function($) {
 	    },
 		colNames:['类型','原因描述','状态',],
 		colModel:[
-            {name:'typeRemark',index:'type', width:200,editable: true,sortable:true},			
+            {name:'typeReamrk',index:'type', width:200,editable: true,sortable:true},			
 			{name:'handleName',index:'handleName', width:200,editable: true,sortable:true},			
 			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true}
 			 

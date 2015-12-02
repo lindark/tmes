@@ -86,7 +86,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			dumpdetail.setCharg(ET_ITEM.getString("CHARG"));//批次
 			dumpdetail.setMeins(ET_ITEM.getString("MEINS"));//单位
 			dumpdetail.setMaktx(ET_ITEM.getString("MAKTX"));//物料描述
-			dumpdetail.setMeneg(ET_ITEM.getString("MENEG"));//数量
+			dumpdetail.setMeneg(ET_ITEM.getString("MENGE"));//数量
 			materialitem.add(dumpdetail);
 		}
 		return materialitem;

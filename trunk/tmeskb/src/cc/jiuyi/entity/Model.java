@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,8 +29,8 @@ public class Model extends BaseEntity{
 	private Admin initiator;//提报人
 	private String failDescript;//不良现象描述
 	private Integer defaltNo;//缺陷数量
-	private String insepector;//检验员
-	private String fixer;//维修人员
+	private Admin insepector;//检验员
+	private Admin fixer;//维修人员
 	
 	private Date confirmTime;//确认时间
 	private Date arriveTime;//到场时间
@@ -47,6 +48,8 @@ public class Model extends BaseEntity{
 	private Set<ModelLog> modelLogSet;//异常日志 
 	private String productName;//产品名称	
 	private String teamName;//班组名称
+	private Set<FaultReason> faultReasonSet;//故障原因
+	private String repairName;//维修人
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
@@ -172,18 +175,6 @@ public class Model extends BaseEntity{
 	public void setInitiator(Admin initiator) {
 		this.initiator = initiator;
 	}
-	public String getInsepector() {
-		return insepector;
-	}
-	public void setInsepector(String insepector) {
-		this.insepector = insepector;
-	}
-	public String getFixer() {
-		return fixer;
-	}
-	public void setFixer(String fixer) {
-		this.fixer = fixer;
-	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Team getTeamId() {
@@ -199,6 +190,38 @@ public class Model extends BaseEntity{
 	}
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<FaultReason> getFaultReasonSet() {
+		return faultReasonSet;
+	}
+	public void setFaultReasonSet(Set<FaultReason> faultReasonSet) {
+		this.faultReasonSet = faultReasonSet;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getFixer() {
+		return fixer;
+	}
+	public void setFixer(Admin fixer) {
+		this.fixer = fixer;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getInsepector() {
+		return insepector;
+	}
+	public void setInsepector(Admin insepector) {
+		this.insepector = insepector;
+	}
+	
+	@Transient
+	public String getRepairName() {
+		return repairName;
+	}
+	public void setRepairName(String repairName) {
+		this.repairName = repairName;
 	}
 	
 	

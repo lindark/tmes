@@ -100,6 +100,12 @@ public class DumpAction extends BaseAdminAction {
 		try {
 			String[] ids = dumpId.split(",");
 			dumpList = dumpRfc.findMaterialDocument("1805", "20150901","20151001");
+			for (int i = 0; i < ids.length; i++) {
+				if(dumpService.isExist("voucherId", ids[i])){
+					addActionError("已确认的无法再确认！");
+					return ERROR;
+				}
+			}
 			dumpService.confirmDump(ids, dumpList);
 			redirectionUrl = "dump!list.action";
 			return SUCCESS;

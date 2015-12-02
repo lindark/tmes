@@ -108,11 +108,14 @@
 													</div>
 
 													<div class="profile-info-row">
-														<div class="profile-info-name">班组/班次</div>
-
+														<div class="profile-info-name">班次</div>
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">2010/06/20</span>
+															<#if (admin.shift == "1")!><span class="editable editable-click" id="signup">早</span></#if>
+															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">中</span></#if>
+															<#if (admin.shift == "3")!><span class="editable editable-click" id="signup">晚</span></#if>
+															
 														</div>
+														
 														<div class="profile-info-name">产品名称</div>
 
 														<div class="profile-info-value">
@@ -136,7 +139,12 @@
 										<i class="ace-icon fa fa-pencil-square-o"></i>
 										编辑返工单
 									</button>
-
+									
+                                    <button class="btn btn-white btn-default btn-sm btn-round" id="showRework">
+										<i class="ace-icon fa fa-book"></i>
+										查看返工单
+									</button>
+									
 									<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
@@ -226,7 +234,6 @@
 		$("#checkRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			//alert(id);
 			if(id.length>1){
 	    		alert("只能选择一条返工记录！");
 	    		return false;
@@ -236,6 +243,22 @@
 	    	}else{
 	    		window.location.href = "rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
 	    	}	
+		});
+		
+		$("#showRework").click(function(){
+			var workingBillId = $("#workingBillId").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id.length>1){
+				alert("只能选择一条返工记录！");
+				return false;
+			}if(id==""){
+				alert("至少选择一条返工记录！");
+				return false;
+			}else{
+				window.location.href="rework!show.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
+			}
+			
 		});
 		
 		$("#confirmRework").click(function(){

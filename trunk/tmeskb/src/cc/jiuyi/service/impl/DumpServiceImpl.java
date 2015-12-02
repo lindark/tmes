@@ -25,31 +25,16 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	public void setBaseDao(DumpDao dumpDao){
 		super.setBaseDao(dumpDao);
 	}
-	
-	public Pager getDumpPager(Pager pager,HashMap<String,String> map){
-		return dumpDao.getDumpPager(pager,map);
-	}
+
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		dumpDao.updateisdel(ids, oper);
 	}
 
 	@Override
-	public void mergeDump(List list) {
-		for(int i=0;i<list.size();i++){
-			Dump dump = (Dump) list.get(i);
-			boolean flag = dumpDao.isExist("voucherId", dump.getVoucherId());
-			if(flag)
-				dumpDao.updateDump(dump);
-			else
-				dumpDao.save(dump);
-		}
-		
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
+		return dumpDao.findPagerByjqGrid(pager, map);
 	}
 
-	@Override
-	public List getListDumpById(String voucherId) {
-		return dumpDao.getListDumpById(voucherId);
-	}
 
 }

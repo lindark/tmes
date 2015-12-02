@@ -11,19 +11,18 @@ import cc.jiuyi.entity.Dump;
  * 转储管理
  */
 public interface DumpDao extends BaseDao<Dump, String>{
-	public Pager getDumpPager(Pager pager,HashMap<String,String> map);
+	/**
+	 * 分页查询
+	 * 
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
 	/**
 	 * 标记删除
 	 * @param id
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
-	
-	public void updateDump(Dump dump);
-	
-	/**
-	 * 根据物料凭证号取出对应的物料信息
-	 * @return
-	 */
-	public List getListDumpById(String voucherId);
 }

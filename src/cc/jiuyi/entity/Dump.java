@@ -21,7 +21,7 @@ public class Dump extends BaseEntity {
 
 	private String voucherId;// 物料凭证号
 	private String mjahr;//凭证年度
-	private Date deliveryDate;// 发货日期
+	private Date deliveryDate;// 过账日期
 	private String state;// 状态
 	private String isDel;// 是否删除
 	private Admin confirmUser;// 确认人

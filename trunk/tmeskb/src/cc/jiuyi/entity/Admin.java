@@ -57,7 +57,10 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<UnusualLog> unusualLogSet;//质量问题单日志
 	private Set<ModelLog> modelLogSet;//工模维修单日志
-	private Set<CraftLog> craftLogSet;//工艺维修单日志
+	private Set<CraftLog> craftLogSet;//工艺维修单日志 
+	private Set<Device> deviceWorkSet;//车间联系人与设备维修单
+	private Set<Device> deviceDisposalSet;//处理人员与设备维修单
+	private Set<DeviceLog> deviceLogSet;//设备维修单日志
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -662,6 +665,33 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setApprovalhandoverSet(Set<HandOver> approvalhandoverSet) {
 		this.approvalhandoverSet = approvalhandoverSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workshopLinkman")
+	public Set<Device> getDeviceWorkSet() {
+		return deviceWorkSet;
+	}
+
+	public void setDeviceWorkSet(Set<Device> deviceWorkSet) {
+		this.deviceWorkSet = deviceWorkSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="disposalWorkers")
+	public Set<Device> getDeviceDisposalSet() {
+		return deviceDisposalSet;
+	}
+
+	public void setDeviceDisposalSet(Set<Device> deviceDisposalSet) {
+		this.deviceDisposalSet = deviceDisposalSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="operator")
+	public Set<DeviceLog> getDeviceLogSet() {
+		return deviceLogSet;
+	}
+
+	public void setDeviceLogSet(Set<DeviceLog> deviceLogSet) {
+		this.deviceLogSet = deviceLogSet;
 	}
 	
 	

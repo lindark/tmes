@@ -98,17 +98,6 @@ th {
 									<div class="widget-box ui-sortable-handle">
 										<div class="widget-header">
 											<h4 class="widget-title lighter">当前班组信息</h4>
-
-										<!--  <div class="widget-toolbar no-border">
-												<a href="#" data-action="settings"> <i
-													class="ace-icon fa fa-cog"></i> </a> <a href="#"
-													data-action="reload"> <i class="ace-icon fa fa-refresh"></i>
-												</a> <a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a> <a href="#"
-													data-action="close"> <i class="ace-icon fa fa-times"></i>
-												</a>
-											</div>-->	
-
 										</div>
 
 										<div class="widget-body">
@@ -160,29 +149,6 @@ th {
 									<div class="widget-box ui-sortable-handle">
 										<div class="widget-header">
 											<h5 class="widget-title">呼叫人</h5>
-
-
-											<!-- <div class="widget-toolbar">
-												<div class="widget-menu">
-													<a data-action="settings" data-toggle="dropdown"> <i
-														class="ace-icon fa fa-bars"></i> </a>
-
-													<ul
-														class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-
-													</ul>
-												</div>
-
-												<a data-action="fullscreen" class="orange2"> <i
-													class="ace-icon fa fa-expand"></i> </a> <a data-action="reload">
-													<i class="ace-icon fa fa-refresh"></i> </a> <a
-													data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a> <a
-													data-action="close"> <i class="ace-icon fa fa-times"></i>
-												</a>
-											</div> -->
-
-
 										</div>
 
 										<div class="widget-body">
@@ -199,13 +165,7 @@ th {
 							</div>																												
 
 							<div class="row buttons">
-							     
-							   <!--  <div class="col-md-2 col-sm-4" >
-									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="callRing">
-                                      <span class="bigger-110 no-text-shadow">呼叫</span>
-									</button>
-								</div>--> 
-								
+							     							  
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
@@ -221,12 +181,12 @@ th {
                                       <span class="bigger-110 no-text-shadow">创建工艺维修单</span>
 									</button>
 								</div>
-								<!-- 
+								 
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="devicerep">
                                       <span class="bigger-110 no-text-shadow">创建设备维修单</span>
 									</button>
-								</div> -->
+								</div> 
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="responsecar">
                                       <span class="bigger-110 no-text-shadow">响应刷卡</span>
@@ -237,11 +197,12 @@ th {
                                       <span class="bigger-110 no-text-shadow">撤销呼叫</span>
 									</button>
 								</div>
+								<!-- 
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="closeAbn">
                                       <span class="bigger-110 no-text-shadow">关闭异常</span>
 									</button>
-								</div>
+								</div> -->
 							</div>
 
 							<table id="grid-table1"></table>

@@ -66,14 +66,6 @@ public class PickDetailAction extends BaseAdminAction {
 	private String productsId;
 	private WorkingBill workingbill;
 	private String workingBillId;
-	
-	
-	public String getWokingBillId() {
-		return workingBillId;
-	}
-	public void setWokingBillId(String wokingBillId) {
-		this.workingBillId = wokingBillId;
-	}
 
 
 	private Admin admin;
@@ -86,15 +78,6 @@ public class PickDetailAction extends BaseAdminAction {
     private List<PickDetail> pickDetailList;
     private List<PickDetail> pkList;
     
- 
-	public List<PickDetail> getPickDetailList() {
-		return pickDetailList;
-	}
-
-
-	public void setPickDetailList(List<PickDetail> pickDetailList) {
-		this.pickDetailList = pickDetailList;
-	}
 
 	public String addAmount() {
 //		for (int i = 0; i < pt.length; i++) {	
@@ -210,13 +193,22 @@ public class PickDetailAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save()throws Exception{
 		workingbill = workingBillService.get(workingBillId);
-		pickDetailService.save(pickDetailList,workingBillId);
-		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
+		for(int i=0;i<pickDetailList.size();i++){
+			PickDetail p=pickDetailList.get(i);
+			if(!"".equals(p.getPickType())&&!"".equals(p.getPickAmount())){
+				pickDetailService.save(pickDetailList,workingBillId);
+				redirectionUrl="pick!list.action?workingBillId="+workingBillId;
+				return SUCCESS;
+				}else{
+					addActionError("请检查是否输入内容！");
+					return ERROR;
+				}
+		}		
 		return SUCCESS;
 	}
-		
-//有问题
-//	public String check(){
+	
+
+//	public String confirms(){
 //		workingbill = workingBillService.get(workingBillId);
 //		pickDetailService.save(pickDetailList,workingBillId);	
 //		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
@@ -407,5 +399,22 @@ public class PickDetailAction extends BaseAdminAction {
 	}
 	
 	
+	public String getWokingBillId() {
+		return workingBillId;
+	}
+	public void setWokingBillId(String wokingBillId) {
+		this.workingBillId = wokingBillId;
+	}
 	
+	
+	 
+	public List<PickDetail> getPickDetailList() {
+		return pickDetailList;
+	}
+
+
+	public void setPickDetailList(List<PickDetail> pickDetailList) {
+		this.pickDetailList = pickDetailList;
+	}
+
 }

@@ -18,9 +18,8 @@ import cc.jiuyi.util.SAPModel;
 @Component
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	@Override
-	public List<Object> findMaterialDocument(String lgort, String bgdat,
+	public List<Dump> findMaterialDocument(String lgort, String bgdat,
 			String eddat) throws IOException, CustomerException {
-		List<Object> array = new ArrayList();
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -48,6 +47,32 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			dump.setDeliveryDate(ET_HEADER.getDate("BUDAT"));//过账日期
 			materialheader.add(dump);
 		}
+		/**
+		
+		array.add(materialheader);
+		array.add(materialitem);
+		*/
+		return materialheader;
+	}
+
+	@Override
+	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr)
+			throws IOException, CustomerException {
+		super.setProperty("materialdocument");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("IM_MBLNR", mblnr);//库存地点
+		super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi();//执行 并获取返回值
+		/******执行 end******/
+		ParameterList out = model.getOuts();//返回参数
+		ParameterList outs = model.getOuttab();//返回表
+		String type =  out.getString("E_TYPE");//返回类型
+		String message = out.getString("E_MESSAGE");//返回消息
+		if(type.equals("E")){//如果是E，抛出自定义异常
+			throw new CustomerException("1400001", message);
+		}
+		Table ET_ITEM = outs.getTable("ET_ITEM");//物料凭证明细表
 		List<DumpDetail> materialitem = new ArrayList<DumpDetail>();
 		for (int i=0;i < ET_ITEM.getNumRows(); i++) {
 			ET_ITEM.setRow(i);
@@ -63,8 +88,6 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			dumpdetail.setMaktx(ET_ITEM.getString("MAKTX"));//物料描述
 			materialitem.add(dumpdetail);
 		}
-		array.add(materialheader);
-		array.add(materialitem);
-		return array;
+		return materialitem;
 	}
 }

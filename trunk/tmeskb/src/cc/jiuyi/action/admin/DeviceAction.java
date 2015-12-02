@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,12 +20,16 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.UnusualLog;
+import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DeviceLogService;
@@ -45,6 +51,9 @@ public class DeviceAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private String loginUsername;
+	private Admin admin;
+	// 获取所有类型
+	private List<Dict> allType;
 	
 	@Resource
 	private DeviceService deviceService;
@@ -56,12 +65,16 @@ public class DeviceAction extends BaseAdminAction {
 	private AbnormalService abnormalService;
 	@Resource
 	private DeviceLogService deviceLogService;
+	@Resource
+	private AbnormalLogService abnormalLogService;
 	
 	// 添加
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
 		}	
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		return INPUT;
 	}
 
@@ -73,8 +86,22 @@ public class DeviceAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		//pager = deviceService.findByPager(pager);
 		return LIST;
+	}
+	
+	// 设备选择
+	public String browser() {
+		return "browser";
+	}
+	
+	// 车间选择
+	public String workshop() {
+		return "workshop";
+	}
+	
+	// 人员选择
+	public String person() {
+		return "person";
 	}
 
 	public String ajlist() {
@@ -99,14 +126,14 @@ public class DeviceAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			
-		   if (obj.get("team") != null) { 
-			   String state = obj.getString("team").toString();
-			   map.put("team", state);
+		   if (obj.get("workShopName1") != null) { 
+			   String workShopName1 = obj.getString("workShopName1").toString();
+			   map.put("workShopName1", workShopName1);
 			}
 
-		   if (obj.get("productName") != null) { 
-			   String productName = obj.getString("productName").toString();
-			   map.put("productName", productName);
+		   if (obj.get("repairPerson") != null) { 
+			   String repairPerson = obj.getString("repairPerson").toString();
+			   map.put("repairPerson", repairPerson);
 		   }
 
 		}
@@ -116,15 +143,20 @@ public class DeviceAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Device device = (Device) pagerlist.get(i);
-			device.setAbnormal(null);
-			device.setDeviceLogSet(null);
 			device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", device.getState()));		
+					dictService, "receiptState", device.getState()));	
+			device.setContactName(device.getWorkshopLinkman().getName());
+			device.setWorkShopName(device.getWorkShop().getWorkShopName());
+			device.setRepairName(device.getDisposalWorkers().getName());
+			device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "deviceType", device.getMaintenanceType()));
 			pagerlist.set(i,device);
 		}
 		pager.setList(pagerlist);
-
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Device.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
@@ -134,14 +166,13 @@ public class DeviceAction extends BaseAdminAction {
 	// 删除
 	public String delete() throws Exception {	
 		ids=id.split(",");
-		deviceService.delete(ids);
+		deviceService.updateisdel(ids, "Y");
 		redirectionUrl = "device!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
 	public String save(){		
-		loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-		Admin admin1 = adminService.get("username", loginUsername);
+		Admin admin1 = adminService.getLoginAdmin();
 		
 		abnormal=abnormalService.load(abnormalId);
 		device.setAbnormal(abnormal);
@@ -151,10 +182,17 @@ public class DeviceAction extends BaseAdminAction {
 		deviceService.save(device);
 		
 		DeviceLog log = new DeviceLog();
-		log.setOperator(admin1.getName());
+		log.setOperator(admin1);
 		log.setInfo("已提交");
 		log.setDevice(device);
 		deviceLogService.save(log);
+		
+		
+		AbnormalLog abnormalLog = new AbnormalLog();
+		abnormalLog.setAbnormal(abnormal);
+		abnormalLog.setInfo("已开设备维修单");
+		abnormalLog.setOperator(admin1);
+		abnormalLogService.save(abnormalLog);
 		
 		redirectionUrl = "device!list.action";
 		return SUCCESS;
@@ -163,11 +201,62 @@ public class DeviceAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Device persistent = deviceService.load(id);
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
 		deviceService.update(persistent);
 		redirectionUrl = "device!list.action";
 		return SUCCESS;
 	}
+	
+	
+	//刷卡回复
+	public String check() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
+		Device persistent = deviceService.load(id);
+		if(persistent.getState().equals("3")){
+			addActionError("已关闭的单据无法再回复！");
+			return ERROR;
+		}
+		if(persistent.getState().equals("1")){
+			addActionError("单据已回复！");
+			return ERROR;
+		}
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","isDown","isMaintenance"});
+		persistent.setState("1");
+		deviceService.update(persistent);
+		
+		DeviceLog log = new DeviceLog();
+		log.setDevice(persistent);
+		log.setInfo("已回复");
+		log.setOperator(admin);
+		deviceLogService.save(log);
+		
+		redirectionUrl="device!list.action";
+		return SUCCESS;
+	}	
+		
+	//刷卡关闭
+	public String close() throws Exception{
+		Admin admin = adminService.getLoginAdmin();
+		Device persistent = deviceService.load(id);
+		if(persistent.getState().equals("1")){
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","isDown","isMaintenance"});
+			persistent.setState("3");
+			deviceService.update(persistent);
+			
+			DeviceLog log = new DeviceLog();
+			log.setDevice(persistent);
+			log.setOperator(admin);
+			log.setInfo("已关闭");
+		    deviceLogService.save(log);
+		    
+		}else{
+			addActionError("单据已关闭/未回复！");
+			return ERROR;
+		}
+		
+		redirectionUrl="device!list.action";
+		return SUCCESS;
+	}			
 
 	public Device getDevice() {
 		return device;
@@ -208,6 +297,36 @@ public class DeviceAction extends BaseAdminAction {
 	public void setLoginUsername(String loginUsername) {
 		this.loginUsername = loginUsername;
 	}
+
+	public List<Dict> getAllType() {
+		return dictService.getList("dictname", "deviceType");
+	}
+
+	public void setAllType(List<Dict> allType) {
+		this.allType = allType;
+	}
 	
+	public List<Dict> getAllProperty() {
+		return dictService.getList("dictname", "deviceProperty");
+	}
 	
+	public List<Dict> getAllAttitude() {
+		return dictService.getList("dictname", "serAttitude");
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+	
+	public List<Dict> getAllDown() {
+		return dictService.getList("dictname", "isDown");
+	}
+	
+	public List<Dict> getAllMaintenance() {
+		return dictService.getList("dictname", "isMaintenance");
+	}
 }

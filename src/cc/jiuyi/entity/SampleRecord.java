@@ -20,7 +20,7 @@ public class SampleRecord extends BaseEntity
 	private String sampleId;//抽检表id
 	private String causeId;//记录缺陷表的id
 	private String isDel;
-	private String istoDel;//平常都为空，修改的时候用来做标记，有标记的不删除，没有标记的删除
+	private String istoDel;//默认都为Y，修改的时候标记为N，为N的不删除，为Y的删除
 	/**
 	 * get/set
 	 */

@@ -33,6 +33,7 @@ public class WorkShop extends BaseEntity{
     
     private Factory factory;//工厂
     private Set<FactoryUnit> factoryUnitSet;//单元
+    private Set<Device> deviceSet;//设备维修单
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Factory getFactory() {
@@ -92,5 +93,15 @@ public class WorkShop extends BaseEntity{
 	public void setFactoryName(String factoryName) {
 		this.factoryName = factoryName;
 	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workShop")
+	public Set<Device> getDeviceSet() {
+		return deviceSet;
+	}
+	public void setDeviceSet(Set<Device> deviceSet) {
+		this.deviceSet = deviceSet;
+	}
+	
+	
 	
 }

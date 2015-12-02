@@ -100,6 +100,11 @@
 									<i class="ace-icon fa fa-book"></i>
 									查看
 								</a>
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-cloud-upload"></i>
+									刷卡确认
+								</a>
+								
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回

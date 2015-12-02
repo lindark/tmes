@@ -34,7 +34,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">权限对象</li>
+					<li class="active">报废单</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>

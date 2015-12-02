@@ -89,6 +89,10 @@ public class CraftAction extends BaseAdminAction {
 		//pager = craftService.findByPager(pager);
 		return LIST;
 	}
+	
+	public String browser(){
+		return "browser";
+	}
     
 	@InputConfig(resultName = "error")
 	public String update() {

@@ -3,6 +3,8 @@ package cc.jiuyi.sap.rfc;
 import java.io.IOException;
 import java.util.List;
 
+import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.util.CustomerException;
 
 public interface DumpRfc extends BaserfcService{
@@ -15,5 +17,6 @@ public interface DumpRfc extends BaserfcService{
 	 * @throws IOException
 	 * @throws CustomerException
 	 */
-	public List<Object> findMaterialDocument(String lgort,String bgdat,String eddat) throws IOException,CustomerException;
+	public List<Dump> findMaterialDocument(String lgort,String bgdat,String eddat) throws IOException,CustomerException;
+	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr) throws IOException,CustomerException;
 }

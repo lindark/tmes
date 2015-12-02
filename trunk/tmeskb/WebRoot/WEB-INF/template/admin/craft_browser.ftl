@@ -116,7 +116,7 @@ body {
 		var rowName=rowData.productsName;
 		var rowNo=rowData.productsCode;
 		var work=""+rowName+""+","+ids+","+rowNo;		
-		alert(rowNO);
+		alert(rowNo);
 		return work;
 	}
 	

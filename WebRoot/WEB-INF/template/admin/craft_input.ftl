@@ -26,6 +26,7 @@
 body {
 	background: #fff;
 }
+.profile-user-info-striped{border:0px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -94,22 +95,17 @@ body {
 													<button type="button" class="btn btn-xs btn-info"
 														id="productId" data-toggle="button">选择</button>
 													<span id="productName1"></span>
-													<!-- <input type="text" name="craft.products.productsName"
-														id="productName1"
-														class=" input input-sm  formText {required: true}"
-														readOnly="true" /> --> <input type="hidden"
-														name="craft.products.id" id="productNa" value="" class="formText {required: true}"/>
+												    <input type="hidden" name="craft.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(craft.products.productsName)!} </#if>
 													
 												</div>
-											<!-- 	<div class="profile-info-name">产品编号</div>
+											 	<div class="profile-info-name">产品编码</div>
 
 												<div class="profile-info-value">
 												      <#if isAdd??>
-													  <input type="text"  id="productNo" readOnly="true" name="craft.products.productsCode"
-														value="" class="input input-sm" />
+												      <span id="productNo"></span>						 
 													  <#else> ${(craft.products.productsCode)!} </#if>
-												</div>  -->
+												</div> 
 												
 
 											</div>

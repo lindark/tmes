@@ -62,6 +62,10 @@
 										<div id="grid-pager"></div>
 								</div>
 							</div>
+							<div class="profile-info-row ceshi">
+								<div class="profile-info-value">
+								</div>
+							</div>
 							<div class="row buttons col-md-8 col-sm-4">
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>

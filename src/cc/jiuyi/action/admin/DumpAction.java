@@ -35,7 +35,7 @@ public class DumpAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5672674230144520389L;
 
-	private static final String CONFIRMED = "1";
+	private static final String UNCONFIRMED = "2";//未确认
 
 	private Dump dump;
 	private Admin admin;
@@ -61,12 +61,6 @@ public class DumpAction extends BaseAdminAction {
 		warehouseName = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouseName();
 		return "list";
-	}
-
-	public String detail() {
-		dump = dumpService.load(id);
-		String voucherId = dump.getVoucherId();// 获取转储单证号
-		return "detail";
 	}
 
 	// 添加
@@ -146,6 +140,29 @@ public class DumpAction extends BaseAdminAction {
 			String today = sdf.format(date);
 			dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
 					"20151001");
+			List<Dump> dpList = dumpService.getAll();
+			if(dpList.size()!=0){
+				for (int i = 0; i < dumpList.size(); i++) {
+					for (int j = 0; j < dpList.size(); j++) {
+						if(dumpList.get(i).getVoucherId().equals(dpList.get(j).getVoucherId())){
+							dumpList.get(i).setConfirmUser(dpList.get(j).getConfirmUser());
+							dumpList.get(i).setState(dpList.get(j).getState());
+							break;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < dumpList.size(); i++) {
+				Dump dump = (Dump)dumpList.get(i);
+				if(dump.getState()==null){
+					dump.setState(UNCONFIRMED);					
+				}
+				dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "dumpState", dump.getState()));
+				if(dump.getConfirmUser()!=null){
+					dump.setAdminName(dump.getConfirmUser().getName());
+				}
+			}
 			JsonConfig jsonConfig=new JsonConfig();
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
@@ -160,19 +177,6 @@ public class DumpAction extends BaseAdminAction {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	// 同步
-	public String sync() {
-		// DumpSync d = new DumpSync();
-		// try {
-		// d.syncRepairorder(dumpService);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// return ERROR;
-		// }// 同步
-		// redirectionUrl = "dump!list.action";
-		return SUCCESS;
 	}
 
 	public Dump getDump() {

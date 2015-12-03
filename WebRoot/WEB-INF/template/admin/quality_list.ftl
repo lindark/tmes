@@ -67,6 +67,7 @@
 
 						<div class="row">
 							<div class="col-xs-12">
+							    
 								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
@@ -91,11 +92,44 @@
 									</div>
 								</form>
 								
+								<div class="row">
+								<div class="col-xs-12">
+								<div class="row buttons col-md-8 col-sm-4">
+							<!-- 	<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-folder-open-o"></i>
+									创建抽检单
+								</a>
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-cloud-upload"></i>
+									刷卡确认
+								</a>
+								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-remove"></i>
+									刷卡撤销
+								</a> -->
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
+								</a>
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
+								</a>
+								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-home"></i>
+									返回
+								</a>
+							   </div>
+							   </div>
+							   </div>
 								
+								
+								<div class="row">
+								<div class="col-xs-12">
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
-								
+								</div></div>
 								
 									
 								<script type="text/javascript">

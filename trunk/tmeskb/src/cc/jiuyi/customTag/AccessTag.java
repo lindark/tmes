@@ -20,10 +20,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.opensymphony.oscache.util.StringUtil;
 
+import cc.jiuyi.entity.AccessFunction;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.service.AccessFunctionService;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
@@ -55,19 +57,27 @@ public class AccessTag extends TagSupport {
 		AccessObjectService accessObjectservice = (AccessObjectService)web.getBean("accessObjectServiceImpl");
 		AdminService adminservice = (AdminService)web.getBean("adminServiceImpl");
 		AccessResourceService accessResourceService = (AccessResourceService)web.getBean("accessResourceServiceImpl");
+		AccessFunctionService accessFunctionService = (AccessFunctionService)web.getBean("accessFunctionServiceImpl");
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());//获取当前登录身份的角色
 		
 		String path = request.getRequestURI();
-		List<AccessObject> accessobjectList = accessObjectservice.getAccessObjectList(path, roleList);//获取角色对应的资源对象
+		List<String> roleidList = new ArrayList<String>();
+		for(Role role : roleList){
+			roleidList.add(role.getId());
+		}
+		List<Object[]> objarrayList = accessFunctionService.getAccessFunctionList(path, roleidList);
 		JSONArray jsonarray = new JSONArray();
-		for(int i=0;i<accessobjectList.size();i++){
-			AccessObject accessobject = accessobjectList.get(i);
-			JSONObject jsonobj = new JSONObject();
-			jsonobj.put("accObjkey", accessobject.getAccObjkey());//key
-			jsonobj.put("accObjName", accessobject.getAccObjName());//值
-			jsonobj.put("state", accessobject.getState());//状态
-			jsonarray.add(jsonobj);
+		for(int i=0;i<objarrayList.size();i++){
+			Object[] objarray = objarrayList.get(i);
+			AccessFunction accessFunction = (AccessFunction) objarray[0];
+			AccessObject accessObject = (AccessObject)objarray[1];
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("accObjkey", accessObject.getAccObjkey());
+			jsonobject.put("accObjName", accessObject.getAccObjName());
+			jsonobject.put("type", accessObject.getType());
+			jsonobject.put("state", accessFunction.getState());
+			jsonarray.add(jsonobject);
 		}
 		JSONObject json = new JSONObject();
 		json.put("list", jsonarray);

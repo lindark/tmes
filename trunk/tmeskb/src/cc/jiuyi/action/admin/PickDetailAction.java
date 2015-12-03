@@ -121,6 +121,7 @@ public class PickDetailAction extends BaseAdminAction {
 	
     //查看页面
 	public String view(){
+		workingbill = workingBillService.get(workingBillId);
 		pick=pickService.load(id);
 		pkList=pickDetailService.getPickDetail(id);
 		Products products=productsServce.getProducts(matnr);

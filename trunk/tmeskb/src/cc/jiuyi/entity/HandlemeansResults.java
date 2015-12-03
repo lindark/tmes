@@ -26,7 +26,7 @@ public class HandlemeansResults extends BaseEntity{
 	
 	private HandlemeansResults handleParent;//上级
 	private Set<HandlemeansResults> handleSet;//下级
-	//private Set<Model> modelSet;//工模维修单
+	private Set<Model> modelSet;//工模维修单
 	
     private String stateRemark;//状态描述
     private String typeReamrk;//类型描述
@@ -72,13 +72,13 @@ public class HandlemeansResults extends BaseEntity{
 		this.handleSet = handleSet;
 	}
 	
-/*	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "faultReasonSet")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "handleSet")
 	public Set<Model> getModelSet() {
 		return modelSet;
 	}
 	public void setModelSet(Set<Model> modelSet) {
 		this.modelSet = modelSet;
-	}*/
+	}
 	
 	@Transient
 	public String getStateRemark() {

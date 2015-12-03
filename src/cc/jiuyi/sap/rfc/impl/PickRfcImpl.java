@@ -25,7 +25,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("MOVE_TYPE", pick.getMove_type());//移动类型
-		super.setParameter(parameter);//输入参数
+		//super.setParameter(parameter);//输入参数
 		/******输入结构******/
 		Mapping mapping = new Mapping();
 		HashMap<String,String> map = new HashMap<String,String>();
@@ -47,6 +47,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("CHARG", p.getCharg());//批号
 			item.put("ITEM_TEXT", p.getItem_text());//项目文本
 			item.put("ORDERID", p.getOrderid());//工单号
+			//item.put("MEINS", p.getMeins());//单位
 			arrList.add(item);
 		}
 		tablemodel.setList(arrList);

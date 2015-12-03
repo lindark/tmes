@@ -44,7 +44,7 @@ public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, Strin
 	}
 
 	@Override
-	@Cacheable(modelId="caching")
+	//@Cacheable(modelId="caching")
 	public List<AccessObject> getAccessObjectList(String path,List<Role> rolelist){
 		Object[] obj = new Object[rolelist.size()];
 		for(int i=0;i<rolelist.size();i++){
@@ -53,5 +53,25 @@ public class AccessObjectServiceImpl extends BaseServiceImpl<AccessObject, Strin
 		}
 		return accessobjectdao.getAccessObjectList(path,obj);
 	}
+	
+	//@Cacheable(modelId="flushing")
+	public void update(AccessObject entity) {
+		accessobjectdao.update(entity);
+	}
 
+	/**
+	 * 根据条件分页查询
+	 * @param pager
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	public Pager findByPager(Pager pager,String[] propertyName,Object[] propertyValue){
+		return accessobjectdao.findByPager(pager, propertyName, propertyValue);
+	}
+
+	@Override
+	public List<AccessObject> getAccessObjectList(String accessResourceid) {
+		return accessobjectdao.getAccessObjectList(accessResourceid);
+	}
 }

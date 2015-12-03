@@ -27,8 +27,10 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
+import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalLogService;
@@ -55,6 +57,11 @@ public class CraftAction extends BaseAdminAction {
 	private String loginUsername;
 	private Admin admin;
 	
+	private List<Quality>  qualityList;
+	private List<Model> modelList;
+	private List<Craft> craftList;
+	private List<Device> deviceList;
+	
 	@Resource
 	private CraftService craftService;
 	@Resource
@@ -72,6 +79,10 @@ public class CraftAction extends BaseAdminAction {
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
+			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+			modelList=new ArrayList<Model>(abnormal.getModelSet());
+			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		}	
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
@@ -81,12 +92,16 @@ public class CraftAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		craft = craftService.load(id);
+		abnormal=craft.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return INPUT;
 	}
 
 	// 列表
 	public String list() {
-		//pager = craftService.findByPager(pager);
 		return LIST;
 	}
 	
@@ -250,6 +265,16 @@ public class CraftAction extends BaseAdminAction {
 		redirectionUrl = "craft!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
+	
+	public String view() {
+		craft = craftService.load(id);
+		abnormal=craft.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
+		return VIEW;
+	}
 
 	public Craft getCraft() {
 		return craft;
@@ -303,4 +328,38 @@ public class CraftAction extends BaseAdminAction {
 	public List<Dict> getAllCode() {
 		return dictService.getList("dictname", "machineNo");
 	}
+
+	public List<Quality> getQualityList() {
+		return qualityList;
+	}
+
+	public void setQualityList(List<Quality> qualityList) {
+		this.qualityList = qualityList;
+	}
+
+	public List<Model> getModelList() {
+		return modelList;
+	}
+
+	public void setModelList(List<Model> modelList) {
+		this.modelList = modelList;
+	}
+
+	public List<Device> getDeviceList() {
+		return deviceList;
+	}
+
+	public void setDeviceList(List<Device> deviceList) {
+		this.deviceList = deviceList;
+	}
+
+	public List<Craft> getCraftList() {
+		return craftList;
+	}
+
+	public void setCraftList(List<Craft> craftList) {
+		this.craftList = craftList;
+	}
+	
+	
 }

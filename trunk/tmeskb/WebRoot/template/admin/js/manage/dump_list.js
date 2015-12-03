@@ -78,9 +78,9 @@ jQuery(function($) {
 		//sortorder: "desc",
 
 		viewrecords : true,
-		rowNum:10,
+		/*rowNum:10,
 		rowList:[10,20,30],
-		pager : pager_selector,
+		pager : pager_selector,*/
 		altRows: true,
 		//toppager: true,
 		

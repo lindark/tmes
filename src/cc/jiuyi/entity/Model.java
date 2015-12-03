@@ -36,8 +36,8 @@ public class Model extends BaseEntity{
 	private Date arriveTime;//到场时间
 	private Date noticeTime;//通知时间
 	private Integer fixTime;//维修时间
-	private String faultCause;//故障原因
-	private String resolve;//处理方法及结果
+	//private String faultCause;//故障原因
+	//private String resolve;//处理方法及结果
 	private String measure;//预防措施
 	
 	private String isDel;//是否删除
@@ -50,6 +50,8 @@ public class Model extends BaseEntity{
 	private String teamName;//班组名称
 	private Set<FaultReason> faultReasonSet;//故障原因
 	private String repairName;//维修人
+	private Set<HandlemeansResults> handleSet;//处理方法与结果 
+	private Set<LongtimePreventstep> longSet;//长期预防措施
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
@@ -102,18 +104,7 @@ public class Model extends BaseEntity{
 	public void setFixTime(Integer fixTime) {
 		this.fixTime = fixTime;
 	}
-	public String getFaultCause() {
-		return faultCause;
-	}
-	public void setFaultCause(String faultCause) {
-		this.faultCause = faultCause;
-	}
-	public String getResolve() {
-		return resolve;
-	}
-	public void setResolve(String resolve) {
-		this.resolve = resolve;
-	}
+
 	public String getMeasure() {
 		return measure;
 	}
@@ -222,6 +213,22 @@ public class Model extends BaseEntity{
 	}
 	public void setRepairName(String repairName) {
 		this.repairName = repairName;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<HandlemeansResults> getHandleSet() {
+		return handleSet;
+	}
+	public void setHandleSet(Set<HandlemeansResults> handleSet) {
+		this.handleSet = handleSet;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<LongtimePreventstep> getLongSet() {
+		return longSet;
+	}
+	public void setLongSet(Set<LongtimePreventstep> longSet) {
+		this.longSet = longSet;
 	}
 	
 	

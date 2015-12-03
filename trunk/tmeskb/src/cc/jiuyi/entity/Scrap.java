@@ -24,7 +24,11 @@ public class Scrap extends BaseEntity
 	private WorkingBill workingBill;//随工单
 	private Admin creater;//提交人
 	private Admin confirmation;//确认人
-	
+	private String move_type;//移动类型
+	private String lgort;//库存地点
+	private String ztext;//抬头文本
+	private String budat;//过账日期
+	private String werks;//工厂
 	//从表
 	private Set<ScrapMessage> scrapMsgSet;//报废信息表
 	private Set<ScrapBug> scrapBugSet;//报废缺陷记录表
@@ -119,6 +123,36 @@ public class Scrap extends BaseEntity
 		this.scrapLaterSet = scrapLaterSet;
 	}
 	
+	public String getWerks() {
+		return werks;
+	}
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+	public String getMove_type() {
+		return move_type;
+	}
+	public void setMove_type(String move_type) {
+		this.move_type = move_type;
+	}
+	public String getLgort() {
+		return lgort;
+	}
+	public void setLgort(String lgort) {
+		this.lgort = lgort;
+	}
+	public String getZtext() {
+		return ztext;
+	}
+	public void setZtext(String ztext) {
+		this.ztext = ztext;
+	}
+	public String getBudat() {
+		return budat;
+	}
+	public void setBudat(String budat) {
+		this.budat = budat;
+	}
 	//假字段
 	@Transient
 	public String getXstate()

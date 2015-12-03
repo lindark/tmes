@@ -21,7 +21,10 @@ public class ScrapMessage extends BaseEntity
 	private String smduty;//责任划分
 	private String isDel;//删除
 	private Scrap scrap;//报废表：外键
-	
+	private Double menge;//数量
+	private String charg;//批号
+	private String item_text;//项目文本
+	private String meins;//单位
 	//假字段
 	private String xsmduty;//责任划分描述
 	private String xscrapreson;//报废原因
@@ -100,4 +103,29 @@ public class ScrapMessage extends BaseEntity
 	{
 		this.xscrapreson = xscrapreson;
 	}
+	public Double getMenge() {
+		return menge;
+	}
+	public void setMenge(Double menge) {
+		this.menge = menge;
+	}
+	public String getCharg() {
+		return charg;
+	}
+	public void setCharg(String charg) {
+		this.charg = charg;
+	}
+	public String getItem_text() {
+		return item_text;
+	}
+	public void setItem_text(String item_text) {
+		this.item_text = item_text;
+	}
+	public String getMeins() {
+		return meins;
+	}
+	public void setMeins(String meins) {
+		this.meins = meins;
+	}
+	
 }

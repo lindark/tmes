@@ -87,8 +87,8 @@ body {
 			jsonName: 'name',
 			jsonValue: 'value'
 		},function(select){//回调
-			$(select).trigger("chosen:updated"); 
-			$(select).chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true});
+			//$(select).trigger("chosen:updated"); 
+			//$(select).chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true});
 		});	
 	})
 	

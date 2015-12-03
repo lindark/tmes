@@ -22,6 +22,8 @@ body {background: #fff;font-family: 微软雅黑;}
     vertical-align: middle;
 }
 .sub-style{float: right;}
+#img_addbug{cursor:pointer;margin-left:1px;}
+#span_bug{margin-left: 5px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -95,15 +97,35 @@ body {background: #fff;font-family: 微软雅黑;}
 												<div class="profile-info-row">
 													<table class="table table-striped table-bordered table-hover">
 														<tr>
-															<th>物料编码</th>
-															<th>物料描述</th>
-															<th>责任划分</th>
-															<th>报废原因/数量</th>
+															<th style="width: 15%;">物料编码</th>
+															<th style="width: 33%;">物料描述</th>
+															<th style="width: 22%;">责任划分</th>
+															<th style="width: 30%;min-width:105px;">报废原因/数量</th>
 														</tr>
+														<#if list_material??>
+															<#list list_material as list>
+																<tr>
+																	<td>${(list.materialCode)! }</td>
+																	<td>${(list.materialName)! }</td>
+																	<td>
+																		<#if show??>
+																			<span>${scraptype! }</span>
+																		<#else>
+																			<select name="scrapMessage.smduty" class="input input-sm form-control chosen-select">
+																				<#list list_dict as dlist>
+																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==sample.sampleType)!>selected</#if>>${(dlist.dictvalue)! }</option>
+																				</#list>
+																			</select>
+																		</#if>
+																	</td>
+																	<td>
+																		<img id="img_addbug" title="添加报废信息" alt="添加报废信息" src="${base}/template/shop/images/add_bug.gif" />
+																		<span id="span_bug">www</span>
+																	</td>
+																</tr>
+															</#list>
+														</#if>
 													</table>
-												</div>
-												<div class="profile-info-row">
-													<div class="div1">&nbsp;</div>
 												</div>
 											</div>
 											<div class="profile-user-info profile-user-info-striped">
@@ -118,14 +140,11 @@ body {background: #fff;font-family: 微软雅黑;}
 												<div class="profile-info-row">
 													<table class="table table-striped table-bordered table-hover">
 														<tr>
-															<th>物料编码</th>
-															<th>物料描述</th>
-															<th>物料数量</th>
+															<th style="width:25%;">物料编码</th>
+															<th style="width:55%;">物料描述</th>
+															<th style="width:20%;">物料数量</th>
 														</tr>
 													</table>
-												</div>
-												<div class="profile-info-row">
-													<div class="div1">&nbsp;</div>
 												</div>
 											</div>
 										<!-- end msg -->

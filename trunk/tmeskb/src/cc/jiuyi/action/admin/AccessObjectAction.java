@@ -81,8 +81,6 @@ public class AccessObjectAction extends BaseAdminAction {
 			String typeName = ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject", accessObject.getType());
 			accessObject.setTypeName(typeName);
 			accessObject.setResourceName(accessObject.getResource().getName());
-			accessObject.setAccessResourceSet(null);
-			accessObject.setResource(null);
 			pagerlist.set(i, accessObject);
 		}
 		pager.setList(pagerlist);

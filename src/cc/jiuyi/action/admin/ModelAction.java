@@ -28,6 +28,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
+import cc.jiuyi.entity.HandlemeansResults;
+import cc.jiuyi.entity.LongtimePreventstep;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
@@ -55,6 +57,8 @@ public class ModelAction extends BaseAdminAction {
 	private String abnormalId;
 	private Admin admin;
 	private List<FaultReason> faultReasonSet;
+	private List<HandlemeansResults> handleSet;
+	private List<LongtimePreventstep> longSet;
 
 	@Resource
 	private ModelService modelService;
@@ -104,6 +108,14 @@ public class ModelAction extends BaseAdminAction {
 	
 	public String insepector(){
 		return "insepector";
+	}
+	
+	public String handle(){
+		return "handle";
+	}
+	
+	public String prevent(){
+		return "prevent";
 	}
 
 	@InputConfig(resultName = "error")
@@ -259,6 +271,8 @@ public class ModelAction extends BaseAdminAction {
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
 		model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
+		model.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
+		model.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		model.setIsDel("N");
 		model.setState("0");
 		modelService.save(model);
@@ -348,5 +362,22 @@ public class ModelAction extends BaseAdminAction {
 		this.faultReasonSet = faultReasonSet;
 	}
 
+	public List<HandlemeansResults> getHandleSet() {
+		return handleSet;
+	}
+
+	public void setHandleSet(List<HandlemeansResults> handleSet) {
+		this.handleSet = handleSet;
+	}
+
+	public List<LongtimePreventstep> getLongSet() {
+		return longSet;
+	}
+
+	public void setLongSet(List<LongtimePreventstep> longSet) {
+		this.longSet = longSet;
+	}
+
+	
 	
 }

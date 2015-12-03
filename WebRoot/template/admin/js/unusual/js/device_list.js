@@ -1,3 +1,4 @@
+var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -158,15 +159,15 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-			editfunc:function(rowId){
+			edit: false,
+			/*editfunc:function(rowId){
 				var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(ids.length >1){
 					alert("请选择一条记录");
 					return false;
 				}
 				location.href="device!edit.action?id="+rowId;
-			},
+			},*/
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,			
 			addicon : 'ace-icon fa fa-plus-circle purple',
@@ -247,5 +248,87 @@ jQuery(function($) {
 		}
 	)
 
-
+	//按钮事件
+	btn_event();
 });
+
+
+//按钮事件
+function btn_event()
+{
+	/*var wbId=$("#wbId").val();
+	//创建抽检单
+	$("#btn_creat").click(function(){
+		window.location.href="sample!add.action?wbId="+wbId;
+	});
+	//刷卡确认
+	$("#btn_confirm").click(function(){
+		if(getId())
+		{
+			window.location.href="sample!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
+		}
+	});
+	//刷卡撤销
+	$("#btn_revoke").click(function(){
+		if(getId())
+		{
+			window.location.href="sample!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
+		}
+	});*/
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
+	});
+	//刷卡编辑
+	$("#btn_edit").click(function(){
+		
+		if(getId2())
+		{
+			var rowData = $("#grid-table").jqGrid('getRowData',info);
+			var row_state=rowData.state;
+			if(row_state=="3")
+			{
+				layer.alert("已完结的单据无法再编辑!",false);
+			}
+			else
+			{
+				window.location.href="device!edit.action?id="+info;
+			}
+		}
+	});
+	//刷卡查看
+	$("#btn_show").click(function(){
+		
+		if(getId2())
+		{
+			window.location.href="device!view.action?id="+info;
+		}
+	});
+}
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info==null||info=="")
+	{
+		layer.alert("请选择至少一条设备维修单！",false);
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.alert("请选择一条设备维修单！",false);
+		return false;
+	}
+}

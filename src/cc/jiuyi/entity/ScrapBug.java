@@ -34,10 +34,7 @@ public class ScrapBug extends BaseEntity
 		{
 			isDel="N";
 		}
-		else
-		{
-			this.isDel = isDel;
-		}
+		this.isDel = isDel;
 	}
 	@Column
 	public String getIstoDel()
@@ -50,10 +47,7 @@ public class ScrapBug extends BaseEntity
 		{
 			istoDel="Y";
 		}
-		else
-		{
-			this.istoDel = istoDel;
-		}
+		this.istoDel = istoDel;
 	}
 	@Column
 	public String getSbbugNum()

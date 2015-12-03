@@ -222,7 +222,7 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="pick!confirms.action?id="+id;			
+				window.location.href="pick!confirms.action?id="+id+"&matnr="+${(workingbill.matnr)!};			
 			}
 			
 		});

@@ -12,7 +12,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
             </list>   
         </property>   
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
-        <property name="configLocation" value="classpath:quartz.properties" /> 
+        <property name="configLocation" value="classpath:quartz-jobStore.properties" /> 
         <property name="autoStartup" value="true" />      
     </bean>  
     

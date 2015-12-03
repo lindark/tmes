@@ -2,11 +2,8 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,9 +15,6 @@ import net.sf.json.util.CycleDetectionStrategy;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
@@ -142,40 +136,23 @@ public class DumpAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
-
-		HashMap<String, String> map = new HashMap<String, String>();
-		admin = adminService.getLoginAdmin();
-		admin = adminService.load(admin.getId());
-		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
-				.getWarehouse();
-
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
-		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件
-			JSONObject filt = JSONObject.fromObject(filters);
-			Pager pager1 = new Pager();
-			Map m = new HashMap();
-			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-			pager.setRules(pager1.getRules());
-			pager.setGroupOp(pager1.getGroupOp());
-		}
-		pager = dumpService.findPagerByjqGrid(pager, map);
 		try {
+			admin = adminService.getLoginAdmin();
+			admin = adminService.load(admin.getId());
+			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+					.getWarehouse();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String today = sdf.format(date);
 			dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
 					"20151001");
-			pager.setList(dumpList);
-			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig
-					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
-			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-			return ajaxJson(jsonArray.get(0).toString());
+			JsonConfig jsonConfig=new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
+			JSONArray jsonArray = JSONArray.fromObject(dumpList,jsonConfig);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("list", jsonArray);
+			return ajaxJson(jsonobject.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -183,15 +160,6 @@ public class DumpAction extends BaseAdminAction {
 			e.printStackTrace();
 			return null;
 		}
-		// List<Dump> lst = new ArrayList<Dump>();
-		// List<Dump> dumpList = pager.getList();
-		/*
-		 * for (int i = 0; i < dumpList.size(); i++) { Dump dump = (Dump)
-		 * dumpList.get(i);
-		 * dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
-		 * "dumpState", dump.getState())); lst.add(dump); }
-		 */
-
 	}
 
 	// 同步

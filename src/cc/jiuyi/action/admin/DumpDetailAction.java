@@ -1,7 +1,6 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,8 +12,6 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.DumpDetailService;
@@ -48,7 +45,6 @@ public class DumpDetailAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
-		HashMap<String, String> map = new HashMap<String, String>();
 		try {
 			List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(dumpId);
 			JsonConfig jsonConfig=new JsonConfig();

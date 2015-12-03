@@ -19,7 +19,6 @@
 <!-- page specific plugin scripts -->
 <script src="${base}/template/admin/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
 <script src="${base}/template/admin/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
-
 <!-- ace scripts -->
 <!--<script src="${base}/template/admin/assets/js/ace-elements.min.js"></script>-->
 

@@ -74,6 +74,7 @@ public class PickDetailAction extends BaseAdminAction {
     private String[] rbg;
     private String[] pt;
     private String text;
+    private String my_id;//自定义ID
     private List<Material> materialList;
     private List<PickDetail> pickDetailList;
     private List<PickDetail> pkList;
@@ -196,7 +197,7 @@ public class PickDetailAction extends BaseAdminAction {
 		for(int i=0;i<pickDetailList.size();i++){
 			PickDetail p=pickDetailList.get(i);
 			if(!"".equals(p.getPickType())&&!"".equals(p.getPickAmount())){
-				pickDetailService.save(pickDetailList,workingBillId);
+				pickDetailService.save(pickDetailList,workingBillId,my_id);
 				redirectionUrl="pick!list.action?workingBillId="+workingBillId;
 				return SUCCESS;
 				}else{
@@ -208,12 +209,6 @@ public class PickDetailAction extends BaseAdminAction {
 	}
 	
 
-//	public String confirms(){
-//		workingbill = workingBillService.get(workingBillId);
-//		pickDetailService.save(pickDetailList,workingBillId);	
-//		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
-//		return SUCCESS;
-//	}
 
 	public PickDetail getPickDetail() {
 		return pickDetail;
@@ -417,4 +412,16 @@ public class PickDetailAction extends BaseAdminAction {
 		this.pickDetailList = pickDetailList;
 	}
 
+
+	public String getMy_id() {
+		return my_id;
+	}
+
+
+	public void setMy_id(String my_id) {
+		this.my_id = my_id;
+	}
+
+	
+	
 }

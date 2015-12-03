@@ -3,7 +3,7 @@
 <tkwrdp> 
 	<description>System配置文件</description>  
 	<systemConfig> 
-		<systemName>九翊软件</systemName>  
+		<systemName>九翊智能车间系统</systemName>  
 		<systemVersion>v1.0.1</systemVersion>  
 		<systemDescription>九翊快速开发平台</systemDescription>  
 		<isInstalled>true</isInstalled>  

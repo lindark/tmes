@@ -1,13 +1,11 @@
 $(function() {	
-	
 	//长期预防措施
 	$("#longPrevent").click( function() {
 		showPrevent();
 	})
 	
 	
-	function showPrevent()
-{
+	function showPrevent(){
 	var title = "选择长期预防措施";
 	var width="600px";
 	var height="160px";
@@ -18,6 +16,10 @@ $(function() {
 		var id=work.split(",");
 		var size=$(".deleteImage2").length;
 
+		$(".deleteImage2").live("click",function(){
+			$(this).parent().remove();
+		})
+		
         var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage2' alt='删除'>";
             html+="<input type='hidden' name='longSet["+size+"].id' value='"+id[1]+"'/>";
             html +="</div>";
@@ -25,7 +27,6 @@ $(function() {
 		layer.close(index); 
 	});
 }
-	
 	
 	
 	//处理方法与结果
@@ -45,7 +46,10 @@ $(function() {
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
 		var size=$(".deleteImage1").length;
-
+		$(".deleteImage1").live("click",function(){
+			$(this).parent().remove();
+		})
+		
         var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage1' alt='删除'>";
             html+="<input type='hidden' name='handleSet["+size+"].id' value='"+id[1]+"'/>";
             html +="</div>";
@@ -53,7 +57,6 @@ $(function() {
 		layer.close(index); 
 	});
 }
-	
 
 	
 	// 故障原因
@@ -74,18 +77,17 @@ $(function() {
 		var id=work.split(",");
 		var size=$(".deleteImage").length;
 
-        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage' alt='删除'>";
+		$(".deleteImage").live("click",function(){
+			$(this).parent().remove();
+		})
+
+        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
             html+="<input type='hidden' name='faultReasonSet["+size+"].id' value='"+id[1]+"'/>";
             html +="</div>";
         $("#reason").append(html);
 		layer.close(index); 
 	});
 }
-	
-	/*$(".deleteImage").live("click",function(){
-		$(this).parent().remove();
-	})*/
-	
 	
 	
 	$("#completeModel").click(function(){		

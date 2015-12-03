@@ -253,7 +253,36 @@ body {
 									</table>
 
 									<table id="tabs-3" class="inputTable tabContent">
-
+                                            <tbody>	
+										        <#list (qualityList)! as list>
+										        <tr>						
+													<td>
+														<a href="quality!view.action?id=${(list.id)}">质量问题单${(list_index+1)!}</a>										
+													</td>
+												</tr>
+												</#list> 
+												<#list (modelList)! as list>
+										        <tr>						
+													<td>
+														<a href="model!view.action?id=${(list.id)}">工模维修单${(list_index+1)!}</a>										
+													</td>
+												</tr>
+												</#list> 
+												<#list (craftList)! as list>
+										        <tr>						
+													<td>
+														<a href="craft!view.action?id=${(list.id)}">工艺维修单${(list_index+1)!}</a>										
+													</td>
+												</tr>
+												</#list> 
+												<#list (deviceList)! as list>
+										        <tr>						
+													<td>
+														<a href="device!view.action?id=${(list.id)}">设备维修单${(list_index+1)!}</a>										
+													</td>
+												</tr>
+												</#list> 
+										</tbody>
 									</table>
 
 								

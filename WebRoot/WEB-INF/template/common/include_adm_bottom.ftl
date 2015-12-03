@@ -107,4 +107,19 @@
 		    }
 		  }
 		}
+		
+		$.message = function(status,message){
+			if(status=="success"){
+				layer.msg(message, {icon: 6}); 
+			}else if(status=="error"){
+				layer.alert(message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			    });
+			}
+			
+		}
+		
+		
   </script>

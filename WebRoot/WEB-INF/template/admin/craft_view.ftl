@@ -126,7 +126,9 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造异常描述</div>
 													<div class="profile-info-value">
-													     ${(craft.unusualDescription_make)!}			
+													     <#list craft.receiptReasonSet as list>
+												         	    ${list.reasonName},
+												         </#list>													
 													</div>
 												</div>
 											

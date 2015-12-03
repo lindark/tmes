@@ -3,6 +3,8 @@ package cc.jiuyi.entity;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 /**
@@ -20,7 +22,7 @@ public class LongtimePreventstep extends BaseEntity{
 	private String state;//状态
 	private String type;//类型
 	
-	//private Set<Model> modelSet;//工模维修单
+	private Set<Model> modelSet;//工模维修单
 	
     private String stateRemark;//状态描述
     private String typeReamrk;//类型描述
@@ -64,6 +66,14 @@ public class LongtimePreventstep extends BaseEntity{
 	}
 	public void setTypeReamrk(String typeReamrk) {
 		this.typeReamrk = typeReamrk;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "longSet")
+	public Set<Model> getModelSet() {
+		return modelSet;
+	}
+	public void setModelSet(Set<Model> modelSet) {
+		this.modelSet = modelSet;
 	}
     
     

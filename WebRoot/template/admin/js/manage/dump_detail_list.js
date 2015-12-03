@@ -64,7 +64,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '组件编码','组件名称','组件数量','批次','行项目', '单位','工厂','库存地点'],
+		colNames:[ '组件编码','组件名称','组件数量','批次','行项目', '单位'],
 		colModel:[
 			
 			{name:'matnr',index:'matnr',key:true, width:200,sortable:"true",sorttype:"text"},
@@ -72,9 +72,7 @@ jQuery(function($) {
 			{name:'menge',index:'menge',width:200,sortable:"true",sorttype:"text"},
 			{name:'charg',index:'charg',width:200,sortable:"true",sorttype:"text"},
 			{name:'zeile',index:'zeile', width:100,sortable:"true",sorttype:"text"},
-			{name:'meins',index:'meins', width:100,sortable:"true",sorttype:"text"},
-			{name:'werks',index:'werks', width:100,sortable:"true",sorttype:"text"},
-			{name:'lgort',index:'lgort', width:100,sortable:"true",sorttype:"text"}
+			{name:'meins',index:'meins', width:100,sortable:"true",sorttype:"text"}
 
 		], 
 		//sortable:true,
@@ -82,9 +80,9 @@ jQuery(function($) {
 		//sortorder: "desc",
 
 		viewrecords : true,
-		rowNum:30,
+		/*rowNum:30,
 		rowList:[30,40,50],
-		pager : pager_selector,
+		pager : pager_selector,*/
 		altRows: true,
 		//toppager: true,
 		

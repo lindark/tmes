@@ -8,6 +8,17 @@
 <title>权限对象管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
+
+<script
+	src="${base}/template/admin/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script
+	src="${base}/template/admin/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
+
+<script type="text/javascript"
+	src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/js/SystemConfig/ermissions/accesseditaccess_list.js"></script>
+
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -60,68 +71,21 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="access_resource!saveaccess.action"
-								method="post">
+								action="access_resource!saveaccess.action" method="post">
 								<input type="hidden" name="id" value="${id}" />
 
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">权限对象管理</a></li>
-
+										<li><a href="#tabs-1">功能权限对象</a></li>
 									</ul>
 
 									<div id="tabs-1">
+										<input type="hidden" id="id" value="${(id)! }" />
+										<div class="pardiv">
+											<table id="grid-table"></table>
 
-										<!--weitao begin modify-->
-										<div class="widget-box transparent">
-													<div class="widget-header">
-														<h5 class="widget-title bigger lighter">按钮</h5>
-													</div>
-
-													<div class="widget-body">
-														<div class="widget-main no-padding">
-															<ul class="list-unstyled list-striped pricing-table-header">
-																<li>
-																	<#list accessResource.resource.accessobjectSet as list>
-																		<label>
-																			<input type="checkbox" class="ace" name="accessobjectlist.id" class="{required: true}" value="${list.id}" <#if (accessResource.accessobjectSet.contains(list) == true)!>checked="checked"</#if> />
-																			<span class="lbl"> ${(list.accObjName)!}</span>
-																		</label>
-																	</#list>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-										<div class="widget-box transparent">
-													<div class="widget-header">
-														<h5 class="widget-title bigger lighter">下拉框</h5>
-													</div>
-
-													<div class="widget-body">
-														<div class="widget-main no-padding">
-															<ul class="list-unstyled list-striped pricing-table-header">
-																<li>Disk Space</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-										<div class="widget-box transparent">
-											<div class="widget-header">
-												<h5 class="widget-title bigger lighter">菜单</h5>
-											</div>
-
-											<div class="widget-body">
-												<div class="widget-main no-padding">
-													<ul class="list-unstyled list-striped pricing-table-header">
-														<li>${(btnhtml)! }</li>
-													</ul>
-												</div>
-											</div>
+											<div id="grid-pager"></div>
 										</div>
-										<!--weitao end modify-->
-
-
 									</div>
 									<div class="buttonArea">
 										<input type="submit" class="formButton" value="确  定"

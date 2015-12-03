@@ -227,7 +227,7 @@
 	$(function() {
 		$("#inputtabs").tabs();
 		$(".over").click(function(){
-			$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+			$(window).triggerHandler('resize.jqGrid');
 			$("#grid-table").jqGrid('setGridParam',{
 				url:"hand_over_process!ajlist.action",
 				datatype:"json",

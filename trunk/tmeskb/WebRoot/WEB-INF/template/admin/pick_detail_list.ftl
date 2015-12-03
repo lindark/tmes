@@ -7,62 +7,55 @@
 
 <title>领/退料管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
-
-<#include "/WEB-INF/template/common/includelist.ftl">
-<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
-<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pick_input.js"></script>
+<#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pick_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
-body {background: #fff;font-family: 微软雅黑;}
-.div1{
-    background-color: #f9f9f9; 
-	padding: 6px 10px 6px 4px;
-    border-top: 1px dotted #D5E4F1;
-    display: table-cell;
-    vertical-align: middle;
+body {
+	background: #fff;
 }
+.div-name{text-align: center;}
+.div-value{padding-right:30px;min-width:200px; }
+.div-value2{text-align:right;padding-right:0px;min-width:200px;}
+.input-value{width:80px;height:30px;line-height:30px;}
 .sub-style{float: right;}
-#img_addbug{cursor:pointer;margin-left:1px;}
-#span_bug{margin-left: 5px;}
 </style>
 </head>
 <body class="no-skin input">
-<!-- add by welson 0728 -->	
-<#include "/WEB-INF/template/admin/admin_navbar.ftl">
-<div class="main-container" id="main-container">
-	<script type="text/javascript">
-		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
-	<div class="main-content">
-	<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
-	
-
-     <div class="breadcrumbs" id="breadcrumbs">
+	<!-- add by welson 0728 -->
+	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
+	<div class="main-container" id="main-container">
 		<script type="text/javascript">
-			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
 		</script>
-
-		<ul class="breadcrumb">
-			<li>
-				<i class="ace-icon fa fa-home home-icon"></i>
-				<a href="admin!index.action">管理中心</a>
-			</li>
-			<li class="active">领/退料列表</li>
-		</ul>
-	</div>
-
+		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
+		<div class="main-content">
+			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
+			
+			<!-- ./ add by welson 0728 -->
+			<div class="breadcrumbs" id="breadcrumbs">
+				<script type="text/javascript">try {ace.settings.check('breadcrumbs', 'fixed')} catch (e) {}</script>
+				<ul class="breadcrumb">
+					<li><i class="ace-icon fa fa-home home-icon"></i> 
+					<a href="admin!index.action">管理中心</a></li>
+					<li class="active">领/退料详情</li>
+				</ul>
+				<!-- /.breadcrumb -->
+			</div>
 			<!-- add by welson 0728 -->
+			
 			<div class="page-content">
 				<div class="page-content-area">
-
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" name="inputForm" class="validate" action="pick_detail!save.action?id+"=id
+									<form id="inputForm" name="inputForm" class="validate" action="pick_detail!save.action?id+"=id
 							 method="post">
                             <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
                             <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
@@ -135,6 +128,7 @@ body {background: #fff;font-family: 微软雅黑;}
 						</div>
                      </div>
 				</form>
+				
                                   <div class="row buttons col-md-8 col-sm-4 sub-style">
                                      <button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
@@ -154,19 +148,20 @@ body {background: #fff;font-family: 微软雅黑;}
 						<!-- /.col -->
 					</div>
 					<!-- /.row -->
-
-					<!-- PAGE CONTENT ENDS -->
 				</div>
-				<!-- /.col -->
+				<!-- /.page-content-area -->
+				
 			</div>
-			<!-- /.row -->
+			<!-- /.page-content -->
 		</div>
-		<!-- /.page-content-area -->
+		<!-- /.main-content -->
+		<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div>
 	<!-- /.main-container -->
-	 <#include "/WEB-INF/template/admin/admin_footer.ftl">
-      <#include "/WEB-INF/template/common/include_adm_bottom.ftl">
-	<!-- ./ add by welson 0728 -->
+<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
+<!-- ./ add by welson 0728 -->
+</body>
+</html>
 <script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
@@ -225,5 +220,3 @@ body {background: #fff;font-family: 微软雅黑;}
 
 	
 </script>
-</body>
-</html>

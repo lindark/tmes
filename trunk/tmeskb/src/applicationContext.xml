@@ -158,6 +158,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.IpRecord</value>
 				<value>cc.jiuyi.entity.HandOver</value>
 				<value>cc.jiuyi.entity.FaultReason</value>
+				<value>cc.jiuyi.entity.AccessFunction</value>
 				<value>cc.jiuyi.entity.Equipments</value>
 				<value>cc.jiuyi.entity.Scrap</value>
 				<value>cc.jiuyi.entity.ScrapBug</value>

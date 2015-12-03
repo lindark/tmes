@@ -1,6 +1,61 @@
 $(function() {	
 	
+	//长期预防措施
+	$("#longPrevent").click( function() {
+		showPrevent();
+	})
+	
+	
+	function showPrevent()
+{
+	var title = "选择长期预防措施";
+	var width="600px";
+	var height="160px";
+	var content="model!prevent.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		var size=$(".deleteImage2").length;
 
+        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage2' alt='删除'>";
+            html+="<input type='hidden' name='longSet["+size+"].id' value='"+id[1]+"'/>";
+            html +="</div>";
+        $("#prevent").append(html);
+		layer.close(index); 
+	});
+}
+	
+	
+	
+	//处理方法与结果
+	$("#handleResult").click( function() {
+		showResult();
+	})
+	
+	
+	function showResult()
+{
+	var title = "选择处理方法";
+	var width="480px";
+	var height="160px";
+	var content="model!handle.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		var size=$(".deleteImage1").length;
+
+        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage1' alt='删除'>";
+            html+="<input type='hidden' name='handleSet["+size+"].id' value='"+id[1]+"'/>";
+            html +="</div>";
+        $("#means").append(html);
+		layer.close(index); 
+	});
+}
+	
+
+	
 	// 故障原因
 	$("#faultReason").click( function() {
 		showReason();

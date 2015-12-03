@@ -11,14 +11,21 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pick_input.js"></script>
-<link href="${base}/template/admin/css/input.css" rel="stylesheet"
-	type="text/css" />
+<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
-body {
-	background: #fff;
+body {background: #fff;font-family: 微软雅黑;}
+.div1{
+    background-color: #f9f9f9; 
+	padding: 6px 10px 6px 4px;
+    border-top: 1px dotted #D5E4F1;
+    display: table-cell;
+    vertical-align: middle;
 }
+.sub-style{float: right;}
+#img_addbug{cursor:pointer;margin-left:1px;}
+#span_bug{margin-left: 5px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -55,12 +62,39 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" name="inputForm" class="validate"
-								action="pick_detail!save.action?id+"=id
-								method="post">
+							<form id="inputForm" name="inputForm" class="validate" action="pick_detail!save.action?id+"=id
+							 method="post">
                             <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
                             <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
-								<table class="table table-striped table-bordered" id="mytable">
+							
+							<div id="inputtabs">
+								 <ul>
+								    <li><a href="#tabs-1">领/退料详情</a></li>
+								</ul>
+								<div id="tabs-1" class="tab1">
+								
+								<div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name">随工单号</div>
+													<div class="profile-info-value">
+														<span>${(workingbill.workingBillCode)!}</span>
+													</div>
+												</div>
+									
+												<div class="profile-info-row">
+													<div class="profile-info-name">产品编号</div>
+													<div class="profile-info-value">
+														<span>${(workingbill.matnr)!}</span>
+													</div>
+													<div class="profile-info-name">产品名称</div>  
+													<div class="profile-info-value">
+														<span>${(workingbill.maktx)!}</span>
+													</div>
+												</div>
+											</div>
+								<div class="profile-user-info profile-user-info-striped">
+								  <div class="profile-info-row">
+								    <table class="table table-striped table-bordered table-hover" id="mytable">
 									<thead>
 										<tr>
 											<th style="text-align:center;">组件编号</th>
@@ -96,9 +130,12 @@ body {
 
 									</tbody>
 								</table>
-
-							</form>
-
+							  </div>
+						   </div>
+						</div>
+                     </div>
+				</form>
+                                  <div class="row buttons col-md-8 col-sm-4 sub-style">
                                      <button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
@@ -111,6 +148,7 @@ body {
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
+									</div>
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->

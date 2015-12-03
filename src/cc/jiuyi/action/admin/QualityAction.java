@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,9 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.FlowingRectify;
+import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.service.AbnormalLogService;
@@ -49,6 +52,10 @@ public class QualityAction extends BaseAdminAction {
 	private String abnormalId;
 	private String loginUsername;
 	private Admin admin;
+	private List<Quality>  qualityList;
+	private List<Model> modelList;
+	private List<Craft> craftList;
+	private List<Device> deviceList;
 
 	private List<FlowingRectify> flowingRectifys;
 	@Resource
@@ -70,6 +77,11 @@ public class QualityAction extends BaseAdminAction {
 	public String add() {
 		if (aid != null) {
 			abnormal = abnormalService.load(aid);
+			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+			modelList=new ArrayList<Model>(abnormal.getModelSet());
+			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
+			
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
@@ -79,12 +91,16 @@ public class QualityAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		quality = qualityService.load(id);
+		abnormal=quality.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return INPUT;
 	}
 
 	// 列表
 	public String list() {
-		// pager = qualityService.findByPager(pager);
 		return LIST;
 	}
 
@@ -221,7 +237,6 @@ public class QualityAction extends BaseAdminAction {
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
-			//admin=adminService.getLoginAdmin();
 			persistent.setState("3");
 			qualityService.update(persistent);
 			
@@ -241,6 +256,17 @@ public class QualityAction extends BaseAdminAction {
 	
 	public String browser(){
 		return "browser";
+	}
+	
+
+	public String view() {
+		quality = qualityService.load(id);
+		abnormal=quality.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
+		return VIEW;
 	}
 
 	// 删除
@@ -306,6 +332,38 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public List<Quality> getQualityList() {
+		return qualityList;
+	}
+
+	public void setQualityList(List<Quality> qualityList) {
+		this.qualityList = qualityList;
+	}
+
+	public List<Model> getModelList() {
+		return modelList;
+	}
+
+	public void setModelList(List<Model> modelList) {
+		this.modelList = modelList;
+	}
+
+	public List<Device> getDeviceList() {
+		return deviceList;
+	}
+
+	public void setDeviceList(List<Device> deviceList) {
+		this.deviceList = deviceList;
+	}
+
+	public List<Craft> getCraftList() {
+		return craftList;
+	}
+
+	public void setCraftList(List<Craft> craftList) {
+		this.craftList = craftList;
 	}
 
 	

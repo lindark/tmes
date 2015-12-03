@@ -247,9 +247,27 @@ function btn_event()
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
-		if(getId())
-		{
-			window.location.href="pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId;
+		var index = "";
+		if(getId()){
+			$.ajax({	
+				url: "pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId,
+				//data: $(form).serialize(),
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();
+				},
+				success: function(data) {
+					layer.close(index);
+					$.message(data.status,data.message);
+				},error:function(data){
+					$.message("error","系统出现问题，请联系系统管理员");
+				}
+			});
+			
+			
+			//window.location.href="pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId;
 		}
 	});
 	//刷卡撤销

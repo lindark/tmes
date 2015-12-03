@@ -2,6 +2,7 @@ package cc.jiuyi.dao;
 
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 
@@ -24,4 +25,20 @@ public interface AccessObjectDao extends BaseDao<AccessObject, String> {
 	 * @return
 	 */
 	public List<AccessObject> getAccessObjectList(String path,Object[] rolelist);
+	
+	/**
+	 * 根据条件分页查询
+	 * @param pager
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	public Pager findByPager(Pager pager,String[] propertyName,Object[] propertyValue);
+	
+	/**
+	 * 根据accessResourceid 获取AccessObject对象
+	 * @param accessResourceid
+	 * @return
+	 */
+	public List<AccessObject> getAccessObjectList(String accessResourceid);
 }

@@ -165,7 +165,7 @@ public class LongtimePreventstepAction extends BaseAdminAction {
 	 */
 	public String getType(){
 		
-		List<Dict> dictList = dictService.getList("dictname", "faultType");;
+		List<Dict> dictList = dictService.getList("dictname", "faultType");
 		JSONArray json = new JSONArray();
 		for(Dict dict : dictList){
 			JSONObject jo = new JSONObject();
@@ -194,26 +194,26 @@ public class LongtimePreventstepAction extends BaseAdminAction {
 		JSONObject jsonobj = new JSONObject();
 		jsonobj.put("child", json);
 		return ajaxJson(jsonobj.toString());
-	}
+	}*/
 	
 	
 	public String getAll(){
 		String[] proName={"isDel","type"};
 		String[] proValue={"N",type};
-		List<FaultReason> faultReasonList = faultReasonService.getList(proName, proValue);
+		List<LongtimePreventstep> longPreventList = longPreventService.getList(proName, proValue);
 		JSONArray json = new JSONArray();
-		for(FaultReason faultReason : faultReasonList){
+		for(LongtimePreventstep longtimePreventstep : longPreventList){
 			JSONObject jo = new JSONObject();
-			jo.put("name", faultReason.getReasonName());
-			jo.put("value", faultReason.getId());
+			jo.put("name", longtimePreventstep.getDiscribe());
+			jo.put("value", longtimePreventstep.getId());
 			json.add(jo);
 		}
 		JSONObject jsonobj = new JSONObject();
-		jsonobj.put("faultReason", json);
+		jsonobj.put("longPrevent", json);
 		return ajaxJson(jsonobj.toString());
+	}
 	
 	
-	*/
 	
 	public LongtimePreventstep getLongtimePreventstep() {
 		return longtimePreventstep;

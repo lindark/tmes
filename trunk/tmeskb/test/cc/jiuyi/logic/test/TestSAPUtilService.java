@@ -29,10 +29,13 @@ import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.Scrap;
+import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.Repairorder;
+import cc.jiuyi.sap.rfc.ScrapRfc;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
@@ -56,6 +59,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private PickRfc pickrfc;
 	@Resource
 	private MaterialRfc materialrfc;
+	@Resource
+	private ScrapRfc scraprfc;
 	protected void setUp() {
 		
 	}
@@ -203,6 +208,33 @@ public class TestSAPUtilService extends BaseTestCase {
 			System.out.println(e.getMsgDes());
 		}
 		catch(Exception e){e.printStackTrace();}
+	}
+	@Test
+	public void testBf(){
+		Scrap p = new Scrap();
+		p.setBudat("2015-11-01");
+		p.setLgort("2201");//库存地点
+		p.setZtext("测试报废");//抬头文本
+		p.setWerks("1000");//工厂
+		p.setMove_type("551");//移动类型
+		List<ScrapMessage> list=new ArrayList<ScrapMessage>();
+		ScrapMessage pd = new ScrapMessage();
+		pd.setCharg("15091901");//批次
+		pd.setSmmatterNum("10490284");//物料编码
+		//pd.setMeins("PC");//单位
+		pd.setMenge(Double.parseDouble("5"));//数量
+		pd.setItem_text("文本");//文本
+		list.add(pd);
+		try {
+			String mblnr = scraprfc.ScrappedCrt(p, list);
+			System.out.println("凭证凭证："+mblnr);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
 	}
 }
 

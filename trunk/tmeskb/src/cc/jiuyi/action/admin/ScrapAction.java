@@ -18,10 +18,14 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -47,6 +51,10 @@ public class ScrapAction extends BaseAdminAction
 	private String add;//新增时
 	private String edit;//编辑时
 	private String show;//查看时
+	private Products product;//产品
+	private List<Material>list_material;//物料
+	private List<Dict>list_dict;//责任划分
+	private String smdutytype;//报废信息--责任类型
 	/**
 	 * service接口
 	 */
@@ -58,6 +66,8 @@ public class ScrapAction extends BaseAdminAction
 	private WorkingBillService wbService;//随工单
 	@Resource
 	private DictService dictService;//字典表
+	@Resource
+	private ProductsService productService;//产品
 	
 	/**======================end 对象，变量，接口=*=================================*/
 	
@@ -133,9 +143,21 @@ public class ScrapAction extends BaseAdminAction
 	public String add()
 	{
 		this.workingbill=this.wbService.load(wbId);
+		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
+		this.list_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
+		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		return INPUT;
 	}
 	
+	/**
+	 * 查看
+	 */
+	public String show()
+	{
+		//this.smdutytype=ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState());
+		
+		return INPUT;
+	}
 	/**==========================end 方法=======================================*/
 	
 	/**=========================="get/set"  start==============================*/
@@ -207,6 +229,46 @@ public class ScrapAction extends BaseAdminAction
 	public void setShow(String show)
 	{
 		this.show = show;
+	}
+
+	public Products getProduct()
+	{
+		return product;
+	}
+
+	public void setProduct(Products product)
+	{
+		this.product = product;
+	}
+
+	public List<Material> getList_material()
+	{
+		return list_material;
+	}
+
+	public void setList_material(List<Material> list_material)
+	{
+		this.list_material = list_material;
+	}
+
+	public List<Dict> getList_dict()
+	{
+		return list_dict;
+	}
+
+	public void setList_dict(List<Dict> list_dict)
+	{
+		this.list_dict = list_dict;
+	}
+
+	public String getSmdutytype()
+	{
+		return smdutytype;
+	}
+
+	public void setSmdutytype(String smdutytype)
+	{
+		this.smdutytype = smdutytype;
 	}
 	
 	/**==========================end "get/set"=================================*/

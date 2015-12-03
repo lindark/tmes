@@ -33,11 +33,12 @@ import cc.jiuyi.util.ThinkWayUtil;
 @ParentPackage("admin")
 public class EquipmentsAction extends BaseAdminAction {
 
-	private static final long serialVersionUID = 6734237453792688782L;
+	private static final long serialVersionUID = 6734237423792688782L;
 
 	private Equipments equipments;
 	// 获取所有类型
 	private List<Dict> allVersion;
+	
 
 	@Resource
 	private EquipmentService equipmentService;

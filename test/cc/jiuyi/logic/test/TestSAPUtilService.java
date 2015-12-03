@@ -29,11 +29,13 @@ import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
+import cc.jiuyi.sap.rfc.ProcessRfc;
 import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.sap.rfc.ScrapRfc;
 import cc.jiuyi.service.ArticleService;
@@ -61,6 +63,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private MaterialRfc materialrfc;
 	@Resource
 	private ScrapRfc scraprfc;
+	@Resource
+	private ProcessRfc processrfc;
 	protected void setUp() {
 		
 	}
@@ -233,6 +237,23 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		} catch (CustomerException e) {
 			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testgetProcess(){
+		try {
+			List<Process> plist=processrfc.findProcess("40200065", "1000","2015-12-03");
+			System.out.println(plist.size());
+			for(Process p : plist){
+				System.out.println(p.getProcessCode());
+				System.out.println(p.getProcessName());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

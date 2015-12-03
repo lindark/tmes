@@ -148,7 +148,7 @@
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="scrap">
 													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block">
+														class="btn btn-white btn-success btn-bold btn-round btn-block" type="button" id="scrap">
 														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>

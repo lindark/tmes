@@ -136,14 +136,13 @@ public class PickDetail extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 	
-	
+
 	public String getMaterialCode() {
 		return materialCode;
 	}
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
 	}
-	
 	
 	public String getMaterialName() {
 		return materialName;

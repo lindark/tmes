@@ -48,6 +48,7 @@ public class DictAction extends BaseAdminAction {
 	private static final long serialVersionUID = 1341979251224008699L;
 	
 	private Dict dict;
+	private String type;
 
 	@Resource
 	private DictService dictService;
@@ -76,6 +77,22 @@ public class DictAction extends BaseAdminAction {
 			return ajaxHtml("<select><option></option></select>");
 		}
 		return null;
+	}
+	
+	public String getDictByAcess(){
+		List<Dict> dictList = dictService.getState(dict.getDictname());
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i<dictList.size();i++){
+			Dict dict = dictList.get(i);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("dictkey", dict.getDictkey());
+			jsonobject.put("dictvalue", dict.getDictvalue());
+			jsonarray.add(jsonobject);
+		}
+		JSONObject json = new JSONObject();
+		json.put("list", jsonarray);
+		
+		return ajaxJson(json.toString());
 	}
 	
 	// 添加
@@ -202,6 +219,14 @@ public class DictAction extends BaseAdminAction {
 
 	public void setDict(Dict dict) {
 		this.dict = dict;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

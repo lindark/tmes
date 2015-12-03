@@ -249,7 +249,7 @@
 				alert("至少选择一条领退料记录！");
 				return false;
 			}else{
-				window.location.href="pick_detail!view.action?id="+id+"&matnr="+${(workingbill.matnr)!};				
+				window.location.href="pick_detail!view.action?id="+id+"&matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";				
 			}			
 		});
 		

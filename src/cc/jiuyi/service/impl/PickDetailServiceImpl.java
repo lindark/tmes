@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +15,12 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
 
 /**
  * Service实现类 -领/退料
@@ -42,6 +45,14 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	private PickService pickService;
 	@Resource
 	private WorkingBillService workingBillService;
+//	@Resource
+//	private PickDetailService pickDetailService;
+//	@Resource
+//	private PickRfcImpl pickRfcImpl;
+	
+	
+	private String pickRfc;
+	private List<PickDetail> pkList;
 	
 	
 	@Override
@@ -76,12 +87,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	}
 
 	@Override
-	public void save(List<PickDetail> pickDetailList,String workingBillId) {
+	public void save(List<PickDetail> pickDetailList,String workingBillId,String my_id) {
 		Admin admin=adminService.getLoginAdmin();
 		WorkingBill workingBill=workingBillService.get(workingBillId);
 		String s="";
 		Pick pk=new Pick();
-		if(pickDetailList.size()>0){
+		if("1".equals(my_id)&&pickDetailList.size()>0){
 			Pick pick=new Pick();
 			pick.setCreateDate(new Date());
 			pick.setCreateUser(admin);
@@ -89,20 +100,34 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			pick.setWorkingbill(workingBill);
 			s=this.pickService.save(pick);
 		}
+		if("2".equals(my_id)&&pickDetailList.size()>0){
+			Pick pick=new Pick();
+			pick.setCreateDate(new Date());
+			pick.setCreateUser(admin);
+			pick.setConfirmUser(admin);
+			pick.setState("2");
+			pick.setWorkingbill(workingBill);
+			s=this.pickService.save(pick);
+		}
+			
 		if(s!=null&&!"".equals(s)){
 		  pk=pickService.get(s);
 		}
 		for(int i=0;i<pickDetailList.size();i++){
 			PickDetail p=pickDetailList.get(i);			
 			p.setConfirmUser(admin);
+			p.setCharg("15091901");
+			p.setItem_text("文本");
+			p.setOrderid("100116549");
 		    p.setWorkingbill(workingBill);
 			p.setPick(pk);
-			if(p.getPickAmount()!=null&&!"".equals(p.getPickAmount())){
+			if(!"".equals(p.getPickType())&&!"".equals(p.getPickAmount())){
 			  this.pickDetailDao.save(p);
 			}
 			
 		}
 	}
+	
 
 	@Override
 	public List<PickDetail> getPickDetail(String id) {

@@ -2,8 +2,10 @@ package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -31,6 +33,7 @@ import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.ReceiptReason;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.AbnormalLogService;
@@ -39,6 +42,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CraftLogService;
 import cc.jiuyi.service.CraftService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ReceiptReasonService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -56,11 +60,13 @@ public class CraftAction extends BaseAdminAction {
 	private String abnormalId;
 	private String loginUsername;
 	private Admin admin;
+	private String[] reasonIds;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
+	private List<ReceiptReason> reasonList;
 	
 	@Resource
 	private CraftService craftService;
@@ -74,6 +80,8 @@ public class CraftAction extends BaseAdminAction {
 	private CraftLogService craftLogService;
 	@Resource
 	private AbnormalLogService abnormalLogService;
+	@Resource
+	private ReceiptReasonService receiptReasonService;
 	
 	// 添加
 	public String add() {
@@ -237,6 +245,12 @@ public class CraftAction extends BaseAdminAction {
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
+		if (reasonIds != null && reasonIds.length > 0) {
+			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
+			craft.setReceiptReasonSet(reasonSet);
+		} else {
+			craft.setReceiptReasonSet(null);
+		}
 		craft.setState("0");
 		craft.setIsDel("N");
 		craftService.save(craft);	
@@ -359,6 +373,23 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setCraftList(List<Craft> craftList) {
 		this.craftList = craftList;
+	}
+
+	public String[] getReasonIds() {
+		return reasonIds;
+	}
+
+	public void setReasonIds(String[] reasonIds) {
+		this.reasonIds = reasonIds;
+	}
+
+	public List<ReceiptReason> getReasonList() {
+		reasonList=receiptReasonService.getReceiptReasonByType("0");
+		return reasonList;
+	}
+
+	public void setReasonList(List<ReceiptReason> reasonList) {
+		this.reasonList = reasonList;
 	}
 	
 	

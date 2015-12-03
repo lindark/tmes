@@ -20,8 +20,7 @@
 	src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/unusual/js/model.js"></script>
-<script type="text/javascript"
-	src="${base }/template/admin/js/jquery.cxselect-1.3.7/js/jquery.cxselect.min.js"></script>
+
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>

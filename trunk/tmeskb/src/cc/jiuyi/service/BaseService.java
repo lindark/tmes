@@ -211,7 +211,16 @@ public interface BaseService<T, PK extends Serializable> {
 	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria);
 
 	
-	
+	/**
+	 * 根据属性名和属性值获取实体对象.
+	 * 
+	 * @param propertyName
+	 *            属性名称
+	 * @param value
+	 *            属性值
+	 * @return 实体对象
+	 */
+	public T get(String[] propertyNames, Object[] propertyValues);
 
 
 }

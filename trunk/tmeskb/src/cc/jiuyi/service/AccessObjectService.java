@@ -26,4 +26,25 @@ public interface AccessObjectService extends BaseService<AccessObject, String> {
 	 * @return
 	 */
 	public List<AccessObject> getAccessObjectList(String path,List<Role> roleList);
+	
+	/**
+	 * 修改
+	 */
+	public void update(AccessObject entity);
+	
+	/**
+	 * 根据条件分页查询
+	 * @param pager
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	public Pager findByPager(Pager pager,String[] propertyName,Object[] propertyValue);
+	
+	/**
+	 * 根据accessResourceid 获取AccessObject，AccessFunction 对象
+	 * @param accessResourceid
+	 * @return
+	 */
+	public List<AccessObject> getAccessObjectList(String accessResourceid);
 }

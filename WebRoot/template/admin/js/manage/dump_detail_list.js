@@ -82,8 +82,8 @@ jQuery(function($) {
 		//sortorder: "desc",
 
 		viewrecords : true,
-		rowNum:10,
-		rowList:[10,20,30],
+		rowNum:30,
+		rowList:[30,40,50],
 		pager : pager_selector,
 		altRows: true,
 		//toppager: true,

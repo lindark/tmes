@@ -69,7 +69,7 @@ jQuery(function($) {
 			{name:'voucherId',index:'voucherId',key:true, width:200,sortable:"true",sorttype:"text"},
 			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
 			{name:'mjahr',index:'mjahr',width:200,sortable:"true",sorttype:"text"},
-			{name:'confirmUser',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dumpState"}}
 
 		], 

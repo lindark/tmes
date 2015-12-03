@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 
@@ -20,22 +21,11 @@ public class AccessResource extends BaseEntity {
 
 	private Role role;//角色
 	private Resource resource;//资源
-	private Set<AccessObject> accessobjectSet;//对象
 	private String rolename;//角色名称
 	private String resourcename;//资源名称
 	private String accessobjectname;//对象名称
-	
-	
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	public Set<AccessObject> getAccessobjectSet() {
-		return accessobjectSet;
-	}
-	public void setAccessobjectSet(Set<AccessObject> accessobjectSet) {
-		this.accessobjectSet = accessobjectSet;
-	}
-	
-	
+	private Set<AccessFunction> accessFunctionSet;//权限对象关系表
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Role getRole() {
 		return role;
@@ -74,6 +64,13 @@ public class AccessResource extends BaseEntity {
 	}
 	public void setAccessobjectname(String accessobjectname) {
 		this.accessobjectname = accessobjectname;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="accessResource")
+	public Set<AccessFunction> getAccessFunctionSet() {
+		return accessFunctionSet;
+	}
+	public void setAccessFunctionSet(Set<AccessFunction> accessFunctionSet) {
+		this.accessFunctionSet = accessFunctionSet;
 	}
 	
 	

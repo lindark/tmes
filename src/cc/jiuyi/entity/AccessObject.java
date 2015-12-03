@@ -15,7 +15,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
-public class AccessObject extends BaseEntity {
+public class AccessObject extends BaseEntity implements Comparable<AccessObject> {
 
 	
 	private static final long serialVersionUID = -2152812749315172797L;
@@ -26,19 +26,10 @@ public class AccessObject extends BaseEntity {
 	private String dictid;//数据字典
 	private String resourceName;//冗余，资源名称
 	private String requesturl;//权限对象对应的请求地址
-	private Set<AccessResource> accessResourceSet;//权限资源对象
 	private String htmlarea;//按钮代码编辑器
-	private Resource resource;
+	private Resource resource;//所属资源
 	private String typeName;//数据字典名称
-	private String state;//状态
-	
-	@ManyToMany(mappedBy = "accessobjectSet", fetch = FetchType.LAZY)
-	public Set<AccessResource> getAccessResourceSet() {
-		return accessResourceSet;
-	}
-	public void setAccessResourceSet(Set<AccessResource> accessResourceSet) {
-		this.accessResourceSet = accessResourceSet;
-	}
+	private Set<AccessFunction> acccessFunctionSet;//关系表
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Resource getResource() {
@@ -97,13 +88,17 @@ public class AccessObject extends BaseEntity {
 	public void setHtmlarea(String htmlarea) {
 		this.htmlarea = htmlarea;
 	}
-	public String getState() {
-		return state;
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="accessObject")
+	public Set<AccessFunction> getAcccessFunctionSet() {
+		return acccessFunctionSet;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setAcccessFunctionSet(Set<AccessFunction> acccessFunctionSet) {
+		this.acccessFunctionSet = acccessFunctionSet;
 	}
-	
+	@Override
+	public int compareTo(AccessObject o) {//排序
+		return this.type.compareTo(o.getType());
+	}
 	
 	
 }

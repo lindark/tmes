@@ -141,7 +141,20 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造异常描述</div>
 													<div class="profile-info-value">
-													     <textarea name="craft.unusualDescription_make" style="width:600px;" class="formText {required: true}">${(craft.unusualDescription_make)!} </textarea>			
+													   <#if isAdd??>
+													      <#list reasonList as list>
+												<div style="width: 30%; float: left;">
+													<label><input type="checkbox" name="reasonIds"
+														value="${list.id}"<#if
+														(craft.receiptReasonSet.contains(list) == true)!>
+														checked="checked"</#if> />${(list.reasonName)!}</label>
+												</div> </#list>
+												        <#else>
+												         	<#list craft.receiptReasonSet as list>
+												         	    ${list.reasonName},
+												         	</#list>
+												        </#if>
+													    <!--  <textarea name="craft.unusualDescription_make" style="width:600px;" class="formText {required: true}">${(craft.unusualDescription_make)!} </textarea>	--> 		
 													</div>
 												</div>
 											

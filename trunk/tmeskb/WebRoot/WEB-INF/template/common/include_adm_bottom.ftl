@@ -1,4 +1,4 @@
-		<!-- basic scripts -->
+	<!-- basic scripts -->
 		<!--[if !IE]> -->
 <script type="text/javascript">
 	window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery.min.js'>"+"<"+"/script>");

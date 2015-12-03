@@ -1,8 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,12 +21,15 @@ import org.compass.annotations.Searchable;
 @Table(name = "ItermediateTestDetail")
 public class ItermediateTestDetail extends BaseEntity{
 
-	/**
+
+	
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5546024780487866459L;
+	private static final long serialVersionUID = 845139855839428494L;
 	
-    private Integer testAmount;//抽检数量
+	
+	private Integer testAmount;//抽检数量
     private Integer passAmount;//合格数量
     private String goodsSzie1;//尺寸1
     private String goodsSzie2;//尺寸2
@@ -40,6 +46,17 @@ public class ItermediateTestDetail extends BaseEntity{
 	private ItermediateTest itermediateTest;//半成品巡检主表
 	
     private WorkingBill workingbill;//随工单
+    private Set<IpRecord> ipRecord;//半成品巡检缺陷记录表
+	
+    
+    
+    @OneToMany(fetch=FetchType.LAZY,mappedBy="itermediateTestDetail")
+	public Set<IpRecord> getIpRecord() {
+		return ipRecord;
+	}
+	public void setIpRecord(Set<IpRecord> ipRecord) {
+		this.ipRecord = ipRecord;
+	}
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -216,18 +216,38 @@ body {
 											</div>
 											<div class="profile-info-row">
 											    <div class="profile-info-name">处理方法与结果</div>
-												<div class="profile-info-value">
-													<input type="text" name="model.resolve"
-														value="${(model.resolve)!}"
-														class="input input-sm  formText {required: true}" />
+												<div class="profile-info-value" id="means">
+												       <#if isAdd??>					                               
+												       <button type="button" class="btn btn-xs btn-info"
+														id="handleResult" data-toggle="button">选择</button>
+													   <#else>
+													    <#list model.handleSet as list> 
+												         <span> ${(list.handleName)!}</span>&nbsp;&nbsp;&nbsp; 
+												        </#list> 
+												       </#if>													    
 												</div>
-												<div class="profile-info-name">长期预防措施</div>
-												<div class="profile-info-value">
-													<input type="text" name="model.measure"
+												
+											</div>
+											
+											<div class="profile-info-row">
+											    <div class="profile-info-name">长期预防措施</div>
+												<div class="profile-info-value" id="prevent">
+												
+												    <#if isAdd??>					                               
+												       <button type="button" class="btn btn-xs btn-info"
+														id="longPrevent" data-toggle="button">选择</button>
+													   <#else>
+													    <#list model.longSet as list> 
+												         <span> ${(list.discribe)!}</span>&nbsp;&nbsp;&nbsp; 
+												        </#list> 
+												    </#if>
+												    
+												<!-- 	<input type="text" name="model.measure"
 														value="${(model.measure)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm  formText {required: true}" /> -->
 												</div>
 											</div>
+											
 
 										</div>																	 
 

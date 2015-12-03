@@ -11,6 +11,7 @@ import org.springmodules.cache.annotations.Cacheable;
 
 import cc.jiuyi.dao.AccessResourceDao;
 import cc.jiuyi.entity.AccessResource;
+import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
@@ -46,7 +47,6 @@ public class AccessResourceServiceImpl extends BaseServiceImpl<AccessResource, S
 	public void update(AccessResource accessResource) {
 		accessResourcedao.update(accessResource);
 	}
-
 	
 
 }

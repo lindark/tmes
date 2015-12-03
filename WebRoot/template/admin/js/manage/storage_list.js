@@ -46,7 +46,7 @@ jQuery(function($) {
 			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'State', editable: false,sortable:"true",sorttype:"text"}
+			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
 		], 
 
 		viewrecords : true,

@@ -96,6 +96,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		return (T) getSession().createQuery(hql).setParameter(0, value)
 				.uniqueResult();
 	}
+	
+	
 
 	@SuppressWarnings("unchecked")
 	public List<T> getList(String propertyName, Object value) {

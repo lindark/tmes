@@ -168,7 +168,7 @@ public class HandlemeansResultsAction extends BaseAdminAction {
 	 */
 	public String getType(){
 		
-		List<Dict> dictList = dictService.getList("dictname", "handleType");;
+		List<Dict> dictList = dictService.getList("dictname", "faultType");
 		JSONArray json = new JSONArray();
 		for(Dict dict : dictList){
 			JSONObject jo = new JSONObject();
@@ -183,7 +183,7 @@ public class HandlemeansResultsAction extends BaseAdminAction {
 	
 	
 	/**
-	 * 获取faultReason的json集合
+	 * 获取handlemeansResults的json集合
 	 * @return
 	 */
 	public String getChild(){
@@ -203,7 +203,7 @@ public class HandlemeansResultsAction extends BaseAdminAction {
 	}
 	
 	/**
-	 * 获取faultReason的json集合
+	 * 获取handlemeansResults的json集合
 	 * @return
 	 */
 	public String getAll(){

@@ -166,6 +166,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ScrapMessage</value>
 				<value>cc.jiuyi.entity.HandlemeansResults</value>
 				<value>cc.jiuyi.entity.LongtimePreventstep</value>
+				<value>cc.jiuyi.entity.ReceiptReason</value>
 			</list>
 		</property>
 	</bean>

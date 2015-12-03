@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -43,6 +44,7 @@ public class Craft extends BaseEntity{
 	private String productsName;//产品名称
 	private String teamName;
 	private String cabinetName;
+	private Set<ReceiptReason> receiptReasonSet;//工序原因
 	
 	public String getCabinetCode() {
 		return cabinetCode;
@@ -177,6 +179,14 @@ public class Craft extends BaseEntity{
 	}
 	public void setCabinetName(String cabinetName) {
 		this.cabinetName = cabinetName;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<ReceiptReason> getReceiptReasonSet() {
+		return receiptReasonSet;
+	}
+	public void setReceiptReasonSet(Set<ReceiptReason> receiptReasonSet) {
+		this.receiptReasonSet = receiptReasonSet;
 	}
 	
 	

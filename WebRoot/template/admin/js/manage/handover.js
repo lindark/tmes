@@ -8,15 +8,19 @@ $(function(){
 		var materialCode = $(this).find(".materialCode").text();
 		var active = $(".step-jump.active").find(".process").val();
 		var title = "工序交接";
-		var width="800px";
-		var height="400px";
+		var widths = $(window).width();
+		var heights = $(window).height();
+		var width=widths-189+"px";
+		var height=heights-86+"px";
 		var content="hand_over_process!add.action?materialCode="+materialCode+"&processid="+active;
 		layer.open({
 	        type: 2,
 	        skin: 'layui-layer-lan',
+	        shift:2,
+	        offset:["86px","189px"],
 	        title: title,
 	        fix: false,
-	        shadeClose: false,
+	        shadeClose: true,
 	        maxmin: true,
 	        scrollbar: false,
 	        btn:['刷卡保存','刷卡提交','刷卡确认','取消'],
@@ -27,7 +31,7 @@ $(function(){
 	        	var docu = iframeWin.document;//获取document 对象
 	        	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
 	        },
-	        cancel:function(){//刷卡提交
+	        btn2:function(){//刷卡提交
 //	        	layer.msg("请刷卡",{
 //	        		icon:16,
 //	        		shade:0.3,
@@ -38,7 +42,7 @@ $(function(){
 	        	return false;
 	        },
 	        btn3:function(){//刷卡确认
-	        	return false;
+	        	//return false;
 	        }
 
 	    });

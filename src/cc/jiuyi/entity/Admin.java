@@ -47,7 +47,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
-	
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
 	private Set<SwiptCard> swiptCardSet;// 刷卡
@@ -103,8 +102,10 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private Set<HandOver> savehandoverSet;//提交人
 	private Set<HandOver> approvalhandoverSet;//审批人
-	
-	
+	private Set<Sample> sampler;//抽检人
+	private Set<Sample> comfirmation;//确认人
+	private Set<Scrap> scrapcreaterSet;//提交人
+	private Set<Scrap> scrapcomfirmationSet;//确认人
 	//半成品巡检确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<ItermediateTest> getIntermediateTestConfirmUser() {
@@ -714,7 +715,48 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setModelSet2(Set<Model> modelSet2) {
 		this.modelSet2 = modelSet2;
 	}
-	
-	
-	
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="sampler")
+	public Set<Sample> getSampler()
+	{
+		return sampler;
+	}
+
+	public void setSampler(Set<Sample> sampler)
+	{
+		this.sampler = sampler;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="comfirmation")
+	public Set<Sample> getComfirmation()
+	{
+		return comfirmation;
+	}
+
+	public void setComfirmation(Set<Sample> comfirmation)
+	{
+		this.comfirmation = comfirmation;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="creater")
+	public Set<Scrap> getScrapcreaterSet()
+	{
+		return scrapcreaterSet;
+	}
+
+	public void setScrapcreaterSet(Set<Scrap> scrapcreaterSet)
+	{
+		this.scrapcreaterSet = scrapcreaterSet;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="confirmation")
+	public Set<Scrap> getScrapcomfirmationSet()
+	{
+		return scrapcomfirmationSet;
+	}
+
+	public void setScrapcomfirmationSet(Set<Scrap> scrapcomfirmationSet)
+	{
+		this.scrapcomfirmationSet = scrapcomfirmationSet;
+	}
 }

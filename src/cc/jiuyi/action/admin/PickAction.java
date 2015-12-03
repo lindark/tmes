@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +22,15 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.Rework;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -66,10 +69,16 @@ public class PickAction extends BaseAdminAction {
 	private PickDetailService pickDetailService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private PickRfcImpl pickRfcImple;
 	
 	
 	private String workingBillId;
 	private WorkingBill workingbill;
+	private String matnr;
+	private List<PickDetail> pkList;
+	private String pickRfc;
+	
 
 	//添加
 	public String add(){
@@ -86,7 +95,6 @@ public class PickAction extends BaseAdminAction {
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		System.out.println(admin.getShift());
 		this.workingbill=workingBillService.get(workingBillId);
 		return LIST;
 	}
@@ -157,9 +165,9 @@ public class PickAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		pickService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			Pick pick=pickService.load(id);
-//		}
+		for (String id:ids){
+			Pick pick=pickService.load(id);
+		}
 		redirectionUrl = "pick!list.action";
 		return SUCCESS;
 	}
@@ -193,12 +201,16 @@ public class PickAction extends BaseAdminAction {
 	}
 		
 	//刷卡确认
-	public String confirms(){
+	public String confirms() {
 		ids= id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			pick=pickService.load(ids[i]);
 			if(REPEAL.equals(pick.getState())){
 				addActionError("已撤销的无法再撤销");
+				return ERROR;
+			}
+			if(CONFIRMED.equals(pick.getState())){
+				addActionError("已确认的不需要再次确认");
 				return ERROR;
 			}
 		 admin=adminService.getLoginAdmin();
@@ -207,6 +219,21 @@ public class PickAction extends BaseAdminAction {
 		 persistent.setState("2");
 		 persistent.setConfirmUser(admin);
 		 pickService.save(persistent);
+		 pkList=pickDetailService.getPickDetail(id);
+		 try {
+			pickRfc=pickRfcImple.MaterialDocumentCrt(persistent, pkList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
+		 for (int j = 0; j < pkList.size(); j++) {
+			 PickDetail p=pkList.get(i);
+			 p.setMblnr(pickRfc);
+			 this.pickDetailService.save(p);
+		}
 		 redirectionUrl="pick!list.action?workingBillId="
 				 +pick.getWorkingbill().getId();
 		}
@@ -228,6 +255,7 @@ public class PickAction extends BaseAdminAction {
 			 persistent.setState("3");
 			 persistent.setConfirmUser(admin);
 			 pickService.save(persistent);
+			 
 			 redirectionUrl="pick!list.action?workingBillId="
 					 +pick.getWorkingbill().getId();
 			}
@@ -316,6 +344,48 @@ public class PickAction extends BaseAdminAction {
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
 	}
+
+
+	public PickRfcImpl getPickRfcImple() {
+		return pickRfcImple;
+	}
+
+
+	public void setPickRfcImple(PickRfcImpl pickRfcImple) {
+		this.pickRfcImple = pickRfcImple;
+	}
+
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+
+	public List<PickDetail> getPkList() {
+		return pkList;
+	}
+
+
+	public void setPkList(List<PickDetail> pkList) {
+		this.pkList = pkList;
+	}
+
+
+	public String getPickRfc() {
+		return pickRfc;
+	}
+
+
+	public void setPickRfc(String pickRfc) {
+		this.pickRfc = pickRfc;
+	}
+
+
 
 	
 	

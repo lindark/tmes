@@ -88,10 +88,7 @@ public class SampleRecord extends BaseEntity
 		{
 			istoDel="Y";
 		}
-		else
-		{
-			this.istoDel = istoDel;
-		}
+		this.istoDel = istoDel;
 	}
 	
 }

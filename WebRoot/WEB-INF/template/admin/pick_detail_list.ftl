@@ -10,6 +10,7 @@
 
 <#include "/WEB-INF/template/common/includelist.ftl">
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pick_input.js"></script>
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -55,9 +56,10 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" name="inputForm" class="validate"
-								action="<#if isAdd??>pick_detail!save.action<#else>pick_detail!update.action</#if>"
+								action="pick_detail!save.action?id+"=id
 								method="post">
                             <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
+                            <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
 								<table class="table table-striped table-bordered" id="mytable">
 									<thead>
 										<tr>
@@ -97,11 +99,15 @@ body {
 
 							</form>
 
-                                     <button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
+                                     <button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="returnPick" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_confirm" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡确认
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type=button>
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
@@ -129,15 +135,20 @@ body {
 	 */
 	
 	$(function(){		
-		$("#addPick").click(function(){
+/*		$("#btn_save").click(function(){
 			document.inputForm.action="pick_detail!save.action";
 			$("#inputForm").submit();
 		});
 		
-		$("#returnPick").click(function(){
+		$("#btn_back").click(function(){
 			window.history.back();
 		});
 		
+		$("#btn_confirm").click(function(){		
+			document.inputForm.action="pick_detail!confirms.action?id="+id;	
+			$("#inputForm").submit();
+		});
+*/		
 		var ishead=0;
 		$("#ace-settings-btn").click(function(){
 			if(ishead==0){
@@ -172,6 +183,7 @@ body {
 			});
      });
 	
+
 
 	
 </script>

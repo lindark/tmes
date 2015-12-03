@@ -12,7 +12,7 @@ $(function() {
 	var $sample=$("#sample");//抽检
 	var $halfinspection=$("#halfinspection");//半成品巡检
 	var $pollingtest = $("#pollingtest");//巡检
-
+	var $scrap=$("#scrap");//报废
 	/**
 	 * 入库按钮点击
 	 */
@@ -148,6 +148,18 @@ $(function() {
 			var id = getCKboxById();
 			window.location.href = "sample!list.action?wbId=" + id;
 		}
+	});
+	
+	/**
+	 * 报废
+	 */
+	$scrap.click(function(){
+		var istrue=ckboxChick();
+		if(istrue)
+		{
+			var id = getCKboxById();
+			window.location.href = "scrap!list.action?wbId=" + id;
+		} 
 	});
 })
 

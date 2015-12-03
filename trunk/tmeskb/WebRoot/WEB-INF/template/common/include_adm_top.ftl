@@ -43,5 +43,7 @@
 .access{
 	display:none;
 }
+
+body .error .layui-layer-title{background:#FF4400; color:#fff; border: none;}
 </style>
 <!-- basic scripts -->

@@ -128,7 +128,7 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
+	//@InputConfig(resultName = "error")
 	public String save() throws Exception {
 		pollingtestService.saveInfo(pollingtest, info, info2, my_id);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
@@ -225,19 +225,20 @@ public class PollingtestAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (CONFIRMED.equals(pollingtest.getState())) {
-				addActionError("已确认的无须再确认！");
-				return ERROR;
+				//addActionError("已确认的无须再确认！");
+				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(pollingtest.getState())) {
-				addActionError("已撤销的无法再确认！");
-				return ERROR;
+				//addActionError("已撤销的无法再确认！");
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
 		pollingtestService.confirm(list, admin, CONFIRMED);
-		redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();
-		return SUCCESS;
+		//redirectionUrl = "pollingtest!list.action?workingBillId="+ pollingtest.getWorkingbill().getId();
+		
+		
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销

@@ -47,7 +47,7 @@ public class WorkingBill extends BaseEntity {
     private Set<HandOverProcess> beforhandoverprocessSet;//接上班
     private Set<Pollingtest> pollingtest;//巡检
     private Set<Sample>sample;//抽检
-    
+    private Set<Scrap>scrap;//报废
     
     private Set<Pick> pick;//领料
     private Set<PickDetail> pickDetail;//领料从表
@@ -292,10 +292,14 @@ public class WorkingBill extends BaseEntity {
 		this.sample = sample;
 	}
 
-	
-	
-	
-	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workingBill")
+	public Set<Scrap> getScrap()
+	{
+		return scrap;
+	}
 
-	
+	public void setScrap(Set<Scrap> scrap)
+	{
+		this.scrap = scrap;
+	}
 }

@@ -108,18 +108,6 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">状态</div>
-
-												<div class="profile-info-value">
-													<select class="chosen-select" name="accessObject.state" data-placeholder="请选择...">
-														 <option></option>
-														<#list	allDictState as list>
-															<option value="${list.dictkey}" <#if (list.dictkey ==accessObject.state)!> selected</#if>>${(list.dictvalue)! }</option>
-														</#list>
-													</select>
-												</div>
-											</div>
-											<div class="profile-info-row">
 												<div class="profile-info-name">所属资源</div>
 
 												<div class="profile-info-value">

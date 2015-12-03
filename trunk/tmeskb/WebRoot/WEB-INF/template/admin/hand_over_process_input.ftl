@@ -57,9 +57,6 @@ body {
 							<form id="inputForm" class="validateajax"
 								action="hand_over_process!save.action"
 								method="post">
-								<!-- hide 块 start -->
-									
-								<!-- hide 块 end-->
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>

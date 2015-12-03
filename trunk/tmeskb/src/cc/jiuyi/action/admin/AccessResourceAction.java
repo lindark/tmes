@@ -144,7 +144,7 @@ public class AccessResourceAction extends BaseAdminAction {
 			jsonobject.put("type", accessObject.getType());
 			jsonobject.put("accessFunction.accessResource.id", accessResource.getId());
 			jsonobject.put("accessFunction.state",ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject_state", state) );
-			jsonobject.put("stateRemark",ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject_state", state) );
+			//jsonobject.put("stateRemark",ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject_state", state) );
 			jsonarray.add(jsonobject);
 		}
 		

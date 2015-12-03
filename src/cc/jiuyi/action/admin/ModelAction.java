@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,7 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.HandlemeansResults;
@@ -56,9 +58,14 @@ public class ModelAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private Admin admin;
+	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
 	private List<LongtimePreventstep> longSet;
+	private List<Quality>  qualityList;
+	private List<Model> modelList;
+	private List<Craft> craftList;
+	private List<Device> deviceList;
 
 	@Resource
 	private ModelService modelService;
@@ -77,6 +84,10 @@ public class ModelAction extends BaseAdminAction {
 	public String add() {
 		if (aid != null) {
 			abnormal = abnormalService.load(aid);
+			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+			modelList=new ArrayList<Model>(abnormal.getModelSet());
+			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
@@ -86,6 +97,11 @@ public class ModelAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		model = modelService.load(id);
+		abnormal=model.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return INPUT;
 	}
 
@@ -116,6 +132,16 @@ public class ModelAction extends BaseAdminAction {
 	
 	public String prevent(){
 		return "prevent";
+	}
+	
+	public String view() {
+		model = modelService.load(id);
+		abnormal=model.getAbnormal();
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		modelList=new ArrayList<Model>(abnormal.getModelSet());
+		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
+		return VIEW;
 	}
 
 	@InputConfig(resultName = "error")
@@ -376,6 +402,38 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setLongSet(List<LongtimePreventstep> longSet) {
 		this.longSet = longSet;
+	}
+
+	public List<Quality> getQualityList() {
+		return qualityList;
+	}
+
+	public void setQualityList(List<Quality> qualityList) {
+		this.qualityList = qualityList;
+	}
+
+	public List<Model> getModelList() {
+		return modelList;
+	}
+
+	public void setModelList(List<Model> modelList) {
+		this.modelList = modelList;
+	}
+
+	public List<Device> getDeviceList() {
+		return deviceList;
+	}
+
+	public void setDeviceList(List<Device> deviceList) {
+		this.deviceList = deviceList;
+	}
+
+	public List<Craft> getCraftList() {
+		return craftList;
+	}
+
+	public void setCraftList(List<Craft> craftList) {
+		this.craftList = craftList;
 	}
 
 	

@@ -114,12 +114,12 @@
 														<div class="profile-info-name">累计入库箱数</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${totalAmount}</span>
+															<span class="editable editable-click" id="total">${totalAmount}</span>
 														</div>
 														<div class="profile-info-name">累计入库根数</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.totalSingleAmount}</span>
+															<span class="editable editable-click" id="totalSingleAmount">${workingbill.totalSingleAmount}</span>
 														</div>
 													</div>
 
@@ -220,6 +220,8 @@
 					success: function(data) {
 						layer.close(index);
 						$.message(data.status,data.message);
+						$("#totalSingleAmount").text(data.totalSingleAmount);
+						$("#total").text(data.total);
 					},error:function(data){
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
@@ -249,6 +251,8 @@
 					success: function(data) {
 						layer.close(index);
 						$.message(data.status,data.message);
+						$("#totalSingleAmount").text(data.totalSingleAmount);
+						$("#total").text(data.total);
 					},error:function(data){
 						$.message("error","系统出现问题，请联系系统管理员");
 					}

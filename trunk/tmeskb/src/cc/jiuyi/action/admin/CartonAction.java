@@ -124,37 +124,39 @@ public class CartonAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			if (CONFIRMED.equals(carton.getState())) {
-				addActionError("已确认的无须再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(carton.getState())) {
-				addActionError("已撤销的无法再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Carton> list = cartonService.get(ids);
 		cartonService.updateState(list, CONFIRMED, workingBillId);
-		redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();
-		return SUCCESS;
+		workingbill = workingBillService.get(workingBillId);
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
 	public String undo() {
-		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			if (UNDO.equals(carton.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState(list, UNDO, workingBillId);
-		redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();
-		return SUCCESS;
+		cartonService.updateState(list, UNDO, workingBillId);		
+		workingbill = workingBillService.get(workingBillId);
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+		return ajaxJson(hashmap);
 	}
 
 	/**

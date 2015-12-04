@@ -19,7 +19,7 @@ import cc.jiuyi.entity.Quality;
 @Repository
 public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements DeviceDao {
 
-	public Pager getDevicePager(Pager pager, HashMap<String, String> map) {
+	public Pager getDevicePager(Pager pager, HashMap<String, String> map,String id) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Device.class);
@@ -27,6 +27,14 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		
 		if(!super.existAlias(detachedCriteria, "workShop", "workShop")){
 			detachedCriteria.createAlias("workShop", "workShop");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
+			detachedCriteria.createAlias("disposalWorkers", "disposalWorkers");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "workshopLinkman", "workshopLinkman")){
+			detachedCriteria.createAlias("workshopLinkman", "workshopLinkman");//表名，别名*/							
 		}
 		
 		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
@@ -43,6 +51,9 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 			    detachedCriteria.add(Restrictions.like("disposalWorkers.name", "%"+map.get("repairPerson")+"%"));
 			}		
 		}	
+		
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("workshopLinkman.id", id), Restrictions.eq("disposalWorkers.id", id)));
+
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

@@ -63,6 +63,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<DeviceLog> deviceLogSet;//设备维修单日志
 	private Set<Model> modelSet1;//一个维修员对应多个工模维修单
 	private Set<Model> modelSet2;//一个检验员对应多个工模维修单
+	private Set<Craft> craftSet1;//一个维修员对应多个工艺维修单
+	private Set<Quality> qualitySet1;//一个接收人对应多个质量问题单
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -759,4 +761,24 @@ public class Admin extends BaseEntity implements UserDetails {
 	{
 		this.scrapcomfirmationSet = scrapcomfirmationSet;
 	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="repairName")
+	public Set<Craft> getCraftSet1() {
+		return craftSet1;
+	}
+
+	public void setCraftSet1(Set<Craft> craftSet1) {
+		this.craftSet1 = craftSet1;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="receiver")
+	public Set<Quality> getQualitySet1() {
+		return qualitySet1;
+	}
+
+	public void setQualitySet1(Set<Quality> qualitySet1) {
+		this.qualitySet1 = qualitySet1;
+	}
+	
+	
 }

@@ -25,7 +25,8 @@ import cc.jiuyi.util.CustomerException;
  */
 @Service
 @Transactional
-public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements DumpService{
+public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
+		DumpService {
 	@Resource
 	private DumpDao dumpDao;
 	@Resource
@@ -34,9 +35,9 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	private DumpRfcImpl dumpRfc;
 	@Resource
 	private DumpDetailDao dumpDetailDao;
-	
+
 	@Resource
-	public void setBaseDao(DumpDao dumpDao){
+	public void setBaseDao(DumpDao dumpDao) {
 		super.setBaseDao(dumpDao);
 	}
 
@@ -51,35 +52,29 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	}
 
 	@Override
-	public void confirmDump(String[] ids, List<Dump> dumpList) {
+	public void saveDump(String[] ids, List<Dump> dumpList) throws IOException, CustomerException {
 		Admin admin = adminService.getLoginAdmin();
 		for (int i = 0; i < ids.length; i++) {
 			for (int j = 0; j < dumpList.size(); j++) {
 				Dump dump = dumpList.get(j);
-				if(ids[i].equals(dump.getVoucherId())){
+				if (ids[i].equals(dump.getVoucherId())) {
 					dump.setConfirmUser(admin);
 					dump.setState("1");
 					dumpDao.save(dump);
 				}
-			}			
+			}
 		}
 		for (int i = 0; i < ids.length; i++) {
 			Dump dump = dumpDao.get("voucherId", ids[i]);
-			try {
-				List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(ids[i]);
-				for (int j = 0; j < dDList.size(); j++) {
-					DumpDetail dumpDetail = dDList.get(j);
-					dumpDetail.setDump(dump);
-					dumpDetailDao.save(dumpDetail);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (CustomerException e) {
-				e.printStackTrace();
+			List<DumpDetail> dDList = dumpRfc
+					.findMaterialDocumentByMblnr(ids[i]);
+			for (int j = 0; j < dDList.size(); j++) {
+				DumpDetail dumpDetail = dDList.get(j);
+				dumpDetail.setDump(dump);
+				dumpDetailDao.save(dumpDetail);
 			}
 		}
-		
-	}
 
+	}
 
 }

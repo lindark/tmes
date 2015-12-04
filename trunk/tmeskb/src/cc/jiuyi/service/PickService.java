@@ -29,8 +29,8 @@ public interface PickService extends BaseService<Pick, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	public void confirm(List<Pick> list,Admin admin,String stu,String mblnr);
+	public void saveConfirm(List<Pick> list,Admin admin,String stu,String mblnr);
 	
-	public void repeal(List<Pick> list,Admin admin,String stu);
+	public void saveRepeal(List<Pick> list,Admin admin,String stu);
 	
 }

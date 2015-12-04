@@ -117,10 +117,9 @@ body {
 						</div>
                      </div>
 				</form>
-				
                                  <button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type=button>
 										<span class="ace-icon fa fa-home">返回</span>
-									</button>
+								</button>
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->

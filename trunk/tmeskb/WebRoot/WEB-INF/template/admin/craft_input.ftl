@@ -136,7 +136,20 @@ body {
 											</div>
 
                                           </div>
-
+                                          <div class="profile-user-info profile-user-info-striped">
+                                              <div class="profile-info-row">
+													<div class="profile-info-name">维修员</div>
+													<div class="profile-info-value">
+													<#if isAdd??>
+													<button type="button" class="btn btn-xs btn-info"
+														id="repair" data-toggle="button">选择</button>
+													<span id="repairName1"></span>
+												    <input type="hidden" name="craft.repairName.id" id="repairNa" value="" class="formText {required: true}"/>
+													<#else> ${(craft.repairName.name)!} </#if>
+													</div>
+											  </div>
+                                          </div>
+                                          
 											<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造异常描述</div>

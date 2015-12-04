@@ -1,10 +1,12 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
@@ -20,7 +22,7 @@ public class Dump extends BaseEntity {
 	private static final long serialVersionUID = -2687433396607084358L;
 
 	private String voucherId;// 物料凭证号
-	private String mjahr;//凭证年度
+	private String mjahr;// 凭证年度
 	private Date deliveryDate;// 过账日期
 	private String state;// 状态
 	private String isDel;// 是否删除
@@ -29,6 +31,7 @@ public class Dump extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
+	private Set<DumpDetail> dumpDetail;// 转储明细
 
 	public String getVoucherId() {
 		return voucherId;
@@ -119,6 +122,15 @@ public class Dump extends BaseEntity {
 
 	public void setMjahr(String mjahr) {
 		this.mjahr = mjahr;
+	}
+
+	@OneToMany(mappedBy = "dump", fetch = FetchType.LAZY)
+	public Set<DumpDetail> getDumpDetail() {
+		return dumpDetail;
+	}
+
+	public void setDumpDetail(Set<DumpDetail> dumpDetail) {
+		this.dumpDetail = dumpDetail;
 	}
 
 }

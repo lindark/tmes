@@ -90,12 +90,10 @@ public class DumpAction extends BaseAdminAction {
 			dumpList = dumpRfc.findMaterialDocument("1805", "20150901","20151001");
 			for (int i = 0; i < ids.length; i++) {
 				if(dumpService.isExist("voucherId", ids[i])){
-					//addActionError("已确认的无法再确认！");
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
 			dumpService.confirmDump(ids, dumpList);
-			//redirectionUrl = "dump!list.action";
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();

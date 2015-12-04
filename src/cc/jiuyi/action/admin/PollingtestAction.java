@@ -248,15 +248,15 @@ public class PollingtestAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (UNDO.equals(pollingtest.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				//addActionError("已撤销的无法再撤销！");
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
 		pollingtestService.confirm(list, admin, UNDO);
-		redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public Pollingtest getPollingtest() {

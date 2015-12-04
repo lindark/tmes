@@ -33,6 +33,7 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
+
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -135,7 +136,6 @@ public class PickAction extends BaseAdminAction {
 				map.put("end", end);
 			}
 		}
-
 			pager = pickService.getPickPager(pager, map);
 			List<Pick> pickList = pager.getList();
 			List<Pick> lst = new ArrayList<Pick>();
@@ -219,19 +219,28 @@ public class PickAction extends BaseAdminAction {
 		 try {
 				pickRfc=pickRfcImple.MaterialDocumentCrt(persistent, pkList);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				addActionError("IO操作失败");
 				e.printStackTrace();
+				return ERROR;
 			} catch (CustomerException e) {
+				addActionError(e.getMsgDes());
 				System.out.println(e.getMsgDes());
 				e.printStackTrace();
-			}
+				return ERROR;
+			}catch(Exception e){
+				addActionError("系统出现问题，请联系系统管理员");
+				e.printStackTrace();
+				return ERROR;
+			}			
 		 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
 		 persistent.setState("2");
 		 persistent.setConfirmUser(admin);
 		 persistent.setMblnr(pickRfc);
 		 pickService.save(persistent);
-		 redirectionUrl="pick!list.action?workingBillId="
-				 +pick.getWorkingbill().getId();
+//		 List<Pick> list=pickService.get(ids);
+//		 pickService.confirm(list, admin, CONFIRMED, pickRfc);
+//		 redirectionUrl="pick!list.action?workingBillId="
+//				 +pick.getWorkingbill().getId();
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 		//return SUCCESS;
@@ -239,6 +248,8 @@ public class PickAction extends BaseAdminAction {
 	
 	//刷卡撤销
 		public String repeal(){
+			admin = adminService.getLoginAdmin();
+			List<Pick> list=pickService.get(ids);
 			ids= id.split(",");
 			for (int i = 0; i < ids.length; i++) {
 				pick=pickService.load(ids[i]);
@@ -246,18 +257,9 @@ public class PickAction extends BaseAdminAction {
 					//addActionError("已撤销的无法再确认");
 					return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 				}
-			 admin=adminService.getLoginAdmin();
-			 Pick persistent=pickService.load(id);
-			 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
-			 persistent.setState("3");
-			 persistent.setConfirmUser(admin);
-			 pickService.save(persistent);
-			 
-			 redirectionUrl="pick!list.action?workingBillId="
-					 +pick.getWorkingbill().getId();
-			}
+			}		
+			pickService.repeal(list, admin, REPEAL);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
-			//return SUCCESS;
 		}
 
 	

@@ -219,7 +219,7 @@ public class PollingtestAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String confirms() {
+	public String creditapproval() {
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -242,7 +242,7 @@ public class PollingtestAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String undo() {
+	public String creditundo() {
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {

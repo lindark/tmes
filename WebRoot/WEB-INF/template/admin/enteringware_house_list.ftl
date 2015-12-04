@@ -130,15 +130,15 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="enteringAdd">
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建入库单
 								</a>
-								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="enteringConfirm">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
-								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="enteringUndo">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
 								</a>

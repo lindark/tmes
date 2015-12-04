@@ -11,7 +11,8 @@ jQuery(function($){
 		$(obj).each(function(i){
 			if(obj[i].accObjkey == data){//找到字段
 				if(obj[i].type=="button"){//如果是按钮
-					$this.removeClass("access");
+					if(obj[i].state=="2")
+						$this.removeClass("access");
 				}else if(obj[i].type=="input"){//文本框
 					alert(obj[i].state);
 					if(obj[i].state=="3"){//隐藏

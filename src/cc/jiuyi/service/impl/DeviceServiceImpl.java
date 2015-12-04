@@ -29,9 +29,9 @@ public class DeviceServiceImpl extends BaseServiceImpl<Device, String> implement
 	}
 
 	@Override
-	public Pager getDevicePager(Pager pager, HashMap<String, String> map) {
+	public Pager getDevicePager(Pager pager, HashMap<String, String> map,String id) {
 	
-		return deviceDao.getDevicePager(pager,map);
+		return deviceDao.getDevicePager(pager,map,id);
 	}
 	
 	@Override

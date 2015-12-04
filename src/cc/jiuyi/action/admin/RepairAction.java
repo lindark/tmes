@@ -113,19 +113,19 @@ public class RepairAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
 			if (CONFIRMED.equals(repair.getState())) {
-				addActionError("已确认的无须再确认！");
-				return ERROR;
+				//addActionError("已确认的无须再确认！");
+				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(repair.getState())) {
-				addActionError("已撤销的无法再确认！");
-				return ERROR;
+				//addActionError("已撤销的无法再确认！");
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
 		repairService.updateState(list, CONFIRMED, workingBillId);
-		redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repair!list.action?workingBillId="
+				+ repair.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销
@@ -134,15 +134,15 @@ public class RepairAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
 			if (UNDO.equals(repair.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				//addActionError("已撤销的无法再撤销！");
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
 		repairService.updateState(list, UNDO, workingBillId);
-		redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repair!list.action?workingBillId="
+				+ repair.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String browser() {

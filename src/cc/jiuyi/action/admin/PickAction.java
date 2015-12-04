@@ -206,38 +206,35 @@ public class PickAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			pick=pickService.load(ids[i]);
 			if(REPEAL.equals(pick.getState())){
-				addActionError("已撤销的无法再撤销");
-				return ERROR;
+				//addActionError("已撤销的无法再撤销");
+				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
 			if(CONFIRMED.equals(pick.getState())){
-				addActionError("已确认的不需要再次确认");
-				return ERROR;
-			}
+				//addActionError("已确认的不需要再次确认");
+				return ajaxJsonErrorMessage("已确认的不需要再次确认!");
+			}		
 		 admin=adminService.getLoginAdmin();
 		 Pick persistent=pickService.load(id);
+		 pkList=pickDetailService.getPickDetail(id);
+		 try {
+				pickRfc=pickRfcImple.MaterialDocumentCrt(persistent, pkList);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CustomerException e) {
+				System.out.println(e.getMsgDes());
+				e.printStackTrace();
+			}
 		 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
 		 persistent.setState("2");
 		 persistent.setConfirmUser(admin);
+		 persistent.setMblnr(pickRfc);
 		 pickService.save(persistent);
-		 pkList=pickDetailService.getPickDetail(id);
-		 try {
-			pickRfc=pickRfcImple.MaterialDocumentCrt(persistent, pkList);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			System.out.println(e.getMsgDes());
-			e.printStackTrace();
-		}
-		 for (int j = 0; j < pkList.size(); j++) {
-			 PickDetail p=pkList.get(i);
-			 p.setMblnr(pickRfc);
-			 this.pickDetailService.save(p);
-		}
 		 redirectionUrl="pick!list.action?workingBillId="
 				 +pick.getWorkingbill().getId();
 		}
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+		//return SUCCESS;
 	}
 	
 	//刷卡撤销
@@ -246,8 +243,8 @@ public class PickAction extends BaseAdminAction {
 			for (int i = 0; i < ids.length; i++) {
 				pick=pickService.load(ids[i]);
 				if(REPEAL.equals(pick.getState())){
-					addActionError("已撤销的无法再确认");
-					return ERROR;
+					//addActionError("已撤销的无法再确认");
+					return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 				}
 			 admin=adminService.getLoginAdmin();
 			 Pick persistent=pickService.load(id);

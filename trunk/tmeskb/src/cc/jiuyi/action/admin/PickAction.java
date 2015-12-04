@@ -203,21 +203,20 @@ public class PickAction extends BaseAdminAction {
 	//刷卡确认
 	public String confirms() {
 		ids= id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			pick=pickService.load(ids[i]);
+		List<Pick> list=pickService.get(ids);	
+		for (int i = 0; i < list.size(); i++) {
+			Pick pick = list.get(i);
+			String pickId=pick.getId();
 			if(REPEAL.equals(pick.getState())){
-				//addActionError("已撤销的无法再撤销");
 				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
 			if(CONFIRMED.equals(pick.getState())){
-				//addActionError("已确认的不需要再次确认");
 				return ajaxJsonErrorMessage("已确认的不需要再次确认!");
 			}		
 		 admin=adminService.getLoginAdmin();
-		 Pick persistent=pickService.load(id);
-		 pkList=pickDetailService.getPickDetail(id);
+		 pkList=pickDetailService.getPickDetail(pickId);
 		 try {
-				pickRfc=pickRfcImple.MaterialDocumentCrt(persistent, pkList);
+				pickRfc=pickRfcImple.MaterialDocumentCrt(pick, pkList);
 			} catch (IOException e) {
 				addActionError("IO操作失败");
 				e.printStackTrace();
@@ -231,34 +230,25 @@ public class PickAction extends BaseAdminAction {
 				addActionError("系统出现问题，请联系系统管理员");
 				e.printStackTrace();
 				return ERROR;
-			}			
-		 BeanUtils.copyProperties(pick, persistent, new String[] { "id","createUser"});
-		 persistent.setState("2");
-		 persistent.setConfirmUser(admin);
-		 persistent.setMblnr(pickRfc);
-		 pickService.save(persistent);
-//		 List<Pick> list=pickService.get(ids);
-//		 pickService.confirm(list, admin, CONFIRMED, pickRfc);
-//		 redirectionUrl="pick!list.action?workingBillId="
-//				 +pick.getWorkingbill().getId();
+			}					
 		}
+		 pickService.saveConfirm(list, admin, CONFIRMED, pickRfc);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
-		//return SUCCESS;
 	}
 	
 	//刷卡撤销
 		public String repeal(){
 			admin = adminService.getLoginAdmin();
-			List<Pick> list=pickService.get(ids);
 			ids= id.split(",");
-			for (int i = 0; i < ids.length; i++) {
-				pick=pickService.load(ids[i]);
+			List<Pick> list=pickService.get(ids);		
+			for (int i = 0; i < list.size(); i++) {
+				Pick pick = list.get(i);
 				if(REPEAL.equals(pick.getState())){
 					//addActionError("已撤销的无法再确认");
 					return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 				}
 			}		
-			pickService.repeal(list, admin, REPEAL);
+			pickService.saveRepeal(list, admin, REPEAL);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}
 

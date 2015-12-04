@@ -106,7 +106,7 @@
 														<div class="profile-info-name">产品名称</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.maktx}</span>
+															<span class="editable editable-click">${workingbill.maktx}</span>
 														</div>
 														
 													</div>
@@ -114,7 +114,7 @@
 														<div class="profile-info-name">累计纸箱数量</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.cartonTotalAmount}</span>
+															<span class="editable editable-click" id="totalAmount">${workingbill.cartonTotalAmount}</span>
 														</div>
 													</div>
 
@@ -201,9 +201,28 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "carton!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});
@@ -212,9 +231,28 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "carton!undo.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});

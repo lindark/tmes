@@ -204,7 +204,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "carton!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					url: "carton!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,
@@ -234,7 +234,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "carton!undo.action?id="+id+"&workingBillId="+workingBillId,
+					url: "carton!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,

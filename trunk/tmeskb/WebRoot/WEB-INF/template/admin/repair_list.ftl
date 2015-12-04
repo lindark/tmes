@@ -205,7 +205,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "repair!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					url: "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,
@@ -235,7 +235,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "repair!undo.action?id="+id+"&workingBillId="+workingBillId,
+					url: "repair!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,

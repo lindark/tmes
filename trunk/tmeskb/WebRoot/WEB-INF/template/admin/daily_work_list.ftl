@@ -114,7 +114,7 @@
 														<div class="profile-info-name">累计报工数量</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${workingbill.dailyWorkTotalAmount}</span>
+															<span class="editable editable-click" id="totalAmount">${workingbill.dailyWorkTotalAmount}</span>
 														</div>
 													</div>
 
@@ -215,6 +215,7 @@
 					success: function(data) {
 						layer.close(index);
 						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
 					},error:function(data){
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
@@ -244,6 +245,7 @@
 					success: function(data) {
 						layer.close(index);
 						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
 					},error:function(data){
 						$.message("error","系统出现问题，请联系系统管理员");
 					}

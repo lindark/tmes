@@ -204,7 +204,25 @@
 			if(id==""){
 				alert("请选择至少一条纸箱记录！");
 			}else{
-				window.location.href="repair!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "repair!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="repair!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});
@@ -215,7 +233,25 @@
 			if(id==""){
 				alert("请选择至少一条报工记录！");
 			}else{
-				window.location.href="repair!undo.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "repair!undo.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="repair!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});

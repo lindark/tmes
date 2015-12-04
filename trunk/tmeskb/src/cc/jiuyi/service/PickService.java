@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pick;
 
 /**
@@ -28,6 +29,8 @@ public interface PickService extends BaseService<Pick, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-
+	public void confirm(List<Pick> list,Admin admin,String stu,String mblnr);
+	
+	public void repeal(List<Pick> list,Admin admin,String stu);
 	
 }

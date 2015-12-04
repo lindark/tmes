@@ -202,7 +202,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
 					url: "repair!confirms.action?id="+id+"&workingBillId="+workingBillId,
@@ -231,7 +231,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条报工记录！");
+				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
 					url: "repair!undo.action?id="+id+"&workingBillId="+workingBillId,

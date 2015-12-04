@@ -23,7 +23,7 @@ import cc.jiuyi.entity.WorkShop;
 @Repository
 public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao {
 
-	public Pager getCraftPager(Pager pager, HashMap<String, String> map) {
+	public Pager getCraftPager(Pager pager, HashMap<String, String> map,String id) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Craft.class);
@@ -36,6 +36,14 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		if(!super.existAlias(detachedCriteria, "team", "team")){
 			detachedCriteria.createAlias("team", "team");//表名，别名*/							
 		}
+		
+		if(!super.existAlias(detachedCriteria, "repairName", "repairName")){
+			detachedCriteria.createAlias("repairName", "repairName");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "creater", "creater")){
+			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
+		}
 
 		if (map.size() > 0) {			
 			
@@ -47,6 +55,8 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
 			}			
 		}
+		
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("repairName.id", id), Restrictions.eq("creater.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

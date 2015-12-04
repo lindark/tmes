@@ -11,8 +11,7 @@ import cc.jiuyi.entity.Model;
  */
 public interface ModelService extends BaseService<Model, String> {
 
-	public Pager getModelPager(Pager pager, HashMap<String, String> map);
-	
+	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id);
 	/**
 	 * 标记删除
 	 * @param ids

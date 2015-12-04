@@ -25,6 +25,7 @@ public class Quality extends BaseEntity{
 	private Team team;//班组
 	private String problemDescription;//问题描述
 	private Admin creater;//创建人
+	private Admin receiver;//接收人
 	
 	private Integer samplingAmont;//抽检数量
 	private Integer failAmont;//缺陷数量
@@ -199,6 +200,14 @@ public class Quality extends BaseEntity{
 	}
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getReceiver() {
+		return receiver;
+	}
+	public void setReceiver(Admin receiver) {
+		this.receiver = receiver;
 	}
 	
 	

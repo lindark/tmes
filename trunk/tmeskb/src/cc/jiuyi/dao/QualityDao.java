@@ -10,7 +10,7 @@ import cc.jiuyi.entity.Quality;
  */
 public interface QualityDao extends BaseDao<Quality, String> {
 
-	public Pager getQualityPager(Pager pager,HashMap<String,String> map);
+	public Pager getQualityPager(Pager pager,HashMap<String,String> map,String id);
 	
 	/**
 	 * 标记删除

@@ -265,16 +265,31 @@ function btn_event()
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
 			});
-			
-			
-			//window.location.href="pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId;
+			$("#grid-table").trigger("reloadGrid");
 		}
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
-		if(getId())
-		{
-			window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;
+		if(getId()){
+			
+			$.ajax({	
+				url: "pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId,
+				//data: $(form).serialize(),
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();
+				},
+				success: function(data) {
+					layer.close(index);
+					$.message(data.status,data.message);
+				},error:function(data){
+					$.message("error","系统出现问题，请联系系统管理员");
+				}
+			});
+			$("#grid-table").trigger("reloadGrid");
+			//window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;
 		}
 	});
 	//返回
@@ -287,9 +302,9 @@ function btn_event()
 		{
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
-			if(row_state=="1"||row_state=="3")
-			{
-				layer.alert("已确认或已撤销的巡检单无法再编辑!",false);
+			if(row_state=="1"||row_state=="3"){
+				layer.msg("已确认或已撤销的巡检单无法再编辑!", {icon: 5});
+				return false;
 			}
 			else
 			{

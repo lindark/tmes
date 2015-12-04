@@ -120,7 +120,7 @@ public class DeviceAction extends BaseAdminAction {
 	}
 
 	public String ajlist() {
-
+		Admin admin = adminService.getLoginAdmin();
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -153,7 +153,7 @@ public class DeviceAction extends BaseAdminAction {
 
 		}
 
-		pager = deviceService.getDevicePager(pager, map);
+		pager = deviceService.getDevicePager(pager, map,admin.getId());
 
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {

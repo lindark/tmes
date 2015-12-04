@@ -103,20 +103,18 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
 			if (CONFIRMED.equals(enteringwareHouse.getState())) {
-				addActionError("已确认的无须再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(enteringwareHouse.getState())) {
-				addActionError("已撤销的无法再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
 				ratio);
-		redirectionUrl = "enteringware_house!list.action?workingBillId="
-				+ enteringwareHouse.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
+				+ enteringwareHouse.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销
@@ -126,15 +124,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
 			if (UNDO.equals(enteringwareHouse.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio);
-		redirectionUrl = "enteringware_house!list.action?workingBillId="
-				+ enteringwareHouse.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
+				+ enteringwareHouse.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	/**

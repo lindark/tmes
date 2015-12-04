@@ -19,18 +19,11 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
 @Table(name = "Pick")
 public class Pick extends BaseEntity{
 
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1219337885128932022L;
-	
-
-    private String state;//状态
+	private static final long serialVersionUID = 6541260331669237601L;
+	private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin createUser;
@@ -45,6 +38,9 @@ public class Pick extends BaseEntity{
 	private String werks;//工厂
 	private String lgort;//库存地点
 	private String ztext;//抬头文本
+	private String mblnr;//rfc返回值
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -155,6 +151,12 @@ public class Pick extends BaseEntity{
 	}
 
    
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
+	}
 
     
 	

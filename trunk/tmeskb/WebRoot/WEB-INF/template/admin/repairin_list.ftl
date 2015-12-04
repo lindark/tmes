@@ -202,9 +202,27 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条纸箱记录！");
+				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="repairin!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "repairin!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="repairin!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});
@@ -213,9 +231,27 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条报工记录！");
+				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="repairin!undo.action?id="+id+"&workingBillId="+workingBillId;			
+				$.ajax({	
+					url: "repairin!undo.action?id="+id+"&workingBillId="+workingBillId,
+					//data: $(form).serialize(),
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();
+					},
+					success: function(data) {
+						layer.close(index);
+						$.message(data.status,data.message);
+					},error:function(data){
+						$.message("error","系统出现问题，请联系系统管理员");
+					}
+				});
+				$("#grid-table").trigger("reloadGrid");
+				
+				//window.location.href="repairin!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});

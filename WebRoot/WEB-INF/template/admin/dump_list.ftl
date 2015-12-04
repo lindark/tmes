@@ -100,7 +100,7 @@
 									<i class="ace-icon fa fa-book"></i>
 									查看
 								</a>
-								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dumpShow">
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dumpConfirm">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>

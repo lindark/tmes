@@ -112,9 +112,12 @@ public class RepairinAction extends BaseAdminAction {
 		}
 		List<Repairin> list = repairinService.get(ids);
 		repairinService.updateState(list, CONFIRMED, workingBillId);
-		/*redirectionUrl = "repairin!list.action?workingBillId="
-				+ repairin.getWorkingbill().getId();*/
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		workingbill = workingBillService.get(workingBillId);
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount().toString());
+		return ajaxJson(hashmap);
 	}
 	
 	// 刷卡撤销
@@ -129,9 +132,12 @@ public class RepairinAction extends BaseAdminAction {
 			}
 			List<Repairin> list = repairinService.get(ids);
 			repairinService.updateState(list, UNDO, workingBillId);
-			/*redirectionUrl = "repairin!list.action?workingBillId="
-					+ repairin.getWorkingbill().getId();*/
-			return ajaxJsonSuccessMessage("您的操作已成功!");
+			workingbill = workingBillService.get(workingBillId);
+			HashMap<String,String> hashmap = new HashMap<String,String>();
+			hashmap.put(STATUS, SUCCESS);
+			hashmap.put(MESSAGE,"您的操作已成功" );
+			hashmap.put("totalAmount", workingbill.getTotalRepairinAmount().toString());
+			return ajaxJson(hashmap);
 		}
 
 		/**

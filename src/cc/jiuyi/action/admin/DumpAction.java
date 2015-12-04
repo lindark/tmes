@@ -93,14 +93,17 @@ public class DumpAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
-			dumpService.confirmDump(ids, dumpList);
+			dumpService.saveDump(ids, dumpList);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			return ajaxJsonErrorMessage("IO操作失败");
 		} catch (CustomerException e) {
 			e.printStackTrace();
-			return null;
+			return ajaxJsonErrorMessage(e.getMsgDes());
+		}catch(Exception e){
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
 		
 	}

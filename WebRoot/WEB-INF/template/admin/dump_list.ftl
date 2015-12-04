@@ -96,11 +96,11 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dumpShow">
 									<i class="ace-icon fa fa-book"></i>
 									查看
 								</a>
-								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dumpShow">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>

@@ -29,8 +29,8 @@ public class CraftServiceImpl extends BaseServiceImpl<Craft, String> implements 
 
 
 	@Override
-	public Pager getCraftPager(Pager pager, HashMap<String, String> map) {
-		return craftDao.getCraftPager(pager,map);
+	public Pager getCraftPager(Pager pager, HashMap<String, String> map,String id) {
+		return craftDao.getCraftPager(pager,map,id);
 	}
 	
 	@Override

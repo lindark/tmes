@@ -84,7 +84,7 @@ public class DumpAction extends BaseAdminAction {
 	 * 
 	 * @return
 	 */
-	public String confirm() {
+	public String creditapproval() {
 		try {
 			String[] ids = dumpId.split(",");
 			dumpList = dumpRfc.findMaterialDocument("1805", "20150901","20151001");

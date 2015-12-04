@@ -105,19 +105,17 @@ public class DailyWorkAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			dailyWork = dailyWorkService.load(ids[i]);
 			if (CONFIRMED.equals(dailyWork.getState())) {
-				addActionError("已确认的无须再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(dailyWork.getState())) {
-				addActionError("已撤销的无法再确认！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
 		dailyWorkService.updateState(list, CONFIRMED, workingBillId);
-		redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "daily_work!list.action?workingBillId="
+				+ dailyWork.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销
@@ -126,15 +124,14 @@ public class DailyWorkAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			dailyWork = dailyWorkService.load(ids[i]);
 			if (UNDO.equals(dailyWork.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
 		dailyWorkService.updateState(list, UNDO, workingBillId);
-		redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "daily_work!list.action?workingBillId="
+				+ dailyWork.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	/**

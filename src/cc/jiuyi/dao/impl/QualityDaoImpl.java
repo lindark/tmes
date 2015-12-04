@@ -23,7 +23,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 @Repository
 public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements QualityDao {
     
-	public Pager getQualityPager(Pager pager, HashMap<String, String> map) {
+	public Pager getQualityPager(Pager pager, HashMap<String, String> map,String id) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Quality.class);
@@ -37,6 +37,14 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			detachedCriteria.createAlias("team", "team");//表名，别名*/							
 		}
 		
+		if(!super.existAlias(detachedCriteria, "creater", "creater")){
+			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "receiver", "receiver")){
+			detachedCriteria.createAlias("receiver", "receiver");//表名，别名*/							
+		}
+		
 		if (map.size() > 0) {
 			if(map.get("team")!=null){
 			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
@@ -46,6 +54,7 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
 			}	
 		}
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

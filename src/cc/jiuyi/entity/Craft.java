@@ -30,7 +30,7 @@ public class Craft extends BaseEntity{
 	private String resultCode_make;//制造处理结果
 	
 	private String unusualDescription_process;//工艺异常分析
-	private String repairName;//维修人员
+	private Admin repairName;//维修人员
 	private String treatmentMeasure_process;//工艺处理措施
 	private String resultCode_process;//工艺处理结果
 	
@@ -163,15 +163,7 @@ public class Craft extends BaseEntity{
 	}
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
-	}
-	
-	
-	public String getRepairName() {
-		return repairName;
-	}
-	public void setRepairName(String repairName) {
-		this.repairName = repairName;
-	}
+	}	
 	
 	@Transient
 	public String getCabinetName() {
@@ -187,6 +179,14 @@ public class Craft extends BaseEntity{
 	}
 	public void setReceiptReasonSet(Set<ReceiptReason> receiptReasonSet) {
 		this.receiptReasonSet = receiptReasonSet;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getRepairName() {
+		return repairName;
+	}
+	public void setRepairName(Admin repairName) {
+		this.repairName = repairName;
 	}
 	
 	

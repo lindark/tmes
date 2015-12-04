@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ import cc.jiuyi.entity.Quality;
 @Repository
 public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao {
 
-	public Pager getModelPager(Pager pager, HashMap<String, String> map) {
+	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Model.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
@@ -34,6 +35,18 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		
 		if(!super.existAlias(detachedCriteria, "teamId", "team")){
 			detachedCriteria.createAlias("teamId", "team");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "initiator", "initiator")){
+			detachedCriteria.createAlias("initiator", "initiator");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "insepector", "insepector")){
+			detachedCriteria.createAlias("insepector", "insepector");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "fixer", "fixer")){
+			detachedCriteria.createAlias("fixer", "fixer");//表名，别名*/							
 		}
 		
 		if (map.size() > 0) {
@@ -47,6 +60,13 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			}
 			
 		}
+		
+		Disjunction disjunction = Restrictions.disjunction();  
+		disjunction.add(Restrictions.eq("initiator.id", id));
+		disjunction.add(Restrictions.eq("insepector.id", id));
+		disjunction.add(Restrictions.eq("fixer.id", id));
+		detachedCriteria.add(disjunction);
+		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

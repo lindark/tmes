@@ -119,7 +119,7 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String confirms() {
+	public String creditapproval() {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
@@ -141,7 +141,7 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String undo() {
+	public String creditundo() {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);

@@ -97,7 +97,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String confirms() {
+	public String creditapproval() {
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -127,7 +127,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String undo() {
+	public String creditundo() {
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {

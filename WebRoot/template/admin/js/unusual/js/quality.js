@@ -94,6 +94,30 @@ $(function() {
 	});
 }
 	
+	
+	
+	// 人员弹出框
+	$("#receive").click( function() {
+		showReceive();
+	})
+	
+	
+	function showReceive()
+{
+	var title = "选择人员";
+	var width="800px";
+	var height="632px";
+	var content="quality!receive.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		$("#receiveName1").text(id[0]);
+		$("#receiveNa").val(id[1]);//
+		layer.close(index); 
+	});
+}
+	
 
 })
 

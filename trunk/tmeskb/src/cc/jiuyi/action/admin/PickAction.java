@@ -256,7 +256,8 @@ public class PickAction extends BaseAdminAction {
 			 redirectionUrl="pick!list.action?workingBillId="
 					 +pick.getWorkingbill().getId();
 			}
-			return SUCCESS;
+			return ajaxJsonSuccessMessage("您的操作已成功!");
+			//return SUCCESS;
 		}
 
 	

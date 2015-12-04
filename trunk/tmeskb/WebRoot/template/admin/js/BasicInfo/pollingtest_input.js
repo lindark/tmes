@@ -99,6 +99,7 @@ function sub_event(my_id)
 		}
 		else
 		{
+			
 			//赋值
 			fuzhi(my_id);
 			//提交

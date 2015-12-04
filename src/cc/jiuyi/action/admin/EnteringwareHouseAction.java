@@ -112,9 +112,18 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
 				ratio);
-		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
-				+ enteringwareHouse.getWorkingbill().getId();*/
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		workingbill = workingBillService.get(workingBillId);
+		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+				.getByBill(workingBillId);
+		for (int i = 0; i < enteringwares.size(); i++) {
+			totalAmount += enteringwares.get(i).getStorageAmount();
+		}
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount().toString());
+		hashmap.put("total", totalAmount.toString());
+		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
@@ -129,9 +138,18 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio);
-		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
-				+ enteringwareHouse.getWorkingbill().getId();*/
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		workingbill = workingBillService.get(workingBillId);
+		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+				.getByBill(workingBillId);
+		for (int i = 0; i < enteringwares.size(); i++) {
+			totalAmount += enteringwares.get(i).getStorageAmount();
+		}
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount().toString());
+		hashmap.put("total", totalAmount.toString());
+		return ajaxJson(hashmap);
 	}
 
 	/**

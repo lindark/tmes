@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,10 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
+import cc.jiuyi.dao.DumpDetailDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.util.CustomerException;
 
 /**
  * Service实现类 转储管理
@@ -25,6 +30,11 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	private DumpDao dumpDao;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private DumpRfcImpl dumpRfc;
+	@Resource
+	private DumpDetailDao dumpDetailDao;
+	
 	@Resource
 	public void setBaseDao(DumpDao dumpDao){
 		super.setBaseDao(dumpDao);
@@ -52,6 +62,21 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 					dumpDao.save(dump);
 				}
 			}			
+		}
+		for (int i = 0; i < ids.length; i++) {
+			Dump dump = dumpDao.get("voucherId", ids[i]);
+			try {
+				List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(ids[i]);
+				for (int j = 0; j < dDList.size(); j++) {
+					DumpDetail dumpDetail = dDList.get(j);
+					dumpDetail.setDump(dump);
+					dumpDetailDao.save(dumpDetail);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (CustomerException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

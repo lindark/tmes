@@ -106,6 +106,8 @@ public class QualityAction extends BaseAdminAction {
 
 	public String ajlist() {
 
+		Admin admin1 = adminService.getLoginAdmin();
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -138,7 +140,7 @@ public class QualityAction extends BaseAdminAction {
 
 		}
 
-		pager = qualityService.getQualityPager(pager, map);
+		pager = qualityService.getQualityPager(pager, map,admin1.getId());
 
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
@@ -217,7 +219,6 @@ public class QualityAction extends BaseAdminAction {
 			return ERROR;
 		}
 		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team"});
-		//admin=adminService.getLoginAdmin();
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -256,6 +257,10 @@ public class QualityAction extends BaseAdminAction {
 	
 	public String browser(){
 		return "browser";
+	}
+	
+	public String receive(){
+		return "receive";
 	}
 	
 

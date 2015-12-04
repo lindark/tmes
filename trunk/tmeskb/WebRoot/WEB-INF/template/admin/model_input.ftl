@@ -374,31 +374,5 @@ body {
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->    
 </body>
-<script type="text/javascript">
-/*
-	$(function() {
-		
-		$("#self-data").cxSelect({
-			selects: ['type', 'faultReason', 'child'],
-			jsonName: 'name',
-			jsonValue: 'value'
-		},function(select){//回调
-			$(select).trigger("chosen:updated"); 
-			$(select).chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true});
-		});	
-		
-		
-		 /*	$("#faultReason").click(function(){
-			$("#all_background")
-			.css("display","block");
-			$("#dialog").css("display","block");
-	       $("#main-container").css(
-			"display","none");
-		})
-		
-		
-	})*/
-
-</script>
 
 </html>

@@ -108,7 +108,7 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String confirms() {
+	public String creditapproval() {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
@@ -132,7 +132,7 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String undo() {
+	public String creditundo() {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);

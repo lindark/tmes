@@ -20,6 +20,7 @@ import cc.jiuyi.util.*;
 import com.sap.mw.jco.IRepository;
 import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.Table;
+import com.sun.org.apache.bcel.internal.generic.DALOAD;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -32,6 +33,7 @@ import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapMessage;
+import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
@@ -65,6 +67,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private ScrapRfc scraprfc;
 	@Resource
 	private ProcessRfc processrfc;
+	@Resource
+	private DailyWorkRfc dailyworkrfc;
 	protected void setUp() {
 		
 	}
@@ -254,6 +258,18 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		} catch (CustomerException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testBg(){
+		try {
+			dailyworkrfc.SetDailyWork("100117061", "0010", "1");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			System.out.println(e.getMsgDes());
 			e.printStackTrace();
 		}
 	}

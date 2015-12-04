@@ -22,6 +22,11 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}
+.div-name{text-align: center;}
+.div-value{padding-right:30px;min-width:200px; }
+.div-value2{text-align:right;padding-right:0px;min-width:200px;}
+.input-value{width:80px;height:30px;line-height:30px;}
+.sub-style{float: right;}
 </style>
 </head>
 <body class="no-skin input">
@@ -69,7 +74,7 @@ body{background:#fff;}
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">返工</a>
+					<a href="#tabs-1">编辑返工单</a>
 				</li>
 				
 			</ul>
@@ -235,8 +240,7 @@ body{background:#fff;}
 							</div>
 						</form>				
 						
-						<div>	
-				  
+						          <div class="row buttons col-md-8 col-sm-4 sub-style">	
 				                  <#if show??><#else>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
@@ -255,7 +259,7 @@ body{background:#fff;}
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-                 	</div>
+                 	               </div>
 	
 	
 <!-- add by welson 0728 -->	
@@ -275,6 +279,7 @@ body{background:#fff;}
 
 
 </body>
+</html>
 <script type="text/javascript">
 $(function(){
 	//必填提示隐藏/显示
@@ -390,4 +395,3 @@ function tip_event()
 
 
 </script>
-</html>

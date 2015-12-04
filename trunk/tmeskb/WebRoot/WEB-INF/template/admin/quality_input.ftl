@@ -88,14 +88,7 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<!-- <div class="profile-info-name">产品编号</div>
-
-												<div class="profile-info-value">
-													<select name="quality.productNo">
-														<option value="1">40010021</option>
-														<option value="2">40010021</option>
-													</select>
-												</div> -->
+												
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">
@@ -145,6 +138,20 @@ body {
 														class=" input input-sm  formText {required: true, digits: true}" />
 												</div>
 											</div>
+											
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">接收人</div>
+												<div class="profile-info-value">
+												     <#if isAdd??>
+													<button type="button" class="btn btn-xs btn-info"
+														id="receive" data-toggle="button">选择</button>
+													<span id="receiveName1"></span>
+												    <input type="hidden" name="quality.receiver.id" id="receiveNa" value="" class="formText {required: true}"/>
+													<#else> ${(craft.repairName.name)!} </#if>
+												</div>
+											</div>
+											
 											<div class="profile-info-row">
 												<div class="profile-info-name">抽检数量</div>
 												<div class="profile-info-value">

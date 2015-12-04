@@ -28,8 +28,8 @@ public class ModelServiceImpl extends BaseServiceImpl<Model, String> implements 
 	}
 
 	@Override
-	public Pager getModelPager(Pager pager, HashMap<String, String> map) {
-		return modelDao.getModelPager(pager,map);
+	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id) {
+		return modelDao.getModelPager(pager,map,id);
 	}
 	
 	@Override

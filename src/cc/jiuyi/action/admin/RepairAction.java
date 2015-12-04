@@ -147,7 +147,7 @@ public class RepairAction extends BaseAdminAction {
 		HashMap<String,String> hashmap = new HashMap<String,String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+		hashmap.put("totalAmount", workingbill.getTotalRepairAmount().toString());
 		return ajaxJson(hashmap);
 	}
 

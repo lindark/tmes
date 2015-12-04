@@ -202,8 +202,8 @@ public class PickDetailAction extends BaseAdminAction {
 				redirectionUrl="pick!list.action?workingBillId="+workingBillId;
 				return SUCCESS;
 				}else{
-					addActionError("请检查是否输入内容！");
-					return ERROR;
+					//addActionError("请检查是否正确输入内容！");
+					return ajaxJsonErrorMessage("请检查是否正确输入内容!");
 				}
 		}		
 		return SUCCESS;

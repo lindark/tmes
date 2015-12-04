@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
+import cc.jiuyi.action.cron.ExtremelyMessage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -39,6 +41,7 @@ import cc.jiuyi.service.CallreasonService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -321,16 +324,53 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setResponsorSet(new HashSet<Admin>(adminSet));
 		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSet));
 		abnormalService.save(abnormal);
-
+		
+		
+		Calendar can = Calendar.getInstance();		
+		can.setTime(abnormal.getCreateDate());
+		//can.add(Calendar.MINUTE, 10); //System.out.println(can.get(Calendar.MINUTE));
+		can.add(Calendar.SECOND, 5);
+		Date date=can.getTime();				
+		System.out.println(ThinkWayUtil.getCron(date));
+		int i=0;
+		quartzMessage(ThinkWayUtil.getCron(date),i);	
+		/*if(xx==true){//xx为调短信接口返回的值       
+			i=1;
+			Calendar can1 = Calendar.getInstance();
+			can1.setTime(abnormal.getCreateDate());
+			can1.add(Calendar.SECOND,12);
+			Date date1=can1.getTime();
+			System.out.println(ThinkWayUtil.getCron(date1));
+			quartzMessage(ThinkWayUtil.getCron(date1),i);
+		}else{
+			i=0;
+			Calendar can1 = Calendar.getInstance();
+			can1.setTime(abnormal.getCreateDate());
+			can1.add(Calendar.SECOND,12);
+			Date date1=can1.getTime();
+			System.out.println(ThinkWayUtil.getCron(date1));
+			quartzMessage(ThinkWayUtil.getCron(date1),i);
+		}*/		
+		
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
-
+	
+	
+	public void quartzMessage(String time,int i){		
+		  String job_name = "sendMessage";
+		  if(i==0){
+			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time);		     
+		  }else if(i==1){
+			  QuartzManagerUtil.modifyJobTime(job_name,time);
+		  }	     
+	     // QuartzManagerUtil.removeJob(job_name); 
+	}
+	
 	// 删除
 	public String delete() throws Exception {
 		ids = id.split(",");
 		abnormalService.updateisdel(ids, "Y");
-		// abnormalService.delete(ids);
 		redirectionUrl = "abnormal!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}

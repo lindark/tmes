@@ -1,10 +1,12 @@
 package cc.jiuyi.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.util.CustomerException;
 
 /**
  * Service接口
@@ -26,6 +28,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	public void confirmDump(String[] ids,List<Dump> dumpList);
+	public void saveDump(String[] ids,List<Dump> dumpList)throws IOException, CustomerException;
 	
 }

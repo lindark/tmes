@@ -204,7 +204,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "daily_work!confirms.action?id="+id+"&workingBillId="+workingBillId,
+					url: "daily_work!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,
@@ -234,7 +234,7 @@
 				alert("请选择至少一条记录！");
 			}else{
 				$.ajax({	
-					url: "daily_work!undo.action?id="+id+"&workingBillId="+workingBillId,
+					url: "daily_work!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
 					dataType: "json",
 					async: false,

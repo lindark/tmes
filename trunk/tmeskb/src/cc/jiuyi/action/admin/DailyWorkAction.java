@@ -113,9 +113,12 @@ public class DailyWorkAction extends BaseAdminAction {
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
 		dailyWorkService.updateState(list, CONFIRMED, workingBillId);
-		/*redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();*/
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		workingbill = workingBillService.get(workingBillId);
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount().toString());
+		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
@@ -129,9 +132,12 @@ public class DailyWorkAction extends BaseAdminAction {
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
 		dailyWorkService.updateState(list, UNDO, workingBillId);
-		/*redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();*/
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		workingbill = workingBillService.get(workingBillId);
+		HashMap<String,String> hashmap = new HashMap<String,String>();
+		hashmap.put(STATUS, SUCCESS);
+		hashmap.put(MESSAGE,"您的操作已成功" );
+		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount().toString());
+		return ajaxJson(hashmap);
 	}
 
 	/**

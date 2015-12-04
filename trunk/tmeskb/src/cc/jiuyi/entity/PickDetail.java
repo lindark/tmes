@@ -40,7 +40,7 @@ public class PickDetail extends BaseEntity{
 	private String item_text;//项目文本
 	private String orderid;//工单号
 	private Pick pick;//领料主表
-
+	private String meins;//单位
 	
 	
     private WorkingBill workingbill;//随工单
@@ -83,6 +83,13 @@ public class PickDetail extends BaseEntity{
 	}
 	public void setItem_text(String item_text) {
 		this.item_text = item_text;
+	}
+	
+	public String getMeins() {
+		return meins;
+	}
+	public void setMeins(String meins) {
+		this.meins = meins;
 	}
 	public String getOrderid() {
 		return orderid;

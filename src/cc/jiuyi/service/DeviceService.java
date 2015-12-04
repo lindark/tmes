@@ -10,7 +10,7 @@ import cc.jiuyi.entity.Device;
  */
 public interface DeviceService extends BaseService<Device, String> {
 
-	public Pager getDevicePager(Pager pager, HashMap<String, String> map);
+	public Pager getDevicePager(Pager pager, HashMap<String, String> map,String id);
 	
 	/**
 	 * 标记删除

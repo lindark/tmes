@@ -260,7 +260,7 @@ function btn_event()
 			return false;
 		}
 		$.ajax({	
-			url: "dump!confirm.action?dumpId="+dumpId,
+			url: "dump!creditapproval.action?dumpId="+dumpId,
 			//data: $(form).serialize(),
 			dataType: "json",
 			async: false,

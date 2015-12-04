@@ -250,7 +250,7 @@ function btn_event()
 		var index = "";
 		if(getId()){
 			$.ajax({	
-				url: "pollingtest!confirms.action?id="+id+"&workingBillId="+workingBillId,
+				url: "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 				//data: $(form).serialize(),
 				dataType: "json",
 				async: false,
@@ -273,7 +273,7 @@ function btn_event()
 		if(getId()){
 			
 			$.ajax({	
-				url: "pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId,
+				url: "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 				//data: $(form).serialize(),
 				dataType: "json",
 				async: false,

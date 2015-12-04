@@ -259,6 +259,23 @@ function btn_event()
 			alert("请选择一条记录");
 			return false;
 		}
-		window.location.href="dump!confirm.action?dumpId="+dumpId;
+		$.ajax({	
+			url: "dump!confirm.action?dumpId="+dumpId,
+			//data: $(form).serialize(),
+			dataType: "json",
+			async: false,
+			beforeSend: function(data) {
+				$(this).attr("disabled", true);
+				index = layer.load();
+			},
+			success: function(data) {
+				layer.close(index);
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");
+			},error:function(data){
+				$.message("error","系统出现问题，请联系系统管理员");
+			}
+		});
+		//window.location.href="dump!confirm.action?dumpId="+dumpId;
 	});
 }

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.dao.PickDao;
 import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Pick;
@@ -87,44 +88,14 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	}
 
 	@Override
-	public void save(List<PickDetail> pickDetailList,String workingBillId,String my_id) {
-		Admin admin=adminService.getLoginAdmin();
-		WorkingBill workingBill=workingBillService.get(workingBillId);
-		String s="";
-		Pick pk=new Pick();
-		if("1".equals(my_id)&&pickDetailList.size()>0){
-			Pick pick=new Pick();
-			pick.setCreateDate(new Date());
-			pick.setCreateUser(admin);
-			pick.setState("1");
-			pick.setWorkingbill(workingBill);
-			s=this.pickService.save(pick);
-		}
-		if("2".equals(my_id)&&pickDetailList.size()>0){
-			Pick pick=new Pick();
-			pick.setCreateDate(new Date());
-			pick.setCreateUser(admin);
-			pick.setConfirmUser(admin);
-			pick.setState("2");
-			pick.setWorkingbill(workingBill);
-			s=this.pickService.save(pick);
-		}
-			
-		if(s!=null&&!"".equals(s)){
-		  pk=pickService.get(s);
-		}
-		for(int i=0;i<pickDetailList.size();i++){
-			PickDetail p=pickDetailList.get(i);			
-			p.setConfirmUser(admin);
-			p.setCharg("15091901");
-			p.setItem_text("文本");
-			p.setOrderid("100116549");
-		    p.setWorkingbill(workingBill);
-			p.setPick(pk);
-			if(!"".equals(p.getPickType())&&!"".equals(p.getPickAmount())){
-			  this.pickDetailDao.save(p);
-			}
-			
+	public void save(List<PickDetail> pickDetailList,Pick pick) {
+		String pk = pickService.save(pick);
+		pick.setId(pk);
+		for(PickDetail pickDetail: pickDetailList){
+			pickDetail.setPick(pick);//建关系
+			if(!"".equals(pickDetail.getPickType())&&!"".equals(pickDetail.getPickAmount())){
+				pickDetailDao.save(pickDetail);
+			}	
 		}
 	}
 	

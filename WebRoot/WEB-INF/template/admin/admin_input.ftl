@@ -167,7 +167,7 @@ body {
 										<div class="profile-info-name">部门：</div>
 
 										<div class="profile-info-value">${(departName)!}</div>
-										<#else> <input type="hidden" name="admin.department.id"
+										<#else> <input type="hidden" name="departid"
 											value="${(admin.department.id)!}" />
 										<div class="profile-info-name">部门：</div>
 

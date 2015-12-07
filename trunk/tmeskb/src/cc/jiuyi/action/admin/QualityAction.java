@@ -52,6 +52,7 @@ public class QualityAction extends BaseAdminAction {
 	private String abnormalId;
 	private String loginUsername;
 	private Admin admin;
+	private String abnorId;
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
@@ -139,7 +140,7 @@ public class QualityAction extends BaseAdminAction {
 		   }
 
 		}
-
+		
 		pager = qualityService.getQualityPager(pager, map,admin1.getId());
 
 		List pagerlist = pager.getList();
@@ -369,6 +370,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setCraftList(List<Craft> craftList) {
 		this.craftList = craftList;
+	}
+
+	public String getAbnorId() {
+		return abnorId;
+	}
+
+	public void setAbnorId(String abnorId) {
+		this.abnorId = abnorId;
 	}
 
 	

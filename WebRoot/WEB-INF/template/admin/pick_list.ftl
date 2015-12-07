@@ -224,7 +224,7 @@
 				return false;
 			}
 			$.ajax({	
-				url: "pick!confirms.action?id="+id+"&matnr="+${(workingbill.matnr)!},
+				url: "pick!creditapproval.action?id="+id+"&matnr="+${(workingbill.matnr)!},
 				dataType: "json",
 				async: false,
 				beforeSend: function(data) {
@@ -251,7 +251,7 @@
 				return false;
 			}
 			$.ajax({	
-				url: "pick!repeal.action?id="+id,	
+				url: "pick!creditundo.action?id="+id,	
 				dataType: "json",
 				async: false,
 				beforeSend: function(data) {

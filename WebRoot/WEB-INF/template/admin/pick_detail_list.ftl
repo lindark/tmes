@@ -106,15 +106,15 @@ body {
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" ></td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" />
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" class=" input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
 												</td>
 												<td class="center">
 													<select name="pickDetailList[${(num)}].pickType">
-													    <option></option>
-													    <option>领料</option>
-													    <option>退料</option>
+													    <option value="">--</option> <#list allType as alist>
+													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pickDetail.pickType ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
+													    </#list>
 													</select>
 												</td>											
 											</tr>

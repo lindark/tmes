@@ -9,4 +9,5 @@ import cc.jiuyi.util.CustomerException;
 
 public interface PickRfc extends BaserfcService{
 	public String MaterialDocumentCrt(Pick pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
+	public List<Pick> BatchMaterialDocumentCrt(List<Pick> pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
 }

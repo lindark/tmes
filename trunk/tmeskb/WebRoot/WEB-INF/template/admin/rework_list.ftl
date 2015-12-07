@@ -214,9 +214,9 @@
 			window.location.href="rework!add.action?workingBillId="+$("#workingBillId").val();
 			
 		});
-		
-		
+
 		$("#editRework").click(function(){
+			var index="";
 			var workingBillId = $("#workingBillId").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length>1){
@@ -226,24 +226,29 @@
 	    		alert("至少选择一条返工记录");
 	    		return false;
 	    	}else{
-	    		window.location.href = "rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
+	    		$.ajax({
+					url: "rework!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
+					dataType: "json",
+					async: false,
+					beforeSend: function(data) {
+						$(this).attr("disabled", true);
+						index = layer.load();	
+				},
+				success:function(data){
+					layer.close(index);
+					if(data.status=="success"){
+						window.location.href="rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();
+					}else{						
+						$.message(data.status,data.message);
+					}				
+				},error:function(data){
+					alert(data);
+					$.message("error","系统出现问题，请联系系统管理员");
+				}
+			  });   		
 	    	}	
 		});
 		
-		
-		$("#checkRework").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id.length>1){
-	    		alert("只能选择一条返工记录！");
-	    		return false;
-	    	}if(id==""){
-	    		alert("至少选择一条返工记录");
-	    		return false;
-	    	}else{
-	    		window.location.href = "rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
-	    	}	
-		});
 		
 		$("#showRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
@@ -272,6 +277,8 @@
 			}
 			
 		});
+		
+		
 		$("#undoRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
@@ -281,14 +288,14 @@
 				return false;
 			}
 			$.ajax({
-				url: "pick!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val(),	
+				url: "rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val(),	
 				dataType: "json",
 				async: false,
 				beforeSend: function(data) {
 					$(this).attr("disabled", true);
 					index = layer.load();	
-			})
-			sucess:function(data){
+			},
+			success:function(data){
 				layer.close(index);
 				$.message(data.status,data.message);
 				$("#grid-table").trigger("reloadGrid");

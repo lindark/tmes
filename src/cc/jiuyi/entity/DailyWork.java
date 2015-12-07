@@ -18,7 +18,7 @@ import org.compass.annotations.Searchable;
 public class DailyWork extends BaseEntity {
 
 	private static final long serialVersionUID = 8446572478950753825L;
-	private Integer enterAmount;// 报工数量
+	private double enterAmount;// 报工数量
 	private String State;// 状态
 	private String isDel;// 是否删除
 	private Admin confirmUser;// 确认人
@@ -26,9 +26,11 @@ public class DailyWork extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
-
+	private String step;
+	private String orderid;
 	private WorkingBill workingbill;// 随工单
-
+	private String e_type;//S/E
+	private String e_message;//反馈消息
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -49,11 +51,11 @@ public class DailyWork extends BaseEntity {
 		State = state;
 	}
 
-	public Integer getEnterAmount() {
+	public Double getEnterAmount() {
 		return enterAmount;
 	}
 
-	public void setEnterAmount(Integer enterAmount) {
+	public void setEnterAmount(Double enterAmount) {
 		this.enterAmount = enterAmount;
 	}
 
@@ -111,6 +113,38 @@ public class DailyWork extends BaseEntity {
 
 	public void setCreateUser(Admin createUser) {
 		this.createUser = createUser;
+	}
+
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
+	}
+
+	public String getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(String orderid) {
+		this.orderid = orderid;
+	}
+
+	public String getE_type() {
+		return e_type;
+	}
+
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+
+	public String getE_message() {
+		return e_message;
+	}
+
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
 	}
 
 }

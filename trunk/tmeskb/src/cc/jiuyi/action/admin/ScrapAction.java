@@ -18,14 +18,20 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Scrap;
+import cc.jiuyi.entity.ScrapBug;
+import cc.jiuyi.entity.ScrapLater;
+import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -55,6 +61,11 @@ public class ScrapAction extends BaseAdminAction
 	private List<Material>list_material;//物料
 	private List<Dict>list_dict;//责任划分
 	private String smdutytype;//报废信息--责任类型
+	private List<Cause>list_cause;//缺陷
+	private List<ScrapLater>list_scraplater;//报废后产出
+	private List<ScrapMessage>list_scrapmsg;//报废信息
+	private List<ScrapBug>list_scrapbug;//报废原因
+	private String my_id;//1刷卡保存2刷卡确认
 	/**
 	 * service接口
 	 */
@@ -68,6 +79,10 @@ public class ScrapAction extends BaseAdminAction
 	private DictService dictService;//字典表
 	@Resource
 	private ProductsService productService;//产品
+	@Resource
+	private CauseService causeService;//缺陷
+	@Resource
+	private ScrapMessageService smService;//报废信息表
 	
 	/**======================end 对象，变量，接口=*=================================*/
 	
@@ -89,52 +104,44 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String ajlist()
 	{
-		try
+		if(pager==null)
 		{
-			if(pager==null)
-			{
-				pager=new Pager();
-			}
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
-			//查询条件
-			if(pager.is_search()==true&&filters!=null)
-			{
-				JSONObject filt=JSONObject.fromObject(filters);
-				Pager pg1=new Pager();
-				Map<Object,Object> map=new HashMap<Object, Object>();
-				map.put("rules", jqGridSearchDetailTo.class);
-				pg1=(Pager) JSONObject.toBean(filt,Pager.class,map);
-				pager.setRules(pg1.getRules());
-				pager.setGroupOp(pg1.getGroupOp());
-			}
-			pager=this.scrapService.getScrapPager(pager,wbId);
-			@SuppressWarnings("unchecked")
-			List<Scrap> scraplist=pager.getList();
-			List<Scrap> scraplist2=new ArrayList<Scrap>();
-			for(int i=0;i<scraplist.size();i++)
-			{
-				Scrap s1=scraplist.get(i);
-				s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState()));//状态
-				s1.setXcreater(s1.getCreater().getName());//提单人
-				if(s1.getConfirmation()!=null)
-				{
-					s1.setXconfirmation(s1.getConfirmation().getName());//确认人
-				}
-				scraplist2.add(s1);
-			}
-			pager.setList(scraplist2);
-			JsonConfig jsonConfig=new JsonConfig();
-			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Scrap.class));//排除有关联关系的属性字段 
-			JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
-			return this.ajaxJson(jsonArray.get(0).toString());
+			pager=new Pager();
 		}
-		catch (Exception e)
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+		//查询条件
+		if(pager.is_search()==true&&filters!=null)
 		{
-			e.printStackTrace();
-			return null;
+			JSONObject filt=JSONObject.fromObject(filters);
+			Pager pg1=new Pager();
+			Map<Object,Object> map=new HashMap<Object, Object>();
+			map.put("rules", jqGridSearchDetailTo.class);
+			pg1=(Pager) JSONObject.toBean(filt,Pager.class,map);
+			pager.setRules(pg1.getRules());
+			pager.setGroupOp(pg1.getGroupOp());
 		}
+		pager=this.scrapService.getScrapPager(pager,wbId);
+		@SuppressWarnings("unchecked")
+		List<Scrap> scraplist=pager.getList();
+		List<Scrap> scraplist2=new ArrayList<Scrap>();
+		for(int i=0;i<scraplist.size();i++)
+		{
+			Scrap s1=scraplist.get(i);
+			s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState()));//状态
+			s1.setXcreater(s1.getCreater().getName());//提单人
+			if(s1.getConfirmation()!=null)
+			{
+				s1.setXconfirmation(s1.getConfirmation().getName());//确认人
+			}
+			scraplist2.add(s1);
+		}
+		pager.setList(scraplist2);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Scrap.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.get(0).toString());
 	}
 	
 	/**
@@ -146,6 +153,48 @@ public class ScrapAction extends BaseAdminAction
 		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
 		this.list_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
+		this.list_cause=this.causeService.getBySample("4");//报废原因内容
+		this.add="add";
+		return INPUT;
+	}
+	
+	/**
+	 * 新增
+	 */
+	public String save()
+	{
+		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 编辑前
+	 */
+	public String edit()
+	{
+		this.workingbill=this.wbService.load(wbId);
+		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
+		List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
+		for(int i=0;i<l_material.size();i++)
+		{
+			Material m=l_material.get(i);
+			ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询
+			if(sm!=null)
+			{
+				m.setXsmreson(sm.getSmreson());
+				List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
+				for(int j=0;j<l_sbug.size();j++)
+				{
+					
+				}
+			}
+		}
+		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
+		this.list_cause=this.causeService.getBySample("4");//报废原因内容
+		this.scrap=this.scrapService.load(id);
+		this.list_scraplater=new ArrayList<ScrapLater>(this.scrap.getScrapLaterSet());//报废后产出
+		this.edit="edit";
 		return INPUT;
 	}
 	
@@ -269,6 +318,56 @@ public class ScrapAction extends BaseAdminAction
 	public void setSmdutytype(String smdutytype)
 	{
 		this.smdutytype = smdutytype;
+	}
+
+	public List<Cause> getList_cause()
+	{
+		return list_cause;
+	}
+
+	public void setList_cause(List<Cause> list_cause)
+	{
+		this.list_cause = list_cause;
+	}
+
+	public List<ScrapLater> getList_scraplater()
+	{
+		return list_scraplater;
+	}
+
+	public void setList_scraplater(List<ScrapLater> list_scraplater)
+	{
+		this.list_scraplater = list_scraplater;
+	}
+
+	public List<ScrapMessage> getList_scrapmsg()
+	{
+		return list_scrapmsg;
+	}
+
+	public void setList_scrapmsg(List<ScrapMessage> list_scrapmsg)
+	{
+		this.list_scrapmsg = list_scrapmsg;
+	}
+
+	public List<ScrapBug> getList_scrapbug()
+	{
+		return list_scrapbug;
+	}
+
+	public void setList_scrapbug(List<ScrapBug> list_scrapbug)
+	{
+		this.list_scrapbug = list_scrapbug;
+	}
+
+	public String getMy_id()
+	{
+		return my_id;
+	}
+
+	public void setMy_id(String my_id)
+	{
+		this.my_id = my_id;
 	}
 	
 	/**==========================end "get/set"=================================*/

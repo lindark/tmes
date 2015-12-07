@@ -21,11 +21,13 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -44,13 +46,14 @@ public class DailyWorkAction extends BaseAdminAction {
 	private static final long serialVersionUID = 352880047222902914L;
 
 	private static final String CONFIRMED = "1";
-	private static final String UNCONFIRM = "2";
+	//private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 
 	private DailyWork dailyWork;
 	private String workingBillId;
 	private WorkingBill workingbill;
 	private Admin admin;
+	private List<Process> allProcess;
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -60,6 +63,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private ProcessService processService;
 
 	/**
 	 * 跳转list 页面
@@ -74,6 +79,9 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
+		workingbills.add(workingbill);
+		allProcess = processService.findProcess(workingbills);
 		return INPUT;
 	}
 
@@ -83,6 +91,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setCreateUser(admin);
+		dailyWork.setStep(dailyWork.getProcess().getProcessCode());
 		dailyWorkService.save(dailyWork);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
@@ -115,7 +124,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list, CONFIRMED, workingBillId);
+			dailyWorkService.updateState(list, workingBillId);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -145,15 +154,7 @@ public class DailyWorkAction extends BaseAdminAction {
 			}
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
-		try {
-			dailyWorkService.updateState(list, UNDO, workingBillId);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dailyWorkService.updateState2(list, workingBillId);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -196,6 +197,9 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
+			if(dailyWork.getProcess()!=null){
+				dailyWork.setResponseName(dailyWork.getProcess().getProcessName());
+			}
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}
@@ -237,6 +241,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public List<Process> getAllProcess() {
+		return allProcess;
+	}
+
+	public void setAllProcess(List<Process> allProcess) {
+		this.allProcess = allProcess;
 	}
 
 }

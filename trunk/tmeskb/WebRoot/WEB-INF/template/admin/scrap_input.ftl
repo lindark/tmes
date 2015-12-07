@@ -9,7 +9,6 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="${base}/template/admin/css/BaseInfo/scrap_input.css" type="text/css"></link>
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/scrap_input.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/layer/jquery.easydrag.handler.beta2.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />

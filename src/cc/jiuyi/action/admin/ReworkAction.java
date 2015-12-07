@@ -48,6 +48,7 @@ public class ReworkAction extends BaseAdminAction {
 	
 	private static final String COMPELETE ="Y";
 	private static final String UNDO="4";
+	private static final String CHECKED="2";
 	
 	private Rework rework;
 	private Admin admin;
@@ -193,9 +194,13 @@ public class ReworkAction extends BaseAdminAction {
 		public String checkEdit(){
 	    workingbill = workingBillService.get(workingBillId);
 		rework = reworkService.load(id);
-		if(rework.getState().equals(UNDO)){
+		if(UNDO.equals(rework.getState())){
 			return ajaxJsonErrorMessage("已撤销的无法再编辑");
-		}else{
+		}
+		if(CHECKED.equals(rework.getState())){
+			return ajaxJsonErrorMessage("已确认的无法再编辑");
+		}
+		else{
 			HashMap<String , String> map = new HashMap<String , String>();
 			map.put("status", "success");
 			return ajaxJson(map);
@@ -259,7 +264,7 @@ public class ReworkAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{
+	public String creditsubmit()throws Exception{
 		admin= adminService.getLoginAdmin();
 		//rework.setCreateUser(admin.getId());
 		rework.setCreateUser(admin);
@@ -285,7 +290,7 @@ public class ReworkAction extends BaseAdminAction {
 	}
 	
 	//刷卡确认
-	public String confirm() throws Exception{
+	public String creditapproval() throws Exception{
 		Rework persistent = reworkService.load(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
 		admin=adminService.getLoginAdmin();

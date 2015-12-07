@@ -203,6 +203,7 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
+				var index = "";
 				$.ajax({	
 					url: "carton!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
@@ -233,6 +234,7 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
+				var index = "";
 				$.ajax({	
 					url: "carton!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),

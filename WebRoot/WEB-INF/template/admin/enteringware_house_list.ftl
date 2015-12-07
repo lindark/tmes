@@ -208,6 +208,7 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
+				var index = "";
 				$.ajax({	
 					url: "enteringware_house!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
@@ -239,6 +240,7 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
+				var index = "";
 				$.ajax({	
 					url: "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),

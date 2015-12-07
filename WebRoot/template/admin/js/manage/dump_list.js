@@ -254,6 +254,7 @@ function btn_event()
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
+		var index = "";
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
 			alert("请选择一条记录");

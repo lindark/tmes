@@ -270,6 +270,7 @@ function btn_event()
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
+		var index = "";
 		if(getId()){
 			
 			$.ajax({	

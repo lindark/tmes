@@ -37,11 +37,12 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:['创建日期','创建人','确认人', '状态'],
+		colNames:['创建日期','创建人','确认人','物料凭证号','状态'],
 		colModel:[
 			{name:'createDate',index:'createDate',search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',index:'createUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'xconfirmUser',index:'confirmUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xconfirmUser',index:'confirmUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'mblnr',index:'mblnr',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:300,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
 		], 
 

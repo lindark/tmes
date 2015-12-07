@@ -21,6 +21,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.ItermediateTest;
+import cc.jiuyi.entity.ItermediateTestDetail;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -56,6 +57,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private List<Dict> allState;
 	private Admin admin;
 	
+	
+
 	@Resource
 	private ItermediateTestService itermediateTestService;
 	@Resource
@@ -70,6 +73,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	
 	private String workingBillId;
 	private WorkingBill workingbill;
+	
 
 	//添加
 	public String add(){
@@ -84,9 +88,10 @@ public class ItermediateTestAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.asc);
 			pager.setOrderBy("orderList");
 		}
-		
-		workingbill=workingBillService.get(workingBillId);
-
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		System.out.println(admin.getShift());
+		this.workingbill=this.workingBillService.get(workingBillId);
 		return LIST;
 	}
 	
@@ -305,6 +310,20 @@ public class ItermediateTestAction extends BaseAdminAction {
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
 	}
+
+	
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+
+
+
+    
 
 	
 	

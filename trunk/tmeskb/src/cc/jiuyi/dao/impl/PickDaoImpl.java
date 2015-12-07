@@ -46,53 +46,18 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 	}
 
 	public Pager getPickPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = pickpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Pick.class);
-		if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
-		//System.out.println(map.size());
-		if (map.size() > 0) {
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
+		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
+		{
+			detachedCriteria.createAlias("workingbill", "workingbill");
 		}		
+		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String pickpagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
 
-		}
-		//System.out.println("wheresql:" + wheresql);
-		return wheresql;
-	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

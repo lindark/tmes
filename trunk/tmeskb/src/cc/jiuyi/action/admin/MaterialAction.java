@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.sap.rfc.impl.MaterialRfcImpl;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
@@ -53,6 +54,7 @@ public class MaterialAction extends BaseAdminAction {
 	private String productsCode;
 	private String productsName;
 	private String productsid;
+	private List<Material> materialList;
 	
 	@Resource
 	private MaterialService materialService;
@@ -60,6 +62,8 @@ public class MaterialAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private ProductsService productsService;
+	@Resource
+	private MaterialRfcImpl materialRfcImpl;
 	
 	
 	//添加
@@ -162,8 +166,6 @@ public class MaterialAction extends BaseAdminAction {
 						dictService, "materialState", material.getState()));
 				material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "iscartonSate", material.getIsCarton()));
-				//material.setProductsCode(material.getProducts().getProductsCode());
-				//material.setProductsName(material.getProducts().getProductsName());
 				material.setProducts(null);
 				lst.add(material);
 			}
@@ -172,7 +174,6 @@ public class MaterialAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Material.class));//排除有关联关系的属性字段 
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
@@ -241,7 +242,11 @@ public class MaterialAction extends BaseAdminAction {
 		redirectionUrl="material!list.action";
 		return SUCCESS;	
 	}
-		
+	
+	// 同步
+	public String sync() {
+		return SUCCESS;
+	}
 
 
 	public Material getMaterial() {
@@ -327,6 +332,14 @@ public class MaterialAction extends BaseAdminAction {
 
 	public void setProductsName(String productsName) {
 		this.productsName = productsName;
+	}
+
+	public List<Material> getMaterialList() {
+		return materialList;
+	}
+
+	public void setMaterialList(List<Material> materialList) {
+		this.materialList = materialList;
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 
 /**
@@ -29,7 +30,8 @@ public interface PickDetailService extends BaseService<PickDetail, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	public void save(List<PickDetail> pickDetailList,String woringBillId,String my_id);
+	public void save(List<PickDetail> pickDetailList,Pick pick);
 	
 	public List<PickDetail> getPickDetail(String id);
+
 }

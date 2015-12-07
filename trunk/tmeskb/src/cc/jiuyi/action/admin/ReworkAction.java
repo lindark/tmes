@@ -296,7 +296,7 @@ public class ReworkAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String undo() {
+	public String creditundo() {
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {

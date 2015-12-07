@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table1";
 	var pager_selector = "#grid-pager1";
+	
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -67,9 +68,9 @@ jQuery(function($) {
 			
 			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'handlingTime',index:'handlingTime', width:60,editable: true},
-			{name:'log',index:'log', width:100,editable: true},
-			{name:'callReason',index:'callReason', width:160, editable: true},
+			{name:'disposeTime',index:'disposeTime', width:60,editable: true,formatter:},
+			{name:'log',index:'log', width:160,editable: true},
+			{name:'callReason',index:'callReason', width:100, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle},
@@ -103,8 +104,8 @@ jQuery(function($) {
 		caption: "异常清单"
 
 	});
-	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-		
+	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size		
+	
 	function aceSwitch( cellvalue, options, cell ) {
 		setTimeout(function(){
 			$(cell) .find('input[type=checkbox]')

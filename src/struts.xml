@@ -77,12 +77,15 @@
 		<interceptors>
 			<interceptor name="trimInterceptor" class="cc.jiuyi.common.TrimInterceptor" />
 			<interceptor name="logInterceptor" class="cc.jiuyi.common.LogInterceptor" />
+			<interceptor name="creditInterceptor" class="cc.jiuyi.common.CreditInterceptor" />
 			<interceptor-stack name="adminStack">
 				<!-- trim拦截器 -->
 				<interceptor-ref name="trimInterceptor" />
 				<!-- 配置管理日志拦截器 -->
 				<interceptor-ref name="logInterceptor" />
 				<interceptor-ref name="baseStack" />
+				<!-- 配置刷卡拦截器 -->
+				<interceptor-ref name="creditInterceptor" />
 			</interceptor-stack>
 		</interceptors>
 

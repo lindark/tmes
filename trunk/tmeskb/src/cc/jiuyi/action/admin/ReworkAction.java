@@ -114,9 +114,7 @@ public class ReworkAction extends BaseAdminAction {
 	 * ajax 列表
 	 * @return
 	 */
-	public String ajlist(){
-
-		
+	public String ajlist(){	
 			HashMap<String, String> map = new HashMap<String, String>();
 			workingbill = workingBillService.get(workingBillId);
 			if(pager.getOrderBy().equals("")) {
@@ -145,9 +143,6 @@ public class ReworkAction extends BaseAdminAction {
 					map.put("start", start);
 				}
 			}
-
-				
-			
 			    pager = reworkService.getReworkPager(pager, map,workingBillId);		
 				List<Rework> reworkList = pager.getList();
 				List<Rework> lst = new ArrayList<Rework>();
@@ -180,9 +175,7 @@ public class ReworkAction extends BaseAdminAction {
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Rework.class));//排除有关联关系的属性字段  
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-			 return ajaxJson(jsonArray.get(0).toString());
-	
-		
+			 return ajaxJson(jsonArray.get(0).toString());	
 	}
 	
 
@@ -196,16 +189,26 @@ public class ReworkAction extends BaseAdminAction {
 	}
 
 	
-	//编辑
-		public String edit(){
+	//编辑检查
+		public String checkEdit(){
 	    workingbill = workingBillService.get(workingBillId);
 		rework = reworkService.load(id);
 		if(rework.getState().equals(UNDO)){
-			addActionError("已撤销的无法再编辑！");
-			return ERROR;
-		}
-			return INPUT;	
-		}
+			return ajaxJsonErrorMessage("已撤销的无法再编辑");
+		}else{
+			HashMap<String , String> map = new HashMap<String , String>();
+			map.put("status", "success");
+			return ajaxJson(map);
+		}	
+	  }
+		
+		
+		//编辑
+		public String edit(){
+		    workingbill = workingBillService.get(workingBillId);
+			rework = reworkService.load(id);
+			return INPUT;
+		}	
 		
 	//更新
 		@Validations(
@@ -298,22 +301,17 @@ public class ReworkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		workingbill = workingBillService.get(workingBillId);
+		admin=adminService.getLoginAdmin();
 		ids = id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			rework = reworkService.load(ids[i]);
+		List<Rework> list=reworkService.get(ids);
+		for (int i = 0; i < list.size(); i++) {
+			rework = list.get(i);
 			if (UNDO.equals(rework.getState())) {
-				addActionError("已撤销的无法再撤销！");
-				return ERROR;
+				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
 		}	
-		admin=adminService.getLoginAdmin();
-		rework.setConfirmUser(admin);
-		rework.setState(UNDO);
-		reworkService.update(rework);
-		workingBillService.update(workingbill);
-		redirectionUrl = "rework!list.action?workingBillId="
-				+ rework.getWorkingbill().getId();
-		return SUCCESS;
+        reworkService.saveRepeal(list, admin, UNDO);
+		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 
 

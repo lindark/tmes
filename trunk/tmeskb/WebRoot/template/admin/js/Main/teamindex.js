@@ -18,7 +18,7 @@ $(function() {
 	
 	var init = {
 			"isCheck":function(){//需要有选中来改变按钮的属性的
-				var cklength = $ckbox.length;
+				var cklength = $(".ckbox:checked").length;
 				if(cklength > 1){
 					layer.alert('请选择一条随工单', {
 					    skin: 'layui-layer-molv' //样式类名

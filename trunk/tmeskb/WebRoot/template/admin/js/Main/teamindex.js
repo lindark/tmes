@@ -1,3 +1,4 @@
+
 $(function() {
 	var $storage = $("#storage");// 入库
 	var $dump = $("#dump");// 转储
@@ -13,12 +14,73 @@ $(function() {
 	var $halfinspection=$("#halfinspection");//半成品巡检
 	var $pollingtest = $("#pollingtest");//巡检
 	var $scrap=$("#scrap");//报废
+	var $ckbox = $(".ckbox");//checkbox
+	
+	var init = {
+			"isCheck":function(){//需要有选中来改变按钮的属性的
+				var cklength = $ckbox.length;
+				if(cklength > 1){
+					layer.alert('请选择一条随工单', {
+					    skin: 'layui-layer-molv' //样式类名
+					    ,closeBtn: 0
+					});
+					return false;
+				}else if(cklength < 1){
+					layer.alert('请选择一条随工单', {
+					    skin: 'layui-layer-molv' //样式类名
+					    ,closeBtn: 0
+					});
+					return false;
+				}else{
+					return true;
+				}
+				
+				
+			},
+			"notCheck":function(){//不需要选中就可以使用
+				return true;
+			}
+	}
+	
+	/**
+	 * checkbox 选中
+	 */
+	$ckbox.click(function(){
+		var flag = $ckbox.is(":checked");
+		if(flag){//有选中的
+			$storage.removeClass("disabled");
+			$repair.removeClass("disabled");
+			$repairin.removeClass("disabled");
+			$pick.removeClass("disabled");
+			$dailywork.removeClass("disabled");
+			$carton.removeClass("disabled");
+			$rework.removeClass("disabled");
+			$sample.removeClass("disabled");
+			$halfinspection.removeClass("disabled");
+			$pollingtest.removeClass("disabled");
+			$scrap.removeClass("disabled");
+		}else{//未选中
+			$storage.addClass("disabled");
+			$repair.addClass("disabled");
+			$repairin.addClass("disabled");
+			$pick.addClass("disabled");
+			$dailywork.addClass("disabled");
+			$carton.addClass("disabled");
+			$rework.addClass("disabled");
+			$sample.addClass("disabled");
+			$halfinspection.addClass("disabled");
+			$pollingtest.addClass("disabled");
+			$scrap.addClass("disabled");
+		}
+	});
+	
+
 	/**
 	 * 入库按钮点击
 	 */
 	$storage
 			.click(function() {
-				var istrue = ckboxChick();
+				var istrue = init.isCheck();
 				if (istrue) {
 					var id = getCKboxById();
 					window.location.href = "enteringware_house!list.action?workingBillId="
@@ -31,7 +93,7 @@ $(function() {
 	 * 领/退料按钮点击
 	 */
 	$pick.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "pick!list.action?workingBillId=" + id;
@@ -44,7 +106,7 @@ $(function() {
 	 * 半成品巡检按钮点击
 	 */
 	$halfinspection.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "itermediate_test!list.action?workingBillId=" + id;
@@ -56,7 +118,7 @@ $(function() {
 	 * 领/退料按钮点击
 	 */
 	$rework.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "rework!list.action?workingBillId=" + id;
@@ -68,20 +130,26 @@ $(function() {
 	 * 交接按钮点击
 	 */
 	$handoverprocess.click(function() {
-		window.location.href = "hand_over_process!list.action";
+		var istrue = init.notCheck();
+		if (istrue) {
+			window.location.href = "hand_over_process!list.action";
+		}
 	});
 
 	/**
 	 * 转储按钮点击
 	 */
 	$dump.click(function() {
-		window.location.href = "dump!list.action";
+		var istrue = init.notCheck();
+		if (istrue) {
+			window.location.href = "dump!list.action";
+		}
 	});
 	/**
 	 * 纸箱收货按钮点击
 	 */
 	$carton.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "carton!list.action?workingBillId=" + id;
@@ -92,7 +160,7 @@ $(function() {
 	 * 报工按钮点击
 	 */
 	$dailywork.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "daily_work!list.action?workingBillId=" + id;
@@ -103,7 +171,7 @@ $(function() {
 	 * 返修按钮点击
 	 */
 	$repair.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "repair!list.action?workingBillId=" + id;
@@ -113,7 +181,7 @@ $(function() {
 	 * 返修收货按钮点击
 	 */
 	$repairin.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "repairin!list.action?workingBillId=" + id;
@@ -124,7 +192,7 @@ $(function() {
 	 * 巡检按钮点击
 	 */
 	$pollingtest.click(function() {
-		var istrue = ckboxChick();
+		var istrue = init.isCheck();
 		if (istrue) {
 			var id = getCKboxById();
 			window.location.href = "pollingtest!list.action?workingBillId=" + id;
@@ -135,14 +203,17 @@ $(function() {
 	 * 快速响应按钮点击
 	 */
 	$qResponse.click(function() {
-		window.location.href = "abnormal!list.action";
+		var istrue = init.notCheck();
+		if (istrue) {
+			window.location.href = "abnormal!list.action";
+		}
 	});
 
 	/**
 	 * 抽检
 	 */
 	$sample.click(function(){
-		var istrue=ckboxChick();
+		var istrue=init.isCheck();
 		if(istrue)
 		{
 			var id = getCKboxById();
@@ -154,7 +225,7 @@ $(function() {
 	 * 报废
 	 */
 	$scrap.click(function(){
-		var istrue=ckboxChick();
+		var istrue=init.isCheck();
 		if(istrue)
 		{
 			var id = getCKboxById();
@@ -178,21 +249,4 @@ function getCKboxById() {
 		ishead = 1;
 	});
 	return id;
-}
-
-/**
- * 检查checkbox 勾选的数量,如果是1 返回 true,如果是0,alert 请勾选随工单 返回false, 如果大于1 alert 请勾选一项
- * 返回false
- */
-function ckboxChick() {
-	var ckLen = $(".ckbox:checked").length;
-	if (ckLen <= 0) {
-		alert("请选择随工单");
-		return false;
-	} else if (ckLen > 1) {
-		alert("请选择一条随工单");
-		return false;
-	} else {
-		return true;
-	}
 }

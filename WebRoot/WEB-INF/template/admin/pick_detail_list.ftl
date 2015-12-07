@@ -9,7 +9,6 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/pick_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -55,7 +54,7 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-									<form id="inputForm" name="inputForm" class="validate" action="pick_detail!save.action?id+"=id
+									<form id="inputForm" name="inputForm" class="validate" action="pick_detail!creditsubmit.action?id+"=id
 							 method="post">
                             <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
                             <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
@@ -168,8 +167,8 @@ body {
 	 */
 	
 	$(function(){		
-/*		$("#btn_save").click(function(){
-			document.inputForm.action="pick_detail!save.action";
+		$("#btn_save").click(function(){
+			document.inputForm.action="pick_detail!creditsubmit.action";
 			$("#inputForm").submit();
 		});
 		
@@ -178,10 +177,10 @@ body {
 		});
 		
 		$("#btn_confirm").click(function(){		
-			document.inputForm.action="pick_detail!confirms.action?id="+id;	
+			document.inputForm.action="pick_detail!creditapproval.action";	
 			$("#inputForm").submit();
 		});
-*/		
+		
 		var ishead=0;
 		$("#ace-settings-btn").click(function(){
 			if(ishead==0){

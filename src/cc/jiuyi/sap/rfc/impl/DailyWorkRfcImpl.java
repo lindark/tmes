@@ -33,7 +33,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 		String type =  out.getString("E_TYPE");//返回类型
 		String message = out.getString("E_MESSAGE");//返回消息
 		if(type.equals("E")){//如果是E，抛出自定义异常
-			throw new CustomerException("1400001", "领退料失败,"+message);
+			throw new CustomerException("1400001", "报工失败,"+message);
 		}
 	}
 

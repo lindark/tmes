@@ -200,7 +200,7 @@ public class PickDetailAction extends BaseAdminAction {
 
 	)
 	@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	public String creditsubmit() throws Exception {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		Pick pick = new Pick();
@@ -219,11 +219,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setCreateDate(new Date());
 		pick.setCreateUser(admin);
 		pick.setWorkingbill(workingBill);
-		if ("2".equals(my_id)) {
-			pick.setConfirmUser(admin);
-			
-		}
-		pick.setState(my_id);
+		pick.setState("1");
 		boolean flag = false;
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
@@ -247,32 +243,82 @@ public class PickDetailAction extends BaseAdminAction {
 			return ERROR;
 		}
 		pickDetailService.save(pickDetailList, pick);
-		
-		if ("2".equals(pick.getState())) {
-			pkList=pickDetailService.getPickDetail(pick.getId());
-			try {
-				pickRfc = pickRfcImple.MaterialDocumentCrt(pick, pkList);
-			} catch (IOException e) {
-				addActionError("IO操作失败");
-				e.printStackTrace();
-				return ERROR;
-			} catch (CustomerException e) {
-				addActionError(e.getMsgDes());
-				System.out.println(e.getMsgDes());
-				e.printStackTrace();
-				return ERROR;
-			} catch (Exception e) {
-				addActionError("系统出现问题，请联系系统管理员");
-				e.printStackTrace();
-				return ERROR;
-			}
-			pick.setMblnr(pickRfc);
-			pickService.save(pick);	
-		}
 		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
 		return SUCCESS;
 	}
 
+	
+	//刷卡确认
+	public String creditapproval() throws Exception {
+		WorkingBill workingBill = workingBillService.get(workingBillId);
+		Admin admin = adminService.getLoginAdmin();
+		Pick pick = new Pick();
+		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
+		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
+		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
+		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
+		pick.setMove_type("261");// 移动类型 SAP测试数据
+		// pick.setBudat(admin.getProductDate());//随工单日期
+		// pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
+		// SAP测试数据 单元库存地点
+		// pick.setZtext(str.substring(str.length()-2,2));//抬头文本 SAP测试数据
+		// 随工单位最后两位
+		// pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
+		// SAP测试数据 工厂编码
+		//pick.setMove_type(pickDetail.getPickType());
+		//移动类型 SAP测试数据
+		pick.setCreateDate(new Date());
+		pick.setCreateUser(admin);
+		pick.setWorkingbill(workingBill);
+		pick.setConfirmUser(admin);
+		pick.setState("2");
+		boolean flag = false;
+		for (int i = 0; i < pickDetailList.size(); i++) {
+			PickDetail p = pickDetailList.get(i);
+			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount())) {
+				flag = true;
+				String s = "";
+				String str = workingBill.getId();
+				p.setConfirmUser(admin);
+				p.setMaterialCode("10490284");
+				p.setCharg("15091901");
+				p.setItem_text("文本");
+				p.setOrderid("100116549");
+				// p.setCharg("15091901");//批号
+				// p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
+				// p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
+				pickDetailList.set(i, p);
+			}
+		}	
+		if(flag == false){
+			addActionError("请检查是否正确输入内容!");
+			return ERROR;
+		}
+		pickDetailService.save(pickDetailList, pick);
+
+		pkList=pickDetailService.getPickDetail(pick.getId());
+		try {
+			pickRfc = pickRfcImple.MaterialDocumentCrt(pick, pkList);
+		} catch (IOException e) {
+			addActionError("IO操作失败");
+			e.printStackTrace();
+			return ERROR;
+		} catch (CustomerException e) {
+			addActionError(e.getMsgDes());
+			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+			return ERROR;
+		} catch (Exception e) {
+			addActionError("系统出现问题，请联系系统管理员");
+			e.printStackTrace();
+			return ERROR;
+		}
+		pick.setMblnr(pickRfc);
+		pickService.save(pick);
+		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
+		return SUCCESS;
+	}
+	
 	public PickDetail getPickDetail() {
 		return pickDetail;
 	}

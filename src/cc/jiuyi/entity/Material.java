@@ -51,6 +51,8 @@ public class Material extends BaseEntity{
 	private String xsmreson;//报废信息原因
 	private String xsbids;//报废bug中缺陷表id
 	private String xsbnums;//报废bug中缺陷数量
+	private Double xmenge;//报废信息每条物料的缺陷总数量
+	private String xsmduty;//报废信息责任划分
 	
 	@ManyToMany(fetch = FetchType.LAZY,mappedBy="material")
 	public Set<Products> getProducts() {
@@ -211,5 +213,23 @@ public class Material extends BaseEntity{
 	public void setXsbnums(String xsbnums)
 	{
 		this.xsbnums = xsbnums;
+	}
+	@Transient
+	public Double getXmenge()
+	{
+		return xmenge;
+	}
+	public void setXmenge(Double xmenge)
+	{
+		this.xmenge = xmenge;
+	}
+	@Transient
+	public String getXsmduty()
+	{
+		return xsmduty;
+	}
+	public void setXsmduty(String xsmduty)
+	{
+		this.xsmduty = xsmduty;
 	}
 }

@@ -1,7 +1,17 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Resource;
 import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.util.ThinkWayUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -48,8 +58,34 @@ public class ResourceAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		pager = resourceService.findByPager(pager);
+		//pager = resourceService.findByPager(pager);
 		return LIST;
+	}
+	
+	public String ajlist(){
+		pager = resourceService.findByPager(pager);
+		
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i < pager.getList().size();i++){
+			Resource resource = (Resource)pager.getList().get(i);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("name", resource.getName());
+			jsonobject.put("value", resource.getValue());
+			if(resource.getIsSystem()==true)
+				jsonobject.put("isSystem", "<img src='/template/admin/images/list_true_icon.gif' />");
+			else
+				jsonobject.put("isSystem", "<img src='/template/admin/images/list_false_icon.gif' />");
+			jsonobject.put("description", resource.getDescription());
+			jsonarray.add(jsonobject);
+		}
+		pager.setList(jsonarray);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Resource.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		System.out.println(jsonArray.get(0).toString());
+		return ajaxJson(jsonArray.get(0).toString());
+		
 	}
 
 	// 删除

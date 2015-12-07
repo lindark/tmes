@@ -394,6 +394,9 @@ public class AdminAction extends BaseAdminAction {
 			addActionError("请至少选择一个角色!");
 			return ERROR;
 		}
+		Department depart = new Department();
+		depart.setId(departid);
+		admin.setDepartment(depart);
 		admin.setRoleSet(new HashSet<Role>(roleList));
 		if (StringUtils.isNotEmpty(admin.getPassword())) {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());

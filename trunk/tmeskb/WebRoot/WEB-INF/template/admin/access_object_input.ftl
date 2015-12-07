@@ -66,8 +66,7 @@ body {
 
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">权限对象管理</a></li>
-
+										<li><a href="#tabs-1">功能权限管理</a></li>
 									</ul>
 
 									<div id="tabs-1">
@@ -120,14 +119,6 @@ body {
 													<label id="resMessagePosition"></label>
 												</div>
 											</div>
-											<div class="profile-info-row ">
-												<div class="profile-info-name">按钮html编辑器</div>
-
-												<div class="profile-info-value">
-													
-													<textarea name="accessObject.htmlarea" class="form-control" id="form-field-8" placeholder="Default Text" style="margin: 0px -0.015625px 0px 0px; height: 52px; width: 331px;">${(accessObject.htmlarea)! }</textarea>
-												</div>
-											</div>
 										</div>
 										<!--weitao end modify-->
 
@@ -155,11 +146,7 @@ body {
 			<!-- /.row -->
 		</div>
 		<!-- /.page-content-area -->
-		<#include "/WEB-INF/template/admin/admin_footer.ftl">
-	</div>
-	<!-- /.page-content -->
-	</div>
-	<!-- /.main-content -->
+	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div>
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">

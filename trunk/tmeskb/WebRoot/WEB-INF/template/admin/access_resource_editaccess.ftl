@@ -77,6 +77,7 @@ body {
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">功能权限对象</a></li>
+										<li><a href="#tabs-2">刷卡权限管理</a></li>
 									</ul>
 
 									<div id="tabs-1">
@@ -87,12 +88,10 @@ body {
 											<div id="grid-pager"></div>
 										</div>
 									</div>
-									<div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
+									<div id="tabs-2">
+										刷卡提交
+										刷卡确认
+										刷卡保存
 									</div>
 							</form>
 

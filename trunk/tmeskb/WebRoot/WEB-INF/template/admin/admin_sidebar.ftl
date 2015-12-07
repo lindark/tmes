@@ -812,7 +812,14 @@
 
 								<b class="arrow"></b>
 							</li>
-	
+							<li class="">
+								<a href="credit_access!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									刷卡权限管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							<li class="">
 								<a href="access_object!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>

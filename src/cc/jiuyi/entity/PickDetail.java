@@ -41,20 +41,10 @@ public class PickDetail extends BaseEntity{
 	private String orderid;//工单号
 	private Pick pick;//领料主表
 	private String meins;//单位
+
+	private String xpickType;//领料类型描述
+
 	private String xuh;
-	
-    private WorkingBill workingbill;//随工单
-   
-	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public WorkingBill getWorkingbill() {
-		return workingbill;
-	}
-	public void setWorkingbill(WorkingBill workingbill) {
-		this.workingbill = workingbill;
-	}
-	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Pick getPick() {
@@ -163,6 +153,15 @@ public class PickDetail extends BaseEntity{
 	public void setMaterialName(String materialName) {
 		this.materialName = materialName;
 	}
+	
+	 @Transient
+	public String getXpickType() {
+		return xpickType;
+	}
+	public void setXpickType(String xpickType) {
+		this.xpickType = xpickType;
+	}
 
+	
 	
 }

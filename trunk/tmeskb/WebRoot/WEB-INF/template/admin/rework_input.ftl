@@ -337,7 +337,8 @@ $(function(){
 		}
 	});
 
-	$("#completeRework").click(function(){		
+	$("#completeRework").click(function(){	
+		 document.inputForm.action="rework!creditsubmit.action";
     	$("#inputForm").submit();  		    		
 	});
 	
@@ -348,7 +349,7 @@ $(function(){
 	});
 	
 	$("#confirmRework").click(function(){
-		document.inputForm.action="rework!confirm.action";
+		document.inputForm.action="rework!creditapproval.action";
 		$("#inputForm").submit(); 			
 	});
 	

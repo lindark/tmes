@@ -68,8 +68,8 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			DailyWork dailyWork = list.get(i);
 			dailyWork = dailyWorkDao.get(dailyWork.getId());
 			dailyWork.setStep(dailyWork.getProcess().getProcessCode());
-			
-			dailyWork.setOrderid(code);
+			dailyWork.setOrderid("100117061");
+			//dailyWork.setOrderid(code);
 			//dailyWorkRfc.SetDailyWork("100117061", "0010", dailyWork.getEnterAmount().toString());
 			dailyWorkList.add(dailyWork);
 		}
@@ -78,14 +78,18 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			DailyWork dailyWork = dailyWorkList.get(i);
 			if("S".equals(dailyWork.getE_type())){
 				System.out.println("SAP同步成功");
-				totalamount = dailyWork.getEnterAmount() + totalamount;
-				dailyWork.setConfirmUser(admin);
-				dailyWork.setState("1");
-				dailyWorkDao.update(dailyWork);
+				System.out.println(dailyWork.getE_message());
 			}else if("E".equals(dailyWork.getE_type())){
 				System.out.println("SAP同步失败");
 				throw new CustomerException(dailyWork.getE_message());
 			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+			DailyWork d = list.get(i);
+			totalamount = d.getEnterAmount() + totalamount;
+			d.setConfirmUser(admin);
+			d.setState("1");
+			dailyWorkDao.update(d);
 		}
 		workingbill.setDailyWorkTotalAmount(totalamount);
 		workingbillService.update(workingbill);

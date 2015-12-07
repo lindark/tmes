@@ -235,7 +235,7 @@ public class DeviceAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","isDown","isMaintenance"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
 		persistent.setState("1");
 		deviceService.update(persistent);
 		
@@ -254,7 +254,7 @@ public class DeviceAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","isDown","isMaintenance"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			

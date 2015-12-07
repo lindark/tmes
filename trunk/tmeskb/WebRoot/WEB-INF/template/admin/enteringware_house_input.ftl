@@ -113,11 +113,14 @@ body {
 
 									</div>
 									<div class="buttonArea">
-										<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />
+										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-cloud-upload"></i>
+											刷卡保存
+										</a>
+										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-home"></i>
+											返回
+										</a>
 									</div>
 							</form>
 
@@ -146,3 +149,17 @@ body {
 
 </body>
 </html>
+<script type="text/javascript">
+$(function(){
+	//刷卡保存
+	$("#btn_save").click(function(){
+		//提交
+		$("#inputForm").submit();
+	});
+	
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
+	});
+});
+</script>

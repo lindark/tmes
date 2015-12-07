@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -54,34 +55,51 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	}
 
 	@Override
-	public synchronized void updateState(List<DailyWork> list, String statu,
+	public synchronized void updateState(List<DailyWork> list,
 			String workingbillid) throws IOException, CustomerException {
+		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
 		Admin admin = adminservice.getLoginAdmin();
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		String workingbillCode = workingbill.getWorkingBillCode();
-		String code = workingbillCode.substring(0, workingbillCode.length()-2);
-		String matnr = workingbill.getMatnr();//当前随工单的产品编码
-		Products products = productsService.getProducts(matnr);
-		Set<Process> processes = products.getProcess();//当前产品的工序
-		Iterator<Process> it = processes.iterator();//工序迭代器
-		Integer totalamount = workingbill.getDailyWorkTotalAmount();
+		String code = workingbillCode
+				.substring(0, workingbillCode.length() - 2);
+		Double totalamount = workingbill.getDailyWorkTotalAmount();
 		for (int i = 0; i < list.size(); i++) {
 			DailyWork dailyWork = list.get(i);
-			if (statu.equals("1")) {
-				totalamount = dailyWork.getEnterAmount() + totalamount;
-				//遍历工序集合
-				while(it.hasNext()){
-					Process process = it.next();
-					String processCode = process.getProcessCode();
-					//dailyWorkRfc.SetDailyWork(code, processCode, dailyWork.getEnterAmount().toString());
-					dailyWorkRfc.SetDailyWork("100117061", "0010",dailyWork.getEnterAmount().toString());
-				}
-			}
-			if (statu.equals("3") && dailyWork.getState().equals("1")) {
+			dailyWork = dailyWorkDao.get(dailyWork.getId());
+			totalamount = dailyWork.getEnterAmount() + totalamount;
+			dailyWork.setOrderid(code);
+			//dailyWorkRfc.SetDailyWork("100117061", "0010", dailyWork.getEnterAmount().toString());
+			dailyWork.setConfirmUser(admin);
+			dailyWork.setState("1");
+			dailyWorkList.add(dailyWork);
+			dailyWorkDao.update(dailyWork);
+		}
+		dailyWorkRfc.BatchSetDailyWork(dailyWorkList);
+		workingbill.setDailyWorkTotalAmount(totalamount);
+		workingbillService.update(workingbill);
+
+	}
+
+	@Override
+	public void updateState2(List<DailyWork> list, String workingbillid) {
+		Admin admin = adminservice.getLoginAdmin();
+		WorkingBill workingbill = workingbillService.get(workingbillid);
+		String workingbillCode = workingbill.getWorkingBillCode();
+		String code = workingbillCode
+				.substring(0, workingbillCode.length() - 2);
+		String matnr = workingbill.getMatnr();// 当前随工单的产品编码
+		Products products = productsService.getProducts(matnr);
+		Set<Process> processes = products.getProcess();// 当前产品的工序
+		Iterator<Process> it = processes.iterator();// 工序迭代器
+		Double totalamount = workingbill.getDailyWorkTotalAmount();
+		for (int i = 0; i < list.size(); i++) {
+			DailyWork dailyWork = list.get(i);
+			if (dailyWork.getState().equals("1")) {
 				totalamount -= dailyWork.getEnterAmount();
 			}
 			dailyWork.setConfirmUser(admin);
-			dailyWork.setState(statu);
+			dailyWork.setState("3");
 			dailyWorkDao.update(dailyWork);
 		}
 		workingbill.setDailyWorkTotalAmount(totalamount);

@@ -23,6 +23,10 @@ public interface DailyWorkService extends BaseService<DailyWork, String> {
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId);
 
-	public void updateState(List<DailyWork> list, String statu,
-			String workingbillid) throws IOException, CustomerException;
+	// 刷卡确认
+	public void updateState(List<DailyWork> list, String workingbillid)
+			throws IOException, CustomerException;
+
+	// 刷卡撤销
+	public void updateState2(List<DailyWork> list, String workingbillid);
 }

@@ -49,6 +49,7 @@ public class Pick extends BaseEntity{
 	private String e_type;
 	private String e_message;
 	private String ex_mblnr;
+	private String mblnr;
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -180,6 +181,12 @@ public class Pick extends BaseEntity{
 	}
 	public void setXcreateUser(String xcreateUser) {
 		this.xcreateUser = xcreateUser;
+	}
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
 	}
 
    

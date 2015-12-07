@@ -91,7 +91,6 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setCreateUser(admin);
-		dailyWork.setStep(dailyWork.getProcess().getProcessCode());
 		dailyWorkService.save(dailyWork);
 		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();

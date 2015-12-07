@@ -173,6 +173,7 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String edit()
 	{
+		this.list_material=new ArrayList<Material>();
 		this.workingbill=this.wbService.load(wbId);
 		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
 		List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
@@ -182,13 +183,24 @@ public class ScrapAction extends BaseAdminAction
 			ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询
 			if(sm!=null)
 			{
-				m.setXsmreson(sm.getSmreson());
+				m.setXsmreson(sm.getSmreson());//原因
+				m.setXmenge(sm.getMenge());//数量
+				m.setXsmduty(sm.getSmduty());//责任划分
 				List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
+				String sbids="",sbnums="";
 				for(int j=0;j<l_sbug.size();j++)
 				{
-					
+					ScrapBug sb=l_sbug.get(j);
+					if(sb!=null)
+					{
+						sbids=sbids+sb.getCauseId()+",";
+						sbnums=sbnums+sb.getSbbugNum()+",";
+					}
 				}
+				m.setXsbids(sbids);//缺陷ids
+				m.setXsbnums(sbnums);//缺陷数量
 			}
+			list_material.add(m);
 		}
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容

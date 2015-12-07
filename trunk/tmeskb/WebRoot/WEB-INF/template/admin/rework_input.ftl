@@ -336,14 +336,7 @@ $(function(){
 			$("#ace-settings-box").removeClass("open");
 		}
 	});
-	
-	$("#addRework").click(function(){
-		var workingBillId = $("#workingBillId").val();
-		$("#inputForm").submit();  	
-		
-	});
-	
-	
+
 	$("#completeRework").click(function(){		
     	$("#inputForm").submit();  		    		
 	});

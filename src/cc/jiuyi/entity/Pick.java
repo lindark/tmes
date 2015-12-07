@@ -19,11 +19,18 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
+@Searchable
 @Table(name = "Pick")
 public class Pick extends BaseEntity{
 
-	private static final long serialVersionUID = 6541260331669237601L;
-	private String state;//状态
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1219337885128932022L;
+	
+
+    private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin createUser;
@@ -38,9 +45,10 @@ public class Pick extends BaseEntity{
 	private String werks;//工厂
 	private String lgort;//库存地点
 	private String ztext;//抬头文本
-	private String mblnr;//rfc返回值
-	
-	
+	private String xuh;//序号
+	private String e_type;
+	private String e_message;
+	private String ex_mblnr;
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -50,6 +58,12 @@ public class Pick extends BaseEntity{
 	}
 	
 	
+	public String getXuh() {
+		return xuh;
+	}
+	public void setXuh(String xuh) {
+		this.xuh = xuh;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
     public Admin getCreateUser() {
 		return createUser;
@@ -67,7 +81,25 @@ public class Pick extends BaseEntity{
 
     
     
-    @OneToMany(mappedBy = "pick", fetch = FetchType.LAZY)
+    public String getE_type() {
+		return e_type;
+	}
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+	public String getE_message() {
+		return e_message;
+	}
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+	public String getEx_mblnr() {
+		return ex_mblnr;
+	}
+	public void setEx_mblnr(String ex_mblnr) {
+		this.ex_mblnr = ex_mblnr;
+	}
+	@OneToMany(mappedBy = "pick", fetch = FetchType.LAZY)
 	public Set<PickDetail> getPickDetail() {
 		return pickDetail;
 	}
@@ -151,12 +183,6 @@ public class Pick extends BaseEntity{
 	}
 
    
-	public String getMblnr() {
-		return mblnr;
-	}
-	public void setMblnr(String mblnr) {
-		this.mblnr = mblnr;
-	}
 
     
 	

@@ -1,5 +1,6 @@
 $(function() {
 	
+	
 	var $callRing = $("#callRing");// 呼叫
 	$callRing.click(function() {
 			window.location.href = "abnormal!add.action";		

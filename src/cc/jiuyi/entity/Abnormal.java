@@ -46,6 +46,7 @@ public class Abnormal extends BaseEntity{
 	private String originator;
 	private String answer;
 	private String log;
+	private String disposeTime;
 	
 	@Column
 	public Date getCallDate() {
@@ -199,6 +200,14 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setLog(String log) {
 		this.log = log;
+	}	
+	
+	@Transient
+	public String getDisposeTime() {
+		return disposeTime;
+	}
+	public void setDisposeTime(String disposeTime) {
+		this.disposeTime = disposeTime;
 	}
 	
 		

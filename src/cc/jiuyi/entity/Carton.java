@@ -26,7 +26,15 @@ public class Carton extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;//确认人的名字
 	private String createName;//创建人的名字
-
+	private String move_type;//移动类型
+	private String lgort;//库存地点
+	private String werks;//工厂
+	private String xuh;//序号
+	private String budat;//过账日期
+	private String lifnr;//供应商编码
+	private String charg;//批次
+	private String e_type;//S/N
+	private String e_message;//付款信息
 	private WorkingBill workingbill;// 随工单
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -127,6 +135,62 @@ public class Carton extends BaseEntity {
 
 	public void setCreateUser(Admin createUser) {
 		this.createUser = createUser;
+	}
+
+	public String getMove_type() {
+		return move_type;
+	}
+
+	public void setMove_type(String move_type) {
+		this.move_type = move_type;
+	}
+
+	public String getLgort() {
+		return lgort;
+	}
+
+	public void setLgort(String lgort) {
+		this.lgort = lgort;
+	}
+
+	public String getWerks() {
+		return werks;
+	}
+
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+
+	public String getXuh() {
+		return xuh;
+	}
+
+	public void setXuh(String xuh) {
+		this.xuh = xuh;
+	}
+
+	public String getBudat() {
+		return budat;
+	}
+
+	public void setBudat(String budat) {
+		this.budat = budat;
+	}
+
+	public String getLifnr() {
+		return lifnr;
+	}
+
+	public void setLifnr(String lifnr) {
+		this.lifnr = lifnr;
+	}
+
+	public String getCharg() {
+		return charg;
+	}
+
+	public void setCharg(String charg) {
+		this.charg = charg;
 	}
 	
 }

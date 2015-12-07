@@ -194,14 +194,14 @@ public class PickAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{
+	public String save()throws Exception{		
 		pickService.save(pick);
 		redirectionUrl="pick!list.action";
 		return SUCCESS;	
 	}
 		
 	//刷卡确认
-	public String confirms() {
+	public String creditapproval() {
 		ids= id.split(",");
 		List<Pick> list=pickService.get(ids);	
 		for (int i = 0; i < list.size(); i++) {
@@ -237,7 +237,7 @@ public class PickAction extends BaseAdminAction {
 	}
 	
 	//刷卡撤销
-		public String repeal(){
+		public String creditundo(){
 			admin = adminService.getLoginAdmin();
 			ids= id.split(",");
 			List<Pick> list=pickService.get(ids);		

@@ -278,11 +278,27 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条返工记录！");
-			}else{
-				window.location.href="rework!undo.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
+				return false;
 			}
-			
+			$.ajax({
+				url: "pick!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val(),	
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();	
+			})
+			sucess:function(data){
+				layer.close(index);
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");
+			},error:function(data){
+				$.message("error","系统出现问题，请联系系统管理员");
+			}
+		  });
 		});
+	
+	
 		$("#returnRework").click(function(){
 			window.history.back();
 		});

@@ -70,22 +70,11 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 	
 	private WorkingBill workingbill;
 	private String workingBillId;
-	
-	
-	public String getWokingBillId() {
-		return workingBillId;
-	}
-	public void setWokingBillId(String wokingBillId) {
-		this.workingBillId = wokingBillId;
-	}
-
-
 	private Admin admin;
 	private Material material;
 	private String matnr;
     private List<Material> materialList;
     private List<ItermediateTestDetail> itermediateTestDetailList;
-//    private List<PickDetail> pkList;
     
 
     
@@ -335,6 +324,11 @@ public class ItermediateTestDetailAction extends BaseAdminAction {
 		this.list_cause = list_cause;
 	}
 	
-	
+	public String getWokingBillId() {
+		return workingBillId;
+	}
+	public void setWokingBillId(String wokingBillId) {
+		this.workingBillId = wokingBillId;
+	}
 	
 }

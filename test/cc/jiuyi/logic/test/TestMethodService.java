@@ -25,12 +25,14 @@ import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.impl.ArticleServiceImpl;
 
@@ -54,6 +56,8 @@ public class TestMethodService extends BaseTestCase {
 	private AdminService adminservice;
 	@Resource
 	private AccessObjectService accessobjectservice;
+	@Resource
+	private PickService pickservice;
 	
 	protected void setUp() {
 		
@@ -143,6 +147,17 @@ public class TestMethodService extends BaseTestCase {
 		    } catch (Exception e) {
 		      e.printStackTrace();
 		    }
+		
+	}
+	
+	@Test
+	public void testPick(){
+		String id = "4028841d516bacd601516bada05c0001";
+		Pick pick = pickservice.get(id);
+		Admin admin = adminservice.getLoginAdmin();
+		List<Pick> pickList = new ArrayList<Pick>();
+		pickList.add(pick);
+		pickservice.saveRepeal(pickList, admin, "3");
 		
 	}
 }

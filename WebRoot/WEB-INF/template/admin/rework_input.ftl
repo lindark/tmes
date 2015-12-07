@@ -125,7 +125,7 @@ body{background:#fff;}
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
 												<#if show??>
-													 <span>${(rework.defectAmount)! }</span>
+													 <span>${(rework.defectAmount)!}</span>
 												  <#else>
 													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm formText {required: true}" />	
 												</#if>

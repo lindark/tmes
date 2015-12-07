@@ -82,23 +82,11 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 
 	
 	public void saveRepeal(List<Pick> list, Admin admin, String stu) {
-		/*
 		for (int i = 0; i < list.size(); i++) {	
 			Pick pick=list.get(i);
 			pick.setState(stu);
-			//pick.setConfirmUser(admin);
+			pick.setConfirmUser(admin);
 			pickDao.update(pick);
 		}
-		*/
-		for(Pick p:list){
-			p.setState("3");
-			pickDao.update(p);
-			
-		}
-		
-	}
-
-
-
-	
+	}	
 }

@@ -33,10 +33,7 @@ public class ScrapLater extends BaseEntity
 		{
 			isDel="N";
 		}
-		else
-		{
-			this.isDel = isDel;
-		}
+		this.isDel = isDel;
 	}
 	@Column
 	public String getSlmatterNum()

@@ -31,7 +31,6 @@ public class Scrap extends BaseEntity
 	private String werks;//工厂
 	//从表
 	private Set<ScrapMessage> scrapMsgSet;//报废信息表
-	private Set<ScrapBug> scrapBugSet;//报废缺陷记录表
 	private Set<ScrapLater> scrapLaterSet;//报废后产出的记录表
 	
 	//假字段
@@ -51,10 +50,7 @@ public class Scrap extends BaseEntity
 		{
 			isDel="N";
 		}
-		else
-		{
-			this.isDel = isDel;
-		}
+		this.isDel = isDel;
 	}
 	@Column
 	public String getState()
@@ -103,15 +99,6 @@ public class Scrap extends BaseEntity
 	public void setScrapMsgSet(Set<ScrapMessage> scrapMsgSet)
 	{
 		this.scrapMsgSet = scrapMsgSet;
-	}
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="scrap")
-	public Set<ScrapBug> getScrapBugSet()
-	{
-		return scrapBugSet;
-	}
-	public void setScrapBugSet(Set<ScrapBug> scrapBugSet)
-	{
-		this.scrapBugSet = scrapBugSet;
 	}
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="scrap")
 	public Set<ScrapLater> getScrapLaterSet()

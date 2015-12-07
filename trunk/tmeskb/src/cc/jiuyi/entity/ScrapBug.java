@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * 报废缺陷记录
@@ -19,8 +20,12 @@ public class ScrapBug extends BaseEntity
 	private String istoDel;//默认都为Y，修改的时候标记为N，为N的不删除，为Y的删除
 	private String sbbugNum;//缺陷数量
 	private String sbbugContent;//缺陷内容
-	private String scrapMessageId;//报废信息id
-	private Scrap scrap;//报废表Id外键
+	private ScrapMessage scrapMessage;//报废信息id
+	private String causeId;//缺陷id
+	
+	//假字段
+	private String xbugids;//报废原因id的字符串
+	private String xbugnums;//报废数量字符串
 	
 	/**get/set*/
 	@Column
@@ -67,22 +72,45 @@ public class ScrapBug extends BaseEntity
 	{
 		this.sbbugContent = sbbugContent;
 	}
+	
 	@Column
-	public String getScrapMessageId()
+	public String getCauseId()
 	{
-		return scrapMessageId;
+		return causeId;
 	}
-	public void setScrapMessageId(String scrapMessageId)
+	public void setCauseId(String causeId)
 	{
-		this.scrapMessageId = scrapMessageId;
+		this.causeId = causeId;
 	}
+	
 	@ManyToOne(fetch=FetchType.LAZY)
-	public Scrap getScrap()
+	public ScrapMessage getScrapMessage()
 	{
-		return scrap;
+		return scrapMessage;
 	}
-	public void setScrap(Scrap scrap)
+	public void setScrapMessage(ScrapMessage scrapMessage)
 	{
-		this.scrap = scrap;
+		this.scrapMessage = scrapMessage;
 	}
+	
+	@Transient
+	public String getXbugids()
+	{
+		return xbugids;
+	}
+	public void setXbugids(String xbugids)
+	{
+		this.xbugids = xbugids;
+	}
+	@Transient
+	public String getXbugnums()
+	{
+		return xbugnums;
+	}
+	public void setXbugnums(String xbugnums)
+	{
+		this.xbugnums = xbugnums;
+	}
+	
+	
 }

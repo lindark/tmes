@@ -46,7 +46,12 @@ public class Material extends BaseEntity{
 
 	private Set<Products> products;// 产品Bom
 	private Set<HandOverProcess> handoverprocessSet;//交接
-
+	
+	//假字段gaoyf
+	private String xsmreson;//报废信息原因
+	private String xsbids;//报废bug中缺陷表id
+	private String xsbnums;//报废bug中缺陷数量
+	
 	@ManyToMany(fetch = FetchType.LAZY,mappedBy="material")
 	public Set<Products> getProducts() {
 		return products;
@@ -180,10 +185,31 @@ public class Material extends BaseEntity{
 	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
 		this.handoverprocessSet = handoverprocessSet;
 	}
-
-   
-
-	
-    
-	
+	@Transient
+	public String getXsmreson()
+	{
+		return xsmreson;
+	}
+	public void setXsmreson(String xsmreson)
+	{
+		this.xsmreson = xsmreson;
+	}
+	@Transient
+	public String getXsbids()
+	{
+		return xsbids;
+	}
+	public void setXsbids(String xsbids)
+	{
+		this.xsbids = xsbids;
+	}
+	@Transient
+	public String getXsbnums()
+	{
+		return xsbnums;
+	}
+	public void setXsbnums(String xsbnums)
+	{
+		this.xsbnums = xsbnums;
+	}
 }

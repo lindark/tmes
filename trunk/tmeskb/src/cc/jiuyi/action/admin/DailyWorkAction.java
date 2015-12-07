@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -101,24 +103,36 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		ids = id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			dailyWork = dailyWorkService.load(ids[i]);
-			if (CONFIRMED.equals(dailyWork.getState())) {
-				return ajaxJsonErrorMessage("已确认的无须再确认!");
+		try {
+			ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				dailyWork = dailyWorkService.load(ids[i]);
+				if (CONFIRMED.equals(dailyWork.getState())) {
+					return ajaxJsonErrorMessage("已确认的无须再确认!");
+				}
+				if (UNDO.equals(dailyWork.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
+				}
 			}
-			if (UNDO.equals(dailyWork.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再确认！");
-			}
+			List<DailyWork> list = dailyWorkService.get(ids);
+			dailyWorkService.updateState(list, CONFIRMED, workingBillId);
+			workingbill = workingBillService.get(workingBillId);
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put(STATUS, SUCCESS);
+			hashmap.put(MESSAGE, "您的操作已成功");
+			hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount()
+					.toString());
+			return ajaxJson(hashmap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO操作失败");
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMsgDes());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		List<DailyWork> list = dailyWorkService.get(ids);
-		dailyWorkService.updateState(list, CONFIRMED, workingBillId);
-		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount().toString());
-		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
@@ -131,12 +145,21 @@ public class DailyWorkAction extends BaseAdminAction {
 			}
 		}
 		List<DailyWork> list = dailyWorkService.get(ids);
-		dailyWorkService.updateState(list, UNDO, workingBillId);
+		try {
+			dailyWorkService.updateState(list, UNDO, workingBillId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
+		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount().toString());
+		hashmap.put(MESSAGE, "您的操作已成功");
+		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount()
+				.toString());
 		return ajaxJson(hashmap);
 	}
 

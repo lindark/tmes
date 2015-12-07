@@ -41,7 +41,7 @@ public class PickDetail extends BaseEntity{
 	private String orderid;//工单号
 	private Pick pick;//领料主表
 	private String meins;//单位
-	
+	private String xuh;
 	
     private WorkingBill workingbill;//随工单
    
@@ -72,6 +72,12 @@ public class PickDetail extends BaseEntity{
 	
 	
 	
+	public String getXuh() {
+		return xuh;
+	}
+	public void setXuh(String xuh) {
+		this.xuh = xuh;
+	}
 	public String getCharg() {
 		return charg;
 	}

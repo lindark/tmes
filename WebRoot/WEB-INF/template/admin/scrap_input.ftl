@@ -130,21 +130,21 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>
 																			<select name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
 																				<#list list_dict as dlist>
-																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==scrapMessage.smduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
+																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.xsmduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
 																				</#list>
 																			</select>
 																		</td>
 																		<td>
 																			<img id="img_addbug${num}" class="img_addbug" title="添加报废信息" alt="添加报废信息" src="${base}/template/shop/images/add_bug.gif" />
-																			<span id="span_bug${num}"></span>
-																			<input type="hidden"  id="input_msgbug${num}" name="list_scrapmsg[${num}].smreson" value="" />
-																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="" />
+																			<span id="span_bug${num}">${(list.xsmreson)!}</span>
+																			<input type="hidden"  id="input_msgbug${num}" name="list_scrapmsg[${num}].smreson" value="${(list.xsmreson)!}" />
+																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="${(list.xmenge)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.materialCode)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.materialName)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].materialId" value="${(list.id)! }" />
 																			
-																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden"  />
-																			<input id="input_bugid${num}" name="list_scrapbug[${num}].xbugids" type="hidden"  />
+																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden" value="${(list.xsbnums)! }" />
+																			<input id="input_bugid${num}" name="list_scrapbug[${num}].xbugids" type="hidden" value="${(list.xsbids)! }" />
 																		</td>
 																	</tr>
 																	<#assign num=num+1 />
@@ -184,14 +184,14 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<span id="span_count${(sllist.slmatterNum)! }">${(sllist.slmatterCount)! }</span>
 																		<input id="input_slnum${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterNum" value="${(sllist.slmatterNum)! }" />
 																		<input id="input_sldes${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterDes" value="${(sllist.slmatterDes)! }" />
-																		<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterCount)! })" style="display: none;" />
+																		<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterNum)! })" style="display: none;" />
 																	</td>
 																	<#if show??>
 																	<#else>
 																		<td>
-																			<a id="a_edit" href="#">编辑</a>
+																			<a onclick="edit_click(${(sllist.slmatterNum)! })">编辑</a>
 																			&nbsp;&nbsp;
-																			<a id="a_del" href="">删除</a>
+																			<a onclick="del_click(${(sllist.slmatterNum)! })">删除</a>
 																		</td>
 																	</#if>
 																</tr>

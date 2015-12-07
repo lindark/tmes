@@ -25,8 +25,18 @@ public class Role extends BaseEntity {
 	private Set<Admin> adminSet;// 管理员
 	private Set<Resource> resourceSet;// 资源
 	private Set<AccessResource> accessResourceSet;//权限对象
+	private Set<CreditAccess> creditAccessSet;//刷卡权限管理
 
 	
+	@ManyToMany(fetch=FetchType.LAZY,mappedBy="roleSet")
+	public Set<CreditAccess> getCreditAccessSet() {
+		return creditAccessSet;
+	}
+
+	public void setCreditAccessSet(Set<CreditAccess> creditAccessSet) {
+		this.creditAccessSet = creditAccessSet;
+	}
+
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	public Set<AccessResource> getAccessResourceSet() {
 		return accessResourceSet;

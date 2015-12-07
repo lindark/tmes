@@ -108,9 +108,10 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		/******执行 end******/
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
-		Table t_data = outs.getTable("ET_HEADER");//BOM列表
+		Table t_data = outs.getTable("ET_HEADER");//列表
 		List<Pick> list = new ArrayList<Pick>();
 		for (int i = 0; i < t_data.getNumRows(); i++) {
+			t_data.setRow(i);
 			Pick p = new Pick();
 			p.setBudat(t_data.getString("BUDAT"));
 			p.setE_message(t_data.getString("E_MESSAGE"));

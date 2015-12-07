@@ -156,7 +156,6 @@ body {
 															<#if list_cause??>
 																<#list list_cause as list>
 																	<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
-																		<input id="sr_id" type="hidden" value="${(list.id)! }"/>
 																		<label>${(list.causeName)! }</label>
 																		<input id="sr_num${num}" type="text" value="${(list.causeNum)! }" class=" input-value" />
 																		<input id="sr_num2${num}" type="hidden" value="${(list.causeNum)! }" />
@@ -175,7 +174,7 @@ body {
 										<#if show??><#else>
 										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>
-											刷卡提交
+											刷卡保存
 										</a>
 										<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>

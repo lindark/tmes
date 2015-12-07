@@ -29,8 +29,11 @@ public class DailyWork extends BaseEntity {
 	private String step;
 	private String orderid;
 	private WorkingBill workingbill;// 随工单
-	private String e_type;//S/E
-	private String e_message;//反馈消息
+	private String e_type;// S/E
+	private String e_message;// 反馈消息
+	private Process process;// 工序
+	private String responseName;// 责任工序名称
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -145,6 +148,24 @@ public class DailyWork extends BaseEntity {
 
 	public void setE_message(String e_message) {
 		this.e_message = e_message;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Process getProcess() {
+		return process;
+	}
+
+	public void setProcess(Process process) {
+		this.process = process;
+	}
+
+	@Transient
+	public String getResponseName() {
+		return responseName;
+	}
+
+	public void setResponseName(String responseName) {
+		this.responseName = responseName;
 	}
 
 }

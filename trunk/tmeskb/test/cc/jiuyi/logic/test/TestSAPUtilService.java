@@ -25,6 +25,7 @@ import com.sun.org.apache.bcel.internal.generic.DALOAD;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.common.Key;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Material;
@@ -307,7 +308,36 @@ public class TestSAPUtilService extends BaseTestCase {
 	}
 	catch(Exception e){e.printStackTrace();}
 	}
-	
+	@Test
+	public void testBgPl(){
+		try {
+			//dailyworkrfc.SetDailyWork("100117061", "0010", "1");
+			List<DailyWork> list=new ArrayList<DailyWork>();
+			DailyWork d=new DailyWork();
+			d.setOrderid("100117061");
+			d.setEnterAmount(1.00);
+			d.setStep("0010");
+			list.add(d);
+			DailyWork d1=new DailyWork();
+			d1.setOrderid("100117061");
+			d1.setEnterAmount(2.00);
+			d1.setStep("0010");
+			list.add(d1);
+			List<DailyWork> l=dailyworkrfc.BatchSetDailyWork(list);
+			for(int i=0;i<l.size();i++){
+				DailyWork da=l.get(i);
+				System.out.println("第"+i+"行：");
+				System.out.println(da.getE_message());
+				System.out.println(da.getE_type());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
+	}
 }
 
 

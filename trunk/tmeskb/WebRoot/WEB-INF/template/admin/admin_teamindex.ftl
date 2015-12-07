@@ -81,24 +81,24 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">工厂：</div>
 														<div class="profile-info-value">
-															${admin.department.team.factoryUnit.workShop.factory.factoryName
+															${(admin.department.team.factoryUnit.workShop.factory.factoryName)!
 															}</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">车间：</div>
 														<div class="profile-info-value">
-															${admin.department.team.factoryUnit.workShop.workShopName
+															${(admin.department.team.factoryUnit.workShop.workShopName)!
 															}</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
-															${admin.department.team.factoryUnit.factoryUnitName }</div>
+															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">
-															${admin.department.team.teamName }</div>
+															${(admin.department.team.teamName)! }</div>
 													</div>
 												</div>
 											</div>

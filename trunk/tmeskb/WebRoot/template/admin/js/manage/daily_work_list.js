@@ -64,10 +64,11 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '报工数量','报工日期','创建人', '确认人','状态'],
+		colNames:[ '报工数量','报工工序','报工日期','创建人', '确认人','状态'],
 		colModel:[
 			
-			{name:'enterAmount',index:'enterAmount', width:200},
+			{name:'enterAmount',index:'enterAmount', width:100},
+			{name:'responseName',index:'responseName', width:100,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

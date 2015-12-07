@@ -50,7 +50,6 @@ public class WorkingBill extends BaseEntity {
     private Set<Scrap>scrap;//报废
     
     private Set<Pick> pick;//领料
-    private Set<PickDetail> pickDetail;//领料从表
     private Set<ItermediateTest> itermediateTest;//半成品巡检
     
     
@@ -64,14 +63,6 @@ public class WorkingBill extends BaseEntity {
 		this.itermediateTest = itermediateTest;
 	}
 
-	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
-    public Set<PickDetail> getPickDetail() {
-		return pickDetail;
-	}
-
-	public void setPickDetail(Set<PickDetail> pickDetail) {
-		this.pickDetail = pickDetail;
-	}
 
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<Pick> getPick() {

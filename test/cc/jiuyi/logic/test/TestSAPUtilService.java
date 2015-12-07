@@ -273,6 +273,41 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		}
 	}
+	@Test//测试批量领退料
+	public void testCrtMblnrList(){
+		try{
+		List<Pick> pick=new ArrayList<Pick>();
+		Pick p = new Pick();
+		p.setBudat("2015-11-01");
+		p.setLgort("2201");//库存地点
+		p.setZtext("测试凭证");//抬头文本
+		p.setWerks("1000");//工厂
+		p.setMove_type("261");//移动类型
+		p.setXuh("1");
+		pick.add(p);
+		List<PickDetail> list=new ArrayList<PickDetail>();
+		PickDetail pd = new PickDetail();
+		pd.setCharg("15091901");//批次
+		pd.setMaterialCode("10490284");//物料编码
+		//pd.setMeins("PC");//单位
+		pd.setOrderid("100116549");//工单
+		pd.setPickAmount("5");//数量
+		pd.setItem_text("文本");//文本
+		pd.setXuh("1");
+		list.add(pd);
+		List<Pick> picklist=pickrfc.BatchMaterialDocumentCrt(pick, list);
+		for(Pick p1:picklist){
+			System.out.println(p1.getE_type());
+			System.out.println(p1.getEx_mblnr());
+			System.out.println(p1.getE_message());
+		}
+	}catch(CustomerException e){
+		e.printStackTrace();
+		System.out.println(e.getMsgDes());
+	}
+	catch(Exception e){e.printStackTrace();}
+	}
+	
 }
 
 

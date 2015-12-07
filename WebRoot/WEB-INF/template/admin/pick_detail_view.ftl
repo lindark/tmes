@@ -105,7 +105,8 @@ body {
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" ></td>
 										 		<td class="center">${(list.pickAmount)! }</td>
-												<td class="center">${(list.xpickType)!}</td>								
+												<td class="center">${(list.xpickType)!}</td>
+								
 											</tr>
 											<#assign num=num+1/>
 										</#list>

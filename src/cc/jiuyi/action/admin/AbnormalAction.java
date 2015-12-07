@@ -29,10 +29,14 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
+import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Member;
+import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.SwiptCard;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -123,10 +127,9 @@ public class AbnormalAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 
-		System.out.println(admin1.getId());
+
 		pager = abnormalService.getAbnormalPager(pager, map, admin1.getId());
 
-		System.out.println(pager.getList().size());
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
@@ -161,25 +164,75 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				anslist.add(str);
 			}
+			
+			
 			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
-			String ablists="";
-			if(abnormal.getAbnormalLogSet().size()>0){
-				List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(
-						abnormal.getAbnormalLogSet());
-				List<String> ablist = new ArrayList<String>();
-				for (AbnormalLog abnormalLog : abLog) {
-					String str = abnormalLog.getInfo();
-					ablist.add(str);
+			
+			String ablists="";			
+			
+			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
+			List<String> ablist = new ArrayList<String>();	
+			List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
+			List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());
+			List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());
+	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
+			
+			if(abLog.size()>0){	
+				if(qualityList.size()>1){
+					String str1="已开"+"<a href='quality!list.action?abnorId="+abnormal.getId()+"'>质量问题单</a>";
+					ablist.add(str1);
 				}
-				ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
+				if(modelList.size()>1){
+					String str2="已开"+"<a href='model!list.action?abnorId="+abnormal.getId()+"'>工模维修单</a>";
+           		    ablist.add(str2);
+           	    }
+				
+				 if(craftList.size()>1){
+            		String str3="已开"+"<a href='craft!list.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>";
+            		ablist.add(str3);
+            	 }
+				 if(deviceList.size()>1){
+            		String str4="已开"+"<a href='device!list.action?abnorId="+abnormal.getId()+"'>设备维修单</a>";
+            		ablist.add(str4);
+            	 }
+				for(AbnormalLog ab:abLog){
+					String str="";
+					String info = ab.getInfo();
+                     if(info.equalsIgnoreCase("已开质量问题单") && qualityList.size()==1){                  	 
+                    		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
+                    	
+					 }else if(info.equalsIgnoreCase("已开工模维修单") && modelList.size()==1){						
+                    		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>"; 
+                    	
+					 }else if(info.equalsIgnoreCase("已开工艺维修单") && craftList.size()==1){						
+                    		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>"; 
+                    	
+					 }else if(info.equalsIgnoreCase("已开设备维修单") && deviceList.size()==1){						
+                    		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";  
+                    		 
+					 }
+                     ablist.add(str);
+				}
 			}else{
-				ablists="";
+				ablist.add("");
 			}
-					
+			
+			ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
+			
 			abnormal.setCallReason(comlist);
 			abnormal.setAnswer(anslist1);
 			abnormal.setLog(ablists);
 			abnormal.setOriginator(abnormal.getIniitiator().getName());
+			System.out.println(abnormal.getState());
+			if(abnormal.getState()=="3" || abnormal.getState()=="4"){
+				abnormal.setDisposeTime(abnormal.getHandlingTime().toString());
+			}else{
+				Date date = new Date();
+				int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 60000);
+				abnormal.setDisposeTime(String.valueOf(time));
+			//	abnormal.setDisposeTime("<span id='tick'>"+abnormal.getHandlingTime()+"</span>");
+			}
+			
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
 			pagerlist.set(i, abnormal);

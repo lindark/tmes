@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript"
 	src="${base }/template/admin/js/manage/resource_list.js"></script>
+	<script type="text/javascript"
+	src="${base }/template/admin/js/manage/resource.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body {
@@ -62,7 +64,14 @@ body {
 					<i class="ace-icon fa fa-pencil-square-o blue"></i>
 					添加资源
 				</a>
-				 
+				<a id="editButton" class="btn btn-white btn-sm btn-info btn-round">
+					<i class="ace-icon fa fa-pencil-square-o blue"></i>
+					修改资源
+				</a>
+				<a id="deleteButton" class="btn btn-white btn-sm btn-info btn-round">
+					<i class="ace-icon fa fa-pencil-square-o blue"></i>
+					删除资源
+				</a>
 				<select name="pager.property">
 					<option value="name">
 						资源名称

@@ -243,11 +243,11 @@ function btn_event()
 	$("#btn_show").click(function(){
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
-			alert("请选择一条记录");
+			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
 		if(dumpId.length >1){
-			alert("请选择一条记录");
+			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
 		window.location.href="dump_detail!list.action?dumpId="+dumpId;
@@ -257,7 +257,7 @@ function btn_event()
 		var index = "";
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
-			alert("请选择一条记录");
+			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
 		$.ajax({	

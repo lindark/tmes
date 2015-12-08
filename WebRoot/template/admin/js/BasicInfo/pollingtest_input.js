@@ -35,7 +35,8 @@ function sample_event()
 			}
 			else
 			{
-				layer.alert("输入不合法!",false);
+				//layer.alert("输入不合法!",false);
+				layer.msg("输入不合法!", {icon: 5});
 				$(this).val("");
 				$("#span_sq").text("0");//合格数量
 				$("#input_qulified").val("-1");//合格数量
@@ -88,14 +89,16 @@ function sub_event(my_id)
 	var samplenum=$("#sample_num").val();//巡检数量
 	if(samplenum==""||samplenum==null)
 	{
-		layer.alert("巡检数量不能为空!",false);
+		layer.msg("巡检数量不能为空!", {icon: 5});
+		//layer.alert("巡检数量不能为空!",false);
 	}
 	else
 	{
 		var hgnum=$("#input_qulified").val();//合格数量--如果走到这一步，合格数量是一个整数
 		if(hgnum<0)
 		{
-			layer.alert("缺陷数量不能大于巡检数量!",false);
+			layer.msg("缺陷数量不能大于巡检数量!", {icon: 5});
+			//layer.alert("缺陷数量不能大于巡检数量!",false);
 		}
 		else
 		{

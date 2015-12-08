@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
@@ -66,6 +67,7 @@ public class ScrapAction extends BaseAdminAction
 	private List<ScrapMessage>list_scrapmsg;//报废信息
 	private List<ScrapBug>list_scrapbug;//报废原因
 	private String my_id;//1刷卡保存2刷卡确认
+	private String info;
 	/**
 	 * service接口
 	 */
@@ -180,12 +182,13 @@ public class ScrapAction extends BaseAdminAction
 		for(int i=0;i<l_material.size();i++)
 		{
 			Material m=l_material.get(i);
-			ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询
+			ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询报废信息
 			if(sm!=null)
 			{
 				m.setXsmreson(sm.getSmreson());//原因
 				m.setXmenge(sm.getMenge());//数量
 				m.setXsmduty(sm.getSmduty());//责任划分
+				m.setXsmid(sm.getId());
 				List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
 				String sbids="",sbnums="";
 				for(int j=0;j<l_sbug.size();j++)
@@ -209,16 +212,82 @@ public class ScrapAction extends BaseAdminAction
 		this.edit="edit";
 		return INPUT;
 	}
+	/**
+	 * 修改
+	 */
+	public String update()
+	{
+		this.scrapService.updateInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
+		return SUCCESS;
+	}
 	
 	/**
 	 * 查看
 	 */
 	public String show()
 	{
-		//this.smdutytype=ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState());
-		
+		this.list_scrapmsg=new ArrayList<ScrapMessage>();//初始化
+		this.scrap=this.scrapService.load(id);
+		List<ScrapMessage>l_scrapmsg=new ArrayList<ScrapMessage>(this.scrap.getScrapMsgSet());//报废信息
+		if(l_scrapmsg!=null)
+		{
+			for(int i=0;i<l_scrapmsg.size();i++)
+			{
+				ScrapMessage sm=l_scrapmsg.get(i);
+				sm.setXsmduty(this.dictService.getByState("scrapMessageType",sm.getSmduty()));
+				this.list_scrapmsg.add(sm);
+			}
+		}
+		this.list_scraplater=new ArrayList<ScrapLater>(this.scrap.getScrapLaterSet());//报废后产出
+		this.show="show";
 		return INPUT;
 	}
+	
+	/**
+	 * 1刷卡确认
+	 * 2刷卡撤销
+	 */
+	public String confirmOrRevoke()
+	{
+		ids = info.split(",");
+		String newstate = "1";
+		for (int i = 0; i < ids.length; i++)
+		{
+			this.scrap = this.scrapService.load(ids[i]);
+			String state = scrap.getState();
+			// 确认
+			if ("1".equals(my_id))
+			{
+				newstate = "2";
+				// 已经确认的不能重复确认
+				if ("2".equals(state))
+				{
+					//addActionError("已确认的无须再确认！");
+					return ajaxJsonErrorMessage("已确认的无须再确认！");
+				}
+				// 已经撤销的不能再确认
+				if ("3".equals(state))
+				{
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
+				}
+			}
+			// 撤销
+			if ("2".equals(my_id))
+			{
+				newstate = "3";
+				// 已经撤销的不能再确认
+				if ("3".equals(state))
+				{
+					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+				}
+			}
+		}
+		List<Scrap> list = this.scrapService.get(ids);
+		this.scrapService.updateState(list, newstate);
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
 	/**==========================end 方法=======================================*/
 	
 	/**=========================="get/set"  start==============================*/
@@ -380,6 +449,16 @@ public class ScrapAction extends BaseAdminAction
 	public void setMy_id(String my_id)
 	{
 		this.my_id = my_id;
+	}
+
+	public String getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(String info)
+	{
+		this.info = info;
 	}
 	
 	/**==========================end "get/set"=================================*/

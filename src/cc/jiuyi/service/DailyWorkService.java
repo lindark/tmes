@@ -28,5 +28,5 @@ public interface DailyWorkService extends BaseService<DailyWork, String> {
 			throws IOException, CustomerException;
 
 	// 刷卡撤销
-	public void updateState2(List<DailyWork> list, String workingbillid);
+	public void updateState2(List<DailyWork> list, String workingbillid) throws IOException, CustomerException;
 }

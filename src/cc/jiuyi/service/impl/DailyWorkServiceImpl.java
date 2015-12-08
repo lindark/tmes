@@ -63,12 +63,14 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		String workingbillCode = workingbill.getWorkingBillCode();
 		String code = workingbillCode
 				.substring(0, workingbillCode.length() - 2);
+		String wb = workingbillCode.substring(workingbillCode.length() - 2);
 		Double totalamount = workingbill.getDailyWorkTotalAmount();
 		for (int i = 0; i < list.size(); i++) {
 			DailyWork dailyWork = list.get(i);
 			dailyWork = dailyWorkDao.get(dailyWork.getId());
 			dailyWork.setStep(dailyWork.getProcess().getProcessCode());
 			dailyWork.setOrderid("100117061");
+			dailyWork.setWb(wb);
 			//dailyWork.setOrderid(code);
 			//dailyWorkRfc.SetDailyWork("100117061", "0010", dailyWork.getEnterAmount().toString());
 			dailyWorkList.add(dailyWork);
@@ -84,28 +86,45 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				throw new CustomerException(dailyWork.getE_message());
 			}
 		}
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < dailyWorkList.size(); i++) {
+			DailyWork dailyWork = dailyWorkList.get(i);
+			String CONF_NO = dailyWork.getCONF_NO();//确认号
+			String CONF_CNT = dailyWork.getCONF_CNT();//计数器
+			dailyWork = dailyWorkDao.get(dailyWork.getId());
+			dailyWork.setCONF_NO(CONF_NO);
+			dailyWork.setCONF_CNT(CONF_CNT);
+			totalamount = dailyWork.getEnterAmount() + totalamount;
+			dailyWork.setConfirmUser(admin);
+			dailyWork.setState("1");
+			dailyWorkDao.update(dailyWork);
+		}
+		/*for (int i = 0; i < list.size(); i++) {
 			DailyWork d = list.get(i);
 			totalamount = d.getEnterAmount() + totalamount;
 			d.setConfirmUser(admin);
 			d.setState("1");
 			dailyWorkDao.update(d);
-		}
+		}*/
 		workingbill.setDailyWorkTotalAmount(totalamount);
 		workingbillService.update(workingbill);
 	}
 
 	@Override
-	public void updateState2(List<DailyWork> list, String workingbillid) {
+	public void updateState2(List<DailyWork> list, String workingbillid) throws IOException, CustomerException {
+		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
+		dailyWorkList = dailyWorkRfc.BatchSetDailyWorkCancel(list);
+		for (int i = 0; i < dailyWorkList.size(); i++) {
+			DailyWork dailyWork = dailyWorkList.get(i);
+			if("S".equals(dailyWork.getE_type())){
+				System.out.println("SAP同步成功");
+				System.out.println(dailyWork.getE_message());
+			}else if("E".equals(dailyWork.getE_type())){
+				System.out.println("SAP同步失败");
+				throw new CustomerException(dailyWork.getE_message());
+			}
+		}
 		Admin admin = adminservice.getLoginAdmin();
 		WorkingBill workingbill = workingbillService.get(workingbillid);
-		String workingbillCode = workingbill.getWorkingBillCode();
-		String code = workingbillCode
-				.substring(0, workingbillCode.length() - 2);
-		String matnr = workingbill.getMatnr();// 当前随工单的产品编码
-		Products products = productsService.getProducts(matnr);
-		Set<Process> processes = products.getProcess();// 当前产品的工序
-		Iterator<Process> it = processes.iterator();// 工序迭代器
 		Double totalamount = workingbill.getDailyWorkTotalAmount();
 		for (int i = 0; i < list.size(); i++) {
 			DailyWork dailyWork = list.get(i);

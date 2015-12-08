@@ -1,4 +1,3 @@
-
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
@@ -80,11 +79,21 @@ public class RepairAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	// 编辑
+	public String edit() {
+		repair = repairService.load(id);
+		workingbill = workingBillService.get(workingBillId);
+		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
+		workingbills.add(workingbill);
+		allProcess = processService.findProcess(workingbills);
+		return INPUT;
+	}
+
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
-		if(repair.getProcessResponse().getId().equals("")){
+		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}
 		admin = adminService.loadLoginAdmin();
@@ -99,6 +108,9 @@ public class RepairAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String update() throws Exception {
+		if (repair.getProcessResponse().getId().equals("")) {
+			repair.setProcessResponse(null);
+		}
 		Repair persistent = repairService.load(id);
 		BeanUtils.copyProperties(repair, persistent, new String[] { "id" });
 		repairService.update(persistent);
@@ -113,21 +125,22 @@ public class RepairAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
 			if (CONFIRMED.equals(repair.getState())) {
-				//addActionError("已确认的无须再确认！");
+				// addActionError("已确认的无须再确认！");
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(repair.getState())) {
-				//addActionError("已撤销的无法再确认！");
+				// addActionError("已撤销的无法再确认！");
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
 		repairService.updateState(list, CONFIRMED, workingBillId);
 		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
+		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getTotalRepairAmount().toString());
+		hashmap.put(MESSAGE, "您的操作已成功");
+		hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
+				.toString());
 		return ajaxJson(hashmap);
 	}
 
@@ -137,17 +150,18 @@ public class RepairAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
 			if (UNDO.equals(repair.getState())) {
-				//addActionError("已撤销的无法再撤销！");
+				// addActionError("已撤销的无法再撤销！");
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
 		repairService.updateState(list, UNDO, workingBillId);
 		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
+		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getTotalRepairAmount().toString());
+		hashmap.put(MESSAGE, "您的操作已成功");
+		hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
+				.toString());
 		return ajaxJson(hashmap);
 	}
 
@@ -189,16 +203,17 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
-			if(repair.getProcessResponse()!=null){
-				repair.setResponseName(repair.getProcessResponse().getProcessName());				
+			if (repair.getProcessResponse() != null) {
+				repair.setResponseName(repair.getProcessResponse()
+						.getProcessName());
 			}
 			lst.add(repair);
 		}
 		pager.setList(lst);
-		JsonConfig jsonConfig=new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repair.class));//排除有关联关系的属性字段 
-		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repair.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

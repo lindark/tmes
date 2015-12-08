@@ -202,7 +202,7 @@
 		});
 		$("#btn_edit").click(function(){
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id.length > 1){
+			if(id.length > 1||id.length < 1){
 				layer.msg("只能选择一条记录!", {icon: 5});
 				return false;
 			}

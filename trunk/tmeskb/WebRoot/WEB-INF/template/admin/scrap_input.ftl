@@ -142,6 +142,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.materialCode)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.materialName)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].materialId" value="${(list.id)! }" />
+																			<input type="hidden" name="list_scrapmsg[${num}].id" value="${(list.xsmid)! }" />
 																			
 																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden" value="${(list.xsbnums)! }" />
 																			<input id="input_bugid${num}" name="list_scrapbug[${num}].xbugids" type="hidden" value="${(list.xsbids)! }" />
@@ -165,38 +166,51 @@ body {background: #fff;font-family: 微软雅黑;}
 												</div>
 												<div class="profile-info-row">
 													<table id="tb_scraplater" class="table table-striped table-bordered table-hover">
-														<tr>
-															<th style="width:20%;">物料编码</th>
-															<th style="width:40%;">物料描述</th>
-															<th style="width:20%;">物料数量</th>
-															<#if show??>
-															<#else>
-																<th style="width:20%;">操作</th>
+														<#if show??>
+															<tr>
+																<th style="width:25%;">物料编码</th>
+																<th style="width:50%;">物料描述</th>
+																<th style="width:25%;">物料数量</th>
+															</tr>
+															<#if list_scraplater??>
+																<#assign slnum=0 />
+																<#list list_scraplater as sllist>
+																	<tr>
+																		<td>${(sllist.slmatterNum)! }</td>
+																		<td>${(sllist.slmatterDes)! }</td>
+																		<td>${(sllist.slmatterCount)! }</td>
+																	</tr>
+																<#assign slnum=slnum+1 />
+																</#list>
 															</#if>
-														</tr>
-														<#if list_scraplater??>
-															<#assign slnum=0 />
-															<#list list_scraplater as sllist>
-																<tr>
-																	<td>${(sllist.slmatterNum)! }</td>
-																	<td>${(sllist.slmatterDes)! }</td>
-																	<td>
-																		<span id="span_count${(sllist.slmatterNum)! }">${(sllist.slmatterCount)! }</span>
-																		<input id="input_slnum${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterNum" value="${(sllist.slmatterNum)! }" />
-																		<input id="input_sldes${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterDes" value="${(sllist.slmatterDes)! }" />
-																		<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterNum)! })" style="display: none;" />
-																	</td>
-																	<#if show??>
-																	<#else>
+														<#else>
+															<tr>
+																<th style="width:20%;">物料编码</th>
+																<th style="width:40%;">物料描述</th>
+																<th style="width:20%;">物料数量</th>
+																<th style="width:20%;">操作</th>
+															</tr>
+															<#if list_scraplater??>
+																<#assign slnum=0 />
+																<#list list_scraplater as sllist>
+																	<tr>
+																		<td>${(sllist.slmatterNum)! }</td>
+																		<td>${(sllist.slmatterDes)! }</td>
+																		<td>
+																			<span id="span_count${(sllist.slmatterNum)! }">${(sllist.slmatterCount)! }</span>
+																			<input id="input_slnum${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterNum" value="${(sllist.slmatterNum)! }" />
+																			<input id="input_sldes${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterDes" value="${(sllist.slmatterDes)! }" />
+																			<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterNum)! })" style="display: none;" />
+																		</td>
 																		<td>
 																			<a onclick="edit_click(${(sllist.slmatterNum)! })">编辑</a>
 																			&nbsp;&nbsp;
 																			<a onclick="del_click(${(sllist.slmatterNum)! })">删除</a>
 																		</td>
-																	</#if>
-																</tr>
-																<#assign slnum=slnum+1 />
-															</#list>
+																	</tr>
+																	<#assign slnum=slnum+1 />
+																</#list>
+															</#if>
 														</#if>
 													</table>
 												</div>

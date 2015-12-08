@@ -338,6 +338,34 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void testQxBgPl(){
+		try {
+			//dailyworkrfc.SetDailyWork("100117061", "0010", "1");
+			List<DailyWork> list=new ArrayList<DailyWork>();
+			DailyWork d=new DailyWork();
+			d.setCONF_NO("804784");
+			d.setCONF_CNT("14");
+			list.add(d);
+			DailyWork d1=new DailyWork();
+			d1.setCONF_NO("804784");
+			d1.setCONF_CNT("100");
+			list.add(d1);
+			List<DailyWork> l=dailyworkrfc.BatchSetDailyWorkCancel(list);
+			for(int i=0;i<l.size();i++){
+				DailyWork da=l.get(i);
+				System.out.println("第"+i+"行：");
+				System.out.println(da.getE_message());
+				System.out.println(da.getE_type());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
+	}
 }
 
 

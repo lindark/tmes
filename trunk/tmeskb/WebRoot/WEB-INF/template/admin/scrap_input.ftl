@@ -129,7 +129,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialName)! }</td>
 																		<td>
 																			<select name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
-																				<option value=""></option>
+																				<option value="">&nbsp;</option>
 																				<#list list_dict as dlist>
 																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.xsmduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
 																				</#list>

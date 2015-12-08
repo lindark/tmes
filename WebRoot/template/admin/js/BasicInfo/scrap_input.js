@@ -123,9 +123,12 @@ function box2torow_event()
 	else
 	{
 		//给表赋值
-		fuzhi_box2totable(select_val,select_text,slnum_val);
-		//隐藏已选择的选项
-		$("#opt_"+select_val).hide();
+		if(slnum_val>0)
+		{
+			fuzhi_box2totable(select_val,select_text,slnum_val);
+			//隐藏已选择的选项
+			$("#opt_"+select_val).hide();
+		}
 		//给下拉框默认选项
 		//$("#sl_material").val("baga");
 		//清空输入框
@@ -202,11 +205,45 @@ function del_click(obj)
 //1.刷卡保存2.刷卡确认
 function sub_event(my_id)
 {
-	$("#my_id").val(my_id);//赋值
-	$("#inputForm").submit();//提交
+	if(my_id=="1")
+	{
+		$("#my_id").val(my_id);//赋值
+		$("#inputForm").submit();//提交
+	}
+	if(my_id=="2")
+	{
+		if(!sm_event()&&!sl_event())
+		{
+			layer.alert("报废表为空,不能确认!",false);
+		}
+		else
+		{
+			$("#inputForm").submit();//提交
+		}
+	}
 }
 
-
+//报废产出后是否为空
+function sl_event()
+{
+	number="0";
+	$("#tb_scraplater tr").each(function(){
+		var wlcode=($(this).children("td:first").text());
+		var num=$("#input_count"+wlcode).val();
+		if(num!=null&&num!=""&&num!="0")
+		{
+			number="1";
+		}
+	});
+	if(number=="0")
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
 
 
 

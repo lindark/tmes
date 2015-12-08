@@ -203,7 +203,7 @@
 		});
 		$("#btn_edit").click(function(){
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id.length > 1||id.length < 1){
+			if(id.length > 1||id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}
@@ -212,7 +212,6 @@
 			var row_state=rowData.state;
 			if(row_state=="1"||row_state=="3"){
 				layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
-				return false;
 			}else{
 				window.location.href="repair!edit.action?workingBillId="+workingBillId+"&id="+id;				
 			}
@@ -223,7 +222,8 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
+				return false;
 			}else{
 				var index = "";
 				$.ajax({	
@@ -254,7 +254,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
 				var index = "";
 				$.ajax({	

@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import cc.jiuyi.dao.RoleDao;
@@ -21,7 +23,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements Ro
 	
 	@Resource
 	RoleDao roleDao;
-
+	public static final String SEPARATOR = ",";
 	@Resource
 	public void setBaseDao(RoleDao roleDao) {
 		super.setBaseDao(roleDao);
@@ -70,6 +72,21 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements Ro
 		roleDao.flush();
 		flushSpringSecurity();
 	}
+	
+	// 获取权限字符串（以分隔符间隔）
+	
+		public String getRoleSetString(String resourceid) {
+			StringBuffer stringBuffer = new StringBuffer();
+			
+			List<Role> roleList = roleDao.getList(resourceid);
+			for (Role role : roleList) {
+				stringBuffer.append(SEPARATOR + role.getValue());
+			}
+			if (stringBuffer.length() > 0) {
+				stringBuffer.deleteCharAt(0);
+			}
+			return stringBuffer.toString();
+		}
 	
 	// 刷新SpringSecurity权限信息
 	private void flushSpringSecurity() {

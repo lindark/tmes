@@ -261,11 +261,12 @@ function btn_event()
 				success: function(data) {
 					layer.close(index);
 					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
 				},error:function(data){
+					layer.close(index);
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
 			});
-			$("#grid-table").trigger("reloadGrid");
 		}
 	});
 	//刷卡撤销
@@ -285,11 +286,12 @@ function btn_event()
 				success: function(data) {
 					layer.close(index);
 					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
 				},error:function(data){
+					layer.close(index);
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
 			});
-			$("#grid-table").trigger("reloadGrid");
 			//window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;
 		}
 	});

@@ -34,6 +34,7 @@ public class DailyWork extends BaseEntity {
 	private Process process;// 工序
 	private String responseName;// 责任工序名称
 
+	private String wb;//文本
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -150,6 +151,13 @@ public class DailyWork extends BaseEntity {
 		this.e_message = e_message;
 	}
 
+	public String getWb() {
+		return wb;
+	}
+
+	public void setWb(String wb) {
+		this.wb = wb;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Process getProcess() {
 		return process;

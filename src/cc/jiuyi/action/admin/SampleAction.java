@@ -189,14 +189,12 @@ public class SampleAction extends BaseAdminAction
 				// 已经确认的不能重复确认
 				if ("2".equals(state))
 				{
-					addActionError("已确认的无须再确认！");
-					return ERROR;
+					return ajaxJsonErrorMessage("已确认的无须再确认！");
 				}
 				// 已经撤销的不能再确认
 				if ("3".equals(state))
 				{
-					addActionError("已撤销的无法再确认！");
-					return ERROR;
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}
 			}
 			// 撤销
@@ -206,15 +204,13 @@ public class SampleAction extends BaseAdminAction
 				// 已经撤销的不能再确认
 				if ("3".equals(state))
 				{
-					addActionError("已撤销的无法再撤销！");
-					return ERROR;
+					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 				}
 			}
 		}
 		List<Sample> list = this.sampleService.get(ids);
 		this.sampleService.updateState(list, newstate);
-		this.redirectionUrl = "sample!list.action?wbId=" + wbId;
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.ReworkDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.Product;
 import cc.jiuyi.service.ReworkService;
@@ -61,6 +62,17 @@ public class ReworkServiceImpl extends BaseServiceImpl<Rework, String>implements
 	public void updateisdel(String[] ids, String oper) {
 		// TODO Auto-generated method stub
 		reworkDao.updateisdel(ids, oper);
+		
+	}
+
+	@Override
+	public void saveRepeal(List<Rework> list, Admin admin, String stu) {
+		for (int i = 0; i < list.size(); i++) {
+			Rework rework=list.get(i);
+			rework.setState(stu);
+			rework.setConfirmUser(admin);
+			reworkDao.update(rework);	
+		}
 		
 	}
 

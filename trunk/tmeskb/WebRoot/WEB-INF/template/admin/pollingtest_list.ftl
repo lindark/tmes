@@ -117,19 +117,19 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="pollingtestAdd">
+								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建巡检单
 								</a>
-								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="pollingtestConfirm">
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
-								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="pollingtestUndo">
+								<a id="btn_revoke" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
 								</a>
-								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="pollingtestEdit">
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
 									编辑
 								</a>

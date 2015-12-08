@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
+
 import cc.jiuyi.dao.RoleDao;
 import cc.jiuyi.entity.Role;
 
@@ -54,4 +56,12 @@ public class RoleDaoImpl extends BaseDaoImpl<Role, String> implements RoleDao {
 		super.update(role);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Role> getList(String resourceid) {
+		String hql="select a from Role a join a.resourceSet b where b.id = ?";
+		return getSession().createQuery(hql).setParameter(0, resourceid).list();
+	}
+
+	
 }

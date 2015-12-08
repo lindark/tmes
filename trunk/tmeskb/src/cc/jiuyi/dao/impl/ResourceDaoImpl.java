@@ -98,5 +98,11 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Resource.class);
 		return this.findByPager(pager, detachedCriteria);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Resource> getListByadmin(List<String> roleid,String path){
+		String hql="select a from Resource a join a.roleSet b where a.value=? and b.id in (:list)";
+		return (List<Resource>) getSession().createQuery(hql).setParameter(0, path).setParameterList("list", roleid).list();
+	}
 
 }

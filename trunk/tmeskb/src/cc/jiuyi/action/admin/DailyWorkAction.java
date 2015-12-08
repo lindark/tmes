@@ -46,7 +46,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private static final long serialVersionUID = 352880047222902914L;
 
 	private static final String CONFIRMED = "1";
-	//private static final String UNCONFIRM = "2";
+	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 
 	private DailyWork dailyWork;
@@ -85,6 +85,16 @@ public class DailyWorkAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+	// 编辑
+	public String edit() {
+		dailyWork = dailyWorkService.load(id);
+		workingbill = workingBillService.get(workingBillId);
+		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
+		workingbills.add(workingbill);
+		allProcess = processService.findProcess(workingbills);
+		return INPUT;
+	}
+
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
@@ -104,7 +114,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);
-		redirectionUrl = "dailyWork!list.action?workingBillId="
+		redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();
 		return SUCCESS;
 	}
@@ -196,8 +206,9 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			if(dailyWork.getProcess()!=null){
-				dailyWork.setResponseName(dailyWork.getProcess().getProcessName());
+			if (dailyWork.getProcess() != null) {
+				dailyWork.setResponseName(dailyWork.getProcess()
+						.getProcessName());
 			}
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);

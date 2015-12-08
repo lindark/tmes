@@ -2,6 +2,8 @@ package cc.jiuyi.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 /**
  * 抽检缺陷记录表
  * @author gaoyf
@@ -17,7 +19,7 @@ public class SampleRecord extends BaseEntity
 	 */
 	private String recordNum;//缺陷数量
 	private String recordDescription;//缺陷描述
-	private String sampleId;//抽检表id
+	private Sample sample;//抽检表id
 	private String causeId;//记录缺陷表的id
 	private String isDel;
 	private String istoDel;//默认都为Y，修改的时候标记为N，为N的不删除，为Y的删除
@@ -56,16 +58,6 @@ public class SampleRecord extends BaseEntity
 	}
 	
 	@Column
-	public String getSampleId()
-	{
-		return sampleId;
-	}
-	public void setSampleId(String sampleId)
-	{
-		this.sampleId = sampleId;
-	}
-	
-	@Column
 	public String getIsDel() {
 		return isDel;
 	}
@@ -89,6 +81,16 @@ public class SampleRecord extends BaseEntity
 			istoDel="Y";
 		}
 		this.istoDel = istoDel;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Sample getSample()
+	{
+		return sample;
+	}
+	public void setSample(Sample sample)
+	{
+		this.sample = sample;
 	}
 	
 }

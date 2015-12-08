@@ -217,14 +217,16 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			window.location.href="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			sub_event(wbId,url);
 		}
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
 		if(getId())
 		{
-			window.location.href="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			sub_event(wbId,url);
 		}
 	});
 	//返回
@@ -252,6 +254,28 @@ function btn_event()
 		if(getId2())
 		{
 			window.location.href="scrap!show.action?id="+info+"&wbId="+wbId;
+		}
+	});
+}
+
+//刷卡确认或撤销
+function sub_event(wbId,url)
+{
+	$.ajax({	
+		url: url,
+		//data: $(form).serialize(),
+		dataType: "json",
+		async: false,
+		beforeSend: function(data) {
+			$(this).attr("disabled", true);
+			index = layer.load();
+		},
+		success: function(data) {
+			layer.close(index);
+			$.message(data.status,data.message);
+			$("#grid-table").trigger("reloadGrid");
+		},error:function(data){
+			$.message("error","系统出现问题，请联系系统管理员");
 		}
 	});
 }

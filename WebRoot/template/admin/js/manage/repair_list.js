@@ -64,7 +64,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '返修部位','返修数量','返修日期','责任工序','责任人/批次','创建人', '确认人','状态'],
+		colNames:[ '返修部位','返修数量','返修日期','责任工序','责任人/批次','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
 			
 	        {name:'repairPart',index:'repairPart', width:200,sortable:"true",sorttype:"text"},
@@ -74,7 +74,8 @@ jQuery(function($) {
 			{name:'duty',index:'duty', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairState"}}
+			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairState"}},
+			{name:'state',index:'state', editable: false,hidden:true}
 
 		], 
 		//sortable:true,

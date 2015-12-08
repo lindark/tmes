@@ -71,5 +71,4 @@ public class ScrapLater extends BaseEntity
 	{
 		this.scrap = scrap;
 	}
-	
 }

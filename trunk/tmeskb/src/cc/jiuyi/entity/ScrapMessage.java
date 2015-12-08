@@ -151,6 +151,4 @@ public class ScrapMessage extends BaseEntity
 	{
 		this.materialId = materialId;
 	}
-	
-	
 }

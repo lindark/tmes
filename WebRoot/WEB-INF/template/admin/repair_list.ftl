@@ -239,11 +239,12 @@
 						layer.close(index);
 						$.message(data.status,data.message);
 						$("#totalAmount").text(data.totalAmount);
+						$("#grid-table").trigger("reloadGrid");
 					},error:function(data){
+						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
 				});
-				$("#grid-table").trigger("reloadGrid");
 				
 				//window.location.href="repair!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
@@ -270,11 +271,12 @@
 						layer.close(index);
 						$.message(data.status,data.message);
 						$("#totalAmount").text(data.totalAmount);
+						$("#grid-table").trigger("reloadGrid");
 					},error:function(data){
+						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
 				});
-				$("#grid-table").trigger("reloadGrid");
 				
 				//window.location.href="repair!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}

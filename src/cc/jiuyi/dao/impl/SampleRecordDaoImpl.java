@@ -21,7 +21,7 @@ public class SampleRecordDaoImpl extends BaseDaoImpl<SampleRecord, String> imple
 	@SuppressWarnings("unchecked")
 	public List<SampleRecord> getBySampleId(String id)
 	{
-		String hql="from SampleRecord a where a.isDel='N' and a.sampleId=?";
+		String hql="from SampleRecord where isDel='N' and sample_id=?";
 		return this.getSession().createQuery(hql).setParameter(0, id).list();
 	}
 
@@ -31,7 +31,7 @@ public class SampleRecordDaoImpl extends BaseDaoImpl<SampleRecord, String> imple
 	@SuppressWarnings("unchecked")
 	public SampleRecord getBySidAndCid(String sid, String cid)
 	{
-		String hql="from SampleRecord a where a.sampleId=? and a.causeId=?";
+		String hql="from SampleRecord where sample_id=? and causeId=?";
 		List<SampleRecord> list=this.getSession().createQuery(hql).setParameter(0, sid).setParameter(1, cid).list();
 		if(list.size()>0)
 		{
@@ -46,7 +46,7 @@ public class SampleRecordDaoImpl extends BaseDaoImpl<SampleRecord, String> imple
 	@SuppressWarnings("unchecked")
 	public List<SampleRecord> getBySidAndMark(String sid, String istodel)
 	{
-		String hql="from SampleRecord a where a.sampleId=? and a.istoDel=?";
+		String hql="from SampleRecord where sample_id=? and istoDel=?";
 		return this.getSession().createQuery(hql).setParameter(0, sid).setParameter(1, istodel).list();
 	}
 }

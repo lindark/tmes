@@ -88,9 +88,13 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			for(int i=0;i<list_scraplater.size();i++)
 			{
 				ScrapLater sl=list_scraplater.get(i);
-				sl.setCreateDate(new Date());//初始化创建日期
-				sl.setScrap(scp);
-				this.slaterDao.save(sl);
+				String str=sl.getSlmatterCount();
+				if(str!=null&&!"".equals(str)&&!"0".equals(str))
+				{
+					sl.setCreateDate(new Date());//初始化创建日期
+					sl.setScrap(scp);
+					this.slaterDao.save(sl);
+				}
 			}
 		}
 	}

@@ -202,7 +202,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
 				var index = "";
 				$.ajax({	
@@ -233,7 +233,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
 				var index = "";
 				$.ajax({	

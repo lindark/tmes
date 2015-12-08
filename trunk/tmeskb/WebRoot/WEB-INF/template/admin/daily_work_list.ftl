@@ -203,7 +203,7 @@
 		$("#btn_edit").click(function(){
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length > 1||id.length < 1){
-				layer.msg("只能选择一条记录!", {icon: 5});
+				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}
 			var workingBillId = $("#workingBillId").val();
@@ -222,7 +222,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
 				var index = "";
 				$.ajax({	
@@ -253,7 +253,7 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
 				var index = "";
 				$.ajax({	

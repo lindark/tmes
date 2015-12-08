@@ -8,4 +8,5 @@ import cc.jiuyi.entity.Role;
 
 public interface RoleService extends BaseService<Role, String> {
 
+	public String getRoleSetString(String resourceid);
 }

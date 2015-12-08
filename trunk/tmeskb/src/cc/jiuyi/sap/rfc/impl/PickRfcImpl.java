@@ -73,6 +73,9 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 	public List<Pick> BatchMaterialDocumentCrt(List<Pick> pick,
 			List<PickDetail> pickdetail) throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("GM_CODE", "03");//移动类型
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
@@ -96,10 +99,8 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		for(PickDetail p:pickdetail){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterialCode());//物料编码
-			item.put("ZSFSL", p.getPickAmount());//领退料数量
+			item.put("ZSFSL", p.getPickAmount());//数量
 			item.put("CHARG", p.getCharg());//批号
-			item.put("ITEM_TEXT", p.getItem_text());//项目文本
-			item.put("ORDERID", p.getOrderid());//工单号
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

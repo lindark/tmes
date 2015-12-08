@@ -176,53 +176,45 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String confirmOrRevoke()
 	{
-		try
+		ids = info.split(",");
+		String newstate = "1";
+		for (int i = 0; i < ids.length; i++)
 		{
-			ids=info.split(",");
-			String newstate="1";
-			for(int i=0;i<ids.length;i++)
+			this.sample = this.sampleService.load(ids[i]);
+			String state = sample.getState();
+			// 确认
+			if ("1".equals(my_id))
 			{
-				this.sample=this.sampleService.load(ids[i]);
-				String state=sample.getState();
-				//确认
-				if("1".equals(my_id))
+				newstate = "2";
+				// 已经确认的不能重复确认
+				if ("2".equals(state))
 				{
-					newstate="2";
-					//已经确认的不能重复确认
-					if("2".equals(state))
-					{
-						addActionError("已确认的无须再确认！");
-						return ERROR;
-					}
-					//已经撤销的不能再确认
-					if("3".equals(state))
-					{
-						addActionError("已撤销的无法再确认！");
-						return ERROR;
-					}
+					addActionError("已确认的无须再确认！");
+					return ERROR;
 				}
-				//撤销
-				if("2".equals(my_id))
+				// 已经撤销的不能再确认
+				if ("3".equals(state))
 				{
-					newstate="3";
-					//已经撤销的不能再确认
-					if("3".equals(state))
-					{
-						addActionError("已撤销的无法再撤销！");
-						return ERROR;
-					}
+					addActionError("已撤销的无法再确认！");
+					return ERROR;
 				}
 			}
-			List<Sample>list=this.sampleService.get(ids);
-			this.sampleService.updateState(list,newstate);
-			this.redirectionUrl="sample!list.action?wbId="+wbId;
-			return SUCCESS;
+			// 撤销
+			if ("2".equals(my_id))
+			{
+				newstate = "3";
+				// 已经撤销的不能再确认
+				if ("3".equals(state))
+				{
+					addActionError("已撤销的无法再撤销！");
+					return ERROR;
+				}
+			}
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		List<Sample> list = this.sampleService.get(ids);
+		this.sampleService.updateState(list, newstate);
+		this.redirectionUrl = "sample!list.action?wbId=" + wbId;
+		return SUCCESS;
 	}
 	
 	/**

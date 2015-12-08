@@ -2,8 +2,11 @@ package cc.jiuyi.service.impl;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import cc.jiuyi.dao.ResourceDao;
 import cc.jiuyi.entity.Resource;
+import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.ResourceService;
 import cc.jiuyi.util.SpringUtil;
 
@@ -87,5 +90,13 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<Resource> getListByadmin(List<String> roleid,String path) {
+		return resourceDao.getListByadmin(roleid,path);
+	}
+	
+	
+
 
 }

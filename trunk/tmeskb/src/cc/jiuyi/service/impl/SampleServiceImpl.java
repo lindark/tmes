@@ -68,6 +68,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 				sample.setState("2");
 			}
 			String sampleId=this.sampleDao.save(sample);
+			Sample sam=this.sampleDao.load(sampleId);
 			String[]qxids=info.split(",");//缺陷IDS
 			String[]qxnums=info2.split(",");//缺陷nums
 			for(int i=0;i<qxids.length;i++)
@@ -78,7 +79,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 					Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
 					sr.setCreateDate(new Date());//初始化创建日期
 					sr.setModifyDate(new Date());//初始化修改日期
-					sr.setSampleId(sampleId);//抽检单对象
+					sr.setSample(sam);//抽检单对象
 					sr.setRecordDescription(cause.getCauseName());
 					sr.setRecordNum(qxnums[i]);//缺陷数量
 					sr.setCauseId(qxids[i]);//缺陷ID
@@ -128,6 +129,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		}
 		s.setModifyDate(new Date());
 		this.sampleDao.update(s);//修改操作
+		Sample sam=this.sampleDao.load(sample.getId());
 		/**缺陷记录更新*/
 		String[]qxids=info.split(",");//缺陷IDS
 		String[]qxnums=info2.split(",");//缺陷nums
@@ -156,7 +158,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 					SampleRecord sr=new SampleRecord();
 					sr.setCreateDate(new Date());//初始化创建日期
 					sr.setModifyDate(new Date());//初始化修改日期
-					sr.setSampleId(sample.getId());//抽检单id
+					sr.setSample(sam);//抽检单id
 					sr.setRecordDescription(cause.getCauseName());
 					sr.setRecordNum(qxnums[i]);//缺陷数量
 					sr.setCauseId(qxids[i]);//缺陷ID

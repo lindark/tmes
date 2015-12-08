@@ -258,7 +258,7 @@ public class ScrapAction extends BaseAdminAction
 			//报废信息表和报废后产出表是否同时为空
 			List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());
 			List<ScrapLater>list2=new ArrayList<ScrapLater>(scrap.getScrapLaterSet());
-			if(list1.size()==0&&list2.size()==0)
+			if(list1.size()==0&&list2.size()==0&&"1".equals(my_id))
 			{
 				return ajaxJsonErrorMessage("报废表为空,不能确认!");
 			}

@@ -39,39 +39,44 @@ $(function() {
 			},
 			"notCheck":function(){//不需要选中就可以使用
 				return true;
+			},
+			"initCheckbox":function(){
+				var flag = $ckbox.is(":checked");
+				if(flag){//有选中的
+					$storage.removeClass("disabled");
+					$repair.removeClass("disabled");
+					$repairin.removeClass("disabled");
+					$pick.removeClass("disabled");
+					$dailywork.removeClass("disabled");
+					$carton.removeClass("disabled");
+					$rework.removeClass("disabled");
+					$sample.removeClass("disabled");
+					$halfinspection.removeClass("disabled");
+					$pollingtest.removeClass("disabled");
+					$scrap.removeClass("disabled");
+				}else{//未选中
+					$storage.addClass("disabled");
+					$repair.addClass("disabled");
+					$repairin.addClass("disabled");
+					$pick.addClass("disabled");
+					$dailywork.addClass("disabled");
+					$carton.addClass("disabled");
+					$rework.addClass("disabled");
+					$sample.addClass("disabled");
+					$halfinspection.addClass("disabled");
+					$pollingtest.addClass("disabled");
+					$scrap.addClass("disabled");
+				}
 			}
 	}
 	
+	
+	init.initCheckbox();
 	/**
 	 * checkbox 选中
 	 */
 	$ckbox.click(function(){
-		var flag = $ckbox.is(":checked");
-		if(flag){//有选中的
-			$storage.removeClass("disabled");
-			$repair.removeClass("disabled");
-			$repairin.removeClass("disabled");
-			$pick.removeClass("disabled");
-			$dailywork.removeClass("disabled");
-			$carton.removeClass("disabled");
-			$rework.removeClass("disabled");
-			$sample.removeClass("disabled");
-			$halfinspection.removeClass("disabled");
-			$pollingtest.removeClass("disabled");
-			$scrap.removeClass("disabled");
-		}else{//未选中
-			$storage.addClass("disabled");
-			$repair.addClass("disabled");
-			$repairin.addClass("disabled");
-			$pick.addClass("disabled");
-			$dailywork.addClass("disabled");
-			$carton.addClass("disabled");
-			$rework.addClass("disabled");
-			$sample.addClass("disabled");
-			$halfinspection.addClass("disabled");
-			$pollingtest.addClass("disabled");
-			$scrap.addClass("disabled");
-		}
+		init.initCheckbox();
 	});
 	
 

@@ -69,6 +69,7 @@ public class ResourceAction extends BaseAdminAction {
 		for(int i=0;i < pager.getList().size();i++){
 			Resource resource = (Resource)pager.getList().get(i);
 			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", resource.getId());
 			jsonobject.put("name", resource.getName());
 			jsonobject.put("value", resource.getValue());
 			if(resource.getIsSystem()==true)
@@ -89,7 +90,15 @@ public class ResourceAction extends BaseAdminAction {
 	}
 
 	// 删除
-	public String delete() throws Exception {
+	public String delete(){
+		ids = ids[0].split(",");
+		for(int i=0;i<ids.length;i++){
+			System.out.println(ids[i]);
+			Resource resource = resourceService.load(ids[i]);
+			if(resource.getIsSystem()){
+				return ajaxJsonErrorMessage("系统内置不允许删除");
+			}
+		}
 		resourceService.delete(ids);
 		return ajaxJsonSuccessMessage("删除成功！");
 	}

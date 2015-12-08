@@ -37,10 +37,6 @@ public class BaseAdminAction extends ActionSupport {
 
 	private static final long serialVersionUID = 6718838822334455667L;
 	
-	@Resource
-	private AdminService adminservice;
-	@Resource
-	private AccessResourceService accessResourceService;
 
 	public static final String VIEW = "view";
 	public static final String LIST = "list";
@@ -223,6 +219,7 @@ public class BaseAdminAction extends ActionSupport {
 		getResponse().setDateHeader("Expires", 0);
 	}
 	
+	
 	public String getId() {
 		return id;
 	}
@@ -275,49 +272,6 @@ public class BaseAdminAction extends ActionSupport {
 		return Param;
 	}
 
-	public void setParam(String param) {
-		Param = param;
-	}
-
-	
-	public String getBtnhtml() {
-		StringBuffer strbuf = new StringBuffer();
-		
-//		Admin admin = adminservice.getLoginAdmin();
-//		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());
-//		for(Role role : roleList){
-//			List<AccessResource> accessResourceList = new ArrayList<AccessResource>(role.getAccessResourceSet());//权限资源对象
-//			for(AccessResource accessResource : accessResourceList){
-//				accessResource.getAccessobjectSet();
-//			}
-//		}
-		
-		HttpServletRequest request =  this.getRequest();//获取request
-		String path = request.getRequestURI();//获取当前的path地址
-		//AccessResource accessResource = accessResourceService.get("resource.value", path);//根据path地址判断当前操作的功能
-//		if(accessResource == null){//没有此功能的权限对象
-//			strbuf.append("没找到权限对象");
-//		}else{
-//			List<AccessObject> accessobjectList = new ArrayList<AccessObject>(accessResource.getAccessobjectSet());
-//			for(AccessObject accessobject : accessobjectList){
-//				boolean flag = StringUtil.isEmpty(accessobject.getHtmlarea());//判断是否为空
-//				if(!flag){
-//					strbuf.append(accessobject.getHtmlarea());
-//				}else{
-//					strbuf.append("未找到对应的html");
-//				}
-//			}
-//			
-//		}
-		
-		this.btnhtml = strbuf.toString();
-		return btnhtml;
-	}
-
-	public void setBtnhtml(String btnhtml) {
-		this.btnhtml = btnhtml;
-	}
-	
 	
 
 }

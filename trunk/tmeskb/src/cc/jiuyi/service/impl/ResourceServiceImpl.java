@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.List;
+
 import cc.jiuyi.dao.ResourceDao;
 import cc.jiuyi.entity.Resource;
 import cc.jiuyi.service.ResourceService;
@@ -58,6 +60,12 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 		resourceDao.flush();
 		flushSpringSecurity();
 		return id;
+	}
+	
+	@Override
+	public List<Resource> get(String[] ids) {
+		
+		return resourceDao.get(ids);
 	}
 
 	// 重写方法，更新时刷新SpringSecurity权限信息

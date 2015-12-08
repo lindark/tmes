@@ -312,7 +312,7 @@ body {background: #fff;font-family: 微软雅黑;}
 </body>
 </html>
 <script type="text/javascript">
-
+var number="0";
 //给按钮加事件--添加缺陷信息事件
 function addbug_event()
 {
@@ -376,7 +376,7 @@ function boxtorow_event(index)
 	var i=0;
 	<#list list_cause as list>
 		var boxnum=$("#mynum"+i).val();
-		if(boxnum!=null&&boxnum!="")
+		if(boxnum!=null&&boxnum!=""&&boxnum>0)
 		{
 			var id="${(list.id)!}";
 			var des="${(list.causeName)!}";
@@ -420,4 +420,28 @@ function scraplater_event()
 		
 	});
 }
+
+//报废信息表是否为空
+function sm_event()
+{
+	number="0";
+	var i=0;
+	<#list list_material as smlist>
+		var xval=$("#input_msgbug"+i).val();
+		if(xval!=null&&xval!="")
+		{
+			number="1";
+		}
+		i+=1;
+	</#list>
+	if(number=="0")
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 </script>

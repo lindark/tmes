@@ -274,6 +274,7 @@ function btn_event()
 				$.message(data.status,data.message);
 				$("#grid-table").trigger("reloadGrid");
 			},error:function(data){
+				layer.close(index);
 				$.message("error","系统出现问题，请联系系统管理员");
 			}
 		});

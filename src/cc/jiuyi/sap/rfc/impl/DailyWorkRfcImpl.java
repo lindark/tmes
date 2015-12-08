@@ -57,6 +57,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			item.put("VORNR", d.getStep());
 			item.put("YIELD", d.getEnterAmount().toString());
 			item.put("CONF_TEXT", d.getWb());
+			item.put("TMESID", d.getId());
 			arrList.add(item);
 		}
 		ET_HEADER.setList(arrList);
@@ -77,6 +78,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			d.setEnterAmount(t_data.getDouble("YIELD"));
 			d.setCONF_NO(t_data.getString("CONF_NO"));//确认号
 			d.setCONF_CNT(t_data.getString("CONF_CNT"));//计数器
+			d.setId(t_data.getString("TMESID"));//ID
 			list.add(d);
 		}
 		return list;
@@ -97,6 +99,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			item.put("RMZHL", d.getCONF_CNT());
 			item.put("AUFNR", d.getOrderid());
 			item.put("TXLINE", d.getWb());
+			item.put("TMESID", d.getId());
 			arrList.add(item);
 		}
 		IT_ITEM.setList(arrList);
@@ -115,6 +118,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			d.setE_message(t_data.getString("E_MESSAGE"));
 			d.setCONF_NO(t_data.getString("RUECK"));
 			d.setCONF_CNT(t_data.getString("RMZHL"));
+			d.setId(t_data.getString("TMESID"));
 			list.add(d);
 		}
 		return list;

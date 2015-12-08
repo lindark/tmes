@@ -223,11 +223,12 @@
 						$.message(data.status,data.message);
 						$("#totalSingleAmount").text(data.totalSingleAmount);
 						$("#total").text(data.total);
+						$("#grid-table").trigger("reloadGrid");
 					},error:function(data){
+						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
 				});
-				$("#grid-table").trigger("reloadGrid");
 				
 				//window.location.href="enteringware_house!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 			}
@@ -255,11 +256,12 @@
 						$.message(data.status,data.message);
 						$("#totalSingleAmount").text(data.totalSingleAmount);
 						$("#total").text(data.total);
+						$("#grid-table").trigger("reloadGrid");
 					},error:function(data){
+						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
 				});
-				$("#grid-table").trigger("reloadGrid");
 				
 				//window.location.href="enteringware_house!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}

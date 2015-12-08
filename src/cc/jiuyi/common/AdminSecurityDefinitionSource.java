@@ -1,10 +1,12 @@
 package cc.jiuyi.common;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.entity.Resource;
 import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.service.RoleService;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.FactoryBean;
@@ -26,6 +28,8 @@ public class AdminSecurityDefinitionSource implements FactoryBean {
 
 	@javax.annotation.Resource
 	private ResourceService resourceService;
+	@javax.annotation.Resource
+	private RoleService roleService;
 
 	public boolean isSingleton() {
 		return true;
@@ -58,11 +62,14 @@ public class AdminSecurityDefinitionSource implements FactoryBean {
 
 	protected Map<String, String> getResourceMap() {
 		Map<String, String> resourceMap = new LinkedHashMap<String, String>();
-		for (Resource resource : resourceService.getAll()) {
+		List<Resource> resourceList = resourceService.getAll();
+		for (Resource resource : resourceList) {
 			String resourceValue = resource.getValue();
-			if (StringUtils.isNotEmpty(resource.getRoleSetString())) {
-				resourceMap.put(resourceValue, resource.getRoleSetString());
-			}
+			String rolesetstring = roleService.getRoleSetString(resource.getId());
+			resourceMap.put(resourceValue, rolesetstring);
+//			if (StringUtils.isNotEmpty(resource.getRoleSetString())) {
+//				resourceMap.put(resourceValue, resource.getRoleSetString());
+//			}
 		}
 		return resourceMap;
 	}

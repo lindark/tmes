@@ -19,6 +19,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessFunctionService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.ResourceService;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -36,6 +37,8 @@ public class CreditInterceptor extends AbstractInterceptor{
 	private AdminService adminservice;
 	@Resource
 	private AccessFunctionService accessfunctionservice;
+	@Resource
+	private ResourceService resourceService;
 
 	@Override
 	public String intercept(ActionInvocation invo) throws Exception {
@@ -45,6 +48,8 @@ public class CreditInterceptor extends AbstractInterceptor{
          HttpServletResponse response = (HttpServletResponse)actionContext.get(StrutsStatics.HTTP_RESPONSE);//获取response
          String path = request.getRequestURI();//获取当前访问的路径
          System.out.println(path);
+  
+         
 		if(methodName.equals("creditsave")){//刷卡保存
 			Admin admin = adminservice.getLoginAdmin();//获取登录身份
 			List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());//获取当前登录身份的角色
@@ -59,18 +64,32 @@ public class CreditInterceptor extends AbstractInterceptor{
 		}else if(methodName.equals("creditsubmit")){//刷卡提交
 			return null;
 		}else if(methodName.equals("creditapproval")){//刷卡确认
-			HashMap<String, String> jsonmap = new HashMap<String,String>();
-			jsonmap.put("status", "error");
-			jsonmap.put("message", "对不起,您无权限访问");
+			//卡号
+			Admin admin = adminservice.getLoginAdmin();//获取登录身份
+			List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());
 			
-			JSONObject jsonObject = JSONObject.fromObject(jsonmap);
-			response.setContentType("text/html" + ";charset=UTF-8");
-			response.setHeader("Pragma", "No-cache");
-			response.setHeader("Cache-Control", "no-cache");
-			response.setDateHeader("Expires", 0);
-			response.getWriter().write(jsonObject.toString());
-			response.getWriter().flush();
-			return null;
+			List<String> roleid = new ArrayList<String>();
+			for(Role role : roleList){
+				roleid.add(role.getId());
+			}
+			
+			List<cc.jiuyi.entity.Resource> resourceList = resourceService.getListByadmin(roleid, path);
+			if(resourceList.size() <= 0){
+				HashMap<String, String> jsonmap = new HashMap<String,String>();
+				jsonmap.put("status", "error");
+				jsonmap.put("message", "对不起,您无权限访问");
+				
+				JSONObject jsonObject = JSONObject.fromObject(jsonmap);
+				response.setContentType("text/html" + ";charset=UTF-8");
+				response.setHeader("Pragma", "No-cache");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setDateHeader("Expires", 0);
+				response.getWriter().write(jsonObject.toString());
+				response.getWriter().flush();
+				return null;
+			}else{
+				return invo.invoke();//继续执行
+			}
 		}else if(methodName.equals("creditundo")){//刷卡撤销
 			return null;
 		}

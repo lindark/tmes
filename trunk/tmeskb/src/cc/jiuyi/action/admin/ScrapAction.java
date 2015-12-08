@@ -22,7 +22,6 @@ import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
@@ -256,6 +255,13 @@ public class ScrapAction extends BaseAdminAction
 		{
 			this.scrap = this.scrapService.load(ids[i]);
 			String state = scrap.getState();
+			//报废信息表和报废后产出表是否同时为空
+			List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());
+			List<ScrapLater>list2=new ArrayList<ScrapLater>(scrap.getScrapLaterSet());
+			if(list1.size()==0&&list2.size()==0)
+			{
+				return ajaxJsonErrorMessage("报废表为空,不能确认!");
+			}
 			// 确认
 			if ("1".equals(my_id))
 			{

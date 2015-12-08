@@ -56,6 +56,7 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			item.put("AUFNR", d.getOrderid());
 			item.put("VORNR", d.getStep());
 			item.put("YIELD", d.getEnterAmount().toString());
+			item.put("CONF_TEXT", d.getWb());
 			arrList.add(item);
 		}
 		ET_HEADER.setList(arrList);

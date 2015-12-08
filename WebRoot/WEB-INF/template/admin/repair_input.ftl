@@ -60,10 +60,13 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>repair!save.action<#else>reppair!update.action</#if>"
+								action="<#if isAdd??>repair!save.action<#else>repair!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${(id)!}" />
 								<input type="hidden" class="input input-sm" name="repair.workingbill.id" value="${workingbill.id} ">
+								<#if isEdit>
+								<input type="hidden" class="input input-sm" name="repair.createUser.id" value="${repair.createUser.id} ">
+								</#if>
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修单</a></li>
@@ -141,7 +144,7 @@ body {
 													<select name="repair.processResponse.id" id="form-field-icon-1" class="chosen-select"> 
 														<option value="" >&nbsp;</option>
 												        <#list allProcess as list>
-											            <option value="${list.id}"<#if (isAdd && list.isDefault)!> selected</#if>>${list.processName}</option>
+											            <option value="${list.id}"<#if (isEdit&&repair.processResponse.id==list.id)!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

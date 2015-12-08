@@ -31,7 +31,7 @@ $(function(){
         	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
         	//$(docu).find("#inputForm").submit(); //有问题，没解决
 			var zTree = $.fn.zTree.getZTreeObj("ingageTree");
-			var nodes =table zTree.getSelectedNodes();
+			var nodes =zTree.getSelectedNodes();
 			$("#grid-").jqGrid('setGridParam',{
 				url:"admin!ajlist.action?departid="+nodes[0].id,
 				datatype:"json",

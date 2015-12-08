@@ -77,7 +77,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<input type="hidden" name="department.id" value="" />
 										<!--id-->
 										<div class="profile-info-name">密码：</div>
 
@@ -95,7 +94,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<input type="hidden" name="department.id" value="" />
 										<!--id-->
 										<div class="profile-info-name">重复密码：</div>
 
@@ -109,7 +107,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<input type="hidden" name="department.id" value="" />
 										<!--id-->
 										<div class="profile-info-name">E-mail：</div>
 
@@ -123,7 +120,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<input type="hidden" name="department.id" value="" />
 										<!--id-->
 										<div class="profile-info-name">管理角色：</div>
 
@@ -140,7 +136,6 @@ body {
 								</div>
 								<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
-										<input type="hidden" name="department.id" value="" />
 										<!--id-->
 										<div class="profile-info-name">是否启用：</div>
 

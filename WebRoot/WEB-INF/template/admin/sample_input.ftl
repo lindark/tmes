@@ -266,7 +266,7 @@ function cause_event()
 			else
 			{
 				$("#sr_num2"+i).val("");//缺陷数量--备胎
-				if(num_bt!=""&&num_bt!=null&&num_bt>0)
+				if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))
 				{
 					tocalc(samplenum,"",num_bt);
 				}

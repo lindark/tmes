@@ -155,22 +155,35 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		ids = id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			dailyWork = dailyWorkService.load(ids[i]);
-			if (UNDO.equals(dailyWork.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+		
+		try {
+			ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				dailyWork = dailyWorkService.load(ids[i]);
+				if (UNDO.equals(dailyWork.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+				}
 			}
+			List<DailyWork> list = dailyWorkService.get(ids);
+			dailyWorkService.updateState2(list, workingBillId);
+			workingbill = workingBillService.get(workingBillId);
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put(STATUS, SUCCESS);
+			hashmap.put(MESSAGE, "您的操作已成功");
+			hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount()
+					.toString());
+			return ajaxJson(hashmap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO操作失败");
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMsgDes());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		List<DailyWork> list = dailyWorkService.get(ids);
-		dailyWorkService.updateState2(list, workingBillId);
-		workingbill = workingBillService.get(workingBillId);
-		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getDailyWorkTotalAmount()
-				.toString());
-		return ajaxJson(hashmap);
+		
 	}
 
 	/**

@@ -328,7 +328,7 @@ function getId()
 	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 	if(id==null||id=="")
 	{
-		layer.alert("请选择至少一条巡检记录！",false);
+		layer.msg("请选择一条记录!", {icon: 5});
 		return false;
 	}
 	return true;
@@ -344,7 +344,7 @@ function getId2()
 	}
 	else
 	{
-		layer.alert("请选择一条巡检记录！",false);
+		layer.msg("请选择一条记录!", {icon: 5});
 		return false;
 	}
 }

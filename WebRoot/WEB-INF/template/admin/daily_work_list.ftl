@@ -202,14 +202,19 @@
 		});
 		$("#btn_edit").click(function(){
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id.length > 1){
+				layer.msg("只能选择一条记录!", {icon: 5});
+				return false;
+			}
 			var workingBillId = $("#workingBillId").val();
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
 			if(row_state=="1"||row_state=="3"){
 				layer.msg("已确认或已撤销的报工单无法再编辑!", {icon: 5});
 				return false;
+			}else{
+				window.location.href="daily_work!edit.action?workingBillId="+workingBillId+"&id="+id;				
 			}
-			window.location.href="daily_work!edit.action?workingBillId="+workingBillId+"&id="+id;
 			
 		});
 		$("#confirmCarton").click(function(){

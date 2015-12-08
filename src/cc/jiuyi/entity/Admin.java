@@ -332,7 +332,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@Cacheable(modelId = "caching")
 	public Department getDepartment() {
 		return department;
 	}

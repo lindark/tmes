@@ -125,19 +125,19 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dailyworkAdd">
+								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建报工单
 								</a>
-								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dailyworkEdit">
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
 									编辑
 								</a>
-								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dailyworkConfirm">
+								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
-								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round access" data-access-list="dailyworkUndo">
+								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
 								</a>

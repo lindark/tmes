@@ -75,6 +75,46 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			d.setOrderid(t_data.getString("AUFNR"));
 			d.setStep(t_data.getString("VORNR"));
 			d.setEnterAmount(t_data.getDouble("YIELD"));
+			d.setCONF_NO(t_data.getString("CONF_NO"));//确认号
+			d.setCONF_CNT(t_data.getString("CONF_CNT"));//计数器
+			list.add(d);
+		}
+		return list;
+	}
+
+	@Override
+	public List<DailyWork> BatchSetDailyWorkCancel(List<DailyWork> dailywork)
+			throws IOException, CustomerException {
+		super.setProperty("dailyworkbatchcancel");//根据配置文件读取到函数名称
+		/******输入表******/
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+		TableModel IT_ITEM = new TableModel();
+		IT_ITEM.setData("IT_ITEM");//表名
+		for(DailyWork d : dailywork){
+			HashMap<String,Object> item = new HashMap<String,Object>();
+			item.put("RUECK", d.getCONF_NO());
+			item.put("RMZHL", d.getCONF_CNT());
+			item.put("AUFNR", d.getOrderid());
+			item.put("TXLINE", d.getWb());
+			arrList.add(item);
+		}
+		IT_ITEM.setList(arrList);
+		tablemodelList.add(IT_ITEM);
+		super.setTable(tablemodelList);
+		/******执行 end******/
+		System.out.println("........................");
+		SAPModel model = execBapi();//执行 并获取返回值
+		ParameterList outs = model.getOuttab();//返回表
+		Table t_data = outs.getTable("IT_ITEM");//报工列表
+		List<DailyWork> list = new ArrayList<DailyWork>();
+		for (int i = 0; i < t_data.getNumRows(); i++) {
+			t_data.setRow(i);
+			DailyWork d = new DailyWork();
+			d.setE_type(t_data.getString("E_TYPE"));
+			d.setE_message(t_data.getString("E_MESSAGE"));
+			d.setCONF_NO(t_data.getString("RUECK"));
+			d.setCONF_CNT(t_data.getString("RMZHL"));
 			list.add(d);
 		}
 		return list;

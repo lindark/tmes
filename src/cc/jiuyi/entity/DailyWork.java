@@ -33,6 +33,8 @@ public class DailyWork extends BaseEntity {
 	private String e_message;// 反馈消息
 	private Process process;// 工序
 	private String responseName;// 责任工序名称
+	private String CONF_NO;//确认号
+	private String CONF_CNT;//计数器
 
 	private String wb;//文本
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -174,6 +176,22 @@ public class DailyWork extends BaseEntity {
 
 	public void setResponseName(String responseName) {
 		this.responseName = responseName;
+	}
+
+	public String getCONF_NO() {
+		return CONF_NO;
+	}
+
+	public void setCONF_NO(String conf_no) {
+		CONF_NO = conf_no;
+	}
+
+	public String getCONF_CNT() {
+		return CONF_CNT;
+	}
+
+	public void setCONF_CNT(String conf_cnt) {
+		CONF_CNT = conf_cnt;
 	}
 
 }

@@ -48,22 +48,9 @@ public class CreditInterceptor extends AbstractInterceptor{
          HttpServletResponse response = (HttpServletResponse)actionContext.get(StrutsStatics.HTTP_RESPONSE);//获取response
          String path = request.getRequestURI();//获取当前访问的路径
          System.out.println(path);
-  
          
-		if(methodName.equals("creditsave")){//刷卡保存
-			Admin admin = adminservice.getLoginAdmin();//获取登录身份
-			List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());//获取当前登录身份的角色
-			List<String> roleidList = new ArrayList<String>();
-			for(Role role : roleList){
-				roleidList.add(role.getId());
-			}
-			List<Object[]> objarrayList = accessfunctionservice.getAccessFunctionList(path, roleidList);
-			
-			
-			return "error";
-		}else if(methodName.equals("creditsubmit")){//刷卡提交
-			return null;
-		}else if(methodName.equals("creditapproval")){//刷卡确认
+         //刷卡保存,刷卡提交,刷卡确认,刷卡撤销
+		if(methodName.equals("creditsave") || methodName.equals("creditsubmit") || methodName.equals("creditapproval") || methodName.equals("creditundo")){//刷卡保存
 			//卡号
 			Admin admin = adminservice.getLoginAdmin();//获取登录身份
 			List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());
@@ -90,11 +77,8 @@ public class CreditInterceptor extends AbstractInterceptor{
 			}else{
 				return invo.invoke();//继续执行
 			}
-		}else if(methodName.equals("creditundo")){//刷卡撤销
-			return null;
-		}
-		else{
-			return invo.invoke();//继续执行
+		}else{
+			return invo.invoke();
 		}
 	}
 	

@@ -10,4 +10,12 @@ import cc.jiuyi.entity.ScrapBug;
 public interface ScrapBugDao extends BaseDao<ScrapBug, String>
 {
 
+	/**
+	 * 根据报废信息ID和缺陷表ID查询报废原因
+	 * @param id
+	 * @param string
+	 * @return
+	 */
+	public ScrapBug getBySmidAndCid(String id, String string);
+
 }

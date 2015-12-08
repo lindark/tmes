@@ -106,7 +106,6 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 		tablemodelList.add(IT_ITEM);
 		super.setTable(tablemodelList);
 		/******执行 end******/
-		System.out.println("........................");
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("IT_ITEM");//报工列表

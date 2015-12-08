@@ -12,6 +12,7 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <script type="text/javascript"src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript"src="${base}/template/admin/js/BasicInfo/sample_list.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <style type="text/css">
 .operateBar {padding: 3px 0px;}
 </style>

@@ -205,13 +205,14 @@ function del_click(obj)
 //1.刷卡保存2.刷卡确认
 function sub_event(my_id)
 {
+	$("#my_id").val(my_id);//赋值
 	if(my_id=="1")
 	{
-		$("#my_id").val(my_id);//赋值
 		$("#inputForm").submit();//提交
 	}
 	if(my_id=="2")
 	{
+		
 		if(!sm_event()&&!sl_event())
 		{
 			layer.alert("报废表为空,不能确认!",false);

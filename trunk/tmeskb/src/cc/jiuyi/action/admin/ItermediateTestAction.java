@@ -19,15 +19,21 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.IpRecord;
 import cc.jiuyi.entity.ItermediateTest;
 import cc.jiuyi.entity.ItermediateTestDetail;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ItermediateTestDetailService;
 import cc.jiuyi.service.ItermediateTestService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -53,12 +59,21 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private static final String REPEAL="3";
 	
 	private ItermediateTest itermediateTest;
-	//获取所有状态
-	private List<Dict> allState;
-	private Admin admin;
+	private Admin admin;//人员
+	private String workingBillId;//随工单ID
+	private WorkingBill workingbill;//随工单
+	private String add;//新增时
+	private String edit;//编辑时
+	private String show;//查看时
+	private Products product;//产品
+	private String my_id;//
+	private List<Dict> allState;//获取所有状态
+	private List<Material> list_material;//产品Bom
+	private List<Cause> list_cause;//缺陷
+	private List<ItermediateTestDetail> list_itmesg;//巡检从表不合格信息
+	private List<IpRecord> list_itbug;//不合格原因
 	
 	
-
 	@Resource
 	private ItermediateTestService itermediateTestService;
 	@Resource
@@ -66,17 +81,23 @@ public class ItermediateTestAction extends BaseAdminAction {
 	@Resource
 	private WorkingBillService workingBillService;
 	@Resource
-	private ItermediateTestDetailService itermediateTestDetailService;
+	private ItermediateTestDetailService itermediateTestDetailService;	
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private ProductsService productsService;
+	@Resource
+	private CauseService causeService;
 	
-	
-	private String workingBillId;
-	private WorkingBill workingbill;
 	
 
 	//添加
 	public String add(){
+		this.workingbill=this.workingBillService.load(workingBillId);
+		this.product=this.productsService.getProducts(workingbill.getMatnr());//随工单对应的产品
+		this.list_material=new ArrayList<Material>(this.product.getMaterial());//产品对应的物料
+		this.list_cause=this.causeService.getBySample("3");//半成品不合格内容
+		this.add="add";
 		return INPUT;
 	}
 
@@ -90,7 +111,6 @@ public class ItermediateTestAction extends BaseAdminAction {
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		System.out.println(admin.getShift());
 		this.workingbill=this.workingBillService.get(workingBillId);
 		return LIST;
 	}
@@ -116,22 +136,6 @@ public class ItermediateTestAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
-			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
-
 			pager = itermediateTestService.getItermediateTestPager(pager, map);
 			List<ItermediateTest> itermediateTestList = pager.getList();
 			List<ItermediateTest> lst = new ArrayList<ItermediateTest>();
@@ -161,9 +165,6 @@ public class ItermediateTestAction extends BaseAdminAction {
 	public String delete(){
 		ids=id.split(",");
 		itermediateTestService.updateisdel(ids, "Y");
-//		for (String id:ids){
-//			ItermediateTest itermediateTest=itermediateTestService.load(id);
-//		}
 		redirectionUrl = "itermediateTest!list.action";
 		return SUCCESS;
 	}
@@ -171,74 +172,110 @@ public class ItermediateTestAction extends BaseAdminAction {
 	
 	//编辑
 		public String edit(){
-			itermediateTest= itermediateTestService.load(id);
+			this.list_material=new ArrayList<Material>();
+			this.workingbill=this.workingBillService.load(workingBillId);
+			this.product=this.productsService.getProducts(workingbill.getMatnr());
+			List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());
+			for(int i=0;i<l_material.size();i++){
+				Material m=l_material.get(i);
+				ItermediateTestDetail it=this.itermediateTestDetailService.getBySidAndMid(id, m.getId());
+				if(it!=null){
+					m.setXfailReason(it.getFailReason());
+					m.setXfailAmount(it.getFailAmount());
+					m.setXtestAmount(it.getTestAmount());
+					m.setXgoodsSzie1(it.getGoodsSzie1());
+					m.setXgoodsSzie2(it.getGoodsSzie2());
+					m.setXgoodsSzie3(it.getGoodsSzie3());
+					m.setXgoodsSzie4(it.getGoodsSzie4());
+					m.setXgoodsSzie5(it.getGoodsSzie5());
+					m.setXitid(it.getId());
+					List<IpRecord> l_ir=new ArrayList<IpRecord>(it.getIpRecord());//获取每个物料对应的不合格原因
+					String sbids="",sbnums="";
+					for (int j = 0; j < l_ir.size(); j++) {
+						IpRecord ip=l_ir.get(j);
+						if(ip!=null){
+							sbids=sbids+ip.getCauseId()+",";
+							sbnums=sbnums+ip.getRecordNum()+",";
+						}
+					}
+					m.setXrecordid(sbids);
+					m.setXrecordNum(sbnums);				
+				}
+				list_material.add(m);
+			}
+			this.list_cause=this.causeService.getBySample("3");
+			this.itermediateTest=this.itermediateTestService.load(id);
+            this.edit="edit";
 			return INPUT;	
 		}
 		
 	//更新
 		@InputConfig(resultName = "error")
 		public String update() {
-			ItermediateTest persistent = itermediateTestService.load(id);
-			BeanUtils.copyProperties(itermediateTest, persistent, new String[] { "id","createDate", "modifyDate"});
-			itermediateTestService.update(persistent);
-			redirectionUrl = "itermediateTest!list.action";
+			this.itermediateTestService.updateAll(itermediateTest, list_itmesg, list_itbug,my_id);
+			redirectionUrl = "itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
 			return SUCCESS;
 		}
 		
-	//保存
+	//刷卡保存
 	@Validations(
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{
-		itermediateTestService.save(itermediateTest);
-		redirectionUrl="itermediateTest!list.action";
+	public String creditsubmit()throws Exception{
+		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug);
+		redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
 		return SUCCESS;	
 	}
 		
 	//刷卡确认
-	public String confirms(){
+	public String creditapproval(){
+		admin=adminService.getLoginAdmin();
 		ids= id.split(",");
+		List<ItermediateTest> list=itermediateTestService.get(ids);
 		for (int i = 0; i < ids.length; i++) {
-			itermediateTest=itermediateTestService.load(ids[i]);
-			if(REPEAL.equals(itermediateTest.getState())){
-				addActionError("已撤销的无法再撤销");
-				return ERROR;
+			ItermediateTest it=list.get(i);
+			if("2".equals(it.getState())){
+				return ajaxJsonErrorMessage("已经确认的无法再确认!");
 			}
-		 admin=adminService.getLoginAdmin();
-		 ItermediateTest persistent=itermediateTestService.load(id);
-		 BeanUtils.copyProperties(itermediateTest, persistent, new String[] { "id","createUser"});
-		 persistent.setState("2");
-		 persistent.setConfirmUser(admin);
-		 itermediateTestService.save(persistent);
-		 redirectionUrl="itermediateTest!list.action?workingBillId="
-				 +itermediateTest.getWorkingbill().getId();
+			if("3".equals(it.getState())){
+				return ajaxJsonErrorMessage("已撤销的无法再确认!");
+			}
 		}
-		return SUCCESS;
+		itermediateTestService.updateState(list, "2");
+		return ajaxJsonSuccessMessage("您的操作已成功!");	
 	}
 	
 	//刷卡撤销
-		public String repeal(){
+		public String creditundo(){
+		    admin=adminService.getLoginAdmin();
 			ids= id.split(",");
+			List<ItermediateTest> list=itermediateTestService.get(ids);
 			for (int i = 0; i < ids.length; i++) {
-				itermediateTest=itermediateTestService.load(ids[i]);
-				if(REPEAL.equals(itermediateTest.getState())){
-					addActionError("已撤销的无法再确认");
-					return ERROR;
+				ItermediateTest it=list.get(i);
+				if("3".equals(it.getState())){
+					return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 				}
-			 admin=adminService.getLoginAdmin();
-			 ItermediateTest persistent=itermediateTestService.load(id);
-			 BeanUtils.copyProperties(itermediateTest, persistent, new String[] { "id","createUser"});
-			 persistent.setState("3");
-			 persistent.setConfirmUser(admin);
-			 itermediateTestService.save(persistent);
-			 redirectionUrl="itermediateTest!list.action?workingBillId="
-					 +itermediateTest.getWorkingbill().getId();
 			}
-			return SUCCESS;
+			itermediateTestService.updateState(list, "3");
+			return ajaxJsonSuccessMessage("您的操作已成功!");			
 		}
 
-	
+		
+		
+	public String show(){
+		this.list_itmesg=new ArrayList<ItermediateTestDetail>();
+		this.itermediateTest=this.itermediateTestService.load(id);
+		List<ItermediateTestDetail>list_itmesg=new ArrayList<ItermediateTestDetail>(this.itermediateTest.getItermediateTestDetail());
+		if(list_itmesg.size()>0){
+			for (int i = 0; i < list_itmesg.size(); i++) {
+				ItermediateTestDetail it=list_itmesg.get(i);
+				this.list_itmesg.add(it);
+			}
+		}
+		this.show="show";
+		return INPUT;
+	}
 	
 
 	public WorkingBillService getWorkingBillService() {
@@ -321,9 +358,94 @@ public class ItermediateTestAction extends BaseAdminAction {
 	}
 
 
+	public Products getProduct() {
+		return product;
+	}
 
 
-    
+	public void setProduct(Products product) {
+		this.product = product;
+	}
+
+
+	public List<Cause> getList_cause() {
+		return list_cause;
+	}
+
+
+	public void setList_cause(List<Cause> list_cause) {
+		this.list_cause = list_cause;
+	}
+
+
+	public List<ItermediateTestDetail> getList_itmesg() {
+		return list_itmesg;
+	}
+
+
+	public void setList_itmesg(List<ItermediateTestDetail> list_itmesg) {
+		this.list_itmesg = list_itmesg;
+	}
+
+
+	public List<IpRecord> getList_itbug() {
+		return list_itbug;
+	}
+
+
+	public void setList_itbug(List<IpRecord> list_itbug) {
+		this.list_itbug = list_itbug;
+	}
+
+
+	public List<Material> getList_material() {
+		return list_material;
+	}
+
+
+	public void setList_material(List<Material> list_material) {
+		this.list_material = list_material;
+	}
+
+
+	public String getAdd() {
+		return add;
+	}
+
+
+	public void setAdd(String add) {
+		this.add = add;
+	}
+
+
+	public String getEdit() {
+		return edit;
+	}
+
+
+	public void setEdit(String edit) {
+		this.edit = edit;
+	}
+
+
+	public String getShow() {
+		return show;
+	}
+
+
+	public void setShow(String show) {
+		this.show = show;
+	}
+
+
+	public String getMy_id() {
+		return my_id;
+	}
+
+
+	public void setMy_id(String my_id) {
+		this.my_id = my_id;
+	}
 
 	
 	

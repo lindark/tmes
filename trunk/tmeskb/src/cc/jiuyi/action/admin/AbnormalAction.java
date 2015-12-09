@@ -16,6 +16,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -134,6 +135,8 @@ public class AbnormalAction extends BaseAdminAction {
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
 			List<Admin> adminList = null;
+			
+			//消息处理
 			List<Callreason> callreasonList = new ArrayList<Callreason>(
 					abnormal.getCallreasonSet());// 消息
 			List<String> strlist = new ArrayList<String>();
@@ -143,6 +146,7 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
 
+			//应答人处理
 			List<Admin> respon = new ArrayList<Admin>(
 					abnormal.getResponsorSet());
 			
@@ -168,6 +172,7 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
 			
+			//日志处理
 			String ablists="";			
 			
 			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
@@ -179,24 +184,25 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			if(abLog.size()>0){	
 				if(qualityList.size()>1){
-					String str1="已开"+"<a href='quality!list.action?abnorId="+abnormal.getId()+"'>质量问题单</a>";
+					String str1="已开"+"<a href='quality!list.action?abnorId="+abnormal.getId()+"'>质量问题单</a>"+"("+qualityList.size()+")";
 					ablist.add(str1);
 				}
 				if(modelList.size()>1){
-					String str2="已开"+"<a href='model!list.action?abnorId="+abnormal.getId()+"'>工模维修单</a>";
+					String str2="已开"+"<a href='model!list.action?abnorId="+abnormal.getId()+"'>工模维修单</a>"+"("+modelList.size()+")";
            		    ablist.add(str2);
            	    }
 				
 				 if(craftList.size()>1){
-            		String str3="已开"+"<a href='craft!list.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>";
+            		String str3="已开"+"<a href='craft!list.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>"+"("+craftList.size()+")";
             		ablist.add(str3);
             	 }
 				 if(deviceList.size()>1){
-            		String str4="已开"+"<a href='device!list.action?abnorId="+abnormal.getId()+"'>设备维修单</a>";
+            		String str4="已开"+"<a href='device!list.action?abnorId="+abnormal.getId()+"'>设备维修单</a>"+"("+deviceList.size()+")";
             		ablist.add(str4);
             	 }
+				 String str="";
 				for(AbnormalLog ab:abLog){
-					String str="";
+					
 					String info = ab.getInfo();
                      if(info.equalsIgnoreCase("已开质量问题单") && qualityList.size()==1){                  	 
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
@@ -210,8 +216,13 @@ public class AbnormalAction extends BaseAdminAction {
 					 }else if(info.equalsIgnoreCase("已开设备维修单") && deviceList.size()==1){						
                     		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";  
                     		 
+					 }else{
+						 str="";
 					 }
-                     ablist.add(str);
+                     if(StringUtils.isNotEmpty(str) && !str.equalsIgnoreCase("")){
+                    	 ablist.add(str);
+                     }
+                     
 				}
 			}else{
 				ablist.add("");
@@ -224,6 +235,7 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setLog(ablists);
 			abnormal.setOriginator(abnormal.getIniitiator().getName());
 		
+			//处理时间设置
 			if(abnormal.getState().equalsIgnoreCase("3") || abnormal.getState().equalsIgnoreCase("4")){
 				abnormal.setDisposeTime(String.valueOf(abnormal.getHandlingTime()));
 			}else{

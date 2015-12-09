@@ -33,4 +33,6 @@ public interface ItermediateTestDetailService extends BaseService<ItermediateTes
 	public void save(List<ItermediateTestDetail> itermediateTestDetailList,String woringBillId);
 	
 	public List<ItermediateTestDetail> getItermediateTestDetail(String id);
+	
+	ItermediateTestDetail getBySidAndMid(String sid,String mid);
 }

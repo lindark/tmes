@@ -66,10 +66,9 @@ public class AdminSecurityDefinitionSource implements FactoryBean {
 		for (Resource resource : resourceList) {
 			String resourceValue = resource.getValue();
 			String rolesetstring = roleService.getRoleSetString(resource.getId());
-			resourceMap.put(resourceValue, rolesetstring);
-//			if (StringUtils.isNotEmpty(resource.getRoleSetString())) {
-//				resourceMap.put(resourceValue, resource.getRoleSetString());
-//			}
+			if (StringUtils.isNotEmpty(rolesetstring)) {
+				resourceMap.put(resourceValue, rolesetstring);
+			}
 		}
 		return resourceMap;
 	}

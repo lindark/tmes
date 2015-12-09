@@ -179,8 +179,7 @@ body {
 															list.isDefault) || (isEdit && device.isMaintenance ==
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
-														<!--   <option value="1">是</option>
-								                  <option value="2">否</option> -->
+						
 													</select>
 												</div>
 											</div>

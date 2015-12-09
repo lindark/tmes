@@ -157,6 +157,8 @@ body {background: #fff;font-family: 微软雅黑;}
 												</div>
 											</div>
 											<div class="profile-user-info profile-user-info-striped">
+												<#if show??>
+												<#else>
 												<div class="profile-info-row">
 													<div class="row buttons col-md-8 col-sm-4">
 														<a id="btn_add" class="btn btn-white btn-default btn-sm btn-round">
@@ -165,6 +167,7 @@ body {background: #fff;font-family: 微软雅黑;}
 														</a>
 													</div>
 												</div>
+												</#if>
 												<div class="profile-info-row">
 													<table id="tb_scraplater" class="table table-striped table-bordered table-hover">
 														<#if show??>

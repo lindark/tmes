@@ -80,7 +80,8 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements Ro
 			
 			List<Role> roleList = roleDao.getList(resourceid);
 			for (Role role : roleList) {
-				stringBuffer.append(SEPARATOR + role.getValue());
+				if(role !=null)
+					stringBuffer.append(SEPARATOR + role.getValue());
 			}
 			if (stringBuffer.length() > 0) {
 				stringBuffer.deleteCharAt(0);

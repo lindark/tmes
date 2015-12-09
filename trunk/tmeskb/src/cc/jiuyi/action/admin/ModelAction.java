@@ -26,6 +26,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
@@ -41,6 +42,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ModelLogService;
 import cc.jiuyi.service.ModelService;
+import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -275,6 +277,17 @@ public class ModelAction extends BaseAdminAction {
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));
 			model.setRepairName(model.getFixer().getName());
+			
+			List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
+					model.getFaultReasonSet());
+			List<String> strlist = new ArrayList<String>();
+			for (FaultReason faultReason : faultReasonList) {
+				String str = faultReason.getReasonName();
+				strlist.add(str);
+			}
+			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+			
+			model.setFaultName(comlist);
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);

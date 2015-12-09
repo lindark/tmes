@@ -45,6 +45,10 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			detachedCriteria.createAlias("receiver", "receiver");//表名，别名*/							
 		}
 		
+		/*if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+			detachedCriteria.createAlias("abnormal", "abnormal");						
+		}*/
+		
 		if (map.size() > 0) {
 			if(map.get("team")!=null){
 			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
@@ -52,8 +56,12 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			
 			if(map.get("productName")!=null){
 			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
-			}	
+			}				
 		}
+		
+		/*if(abnormalId!=null || !abnormalId.equals("")){
+			detachedCriteria.add(Restrictions.eq("abnormal.id",abnormalId));
+		}*/
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

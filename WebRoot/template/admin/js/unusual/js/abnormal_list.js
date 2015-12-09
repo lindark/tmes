@@ -1,7 +1,6 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table1";
 	var pager_selector = "#grid-pager1";
-	
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -17,9 +16,7 @@ jQuery(function($) {
 		}
     })
 
-
-
-	jQuery(grid_selector).jqGrid({
+	jQuery(grid_selector).jqGrid({		
 		//direction: "rtl",
 
 		//subgrid options
@@ -63,18 +60,19 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt",],
+		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt","id"],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'disposeTime',index:'disposeTime', width:60,editable: true},
-			{name:'log',index:'log', width:160,editable: true},
-			{name:'callReason',index:'callReason', width:100, editable: true},
+			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
+			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",search:false,formatter:datefmt},
+			{name:'disposeTime',index:'disposeTime', width:60,search:false,editable: true},
+			{name:'log',index:'log', width:160,search:false,editable: true},
+			{name:'callReason',index:'callReason',search:false, width:100, editable: true},
 			{name:'originator',index:'originator', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,editable: true},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle},
-			{name:'state',index:'state', width:60,editable: true,hidden:true}
+			{name:'state',index:'state', width:60,editable: true,hidden:true},
+			{name:'id',index:'id', width:60,editable: true,hidden:true}
 			
 		], 
 
@@ -93,7 +91,8 @@ jQuery(function($) {
 			var table = this;
 			setTimeout(function(){
 				styleCheckbox(table);
-				
+				getDate();//jqgrid加载完成后获取id,time 的集合对象
+				change();
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
@@ -102,10 +101,74 @@ jQuery(function($) {
 
 		editurl: "abnormal!delete.action",//nothing is saved
 		caption: "异常清单"
-
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size		
+	var array;
+	function getDate(){
+		var obj = $(grid_selector).jqGrid("getRowData");
+		array = new Array();
+		$(obj).each(function(i){
+			if(this.state!=3 && this.state!=4){	
+				
+				time=parseInt(this.disposeTime);
+		    	var obj = new Object();
+		    	obj.id = this.id;
+		    	obj.time = time;
+		        array[i]=obj;
+		        $(grid_selector).jqGrid('setCell',this.id,"disposeTime",getTime(time));
+			}else{
+				time=parseInt(this.disposeTime);
+		    	var obj = new Object();
+		    	obj.id = this.id;
+		    	obj.time = 0;
+		        array[i]=obj;
+		        $(grid_selector).jqGrid('setCell',this.id,"disposeTime",getTime(time));
+			}
+						        			
+		});
+
+	}
 	
+	
+	function change(){
+		for(var i=0;i<array.length;i++){
+			var obj = array[i];
+		}
+		setTimeout(function(){
+			//此处用于更改array 的内容
+			for(var i=0;i<array.length;i++){
+				var obj = array[i];
+				if(obj.time==0){
+					
+				}else{
+					obj.time = obj.time+1;	
+					$(grid_selector).jqGrid('setCell',obj.id,"disposeTime",getTime(obj.time));					
+					array[i] = obj;
+				}
+				
+			}
+			 
+			change();
+		},1000);
+
+	}
+	
+	
+	/*//时间转换格式
+	function changeTime(rowId, val, rawObject, cm,icol,rdata){			
+			time=parseInt(rawObject.disposeTime);
+			return getTime(time);		
+	}*/
+	
+	function getTime(time){
+		return formatTime(time);
+	}
+	
+	function formatTime(second) {
+	    return [parseInt(second / 60 / 60), parseInt(second / 60 % 60), second % 60].join(":")
+	        .replace(/\b(\d)\b/g, "0$1");
+	}
+		
 	function aceSwitch( cellvalue, options, cell ) {
 		setTimeout(function(){
 			$(cell) .find('input[type=checkbox]')
@@ -244,3 +307,6 @@ jQuery(function($) {
 
 
 });
+
+
+

@@ -272,6 +272,11 @@ public class BaseAdminAction extends ActionSupport {
 		return Param;
 	}
 
+	public void setParam(String param) {
+		Param = param;
+	}
+	
+
 	
 
 }

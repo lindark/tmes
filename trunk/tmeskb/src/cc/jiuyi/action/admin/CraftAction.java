@@ -124,7 +124,7 @@ public class CraftAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Craft persistent = craftService.load(id);
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","state","products","creater"});
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","state","products","creater","repairName"});
 		craftService.update(persistent);
 		redirectionUrl = "craft!list.action";
 		return SUCCESS;
@@ -142,7 +142,7 @@ public class CraftAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName"});
 		persistent.setState("1");
 		craftService.update(persistent);
 		
@@ -161,7 +161,7 @@ public class CraftAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater"});
+			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName"});
 			persistent.setState("3");
 			craftService.update(persistent);
 						

@@ -181,28 +181,31 @@ public class ScrapAction extends BaseAdminAction
 		for(int i=0;i<l_material.size();i++)
 		{
 			Material m=l_material.get(i);
-			ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询报废信息
-			if(sm!=null)
+			if(m!=null)
 			{
-				m.setXsmreson(sm.getSmreson());//原因
-				m.setXmenge(sm.getMenge());//数量
-				m.setXsmduty(sm.getSmduty());//责任划分
-				m.setXsmid(sm.getId());
-				List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
-				String sbids="",sbnums="";
-				for(int j=0;j<l_sbug.size();j++)
+				ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询报废信息
+				if(sm!=null)
 				{
-					ScrapBug sb=l_sbug.get(j);
-					if(sb!=null)
+					m.setXsmreson(sm.getSmreson());//原因
+					m.setXmenge(sm.getMenge());//数量
+					m.setXsmduty(sm.getSmduty());//责任划分
+					m.setXsmid(sm.getId());
+					List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
+					String sbids="",sbnums="";
+					for(int j=0;j<l_sbug.size();j++)
 					{
-						sbids=sbids+sb.getCauseId()+",";
-						sbnums=sbnums+sb.getSbbugNum()+",";
+						ScrapBug sb=l_sbug.get(j);
+						if(sb!=null)
+						{
+							sbids=sbids+sb.getCauseId()+",";
+							sbnums=sbnums+sb.getSbbugNum()+",";
+						}
 					}
+					m.setXsbids(sbids);//缺陷ids
+					m.setXsbnums(sbnums);//缺陷数量
 				}
-				m.setXsbids(sbids);//缺陷ids
-				m.setXsbnums(sbnums);//缺陷数量
+				list_material.add(m);
 			}
-			list_material.add(m);
 		}
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
@@ -229,7 +232,7 @@ public class ScrapAction extends BaseAdminAction
 		this.list_scrapmsg=new ArrayList<ScrapMessage>();//初始化
 		this.scrap=this.scrapService.load(id);
 		List<ScrapMessage>l_scrapmsg=new ArrayList<ScrapMessage>(this.scrap.getScrapMsgSet());//报废信息
-		if(l_scrapmsg!=null)
+		if(l_scrapmsg.size()>0)
 		{
 			for(int i=0;i<l_scrapmsg.size();i++)
 			{

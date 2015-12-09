@@ -350,8 +350,7 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
-					int time = (int) ((date.getTime()-persistent
-							.getCreateDate().getTime())/1000);
+					int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 					persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
 				} else {
@@ -363,10 +362,10 @@ public class AbnormalAction extends BaseAdminAction {
 				return ERROR;
 			}
 
-			Date date = new Date();
+			/*Date date = new Date();
 			int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 			persistent.setHandlingTime(time);
-			abnormalService.update(persistent);
+			abnormalService.update(persistent);*/
 		}
 
 		redirectionUrl = "abnormal!list.action";

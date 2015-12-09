@@ -68,35 +68,6 @@ public class ItermediateTestDetailServiceImpl extends BaseServiceImpl<Itermediat
 		
 	}
 
-//	@Override
-//	public void save(List<PickDetail> pickDetailList,String workingBillId) {
-//		Admin admin=adminService.getLoginAdmin();
-//		WorkingBill workingBill=workingBillService.get(workingBillId);
-//		String s="";
-//		Pick pk=new Pick();
-//		if(pickDetailList.size()>0){
-//			Pick pick=new Pick();
-//			pick.setCreateDate(new Date());
-//			pick.setCreateUser(admin);
-//			pick.setState("1");
-//			pick.setWorkingbill(workingBill);
-//			s=this.pickService.save(pick);
-//		}
-//		if(s!=null&&!"".equals(s)){
-//		  pk=pickService.get(s);
-//		}
-//		for(int i=0;i<pickDetailList.size();i++){
-//			PickDetail p=pickDetailList.get(i);			
-//			p.setConfirmUser(admin);
-//		    p.setWorkingbill(workingBill);
-//			p.setPick(pk);
-//			if(p.getPickAmount()!=null&&!"".equals(p.getPickAmount())){
-//			  this.pickDetailDao.save(p);
-//			}
-//			
-//		}
-//	}
-
 	@Override
 	public List<ItermediateTestDetail> getItermediateTestDetail(String id) {
 		// TODO Auto-generated method stub
@@ -109,6 +80,13 @@ public class ItermediateTestDetailServiceImpl extends BaseServiceImpl<Itermediat
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public ItermediateTestDetail getBySidAndMid(String sid, String mid) {
+		
+		return itermediateTestDetailDao.getBySidAndMid(sid, mid);
+	}
+
 
 	
 

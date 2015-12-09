@@ -15,7 +15,6 @@ import cc.jiuyi.dao.ScrapLaterDao;
 import cc.jiuyi.dao.ScrapMessageDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
-import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;

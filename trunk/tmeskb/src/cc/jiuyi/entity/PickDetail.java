@@ -60,8 +60,6 @@ public class PickDetail extends BaseEntity{
 		this.pickType = pickType;
 	}
 	
-	
-	
 	public String getXuh() {
 		return xuh;
 	}

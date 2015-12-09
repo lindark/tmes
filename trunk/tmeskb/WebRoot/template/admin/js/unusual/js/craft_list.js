@@ -68,9 +68,9 @@ jQuery(function($) {
 		colModel:[
 			
 			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsName',index:'productsName',width:160,editable:true},
+			{name:'productsName',index:'products.productsName',width:160,editable:true},
 			{name:'cabinetName',index:'cabinetName', width:120,editable: true,search:false},
-			{name:'teamName',index:'teamName', width:260, editable: true},		
+			{name:'teamName',index:'team.teamName', width:260, editable: true},		
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle}		
 		], 
 

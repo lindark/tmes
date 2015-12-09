@@ -34,7 +34,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 
 
 /**
- * 后台Action类-领/退料从表
+ * 后台Action类-半成品巡检从表
  */
 
 @ParentPackage("admin")

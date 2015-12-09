@@ -46,7 +46,7 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
 			if(map.get("workingbillCode")!=null){
-			    detachedCriteria.add(Restrictions.like("workingbillCode", "%"+map.get("workingbillCode")+"%"));
+			    detachedCriteria.add(Restrictions.eq("workingbillCode", map.get("workingbillCode")));
 			}		
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

@@ -44,7 +44,7 @@ public class Craft extends BaseEntity{
 	private String productsName;//产品名称
 	private String teamName;
 	private String cabinetName;
-	private Set<ReceiptReason> receiptReasonSet;//工序原因
+	private Set<ReceiptReason> receiptReasonSet;//工艺原因
 	
 	public String getCabinetCode() {
 		return cabinetCode;

@@ -25,12 +25,14 @@ import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.CreditCard;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
+import cc.jiuyi.service.CreditCardService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
@@ -58,6 +60,8 @@ public class TestMethodService extends BaseTestCase {
 	private AccessObjectService accessobjectservice;
 	@Resource
 	private PickService pickservice;
+	@Resource
+	private CreditCardService creditcardservice;
 	
 	protected void setUp() {
 		
@@ -158,6 +162,15 @@ public class TestMethodService extends BaseTestCase {
 		List<Pick> pickList = new ArrayList<Pick>();
 		pickList.add(pick);
 		pickservice.saveRepeal(pickList, admin, "3");
+		
+	}
+	
+	@Test
+	public void testCredit(){
+		CreditCard creditcard = new CreditCard();
+		creditcard.setDeviceCode("ceshi");
+		creditcard.setCardNumber("ceshi");
+		creditcardservice.save(creditcard);
 		
 	}
 }

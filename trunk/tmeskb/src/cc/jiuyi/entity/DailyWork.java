@@ -35,8 +35,8 @@ public class DailyWork extends BaseEntity {
 	private String responseName;// 责任工序名称
 	private String CONF_NO;//确认号
 	private String CONF_CNT;//计数器
-
 	private String wb;//文本
+	private String workingbillCode;
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -192,6 +192,14 @@ public class DailyWork extends BaseEntity {
 
 	public void setCONF_CNT(String conf_cnt) {
 		CONF_CNT = conf_cnt;
+	}
+
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
 	}
 
 }

@@ -243,7 +243,7 @@ public class DeviceAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String update() {
 		Device persistent = deviceService.load(id);
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet"});
 		deviceService.update(persistent);
 		redirectionUrl = "device!list.action";
 		return SUCCESS;

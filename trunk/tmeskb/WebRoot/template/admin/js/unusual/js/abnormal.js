@@ -10,6 +10,7 @@ $(function() {
 	var $modelrep = $("#modelrep");// 工模
 	$modelrep.click(function() {		
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
+		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
 			alert("请选择一个异常");
 			return false;
@@ -17,7 +18,10 @@ $(function() {
 			alert("请选择一个异常");
 			return false;
 		}else{
+			
+		    if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "model!add.action?aid="+i;
+			}
 		}
 		
     });
@@ -25,6 +29,7 @@ $(function() {
 	var $qualityque = $("#qualityque");// 质量
 	$qualityque.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		
 		if(i.length<=0){
 			alert("请选择一个异常");
@@ -33,7 +38,9 @@ $(function() {
 			alert("请选择一个异常");
 			return false;
 		}else{
-			window.location.href = "quality!add.action?aid="+i;
+			if(rowData.state!=3 & rowData.state!=4){
+				window.location.href = "quality!add.action?aid="+i;
+			}			
 		}
 		
     });
@@ -41,6 +48,7 @@ $(function() {
 	var $craftrep = $("#craftrep");// 工艺
 	$craftrep.click(function() {		
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
+		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
 			alert("请选择一个异常");
 			return false;
@@ -48,7 +56,9 @@ $(function() {
 			alert("请选择一个异常");
 			return false;
 		}else{
+			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "craft!add.action?aid="+i;
+			}
 		}
 		
     });
@@ -57,6 +67,7 @@ $(function() {
 	var $devicerep = $("#devicerep");//设备
 	$devicerep.click(function() {		
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
+		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
 			alert("请选择一个异常");
 			return false;
@@ -64,8 +75,10 @@ $(function() {
 			alert("请选择一个异常");
 			return false;
 		}else{
+			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "device!add.action?aid="+i;
-		}
+			}
+			}
 		
     });
 	

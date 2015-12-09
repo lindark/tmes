@@ -2,6 +2,7 @@ var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	alert("oo");
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -66,12 +67,12 @@ jQuery(function($) {
 		colNames:[ '时间','产品名称', '班组','故障原因','维修人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
+			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
 			{name:'productName',index:'productName',editable: true},
 			{name:'teamName',index:'teamName', width:120, editable: true},
-			{name:'faultCause',index:'faultCause', width:120, sortable:false,editable: true},
+			{name:'faultName',index:'faultName', width:120, sortable:false,search:false,edRitable: true},
 			{name:'repairName',index:'fixer.name',sortable:false,editable: true},
-			{name:'stateRemark',index:'state',sortable:true,editable: true,search:false,cellattr:addstyle}		
+			{name:'stateRemark',index:'state',sortable:true,editable: true,cellattr:addstyle}		
 			], 
 
 		viewrecords : true,
@@ -149,15 +150,15 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc:function(rowId){
+			edit: false,
+		  /*  editfunc:function(rowId){
 		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(ids.length >1){
 					alert("请选择一条记录");
 					return false;
 				}
 		       location.href="model!edit.action?id="+rowId;
-	        },
+	        },*/
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 			/*addfunc:function(){
@@ -168,9 +169,9 @@ jQuery(function($) {
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
+			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

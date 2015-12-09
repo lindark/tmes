@@ -115,8 +115,8 @@ body {
                                            
 									</tbody>
 								</table>
-</div>
-							</form>
+                             </div>
+						</form>
 
                                      <button class="btn btn-white btn-default btn-sm btn-round" id="addIt" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>

@@ -274,34 +274,66 @@ body{background:#fff;}
 														
 			<table id="tabs-3" class="inputTable tabContent">
 				    <tbody>	
-										        <#list (qualityList)! as list>
-										        <tr>						
+										       <#if (qualityList?size>1) >
+										            <tr>						
 													<td>
-														<a href="quality!view.action?id=${(list.id)}">质量问题单${(list_index+1)!}</a>										
+														<a href="quality!list.action?abnorId=${(abnormal.id)}">质量问题单</a>										
 													</td>
-												</tr>
-												</#list> 
-												<#list (modelList)! as list>
-										        <tr>						
+												    </tr>
+										        <#else>
+										            <#list (qualityList)! as list>
+										            <tr>						
 													<td>
-														<a href="model!view.action?id=${(list.id)}">工模维修单${(list_index+1)!}</a>										
+														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
 													</td>
-												</tr>
-												</#list> 
-												<#list (craftList)! as list>
-										        <tr>						
+												    </tr>
+												    </#list>
+										        </#if>
+										        <#if (modelList?size>1) >
+										            <tr>						
 													<td>
-														<a href="craft!view.action?id=${(list.id)}">工艺维修单${(list_index+1)!}</a>										
+														<a href="model!list.action?abnorId=${(abnormal.id)}">工模维修单</a>										
 													</td>
-												</tr>
-												</#list> 
-												<#list (deviceList)! as list>
-										        <tr>						
+												    </tr>
+										        <#else>
+										            <#list (modelList)! as list>
+										            <tr>						
 													<td>
-														<a href="device!view.action?id=${(list.id)}">设备维修单${(list_index+1)!}</a>										
+														<a href="model!view.action?id=${(list.id)}">工模维修单</a>										
 													</td>
-												</tr>
-												</#list> 
+												    </tr>
+												     </#list>
+										        </#if>
+										         <#if (craftList?size>1) >
+										            <tr>						
+													<td>
+														<a href="craft!list.action?abnorId=${(abnormal.id)}">工艺维修单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (craftList)! as list>
+										            <tr>						
+													<td>
+														<a href="craft!view.action?id=${(list.id)}">工艺维修单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>
+										         <#if (deviceList?size>1) >
+										            <tr>						
+													<td>
+														<a href="device!list.action?abnorId=${(abnormal.id)}">设备维修单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (deviceList)! as list>
+										            <tr>						
+													<td>
+														<a href="device!view.action?id=${(list.id)}">设备维修单</a>										
+													</td>
+												    </tr>
+												    </#list>
+										        </#if>
 										</tbody>
 			</table>
 					

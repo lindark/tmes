@@ -14,6 +14,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.ItermediateTestDetailDao;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.ItermediateTestDetail;
+import cc.jiuyi.entity.ScrapMessage;
 
 /**
  * Dao实现类 - ItermediateTestDetail
@@ -47,28 +48,7 @@ public class ItermediateTestDetailDaoImpl extends BaseDaoImpl<ItermediateTestDet
 	public Pager getItermediateTestDetailPager(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(ItermediateTestDetail.class);
-		pagerSqlByjqGrid(pager,detachedCriteria);
-//		if (map.size() > 0) {
-//			if(map.get("itermediateTestDetailCode")!=null){
-//			    detachedCriteria.add(Restrictions.like("itermediateTestDetailCode", "%"+map.get("itermediateTestDetailCode")+"%"));
-//			}		
-//			if(map.get("itermediateTestDetailName")!=null){
-//				detachedCriteria.add(Restrictions.like("itermediateTestDetailName", "%"+map.get("itermediateTestDetailName")+"%"));
-//			}
-//			if(map.get("state")!=null){
-//				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-//			}
-//			if(map.get("start")!=null||map.get("end")!=null){
-//				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-//				try{
-//					Date start=sdf.parse(map.get("start"));
-//					Date end=sdf.parse(map.get("end"));
-//					detachedCriteria.add(Restrictions.between("createDate", start, end));
-//				}catch(Exception e){
-//					e.printStackTrace();
-//				}
-//			}
-//		}		
+		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
@@ -91,6 +71,16 @@ public class ItermediateTestDetailDaoImpl extends BaseDaoImpl<ItermediateTestDet
 		return getSession().createQuery(hql).setParameter("list", id).list();
 	}
 
+	@Override
+	/**
+	 * 根据主表id和物料表id查询
+	 */
+	public ItermediateTestDetail getBySidAndMid(String sid, String mid) {
+		String hql="from ItermediateTestDetail where isDel='N' and itermediateTest_id=? and materialId=?";
+		return (ItermediateTestDetail)this.getSession().createQuery(hql).setParameter(0, sid).setParameter(1, mid).uniqueResult();
+	}
+
+	
 	
 
 }

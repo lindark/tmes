@@ -68,10 +68,10 @@ jQuery(function($) {
 		colModel:[
 			
 			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsName',index:'productsName',width:60,editable:true},
-			{name:'cabinetName',index:'cabinetName', width:260,editable: true,search:false,},
+			{name:'productsName',index:'productsName',width:160,editable:true},
+			{name:'cabinetName',index:'cabinetName', width:120,editable: true,search:false},
 			{name:'teamName',index:'teamName', width:260, editable: true},		
-			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,search:false,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle}		
 		], 
 
 		viewrecords : true,
@@ -167,7 +167,7 @@ jQuery(function($) {
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -59,6 +60,7 @@ public class Device extends BaseEntity{
 	private String contactName;//车间联系人
 	private String repairName;//维修人
 	private String repairType;//维修类型
+	private Set<ReceiptReason> receiptSet;//设备原因
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -171,6 +173,8 @@ public class Device extends BaseEntity{
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	@Transient
 	public String getFaultReason() {
 		return faultReason;
 	}
@@ -273,7 +277,14 @@ public class Device extends BaseEntity{
 	public void setRepairType(String repairType) {
 		this.repairType = repairType;
 	}
-	
-	
+		
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<ReceiptReason> getReceiptSet() {
+		return receiptSet;
+	}
+	public void setReceiptSet(Set<ReceiptReason> receiptSet) {
+		this.receiptSet = receiptSet;
+	}
+		
 	
 }

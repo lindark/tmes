@@ -2,8 +2,10 @@ package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -28,8 +30,10 @@ import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.ReceiptReason;
 import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -37,6 +41,8 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DeviceLogService;
 import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ReceiptReasonService;
+import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -53,6 +59,7 @@ public class DeviceAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private String loginUsername;
+	private String[] reasonIds;
 	private Admin admin;
 	// 获取所有类型
 	private List<Dict> allType;
@@ -60,6 +67,7 @@ public class DeviceAction extends BaseAdminAction {
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
+	private List<ReceiptReason> reasonList;
 	
 	@Resource
 	private DeviceService deviceService;
@@ -73,6 +81,8 @@ public class DeviceAction extends BaseAdminAction {
 	private DeviceLogService deviceLogService;
 	@Resource
 	private AbnormalLogService abnormalLogService;
+	@Resource
+	private ReceiptReasonService receiptReasonService;
 	
 	// 添加
 	public String add() {
@@ -165,6 +175,17 @@ public class DeviceAction extends BaseAdminAction {
 			device.setRepairName(device.getDisposalWorkers().getName());
 			device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "deviceType", device.getMaintenanceType()));
+			
+			List<ReceiptReason> faultReasonList = new ArrayList<ReceiptReason>(
+					device.getReceiptSet());// 
+			List<String> strlist = new ArrayList<String>();
+			for (ReceiptReason receiptReason: faultReasonList) {
+				String str = receiptReason.getReasonName();
+				strlist.add(str);
+			}
+			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+			device.setFaultReason(comlist);
+			
 			pagerlist.set(i,device);
 		}
 		pager.setList(pagerlist);
@@ -191,6 +212,12 @@ public class DeviceAction extends BaseAdminAction {
 		
 		abnormal=abnormalService.load(abnormalId);
 		device.setAbnormal(abnormal);
+		if (reasonIds != null && reasonIds.length > 0) {
+			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
+			device.setReceiptSet(reasonSet);
+		} else {
+			device.setReceiptSet(null);
+		}
 		device.setState("0");
 		device.setIsDel("N");
 		
@@ -209,14 +236,14 @@ public class DeviceAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin1);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "device!list.action";
+		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
 	}
 	
 	@InputConfig(resultName = "error")
 	public String update() {
 		Device persistent = deviceService.load(id);
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
 		deviceService.update(persistent);
 		redirectionUrl = "device!list.action";
 		return SUCCESS;
@@ -235,7 +262,7 @@ public class DeviceAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
 		persistent.setState("1");
 		deviceService.update(persistent);
 		
@@ -254,7 +281,7 @@ public class DeviceAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			
@@ -386,6 +413,23 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setCraftList(List<Craft> craftList) {
 		this.craftList = craftList;
+	}
+
+	public List<ReceiptReason> getReasonList() {
+		reasonList=receiptReasonService.getReceiptReasonByType("1");
+		return reasonList;
+	}
+
+	public void setReasonList(List<ReceiptReason> reasonList) {
+		this.reasonList = reasonList;
+	}
+
+	public String[] getReasonIds() {
+		return reasonIds;
+	}
+
+	public void setReasonIds(String[] reasonIds) {
+		this.reasonIds = reasonIds;
 	}
 	
 	

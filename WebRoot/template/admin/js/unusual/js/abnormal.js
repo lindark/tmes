@@ -9,6 +9,7 @@ $(function() {
 	
 	var $modelrep = $("#modelrep");// 工模
 	$modelrep.click(function() {		
+
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
@@ -20,7 +21,9 @@ $(function() {
 		}else{
 			
 		    if(rowData.state!=3 & rowData.state!=4){
-			window.location.href = "model!add.action?aid="+i;
+			  window.location.href = "model!add.action?aid="+i;
+			}else{
+				alert("当前状态不能开单");
 			}
 		}
 		
@@ -40,6 +43,8 @@ $(function() {
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 				window.location.href = "quality!add.action?aid="+i;
+			}else{
+				alert("当前状态不能开单");
 			}			
 		}
 		
@@ -58,6 +63,8 @@ $(function() {
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "craft!add.action?aid="+i;
+			}else{
+				alert("当前状态不能开单");
 			}
 		}
 		
@@ -77,8 +84,10 @@ $(function() {
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "device!add.action?aid="+i;
+			}else{
+				alert("当前状态不能开单");
 			}
-			}
+		}
 		
     });
 	

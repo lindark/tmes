@@ -176,7 +176,7 @@ padding-top:2px;
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
 									</button>
-								</div>
+								</div> 
 								 <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="modelrep">
                                       <span class="bigger-110 no-text-shadow">创建工模维修单</span>
@@ -198,17 +198,17 @@ padding-top:2px;
                                       <span class="bigger-110 no-text-shadow">响应刷卡</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4" >
+								<!-- <div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="cancelcal">
                                       <span class="bigger-110 no-text-shadow">撤销呼叫</span>
 									</button>
-								</div>
-								<!-- 
+								</div> -->
+								 
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="closeAbn">
                                       <span class="bigger-110 no-text-shadow">关闭异常</span>
 									</button>
-								</div> -->
+								</div> 
 							</div>
 
 							<table id="grid-table1"></table>

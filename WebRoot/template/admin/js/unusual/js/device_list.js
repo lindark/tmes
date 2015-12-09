@@ -62,13 +62,13 @@ jQuery(function($) {
 		colNames:[ '时间','车间','车间联系人', '维修类型','故障原因','维修人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
 			{name:'workShopName',index:'workShop.name',width:60, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,search:false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'repairType',index:'maintenanceType', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
-			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,edittype:"textarea"},
+			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,search:false,edittype:"textarea"},
 			{name:'repairName',index:'disposalWorkers.name', width:60, sortable:false,editable: true,edittype:"textarea"},
-			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,edittype:"textarea", search:false,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,edittype:"textarea",cellattr:addstyle}		
 		], 
 
 		viewrecords : true,

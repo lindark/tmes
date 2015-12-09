@@ -88,7 +88,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("LGORT",p.getLgort());//库存地点
 			item.put("ZTEXT",p.getZtext());//文本
 			item.put("MOVE_TYPE",p.getMove_type());//移动类型
-			item.put("XUH",p.getXuh());//序号
+			item.put("XUH",p.getId());//ID
 			arrList.add(item);
 		}
 		ET_HEADER.setList(arrList);
@@ -101,6 +101,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("MATNR", p.getMaterialCode());//物料编码
 			item.put("ZSFSL", p.getPickAmount());//数量
 			item.put("CHARG", p.getCharg());//批号
+			item.put("XUH",p.getId());//ID
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);
@@ -119,7 +120,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			p.setLgort(t_data.getString("LGORT"));
 			p.setE_type(t_data.getString("E_TYPE"));
 			p.setEx_mblnr(t_data.getString("EX_MBLNR"));
-			p.setXuh(t_data.getString("XUH"));
+			p.setId(t_data.getString("XUH"));
 			p.setMove_type("MOVE_TYPE");
 			list.add(p);
 		}

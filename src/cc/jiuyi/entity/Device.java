@@ -29,8 +29,8 @@ public class Device extends BaseEntity{
 	private String deviceName;//设备名称
 	private String deviceModel;//设备型号*/
 	
-	private Boolean isDown;//是否停机
-	private Boolean isMaintenance;//是否停产维修
+	private String isDown;//是否停机
+	private String isMaintenance;//是否停产维修
 	private String diagnosis;//故障描述
 	private Date beginTime;//处理开始时间
 	private Date dndTime;//处理结束时间
@@ -69,18 +69,6 @@ public class Device extends BaseEntity{
 		this.maintenanceType = maintenanceType;
 	}
 
-	public Boolean getIsDown() {
-		return isDown;
-	}
-	public void setIsDown(Boolean isDown) {
-		this.isDown = isDown;
-	}
-	public Boolean getIsMaintenance() {
-		return isMaintenance;
-	}
-	public void setIsMaintenance(Boolean isMaintenance) {
-		this.isMaintenance = isMaintenance;
-	}
 	public String getDiagnosis() {
 		return diagnosis;
 	}
@@ -284,6 +272,18 @@ public class Device extends BaseEntity{
 	}
 	public void setReceiptSet(Set<ReceiptReason> receiptSet) {
 		this.receiptSet = receiptSet;
+	}
+	public String getIsDown() {
+		return isDown;
+	}
+	public void setIsDown(String isDown) {
+		this.isDown = isDown;
+	}
+	public String getIsMaintenance() {
+		return isMaintenance;
+	}
+	public void setIsMaintenance(String isMaintenance) {
+		this.isMaintenance = isMaintenance;
 	}
 		
 	

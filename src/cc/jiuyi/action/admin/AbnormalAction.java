@@ -200,22 +200,19 @@ public class AbnormalAction extends BaseAdminAction {
             		String str4="已开"+"<a href='device!list.action?abnorId="+abnormal.getId()+"'>设备维修单</a>"+"("+deviceList.size()+")";
             		ablist.add(str4);
             	 }
-				 String str="";
+				String str;
+
 				for(AbnormalLog ab:abLog){
 					
 					String info = ab.getInfo();
                      if(info.equalsIgnoreCase("已开质量问题单") && qualityList.size()==1){                  	 
-                    		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
-                    	
+                    		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>";                     	
 					 }else if(info.equalsIgnoreCase("已开工模维修单") && modelList.size()==1){						
-                    		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>"; 
-                    	
+                    		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
 					 }else if(info.equalsIgnoreCase("已开工艺维修单") && craftList.size()==1){						
-                    		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>"; 
-                    	
+                    		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
 					 }else if(info.equalsIgnoreCase("已开设备维修单") && deviceList.size()==1){						
-                    		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";  
-                    		 
+                    		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
 					 }else{
 						 str="";
 					 }

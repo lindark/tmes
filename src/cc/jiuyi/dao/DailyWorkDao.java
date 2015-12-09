@@ -1,7 +1,6 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.DailyWork;
@@ -20,6 +19,8 @@ public interface DailyWorkDao extends BaseDao<DailyWork, String> {
 	 * @return
 	 */
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String,String> map, String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

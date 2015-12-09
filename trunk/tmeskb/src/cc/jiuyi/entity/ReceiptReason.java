@@ -25,7 +25,8 @@ public class ReceiptReason extends BaseEntity{
 	private String stateRemark;//状态描述
     private String typeReamrk;//类型描述
     
-    private Set<Craft> craftSet;//工序
+    private Set<Craft> craftSet;//工艺
+    private Set<Device> deviceSet;//设备
     
 	public String getIsDel() {
 		return isDel;
@@ -77,6 +78,14 @@ public class ReceiptReason extends BaseEntity{
 	}
 	public void setCraftSet(Set<Craft> craftSet) {
 		this.craftSet = craftSet;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "receiptSet")
+	public Set<Device> getDeviceSet() {
+		return deviceSet;
+	}
+	public void setDeviceSet(Set<Device> deviceSet) {
+		this.deviceSet = deviceSet;
 	}
     
     

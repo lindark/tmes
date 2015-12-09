@@ -172,7 +172,7 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet" });
 		persistent.setState("1");
 		modelService.update(persistent);
 		
@@ -192,7 +192,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer" });
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet" });
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -215,7 +215,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			

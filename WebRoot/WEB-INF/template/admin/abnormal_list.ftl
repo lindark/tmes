@@ -171,8 +171,7 @@ padding-top:2px;
                                
 							</div>																												
 
-							<div class="row buttons">
-							    <div id="clock"></div>							  
+							<div class="row buttons">						  
 								<div class="col-md-2 col-sm-4" >
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
@@ -276,51 +275,7 @@ padding-top:2px;
 				$(this).removeClass("open");
 			}
 			
-		})
+		})		 
 		
-		 var t = null;
-    t = setTimeout(time,1000);//开始执行
-    function time()
-    {
-       clearTimeout(t);//清除定时器
-       dt = new Date();
-       var h=dt.getHours();
-       var m=dt.getMinutes();
-       var s=dt.getSeconds();
-       document.getElementById("clock").innerHTML =  "现在的时间为："+h+"时"+m+"分"+s+"秒";
-       t = setTimeout(time,1000); //设定定时器，循环执行             
-    } 
-    
-		/*function get(){					
-		   var date = new Date();
-		   var s=date.getSeconds();
-		   alert(s);
-		   document.getElementById("clock").innerText=""+s;
-		   window.setTimeout("get()",1000);
-		}	
-		
-		get();*/
-		
-		
-		
-		/*function changeTime(rowId, val, rawObject, cm, rdata){
-		var time=parseInt(rawObject.disposeTime)*60;
-		alert(time);
-		alert(rdata);
-		return "时间";
-		//return getTime(time);
-	}
-
-	//时间显示
-	function getTime(time){
-		return $("#clock").html(formatTime(time));
-		time++;		
-		window.setTimeout("getTime(time)",1000);
-	}
-
-	function formatTime(second) {
-	    return [parseInt(second / 60 / 60), second / 60 % 60, second % 60].join(":")
-	        .replace(/\b(\d)\b/g, "0$1");
-	}*/
 	})
 </script>

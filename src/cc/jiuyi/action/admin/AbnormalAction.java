@@ -223,14 +223,13 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setAnswer(anslist1);
 			abnormal.setLog(ablists);
 			abnormal.setOriginator(abnormal.getIniitiator().getName());
-			System.out.println(abnormal.getState());
-			if(abnormal.getState()=="3" || abnormal.getState()=="4"){
-				abnormal.setDisposeTime(abnormal.getHandlingTime().toString());
+		
+			if(abnormal.getState().equalsIgnoreCase("3") || abnormal.getState().equalsIgnoreCase("4")){
+				abnormal.setDisposeTime(String.valueOf(abnormal.getHandlingTime()));
 			}else{
 				Date date = new Date();
-				int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 60000);
+				int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 1000);
 				abnormal.setDisposeTime(String.valueOf(time));
-			//	abnormal.setDisposeTime("<span id='tick'>"+abnormal.getHandlingTime()+"</span>");
 			}
 			
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(

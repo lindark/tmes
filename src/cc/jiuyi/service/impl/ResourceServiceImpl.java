@@ -92,7 +92,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 	}
 
 	@Override
-	public List<Resource> getListByadmin(List<String> roleid,String path) {
+	public Integer getListByadmin(List<String> roleid,String path) {
 		return resourceDao.getListByadmin(roleid,path);
 	}
 	

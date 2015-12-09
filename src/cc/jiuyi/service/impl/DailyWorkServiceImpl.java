@@ -3,9 +3,7 @@ package cc.jiuyi.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -15,8 +13,6 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DailyWorkDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
-import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.service.AdminService;
@@ -138,6 +134,11 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		workingbill.setDailyWorkTotalAmount(totalamount);
 		workingbillService.update(workingbill);
 
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return dailyWorkDao.historyjqGrid(pager, map);
 	}
 
 }

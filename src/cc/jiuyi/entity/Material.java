@@ -55,6 +55,20 @@ public class Material extends BaseEntity{
 	private String xsmduty;//报废信息责任划分
 	private String xsmid;//报废信息表主键ID
 	
+	//假字段Reece
+	private String xfailReason;//不合格原因信息
+	private Double xfailAmount;//不合格数量
+	private Double xtestAmount;//抽检数量
+	private String xgoodsSzie1;//尺寸1
+	private String xgoodsSzie2;//尺寸2
+	private String xgoodsSzie3;//尺寸3
+	private String xgoodsSzie4;//尺寸4
+	private String xgoodsSzie5;//尺寸5
+	private String xrecordid;//缺陷表id
+	private String xrecordNum;//缺陷表中缺陷数量
+	private String xitid;//半成品巡检从表表ID
+	
+	
 	@ManyToMany(fetch = FetchType.LAZY,mappedBy="material")
 	public Set<Products> getProducts() {
 		return products;
@@ -233,6 +247,33 @@ public class Material extends BaseEntity{
 	{
 		this.xsmduty = xsmduty;
 	}
+
+	
+	@Transient
+	public String getXfailReason() {
+		return xfailReason;
+	}
+	public void setXfailReason(String xfailReason) {
+		this.xfailReason = xfailReason;
+	}
+	
+	@Transient
+	public String getXrecordid() {
+		return xrecordid;
+	}
+	public void setXrecordid(String xrecordid) {
+		this.xrecordid = xrecordid;
+	}
+	
+	@Transient
+	public String getXrecordNum() {
+		return xrecordNum;
+	}
+	public void setXrecordNum(String xrecordNum) {
+		this.xrecordNum = xrecordNum;
+	}
+	
+	
 	@Transient
 	public String getXsmid()
 	{
@@ -242,4 +283,74 @@ public class Material extends BaseEntity{
 	{
 		this.xsmid = xsmid;
 	}
+	
+	@Transient
+	public Double getXfailAmount() {
+		return xfailAmount;
+	}
+	public void setXfailAmount(Double xfailAmount) {
+		this.xfailAmount = xfailAmount;
+	}
+	
+	@Transient
+	public Double getXtestAmount() {
+		return xtestAmount;
+	}
+	public void setXtestAmount(Double xtestAmount) {
+		this.xtestAmount = xtestAmount;
+	}
+	
+	@Transient
+	public String getXgoodsSzie1() {
+		return xgoodsSzie1;
+	}
+	public void setXgoodsSzie1(String xgoodsSzie1) {
+		this.xgoodsSzie1 = xgoodsSzie1;
+	}
+	
+	@Transient
+	public String getXgoodsSzie2() {
+		return xgoodsSzie2;
+	}
+	public void setXgoodsSzie2(String xgoodsSzie2) {
+		this.xgoodsSzie2 = xgoodsSzie2;
+	}
+	
+	
+	@Transient
+	public String getXgoodsSzie3() {
+		return xgoodsSzie3;
+	}
+	public void setXgoodsSzie3(String xgoodsSzie3) {
+		this.xgoodsSzie3 = xgoodsSzie3;
+	}
+	
+	@Transient
+	public String getXgoodsSzie4() {
+		return xgoodsSzie4;
+	}
+	public void setXgoodsSzie4(String xgoodsSzie4) {
+		this.xgoodsSzie4 = xgoodsSzie4;
+	}
+	
+	@Transient
+	public String getXgoodsSzie5() {
+		return xgoodsSzie5;
+	}
+	public void setXgoodsSzie5(String xgoodsSzie5) {
+		this.xgoodsSzie5 = xgoodsSzie5;
+	}
+	
+	@Transient
+	public String getXitid() {
+		return xitid;
+	}
+	public void setXitid(String xitid) {
+		this.xitid = xitid;
+	}
+	
+	
+	
+	
+	
 }

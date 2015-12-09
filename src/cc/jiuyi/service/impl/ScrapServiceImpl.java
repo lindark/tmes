@@ -176,15 +176,12 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			
 		/**2.1修改报废产出后表*/
 		List<ScrapLater>l_slater=new ArrayList<ScrapLater>(scp.getScrapLaterSet());
-		if(l_slater!=null)
+		for(int i=0;i<l_slater.size();i++)
 		{
-			for(int i=0;i<l_slater.size();i++)
+			ScrapLater sl=l_slater.get(i);
+			if(sl!=null)
 			{
-				ScrapLater sl=l_slater.get(i);
-				if(sl!=null)
-				{
-					this.slaterDao.delete(sl.getId());
-				}
+				this.slaterDao.delete(sl.getId());
 			}
 		}
 		if(list_scraplater!=null)

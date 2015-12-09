@@ -317,8 +317,11 @@ public class AbnormalAction extends BaseAdminAction {
 					if (persistent.getReplyDate() == null) {
 						persistent.setReplyDate(new Date());
 						Date date = new Date();
-						int time = (int) ((date.getTime() - persistent
-								.getCreateDate().getTime()) / 60000);
+						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
+						persistent.setHandlingTime(time);
+					}else{
+						Date date = new Date();
+						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 						persistent.setHandlingTime(time);
 					}
 					abnormalService.update(persistent);
@@ -347,8 +350,8 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
-					int time = (int) ((date.getTime() - persistent
-							.getCreateDate().getTime()) / 60000);
+					int time = (int) ((date.getTime()-persistent
+							.getCreateDate().getTime())/1000);
 					persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
 				} else {
@@ -361,8 +364,7 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 
 			Date date = new Date();
-			int time = (int) ((date.getTime() - persistent.getCreateDate()
-					.getTime()) / 60000);
+			int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 			persistent.setHandlingTime(time);
 			abnormalService.update(persistent);
 		}

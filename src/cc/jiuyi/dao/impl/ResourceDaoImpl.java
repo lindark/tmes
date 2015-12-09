@@ -100,9 +100,9 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Resource> getListByadmin(List<String> roleid,String path){
-		String hql="select a from Resource a join a.roleSet b where a.value=? and b.id in (:list)";
-		return (List<Resource>) getSession().createQuery(hql).setParameter(0, path).setParameterList("list", roleid).list();
+	public Integer getListByadmin(List<String> roleid,String path){
+		String hql="select count(a) from Resource a join a.roleSet b where a.value=? and b.id in (:list)";
+		return (Integer) getSession().createQuery(hql).setParameter(0, path).setParameterList("list", roleid).uniqueResult();
 	}
 
 }

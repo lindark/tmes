@@ -123,6 +123,10 @@
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看半成品巡检单
 									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="editIt" type=button>
+									    <i class="ace-icon glyphicon glyphicon-edit"></i>
+									      编辑半成品巡检单
+								    </button>  
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmIt" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
@@ -208,7 +212,7 @@
 		})
 		
 		$("#addIt").click(function(){
-			window.location.href="itermediate_test_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
+			window.location.href="itermediate_test!add.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
 			
 		});
 		
@@ -218,10 +222,24 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录！");
-			}else{
-				window.location.href="itermediate_test!confirms.action?id="+id;			
+				return false;
 			}
-			
+			$.ajax({	
+				url: "itermediate_test!creditapproval.action?id="+id,	
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();	
+			},
+			success:function(data){
+				layer.close(index);
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");
+			},error:function(data){
+				$.message("error","系统出现问题，请联系系统管理员");
+			}
+		  });
 		});
 		
 		$("#repealIt").click(function(){
@@ -229,10 +247,24 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录！");
-			}else{
-				window.location.href="itermediate_test!repeal.action?id="+id;			
+				return false;
 			}
-			
+			$.ajax({	
+				url: "itermediate_test!creditundo.action?id="+id,	
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();	
+			},
+			success:function(data){
+				layer.close(index);
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");
+			},error:function(data){
+				$.message("error","系统出现问题，请联系系统管理员");
+			}
+		  });
 		});
 		
 		
@@ -242,10 +274,33 @@
 			if(id==""){
 				alert("请选择至少一条记录！");
 			}else{
-				window.location.href="pick_detail!view.action?id="+id;			
+				window.location.href="itermediate_test!show.action?id="+id+"&workingBillId=${workingbill.id}";			
 			}
 			
 		});
+		
+		
+		$("#editIt").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条记录！");
+			}
+			if(id>1){
+				alert("只能选择一条记录！");
+			}else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
+				var row_state=rowData.state;
+				if(row_state=="2"||row_state=="3"){
+					layer.msg("已确认或已撤销的巡检单无法再编辑!", {icon: 5});
+					return false;
+				}else{
+					window.location.href="itermediate_test!edit.action?id="+id+"&workingBillId=${workingbill.id}";			
+				}		
+			}
+			
+		});
+		
 		
 		$("#returnIt").click(function(){
 			window.history.back();

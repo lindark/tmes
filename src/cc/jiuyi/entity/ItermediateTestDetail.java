@@ -21,16 +21,17 @@ import org.compass.annotations.Searchable;
 @Table(name = "ItermediateTestDetail")
 public class ItermediateTestDetail extends BaseEntity{
 
-
-	
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 845139855839428494L;
 	
-	
-	private Integer testAmount;//抽检数量
-    private Integer passAmount;//合格数量
+	private String materialCode;//组件编码
+	private String materialName;//组件名称
+	private Double testAmount;//抽检数量
+    private Double passAmount;//合格数量
+    private String failReason;//不合格原因
+    private Double failAmount;//不合格数量
     private String goodsSzie1;//尺寸1
     private String goodsSzie2;//尺寸2
     private String goodsSzie3;//尺寸3
@@ -39,13 +40,11 @@ public class ItermediateTestDetail extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin confirmUser;//确认人
+    private String materialId;//物料主键
       
-	private String materialCode;//组件编码
-	private String materialName;//组件名称
+	
 	
 	private ItermediateTest itermediateTest;//半成品巡检主表
-	
-    private WorkingBill workingbill;//随工单
     private Set<IpRecord> ipRecord;//半成品巡检缺陷记录表
 	
     
@@ -56,17 +55,7 @@ public class ItermediateTestDetail extends BaseEntity{
 	}
 	public void setIpRecord(Set<IpRecord> ipRecord) {
 		this.ipRecord = ipRecord;
-	}
-	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public WorkingBill getWorkingbill() {
-		return workingbill;
-	}
-	public void setWorkingbill(WorkingBill workingbill) {
-		this.workingbill = workingbill;
-	}
-	
+	}	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public ItermediateTest getItermediateTest() {
@@ -77,17 +66,17 @@ public class ItermediateTestDetail extends BaseEntity{
 	}
 	
 	
-	public Integer getTestAmount() {
+	
+	public Double getTestAmount() {
 		return testAmount;
 	}
-	
-	public void setTestAmount(Integer testAmount) {
+	public void setTestAmount(Double testAmount) {
 		this.testAmount = testAmount;
 	}
-	public Integer getPassAmount() {
+	public Double getPassAmount() {
 		return passAmount;
 	}
-	public void setPassAmount(Integer passAmount) {
+	public void setPassAmount(Double passAmount) {
 		this.passAmount = passAmount;
 	}
 	public String getGoodsSzie1() {
@@ -147,21 +136,42 @@ public class ItermediateTestDetail extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 	
-	@Transient
+	
 	public String getMaterialCode() {
 		return materialCode;
 	}
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
 	}
+
 	
-	 @Transient
 	public String getMaterialName() {
 		return materialName;
 	}
 	public void setMaterialName(String materialName) {
 		this.materialName = materialName;
 	}
-
+	
+	public String getFailReason() {
+		return failReason;
+	}
+	public void setFailReason(String failReason) {
+		this.failReason = failReason;
+	}
+	public Double getFailAmount() {
+		return failAmount;
+	}
+	public void setFailAmount(Double failAmount) {
+		this.failAmount = failAmount;
+	}
+	public String getMaterialId() {
+		return materialId;
+	}
+	public void setMaterialId(String materialId) {
+		this.materialId = materialId;
+	}
+	
+	
+	
 	
 }

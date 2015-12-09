@@ -18,7 +18,6 @@ import org.hibernate.annotations.CascadeType;
  * 实体类 - 工模维修单
  */
 @Entity
-//@Table(name = "jigfix")
 public class Model extends BaseEntity{
 
 	private static final long serialVersionUID = -7213423823153832326L;
@@ -36,7 +35,6 @@ public class Model extends BaseEntity{
 	private Date arriveTime;//到场时间
 	private Date noticeTime;//通知时间
 	private Integer fixTime;//维修时间
-	//private String faultCause;//故障原因
 	//private String resolve;//处理方法及结果
 	private String measure;//预防措施
 	
@@ -50,6 +48,7 @@ public class Model extends BaseEntity{
 	private String teamName;//班组名称
 	private Set<FaultReason> faultReasonSet;//故障原因
 	private String repairName;//维修人
+	private String faultName;
 	private Set<HandlemeansResults> handleSet;//处理方法与结果 
 	private Set<LongtimePreventstep> longSet;//长期预防措施
     
@@ -230,7 +229,14 @@ public class Model extends BaseEntity{
 	public void setLongSet(Set<LongtimePreventstep> longSet) {
 		this.longSet = longSet;
 	}
-	
+		
+	@Transient
+	public String getFaultName() {
+		return faultName;
+	}
+	public void setFaultName(String faultName) {
+		this.faultName = faultName;
+	}
 	
 	
 	

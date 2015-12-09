@@ -402,7 +402,7 @@ public class AdminAction extends BaseAdminAction {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 			persistent.setPassword(passwordMd5);
 		}
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities"});
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
@@ -417,7 +417,7 @@ public class AdminAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")
 	public String productupdate(){
 		Admin persistent = adminService.load(id);
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities"});
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities","cardNumber"});
 		adminService.update(persistent);
 		return SUCCESS;
 		

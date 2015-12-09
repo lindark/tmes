@@ -63,7 +63,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		for (int i = 0; i < t_data.getNumRows(); i++) {
 			t_data.setRow(i);
 			Carton c = new Carton();
-			c.setXuh(t_data.getString("XUH"));
+			c.setId(t_data.getString("XUH"));
 			c.setE_message(t_data.getString("E_MESSAGE"));
 			c.setE_type(t_data.getString("E_TYPE"));
 			c.setEx_mblnr(t_data.getString("EX_MBLNR"));

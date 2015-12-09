@@ -57,15 +57,19 @@ jQuery(function($) {
 	          records:"totalCount"
 	        },
 	    prmNames : {
-	    	rows:"pager.pageSize"
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    },
 		colNames:[ '时间','车间','车间联系人', '维修类型','故障原因','维修人','状态'],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
-			{name:'workShopName',index:'workShop.name',width:60, editable:true, sorttype:"date",unformat: pickDate},
+			{name:'workShopName',index:'workShop.workShopName',width:60, editable:true, sorttype:"date",unformat: pickDate},
 			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,search:false,editoptions:{size:"20",maxlength:"30"}},
-			{name:'repairType',index:'maintenanceType', width:160, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
+			{name:'repairType',index:'maintenanceType', width:160, editable: true,search:false,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
 			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,search:false,edittype:"textarea"},
 			{name:'repairName',index:'disposalWorkers.name', width:60, sortable:false,editable: true,edittype:"textarea"},
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,edittype:"textarea",cellattr:addstyle}		

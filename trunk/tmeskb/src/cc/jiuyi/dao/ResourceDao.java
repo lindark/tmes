@@ -17,5 +17,5 @@ public interface ResourceDao extends BaseDao<Resource, String> {
 	 * @param path 路径
 	 * @return
 	 */
-	public List<Resource> getListByadmin(List<String> roleid,String path);
+	public Integer getListByadmin(List<String> roleid,String path);
 }

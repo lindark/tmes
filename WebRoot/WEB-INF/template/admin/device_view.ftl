@@ -146,7 +146,16 @@ body{background:#fff;}
 									    <div class="profile-info-name"> 处理人员</div>
 									    <div class="profile-info-value">								        
 													${(device.disposalWorkers.name)!}												
-										</div>									
+										</div>	
+										
+										<div class="profile-info-name">故障性质</div>
+									    <div class="profile-info-value">
+									        <select name="device.faultCharacter">	
+									                <#list allProperty as list>
+								                     <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.faultCharacter == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+							                        </#list>  						
+						                      </select>												
+										</div>								
 									</div>
 									
 									
@@ -162,17 +171,11 @@ body{background:#fff;}
 									</div>	
 									
 									<div class="profile-info-row">
-									    <div class="profile-info-name">故障性质</div>
-									    <div class="profile-info-value">
-									        <select name="device.faultCharacter">	
-									                <#list allProperty as list>
-								                     <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.faultCharacter == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                        </#list>  						
-						                      </select>												
-										</div>
+									    
 										<div class="profile-info-name">故障原因</div>
 									    <div class="profile-info-value">
-											${(device.faultReason)!}
+											<#list device.receiptSet as list>
+													${list.reasonName}, </#list>
 										</div>												
 									</div>																												
 									

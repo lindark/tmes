@@ -1,57 +1,42 @@
 package cc.jiuyi.logic.test;
 
-import javax.annotation.Resource;
-
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import cc.jiuyi.util.*;
+import javax.annotation.Resource;
 
-import com.sap.mw.jco.IRepository;
-import com.sap.mw.jco.JCO;
-import com.sap.mw.jco.JCO.Table;
-import com.sun.org.apache.bcel.internal.generic.DALOAD;
+import org.junit.Test;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.common.Key;
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapMessage;
+import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.ProcessRfc;
-import cc.jiuyi.sap.rfc.Repairorder;
 import cc.jiuyi.sap.rfc.ScrapRfc;
-import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.service.impl.ArticleServiceImpl;
+import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.Mapping;
+import cc.jiuyi.util.SAPModel;
+import cc.jiuyi.util.SAPUtil;
+import cc.jiuyi.util.TableModel;
+import cc.jiuyi.util.Util;
 
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-
-import junit.framework.TestCase;
+import com.sap.mw.jco.IRepository;
+import com.sap.mw.jco.JCO;
 
 public class TestSAPUtilService extends BaseTestCase {
 	@Resource  
@@ -70,6 +55,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private ProcessRfc processrfc;
 	@Resource
 	private DailyWorkRfc dailyworkrfc;
+	@Resource
+	private CartonRfc cartonrfc;
 	protected void setUp() {
 		
 	}
@@ -363,6 +350,35 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		} catch (CustomerException e) {
 			System.out.println(e.getMsgDes());
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testZxsh(){
+		Carton c=new Carton();
+		c.setWerks("1000");
+		c.setLgort("2501");
+		c.setBudat("2015-12-08");
+		c.setMove_type("101");
+		c.setId("1");
+		c.setCartonCode("50110123");
+		c.setCartonAmount(1);
+		c.setLifnr("10503");
+		c.setId("1");
+		List<Carton> list=new ArrayList<Carton>();
+		list.add(c);
+		try {
+			List<Carton> l=cartonrfc.CartonCrt(list);
+			for(Carton c1:l){
+				System.out.println(c1.getE_type());
+				System.out.println(c1.getE_message());
+				System.out.println(c1.getEx_mblnr());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

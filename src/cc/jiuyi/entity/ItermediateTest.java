@@ -31,7 +31,7 @@ public class ItermediateTest extends BaseEntity{
     private String stateRemark;//状态描述
     private Admin createUser;
     private Admin confirmUser;
-	//private Set<ItermediateDetailTest> ItermediateDetailTest;//领料从表
+	private Set<ItermediateTestDetail> itermediateTestDetail;//领料从表
 	
 	private WorkingBill workingbill;//随工单
 	private String xconfirmUser;//确认人名
@@ -62,17 +62,16 @@ public class ItermediateTest extends BaseEntity{
 		this.confirmUser = confirmUser;
 	}
 
-    
-    
-//    @OneToMany(mappedBy = "intermediateTest", fetch = FetchType.LAZY)
-//    public Set<ItermediateDetailTest> getItermediateDetailTest() {
-//		return ItermediateDetailTest;
-//	}
-//	public void setItermediateDetailTest(
-//			Set<ItermediateDetailTest> itermediateDetailTest) {
-//		ItermediateDetailTest = itermediateDetailTest;
-//	}
-//	
+	
+    @OneToMany(mappedBy = "itermediateTest", fetch = FetchType.LAZY)
+	public Set<ItermediateTestDetail> getItermediateTestDetail() {
+		return itermediateTestDetail;
+	}
+	public void setItermediateTestDetail(
+			Set<ItermediateTestDetail> itermediateTestDetail) {
+		this.itermediateTestDetail = itermediateTestDetail;
+	}
+	
 	
 	public String getState() {
 		return state;

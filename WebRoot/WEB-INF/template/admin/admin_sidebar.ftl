@@ -610,9 +610,9 @@
 					
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="daily_work!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							报工
+							历史报工记录
 							<b class="arrow fa"></b>
 						</a>
 

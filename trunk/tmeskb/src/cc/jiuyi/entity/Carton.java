@@ -35,6 +35,7 @@ public class Carton extends BaseEntity {
 	private String charg;//批次
 	private String e_type;//S/N
 	private String e_message;//付款信息
+	private String ex_mblnr;//物料凭证
 	private WorkingBill workingbill;// 随工单
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -191,6 +192,30 @@ public class Carton extends BaseEntity {
 
 	public void setCharg(String charg) {
 		this.charg = charg;
+	}
+
+	public String getE_type() {
+		return e_type;
+	}
+
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+
+	public String getE_message() {
+		return e_message;
+	}
+
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+
+	public String getEx_mblnr() {
+		return ex_mblnr;
+	}
+
+	public void setEx_mblnr(String ex_mblnr) {
+		this.ex_mblnr = ex_mblnr;
 	}
 	
 }

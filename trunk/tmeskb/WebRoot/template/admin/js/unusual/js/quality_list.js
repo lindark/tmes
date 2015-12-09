@@ -71,8 +71,8 @@ jQuery(function($) {
 			{name:'productsName',index:'productsName',width:60, editable:true},
 			{name:'teamName',index:'teamName', width:160,editable: true},
 			{name:'processName',index:'processName', width:160, editable: true},
-			{name:'founder',index:'founder', width:60, editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,search:false,cellattr:addstyle}		
+			{name:'founder',index:'founder', width:60, editable: true,search:false},
+			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle}		
 		], 
 
 		viewrecords : true,

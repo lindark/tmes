@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -120,24 +122,37 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		ids = id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			carton = cartonService.load(ids[i]);
-			if (CONFIRMED.equals(carton.getState())) {
-				return ajaxJsonErrorMessage("已确认的无须再确认!");
+		
+		try {
+			ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				carton = cartonService.load(ids[i]);
+				if (CONFIRMED.equals(carton.getState())) {
+					return ajaxJsonErrorMessage("已确认的无须再确认!");
+				}
+				if (UNDO.equals(carton.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
+				}
 			}
-			if (UNDO.equals(carton.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再确认！");
-			}
+			List<Carton> list = cartonService.get(ids);
+			cartonService.updateState(list, workingBillId);
+			workingbill = workingBillService.get(workingBillId);
+			HashMap<String,String> hashmap = new HashMap<String,String>();
+			hashmap.put(STATUS, SUCCESS);
+			hashmap.put(MESSAGE,"您的操作已成功" );
+			hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+			return ajaxJson(hashmap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO操作失败");
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMsgDes());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState(list, CONFIRMED, workingBillId);
-		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
-		return ajaxJson(hashmap);
+		
 	}
 
 	// 刷卡撤销
@@ -150,7 +165,7 @@ public class CartonAction extends BaseAdminAction {
 			}
 		}
 		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState(list, UNDO, workingBillId);		
+		cartonService.updateState2(list, workingBillId);		
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String,String> hashmap = new HashMap<String,String>();
 		hashmap.put(STATUS, SUCCESS);

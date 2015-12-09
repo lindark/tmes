@@ -169,6 +169,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.CreditAccess</value>
 				<value>cc.jiuyi.entity.ReceiptReason</value>
 				<value>cc.jiuyi.entity.DumpDetail</value>
+				<value>cc.jiuyi.entity.CreditCard</value>
 			</list>
 		</property>
 	</bean>

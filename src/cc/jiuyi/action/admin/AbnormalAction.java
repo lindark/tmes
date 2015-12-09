@@ -162,7 +162,7 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			for (Admin admin : respon) {
 				String str;
-				if(adminList.contains(admin)){
+				if(!adminList.contains(admin)){
 					str = "<span style='color:red'>"+admin.getName()+"</span>";
 				}else{
 					str = admin.getName();							

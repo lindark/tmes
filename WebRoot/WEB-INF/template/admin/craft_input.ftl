@@ -110,6 +110,7 @@ body {
 
 											</div>
 
+                                        
 											<div class="profile-info-row">
 												 <div class="profile-info-name">班组</div>
 
@@ -136,6 +137,7 @@ body {
 											</div>
 
                                           </div>
+                                          
                                           <div class="profile-user-info profile-user-info-striped">
                                               <div class="profile-info-row">
 													<div class="profile-info-name">维修员</div>

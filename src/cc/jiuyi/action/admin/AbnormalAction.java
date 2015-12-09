@@ -132,6 +132,7 @@ public class AbnormalAction extends BaseAdminAction {
 		pager = abnormalService.getAbnormalPager(pager, map, admin1.getId());
 
 		List pagerlist = pager.getList();
+
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
 			List<Admin> adminList = null;
@@ -168,7 +169,6 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				anslist.add(str);
 			}
-			
 			
 			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
 			
@@ -224,9 +224,10 @@ public class AbnormalAction extends BaseAdminAction {
 			}else{
 				ablist.add("");
 			}
-			
+			if(ablist.size()==0){
+				ablist.add("");
+			}
 			ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
-			
 			abnormal.setCallReason(comlist);
 			abnormal.setAnswer(anslist1);
 			abnormal.setLog(ablists);

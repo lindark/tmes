@@ -175,9 +175,9 @@ jQuery(function($) {
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
+			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
+			view: false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

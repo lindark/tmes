@@ -56,9 +56,9 @@ jQuery(function($) {
 	    prmNames : {
 	    	rows:"pager.pageSize",
 	    	page:"pager.pageNumber",
-	    	search:"pager._search",
-	    	sort:"pager.orderBy",
-	    	order:"pager.orderType"
+		    search:"pager._search",
+		    sort:"pager.orderBy",
+		    order:"pager.orderType"
 	    },
 		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt","id"],
 		colModel:[
@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'disposeTime',index:'disposeTime', width:60,search:false,editable: true},
 			{name:'log',index:'log', width:160,search:false,editable: true},
 			{name:'callReason',index:'callReason',search:false, width:100, editable: true},
-			{name:'originator',index:'iniitiator.name', width:60,search:false,editable: true},
+			{name:'originator',index:'iniitiator.name', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,search:false,editable: true},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle},
 			{name:'state',index:'state', width:60,editable: true,hidden:true},

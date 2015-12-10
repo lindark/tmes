@@ -222,7 +222,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String save()throws Exception{
+	public String creditsubmit()throws Exception{
 		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id);
 		redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
 		return SUCCESS;	

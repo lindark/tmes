@@ -185,7 +185,9 @@ body {
 											</div>
 
 
-
+                                            <#if isAdd??> 
+                                            <#else>
+                                            
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理开始时间</div>
 												<div class="profile-info-value">
@@ -200,7 +202,7 @@ body {
 														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
-
+                                            </#if> 
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理人员</div>
@@ -227,7 +229,9 @@ body {
 
 											</div>
 
-
+                                            
+                                            <#if isAdd??> 
+                                            <#else>
 											<div class="profile-info-row">
 												<div class="profile-info-name">总维修时间</div>
 												<div class="profile-info-value">
@@ -276,7 +280,7 @@ body {
 													</select>
 												</div>
 											</div>
-
+                                            </#if> 
 
 										</div>
 										
@@ -306,10 +310,13 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障描述</div>
 												<div class="profile-info-value">
-													<textarea name="device.diagnosis" style="width:600px;">${(device.diagnosis)!} </textarea>
+													<textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>
 												</div>
 											</div>
 										</div>
+										
+										<#if isAdd??>												
+										<#else>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理过程</div>
@@ -344,6 +351,8 @@ body {
 												</div>
 											</div>
 										</div>
+										</#if>
+										
 							</form>
 							<!--weitao end modify-->
 							<div class="buttonArea">

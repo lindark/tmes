@@ -191,8 +191,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				map.put("end", end);
 			}
 		}
-		pager = enteringwareHouseService.findPagerByjqGrid(pager, map,
-				workingBillId);
+		pager = enteringwareHouseService.historyjqGrid(pager, map);
 		List<EnteringwareHouse> enteringwareHouseList = pager.getList();
 		List<EnteringwareHouse> lst = new ArrayList<EnteringwareHouse>();
 		for (int i = 0; i < enteringwareHouseList.size(); i++) {

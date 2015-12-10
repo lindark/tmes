@@ -47,6 +47,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
+	private String cardNumber;//卡号
+	
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
 	private Set<SwiptCard> swiptCardSet;// 刷卡
@@ -778,6 +780,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setQualitySet1(Set<Quality> qualitySet1) {
 		this.qualitySet1 = qualitySet1;
 	}
-	
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+
 	
 }

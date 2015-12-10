@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.SystemConfigUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -217,6 +218,16 @@ public class BaseAdminAction extends ActionSupport {
 		getResponse().setHeader("Cache-Control", "no-cache");
 		getResponse().setHeader("Cache-Control", "no-store");
 		getResponse().setDateHeader("Expires", 0);
+	}
+	
+	/**
+	 * 获取服务器时间
+	 */
+	public void getSystemDate(){
+//		HashMap<String, String> hashmap = new HashMap<String,String>();
+//		hashmap.put("", ThinkWayUtil.SystemDate());
+//		
+//		return ajaxJson(jsonMap);
 	}
 	
 	

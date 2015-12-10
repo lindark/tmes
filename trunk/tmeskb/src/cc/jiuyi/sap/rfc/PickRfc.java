@@ -8,6 +8,6 @@ import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.util.CustomerException;
 
 public interface PickRfc extends BaserfcService{
-	public String MaterialDocumentCrt(Pick pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
-	public List<Pick> BatchMaterialDocumentCrt(List<Pick> pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
+	public String MaterialDocumentCrt(String testrun,Pick pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
+	public List<Pick> BatchMaterialDocumentCrt(String testrun,List<Pick> pick,List<PickDetail> pickdetail) throws IOException,CustomerException;
 }

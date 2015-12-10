@@ -21,11 +21,12 @@ import cc.jiuyi.util.TableModel;
 public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 
 	@Override
-	public String MaterialDocumentCrt(Pick pick,List<PickDetail> pickdetail) throws IOException, CustomerException {
+	public String MaterialDocumentCrt(String testrun,Pick pick,List<PickDetail> pickdetail) throws IOException, CustomerException {
 		super.setProperty("pick");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("MOVE_TYPE", pick.getMove_type());//移动类型
+		parameter.put("IS_COMMIT", testrun);//testrun
 		//super.setParameter(parameter);//输入参数
 		/******输入结构******/
 		Mapping mapping = new Mapping();
@@ -70,12 +71,13 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 	}
 
 	@Override
-	public List<Pick> BatchMaterialDocumentCrt(List<Pick> pick,
+	public List<Pick> BatchMaterialDocumentCrt(String testrun,List<Pick> pick,
 			List<PickDetail> pickdetail) throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("GM_CODE", "03");//移动类型
+		parameter.put("IS_COMMIT", testrun);//testrun
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();

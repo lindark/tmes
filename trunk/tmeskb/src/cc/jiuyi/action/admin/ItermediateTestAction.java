@@ -222,8 +222,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")
-	public String creditsubmit()throws Exception{
-		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug);
+	public String save()throws Exception{
+		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id);
 		redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
 		return SUCCESS;	
 	}
@@ -240,6 +240,10 @@ public class ItermediateTestAction extends BaseAdminAction {
 			}
 			if("3".equals(it.getState())){
 				return ajaxJsonErrorMessage("已撤销的无法再确认!");
+			}
+			List<ItermediateTestDetail> list1=new ArrayList<ItermediateTestDetail>(it.getItermediateTestDetail());
+			if(list1.size()==0){
+				return ajaxJsonErrorMessage("半成品巡检表为空,不能确认!");
 			}
 		}
 		itermediateTestService.updateState(list, "2");
@@ -264,6 +268,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		
 		
 	public String show(){
+		this.workingbill=this.workingBillService.get(workingBillId);
 		this.list_itmesg=new ArrayList<ItermediateTestDetail>();
 		this.itermediateTest=this.itermediateTestService.load(id);
 		List<ItermediateTestDetail>list_itmesg=new ArrayList<ItermediateTestDetail>(this.itermediateTest.getItermediateTestDetail());

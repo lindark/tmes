@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'factoryName',index:'factory.factoryName',sortable:true,editable: true},
 			{name:'workShopCode',index:'workShopCode', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'workShopName',index:'workShopName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=workShopState"}}
 			 
 		], 
 

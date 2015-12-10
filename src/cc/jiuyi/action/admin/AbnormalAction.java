@@ -304,7 +304,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
-	public String close() {
+	public String creditclose() {
 		Admin admin3 = adminService.getLoginAdmin();
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -337,7 +337,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
-	public String cancel() {
+	public String creditcancel() {
 		Admin admin2 = adminService.getLoginAdmin();
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {

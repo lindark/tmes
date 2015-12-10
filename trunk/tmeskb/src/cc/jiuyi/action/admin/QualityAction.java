@@ -208,6 +208,10 @@ public class QualityAction extends BaseAdminAction {
 	
 	
 	//刷卡回复
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "quality.rectificationScheme", message = "车间整改方案不允许为空!")
+    })
+	@InputConfig(resultName = "error")
 	public String check() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);

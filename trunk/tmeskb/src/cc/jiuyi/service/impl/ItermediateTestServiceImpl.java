@@ -88,31 +88,33 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			List<IpRecord> list_itbug, ItermediateTest itermediateTest, int i) {
 		// 不合格信息表
 		ItermediateTestDetail it = list_itmesg.get(i);
-		if (it.getFailReason() != null && !"".equals(it.getFailReason())) {
+		if (it.getTestAmount()!=null&&!"".equals(it.getTestAmount())) {
 			it.setCreateDate(new Date());
 			it.setModifyDate(new Date());
 			it.setItermediateTest(itermediateTest);
 			String DetailId = this.itdDao.save(it);
 			ItermediateTestDetail it2 = this.itdDao.load(DetailId);
 
-			IpRecord ip1 = list_itbug.get(i);
-			String[] bugids = ip1.getXbugids().split(",");// 缺陷id
-			String[] bugnums = ip1.getXbugnums().split(",");// 缺陷描述
-			for (int j = 0; j < bugids.length; j++) {
-				if (bugids[j] != null && !"".equals(bugids[j])) {
-					IpRecord ipRecord = new IpRecord();
-					Cause cause = this.causeDao.get(bugids[j]);
-					ipRecord.setCreateDate(new Date());
-					ipRecord.setCauseId(bugids[j]);// 缺陷ID
-					ipRecord.setRecordNum(bugnums[j]);// 缺陷数量
-					ipRecord.setRecordDescription(cause.getCauseName());// 缺陷描述
-					ipRecord.setItermediateTestDetail(it2);// 巡检从表对象
-					this.ipRecordDao.save(ipRecord);
+			if (it.getFailReason() != null && !"".equals(it.getFailReason())) {
+				IpRecord ip1 = list_itbug.get(i);
+				String[] bugids = ip1.getXbugids().split(",");// 缺陷id
+				String[] bugnums = ip1.getXbugnums().split(",");// 缺陷描述
+				for (int j = 0; j < bugids.length; j++) {
+					if (bugids[j] != null && !"".equals(bugids[j])) {
+						IpRecord ipRecord = new IpRecord();
+						Cause cause = this.causeDao.get(bugids[j]);
+						ipRecord.setCreateDate(new Date());
+						ipRecord.setCauseId(bugids[j]);// 缺陷ID
+						ipRecord.setRecordNum(bugnums[j]);// 缺陷数量
+						ipRecord.setRecordDescription(cause.getCauseName());// 缺陷描述
+						ipRecord.setItermediateTestDetail(it2);// 巡检从表对象
+						this.ipRecordDao.save(ipRecord);
+					}
 				}
 			}
+
 		}
 	}
-	
 	
 	/**
 	 * 确认或撤销
@@ -129,15 +131,18 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 
 	@Override
 	public void saveSubmit(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug) {
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id) {
 		Admin admin = this.adminservice.getLoginAdmin();
 		// 半成品巡检主表
 		itermediateTest.setState("1");
 		itermediateTest.setCreateUser(admin);
 		itermediateTest.setCreateDate(new Date());
 		itermediateTest.setModifyDate(new Date());
+		if("2".equals(my_id)){
+			itermediateTest.setState("2");
+			itermediateTest.setConfirmUser(admin);
+		}
 		String itId = this.itermediateTestDao.save(itermediateTest);
-
 		ItermediateTest it = this.itermediateTestDao.load(itId);
 		if (list_itmesg != null) {
 			for (int i = 0; i < list_itmesg.size(); i++) {
@@ -146,24 +151,6 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 		}
 	}
 
-	@Override
-	public void saveApproval(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug) {
-		Admin admin = this.adminservice.getLoginAdmin();
-		// 半成品巡检主表
-		itermediateTest.setState("2");
-		itermediateTest.setCreateUser(admin);
-		itermediateTest.setCreateDate(new Date());
-		itermediateTest.setModifyDate(new Date());
-		String itId = this.itermediateTestDao.save(itermediateTest);
-
-		ItermediateTest it = this.itermediateTestDao.load(itId);
-		if (list_itmesg != null) {
-			for (int i = 0; i < list_itmesg.size(); i++) {
-				myadd(list_itmesg, list_itbug, it, i);
-			}
-		}
-	}
 
 	@Override
 	public void updateAll(ItermediateTest itermediateTest,
@@ -189,7 +176,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 							this.ipRecordDao.delete(s.getId());
 						}
 					}
-					if(newdit.getFailReason()!=null&&!"".equals(newdit.getFailReason())){						
+					if(newdit.getTestAmount()!=null&&!"".equals(newdit.getTestAmount())){						
 						//修改半成品巡检从表
 						dit1.setFailReason(newdit.getFailReason());
 						dit1.setFailAmount(newdit.getFailAmount());
@@ -201,22 +188,24 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 						dit1.setModifyDate(new Date());
 						this.itdDao.update(dit1);
 						
-						IpRecord newip=list_itbug.get(i);
-						String[] newsbids=newip.getXbugids().split(",");//缺陷id
-						String[] newsbnums=newip.getXbugnums().split(",");//缺陷描述
-						for (int j = 0; j < newsbids.length; j++) {
-							 if(newsbids[j]!=null&&!"".equals(newsbids[j])){
-								 Cause cause=this.causeDao.get(newsbids[j]);
-								 //新增报废原因
-								 IpRecord ip2=new IpRecord();
-								 ip2.setCreateDate(new Date());
-								 ip2.setCauseId(newsbids[j]);
-								 ip2.setRecordNum(newsbnums[j]);
-								 ip2.setRecordDescription(cause.getCauseName());
-								 ip2.setItermediateTestDetail(dit1);
-								 this.ipRecordDao.save(ip2);
-							 }
-						}		
+						if(newdit.getFailReason()!=null&&!"".equals(newdit.getFailReason())){
+							IpRecord newip=list_itbug.get(i);
+							String[] newsbids=newip.getXbugids().split(",");//缺陷id
+							String[] newsbnums=newip.getXbugnums().split(",");//缺陷描述
+							for (int j = 0; j < newsbids.length; j++) {
+								 if(newsbids[j]!=null&&!"".equals(newsbids[j])){
+									 Cause cause=this.causeDao.get(newsbids[j]);
+									 //新增报废原因
+									 IpRecord ip2=new IpRecord();
+									 ip2.setCreateDate(new Date());
+									 ip2.setCauseId(newsbids[j]);
+									 ip2.setRecordNum(newsbnums[j]);
+									 ip2.setRecordDescription(cause.getCauseName());
+									 ip2.setItermediateTestDetail(dit1);
+									 this.ipRecordDao.save(ip2);
+								 }
+							}	
+						}							
 					}
 					else{
 						//删除从表信息

@@ -231,6 +231,7 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.list_scrapmsg=new ArrayList<ScrapMessage>();//初始化
 		this.scrap=this.scrapService.load(id);
+		this.workingbill=this.wbService.load(wbId);
 		List<ScrapMessage>l_scrapmsg=new ArrayList<ScrapMessage>(this.scrap.getScrapMsgSet());//报废信息
 		if(l_scrapmsg.size()>0)
 		{

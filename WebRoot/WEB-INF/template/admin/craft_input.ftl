@@ -179,7 +179,12 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理措施</div>
 													<div class="profile-info-value">
-													    <textarea name="craft.treatmentMeasure_make" style="width:600px;" class="formText {required: true}">${(craft.treatmentMeasure_make)!} </textarea>								
+													     <#if isAdd??>		
+													         <textarea name="craft.treatmentMeasure_make" style="width:600px;" class="formText {required: true}">${(craft.treatmentMeasure_make)!} </textarea>																		
+											             <#else>
+											                 ${(craft.treatmentMeasure_make)!}
+											             </#if>
+													   
 													</div>
 												</div>
 											
@@ -189,12 +194,17 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理结果</div>
 													<div class="profile-info-value">
+													    <#if isAdd??>	
 													    <textarea name="craft.resultCode_make" style="width:600px;" class="formText {required: true}">${(craft.resultCode_make)!} </textarea>				
+													     <#else>
+													     ${(craft.resultCode_make)!}
+													     </#if>
 													</div>
 												</div>
 											</div>
 
-
+                                            <#if isAdd??>												
+											<#else>
 											<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row">
 													<div class="profile-info-name">工艺异常分析</div>
@@ -216,7 +226,7 @@ body {
 													</div>
 												</div>
 											</div>
-										
+										    </#if>
                                   </form>
 										<!--weitao end modify-->
 							   <div class="buttonArea">	

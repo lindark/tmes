@@ -71,4 +71,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		workingbill.setTotalRepairAmount(totalamount);
 		workingbillService.update(workingbill);
 	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return repairDao.historyjqGrid(pager, map);
+	}
 }

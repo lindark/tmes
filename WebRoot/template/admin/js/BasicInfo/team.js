@@ -72,6 +72,7 @@ jQuery(function($) {
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'stateRemark',index:'state',label:"状态",width:100,editable:true,editable: false,searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
+			{name:'xisWork',index:'isWork',label:"上班状态",width:100,editable:true,editable: false,searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=isWork'}},
 			{name:'toedit',label:"操作",width:100,search:false, sortable:false}
 		], 
 		viewrecords : true,

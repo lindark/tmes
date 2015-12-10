@@ -25,6 +25,7 @@ public class Repairin extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
+	private String workingbillCode;
 
 	private WorkingBill workingbill;// 随工单
 
@@ -110,6 +111,14 @@ public class Repairin extends BaseEntity {
 
 	public void setCreateName(String createName) {
 		this.createName = createName;
+	}
+
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
 	}
 
 }

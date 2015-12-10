@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,8 @@ public interface EnteringwareHouseService extends
 	 * @return
 	 */
 	public Pager findPagerByjqGrid(Pager pager, Map map, String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 根据单位描述与转换单位，查询兑换比例

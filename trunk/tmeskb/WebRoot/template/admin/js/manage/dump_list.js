@@ -261,7 +261,8 @@ function btn_event()
 		}
 		var url = "dump!creditapproval.action?dumpId="+dumpId;
 		credit.creditCard(url,function(data){
-			alert("?");
+			$.message(data.status,data.message);
+			$("#grid-table").trigger("reloadGrid");
 		})
 		
 		

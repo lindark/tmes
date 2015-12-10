@@ -599,9 +599,9 @@
 					
 					
 					<li class="">
-						<a href="repairin!list.action" >
+						<a href="repairin!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							返修收货
+							历史返修收货记录
 							<b class="arrow fa"></b>
 						</a>
 

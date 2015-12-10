@@ -302,6 +302,8 @@ public class ModelAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "model.insepector.id", message = "检验员不允许为空!"),
+			@RequiredStringValidator(fieldName = "model.fixer.id", message = "维修员不允许为空!"),
 			@RequiredStringValidator(fieldName = "model.products.id", message = "产品名称不允许为空!")})		
 	@InputConfig(resultName = "error")	
 	public String save() {

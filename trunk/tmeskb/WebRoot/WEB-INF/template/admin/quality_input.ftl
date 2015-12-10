@@ -106,7 +106,7 @@ body {
 
 												<div class="profile-info-value" >
 												     <#if isAdd??>												    
-													<select name="quality.process.id" id="processName">
+													<select name="quality.process.id" id="processName" class="formText {required: true}">
 														
 													</select>
 													<#else>
@@ -126,7 +126,7 @@ body {
 														value="${(admin.department.team.teamName)!}"
 														class=" input input-sm  formText {required: true}" readonly="readonly"/> -->
 														<span>${(admin.department.team.teamName)!}</span>
-													   <input type="hidden" name="quality.team.id" value="${(admin.department.team.id)!}"/>
+													   <input type="hidden" name="quality.team.id" value="${(admin.department.team.id)!}" class="formText {required: true}"/>
 												    <#else>
 												       ${(quality.team.teamName)!}												       
 												    </#if>													
@@ -148,7 +148,7 @@ body {
 														id="receive" data-toggle="button">选择</button>
 													<span id="receiveName1"></span>
 												    <input type="hidden" name="quality.receiver.id" id="receiveNa" value="" class="formText {required: true}"/>
-													<#else> ${(craft.repairName.name)!} </#if>
+													<#else> ${(quality.receiver.name)!} </#if>
 												</div>
 											</div>
 											
@@ -188,7 +188,7 @@ body {
 												<div class="profile-info-name">质量问题描述</div>
 												<div class="profile-info-value">
 													<textarea name="quality.problemDescription"
-														style="width:600px;">${(quality.problemDescription)!}</textarea>
+														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
 												</div>
 											</div>
 										</div>

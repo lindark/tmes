@@ -622,11 +622,11 @@
 					
 					<li class="">
 
-						<a href="enteringware_House!list.action" >
+						<a href="enteringware_house!history.action" >
 
 
 							<i class="menu-icon fa fa-caret-right"></i>
-							入库
+							历史入库记录
 							<b class="arrow fa"></b>
 						</a>
 

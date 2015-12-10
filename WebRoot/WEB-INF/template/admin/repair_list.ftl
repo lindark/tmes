@@ -228,6 +228,7 @@
 				var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
+					$("#totalAmount").text(data.totalAmount);
 					$("#grid-table").trigger("reloadGrid");
 				})
 				/* var index = "";

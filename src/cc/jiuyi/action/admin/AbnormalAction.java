@@ -254,7 +254,7 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	@InputConfig(resultName = "error")
-	public String update() {
+	public String creditupdate() {
 		Admin admin1 = adminService.getLoginAdmin();
 		List<Abnormal> abnormalList = abnormalService.get(ids);
         String person = admin1.getName();
@@ -392,7 +392,8 @@ public class AbnormalAction extends BaseAdminAction {
 		Calendar can = Calendar.getInstance();		
 		can.setTime(abnormal.getCreateDate());
 		//can.add(Calendar.MINUTE, 10); //System.out.println(can.get(Calendar.MINUTE));
-		can.add(Calendar.SECOND, 5);
+		can.add(Calendar.MINUTE, 3);
+		//can.add(Calendar.SECOND, 5);
 		Date date=can.getTime();				
 		System.out.println(ThinkWayUtil.getCron(date));
 		int i=0;
@@ -423,7 +424,8 @@ public class AbnormalAction extends BaseAdminAction {
 	public void quartzMessage(String time,int i){		
 		  String job_name = "sendMessage";
 		  if(i==0){
-			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time);		     
+			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time);
+			  
 		  }else if(i==1){
 			  QuartzManagerUtil.modifyJobTime(job_name,time);
 		  }	     

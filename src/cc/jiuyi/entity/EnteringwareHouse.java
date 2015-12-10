@@ -34,6 +34,7 @@ public class EnteringwareHouse extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
+	private String workingbillCode;
 
 	private WorkingBill workingbill;// 随工单
 
@@ -127,6 +128,14 @@ public class EnteringwareHouse extends BaseEntity {
 
 	public void setCreateUser(Admin createUser) {
 		this.createUser = createUser;
+	}
+
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
 	}
 	
 }

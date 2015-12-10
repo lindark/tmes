@@ -102,7 +102,7 @@ body {background: #fff;font-family: 微软雅黑;}
 											</div>
 											<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row">
-													<table class="table table-striped table-bordered table-hover">
+													<table id="tb_itd" class="table table-striped table-bordered table-hover">
 														<tr>
 															<th style="width:5%;" class="center">组件编码</th>
 										                 	<th style="width:25%;" class="center">组件名称</th>
@@ -140,7 +140,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialCode)! }</td>
 																		<td>${(list.materialName)! }</td>
 																		<td>
-																		    <input type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}"/>
+																		    <input type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}" class=" input input-sm formText {digits:true}"/>
 																		</td>
 																		<td>
 																		    <input type="text"  name="list_itmesg[${num}].goodsSzie1" value="${(list.xgoodsSzie1)!}"/>

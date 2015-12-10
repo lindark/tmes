@@ -213,8 +213,7 @@ public class DeviceAction extends BaseAdminAction {
 	@Validations(requiredStrings = {
 			@RequiredStringValidator(fieldName = "device.equipments.id", message = "设备名称不允许为空!"),
 			@RequiredStringValidator(fieldName = "device.workShop.id", message = "使用车间不允许为空!"),
-			@RequiredStringValidator(fieldName = "device.disposalWorkers.id", message = "处理人员不允许为空!"),
-			@RequiredStringValidator(fieldName = "craft.products.id", message = "产品名称不允许为空!")
+			@RequiredStringValidator(fieldName = "device.disposalWorkers.id", message = "处理人员不允许为空!")
 			 })
 	@InputConfig(resultName = "error")	
 	public String save(){		
@@ -272,7 +271,7 @@ public class DeviceAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis"});
 		persistent.setState("1");
 		deviceService.update(persistent);
 		
@@ -291,7 +290,7 @@ public class DeviceAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","process","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			

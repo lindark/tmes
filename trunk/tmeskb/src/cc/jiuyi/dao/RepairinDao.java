@@ -20,6 +20,8 @@ public interface RepairinDao extends BaseDao<Repairin, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

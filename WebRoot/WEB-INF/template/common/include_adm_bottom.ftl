@@ -126,7 +126,7 @@
 		var credit = {
 				"creditCard":function(url,callback){
 					
-					var index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
+					credit.index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
 						var index1;
 						$.ajax({	
 							url: url,
@@ -146,23 +146,30 @@
 							}
 						});
 					});
-					var systemDate = "${.now?string('yyyy-MM-dd HH:mm:ss')}";//服务器时间
+					//var systemDate = "${.now?string('yyyy-MM-dd HH:mm:ss')}";//服务器时间
 					
+					$.post("base_admin!getSystemDate.action",function(data){
+						var systemDate = data.systemDate;
+						credit.everyTime(systemDate);
+					},"json" );
 					
+				},
+				"everyTime":function(sysdate){
 					$('body').everyTime('1s','B',function(){//计划任务
-						$.post("credit_card!getCredit.action", { createDate: systemDate},function(data){
+						$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 							if(data.status == "no"){//未找到
 								//layer.close(index);
 							}else if(data.status == "yes"){//已找到
 								$('body').stopTime ();
 								credit.cardnumber = data.cardnumber;//获取卡号
-								layer.close(index);
+								layer.close(credit.index);
 							}
 							
 						},"json" );
 					},0,true);
 				}
 		}
+		
 		
 		
 		

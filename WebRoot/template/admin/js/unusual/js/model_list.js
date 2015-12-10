@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'teamName',index:'teamId.teamName', width:120, editable: true},
 			{name:'faultName',index:'faultName', width:120, sortable:false,search:false,edRitable: true},
 			{name:'repairName',index:'fixer.name',sortable:false,editable: true},
-			{name:'stateRemark',index:'state',sortable:true,editable: true,cellattr:addstyle}		
+			{name:'stateRemark',index:'state',sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 			], 
 
 		viewrecords : true,

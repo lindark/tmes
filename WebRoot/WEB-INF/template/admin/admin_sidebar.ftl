@@ -588,9 +588,9 @@
 					
 					
 					<li class="">
-						<a href="repair!list.action" >
+						<a href="repair!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							返修
+							历史返修记录
 							<b class="arrow fa"></b>
 						</a>
 

@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'equipmentNo',index:'equipmentNo', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'equipmentName',index:'equipmentName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'versionReamrk',index:'version', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=equipmentState"}}
 		], 
 
 		viewrecords : true,

@@ -86,7 +86,7 @@
 				<interceptor-ref name="baseStack" />
 				<!-- 配置刷卡拦截器 -->
 				<interceptor-ref name="creditInterceptor">
-					<param name="includeMethods">creditsave,creditsubmit,creditapproval,creditundo</param> <!-- 拦截指定的方法，依次(刷卡保存，刷卡提交，刷卡确认，刷卡撤销) -->
+					<param name="includeMethods">creditsave,creditsubmit,creditapproval,creditundo,creditreply</param> <!-- 拦截指定的方法，依次(刷卡保存，刷卡提交，刷卡确认，刷卡撤销,刷卡回复) -->
 				</interceptor-ref>
 			</interceptor-stack>
 		</interceptors>

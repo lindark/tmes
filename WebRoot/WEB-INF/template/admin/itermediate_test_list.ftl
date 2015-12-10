@@ -246,10 +246,16 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}
-			$.ajax({	
+			}else{
+				var url="itermediate_test!creditundo.action?id="+id;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
+			})
+		 }
+		 /*  $.ajax({	
 				url: "itermediate_test!creditundo.action?id="+id,	
 				dataType: "json",
 				async: false,
@@ -264,7 +270,7 @@
 			},error:function(data){
 				$.message("error","系统出现问题，请联系系统管理员");
 			}
-		  });
+		  }); */
 		});
 		
 		
@@ -273,7 +279,11 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录！");
-			}else{
+			}
+			if(id>"1"){
+				alert("只能选择一条记录！");
+			}
+			else{
 				window.location.href="itermediate_test!show.action?id="+id+"&workingBillId=${workingbill.id}";			
 			}
 			

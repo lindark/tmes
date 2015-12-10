@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,11 @@ public class EnteringwareHouseServiceImpl extends
 		workingbill.setTotalSingleAmount(totalamount);
 		workingbillService.update(workingbill);
 		
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return enteringwareHouseDao.historyjqGrid(pager, map);
 	}
 
 }

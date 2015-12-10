@@ -46,6 +46,7 @@
 		<script src="${base}/template/admin/docs/assets/js/language/css.js"></script>
 		<script src="${base}/template/admin/docs/assets/js/language/javascript.js"></script>
 		<script type="text/javascript" src="${base}/template/common/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="${base}/template/common/js/jquery.timers-1.1.2.js"></script>
 		<#include "/WEB-INF/template/common/include_access.ftl">
 	<script type="text/javascript">
 	    //open Menu
@@ -120,6 +121,49 @@
 			}
 			
 		}
+		
+		
+		var credit = {
+				"creditCard":function(url,callback){
+					
+					var index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
+						var index1;
+						$.ajax({	
+							url: url,
+							data:"cardnumber="+credit.cardnumber,
+							dataType: "json",
+							async: false,
+							beforeSend: function(data) {
+								index1 = layer.load();
+							},
+							success: function(data) {
+								layer.close(index1);
+								$.message(data.status,data.message);
+								callback(data);
+							},error:function(data){
+								layer.close(index1);
+								$.message("error","系统出现问题，请联系系统管理员!");
+							}
+						});
+					});
+					var systemDate = "${.now?string('yyyy-MM-dd HH:mm:ss')}";//服务器时间
+					
+					
+					$('body').everyTime('1s','B',function(){//计划任务
+						$.post("credit_card!getCredit.action", { createDate: systemDate},function(data){
+							if(data.status == "no"){//未找到
+								//layer.close(index);
+							}else if(data.status == "yes"){//已找到
+								$('body').stopTime ();
+								credit.cardnumber = data.cardnumber;//获取卡号
+								layer.close(index);
+							}
+							
+						},"json" );
+					},0,true);
+				}
+		}
+		
 		
 		
   </script>

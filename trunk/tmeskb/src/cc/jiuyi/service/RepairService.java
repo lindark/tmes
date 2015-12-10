@@ -19,6 +19,8 @@ public interface RepairService extends BaseService<Repair, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

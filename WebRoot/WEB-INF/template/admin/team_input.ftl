@@ -128,7 +128,24 @@ body{background:#fff;}
 						            	<span class="lbl middle"></span>
 					                </label>		
 								</div>	
-							</div>							
+							</div>
+							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 上班状态</div>					
+								<div class="profile-info-value">
+									<label class="pull-left inline">
+					                	<small class="muted smaller-90">正在工作:</small>
+						            	<input type="radio" class="ace" name="team.isWork" value="1"<#if (team.isWork == 'Y')!> checked</#if> />
+						            	<span class="lbl middle"></span>
+						                 &nbsp;&nbsp;
+					                </label>						
+					                <label class="pull-left inline">
+					                	<small class="muted smaller-90">未工作:</small>
+						            	<input type="radio" class="ace" name="team.isWork" value="2"<#if (isAdd || team.isWork == 'N')!> checked</#if>  />
+						            	<span class="lbl middle"></span>
+					                </label>		
+								</div>	
+							</div>									
 						</div>
 						<div class="buttonArea">
 							<input id="btn_sub" type="button" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;

@@ -95,6 +95,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String save() {
 		admin = adminService.loadLoginAdmin();
 		enteringwareHouse.setCreateUser(admin);
+		enteringwareHouse.setWorkingbillCode(workingBillService.get(enteringwareHouse.getWorkingbill().getId()).getWorkingBillCode());
 		enteringwareHouseService.save(enteringwareHouse);
 		redirectionUrl = "enteringware_house!list.action?workingBillId="
 				+ enteringwareHouse.getWorkingbill().getId();

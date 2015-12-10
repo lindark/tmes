@@ -223,7 +223,7 @@ public class QualityAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription"});
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -242,7 +242,7 @@ public class QualityAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver"});
+			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme"});
 			persistent.setState("3");
 			qualityService.update(persistent);
 			

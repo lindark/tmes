@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public interface EnteringwareHouseDao extends
 	 * @return
 	 */
 	public Pager findPagerByjqGrid(Pager pager, Map map, String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

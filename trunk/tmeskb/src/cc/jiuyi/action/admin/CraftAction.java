@@ -142,7 +142,7 @@ public class CraftAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet"});
+		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet","treatmentMeasure_make","resultCode_make"});
 		persistent.setState("1");
 		craftService.update(persistent);
 		
@@ -161,7 +161,7 @@ public class CraftAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet"});
+			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","treatmentMeasure_make","resultCode_make","receiptReasonSet","unusualDescription_process","treatmentMeasure_process","resultCode_process"});
 			persistent.setState("3");
 			craftService.update(persistent);
 						

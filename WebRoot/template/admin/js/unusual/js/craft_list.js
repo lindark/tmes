@@ -71,7 +71,7 @@ jQuery(function($) {
 			{name:'productsName',index:'products.productsName',width:160,editable:true},
 			{name:'cabinetName',index:'cabinetName', width:120,editable: true,search:false},
 			{name:'teamName',index:'team.teamName', width:260, editable: true},		
-			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
 
 		viewrecords : true,

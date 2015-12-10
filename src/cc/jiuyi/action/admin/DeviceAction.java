@@ -18,6 +18,8 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -207,6 +209,14 @@ public class DeviceAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
+	// 保存
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "device.equipments.id", message = "设备名称不允许为空!"),
+			@RequiredStringValidator(fieldName = "device.workShop.id", message = "使用车间不允许为空!"),
+			@RequiredStringValidator(fieldName = "device.disposalWorkers.id", message = "处理人员不允许为空!"),
+			@RequiredStringValidator(fieldName = "craft.products.id", message = "产品名称不允许为空!")
+			 })
+	@InputConfig(resultName = "error")	
 	public String save(){		
 		Admin admin1 = adminService.getLoginAdmin();
 		
@@ -250,7 +260,7 @@ public class DeviceAction extends BaseAdminAction {
 	}
 	
 	
-	//刷卡回复
+	//刷卡回复	
 	public String check() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);

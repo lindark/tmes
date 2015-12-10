@@ -60,7 +60,7 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal" id="searchform"
-								action="daily_work!historylist.action" role="form">
+								action="repair!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"

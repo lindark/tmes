@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'disposeTime',index:'disposeTime', width:60,search:false,editable: true},
 			{name:'log',index:'log', width:160,search:false,editable: true},
 			{name:'callReason',index:'callReason',search:false, width:100, editable: true},
-			{name:'originator',index:'iniitiator.name', width:60, editable: true},
+			{name:'originator',index:'iniitiator.name', width:60, editable: true,search:false},
 			{name:'answer',index:'answer', width:60,search:false,editable: true},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=abnormalState"}},
 			{name:'state',index:'state', width:60,editable: true,hidden:true},

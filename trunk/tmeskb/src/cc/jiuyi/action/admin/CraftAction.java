@@ -241,6 +241,9 @@ public class CraftAction extends BaseAdminAction {
 	
 	// 保存
 	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "craft.repairName.id", message = "维修员不允许为空!"),
+			@RequiredStringValidator(fieldName = "craft.treatmentMeasure_make", message = "制造处理措施不允许为空!"),
+			@RequiredStringValidator(fieldName = "craft.resultCode_make", message = "制造处理结果不允许为空!"),
 			@RequiredStringValidator(fieldName = "craft.products.id", message = "产品名称不允许为空!")
 			 })
 	@InputConfig(resultName = "error")

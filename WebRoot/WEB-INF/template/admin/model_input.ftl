@@ -176,7 +176,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="model.fixTime"
 														value="${(model.fixTime)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
+														class=" input input-sm  formText {digits: true}" />
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -194,7 +194,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 

@@ -133,9 +133,13 @@ body {
 												</div>
 												<div class="profile-info-name">挤出批次</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>	
 													<input type="text" name="quality.extrusionBatches"
 														value="${(quality.extrusionBatches)!}"
 														class=" input input-sm  formText {required: true, digits: true}" />
+													<#else>
+													   ${(quality.extrusionBatches)!}
+													</#if>	
 												</div>
 											</div>
 											
@@ -155,30 +159,38 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">抽检数量</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<input type="text" name="quality.samplingAmont"
 														value="${(quality.samplingAmont)!}"
 														class=" input input-sm  formText {required: true, digits: true}" />
+													<#else> ${(quality.samplingAmont)!} </#if>
 												</div>
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
+												   <#if isAdd??>
 													<input type="text" name="quality.failAmont"
 														value="${(quality.failAmont)!}"
 														class=" input input-sm  formText {required: true, digits: true}" />
+													<#else> ${(quality.failAmont)!} </#if>
 												</div>
 											</div>
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">报告时间</div>
 												<div class="profile-info-value">
+												   <#if isAdd??>
 													<input type="text" name="quality.createDate"
 														value="${(quality.createDate)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+													<#else> ${(quality.createDate)!} </#if>
 												</div>
 												<div class="profile-info-name">计划完成时间</div>
 												<div class="profile-info-value">
+												     <#if isAdd??>
 													<input type="text" name="quality.overTime"
 														value="${(quality.overTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+													<#else> ${(quality.overTime)!} </#if>
 												</div>
 											</div>
 
@@ -187,12 +199,16 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">质量问题描述</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<textarea name="quality.problemDescription"
 														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
+												    <#else> ${(quality.problemDescription)!} </#if>
 												</div>
 											</div>
 										</div>
-
+                                       
+                                       <#if isAdd??>
+                                       <#else>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">车间整改方案</div>
@@ -212,6 +228,7 @@ body {
 												</div>
 											</div>
 										</div>
+										</#if>
 										</form>
 										<!--weitao end modify-->
                                         <div class="buttonArea">

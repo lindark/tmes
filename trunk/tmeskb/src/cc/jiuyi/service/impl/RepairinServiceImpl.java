@@ -70,4 +70,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		workingbillService.update(workingbill);
 	}
 
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return repairinDao.historyjqGrid(pager, map);
+	}
+
 }

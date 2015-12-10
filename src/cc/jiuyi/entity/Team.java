@@ -27,8 +27,8 @@ public class Team extends BaseEntity {
 	private String teamName;// 班组名称
 	private String state;// 状态
 	private String isDel;// 是否删除
-	private String stateRemark;// 状态描述
 	private FactoryUnit factoryUnit;// 单元
+	private String isWork;//是否正在工作
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -36,6 +36,8 @@ public class Team extends BaseEntity {
 	private String xfactoryUnitName;// 单元名称
 	private String xworkShopName;// 车间名称
 	private String xfactoryName;// 工厂名称
+	private String stateRemark;// 状态描述
+	private String xisWork;//是否正在工作描述
 
 	private Set<Department> departmentSet; 
 	private Set<Quality> qualitySet;
@@ -175,6 +177,26 @@ public class Team extends BaseEntity {
 	public void setXfactoryUnitId(String xfactoryUnitId) {
 		this.xfactoryUnitId = xfactoryUnitId;
 	}
+
+	public String getIsWork() {
+		return isWork;
+	}
+
+	public void setIsWork(String isWork) {
+		this.isWork = isWork;
+	}
+
+	
+	@Transient
+	public String getXisWork() {
+		return xisWork;
+	}
+
+	public void setXisWork(String xisWork) {
+		this.xisWork = xisWork;
+	}
+	
+	
 	
 
 }

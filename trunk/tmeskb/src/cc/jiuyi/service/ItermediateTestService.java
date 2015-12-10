@@ -42,15 +42,8 @@ public interface ItermediateTestService extends BaseService<ItermediateTest, Str
 	 * 刷卡保存
 	 */
 	public void saveSubmit(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug);
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id);
 
-	
-	/**
-	 * 刷卡提交
-	 */
-	public void saveApproval(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug);
-	
 	
 	/**
 	 * 修改

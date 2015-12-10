@@ -67,7 +67,7 @@ jQuery(function($) {
 		colModel:[
             {name:'typeReamrk',index:'type', width:200,editable: true,sortable:true},			
 			{name:'handleName',index:'handleName', width:200,editable: true,sortable:true},			
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true}
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=faultState"}}
 			 
 		], 
 

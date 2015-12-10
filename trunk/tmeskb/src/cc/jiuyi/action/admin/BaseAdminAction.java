@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -222,12 +223,12 @@ public class BaseAdminAction extends ActionSupport {
 	
 	/**
 	 * 获取服务器时间
+	 * @return 
 	 */
-	public void getSystemDate(){
-//		HashMap<String, String> hashmap = new HashMap<String,String>();
-//		hashmap.put("", ThinkWayUtil.SystemDate());
-//		
-//		return ajaxJson(jsonMap);
+	public String getSystemDate(){
+		HashMap<String, String> hashmap = new HashMap<String,String>();
+		hashmap.put("systemDate", ThinkWayUtil.formatdateDateTime(new Date()));
+		return ajaxJson(hashmap);
 	}
 	
 	

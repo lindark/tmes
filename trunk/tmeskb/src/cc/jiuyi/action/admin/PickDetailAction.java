@@ -298,7 +298,7 @@ public class PickDetailAction extends BaseAdminAction {
 
 		pkList=pickDetailService.getPickDetail(pick.getId());
 		try {
-			pickRfc = pickRfcImple.MaterialDocumentCrt(pick, pkList);
+			pickRfc = pickRfcImple.MaterialDocumentCrt(matnr, pick, pkList);
 		} catch (IOException e) {
 			addActionError("IO操作失败");
 			e.printStackTrace();

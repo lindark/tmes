@@ -20,7 +20,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		
 	protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
 		  try{
-			  System.out.println("任务执行");				  			  
+			  System.out.println("ExtremelyMessage任务执行");				  			  
 		  }catch(Exception e){
 		      log.error("ExtremelyMessage任务出错",e);
 		  }

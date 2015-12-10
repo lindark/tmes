@@ -72,7 +72,7 @@ jQuery(function($) {
 			{name:'teamName',index:'team.teamName', width:160,editable: true},
 			{name:'processName',index:'process.processName', width:160, editable: true},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
-			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle}		
+			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
 
 		viewrecords : true,

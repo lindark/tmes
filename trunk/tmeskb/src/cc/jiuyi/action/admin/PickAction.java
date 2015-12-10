@@ -216,7 +216,7 @@ public class PickAction extends BaseAdminAction {
 		 admin=adminService.getLoginAdmin();
 		 pkList=pickDetailService.getPickDetail(pickId);
 		 try {
-				pickRfc=pickRfcImple.MaterialDocumentCrt(pick, pkList);
+				pickRfc=pickRfcImple.MaterialDocumentCrt(pickId, pick, pkList);
 			} catch (IOException e) {
 				addActionError("IO操作失败");
 				e.printStackTrace();

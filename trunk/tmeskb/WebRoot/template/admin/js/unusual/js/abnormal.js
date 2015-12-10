@@ -105,7 +105,7 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!update.action?ids="+i;
+			window.location.href = "abnormal!creditupdate.action?ids="+i;
 		}
 		
     });

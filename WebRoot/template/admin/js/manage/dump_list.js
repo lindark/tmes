@@ -254,30 +254,41 @@ function btn_event()
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
-		var index = "";
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
-		$.ajax({	
-			url: "dump!creditapproval.action?dumpId="+dumpId,
-			//data: $(form).serialize(),
-			dataType: "json",
-			async: false,
-			beforeSend: function(data) {
-				$(this).attr("disabled", true);
-				index = layer.load();
-			},
-			success: function(data) {
-				layer.close(index);
-				$.message(data.status,data.message);
-				$("#grid-table").trigger("reloadGrid");
-			},error:function(data){
-				layer.close(index);
-				$.message("error","系统出现问题，请联系系统管理员");
-			}
-		});
+		var url = "dump!creditapproval.action?dumpId="+dumpId;
+		credit.creditCard(url,function(data){
+			alert("?");
+		})
+		
+		
+//		var index = "";
+//		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
+//		if(dumpId.length <1){
+//			layer.msg("请选择一条记录!", {icon: 5});
+//			return false;
+//		}
+//		$.ajax({	
+//			url: "dump!creditapproval.action?dumpId="+dumpId,
+//			//data: $(form).serialize(),
+//			dataType: "json",
+//			async: false,
+//			beforeSend: function(data) {
+//				$(this).attr("disabled", true);
+//				index = layer.load();
+//			},
+//			success: function(data) {
+//				layer.close(index);
+//				$.message(data.status,data.message);
+//				$("#grid-table").trigger("reloadGrid");
+//			},error:function(data){
+//				layer.close(index);
+//				$.message("error","系统出现问题，请联系系统管理员");
+//			}
+//		});
 		//window.location.href="dump!confirm.action?dumpId="+dumpId;
 	});
 }

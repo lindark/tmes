@@ -35,10 +35,7 @@ $(function() {
 	function addAttributeOptionTr() {
 		var size=$(".zg").length;
 		var attributeOptionTrHtml = '<tr class="zg"><td><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"	style="width:600px;" class="text"></textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div></td></tr>';
-		alert(attributeOptionTrHtml);
-		alert($(".zg").length);
 		if($(".zg").length >= 0) {
-			alert(3);
 			$(".zg:last").after(attributeOptionTrHtml);
 		} 
 	}

@@ -74,19 +74,32 @@ function sub_event(my_id)
 	}
 	if(my_id=="2")
 	{
-//		if(!sm_event()&&!sl_event())
-//		{
-//			layer.alert("半成品巡检表为空,不能确认!",false);
-//		}
-//		else
-//		{	
-		   
+		if(!sl_event())
+		{
+			layer.alert("半成品巡检表为空,不能确认!",false);
+		}
+		else
+		{
 			$("#inputForm").submit();//提交
-//		}
+		}
 	}
 }
 
 
+function sl_event(){
+	var i="0";
+	$("#tb_itd tr").each(function(){
+		var wlcode=($(this).children("td:eq(2)").children("input:first").val());		
+		if(wlcode!=null&&wlcode!=""){
+			i="1";
+		}
+	});
+	if(i=="1"){
+		return true;
+	}else{
+		return false;
+	}		
+}
 
 
 

@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'callReason',index:'callReason',search:false, width:100, editable: true},
 			{name:'originator',index:'iniitiator.name', width:60, editable: true},
 			{name:'answer',index:'answer', width:60,search:false,editable: true},
-			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle},
+			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=abnormalState"}},
 			{name:'state',index:'state', width:60,editable: true,hidden:true},
 			{name:'id',index:'id', width:60,editable: true,hidden:true}
 			

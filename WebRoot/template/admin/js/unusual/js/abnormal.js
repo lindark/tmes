@@ -124,7 +124,7 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!cancel.action?cancelIds="+i;
+			window.location.href = "abnormal!creditcancel.action?cancelIds="+i;
 		}
 				
     });
@@ -143,7 +143,7 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!close.action?closeIds="+i;
+			window.location.href = "abnormal!creditclose.action?closeIds="+i;
 		}
     });
 })

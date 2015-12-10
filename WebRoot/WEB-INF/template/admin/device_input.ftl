@@ -191,13 +191,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.beginTime"
 														value="${(device.beginTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 												<div class="profile-info-name">处理结束时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.dndTime"
 														value="${(device.dndTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 
@@ -233,13 +233,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.totalMaintenanceTime"
 														value="${(device.totalMaintenanceTime)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
+														class=" input input-sm  formText {digits: true}" />
 												</div>
 												<div class="profile-info-name">总停机时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.totalDownTime"
 														value="${(device.totalDownTime)!}"
-														class="input input-sm  formText {required: true, digits: true}" />
+														class="input input-sm  formText {digits: true}" />
 												</div>
 											</div>                                          											
 
@@ -248,13 +248,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.phone"
 														value="${(device.phone)!}"
-														class=" input input-sm  formText {required: true}" />
+														class=" input input-sm" />
 												</div>
 												<div class="profile-info-name">接到电话时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.callTime"
 														value="${(device.callTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
 
@@ -263,7 +263,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.arrivedTime"
 														value="${(device.arrivedTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 												<div class="profile-info-name">服务态度</div>
 												<div class="profile-info-value">

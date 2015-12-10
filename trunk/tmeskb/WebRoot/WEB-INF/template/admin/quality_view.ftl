@@ -109,6 +109,12 @@ body {
 												${(quality.extrusionBatches)!}													
 												</div>
 											</div>
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">接收人</div>
+												<div class="profile-info-value">${(quality.receiver.name)!}</div>
+											</div>
+											
 											<div class="profile-info-row">
 												<div class="profile-info-name">抽检数量</div>
 												<div class="profile-info-value">

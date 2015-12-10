@@ -30,6 +30,7 @@ public class Repair extends BaseEntity {
 	private String dutyName;//责任人名字
 	private Process processResponse;// 责任工序
 	private String responseName;//责任工序名称
+	private String workingbillCode;
 
 	private WorkingBill workingbill;// 随工单
 
@@ -158,6 +159,14 @@ public class Repair extends BaseEntity {
 
 	public void setResponseName(String responseName) {
 		this.responseName = responseName;
+	}
+
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
 	}
 
 }

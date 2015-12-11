@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -103,7 +104,7 @@ public class QualityAction extends BaseAdminAction {
 	// 列表
 	public String list() {
 		return LIST;
-	}
+	}		
 
 	public String ajlist() {
 
@@ -163,6 +164,13 @@ public class QualityAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
+	
+	
+	// 列表
+	public String sealist() {
+		pager = qualityService.findByPager(pager,abnorId);		
+		return "hlist";
+	}
 
 	// 保存
 	@Validations(requiredStrings = {
@@ -187,7 +195,7 @@ public class QualityAction extends BaseAdminAction {
 		
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setInfo("已开质量问题单");
+		abnormalLog.setType("0");
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		

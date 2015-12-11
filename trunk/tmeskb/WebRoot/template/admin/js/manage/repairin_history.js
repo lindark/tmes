@@ -63,11 +63,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '随工单编号','返修收货数量','收货日期','创建人', '确认人','状态'],
+		colNames:[ '随工单编号','产品名称','返修收货数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
 	        {name:'workingbillCode',index:'workingbillCode', width:100,sortable:"true",sorttype:"text"},
-			{name:'receiveAmount',index:'receiveAmount', width:200},
+	        {name:'maktx',index:'maktx', width:200,sortable:"true",sorttype:"text"},
+			{name:'receiveAmount',index:'receiveAmount', width:100},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

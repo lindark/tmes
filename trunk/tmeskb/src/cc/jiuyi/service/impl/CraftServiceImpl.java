@@ -41,9 +41,9 @@ public class CraftServiceImpl extends BaseServiceImpl<Craft, String> implements 
 
 
 	@Override
-	public Pager findByPager(Pager pager, String id) {
+	public Pager findByPager(Pager pager, HashMap<String, String> map,String id) {
 		// TODO Auto-generated method stub
-		return craftDao.findByPager(pager,id);
+		return craftDao.findByPager(pager,map,id);
 	}
 }
 

@@ -218,6 +218,7 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
+			repair.setMaktx(workingBillService.get(repair.getWorkingbill().getId()).getMaktx());
 			if (repair.getProcessResponse() != null) {
 				repair.setResponseName(repair.getProcessResponse()
 						.getProcessName());

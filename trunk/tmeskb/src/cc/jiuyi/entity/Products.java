@@ -40,7 +40,15 @@ public class Products extends BaseEntity{
 	private Set<Quality> qualitySet;//质量问题单
 	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
+	private Set<FactoryUnit> factoryUnitSet;//所属单元
 	
+	@ManyToMany(fetch=FetchType.LAZY,mappedBy="productsSet")
+	public Set<FactoryUnit> getFactoryUnitSet() {
+		return factoryUnitSet;
+	}
+	public void setFactoryUnitSet(Set<FactoryUnit> factoryUnitSet) {
+		this.factoryUnitSet = factoryUnitSet;
+	}
 	@ManyToMany(fetch=FetchType.LAZY)
 	public Set<Process> getProcess()
 	{

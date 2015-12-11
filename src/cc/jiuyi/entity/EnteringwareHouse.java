@@ -35,6 +35,7 @@ public class EnteringwareHouse extends BaseEntity {
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
 	private String workingbillCode;
+	private String maktx;//产品描述
 
 	private WorkingBill workingbill;// 随工单
 
@@ -136,6 +137,15 @@ public class EnteringwareHouse extends BaseEntity {
 
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 	
 }

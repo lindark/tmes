@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -167,7 +168,11 @@ public class DeviceAction extends BaseAdminAction {
 
 		}
 
-		pager = deviceService.getDevicePager(pager, map,admin.getId());
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+			pager = deviceService.findByPager(pager,abnorId);		
+		}else{
+			pager = deviceService.getDevicePager(pager, map,admin.getId());
+		}		
 
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
@@ -324,7 +329,8 @@ public class DeviceAction extends BaseAdminAction {
 	
 	// 列表
 	public String sealist() {
-		pager = deviceService.findByPager(pager,abnorId);		
+		//pager = deviceService.findByPager(pager,abnorId);	
+		abnormalId=abnorId;
 		return "hlist";
 	}	
 

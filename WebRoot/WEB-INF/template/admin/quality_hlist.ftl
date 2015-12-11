@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
-		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/quality_list.js"></script>
+		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/quality_hlist.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -67,8 +67,9 @@
 
 						<div class="row">
 							<div class="col-xs-12">
-							     
+							    
 								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
+								<input type="hidden" name="abnorId" id="unusualId" value="${(abnormalId)!}" />
 								   <div class="operateBar">
 								   	<div class="form-group">
 										<label class="col-sm-2" style="text-align:right">班组:</label>
@@ -131,7 +132,9 @@
 								
 								<div class="row">
 								<div class="col-xs-12">
-								<table id="grid-table"></table>
+								<table id="grid-table">
+								  
+								</table>
 
 								<div id="grid-pager"></div>
 								</div></div>

@@ -4,7 +4,7 @@ jQuery(function($) {
 	var pager_selector = "#grid-pager";
 	var dialogwidth=0;
 	//resize to fit page size
-	$("#dialog-message").on('resize.jqGrid', function () {
+	$(window).on('resize.jqGrid', function () {
 		dialogwidth = $(".ceshi").width();
 		$(grid_selector).jqGrid( 'setGridWidth',  dialogwidth);
     })

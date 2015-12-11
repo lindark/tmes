@@ -13,6 +13,8 @@ import cc.jiuyi.entity.Material;
 public interface CartonDao extends BaseDao<Carton, String> {
 	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
 			String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

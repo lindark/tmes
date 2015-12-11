@@ -74,6 +74,11 @@ public class CartonAction extends BaseAdminAction {
 		return LIST;
 	}
 
+	// 历史返修记录
+	public String history() {
+		return "history";
+	}
+
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
@@ -93,6 +98,7 @@ public class CartonAction extends BaseAdminAction {
 	public String save() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		carton.setCreateUser(admin);
+		carton.setWorkingbillCode(workingBillService.get(carton.getWorkingbill().getId()).getWorkingBillCode());
 		cartonService.save(carton);
 		redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();
@@ -102,7 +108,7 @@ public class CartonAction extends BaseAdminAction {
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() throws Exception{
+	public String update() throws Exception {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
@@ -122,7 +128,7 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		
+
 		try {
 			ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {
@@ -137,10 +143,11 @@ public class CartonAction extends BaseAdminAction {
 			List<Carton> list = cartonService.get(ids);
 			cartonService.updateState(list, workingBillId);
 			workingbill = workingBillService.get(workingBillId);
-			HashMap<String,String> hashmap = new HashMap<String,String>();
+			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
-			hashmap.put(MESSAGE,"您的操作已成功" );
-			hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+			hashmap.put(MESSAGE, "您的操作已成功");
+			hashmap.put("totalAmount", workingbill.getCartonTotalAmount()
+					.toString());
 			return ajaxJson(hashmap);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -152,7 +159,7 @@ public class CartonAction extends BaseAdminAction {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		
+
 	}
 
 	// 刷卡撤销
@@ -165,13 +172,70 @@ public class CartonAction extends BaseAdminAction {
 			}
 		}
 		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState2(list, workingBillId);		
+		cartonService.updateState2(list, workingBillId);
 		workingbill = workingBillService.get(workingBillId);
-		HashMap<String,String> hashmap = new HashMap<String,String>();
+		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE,"您的操作已成功" );
-		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
+		hashmap.put(MESSAGE, "您的操作已成功");
+		hashmap.put("totalAmount", workingbill.getCartonTotalAmount()
+				.toString());
 		return ajaxJson(hashmap);
+	}
+	
+	public String historylist(){
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("workingbillCode") != null) {
+				System.out.println("obj=" + obj);
+				String workingbillCode = obj.getString("workingbillCode").toString();
+				map.put("workingbillCode", workingbillCode);
+			}
+			if(obj.get("start")!=null&&obj.get("end")!=null){
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+		pager = cartonService.historyjqGrid(pager, map);
+		List<Carton> cartonList = pager.getList();
+		List<Carton> lst = new ArrayList<Carton>();
+		for (int i = 0; i < cartonList.size(); i++) {
+			Carton carton = (Carton) cartonList.get(i);
+			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "cartonState", carton.getState()));
+			/*
+			 * carton.setCartonCode(material.getMaterialCode());
+			 * carton.setCartonDescribe(material.getMaterialName());
+			 */
+			if (carton.getConfirmUser() != null) {
+				carton.setAdminName(carton.getConfirmUser().getName());
+			}
+			carton.setCreateName(carton.getCreateUser().getName());
+			lst.add(carton);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Carton.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
 	}
 
 	/**
@@ -203,8 +267,10 @@ public class CartonAction extends BaseAdminAction {
 			Carton carton = (Carton) cartonList.get(i);
 			carton.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "cartonState", carton.getState()));
-			/*carton.setCartonCode(material.getMaterialCode());
-			carton.setCartonDescribe(material.getMaterialName());*/
+			/*
+			 * carton.setCartonCode(material.getMaterialCode());
+			 * carton.setCartonDescribe(material.getMaterialName());
+			 */
 			if (carton.getConfirmUser() != null) {
 				carton.setAdminName(carton.getConfirmUser().getName());
 			}
@@ -212,10 +278,10 @@ public class CartonAction extends BaseAdminAction {
 			lst.add(carton);
 		}
 		pager.setList(lst);
-		JsonConfig jsonConfig=new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Carton.class));//排除有关联关系的属性字段 
-		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Carton.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}

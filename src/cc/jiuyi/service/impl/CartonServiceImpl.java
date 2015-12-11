@@ -141,4 +141,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 
 	}
 
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return cartonDao.historyjqGrid(pager, map);
+	}
+
 }

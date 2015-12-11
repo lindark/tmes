@@ -104,10 +104,13 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("ZSFSL", p.getPickAmount());//数量
 			item.put("CHARG", p.getCharg());//批号
 			item.put("XUH",p.getId());//ID
+			item.put("ORDERID", p.getOrderid());//订单
+			item.put("ITEM_TEXT", p.getItem_text());//项目文本
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);
+		super.setParameter(parameter);
 		super.setTable(tablemodelList);
 		/******执行 end******/
 		SAPModel model = execBapi();//执行 并获取返回值

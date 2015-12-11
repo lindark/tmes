@@ -63,6 +63,8 @@ public class DeviceAction extends BaseAdminAction {
 	private String loginUsername;
 	private String[] reasonIds;
 	private Admin admin;
+	private String abnorId;
+	
 	// 获取所有类型
 	private List<Dict> allType;
 	private List<Quality>  qualityList;
@@ -241,7 +243,7 @@ public class DeviceAction extends BaseAdminAction {
 		
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setInfo("已开设备维修单");
+		abnormalLog.setType("3");
 		abnormalLog.setOperator(admin1);
 		abnormalLogService.save(abnormalLog);
 		
@@ -319,6 +321,12 @@ public class DeviceAction extends BaseAdminAction {
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return VIEW;
 	}
+	
+	// 列表
+	public String sealist() {
+		pager = deviceService.findByPager(pager,abnorId);		
+		return "hlist";
+	}	
 
 	public Device getDevice() {
 		return device;
@@ -439,6 +447,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setReasonIds(String[] reasonIds) {
 		this.reasonIds = reasonIds;
+	}
+
+	public String getAbnorId() {
+		return abnorId;
+	}
+
+	public void setAbnorId(String abnorId) {
+		this.abnorId = abnorId;
 	}
 	
 	

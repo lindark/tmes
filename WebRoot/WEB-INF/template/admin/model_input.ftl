@@ -172,12 +172,17 @@ body {
 													<#else> ${(model.fixer.name)!} </#if>
 
 												</div>
+												 <#if isAdd??>												
+												 <#else>
 												<div class="profile-info-name">维修时间</div>
 												<div class="profile-info-value">
-													<input type="text" name="model.fixTime"
+												   
+												    <input type="text" name="model.fixTime"
 														value="${(model.fixTime)!}"
 														class=" input input-sm  formText {digits: true}" />
+												    
 												</div>
+												</#if>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">检验员</div>
@@ -190,14 +195,18 @@ body {
 													<#else> ${(model.insepector.name)!} </#if>
 
 												</div>
+												<#if isAdd??>												
+												<#else>
 												<div class="profile-info-name">确认时间</div>
 												<div class="profile-info-value">
+												    
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />											
 												</div>
+												</#if>
 											</div>
-
+                                           
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value" id="reason">
@@ -254,7 +263,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">不良现象描述</div>
 												<div class="profile-info-value">
-													<textarea name="model.failDescript" style="width:600px;">${(model.failDescript)!} </textarea>
+													<textarea name="model.failDescript" style="width:600px;" class="formText {required: true}">${(model.failDescript)!} </textarea>
 												</div>
 											</div>
 										</div>

@@ -238,6 +238,7 @@ public class DailyWorkAction extends BaseAdminAction {
 						.getProcessName());
 			}
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
+			dailyWork.setMaktx(workingBillService.get(dailyWork.getWorkingbill().getId()).getMaktx());
 			dailyWork.setWorkingbillCode(dailyWork.getWorkingbill().getWorkingBillCode());
 			lst.add(dailyWork);
 		}

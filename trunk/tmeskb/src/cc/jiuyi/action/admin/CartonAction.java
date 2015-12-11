@@ -227,6 +227,7 @@ public class CartonAction extends BaseAdminAction {
 			if (carton.getConfirmUser() != null) {
 				carton.setAdminName(carton.getConfirmUser().getName());
 			}
+			carton.setMaktx(workingBillService.get(carton.getWorkingbill().getId()).getMaktx());
 			carton.setCreateName(carton.getCreateUser().getName());
 			lst.add(carton);
 		}

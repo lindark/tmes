@@ -95,7 +95,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String save() {
 		admin = adminService.loadLoginAdmin();
 		enteringwareHouse.setCreateUser(admin);
-		enteringwareHouse.setWorkingbillCode(workingBillService.get(enteringwareHouse.getWorkingbill().getId()).getWorkingBillCode());
+		enteringwareHouse.setWorkingbillCode(workingBillService.get(
+				enteringwareHouse.getWorkingbill().getId())
+				.getWorkingBillCode());
 		enteringwareHouseService.save(enteringwareHouse);
 		redirectionUrl = "enteringware_house!list.action?workingBillId="
 				+ enteringwareHouse.getWorkingbill().getId();
@@ -159,8 +161,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		hashmap.put("total", totalAmount.toString());
 		return ajaxJson(hashmap);
 	}
-	
-	public String historylist(){
+
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -182,10 +184,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -207,6 +210,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}
 			enteringwareHouse.setCreateName(enteringwareHouse.getCreateUser()
 					.getName());
+			enteringwareHouse.setMaktx(workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId()).getMaktx());
 			lst.add(enteringwareHouse);
 		}
 		pager.setList(lst);

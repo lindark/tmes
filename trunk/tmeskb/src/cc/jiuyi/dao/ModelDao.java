@@ -18,4 +18,6 @@ public interface ModelDao extends BaseDao<Model, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public Pager findByPager(Pager pager,String id);
 }

@@ -158,7 +158,7 @@ jQuery(function($) {
 				location.href="craft!add.action";
 			},*/
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			/*delfunc:function(rowId){
 				location.href="craft!delete.action?id="+rowId;
 			},*/

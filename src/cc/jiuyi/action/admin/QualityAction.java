@@ -148,7 +148,7 @@ public class QualityAction extends BaseAdminAction {
 		}
 		
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
-			pager = qualityService.findByPager(pager,abnorId);	
+			pager = qualityService.findByPager(pager,map,abnorId);	
 		}else{
 			pager = qualityService.getQualityPager(pager, map,admin1.getId());		
 		}	

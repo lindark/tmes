@@ -39,8 +39,8 @@ public class ModelServiceImpl extends BaseServiceImpl<Model, String> implements 
 	}
 
 	@Override
-	public Pager findByPager(Pager pager, String id) {
+	public Pager findByPager(Pager pager,HashMap<String, String> map, String id) {
 		// TODO Auto-generated method stub
-		return modelDao.findByPager(pager,id);
+		return modelDao.findByPager(pager,map,id);
 	}
 }

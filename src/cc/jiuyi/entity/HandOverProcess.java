@@ -46,7 +46,9 @@ public class HandOverProcess extends BaseEntity{
     private Admin saveadmin;//保存人
     private Admin submitadmin;//提交人
     private Admin approvaladmin;//确认人
-
+    private String e_type;
+    private String e_message;
+    private String mblnr;
 	public String getState() {
 		return state;
 	}
@@ -155,6 +157,24 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setApprovaladmin(Admin approvaladmin) {
 		this.approvaladmin = approvaladmin;
+	}
+	public String getE_type() {
+		return e_type;
+	}
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+	public String getE_message() {
+		return e_message;
+	}
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
 	}
 	
 	

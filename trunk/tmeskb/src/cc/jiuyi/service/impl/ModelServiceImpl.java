@@ -37,4 +37,10 @@ public class ModelServiceImpl extends BaseServiceImpl<Model, String> implements 
 		// TODO Auto-generated method stub
 		modelDao.updateisdel(ids, oper);
 	}
+
+	@Override
+	public Pager findByPager(Pager pager, String id) {
+		// TODO Auto-generated method stub
+		return modelDao.findByPager(pager,id);
+	}
 }

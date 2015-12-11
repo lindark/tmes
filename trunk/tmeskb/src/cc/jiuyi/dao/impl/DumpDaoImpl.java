@@ -24,7 +24,7 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 				.forClass(Dump.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
-			if(map.get("workingbillCode")!=null){
+			if(map.get("voucherId")!=null){
 			    detachedCriteria.add(Restrictions.eq("voucherId", map.get("voucherId")));
 			}		
 			if(map.get("start")!=null||map.get("end")!=null){

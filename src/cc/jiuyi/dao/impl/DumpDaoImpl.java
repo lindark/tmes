@@ -25,14 +25,14 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
 			if(map.get("workingbillCode")!=null){
-			    detachedCriteria.add(Restrictions.eq("workingbillCode", map.get("workingbillCode")));
+			    detachedCriteria.add(Restrictions.eq("voucherId", map.get("voucherId")));
 			}		
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
+					detachedCriteria.add(Restrictions.between("deliveryDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
 				}

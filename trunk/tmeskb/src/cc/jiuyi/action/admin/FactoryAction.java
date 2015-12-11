@@ -73,6 +73,8 @@ public class FactoryAction extends BaseAdminAction {
 		}
 		return LIST;
 	}
+	
+	
 
 	/**
 	 * ajax 列表

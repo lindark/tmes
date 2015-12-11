@@ -175,7 +175,7 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,			
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

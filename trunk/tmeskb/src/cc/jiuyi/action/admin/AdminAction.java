@@ -9,24 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Department;
-import cc.jiuyi.entity.Role;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.ArticleService;
-import cc.jiuyi.service.DepartmentService;
-import cc.jiuyi.service.MemberService;
-import cc.jiuyi.service.MessageService;
-import cc.jiuyi.service.ProductService;
-import cc.jiuyi.service.RoleService;
-import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.service.impl.AdminServiceImpl;
-import cc.jiuyi.util.ThinkWayUtil;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -41,6 +23,25 @@ import org.springframework.security.AccountExpiredException;
 import org.springframework.security.BadCredentialsException;
 import org.springframework.security.DisabledException;
 import org.springframework.security.LockedException;
+
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.ArticleService;
+import cc.jiuyi.service.DepartmentService;
+import cc.jiuyi.service.MemberService;
+import cc.jiuyi.service.MessageService;
+import cc.jiuyi.service.ProductService;
+import cc.jiuyi.service.RoleService;
+import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
@@ -71,6 +72,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Role> allRole;
 	private List<Role> roleList;
 	private List<WorkingBill> workingbillList;
+	private List<Team> teamList;
 	private String departid;
 	private String departName;
 
@@ -93,6 +95,8 @@ public class AdminAction extends BaseAdminAction {
 	private ServletContext servletContext;
 	@Resource
 	private DepartmentService departmentservice;
+	@Resource
+	private TeamService teamService;
 	
 	// 登录页面
 	public String login() {
@@ -167,6 +171,7 @@ public class AdminAction extends BaseAdminAction {
 	public String index() {
 		return "index";
 	}
+	
 	// 后台首页
 	public String index1() {
 		admin = adminService.getLoginAdmin();
@@ -174,6 +179,14 @@ public class AdminAction extends BaseAdminAction {
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 		return "teamindex";
 	}
+	
+	// 后台至质检首页
+		public String index2() {
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			teamList=teamService.getTeamListByWork();
+			return "testindex";
+		}
 	
 	//出错提示
 	public String error() {
@@ -537,6 +550,14 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setAdminDeptName(String adminDeptName) {
 		this.adminDeptName = adminDeptName;
+	}
+
+	public List<Team> getTeamList() {
+		return teamList;
+	}
+
+	public void setTeamList(List<Team> teamList) {
+		this.teamList = teamList;
 	}
 	
 	

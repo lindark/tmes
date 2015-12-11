@@ -32,5 +32,5 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager,Map map,List list);
 	
-	public Pager getAdminPager(Pager pager,Map map,String departName);
+	public Pager getAdminPager(Pager pager,Map map);
 }

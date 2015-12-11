@@ -13,15 +13,18 @@ import org.junit.Test;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapMessage;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.ProcessRfc;
@@ -57,6 +60,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private DailyWorkRfc dailyworkrfc;
 	@Resource
 	private CartonRfc cartonrfc;
+	@Resource
+	private HandOverProcessRfc handoverprocess;
 	protected void setUp() {
 		
 	}
@@ -179,7 +184,7 @@ public class TestSAPUtilService extends BaseTestCase {
 		pd.setPickAmount("5");//数量
 		pd.setItem_text("文本");//文本
 		list.add(pd);
-		String mblnr=pickrfc.MaterialDocumentCrt(p, list);
+		String mblnr=pickrfc.MaterialDocumentCrt("X",p, list);
 		System.out.println("物料凭证："+mblnr);
 	}catch(CustomerException e){
 		e.printStackTrace();
@@ -271,7 +276,7 @@ public class TestSAPUtilService extends BaseTestCase {
 		p.setZtext("测试凭证");//抬头文本
 		p.setWerks("1000");//工厂
 		p.setMove_type("261");//移动类型
-		p.setXuh("1");
+		p.setId("1");
 		pick.add(p);
 		List<PickDetail> list=new ArrayList<PickDetail>();
 		PickDetail pd = new PickDetail();
@@ -281,9 +286,9 @@ public class TestSAPUtilService extends BaseTestCase {
 		pd.setOrderid("100116549");//工单
 		pd.setPickAmount("5");//数量
 		pd.setItem_text("文本");//文本
-		pd.setXuh("1");
+		pd.setId("1");
 		list.add(pd);
-		List<Pick> picklist=pickrfc.BatchMaterialDocumentCrt(pick, list);
+		List<Pick> picklist=pickrfc.BatchMaterialDocumentCrt("X",pick, list);
 		for(Pick p1:picklist){
 			System.out.println(p1.getE_type());
 			System.out.println(p1.getEx_mblnr());
@@ -373,6 +378,34 @@ public class TestSAPUtilService extends BaseTestCase {
 				System.out.println(c1.getE_type());
 				System.out.println(c1.getE_message());
 				System.out.println(c1.getEx_mblnr());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testJj(){
+		HandOverProcess h = new HandOverProcess();
+		h.setMaterialCode("40100134");
+		h.setAmount(200);
+		WorkingBill w=new WorkingBill();
+		w.setWorkingBillCode("10011705611");
+		h.setAfterworkingbill(w);
+		WorkingBill w1=new WorkingBill();
+		w1.setWorkingBillCode("10011705612");
+		h.setBeforworkingbill(w1);
+	
+		List<HandOverProcess> list = new ArrayList<HandOverProcess>();
+		list.add(h);
+		try {
+			List<HandOverProcess> list1=handoverprocess.BatchHandOver(list, "X");
+			for(HandOverProcess h1:list1){
+				System.out.println(h1.getE_type());
+				System.out.println(h1.getE_message());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

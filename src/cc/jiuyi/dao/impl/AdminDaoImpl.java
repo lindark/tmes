@@ -51,7 +51,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		return super.findByPager(pager,detachedCriteria);
 	}
 	
-	public Pager getAdminPager(Pager pager,Map map,String adminDeptName){
+	public Pager getAdminPager(Pager pager,Map map){
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		if(!super.existAlias(detachedCriteria, "department", "department"))
@@ -60,8 +60,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			if(map.get("adminName")!=null){
 			    detachedCriteria.add(Restrictions.like("name", "%"+map.get("adminName")+"%"));
 			}		
-			if(map.get("adminDeptName")!=null){
-				detachedCriteria.add(Restrictions.like("department.deptName", "%"+map.get("adminDeptName")+"%"));
+			if(map.get("departid")!=null){
+				detachedCriteria.add(Restrictions.like("department.id", "%"+map.get("departid")+"%"));
 			}
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据

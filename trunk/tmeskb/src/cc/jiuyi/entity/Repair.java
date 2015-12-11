@@ -31,6 +31,7 @@ public class Repair extends BaseEntity {
 	private Process processResponse;// 责任工序
 	private String responseName;//责任工序名称
 	private String workingbillCode;
+	private String maktx;//产品描述
 
 	private WorkingBill workingbill;// 随工单
 
@@ -167,6 +168,15 @@ public class Repair extends BaseEntity {
 
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 
 }

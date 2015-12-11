@@ -38,6 +38,7 @@ public class Carton extends BaseEntity {
 	private String ex_mblnr;//物料凭证
 	private WorkingBill workingbill;// 随工单
 	private String workingbillCode;
+	private String maktx;//产品描述
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -225,6 +226,15 @@ public class Carton extends BaseEntity {
 
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 	
 }

@@ -37,6 +37,7 @@ public class DailyWork extends BaseEntity {
 	private String CONF_CNT;//计数器
 	private String wb;//文本
 	private String workingbillCode;
+	private String maktx;//产品描述
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -200,6 +201,15 @@ public class DailyWork extends BaseEntity {
 
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 
 }

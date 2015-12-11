@@ -38,6 +38,13 @@ public class CraftServiceImpl extends BaseServiceImpl<Craft, String> implements 
 		// TODO Auto-generated method stub
 		craftDao.updateisdel(ids, oper);
 	}
+
+
+	@Override
+	public Pager findByPager(Pager pager, String id) {
+		// TODO Auto-generated method stub
+		return craftDao.findByPager(pager,id);
+	}
 }
 
 

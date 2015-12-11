@@ -124,7 +124,7 @@ $(function(){
 	$userAddBtn.click(function(){
 		var title = "人员";
 		var width="800px";
-		var height="600px";
+		var height="500px";
 		var content="abnormal!browser.action";
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 			

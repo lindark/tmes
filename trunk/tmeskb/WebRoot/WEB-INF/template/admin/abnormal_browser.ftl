@@ -11,15 +11,19 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+	<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/browser/adminBrowser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<link rel="stylesheet" rev="stylesheet" type="text/css" media="all"	href="${base}/template/admin/ztree/css/zTreeStyle/zTreeStyle.css" />
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 
 <style>
 body {
 	background: #fff;
 }
-
+.operateBar{
+			padding:3px 0px;
+		}
 </style>
 <script>
 	$(function(){
@@ -46,6 +50,49 @@ body {
 		});
 	})
 </script>
+
+<script type="text/javascript">
+
+var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			//beforeClick: beforeClick,
+			onClick: onClick
+		}
+	};
+
+var zNodes =[
+<#list list as department>
+	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}"},
+</#list>
+
+];
+
+
+function beforeClick(treeId, treeNode, clickFlag) {
+	return (treeNode.click != false);
+}
+function onClick(event, treeId, treeNode, clickFlag) {
+	$("#grid-table2").jqGrid('setGridParam',{
+		url:"admin!ajlist1.action?departid="+treeNode.id,
+		datatype:"json",
+		page:1
+	}).trigger("reloadGrid");
+	
+}		
+
+	
+	$(function(){
+		$.fn.zTree.init($("#ingageTree"), setting, zNodes);
+	})
+	
+	
+</script>
+
 </head>
 <body class="no-skin input">
 
@@ -67,46 +114,26 @@ body {
 				<div class="page-content-area">
 
 					<div class="row">
-						<div class="col-xs-12">
-							<!-- ./ add by welson 0728 -->
+						<div class="col-xs-3 col-md-3 col-sm-3">
+							<div style="border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid;height: 350px; overflow: auto; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;">
+								<ul id="ingageTree" class="ztree"></ul>
+							</div>
+						</div>
+						<div class="col-xs-9 col-md-9 col-sm-9 ceshi">
 							<form class="form-horizontal" id="searchform"
 								action="admin!ajlist1.action" role="form">
 								<div class="operateBar">
-									<div class="form-group">
-										<label class="col-sm-2"
-											style="text-align:right;">姓名:</label>
-										<div class="col-sm-4">
-											<input type="text" name="adminName"
-												class="input input-sm form-control" value=""
-												id="form-field-icon-1">
-										</div>
-
-
-										<label class="col-sm-2" style="text-align:right;">部门:</label>
-										<div class="col-sm-4">
-											<input type="text" name="adminDeptName"
-												class="input input-sm form-control" value=""
-												id="departName">
-										</div>
-									</div>									
-
-									
-
-									<div class="form-group" style="text-align:center">
-										<a id="searchButton"
-											class="btn btn-white btn-default btn-sm btn-round"> <i
-											class="ace-icon fa fa-filter blue"></i> 搜索 </a>
-									</div>
-
+									姓名:<input class="input input-sm" name="adminName" type="text"/>
+									<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</button>
 								</div>
+								
 							</form>
-
-
-							<table id="grid-table2"></table>
-
-							<div id="grid-pager"></div>
-							<!-- add by welson 0728 -->
-						</div>
+								<table id="grid-table2"></table>
+								<div id="grid-pager"></div>
+							</div>
 						<!-- /.col -->
 					</div>
 					<!-- /.row -->
@@ -124,6 +151,12 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script type="text/javascript"
+	src="${base}/template/admin/ztree/js/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/ztree/js/jquery.ztree.exedit-3.5.min.js"></script>
+<script type="text/javascript"
+	src="${base}/template/admin/ztree/js/jquery.ztree.excheck-3.5.min.js"></script>
 </html>
 <script type="text/javascript">
 	function getGridId(){
@@ -141,29 +174,7 @@ body {
 		return arrayObj;
 	}
 	
-	$("#departName").focus(function(){
-		var offset=$(this).offset();
-		var controlHeight = $(this).height();
-		var left = offset.left+"px";
-		var top = offset.top+controlHeight+"px";
-		layer.open({
-		    type: 2, //page层
-		    area: ['250px', '300px'],
-		    title: false,
-		    shade: 0,
-		    shadeClose:true,
-		    offset:[top,left],
-		    btn:['确定','取消'],
-		    closeBtn:0,
-		    content: 'department!browser.action',
-		    yes:function(index,layero){	
-		    	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-		        var ii= iframeWin.getName();
-		    	$("#departName").val(ii);
-		    	layer.close(index);
-		    }
-		}); 
-	});
+
 	
 	
 	

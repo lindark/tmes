@@ -5,22 +5,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 @Component
 public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOverProcessRfc{
 
+	@Resource
+	private AdminService adminservice;
 	@Override
 	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun)
 			throws IOException {
+		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		super.setProperty("handover");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -38,6 +45,8 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			item.put("ORDERID1", "10011633262");
 			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
 			item.put("XUH", p.getId());
+			item.put("WERKS", p.getWerks());//工厂
+			item.put("LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());
 			arrList.add(item);
 		}
 		tablemodel.setList(arrList);

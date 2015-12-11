@@ -88,4 +88,12 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 	{
 		return this.teamDao.getOneById(id);
 	}
+
+	@Override
+	public List<Team> getTeamListByWork() {
+		
+		return this.teamDao.getTeamListByWork();
+	}
+
+
 }

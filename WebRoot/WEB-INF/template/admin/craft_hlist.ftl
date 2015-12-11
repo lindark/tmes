@@ -19,7 +19,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
-		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/craft_list.js"></script>
+		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/craft_hlist.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
@@ -68,6 +68,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<form class="form-horizontal" id="searchform" action="craft!ajlist.action" role="form">
+								  <input type="hidden" name="abnorId" id="unusualId" value="${(abnormalId)!}" />
 								   <div class="operateBar">
 								   	<div class="form-group">
 										

@@ -20,5 +20,5 @@ public interface QualityService extends BaseService<Quality, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	public Pager findByPager(Pager pager,String id);
+	public Pager findByPager(Pager pager,HashMap<String,String> map,String id);
 }

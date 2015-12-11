@@ -16,7 +16,7 @@ public interface TeamDao extends BaseDao<Team,String> {
 	
 	
 	/**
-	 * 取出所有工序对象
+	 * 取出所有班组对象
 	 * @return
 	 */
 	public List<Team> getTeamList();
@@ -39,4 +39,12 @@ public interface TeamDao extends BaseDao<Team,String> {
 	 * 根据id联表查询
 	 */
 	public Team getOneById(String id);
+	
+	
+	/**
+	 * 取出所有正在工作的班组
+	 * @param stu
+	 * @return
+	 */
+	public List<Team> getTeamListByWork();
 }

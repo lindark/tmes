@@ -191,6 +191,7 @@ public class RepairinAction extends BaseAdminAction {
 				repairin.setAdminName(repairin.getConfirmUser().getName());
 			}
 			repairin.setCreateName(repairin.getCreateUser().getName());
+			repairin.setMaktx(workingBillService.get(repairin.getWorkingbill().getId()).getMaktx());
 			repairin.setWorkingbill(null);
 			repairin.setConfirmUser(null);
 			repairin.setCreateUser(null);

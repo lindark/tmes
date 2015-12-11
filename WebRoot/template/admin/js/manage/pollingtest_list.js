@@ -276,10 +276,14 @@ function btn_event()
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
-		var index = "";
+		//var index = "";
 		if(getId()){
-			
-			$.ajax({	
+			var url = "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");
+			})
+			/*$.ajax({	
 				url: "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 				//data: $(form).serialize(),
 				dataType: "json",
@@ -296,7 +300,7 @@ function btn_event()
 					layer.close(index);
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
-			});
+			});*/
 			//window.location.href="pollingtest!undo.action?id="+id+"&workingBillId="+workingBillId;
 		}
 	});

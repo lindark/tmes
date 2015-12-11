@@ -78,14 +78,32 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
    }
 
 
-	public Pager findByPager(Pager pager, String id) {
+	public Pager findByPager(Pager pager, HashMap<String, String> map,String id) {
 		
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Quality.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+
+		if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "team", "team")){
+			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+		}
 		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
 		detachedCriteria.createAlias("abnormal", "abnormal");						
 	    }
 		
+		if (map.size() > 0) {
+			if(map.get("team")!=null){
+			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			}
+			
+			if(map.get("productName")!=null){
+			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
+			}				
+		}
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

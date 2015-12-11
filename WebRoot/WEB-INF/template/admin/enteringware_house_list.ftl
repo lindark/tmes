@@ -248,7 +248,14 @@
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
-				var index = "";
+				var url = "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#totalSingleAmount").text(data.totalSingleAmount);
+					$("#total").text(data.total);
+					$("#grid-table").trigger("reloadGrid");
+				})
+				/* var index = "";
 				$.ajax({	
 					url: "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 					//data: $(form).serialize(),
@@ -268,7 +275,7 @@
 						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
-				});
+				}); */
 				
 				//window.location.href="enteringware_house!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}

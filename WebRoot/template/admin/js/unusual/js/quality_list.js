@@ -64,13 +64,14 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '时间','产品名称','班组', '工序', '创建人','状态'],
+		colNames:[ '时间','产品名称','班组', '工序','问题描述','创建人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
-			{name:'productsName',index:'products.productsName',width:60, editable:true},
-			{name:'teamName',index:'team.teamName', width:160,editable: true},
-			{name:'processName',index:'process.processName', width:160, editable: true},
+			{name:'createDate',index:'createDate', sorttype:"date",width:100,unformat: pickDate,formatter:datefmt,search:false},
+			{name:'productsName',index:'products.productsName',width:180, editable:true},
+			{name:'teamName',index:'team.teamName', width:60,editable: true},
+			{name:'processName',index:'process.processName', width:60, editable: true},
+			{name:'problemDescription',index:'problemDescription', width:160, search:false,editable: true},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
@@ -147,7 +148,7 @@ jQuery(function($) {
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,			
+			del: false,			
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -279,6 +280,17 @@ function btn_event()
 			window.location.href="quality!view.action?id="+info;
 		}
 	});
+	
+	/*
+	//刷卡删除
+	$("#btn_delete").click(function(){
+		
+		if(getId())
+		{
+			window.location.href="quality!delete.action?id="+info;
+		}
+	});*/
+	
 }
 
 //获取jqGrid表中选择的条数--即数据的ids

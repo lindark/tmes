@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
+import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapMessage;
@@ -20,50 +21,61 @@ import cc.jiuyi.util.TableModel;
 public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 
 	@Override
-	public String ScrappedCrt(Scrap scrap, List<ScrapMessage> scrapmessage) throws IOException, CustomerException  {
-		super.setProperty("pick");//根据配置文件读取到函数名称
+	public List<Scrap> ScrappedCrt(String testrun,List<Scrap> scrap, List<ScrapMessage> scrapmessage) throws IOException, CustomerException  {
+		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("MOVE_TYPE", scrap.getMove_type());//移动类型
-		super.setParameter(parameter);//输入参数
-		/******输入结构******/
-		Mapping mapping = new Mapping();
-		HashMap<String,String> map = new HashMap<String,String>();
-		mapping.setStrutName("IS_HEADER");//输入结构名称
-		map.put("BUDAT", scrap.getBudat());//过账日期
-		map.put("WERKS", scrap.getWerks());//工厂
-		map.put("LGORT", scrap.getLgort());//库存地点
-		map.put("ZTEXT", scrap.getZtext());//抬头文本
-		mapping.setMap(map);
+		parameter.put("GM_CODE", "03");//移动类型
+		parameter.put("IS_COMMIT", testrun);//testrun
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
-		TableModel tablemodel = new TableModel();
-		tablemodel.setData("IT_ITEM");//表名
+		TableModel ET_ITEM = new TableModel();
+		ET_ITEM.setData("ET_ITEM");//表名
 		for(ScrapMessage s : scrapmessage){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", s.getSmmatterNum());//物料编码
 			//item.put("MEINS", s.getMeins());//单位
 			item.put("ZSFSL", s.getMenge().toString());//数量
 			item.put("ITEM_TEXT", s.getItem_text());//项目文本
-			item.put("CHARG", s.getCharg());//批号
+			item.put("XUH", s.getId());//ID
 			arrList.add(item);
 		}
-		tablemodel.setList(arrList);
-		tablemodelList.add(tablemodel);
+		ET_ITEM.setList(arrList);
+		tablemodelList.add(ET_ITEM);
+		List<HashMap<String,Object>> arrList1 = new ArrayList<HashMap<String,Object>>();
+		TableModel ET_HEADER = new TableModel();
+		ET_HEADER.setData("ET_HEADER");//表名
+		for(Scrap s : scrap){
+			HashMap<String,Object> item = new HashMap<String,Object>();
+			item.put("BUDAT", s.getBudat());//过账日期
+			item.put("WERKS", s.getWerks());//工厂
+			item.put("LGORT", s.getLgort());//库存地点
+			item.put("ZTEXT", s.getZtext());//抬头文本
+			item.put("MOVE_TYPE",s.getMove_type());//移动类型
+			item.put("XUH", s.getId());//ID
+			arrList1.add(item);
+		}
+		ET_HEADER.setList(arrList1);
+		tablemodelList.add(ET_HEADER);
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
-		super.setStructure(mapping);//输入结构
+		super.setParameter(parameter);
 		super.setTable(tablemodelList);
 		SAPModel model = execBapi();//执行 并获取返回值;
-		ParameterList out = model.getOuts();//返回参数
-		String type =  out.getString("E_TYPE");//返回类型
-		String message = out.getString("E_MESSAGE");//返回消息
-		String mblnr = out.getString("EX_MBLNR");//物料凭证编号
-		if(type.equals("E")){//如果是E，抛出自定义异常
-			throw new CustomerException("1400001", "报废出错,"+message);
+		
+		ParameterList outs = model.getOuttab();//返回表
+		Table t_data = outs.getTable("ET_HEADER");//列表
+		List<Scrap> list = new ArrayList<Scrap>();
+		for (int i = 0; i < t_data.getNumRows(); i++) {
+			t_data.setRow(i);
+			Scrap s = new Scrap();
+			s.setE_type(t_data.getString("E_TYPE"));
+			s.setE_message(t_data.getString("E_MESSAGE"));
+			s.setId(t_data.getString("XUH"));
+			s.setMblnr(t_data.getString("EX_MBLNR"));
+			list.add(s);
 		}
-		return mblnr;
+		return list;
 	}
 
 }

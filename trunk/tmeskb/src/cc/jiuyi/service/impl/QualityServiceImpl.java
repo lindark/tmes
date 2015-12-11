@@ -35,4 +35,10 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 		// TODO Auto-generated method stub
 		qualityDao.updateisdel(ids, oper);
 	}
+
+	public Pager findByPager(Pager pager, String id) {
+		return qualityDao.findByPager(pager,id);
+	}
+	
+	
 }

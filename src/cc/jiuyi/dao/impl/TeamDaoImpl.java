@@ -123,4 +123,10 @@ public class TeamDaoImpl extends BaseDaoImpl<Team, String> implements
 		String hql="from Team a inner join fetch a.factoryUnit b where a.id=?";
 		return (Team) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 	}
+
+	@Override
+	public List<Team> getTeamListByWork() {
+		String hql="from Team where isWork='Y'";
+		return this.getSession().createQuery(hql).list();
+	}
 }

@@ -65,7 +65,7 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
-	}
+	}	
 
 	
 	@Override
@@ -76,5 +76,19 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			super.update(quality);
 		}
    }
+
+
+	public Pager findByPager(Pager pager, String id) {
+		
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Quality.class);
+		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+		detachedCriteria.createAlias("abnormal", "abnormal");						
+	    }
+		
+		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
 	
 }

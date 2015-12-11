@@ -212,23 +212,31 @@ public class TestSAPUtilService extends BaseTestCase {
 	}
 	@Test
 	public void testBf(){
+		List<Scrap> s=new ArrayList<Scrap>();
 		Scrap p = new Scrap();
 		p.setBudat("2015-11-01");
 		p.setLgort("2201");//库存地点
 		p.setZtext("测试报废");//抬头文本
 		p.setWerks("1000");//工厂
 		p.setMove_type("551");//移动类型
+		p.setId("1");
+		s.add(p);
 		List<ScrapMessage> list=new ArrayList<ScrapMessage>();
 		ScrapMessage pd = new ScrapMessage();
-		pd.setCharg("15091901");//批次
+	//	pd.setCharg("15091901");//批次
 		pd.setSmmatterNum("10490284");//物料编码
 		//pd.setMeins("PC");//单位
 		pd.setMenge(Double.parseDouble("5"));//数量
 		pd.setItem_text("文本");//文本
+		pd.setId("1");
 		list.add(pd);
 		try {
-			String mblnr = scraprfc.ScrappedCrt(p, list);
-			System.out.println("凭证凭证："+mblnr);
+			List<Scrap> mblnrlist = scraprfc.ScrappedCrt("X",s, list);
+			for(Scrap scrap:mblnrlist){
+				System.out.println(scrap.getMblnr());
+				System.out.println(scrap.getE_message());
+				System.out.println(scrap.getE_type());
+			}
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -280,12 +288,12 @@ public class TestSAPUtilService extends BaseTestCase {
 		pick.add(p);
 		List<PickDetail> list=new ArrayList<PickDetail>();
 		PickDetail pd = new PickDetail();
-		pd.setCharg("15091901");//批次
+		//pd.setCharg("15091901");//批次
 		pd.setMaterialCode("10490284");//物料编码
 		//pd.setMeins("PC");//单位
 		pd.setOrderid("100116549");//工单
 		pd.setPickAmount("5");//数量
-		pd.setItem_text("文本");//文本
+		pd.setItem_text("11");//文本
 		pd.setId("1");
 		list.add(pd);
 		List<Pick> picklist=pickrfc.BatchMaterialDocumentCrt("X",pick, list);

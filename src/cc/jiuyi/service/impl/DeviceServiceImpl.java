@@ -39,4 +39,10 @@ public class DeviceServiceImpl extends BaseServiceImpl<Device, String> implement
 		// TODO Auto-generated method stub
 		deviceDao.updateisdel(ids, oper);
 	}
+
+	@Override
+	public Pager findByPager(Pager pager, String id) {
+		// TODO Auto-generated method stub
+		return deviceDao.findByPager(pager,id);
+	}
 }

@@ -29,6 +29,9 @@ public class Scrap extends BaseEntity
 	private String ztext;//抬头文本
 	private String budat;//过账日期
 	private String werks;//工厂
+	private String e_type;//类型S/E
+	private String e_message;//反馈消息
+	private String mblnr;//物料凭证
 	//从表
 	private Set<ScrapMessage> scrapMsgSet;//报废信息表
 	private Set<ScrapLater> scrapLaterSet;//报废后产出的记录表
@@ -168,4 +171,23 @@ public class Scrap extends BaseEntity
 	{
 		this.xconfirmation = xconfirmation;
 	}
+	public String getE_type() {
+		return e_type;
+	}
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+	public String getE_message() {
+		return e_message;
+	}
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
+	}
+	
 }

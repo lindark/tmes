@@ -31,6 +31,8 @@ public class ScrapMessage extends BaseEntity
 	private String item_text;//项目文本
 	private String meins;//单位
 	private Set<ScrapBug>scrapBug;//报废原因表
+	
+	
 	//假字段
 	private String xsmduty;//责任划分描述
 
@@ -151,4 +153,6 @@ public class ScrapMessage extends BaseEntity
 	{
 		this.materialId = materialId;
 	}
+	
+	
 }

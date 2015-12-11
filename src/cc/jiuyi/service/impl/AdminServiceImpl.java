@@ -80,9 +80,9 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	}
 
 	@Override
-	public Pager getAdminPager(Pager pager, Map map, String departName) {
+	public Pager getAdminPager(Pager pager, Map map) {
 		// TODO Auto-generated method stub
-		return adminDao.getAdminPager(pager,map,departName);
+		return adminDao.getAdminPager(pager,map);
 	}
 
 	

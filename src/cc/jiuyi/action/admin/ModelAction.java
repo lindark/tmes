@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -291,7 +292,12 @@ public class ModelAction extends BaseAdminAction {
 
 		}
 
-		pager = modelService.getModelPager(pager, map,admin.getId());
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+			pager = modelService.findByPager(pager,abnorId);	
+		}else{
+			pager = modelService.getModelPager(pager, map,admin.getId());	
+		}
+		
 
 		List pagerlist = pager.getList();
 		System.out.println(pagerlist.size());
@@ -381,7 +387,8 @@ public class ModelAction extends BaseAdminAction {
 	
 	// 列表
 	public String sealist() {
-		pager = modelService.findByPager(pager,abnorId);		
+		//pager = modelService.findByPager(pager,abnorId);	
+		abnormalId=abnorId;
 		return "hlist";
 	}
 

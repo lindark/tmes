@@ -41,8 +41,8 @@ public class DeviceServiceImpl extends BaseServiceImpl<Device, String> implement
 	}
 
 	@Override
-	public Pager findByPager(Pager pager, String id) {
+	public Pager findByPager(Pager pager,HashMap<String, String> map, String id) {
 		// TODO Auto-generated method stub
-		return deviceDao.findByPager(pager,id);
+		return deviceDao.findByPager(pager,map,id);
 	}
 }

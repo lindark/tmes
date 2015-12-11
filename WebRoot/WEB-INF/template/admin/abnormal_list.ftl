@@ -172,39 +172,39 @@ padding-top:2px;
 							</div>																												
 
 							<div class="row buttons">						  
-								<div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="qualityReceipt">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
 									</button>
 								</div> 
-								 <div class="col-md-2 col-sm-4" >
+								 <div class="col-md-2 col-sm-4 access" data-access-list="modelReceipt">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="modelrep">
                                       <span class="bigger-110 no-text-shadow">创建工模维修单</span>
 									</button>
 								</div>
-								<div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="craftReceipt">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="craftrep">
                                       <span class="bigger-110 no-text-shadow">创建工艺维修单</span>
 									</button>
 								</div>
 								 
-								<div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="deviceReceipt">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="devicerep">
                                       <span class="bigger-110 no-text-shadow">创建设备维修单</span>
 									</button>
 								</div> 
-								<div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="responseCredit">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="responsecar">
                                       <span class="bigger-110 no-text-shadow">响应刷卡</span>
 									</button>
 								</div>
-								<!-- <div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="cancelCall">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="cancelcal">
                                       <span class="bigger-110 no-text-shadow">撤销呼叫</span>
 									</button>
-								</div> -->
+								</div>
 								 
-								<div class="col-md-2 col-sm-4" >
+								<div class="col-md-2 col-sm-4 access" data-access-list="closeUnnormal">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="closeAbn">
                                       <span class="bigger-110 no-text-shadow">关闭异常</span>
 									</button>

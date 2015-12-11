@@ -169,7 +169,7 @@ public class DeviceAction extends BaseAdminAction {
 		}
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
-			pager = deviceService.findByPager(pager,abnorId);		
+			pager = deviceService.findByPager(pager,map,abnorId);		
 		}else{
 			pager = deviceService.getDevicePager(pager, map,admin.getId());
 		}		

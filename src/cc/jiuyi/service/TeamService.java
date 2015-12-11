@@ -42,5 +42,13 @@ public interface TeamService extends BaseService<Team, String> {
 	 * 根据id联表查询
 	 */
 	public Team getOneById(String id);
+	
+	
+	/**
+	 * 取出所有正在工作的班组
+	 * @param stu
+	 * @return
+	 */
+	public List<Team> getTeamListByWork();
 
 }

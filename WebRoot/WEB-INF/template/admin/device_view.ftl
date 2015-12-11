@@ -277,7 +277,7 @@ body{background:#fff;}
 										       <#if (qualityList?size>1) >
 										            <tr>						
 													<td>
-														<a href="quality!list.action?abnorId=${(abnormal.id)}">质量问题单</a>										
+														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
 													</td>
 												    </tr>
 										        <#else>
@@ -292,7 +292,7 @@ body{background:#fff;}
 										        <#if (modelList?size>1) >
 										            <tr>						
 													<td>
-														<a href="model!list.action?abnorId=${(abnormal.id)}">工模维修单</a>										
+														<a href="model!sealist.action?abnorId=${(abnormal.id)}">工模维修单</a>										
 													</td>
 												    </tr>
 										        <#else>
@@ -307,7 +307,7 @@ body{background:#fff;}
 										         <#if (craftList?size>1) >
 										            <tr>						
 													<td>
-														<a href="craft!list.action?abnorId=${(abnormal.id)}">工艺维修单</a>										
+														<a href="craft!sealist.action?abnorId=${(abnormal.id)}">工艺维修单</a>										
 													</td>
 												    </tr>
 										        <#else>
@@ -322,7 +322,7 @@ body{background:#fff;}
 										         <#if (deviceList?size>1) >
 										            <tr>						
 													<td>
-														<a href="device!list.action?abnorId=${(abnormal.id)}">设备维修单</a>										
+														<a href="device!sealist.action?abnorId=${(abnormal.id)}">设备维修单</a>										
 													</td>
 												    </tr>
 										        <#else>

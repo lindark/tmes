@@ -70,4 +70,16 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		}
    }
 
+	@Override
+	public Pager findByPager(Pager pager, String id) {
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Craft.class);		
+		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+		detachedCriteria.createAlias("abnormal", "abnormal");						
+	    }
+		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
+			
 }

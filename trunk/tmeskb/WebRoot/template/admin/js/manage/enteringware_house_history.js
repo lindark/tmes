@@ -41,6 +41,7 @@ jQuery(function($) {
 		colModel:[
 			
 	        {name:'workingbillCode',index:'workingbillCode', label:"随工单编号", width:100,sortable:"true",sorttype:"text"},
+	        {name:'maktx',index:'maktx',label:"产品名称", width:200,sortable:"true",sorttype:"text"},
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',label:"入库时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},

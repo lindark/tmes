@@ -12,7 +12,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <!--modify weitao-->
 <script type="text/javascript"
-	src="${base}/template/admin/js/manage/repairin_history.js"></script>
+	src="${base}/template/admin/js/manage/dump_history.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
@@ -46,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史返修收货单</li>
+					<li class="active">历史转储确认单</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -60,18 +60,18 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal" id="searchform"
-								action="repairin!historylist.action" role="form">
+								action="repair!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">随工单号:</label>
+											style="text-align:right">物料凭证:</label>
 										<div class="col-sm-4">
-											<input type="text" name="workingbillCode"
+											<input type="text" name="voucherId"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
-										<label class="col-sm-1" style="text-align:right">收货日期:</label>
+										<label class="col-sm-1" style="text-align:right">过账日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
@@ -83,6 +83,10 @@
 										</div>
 									</div>
 									<div class="form-group" style="text-align:center">
+										<a id="btn_show"
+											class="btn btn-white btn-default btn-sm btn-round"> <i
+											class="ace-icon fa fa-filter blue"></i> 查看
+										</a>
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
@@ -149,6 +153,20 @@
 			}
 			
 		})
+		
+		//查看
+	$("#btn_show").click(function(){
+		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		if(dumpId.length <1){
+			layer.msg("请选择一条记录!", {icon: 5});
+			return false;
+		}
+		if(dumpId.length >1){
+			layer.msg("请选择一条记录!", {icon: 5});
+			return false;
+		}
+		window.location.href="dump_detail!list.action?dumpId="+dumpId;
+	});
 		
 		/*
 		var ishead3=0;

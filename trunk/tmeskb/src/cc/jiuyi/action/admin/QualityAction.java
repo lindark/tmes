@@ -111,7 +111,12 @@ public class QualityAction extends BaseAdminAction {
 		Admin admin1 = adminService.getLoginAdmin();
 		
 		HashMap<String, String> map = new HashMap<String, String>();
-
+		
+		/*if (pager == null) {
+			pager = new Pager();
+			pager.setOrderBy("modifyDate");
+		}*/
+		
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
@@ -142,7 +147,11 @@ public class QualityAction extends BaseAdminAction {
 
 		}
 		
-		pager = qualityService.getQualityPager(pager, map,admin1.getId());
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+			pager = qualityService.findByPager(pager,abnorId);	
+		}else{
+			pager = qualityService.getQualityPager(pager, map,admin1.getId());		
+		}	
 
 		List pagerlist = pager.getList();
 		for (int i = 0; i < pagerlist.size(); i++) {
@@ -165,10 +174,10 @@ public class QualityAction extends BaseAdminAction {
 
 	}
 	
-	
 	// 列表
 	public String sealist() {
-		pager = qualityService.findByPager(pager,abnorId);		
+		//pager = qualityService.findByPager(pager,abnorId);	
+		abnormalId=abnorId;
 		return "hlist";
 	}
 

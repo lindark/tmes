@@ -83,6 +83,16 @@ public class FactoryUnitAction extends BaseAdminAction {
 	}
 	
 	/**
+	 * 获取相关工序
+	 * @return
+	 */
+	public String editproducts(){
+		
+		
+		return "editproduct";
+	}
+	
+	/**
 	 * ajax 列表
 	 * @return
 	 */

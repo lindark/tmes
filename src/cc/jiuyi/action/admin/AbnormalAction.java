@@ -31,6 +31,7 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Factory;
@@ -43,6 +44,7 @@ import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CallreasonService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.util.CommonUtil;
@@ -67,6 +69,7 @@ public class AbnormalAction extends BaseAdminAction {
 	private String cancelIds;
 	private String aids;
 	private Admin admin;
+	private List<Department> list;
 
 	private List<Admin> adminSet;
 	private List<Callreason> callReasonSet;
@@ -82,6 +85,8 @@ public class AbnormalAction extends BaseAdminAction {
 	private SwiptCardService swiptCardService;
 	@Resource
 	private AbnormalLogService abnormalLogService;
+	@Resource
+	private DepartmentService deptservice;
 
 	// 添加
 	public String add() {
@@ -104,6 +109,7 @@ public class AbnormalAction extends BaseAdminAction {
 
 	// 列表
 	public String browser() {
+		list = deptservice.getAllByHql();
 		return "browser";
 	}
 
@@ -531,6 +537,14 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
 	}
 
 }

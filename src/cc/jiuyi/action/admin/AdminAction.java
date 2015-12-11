@@ -303,7 +303,11 @@ public class AdminAction extends BaseAdminAction {
 				}
 								
 			}
-			pager = adminService.getAdminPager(pager,map,adminDeptName);
+			if(departid != null){
+				map.put("departid", departid);
+			}
+			
+			pager = adminService.getAdminPager(pager,map);
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Admin admin = (Admin) pagerlist.get(i);				

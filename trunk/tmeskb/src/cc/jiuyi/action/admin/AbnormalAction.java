@@ -190,34 +190,34 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			if(abLog.size()>0){	
 				if(qualityList.size()>1){
-					String str1="已开"+"<a href='quality!list.action?abnorId="+abnormal.getId()+"'>质量问题单</a>"+"("+qualityList.size()+")";
+					String str1="已开"+"<a href='quality!sealist.action?abnorId="+abnormal.getId()+"'>质量问题单</a>"+"("+qualityList.size()+")";
 					ablist.add(str1);
 				}
 				if(modelList.size()>1){
-					String str2="已开"+"<a href='model!list.action?abnorId="+abnormal.getId()+"'>工模维修单</a>"+"("+modelList.size()+")";
+					String str2="已开"+"<a href='model!sealist.action?abnorId="+abnormal.getId()+"'>工模维修单</a>"+"("+modelList.size()+")";
            		    ablist.add(str2);
            	    }
 				
 				 if(craftList.size()>1){
-            		String str3="已开"+"<a href='craft!list.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>"+"("+craftList.size()+")";
+            		String str3="已开"+"<a href='craft!sealist.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>"+"("+craftList.size()+")";
             		ablist.add(str3);
             	 }
 				 if(deviceList.size()>1){
-            		String str4="已开"+"<a href='device!list.action?abnorId="+abnormal.getId()+"'>设备维修单</a>"+"("+deviceList.size()+")";
+            		String str4="已开"+"<a href='device!sealist.action?abnorId="+abnormal.getId()+"'>设备维修单</a>"+"("+deviceList.size()+")";
             		ablist.add(str4);
             	 }
 				String str;
 
 				for(AbnormalLog ab:abLog){
 					
-					String info = ab.getInfo();
-                     if(info.equalsIgnoreCase("已开质量问题单") && qualityList.size()==1){                  	 
+					String type = ab.getType();
+                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	 
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>";                     	
-					 }else if(info.equalsIgnoreCase("已开工模维修单") && modelList.size()==1){						
+					 }else if(type.equalsIgnoreCase("1") && modelList.size()==1){						
                     		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
-					 }else if(info.equalsIgnoreCase("已开工艺维修单") && craftList.size()==1){						
+					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
                     		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
-					 }else if(info.equalsIgnoreCase("已开设备维修单") && deviceList.size()==1){						
+					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
                     		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
 					 }else{
 						 str="";
@@ -231,7 +231,9 @@ public class AbnormalAction extends BaseAdminAction {
 				ablist.add("");
 			}
 			if(ablist.size()==0){
-				ablist.add("");
+				ablists="";
+			}else{
+				ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
 			}
 			ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
 			abnormal.setCallReason(comlist);
@@ -293,7 +295,7 @@ public class AbnormalAction extends BaseAdminAction {
 				
 				AbnormalLog abnormalLog = new AbnormalLog();
 				abnormalLog.setAbnormal(persistent);				
-				abnormalLog.setInfo(person+"已刷卡");
+				abnormalLog.setType("4");
 				abnormalLog.setOperator(admin1);
 				abnormalLogService.save(abnormalLog);
 				

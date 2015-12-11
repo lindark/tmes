@@ -14,18 +14,9 @@ public class AbnormalLog extends BaseEntity {
 
 	private static final long serialVersionUID = -4234122902010236826L;
 	private Admin operator;// 操作员
-	private String info;// 日志信息
-	 
+	//private String info;// 日志信息
+	private String type;//日志类型
 	private Abnormal abnormal;//异常
-
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
-	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
@@ -44,6 +35,14 @@ public class AbnormalLog extends BaseEntity {
 
 	public void setOperator(Admin operator) {
 		this.operator = operator;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

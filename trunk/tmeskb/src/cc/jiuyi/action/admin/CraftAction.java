@@ -61,6 +61,7 @@ public class CraftAction extends BaseAdminAction {
 	private String loginUsername;
 	private Admin admin;
 	private String[] reasonIds;
+	private String abnorId;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -271,7 +272,7 @@ public class CraftAction extends BaseAdminAction {
 				
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setInfo("已开工艺维修单");
+		abnormalLog.setType("2");
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
@@ -297,6 +298,12 @@ public class CraftAction extends BaseAdminAction {
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return VIEW;
 	}
+	
+	// 列表
+	public String sealist() {
+		pager = craftService.findByPager(pager,abnorId);		
+		return "hlist";
+	}	
 
 	public Craft getCraft() {
 		return craft;
@@ -398,6 +405,14 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setReasonList(List<ReceiptReason> reasonList) {
 		this.reasonList = reasonList;
+	}
+
+	public String getAbnorId() {
+		return abnorId;
+	}
+
+	public void setAbnorId(String abnorId) {
+		this.abnorId = abnorId;
 	}
 	
 	

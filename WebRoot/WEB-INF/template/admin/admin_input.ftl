@@ -188,9 +188,9 @@ body {
 										<div class="profile-info-name">卡号：</div>
 
 										<div class="profile-info-value">
-											<input type="text" name=""
+											<input type="text" name="admin.cardNumber"
 												class=" input input-sm  formText {required: true}"
-												value="${(admin.name)!}" />
+												value="${(admin.cardNumber)!}" />
 										</div>
 
 									</div>

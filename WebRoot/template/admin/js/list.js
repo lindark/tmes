@@ -12,6 +12,7 @@ $().ready( function() {
 	$searchButton.click(function(){
 		var rules = "";
 		var ishead= 0;
+		alert($searchform.find(":input").length);
 		$searchform.find(":input").each(function(i){
 			if($(this).val()){
 				if(ishead==1)

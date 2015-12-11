@@ -36,10 +36,6 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		if(!super.existAlias(detachedCriteria, "workshopLinkman", "workshopLinkman")){
 			detachedCriteria.createAlias("workshopLinkman", "workshopLinkman");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
-			detachedCriteria.createAlias("disposalWorkers", "disposalWorkers");//表名，别名*/							
-		}
 
 		if (map.size() > 0) {			
 			
@@ -68,12 +64,33 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
    }
 
 	@Override
-	public Pager findByPager(Pager pager, String id) {
+	public Pager findByPager(Pager pager, HashMap<String, String> map,String id) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(Device.class);		
+				.forClass(Device.class);	
+		
+        pagerSqlByjqGrid(pager,detachedCriteria);
+		
+		if(!super.existAlias(detachedCriteria, "workShop", "workShop")){
+			detachedCriteria.createAlias("workShop", "workShop");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
+			detachedCriteria.createAlias("disposalWorkers", "disposalWorkers");//表名，别名*/							
+		}
 		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
 		detachedCriteria.createAlias("abnormal", "abnormal");						
 	    }
+		
+        if (map.size() > 0) {			
+			
+			if(map.get("workShopName1")!=null){
+			    detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("workShopName1")+"%"));
+			}
+			
+			if(map.get("repairPerson")!=null){
+			    detachedCriteria.add(Restrictions.like("disposalWorkers.name", "%"+map.get("repairPerson")+"%"));
+			}		
+		}	
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

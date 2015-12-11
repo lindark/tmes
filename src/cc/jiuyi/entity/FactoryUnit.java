@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,6 +36,16 @@ public class FactoryUnit extends BaseEntity{
     private String warehouse;//线边仓
     private String warehouseName;//线边仓描述
     private Set<Team> team;//班组
+    
+    private Set<Products> productsSet;//相关产品
+    
+    @ManyToMany(fetch=FetchType.LAZY)
+	public Set<Products> getProductsSet() {
+		return productsSet;
+	}
+	public void setProductsSet(Set<Products> productsSet) {
+		this.productsSet = productsSet;
+	}
 	public String getFactoryUnitCode() {
 		return factoryUnitCode;
 	}

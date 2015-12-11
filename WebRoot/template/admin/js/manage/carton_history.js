@@ -63,12 +63,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ /*'纸箱编码','纸箱描述',*/'随工单编号','物料凭证号','数量','收货日期','创建人', '确认人','状态'],
+		colNames:[ /*'纸箱编码','纸箱描述',*/'随工单编号','产品名称','物料凭证号','数量','收货日期','创建人', '确认人','状态'],
 		colModel:[
 			
 			/*{name:'cartonCode',index:'cartonCode', width:200},
 			{name:'cartonDescribe',index:'cartonDescribe', width:200},*/
 			{name:'workingbillCode',index:'workingbillCode', width:100,sortable:"true",sorttype:"text"},
+			{name:'maktx',index:'maktx', width:200,sortable:"true",sorttype:"text"},
 			{name:'ex_mblnr',index:'ex_mblnr', width:100,sortable:"true",sorttype:"text"},
 			{name:'cartonAmount',index:'cartonAmount', width:200,sorttype:"int"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},

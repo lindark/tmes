@@ -544,9 +544,9 @@
 					</li>
 					
 					 <li class="">
-						<a href="dump!list.action" >
+						<a href="dump!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							转储确认
+							历史转储确认记录
 							<b class="arrow fa"></b>
 						</a>
 
@@ -634,9 +634,9 @@
 					</li>
 					
 					<li class="">
-						<a href="pro!list.action" >
+						<a href="carton!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							纸箱收货
+							历史纸箱收货记录
 							<b class="arrow fa"></b>
 						</a>
 

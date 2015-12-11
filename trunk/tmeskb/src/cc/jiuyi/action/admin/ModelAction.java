@@ -60,6 +60,7 @@ public class ModelAction extends BaseAdminAction {
 	private Abnormal abnormal;
 	private String abnormalId;
 	private Admin admin;
+	private String abnorId;
 	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
@@ -157,6 +158,9 @@ public class ModelAction extends BaseAdminAction {
 	
 	
 	//刷卡回复
+	@Validations(requiredStrings = {
+			@RequiredStringValidator(fieldName = "model.fixTime", message = "维修时间不允许为空!")})		
+	@InputConfig(resultName = "error")	
 	public String check() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
@@ -172,8 +176,28 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet" });
+			
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","failDescript","faultReasonSet","handleSet","longSet"});
 		persistent.setState("1");
+	/*	if(faultReasonSet.size()>0){
+			model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
+		}else{
+			addActionError("请选择故障原因！");
+			return ERROR;
+		}
+		if(handleSet.size()>0){
+			model.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
+		}else{
+			addActionError("请选择处理方法！");
+			return ERROR;
+		}
+		if(longSet.size()>0){
+			model.setLongSet(new HashSet<LongtimePreventstep>(longSet));
+		}else{
+			addActionError("请选择预防措施！");
+			return ERROR;
+		}*/
+		
 		modelService.update(persistent);
 		
 		ModelLog log = new ModelLog();
@@ -192,7 +216,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet" });
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript"});
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -215,7 +239,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -270,6 +294,9 @@ public class ModelAction extends BaseAdminAction {
 		pager = modelService.getModelPager(pager, map,admin.getId());
 
 		List pagerlist = pager.getList();
+		System.out.println(pagerlist.size());
+		System.out.println("ii");
+		
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
             model.setTeamName(model.getTeamId().getTeamName());
@@ -280,14 +307,19 @@ public class ModelAction extends BaseAdminAction {
 			
 			List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
 					model.getFaultReasonSet());
-			List<String> strlist = new ArrayList<String>();
+			List<String> strlist = new ArrayList<String>();			
 			for (FaultReason faultReason : faultReasonList) {
-				String str = faultReason.getReasonName();
-				strlist.add(str);
+					String str = faultReason.getReasonName();
+					strlist.add(str);
 			}
+									
 			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-			
-			model.setFaultName(comlist);
+			System.out.println(faultReasonList.size());
+			if(faultReasonList.size()>0){
+				model.setFaultName(comlist);
+			}else{
+				model.setFaultName("");
+			}			
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);
@@ -312,9 +344,21 @@ public class ModelAction extends BaseAdminAction {
 
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
-		model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
-		model.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
-		model.setLongSet(new HashSet<LongtimePreventstep>(longSet));
+		if(faultReasonSet==null){
+			model.setFaultReasonSet(null);
+		}else{
+			model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
+		}
+		if(handleSet==null){
+			model.setHandleSet(null);
+		}else{
+			model.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
+		}
+		if(longSet==null){
+			model.setLongSet(null);
+		}else{
+			model.setLongSet(new HashSet<LongtimePreventstep>(longSet));
+		}
 		model.setIsDel("N");
 		model.setState("0");
 		modelService.save(model);
@@ -327,12 +371,18 @@ public class ModelAction extends BaseAdminAction {
 		
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setInfo("已开工模维修单");
+		abnormalLog.setType("1");
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
+	}
+	
+	// 列表
+	public String sealist() {
+		pager = modelService.findByPager(pager,abnorId);		
+		return "hlist";
 	}
 
 	// 删除
@@ -450,6 +500,14 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setCraftList(List<Craft> craftList) {
 		this.craftList = craftList;
+	}
+
+	public String getAbnorId() {
+		return abnorId;
+	}
+
+	public void setAbnorId(String abnorId) {
+		this.abnorId = abnorId;
 	}
 
 	

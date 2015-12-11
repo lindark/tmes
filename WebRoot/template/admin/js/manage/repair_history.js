@@ -63,10 +63,11 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '随工单编号','返修部位','返修数量','返修日期','责任工序','责任人/批次','创建人', '确认人','状态','状态-隐藏'],
+		colNames:[ '随工单编号','产品名称','返修部位','返修数量','返修日期','责任工序','责任人/批次','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
 			
 	        {name:'workingbillCode',index:'workingbillCode', width:100,sortable:"true",sorttype:"text"},
+	        {name:'maktx',index:'maktx', width:200,sortable:"true",sorttype:"text"},
 	        {name:'repairPart',index:'repairPart', width:200,sortable:"true",sorttype:"text"},
 			{name:'repairAmount',index:'repairAmount', width:100},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},

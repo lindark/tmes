@@ -18,4 +18,6 @@ public interface ModelService extends BaseService<Model, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public Pager findByPager(Pager pager,String id);
 }

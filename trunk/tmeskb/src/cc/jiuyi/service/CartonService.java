@@ -14,6 +14,8 @@ import cc.jiuyi.util.CustomerException;
 public interface CartonService extends BaseService<Carton, String> {
 	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
 			String workingbillId);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 
 	/**
 	 * 标记删除

@@ -87,7 +87,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		
 	}
 
-	@Override
+	
 	public void save(List<PickDetail> pickDetailList,Pick pick) {
 		String pk = pickService.save(pick);
 		pick.setId(pk);
@@ -106,8 +106,4 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		return pickDetailDao.getPickDetail(id);
 	}
 
-	
-
-
-	
 }

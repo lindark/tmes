@@ -293,15 +293,13 @@ public class ModelAction extends BaseAdminAction {
 		}
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
-			pager = modelService.findByPager(pager,abnorId);	
+			pager = modelService.findByPager(pager,map,abnorId);	
 		}else{
 			pager = modelService.getModelPager(pager, map,admin.getId());	
 		}
 		
 
 		List pagerlist = pager.getList();
-		System.out.println(pagerlist.size());
-		System.out.println("ii");
 		
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
@@ -320,7 +318,7 @@ public class ModelAction extends BaseAdminAction {
 			}
 									
 			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-			System.out.println(faultReasonList.size());
+
 			if(faultReasonList.size()>0){
 				model.setFaultName(comlist);
 			}else{

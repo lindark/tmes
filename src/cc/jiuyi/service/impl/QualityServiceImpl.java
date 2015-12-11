@@ -36,8 +36,8 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 		qualityDao.updateisdel(ids, oper);
 	}
 
-	public Pager findByPager(Pager pager, String id) {
-		return qualityDao.findByPager(pager,id);
+	public Pager findByPager(Pager pager,HashMap<String,String> map, String id) {
+		return qualityDao.findByPager(pager,map,id);
 	}
 	
 	

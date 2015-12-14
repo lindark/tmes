@@ -191,4 +191,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			}
 		}
 	}
+	
+	@Override
+	public List<Sample> getUncheckList(){
+		return sampleDao.getUncheckList();
+	}
 }

@@ -43,7 +43,6 @@ public interface TeamDao extends BaseDao<Team,String> {
 	
 	/**
 	 * 取出所有正在工作的班组
-	 * @param stu
 	 * @return
 	 */
 	public List<Team> getTeamListByWork();

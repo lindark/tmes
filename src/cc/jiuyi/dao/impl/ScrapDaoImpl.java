@@ -36,7 +36,7 @@ public class ScrapDaoImpl extends BaseDaoImpl<Scrap, String> implements ScrapDao
 	}
 
 	@Override
-	public List<Scrap> unCheckList() {
+	public List<Scrap> getUnCheckList() {
 		String hql="from Scrap where state='1'";
 		return this.getSession().createQuery(hql).list();
 	}

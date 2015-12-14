@@ -105,9 +105,9 @@ public class RepairAction extends BaseAdminAction {
 		repair.setCreateUser(admin);
 		repair.setWorkingbillCode(workingBillService.get(repair.getWorkingbill().getId()).getWorkingBillCode());
 		repairService.save(repair);
-		redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repair!list.action?workingBillId="
+				+ repair.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
@@ -120,9 +120,9 @@ public class RepairAction extends BaseAdminAction {
 		Repair persistent = repairService.load(id);
 		BeanUtils.copyProperties(repair, persistent, new String[] { "id" });
 		repairService.update(persistent);
-		redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repair!list.action?workingBillId="
+				+ repair.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡确认

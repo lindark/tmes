@@ -164,9 +164,9 @@ $(function(){
 		//$("#inputForm").submit();
 		var dt = $("#inputForm").serialize();
 		<#if isAdd??>
-			var url = "repairin!save.action";		
+			var url = "repairin!creditsave.action";		
 		<#else>
-			var url = "repairin!update.action";
+			var url = "repairin!creditupdate.action";
 		</#if>
 		credit.creditCard(url,function(data){
 			var workingbillid = $("#wkid").val();

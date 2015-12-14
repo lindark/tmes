@@ -53,5 +53,11 @@ public interface ScrapService extends BaseService<Scrap, String>
 	 * @param newstate
 	 */
 	public void updateState(List<Scrap> list, String newstate);
+	
+	
+	/**
+	 * 取出所有未确认的报废单
+	 */
+	public List<Scrap> unCheckList();
 
 }

@@ -43,4 +43,11 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @param my_id 1保存/2确认
 	 */
 	public void updateInfo(Sample sample, String info, String info2, String my_id);
+	
+	
+	/**
+	 * 取出所有未确认的抽检单
+	 * @return
+	 */
+	public List<Sample> getUncheckList();
 }

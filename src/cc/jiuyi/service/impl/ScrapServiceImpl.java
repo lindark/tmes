@@ -247,4 +247,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			this.scrapDao.update(scrap);
 		}
 	}
+
+	@Override
+	public List<Scrap> getUnCheckList() {
+		return scrapDao.getUnCheckList();
+	}
 }

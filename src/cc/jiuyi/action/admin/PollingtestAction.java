@@ -131,11 +131,11 @@ public class PollingtestAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
 	// @InputConfig(resultName = "error")
-	public String save() throws Exception {
+	public String creditsave() throws Exception {
 		pollingtestService.saveInfo(pollingtest, info, info2, my_id);
-		redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 查看

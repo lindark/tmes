@@ -101,27 +101,27 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	//@InputConfig(resultName = "error")
+	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setCreateUser(admin);
 		dailyWork.setWorkingbillCode(workingBillService.get(dailyWork.getWorkingbill().getId()).getWorkingBillCode());
 		dailyWorkService.save(dailyWork);
-		redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "daily_work!list.action?workingBillId="
+				+ dailyWork.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
-	public String update() throws Exception {
+	//@InputConfig(resultName = "error")
+	public String creditupdate() throws Exception {
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);
-		redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "daily_work!list.action?workingBillId="
+				+ dailyWork.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡确认

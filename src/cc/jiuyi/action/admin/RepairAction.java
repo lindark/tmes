@@ -96,8 +96,8 @@ public class RepairAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	//@InputConfig(resultName = "error")
+	public String creditsave() throws Exception {
 		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}
@@ -113,7 +113,7 @@ public class RepairAction extends BaseAdminAction {
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() throws Exception {
+	public String creditupdate() throws Exception {
 		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}

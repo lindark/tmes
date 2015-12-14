@@ -1,6 +1,9 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
+
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Sample;
 
 /**
@@ -17,4 +20,10 @@ public interface SampleDao extends BaseDao<Sample, String>
 	 */
 	public Pager getSamplePager(Pager pager,String wbId);
 
+	
+	/**
+	 * 取出所有未确认的抽检单
+	 * @return
+	 */
+	public List<Sample> getUncheckList();
 }

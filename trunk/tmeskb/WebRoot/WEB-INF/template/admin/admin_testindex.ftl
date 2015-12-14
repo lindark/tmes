@@ -53,14 +53,13 @@
 
 			<!-- /section:basics/content.breadcrumbs -->
 			<div class="page-content">
-
-
 				<div class="page-content-area">
-                      	
+
 					<div class="row">
-					
-					<div class="col-xs-12">
-					    <!--按钮组start-->
+						<div class="col-xs-12">
+
+							<div class="row">
+                                       <!--按钮组start-->
 								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
@@ -139,10 +138,14 @@
 											</div>
 										</div>
 									</div>
-								</div>
 								<!--按钮组end-->
-								
-								<div class="col-xs-12 col-sm-12 widget-container-col">
+							</div>
+							
+						   <div>&nbsp</div>
+
+							
+							<div class="row">
+							<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-flat">
 											<h4 class="widget-title lighter">
@@ -195,15 +198,13 @@
 									</div>
 									<!-- /.widget-box -->
 								</div>
-					   </div> 
-					   
-					   <div>&nbsp</div>
-						<div>&nbsp</div>
-					
-						<div class="col-xs-12">
+							</div>
+							
+						   <div>&nbsp</div>
+						   <div>&nbsp</div>
+						   
 							<div class="row">
-
-                         <div class="col-xs-12 col-sm-6 widget-container-col">
+							<div class="col-xs-12 col-sm-6 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-flat">
 											<h4 class="widget-title lighter">
@@ -301,18 +302,106 @@
 										<!-- /.widget-body -->
 									</div>
 									<!-- /.widget-box -->
-								</div>				
-							</div><!-- /.row -->
-						</div>
-							<!-- /section:custom/extra.hr -->
-						<div>&nbsp</div>
-						<div>&nbsp</div>
-						<div>&nbsp</div>	
-					
-					   <div class="col-xs-12">
-					   </div> 
-							 
-							<!-- /.row -->
+								</div>							
+							</div>
+							
+							<div>&nbsp</div>
+							<div>&nbsp</div>
+							
+							
+							<div class="row">
+							<div class="col-xs-12 col-sm-6 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-flat">
+											<h4 class="widget-title lighter">
+												<i class="ace-icon fa fa-star orange"></i> 未确认的报废单
+											</h4>
+
+											<div class="widget-toolbar">
+												<a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<table class="table table-bordered table-striped">
+													<thead class="thin-border-bottom">
+														<tr>
+														    <th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															</th>																					
+															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
+														</tr>
+													</thead>
+
+													<tbody>
+														<#list scrapList as list>
+														<tr>			
+														    <td class="hidden-480">${list.workingBill.maktx}</td>														
+															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
+														</tr>
+														</#list>
+
+													</tbody>
+												</table>
+											</div>
+											<!-- /.widget-main -->
+										</div>
+										<!-- /.widget-body -->
+									</div>
+									<!-- /.widget-box -->
+								</div>
+										
+							      <div class="col-xs-12 col-sm-6 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-flat">
+											<h4 class="widget-title lighter">
+												<i class="ace-icon fa fa-star orange"></i> 未确认的半成品巡检单
+											</h4>
+
+											<div class="widget-toolbar">
+												<a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<table class="table table-bordered table-striped">
+													<thead class="thin-border-bottom">
+														<tr>	
+														<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															</th>													
+															<th><i class="ace-icon fa fa-caret-right blue"></i>抽检数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
+															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
+														</tr>
+													</thead>
+
+													<tbody>
+														<#list sampleList as list>
+														<tr>	
+														    <td class="hidden-480">${list.workingBill.maktx}</td>				
+															<td class="hidden-480">${list.sampleNum}</td>
+                                                            <td class="hidden-480">${list.qulified}</td>
+															<td class="hidden-480">${list.qulifiedRate}</td>
+															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
+														</tr>
+														</#list>
+
+													</tbody>
+												</table>
+											</div>
+											<!-- /.widget-main -->
+										</div>
+										<!-- /.widget-body -->
+									</div>
+									<!-- /.widget-box -->
+								</div>							
+							</div>
 						</div>
 						<!-- /.col -->
 					</div>
@@ -321,8 +410,6 @@
 					<!-- PAGE CONTENT ENDS -->
 				</div>
 				<!-- /.col -->
-
-
 			</div>
 			<!-- /.page-content -->
 		</div>
@@ -334,7 +421,7 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-	
+		
 	</script>
 
 </body>

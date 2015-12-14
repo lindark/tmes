@@ -106,7 +106,14 @@ function sub_event(my_id)
 			//赋值
 			fuzhi(my_id);
 			//提交
-			$("#inputForm").submit();
+			//$("#inputForm").submit();
+			var dt = $("#inputForm").serialize();
+			var url = "pollingtest!creditsave.action";
+			credit.creditCard(url,function(data){
+				var workingbillid = $("#wkid").val();
+				$.message(data.status,data.message);
+				window.location.href = "pollingtest!list.action?workingBillId="+ workingbillid;
+			},dt)
 		}
 	}
 }

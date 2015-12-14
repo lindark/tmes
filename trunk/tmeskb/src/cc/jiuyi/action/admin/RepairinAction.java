@@ -86,9 +86,9 @@ public class RepairinAction extends BaseAdminAction {
 		repairin.setCreateUser(admin);
 		repairin.setWorkingbillCode(workingBillService.get(repairin.getWorkingbill().getId()).getWorkingBillCode());
 		repairinService.save(repairin);
-		redirectionUrl = "repairin!list.action?workingBillId="
-				+ repairin.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repairin!list.action?workingBillId="
+				+ repairin.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
@@ -98,9 +98,9 @@ public class RepairinAction extends BaseAdminAction {
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);
-		redirectionUrl = "repairin!list.action?workingBillId="
-				+ repairin.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "repairin!list.action?workingBillId="
+				+ repairin.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡确认

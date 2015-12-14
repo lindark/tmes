@@ -39,4 +39,11 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 
 	public void updateInfo(Pollingtest pollingtest, String info, String info2,
 			String my_id);
+	
+	
+	/**
+	 * 取出所有未确认的巡检单
+	 * @return
+	 */
+	public List<Pollingtest> getUncheckList();
 }

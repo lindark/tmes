@@ -61,7 +61,7 @@
 					
 					<div class="col-xs-12">
 					    <!--按钮组start-->
-								<div class="col-xs-12 col-sm-6 widget-container-col">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
 											<h4 class="widget-title lighter">按钮组</h4>
@@ -73,16 +73,15 @@
 										</div>
 
 										<div class="widget-body">
-											<div
-												class="widget-main padding-6 no-padding-left no-padding-right">
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
+											<divclass="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled" type="button" id="scrap">
 														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="reworkTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="reworkTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="rework">
@@ -90,7 +89,7 @@
 															class="bigger-110 no-text-shadow">返工</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="repairTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="repairTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="repair">
@@ -98,7 +97,7 @@
 															class="bigger-110 no-text-shadow">返修</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="sampleTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="sampleTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="sample">
@@ -106,7 +105,7 @@
 															class="bigger-110 no-text-shadow">抽检</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="inspectionTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="inspectionTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="pollingtest">
@@ -114,7 +113,7 @@
 															class="bigger-110 no-text-shadow">巡检</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="halfinspectionTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="halfinspectionTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="halfinspection">
@@ -122,7 +121,7 @@
 															class="bigger-110 no-text-shadow">半成品巡检</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="quickresponseTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="quickresponseTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block"
 														id="qResponse">
@@ -130,7 +129,7 @@
 															class="bigger-110 no-text-shadow">快速响应</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="attendanceTest">
+												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="attendanceTest">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block">
 														<i class="ace-icon fa fa-users bigger-110"></i> <span
@@ -176,7 +175,11 @@
 													<tbody>
 														<#list teamList as list>
 														<tr>
-															<td><b class="green">${list.teamName}</b></td>
+														   
+															<td ><a href="javascript:void(0);" class="maclick">
+															       <b class="green" >${list.teamName}</b>
+															     </a>
+															</td>								
                                                             <td class="hidden-480">${list.factoryUnit.factoryUnitName}</td>
 															<td class="hidden-480">${list.factoryUnit.workShop.workShopName}</td>
 															<td class="hidden-480">${list.factoryUnit.workShop.factory.factoryName}</td>

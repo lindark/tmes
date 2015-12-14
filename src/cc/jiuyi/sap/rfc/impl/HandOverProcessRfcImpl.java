@@ -53,6 +53,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		tablemodelList.add(tablemodel);
 		/*******执行******/
 		super.setTable(tablemodelList);
+		super.setParameter(parameter);
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表

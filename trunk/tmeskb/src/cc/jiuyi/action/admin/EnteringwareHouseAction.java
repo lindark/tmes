@@ -92,16 +92,16 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "enteringwareHouse.storageAmount", min = "0", message = "入库数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String save() {
+	public String creditsave() {
 		admin = adminService.loadLoginAdmin();
 		enteringwareHouse.setCreateUser(admin);
 		enteringwareHouse.setWorkingbillCode(workingBillService.get(
 				enteringwareHouse.getWorkingbill().getId())
 				.getWorkingBillCode());
 		enteringwareHouseService.save(enteringwareHouse);
-		redirectionUrl = "enteringware_house!list.action?workingBillId="
-				+ enteringwareHouse.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
+				+ enteringwareHouse.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡确认

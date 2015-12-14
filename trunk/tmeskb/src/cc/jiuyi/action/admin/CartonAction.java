@@ -95,26 +95,26 @@ public class CartonAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		carton.setCreateUser(admin);
 		carton.setWorkingbillCode(workingBillService.get(carton.getWorkingbill().getId()).getWorkingBillCode());
 		cartonService.save(carton);
-		redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String update() throws Exception {
+	public String creditupdate() throws Exception {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
-		redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "carton!list.action?workingBillId="
+				+ carton.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 删除

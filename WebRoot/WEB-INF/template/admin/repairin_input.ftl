@@ -63,7 +63,7 @@ body {
 								action="<#if isAdd??>repairin!save.action<#else>reppairin!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${(id)!}" />
-								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} ">
+								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} " id="wkid">
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修收货管理</a></li>
@@ -161,7 +161,18 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		$("#inputForm").submit();
+		//$("#inputForm").submit();
+		var dt = $("#inputForm").serialize();
+		<#if isAdd??>
+			var url = "repairin!save.action";		
+		<#else>
+			var url = "repairin!update.action";
+		</#if>
+		credit.creditCard(url,function(data){
+			var workingbillid = $("#wkid").val();
+			$.message(data.status,data.message);
+			window.location.href = "repairin!list.action?workingBillId="+ workingbillid;
+		},dt)
 	});
 	
 	//返回

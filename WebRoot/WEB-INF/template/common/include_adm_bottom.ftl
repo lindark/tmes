@@ -124,13 +124,18 @@
 		
 		
 		var credit = {
-				"creditCard":function(url,callback){
-					
+				"creditCard":function(url,callback,data){
+					var bool = url.indexOf("?");
+					var cardnubmer="";
+					if(bool >0)
+						cardnumber = "&cardnumber="+credit.cardnumber;
+					else
+						cardnumber = "?cardnumber="+credit.cardnumber;
 					credit.index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
 						var index1;
 						$.ajax({	
-							url: url,
-							data:"cardnumber="+credit.cardnumber,
+							url: url+cardnumber,
+							data:data,
 							dataType: "json",
 							async: false,
 							beforeSend: function(data) {

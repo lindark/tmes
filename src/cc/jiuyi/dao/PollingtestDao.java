@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Pollingtest;
@@ -29,4 +30,12 @@ public interface PollingtestDao extends BaseDao<Pollingtest, String> {
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
+	
+	
+	/**
+	 * 取出所有未确认的巡检单
+	 * @return
+	 */
+	public List<Pollingtest> getUncheckList();
+
 }

@@ -74,14 +74,14 @@
 
 										<div class="widget-body">
 											<divclass="widget-main padding-6 no-padding-left no-padding-right">
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled" type="button" id="scrap">
 														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="reworkTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="reworkTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="rework">
@@ -89,7 +89,7 @@
 															class="bigger-110 no-text-shadow">返工</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="repairTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="repairTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="repair">
@@ -97,7 +97,7 @@
 															class="bigger-110 no-text-shadow">返修</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="sampleTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="sampleTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="sample">
@@ -105,7 +105,7 @@
 															class="bigger-110 no-text-shadow">抽检</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="inspectionTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="inspectionTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="pollingtest">
@@ -113,7 +113,7 @@
 															class="bigger-110 no-text-shadow">巡检</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="halfinspectionTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="halfinspectionTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="halfinspection">
@@ -121,7 +121,7 @@
 															class="bigger-110 no-text-shadow">半成品巡检</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="quickresponseTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="quickresponseTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block"
 														id="qResponse">
@@ -129,7 +129,7 @@
 															class="bigger-110 no-text-shadow">快速响应</span>
 													</button>
 												</div>
-												<div class="col-md-1 col-sm-4 access" style="padding:2px;" data-access-list="attendanceTest">
+												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="attendanceTest">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block">
 														<i class="ace-icon fa fa-users bigger-110"></i> <span
@@ -142,7 +142,7 @@
 								</div>
 								<!--按钮组end-->
 								
-								<div class="col-xs-12 col-sm-6 widget-container-col">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-flat">
 											<h4 class="widget-title lighter">

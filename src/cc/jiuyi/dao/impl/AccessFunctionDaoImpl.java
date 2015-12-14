@@ -28,7 +28,7 @@ public class AccessFunctionDaoImpl extends BaseDaoImpl<AccessFunction, String> i
 	
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getAccessFunctionList(String path,List<String> roleList){
-		String hql="select a,a.accessObject from AccessFunction a where a.accessResource.resource.value = ? and a.accessResource.role.id in (:list)";
+		String hql="select a,a.accessObject from AccessFunction a where replace(a.accessResource.resource.value,'*','') = ? and a.accessResource.role.id in (:list)";
 		return getSession().createQuery(hql).setParameter(0, path).setParameterList("list", roleList).list();
 	}
 }

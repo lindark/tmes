@@ -21,5 +21,5 @@ public interface ScrapDao extends BaseDao<Scrap, String>
    /**
     * 取出所有未确认的报废单
     */
-	public List<Scrap> unCheckList();
+	public List<Scrap> getUnCheckList();
 }

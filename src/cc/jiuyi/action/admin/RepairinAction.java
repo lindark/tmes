@@ -81,7 +81,7 @@ public class RepairinAction extends BaseAdminAction {
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmount", min = "0", message = "返修收货数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		repairin.setCreateUser(admin);
 		repairin.setWorkingbillCode(workingBillService.get(repairin.getWorkingbill().getId()).getWorkingBillCode());
@@ -93,8 +93,8 @@ public class RepairinAction extends BaseAdminAction {
 
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmoun", min = "0", message = "报工数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
-	public String update() throws Exception {
+	//@InputConfig(resultName = "error")
+	public String creditupdate() throws Exception {
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);

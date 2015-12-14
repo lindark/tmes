@@ -29,7 +29,9 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -37,8 +39,10 @@ import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
+import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
+import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -73,6 +77,8 @@ public class AdminAction extends BaseAdminAction {
 	private List<Role> roleList;
 	private List<WorkingBill> workingbillList;
 	private List<Team> teamList;
+	private List<Pollingtest> pollingtestList;
+	private List<Sample> sampleList;
 	private String departid;
 	private String departName;
 
@@ -97,6 +103,10 @@ public class AdminAction extends BaseAdminAction {
 	private DepartmentService departmentservice;
 	@Resource
 	private TeamService teamService;
+	@Resource
+	private PollingtestService pollingtestService;
+	@Resource
+	private SampleService sampleService;
 	
 	// 登录页面
 	public String login() {
@@ -184,7 +194,9 @@ public class AdminAction extends BaseAdminAction {
 		public String index2() {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
-			teamList=teamService.getTeamListByWork();
+			teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
+			pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
+			sampleList=sampleService.getUncheckList();//获取所有未确认的抽检单
 			return "testindex";
 		}
 	
@@ -558,6 +570,22 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setTeamList(List<Team> teamList) {
 		this.teamList = teamList;
+	}
+
+	public List<Pollingtest> getPollingtestList() {
+		return pollingtestList;
+	}
+
+	public void setPollingtestList(List<Pollingtest> pollingtestList) {
+		this.pollingtestList = pollingtestList;
+	}
+
+	public List<Sample> getSampleList() {
+		return sampleList;
+	}
+
+	public void setSampleList(List<Sample> sampleList) {
+		this.sampleList = sampleList;
 	}
 	
 	

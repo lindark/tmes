@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -66,11 +69,6 @@ public class FactoryAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("modifyDate");
-		}
 		return LIST;
 	}
 	
@@ -114,13 +112,7 @@ public class FactoryAction extends BaseAdminAction {
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
+			}			
 		}
 
 		pager = factoryService.getFactoryPager(pager, map);
@@ -133,7 +125,10 @@ public class FactoryAction extends BaseAdminAction {
 			lst.add(factory);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Factory.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 

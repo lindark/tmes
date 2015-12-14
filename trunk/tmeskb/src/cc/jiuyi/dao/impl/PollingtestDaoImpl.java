@@ -3,6 +3,7 @@ package cc.jiuyi.dao.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -62,6 +63,12 @@ public class PollingtestDaoImpl extends BaseDaoImpl<Pollingtest, String>
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Pollingtest> getUncheckList() {
+		String hql="from Pollingtest where state='2'";
+		return this.getSession().createQuery(hql).list();
 	}
 
 }

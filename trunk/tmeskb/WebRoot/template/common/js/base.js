@@ -251,7 +251,7 @@ jQuery(function() {
 	}
 	
 	// 警告信息
-	$.message = function () {
+	/*$.message = function () {
 		var $messageWindow = $("#messageWindow");
 		var $icon = $("#messageWindow .icon");
 		var $messageText = $("#messageWindow .messageText");
@@ -275,7 +275,7 @@ jQuery(function() {
 		$messageText.html(messageText);
 		$messageWindow.jqmShow();
 		$messageButton.focus();
-	}
+	}*/
 	
 	// 滑动提示框
 	$.tip = function () {

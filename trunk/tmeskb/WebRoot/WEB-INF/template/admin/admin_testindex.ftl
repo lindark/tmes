@@ -56,63 +56,11 @@
 
 
 				<div class="page-content-area">
-
+                      	
 					<div class="row">
-						<div class="col-xs-12">
-
-							<div class="row">
-
-								<div class="col-xs-12 col-sm-6 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header widget-header-flat">
-											<h4 class="widget-title lighter">
-												<i class="ace-icon fa fa-star orange"></i> 正在工作中的班组
-											</h4>
-
-											<div class="widget-toolbar">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<div class="widget-main no-padding">
-												<table class="table table-bordered table-striped">
-													<thead class="thin-border-bottom">
-														<tr>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>班组名称
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>所在单元
-															</th>
-
-															<th class="hidden-480"><i
-																class="ace-icon fa fa-caret-right blue"></i>车间名称</th>
-															<th class="hidden-480"><i
-																class="ace-icon fa fa-caret-right blue"></i>工厂名称</th>
-														</tr>
-													</thead>
-
-													<tbody>
-														<#list teamList as list>
-														<tr>
-															<td><b class="green">${list.teamName}</b></td>
-                                                            <td class="hidden-480">${list.factoryUnit.factoryUnitName}</td>
-															<td class="hidden-480">${list.factoryUnit.workShop.workShopName}</td>
-															<td class="hidden-480">${list.factoryUnit.workShop.factory.factoryName}</td>
-														</tr>
-														</#list>
-
-													</tbody>
-												</table>
-											</div>
-											<!-- /.widget-main -->
-										</div>
-										<!-- /.widget-body -->
-									</div>
-									<!-- /.widget-box -->
-								</div>
-
-								<!--按钮组start-->
+					
+					<div class="col-xs-12">
+					    <!--按钮组start-->
 								<div class="col-xs-12 col-sm-6 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
@@ -127,7 +75,7 @@
 										<div class="widget-body">
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
-												<div class="col-md-3 col-sm-1 access" style="padding:2px;" data-access-list="scrapTest">
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
 													<button 
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled" type="button" id="scrap">
 														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
@@ -192,491 +140,175 @@
 											</div>
 										</div>
 									</div>
-
 								</div>
-								<!--按钮组end-->							
+								<!--按钮组end-->
+								
+								<div class="col-xs-12 col-sm-6 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-flat">
+											<h4 class="widget-title lighter">
+												<i class="ace-icon fa fa-star orange"></i> 正在工作中的班组
+											</h4>
+
+											<div class="widget-toolbar">
+												<a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<table class="table table-bordered table-striped">
+													<thead class="thin-border-bottom">
+														<tr>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>班组名称
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>所在单元
+															</th>
+
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>车间名称</th>
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>工厂名称</th>
+														</tr>
+													</thead>
+
+													<tbody>
+														<#list teamList as list>
+														<tr>
+															<td><b class="green">${list.teamName}</b></td>
+                                                            <td class="hidden-480">${list.factoryUnit.factoryUnitName}</td>
+															<td class="hidden-480">${list.factoryUnit.workShop.workShopName}</td>
+															<td class="hidden-480">${list.factoryUnit.workShop.factory.factoryName}</td>
+														</tr>
+														</#list>
+
+													</tbody>
+												</table>
+											</div>
+											<!-- /.widget-main -->
+										</div>
+										<!-- /.widget-body -->
+									</div>
+									<!-- /.widget-box -->
+								</div>
+					   </div> 
+					   
+					   <div>&nbsp</div>
+						<div>&nbsp</div>
+					
+						<div class="col-xs-12">
+							<div class="row">
+
+                         <div class="col-xs-12 col-sm-6 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-flat">
+											<h4 class="widget-title lighter">
+												<i class="ace-icon fa fa-star orange"></i> 未确认的巡检单
+											</h4>
+
+											<div class="widget-toolbar">
+												<a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<table class="table table-bordered table-striped">
+													<thead class="thin-border-bottom">
+														<tr>
+														    <th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															</th>														
+															<th><i class="ace-icon fa fa-caret-right blue"></i>巡检数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
+															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
+														</tr>
+													</thead>
+
+													<tbody>
+														<#list pollingtestList as list>
+														<tr>			
+														    <td class="hidden-480">${list.workingbill.maktx}</td>		
+															<td class="hidden-480">${list.pollingtestAmount}</td>
+                                                            <td class="hidden-480">${list.qualifiedAmount}</td>
+															<td class="hidden-480">${list.passedPercent}</td>
+															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
+														</tr>
+														</#list>
+
+													</tbody>
+												</table>
+											</div>
+											<!-- /.widget-main -->
+										</div>
+										<!-- /.widget-body -->
+									</div>
+									<!-- /.widget-box -->
+								</div>
+										
+							      <div class="col-xs-12 col-sm-6 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-flat">
+											<h4 class="widget-title lighter">
+												<i class="ace-icon fa fa-star orange"></i> 未确认的抽检单
+											</h4>
+
+											<div class="widget-toolbar">
+												<a href="#" data-action="collapse"> <i
+													class="ace-icon fa fa-chevron-up"></i> </a>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main no-padding">
+												<table class="table table-bordered table-striped">
+													<thead class="thin-border-bottom">
+														<tr>	
+														<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															</th>													
+															<th><i class="ace-icon fa fa-caret-right blue"></i>抽检数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
+															</th>
+															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
+															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
+														</tr>
+													</thead>
+
+													<tbody>
+														<#list sampleList as list>
+														<tr>	
+														    <td class="hidden-480">${list.workingBill.maktx}</td>				
+															<td class="hidden-480">${list.sampleNum}</td>
+                                                            <td class="hidden-480">${list.qulified}</td>
+															<td class="hidden-480">${list.qulifiedRate}</td>
+															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
+														</tr>
+														</#list>
+
+													</tbody>
+												</table>
+											</div>
+											<!-- /.widget-main -->
+										</div>
+										<!-- /.widget-body -->
+									</div>
+									<!-- /.widget-box -->
+								</div>				
 							</div><!-- /.row -->
 						</div>
 							<!-- /section:custom/extra.hr -->
 						<div>&nbsp</div>
 						<div>&nbsp</div>
 						<div>&nbsp</div>	
-						<div class="col-xs-12">	
-							<div class="row">
-								
-						
-									<!-- /.span -->
-                                      
-                                      <div class="col-xs-12 col-sm-6 widget-container-col">
-										<div class="widget-box widget-color-purple">
-											<!-- #section:custom/widget-box.options -->
-											<div class="widget-header">
-												<h5 class="widget-title bigger lighter">
-													<i class="ace-icon fa fa-table"></i>
-													Tables & Colors
-												</h5>
-
-												<div class="widget-toolbar widget-toolbar-light no-border">
-													<select id="simple-colorpicker-1" class="hide">
-														<option selected="" data-class="blue" value="#307ECC">#307ECC</option>
-														<option data-class="blue2" value="#5090C1">#5090C1</option>
-														<option data-class="blue3" value="#6379AA">#6379AA</option>
-														<option data-class="green" value="#82AF6F">#82AF6F</option>
-														<option data-class="green2" value="#2E8965">#2E8965</option>
-														<option data-class="green3" value="#5FBC47">#5FBC47</option>
-														<option data-class="red" value="#E2755F">#E2755F</option>
-														<option data-class="red2" value="#E04141">#E04141</option>
-														<option data-class="red3" value="#D15B47">#D15B47</option>
-														<option data-class="orange" value="#FFC657">#FFC657</option>
-														<option data-class="purple" value="#7E6EB0">#7E6EB0</option>
-														<option data-class="pink" value="#CE6F9E">#CE6F9E</option>
-														<option data-class="dark" value="#404040">#404040</option>
-														<option data-class="grey" value="#848484">#848484</option>
-														<option data-class="default" value="#EEE">#EEE</option>
-													</select>
-												</div>
-											</div>
-
-											<!-- /section:custom/widget-box.options -->
-											<div class="widget-body">
-												<div class="widget-main no-padding">
-													<table class="table table-striped table-bordered table-hover">
-														<thead class="thin-border-bottom">
-															<tr>
-																<th>
-																	<i class="ace-icon fa fa-user"></i>
-																	User
-																</th>
-
-																<th>
-																	<i>@</i>
-																	Email
-																</th>
-																<th class="hidden-480">Status</th>
-															</tr>
-														</thead>
-
-														<tbody>
-															<tr>
-																<td class="">Alex</td>
-
-																<td>
-																	<a href="#">alex@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Fred</td>
-
-																<td>
-																	<a href="#">fred@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-success arrowed-in arrowed-in-right">Approved</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Jack</td>
-
-																<td>
-																	<a href="#">jack@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">John</td>
-
-																<td>
-																	<a href="#">john@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-inverse arrowed">Blocked</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">James</td>
-
-																<td>
-																	<a href="#">james@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-info arrowed-in arrowed-in-right">Online</span>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div><!-- /.span -->
-									
-									<div class="col-xs-12 col-sm-6 widget-container-col">
-										<div class="widget-box widget-color-green">
-											<!-- #section:custom/widget-box.options -->
-											<div class="widget-header">
-												<h5 class="widget-title bigger lighter">
-													<i class="ace-icon fa fa-table"></i>
-													Tables & Colors
-												</h5>
-
-												<div class="widget-toolbar widget-toolbar-light no-border">
-													<select id="simple-colorpicker-1" class="hide">
-														<option selected="" data-class="blue" value="#307ECC">#307ECC</option>
-														<option data-class="blue2" value="#5090C1">#5090C1</option>
-														<option data-class="blue3" value="#6379AA">#6379AA</option>
-														<option data-class="green" value="#82AF6F">#82AF6F</option>
-														<option data-class="green2" value="#2E8965">#2E8965</option>
-														<option data-class="green3" value="#5FBC47">#5FBC47</option>
-														<option data-class="red" value="#E2755F">#E2755F</option>
-														<option data-class="red2" value="#E04141">#E04141</option>
-														<option data-class="red3" value="#D15B47">#D15B47</option>
-														<option data-class="orange" value="#FFC657">#FFC657</option>
-														<option data-class="purple" value="#7E6EB0">#7E6EB0</option>
-														<option data-class="pink" value="#CE6F9E">#CE6F9E</option>
-														<option data-class="dark" value="#404040">#404040</option>
-														<option data-class="grey" value="#848484">#848484</option>
-														<option data-class="default" value="#EEE">#EEE</option>
-													</select>
-												</div>
-											</div>
-
-											<!-- /section:custom/widget-box.options -->
-											<div class="widget-body">
-												<div class="widget-main no-padding">
-													<table class="table table-striped table-bordered table-hover">
-														<thead class="thin-border-bottom">
-															<tr>
-																<th>
-																	<i class="ace-icon fa fa-user"></i>
-																	User
-																</th>
-
-																<th>
-																	<i>@</i>
-																	Email
-																</th>
-																<th class="hidden-480">Status</th>
-															</tr>
-														</thead>
-
-														<tbody>
-															<tr>
-																<td class="">Alex</td>
-
-																<td>
-																	<a href="#">alex@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Fred</td>
-
-																<td>
-																	<a href="#">fred@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-success arrowed-in arrowed-in-right">Approved</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Jack</td>
-
-																<td>
-																	<a href="#">jack@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">John</td>
-
-																<td>
-																	<a href="#">john@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-inverse arrowed">Blocked</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">James</td>
-
-																<td>
-																	<a href="#">james@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-info arrowed-in arrowed-in-right">Online</span>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div><!-- /.span -->
-							   </div>
-							 </div><!-- /.row -->
+					
+					   <div class="col-xs-12">
+					   </div> 
 							 
-							 <div class="col-xs-12">	
-							<div class="row">
-
-                                      <div class="col-xs-12 col-sm-6 widget-container-col">
-										<div class="widget-box widget-color-green">
-											<!-- #section:custom/widget-box.options -->
-											<div class="widget-header">
-												<h5 class="widget-title bigger lighter">
-													<i class="ace-icon fa fa-table"></i>
-													Tables & Colors
-												</h5>
-
-												<div class="widget-toolbar widget-toolbar-light no-border">
-													<select id="simple-colorpicker-1" class="hide">
-														<option selected="" data-class="blue" value="#307ECC">#307ECC</option>
-														<option data-class="blue2" value="#5090C1">#5090C1</option>
-														<option data-class="blue3" value="#6379AA">#6379AA</option>
-														<option data-class="green" value="#82AF6F">#82AF6F</option>
-														<option data-class="green2" value="#2E8965">#2E8965</option>
-														<option data-class="green3" value="#5FBC47">#5FBC47</option>
-														<option data-class="red" value="#E2755F">#E2755F</option>
-														<option data-class="red2" value="#E04141">#E04141</option>
-														<option data-class="red3" value="#D15B47">#D15B47</option>
-														<option data-class="orange" value="#FFC657">#FFC657</option>
-														<option data-class="purple" value="#7E6EB0">#7E6EB0</option>
-														<option data-class="pink" value="#CE6F9E">#CE6F9E</option>
-														<option data-class="dark" value="#404040">#404040</option>
-														<option data-class="grey" value="#848484">#848484</option>
-														<option data-class="default" value="#EEE">#EEE</option>
-													</select>
-												</div>
-											</div>
-
-											<!-- /section:custom/widget-box.options -->
-											<div class="widget-body">
-												<div class="widget-main no-padding">
-													<table class="table table-striped table-bordered table-hover">
-														<thead class="thin-border-bottom">
-															<tr>
-																<th>
-																	<i class="ace-icon fa fa-user"></i>
-																	User
-																</th>
-
-																<th>
-																	<i>@</i>
-																	Email
-																</th>
-																<th class="hidden-480">Status</th>
-															</tr>
-														</thead>
-
-														<tbody>
-															<tr>
-																<td class="">Alex</td>
-
-																<td>
-																	<a href="#">alex@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Fred</td>
-
-																<td>
-																	<a href="#">fred@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-success arrowed-in arrowed-in-right">Approved</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Jack</td>
-
-																<td>
-																	<a href="#">jack@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">John</td>
-
-																<td>
-																	<a href="#">john@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-inverse arrowed">Blocked</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">James</td>
-
-																<td>
-																	<a href="#">james@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-info arrowed-in arrowed-in-right">Online</span>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div><!-- /.span -->
-									
-									<div class="col-xs-12 col-sm-6 widget-container-col">
-										<div class="widget-box widget-color-purple">
-											<!-- #section:custom/widget-box.options -->
-											<div class="widget-header">
-												<h5 class="widget-title bigger lighter">
-													<i class="ace-icon fa fa-table"></i>
-													Tables & Colors
-												</h5>
-
-												<div class="widget-toolbar widget-toolbar-light no-border">
-													<select id="simple-colorpicker-1" class="hide">
-														<option selected="" data-class="blue" value="#307ECC">#307ECC</option>
-														<option data-class="blue2" value="#5090C1">#5090C1</option>
-														<option data-class="blue3" value="#6379AA">#6379AA</option>
-														<option data-class="green" value="#82AF6F">#82AF6F</option>
-														<option data-class="green2" value="#2E8965">#2E8965</option>
-														<option data-class="green3" value="#5FBC47">#5FBC47</option>
-														<option data-class="red" value="#E2755F">#E2755F</option>
-														<option data-class="red2" value="#E04141">#E04141</option>
-														<option data-class="red3" value="#D15B47">#D15B47</option>
-														<option data-class="orange" value="#FFC657">#FFC657</option>
-														<option data-class="purple" value="#7E6EB0">#7E6EB0</option>
-														<option data-class="pink" value="#CE6F9E">#CE6F9E</option>
-														<option data-class="dark" value="#404040">#404040</option>
-														<option data-class="grey" value="#848484">#848484</option>
-														<option data-class="default" value="#EEE">#EEE</option>
-													</select>
-												</div>
-											</div>
-
-											<!-- /section:custom/widget-box.options -->
-											<div class="widget-body">
-												<div class="widget-main no-padding">
-													<table class="table table-striped table-bordered table-hover">
-														<thead class="thin-border-bottom">
-															<tr>
-																<th>
-																	<i class="ace-icon fa fa-user"></i>
-																	User
-																</th>
-
-																<th>
-																	<i>@</i>
-																	Email
-																</th>
-																<th class="hidden-480">Status</th>
-															</tr>
-														</thead>
-
-														<tbody>
-															<tr>
-																<td class="">Alex</td>
-
-																<td>
-																	<a href="#">alex@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Fred</td>
-
-																<td>
-																	<a href="#">fred@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-success arrowed-in arrowed-in-right">Approved</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">Jack</td>
-
-																<td>
-																	<a href="#">jack@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-warning">Pending</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">John</td>
-
-																<td>
-																	<a href="#">john@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-inverse arrowed">Blocked</span>
-																</td>
-															</tr>
-
-															<tr>
-																<td class="">James</td>
-
-																<td>
-																	<a href="#">james@email.com</a>
-																</td>
-
-																<td class="hidden-480">
-																	<span class="label label-info arrowed-in arrowed-in-right">Online</span>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div><!-- /.span -->
-							   </div>
-							 </div><!-- /.row -->
 							<!-- /.row -->
 						</div>
 						<!-- /.col -->

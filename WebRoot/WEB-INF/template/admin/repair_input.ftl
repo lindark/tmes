@@ -63,7 +63,7 @@ body {
 								action="<#if isAdd??>repair!save.action<#else>repair!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${(id)!}" />
-								<input type="hidden" class="input input-sm" name="repair.workingbill.id" value="${workingbill.id} ">
+								<input type="hidden" class="input input-sm" name="repair.workingbill.id" value="${workingbill.id} " id="wkid">
 								<#if isEdit>
 								<input type="hidden" class="input input-sm" name="repair.createUser.id" value="${repair.createUser.id} ">
 								</#if>
@@ -196,7 +196,18 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		$("#inputForm").submit();
+		//$("#inputForm").submit();
+		var dt = $("#inputForm").serialize();
+		<#if isAdd??>
+			var url = "repair!save.action";		
+		<#else>
+			var url = "repair!update.action";
+		</#if>
+		credit.creditCard(url,function(data){
+			var workingbillid = $("#wkid").val();
+			$.message(data.status,data.message);
+			window.location.href = "repair!list.action?workingBillId="+ workingbillid;
+		},dt)
 	});
 	
 	//返回

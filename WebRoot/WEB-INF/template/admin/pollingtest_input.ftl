@@ -82,7 +82,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if add??>pollingtest!save.action</#if><#if edit??>pollingtest!update.action</#if><#if show??></#if>"
+								action="<#if add??>pollingtest!creditsave.action</#if><#if edit??>pollingtest!update.action</#if><#if show??></#if>"
 								method="post">
 								<input type="hidden" id="input_qulified"  name="pollingtest.qualifiedAmount" value="${(pollingtest.qualifiedAmount)! }" />
 								<input type="hidden" id="input_qrate" name="pollingtest.passedPercent" value="${(pollingtest.passedPercent)! }" />
@@ -91,7 +91,7 @@ body {
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }"/>
 								<input type="hidden" name="pollingtest.id" value="${(pollingtest.id)!}" /> 
 								<input type="hidden" class="input input-sm"
-									name="pollingtest.workingbill.id" value="${workingbill.id} ">
+									name="pollingtest.workingbill.id" value="${workingbill.id} " id="wkid">
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">巡检单</a></li>

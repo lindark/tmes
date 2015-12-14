@@ -188,4 +188,9 @@ public class PollingtestServiceImpl extends
 		return pollingtestDao.historyjqGrid(pager, map);
 	}
 
+	@Override
+	public List<Pollingtest> getUncheckList() {
+		return pollingtestDao.getUncheckList();
+	}
+
 }

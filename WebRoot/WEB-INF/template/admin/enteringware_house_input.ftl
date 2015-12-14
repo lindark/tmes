@@ -63,7 +63,7 @@ body {
 								action="<#if isAdd??>enteringware_house!save.action<#else>enteringware_house!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${(id)!}" />
-								<input type="hidden" class="input input-sm" name="enteringwareHouse.workingbill.id" value="${workingbill.id} ">
+								<input type="hidden" class="input input-sm" name="enteringwareHouse.workingbill.id" value="${workingbill.id} " id="wkid">
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">入库单管理</a></li>
@@ -154,7 +154,18 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		$("#inputForm").submit();
+		//$("#inputForm").submit();
+		var dt = $("#inputForm").serialize();
+		<#if isAdd??>
+			var url = "enteringware_house!creditsave.action";		
+		<#else>
+			var url = "enteringware_house!creditupdate.action";
+		</#if>
+		credit.creditCard(url,function(data){
+			var workingbillid = $("#wkid").val();
+			$.message(data.status,data.message);
+			window.location.href = "enteringware_house!list.action?workingBillId="+ workingbillid;
+		},dt)
 	});
 	
 	//返回

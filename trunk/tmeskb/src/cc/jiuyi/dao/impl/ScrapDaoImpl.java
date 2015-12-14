@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -31,5 +33,11 @@ public class ScrapDaoImpl extends BaseDaoImpl<Scrap, String> implements ScrapDao
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));
 		detachedCriteria.add(Restrictions.eq("workingBill.id", wbId));
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Scrap> unCheckList() {
+		String hql="from Scrap where state='1'";
+		return this.getSession().createQuery(hql).list();
 	}
 }

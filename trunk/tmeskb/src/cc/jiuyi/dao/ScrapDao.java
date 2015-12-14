@@ -1,4 +1,6 @@
-package cc.jiuyi.dao;
+ package cc.jiuyi.dao;
+
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Scrap;
@@ -16,4 +18,8 @@ public interface ScrapDao extends BaseDao<Scrap, String>
 	 */
 	public Pager getScrapPager(Pager pager, String wbId);
 	
+   /**
+    * 取出所有未确认的报废单
+    */
+	public List<Scrap> unCheckList();
 }

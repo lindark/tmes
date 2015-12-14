@@ -666,9 +666,9 @@
 					</li>
 					
 					<li class="">
-						<a href="pros!list.action" >
+						<a href="pollingtest!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							巡检
+							历史巡检记录
 						</a>
 
 						<b class="arrow"></b>

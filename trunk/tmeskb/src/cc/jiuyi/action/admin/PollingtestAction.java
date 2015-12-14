@@ -89,36 +89,38 @@ public class PollingtestAction extends BaseAdminAction {
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
 		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
-		this.add="add";
+		this.add = "add";
 		return INPUT;
+	}
+
+	// 历史巡检记录
+	public String history() {
+		return "history";
 	}
 
 	// 编辑
 	public String edit() {
 		try {
-			
+
 			pollingtest = pollingtestService.load(id);
 			workingbill = workingBillService.get(workingBillId);
 			List<Cause> l_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
-			list_pollingtestRecord = pollingtestRecordService.findByPollingtestId(id);
-			list_cause=new ArrayList<Cause>();
-			for(int i=0;i<l_cause.size();i++)
-			{
-				Cause c=l_cause.get(i);
-				for(int j=0;j<list_pollingtestRecord.size();j++)
-				{
-					PollingtestRecord sr=list_pollingtestRecord.get(j);
-					if(c!=null&&sr!=null)
-					{
-						if(c.getId().equals(sr.getCauseId()))
-						{
+			list_pollingtestRecord = pollingtestRecordService
+					.findByPollingtestId(id);
+			list_cause = new ArrayList<Cause>();
+			for (int i = 0; i < l_cause.size(); i++) {
+				Cause c = l_cause.get(i);
+				for (int j = 0; j < list_pollingtestRecord.size(); j++) {
+					PollingtestRecord sr = list_pollingtestRecord.get(j);
+					if (c != null && sr != null) {
+						if (c.getId().equals(sr.getCauseId())) {
 							c.setCauseNum(sr.getRecordNum());
 						}
 					}
 				}
 				this.list_cause.add(c);
 			}
-			this.edit="edit";
+			this.edit = "edit";
 			return INPUT;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,7 +130,7 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
-	//@InputConfig(resultName = "error")
+	// @InputConfig(resultName = "error")
 	public String save() throws Exception {
 		pollingtestService.saveInfo(pollingtest, info, info2, my_id);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
@@ -144,20 +146,87 @@ public class PollingtestAction extends BaseAdminAction {
 				"craftWorkRemark", pollingtest.getCraftWork());
 		list_pollingtestRecord = pollingtestRecordService
 				.findByPollingtestId(id);
-		this.show="show";
+		this.show = "show";
 		return INPUT;
 	}
-	
+
 	/**
 	 * 修改
 	 */
-	public String update()
-	{
-		//保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
-		this.pollingtestService.updateInfo(pollingtest,info,info2,my_id);
+	public String update() {
+		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
+		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
+	}
+	
+	public String historylist(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("workingbillCode") != null) {
+				System.out.println("obj=" + obj);
+				String workingbillCode = obj.getString("workingbillCode").toString();
+				map.put("workingbillCode", workingbillCode);
+			}
+			if(obj.get("start")!=null&&obj.get("end")!=null){
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+		pager = pollingtestService.historyjqGrid(pager, map);
+		List<Pollingtest> pollingtestList = pager.getList();
+		List<Pollingtest> lst = new ArrayList<Pollingtest>();
+		for (int i = 0; i < pollingtestList.size(); i++) {
+			Pollingtest pollingtest = (Pollingtest) pollingtestList.get(i);
+			// 状态描述
+			pollingtest.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "pollingtestState", pollingtest.getState()));
+			// 工艺确认描述
+			pollingtest
+					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "craftWorkRemark",
+							pollingtest.getCraftWork()));
+			// 确认人的名字
+			if (pollingtest.getConfirmUser() != null) {
+				pollingtest
+						.setAdminName(pollingtest.getConfirmUser().getName());
+			}
+			// 巡检人的名字
+			if (pollingtest.getPollingtestUser() != null) {
+				pollingtest.setPollingtestUserName(pollingtest
+						.getPollingtestUser().getName());
+			}
+			pollingtest.setMaktx(workingBillService.get(pollingtest.getWorkingbill().getId()).getMaktx());
+			pollingtest.setWorkingBillId(pollingtest.getWorkingbill().getId());
+			lst.add(pollingtest);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig
+				.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
 	}
 
 	/**
@@ -225,19 +294,19 @@ public class PollingtestAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (CONFIRMED.equals(pollingtest.getState())) {
-				//addActionError("已确认的无须再确认！");
+				// addActionError("已确认的无须再确认！");
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(pollingtest.getState())) {
-				//addActionError("已撤销的无法再确认！");
+				// addActionError("已撤销的无法再确认！");
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
 		pollingtestService.confirm(list, admin, CONFIRMED);
-		//redirectionUrl = "pollingtest!list.action?workingBillId="+ pollingtest.getWorkingbill().getId();
-		
-		
+		// redirectionUrl = "pollingtest!list.action?workingBillId="+
+		// pollingtest.getWorkingbill().getId();
+
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -248,14 +317,16 @@ public class PollingtestAction extends BaseAdminAction {
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (UNDO.equals(pollingtest.getState())) {
-				//addActionError("已撤销的无法再撤销！");
+				// addActionError("已撤销的无法再撤销！");
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
 		pollingtestService.confirm(list, admin, UNDO);
-		/*redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +
+		 * pollingtest.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 

@@ -47,6 +47,9 @@ public class Pollingtest extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String pollingtestUserName;// 巡检人的名字
 	private String adminName;// 确认人的名字
+	private String workingbillCode;
+	private String workingBillId;
+	private String maktx;//产品描述
 
 	public Integer getPollingtestAmount() {
 		return pollingtestAmount;
@@ -260,6 +263,32 @@ public class Pollingtest extends BaseEntity {
 
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
+	}
+
+	@Transient
+	public String getWorkingBillId() {
+		return workingBillId;
+	}
+
+	public void setWorkingBillId(String workingBillId) {
+		this.workingBillId = workingBillId;
 	}
 
 }

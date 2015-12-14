@@ -24,6 +24,7 @@ import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.PollingtestService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Service实现类 巡检
@@ -42,6 +43,8 @@ public class PollingtestServiceImpl extends
 	private AdminDao adminDao;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private WorkingBillService workingbillService;
 
 	@Resource
 	public void setBaseDao(PollingtestDao pollingtestDao) {
@@ -66,6 +69,7 @@ public class PollingtestServiceImpl extends
 		Admin admin = this.adminService.getLoginAdmin();
 		if (pollingtest != null) {
 			pollingtest.setPollingtestUser(admin);// 巡检人
+			pollingtest.setWorkingbillCode(workingbillService.get(pollingtest.getWorkingbill().getId()).getWorkingBillCode());
 			if ("2".equals(my_id)) {
 				pollingtest.setConfirmUser(admin);
 				pollingtest.setState("1");
@@ -177,6 +181,11 @@ public class PollingtestServiceImpl extends
 			}
 		}
 		
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return pollingtestDao.historyjqGrid(pager, map);
 	}
 
 }

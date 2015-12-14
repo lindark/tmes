@@ -45,16 +45,11 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 
 	
 	public Pager getFactoryPager(Pager pager, HashMap<String, String> map) {
-		//String wheresql = factorypagerSql(pager);
+
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Factory.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		
-		/*if (!wheresql.equals("")) {
-			// detachedCriteria.createAlias("dict", "dict");
-			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}*/
-		//System.out.println(map.size());
 		if (map.size() > 0) {
 			if(map.get("factoryCode")!=null){
 			    detachedCriteria.add(Restrictions.like("factoryCode", "%"+map.get("factoryCode")+"%"));
@@ -69,28 +64,6 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-   /*
-	public String factorypagerSql(Pager pager) {
-		String wheresql = "";
-		Integer ishead = 0;
-		if (pager.is_search() == true && pager.getRules() != null) {
-			List list = pager.getRules();
-			for (int i = 0; i < list.size(); i++) {
-				if (ishead == 1) {
-					wheresql += " " + pager.getGroupOp() + " ";
-				}
-				jqGridSearchDetailTo to = (jqGridSearchDetailTo) list.get(i);
-				wheresql += " "
-						+ super.generateSearchSql(to.getField(), to.getData(),
-								to.getOp(), null) + " ";
-				ishead = 1;
-			}
-
-		}
-		wheresql=wheresql.replace("state='启用'", "state='1'");
-		wheresql=wheresql.replace("state='未启用'", "state='2'");
-		return wheresql;
-	}*/
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

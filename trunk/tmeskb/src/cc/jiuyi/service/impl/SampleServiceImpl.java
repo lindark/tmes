@@ -68,7 +68,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 				sample.setState("2");
 			}
 			String sampleId=this.sampleDao.save(sample);
-			Sample sam=this.sampleDao.load(sampleId);
+			Sample sam=this.sampleDao.get(sampleId);
 			String[]qxids=info.split(",");//缺陷IDS
 			String[]qxnums=info2.split(",");//缺陷nums
 			for(int i=0;i<qxids.length;i++)
@@ -118,7 +118,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	public void updateInfo(Sample sample, String info, String info2, String my_id)
 	{
 		Admin admin=this.adminService.getLoginAdmin();
-		Sample s=this.sampleDao.load(sample.getId());
+		Sample s=this.sampleDao.get(sample.getId());
 		BeanUtils.copyProperties(sample, s, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		s.setSampler(admin);//抽检人
 		s.setState("1");
@@ -129,7 +129,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		}
 		s.setModifyDate(new Date());
 		this.sampleDao.update(s);//修改操作
-		Sample sam=this.sampleDao.load(sample.getId());
+		Sample sam=this.sampleDao.get(sample.getId());
 		/**缺陷记录更新*/
 		String[]qxids=info.split(",");//缺陷IDS
 		String[]qxnums=info2.split(",");//缺陷nums
@@ -174,7 +174,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			for(int i=0;i<list_sr.size();i++)
 			{
 				SampleRecord sr=list_sr.get(i);
-				sr=this.sampleRecordDao.load(sr.getId());
+				sr=this.sampleRecordDao.get(sr.getId());
 				sr.setIsDel("Y");
 				this.sampleRecordDao.update(sr);
 			}
@@ -185,7 +185,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			for(int i=0;i<list_sr2.size();i++)
 			{
 				SampleRecord sr=list_sr2.get(i);
-				sr=this.sampleRecordDao.load(sr.getId());
+				sr=this.sampleRecordDao.get(sr.getId());
 				sr.setIstoDel("Y");
 				this.sampleRecordDao.update(sr);
 			}

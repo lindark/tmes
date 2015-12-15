@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +86,27 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		return adminDao.getAdminPager(pager,map);
 	}
 
-	
+	/**
+	 * 根据班组ID获取该 班组下的所有员工
+	 */
+	public List<Admin>getByTeamId(String tid)
+	{
+		return this.adminDao.getByTeamId(tid);
+	}
 
+	/**
+	 * jqgrid分页条件查询
+	 */
+	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin)
+	{
+		return this.adminDao.getEmpPager(pager,map,admin);
+	}
+	
+	/**
+	 * 根据员工卡号查询员工
+	 */
+	public Admin getByCardnum(String cardNum)
+	{
+		return this.adminDao.getByCardnum(cardNum);
+	}
 }

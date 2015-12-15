@@ -131,12 +131,4 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		return super.findByPager(pager, detachedCriteria);
 	}
 	
-	/**
-	 * 根据员工卡号查询员工
-	 */
-	public Admin getByCardnum(String cardNum)
-	{
-		String hql="from Admin where cardNumber=?";
-		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNum).uniqueResult();
-	}
 }

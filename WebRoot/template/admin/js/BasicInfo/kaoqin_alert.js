@@ -1,8 +1,6 @@
-var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
-	var wbId=$("#wbId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -16,9 +14,7 @@ jQuery(function($) {
 				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
 			}, 0);
 		}
-    })
-
-
+    });
 
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
@@ -48,9 +44,9 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"scrap!ajlist.action?wbId="+wbId,
+		url:"kaoqin!getemp.action",
 		datatype: "json",
-		height: "250",//weitao 修改此参数可以修改表格的高度
+		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -65,57 +61,107 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
+		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
-			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'modifyDate',index:'modifyDate',label:"日期",width:150,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'xcreater',index:'creater.name',label:"提交人",width:150,editable: false,search:false},
-			{name:'xconfirmation',index:'confirmation.name',label:"确认人",width:150,editable: false,search:false},
-			{name:'xstate',index:'state',label:"状态",width:150,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}},
-			{name:'state',index:'state', label:"state", editable: false,hidden:true}
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:120, editable: false},
+			{name:'name',index:'name',label:"员工姓名",width:120, editable: false},
+			{name:'xpost',index:'post',label:"技能",width:120, editable: false},
+			{name:'xteam',index:'team.teamName',label:"班组",width:120, editable: false},
+			{name:'xshift',index:'shift',label:"班次",width:120, editable: false},
+			{name:'xworkstate',index:'workstate',label:"工作状态",cellattr:addstyle,width:120, editable: false},
+			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
+			//{name:'shift',index:'shift',label:"shift",editable: false,hidden:true}
 		], 
+
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
 		pager : pager_selector,
 		altRows: true,
 		//toppager: true,
+		
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
+
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
 				styleCheckbox(table);
+				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
 		},
-		editurl: "scrap!delete.action",//用它做标准删除动作
-		caption: "报废单"
+
+		//editurl: "work_shop!delete.adction"//用它做标准删除动作
+		//caption: "员工信息"
+
+		//,autowidth: true,
+//		,
+//		grouping:true, 
+//		groupingView : { 
+//			 groupField : ['name'],
+//			 groupDataSorted : true,
+//			 plusicon : 'fa fa-chevron-down bigger-110',
+//			 minusicon : 'fa fa-chevron-up bigger-110'
+//		},
+//		caption: "Grouping"
+		
+
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	
+
+	//enable search/filter toolbar
+	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+	//jQuery(grid_selector).filterToolbar({});
+
+
+	//switch element when editing inline
+	function aceSwitch( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=checkbox]')
+				.addClass('ace ace-switch ace-switch-5')
+				.after('<span class="lbl"></span>');
+		}, 0);
+	}
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=text]')
+					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+		}, 0);
+	}
+
+
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: false,
+		    editfunc:function(rowId){
+			   // window.location.href="work_shop!edit.action?id="+rowId;
+		    },
 			//editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
-			addfunc:function(rowId){
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="sample!add.action?workingBillId="+workingBillId;
+			addfunc:function(){
+				//window.location.href="work_shop!add.action";
 			},
 			//addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
+			delfunc:function(rowId){
+				//window.location.href="work_shop!delete.action?id="+rowId;
+			},
 			//delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
-			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
-			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
-			viewicon : 'ace-icon fa fa-search-plus grey',
+			search: false,
+			//searchicon : 'ace-icon fa fa-search orange',
+			refresh: false,
+			//refreshicon : 'ace-icon fa fa-refresh green',
+			view: false,
+			//viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
 			//edit record form
@@ -146,9 +192,11 @@ jQuery(function($) {
 			recreateForm: true,
 			beforeShowForm : function(e) {
 				var form = $(e[0]);
-				if(form.data('styled')) return false;				
+				if(form.data('styled')) return false;
+				
 				form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-				style_delete_form(form);				
+				style_delete_form(form);
+				
 				form.data('styled', true);
 			},
 			onClick : function(e) {
@@ -168,8 +216,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			multipleGroup:false,
+			/**
+			multipleGroup:true,
 			showQuery: true
+			*/
 		},
 		{
 			//view record form
@@ -180,130 +230,19 @@ jQuery(function($) {
 			}
 		}
 	)
-	
-	//按钮事件
-	btn_event();
 });
 
 //给状态加样式
 function addstyle(rowId, val, rowObject, cm, rdata)
 {
-	//未确认
-	if(rowObject.state=="1")
-	{
-		return "style='color:#b22;font-weight:bold;'";
-	}
-	//已确认
-	if(rowObject.state=="2")
+	//已上班，代班，出差
+	if(rowObject.workstate=="2"||rowObject.workstate=="5"||rowObject.workstate=="6")
 	{
 		return "style='color:#008B00;font-weight:bold;'";
 	}
-	//已撤销
-	if(rowObject.state=="3")
-	{
-		return "style='color:#d2b48c;font-weight:bold;'";
-	}
-}
-
-//按钮事件
-function btn_event()
-{
-	var wbId=$("#wbId").val();
-	//创建报废单
-	$("#btn_creat").click(function(){
-		window.location.href="scrap!add.action?wbId="+wbId;
-	});
-	//刷卡确认
-	$("#btn_confirm").click(function(){
-		if(getId())
-		{
-			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
-			sub_event(wbId,url);
-		}
-	});
-	//刷卡撤销
-	$("#btn_revoke").click(function(){
-		if(getId())
-		{
-			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
-			sub_event(wbId,url);
-		}
-	});
-	//返回
-	$("#btn_back").click(function(){
-		window.history.back();
-	});
-	//编辑
-	$("#btn_edit").click(function(){
-		if(getId2())
-		{
-			var rowData = $("#grid-table").jqGrid('getRowData',info);
-			var row_state=rowData.state;
-			if(row_state=="2"||row_state=="3")
-			{
-				layer.alert("已确认或已撤销的抽检单无法再编辑!",false);
-			}
-			else
-			{
-				window.location.href="scrap!edit.action?id="+info+"&wbId="+wbId;
-			}
-		}
-	});
-	//查看
-	$("#btn_show").click(function(){
-		if(getId2())
-		{
-			window.location.href="scrap!show.action?id="+info+"&wbId="+wbId;
-		}
-	});
-}
-
-//刷卡确认或撤销
-function sub_event(wbId,url)
-{
-	$.ajax({	
-		url: url,
-		//data: $(form).serialize(),
-		dataType: "json",
-		async: false,
-		beforeSend: function(data) {
-			$(this).attr("disabled", true);
-			index = layer.load();
-		},
-		success: function(data) {
-			layer.close(index);
-			$.message(data.status,data.message);
-			$("#grid-table").trigger("reloadGrid");
-		},error:function(data){
-			$.message("error","系统出现问题，请联系系统管理员");
-		}
-	});
-}
-
-//获取jqGrid表中选择的条数--即数据的ids
-function getId()
-{
-	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
-	if(info==null||info=="")
-	{
-		layer.alert("请选择至少一条抽检记录！",false);
-		return false;
-	}
-	return true;
-}
-
-//得到1条id
-function getId2()
-{
-	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
-	if(info.length==1)
-	{
-		return true;
-	}
 	else
 	{
-		layer.alert("请选择一条抽检记录！",false);
-		return false;
+		//未上班，旷工，请假
+		return "style='color:#b22;font-weight:bold;'";
 	}
 }
-

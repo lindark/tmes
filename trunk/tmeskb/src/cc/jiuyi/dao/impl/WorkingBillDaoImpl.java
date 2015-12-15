@@ -54,13 +54,14 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 
 	@Override
 	public void updateWorkingBill(WorkingBill workingbill) {
-		String hql = "update WorkingBill set productDate = ? ,planCount = ?,matnr=?,maktx=? where workingBillCode = ?";
+		String hql = "update WorkingBill set productDate = ? ,planCount = ?,matnr=?,maktx=?,werks=? where workingBillCode = ?";
 		getSession().createQuery(hql)
 				.setParameter(0, workingbill.getProductDate())
 				.setParameter(1, workingbill.getPlanCount())
 				.setParameter(2, workingbill.getMatnr())
 				.setParameter(3, workingbill.getMaktx())
-				.setParameter(4, workingbill.getWorkingBillCode())
+				.setParameter(4, workingbill.getWerks())
+				.setParameter(5, workingbill.getWorkingBillCode())
 				.executeUpdate();
 	}
 
@@ -100,11 +101,6 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 				.list();
 	}
 
-	@Override
-	public boolean isExist(String laststr,String productdate) {
-		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and ";
-		WorkingBill workingbill = (WorkingBill) getSession().createQuery(hql).setParameter(0, productdate).setParameter(1, "%"+laststr).uniqueResult();
-		return (workingbill != null);
-	}
+	
 
 }

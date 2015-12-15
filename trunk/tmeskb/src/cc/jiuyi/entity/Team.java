@@ -43,7 +43,18 @@ public class Team extends BaseEntity {
 	private Set<Quality> qualitySet;
 	private Set<Model> modelSet;
 	private Set<Craft> craftSet;
+	private Set<Device> deviceSet;
 	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
+	public Set<Device> getDeviceSet() {
+		return deviceSet;
+	}
+
+	public void setDeviceSet(Set<Device> deviceSet) {
+		this.deviceSet = deviceSet;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
 	public Set<Craft> getCraftSet() {
 		return craftSet;

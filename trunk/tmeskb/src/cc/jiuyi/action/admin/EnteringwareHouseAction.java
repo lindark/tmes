@@ -210,6 +210,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}
 			enteringwareHouse.setCreateName(enteringwareHouse.getCreateUser()
 					.getName());
+			enteringwareHouse.setWorkingbillCode(workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId()).getWorkingBillCode());
 			enteringwareHouse.setMaktx(workingBillService.get(
 					enteringwareHouse.getWorkingbill().getId()).getMaktx());
 			lst.add(enteringwareHouse);

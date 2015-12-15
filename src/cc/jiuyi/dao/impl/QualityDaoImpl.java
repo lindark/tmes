@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 @Repository
 public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements QualityDao {
     
-	public Pager getQualityPager(Pager pager, HashMap<String, String> map,String id) {
+	public Pager getQualityPager(Pager pager, HashMap<String, String> map,String id,String team) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Quality.class);
@@ -62,7 +63,14 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		/*if(abnormalId!=null || !abnormalId.equals("")){
 			detachedCriteria.add(Restrictions.eq("abnormal.id",abnormalId));
 		}*/
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));
+		
+		Disjunction disjunction = Restrictions.disjunction();  
+		disjunction.add(Restrictions.eq("creater.id", id));
+		disjunction.add(Restrictions.eq("receiver.id", id));
+		disjunction.add(Restrictions.eq("team.id", team));
+		detachedCriteria.add(disjunction);
+		
+	//	detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}	

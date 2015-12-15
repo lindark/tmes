@@ -165,7 +165,7 @@
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
-		window.location.href="dump_detail!list.action?dumpId="+dumpId;
+		window.location.href="dump_detail!history.action?dumpId="+dumpId;
 	});
 		
 		/*

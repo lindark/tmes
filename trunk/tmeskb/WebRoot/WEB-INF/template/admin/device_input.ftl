@@ -76,8 +76,9 @@ body {
 							<form id="inputForm" class="validate"
 								action="<#if isAdd??>device!save.action<#else>device!update.action</#if>"
 								method="post">
-								<input type="hidden" name="id" value="${id}" /> <input
-									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
+								<input type="hidden" name="id" value="${id}" /> 
+								<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
+								<input type="hidden" name="device.team.id" value="${(admin.department.team.id)!}"/>
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">基本信息</a></li>

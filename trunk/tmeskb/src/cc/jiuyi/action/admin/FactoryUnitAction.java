@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
@@ -52,6 +54,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 	private List<Dict> allState;
 	private String workShopId;
 	private WorkShop workShop;
+	private List<Products> allProducts;
 	
 	@Resource
 	private FactoryUnitService factoryUnitService;
@@ -86,13 +89,35 @@ public class FactoryUnitAction extends BaseAdminAction {
 	}
 	
 	/**
-	 * 获取相关工序
+	 * 获取相关产品
 	 * @return
 	 */
 	public String editproducts(){
-		
-		
+		factoryUnit = factoryUnitService.get(id);
+		allProducts = factoryUnitService.getAllProducts();
 		return "editproduct";
+	}
+	
+	/**
+	 * 保存相关产品
+	 * @return
+	 */
+	public String saveProducts(){
+		FactoryUnit fu = factoryUnitService.get(id);
+		List<Products> proList = new ArrayList<Products>();
+		if(ids == null){
+			fu.setProductsSet(null);
+		}else{
+			for (int i = 0; i < ids.length; i++) {
+				Products products = new Products();
+				products.setId(ids[i]);
+				proList.add(products);
+			}
+			fu.setProductsSet(new HashSet<Products>(proList));
+		}
+		factoryUnitService.update(fu);
+		redirectionUrl = "factory_unit!list.action";
+		return SUCCESS;
 	}
 	
 	/**
@@ -279,6 +304,14 @@ public class FactoryUnitAction extends BaseAdminAction {
 
 	public void setWorkShop(WorkShop workShop) {
 		this.workShop = workShop;
+	}
+
+	public List<Products> getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(List<Products> allProducts) {
+		this.allProducts = allProducts;
 	}
 	
 	

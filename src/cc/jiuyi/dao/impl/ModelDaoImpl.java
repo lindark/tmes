@@ -24,7 +24,7 @@ import cc.jiuyi.entity.Quality;
 @Repository
 public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao {
 
-	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id) {
+	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id,String team) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Model.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
@@ -62,7 +62,7 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		}
 		
 		Disjunction disjunction = Restrictions.disjunction();  
-		disjunction.add(Restrictions.eq("initiator.id", id));
+		disjunction.add(Restrictions.eq("team.id", team));
 		disjunction.add(Restrictions.eq("insepector.id", id));
 		disjunction.add(Restrictions.eq("fixer.id", id));
 		detachedCriteria.add(disjunction);

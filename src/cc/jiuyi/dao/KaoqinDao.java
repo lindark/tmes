@@ -23,4 +23,11 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 */
 	public Pager getKaoqinPager(Pager pager, HashMap<String, String> map);
 
+	/**
+	 * 根据员工卡号和当前日期查询员工
+	 * @param id
+	 * @return
+	 */
+	public Kaoqin getByCardnumAndSameday(String cardNum,String strdate);
+
 }

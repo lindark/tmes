@@ -267,6 +267,7 @@ public class ModelAction extends BaseAdminAction {
 	public String ajlist() {
    
 		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -301,7 +302,7 @@ public class ModelAction extends BaseAdminAction {
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = modelService.findByPager(pager,map,abnorId);	
 		}else{
-			pager = modelService.getModelPager(pager, map,admin.getId());	
+			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 		}
 		
 

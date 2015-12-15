@@ -54,6 +54,7 @@ public class Device extends BaseEntity{
 	
 	private Abnormal abnormal;//异常
 	private Equipments equipments;//设备
+	private Team team;//班组
 	private String stateRemark;//状态描述    
 	private Set<DeviceLog> deviceLogSet;//设备日志 
 	private String workShopName;//车间名
@@ -284,6 +285,14 @@ public class Device extends BaseEntity{
 	}
 	public void setIsMaintenance(String isMaintenance) {
 		this.isMaintenance = isMaintenance;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 		
 	

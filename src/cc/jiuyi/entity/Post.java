@@ -1,6 +1,10 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,9 +28,8 @@ public class Post extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private Set<Admin>adminSet;
     
-    
-	
 	public String getPostCode() {
 		return postCode;
 	}
@@ -62,6 +65,16 @@ public class Post extends BaseEntity{
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="post")
+	public Set<Admin> getAdminSet()
+	{
+		return adminSet;
+	}
+	public void setAdminSet(Set<Admin> adminSet)
+	{
+		this.adminSet = adminSet;
 	}
 
    

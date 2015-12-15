@@ -13,12 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
-import org.springmodules.cache.annotations.Cacheable;
 
 /**
  * 实体类 - 管理员
@@ -110,6 +106,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Sample> comfirmation;//确认人
 	private Set<Scrap> scrapcreaterSet;//提交人
 	private Set<Scrap> scrapcomfirmationSet;//确认人
+
+	private Post post;//技能
+	private String workstate;//状态1，考勤：添加代班员工时用到
+	//假字段
+	private String xworkstate;//员工工作状态描述
+	private String xshift;//班次
+	private String xteam;//班组
+	private String xpost;//技能
+	
 	//半成品巡检确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<ItermediateTest> getIntermediateTestConfirmUser() {
@@ -781,14 +786,81 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.qualitySet1 = qualitySet1;
 	}
 
-	public String getCardNumber() {
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Post getPost()
+	{
+		return post;
+	}
+
+	public void setPost(Post post)
+	{
+		this.post = post;
+	}
+
+	@Column
+	public String getWorkstate()
+	{
+		return workstate;
+	}
+
+	public void setWorkstate(String workstate)
+	{
+		this.workstate = workstate;
+	}
+
+	@Column
+	public String getCardNumber()
+	{
 		return cardNumber;
 	}
 
-	public void setCardNumber(String cardNumber) {
+	public void setCardNumber(String cardNumber)
+	{
 		this.cardNumber = cardNumber;
 	}
 
+	@Transient
+	public String getXshift()
+	{
+		return xshift;
+	}
 
+	public void setXshift(String xshift)
+	{
+		this.xshift = xshift;
+	}
+
+	@Transient
+	public String getXteam()
+	{
+		return xteam;
+	}
+
+	public void setXteam(String xteam)
+	{
+		this.xteam = xteam;
+	}
+
+	@Transient
+	public String getXworkstate()
+	{
+		return xworkstate;
+	}
+
+	public void setXworkstate(String xworkstate)
+	{
+		this.xworkstate = xworkstate;
+	}
+
+	@Transient
+	public String getXpost()
+	{
+		return xpost;
+	}
+
+	public void setXpost(String xpost)
+	{
+		this.xpost = xpost;
+	}
 	
 }

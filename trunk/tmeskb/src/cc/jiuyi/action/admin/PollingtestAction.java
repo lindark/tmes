@@ -216,6 +216,7 @@ public class PollingtestAction extends BaseAdminAction {
 				pollingtest.setPollingtestUserName(pollingtest
 						.getPollingtestUser().getName());
 			}
+			pollingtest.setWorkingbillCode(workingBillService.get(pollingtest.getWorkingbill().getId()).getWorkingBillCode());
 			pollingtest.setMaktx(workingBillService.get(pollingtest.getWorkingbill().getId()).getMaktx());
 			pollingtest.setWorkingBillId(pollingtest.getWorkingbill().getId());
 			lst.add(pollingtest);

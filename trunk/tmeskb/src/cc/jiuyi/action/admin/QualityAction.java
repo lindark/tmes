@@ -109,6 +109,7 @@ public class QualityAction extends BaseAdminAction {
 	public String ajlist() {
 
 		Admin admin1 = adminService.getLoginAdmin();
+		admin1 = adminService.get(admin1.getId());
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
@@ -150,7 +151,7 @@ public class QualityAction extends BaseAdminAction {
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = qualityService.findByPager(pager,map,abnorId);	
 		}else{
-			pager = qualityService.getQualityPager(pager, map,admin1.getId());		
+			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
 		}	
 
 		List pagerlist = pager.getList();
@@ -240,7 +241,7 @@ public class QualityAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","overTime"});
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -259,7 +260,7 @@ public class QualityAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme"});
+			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime"});
 			persistent.setState("3");
 			qualityService.update(persistent);
 			

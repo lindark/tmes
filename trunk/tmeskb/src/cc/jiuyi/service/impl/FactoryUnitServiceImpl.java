@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.FactoryUnitDao;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.FactoryUnitService;
 
 /**
@@ -65,6 +66,11 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 	public boolean isExistByFactoryUnitCode(String factoryUnitCode) {
 		// TODO Auto-generated method stub
 		return factoryUnitDao.isExistByFactoryUnitCode(factoryUnitCode);
+	}
+
+	@Override
+	public List<Products> getAllProducts() {
+		return factoryUnitDao.getAllProducts();
 	}
 
 	

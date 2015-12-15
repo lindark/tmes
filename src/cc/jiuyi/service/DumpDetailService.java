@@ -13,5 +13,5 @@ public interface DumpDetailService extends BaseService<DumpDetail, String> {
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,String dumpId);
 }

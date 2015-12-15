@@ -136,6 +136,7 @@ public class DeviceAction extends BaseAdminAction {
 
 	public String ajlist() {
 		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -171,7 +172,7 @@ public class DeviceAction extends BaseAdminAction {
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = deviceService.findByPager(pager,map,abnorId);		
 		}else{
-			pager = deviceService.getDevicePager(pager, map,admin.getId());
+			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());
 		}		
 
 		List pagerlist = pager.getList();

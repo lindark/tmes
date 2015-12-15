@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,10 +19,11 @@ import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.sap.rfc.impl.RepairorderImpl;
+import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -59,6 +61,9 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	@Resource
 	private WorkingBillService workingbillService;
+	
+	@Resource
+	private WorkingBillRfc workingbillrfc;
 	
 	// 添加
 	public String add() {
@@ -139,17 +144,16 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	//同步
 	public String sync() {
-//		RepairorderImpl r = new RepairorderImpl();
-//		try {
-//			r.syncRepairorder(workingbillService);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return ERROR;
-//		}//同步
-//		redirectionUrl = "working_bill!list.action";
+		try {
+			workingbillrfc.syncRepairorder();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
-
+	
 	// 保存
 	@Validations(
 			requiredStrings = { 

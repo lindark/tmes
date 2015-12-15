@@ -23,6 +23,7 @@ import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -33,6 +34,7 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
+import com.opensymphony.oscache.util.StringUtil;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -80,6 +82,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private MaterialService materialservice;
 	@Resource
 	private LocationonsideRfc rfc;
+	@Resource
+	private HandOverProcessRfc handoverprocessrfc;
 
 	// 添加
 	public String add() {
@@ -281,6 +285,71 @@ public class HandOverProcessAction extends BaseAdminAction {
 		handOverProcessService.saveorupdate(handoverprocessList);
 		redirectionUrl = "hand_over_process!list.action";
 		return ajaxJsonSuccessMessage("保存成功!");
+	}
+	
+	/**
+	 * 刷卡确认
+	 * @return
+	 */
+	public String creditapproval(){
+		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
+		//List<String> workingbillIdList = new ArrayList<String>();
+
+		Object[] workingbillIdList = new Object[workingbillList.size()];
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			workingbillIdList[i] = workingbill.getId();
+		}
+		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
+
+		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
+			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
+				handoverprocessList.remove(i);
+		}
+		try {
+			Boolean flag = true;
+			String message = "";
+			List<HandOverProcess> handList02 = handoverprocessrfc.BatchHandOver(handoverprocessList,"X");//尝试调用
+			for(HandOverProcess handoverprocess : handList02){
+				String e_type = handoverprocess.getE_type();
+				if(e_type.equals("E")){ //如果有一行发生了错误
+					flag = false;
+					message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
+				}
+			}
+			if(!flag)
+				return ajaxJsonErrorMessage(message);
+			else{
+				flag = true;
+				List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "");//执行
+				for(HandOverProcess handoverprocess : handList03){
+					String e_type = handoverprocess.getE_type();
+					if(e_type.equals("E")){ //如果有一行发生了错误
+						flag = false;
+						message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
+					}else{
+						handOverProcessService.merge(handoverprocess);
+					}
+				}
+				if(!flag)
+					return ajaxJsonErrorMessage(message);
+			}
+			
+		//以上跟SAP接口完全没有问题，成功后
+			
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+		}catch(Exception e){
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+		}
+		
+		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 
 	public HandOverProcess getHandOverProcess() {

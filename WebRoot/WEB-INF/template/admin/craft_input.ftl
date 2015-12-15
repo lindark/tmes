@@ -236,18 +236,18 @@ body {
 										刷卡保存
 									</button> -->
 									<#if isAdd??>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="completeCraft" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeCraft" data-access-list="craftcredit" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>&nbsp;&nbsp;	
 									<#else>
 									</#if>	
 									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round" id="checkCraft" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkCraft" data-access-list="craftresponse" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round" id="closeCraft" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeCraft" data-access-list="craftclose" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;

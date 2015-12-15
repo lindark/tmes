@@ -232,7 +232,9 @@ public class DeviceAction extends BaseAdminAction {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			device.setReceiptSet(reasonSet);
 		} else {
-			device.setReceiptSet(null);
+			addActionError("请选择故障原因！");
+			return ERROR;
+			//device.setReceiptSet(null);
 		}
 		device.setState("0");
 		device.setIsDel("N");
@@ -278,6 +280,31 @@ public class DeviceAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
+		
+		if(device.getBeginTime()==null){
+			addActionError("处理开始时间不允许为空！");
+			return ERROR;
+		}
+		
+		if(device.getDndTime()==null){
+			addActionError("处理结束时间不允许为空！");
+			return ERROR;
+		}
+		
+		if(device.getProcess()==null){
+			addActionError("处理过程不允许为空！");
+			return ERROR;
+		}
+		
+		if(device.getCauseAnalysis()==null){
+			addActionError("原因分析不允许为空！");
+			return ERROR;
+		}
+		
+		if(device.getPreventionCountermeasures()==null){
+			addActionError("预防对策不允许为空！");
+			return ERROR;
+		}
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis"});
 		persistent.setState("1");
 		deviceService.update(persistent);
@@ -297,6 +324,21 @@ public class DeviceAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("1")){
+			
+			if(device.getPhone()==null){
+				addActionError("接到电话号码不允许为空！");
+				return ERROR;
+			}
+			
+			if(device.getCallTime()==null){
+				addActionError("接到电话时间不允许为空！");
+				return ERROR;
+			}
+			
+			if(device.getArrivedTime()==null){
+				addActionError("到达现场时间不允许为空！");
+				return ERROR;
+			}
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","process","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
 			persistent.setState("3");
 			deviceService.update(persistent);

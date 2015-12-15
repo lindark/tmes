@@ -202,7 +202,7 @@ function addstyle(rowId, val, rowObject, cm, rdata)
 	//已确认
 	if(rowObject.state=="2")
 	{
-		return "style='color:#006400;font-weight:bold;'";
+		return "style='color:#008B00;font-weight:bold;'";
 	}
 	//已撤销
 	if(rowObject.state=="3")

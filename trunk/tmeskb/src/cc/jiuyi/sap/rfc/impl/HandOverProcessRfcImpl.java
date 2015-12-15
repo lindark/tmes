@@ -28,6 +28,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun)
 			throws IOException {
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
+		admin = adminservice.load(admin.getId());
 		super.setProperty("handover");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -45,7 +46,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			item.put("ORDERID1", "10011633262");
 			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
 			item.put("XUH", p.getId());
-			item.put("WERKS", p.getWerks());//工厂
+			item.put("WERKS", p.getBeforworkingbill().getWerks());//工厂
 			item.put("LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());
 			arrList.add(item);
 		}

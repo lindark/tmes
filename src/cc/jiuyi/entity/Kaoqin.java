@@ -22,6 +22,7 @@ public class Kaoqin extends BaseEntity
 	private String teams;//班组
 	private String kqdate;//日期
 	private String skill;//技能
+	private String adminId;//员工表主键
 	//假字段
 	private String state;//工作状态key
 	private String xworkState;//工作状态
@@ -107,6 +108,16 @@ public class Kaoqin extends BaseEntity
 	public void setSkill(String skill)
 	{
 		this.skill = skill;
+	}
+	
+	@Column
+	public String getAdminId()
+	{
+		return adminId;
+	}
+	public void setAdminId(String adminId)
+	{
+		this.adminId = adminId;
 	}
 	
 }

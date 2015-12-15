@@ -5,12 +5,21 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/相关产品维护 - Powered By ${systemConfig.systemName}</title>
+<title>管理中心 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
-<#include "/WEB-INF/template/common/includelist.ftl"> 
+<#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript">
+	$().ready(function() {
+
+		// 地区选择菜单
+		$(".areaSelect").lSelect({
+			url : "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
+		});
+
+	});
+</script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -48,7 +57,7 @@ body {
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a>
 					</li>
-					<li class="active">相关产品维护</li>
+					<li class="active">编辑相关产品</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -60,7 +69,48 @@ body {
 
 					<div class="row">
 						<div class="col-xs-12">
-							相关产品日了狗
+							<!-- ./ add by welson 0728 -->
+
+							<form id="inputForm" class="validate"
+								action="factory_unit!saveProducts.action"
+								method="post">
+								<input type="hidden" name="id" value="${id}" />
+								<div id="inputtabs">
+									<ul>
+										<li><a href="#tabs-1">相关产品管理</a>
+										</li>
+
+									</ul>
+
+									<div id="tabs-1">
+
+										<!--weitao begin modify-->
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">相关产品</div>
+
+												<div class="profile-info-value">
+													<select multiple="" name="ids" id="productsChose"
+													class="chosen-select">
+													<#list allProducts as list>
+														<option value="${list.id}">${list.productsName}</option>
+													</#list>
+												</select>
+												</div>
+											</div>
+
+										</div>
+																				
+										<div class="buttonArea">
+											<input type="submit" class="formButton" value="确  定"
+												hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+												type="button" class="formButton"
+												onclick="window.history.back(); return false;" value="返  回"
+												hidefocus="true" />
+										</div>
+							</form>
+
+							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->
 					</div>
@@ -76,8 +126,13 @@ body {
 		<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div>
 	<!-- /.page-content -->
+	</div>
+	<!-- /.main-content -->
+	</div>
+	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
+
 
 </body>
 </html>
@@ -112,7 +167,20 @@ body {
 			}
 			
 		})
-		
+		$(function(){
+			$("#productsChose").find("option").each(function(){
+				var productsVal = $(this).val();
+				var productsid = "";
+				<#list factoryUnit.productsSet as list>
+					productsid = "${list.id}";
+					if(productsVal == productsid){
+						$(this).attr("selected","selected");
+					}
+				</#list>
+				
+			})
+			$("#productsChose").trigger("chosen:updated");	
+		})
 		/*
 		var ishead3=0;
 		$(".hsub").click(function(){
@@ -124,7 +192,9 @@ body {
 			}else{
 				ishead3=0;
 				//$(this).removeClass("open");
-				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+				//$(this).find(".submenu").removeClass("nav-show").addClass
+
+("nav-hide").css("display","none");
 			}
 			
 		})

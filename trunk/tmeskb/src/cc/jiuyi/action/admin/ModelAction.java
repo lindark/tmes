@@ -158,9 +158,7 @@ public class ModelAction extends BaseAdminAction {
 	}
 	
 	
-	//刷卡回复
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "model.fixTime", message = "维修时间不允许为空!")})		
+	//刷卡回复		
 	@InputConfig(resultName = "error")	
 	public String check() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
@@ -178,26 +176,30 @@ public class ModelAction extends BaseAdminAction {
 			return ERROR;
 		}
 			
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","failDescript","faultReasonSet","handleSet","longSet"});
+		if(model.getFixTime()==null){
+			addActionError("维修时间不允许为空！");
+			return ERROR;
+		}
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
 		persistent.setState("1");
-	/*	if(faultReasonSet.size()>0){
-			model.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
+		if(faultReasonSet.size()>0){
+			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
-			addActionError("请选择故障原因！");
+			addActionError("故障原因不允许为空！");
 			return ERROR;
 		}
 		if(handleSet.size()>0){
-			model.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
+			persistent.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
 		}else{
-			addActionError("请选择处理方法！");
+			addActionError("处理方法不允许为空！");
 			return ERROR;
 		}
 		if(longSet.size()>0){
-			model.setLongSet(new HashSet<LongtimePreventstep>(longSet));
+			persistent.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		}else{
-			addActionError("请选择预防措施！");
+			addActionError("预防措施不允许为空！");
 			return ERROR;
-		}*/
+		}
 		
 		modelService.update(persistent);
 		
@@ -217,7 +219,11 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript"});
+			if(model.getConfirmTime()==null){
+				addActionError("确认时间不允许为空！");
+				return ERROR;
+			}
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -240,7 +246,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -308,22 +314,20 @@ public class ModelAction extends BaseAdminAction {
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));
 			model.setRepairName(model.getFixer().getName());
-			
+						
 			List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
 					model.getFaultReasonSet());
-			List<String> strlist = new ArrayList<String>();			
-			for (FaultReason faultReason : faultReasonList) {
+			List<String> strlist = new ArrayList<String>();	
+            if(model.getFaultReasonSet()==null){
+            	model.setFaultName("");
+			}else{
+				for (FaultReason faultReason : faultReasonList) {
 					String str = faultReason.getReasonName();
 					strlist.add(str);
+					String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+					model.setFaultName(comlist);}
 			}
-									
-			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-
-			if(faultReasonList.size()>0){
-				model.setFaultName(comlist);
-			}else{
-				model.setFaultName("");
-			}			
+			
 			pagerlist.set(i, model);
 		}
 		pager.setList(pagerlist);

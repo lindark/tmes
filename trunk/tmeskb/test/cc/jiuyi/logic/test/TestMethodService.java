@@ -41,7 +41,9 @@ import cc.jiuyi.service.impl.ArticleServiceImpl;
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.compass.gps.device.hibernate.dep.AbstractHibernateGpsDevice.HibernateSessionWrapper;
 import org.hibernate.Hibernate;
+import org.hibernate.jmx.HibernateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,6 +62,8 @@ public class TestMethodService extends BaseTestCase {
 	private AccessObjectService accessobjectservice;
 	@Resource
 	private PickService pickservice;
+	@Resource
+	private WorkingBillService workingbillservice;
 	@Resource
 	private CreditCardService creditcardservice;
 	
@@ -165,11 +169,12 @@ public class TestMethodService extends BaseTestCase {
 		
 	}
 	
+	
 	@Test
 	public void testCredit(){
 		CreditCard creditcard = new CreditCard();
 		creditcard.setDeviceCode("ceshi");
-		creditcard.setCardNumber("ceshi");
+		creditcard.setCardNumber("10007");
 		creditcardservice.save(creditcard);
 		
 	}

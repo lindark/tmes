@@ -1,5 +1,7 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
@@ -46,4 +48,26 @@ public interface AdminService extends BaseService<Admin, String> {
 	public Pager findPagerByjqGrid(Pager pager,Map map,String departid);
 
 	public Pager getAdminPager(Pager pager,Map map);
+
+	/**
+	 * 根据班组ID获取该班组下的员工
+	 * @param id
+	 * @return
+	 */
+	public List<Admin> getByTeamId(String tid);
+
+	/**
+	 * jqgrid分页条件查询
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin);
+
+	/**
+	 * 根据员工卡号查询员工
+	 * @param cardNum
+	 * @return
+	 */
+	public Admin getByCardnum(String cardNum);
 }

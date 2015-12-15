@@ -11,13 +11,13 @@ import cc.jiuyi.dao.DumpDetailDao;
 import cc.jiuyi.entity.DumpDetail;
 
 @Repository
-public class DumpDetailImpl extends BaseDaoImpl<DumpDetail, String> implements DumpDetailDao {
+public class DumpDetailDaoImpl extends BaseDaoImpl<DumpDetail, String> implements DumpDetailDao {
 	@Override
-	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,String dumpId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(DumpDetail.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		//detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("dump.id", dumpId));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 }

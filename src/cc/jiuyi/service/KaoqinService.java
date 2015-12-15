@@ -41,4 +41,9 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 */
 	public List<Kaoqin> getSamedayEmp(String strdate);
 
+	/**
+	 * 添加新代班员工
+	 */
+	public void saveNewEmp(String[] ids);
+
 }

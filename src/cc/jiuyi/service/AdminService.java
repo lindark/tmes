@@ -64,10 +64,4 @@ public interface AdminService extends BaseService<Admin, String> {
 	 */
 	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin);
 
-	/**
-	 * 根据员工卡号查询员工
-	 * @param cardNum
-	 * @return
-	 */
-	public Admin getByCardnum(String cardNum);
 }

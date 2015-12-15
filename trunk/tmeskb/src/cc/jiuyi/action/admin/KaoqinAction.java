@@ -234,6 +234,19 @@ public class KaoqinAction extends BaseAdminAction
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
+	/**
+	 * 添加新代班员工
+	 */
+	public String addnewemp()
+	{
+		
+		if(ids!=null)
+		{
+			ids=ids[0].split(",");
+			this.kqService.saveNewEmp(ids);
+		}
+		return ajaxJsonSuccessMessage("s");
+	}
 	/**===========================end 方法===================================*/
 	
 	/**===========================get/set start=============================*/

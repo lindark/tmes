@@ -1,7 +1,14 @@
 $(function() {
 	
 	$("#completeQuality").click(function(){		
-    	$("#inputForm").submit();  		    		
+    	//$("#inputForm").submit();  	
+		alert("in");
+    	var dt = $("#inputForm").serialize();
+		var url = "quality!creditsave.action";		
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			window.location.href = "quality!list.action";
+		},dt)
 	});
 	
 	

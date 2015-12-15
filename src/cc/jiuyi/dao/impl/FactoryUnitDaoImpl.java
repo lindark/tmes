@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
+
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.FactoryUnitDao;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkShop;
 
 /**
@@ -143,5 +146,12 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Products> getAllProducts() {
+		String hql = "from Products as a where a.isDel='N'";
+		return getSession().createQuery(hql).list();
 	}
 }

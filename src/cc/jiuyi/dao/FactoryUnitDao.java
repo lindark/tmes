@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Products;
 
 /**
  * Dao接口 - 单元
@@ -36,4 +37,5 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	 * 分页条件查询单元
 	 */
 	public Pager getFuPager(Pager pager, HashMap<String, String> map);
+	public List<Products> getAllProducts();
 }

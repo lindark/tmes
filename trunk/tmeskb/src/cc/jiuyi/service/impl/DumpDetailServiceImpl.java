@@ -25,8 +25,8 @@ public class DumpDetailServiceImpl extends BaseServiceImpl<DumpDetail, String>
 	}
 
 	@Override
-	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
-		return dumpDetailDao.findPagerByjqGrid(pager, map);
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,String dumpId) {
+		return dumpDetailDao.findPagerByjqGrid(pager, map,dumpId);
 	}
 
 }

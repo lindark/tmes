@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ import cc.jiuyi.entity.WorkShop;
 @Repository
 public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao {
 
-	public Pager getCraftPager(Pager pager, HashMap<String, String> map,String id) {
+	public Pager getCraftPager(Pager pager, HashMap<String, String> map,String id,String team) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Craft.class);
@@ -56,7 +57,13 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 			}			
 		}
 		
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("repairName.id", id), Restrictions.eq("creater.id", id)));
+		Disjunction disjunction = Restrictions.disjunction();  
+		disjunction.add(Restrictions.eq("creater.id", id));
+		disjunction.add(Restrictions.eq("repairName.id", id));
+		disjunction.add(Restrictions.eq("team.id", team));
+		detachedCriteria.add(disjunction);
+		
+		//detachedCriteria.add(Restrictions.or(Restrictions.eq("repairName.id", id), Restrictions.eq("creater.id", id)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}

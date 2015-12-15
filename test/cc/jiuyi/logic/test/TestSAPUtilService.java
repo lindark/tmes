@@ -395,6 +395,7 @@ public class TestSAPUtilService extends BaseTestCase {
 			e.printStackTrace();
 		}
 	}
+	
 	@Test
 	public void testJj(){
 		HandOverProcess h = new HandOverProcess();
@@ -416,9 +417,6 @@ public class TestSAPUtilService extends BaseTestCase {
 				System.out.println(h1.getE_message());
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CustomerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

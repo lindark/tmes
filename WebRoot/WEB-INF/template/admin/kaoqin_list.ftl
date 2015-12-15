@@ -203,11 +203,12 @@
 								</div>
 							<table id="tab1" class="table table-striped table-bordered table-hover tab1">
 								<tr>
-									<th width="22%" class="tabtd">员工</th>
-									<th width="22%" class="tabtd">员工</th>
-									<th width="22%" class="tabtd">技能</th>
-									<th width="22%" class="tabtd">员工状态</th>
-									<th width="12%" class="tabtd">操作</th>
+									<th width="18%" class="tabtd">员工卡号</th>
+									<th width="18%" class="tabtd">员工</th>
+									<th width="18%" class="tabtd">技能</th>
+									<th width="18%" class="tabtd">班组</th>
+									<th width="18%" class="tabtd">员工状态</th>
+									<th width="10%" class="tabtd">操作</th>
 								</tr>
 								<#if list_kq??>
 									<#assign num=0>
@@ -216,11 +217,12 @@
 											<td>${(list.cardNum)!}</td>
 											<td>${(list.empName)!}</td>
 											<td>${(list.skill)!}</td>
+											<td>${(list.teams)!}</td>
 											<td>
 												<span id="span_state${(list.cardNum)!}">${(list.xworkState)!}</span>
 												<input id="input_state${(list.cardNum)!}" type="hidden" value="${(list.workState)!}" />
 											</td>
-											<td><input type="hidden" value="${(list.id)!}" /><a id="a_edit${(list.cardNum)!}" class="a_edit">编辑</a>
+											<td><a id="a_edit${(list.cardNum)!}" onclick="edit_event(${(list.cardNum)!})" class="a_edit">编辑</a>
 											</td>
 										</tr>
 										<#assign num=num+1>
@@ -295,11 +297,13 @@ function emp_state()
 			sapn_stype2("span_state${(listkq.cardNum)!}");
 		}
 		//编辑点击事件
+		/*
 		$("#a_edit${(listkq.cardNum)!}").click(function(){
 			var index=$(this).attr("id");
 			index=index.substring(6,index.length);
 			edit_event(index);
 		});
+		*/
 		i+=1;
 	</#list>
 }

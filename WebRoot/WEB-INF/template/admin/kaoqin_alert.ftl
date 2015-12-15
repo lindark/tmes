@@ -13,6 +13,7 @@
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/kaoqin_alert.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 
 <style>
@@ -120,17 +121,25 @@ function getGridId()
 	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 	if(ids.length <1)
 	{
-		alert("请选择至少一个员工");
-		return false;
+		layer.alert("请选择至少一个员工",false);
+		return "";
 	}
-	//$.post("kaoqin!addnewemp.action",{ids:ids},function(date){},"json");
+	$.post("kaoqin!addnewemp.action?ids="+ids,function(data){},"json");
+	infos=getinfos(ids);
+	return infos;
+}
+
+//返回数据
+function getinfos(ids)
+{
+	var infos="";
 	for(var i=0;i<ids.length;i++)
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
 		var info=rowData.cardNumber+","+rowData.name+","+rowData.xpost+","+rowData.xteam+","+rowData.xshift+","+rowData.xworkstate+","+rowData.workstate+","+rowData.id;
-		//infos+=info+"?";
+		infos+=info+"?";
 	}
-	return info;
+	return infos;
 }
 $(document).keydown(function(event){
 	if(event.keyCode==13)

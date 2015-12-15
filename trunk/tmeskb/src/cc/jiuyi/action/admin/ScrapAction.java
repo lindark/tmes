@@ -150,7 +150,7 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String add()
 	{
-		this.workingbill=this.wbService.load(wbId);
+		this.workingbill=this.wbService.get(wbId);
 		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
 		this.list_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
@@ -175,7 +175,7 @@ public class ScrapAction extends BaseAdminAction
 	public String edit()
 	{
 		this.list_material=new ArrayList<Material>();
-		this.workingbill=this.wbService.load(wbId);
+		this.workingbill=this.wbService.get(wbId);
 		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
 		List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
 		for(int i=0;i<l_material.size();i++)
@@ -209,7 +209,7 @@ public class ScrapAction extends BaseAdminAction
 		}
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
-		this.scrap=this.scrapService.load(id);
+		this.scrap=this.scrapService.get(id);
 		this.list_scraplater=new ArrayList<ScrapLater>(this.scrap.getScrapLaterSet());//报废后产出
 		this.edit="edit";
 		return INPUT;
@@ -230,8 +230,8 @@ public class ScrapAction extends BaseAdminAction
 	public String show()
 	{
 		this.list_scrapmsg=new ArrayList<ScrapMessage>();//初始化
-		this.scrap=this.scrapService.load(id);
-		this.workingbill=this.wbService.load(wbId);
+		this.scrap=this.scrapService.get(id);
+		this.workingbill=this.wbService.get(wbId);
 		List<ScrapMessage>l_scrapmsg=new ArrayList<ScrapMessage>(this.scrap.getScrapMsgSet());//报废信息
 		if(l_scrapmsg.size()>0)
 		{
@@ -257,7 +257,7 @@ public class ScrapAction extends BaseAdminAction
 		String newstate = "1";
 		for (int i = 0; i < ids.length; i++)
 		{
-			this.scrap = this.scrapService.load(ids[i]);
+			this.scrap = this.scrapService.get(ids[i]);
 			String state = scrap.getState();
 			//报废信息表和报废后产出表是否同时为空
 			List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());

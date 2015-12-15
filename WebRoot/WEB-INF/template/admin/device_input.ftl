@@ -193,13 +193,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.beginTime"
 														value="${(device.beginTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="beginTime"/>
 												</div>
 												<div class="profile-info-name">处理结束时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.dndTime"
 														value="${(device.dndTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="endTime"/>
 												</div>
 											</div>
                                             </#if> 
@@ -237,13 +237,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.totalMaintenanceTime"
 														value="${(device.totalMaintenanceTime)!}"
-														class=" input input-sm  formText {digits: true}" />
+														class="access input input-sm  formText {digits: true}" data-access-list="totalMaintenanceTime"/>
 												</div>
 												<div class="profile-info-name">总停机时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.totalDownTime"
 														value="${(device.totalDownTime)!}"
-														class="input input-sm  formText {digits: true}" />
+														class="access input input-sm  formText {digits: true}" data-access-list="totalDownTime"/>
 												</div>
 											</div>                                          											
 
@@ -252,13 +252,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.phone"
 														value="${(device.phone)!}"
-														class=" input input-sm" />
+														class="access input input-sm" data-access-list="phone"/>
 												</div>
 												<div class="profile-info-name">接到电话时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.callTime"
 														value="${(device.callTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="callTime"/>
 												</div>
 											</div>
 
@@ -267,11 +267,11 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.arrivedTime"
 														value="${(device.arrivedTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="arrivedTime"/>
 												</div>
 												<div class="profile-info-name">服务态度</div>
 												<div class="profile-info-value">
-													<select name="device.serviceAttitude"> <#list
+													<select name="device.serviceAttitude" class="access" data-access-list="serviceAttitude"> <#list
 														allAttitude as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
 															list.isDefault) || (isEdit && device.serviceAttitude ==
@@ -321,7 +321,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理过程</div>
 												<div class="profile-info-value">
-													<textarea name="device.process" style="width:600px;">${(device.process)!} </textarea>
+													<textarea name="device.process" style="width:600px;" class="access" data-access-list="process">${(device.process)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -329,7 +329,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">原因分析</div>
 												<div class="profile-info-value">
-													<textarea name="device.causeAnalysis" style="width:600px;">${(device.causeAnalysis)!} </textarea>
+													<textarea name="device.causeAnalysis" style="width:600px;" class="access" data-access-list="causeAnalysis">${(device.causeAnalysis)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -338,7 +338,7 @@ body {
 												<div class="profile-info-name">预防对策</div>
 												<div class="profile-info-value">
 													<textarea name="device.preventionCountermeasures"
-														style="width:600px;">${(device.preventionCountermeasures)!} </textarea>
+														style="width:600px;" class="access" data-access-list="preventionCountermeasures">${(device.preventionCountermeasures)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -347,7 +347,7 @@ body {
 												<div class="profile-info-name">更换零部件数量及型号</div>
 												<div class="profile-info-value">
 													<textarea name="device.changeAccessoryAmountType"
-														style="width:600px;">${(device.changeAccessoryAmountType)!} </textarea>
+														style="width:600px;" class="access" data-access-list="changeAccessoryAmountType">${(device.changeAccessoryAmountType)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -358,19 +358,19 @@ body {
 							<div class="buttonArea">
 
 								<#if isAdd??>
-								<button class="btn btn-white btn-default btn-sm btn-round"
+								<button class="btn btn-white btn-default btn-sm btn-round access" data-access-list="devicecredit"
 									id="completeDevice" type=button>
 									<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡提交
 								</button>
 								&nbsp;&nbsp; <#else> </#if> <#if isAdd??><#else>
-								<button class="btn btn-white btn-default btn-sm btn-round"
-									id="checkDevice" type=button>
+								<button class="btn btn-white btn-default btn-sm btn-round access"
+									id="checkDevice" data-access-list="deviceresponse" type=button>
 									<i class="ace-icon glyphicon glyphicon-ok"></i> 刷卡回复
 								</button>
 								&nbsp;&nbsp;
 
-								<button class="btn btn-white btn-default btn-sm btn-round"
-									id="closeDevice" type=button>
+								<button class="btn btn-white btn-default btn-sm btn-round access"
+									id="closeDevice" data-access-list="deviceclose"  type=button>
 									<i class="ace-icon fa fa-cloud-upload"></i> 刷卡关闭
 								</button>
 								&nbsp;&nbsp; </#if>

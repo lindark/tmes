@@ -102,11 +102,4 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		return this.adminDao.getEmpPager(pager,map,admin);
 	}
 	
-	/**
-	 * 根据员工卡号查询员工
-	 */
-	public Admin getByCardnum(String cardNum)
-	{
-		return this.adminDao.getByCardnum(cardNum);
-	}
 }

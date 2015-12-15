@@ -176,7 +176,7 @@
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 										</button>&nbsp;&nbsp;
-										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" type=button>
+										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" id="creditapproval" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡确认
 										</button>
@@ -234,5 +234,14 @@
 				page:1
 			}).trigger("reloadGrid");
 		})
+		
+		/*刷卡确认*/
+		$("#creditapproval").click(function(){
+			var url="hand_over_process!creditapproval.action";
+			credit.creditCard(url,function(data){
+				alert("OK");
+			})
+			
+		});
 	})
 </script>

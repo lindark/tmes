@@ -144,6 +144,21 @@ public class CraftAction extends BaseAdminAction {
 			addActionError("单据已回复！");
 			return ERROR;
 		}
+		
+		if(craft.getUnusualDescription_process()==null){
+			addActionError("工艺分析不允许为空！");
+			return ERROR;
+		}
+		
+		if(craft.getTreatmentMeasure_process()==null){
+			addActionError("工艺处理措施不允许为空！");
+			return ERROR;
+		}
+		
+		if(craft.getResultCode_process()==null){
+			addActionError("工艺处理结果不允许为空！");
+			return ERROR;
+		}
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet","treatmentMeasure_make","resultCode_make"});
 		persistent.setState("1");
 		craftService.update(persistent);

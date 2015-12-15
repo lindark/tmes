@@ -146,4 +146,5 @@ $(function() {
 			window.location.href = "abnormal!creditclose.action?closeIds="+i;
 		}
     });
+	
 })

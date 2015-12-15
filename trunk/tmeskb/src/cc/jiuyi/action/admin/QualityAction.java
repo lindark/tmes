@@ -187,7 +187,7 @@ public class QualityAction extends BaseAdminAction {
 			@RequiredStringValidator(fieldName = "quality.products.id", message = "产品名称不允许为空!"),
 			@RequiredStringValidator(fieldName = "quality.process.id", message = "工序名称不允许为空!") })
 	@InputConfig(resultName = "error")
-	public String save() {
+	public String creditsave() {
 				
 		Admin admin = adminService.getLoginAdmin();
 		abnormal = abnormalService.load(abnormalId);
@@ -209,8 +209,9 @@ public class QualityAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+		//return SUCCESS;
 	}
 
 	@InputConfig(resultName = "error")

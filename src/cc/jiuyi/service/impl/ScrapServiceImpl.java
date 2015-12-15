@@ -72,7 +72,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			scrap.setConfirmation(admin);//确认人
 		}
 		String scrapId=this.scrapDao.save(scrap);
-		Scrap scp=this.scrapDao.load(scrapId);//获取新增的对象
+		Scrap scp=this.scrapDao.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
 		{
 			for (int i = 0; i < list_scrapmsg.size(); i++)
@@ -104,7 +104,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public void updateInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
 	{
 		Admin admin=this.adminService.getLoginAdmin();//当前操作人
-		Scrap scp=this.scrapDao.load(scrap.getId());//当前报废(主表)对象
+		Scrap scp=this.scrapDao.get(scrap.getId());//当前报废(主表)对象
 		scp.setModifyDate(new Date());//修改日期
 		//my_id=2时为确认操作
 		if("2".equals(my_id))
@@ -121,7 +121,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				ScrapMessage newsm=list_scrapmsg.get(i);
 				if(newsm.getId()!=null&&!"".equals(newsm.getId()))
 				{
-					ScrapMessage sm1=this.smsgDao.load(newsm.getId());
+					ScrapMessage sm1=this.smsgDao.get(newsm.getId());
 					List<ScrapBug>l_sbug=new ArrayList<ScrapBug>(sm1.getScrapBug());
 					for(int i2=0;i2<l_sbug.size();i2++)
 					{
@@ -211,7 +211,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			sm.setModifyDate(new Date());// 初始化修改日期
 			sm.setScrap(scp);
 			String smId = this.smsgDao.save(sm);
-			ScrapMessage sm2 = this.smsgDao.load(smId);// 获取新增的对象
+			ScrapMessage sm2 = this.smsgDao.get(smId);// 获取新增的对象
 			// 报废bug表新增
 			ScrapBug sb1 = list_scrapbug.get(i);
 			String[] bugids = sb1.getXbugids().split(",");// 缺陷id

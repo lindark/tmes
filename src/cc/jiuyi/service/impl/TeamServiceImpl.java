@@ -35,7 +35,7 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 	
 	@Override
 	public void delete(String id) {
-		Team team = teamDao.load(id);
+		Team team = teamDao.get(id);
 		this.delete(team);
 	}
 

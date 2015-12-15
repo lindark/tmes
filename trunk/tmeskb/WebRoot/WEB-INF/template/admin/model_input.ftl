@@ -76,7 +76,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>model!save.action<#else>model!update.action</#if>"
+								action="model!save.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -150,15 +150,19 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">通知时间</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<input type="text" name="model.noticeTime"
 														value="${(model.noticeTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+													<#else> ${(model.noticeTime)!} </#if>
 												</div>
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<input type="text" name="model.arriveTime"
 														value="${(model.arriveTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+													<#else> ${(model.arriveTime)!} </#if>
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -202,52 +206,64 @@ body {
 												    
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />											
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="confirmTime"/>											
 												</div>
 												</#if>
 											</div>
                                            
+                                           <#if isAdd??>
+											<#else>
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value" id="reason">
-						                               <#if isAdd??>
-						                               
-												       <button type="button" class="btn btn-xs btn-info"
-														id="faultReason" data-toggle="button">选择</button>
-													   <#else>
-													    <#list model.faultReasonSet as list> 
+						                               <#if ((model.faultReasonSet)!?size>0)>
+						                                    <#list model.faultReasonSet as list> 
 												         <span> ${(list.reasonName)!}</span>&nbsp;&nbsp;&nbsp; 
-												        </#list> 
+												       </#list> 
+												       
+													   <#else>
+													    <button type="button" class="btn btn-xs btn-info  access"
+														id="faultReason" data-access-list="modelreason" data-toggle="button">选择</button>
 												       </#if>																			
 												</div>
 												
 											</div>
-											<div class="profile-info-row">
+											</#if>
+											
+											
+											<#if isAdd??>
+											<#else>
+											<div class="profile-info-row" >
 											    <div class="profile-info-name">处理方法与结果</div>
 												<div class="profile-info-value" id="means">
-												       <#if isAdd??>					                               
-												       <button type="button" class="btn btn-xs btn-info"
-														id="handleResult" data-toggle="button">选择</button>
-													   <#else>
-													    <#list model.handleSet as list> 
+												       <#if ((model.handleSet)!?size>0)>	
+												          <#list model.handleSet as list> 
 												         <span> ${(list.handleName)!}</span>&nbsp;&nbsp;&nbsp; 
-												        </#list> 
+												        </#list> 				                               
+												       
+													   <#else>
+													   <button type="button" class="btn btn-xs btn-info  access"
+														id="handleResult" data-access-list="modelhandle" data-toggle="button">选择</button>
 												       </#if>													    
 												</div>
 												
 											</div>
+											</#if>
 											
-											<div class="profile-info-row">
+											<#if isAdd??>
+											<#else>
+											<div class="profile-info-row " >
 											    <div class="profile-info-name">长期预防措施</div>
 												<div class="profile-info-value" id="prevent">
 												
-												    <#if isAdd??>					                               
-												       <button type="button" class="btn btn-xs btn-info"
-														id="longPrevent" data-toggle="button">选择</button>
-													   <#else>
-													    <#list model.longSet as list> 
+												    <#if ((model.longSet)!?size>0)>					                               
+												        <#list model.longSet as list> 
 												         <span> ${(list.discribe)!}</span>&nbsp;&nbsp;&nbsp; 
 												        </#list> 
+													<#else>
+													     <button type="button" class="btn btn-xs btn-info access"
+														id="longPrevent" data-access-list="modelprevent" data-toggle="button">选择</button>
+													    
 												    </#if>
 												    
 												<!-- 	<input type="text" name="model.measure"
@@ -255,7 +271,7 @@ body {
 														class=" input input-sm  formText {required: true}" /> -->
 												</div>
 											</div>
-											
+											</#if>
 
 										</div>																	 
 
@@ -263,7 +279,11 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">不良现象描述</div>
 												<div class="profile-info-value">
+												    <#if isAdd??>
 													<textarea name="model.failDescript" style="width:600px;" class="formText {required: true}">${(model.failDescript)!} </textarea>
+													<#else>
+													 ${(model.failDescript)!}
+									                </#if>
 												</div>
 											</div>
 										</div>
@@ -272,22 +292,22 @@ body {
                                     <div class="buttonArea">
                                     
                                     <#if isAdd??>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="completeModel" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeModel" data-access-list="modelcredit" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>&nbsp;&nbsp;	
 									<#else>
 									</#if>	
 									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round" id="checkModel" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkModel" data-access-list="modelresponse" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmModel" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="confirmModel" data-access-list="modelsure" type=button>
 										<i class="ace-icon glyphicon glyphicon-play-circle"></i>
 										刷卡确认
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round" id="closeModel" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeModel" data-access-list="modelclose" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;

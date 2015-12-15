@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +34,21 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	public Pager findPagerByjqGrid(Pager pager,Map map,List list);
 	
 	public Pager getAdminPager(Pager pager,Map map);
+
+	/**
+	 * 根据班组ID获取该班组下的所有员工
+	 * @param tid
+	 * @return
+	 */
+	public List<Admin> getByTeamId(String tid);
+
+	/**
+	 * jqgrid分页条件查询-考勤
+	 */
+	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin);
+
+	/**
+	 * 根据员工卡号查询员工
+	 */
+	public Admin getByCardnum(String cardNum);
 }

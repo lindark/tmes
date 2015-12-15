@@ -59,7 +59,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 		   <ref bean="workingBillJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>*/5 * * * * ?</value>
+		   <value>* */5 * * * ?</value>
 		  </property>
     </bean>  
     

@@ -57,8 +57,7 @@ function edit_event(index)
 				{
 					sapn_stype2("span_state"+index);
 				}
-				var kqid=$("#a_edit"+index).parent().children("input:first").val();
-				var url="kaoqin!updateWorkState.action?kaoqin.workState="+val+"&kaoqin.id="+kqid;
+				var url="kaoqin!updateWorkState.action?kaoqin.workState="+val+"&kaoqin.cardNum="+index;
 				upd_event(url);
 			}
 		}
@@ -93,33 +92,33 @@ function addemp()
 	var width="800px";
 	var height="620px";
 	var content="kaoqin!beforegetemp.action";
+	var html="";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var infos=iframeWin.getGridId();
-		
-		var info=infos.split(",");
-		var html="<tr><td>"+info[0]+"</td> " +
-				  "<td>"+info[1]+"</td>  " +
-				  "<td>"+info[2]+"</td>  " +
-				  "<td><span id='span_state"+info[0]+"'>"+info[5]+"</span><input id='input_state"+info[0]+"' type='hidden' value='"+info[5]+"' /></td> " +
-				  "<td><a id='a_edit"+info[0]+"' class='a_edit'>编辑</a><input type='hidden' value='"+info[7]+"' /></td>" +
-				  "</tr>";
-		var rows=$("#tab1 tr").length;
-		alert(rows);
-		
-		/*
-		var info1=infos.split("?");
-		for(var i=0;i<info1.length;i++)
+		if(infos!=""&&infos!=null)
 		{
-			var info2=info1[i].split(",");
-			//info2 --- 0卡号1姓名2技能3班组4班次5工作状态描述6工作状态key7主键ID
-			
+			var info=infos.split(",");
+			var info1=infos.split("?");
+			for(var i=0;i<info1.length;i++)
+			{
+				var info2=info1[i].split(",");
+				//info2 --- 0卡号1姓名2技能3班组4班次5工作状态描述6工作状态key7主键ID
+				if(info2!=null&&info2!="")
+				{
+					html+="<tr>" +
+					"<td>"+info2[0]+"</td>" +
+					"<td>"+info2[1]+"</td>" +
+					"<td>"+info2[2]+"</td>" +
+					"<td>"+info2[3]+"</td>" +
+					"<td><span id='span_state"+info2[0]+"' style='color:#008B00;font-weight:bold;'>代班</span><input id='input_state"+info2[0]+"' type='hidden' value='6' /></td> " +
+					"<td><a id='a_edit"+info2[0]+"' onclick='edit_event("+info2[0]+")' style='cursor:pointer;'>编辑</a><input type='hidden' value='"+info2[7]+"' /></td>" +
+					"</tr>";
+				}
+			}
+			$("#tab1 tr").eq(0).after(html);
+			layer.close(index);
 		}
-		*/
-		//var id=work.split(",");
-		//$("#xfuid").val(id[0]);//单元id
-		//$("#label_xfuname").text(id[1]);//单元名称
-		layer.close(index); 
 	});
 }
 

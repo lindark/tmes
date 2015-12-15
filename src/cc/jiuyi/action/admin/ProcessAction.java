@@ -214,7 +214,7 @@ public class ProcessAction extends BaseAdminAction {
 	//更新
 	public String update()
 	{
-		Process persistent = processService.load(id);
+		Process persistent = processService.get(id);
 		BeanUtils.copyProperties(process, persistent, new String[] { "id"});//除了id不修改，其他都修改，自动完成设值操作
 		//persistent.setProducts(new HashSet<Products>(this.productslist));
 		persistent.setModifyDate(new Date());
@@ -379,7 +379,7 @@ public class ProcessAction extends BaseAdminAction {
 	 */
 	public String relevant()
 	{
-		process = processService.load(id);
+		process = processService.get(id);
 		return "relevant";
 	}
 	/**

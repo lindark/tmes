@@ -11,7 +11,7 @@ import cc.jiuyi.entity.Quality;
  */
 public interface QualityService extends BaseService<Quality, String> {
 
-	public Pager getQualityPager(Pager pager,HashMap<String,String> map,String id);
+	public Pager getQualityPager(Pager pager,HashMap<String,String> map,String id,String team);
 	
 	/**
 	 * 标记删除

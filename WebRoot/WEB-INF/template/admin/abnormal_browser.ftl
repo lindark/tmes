@@ -81,8 +81,7 @@ function onClick(event, treeId, treeNode, clickFlag) {
 		url:"admin!ajlist1.action?departid="+treeNode.id,
 		datatype:"json",
 		page:1
-	}).trigger("reloadGrid");
-	
+	}).trigger("reloadGrid");	
 }		
 
 	

@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 				kq.setWorkState( a.getWorkstate());//工作状态
 				kq.setKqdate(strdate);//当前日期
 				kq.setSkill(a.getPost().getPostName());//技能
+				kq.setAdminId(a.getId());//员工表主键
 				kq.setCreateDate(new Date());
 				kq.setModifyDate(new Date());
 				this.kqDao.save(kq);
@@ -71,14 +73,18 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	 */
 	public void updateWorkState(Kaoqin kaoqin)
 	{
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		String strdate=sdf.format(date);
 		// 修改kaoqin表中状态
-		Kaoqin kq = this.kqDao.get(kaoqin.getId());
+		System.out.println(kaoqin.getId());
+		Kaoqin kq = this.kqDao.getByCardnumAndSameday(kaoqin.getCardNum(),strdate);
 		kq.setWorkState(kaoqin.getWorkState());
 		kq.setModifyDate(new Date());
 		this.kqDao.update(kq);
 
 		// 修改admin表中状态
-		Admin a = this.adminService.getByCardnum(kq.getCardNum());
+		Admin a = this.adminService.get(kq.getAdminId());
 		a.setWorkstate(kaoqin.getWorkState());
 		a.setModifyDate(new Date());
 		this.adminService.update(a);
@@ -90,5 +96,46 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	public List<Kaoqin>getSamedayEmp(String strdate)
 	{
 		return this.kqDao.getByKqdate(strdate);
+	}
+	
+	/**
+	 * 添加新代班员工
+	 */
+	public void saveNewEmp(String[] ids)
+	{
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		String strdate=sdf.format(date);
+		for(int i=0;i<ids.length;i++)
+		{
+			//admin表修改员工状态为代班
+			if(ids[i]!=null&&!"".equals(ids[i]))
+			{
+				System.out.println(ids[i]);
+				Admin a=this.adminService.get(ids[i]);
+				a.setWorkstate("6");
+				a.setModifyDate(new Date());
+				this.adminService.update(a);
+				
+				//根据员工id和当前日期查询
+				Kaoqin k=this.kqDao.getByCardnumAndSameday(a.getCardNumber(),strdate);
+				if(k==null)
+				{
+					//新增代班员工，状态默认为代班
+					Kaoqin kq=new Kaoqin();
+					kq.setCardNum(a.getCardNumber());//卡号
+					kq.setEmpName(a.getName());//员工姓名
+					kq.setTeams(a.getDepartment().getTeam().getTeamName());//班组
+					kq.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));//班次
+					kq.setWorkState( "6");//工作状态
+					kq.setKqdate(strdate);//当前日期
+					kq.setSkill(a.getPost().getPostName());//技能
+					kq.setAdminId(a.getId());//员工表主键
+					kq.setCreateDate(new Date());
+					kq.setModifyDate(new Date());
+					this.kqDao.save(kq);
+				}
+			}
+		}
 	}
 }

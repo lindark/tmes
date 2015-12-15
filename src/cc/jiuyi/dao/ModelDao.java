@@ -10,7 +10,7 @@ import cc.jiuyi.entity.Model;
  */
 public interface ModelDao extends BaseDao<Model, String> {
 
-	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id);
+	public Pager getModelPager(Pager pager, HashMap<String, String> map,String id,String team);
 	
 	/**
 	 * 标记删除

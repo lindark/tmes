@@ -26,8 +26,8 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 		super.setBaseDao(qualityDao);
 	}
 	
-	public Pager getQualityPager(Pager pager,HashMap<String,String> map,String id){
-		return qualityDao.getQualityPager(pager,map,id);
+	public Pager getQualityPager(Pager pager,HashMap<String,String> map,String id,String team){
+		return qualityDao.getQualityPager(pager,map,id,team);
 	}
 	
 	@Override

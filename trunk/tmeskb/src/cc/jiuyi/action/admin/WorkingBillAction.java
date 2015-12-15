@@ -153,6 +153,11 @@ public class WorkingBillAction extends BaseAdminAction {
 		}
 		return SUCCESS;
 	}
+	//投入产出
+	public String inout(){
+		
+		return "intout";
+	}
 	
 	// 保存
 	@Validations(

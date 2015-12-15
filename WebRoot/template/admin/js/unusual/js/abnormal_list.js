@@ -89,6 +89,22 @@ jQuery(function($) {
 
 		loadComplete : function() {
 			var table = this;
+			
+			$("#quality").click( function() {
+				showReceive();
+			})
+			
+			$("#model").click( function() {
+				showModel();
+			})
+			
+			$("#craft").click( function() {
+				showCraft();
+			})
+			
+			$("#device").click( function() {
+				showDevice();
+			})
 			setTimeout(function(){
 				styleCheckbox(table);
 				getDate();//jqgrid加载完成后获取id,time 的集合对象
@@ -103,6 +119,64 @@ jQuery(function($) {
 		caption: "异常清单"
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size		
+	
+	
+	function showReceive()
+	{
+		var title = "质量问题单";
+		var width="800px";
+		var height="632px";
+		var id=$(".abnorId").val();
+		var content="quality!sealist.action?abnorId="+id;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
+			layer.close(index); 
+		});
+	}
+	
+	
+	function showModel()
+	{
+		var title = "工模维修单";
+		var width="800px";
+		var height="632px";
+		var id=$(".abnorId").val();
+		var content="model!sealist.action?abnorId="+id;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
+			layer.close(index); 
+		});
+	}
+	
+	
+	function showCraft()
+	{
+		var title = "工艺维修单";
+		var width="800px";
+		var height="632px";
+		var id=$(".abnorId").val();
+		var content="craft!sealist.action?abnorId="+id;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
+			layer.close(index); 
+		});
+	}
+	
+	
+	function showDevice()
+	{
+		var title = "设备维修单";
+		var width="800px";
+		var height="632px";
+		var id=$(".abnorId").val();
+		var content="device!sealist.action?abnorId="+id;
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
+			layer.close(index); 
+		});
+	}
+	
+	
 	var array;
 	function getDate(){
 		var obj = $(grid_selector).jqGrid("getRowData");
@@ -129,7 +203,7 @@ jQuery(function($) {
 
 	}
 	
-	
+
 	function change(){
 		for(var i=0;i<array.length;i++){
 			var obj = array[i];
@@ -197,7 +271,7 @@ jQuery(function($) {
 		//未完全响应
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;'";
+			return "style='color:#FF44AA;'";
 		}
 		
 		//处理中

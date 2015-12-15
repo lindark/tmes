@@ -29,7 +29,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	@SuppressWarnings("unchecked")
 	public List<Kaoqin> getByKqdate(String strdate)
 	{
-		String hql="from Kaoqin where kqdate=?";
+		String hql="from Kaoqin where kqdate=? order by createDate desc";
 		return this.getSession().createQuery(hql).setParameter(0, strdate).list();
 	}
 
@@ -81,5 +81,14 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 			}
 		}
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	/**
+	 * 根据员工主键ID查询员工
+	 */
+	public Kaoqin getByCardnumAndSameday(String cardNum,String strdate)
+	{
+		String hql="from Kaoqin where cardNum=? and kqdate=?";
+		return (Kaoqin) this.getSession().createQuery(hql).setParameter(0, cardNum).setParameter(1, strdate).uniqueResult();
 	}
 }

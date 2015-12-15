@@ -15,7 +15,7 @@ $(function() {
 	var $pollingtest = $("#pollingtest");//巡检
 	var $scrap=$("#scrap");//报废
 	var $ckbox = $(".ckbox");//checkbox
-	
+	var $kaoqin=$("#kaoqin");//考勤
 	var init = {
 			"isCheck":function(){//需要有选中来改变按钮的属性的
 				var cklength = $(".ckbox:checked").length;
@@ -236,6 +236,17 @@ $(function() {
 			var id = getCKboxById();
 			window.location.href = "scrap!list.action?wbId=" + id;
 		} 
+	});
+	
+	/**
+	 * 考勤
+	 */
+	$kaoqin.click(function(){
+		var istrue = init.notCheck();
+		if (istrue) 
+		{
+			window.location.href = "kaoqin!list.action";
+		}
 	});
 })
 

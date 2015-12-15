@@ -219,7 +219,7 @@ body {
 											</div>
 										</div>
 
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="engineerOpinion">
 											<div class="profile-info-row">
 												<div class="profile-info-name">工程师意见</div>
 												<div class="profile-info-value">
@@ -233,20 +233,21 @@ body {
 										<!--weitao end modify-->
                                         <div class="buttonArea">
                                         
-                                            <#if isAdd??>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="completeQuality" type=button>
+                                     <#if isAdd??>       
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeQuality" data-access-list="qualitycredit" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
-									</button>&nbsp;&nbsp;	
+									</button>&nbsp;&nbsp;
+										
 									<#else>
 									</#if>	
 									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round" id="checkQuality" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkQuality" data-access-list="creditresponse" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
 									
-									<button class="btn btn-white btn-default btn-sm btn-round" id="closeQuality" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeQuality" data-access-list="creditclose"  type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;

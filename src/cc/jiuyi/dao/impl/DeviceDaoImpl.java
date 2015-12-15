@@ -3,6 +3,7 @@ package cc.jiuyi.dao.impl;
 import java.util.HashMap;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ import cc.jiuyi.entity.Quality;
 @Repository
 public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements DeviceDao {
 
-	public Pager getDevicePager(Pager pager, HashMap<String, String> map,String id) {
+	public Pager getDevicePager(Pager pager, HashMap<String, String> map,String id,String team) {
 
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Device.class);
@@ -27,6 +28,10 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		
 		if(!super.existAlias(detachedCriteria, "workShop", "workShop")){
 			detachedCriteria.createAlias("workShop", "workShop");//表名，别名*/							
+		}
+		
+		if(!super.existAlias(detachedCriteria, "team", "team")){
+			detachedCriteria.createAlias("team", "team");//表名，别名*/							
 		}
 		
 		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
@@ -48,7 +53,13 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 			}		
 		}	
 		
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("workshopLinkman.id", id), Restrictions.eq("disposalWorkers.id", id)));
+		Disjunction disjunction = Restrictions.disjunction();  
+		disjunction.add(Restrictions.eq("workshopLinkman.id", id));
+		disjunction.add(Restrictions.eq("disposalWorkers.id", id));
+		disjunction.add(Restrictions.eq("team.id", team));
+		detachedCriteria.add(disjunction);
+		
+	//	detachedCriteria.add(Restrictions.or(Restrictions.eq("workshopLinkman.id", id), Restrictions.eq("disposalWorkers.id", id)));
 
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

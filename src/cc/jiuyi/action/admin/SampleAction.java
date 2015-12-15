@@ -180,7 +180,7 @@ public class SampleAction extends BaseAdminAction
 		String newstate = "1";
 		for (int i = 0; i < ids.length; i++)
 		{
-			this.sample = this.sampleService.load(ids[i]);
+			this.sample = this.sampleService.get(ids[i]);
 			String state = sample.getState();
 			// 确认
 			if ("1".equals(my_id))
@@ -223,7 +223,7 @@ public class SampleAction extends BaseAdminAction
 			this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 			List<Cause> l_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
 			this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
-			this.sample=this.sampleService.load(id);
+			this.sample=this.sampleService.get(id);
 			this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
 			list_cause=new ArrayList<Cause>();
 			for(int i=0;i<l_cause.size();i++)
@@ -269,7 +269,7 @@ public class SampleAction extends BaseAdminAction
 	public String show()
 	{
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
-		this.sample=this.sampleService.load(id);
+		this.sample=this.sampleService.get(id);
 		this.sampletype=this.dictService.getByState("sampleType",sample.getSampleType());//根据状态获取抽检类型
 		this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
 		this.show="show";

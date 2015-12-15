@@ -18,7 +18,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  */
 
 @Entity
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class WorkingBill extends BaseEntity {
 
 	private static final long serialVersionUID = 2547319998033961001L;
@@ -34,7 +33,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalSingleAmount;// 累计入库根量
 	private Integer totalRepairinAmount;// 累计返修收货数量
 	private Integer totalRepairAmount;// 累计返修数量
-	
+	private String werks;//工厂
 	private Integer amount;//交接数量
 
 	private Set<EnteringwareHouse> enteringwareHouse;
@@ -293,4 +292,13 @@ public class WorkingBill extends BaseEntity {
 	{
 		this.scrap = scrap;
 	}
+
+	public String getWerks() {
+		return werks;
+	}
+
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+	
 }

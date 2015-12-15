@@ -10,7 +10,7 @@ import cc.jiuyi.entity.Craft;
  */
 public interface CraftDao extends BaseDao<Craft, String> {
 
-	public Pager getCraftPager(Pager pager,HashMap<String,String>map,String id);
+	public Pager getCraftPager(Pager pager,HashMap<String,String>map,String id,String team);
 	
 	/**
 	 * 标记删除

@@ -1,20 +1,27 @@
-$(function() {
+$(function() {			   
 	
 	$("#completeQuality").click(function(){		
-    	//$("#inputForm").submit();  	
-		alert("in");
-    	var dt = $("#inputForm").serialize();
+    	$("#inputForm").submit();  	
+    	/*var dt = $("#inputForm").serialize();
 		var url = "quality!creditsave.action";		
+		credit.creditCard(url,function(data){
+			alert("oo");
+			$.message(data.status,data.message);
+			window.location.href = "quality!list.action";
+		},dt)*/
+	});	
+	
+	
+	
+	$("#checkQuality").click(function(){
+		//$("#inputForm").attr("action", "quality!creditreply.action");
+	   // $("#inputForm").submit(); 	
+	    var dt = $("#inputForm").serialize();
+		var url = "quality!creditreply.action";		
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
 			window.location.href = "quality!list.action";
 		},dt)
-	});
-	
-	
-	$("#checkQuality").click(function(){
-		$("#inputForm").attr("action", "quality!check.action");
-	    $("#inputForm").submit(); 			
 	});
 	
 	$("#confirmQuality").click(function(){
@@ -23,8 +30,15 @@ $(function() {
 	});
 	
 	$("#closeQuality").click(function(){
-		$("#inputForm").attr("action", "quality!close.action");
-		$("#inputForm").submit(); 			
+		//$("#inputForm").attr("action", "quality!close.action");
+		//$("#inputForm").submit(); 
+		 var dt = $("#inputForm").serialize();
+			var url = "quality!creditclose.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "quality!list.action";
+			},dt)
+		
 	});
 	
 	

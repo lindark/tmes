@@ -125,7 +125,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.goodsSzie1)! }</td>
 																		<td>${(list.goodsSzie2)! }</td>
 																		<td>${(list.goodsSzie3)! }</td>
-																		<td>${(list.goodsSzie14)! }</td>
+																		<td>${(list.goodsSzie4)! }</td>
 																		<td>${(list.goodsSzie5)! }</td>
 																		<td>${(list.failReason)! }</td>
 																	</tr>

@@ -67,11 +67,11 @@ jQuery(function($) {
 		colNames:[ '随工单编号','产品名称','巡检数量','合格数量','合格率','巡检日期','巡检人', '确认人','状态','状态',"wid"],
 		colModel:[
 			
-		    {name:'workingbillCode',index:'workingbillCode', width:100,sortable:"true",sorttype:"text"},
-			{name:'maktx',index:'maktx', width:200,sortable:"true",sorttype:"text"},
-			{name:'pollingtestAmount',index:'pollingtestAmount', width:200,sortable:"true",sorttype:"text"},
-			{name:'qualifiedAmount',index:'qualifiedAmount', width:200,sortable:"true",sorttype:"text"},
-			{name:'passedPercent',index:'passedPercent', width:200,sortable:"true",sorttype:"text"},
+		    {name:'workingbillCode',index:'workingbillCode', width:150,sortable:"true",sorttype:"text"},
+			{name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
+			{name:'pollingtestAmount',index:'pollingtestAmount', width:100,sortable:"true",sorttype:"text"},
+			{name:'qualifiedAmount',index:'qualifiedAmount', width:100,sortable:"true",sorttype:"text"},
+			{name:'passedPercent',index:'passedPercent', width:100,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'pollingtestUserName',index:'pollingtestUserName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

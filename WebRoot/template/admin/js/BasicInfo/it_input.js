@@ -71,7 +71,7 @@ function sub_event(my_id)
 	if(my_id=="1")
 	{
 		var dt=$("#inputForm").serialize();
-	    var url="itermediate_test!creditsave.action";
+	    var url="itermediate_test!update.action";
 	    credit.creditCard(url,function(data){
 	    	var workingBillId = $("#workingBillId").val();
 			$.message(data.status,data.message);

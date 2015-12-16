@@ -182,15 +182,22 @@ public class QualityAction extends BaseAdminAction {
 		return "hlist";
 	}
 
-	// 保存
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "quality.products.id", message = "产品名称不允许为空!"),
-			@RequiredStringValidator(fieldName = "quality.process.id", message = "工序名称不允许为空!") })
-	@InputConfig(resultName = "error")
+	// 保存	
 	public String creditsave() {
-				
+		System.out.println("oc");		
 		Admin admin = adminService.getLoginAdmin();
 		abnormal = abnormalService.load(abnormalId);
+		
+		
+		if(quality.getProducts()==null){
+			addActionError("产品名称不允许为空！");
+			return ERROR;
+		}
+		
+		if(quality.getProcess()==null){
+			addActionError("工序名称不允许为空！");
+			return ERROR;
+		}
 		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
 		quality.setIsDel("N");
@@ -227,11 +234,7 @@ public class QualityAction extends BaseAdminAction {
 	
 	
 	//刷卡回复
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "quality.rectificationScheme", message = "车间整改方案不允许为空!")
-    })
-	@InputConfig(resultName = "error")
-	public String check() throws Exception{
+	public String creditreply() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("3")){
@@ -240,6 +243,11 @@ public class QualityAction extends BaseAdminAction {
 		}
 		if(persistent.getState().equals("1")){
 			addActionError("单据已回复！");
+			return ERROR;
+		}
+		
+		if(quality.getRectificationScheme()==null){
+			addActionError("车间整改方案不允许为空!！");
 			return ERROR;
 		}
 		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","overTime"});
@@ -252,12 +260,13 @@ public class QualityAction extends BaseAdminAction {
 		log.setQuality(persistent);
 		unusualLogService.save(log);
 		
-		redirectionUrl="quality!list.action";
-		return SUCCESS;
+	//	redirectionUrl="quality!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 		
 	//刷卡关闭
-	public String close() throws Exception{
+	public String creditclose() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Quality persistent = qualityService.load(id);
 		if(persistent.getState().equals("1")){
@@ -275,8 +284,9 @@ public class QualityAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		redirectionUrl="quality!list.action";
-		return SUCCESS;
+		//redirectionUrl="quality!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}			
 	
 	public String browser(){

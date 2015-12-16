@@ -223,7 +223,6 @@ public class ItermediateTestAction extends BaseAdminAction {
 	//@InputConfig(resultName = "error")
 	public String creditsave()throws Exception{
 		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id);
-		//redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 		

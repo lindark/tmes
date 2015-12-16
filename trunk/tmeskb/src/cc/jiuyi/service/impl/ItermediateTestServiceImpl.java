@@ -168,7 +168,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			for (int i = 0; i < list_itmesg.size(); i++) {
 				ItermediateTestDetail newdit=list_itmesg.get(i);
 				if(newdit.getId()!=null&&!"".equals(newdit.getId())){
-					ItermediateTestDetail dit1=this.itdDao.load(newdit.getId());
+					ItermediateTestDetail dit1=this.itdDao.get(newdit.getId());
 					List<IpRecord> l_sbug=new ArrayList<IpRecord>(dit1.getIpRecord());
 					for(int i2=0;i2<l_sbug.size();i2++){						
 						IpRecord s=l_sbug.get(i2);

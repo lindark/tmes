@@ -104,15 +104,15 @@ body {background: #fff;font-family: 微软雅黑;}
 												<div class="profile-info-row">
 													<table id="tb_itd" class="table table-striped table-bordered table-hover">
 														<tr>
-															<th style="width:5%;" class="center">组件编码</th>
-										                 	<th style="width:25%;" class="center">组件名称</th>
+															<th style="width:10%;" class="center">组件编码</th>
+										                 	<th style="width:20%;" class="center">组件名称</th>
 											                <th style="width:5%;" class="center">检验数量</th>
 											                <th style="width:8%;" class="center">尺寸1</th>
 											                <th style="width:8%;" class="center">尺寸2</th>
 											                <th style="width:8%;" class="center">尺寸3</th>
 											                <th style="width:8%;" class="center">尺寸4</th>
 											                <th style="width:8%;" class="center">尺寸5</th>
-											                <th style="width:29%;" class="center">不合格数量/原因</th>			
+											                <th style="width:25%;" class="center">不合格数量/原因</th>			
 														</tr>
 														<#if show??>
 														 <#if list_itmesg??>
@@ -140,22 +140,22 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialCode)! }</td>
 																		<td>${(list.materialName)! }</td>
 																		<td>
-																		    <input type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}" class=" input input-sm formText {digits:true}"/>
+																		    <input  style="width:100px;" type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}" class=" input input-sm formText {digits:true}"/>
 																		</td>
 																		<td>
-																		    <input type="text"  name="list_itmesg[${num}].goodsSzie1" value="${(list.xgoodsSzie1)!}"/>
+																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie1" value="${(list.xgoodsSzie1)!}"/>
 																		</td>
 																		<td>
-																		    <input type="text"  name="list_itmesg[${num}].goodsSzie2" value="${(list.xgoodsSzie2)!}"/>
+																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie2" value="${(list.xgoodsSzie2)!}"/>
 																		</td>
 																		<td>
-																		    <input type="text"  name="list_itmesg[${num}].goodsSzie3" value="${(list.xgoodsSzie3)!}"/>
+																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie3" value="${(list.xgoodsSzie3)!}"/>
 																		</td>
 																		<td>
-																		    <input type="text"  name="list_itmesg[${num}].goodsSzie4" value="${(list.xgoodsSzie4)!}"/>
+																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie4" value="${(list.xgoodsSzie4)!}"/>
 																		</td>
 																		<td>
-																		    <input type="text"  name="list_itmesg[${num}].goodsSzie5" value="${(list.xgoodsSzie5)!}"/>
+																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie5" value="${(list.xgoodsSzie5)!}"/>
 																		</td>
 																		<td>
 																			<img id="img_addbug${num}" class="img_addbug" title="添加不合格原因" alt="添加不合格原因" src="${base}/template/shop/images/add_bug.gif" />

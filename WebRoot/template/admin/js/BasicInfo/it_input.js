@@ -70,7 +70,13 @@ function sub_event(my_id)
 	$("#my_id").val(my_id);//赋值
 	if(my_id=="1")
 	{
-		$("#inputForm").submit();//提交
+		var dt=$("#inputForm").serialize();
+	    var url="itermediate_test!creditsave.action";
+	    credit.creditCard(url,function(data){
+	    	var workingBillId = $("#workingBillId").val();
+			$.message(data.status,data.message);
+			window.location.href = "itermediate_test!list.action?workingBillId="+ workingBillId;
+		},dt)
 	}
 	if(my_id=="2")
 	{
@@ -80,7 +86,13 @@ function sub_event(my_id)
 		}
 		else
 		{
-			$("#inputForm").submit();//提交
+		    var dt=$("#inputForm").serialize();
+		    var url="itermediate_test!creditsave.action";
+		    credit.creditCard(url,function(data){
+		    	var workingBillId = $("#workingBillId").val();
+				$.message(data.status,data.message);
+				window.location.href = "itermediate_test!list.action?workingBillId="+ workingBillId;
+			},dt)
 		}
 	}
 }

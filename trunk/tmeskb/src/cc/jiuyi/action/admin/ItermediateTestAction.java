@@ -211,7 +211,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		
 	//更新
 		//@InputConfig(resultName = "error")
-		public String update() {
+		public String creditupdate() {
 			this.itermediateTestService.updateAll(itermediateTest, list_itmesg, list_itbug,my_id);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}

@@ -221,10 +221,16 @@
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}
-			$.ajax({	
+			}else{
+				var url="itermediate_test!creditapproval.action?id="+id;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
+			})
+		 }
+			/*$.ajax({	
 				url: "itermediate_test!creditapproval.action?id="+id,	
 				dataType: "json",
 				async: false,
@@ -239,7 +245,7 @@
 			},error:function(data){
 				$.message("error","系统出现问题，请联系系统管理员");
 			}
-		  });
+		  });*/
 		});
 		
 		$("#repealIt").click(function(){
@@ -248,7 +254,8 @@
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}else{
+			}
+			else{
 				var url="itermediate_test!creditundo.action?id="+id;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
@@ -279,14 +286,15 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录！");
+				return false;
 			}
-			if(id>"1"){
-				alert("只能选择一条记录！");
+			if(id.length>1){
+	    		alert("只能选择一条记录！");
+	    		return false;
 			}
 			else{
-				window.location.href="itermediate_test!show.action?id="+id+"&workingBillId=${workingbill.id}";			
+					window.location.href="itermediate_test!show.action?id="+id+"&workingBillId=${workingbill.id}";			
 			}
-			
 		});
 		
 		
@@ -295,10 +303,13 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录！");
+				return false;
 			}
-			if(id>1){
+			if(id.length>1){
 				alert("只能选择一条记录！");
-			}else{
+				return false;
+			}
+			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state=rowData.state;
 				if(row_state=="2"||row_state=="3"){
@@ -308,10 +319,8 @@
 					window.location.href="itermediate_test!edit.action?id="+id+"&workingBillId=${workingbill.id}";			
 				}		
 			}
-			
-		});
-		
-		
+		});		
+
 		$("#returnIt").click(function(){
 			window.history.back();
 		});

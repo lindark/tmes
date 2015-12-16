@@ -210,22 +210,21 @@ public class ItermediateTestAction extends BaseAdminAction {
 		}
 		
 	//更新
-		@InputConfig(resultName = "error")
+		//@InputConfig(resultName = "error")
 		public String update() {
 			this.itermediateTestService.updateAll(itermediateTest, list_itmesg, list_itbug,my_id);
-			redirectionUrl = "itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
-			return SUCCESS;
+			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}
 		
 	//刷卡保存
 	@Validations(
 			  
 	)
-	@InputConfig(resultName = "error")
-	public String creditsubmit()throws Exception{
+	//@InputConfig(resultName = "error")
+	public String creditsave()throws Exception{
 		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id);
-		redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
-		return SUCCESS;	
+		//redirectionUrl="itermediate_test!list.action?workingBillId="+this.itermediateTest.getWorkingbill().getId();
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 		
 	//刷卡确认

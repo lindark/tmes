@@ -33,4 +33,14 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 		String hql = "from CreditCard a where a.createDate > ? order by a.createDate asc";
 		return (CreditCard) getSession().createQuery(hql).setParameter(0, createdate).setMaxResults(1).uniqueResult();//取createdate 开始的 第一条记录
 	}
+
+	/**
+	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CreditCard> getByDate(Date startdate, Date enddate)
+	{
+		String hql="from CreditCard where createDate between ? and ?)";
+		return this.getSession().createQuery(hql).setParameter(0, startdate).setParameter(1,enddate).list();
+	}
 }

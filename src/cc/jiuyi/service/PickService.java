@@ -33,4 +33,5 @@ public interface PickService extends BaseService<Pick, String> {
 	
 	public void saveRepeal(List<Pick> list,Admin admin,String stu);
 	
+	public void updateSap(String pk,String ex_mblnr);
 }

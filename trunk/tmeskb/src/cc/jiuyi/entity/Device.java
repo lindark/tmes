@@ -39,7 +39,7 @@ public class Device extends BaseEntity{
 	private Double totalMaintenanceTime;//总维修时间
 	private Double totalDownTime;//总停机时间
 	private String faultCharacter;//故障性质
-	private String faultReason;//故障原因
+	private String faultReason;//故障原因描述
 	
 	private String process;//处理过程
 	private String causeAnalysis;//原因分析
@@ -61,7 +61,7 @@ public class Device extends BaseEntity{
 	private String contactName;//车间联系人
 	private String repairName;//维修人
 	private String repairType;//维修类型
-	private String fault; 
+	private String fault; //故障原因
 	//private Set<ReceiptReason> receiptSet;//设备原因 
 	private Set<DeviceProcess> deviceProcessSet;//处理过程
 	private String SHORT_TEXT;//短文本

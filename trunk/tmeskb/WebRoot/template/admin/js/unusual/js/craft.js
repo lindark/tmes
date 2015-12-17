@@ -1,4 +1,33 @@
 $(function() {	
+	/*
+$("form.validatecredit").validate({
+		
+		errorClass: "validateError",
+		ignore: ".ignoreValidate",
+		onkeyup:false,
+		errorPlacement: function(error, element) {
+			var messagePosition = element.metadata().messagePosition;
+			if("undefined" != typeof messagePosition && messagePosition != "") {
+				var $messagePosition = $(messagePosition);
+				if ($messagePosition.size() > 0) {
+					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
+				} else {
+					error.insertAfter(element).fadeOut(300).fadeIn(300);
+				}
+			} else {
+				error.insertAfter(element).fadeOut(300).fadeIn(300);
+			}
+		},
+		submitHandler: function(form) {
+			var url = $(form).attr("action");
+			var dt = $(form).serialize();
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},dt)
+			
+		}
+	});*/
 	
 	$("#completeCraft").click(function(){		
     	$("#inputForm").submit();  		    		
@@ -6,13 +35,25 @@ $(function() {
 	
 	
 	$("#checkCraft").click(function(){
-		$("#inputForm").attr("action", "craft!check.action");
-	    $("#inputForm").submit(); 			
+	//	$("#inputForm").attr("action", "craft!check.action");
+	 //   $("#inputForm").submit(); 	
+		var dt = $("#inputForm").serialize();
+		var url = "craft!creditreply.action";		
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			window.location.href = "craft!list.action";
+		},dt)
 	});
 	
 	$("#closeCraft").click(function(){
-		$("#inputForm").attr("action", "craft!close.action");
-		$("#inputForm").submit(); 			
+		//$("#inputForm").attr("action", "craft!close.action");
+		//$("#inputForm").submit(); 		
+		 var dt = $("#inputForm").serialize();
+			var url = "craft!creditclose.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "craft!list.action";
+			},dt)
 	});
 	
 	

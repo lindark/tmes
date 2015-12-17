@@ -48,8 +48,9 @@ public class PickAction extends BaseAdminAction {
 	 */
 	private static final long serialVersionUID = 6045295823911487260L;
 
-	private static final String CONFIRMED = "2";
-	private static final String REPEAL = "3";
+	private static final String UNCHECK="1";//未确认
+	private static final String CONFIRMED = "2";//已确认
+	private static final String REPEAL = "3";//已撤销
 
 	private Pick pick;
 	// 获取所有状态
@@ -248,7 +249,7 @@ public class PickAction extends BaseAdminAction {
 							pickReturn.setEx_mblnr(ex_mblnr);
 							pickReturn.setE_type(e_type);
 							pickReturn.setMove_type(move_type);
-							pickReturn.setState("2");
+							pickReturn.setState(CONFIRMED);
 							pickReturn.setConfirmUser(admin);
 							pickService.update(pickReturn);
 						}
@@ -271,15 +272,85 @@ public class PickAction extends BaseAdminAction {
 	public String creditundo() {
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
+		String message = "";
+		String pickId="";
 		List<Pick> list = pickService.get(ids);
+		List<PickDetail> pickdetailList=new ArrayList<PickDetail>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
+			if(!"262".equals(pick.getMove_type())){
+				pick.setMove_type("262");
+			}else{
+				pick.setMove_type("261");
+			}
+			pickId=pick.getId();
 			if (REPEAL.equals(pick.getState())) {
-				// addActionError("已撤销的无法再确认");
 				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
+			//未确认的不调用接口
+			if(UNCHECK.equals(pick.getState())){
+				pick.setState(REPEAL);
+				pick.setConfirmUser(admin);
+				pickService.update(pick);
+			}			
+			pkList = pickDetailService.getPickDetail(pickId);
+			for (int j = 0; j < pkList.size(); j++) {
+				PickDetail pickDetail = pkList.get(j);
+				if(!"262".equals(pickDetail.getPickType())){
+					pickDetail.setPickType("262");
+				}else{
+					pickDetail.setPickType("261");
+				}
+				pickDetail.setXh(pickId);
+				pickdetailList.add(pickDetail);
+			}
 		}
-		pickService.saveRepeal(list, admin, REPEAL);
+			try {
+				Boolean flag = true;
+				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+						pickdetailList);
+				for (Pick pick2 : pickRfc) {
+					String e_type = pick2.getE_type();
+					if (e_type.equals("E")) { // 如果有一行发生了错误
+						flag = false;
+						message += pick2.getE_message();
+					}
+				}
+				if (!flag)
+					return ajaxJsonErrorMessage(message);
+				else {
+					flag = true;
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
+							pickdetailList);
+					for (Pick pick2 : pickRfc) {
+						String e_type = pick2.getE_type();
+						String e_message = pick2.getE_message();
+						String ex_mblnr = pick2.getEx_mblnr();
+						String move_type = pick2.getMove_type();
+						if (e_type.equals("E")) { // 如果有一行发生了错误
+							flag = false;
+							message += pick2.getE_message();
+						} else {
+							Pick pickReturn = pickService.get(pick2.getId());
+							pickReturn.setE_message(e_message);
+							pickReturn.setEx_mblnr(ex_mblnr);
+							pickReturn.setE_type(e_type);
+							pickReturn.setMove_type(move_type);
+							pickReturn.setState("3");
+							pickReturn.setConfirmUser(admin);
+							pickService.update(pickReturn);
+						}
+					}
+					if (!flag)
+						return ajaxJsonErrorMessage(message);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+			}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 

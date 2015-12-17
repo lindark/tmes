@@ -30,8 +30,10 @@ public interface PickDetailService extends BaseService<PickDetail, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	public void save(List<PickDetail> pickDetailList,Pick pick);
+	public String save(List<PickDetail> pickDetailList,Pick pick);
 	
 	public List<PickDetail> getPickDetail(String id);
+	
+	
 
 }

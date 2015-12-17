@@ -159,8 +159,7 @@ public class ModelAction extends BaseAdminAction {
 	
 	
 	//刷卡回复		
-	@InputConfig(resultName = "error")	
-	public String check() throws Exception{
+	public String creditreply() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
@@ -209,13 +208,14 @@ public class ModelAction extends BaseAdminAction {
 		log.setModel(persistent);
 		modelLogService.save(log);
 		
-		redirectionUrl="model!list.action";
-		return SUCCESS;
+		//redirectionUrl="model!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	
 	//刷卡确定
-	public String confirm() throws Exception{
+	public String creditapproval() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("1")){
@@ -237,12 +237,13 @@ public class ModelAction extends BaseAdminAction {
 			return ERROR;
 		}
 				
-		redirectionUrl="model!list.action";
-		return SUCCESS;
+	//	redirectionUrl="model!list.action";
+	//	return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	//刷卡关闭
-	public String close() throws Exception{
+	public String creditclose() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
@@ -260,8 +261,9 @@ public class ModelAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		redirectionUrl="model!list.action";
-		return SUCCESS;
+		//redirectionUrl="model!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 
 	public String ajlist() {
@@ -342,17 +344,28 @@ public class ModelAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "model.insepector.id", message = "检验员不允许为空!"),
-			@RequiredStringValidator(fieldName = "model.fixer.id", message = "维修员不允许为空!"),
-			@RequiredStringValidator(fieldName = "model.products.id", message = "产品名称不允许为空!")})		
-	@InputConfig(resultName = "error")	
-	public String save() {
+	public String creditsave() {
 
 		Admin admin = adminService.getLoginAdmin();
 
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
+		
+		if(model.getInsepector()==null){
+			addActionError("检验员不允许为空！");
+			return ERROR;
+		}
+		
+		if(model.getFixer()==null){
+			addActionError("维修员不允许为空！");
+			return ERROR;
+		}
+		
+		if(model.getProducts()==null){
+			addActionError("产品名称不允许为空！");
+			return ERROR;
+		}
+		
 		if(faultReasonSet==null){
 			model.setFaultReasonSet(null);
 		}else{
@@ -384,8 +397,9 @@ public class ModelAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	// 列表

@@ -22,7 +22,7 @@ public class Model extends BaseEntity{
 
 	private static final long serialVersionUID = -7213423823153832326L;
 	
-    private Products products;
+ //   private Products products;
 	private String type;//种类
 	private Team teamId;//班组
 	private Admin initiator;//提报人
@@ -41,10 +41,11 @@ public class Model extends BaseEntity{
 	private String isDel;//是否删除
 	private String state;
 	private Abnormal abnormal;//异常
+	private Equipments equipments;//设备
 	
 	private String stateRemark;//状态描述 
 	private Set<ModelLog> modelLogSet;//异常日志 
-	private String productName;//产品名称	
+	private String productName;//设备名称	
 	private String teamName;//班组名称
 	private Set<FaultReason> faultReasonSet;//故障原因
 	private String repairName;//维修人
@@ -52,13 +53,13 @@ public class Model extends BaseEntity{
 	private Set<HandlemeansResults> handleSet;//处理方法与结果 
 	private Set<LongtimePreventstep> longSet;//长期预防措施
     
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
 		return products;
 	}
 	public void setProducts(Products products) {
 		this.products = products;
-	}
+	}*/
 	public String getType() {
 		return type;
 	}
@@ -236,6 +237,14 @@ public class Model extends BaseEntity{
 	}
 	public void setFaultName(String faultName) {
 		this.faultName = faultName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Equipments getEquipments() {
+		return equipments;
+	}
+	public void setEquipments(Equipments equipments) {
+		this.equipments = equipments;
 	}
 	
 	

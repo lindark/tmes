@@ -87,6 +87,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private List<Pick> pickList=new ArrayList<Pick>();;
 	private List<Dict> allType;
 	private List<Pick> pickRfc;
+	private String info;
 
 	public String addAmount() {
 		pickDetail.setMaterialCode(material.getMaterialCode());
@@ -195,7 +196,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
-		pick.setMove_type("261");// 移动类型 SAP测试数据
+		pick.setMove_type(info);// 移动类型 SAP测试数据
 //		 pick.setBudat(admin.getProductDate());//随工单日期
 //		 pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());库存地点SAP测试数据 单元库存地点
 //		 pick.setZtext(str.substring(str.length()-2,2));//抬头文本 SAP测试数据随工单位最后两位
@@ -208,7 +209,7 @@ public class PickDetailAction extends BaseAdminAction {
 		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
-			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
+			if (!"".equals(info) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
 				flag = true;
 				String s = "";
 				String str = workingBill.getId();
@@ -217,6 +218,7 @@ public class PickDetailAction extends BaseAdminAction {
 				p.setCharg("15091901");
 				p.setItem_text("文本");
 				p.setOrderid("100116549");
+				p.setPickType(info);
 				// p.setCharg("15091901");//批号
 				// p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
 				// p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
@@ -242,7 +244,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
-		pick.setMove_type("261");// 移动类型 SAP测试数据
+		pick.setMove_type(info);// 移动类型 SAP测试数据
 		// pick.setBudat(admin.getProductDate());//随工单日期
 		// pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
 		// pick.setZtext(str.substring(str.length()-2,2));//抬头文本 随工单位最后两位
@@ -259,7 +261,7 @@ public class PickDetailAction extends BaseAdminAction {
 		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
-			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
+			if (!"".equals(info) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
 				flag = true;
 				String s = "";
 //				String str = workingBill.getId();
@@ -268,6 +270,7 @@ public class PickDetailAction extends BaseAdminAction {
 				p.setCharg("15091901");
 				p.setItem_text("文本");
 				p.setOrderid("100116549");
+				p.setPickType(info);
 				// p.setMaterialCode(p.getMaterialCode());//物料编码
 				// p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
 				// p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
@@ -517,6 +520,14 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setPickList(List<Pick> pickList) {
 		this.pickList = pickList;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 

@@ -69,8 +69,9 @@ body{background:#fff;}
 								
 		<form id="inputForm"
 		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if><#if show??></#if>"	method="post">
-			<input type="hidden" name="id" value="${(id)!}" />
-			<input type="hidden" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
+			<input id="rk" type="hidden" name="id" value="${(id)!}" />
+			<input type="hidden" id="workingBillId" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
+			
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -104,7 +105,7 @@ body{background:#fff;}
 												   <#if show??>
 															<span>${(rework.reworkCount)! }</span>
 												   <#else>
-													<input type="text" name="rework.reworkCount" value="${(rework.reworkCount)!}" class=" input input-sm formText {required: true}" /> 										
+													<input type="text" name="rework.reworkCount" value="${(rework.reworkCount)!}" class=" input input-sm" data-access-list="reworkCount"/> 										
 												   </#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -114,7 +115,7 @@ body{background:#fff;}
 												  <#if show??>
 															<span>${(rework.reworkAmount)! }</span>
 												  <#else>
-													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm formText {required: true}"/>
+													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm"/>
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
@@ -127,7 +128,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(rework.defectAmount)!}</span>
 												  <#else>
-													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm formText {required: true}" />	
+													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm" />	
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
@@ -156,7 +157,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(rework.problem)! }</span>
 												  <#else>
-													<textarea name="rework.problem" style="width:600px;" class="input input-sm formText {required: true}">${(rework.problem)!}</textarea>
+													<textarea name="rework.problem" style="width:600px;" class="input input-sm">${(rework.problem)!}</textarea>
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -172,7 +173,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(rework.rectify)! }</span>
 												  <#else>
-													<textarea name="rework.rectify" style="width:600px;" class="input input-sm formText {required: true}">${(rework.rectify)!}</textarea>
+													<textarea name="rework.rectify" style="width:600px;" class="input input-sm">${(rework.rectify)!}</textarea>
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -187,7 +188,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(rework.duty.name)! }</span>
 												 <#else>
-												 <input type="hidden" id="adminId" name="rework.duty.id" value="${(rework.duty.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
+												 <input type="hidden" id="adminId" name="rework.duty.id" value="${(rework.duty.id)!}"  class=" input input-sm" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="adminName"></span>
@@ -209,7 +210,7 @@ body{background:#fff;}
 													 <span>${(rework.completeDate)! }</span>
 											  <#else>
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker {required: true}" name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
+												<input type="text" class="input-sm form-control datePicker" name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
 											</div>
 											</#if>
 											</div>						
@@ -238,8 +239,7 @@ body{background:#fff;}
 										</div>
 								</div>
 							</div>
-						</form>				
-						
+							
 						          <div class="row buttons col-md-8 col-sm-4 sub-style">	
 				                  <#if show??><#else>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
@@ -260,6 +260,8 @@ body{background:#fff;}
 										返回
 									</button>
                  	               </div>
+						</form>				
+						
 	
 	
 <!-- add by welson 0728 -->	
@@ -338,19 +340,37 @@ $(function(){
 	});
 
 	$("#completeRework").click(function(){	
-		 document.inputForm.action="rework!creditsubmit.action";
-    	$("#inputForm").submit();  		    		
+		 var dt=$("#inputForm").serialize();
+			var workingBillId = $("#workingBillId").val();
+			var url="rework!creditsubmit.action";
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				$("#grid-table").trigger("reloadGrid");	
+				window.location.href="rework!list.action?workingBillId="+workingBillId;
+			},dt);	 		    		
 	});
 	
 	
 	$("#checkRework").click(function(){
-	    document.inputForm.action="rework!check.action";
-	    $("#inputForm").submit(); 			
+		var dt=$("#inputForm").serialize();
+		var workingBillId = $("#workingBillId").val();
+		var url="rework!creditreply.action";
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			$("#grid-table").trigger("reloadGrid");	
+			window.location.href="rework!list.action?workingBillId="+workingBillId;
+		},dt);				
 	});
 	
 	$("#confirmRework").click(function(){
-		document.inputForm.action="rework!creditapproval.action";
-		$("#inputForm").submit(); 			
+		var id=$("#rk").val();
+		var workingBillId = $("#workingBillId").val();
+		var url="rework!creditapproval.action?id="+id;
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			$("#grid-table").trigger("reloadGrid");	
+			window.location.href="rework!list.action?workingBillId="+workingBillId;
+		});		
 	});
 	
 	

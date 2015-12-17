@@ -266,28 +266,23 @@
 			
 		});
 		
-		$("#confirmRework").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id==""){
-				alert("请选择至少一条返工记录！");
-			}else{
-				window.location.href="carton!confirms.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
-			}
-			
-		});
-		
 		
 		$("#undoRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
-				alert("请选择至少一条返工记录！");
+				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}
-			$.ajax({
+			else{
+				var url="rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val();
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
+			})
+		 }
+			/*$.ajax({
 				url: "rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val(),	
 				dataType: "json",
 				async: false,
@@ -302,7 +297,7 @@
 			},error:function(data){
 				$.message("error","系统出现问题，请联系系统管理员");
 			}
-		  });
+		  });*/
 		});
 	
 	

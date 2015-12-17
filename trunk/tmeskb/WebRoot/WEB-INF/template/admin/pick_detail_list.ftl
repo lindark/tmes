@@ -82,18 +82,28 @@ body {
 													<div class="profile-info-value">
 														<span>${(workingbill.maktx)!}</span>
 													</div>
-												</div>
+												</div>	
+												
+												<div class="profile-info-row">
+													<div class="profile-info-name">操作类型</div>
+													<div class="profile-info-value">
+														<select name="info" style="width:300px;">
+													    <option value="">--</option> <#list allType as alist>
+													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pickDetail.pickType ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
+													    </#list>
+													</select>
+													</div>
+												</div>								
 											</div>
 								<div class="profile-user-info profile-user-info-striped">
 								  <div class="profile-info-row">
 								    <table class="table table-striped table-bordered table-hover" id="mytable">
-									<thead>
+									<thead>									    
 										<tr>
 											<th style="text-align:center;">组件编号</th>
 											<th style="text-align:center;">组件名称</th>
 											<th style="text-align:center;">库存数量</th>
-											<th style="text-align:center;">领/退料数量</th>
-											<th style="text-align:center;">操作类型</th>
+											<th style="text-align:center;">领/退料数量</th>	
 										</tr>
 									</thead>
 
@@ -108,13 +118,6 @@ body {
 													<input type="text" name="pickDetailList[${(num)}].pickAmount" class=" input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
-												</td>
-												<td class="center">
-													<select name="pickDetailList[${(num)}].pickType">
-													    <option value="">--</option> <#list allType as alist>
-													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pickDetail.pickType ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
-													    </#list>
-													</select>
 												</td>											
 											</tr>
 											<#assign num=num+1/>

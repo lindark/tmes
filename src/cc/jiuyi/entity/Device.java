@@ -64,7 +64,42 @@ public class Device extends BaseEntity{
 	private String fault; 
 	//private Set<ReceiptReason> receiptSet;//设备原因 
 	private Set<DeviceProcess> deviceProcessSet;//处理过程
+	private String SHORT_TEXT;//短文本
+	private String COST;//成本
+	private String ORDER_TYPE;//订单类型
+	private String URGRP;//原因代码组
+	private String URCOD;//原因代码
 	
+	public String getURGRP() {
+		return URGRP;
+	}
+	public void setURGRP(String urgrp) {
+		URGRP = urgrp;
+	}
+	public String getURCOD() {
+		return URCOD;
+	}
+	public void setURCOD(String urcod) {
+		URCOD = urcod;
+	}
+	public String getORDER_TYPE() {
+		return ORDER_TYPE;
+	}
+	public void setORDER_TYPE(String order_type) {
+		ORDER_TYPE = order_type;
+	}
+	public String getCOST() {
+		return COST;
+	}
+	public void setCOST(String cost) {
+		COST = cost;
+	}
+	public String getSHORT_TEXT() {
+		return SHORT_TEXT;
+	}
+	public void setSHORT_TEXT(String short_text) {
+		SHORT_TEXT = short_text;
+	}
 	public String getMaintenanceType() {
 		return maintenanceType;
 	}

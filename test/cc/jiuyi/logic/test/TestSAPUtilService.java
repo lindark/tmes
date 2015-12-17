@@ -33,6 +33,7 @@ import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
+import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
 import cc.jiuyi.sap.rfc.ProcessRfc;
 import cc.jiuyi.sap.rfc.ScrapRfc;
@@ -71,6 +72,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private HandOverProcessRfc handoverprocess;
 	@Resource
 	private DeviceRfc devicerfc;
+	@Resource
+	private MatnrRfc matnrrfc;
 	protected void setUp() {
 		
 	}
@@ -473,6 +476,24 @@ public class TestSAPUtilService extends BaseTestCase {
 		} catch (CustomerException e1) {
 			System.out.println(e1.getMsgDes());
 			e1.printStackTrace();
+		}
+	}
+	@Test
+	public void testgetMatnr(){
+		try {
+			List<HashMap<String,String>> list=matnrrfc.getMaterialList("60000167", "1000", "");
+			for(int i=0;i<list.size();i++){
+				System.out.println("长度："+list.size());
+				HashMap map=list.get(i);
+				System.out.println(map.get("matnr"));
+				System.out.println(map.get("maktx"));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

@@ -262,7 +262,7 @@ public class PickDetailAction extends BaseAdminAction {
 			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
 				flag = true;
 				String s = "";
-				String str = workingBill.getId();
+//				String str = workingBill.getId();
 				p.setConfirmUser(admin);
 				p.setMaterialCode("10490284");
 				p.setCharg("15091901");
@@ -292,14 +292,14 @@ public class PickDetailAction extends BaseAdminAction {
 			for(Pick pick2 : pickRfc){
 				String e_type = pick2.getE_type();
 				if(e_type.equals("E")){ //如果有一行发生了错误
-					flag = false;
+					flag1 = false;
 					message +=pick2.getE_message();
 				}
 			}
-			if(!flag)
+			if(!flag1)
 				return ajaxJsonErrorMessage(message);
 			else{
-				flag = true;
+				flag1 = true;
 				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
 				for(Pick pick2 : pickRfc){
 					String e_type = pick2.getE_type();
@@ -307,7 +307,7 @@ public class PickDetailAction extends BaseAdminAction {
 					String ex_mblnr=pick2.getEx_mblnr();
 					String move_type=pick2.getMove_type();
 					if(e_type.equals("E")){ //如果有一行发生了错误
-						flag = false;
+						flag1 = false;
 						message +=pick2.getE_message();
 					}else{
 						Pick pickReturn=pickService.get(pk);
@@ -319,7 +319,7 @@ public class PickDetailAction extends BaseAdminAction {
 						pickService.update(pickReturn);
 					}
 				}
-				if(!flag)
+				if(!flag1)
 					return ajaxJsonErrorMessage(message);
 			}
 		

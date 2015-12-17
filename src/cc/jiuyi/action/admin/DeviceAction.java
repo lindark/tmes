@@ -32,6 +32,7 @@ import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
+import cc.jiuyi.entity.DeviceProcess;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Model;
@@ -44,6 +45,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DeviceLogService;
 import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FaultReasonService;
 import cc.jiuyi.service.ReceiptReasonService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -72,7 +74,8 @@ public class DeviceAction extends BaseAdminAction {
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
-	private List<ReceiptReason> reasonList;
+	private List<ReceiptReason> reasonList; 
+	private List<DeviceProcess> deviceProcessSet;
 	
 	@Resource
 	private DeviceService deviceService;
@@ -88,6 +91,8 @@ public class DeviceAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private ReceiptReasonService receiptReasonService;
+	@Resource
+	private FaultReasonService faultReasonService;
 	
 	// 添加
 	public String add() {
@@ -185,8 +190,10 @@ public class DeviceAction extends BaseAdminAction {
 			device.setRepairName(device.getDisposalWorkers().getName());
 			device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "deviceType", device.getMaintenanceType()));
-			
-			List<ReceiptReason> faultReasonList = new ArrayList<ReceiptReason>(
+			FaultReason faultReason = faultReasonService.get(device.getFault());
+				String name = faultReason.getReasonName();
+				device.setFaultReason(name);
+			/*List<ReceiptReason> faultReasonList = new ArrayList<ReceiptReason>(
 					device.getReceiptSet());// 
 			List<String> strlist = new ArrayList<String>();
 			for (ReceiptReason receiptReason: faultReasonList) {
@@ -194,7 +201,7 @@ public class DeviceAction extends BaseAdminAction {
 				strlist.add(str);
 			}
 			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-			device.setFaultReason(comlist);
+			device.setFaultReason(comlist);*/
 			
 			pagerlist.set(i,device);
 		}
@@ -218,25 +225,40 @@ public class DeviceAction extends BaseAdminAction {
 	}
 	
 	// 保存
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "device.equipments.id", message = "设备名称不允许为空!"),
-			@RequiredStringValidator(fieldName = "device.workShop.id", message = "使用车间不允许为空!"),
-			@RequiredStringValidator(fieldName = "device.disposalWorkers.id", message = "处理人员不允许为空!")
-			 })
-	@InputConfig(resultName = "error")	
-	public String save(){		
+	public String creditsave1(){		
 		Admin admin1 = adminService.getLoginAdmin();
 		
 		abnormal=abnormalService.load(abnormalId);
 		device.setAbnormal(abnormal);
-		if (reasonIds != null && reasonIds.length > 0) {
+		
+		if(device.getEquipments()==null){
+			addActionError("设备名称不允许为空！");
+			return ERROR;
+		} 
+		
+		if(device.getWorkShop()==null){
+			addActionError("使用车间不允许为空！");
+			return ERROR;
+		}
+		
+		if(device.getDisposalWorkers()==null){
+			addActionError("处理人员不允许为空！");
+			return ERROR;
+		}
+		
+		if(deviceProcessSet==null){
+			device.setDeviceProcessSet(null);
+		}else{
+			device.setDeviceProcessSet((new HashSet<DeviceProcess>(deviceProcessSet)));
+		}
+		/*if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			device.setReceiptSet(reasonSet);
 		} else {
 			addActionError("请选择故障原因！");
 			return ERROR;
 			//device.setReceiptSet(null);
-		}
+		}*/
 		device.setState("0");
 		device.setIsDel("N");
 		
@@ -257,6 +279,7 @@ public class DeviceAction extends BaseAdminAction {
 		
 		redirectionUrl = "abnormal!list.action";
 		return SUCCESS;
+		//	//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	@InputConfig(resultName = "error")
@@ -270,7 +293,7 @@ public class DeviceAction extends BaseAdminAction {
 	
 	
 	//刷卡回复	
-	public String check() throws Exception{
+	public String creditreply() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("3")){
@@ -316,12 +339,13 @@ public class DeviceAction extends BaseAdminAction {
 		log.setOperator(admin);
 		deviceLogService.save(log);
 		
-		redirectionUrl="device!list.action";
-		return SUCCESS;
+		//redirectionUrl="device!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 		
 	//刷卡关闭
-	public String close() throws Exception{
+	public String creditclose() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("1")){
@@ -355,8 +379,9 @@ public class DeviceAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		redirectionUrl="device!list.action";
-		return SUCCESS;
+	//	redirectionUrl="device!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	
@@ -504,6 +529,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setAbnorId(String abnorId) {
 		this.abnorId = abnorId;
+	}
+
+	public List<DeviceProcess> getDeviceProcessSet() {
+		return deviceProcessSet;
+	}
+
+	public void setDeviceProcessSet(List<DeviceProcess> deviceProcessSet) {
+		this.deviceProcessSet = deviceProcessSet;
 	}
 	
 	

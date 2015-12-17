@@ -93,7 +93,8 @@ body {
 
 												<div class="profile-info-value">
 												    <#if isAdd??>
-												    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>											 
+												    <img id="productId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+												  <!--    <button type="button" class="btn btn-xs btn-info" id="productId" data-toggle="button">选择</button>	-->										 
 												    <span id="productName1"></span>
 													<input type="hidden" name="quality.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else>
@@ -148,8 +149,9 @@ body {
 												<div class="profile-info-name">接收人</div>
 												<div class="profile-info-value">
 												     <#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="receive" data-toggle="button">选择</button>
+												     <img id="receive" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!-- <button type="button" class="btn btn-xs btn-info"
+														id="receive" data-toggle="button">选择</button> -->
 													<span id="receiveName1"></span>
 												    <input type="hidden" name="quality.receiver.id" id="receiveNa" value="" class="formText {required: true}"/>
 													<#else> ${(quality.receiver.name)!} </#if>

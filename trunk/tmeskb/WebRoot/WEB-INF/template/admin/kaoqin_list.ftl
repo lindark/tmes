@@ -84,9 +84,10 @@
 .btn_tab{text-align:right;}
 .a_edit{cursor: pointer;}
 .select_state{width:150px;}
+.xtxt{font-family: 微软雅黑}
 </style>
 </head>
-<body class="no-skin list">
+<body class="no-skin list xtxt">
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -197,6 +198,7 @@
 									</div>
 								</div>
 							</div>
+							<input type="hidden" id="sameteamid" value="${(admin.department.team.id)!}" />
 							<div class="row">
 								<div class="widget-header">
 									<h4 class="widget-title">员工信息</h4>
@@ -204,25 +206,25 @@
 							<table id="tab1" class="table table-striped table-bordered table-hover tab1">
 								<tr>
 									<th width="18%" class="tabtd">员工卡号</th>
-									<th width="18%" class="tabtd">员工</th>
+									<th width="18%" class="tabtd">姓名</th>
 									<th width="18%" class="tabtd">技能</th>
 									<th width="18%" class="tabtd">班组</th>
 									<th width="18%" class="tabtd">员工状态</th>
 									<th width="10%" class="tabtd">操作</th>
 								</tr>
-								<#if list_kq??>
+								<#if list_emp??>
 									<#assign num=0>
-									<#list list_kq as list>
+									<#list list_emp as list>
 										<tr>
-											<td>${(list.cardNum)!}</td>
-											<td>${(list.empName)!}</td>
-											<td>${(list.skill)!}</td>
-											<td>${(list.teams)!}</td>
+											<td>${(list.cardNumber)!}</td>
+											<td>${(list.name)!}</td>
+											<td>${(list.xpost)!}</td>
+											<td>${(list.xteam)!}</td>
 											<td>
-												<span id="span_state${(list.cardNum)!}">${(list.xworkState)!}</span>
-												<input id="input_state${(list.cardNum)!}" type="hidden" value="${(list.workState)!}" />
+												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
+												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />
 											</td>
-											<td><a id="a_edit${(list.cardNum)!}" onclick="edit_event(${(list.cardNum)!})" class="a_edit">编辑</a>
+											<td><a id="a_edit${(list.cardNumber)!}" onclick="edit_event(${(list.cardNumber)!})" class="a_edit">编辑</a>
 											</td>
 										</tr>
 										<#assign num=num+1>
@@ -285,16 +287,16 @@ $(function(){
 function emp_state()
 {
 	var i=0;
-	<#list list_kq as listkq>
+	<#list list_emp as listemp>
 		//初始化样式
-		var val=$("#input_state${(listkq.cardNum)!}").val();
+		var val=$("#input_state${(listemp.cardNumber)!}").val();
 		if(val=="2"||val=="5"||val=="6")
 		{
-			sapn_stype1("span_state${(listkq.cardNum)!}");
+			sapn_stype1("span_state${(listemp.cardNumber)!}");
 		}
 		else
 		{
-			sapn_stype2("span_state${(listkq.cardNum)!}");
+			sapn_stype2("span_state${(listemp.cardNumber)!}");
 		}
 		//编辑点击事件
 		/*

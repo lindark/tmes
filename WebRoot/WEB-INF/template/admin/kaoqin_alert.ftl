@@ -111,7 +111,7 @@ body {
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-
+<input type="hidden" id="sameteamid" value="${(sameTeamId)! }" />
 </body>
 </html>
 <script type="text/javascript">
@@ -124,7 +124,7 @@ function getGridId()
 		layer.alert("请选择至少一个员工",false);
 		return "";
 	}
-	$.post("kaoqin!addnewemp.action?ids="+ids,function(data){},"json");
+	$.post("kaoqin!addnewemp.action?ids="+ids+"&sameTeamId="+$("#sameteamid").val(),function(data){},"json");
 	infos=getinfos(ids);
 	return infos;
 }

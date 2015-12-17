@@ -91,8 +91,6 @@ public class DeviceAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private ReceiptReasonService receiptReasonService;
-	@Resource
-	private FaultReasonService faultReasonService;
 	
 	// 添加
 	public String add() {
@@ -158,6 +156,7 @@ public class DeviceAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 
+		
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
@@ -181,7 +180,9 @@ public class DeviceAction extends BaseAdminAction {
 		}		
 
 		List pagerlist = pager.getList();
+
 		for (int i = 0; i < pagerlist.size(); i++) {
+			System.out.println("into");
 			Device device = (Device) pagerlist.get(i);
 			device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", device.getState()));	
@@ -190,18 +191,10 @@ public class DeviceAction extends BaseAdminAction {
 			device.setRepairName(device.getDisposalWorkers().getName());
 			device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "deviceType", device.getMaintenanceType()));
-			FaultReason faultReason = faultReasonService.get(device.getFault());
+
+			ReceiptReason faultReason = receiptReasonService.load(device.getFault());
 				String name = faultReason.getReasonName();
 				device.setFaultReason(name);
-			/*List<ReceiptReason> faultReasonList = new ArrayList<ReceiptReason>(
-					device.getReceiptSet());// 
-			List<String> strlist = new ArrayList<String>();
-			for (ReceiptReason receiptReason: faultReasonList) {
-				String str = receiptReason.getReasonName();
-				strlist.add(str);
-			}
-			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-			device.setFaultReason(comlist);*/
 			
 			pagerlist.set(i,device);
 		}
@@ -315,7 +308,7 @@ public class DeviceAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		if(device.getProcess()==null){
+		if(device.getDeviceProcessSet()==null){
 			addActionError("处理过程不允许为空！");
 			return ERROR;
 		}
@@ -364,7 +357,7 @@ public class DeviceAction extends BaseAdminAction {
 				addActionError("到达现场时间不允许为空！");
 				return ERROR;
 			}
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","process","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceProcessSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			

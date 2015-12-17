@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
@@ -83,25 +84,11 @@ public class PickDetailAction extends BaseAdminAction {
 	private List<Material> materialList;
 	private List<PickDetail> pickDetailList;
 	private List<PickDetail> pkList;
+	private List<Pick> pickList=new ArrayList<Pick>();;
 	private List<Dict> allType;
-	private String pickRfc;
+	private List<Pick> pickRfc;
 
 	public String addAmount() {
-		// for (int i = 0; i < pt.length; i++) {
-		// //System.out.println(Arrays.toString(text));
-		// if (!pt.equals("")) {
-		// System.out.println(Arrays.toString(pt));
-		// for (int j = 0; j < rbg.length; j++) {
-		// if (rbg.equals("1")) {
-		// pickDetail.setPickType("1");
-		// } else {
-		// pickDetail.setPickType("2");
-		// }
-		//
-		// }
-		// }
-		// }
-
 		pickDetail.setMaterialCode(material.getMaterialCode());
 		pickDetail.setMaterialName(material.getMaterialName());
 		pickDetailService.save(pickDetail);
@@ -197,11 +184,11 @@ public class PickDetailAction extends BaseAdminAction {
 	}, intRangeFields = { @IntRangeFieldValidator(fieldName = "pickDetail.pickAmount", min = "0", message = "领料数量不能为空!")
 
 	}
-
 	)
 	@InputConfig(resultName = "error")
 	public String creditsubmit() throws Exception {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
+	  //String str=workingBillId;
 		Admin admin = adminService.getLoginAdmin();
 		Pick pick = new Pick();
 		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
@@ -209,21 +196,19 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
 		pick.setMove_type("261");// 移动类型 SAP测试数据
-		// pick.setBudat(admin.getProductDate());//随工单日期
-		// pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
-		// SAP测试数据 单元库存地点
-		// pick.setZtext(str.substring(str.length()-2,2));//抬头文本 SAP测试数据
-		// 随工单位最后两位
-		// pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
-		// SAP测试数据 工厂编码
+//		 pick.setBudat(admin.getProductDate());//随工单日期
+//		 pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());库存地点SAP测试数据 单元库存地点
+//		 pick.setZtext(str.substring(str.length()-2,2));//抬头文本 SAP测试数据随工单位最后两位
+//		 pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());工厂SAP测试数据 工厂编码
 		pick.setCreateDate(new Date());
 		pick.setCreateUser(admin);
 		pick.setWorkingbill(workingBill);
 		pick.setState("1");
 		boolean flag = false;
+		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
-			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount())) {
+			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
 				flag = true;
 				String s = "";
 				String str = workingBill.getId();
@@ -235,24 +220,24 @@ public class PickDetailAction extends BaseAdminAction {
 				// p.setCharg("15091901");//批号
 				// p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
 				// p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
-				pickDetailList.set(i, p);
+				pickDetailList1.add(i, p);
 			}
 		}	
 		if(flag == false){
-			addActionError("请检查是否正确输入内容!");
-			return ERROR;
+			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 		}
-		pickDetailService.save(pickDetailList, pick);
-		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
-		return SUCCESS;
+		pickDetailService.save(pickDetailList1, pick);
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	
 	//刷卡确认
-	public String creditapproval() throws Exception {
+	public String creditapproval(){
+		String message="";
 		WorkingBill workingBill = workingBillService.get(workingBillId);
+		//String str=workingBillId;
 		Admin admin = adminService.getLoginAdmin();
-		Pick pick = new Pick();
+		Pick pick=new Pick();
 		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
@@ -260,22 +245,21 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setMove_type("261");// 移动类型 SAP测试数据
 		// pick.setBudat(admin.getProductDate());//随工单日期
 		// pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
-		// SAP测试数据 单元库存地点
-		// pick.setZtext(str.substring(str.length()-2,2));//抬头文本 SAP测试数据
-		// 随工单位最后两位
+		// pick.setZtext(str.substring(str.length()-2,2));//抬头文本 随工单位最后两位
 		// pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
 		// SAP测试数据 工厂编码
-		//pick.setMove_type(pickDetail.getPickType());
-		//移动类型 SAP测试数据
+		// pick.setMove_type(pickDetail.getPickType());
+		// 移动类型 SAP测试数据
 		pick.setCreateDate(new Date());
 		pick.setCreateUser(admin);
 		pick.setWorkingbill(workingBill);
 		pick.setConfirmUser(admin);
-		pick.setState("2");
+		pick.setState("1");
 		boolean flag = false;
+		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
-			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount())) {
+			if (!"".equals(p.getPickType()) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
 				flag = true;
 				String s = "";
 				String str = workingBill.getId();
@@ -284,39 +268,70 @@ public class PickDetailAction extends BaseAdminAction {
 				p.setCharg("15091901");
 				p.setItem_text("文本");
 				p.setOrderid("100116549");
-				// p.setCharg("15091901");//批号
+				// p.setMaterialCode(p.getMaterialCode());//物料编码
 				// p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
 				// p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
-				pickDetailList.set(i, p);
+				pickDetailList1.add(i, p);
 			}
 		}	
 		if(flag == false){
-			addActionError("请检查是否正确输入内容!");
-			return ERROR;
+			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 		}
-		pickDetailService.save(pickDetailList, pick);
-
-		pkList=pickDetailService.getPickDetail(pick.getId());
+		String pk=pickDetailService.save(pickDetailList1, pick); 
+		Pick pick3=pickService.get(pk);
+		pickList.add(pick);
+		pkList=pickDetailService.getPickDetail(pick3.getId());
+		for (int i = 0; i < pkList.size(); i++) {
+			PickDetail pickDetail=pkList.get(i);
+			pickDetail.setXh(pk);
+		}
+		
 		try {
-			pickRfc = pickRfcImple.MaterialDocumentCrt(matnr, pick, pkList);
+			Boolean flag1 = true;
+			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList, pkList);
+			for(Pick pick2 : pickRfc){
+				String e_type = pick2.getE_type();
+				if(e_type.equals("E")){ //如果有一行发生了错误
+					flag = false;
+					message +=pick2.getE_message();
+				}
+			}
+			if(!flag)
+				return ajaxJsonErrorMessage(message);
+			else{
+				flag = true;
+				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
+				for(Pick pick2 : pickRfc){
+					String e_type = pick2.getE_type();
+					String e_message=pick2.getE_message();
+					String ex_mblnr=pick2.getEx_mblnr();
+					String move_type=pick2.getMove_type();
+					if(e_type.equals("E")){ //如果有一行发生了错误
+						flag = false;
+						message +=pick2.getE_message();
+					}else{
+						Pick pickReturn=pickService.get(pk);
+						pickReturn.setE_message(e_message);
+						pickReturn.setEx_mblnr(ex_mblnr);
+						pickReturn.setE_type(e_type);
+						pickReturn.setMove_type(move_type);
+						pickReturn.setState("2");
+						pickService.update(pickReturn);
+					}
+				}
+				if(!flag)
+					return ajaxJsonErrorMessage(message);
+			}
+		
 		} catch (IOException e) {
-			addActionError("IO操作失败");
 			e.printStackTrace();
-			return ERROR;
-		} catch (CustomerException e) {
-			addActionError(e.getMsgDes());
-			System.out.println(e.getMsgDes());
+			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+		}catch(Exception e){
 			e.printStackTrace();
-			return ERROR;
-		} catch (Exception e) {
-			addActionError("系统出现问题，请联系系统管理员");
-			e.printStackTrace();
-			return ERROR;
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		pick.setMblnr(pickRfc);
-		pickService.save(pick);
-		redirectionUrl="pick!list.action?workingBillId="+workingBillId;
-		return SUCCESS;
+		
+		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 	
 	public PickDetail getPickDetail() {
@@ -495,7 +510,15 @@ public class PickDetailAction extends BaseAdminAction {
 	public void setAllType(List<Dict> allType) {
 		this.allType = allType;
 	}
-	
-	
+
+	public List<Pick> getPickList() {
+		return pickList;
+	}
+
+	public void setPickList(List<Pick> pickList) {
+		this.pickList = pickList;
+	}
+
+
 
 }

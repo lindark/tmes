@@ -29,8 +29,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 				.forClass(Model.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
-		if(!super.existAlias(detachedCriteria, "products", "products")){
-			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		if(!super.existAlias(detachedCriteria, "equipments", "equipments")){
+			detachedCriteria.createAlias("equipments", "equipments");//表名，别名*/							
 		}
 		
 		if(!super.existAlias(detachedCriteria, "teamId", "team")){
@@ -55,8 +55,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("teamId")+"%"));
 			}
 			
-			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
+			if(map.get("equipmentName")!=null){
+			    detachedCriteria.add(Restrictions.like("equipments.equipmentName", "%"+map.get("equipmentName")+"%"));
 			}
 			
 		}
@@ -87,8 +87,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 				.forClass(Model.class);	
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
-		if(!super.existAlias(detachedCriteria, "products", "products")){
-			detachedCriteria.createAlias("products", "products");//表名，别名*/							
+		if(!super.existAlias(detachedCriteria, "equipments", "equipments")){
+			detachedCriteria.createAlias("equipments", "equipments");//表名，别名*/							
 		}
 		
 		if(!super.existAlias(detachedCriteria, "teamId", "team")){
@@ -104,8 +104,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("teamId")+"%"));
 			}
 			
-			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
+			if(map.get("equipmentName")!=null){
+			    detachedCriteria.add(Restrictions.like("equipments.equipmentName", "%"+map.get("equipmentName")+"%"));
 			}
 			
 		}

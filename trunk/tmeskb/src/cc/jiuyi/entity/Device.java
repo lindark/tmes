@@ -61,7 +61,9 @@ public class Device extends BaseEntity{
 	private String contactName;//车间联系人
 	private String repairName;//维修人
 	private String repairType;//维修类型
-	private Set<ReceiptReason> receiptSet;//设备原因
+	private String fault; 
+	//private Set<ReceiptReason> receiptSet;//设备原因 
+	private Set<DeviceProcess> deviceProcessSet;//处理过程
 	
 	public String getMaintenanceType() {
 		return maintenanceType;
@@ -267,13 +269,13 @@ public class Device extends BaseEntity{
 		this.repairType = repairType;
 	}
 		
-	@ManyToMany(fetch = FetchType.LAZY)
+/*	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<ReceiptReason> getReceiptSet() {
 		return receiptSet;
 	}
 	public void setReceiptSet(Set<ReceiptReason> receiptSet) {
 		this.receiptSet = receiptSet;
-	}
+	}*/
 	public String getIsDown() {
 		return isDown;
 	}
@@ -293,6 +295,21 @@ public class Device extends BaseEntity{
 	}
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+	public Set<DeviceProcess> getDeviceProcessSet() {
+		return deviceProcessSet;
+	}
+	public void setDeviceProcessSet(Set<DeviceProcess> deviceProcessSet) {
+		this.deviceProcessSet = deviceProcessSet;
+	}
+	
+	public String getFault() {
+		return fault;
+	}
+	public void setFault(String fault) {
+		this.fault = fault;
 	}
 		
 	

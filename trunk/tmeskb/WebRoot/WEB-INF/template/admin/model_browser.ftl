@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>产品信息- Powered By
+<title>设备信息- Powered By
 	${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/includelist.ftl">
@@ -48,21 +48,21 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form class="form-horizontal" id="searchform"
-								action="products!ajlist.action" role="form">
+								action="equipments!ajlist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-2"
-											style="text-align:right;">产品编码:</label>
+											style="text-align:right;">设备编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsCode"
+											<input type="text" name="deviceNo"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
 
-										<label class="col-sm-2" style="text-align:right;">产品名称:</label>
+										<label class="col-sm-2" style="text-align:right;">设备名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsName"
+											<input type="text" name="deviceName"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
@@ -113,8 +113,9 @@ body {
 			return false;
 		}
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
-		var rowName=rowData.productsName;
-		var work=""+rowName+""+","+ids;
+		var rowName=rowData.equipmentName;
+		var rowNo=rowData.equipmentNo;
+		var work=""+rowName+","+ids;
 		return work;
 	}
 	

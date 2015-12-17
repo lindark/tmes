@@ -269,8 +269,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
-	@InputConfig(resultName = "error")
-	public String creditupdate() {
+	public String creditresponse() {
 		Admin admin1 = adminService.getLoginAdmin();
 		List<Abnormal> abnormalList = abnormalService.get(ids);
         String person = admin1.getName();
@@ -316,8 +315,9 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormalService.update(persistent);
 		}
 
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String creditclose() {
@@ -349,11 +349,12 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 		}
 
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
-	public String creditcancel() {
+	public String creditundo() {
 		Admin admin2 = adminService.getLoginAdmin();
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -382,8 +383,9 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormalService.update(persistent);*/
 		}
 
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 添加

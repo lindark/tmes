@@ -42,8 +42,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterial().getMaterialCode());//物料编码
 			item.put("ZSFSL", p.getAmount().toString());//数量
-			//item.put("ORDERID1", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
-			item.put("ORDERID1", "10011633262");
+			item.put("ORDERID1", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
 			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
 			item.put("XUH", p.getId());
 			item.put("WERKS", p.getBeforworkingbill().getWerks());//工厂

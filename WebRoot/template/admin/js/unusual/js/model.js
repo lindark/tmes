@@ -1,4 +1,78 @@
 $(function() {	
+	/*
+$("form.validatecredit").validate({
+		
+		errorClass: "validateError",
+		ignore: ".ignoreValidate",
+		onkeyup:false,
+		errorPlacement: function(error, element) {
+			var messagePosition = element.metadata().messagePosition;
+			if("undefined" != typeof messagePosition && messagePosition != "") {
+				var $messagePosition = $(messagePosition);
+				if ($messagePosition.size() > 0) {
+					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
+				} else {
+					error.insertAfter(element).fadeOut(300).fadeIn(300);
+				}
+			} else {
+				error.insertAfter(element).fadeOut(300).fadeIn(300);
+			}
+		},
+		submitHandler: function(form) {
+			var url = $(form).attr("action");
+			var dt = $(form).serialize();
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},dt)
+			
+		}
+	});*/
+	
+	
+	$("#completeModel").click(function(){		
+    	$("#inputForm").submit();  		    		
+	});
+	
+	
+	$("#checkModel").click(function(){
+		//$("#inputForm").attr("action", "model!check.action");
+	    //$("#inputForm").submit(); 	
+		 var dt = $("#inputForm").serialize();
+			var url = "model!creditreply.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "model!list.action";
+			},dt)
+	});
+	
+	$("#confirmModel").click(function(){
+		//$("#inputForm").attr("action", "model!confirm.action");
+	   // $("#inputForm").submit(); 	
+	    var dt = $("#inputForm").serialize();
+		var url = "model!creditapproval.action";		
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			window.location.href = "model!list.action";
+		},dt)
+	});
+	
+	$("#closeModel").click(function(){
+		//$("#inputForm").attr("action", "model!close.action");
+		//$("#inputForm").submit(); 	
+		 var dt = $("#inputForm").serialize();
+			var url = "model!creditclose.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "model!list.action";
+			},dt)
+	});
+	
+	
+	$("#returnModel").click(function(){
+		window.history.back();
+	});
+	
 	//长期预防措施
 	$("#longPrevent").click( function() {
 		showPrevent();
@@ -90,30 +164,7 @@ $(function() {
 }
 	
 	
-	$("#completeModel").click(function(){		
-    	$("#inputForm").submit();  		    		
-	});
-	
-	
-	$("#checkModel").click(function(){
-		$("#inputForm").attr("action", "model!check.action");
-	    $("#inputForm").submit(); 			
-	});
-	
-	$("#confirmModel").click(function(){
-		$("#inputForm").attr("action", "model!confirm.action");
-	    $("#inputForm").submit(); 			
-	});
-	
-	$("#closeModel").click(function(){
-		$("#inputForm").attr("action", "model!close.action");
-		$("#inputForm").submit(); 			
-	});
-	
-	
-	$("#returnModel").click(function(){
-		window.history.back();
-	});
+
 	
 	
 	

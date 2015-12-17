@@ -76,8 +76,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin>getByTeamId(String tid)
 	{
-		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where c.id=?";
-		return this.getSession().createQuery(hql).setParameter(0, tid).list();
+		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where c.id=? or a.isdaiban=? order by a.modifyDate desc";
+		return this.getSession().createQuery(hql).setParameter(0, tid).setParameter(1, tid).list();
 	}
 
 	/**
@@ -131,4 +131,20 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		return super.findByPager(pager, detachedCriteria);
 	}
 	
+	/**
+	 * 根据卡号查询员工
+	 */
+	public Admin getByCardnum(String cardNumber)
+	{
+		String hql="from Admin where cardNumber=?";
+		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).uniqueResult();
+	}
+	/**
+	 * 根据卡号 班组ID查询
+	 */
+	public Admin getByCardnumAndTeamid(String cardNumber,String teamid)
+	{
+		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where a.cardNumber=? and c.id=?";
+		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).uniqueResult();
+	}
 }

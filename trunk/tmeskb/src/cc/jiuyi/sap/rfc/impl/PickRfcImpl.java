@@ -103,7 +103,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("MATNR", p.getMaterialCode());//物料编码
 			item.put("ZSFSL", p.getPickAmount());//数量
 			item.put("CHARG", p.getCharg());//批号
-			item.put("XUH",p.getXuh());//ID
+			item.put("XUH",p.getXh());//ID
 			item.put("ORDERID", p.getOrderid());//订单
 			item.put("ITEM_TEXT", p.getItem_text());//项目文本
 			arrList2.add(item);

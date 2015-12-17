@@ -105,7 +105,15 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!creditresponse.action?ids="+i;
+			
+			//var dt = $("#inputForm").serialize();
+			var ids=i;
+			var url = "abnormal!creditresponse.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},ids)
+			//window.location.href = "abnormal!creditresponse.action?ids="+i;
 		}
 		
     });
@@ -124,7 +132,13 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!creditundo.action?cancelIds="+i;
+			var cancelIds=i;
+			var url = "abnormal!creditundo.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},cancelIds)
+			//window.location.href = "abnormal!creditundo.action?cancelIds="+i;
 		}
 				
     });
@@ -143,7 +157,13 @@ $(function() {
 					return false;
 				}
 			}
-			window.location.href = "abnormal!creditclose.action?closeIds="+i;
+			var closeIds=i;
+			var url = "abnormal!creditclose.action";		
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},closeIds)
+			//window.location.href = "abnormal!creditclose.action?closeIds="+i;
 		}
     });
 	

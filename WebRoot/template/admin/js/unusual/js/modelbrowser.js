@@ -1,4 +1,3 @@
-
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -20,15 +19,42 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
+		//direction: "rtl",
+
+		//subgrid options
+		subGrid : false,
+		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
+		//datatype: "xml",
+		subGridOptions : {
+			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
+			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
+			openicon : "ace-icon fa fa-chevron-right center orange"
+		},
+		//for this example we are using local data
+		subGridRowExpanded: function (subgridDivId, rowId) {
+			var subgridTableId = subgridDivId + "_t";
+			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+			$("#" + subgridTableId).jqGrid({
+				datatype: 'local',
+				data: subgrid_data,
+				colNames: ['No','Item Name','Qty'],
+				colModel: [
+					{ name: 'id', width: 50 },
+					{ name: 'name', width: 150 },
+					{ name: 'qty', width: 50 }
+				]
+			});
+		},
 		
-		url:"products!ajlist.action",
+		url:"equipments!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -36,17 +62,15 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
-	    	
 	    },
-		colNames:[ '产品编码','产品名称','物料组','状态', ],
-		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
+		colNames:['设备编码','设备名称','设备型号','状态', ],
+		colModel:[		
+			//{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=productsState"}}		 
+			{name:'equipmentNo',index:'equipmentNo', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'equipmentName',index:'equipmentName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'versionReamrk',index:'version', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
 		], 
 
 		viewrecords : true,
@@ -71,26 +95,62 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "products!delete.action",//用它做标准删除动作
-		caption: "产品管理"
+		editurl: "equipments!delete.action",//用它做标准删除动作
+		caption: "工厂管理"
+
+		//,autowidth: true,
+//		,
+//		grouping:true, 
+//		groupingView : { 
+//			 groupField : ['name'],
+//			 groupDataSorted : true,
+//			 plusicon : 'fa fa-chevron-down bigger-110',
+//			 minusicon : 'fa fa-chevron-up bigger-110'
+//		},
+//		caption: "Grouping"
+		
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	
+
+	//enable search/filter toolbar
+	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+	//jQuery(grid_selector).filterToolbar({});
+
+
+	//switch element when editing inline
+	function aceSwitch( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=checkbox]')
+				.addClass('ace ace-switch ace-switch-5')
+				.after('<span class="lbl"></span>');
+		}, 0);
+	}
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=text]')
+					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+		}, 0);
+	}
+
+
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: false,		
+			edit: false,		    
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: false,
+			del: false,		
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
-			view: false,
+			view:false,
 			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{

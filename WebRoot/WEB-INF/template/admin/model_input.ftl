@@ -75,8 +75,8 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate"
-								action="model!save.action"
+							<form id="inputForm" class="validatecredit"
+								action="model!creditsave.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -435,5 +435,37 @@ body {
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->    
 </body>
+<script type="text/javascript">
+$(function() {	
 
+$("form.validatecredit").validate({
+		
+		errorClass: "validateError",
+		ignore: ".ignoreValidate",
+		onkeyup:false,
+		errorPlacement: function(error, element) {
+			var messagePosition = element.metadata().messagePosition;
+			if("undefined" != typeof messagePosition && messagePosition != "") {
+				var $messagePosition = $(messagePosition);
+				if ($messagePosition.size() > 0) {
+					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
+				} else {
+					error.insertAfter(element).fadeOut(300).fadeIn(300);
+				}
+			} else {
+				error.insertAfter(element).fadeOut(300).fadeIn(300);
+			}
+		},
+		submitHandler: function(form) {
+			var url = $(form).attr("action");
+			var dt = $(form).serialize();
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},dt)
+			
+		}
+	});
+})
+</script>
 </html>

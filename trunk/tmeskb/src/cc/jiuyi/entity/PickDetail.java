@@ -41,6 +41,7 @@ public class PickDetail extends BaseEntity{
 	private String orderid;//工单号
 	private Pick pick;//领料主表
 	private String meins;//单位
+	private String xh;//序号
 
 	private String xpickType;//领料类型描述
 
@@ -158,6 +159,14 @@ public class PickDetail extends BaseEntity{
 	}
 	public void setXpickType(String xpickType) {
 		this.xpickType = xpickType;
+	}
+	
+	 @Transient
+	public String getXh() {
+		return xh;
+	}
+	public void setXh(String xh) {
+		this.xh = xh;
 	}
 
 	

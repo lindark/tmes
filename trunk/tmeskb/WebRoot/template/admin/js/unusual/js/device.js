@@ -113,49 +113,17 @@ $(function() {
 	
 	function addAttributeOptionTr() {
 		var size=$(".deleteImage").length;
-		//var attributeOptionTrHtml = '<tr class="zg"><td><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"	style="width:600px;" class="text"></textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div></td></tr>';
-		var html="<div><span>"+size+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
-        html+="<input type='hidden' name='deviceProcessSet["+size+"].content' value=''/>";
+		var html="<div style='padding:3px;'><input name='deviceProcessSet["+size+"].content' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
         html +="</div>";
+        
+        $(".deleteImage").live("click",function(){
+    		$(this).parent().remove();
+    	})  
+    	
         $("#process").append(html);
-		/*if($(".zg").length >= 0) {
-			$(".zg:last").after(attributeOptionTrHtml);
-		} */
 	}
 	
-	$(".deleteImage").live("click",function(){
-		$(this).parent().remove();
-	})  
 	
-	/*
-	// 增加选项内容输入框
-	$("#addImage").click( function() {
-		addAttributeOptionTr();
-	})
-	
-	function addAttributeOptionTr() {
-		var size=$(".zg").length;
-		var attributeOptionTrHtml = '<tr class="zg"><td><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"	style="width:600px;" class="text"></textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div></td></tr>';
-		if($(".zg").length >= 0) {
-			$(".zg:last").after(attributeOptionTrHtml);
-		} 
-	}
-	
-			
-	// 减少选项内容输入框
-	$("#removeImage").click( function() {
-		removeAttributeOptionTr();
-	})
-	
-	function removeAttributeOptionTr() {
-		if($(".zg").length > 1) {
-			$(".zg:last").remove();
-		} else {
-			alert("请至少保留一个选项!");
-		}
-	}	
-	
-	*/
 
 })
 

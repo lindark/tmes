@@ -236,6 +236,7 @@ public class CraftAction extends BaseAdminAction {
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = craftService.findByPager(pager,map,abnorId);
+
 		}else{
 			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 		}

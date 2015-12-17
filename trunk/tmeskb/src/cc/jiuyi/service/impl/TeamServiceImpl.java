@@ -95,5 +95,5 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 		return this.teamDao.getTeamListByWork();
 	}
 
-
+	
 }

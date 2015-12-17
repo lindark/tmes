@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,10 @@ import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AdminDao;
+import cc.jiuyi.dao.CreditCardDao;
 import cc.jiuyi.dao.DepartmentDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.CreditCard;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.service.AdminService;
 
@@ -29,11 +32,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	private AdminDao adminDao;
 	@Resource
 	private DepartmentDao departmentdao;
-
 	@Resource
 	public void setBaseDao(AdminDao adminDao) {
 		super.setBaseDao(adminDao);
 	}
+	@Resource
+	private CreditCardDao ccDao;
 
 	public Admin getLoginAdmin() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -102,4 +106,37 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		return this.adminDao.getEmpPager(pager,map,admin);
 	}
 	
+	/**
+	 * 根据卡号查询员工
+	 */
+	public Admin getByCardnum(String cardNumber)
+	{
+		return this.adminDao.getByCardnum(cardNumber);
+	}
+
+	/**
+	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人,并更新admin表对应的员工
+	 */
+	public void updateByCreditCard(Date startdate, Date enddate,String teamid)
+	{
+		List<CreditCard>list=this.ccDao.getByDate(startdate, enddate);
+		if(list!=null)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				CreditCard cc=list.get(i);
+				//根据卡号 班组ID查询
+				Admin a=this.adminDao.getByCardnumAndTeamid(cc.getCardNumber(),teamid);
+				if(a!=null)
+				{
+					if(!"2".equals(a.getWorkstate()))
+					{
+						a.setWorkstate("2");
+						a.setModifyDate(new Date());
+						this.adminDao.update(a);
+					}
+				}
+			}
+		}
+	}
 }

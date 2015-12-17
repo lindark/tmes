@@ -1,6 +1,5 @@
 package cc.jiuyi.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +10,10 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
-import cc.jiuyi.util.ThinkWayUtil;
+import cc.jiuyi.service.TeamService;
 
 /**
  * 考勤
@@ -33,33 +32,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		super.setBaseDao(kqDao);
 	}
 	@Resource
-	private DictService dictService;
-	/**
-	 * 根据当前的日期yyyyMMdd查询数据
-	 */
-	public void saveByKqdate(List<Admin>list,String strdate)
-	{
-		List<Kaoqin>listkq=this.kqDao.getByKqdate(strdate);
-		if(listkq.size()==0)
-		{
-			for(int i=0;i<list.size();i++)
-			{
-				Admin a=list.get(i);
-				Kaoqin kq=new Kaoqin();
-				kq.setCardNum(a.getCardNumber());//卡号
-				kq.setEmpName(a.getName());//员工姓名
-				kq.setTeams(a.getDepartment().getTeam().getTeamName());//班组
-				kq.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));//班次
-				kq.setWorkState( a.getWorkstate());//工作状态
-				kq.setKqdate(strdate);//当前日期
-				kq.setSkill(a.getPost().getPostName());//技能
-				kq.setAdminId(a.getId());//员工表主键
-				kq.setCreateDate(new Date());
-				kq.setModifyDate(new Date());
-				this.kqDao.save(kq);
-			}
-		}
-	}
+	private TeamService teamService;
 
 	/**
 	 * jqGrid查询
@@ -69,23 +42,12 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		return this.kqDao.getKaoqinPager(pager,map);
 	}
 	/**
-	 * 修改员工工作状态
+	 * 修改Admin表员工工作状态
 	 */
-	public void updateWorkState(Kaoqin kaoqin)
+	public void updateEmpWorkState(Admin admin)
 	{
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-		String strdate=sdf.format(date);
-		// 修改kaoqin表中状态
-		System.out.println(kaoqin.getId());
-		Kaoqin kq = this.kqDao.getByCardnumAndSameday(kaoqin.getCardNum(),strdate);
-		kq.setWorkState(kaoqin.getWorkState());
-		kq.setModifyDate(new Date());
-		this.kqDao.update(kq);
-
-		// 修改admin表中状态
-		Admin a = this.adminService.get(kq.getAdminId());
-		a.setWorkstate(kaoqin.getWorkState());
+		Admin a = this.adminService.getByCardnum(admin.getCardNumber());//根据卡号查询员工
+		a.setWorkstate(admin.getWorkstate());
 		a.setModifyDate(new Date());
 		this.adminService.update(a);
 	}
@@ -101,11 +63,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 添加新代班员工
 	 */
-	public void saveNewEmp(String[] ids)
+	public void saveNewEmp(String[] ids,String sameteamid)
 	{
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-		String strdate=sdf.format(date);
 		for(int i=0;i<ids.length;i++)
 		{
 			//admin表修改员工状态为代班
@@ -113,29 +72,29 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			{
 				System.out.println(ids[i]);
 				Admin a=this.adminService.get(ids[i]);
+				a.setIsdaiban(sameteamid);//班组ID
 				a.setWorkstate("6");
 				a.setModifyDate(new Date());
 				this.adminService.update(a);
-				
-				//根据员工id和当前日期查询
-				Kaoqin k=this.kqDao.getByCardnumAndSameday(a.getCardNumber(),strdate);
-				if(k==null)
-				{
-					//新增代班员工，状态默认为代班
-					Kaoqin kq=new Kaoqin();
-					kq.setCardNum(a.getCardNumber());//卡号
-					kq.setEmpName(a.getName());//员工姓名
-					kq.setTeams(a.getDepartment().getTeam().getTeamName());//班组
-					kq.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));//班次
-					kq.setWorkState( "6");//工作状态
-					kq.setKqdate(strdate);//当前日期
-					kq.setSkill(a.getPost().getPostName());//技能
-					kq.setAdminId(a.getId());//员工表主键
-					kq.setCreateDate(new Date());
-					kq.setModifyDate(new Date());
-					this.kqDao.save(kq);
-				}
 			}
+		}
+	}
+	
+	/**
+	 * 修改班组的状态
+	 */
+	public void updateState(Date date)
+	{
+		Admin a=this.adminService.getLoginAdmin();
+		a=this.adminService.get(a.getId());
+		String teamstate=a.getDepartment().getTeam().getState();
+		Team team=a.getDepartment().getTeam();
+		team=this.teamService.get(team.getId());
+		if(!"1".equals(teamstate))
+		{
+			team.setModifyDate(date);
+			team.setState("1");
+			this.teamService.update(team);
 		}
 	}
 }

@@ -87,7 +87,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 
 	@Override
 	public List<PickDetail> getPickDetail(String id) {
-		String hql="from PickDetail where pick_id=?";
+		String hql="from PickDetail where pick.id=?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}
 

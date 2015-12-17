@@ -108,8 +108,9 @@ body {
 
 												<div class="profile-info-value">
 													<#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="deviceId" data-toggle="button">选择</button>
+													<img id="deviceId" class="img_addbug" title="添加设备信息" alt="添加设备信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+												<!-- 	<button type="button" class="btn btn-xs btn-info"
+														id="deviceId" data-toggle="button">选择</button> -->
 													<span id="deviceName1"></span> <input type="hidden"
 														name="device.equipments.id" id="deviceNa" value=""
 														class="formText {required: true}" /> <#else>
@@ -143,8 +144,9 @@ body {
 												<div class="profile-info-value">
 
 													<#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="workShopId" data-toggle="button">选择</button>
+													<img id="workShopId" class="img_addbug" title="添加车间信息" alt="添加车间信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+												<!--  	<button type="button" class="btn btn-xs btn-info"
+														id="workShopId" data-toggle="button">选择</button>-->
 													<span id="workShopName1"></span> <input type="hidden"
 														name="device.workShop.id" id="workShopNa" value=""
 														class="formText {required: true}" /> <#else>
@@ -184,33 +186,15 @@ body {
 													</select>
 												</div>
 											</div>
-
-
-                                            <#if isAdd??> 
-                                            <#else>
                                             
-											<div class="profile-info-row">
-												<div class="profile-info-name">处理开始时间</div>
-												<div class="profile-info-value">
-													<input type="text" name="device.beginTime"
-														value="${(device.beginTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="beginTime"/>
-												</div>
-												<div class="profile-info-name">处理结束时间</div>
-												<div class="profile-info-value">
-													<input type="text" name="device.dndTime"
-														value="${(device.dndTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="endTime"/>
-												</div>
-											</div>
-                                            </#if> 
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理人员</div>
 												<div class="profile-info-value">
 													<#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="adminId" data-toggle="button">选择</button>
+													<img id="adminId" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!--  <button type="button" class="btn btn-xs btn-info"
+														id="adminId" data-toggle="button">选择</button>-->
 													<span id="adminName1"></span> <input type="hidden"
 														name="device.disposalWorkers.id" id="adminNa" value=""
 														class="formText {required: true}" /> <#else>
@@ -229,10 +213,61 @@ body {
 												</div>
 
 											</div>
+                                             
+                                             
+                                             <div class="profile-info-row">
 
-                                            
-                                            <#if isAdd??> 
+												<div class="profile-info-name">故障原因</div>
+												<div class="profile-info-value">
+													
+													<select name="device.fault"> <#list
+														reasonList as list>
+														<option value="${list.id}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && device.faultReason ==
+															list.id))!> selected</#if>>${list.reasonName}</option>
+														</#list>
+													</select>
+													
+												</div>
+											</div>
+                                             
+                                                                                       
+										</div>
+										
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">故障描述</div>
+												<div class="profile-info-value">
+												    <#if isAdd??> 
+												    <textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>
+                                                    <#else>
+                                                    ${(device.diagnosis)!} 
+                                                    </#if>
+													
+												</div>
+											</div>
+										</div>
+										
+										
+										
+										<#if isAdd??> 
                                             <#else>
+                                            <div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">处理开始时间</div>
+												<div class="profile-info-value">
+													<input type="text" name="device.beginTime"
+														value="${(device.beginTime)!}"
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="beginTime"/>
+												</div>
+												<div class="profile-info-name">处理结束时间</div>
+												<div class="profile-info-value">
+													<input type="text" name="device.dndTime"
+														value="${(device.dndTime)!}"
+														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="endTime"/>
+												</div>
+											</div>
+											
 											<div class="profile-info-row">
 												<div class="profile-info-name">总维修时间</div>
 												<div class="profile-info-value">
@@ -246,8 +281,71 @@ body {
 														value="${(device.totalDownTime)!}"
 														class="access input input-sm  formText {digits: true}" data-access-list="totalDownTime"/>
 												</div>
-											</div>                                          											
-
+											</div>      
+											</div>
+                                            </#if> 
+																			
+										<!-- 
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">故障处理过程</div>
+												<div class="profile-info-value" id="process">
+												    <img id="faultProcess" class="img_addbug" title="添加信息" alt="添加信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />												  														
+												</div>
+											</div>
+										</div> -->																				
+										
+										<#if isAdd??>												
+										<#else>
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">处理过程</div>
+												<div class="profile-info-value" id="process">	
+												     <#if ((device.deviceProcessSet)!?size>0)>
+						                                    <#list model.deviceProcessSet as list> 
+												            <span> ${(list.content)!}</span>&nbsp;&nbsp;&nbsp; 
+												            </#list> 
+												       
+													   <#else>											    
+												    <img id="faultProcess" class="img_addbug" title="添加信息" alt="添加信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />												  														
+												 	   </#if><!--<textarea name="device.process" style="width:300px;" class="access" data-access-list="process">${(device.process)!} </textarea>-->
+												</div>
+											</div>
+										</div>
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">原因分析</div>
+												<div class="profile-info-value">
+													<textarea name="device.causeAnalysis" style="width:600px;" class="access" data-access-list="causeAnalysis">${(device.causeAnalysis)!} </textarea>
+												</div>
+											</div>
+										</div>
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">预防对策</div>
+												<div class="profile-info-value">
+													<textarea name="device.preventionCountermeasures"
+														style="width:600px;" class="access" data-access-list="preventionCountermeasures">${(device.preventionCountermeasures)!} </textarea>
+												</div>
+											</div>
+										</div>
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">更换零部件数量及型号</div>
+												<div class="profile-info-value">
+													<textarea name="device.changeAccessoryAmountType"
+														style="width:600px;" class="access" data-access-list="changeAccessoryAmountType">${(device.changeAccessoryAmountType)!} </textarea>
+												</div>
+											</div>
+										</div>
+										</#if>
+										
+										
+										
+										 <#if isAdd??> 
+                                            <#else>
+											                                    											
+                                            <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">接到电话号码</div>
 												<div class="profile-info-value">
@@ -281,99 +379,9 @@ body {
 													</select>
 												</div>
 											</div>
+											</div>
                                             </#if> 
-
-										</div>
 										
-										<div class="profile-user-info profile-user-info-striped">
-										     <div class="profile-info-row">
-
-												<div class="profile-info-name">故障原因</div>
-												<div class="profile-info-value">
-													
-													<select name="device.faultReason"> <#list
-														reasonList as list>
-														<option value="${list.id}"<#if ((isAdd &&
-															list.isDefault) || (isEdit && device.faultReason ==
-															list.id))!> selected</#if>>${list.reasonName}</option>
-														</#list>
-													</select>
-													<!--  
-													<#list reasonList as list>																																				
-													<div style="width: 30%; float: left;">
-														<label><input type="checkbox" name="reasonIds"
-															value="${list.id}"<#if
-															(device.receiptSet.contains(list) == true)!>
-															checked="checked"</#if> />
-															${(list.reasonName)!}
-														</label>
-													</div>
-													</#list>--> 
-													
-												</div>
-											</div>
-										</div>
-										
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">故障处理过程</div>
-												<div class="profile-info-value" id="process">
-												    <button type="button" class="btn btn-xs btn-info"
-														id="faultProcess" data-toggle="button">选择</button>
-												<!-- 	<textarea name="device.diagnosis" style="width:300px;" class="formText {required: true}"></textarea> -->
-														
-												</div>
-											</div>
-										</div>
-										
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">故障描述</div>
-												<div class="profile-info-value">
-													<textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>
-												</div>
-											</div>
-										</div>
-										
-										<#if isAdd??>												
-										<#else>
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">处理过程</div>
-												<div class="profile-info-value" id="dispose">
-												   	<!--   <button type="button" class="btn btn-xs btn-info"
-														id="process" data-toggle="button">选择</button>-->
-												 	<textarea name="device.process" style="width:300px;" class="access" data-access-list="process">${(device.process)!} </textarea>
-												</div>
-											</div>
-										</div>
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">原因分析</div>
-												<div class="profile-info-value">
-													<textarea name="device.causeAnalysis" style="width:600px;" class="access" data-access-list="causeAnalysis">${(device.causeAnalysis)!} </textarea>
-												</div>
-											</div>
-										</div>
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">预防对策</div>
-												<div class="profile-info-value">
-													<textarea name="device.preventionCountermeasures"
-														style="width:600px;" class="access" data-access-list="preventionCountermeasures">${(device.preventionCountermeasures)!} </textarea>
-												</div>
-											</div>
-										</div>
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">更换零部件数量及型号</div>
-												<div class="profile-info-value">
-													<textarea name="device.changeAccessoryAmountType"
-														style="width:600px;" class="access" data-access-list="changeAccessoryAmountType">${(device.changeAccessoryAmountType)!} </textarea>
-												</div>
-											</div>
-										</div>
-										</#if>
 										
 							</form>
 							<!--weitao end modify-->

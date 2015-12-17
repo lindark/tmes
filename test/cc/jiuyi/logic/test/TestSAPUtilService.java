@@ -2,6 +2,7 @@ package cc.jiuyi.logic.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,14 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.DailyWork;
+import cc.jiuyi.entity.Device;
+import cc.jiuyi.entity.DeviceModlue;
+import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
@@ -23,6 +29,7 @@ import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.sap.rfc.DailyWorkRfc;
+import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
@@ -62,6 +69,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private CartonRfc cartonrfc;
 	@Resource
 	private HandOverProcessRfc handoverprocess;
+	@Resource
+	private DeviceRfc devicerfc;
 	protected void setUp() {
 		
 	}
@@ -419,6 +428,51 @@ public class TestSAPUtilService extends BaseTestCase {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testWxd(){
+		Device d=new Device();
+		Equipments e = new Equipments();
+		e.setEquipmentNo("JX-B-C0001");
+		Admin a=new Admin();
+		a.setName("张三");
+		d.setSHORT_TEXT("测试维修单");
+		d.setEquipments(e);
+		d.setBeginTime(new Date());//开始日期
+		d.setDndTime(new Date());//结束日期
+		d.setCOST("2");//成本
+		d.setORDER_TYPE("PM01");//订单类型
+		d.setTotalDownTime(5.0);//停机时间
+		d.setURGRP("PM1");//原因代码组
+		d.setURCOD("1001");//原因代码
+		d.setDisposalWorkers(a);
+		List<DeviceStep> step=new ArrayList<DeviceStep>();
+		DeviceStep s=new DeviceStep();
+		s.setVORNR("0010");
+		s.setARBPL("2101");//工作中心
+		s.setWERKS("1000");//工厂
+		s.setSTEUS("PM01");//控制码
+		s.setDESCRIPTION("维修");//工序短文本
+		s.setWORK_ACTIVITY("10");
+		s.setDURATION_NORMAL("10");
+		step.add(s);
+		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
+		DeviceModlue dm=new DeviceModlue();
+		dm.setMATERIAL("60000167");//物料编码
+		dm.setMENGE("1");
+		dm.setVORNR("0010");
+		dm.setPOSTP("L");
+		module.add(dm);
+		try {
+			String aufnr=devicerfc.DeviceCrt(d, step, module);
+			System.out.println("订单号为："+aufnr);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (CustomerException e1) {
+			System.out.println(e1.getMsgDes());
+			e1.printStackTrace();
 		}
 	}
 }

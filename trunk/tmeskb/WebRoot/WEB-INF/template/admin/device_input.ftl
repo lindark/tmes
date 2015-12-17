@@ -73,8 +73,8 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate"
-								action="<#if isAdd??>device!save.action<#else>device!update.action</#if>"
+							<form id="inputForm" class="validatecredit"
+								action="device!creditsave1.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> 
 								<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -290,8 +290,16 @@ body {
 
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value">
-													<#if isAdd??>
-													<#list reasonList as list>
+													
+													<select name="device.faultReason"> <#list
+														reasonList as list>
+														<option value="${list.id}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && device.faultReason ==
+															list.id))!> selected</#if>>${list.reasonName}</option>
+														</#list>
+													</select>
+													<!--  
+													<#list reasonList as list>																																				
 													<div style="width: 30%; float: left;">
 														<label><input type="checkbox" name="reasonIds"
 															value="${list.id}"<#if
@@ -300,9 +308,20 @@ body {
 															${(list.reasonName)!}
 														</label>
 													</div>
-													</#list> <#else> <#list device.receiptSet as list>
-													${list.reasonName}, </#list> </#if>
+													</#list>--> 
 													
+												</div>
+											</div>
+										</div>
+										
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">故障处理过程</div>
+												<div class="profile-info-value" id="process">
+												    <button type="button" class="btn btn-xs btn-info"
+														id="faultProcess" data-toggle="button">选择</button>
+												<!-- 	<textarea name="device.diagnosis" style="width:300px;" class="formText {required: true}"></textarea> -->
+														
 												</div>
 											</div>
 										</div>
@@ -321,8 +340,10 @@ body {
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理过程</div>
-												<div class="profile-info-value">
-													<textarea name="device.process" style="width:600px;" class="access" data-access-list="process">${(device.process)!} </textarea>
+												<div class="profile-info-value" id="dispose">
+												   	<!--   <button type="button" class="btn btn-xs btn-info"
+														id="process" data-toggle="button">选择</button>-->
+												 	<textarea name="device.process" style="width:300px;" class="access" data-access-list="process">${(device.process)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -359,7 +380,7 @@ body {
 							<div class="buttonArea">
 
 								<#if isAdd??>
-								<button class="btn btn-white btn-default btn-sm btn-round access" data-access-list="devicecredit"
+								<button class="btn btn-white btn-default btn-sm btn-round" 
 									id="completeDevice" type=button>
 									<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡提交
 								</button>
@@ -489,4 +510,37 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script type="text/javascript">
+$(function() {	
+	/*
+$("form.validatecredit").validate({
+		
+		errorClass: "validateError",
+		ignore: ".ignoreValidate",
+		onkeyup:false,
+		errorPlacement: function(error, element) {
+			var messagePosition = element.metadata().messagePosition;
+			if("undefined" != typeof messagePosition && messagePosition != "") {
+				var $messagePosition = $(messagePosition);
+				if ($messagePosition.size() > 0) {
+					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
+				} else {
+					error.insertAfter(element).fadeOut(300).fadeIn(300);
+				}
+			} else {
+				error.insertAfter(element).fadeOut(300).fadeIn(300);
+			}
+		},
+		submitHandler: function(form) {
+			var url = $(form).attr("action");
+			var dt = $(form).serialize();
+			credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "abnormal!list.action";
+			},dt)
+			
+		}
+	});
+})*/
+</script>
 </html>

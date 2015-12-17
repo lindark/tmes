@@ -56,7 +56,7 @@ body {
 
 									<form id="inputForm" name="inputForm" class="validate" action="pick_detail!creditsubmit.action?id+"=id
 							 method="post">
-                            <input type="hidden" class="input input-sm" name="workingBillId" value="${(workingbill.id)!} ">
+                            <input type="hidden" class="input input-sm" id="workingBillId" name="workingBillId" value="${(workingbill.id)!} ">
                             <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
 							
 							<div id="inputtabs">
@@ -168,17 +168,34 @@ body {
 	
 	$(function(){		
 		$("#btn_save").click(function(){
-			document.inputForm.action="pick_detail!creditsubmit.action";
-			$("#inputForm").submit();
+			 var dt=$("#inputForm").serialize();
+				var workingBillId = $("#workingBillId").val();
+				var url="pick_detail!creditsubmit.action";
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");	
+					if(data.status=="success"){
+					window.location.href="pick!list.action?workingBillId="+workingBillId;
+					}
+				},dt)
 		});
+
+		$("#btn_confirm").click(function(){
+			 var dt=$("#inputForm").serialize();
+				var workingBillId = $("#workingBillId").val();
+				var url="pick_detail!creditapproval.action";	
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");	
+					if(data.status=="success"){
+					window.location.href="pick!list.action?workingBillId="+workingBillId;
+					}
+				},dt)	
+		});
+		
 		
 		$("#btn_back").click(function(){
 			window.history.back();
-		});
-		
-		$("#btn_confirm").click(function(){		
-			document.inputForm.action="pick_detail!creditapproval.action";	
-			$("#inputForm").submit();
 		});
 		
 		var ishead=0;
@@ -211,7 +228,6 @@ body {
 	$(function(){
 		$("#mytable td").each(function(){
 			 var value = $(this).text();
-			 //alert(value);
 			});
      });
 	

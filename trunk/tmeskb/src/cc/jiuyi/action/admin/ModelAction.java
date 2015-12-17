@@ -179,27 +179,28 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("维修时间不允许为空！");
 			return ERROR;
 		}
-		
-		if(faultReasonSet.size()>0){
+				
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
+		persistent.setState("1");	
+
+		if(faultReasonSet!=null){
 			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
 			addActionError("故障原因不允许为空！");
 			return ERROR;
 		}
-		if(handleSet.size()>0){
+		if(handleSet!=null){
 			persistent.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
 		}else{
 			addActionError("处理方法不允许为空！");
 			return ERROR;
 		}
-		if(longSet.size()>0){
+		if(longSet!=null){
 			persistent.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		}else{
 			addActionError("预防措施不允许为空！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
-		persistent.setState("1");		
 		
 		modelService.update(persistent);
 		

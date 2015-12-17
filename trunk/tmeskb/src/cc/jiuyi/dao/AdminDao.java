@@ -47,4 +47,17 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 */
 	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin);
 
+	/**
+	 * 根据卡号查询员工
+	 */
+	public Admin getByCardnum(String cardNumber);
+
+	/**
+	 * 根据卡号 班组ID查询
+	 * @param cardNumber
+	 * @param teamid
+	 * @return
+	 */
+	public Admin getByCardnumAndTeamid(String cardNumber, String teamid);
+
 }

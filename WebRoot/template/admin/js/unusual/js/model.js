@@ -1,49 +1,18 @@
 $(function() {	
-	/*
-$("form.validatecredit").validate({
-		
-		errorClass: "validateError",
-		ignore: ".ignoreValidate",
-		onkeyup:false,
-		errorPlacement: function(error, element) {
-			var messagePosition = element.metadata().messagePosition;
-			if("undefined" != typeof messagePosition && messagePosition != "") {
-				var $messagePosition = $(messagePosition);
-				if ($messagePosition.size() > 0) {
-					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
-				} else {
-					error.insertAfter(element).fadeOut(300).fadeIn(300);
-				}
-			} else {
-				error.insertAfter(element).fadeOut(300).fadeIn(300);
-			}
-		},
-		submitHandler: function(form) {
-			var url = $(form).attr("action");
-			var dt = $(form).serialize();
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-			},dt)
-			
-		}
-	});*/
-	
-	
 	$("#completeModel").click(function(){		
     	$("#inputForm").submit();  		    		
 	});
 	
 	
 	$("#checkModel").click(function(){
-		//$("#inputForm").attr("action", "model!check.action");
-	    //$("#inputForm").submit(); 	
-		 var dt = $("#inputForm").serialize();
-			var url = "model!creditreply.action";		
+		$("#inputForm").attr("action", "model!creditreply1.action");
+	    $("#inputForm").submit(); 	
+		/* var dt = $("#inputForm").serialize();
+			var url = "model!creditreply1.action";		
 			credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				window.location.href = "model!list.action";
-			},dt)
+			},dt)*/
 	});
 	
 	$("#confirmModel").click(function(){
@@ -169,15 +138,15 @@ $("form.validatecredit").validate({
 	
 	
 	
-	// 产品弹出框
-	$("#productId").click( function() {
-		showProduct();
+	// 设备弹出框
+	$("#deviceId").click( function() {
+		showDevice();
 	})
 	
 	
-	function showProduct()
+	function showDevice()
 {
-	var title = "选择产品";
+	var title = "选择设备";
 	var width="800px";
 	var height="632px";
 	var content="model!browser.action";
@@ -185,8 +154,8 @@ $("form.validatecredit").validate({
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		$("#productName1").text(id[0]);//产品id productName1
-		$("#productNa").val(id[1]);//产品名称
+		$("#productName1").text(id[0]);//设备id productName1
+		$("#productNa").val(id[1]);//设备名称
 		layer.close(index); 
 	});
 }

@@ -159,7 +159,7 @@ public class ModelAction extends BaseAdminAction {
 	
 	
 	//刷卡回复		
-	public String creditreply() throws Exception{
+	public String creditreply1() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
@@ -179,8 +179,7 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("维修时间不允许为空！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
-		persistent.setState("1");
+		
 		if(faultReasonSet.size()>0){
 			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
@@ -199,6 +198,8 @@ public class ModelAction extends BaseAdminAction {
 			addActionError("预防措施不允许为空！");
 			return ERROR;
 		}
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
+		persistent.setState("1");		
 		
 		modelService.update(persistent);
 		
@@ -208,9 +209,9 @@ public class ModelAction extends BaseAdminAction {
 		log.setModel(persistent);
 		modelLogService.save(log);
 		
-		//redirectionUrl="model!list.action";
-		//return SUCCESS;
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		redirectionUrl="model!list.action";
+		return SUCCESS;
+		//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	
@@ -223,7 +224,7 @@ public class ModelAction extends BaseAdminAction {
 				addActionError("确认时间不允许为空！");
 				return ERROR;
 			}
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -247,7 +248,7 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		Model persistent = modelService.load(id);
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","products","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -294,9 +295,9 @@ public class ModelAction extends BaseAdminAction {
 				map.put("teamId", teamId);
 			}
 
-			if (obj.get("productName") != null) {
-				String productName = obj.getString("productName").toString();
-				map.put("productName", productName);
+			if (obj.get("equipmentName") != null) {
+				String equipmentName = obj.getString("equipmentName").toString();
+				map.put("equipmentName", equipmentName);
 			}
 
 		}
@@ -313,7 +314,7 @@ public class ModelAction extends BaseAdminAction {
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
             model.setTeamName(model.getTeamId().getTeamName());
-			model.setProductName(model.getProducts().getProductsName());
+			model.setProductName(model.getEquipments().getEquipmentName());
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));
 			model.setRepairName(model.getFixer().getName());
@@ -344,7 +345,7 @@ public class ModelAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String creditsave() {
+	public String creditsave1() {
 
 		Admin admin = adminService.getLoginAdmin();
 
@@ -361,8 +362,8 @@ public class ModelAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		if(model.getProducts()==null){
-			addActionError("产品名称不允许为空！");
+		if(model.getEquipments()==null){
+			addActionError("设备名称不允许为空！");
 			return ERROR;
 		}
 		
@@ -397,9 +398,9 @@ public class ModelAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
+		//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	// 列表

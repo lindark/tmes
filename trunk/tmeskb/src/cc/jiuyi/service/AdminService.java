@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +64,19 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @return
 	 */
 	public Pager getEmpPager(Pager pager, HashMap<String, String> map,Admin admin);
+
+	/**
+	 * 根据卡号查询员工
+	 * @param cardNumber
+	 * @return
+	 */
+	public Admin getByCardnum(String cardNumber);
+
+	/**
+	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人,并更新admin表对应的员工
+	 * @param startdate
+	 * @param enddate
+	 */
+	public void updateByCreditCard(Date startdate, Date enddate,String teamid);
 
 }

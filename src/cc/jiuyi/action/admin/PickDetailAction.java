@@ -308,7 +308,6 @@ public class PickDetailAction extends BaseAdminAction {
 					String e_type = pick2.getE_type();
 					String e_message=pick2.getE_message();
 					String ex_mblnr=pick2.getEx_mblnr();
-					String move_type=pick2.getMove_type();
 					if(e_type.equals("E")){ //如果有一行发生了错误
 						flag1 = false;
 						message +=pick2.getE_message();
@@ -317,7 +316,7 @@ public class PickDetailAction extends BaseAdminAction {
 						pickReturn.setE_message(e_message);
 						pickReturn.setEx_mblnr(ex_mblnr);
 						pickReturn.setE_type(e_type);
-						pickReturn.setMove_type(move_type);
+						pickReturn.setMove_type(info);
 						pickReturn.setState("2");
 						pickService.update(pickReturn);
 					}

@@ -2,7 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import cc.jiuyi.action.cron.KaoqinMonitor;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
@@ -23,6 +24,7 @@ import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -45,6 +47,9 @@ public class KaoqinAction extends BaseAdminAction
 	private Admin admin;
 	private List<Dict>list_dict;//员工状态
 	private List<Kaoqin>list_kq;
+	private List<Admin>list_emp;
+	private String info;
+	private String sameTeamId;//当前班组ID
 	/**
 	 * service接口
 	 */
@@ -67,21 +72,12 @@ public class KaoqinAction extends BaseAdminAction
 		this.admin=this.adminService.getLoginAdmin();
 		this.admin=this.adminService.get(admin.getId());
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
-		
+		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
-		List<Admin>list_emp=this.adminService.getByTeamId(this.admin.getDepartment().getTeam().getId());//根据班组ID获得班组下的所有员工
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-		String strdate=sdf.format(date);
-		this.kqService.saveByKqdate(list_emp,strdate);
-		//查询当天历史员工
-		List<Kaoqin>l_kq=this.kqService.getSamedayEmp(strdate);
-		this.list_kq=new ArrayList<Kaoqin>();
-		for(int i=0;i<l_kq.size();i++)
+		List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工
+		if(l_emp!=null)
 		{
-			Kaoqin kq=l_kq.get(i);
-			kq.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", kq.getWorkState()));
-			this.list_kq.add(kq);
+			this.list_emp=getNewAdminList(l_emp);
 		}
 		return LIST;
 	}
@@ -99,6 +95,7 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String beforegetemp()
 	{
+		this.sameTeamId=this.info;
 		return "alert";
 	}
 	
@@ -147,20 +144,7 @@ public class KaoqinAction extends BaseAdminAction
 		pager = this.adminService.getEmpPager(pager, map,admin);
 		@SuppressWarnings("unchecked")
 		List<Admin>list1=pager.getList();
-		List<Admin>list2=new ArrayList<Admin>();
-		for(int i=0;i<list1.size();i++)
-		{
-			Admin a=list1.get(i);
-			//班次
-			a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
-			//班组
-			a.setXteam( a.getDepartment().getTeam().getTeamName());
-			//工作状态
-			a.setXworkstate(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", a.getWorkstate()));
-			//技能
-			a.setXpost(a.getPost().getPostName());
-			list2.add(a);
-		}
+		List<Admin>list2=getNewAdminList(list1);
 		pager.setList(list2);
 		JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
@@ -226,11 +210,11 @@ public class KaoqinAction extends BaseAdminAction
 	}
 	
 	/**
-	 * 修改员工工作状态
+	 * 修改Admin表员工工作状态
 	 */
-	public String updateWorkState()
+	public String updateEmpWorkState()
 	{
-		this.kqService.updateWorkState(kaoqin);
+		this.kqService.updateEmpWorkState(admin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -243,9 +227,75 @@ public class KaoqinAction extends BaseAdminAction
 		if(ids!=null)
 		{
 			ids=ids[0].split(",");
-			this.kqService.saveNewEmp(ids);
+			this.kqService.saveNewEmp(ids,sameTeamId);
 		}
 		return ajaxJsonSuccessMessage("s");
+	}
+	
+	/**
+	 * 开启考勤
+	 */
+	public String startWorking()
+	{
+		String job_name = "startWorking"+this.sameTeamId;
+		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
+		
+		//当前时间
+		Calendar can=Calendar.getInstance();
+		this.kqService.updateState(can.getTime());
+		int fen=can.get(Calendar.MINUTE);//分
+		int miao=can.get(Calendar.SECOND);//秒
+		
+		//当前时间的后1整点
+		Calendar can2=Calendar.getInstance();
+		can2.add(Calendar.HOUR_OF_DAY, 1);
+		can2.set(Calendar.MINUTE, 0);
+		can2.set(Calendar.SECOND,0);
+		
+		//两个时间的相差分钟
+		int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
+		int n=40-differ;
+		QuartzManagerUtil.removeJob(job_name);
+		QuartzManagerUtil.removeJob("xxx"+job_name);
+		if(n<=0)
+		{
+			/**不跨时*/
+			String xquartz=miao+" "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
+			//添加定时任务
+			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz);
+		}
+		else
+		{
+			/**跨时*/
+			String xquartz=miao+" "+fen+"-59/1 "+sdf.format(can.getTime());
+			String x2quartz="0 0-"+n+"/1 "+sdf.format(can2.getTime());
+			//添加定时任务
+			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz);
+			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz);
+		}
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	/**
+	 * Admin表假字段
+	 */
+	public List<Admin>getNewAdminList(List<Admin>list1)
+	{
+		List<Admin>list2=new ArrayList<Admin>();
+		for(int i=0;i<list1.size();i++)
+		{
+			Admin a=list1.get(i);
+			//班次
+			a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
+			//班组
+			a.setXteam( a.getDepartment().getTeam().getTeamName());
+			//工作状态
+			a.setXworkstate(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", a.getWorkstate()));
+			//技能
+			a.setXpost(a.getPost().getPostName());
+			list2.add(a);
+		}
+		return list2;
 	}
 	/**===========================end 方法===================================*/
 	
@@ -291,5 +341,35 @@ public class KaoqinAction extends BaseAdminAction
 		this.list_kq = list_kq;
 	}
 
+	public List<Admin> getList_emp()
+	{
+		return list_emp;
+	}
+
+	public void setList_emp(List<Admin> list_emp)
+	{
+		this.list_emp = list_emp;
+	}
+
+	public String getSameTeamId()
+	{
+		return sameTeamId;
+	}
+
+	public void setSameTeamId(String sameTeamId)
+	{
+		this.sameTeamId = sameTeamId;
+	}
+
+	public String getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(String info)
+	{
+		this.info = info;
+	}
+	
 	/**===========================end get/set===============================*/
 }

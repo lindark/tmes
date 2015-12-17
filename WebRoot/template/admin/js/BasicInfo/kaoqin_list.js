@@ -14,7 +14,7 @@ function btn_event()
 	});
 	//开启考勤
 	$("#btn_open").click(function(){
-		
+		startWorking();
 	});
 	//查看考勤历史
 	$("#btn_viewhistory").click(function(){
@@ -57,7 +57,7 @@ function edit_event(index)
 				{
 					sapn_stype2("span_state"+index);
 				}
-				var url="kaoqin!updateWorkState.action?kaoqin.workState="+val+"&kaoqin.cardNum="+index;
+				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.cardNumber="+index;
 				upd_event(url);
 			}
 		}
@@ -91,7 +91,7 @@ function addemp()
 	var title = "添加代班员工";
 	var width="800px";
 	var height="620px";
-	var content="kaoqin!beforegetemp.action";
+	var content="kaoqin!beforegetemp.action?info="+$("#sameteamid").val();
 	var html="";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
@@ -118,6 +118,26 @@ function addemp()
 			}
 			$("#tab1 tr").eq(0).after(html);
 			layer.close(index);
+		}
+	});
+}
+
+//开启考勤
+function startWorking()
+{
+	$.ajax({	
+		url: "kaoqin!startWorking.action?sameTeamId="+$("#sameteamid").val(),
+		dataType: "json",
+		async: false,
+		beforeSend: function(data) {
+			$(this).attr("disabled", true);
+			index = layer.load();
+		},
+		success: function(data) {
+			layer.close(index);
+			$.message(data.status,data.message);
+		},error:function(data){
+			$.message("error","系统出现问题，请联系系统管理员");
 		}
 	});
 }

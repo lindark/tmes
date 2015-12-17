@@ -88,5 +88,14 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 			pick.setConfirmUser(admin);
 			pickDao.update(pick);
 		}
-	}	
+	}
+	
+	
+	@Override
+	public void updateSap(String pk, String ex_mblnr) {
+		Pick xpick= pickDao.get(pk);
+		xpick.setEx_mblnr(ex_mblnr);
+		xpick.setState("2");	
+	}
+
 }

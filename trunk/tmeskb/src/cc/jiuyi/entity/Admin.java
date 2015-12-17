@@ -109,6 +109,7 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	private Post post;//技能
 	private String workstate;//状态1，考勤：添加代班员工时用到
+	private String isdaiban;//是否代班
 	//假字段
 	private String xworkstate;//员工工作状态描述
 	private String xshift;//班次
@@ -507,8 +508,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setIsDel(String isDel) {
 		if (isDel == null) {
 			this.isDel = "N";
-		} else
-			this.isDel = isDel;
+		}
+		this.isDel = isDel;
 	}
 
 	public String getShift() {
@@ -861,6 +862,21 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setXpost(String xpost)
 	{
 		this.xpost = xpost;
+	}
+
+	@Column
+	public String getIsdaiban()
+	{
+		return isdaiban;
+	}
+
+	public void setIsdaiban(String isdaiban)
+	{
+		if(isdaiban==null)
+		{
+			isdaiban="N";
+		}
+		this.isdaiban = isdaiban;
 	}
 	
 }

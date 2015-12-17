@@ -92,8 +92,9 @@ body {
 
 												<div class="profile-info-value">
 												    <#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="productId" data-toggle="button">选择</button>
+												     <img id="productId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!-- <button type="button" class="btn btn-xs btn-info"
+														id="productId" data-toggle="button">选择</button> -->
 													<span id="productName1"></span>
 												    <input type="hidden" name="craft.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(craft.products.productsName)!} </#if>
@@ -143,8 +144,9 @@ body {
 													<div class="profile-info-name">维修员</div>
 													<div class="profile-info-value">
 													<#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="repair" data-toggle="button">选择</button>
+													 <img id="repair" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!--  <button type="button" class="btn btn-xs btn-info"
+														id="repair" data-toggle="button">选择</button>-->
 													<span id="repairName1"></span>
 												    <input type="hidden" name="craft.repairName.id" id="repairNa" value="" class="formText {required: true}"/>
 													<#else> ${(craft.repairName.name)!} </#if>

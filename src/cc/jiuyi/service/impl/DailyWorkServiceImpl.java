@@ -107,6 +107,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	@Override
 	public void updateState2(List<DailyWork> list, String workingbillid)
 			throws IOException, CustomerException {
+		Admin admin = adminservice.getLoginAdmin();
 		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
 		// 未确认的如果调sap函数会报错，所以先处理未确认的
 		for (int i = 0; i < list.size(); i++) {
@@ -114,6 +115,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			dailyWork = list.get(i);
 			if ("2".equals(dailyWork.getState())) {
 				dailyWork.setState("3");
+				dailyWork.setConfirmUser(admin);
 				dailyWorkDao.update(dailyWork);
 			} else {
 				dailyWorkList.add(dailyWork);
@@ -131,7 +133,6 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 					throw new CustomerException(dailyWork.getE_message());
 				}
 			}
-			Admin admin = adminservice.getLoginAdmin();
 			WorkingBill workingbill = workingbillService.get(workingbillid);
 			Double totalamount = workingbill.getDailyWorkTotalAmount();
 			for (int i = 0; i < list.size(); i++) {

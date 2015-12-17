@@ -133,7 +133,7 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	//刷卡回复
-	public String check() throws Exception{
+	public String creditreply() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("3")){
@@ -169,12 +169,13 @@ public class CraftAction extends BaseAdminAction {
 		log.setCraft(persistent);
 		craftLogService.save(log);
 		
-		redirectionUrl="craft!list.action";
-		return SUCCESS;
+		//redirectionUrl="craft!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//刷卡关闭
-	public String close() throws Exception{
+	public String creditclose() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Craft persistent = craftService.load(id);
 		if(persistent.getState().equals("1")){
@@ -193,8 +194,9 @@ public class CraftAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		redirectionUrl="craft!list.action";
-		return SUCCESS;
+		//redirectionUrl="craft!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
     public String ajlist(){
@@ -263,18 +265,32 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	// 保存
-	@Validations(requiredStrings = {
-			@RequiredStringValidator(fieldName = "craft.repairName.id", message = "维修员不允许为空!"),
-			@RequiredStringValidator(fieldName = "craft.treatmentMeasure_make", message = "制造处理措施不允许为空!"),
-			@RequiredStringValidator(fieldName = "craft.resultCode_make", message = "制造处理结果不允许为空!"),
-			@RequiredStringValidator(fieldName = "craft.products.id", message = "产品名称不允许为空!")
-			 })
-	@InputConfig(resultName = "error")
-	public String save() {	
+	public String creditsave() {	
 		Admin admin = adminService.getLoginAdmin();
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
+		
+		if(craft.getRepairName()==null){
+			addActionError("维修员不允许为空！");
+			return ERROR;
+		}
+		
+		if(craft.getTreatmentMeasure_make()==null){
+			addActionError("制造处理措施不允许为空！");
+			return ERROR;
+		}
+		
+		if(craft.getResultCode_make()==null){
+			addActionError("制造处理结果不允许为空！");
+			return ERROR;
+		}
+		
+		if(craft.getProducts()==null){
+			addActionError("产品名称不允许为空！");
+			return ERROR;
+		}
+		
 		if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			craft.setReceiptReasonSet(reasonSet);
@@ -298,8 +314,9 @@ public class CraftAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 		
 	// 删除

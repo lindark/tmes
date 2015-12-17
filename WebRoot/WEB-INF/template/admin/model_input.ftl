@@ -76,7 +76,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="model!creditsave.action"
+								action="model!creditsave1.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -92,15 +92,22 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<div class="profile-info-name">产品名称</div>
-
+												<!-- <div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
 													<#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="productId" data-toggle="button">选择</button>
+													 <img id="productId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />							
 														<span id="productName1"></span> <input type="hidden"
 														name="model.products.id" id="productNa" value="" class="formText {required: true}"/>
 													<#else> ${(model.products.productsName)!} </#if>
+												</div> -->
+												
+												 <div class="profile-info-name">设备名称</div>
+												<div class="profile-info-value">
+													<#if isAdd??>
+													 <img id="deviceId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />							
+														<span id="productName1"></span> <input type="hidden"
+														name="model.equipments.id" id="productNa" value="" class="formText {required: true}"/>
+													<#else> ${(model.equipments.equipmentName)!} </#if>
 												</div>
 
 												<div class="profile-info-name">班组</div>
@@ -169,8 +176,9 @@ body {
 												<div class="profile-info-name">维修人员</div>
 												<div class="profile-info-value">
 												    <#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="repairId" data-toggle="button">选择</button>
+												    <img id="repairId" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!-- <button type="button" class="btn btn-xs btn-info"
+														id="repairId" data-toggle="button">选择</button> -->
 														<span id="repairName1"></span> <input type="hidden"
 														name="model.fixer.id" id="repairNa" value="" class="formText {required: true}"/>
 													<#else> ${(model.fixer.name)!} </#if>
@@ -192,8 +200,9 @@ body {
 												<div class="profile-info-name">检验员</div>
 												<div class="profile-info-value">
 												    <#if isAdd??>
-													<button type="button" class="btn btn-xs btn-info"
-														id="insepectorId" data-toggle="button">选择</button>
+												    <img id="insepectorId" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<!--  <button type="button" class="btn btn-xs btn-info"
+														id="insepectorId" data-toggle="button">选择</button>-->
 														<span id="insepectorName1"></span> <input type="hidden"
 														name="model.insepector.id" id="insepectorNa" value="" class="formText {required: true}"/>
 													<#else> ${(model.insepector.name)!} </#if>
@@ -222,8 +231,9 @@ body {
 												       </#list> 
 												       
 													   <#else>
-													    <button type="button" class="btn btn-xs btn-info  access"
-														id="faultReason" data-access-list="modelreason" data-toggle="button">选择</button>
+													    <img id="faultReason" class="img_addbug access" data-access-list="modelreason"  title="添加故障信息" alt="添加故障信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													  <!--   <button type="button" class="btn btn-xs btn-info  access"
+														id="faultReason" data-access-list="modelreason" data-toggle="button">选择</button>--> 
 												       </#if>																			
 												</div>
 												
@@ -242,8 +252,9 @@ body {
 												        </#list> 				                               
 												       
 													   <#else>
-													   <button type="button" class="btn btn-xs btn-info  access"
-														id="handleResult" data-access-list="modelhandle" data-toggle="button">选择</button>
+													   <img id="handleResult" class="img_addbug access" data-access-list="modelhandle"  title="添加处理信息" alt="添加处理信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													 <!--   <button type="button" class="btn btn-xs btn-info  access"
+														id="handleResult" data-access-list="modelhandle" data-toggle="button">选择</button> -->
 												       </#if>													    
 												</div>
 												
@@ -261,8 +272,9 @@ body {
 												         <span> ${(list.discribe)!}</span>&nbsp;&nbsp;&nbsp; 
 												        </#list> 
 													<#else>
-													     <button type="button" class="btn btn-xs btn-info access"
-														id="longPrevent" data-access-list="modelprevent" data-toggle="button">选择</button>
+													     <img id="longPrevent" class="img_addbug access" data-access-list="modelprevent"  title="添加预防措施信息" alt="添加预防措施信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													   <!--  <button type="button" class="btn btn-xs btn-info access"
+														id="longPrevent" data-access-list="modelprevent" data-toggle="button">选择</button> --> 
 													    
 												    </#if>
 												    
@@ -437,7 +449,7 @@ body {
 </body>
 <script type="text/javascript">
 $(function() {	
-
+/*
 $("form.validatecredit").validate({
 		
 		errorClass: "validateError",
@@ -466,6 +478,6 @@ $("form.validatecredit").validate({
 			
 		}
 	});
-})
+})*/
 </script>
 </html>

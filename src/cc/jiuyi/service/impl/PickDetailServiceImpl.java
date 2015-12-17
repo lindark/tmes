@@ -88,15 +88,14 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	}
 
 	
-	public void save(List<PickDetail> pickDetailList,Pick pick) {
+	public String save(List<PickDetail> pickDetailList,Pick pick) {
 		String pk = pickService.save(pick);
 		pick.setId(pk);
 		for(PickDetail pickDetail: pickDetailList){
 			pickDetail.setPick(pick);//建关系
-			if(!"".equals(pickDetail.getPickType())&&!"".equals(pickDetail.getPickAmount())){
-				pickDetailDao.save(pickDetail);
-			}	
+			pickDetailDao.save(pickDetail);
 		}
+		return pk;
 	}
 	
 
@@ -106,4 +105,5 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		return pickDetailDao.getPickDetail(id);
 	}
 
+	
 }

@@ -31,6 +31,9 @@ public class QuartzManagerUtil {
 		try {
 			Scheduler sched = gSchedulerFactory.getScheduler();
 			JobDetail jobDetail = new JobDetail(jobName, JOB_GROUP_NAME, cls);// 任务名，任务组，任务执行类
+			jobDetail.getJobDataMap().put("kaoqintime", time);
+			jobDetail.getJobDataMap().put("teamid", jobName);
+			
 			// 触发器
 			CronTrigger trigger = new CronTrigger(jobName, TRIGGER_GROUP_NAME);// 触发器名,触发器组
 			trigger.setCronExpression(time);// 触发器时间设定

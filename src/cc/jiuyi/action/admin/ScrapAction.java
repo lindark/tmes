@@ -160,14 +160,19 @@ public class ScrapAction extends BaseAdminAction
 	}
 	
 	/**
-	 * 新增
+	 * 新增保存
 	 */
 	public String save()
 	{
 		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存
+		
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return SUCCESS;
 	}
+	
+	/**
+	 * 新增确认
+	 */
 	
 	/**
 	 * 编辑前
@@ -298,6 +303,9 @@ public class ScrapAction extends BaseAdminAction
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
+	/**
+	 * 
+	 */
 	/**==========================end 方法=======================================*/
 	
 	/**=========================="get/set"  start==============================*/

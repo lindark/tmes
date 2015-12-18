@@ -113,7 +113,7 @@ $(function() {
 	
 	function addAttributeOptionTr() {
 		var size=$(".deleteImage").length;
-		var html="<div style='padding:3px;'><input name='deviceProcessSet["+size+"].content' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
+		var html="<div style='padding:3px;'><input name='deviceStepSet["+size+"].VORNR' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
         html +="</div>";
         
         $(".deleteImage").live("click",function(){

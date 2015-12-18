@@ -298,6 +298,7 @@ public class KaoqinAction extends BaseAdminAction
 			
 			map2.put("kaoqintime", x2quartz);
 			map2.put("teamid", "xxx"+job_name);
+			map2.put("d_value", n+"");
 			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz,map2);
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");

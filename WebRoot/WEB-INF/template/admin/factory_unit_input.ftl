@@ -132,6 +132,13 @@ body{background:#fff;}
 											<label class="requireField">*</label>	
 										</div>
 									</div>	
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 工作中心</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.workCenter" value="${(factoryUnit.workCenter)!}" id="workCenter" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>	
 									
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
@@ -176,3 +183,15 @@ body{background:#fff;}
 
 </body>
 </html>
+<script type="text/javascript">
+$(function() {
+	/* $("#workCenter").change(function(){
+		var reg = /^[0-9]+(,[0-9]+)?$/;
+		var workCenter = $(this).val();
+		//alert(workCenter);
+		if(!reg.test(workCenter)){
+			layer.msg("输入不合法!", {icon: 5});
+		}
+	}); */
+})
+</script>

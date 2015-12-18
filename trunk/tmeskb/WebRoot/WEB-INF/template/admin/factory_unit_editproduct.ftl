@@ -91,7 +91,7 @@ body {
 
 												<div class="profile-info-value">
 													<select multiple="" name="ids" id="productsChose"
-													class="chosen-select">
+													class="chosen-select form-control">
 													<#list allProducts as list>
 														<option value="${list.id}">${list.productsName}</option>
 													</#list>

@@ -42,14 +42,14 @@ body {
 							<div class="widget-box transparent">
 								<div class="widget-header widget-header-large">
 									<h3 class="widget-title grey lighter">
-										<i class="ace-icon fa fa-leaf green"></i> 这里显示产品名称
+										<i class="ace-icon fa fa-leaf green"></i> ${workingbill.maktx }
 									</h3>
 
 									<!-- #section:pages/invoice.info -->
 									<div class="widget-toolbar no-border invoice-info">
 										<span class="invoice-info-label">产品编码:</span> <span
-											class="red">#121212</span> <br> <span
-											class="invoice-info-label">生产日期:</span> <span class="blue">04/04/2014</span>
+											class="red">${workingbill.matnr }</span> <br> <span
+											class="invoice-info-label">计划数量:</span> <span class="blue">${workingbill.planCount }</span>
 									</div>
 
 									<div class="widget-toolbar hidden-480">
@@ -61,54 +61,84 @@ body {
 								<div class="widget-body">
 									<div class="widget-main padding-24">
 										<div class="row">
-											<div class="col-sm-6">
-												<div class="row">
-													<div
-														class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-														<b>投入</b>
-													</div>
-												</div>
+											<div class="col-sm-12" style="overflow-x:scroll;">
+													<table class="table table-striped table-bordered">
+															<thead>
+																<tr>
+																	<th class="center">组件编码</th>
+																	<th class="center">组件描述</th>
+																	<th class="center">接上班裁切数</th>
+																	<th class="center">接上班半成品</th>
+																	<th class="center">接上班接角返修品</th>
+																	<th class="center">接上班植绒返修品</th>
+																	<th class="center">投入异常数</th>
+																	<th class="center">接上班零头数</th>
+																	<th class="center">抽包异常接班</th>
+																	<th class="center">领用数</th>
+																	<th class="center">倍数</th>
+																	<th class="center">入库数</th>
+																	<th class="center">交下班零头数</th>
+																	<th class="center">交下班裁切数</th>
+																	<th class="center">交下班半成品</th>
+																	<th class="center">产出异常数</th>
+																	<th class="center">抽包异常交班</th>
+																	<th class="center">报废数</th>
+																	<th class="center">交下班植绒返修数</th>
+																	<th class="center">交下班接角返修数</th>
+																	<th class="center">异常表面维修数</th>
+																	<th class="center">检验合格数1</th>
+																	<th class="center">检验合格数2</th>
+																	<th class="center">检验合格数3</th>
+																	<th class="center">检验合格数4</th>
+																	<th class="center">一次合格率%</th>
+																	<th class="center">维修合格接受数</th>
+																	<th class="center">数量差异</th>
+																	<th class="center">计划达成率</th>
+																	<th class="center">报废金额</th>
+																</tr>
+															</thead>
 
-												<div class="row">
-													<ul class="list-unstyled spaced">
-														<li><i class="ace-icon fa fa-caret-right blue"></i>
-															领料数</li>
-
-														<li><i class="ace-icon fa fa-caret-right blue"></i>
-															返修收货</li>
-
-														<li><i class="ace-icon fa fa-caret-right blue"></i>
-															报废裁切数</li>
-
-													</ul>
-												</div>
+															<tbody>
+															  <#list materialList as list>
+															  	<tr>
+																	<td class="center">${list.materialCode }</td>
+																	<td class="center">${list.materialName }</td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																	<td class="center"></td>
+																</tr>
+															  </#list>
+																
+															</tbody>
+														</table>
 											</div>
 											<!-- /.col -->
 
-											<div class="col-sm-6">
-												<div class="row">
-													<div
-														class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
-														<b>产出</b>
-													</div>
-												</div>
-
-												<div>
-													<ul class="list-unstyled  spaced">
-														<li><i class="ace-icon fa fa-caret-right green"></i>
-															报废</li>
-
-														<li><i class="ace-icon fa fa-caret-right green"></i>
-															返修</li>
-
-														<li><i class="ace-icon fa fa-caret-right green"></i>
-															报工</li>
-														<li><i class="ace-icon fa fa-caret-right green"></i>
-															入库</li>
-													</ul>
-												</div>
-											</div>
-											<!-- /.col -->
 										</div>
 
 

@@ -13,6 +13,8 @@
 <script src="${base}/template/admin/js/Main/teamindex.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
+
+
 </head>
 <body class="no-skin">
 
@@ -346,6 +348,7 @@
 		<!-- /.add by welson 0728  -->
 	</div>
 	<!-- /.main-container -->
+
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
@@ -359,7 +362,8 @@
 				});
 
 		$(".matkx").click(function() {
-			layer.open({
+			var previd = $(this).prev().val();
+			var index = layer.open({
 				type : 2,
 				skin : 'layui-layer-lan',
 				title : '投入产出显示表',
@@ -369,8 +373,9 @@
 				scrollbar : false,
 				btn:['确定'],
 				area : [ '800px', '400px' ],//弹出框的高度，宽度
-				content : "working_bill!inout.action"
+				content : "working_bill!inout.action?workingbill.id="+previd
 			});
+			layer.full(index);//弹出既全屏
 
 		});
 	</script>

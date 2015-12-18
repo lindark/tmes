@@ -61,9 +61,10 @@ body {
 									<thead>
 										<tr>
 											<th class="center">随工单号</th>
-											<th>产品编号</th>
-											<th>产品名称</th>
-											<th>交接数量</th>
+											<th class="center">产品编号</th>
+											<th class="center">产品名称</th>
+											<th class="center">下班随工单</th>
+											<th class="center">交接数量</th>
 										</tr>
 									</thead>
 
@@ -75,10 +76,13 @@ body {
 												<td class="center">${list.matnr }</td>
 												<td class="center">${list.maktx }</td>
 												<td class="center">
-													<input type="hidden" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
-													<input type="hidden" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
-													<input type="hidden" name="handoverprocessList[${num }].process.id" value="${processid }"/><!-- 工序-->
-													<input type="text" class="formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 数量 -->
+													<input type="text" name="handoverprocessList[${num }].afterworkingbill.workingBillCode" class="form-control" value="${list.afterworkingBillCode }"/>
+												</td>
+												<td class="center">
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].process.id" value="${processid }"/><!-- 工序-->
+													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 数量 -->
 												</td>
 											</tr>
 											<#assign  num=num+1/>

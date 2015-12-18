@@ -301,9 +301,9 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理过程</div>
 												<div class="profile-info-value" id="process">	
-												     <#if ((device.deviceProcessSet)!?size>0)>
-						                                    <#list model.deviceProcessSet as list> 
-												            <span> ${(list.content)!}</span>&nbsp;&nbsp;&nbsp; 
+												     <#if ((device.deviceStepSet)!?size>0)>
+						                                    <#list device.deviceStepSet as list> 
+												            <span> ${(list.vornr)!}</span>&nbsp;&nbsp;&nbsp; 
 												            </#list> 
 												       
 													   <#else>											    

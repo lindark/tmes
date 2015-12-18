@@ -183,8 +183,8 @@
 												</div>
 												<div class="div-btn2">
 													<button id="btn_open" class="btn_open">
-														<img style="" src="${base}/template/admin/images/btn_open.gif"></img>
-														开启考勤
+														<img id="img_startkaoqin" style="" src=""></img>
+														<span id="span_startkaoqin"></span>
 													</button>
 												</div>
 												<div class="div-btn3">
@@ -274,6 +274,8 @@
 	</div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<input type="hidden" id="isstartteam" value="${isstartteam!}">
+<input type="hidden" id="iscancreditcard" value="${iscancreditcard!}">
 </body>
 </html>
 <script type="text/javascript">

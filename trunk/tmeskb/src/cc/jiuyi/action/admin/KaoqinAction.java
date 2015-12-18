@@ -3,6 +3,7 @@ package cc.jiuyi.action.admin;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,9 +22,11 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -50,6 +53,8 @@ public class KaoqinAction extends BaseAdminAction
 	private List<Admin>list_emp;
 	private String info;
 	private String sameTeamId;//当前班组ID
+	private String isstartteam;//是否开启班组
+	private String iscancreditcard;//是否可以刷卡
 	/**
 	 * service接口
 	 */
@@ -59,7 +64,8 @@ public class KaoqinAction extends BaseAdminAction
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
-	
+	@Resource
+	private TeamService teamService;
 	/**========================end 对象，变量，接口 =============================*/
 	
 	/**===========================方法start==================================*/
@@ -79,6 +85,9 @@ public class KaoqinAction extends BaseAdminAction
 		{
 			this.list_emp=getNewAdminList(l_emp);
 		}
+		Team t=this.teamService.get(tid);
+		this.isstartteam=t.getIsWork();//班组是否开启
+		this.iscancreditcard=t.getIscancreditcard();//是否可以开启考勤
 		return LIST;
 	}
 	
@@ -237,15 +246,14 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String startWorking()
 	{
+		
 		/**获取班组状态*/
 		this.admin=this.adminService.getLoginAdmin();
 		this.admin=this.adminService.get(admin.getId());
-		String iswork=admin.getDepartment().getTeam().getIsWork();
-		//Y开启：调用遍历刷卡表方法    N未开启：不调用方法
-		if("Y".equals(iswork))
-		{
-			
-		}
+		Team t=admin.getDepartment().getTeam();
+		t.setIscancreditcard("N");
+		t.setModifyDate(new Date());
+		this.teamService.update(t);
 		
 		String job_name = "startWorking"+this.sameTeamId;
 		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
@@ -389,6 +397,27 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		this.info = info;
 	}
+
+	public String getIscancreditcard()
+	{
+		return iscancreditcard;
+	}
+
+	public void setIscancreditcard(String iscancreditcard)
+	{
+		this.iscancreditcard = iscancreditcard;
+	}
+
+	public String getIsstartteam()
+	{
+		return isstartteam;
+	}
+
+	public void setIsstartteam(String isstartteam)
+	{
+		this.isstartteam = isstartteam;
+	}
+	
 	
 	/**===========================end get/set===============================*/
 }

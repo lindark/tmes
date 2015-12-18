@@ -1,6 +1,7 @@
 package cc.jiuyi.action.cron;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -9,7 +10,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Component;
 
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.SpringUtil;
 /**
  * 考勤：抓取刷卡员工
@@ -20,6 +23,7 @@ import cc.jiuyi.util.SpringUtil;
 public class KaoqinMonitor extends MyDetailQuartzJobBean
 {
 	private AdminService adminService;
+	private TeamService teamService;
 	// 日志
 	public static Logger log = Logger.getLogger(KaoqinMonitor.class);
 
@@ -48,6 +52,21 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 	        SimpleDateFormat sdf=new SimpleDateFormat("ss mm HH dd MM yyyy");
 	        Date startdate=sdf.parse(xquartz);//从quartz中解析出开始时间
 			Date enddate = new Date();// 现在时间
+			
+			//两个时间的相差分钟
+			Calendar can=Calendar.getInstance();//开启考勤的时间
+			Calendar can2=Calendar.getInstance();//现在的时间
+			can.setTime(startdate);
+			can2.setTime(enddate);
+			int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
+			if(differ>=40)
+			{
+				teamService=(TeamService) SpringUtil.getBean("teamServiceImpl");
+				Team t=teamService.get(teamid);
+				t.setIscancreditcard("Y");
+				t.setModifyDate(new Date());
+				teamService.update(t);
+			}
 			//开始重置编码
 			adminService = (AdminService)SpringUtil.getBean("adminServiceImpl");
 			//根据开始时间和当前时间查询出刷卡表该时间段刷卡的人,并更新admin表对应的员工

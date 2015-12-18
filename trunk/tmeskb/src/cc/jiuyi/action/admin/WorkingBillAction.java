@@ -163,6 +163,8 @@ public class WorkingBillAction extends BaseAdminAction {
 		workingbill = workingbillService.get(this.workingbill.getId());
 		materialList = materialservice.getMantrBom(workingbill.getMatnr());//获取产品对应的BOM信息
 		
+		
+		
 		return "intout";
 	}
 	

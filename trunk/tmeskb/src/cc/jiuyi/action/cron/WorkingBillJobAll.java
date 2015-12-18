@@ -27,28 +27,27 @@ import cc.jiuyi.util.ThinkWayUtil;
  * 
  */
 @Component
-public class WorkingBillJob extends MyDetailQuartzJobBean {
+public class WorkingBillJobAll extends MyDetailQuartzJobBean {
 
-	public static Logger log = Logger.getLogger(WorkingBillJob.class);
+	public static Logger log = Logger.getLogger(WorkingBillJobAll.class);
 
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
 		try {
 			System.out.println("任务开始");
-			log.info("WorkingBillJob任务开始>........");
+			log.info("WorkingBillJobAll任务开始>........");
 			System.out.println("任务执行");
 			// String jobName = context.getJobDetail().getKey().getName();
 			// JobDataMap data = context.getJobDetail().getJobDataMap();
 			// String ceshi = data.getString("ceshi");
 			// System.out.println(ceshi);
-
-//			String sysdate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd HH:mm:ss");
-//			String startdate = ThinkWayUtil.timeAdd(sysdate, -86400);// yyyy-MM-dd HH:mm:ss
-//			startdate = ThinkWayUtil.formatdateDate(startdate);// yyyy-MM-dd
+			//String sysdate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd HH:mm:ss");
+			//String startdate = ThinkWayUtil.timeAdd(sysdate, -86400);// yyyy-MM-dd HH:mm:ss
+			//startdate = ThinkWayUtil.formatdateDate(startdate);// yyyy-MM-dd 获取开始时间，从昨天开始
 			
-			log.info("WorkingBillJob任务结束");
+			log.info("WorkingBillJobAll任务结束");
 		} catch (Exception e) {
-			log.error("WorkingBillJob任务出错", e);
+			log.error("WorkingBillJobAll任务出错", e);
 		}
 	}
 

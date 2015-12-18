@@ -36,30 +36,34 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 	        String xquartz = data.getString("kaoqintime");//quartz表达式
 	        String teamid=data.getString("teamid");//班组ID
 	        xquartz=xquartz.replace(xquartz.substring(xquartz.indexOf("-"), xquartz.indexOf("/")+2), "");
+	        //10 56-59/1 19 18 12 ? 2015
 	        xquartz=xquartz.replace("?","");
-	        if(teamid.length()>12)
-	        {
-	        	String str=teamid.substring(0, 3);
-	        	if("xxx".equals(str))
-	        	{
-	        		teamid=teamid.substring(15, teamid.length());//获取当前员工所在班组的ID
-	        	}
-	        	else
-	        	{
-	        		teamid=teamid.substring(12, teamid.length());//获取当前员工所在班组的ID
-	        	}
-	        }
+	        
 	        SimpleDateFormat sdf=new SimpleDateFormat("ss mm HH dd MM yyyy");
 	        Date startdate=sdf.parse(xquartz);//从quartz中解析出开始时间
 			Date enddate = new Date();// 现在时间
 			
-			//两个时间的相差分钟
+			 //两个时间的相差分钟
 			Calendar can=Calendar.getInstance();//开启考勤的时间
 			Calendar can2=Calendar.getInstance();//现在的时间
 			can.setTime(startdate);
 			can2.setTime(enddate);
+			int n=0;
+			if (data.getString("d_value")!=null)
+			{
+				can.add(Calendar.MINUTE, -1);
+				n = Integer.parseInt(data.getString("d_value"))+1;// 跨时后的差值
+				teamid = teamid.substring(15, teamid.length());// 获取当前员工所在班组的ID
+			}
+			else
+			{
+				n = 40;
+				teamid = teamid.substring(12, teamid.length());// 获取当前员工所在班组的ID
+			}
+
 			int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
-			if(differ>=40)
+			System.out.println(differ+"================================="+n+"=================================="+startdate);
+			if(differ>=n)
 			{
 				teamService=(TeamService) SpringUtil.getBean("teamServiceImpl");
 				Team t=teamService.get(teamid);

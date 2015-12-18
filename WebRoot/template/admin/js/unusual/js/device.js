@@ -6,14 +6,14 @@ $(function() {
 	
 	
 	$("#checkDevice").click(function(){
-		//$("#inputForm").attr("action", "device!check.action");
-	   // $("#inputForm").submit(); 
-		var dt = $("#inputForm").serialize();
+		$("#inputForm").attr("action", "device!creditreply1.action");
+	    $("#inputForm").submit(); 
+		/*var dt = $("#inputForm").serialize();
 		var url = "device!creditreply.action";		
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
 			window.location.href = "device!list.action";
-		},dt)
+		},dt)*/
 	});
 	
 	$("#closeDevice").click(function(){
@@ -113,7 +113,7 @@ $(function() {
 	
 	function addAttributeOptionTr() {
 		var size=$(".deleteImage").length;
-		var html="<div style='padding:3px;'><input name='deviceStepSet["+size+"].VORNR' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
+		var html="<div style='padding:3px;'><input name='deviceStepSet["+size+"].vornr' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
         html +="</div>";
         
         $(".deleteImage").live("click",function(){

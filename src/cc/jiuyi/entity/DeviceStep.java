@@ -1,5 +1,10 @@
 package cc.jiuyi.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class DeviceStep extends BaseEntity{
 	private String VORNR;//工序
 	private String ARBPL;//工作中心
@@ -8,6 +13,8 @@ public class DeviceStep extends BaseEntity{
 	private String WORK_ACTIVITY;//涉及作业的工作
 	private String DURATION_NORMAL;//作业正常期间
 	private String DESCRIPTION;//工序短文本
+	private Device device;//设备
+	
 	public String getVORNR() {
 		return VORNR;
 	}
@@ -50,5 +57,15 @@ public class DeviceStep extends BaseEntity{
 	public void setDESCRIPTION(String description) {
 		DESCRIPTION = description;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+	
+	
 	
 }

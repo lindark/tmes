@@ -1,6 +1,6 @@
 <#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
@@ -32,7 +32,18 @@
 }
 }
 </style>
+
+ 
+  
+<link rel="stylesheet" href="${base }/template/admin/js/sliding/css/style.css" type="text/css"></link>
+
+
+<script type="text/javascript" src="${base }/template/admin/js/sliding/js/modernizr.js">
+
+</script><script type="text/javascript" src="${base }/template/admin/js/sliding/js/main.js"></script>
+
 </head>
+
 <body class="no-skin list">
 
 	<!-- add by welson 0728 -->
@@ -84,6 +95,32 @@
 									</li>
 								</ul>
 								<div id="tabs-1">
+									<a href="#0" class="cd-btn">右侧滑动弹出框</a>
+
+									<div class="cd-panel from-right" style="z-index:9999">
+										<header class="cd-panel-header">
+											<span>工序交接</span>
+											<a href="#" class="cd-panel-close">关闭</a>
+										</header>
+								
+										<div class="cd-panel-container">
+											<div class="cd-panel-content">
+												<div id="load" style="text-align:center;z-index:2">
+													<img src="${base }/template/admin/js/layer/skin/default/loading-0.gif"></img>
+												</div>
+											</div> <!-- cd-panel-content -->
+										</div> <!-- cd-panel-container -->
+									</div> <!-- cd-panel -->
+									
+									
+									
+									
+									
+									
+									
+									
+									
+								 
 									<div class="widget-box">
 										<div
 											class="widget-header widget-header-blue widget-header-flat">
@@ -243,5 +280,10 @@
 			})
 			
 		});
+		
 	})
+	
+	
+
+    
 </script>

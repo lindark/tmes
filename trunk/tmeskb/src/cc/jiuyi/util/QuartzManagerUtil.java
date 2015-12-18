@@ -1,5 +1,11 @@
 package cc.jiuyi.util;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -17,6 +23,14 @@ public class QuartzManagerUtil {
 	private static String JOB_GROUP_NAME = "EXTJWEB_JOBGROUP_NAME";
 	private static String TRIGGER_GROUP_NAME = "EXTJWEB_TRIGGERGROUP_NAME";
 
+	
+	public static void ceshi(){
+		HashMap<String,Object> maps= new HashMap<String,Object>();
+		maps.put("kaoqintime", "2014-11-11");
+		maps.put("teamid", "5000");
+		
+	}
+	
 	/**
 	 * 添加一个定时任务，使用默认的任务组名，触发器名，触发器组名
 	 * 
@@ -27,13 +41,20 @@ public class QuartzManagerUtil {
 	 * @param time
 	 *            时间设置，参考quartz说明文档
 	 */
-	public static void addJob(String jobName, Class cls, String time) {
+	public static void addJob(String jobName, Class cls, String time,HashMap<String,Object> maps) {
 		try {
 			Scheduler sched = gSchedulerFactory.getScheduler();
 			JobDetail jobDetail = new JobDetail(jobName, JOB_GROUP_NAME, cls);// 任务名，任务组，任务执行类
-			jobDetail.getJobDataMap().put("kaoqintime", time);
-			jobDetail.getJobDataMap().put("teamid", jobName);
-			
+			if(maps!=null)
+			{
+				Set set = maps.keySet();
+				Iterator iter = set.iterator();
+				while (iter.hasNext()) 
+				{
+					String key = (String) iter.next();
+					jobDetail.getJobDataMap().put(key, maps.get(key));
+				}
+			}
 			// 触发器
 			CronTrigger trigger = new CronTrigger(jobName, TRIGGER_GROUP_NAME);// 触发器名,触发器组
 			trigger.setCronExpression(time);// 触发器时间设定
@@ -84,7 +105,7 @@ public class QuartzManagerUtil {
 	 * @param jobName
 	 * @param time
 	 */
-	public static void modifyJobTime(String jobName, String time) {
+	public static void modifyJobTime(String jobName, String time,HashMap<String,Object> maps) {
 		try {
 			Scheduler sched = gSchedulerFactory.getScheduler();
 			CronTrigger trigger = (CronTrigger) sched.getTrigger(jobName,
@@ -98,7 +119,7 @@ public class QuartzManagerUtil {
 						JOB_GROUP_NAME);
 				Class objJobClass = jobDetail.getJobClass();
 				removeJob(jobName);
-				addJob(jobName, objJobClass, time);
+				addJob(jobName, objJobClass, time,maps);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);

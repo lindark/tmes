@@ -185,13 +185,14 @@ body{background:#fff;}
 </html>
 <script type="text/javascript">
 $(function() {
-	/* $("#workCenter").change(function(){
-		var reg = /^[0-9]+(,[0-9]+)?$/;
+	$("#workCenter").change(function(){
+		var reg = /^[0-9]+([,][0-9]+)*$/;
 		var workCenter = $(this).val();
 		//alert(workCenter);
 		if(!reg.test(workCenter)){
 			layer.msg("输入不合法!", {icon: 5});
+			$(this).val("");
 		}
-	}); */
+	});
 })
 </script>

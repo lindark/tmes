@@ -53,5 +53,8 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 */
 	public List<WorkingBill> findListWorkingBill(Object[] productsid,String productDate,String shift);
 
-	
+	/**
+	 * 根据随工单编号 获取 下一条记录
+	 */
+	public WorkingBill getCodeNext(String workingbillCode);
 }

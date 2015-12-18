@@ -58,7 +58,7 @@ body{background:#fff;}
 				<a href="admin!index.action">管理中心</a>
 			</li>
 			
-			<li class="active"><#if isAdd??>添加产品记录<#else>编辑产品记录</#if></li>
+			<li class="active">更新Boom</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -71,7 +71,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="<#if isAdd??>material!save.action<#else>material!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="material!save.action" method="post">
 			<input type="hidden" name="id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
@@ -85,7 +85,7 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
+											<!--<div class="profile-info-row">
 												<div class="profile-info-name">展开层</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.spread"
@@ -94,7 +94,7 @@ body{background:#fff;}
 													<label class="requireField">*</label>
 												</div>
 
-											</div>
+											</div>  -->
 
 
 											<div class="profile-info-row">
@@ -121,7 +121,7 @@ body{background:#fff;}
 												
 											</div>
 
-											<div class="profile-info-row">
+											<!-- <div class="profile-info-row">
 											<div class="profile-info-name">溢出指示符</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.runOver"
@@ -137,7 +137,7 @@ body{background:#fff;}
 														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
+											</div> -->
 
 
 											<div class="profile-info-row">
@@ -168,17 +168,25 @@ body{background:#fff;}
 													<label class="requireField">*</label>
 												</div>
 												
-												<div class="profile-info-name">项目</div>
+												<!--<div class="profile-info-name">项目</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.project"
 														value="${(material.project)!}"
+														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
+													<label class="requireField">*</label>
+												</div>  -->
+												
+												<div class="profile-info-name">版本号</div>
+												<div class="profile-info-value">
+													<input type="text" name="material.version"
+														value="${(material.version)!}"
 														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 											</div>
 
 
-											<div class="profile-info-row">
+											<!--  <div class="profile-info-row">
 												<div class="profile-info-name">项目类别</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.projectType"
@@ -200,7 +208,7 @@ body{background:#fff;}
 														(isAdd || material.state == '2')!> checked</#if> /> <span
 														class="lbl middle"></span> </label>
 												</div>
-											</div>
+											</div>-->
 																						
 											<div class="profile-info-row">											
 												<div class="profile-info-name">是否为纸箱</div>

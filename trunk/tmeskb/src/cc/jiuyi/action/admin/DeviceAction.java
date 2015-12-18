@@ -48,6 +48,7 @@ import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DeviceLogService;
 import cc.jiuyi.service.DeviceService;
+import cc.jiuyi.service.DeviceStepService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FaultReasonService;
 import cc.jiuyi.service.ReceiptReasonService;
@@ -102,6 +103,8 @@ public class DeviceAction extends BaseAdminAction {
 	private ReceiptReasonService receiptReasonService;
 	@Resource
 	private MatnrRfc matnrrfc;
+	@Resource
+	private DeviceStepService deviceStepService;
 	
 	// 添加
 	public String add() {
@@ -247,19 +250,8 @@ public class DeviceAction extends BaseAdminAction {
 		if(device.getDisposalWorkers()==null){
 			addActionError("处理人员不允许为空！");
 			return ERROR;
-		}
-		
-	/*	if(deviceProcessSet==null){
-			device.setDeviceProcessSet(null);
-		}else{
-			device.setDeviceProcessSet((new HashSet<DeviceProcess>(deviceProcessSet)));
-		}*/
-		
-		if(deviceStepSet==null){
-			device.setDeviceStepSet(null);
-		}else{
-			device.setDeviceStepSet((new HashSet<DeviceStep>(deviceStepSet)));
-		}
+		}		
+				
 		/*if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			device.setReceiptSet(reasonSet);
@@ -302,7 +294,7 @@ public class DeviceAction extends BaseAdminAction {
 	
 	
 	//刷卡回复	
-	public String creditreply() throws Exception{
+	public String creditreply1() throws Exception{
 		Admin admin = adminService.getLoginAdmin();
 		Device persistent = deviceService.load(id);
 		if(persistent.getState().equals("3")){
@@ -327,6 +319,12 @@ public class DeviceAction extends BaseAdminAction {
 		if(deviceStepSet==null){
 			addActionError("处理过程不允许为空！");
 			return ERROR;
+		}else{
+			for(DeviceStep deviceStep:deviceStepSet){
+				deviceStep.setDevice(persistent);
+				deviceStepService.save(deviceStep);
+			}
+			device.setDeviceStepSet(new HashSet<DeviceStep>(deviceStepSet));
 		}
 		
 		if(device.getCauseAnalysis()==null){
@@ -338,7 +336,7 @@ public class DeviceAction extends BaseAdminAction {
 			addActionError("预防对策不允许为空！");
 			return ERROR;
 		}
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
 		persistent.setState("1");
 		deviceService.update(persistent);
 		
@@ -348,9 +346,9 @@ public class DeviceAction extends BaseAdminAction {
 		log.setOperator(admin);
 		deviceLogService.save(log);
 		
-		//redirectionUrl="device!list.action";
-		//return SUCCESS;
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		redirectionUrl="device!list.action";
+		return SUCCESS;
+		//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 		
 	//刷卡关闭
@@ -373,7 +371,7 @@ public class DeviceAction extends BaseAdminAction {
 				addActionError("到达现场时间不允许为空！");
 				return ERROR;
 			}
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			
@@ -562,6 +560,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setEquipName(String equipName) {
 		this.equipName = equipName;
+	}
+
+	public List<DeviceStep> getDeviceStepSet() {
+		return deviceStepSet;
+	}
+
+	public void setDeviceStepSet(List<DeviceStep> deviceStepSet) {
+		this.deviceStepSet = deviceStepSet;
 	}
 	
 	

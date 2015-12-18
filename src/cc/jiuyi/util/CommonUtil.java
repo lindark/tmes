@@ -90,6 +90,24 @@ public class CommonUtil {
 	
 	
 	//public static boolean 
-	
+	/**
+	 * 
+	 * @param pageNumber  当前页
+	 * @param pagesize    一页显示的数量
+	 * @param count		一共多少数量
+	 */
+	public static List<String> setPage(Integer pageNumber,Integer pagesize,Integer count,List<String> arrList){
+		
+		Integer startresult = (pageNumber - 1) * pagesize;//开始数
+		List<String> strList = new ArrayList<String>();
+		for(int i = startresult;i< arrList.size();i++){
+			if(i == startresult + pagesize) break;
+			String str = (String)arrList.get(i);
+			strList.add(str);
+		}
+		//此时，strList取出的是 <=10行数据 --如果需要当前页是多少 行，则 strList.size() 可以获得
+		return strList;
+		
+	}
 
 }

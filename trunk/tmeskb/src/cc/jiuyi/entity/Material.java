@@ -42,7 +42,8 @@ public class Material extends BaseEntity{
     private String isCarton;//是否为纸箱
     private String stateCarton;//纸箱状态描述
     private String productsCode;//产品编码
-    private String productsName;
+    private String productsName;//产品名称
+    private String version;//版本号
 
 	private Set<Products> products;// 产品Bom
 	private Set<HandOverProcess> handoverprocessSet;//交接
@@ -347,6 +348,17 @@ public class Material extends BaseEntity{
 	}
 	public void setXitid(String xitid) {
 		this.xitid = xitid;
+	}
+	
+	public String getVersion() {
+		return version;
+	}
+	
+	public void setVersion(String version) {
+		if(version==null){
+			version="1";
+		}
+		this.version = version;
 	}
 	
 	

@@ -71,7 +71,13 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											<a id="syncButton"  class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												SAP同步
+										    </a>
 										</div>
+										
+										
 										
 									</div>
 								</form>
@@ -106,6 +112,22 @@
 		
 
 		<!-- inline scripts related to this page -->
+		
+		<script>
+		$(function(){
+			var $syncButton = $("#syncButton");
+			
+			
+			//同步按钮
+			$syncButton.click(function(){
+				
+				loading=new ol.loading({id:"page-content"});
+				loading.show();
+				window.location.href="equipments!sync.action"
+				return false;
+			})
+		})
+	</script>
 		<script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生

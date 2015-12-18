@@ -270,6 +270,7 @@ public class PickAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		String str="";
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
 		String message = "";
@@ -278,36 +279,62 @@ public class PickAction extends BaseAdminAction {
 		List<PickDetail> pickdetailList=new ArrayList<PickDetail>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
-			if(!"262".equals(pick.getMove_type())){
-				pick.setMove_type("262");
-			}else{
-				pick.setMove_type("261");
+			if(str.equals("")){
+				str=pick.getState();
+			}else if(!pick.getState().equals(str)){
+				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!"); 
 			}
+		}	
+		
+		for (int i = 0; i < list.size(); i++) {
+			Pick pick = list.get(i);
 			pickId=pick.getId();
+			//已经撤销的不用再撤销
 			if (REPEAL.equals(pick.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
 			//未确认的不调用接口
 			if(UNCHECK.equals(pick.getState())){
+				str="1";
+			}	
+			//已确认的调用SAP接口
+			if(CONFIRMED.equals(pick.getState())){
+				str="2";
+           }
+		}
+		
+		
+		if (str.equals("1")) {
+			for (int i = 0; i < list.size(); i++) {
+				Pick pick = list.get(i);
 				pick.setState(REPEAL);
 				pick.setConfirmUser(admin);
-				pickService.update(pick);
-			}			
+				pickService.update(pick);				
+			}
+			return ajaxJsonSuccessMessage("您的操作已成功!");
+		}
+		
+		List<Pick> listsap=new ArrayList<Pick>();
+		if(str.equals("2")){	
+			for (int i = 0; i < list.size(); i++) {
+				Pick pick = list.get(i);
+			if(!"262".equals(pick.getMove_type())){
+				pick.setMove_type("262");
+			}else{
+				pick.setMove_type("261");
+			}
+			listsap.add(pick);
+		}
 			pkList = pickDetailService.getPickDetail(pickId);
 			for (int j = 0; j < pkList.size(); j++) {
 				PickDetail pickDetail = pkList.get(j);
-				if(!"262".equals(pickDetail.getPickType())){
-					pickDetail.setPickType("262");
-				}else{
-					pickDetail.setPickType("261");
-				}
 				pickDetail.setXh(pickId);
 				pickdetailList.add(pickDetail);
 			}
-		}
+		}	
 			try {
 				Boolean flag = true;
-				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", listsap,
 						pickdetailList);
 				for (Pick pick2 : pickRfc) {
 					String e_type = pick2.getE_type();
@@ -320,7 +347,7 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
-					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,
 							pickdetailList);
 					for (Pick pick2 : pickRfc) {
 						String e_type = pick2.getE_type();

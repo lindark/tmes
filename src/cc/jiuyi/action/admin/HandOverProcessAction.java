@@ -85,14 +85,14 @@ public class HandOverProcessAction extends BaseAdminAction {
 	@Resource
 	private HandOverProcessRfc handoverprocessrfc;
 
-	// 添加
+	// 添加 工序交接
 	public String add() {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		material = materialservice.get("materialCode", materialCode);
 		List<Products> prouctsSet = new ArrayList<Products>(
 				material.getProducts());// 产品列表
-		Object[] list = new Object[2];
+		Object[] list = new Object[prouctsSet.size()];
 		for (int i = 0; i < prouctsSet.size(); i++) {
 			Products products = prouctsSet.get(i);
 			list[i] = products.getProductsCode();
@@ -109,7 +109,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 				Integer amount = handoverprocess.getAmount();
 				workingbill.setAmount(amount);
 			}
-
+			//admin.getDepartment().getTeam().getFactoryUnit();//单元
+			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode());//下一随工单--此处有问题。根据什么条件获取下一随工单
+			workingbill.setAfterworkingBillCode(nextWorkingbill.getWorkingBillCode());
 			workingbillList.set(i, workingbill);
 		}
 
@@ -269,19 +271,39 @@ public class HandOverProcessAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@InputConfig(resultName = "error")
+	//@InputConfig(resultName = "error")
 	public String update() {
-		HandOverProcess persistent = handOverProcessService.load(id);
-		BeanUtils.copyProperties(handOverProcess, persistent, new String[] {
-				"id", "createDate", "modifyDate" });
-		handOverProcessService.update(persistent);
-		redirectionUrl = "hand_over_process!list.action";
+//		HandOverProcess persistent = handOverProcessService.load(id);
+//		BeanUtils.copyProperties(handOverProcess, persistent, new String[] {
+//				"id", "createDate", "modifyDate" });
+//		handOverProcessService.update(persistent);
+//		redirectionUrl = "hand_over_process!list.action";
 		return SUCCESS;
 	}
 
 	// 保存
-	@InputConfig(resultName = "error")
+	//@InputConfig(resultName = "error")
 	public String save() throws Exception {
+		String message="";
+		Integer ishead=0;
+		Boolean flag = true;
+		for(int i=0;i<handoverprocessList.size();i++){
+			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			String afterworkingbillCode = handoverprocess.getAfterworkingbill().getWorkingBillCode();
+			WorkingBill afterworkingbill = workingbillservice.get("workingBillCode", afterworkingbillCode);
+			if(afterworkingbill == null){
+				flag = false;
+				if(ishead == 0)
+					message+="第"+i+"行,未找到下一随工单";
+				else
+					message+=",第"+i+"行,未找到下一随工单";
+			}
+			handoverprocess.setAfterworkingbill(afterworkingbill);
+			handoverprocessList.set(i, handoverprocess);
+		}
+		if(!flag)
+			return ajaxJsonErrorMessage(message);
+		
 		handOverProcessService.saveorupdate(handoverprocessList);
 		redirectionUrl = "hand_over_process!list.action";
 		return ajaxJsonSuccessMessage("保存成功!");

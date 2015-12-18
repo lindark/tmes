@@ -18,9 +18,12 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
@@ -57,13 +60,15 @@ public class WorkingBillAction extends BaseAdminAction {
 	private static final long serialVersionUID = 1341979251224008699L;
 	
 	private WorkingBill workingbill;
-	
+	private List<Material> materialList;
 
 	@Resource
 	private WorkingBillService workingbillService;
-	
 	@Resource
 	private WorkingBillRfc workingbillrfc;
+	@Resource
+	private MaterialService materialservice;
+	
 	
 	// 添加
 	public String add() {
@@ -155,6 +160,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	}
 	//投入产出
 	public String inout(){
+		workingbill = workingbillService.get(this.workingbill.getId());
+		materialList = materialservice.getMantrBom(workingbill.getMatnr());//获取产品对应的BOM信息
 		
 		return "intout";
 	}
@@ -205,6 +212,14 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	public void setWorkingbill(WorkingBill workingbill) {
 		this.workingbill = workingbill;
+	}
+
+	public List<Material> getMaterialList() {
+		return materialList;
+	}
+
+	public void setMaterialList(List<Material> materialList) {
+		this.materialList = materialList;
 	}
 
 

@@ -1,4 +1,3 @@
-
 jQuery(function($){
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -39,24 +38,22 @@ jQuery(function($){
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '展开层','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', '是否为纸箱'],
+		//colNames:[ '展开层','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', '是否为纸箱'],
 		colModel:[		
-			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'spread',index:'spread', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'project',index:'project', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'projectType',index:'projectType', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'runOver',index:'runOver', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'exception',index:'exception', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialCode',index:'materialCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialName',index:'materialName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialUnit',index:'materialUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialAmount',index:'materialAmount', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'batch',index:'batch', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}},	 
-			{name:'stateCarton',index:'isCarton', width:200, label:"纸箱状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=iscartonSate"}}		 
+//			{name:'spread',index:'spread', width:200,label:"展开层"editable: true,editoptions:{size:"20",maxlength:"30"}},
+//			{name:'project',index:'project', width:200,label:"项目",editable: true,editoptions:{size:"20",maxlength:"30"}},
+//			{name:'projectType',index:'projectType', label:"项目类别",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+//			{name:'runOver',index:'runOver', label:"溢出指示符",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+//			{name:'exception',index:'exception', label:"例外",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialCode',index:'materialCode',label:"组件编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialName',index:'materialName',label:"组件名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialUnit',index:'materialUnit',label:"组件单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialAmount',index:'materialAmount',label:"组件数量", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'batch',index:'batch', width:200,label:"批次",editable: true,editoptions:{size:"20",maxlength:"30"}},
+//			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}},	 
+			{name:'stateCarton',index:'isCarton', width:200, label:"纸箱状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=iscartonSate"}},
+			{name:'version',index:'version', width:200,label:"版本号",editable: true,editoptions:{size:"20",maxlength:"30"}}
 		], 
-
-
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],

@@ -63,7 +63,10 @@ public class Device extends BaseEntity{
 	private String repairType;//维修类型
 	private String fault; //故障原因
 	//private Set<ReceiptReason> receiptSet;//设备原因 
-	private Set<DeviceProcess> deviceProcessSet;//处理过程
+	//private Set<DeviceProcess> deviceProcessSet;//处理过程
+	private Set<DeviceModlue> deviceModlueSet;//物料（更换零部件数量及型号）
+	private Set<DeviceStep> deviceStepSet;//处理过程
+	
 	private String SHORT_TEXT;//短文本
 	private String COST;//成本
 	private String ORDER_TYPE;//订单类型
@@ -335,13 +338,13 @@ public class Device extends BaseEntity{
 		this.team = team;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
 	public Set<DeviceProcess> getDeviceProcessSet() {
 		return deviceProcessSet;
 	}
 	public void setDeviceProcessSet(Set<DeviceProcess> deviceProcessSet) {
 		this.deviceProcessSet = deviceProcessSet;
-	}
+	}*/
 	
 	public String getFault() {
 		return fault;
@@ -360,6 +363,22 @@ public class Device extends BaseEntity{
 	}
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+	public Set<DeviceModlue> getDeviceModlueSet() {
+		return deviceModlueSet;
+	}
+	public void setDeviceModlueSet(Set<DeviceModlue> deviceModlueSet) {
+		this.deviceModlueSet = deviceModlueSet;
+	}	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "device")
+	public Set<DeviceStep> getDeviceStepSet() {
+		return deviceStepSet;
+	}
+	public void setDeviceStepSet(Set<DeviceStep> deviceStepSet) {
+		this.deviceStepSet = deviceStepSet;
 	}
 		
 	

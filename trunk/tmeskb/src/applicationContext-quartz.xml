@@ -9,7 +9,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
         <property name="triggers">   
             <list>   
 	   		<ref local="cronTriggerCA_DocBM"/> 
-	   		 <ref local="cronTriggerWorkingBillBM"/> 
+	   		 <ref local="cronTriggerWorkingBill"/> 
+	   		 <ref local="cronTriggerWorkingBillAll"/>
             </list>   
         </property>   
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
@@ -41,7 +42,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     </bean>  
     
     
-    
+    <!-- 每隔5分钟同步SAP发生变化的随工单 -->
     <bean name="workingBillJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
     <property name="jobClass" value="cc.jiuyi.action.cron.WorkingBillJob" />
     <property name="jobDataAsMap">
@@ -54,12 +55,26 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     </property>	
    </bean> 
    
-    <bean id="cronTriggerWorkingBillBM" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <bean id="cronTriggerWorkingBill" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		  <property name="jobDetail">
 		   <ref bean="workingBillJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>* 0/5 * * * ?</value>
+		   <value>* 0/5 * * * ?</value><!-- 每隔5分钟执行一次 -->
+		  </property>
+    </bean>  
+    
+    <!-- 每日凌晨2点执行同步随工单动作 -->
+    <bean name="workingBillJobAll"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.WorkingBillJobAll" />
+   </bean> 
+   
+    <bean id="cronTriggerWorkingBillAll" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="workingBillJobAll"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 0 2 * * ?</value><!-- 每日凌晨2点执行一次 -->
 		  </property>
     </bean>  
     

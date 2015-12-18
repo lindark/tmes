@@ -70,6 +70,9 @@ public class Device extends BaseEntity{
 	private String URGRP;//原因代码组
 	private String URCOD;//原因代码
 	
+	private String deviceNo;//设备编码
+	private String deviceName;//设备描述
+	
 	public String getURGRP() {
 		return URGRP;
 	}
@@ -345,6 +348,18 @@ public class Device extends BaseEntity{
 	}
 	public void setFault(String fault) {
 		this.fault = fault;
+	}
+	public String getDeviceNo() {
+		return deviceNo;
+	}
+	public void setDeviceNo(String deviceNo) {
+		this.deviceNo = deviceNo;
+	}
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 		
 	

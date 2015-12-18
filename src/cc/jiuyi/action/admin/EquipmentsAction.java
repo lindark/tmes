@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,10 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Equipments;
+import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EquipmentService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -44,6 +47,8 @@ public class EquipmentsAction extends BaseAdminAction {
 	private EquipmentService equipmentService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private MatnrRfc matnrrfc;
 	
 	
 	// 是否已存在 ajax验证
@@ -71,6 +76,19 @@ public class EquipmentsAction extends BaseAdminAction {
 	public String list() {
 		return LIST;
 	}	
+	
+	//同步
+	public String sync() {
+		try {
+			matnrrfc.getMaterialList("", "1000", "线圈");
+			//workingbillrfc.syncRepairorder();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 
 	public String ajlist() {
 

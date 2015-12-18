@@ -1,4 +1,8 @@
+var isstartteam="";
+var iscancreditcard=""
 jQuery(function($) {
+	isstartteam=$("#isstartteam").val();
+	iscancreditcard=$("#iscancreditcard").val();
 	//初始化操作事件
 	//按钮事件
 	btn_style();
@@ -18,7 +22,7 @@ function btn_event()
 	});
 	//查看考勤历史
 	$("#btn_viewhistory").click(function(){
-		window.location.href="kaoqin!show.action";
+		
 	});
 	//返回
 	$("#btn_back").click(function(){
@@ -125,21 +129,37 @@ function addemp()
 //开启考勤
 function startWorking()
 {
-	$.ajax({	
-		url: "kaoqin!startWorking.action?sameTeamId="+$("#sameteamid").val(),
-		dataType: "json",
-		async: false,
-		beforeSend: function(data) {
-			$(this).attr("disabled", true);
-			index = layer.load();
-		},
-		success: function(data) {
-			layer.close(index);
-			$.message(data.status,data.message);
-		},error:function(data){
-			$.message("error","系统出现问题，请联系系统管理员");
+	if(isstartteam=="N")
+	{
+		layer.alert("该班组未开启,无法开启考勤!",{icon:5},false);
+	}
+	else if(isstartteam=="Y")
+	{
+		if(iscancreditcard=="N")
+		{
+			layer.alert("开启考勤后40分钟以内不能重复开启!",{icon:5},false);
 		}
-	});
+		else if(iscancreditcard=="Y")
+		{
+			$.ajax({	
+				url: "kaoqin!startWorking.action?sameTeamId="+$("#sameteamid").val(),
+				dataType: "json",
+				async: false,
+				beforeSend: function(data) {
+					$(this).attr("disabled", true);
+					index = layer.load();
+				},
+				success: function(data) {
+					layer.close(index);
+					iscancreditcard="N";
+					$.message(data.status,data.message);
+					btn_style_startkaoqin();
+				},error:function(data){
+					$.message("error","系统出现问题，请联系系统管理员");
+				}
+			});
+		}
+	}
 }
 
 //样式1，绿色
@@ -156,6 +176,7 @@ function sapn_stype2(obj)
 //按钮样式
 function btn_style()
 {
+	//添加代班人员
 	var $btnadd=$("#btn_add");
 	//鼠标移到按钮上时事件
 	$btnadd.mouseover(function(){
@@ -174,6 +195,8 @@ function btn_style()
 		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 	
+	//开启考勤
+	btn_style_startkaoqin();
 	var $btnopen=$("#btn_open");
 	//鼠标移到按钮上时事件
 	$btnopen.mouseover(function(){
@@ -191,7 +214,8 @@ function btn_style()
 	$btnopen.mouseup(function(){
 		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
-	
+
+	//查看考勤历史
 	var $btnopen=$("#btn_viewhistory");
 	//鼠标移到按钮上时事件
 	$btnopen.mouseover(function(){
@@ -209,4 +233,29 @@ function btn_style()
 	$btnopen.mouseup(function(){
 		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
+}
+
+//开启考勤按钮样式
+function btn_style_startkaoqin()
+{
+	var $img_startkaoqi=$("#img_startkaoqin");
+	//班组未开启
+	if(isstartteam=="N")
+	{
+		$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+	}
+	else if(isstartteam=="Y")
+	{
+		//已经开启过考勤
+		if(iscancreditcard=="N")
+		{
+			$("#span_startkaoqin").text("考勤已开启");
+			$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+		}
+		else if(iscancreditcard=="Y")
+		{
+			$("#span_startkaoqin").text("考勤未开启");
+			$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+		}
+	}
 }

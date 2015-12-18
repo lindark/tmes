@@ -33,7 +33,9 @@ import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
+import cc.jiuyi.entity.DeviceModlue;
 import cc.jiuyi.entity.DeviceProcess;
+import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Model;
@@ -80,7 +82,9 @@ public class DeviceAction extends BaseAdminAction {
 	private List<Craft> craftList;
 	private List<Device> deviceList;
 	private List<ReceiptReason> reasonList; 
-	private List<DeviceProcess> deviceProcessSet;
+	//private List<DeviceProcess> deviceProcessSet;
+	private List<DeviceStep> deviceStepSet;
+	private List<DeviceModlue> deviceModlueSet;
 	
 	@Resource
 	private DeviceService deviceService;
@@ -245,10 +249,16 @@ public class DeviceAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		if(deviceProcessSet==null){
+	/*	if(deviceProcessSet==null){
 			device.setDeviceProcessSet(null);
 		}else{
 			device.setDeviceProcessSet((new HashSet<DeviceProcess>(deviceProcessSet)));
+		}*/
+		
+		if(deviceStepSet==null){
+			device.setDeviceStepSet(null);
+		}else{
+			device.setDeviceStepSet((new HashSet<DeviceStep>(deviceStepSet)));
 		}
 		/*if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
@@ -314,7 +324,7 @@ public class DeviceAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		if(device.getDeviceProcessSet()==null){
+		if(deviceStepSet==null){
 			addActionError("处理过程不允许为空！");
 			return ERROR;
 		}
@@ -363,7 +373,7 @@ public class DeviceAction extends BaseAdminAction {
 				addActionError("到达现场时间不允许为空！");
 				return ERROR;
 			}
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceProcessSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType"});
 			persistent.setState("3");
 			deviceService.update(persistent);
 			
@@ -530,13 +540,13 @@ public class DeviceAction extends BaseAdminAction {
 		this.abnorId = abnorId;
 	}
 
-	public List<DeviceProcess> getDeviceProcessSet() {
+	/*public List<DeviceProcess> getDeviceProcessSet() {
 		return deviceProcessSet;
 	}
 
 	public void setDeviceProcessSet(List<DeviceProcess> deviceProcessSet) {
 		this.deviceProcessSet = deviceProcessSet;
-	}
+	}*/
 
 	public String getEquipNo() {
 		return equipNo;

@@ -70,11 +70,11 @@ jQuery(function($) {
 	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 	        {name:'voucherId',index:'voucherId', width:200,sortable:"true",sorttype:"text"},
 	        {name:'matnr',index:'matnr', width:200,sortable:"true",sorttype:"text"},
-	        {name:'maktx',index:'maktx', width:200,sortable:"true",sorttype:"text"},
-	        {name:'werks',index:'werks', width:200,sortable:"true",sorttype:"text"},
-	        {name:'menge',index:'menge', width:200,sortable:"true",sorttype:"text"},
-	        {name:'lgort',index:'lgort', width:200,sortable:"true",sorttype:"text"},
-			{name:'charg',index:'charg', width:200,sortable:"true",sorttype:"text"}
+	        {name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
+	        {name:'werks',index:'werks', width:100,sortable:"true",sorttype:"text"},
+	        {name:'menge',index:'menge', width:100,sortable:"true",sorttype:"text"},
+	        {name:'lgort',index:'lgort', width:100,sortable:"true",sorttype:"text"},
+			{name:'charg',index:'charg', width:100,sortable:"true",sorttype:"text"}
 
 		], 
 		//sortable:true,

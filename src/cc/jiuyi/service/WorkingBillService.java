@@ -58,4 +58,9 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public void updateWorkingBill(WorkingBill workingbill);
 	
+	/**
+	 * 根据随工单编号 获取 下一条记录
+	 */
+	public WorkingBill getCodeNext(String workingbillCode);
+	
 }

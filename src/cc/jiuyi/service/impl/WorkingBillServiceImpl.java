@@ -73,6 +73,7 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Cacheable(modelId = "caching")
+	@Override
 	public WorkingBill get(String id) {
 		return workingbilldao.get(id);
 	}
@@ -111,7 +112,6 @@ public class WorkingBillServiceImpl extends
 		laststr = last.toString();
 		String str = beforestr + laststr;
 		//workingbilldao.isExist("workingBillCode", value)
-		
 		return null;
 	}
 
@@ -120,4 +120,11 @@ public class WorkingBillServiceImpl extends
 		workingbilldao.updateWorkingBill(workingbill);
 	}
 
+	/**
+	 * 根据随工单编号 获取 下一条记录
+	 */
+	@Cacheable(modelId = "caching")
+	public WorkingBill getCodeNext(String workingbillCode){
+		return workingbilldao.getCodeNext(workingbillCode);
+	}
 }

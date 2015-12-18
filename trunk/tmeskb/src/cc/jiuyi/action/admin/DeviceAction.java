@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +40,7 @@ import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
 import cc.jiuyi.entity.UnusualLog;
+import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
@@ -48,6 +50,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FaultReasonService;
 import cc.jiuyi.service.ReceiptReasonService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -66,7 +69,9 @@ public class DeviceAction extends BaseAdminAction {
 	private String loginUsername;
 	private String[] reasonIds;
 	private Admin admin;
-	private String abnorId;
+	private String abnorId; 
+	private String equipNo;
+	private String equipName;
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -91,6 +96,8 @@ public class DeviceAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private ReceiptReasonService receiptReasonService;
+	@Resource
+	private MatnrRfc matnrrfc;
 	
 	// 添加
 	public String add() {
@@ -207,7 +214,6 @@ public class DeviceAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
-	
 	
 	// 删除
 	public String delete() throws Exception {	
@@ -530,6 +536,22 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setDeviceProcessSet(List<DeviceProcess> deviceProcessSet) {
 		this.deviceProcessSet = deviceProcessSet;
+	}
+
+	public String getEquipNo() {
+		return equipNo;
+	}
+
+	public void setEquipNo(String equipNo) {
+		this.equipNo = equipNo;
+	}
+
+	public String getEquipName() {
+		return equipName;
+	}
+
+	public void setEquipName(String equipName) {
+		this.equipName = equipName;
 	}
 	
 	

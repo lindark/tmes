@@ -70,11 +70,11 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		IT_ITEM_ZJ.setData("IT_ITEM_ZJ");
 		for(DeviceModlue dm : module){
 			HashMap<String,Object> item_zj = new HashMap<String,Object>();
-			item_zj.put("MATERIAL", dm.getMATERIAL());//物料号
-			item_zj.put("MENGE", dm.getMENGE());//数量
-			item_zj.put("POSTP", dm.getPOSTP());//项目类型
-			item_zj.put("MEINS", dm.getMEINS());//基本单位
-			item_zj.put("VORNR", dm.getVORNR());//工序
+			item_zj.put("MATERIAL", dm.getMaterial());//物料号
+			item_zj.put("MENGE", dm.getMenge());//数量
+			item_zj.put("POSTP", dm.getPostp());//项目类型
+			item_zj.put("MEINS", dm.getMeins());//基本单位
+			item_zj.put("VORNR", dm.getVornr());//工序
 			arrList2.add(item_zj);
 		}
 		IT_ITEM_ZJ.setList(arrList2);

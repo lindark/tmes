@@ -1,15 +1,19 @@
 package cc.jiuyi.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class DeviceModlue extends BaseEntity{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 12324567898765432L;
 	private String MATERIAL;//物料号
 	private String MENGE;//数量
 	private String POSTP;//项目类别
 	private String MEINS;//基本单位
-	private String VORNR;//工序
+	private String VORNR;//工序 
+	private Device device;//设备
+	
 	public String getMATERIAL() {
 		return MATERIAL;
 	}
@@ -40,5 +44,14 @@ public class DeviceModlue extends BaseEntity{
 	public void setVORNR(String vornr) {
 		VORNR = vornr;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Device getDevice() {
+		return device;
+	}
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+	
 	
 }

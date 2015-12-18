@@ -2,6 +2,7 @@ package cc.jiuyi.entity;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -29,6 +30,7 @@ public class Team extends BaseEntity {
 	private String isDel;// 是否删除
 	private FactoryUnit factoryUnit;// 单元
 	private String isWork;//是否正在工作
+	private String iscancreditcard;//是否可以刷卡
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -205,6 +207,21 @@ public class Team extends BaseEntity {
 
 	public void setXisWork(String xisWork) {
 		this.xisWork = xisWork;
+	}
+
+	@Column
+	public String getIscancreditcard()
+	{
+		return iscancreditcard;
+	}
+
+	public void setIscancreditcard(String iscancreditcard)
+	{
+		if(iscancreditcard==null)
+		{
+			iscancreditcard="Y";
+		}
+		this.iscancreditcard = iscancreditcard;
 	}
 	
 	

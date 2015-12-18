@@ -225,9 +225,7 @@ public class ReworkAction extends BaseAdminAction {
 					intRangeFields = {
 						@IntRangeFieldValidator(fieldName = "rework.reworkCount",min="0", message = "翻包次数必须为零或正整数!"),
 						@IntRangeFieldValidator(fieldName = "rework.reworkAmount",min="0", message = "翻包数量必须为零或正整数!"),
-						@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")
-						
-						
+						@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")		
 				}
 				  
 		)
@@ -247,60 +245,75 @@ public class ReworkAction extends BaseAdminAction {
 					+ rework.getWorkingbill().getId();
 			return SUCCESS;
 		}
+	
+
 		
 	//保存
-	@Validations(
-			requiredStrings = {
-					@RequiredStringValidator(fieldName = "rework.problem", message = "问题不允许为空!"),
-					@RequiredStringValidator(fieldName = "rework.rectify", message = "调整方案不允许为空!"),
-					
-			  },
-				intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "rework.reworkCount",min="0", message = "翻包次数必须为零或正整数!"),
-					@IntRangeFieldValidator(fieldName = "rework.reworkAmount",min="0", message = "翻包数量必须为零或正整数!"),
-					@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")
-		
-			}
-			  
-	)
-	@InputConfig(resultName = "error")
+//	@Validations(
+//			requiredStrings = {
+//					@RequiredStringValidator(fieldName = "rework.problem", message = "问题不允许为空!"),
+//					@RequiredStringValidator(fieldName = "rework.rectify", message = "调整方案不允许为空!"),
+//					
+//			  },
+//				intRangeFields = {
+//					@IntRangeFieldValidator(fieldName = "rework.reworkCount",min="0", message = "翻包次数必须为零或正整数!"),
+//					@IntRangeFieldValidator(fieldName = "rework.reworkAmount",min="0", message = "翻包数量必须为零或正整数!"),
+//					@IntRangeFieldValidator(fieldName = "rework.defectAmount",min="0", message = "缺陷数量必须为零或正整数!")
+//		
+//			}
+//			  
+//	)
+//  @InputConfig(resultName = "error")
 	public String creditsubmit()throws Exception{
+		if(rework.getProblem()==null||rework.getProblem()==""){
+			addActionError("问题内容不能为空!");
+			return ERROR;
+		}
+		if(rework.getRectify()==null||rework.getRectify()==""){
+			addActionError("调整方案不允许为空!");
+			return ERROR;
+		}
+		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			addActionError("翻包次数必须为零或正整数!");
+			return ERROR;
+		}
+		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			addActionError("翻包数量必须为零或正整数!");
+			return ERROR;
+		}
+		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			addActionError("缺陷数量必须为零或正整数!");
+			return ERROR;
+		}
 		admin= adminService.getLoginAdmin();
-		//rework.setCreateUser(admin.getId());
 		rework.setCreateUser(admin);
 		rework.setModifyUser(admin);
 		reworkService.save(rework);
-		redirectionUrl="rework!list.action?workingBillId="
-				+ rework.getWorkingbill().getId();
-		return SUCCESS;	
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
-		
+
 	//刷卡回复
-	public String check() throws Exception{
-		Rework persistent = reworkService.load(id);
+	public String creditreply() throws Exception{
+		Rework persistent = reworkService.get(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
 		admin=adminService.getLoginAdmin();
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("3");
 		reworkService.save(persistent);
-		redirectionUrl="rework!list.action?workingBillId="
-				+rework.getWorkingbill().getId();
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//刷卡确认
 	public String creditapproval() throws Exception{
 		Rework persistent = reworkService.load(id);
-		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
 		admin=adminService.getLoginAdmin();
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("2");
 		reworkService.save(persistent);
-		redirectionUrl="rework!list.action?workingBillId="
-				+rework.getWorkingbill().getId();
-		return SUCCESS;
+		//redirectionUrl="rework!list.action?workingBillId="+rework.getWorkingbill().getId();
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销

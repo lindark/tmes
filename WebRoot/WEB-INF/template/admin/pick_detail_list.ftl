@@ -169,17 +169,24 @@ body {
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
 	 */
 	
+	
 	$(function(){		
 		$("#btn_save").click(function(){
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
 				var url="pick_detail!creditsubmit.action";
 				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#grid-table").trigger("reloadGrid");	
 					if(data.status=="success"){
-					window.location.href="pick!list.action?workingBillId="+workingBillId;
-					}
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="pick!list.action?workingBillId="+workingBillId;
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					    });
+					}					
 				},dt)
 		});
 
@@ -188,12 +195,18 @@ body {
 				var workingBillId = $("#workingBillId").val();
 				var url="pick_detail!creditapproval.action";	
 				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#grid-table").trigger("reloadGrid");	
 					if(data.status=="success"){
-					window.location.href="pick!list.action?workingBillId="+workingBillId;
-					}
-				},dt)	
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="pick!list.action?workingBillId="+workingBillId;
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					    });
+					}					
+				},dt)
 		});
 		
 		

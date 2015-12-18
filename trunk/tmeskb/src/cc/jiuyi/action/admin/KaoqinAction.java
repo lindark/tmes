@@ -237,6 +237,16 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String startWorking()
 	{
+		/**获取班组状态*/
+		this.admin=this.adminService.getLoginAdmin();
+		this.admin=this.adminService.get(admin.getId());
+		String iswork=admin.getDepartment().getTeam().getIsWork();
+		//Y开启：调用遍历刷卡表方法    N未开启：不调用方法
+		if("Y".equals(iswork))
+		{
+			
+		}
+		
 		String job_name = "startWorking"+this.sameTeamId;
 		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
 		
@@ -257,12 +267,16 @@ public class KaoqinAction extends BaseAdminAction
 		int n=40-differ;
 		QuartzManagerUtil.removeJob(job_name);
 		QuartzManagerUtil.removeJob("xxx"+job_name);
+		HashMap<String,Object> map1=new HashMap<String,Object>();
+		HashMap<String,Object> map2=new HashMap<String,Object>();
 		if(n<=0)
 		{
 			/**不跨时*/
 			String xquartz=miao+" "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
+			map1.put("kaoqintime", xquartz);
+			map1.put("teamid", job_name);
 			//添加定时任务
-			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz);
+			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);
 		}
 		else
 		{
@@ -270,8 +284,13 @@ public class KaoqinAction extends BaseAdminAction
 			String xquartz=miao+" "+fen+"-59/1 "+sdf.format(can.getTime());
 			String x2quartz="0 0-"+n+"/1 "+sdf.format(can2.getTime());
 			//添加定时任务
-			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz);
-			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz);
+			map1.put("kaoqintime", xquartz);
+			map1.put("teamid", job_name);
+			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);
+			
+			map2.put("kaoqintime", x2quartz);
+			map2.put("teamid", "xxx"+job_name);
+			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz,map2);
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
  * Dao实现类 - Dao实现类基类
  */
 
+
 @Repository
 public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 

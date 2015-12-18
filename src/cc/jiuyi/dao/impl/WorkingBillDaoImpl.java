@@ -102,7 +102,6 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	}
 	
 	
-	//重载
 	public WorkingBill getCodeNext(String workingbillCode) {
 		String hql="from WorkingBill where workingBillCode > ? order by workingbillCode asc";
 		return (WorkingBill) getSession().createQuery(hql).setParameter(0, workingbillCode).setMaxResults(1).uniqueResult();

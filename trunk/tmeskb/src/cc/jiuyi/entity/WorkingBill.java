@@ -35,6 +35,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairAmount;// 累计返修数量
 	private String werks;//工厂
 	private Integer amount;//交接数量
+	
 
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Rework> rework;//返工
@@ -51,7 +52,9 @@ public class WorkingBill extends BaseEntity {
     private Set<Pick> pick;//领料
     private Set<ItermediateTest> itermediateTest;//半成品巡检
     
-    
+    /*冗余*/
+    private String afterworkingBillCode;//下一随工单
+    /*冗余end*/
     
     @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<ItermediateTest> getItermediateTest() {
@@ -299,6 +302,15 @@ public class WorkingBill extends BaseEntity {
 
 	public void setWerks(String werks) {
 		this.werks = werks;
+	}
+
+	@Transient
+	public String getAfterworkingBillCode() {
+		return afterworkingBillCode;
+	}
+
+	public void setAfterworkingBillCode(String afterworkingBillCode) {
+		this.afterworkingBillCode = afterworkingBillCode;
 	}
 	
 }

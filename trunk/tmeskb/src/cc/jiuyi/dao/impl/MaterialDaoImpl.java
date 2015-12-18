@@ -112,7 +112,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Material> getMantrBom(String matnr) {
-		String hql="from Material where products.productsCode = ?";
+		String hql="select distinct a from Material a join a.products b where b.productsCode = ?";
 		return getSession().createQuery(hql).setCacheable(true).setParameter(0, matnr).list();
 		
 	}

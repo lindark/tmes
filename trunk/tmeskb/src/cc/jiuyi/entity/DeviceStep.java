@@ -6,56 +6,21 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class DeviceStep extends BaseEntity{
-	private String VORNR;//工序
-	private String ARBPL;//工作中心
-	private String WERKS;//工厂
-	private String STEUS;//控制码 （订单类型）PM01,PM02
-	private String WORK_ACTIVITY;//涉及作业的工作
-	private String DURATION_NORMAL;//作业正常期间
-	private String DESCRIPTION;//工序短文本
+	private String vornr;//工序
+	private String arbpl;//工作中心
+	private String werks;//工厂
+	private String steus;//控制码 （订单类型）PM01,PM02
+	private String work_activity;//涉及作业的工作
+	private String duration;//作业正常期间
+	private String description;//工序短文本
 	private Device device;//设备
 	
-	public String getVORNR() {
-		return VORNR;
+	
+	public String getVornr() {
+		return vornr;
 	}
-	public void setVORNR(String vornr) {
-		VORNR = vornr;
-	}
-	public String getARBPL() {
-		return ARBPL;
-	}
-	public void setARBPL(String arbpl) {
-		ARBPL = arbpl;
-	}
-	public String getWERKS() {
-		return WERKS;
-	}
-	public void setWERKS(String werks) {
-		WERKS = werks;
-	}
-	public String getSTEUS() {
-		return STEUS;
-	}
-	public void setSTEUS(String steus) {
-		STEUS = steus;
-	}
-	public String getWORK_ACTIVITY() {
-		return WORK_ACTIVITY;
-	}
-	public void setWORK_ACTIVITY(String work_activity) {
-		WORK_ACTIVITY = work_activity;
-	}
-	public String getDURATION_NORMAL() {
-		return DURATION_NORMAL;
-	}
-	public void setDURATION_NORMAL(String duration_normal) {
-		DURATION_NORMAL = duration_normal;
-	}
-	public String getDESCRIPTION() {
-		return DESCRIPTION;
-	}
-	public void setDESCRIPTION(String description) {
-		DESCRIPTION = description;
+	public void setVornr(String vornr) {
+		this.vornr = vornr;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -64,6 +29,42 @@ public class DeviceStep extends BaseEntity{
 	}
 	public void setDevice(Device device) {
 		this.device = device;
+	}
+	public String getArbpl() {
+		return arbpl;
+	}
+	public void setArbpl(String arbpl) {
+		this.arbpl = arbpl;
+	}
+	public String getWerks() {
+		return werks;
+	}
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+	public String getSteus() {
+		return steus;
+	}
+	public void setSteus(String steus) {
+		this.steus = steus;
+	}
+	public String getWork_activity() {
+		return work_activity;
+	}
+	public void setWork_activity(String work_activity) {
+		this.work_activity = work_activity;
+	}
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

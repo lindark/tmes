@@ -53,13 +53,13 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		IT_ITEM_GX.setData("IT_ITEM_GX");
 		for(DeviceStep d : step){
 			HashMap<String,Object> item_gx = new HashMap<String,Object>();
-			item_gx.put("VORNR", d.getVORNR());//工序
-			item_gx.put("STEUS", d.getSTEUS());//控制码
-			item_gx.put("ARBPL", d.getARBPL());//工作中心
-			item_gx.put("DESCRIPTION", d.getDESCRIPTION());//文本
-			item_gx.put("WORK_ACTIVITY", d.getWORK_ACTIVITY());//
-			item_gx.put("DURATION_NORMAL", d.getDURATION_NORMAL());//
-			item_gx.put("WERKS", d.getWERKS());//工厂
+			item_gx.put("VORNR", d.getVornr());//工序
+			item_gx.put("STEUS", d.getSteus());//控制码
+			item_gx.put("ARBPL", d.getArbpl());//工作中心
+			item_gx.put("DESCRIPTION", d.getDescription());//文本
+			item_gx.put("WORK_ACTIVITY", d.getWork_activity());//
+			item_gx.put("DURATION_NORMAL", d.getDuration());//
+			item_gx.put("WERKS", d.getWerks());//工厂
 			arrList1.add(item_gx);
 		}
 		IT_ITEM_GX.setList(arrList1);

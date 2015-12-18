@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.CreditCard;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.sendmsg.Sendmsg_Service;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
@@ -131,25 +134,25 @@ public class TestMethodService extends BaseTestCase {
 	public void quazt(){
 		
 		 try {
-			 
-		      String job_name = "动态任务调度";
-		      System.out.println("【系统启动】开始(每1秒输出一次)...");  
-		      QuartzManagerUtil.addJob(job_name, WorkingBillJob.class, "0/1 * * * * ?");  
+			 String job_name = "动态任务调度";
+		      QuartzManagerUtil.removeJob(job_name);  	 
+		      //System.out.println("【系统启动】开始(每1秒输出一次)...");  
+		     // QuartzManagerUtil.addJob(job_name, WorkingBillJob.class, "0/1 * * * * ?");  
 		      
-		      Thread.sleep(5000);  
-		      System.out.println("【修改时间】开始(每2秒输出一次)...");  
-		      QuartzManagerUtil.modifyJobTime(job_name, "10/2 * * * * ?");  
-		      Thread.sleep(6000);  
-		      System.out.println("【移除定时】开始...");  
-		      QuartzManagerUtil.removeJob(job_name);  
-		      System.out.println("【移除定时】成功");  
-		      
-		      System.out.println("【再次添加定时任务】开始(每10秒输出一次)...");  
-		      QuartzManagerUtil.addJob(job_name, WorkingBillJob.class, "*/10 * * * * ?");  
-		      Thread.sleep(60000);  
-		      System.out.println("【移除定时】开始...");  
-		      QuartzManagerUtil.removeJob(job_name);  
-		      System.out.println("【移除定时】成功");
+		     // Thread.sleep(5000);  
+//		      System.out.println("【修改时间】开始(每2秒输出一次)...");  
+//		      QuartzManagerUtil.modifyJobTime(job_name, "10/2 * * * * ?");  
+//		      Thread.sleep(6000);  
+//		      System.out.println("【移除定时】开始...");  
+//		      QuartzManagerUtil.removeJob(job_name);  
+//		      System.out.println("【移除定时】成功");  
+//		      
+//		      System.out.println("【再次添加定时任务】开始(每10秒输出一次)...");  
+//		      QuartzManagerUtil.addJob(job_name, WorkingBillJob.class, "*/10 * * * * ?");  
+//		      Thread.sleep(60000);  
+//		      System.out.println("【移除定时】开始...");  
+//		      QuartzManagerUtil.removeJob(job_name);  
+//		      System.out.println("【移除定时】成功");
 
 			 
 		    } catch (Exception e) {
@@ -169,6 +172,11 @@ public class TestMethodService extends BaseTestCase {
 		
 	}
 	
+	@Test
+	public void testWebService(){//测试webservice
+		
+	}
+	
 	
 	@Test
 	public void testCredit(){
@@ -176,6 +184,26 @@ public class TestMethodService extends BaseTestCase {
 		creditcard.setDeviceCode("ceshi");
 		creditcard.setCardNumber("10007");
 		creditcardservice.save(creditcard);
+		
+	}
+	
+	@Test
+	public void testSendMsg(){
+		Sendmsg_Service service=new Sendmsg_Service();
+		String phone="18668196276";
+		int i=Integer.parseInt(phone.substring(phone.trim().length()-4,phone.trim().length()))*3+5698;
+
+		String message="<?xml version=\"1.0\" encoding=\"UTF-8\"?><infos><info>"+ 
+				    "<msg_id><![CDATA[-1]]></msg_id>"+  
+				    "<password><![CDATA["+i+"]]></password>"+ 
+				    "<src_tele_num><![CDATA[106573064090]]></src_tele_num>"+ 
+				    "<dest_tele_num><![CDATA["+phone+"]]></dest_tele_num>"+ 
+				    "<msg><![CDATA[你好]]></msg>"+  
+				   "</info>"+
+				"</infos>";
+
+		String xml=service.getSendmsgHttpPort().sendmsg("nhjx_nb064090", message);
+		System.out.println(xml);
 		
 	}
 }

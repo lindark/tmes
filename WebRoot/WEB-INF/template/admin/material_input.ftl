@@ -85,16 +85,27 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-											<!--<div class="profile-info-row">
-												<div class="profile-info-name">展开层</div>
+											<div class="profile-info-row">
+												<!--  <div class="profile-info-name">展开层</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.spread"
 														value="${(material.spread)!}"
 														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
+												</div>-->
+ 
+                                                <div class="profile-info-name">产品名称</div>
+												<div class="profile-info-value">
+												 <input type="hidden" id="productId" name="material.products.id" value="${(material.products.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					  
+												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择<tton>				                                    
+				                                     <span id ="productName"></span>
+										         	 <label class="requireField">*</label>	
+										         	 <#else>
+										         	 ${(material.products.productsName)!}    
+										         	 </#if>	
 												</div>
 
-											</div>  -->
+											</div>
 
 
 											<div class="profile-info-row">

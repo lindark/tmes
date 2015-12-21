@@ -34,6 +34,9 @@
 	border: 1px solid;
 	border-color: #d5d5d5;
 }
+#addImage {
+	cursor: pointer;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -140,7 +143,7 @@ body {
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="row buttons col-md-8 col-sm-4">
-													<a id="btn_add"
+													<a id="addImage"
 														class="btn btn-white btn-default btn-sm btn-round"> <i
 														class="ace-icon glyphicon glyphicon-plus"></i> 增加一行工序
 													</a>
@@ -158,6 +161,7 @@ body {
 														<th>工作中心</th>
 														<th>计量单位</th>
 														<th>版本号</th>
+														<th>操作</th>
 													</tr>
 													<#if materialList??> <#assign slnum=0 /> <#list
 													materialList as sllist>
@@ -169,6 +173,10 @@ body {
 														<td>${(sllist.batch)!}</td>
 														<td>${(sllist.isCarton)!}</td>
 														<td>${(sllist.version)!}</td>
+														<td><a
+															onclick="edit_click(${(sllist.slmatterNum)! })">编辑</a>
+															&nbsp;&nbsp; <a
+															onclick="del_click(${(sllist.slmatterNum)! })">删除</a></td>
 													</tr>
 													<#assign slnum=slnum+1 /> </#list> </#if>
 												</table>
@@ -212,8 +220,27 @@ body {
 </html>
 <script type="text/javascript">
 	$(function() {
-		$("#btn_add").click(function() {
-			alert("...");
+		$("#addImage").click(function() {
+			addAttributeOptionTr();
 		});
 	})
+	
+	function addAttributeOptionTr() {
+	var attributeOptionTrHtml = "<tr>" +
+	"<td><input type='text' name='material.materialCode' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialName' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialUnit' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialAmount' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.batch' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.isCarton' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.isCarton' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.version' value='' class='form-control'/></td>" +
+	"<td>" +
+	"	<a onclick='edit_click()'>编辑</a>" +
+	"	&nbsp;&nbsp;" +
+	"	<a onclick='del_click()'>删除</a>" +
+	"</td>" +
+	"</tr>";
+	$("#tb_material").append(attributeOptionTrHtml);
+}
 </script>

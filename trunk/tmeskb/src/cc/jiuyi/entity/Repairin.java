@@ -114,6 +114,7 @@ public class Repairin extends BaseEntity {
 		this.createName = createName;
 	}
 
+	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}

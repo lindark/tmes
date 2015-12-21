@@ -160,4 +160,11 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		String hql="from Products where productsCode= ?";
 		return (Products) getSession().createQuery(hql).setParameter(0, matnr).uniqueResult();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Products> getProductsByProcessId(String id) {
+		String hql = "select a from Products a join a.process pc where pc.id=?";
+		return getSession().createQuery(hql).setParameter(0, id).list();
+	}
 }

@@ -44,4 +44,5 @@ public interface ProductsService extends BaseService<Products, String> {
 	public List<Process> getAllProcess();
 	public List<Material> getAllMaterial();
 	public Products getProducts(String matnr);
+	public List<Products> getProductsByProcessId(String id);
 }

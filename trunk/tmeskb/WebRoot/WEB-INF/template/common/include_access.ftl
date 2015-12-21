@@ -1,8 +1,8 @@
 <#assign ww=JspTaglibs["/WEB-INF/access.tld"]/>
 <script type="text/javascript">
-
+var pathaccess =<@ww.access/>;//从自定义标签获得当前页面拥有的权限对象
 jQuery(function($){
-	var pathaccess =<@ww.access/>;//从自定义标签获得当前页面拥有的权限对象
+	
 	
 	$(".access").each(function(i){
 		var $this = $(this);

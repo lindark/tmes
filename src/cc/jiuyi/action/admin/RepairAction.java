@@ -19,7 +19,6 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
@@ -103,7 +102,6 @@ public class RepairAction extends BaseAdminAction {
 		}
 		admin = adminService.loadLoginAdmin();
 		repair.setCreateUser(admin);
-		repair.setWorkingbillCode(workingBillService.get(repair.getWorkingbill().getId()).getWorkingBillCode());
 		repairService.save(repair);
 		/*redirectionUrl = "repair!list.action?workingBillId="
 				+ repair.getWorkingbill().getId();*/

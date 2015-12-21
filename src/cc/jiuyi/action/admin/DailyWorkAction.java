@@ -105,7 +105,6 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setCreateUser(admin);
-		dailyWork.setWorkingbillCode(workingBillService.get(dailyWork.getWorkingbill().getId()).getWorkingBillCode());
 		dailyWorkService.save(dailyWork);
 		/*redirectionUrl = "daily_work!list.action?workingBillId="
 				+ dailyWork.getWorkingbill().getId();*/

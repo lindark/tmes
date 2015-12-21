@@ -98,8 +98,15 @@ public class DumpAction extends BaseAdminAction {
 	public String creditapproval() {
 		try {
 			String[] ids = dumpId.split(",");
-			dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
-					"20151001");
+			admin = adminService.getLoginAdmin();
+			admin = adminService.load(admin.getId());
+			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+					.getWarehouse();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			String today = sdf.format(date);
+			dumpList = dumpRfc.findMaterialDocument(warehouse, today,
+					today);
 			for (int i = 0; i < ids.length; i++) {
 				if (dumpService.isExist("voucherId", ids[i])) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
@@ -204,8 +211,8 @@ public class DumpAction extends BaseAdminAction {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String today = sdf.format(date);
-			dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
-					"20151001");
+			dumpList = dumpRfc.findMaterialDocument(warehouse, today,
+					today);
 			List<Dump> dpList = dumpService.getAll();
 			if (dpList.size() != 0) {
 				for (int i = 0; i < dumpList.size(); i++) {

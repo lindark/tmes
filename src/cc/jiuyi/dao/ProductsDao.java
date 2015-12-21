@@ -46,5 +46,6 @@ public interface ProductsDao extends BaseDao<Products,String> {
 	public List<Material> getAllMaterial();
 	
 	public Products getProducts(String matnr);
+	public List<Products> getProductsByProcessId(String id);
 	
 }

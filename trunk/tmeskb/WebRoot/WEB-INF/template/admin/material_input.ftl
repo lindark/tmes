@@ -31,7 +31,12 @@ $().ready( function() {
 </#if>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
-body{background:#fff;}
+body{
+    background:#fff;
+}
+.deleteImage,#addImage,#removeImage {
+	cursor: pointer;
+}
 </style>
 </head>
 <body class="no-skin input">
@@ -122,7 +127,7 @@ body{background:#fff;}
 												<#else>
 												<div class="profile-info-row">
 													<div class="row buttons col-md-8 col-sm-4">
-														<a id="btn_add" class="btn btn-white btn-default btn-sm btn-round">
+														<a id="addImage" class="btn btn-white btn-default btn-sm btn-round">
 															<i class="ace-icon glyphicon glyphicon-plus"></i>
 															增加组件
 														</a>
@@ -204,7 +209,7 @@ body{background:#fff;}
 			</div>
 		</form>
 		<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-							<div id="divbox2" style="display: none;">
+		<!--  				<div id="divbox2" style="display: none;">
 								<div class="profile-user-info profile-user-info-striped divbox">
 									    <div class="profile-info-row">
 											<div class="profile-info-name">组件编码</div>
@@ -258,6 +263,7 @@ body{background:#fff;}
 									</div>
 								</div>
 							</div>
+							-->	
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
 <!-- add by welson 0728 -->	

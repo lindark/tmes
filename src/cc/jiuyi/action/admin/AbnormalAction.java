@@ -441,11 +441,12 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	public void quartzMessage(String time,int i){		
 		  String job_name = "sendMessage";
+		  HashMap<String,Object> maps = new HashMap<String,Object>();
 		  if(i==0){
-			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time);
+			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);
 			  
 		  }else if(i==1){
-			  QuartzManagerUtil.modifyJobTime(job_name,time);
+			  QuartzManagerUtil.modifyJobTime(job_name,time,maps);
 		  }	     
 	     // QuartzManagerUtil.removeJob(job_name); 
 	}

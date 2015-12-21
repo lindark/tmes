@@ -198,7 +198,7 @@ public class PickDetailAction extends BaseAdminAction {
 //		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 //		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
 		pick.setMove_type(info);// 移动类型 SAP测试数据
-		pick.setBudat(admin.getProductDate());//随工单日期
+		pick.setBudat(workingBill.getProductDate());//随工单日期
 		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点SAP测试数据 单元库存地点
 		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 	    pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
@@ -236,20 +236,21 @@ public class PickDetailAction extends BaseAdminAction {
 	public String creditapproval(){
 		String message="";
 		WorkingBill workingBill = workingBillService.get(workingBillId);
-        String str=workingBillId;
+		String workingBillCode = workingBill.getWorkingBillCode();
 		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		Pick pick=new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 //		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 //		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 //		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
-		pick.setMove_type(info);// 移动类型 SAP测试数据
-		pick.setBudat(admin.getProductDate());//随工单日期
+//		pick.setMove_type(info);// 移动类型 SAP测试数据
+		pick.setBudat(workingBill.getProductDate());//随工单日期
 		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
-		pick.setZtext(str.substring(str.length()-2,2));//抬头文本 随工单位最后两位
+		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 随工单位最后两位
 		pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
 		// SAP测试数据 工厂编码
-		pick.setMove_type(pickDetail.getPickType());
+		pick.setMove_type(info);
 		// 移动类型 SAP测试数据
 		pick.setCreateDate(new Date());
 		pick.setCreateUser(admin);
@@ -271,8 +272,8 @@ public class PickDetailAction extends BaseAdminAction {
 //				p.setOrderid("100116549");
 				p.setPickType(info);
 				p.setMaterialCode(p.getMaterialCode());//物料编码
-				p.setItem_text(str.substring(str.length()-2,2));//项目文本(随工单位最后两位)
-				p.setOrderid(str.substring(str.length()-2));//工单号(随工单位除了最后两位)
+				p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
+				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
 				pickDetailList1.add(i, p);
 			}
 		}	

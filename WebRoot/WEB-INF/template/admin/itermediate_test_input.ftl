@@ -140,22 +140,22 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialCode)! }</td>
 																		<td>${(list.materialName)! }</td>
 																		<td>
-																		    <input  style="width:100px;" type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}" class=" form-control formText {digits:true}"/>
+																		    <input type="text" name="list_itmesg[${num}].testAmount" value="${(list.xtestAmount)!}" class="form-control formText {digits:true}"/>
 																		</td>
 																		<td>
-																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie1" value="${(list.xgoodsSzie1)!}" class="form-control"/>
+																		    <input type="text"  name="list_itmesg[${num}].goodsSzie1" value="${(list.xgoodsSzie1)!}" class="form-control"/>
 																		</td>
 																		<td>
-																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie2" value="${(list.xgoodsSzie2)!}" class="form-control"/>
+																		    <input type="text"  name="list_itmesg[${num}].goodsSzie2" value="${(list.xgoodsSzie2)!}" class="form-control"/>
 																		</td>
 																		<td>
-																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie3" value="${(list.xgoodsSzie3)!}" class="form-control"/>
+																		    <input type="text"  name="list_itmesg[${num}].goodsSzie3" value="${(list.xgoodsSzie3)!}" class="form-control"/>
 																		</td>
 																		<td>
-																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie4" value="${(list.xgoodsSzie4)!}" class="form-control"/>
+																		    <input type="text"  name="list_itmesg[${num}].goodsSzie4" value="${(list.xgoodsSzie4)!}" class="form-control"/>
 																		</td>
 																		<td>
-																		    <input style="width:100px;" type="text"  name="list_itmesg[${num}].goodsSzie5" value="${(list.xgoodsSzie5)!}" class="form-control"/>
+																		    <input type="text"  name="list_itmesg[${num}].goodsSzie5" value="${(list.xgoodsSzie5)!}" class="form-control"/>
 																		</td>
 																		<td>
 																			<img id="img_addbug${num}" class="img_addbug" title="添加不合格原因" alt="添加不合格原因" src="${base}/template/shop/images/add_bug.gif" />

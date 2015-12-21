@@ -102,11 +102,9 @@ public class DumpAction extends BaseAdminAction {
 			admin = adminService.load(admin.getId());
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-			String today = sdf.format(date);
-			dumpList = dumpRfc.findMaterialDocument(warehouse, today,
-					today);
+			String productDate = admin.getProductDate();
+			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate,
+					productDate);
 			for (int i = 0; i < ids.length; i++) {
 				if (dumpService.isExist("voucherId", ids[i])) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
@@ -166,8 +164,7 @@ public class DumpAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("voucherId") != null) {
 				System.out.println("obj=" + obj);
-				String voucherId = obj.getString("voucherId")
-						.toString();
+				String voucherId = obj.getString("voucherId").toString();
 				map.put("voucherId", voucherId);
 			}
 			if (obj.get("start") != null && obj.get("end") != null) {
@@ -208,13 +205,13 @@ public class DumpAction extends BaseAdminAction {
 			admin = adminService.load(admin.getId());
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();
-			String today = sdf.format(date);
-			/*dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
-					"20151001");*/
-			dumpList = dumpRfc.findMaterialDocument(warehouse, today,
-					today);
+			String productDate = admin.getProductDate();
+			/*
+			 * dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
+			 * "20151001");
+			 */
+			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate,
+					productDate);
 			List<Dump> dpList = dumpService.getAll();
 			if (dpList.size() != 0) {
 				for (int i = 0; i < dumpList.size(); i++) {

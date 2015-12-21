@@ -452,20 +452,20 @@ public class TestSAPUtilService extends BaseTestCase {
 		d.setDisposalWorkers(a);
 		List<DeviceStep> step=new ArrayList<DeviceStep>();
 		DeviceStep s=new DeviceStep();
-		s.setVORNR("0010");
-		s.setARBPL("2101");//工作中心
-		s.setWERKS("1000");//工厂
-		s.setSTEUS("PM01");//控制码
-		s.setDESCRIPTION("维修");//工序短文本
-		s.setWORK_ACTIVITY("10");
-		s.setDURATION_NORMAL("10");
+		s.setVornr("0010");
+		s.setArbpl("1001");//工作中心
+		s.setWerks("1000");//工厂
+		s.setSteus("PM01");//控制码
+		s.setDescription("维修");//工序短文本
+		s.setWork_activity("10");
+		s.setDuration("10");
 		step.add(s);
 		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
 		DeviceModlue dm=new DeviceModlue();
-		dm.setMATERIAL("60000167");//物料编码
-		dm.setMENGE("1");
-		dm.setVORNR("0010");
-		dm.setPOSTP("L");
+		dm.setMaterial("60000167");//物料编码
+		dm.setMenge("1");
+		dm.setVornr("0010");
+		dm.setPostp("L");
 		module.add(dm);
 		try {
 			String aufnr=devicerfc.DeviceCrt(d, step, module);
@@ -481,10 +481,11 @@ public class TestSAPUtilService extends BaseTestCase {
 	@Test
 	public void testgetMatnr(){
 		try {
-			List<HashMap<String,String>> list=matnrrfc.getMaterialList("60000167", "1000", "");
+			List<HashMap<String,String>> list=matnrrfc.getMaterialList("", "1000", "线圈");
 			for(int i=0;i<list.size();i++){
 				System.out.println("长度："+list.size());
 				HashMap map=list.get(i);
+				System.out.println(map);
 				System.out.println(map.get("matnr"));
 				System.out.println(map.get("maktx"));
 			}

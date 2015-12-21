@@ -12,6 +12,7 @@
 <script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/material_input.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/matbrower.js"></script>
 <script type="text/javascript">
 $().ready( function() {
@@ -76,7 +77,7 @@ body{background:#fff;}
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">产品信息</a>
+					<a href="#tabs-1">产品Bom信息</a>
 				</li>
 				
 			</ul>
@@ -84,7 +85,7 @@ body{background:#fff;}
 			<div id="tabs-1">
 			
 				<!--weitao begin modify-->
-						<div class="profile-user-info profile-user-info-striped">
+					                <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<!--  <div class="profile-info-name">展开层</div>
 												<div class="profile-info-value">
@@ -94,155 +95,170 @@ body{background:#fff;}
 													<label class="requireField">*</label>
 												</div>-->
  
-                                                <div class="profile-info-name">产品名称</div>
+                                               <div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-												 <input type="hidden" id="productId" name="material.products.id" value="${(material.products.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					  
-												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择<tton>				                                    
+												 <input type="hidden" id="productId" name="material.products.id" value="${(material.products.id)!}"  class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>					
+												    
+												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="productName"></span>
 										         	 <label class="requireField">*</label>	
 										         	 <#else>
 										         	 ${(material.products.productsName)!}    
 										         	 </#if>	
 												</div>
-
-											</div>
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">组件编码</div>
-												<div class="profile-info-value">
-													<#if isAdd??> <input type="text"
-														name="material.materialCode"
-														value="${(material.materialCode)!}"
-														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100, remote: 'material!checkMaterialCode.action', messages: {remote: '组件编码已存在!'}}" />
-													<label class="requireField">*</label> <#else>
-													${(material.materialCode)!} <input type="hidden"
-														name="material.materialCode"
-														value="${(material.materialCode)!}" /></#if>
-												</div>
-
-
-												<div class="profile-info-name">组件名称</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.materialName"
-														value="${(material.materialName)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
 												
-											</div>
-
-											<!-- <div class="profile-info-row">
-											<div class="profile-info-name">溢出指示符</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.runOver"
-														value="${(material.runOver)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
 												
-												<div class="profile-info-name">例外</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.exception"
-														value="${(material.exception)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div> -->
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">组件单位</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.materialUnit"
-														value="${(material.materialUnit)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">组件数量</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.materialAmount"
-														value="${(material.materialAmount)!}"
-														class=" input input-sm formText {digits:true,required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div>
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">批次</div>
+												<div class="profile-info-name">产品数量</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.batch"
-														value="${(material.batch)!}"
+														value="${(material.products.productsAmount)!}"
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
-												</div>
-												
-												<!--<div class="profile-info-name">项目</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.project"
-														value="${(material.project)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>  -->
-												
-												<div class="profile-info-name">版本号</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.version"
-														value="${(material.version)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div>
-
-
-											<!--  <div class="profile-info-row">
-												<div class="profile-info-name">项目类别</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.projectType"
-														value="${(material.projectType)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">状态</div>
-												<div class="profile-info-value">
-													<label class="pull-left inline"> <small
-														class="muted smaller-90">启用:</small> <input type="radio"
-														class="ace" name="material.state" value="1"<#if
-														(material.state == '1')!> checked</#if> /> <span
-														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
-														class="pull-left inline"> <small
-														class="muted smaller-90">未 启用:</small> <input type="radio"
-														class="ace" name="material.state" value="2"<#if
-														(isAdd || material.state == '2')!> checked</#if> /> <span
-														class="lbl middle"></span> </label>
-												</div>
-											</div>-->
-																						
-											<div class="profile-info-row">											
-												<div class="profile-info-name">是否为纸箱</div>
-												<div class="profile-info-value">
-													<label class="pull-left inline">是<small
-														class="muted smaller-90">:</small> <input type="radio"
-														class="ace" name="material.isCarton" value="Y"<#if
-														(material.isCarton == 'Y')!> checked</#if> /> <span
-														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
-														class="pull-left inline"> <small
-														class="muted smaller-90">否:</small> <input type="radio"
-														class="ace" name="material.isCarton" value="N"<#if
-														(isAdd || material.isCarton == 'N')!> checked</#if> /> <span
-														class="lbl middle"></span> </label>
 												</div>
 											</div>												
-										</div>
+									</div>
+									<div class="profile-user-info profile-user-info-striped">
+												<#if show??>
+												<#else>
+												<div class="profile-info-row">
+													<div class="row buttons col-md-8 col-sm-4">
+														<a id="btn_add" class="btn btn-white btn-default btn-sm btn-round">
+															<i class="ace-icon glyphicon glyphicon-plus"></i>
+															增加组件
+														</a>
+													</div>
+												</div>
+												</#if>
+												<div class="profile-info-row">
+													<table id="tb_material" class="table table-striped table-bordered table-hover">
+														<#if show??>
+															<tr>
+																<th>组件编码</th>
+																<th>组件名称</th>
+																<th>组件单位</th>
+																<th>组件数量</th>															
+																<th>批次</th>
+																<th>是否为纸箱</th>
+																<th>版本号</th>
+															</tr>
+															<#if materialList??>
+																<#assign slnum=0 />
+																<#list materialList as sllist>
+																	<tr>
+																		<td>${(sllist.materialCode)! }</td>
+																		<td>${(sllist.materialName)! }</td>
+																		<td>${(sllist.materialUnit)! }</td>
+																		<td>${(sllist.materialAmount)!}</td>
+																		<td>${(sllist.batch)!}</td>
+																		<td>${(sllist.isCarton)!}</td>
+																		<td>${(sllist.version)!}</td>
+																	</tr>
+																<#assign slnum=slnum+1 />
+																</#list>
+															</#if>
+														<#else>
+															<tr>
+																<th>组件编码</th>
+																<th>组件名称</th>
+																<th>组件单位</th>
+																<th>组件数量</th>
+																<th>批次</th>
+																<th>是否为纸箱</th>
+																<th>版本号</th>
+																<th>操作</th>
+															</tr>
+															<#if materialList??>
+																<#assign slnum=0 />
+																<#list materialList as sllist>
+																	<tr>
+																		<td>${(sllist.materialCode)! }</td>
+																		<td>${(sllist.materialName)! }</td>
+																		<td>${(sllist.materialUnit)! }</td>
+																		<td>${(sllist.materialAmount)!}</td>
+																		<td>${(sllist.batch)!}</td>
+																		<td>${(sllist.isCarton)!}</td>
+																		<td>${(sllist.version)!}</td>
+																		<td>
+																			<span id="span_count${(sllist.slmatterNum)! }">${(sllist.slmatterCount)! }</span>
+																			<input id="input_slnum${slnum}" type="hidden" name="materialList[${slnum}].materialCode" value="${(sllist.slmatterNum)! }" />
+																			<input id="input_sldes${slnum}" type="hidden" name="list_scraplater[${slnum}].slmatterDes" value="${(sllist.slmatterDes)! }" />
+																			<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterNum)! })" style="display: none;" />
+																		</td>
+																		<td>
+																			<a onclick="edit_click(${(sllist.slmatterNum)! })">编辑</a>
+																			&nbsp;&nbsp;
+																			<a onclick="del_click(${(sllist.slmatterNum)! })">删除</a>
+																		</td>
+																	</tr>
+																	<#assign slnum=slnum+1 />
+																</#list>
+															</#if>
+														</#if>
+													</table>
+												</div>
+											</div>
 				
 			<div class="buttonArea">
 				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>
+		<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+							<div id="divbox2" style="display: none;">
+								<div class="profile-user-info profile-user-info-striped divbox">
+									    <div class="profile-info-row">
+											<div class="profile-info-name">组件编码</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num1" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">组件名称</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num2" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">组件单位</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num3" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">组件数量</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">批次</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num5" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">是否为纸箱</div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num6" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name">版本 </div>
+											<div class="profile-info-value div-value">
+												<input id="sl_num7" type="text" style="width:150px;" />
+												<label class="requireField">*</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
 <!-- add by welson 0728 -->	
 				</div><!-- /.col -->
@@ -262,3 +278,114 @@ body{background:#fff;}
 
 </body>
 </html>
+<script type="text/javascript">
+var number="0";
+//给按钮加事件--添加缺陷信息事件
+function addbug_event()
+{
+	var i=0;
+	<#list list_material as list>
+		$("#img_addbug"+i).live("click",function(){
+			var idval=$(this).attr("id");
+			i=idval.substring(idval.length-1,idval.length);
+			btn_addbug_event(i);
+		});
+		i+=1;
+	</#list>
+}
+//缺陷内容事件
+function cause_event()
+{
+	var i=0;
+	<#list list_cause as list>
+		$("#mynum"+i).change(function(){
+			var idval=$(this).attr("id");
+			i=idval.substring(idval.length-1,idval.length);
+			write_bugnum_event(i);
+		});
+		i+=1;
+	</#list>
+}
+
+//如果当前选择行报废数量已有值，就赋给box框中对应的框中
+function rowtobox_event(index)
+{
+	var rowids=$("#input_bugid"+index).val();//ids
+	var rownums=$("#input_bugnum"+index).val();//数量
+	var rowids_array=rowids.split(",");
+	var rownums_array=rownums.split(",");
+	var i=0;
+	<#list list_cause as list>
+		$("#mynum"+i).val("");//先清空
+		for(var j=0;j<rowids_array.length;j++)
+		{
+			if(rowids_array[j]!=null&&rowids_array[j]!="")
+			{
+				var id="${(list.id)!}";
+				if(rowids_array[j]==id)
+				{
+					$("#mynum"+i).val(rownums_array[j]);
+				}
+			}
+		}
+		i+=1;
+	</#list>
+}
+
+//报废原因数量填写好并确定之后把填写的保存起来
+function boxtorow_event(index)
+{
+	var rowids="";
+	var rownums="";
+	var count=0;
+	var spanbug="";
+	//获取已填写的报废原因
+	var i=0;
+	<#list list_cause as list>
+		var boxnum=$("#mynum"+i).val();
+		if(boxnum!=null&&boxnum!=""&&boxnum>0)
+		{
+			var id="${(list.id)!}";
+			var des="${(list.causeName)!}";
+			rowids=rowids+id+",";
+			rownums=rownums+boxnum+",";
+			count=floatAdd(count,boxnum);
+			spanbug=spanbug+des+""+boxnum+",";
+		}
+		i+=1;
+	</#list>
+	//给选择的行赋值
+	$("#input_bugid"+index).val(rowids);
+	$("#input_bugnum"+index).val(rownums);
+	if(count==0)
+	{
+		$("#input_msgmenge"+index).val("");
+	}
+	else
+	{
+		$("#input_msgmenge"+index).val(count);
+	}
+	if(spanbug!="")
+	{
+		spanbug=spanbug.substring(0, spanbug.length-1);
+	}
+	$("#span_bug"+index).text(spanbug);
+	$("#input_msgbug"+index).val(spanbug);
+}
+
+//初始化报废后产出表
+function scraplater_event()
+{
+	$("#tb_material tr").each(function(){
+		var wlcode=($(this).children("td:first").text());
+		<#list list_material as list3>
+			if("${(list3.materialCode)!}"==wlcode)
+			{
+				$("#opt_${(list3.materialCode)!}").hide();
+			}
+		</#list>
+		
+	});
+}
+
+</script>

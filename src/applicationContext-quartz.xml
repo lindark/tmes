@@ -60,7 +60,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 		   <ref bean="workingBillJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>* 0/5 * * * ?</value><!-- 每隔5分钟执行一次 -->
+		   <value>0 0/5 * * * ?</value><!-- 每隔5分钟执行一次 -->
 		  </property>
     </bean>  
     

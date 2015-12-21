@@ -195,6 +195,7 @@ public class DailyWork extends BaseEntity {
 		CONF_CNT = conf_cnt;
 	}
 
+	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}

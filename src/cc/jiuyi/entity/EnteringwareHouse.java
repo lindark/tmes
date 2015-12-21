@@ -131,6 +131,7 @@ public class EnteringwareHouse extends BaseEntity {
 		this.createUser = createUser;
 	}
 
+	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}

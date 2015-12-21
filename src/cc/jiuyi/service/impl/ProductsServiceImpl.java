@@ -99,6 +99,11 @@ public class ProductsServiceImpl extends BaseServiceImpl<Products, String>implem
 		return productsDao.getProducts(matnr);
 	}
 
+	@Override
+	public List<Products> getProductsByProcessId(String id) {
+		return productsDao.getProductsByProcessId(id);
+	}
+
 	
 	
 }

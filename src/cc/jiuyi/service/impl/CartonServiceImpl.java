@@ -18,6 +18,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -38,6 +39,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 	private AdminService adminservice;
 	@Resource
 	private CartonRfc cartonRfc;
+	@Resource
+	private DictService dictService;
 
 	@Resource
 	public void setBaseDao(CartonDao cartonDao) {
@@ -77,15 +80,16 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 		//sap同步准备,有些数据是测试的，后期根据上面的变量做修改
 		for (int i = 0; i < list.size(); i++) {
 			Carton carton = list.get(i);
-			carton.setCartonCode("50110123");
-			//carton.setCartonCode(matnr);
+			//carton.setCartonCode("50110123");
+			carton.setCartonCode(matnr);
 			carton.setMove_type("101");
-			carton.setLgort("2501");
-			//carton.setLgort(warehouse);
-			carton.setWerks("1000");
-			//carton.setWerks(werks);
+			//carton.setLgort("2501");
+			carton.setLgort(warehouse);
+			//carton.setWerks("1000");
+			carton.setWerks(werks);
 			carton.setBudat(budat);
-			carton.setLifnr("10503");
+			carton.setLifnr(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "lifnr", "1"));
 			cartonList.add(carton);
 		}
 		cartonList = cartonRfc.CartonCrt(cartonList);

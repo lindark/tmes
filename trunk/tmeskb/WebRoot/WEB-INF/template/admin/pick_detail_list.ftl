@@ -88,7 +88,7 @@ body {
 													<div class="profile-info-name">操作类型</div>
 													<div class="profile-info-value">
 														<select name="info" style="width:300px;">
-													    <option value="">--</option> <#list allType as alist>
+													    <option value="">-请选择-</option> <#list allType as alist>
 													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pickDetail.pickType ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
 													    </#list>
 													</select>

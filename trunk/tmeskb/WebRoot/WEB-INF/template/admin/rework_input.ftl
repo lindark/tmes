@@ -308,8 +308,6 @@ $(function(){
         $adminId.val(id[1]);
         $adminName.text(id[0]);
         layer.close(index);            	          	     	
-        
-       
 	  });
 	 	
 	});
@@ -318,13 +316,13 @@ $(function(){
 
 
 function out(input){
- var s =input.value;
- var date1 = new Date(Date.parse(s.replace(/-/g, "/")));
- var date2 = new Date();
+   var s =input.value;
+   var date1 = new Date(Date.parse(s.replace(/-/g, "/")));
+    var date2 = new Date();
 if(date1.getMilliseconds()>date2.getMilliseconds()){
-   alert("不能选择今天之前的日期!");
-return;
-}
+    alert("不能选择今天之前的日期!");
+   return;
+  }
 }
 
 $(function(){
@@ -344,9 +342,17 @@ $(function(){
 			var workingBillId = $("#workingBillId").val();
 			var url="rework!creditsubmit.action";
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				$("#grid-table").trigger("reloadGrid");	
-				window.location.href="rework!list.action?workingBillId="+workingBillId;
+				if(data.status=="success"){
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="rework!list.action?workingBillId="+workingBillId;
+					}); 
+				}else if(data.status=="error"){
+					layer.alert(data.message, {
+				        closeBtn: 0,
+				        icon:5,
+				        skin:'error'
+				   });
+				}		
 			},dt);	 		    		
 	});
 	
@@ -356,9 +362,17 @@ $(function(){
 		var workingBillId = $("#workingBillId").val();
 		var url="rework!creditreply.action";
 		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			$("#grid-table").trigger("reloadGrid");	
-			window.location.href="rework!list.action?workingBillId="+workingBillId;
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="rework!list.action?workingBillId="+workingBillId;
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
 		},dt);				
 	});
 	
@@ -367,9 +381,17 @@ $(function(){
 		var workingBillId = $("#workingBillId").val();
 		var url="rework!creditapproval.action?id="+id;
 		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			$("#grid-table").trigger("reloadGrid");	
-			window.location.href="rework!list.action?workingBillId="+workingBillId;
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="rework!list.action?workingBillId="+workingBillId;
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
 		});		
 	});
 	

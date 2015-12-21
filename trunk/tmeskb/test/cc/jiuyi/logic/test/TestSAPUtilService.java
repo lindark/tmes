@@ -453,6 +453,13 @@ public class TestSAPUtilService extends BaseTestCase {
 		List<DeviceStep> step=new ArrayList<DeviceStep>();
 		DeviceStep s=new DeviceStep();
 		s.setVornr("0010");
+		s.setArbpl("2101");//工作中心
+		s.setWerks("1000");//工厂
+		s.setSteus("PM01");//控制码
+		s.setDescription("维修");//工序短文本
+		s.setWork_activity("10");
+		s.setDuration("10");
+		s.setVornr("0010");
 		s.setArbpl("1001");//工作中心
 		s.setWerks("1000");//工厂
 		s.setSteus("PM01");//控制码

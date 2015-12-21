@@ -211,6 +211,8 @@ public class DumpAction extends BaseAdminAction {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
 			String today = sdf.format(date);
+			/*dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
+					"20151001");*/
 			dumpList = dumpRfc.findMaterialDocument(warehouse, today,
 					today);
 			List<Dump> dpList = dumpService.getAll();

@@ -462,14 +462,16 @@ label.validateError {
 	border: 0px solid #ffca88;
 }
 
-
+	/*
 input.formText {
+
 	width: 200px;
 	padding: 5px;
 	border-top: 1px solid #999999;
 	border-right: 1px solid #e1e1e1;
 	border-bottom: 1px solid #e1e1e1;
 	border-left: 1px solid #999999;
+	
 }
 
 input.formText:hover {
@@ -480,7 +482,7 @@ input.formText:hover {
 input.formText:focus {
 	background-color: #fff8ef;
 }
-
+*/
 input.formTextS {
 	width: 115px;
 	padding: 5px;

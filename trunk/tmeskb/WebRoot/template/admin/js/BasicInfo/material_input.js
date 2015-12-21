@@ -235,15 +235,15 @@ function sub_event(my_id)
 
 
 
-function addAttributeOptionTr(row) {
+function addAttributeOptionTr() {
 	var attributeOptionTrHtml = "<tr>" +
-	"<td><input type='text' name='material.materialCode' value='' /></td>" +
-	"<td><input type='text' name='material.materialName' value='' /></td>" +
-	"<td><input type='text' name='material.materialUnit' value='' /></td>" +
-	"<td><input type='text' name='material.materialAmount' value='' /></td>" +
-	"<td><input type='text' name='material.batch' value='' /></td>" +
-	"<td><input type='text' name='material.isCarton' value='' /></td>" +
-	"<td><input type='text' name='material.version' value='' /></td>" +
+	"<td><input type='text' name='material.materialCode' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialName' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialUnit' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.materialAmount' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.batch' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.isCarton' value='' class='form-control'/></td>" +
+	"<td><input type='text' name='material.version' value='' class='form-control'/></td>" +
 	"<td>" +
 	"	<a onclick='edit_click()'>编辑</a>" +
 	"	&nbsp;&nbsp;" +

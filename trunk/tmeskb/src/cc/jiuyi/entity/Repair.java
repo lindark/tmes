@@ -162,6 +162,7 @@ public class Repair extends BaseEntity {
 		this.responseName = responseName;
 	}
 
+	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}

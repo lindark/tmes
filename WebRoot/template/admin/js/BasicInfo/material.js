@@ -85,22 +85,22 @@ jQuery(function($){
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		   editfunc : function(rowId) {
-			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
-		    	if(ids.length>1){
-		    		alert("只能选择一条记录！");
-		    		return false;
-		    	}
-				window.location.href = "material!edit.action?id=" + rowId;
-			},
+			edit: false,
+//		   editfunc : function(rowId) {
+//			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
+//		    	if(ids.length>1){
+//		    		alert("只能选择一条记录！");
+//		    		return false;
+//		    	}
+//				window.location.href = "material!edit.action?id=" + rowId;
+//			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				window.location.href="material!add.action";
-			},
+			add: false,
+//			addfunc:function(rowId){
+//				window.location.href="material!add.action";
+//			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

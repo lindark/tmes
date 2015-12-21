@@ -104,15 +104,15 @@ body {background: #fff;font-family: 微软雅黑;}
 												<div class="profile-info-row">
 													<table id="tb_itd" class="table table-striped table-bordered table-hover">
 														<tr>
-															<th style="width:10%;" class="center">组件编码</th>
-										                 	<th style="width:20%;" class="center">组件名称</th>
-											                <th style="width:5%;" class="center">检验数量</th>
-											                <th style="width:8%;" class="center">尺寸1</th>
-											                <th style="width:8%;" class="center">尺寸2</th>
-											                <th style="width:8%;" class="center">尺寸3</th>
-											                <th style="width:8%;" class="center">尺寸4</th>
-											                <th style="width:8%;" class="center">尺寸5</th>
-											                <th style="width:25%;" class="center">不合格数量/原因</th>			
+															<th class="center">组件编码</th>
+										                 	<th class="center">组件名称</th>
+											                <th class="center">检验数量</th>
+											                <th class="center">尺寸1</th>
+											                <th class="center">尺寸2</th>
+											                <th class="center">尺寸3</th>
+											                <th class="center">尺寸4</th>
+											                <th class="center">尺寸5</th>
+											                <th sclass="center">不合格数量/原因</th>			
 														</tr>
 														<#if show??>
 														 <#if list_itmesg??>
@@ -165,7 +165,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																			<input type="hidden" name="list_itmesg[${num}].materialName" value="${(list.materialName)! }" />
 																			<input type="hidden" name="list_itmesg[${num}].materialId" value="${(list.id)! }" />
 																			<input type="hidden" name="list_itmesg[${num}].id" value="${(list.xitid)! }" />
-																			
+																			<input type="hidden"  id="input_msgmenge${num}" name="list_itmesg[${num}].failAmount" value="${(list.failAmount)! }" />
 																																				
 																		    <input id="input_bugnum${num}" name="list_itbug[${num}].xbugnums" type="hidden" value="${(list.xrecordNum)! }" />
 																			<input id="input_bugid${num}" name="list_itbug[${num}].xbugids" type="hidden" value="${(list.xrecordid)! }" />
@@ -210,12 +210,6 @@ body {background: #fff;font-family: 微软雅黑;}
 												<#assign num=0 />
 												<#if list_cause??>
 													<#list list_cause as clist>
-													<!-- 
-														<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
-															<label>${(clist.causeName)! }</label>
-															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class=" input-value" />
-														</div>
-													 -->
 													 	<div class="col-xs-4" style="margin:2px auto;">
 													 		<label>${(clist.causeName)! }</label>
 															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class="input-value"/>
@@ -422,10 +416,19 @@ function sub_event(my_id)
 	    <#else>
 		var url = "itermediate_test!creditupdate.action";
 	   </#if>
-	    credit.creditCard(url,function(data){
-	    	var workingBillId = $("#workingBillId").val();
-			$.message(data.status,data.message);
-			window.location.href = "itermediate_test!list.action?workingBillId="+ workingBillId;
+	   var workingBillId = $("#workingBillId").val();  
+	    credit.creditCard(url,function(data){	
+	    	if(data.status=="success"){
+	    		layer.alert(data.message, {icon: 6},function(){
+			    window.location.href="itermediate_test!list.action?workingBillId="+ workingBillId;
+	    	});
+	    	}else if(data.status=="error"){
+	    		layer.alert(data.message,{
+	    			closeBtn: 0,
+	    			icon: 5,
+	    			skin:'error'
+	    		});
+	    	}
 		},dt)
 	}
 	if(my_id=="2")
@@ -438,10 +441,19 @@ function sub_event(my_id)
 		{
 		    var dt=$("#inputForm").serialize();
 		    var url="itermediate_test!creditsave.action";
+	    	var workingBillId = $("#workingBillId").val();
 		    credit.creditCard(url,function(data){
-		    	var workingBillId = $("#workingBillId").val();
-				$.message(data.status,data.message);
-				window.location.href = "itermediate_test!list.action?workingBillId="+ workingBillId;
+		    	if(data.status=="success"){
+		    		layer.alert(data.message, {icon: 6},function(){
+				    window.location.href="itermediate_test!list.action?workingBillId="+ workingBillId;
+		    	});
+		    	}else if(data.status=="error"){
+		    		layer.alert(data.message,{
+		    			closeBtn: 0,
+		    			icon: 5,
+		    			skin:'error'
+		    		});
+		    	}
 			},dt)
 		}
 	}

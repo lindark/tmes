@@ -61,7 +61,6 @@
 								<form class="form-horizontal" id="searchform" action="process!ajlist.action" role="form">
 								   <div class="operateBar">
 								   
-								   <!-- 
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品编码:</label>
 										<div class="col-sm-4">
@@ -74,7 +73,6 @@
 											<input type="text" name="xproductname" class="input input-sm form-control" value="" id="form-field-icon-1">			
 										</div>
 									</div>
-								   -->
 								   
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">工序编码:</label>
@@ -82,45 +80,17 @@
 											<input type="text" name="processCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										
-										
 										<label class="col-sm-1" style="text-align:right">工序名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="processName" class="input input-sm form-control" value="" id="form-field-icon-1">			
 										</div>
 									</div>
 								   
-								   
-								   
-								   	<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
-									  <div class="col-sm-4">
-										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
-											<!-- 
-							                <#list AllState as list>
-								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
-							                </#list>
-							                 -->
-							                <option value="">全选</option>
-							                <option value="1">启用</option>
-							                <option value="2">未启用</option>
-						               </select>
-									  </div>
-										
-										<!-- 
-										<label class="col-sm-1" style="text-align:right">创建日期:</label>
-										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-
-												<input type="text" class="input-sm form-control datePicker" name="end">
-											</div>
-										</div>
-										 -->
-									</div>	
 										<div class="form-group" style="text-align:center">
+											<a id="addButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												增加新工艺
+											</a>
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索

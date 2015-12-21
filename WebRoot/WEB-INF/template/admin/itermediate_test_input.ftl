@@ -28,7 +28,7 @@ body {background: #fff;font-family: 微软雅黑;}
 #span_bug{margin-left: 5px;}
 #test1{width:800px;height:400px;}
 .div-value{padding-right:30px;min-width:200px; }
-.div-value2{text-align:right;padding-right:0px;min-width:200px;}
+.div-value2{text-align:right;padding-right:0px;}
 .input-value{width:80px;height:30px;line-height:30px;}
 #tb_scraplater a{cursor: pointer;}
 .divbox{margin-top: 20px;}
@@ -210,10 +210,16 @@ body {background: #fff;font-family: 微软雅黑;}
 												<#assign num=0 />
 												<#if list_cause??>
 													<#list list_cause as clist>
+													<!-- 
 														<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
 															<label>${(clist.causeName)! }</label>
 															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class=" input-value" />
 														</div>
+													 -->
+													 	<div class="col-xs-4" style="margin:2px auto;">
+													 		<label>${(clist.causeName)! }</label>
+															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class="input-value"/>
+													 	</div>
 														<#assign num=num+1 />
 													</#list>
 												</#if>

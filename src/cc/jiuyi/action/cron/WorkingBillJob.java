@@ -2,6 +2,8 @@ package cc.jiuyi.action.cron;
 
 import java.beans.Beans;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 import org.apache.log4j.*;
 
+import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.SpringUtil;
@@ -30,21 +33,29 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class WorkingBillJob extends MyDetailQuartzJobBean {
 
 	public static Logger log = Logger.getLogger(WorkingBillJob.class);
-
+	@Resource
+	private WorkingBillRfc workingbillrfc;
+	
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
 		try {
 			System.out.println("任务开始");
 			log.info("WorkingBillJob任务开始>........");
 			System.out.println("任务执行");
-			// String jobName = context.getJobDetail().getKey().getName();
-			// JobDataMap data = context.getJobDetail().getJobDataMap();
-			// String ceshi = data.getString("ceshi");
-			// System.out.println(ceshi);
-
-//			String sysdate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd HH:mm:ss");
-//			String startdate = ThinkWayUtil.timeAdd(sysdate, -86400);// yyyy-MM-dd HH:mm:ss
-//			startdate = ThinkWayUtil.formatdateDate(startdate);// yyyy-MM-dd
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = new Date();
+			Calendar rightnow = Calendar.getInstance();
+			rightnow.setTime(d);
+			rightnow.add(Calendar.MINUTE,-10);
+			String startdate = sdf.format(d);
+			String enddate = sdf.format(d);
+			sdf = new SimpleDateFormat("hh:mm:ss");
+			String starttime = sdf.format(rightnow.getTime());
+			rightnow.add(Calendar.MINUTE,10);
+			String endtime = sdf.format(rightnow.getTime());
+			/******取10分钟之内的数据*********/
+			workingbillrfc.syncRepairorder(startdate, enddate,starttime,endtime);
+			
 			
 			log.info("WorkingBillJob任务结束");
 		} catch (Exception e) {

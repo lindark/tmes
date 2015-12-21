@@ -22,7 +22,6 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
@@ -32,7 +31,6 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -76,8 +74,8 @@ public class DailyWorkAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
 	}
-	
-	public String history(){
+
+	public String history() {
 		return "history";
 	}
 
@@ -101,25 +99,29 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 保存
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	//@InputConfig(resultName = "error")
+	// @InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		dailyWork.setCreateUser(admin);
 		dailyWorkService.save(dailyWork);
-		/*redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "daily_work!list.action?workingBillId=" +
+		 * dailyWork.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	//@InputConfig(resultName = "error")
+	// @InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);
-		/*redirectionUrl = "daily_work!list.action?workingBillId="
-				+ dailyWork.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "daily_work!list.action?workingBillId=" +
+		 * dailyWork.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -159,7 +161,7 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		
+
 		try {
 			ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {
@@ -187,10 +189,10 @@ public class DailyWorkAction extends BaseAdminAction {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
-		
+
 	}
-	
-	public String historylist(){
+
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -212,10 +214,11 @@ public class DailyWorkAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -237,8 +240,10 @@ public class DailyWorkAction extends BaseAdminAction {
 						.getProcessName());
 			}
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
-			dailyWork.setMaktx(workingBillService.get(dailyWork.getWorkingbill().getId()).getMaktx());
-			dailyWork.setWorkingbillCode(dailyWork.getWorkingbill().getWorkingBillCode());
+			dailyWork.setMaktx(workingBillService.get(
+					dailyWork.getWorkingbill().getId()).getMaktx());
+			dailyWork.setWorkingbillCode(dailyWork.getWorkingbill()
+					.getWorkingBillCode());
 			lst.add(dailyWork);
 		}
 		pager.setList(lst);

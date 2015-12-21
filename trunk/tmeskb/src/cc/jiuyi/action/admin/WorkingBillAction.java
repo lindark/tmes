@@ -149,13 +149,13 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	//同步
 	public String sync() {
-		try {
-			workingbillrfc.syncRepairorder();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			//workingbillrfc.syncRepairorder(ThinkWayUtil.);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (CustomerException e) {
+//			e.printStackTrace();
+//		}
 		return SUCCESS;
 	}
 	//投入产出

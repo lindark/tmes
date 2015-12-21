@@ -170,8 +170,18 @@ $(function(){
 		</#if>
 		credit.creditCard(url,function(data){
 			var workingbillid = $("#wkid").val();
-			$.message(data.status,data.message);
-			window.location.href = "carton!list.action?workingBillId="+ workingbillid;
+			//$.message(data.status,data.message);
+			if(data.status=="success"){
+	    		layer.alert(data.message, {icon: 6},function(){
+				window.location.href = "carton!list.action?workingBillId="+ workingbillid;
+	    	});
+	    	}else if(data.status=="error"){
+	    		layer.alert(data.message,{
+	    			closeBtn: 0,
+	    			icon: 5,
+	    			skin:'error'
+	    		});
+	    	}
 		},dt)
 	});
 	

@@ -98,7 +98,6 @@ public class CartonAction extends BaseAdminAction {
 	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		carton.setCreateUser(admin);
-		carton.setWorkingbillCode(workingBillService.get(carton.getWorkingbill().getId()).getWorkingBillCode());
 		cartonService.save(carton);
 		/*redirectionUrl = "carton!list.action?workingBillId="
 				+ carton.getWorkingbill().getId();*/

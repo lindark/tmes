@@ -33,12 +33,14 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	@Resource
 	private WorkingBillService workingbillservice;
 	@Override
-	public void syncRepairorder() throws IOException, CustomerException {
+	public void syncRepairorder(String startdate,String enddate,String starttime,String endtime) throws IOException, CustomerException {
 		super.setProperty("workingbill");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("STARTDATE", "20150928");
-		parameter.put("ENDDATE", "20150930");
+		parameter.put("STARTDATE", startdate);
+		parameter.put("ENDDATE", enddate);
+		parameter.put("STARTTIME", starttime);
+		parameter.put("ENDTIME", endtime);
 		
 		super.setParameter(parameter);
 		SAPModel model = execBapi();//执行 并获取返回值
@@ -59,6 +61,33 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		}
 		workingbillservice.mergeWorkingBill(list);
 		
+	}
+	
+	@Override
+	public void syncRepairorderAll(String startdate,String enddate) throws IOException, CustomerException {
+		super.setProperty("workingbillall");//根据配置文件读取到函数名称
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("STARTDATE", startdate);
+		parameter.put("ENDDATE", enddate);
+		
+		super.setParameter(parameter);
+		SAPModel model = execBapi();//执行 并获取返回值
+		
+		ParameterList outs = model.getOuttab();//返回表
+		Table table01 = outs.getTable("ET_ITEM");//列表
+		List<WorkingBill> list = new ArrayList<WorkingBill>();
+		for(int i=0;i<table01.getNumRows();i++){
+			WorkingBill workingbill = new WorkingBill();
+			table01.setRow(i);
+			workingbill.setWorkingBillCode(table01.getString("ZSGD"));//随工单号
+			workingbill.setProductDate(table01.getString("ZDATE"));//生产日期
+			workingbill.setPlanCount(table01.getInt("ZBJH"));//计划数
+			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
+			workingbill.setMatnr(table01.getString("MATNR"));//物料编号
+			workingbill.setWerks(table01.getString("WERKS"));//工厂
+			list.add(workingbill);
+		}
+		workingbillservice.mergeWorkingBill(list);
 	}
 
 }

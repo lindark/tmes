@@ -84,7 +84,6 @@ public class RepairinAction extends BaseAdminAction {
 	public String creditsave() throws Exception {
 		admin = adminService.loadLoginAdmin();
 		repairin.setCreateUser(admin);
-		repairin.setWorkingbillCode(workingBillService.get(repairin.getWorkingbill().getId()).getWorkingBillCode());
 		repairinService.save(repairin);
 		/*redirectionUrl = "repairin!list.action?workingBillId="
 				+ repairin.getWorkingbill().getId();*/

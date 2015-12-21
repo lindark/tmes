@@ -100,13 +100,18 @@
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
-												搜索
+												搜索Bom
 											</a>
 										</div>
 										
 									</div>
 								</form>
-								
+								<div>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
+										<i class="ace-icon glyphicon glyphicon-edit"></i>
+										维护Bom
+									</button>
+								   </div>
 								
 								<table id="grid-table"></table>
 
@@ -173,7 +178,6 @@
 		$(function(){
 			var $syncButton = $("#syncButton");
 			
-			
 			//同步按钮
 			$syncButton.click(function(){			
 				loading=new ol.loading({id:"page-content"});
@@ -183,6 +187,11 @@
 			})
 		})
 		
+		
+				
+		$("#btn_save").click(function(){
+			window.location.href="material!add.action";
+		});
 		/*
 		var ishead3=0;
 		$(".hsub").click(function(){

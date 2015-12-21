@@ -281,8 +281,7 @@ public class PollingtestAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig
-				.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
@@ -296,6 +295,7 @@ public class PollingtestAction extends BaseAdminAction {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (CONFIRMED.equals(pollingtest.getState())) {
 				// addActionError("已确认的无须再确认！");
+				
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(pollingtest.getState())) {

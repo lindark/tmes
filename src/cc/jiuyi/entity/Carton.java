@@ -220,6 +220,7 @@ public class Carton extends BaseEntity {
 		this.ex_mblnr = ex_mblnr;
 	}
 
+	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}

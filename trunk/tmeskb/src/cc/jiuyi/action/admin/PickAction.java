@@ -323,14 +323,17 @@ public class PickAction extends BaseAdminAction {
 			}else{
 				pick.setMove_type("261");
 			}
+			
+			
 			listsap.add(pick);
-		}
-			pkList = pickDetailService.getPickDetail(pickId);
+			
+			pkList = pickDetailService.getPickDetail(pick.getId());
 			for (int j = 0; j < pkList.size(); j++) {
 				PickDetail pickDetail = pkList.get(j);
 				pickDetail.setXh(pickId);
 				pickdetailList.add(pickDetail);
 			}
+		  }
 		}	
 			try {
 				Boolean flag = true;

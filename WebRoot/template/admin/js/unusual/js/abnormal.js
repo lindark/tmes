@@ -108,12 +108,12 @@ $(function() {
 			
 			//var dt = $("#inputForm").serialize();
 			var ids=i;
-			var url = "abnormal!creditresponse1.action";		
+			/*var url = "abnormal!creditresponse1.action";		
 			credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				window.location.href = "abnormal!list.action";
-			},ids)
-			//window.location.href = "abnormal!creditresponse.action?ids="+i;
+			},ids)*/
+			window.location.href = "abnormal!creditresponse1.action?ids="+i;
 		}
 		
     });

@@ -28,6 +28,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	public void saveDump(String[] ids,List<Dump> dumpList)throws IOException, CustomerException;
+	public void saveDump(String[] ids,List<Dump> dumpList,String cardnumber)throws IOException, CustomerException;
 	
 }

@@ -52,8 +52,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 	}
 
 	@Override
-	public void saveDump(String[] ids, List<Dump> dumpList) throws IOException, CustomerException {
-		Admin admin = adminService.getLoginAdmin();
+	public void saveDump(String[] ids, List<Dump> dumpList,String cardnumber) throws IOException, CustomerException {
+		Admin admin = adminService.getByCardnum(cardnumber);
 		for (int i = 0; i < ids.length; i++) {
 			for (int j = 0; j < dumpList.size(); j++) {
 				Dump dump = dumpList.get(j);

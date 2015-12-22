@@ -46,6 +46,7 @@ public class RepairinAction extends BaseAdminAction {
 	private String workingBillId;
 	private WorkingBill workingbill;
 	private Admin admin;
+	private String cardnumber;// 刷卡卡号
 
 	@Resource
 	private RepairinService repairinService;
@@ -82,23 +83,27 @@ public class RepairinAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmount", min = "0", message = "返修收货数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
-		admin = adminService.loadLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		repairin.setCreateUser(admin);
 		repairinService.save(repairin);
-		/*redirectionUrl = "repairin!list.action?workingBillId="
-				+ repairin.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "repairin!list.action?workingBillId=" +
+		 * repairin.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmoun", min = "0", message = "报工数量必须为零或正整数!") })
-	//@InputConfig(resultName = "error")
+	// @InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);
-		/*redirectionUrl = "repairin!list.action?workingBillId="
-				+ repairin.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "repairin!list.action?workingBillId=" +
+		 * repairin.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -116,7 +121,7 @@ public class RepairinAction extends BaseAdminAction {
 			}
 		}
 		List<Repairin> list = repairinService.get(ids);
-		repairinService.updateState(list, CONFIRMED, workingBillId);
+		repairinService.updateState(list, CONFIRMED, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -137,7 +142,7 @@ public class RepairinAction extends BaseAdminAction {
 			}
 		}
 		List<Repairin> list = repairinService.get(ids);
-		repairinService.updateState(list, UNDO, workingBillId);
+		repairinService.updateState(list, UNDO, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -146,8 +151,8 @@ public class RepairinAction extends BaseAdminAction {
 				.toString());
 		return ajaxJson(hashmap);
 	}
-	
-	public String historylist(){
+
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -169,10 +174,11 @@ public class RepairinAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -190,8 +196,10 @@ public class RepairinAction extends BaseAdminAction {
 				repairin.setAdminName(repairin.getConfirmUser().getName());
 			}
 			repairin.setCreateName(repairin.getCreateUser().getName());
-			repairin.setWorkingbillCode(workingBillService.get(repairin.getWorkingbill().getId()).getWorkingBillCode());
-			repairin.setMaktx(workingBillService.get(repairin.getWorkingbill().getId()).getMaktx());
+			repairin.setWorkingbillCode(workingBillService.get(
+					repairin.getWorkingbill().getId()).getWorkingBillCode());
+			repairin.setMaktx(workingBillService.get(
+					repairin.getWorkingbill().getId()).getMaktx());
 			repairin.setWorkingbill(null);
 			repairin.setConfirmUser(null);
 			repairin.setCreateUser(null);
@@ -276,6 +284,14 @@ public class RepairinAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

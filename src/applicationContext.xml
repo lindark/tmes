@@ -173,6 +173,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Kaoqin</value>
 				<value>cc.jiuyi.entity.DeviceStep</value>
 				<value>cc.jiuyi.entity.DeviceModlue</value>
+				<value>cc.jiuyi.entity.ProcessRoute</value>
 			</list>
 		</property>
 	</bean>

@@ -88,7 +88,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private List<Dict> allType;
 	private List<Pick> pickRfc;
 	private String info;
-	private String cardnumber;
+	private String cardnumber;//卡号
 
 	public String addAmount() {
 		pickDetail.setMaterialCode(material.getMaterialCode());

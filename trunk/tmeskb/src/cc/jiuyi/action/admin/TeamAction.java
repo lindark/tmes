@@ -162,6 +162,8 @@ public class TeamAction extends BaseAdminAction {
 						.getWorkShopName());// 车间名称
 				team.setXfactoryName(team.getFactoryUnit().getWorkShop()
 						.getFactory().getFactoryName());// 工厂名称
+				team.setXisWork(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"isWork", team.getIsWork()));//是否工作状态
 				lst.add(team);
 			}
 			pager.setList(lst);

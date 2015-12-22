@@ -75,6 +75,7 @@ public class PickAction extends BaseAdminAction {
 	private String matnr;
 	private List<PickDetail> pkList;
 	private List<Pick> pickRfc;
+	private String cardnumber;
 
 	// 添加
 	public String add() {
@@ -200,6 +201,7 @@ public class PickAction extends BaseAdminAction {
 		String message = "";
 		String pickId="";
 		List<Pick> list = pickService.get(ids);
+		admin = adminService.getByCardnum(cardnumber);
 		List<PickDetail> pickdetailList=new ArrayList<PickDetail>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
@@ -210,7 +212,6 @@ public class PickAction extends BaseAdminAction {
 			if (CONFIRMED.equals(pick.getState())) {
 				return ajaxJsonErrorMessage("已确认的不需要再次确认!");
 			}
-			admin = adminService.getLoginAdmin();
 			pkList = pickDetailService.getPickDetail(pickId);
 			for (int j = 0; j < pkList.size(); j++) {
 				PickDetail pickDetail = pkList.get(j);
@@ -271,7 +272,7 @@ public class PickAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		String str="";
-		admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		String message = "";
 		String pickId="";
@@ -481,4 +482,14 @@ public class PickAction extends BaseAdminAction {
 		this.pickRfc = pickRfc;
 	}
 
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
+	
+	
 }

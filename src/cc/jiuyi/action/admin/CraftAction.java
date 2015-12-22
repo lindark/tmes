@@ -146,25 +146,25 @@ public class CraftAction extends BaseAdminAction {
 		Craft persistent = craftService.load(id);
 		
 		if(persistent.getRepairName()!=admin){
-			return ajaxJsonSuccessMessage("您不是指定维修员,无法回复该单据!");
+			return ajaxJsonErrorMessage("您不是指定维修员,无法回复该单据!");
 		}
 		if(persistent.getState().equals("3")){
-			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
+			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			return ajaxJsonSuccessMessage("单据已回复!");
+			return ajaxJsonErrorMessage("单据已回复!");
 		}
 		
 		if(craft.getUnusualDescription_process()==null){
-			return ajaxJsonSuccessMessage("工艺分析不允许为空!");
+			return ajaxJsonErrorMessage("工艺分析不允许为空!");
 		}
 		
 		if(craft.getTreatmentMeasure_process()==null){
-			return ajaxJsonSuccessMessage("工艺处理措施不允许为空!");
+			return ajaxJsonErrorMessage("工艺处理措施不允许为空!");
 		}
 		
 		if(craft.getResultCode_process()==null){
-			return ajaxJsonSuccessMessage("工艺处理结果不允许为空!");
+			return ajaxJsonErrorMessage("工艺处理结果不允许为空!");
 		}
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet","treatmentMeasure_make","resultCode_make"});
 		persistent.setState("1");
@@ -185,7 +185,7 @@ public class CraftAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		Craft persistent = craftService.load(id);
 		if(persistent.getCreater()!=admin){
-			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
 		}
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","treatmentMeasure_make","resultCode_make","receiptReasonSet","unusualDescription_process","treatmentMeasure_process","resultCode_process"});
@@ -199,7 +199,7 @@ public class CraftAction extends BaseAdminAction {
 			craftLogService.save(log);
 			
 		}else{
-			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
+			return ajaxJsonErrorMessage("单据已关闭/未回复!");
 		}
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -242,28 +242,42 @@ public class CraftAction extends BaseAdminAction {
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = craftService.findByPager(pager,map,abnorId);
+			List pagerlist = pager.getList();
+			String str;
+			for(int i =0; i < pagerlist.size();i++){
+				Craft craft  = (Craft)pagerlist.get(i);
+				craft.setAbnormal(null);
+				craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", craft.getState()));
+				craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "machineNo", craft.getCabinetCode()));
+				craft.setCraftLogSet(null);
+				str="<a href='craft!hview.action?id="+craft.getId()+"'>"+craft.getProducts().getProductsName()+"</a>"; 
+				craft.setProductsName(str);
+				craft.setTeamName(craft.getRepairName().getName());
+				pagerlist.set(i, craft);
+			}
+			pager.setList(pagerlist);
 
 		}else{
 			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
+			List pagerlist = pager.getList();
+			for(int i =0; i < pagerlist.size();i++){
+				Craft craft  = (Craft)pagerlist.get(i);
+				craft.setAbnormal(null);
+				craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", craft.getState()));
+				craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "machineNo", craft.getCabinetCode()));
+				craft.setCraftLogSet(null);
+				craft.setProductsName(craft.getProducts().getProductsName());
+				craft.setTeamName(craft.getRepairName().getName());
+				pagerlist.set(i, craft);
+			}
+			pager.setList(pagerlist);
 		}
 		
-		
-		List pagerlist = pager.getList();
-		String str;
-		for(int i =0; i < pagerlist.size();i++){
-			Craft craft  = (Craft)pagerlist.get(i);
-			craft.setAbnormal(null);
-			craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", craft.getState()));
-			craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "machineNo", craft.getCabinetCode()));
-			craft.setCraftLogSet(null);
-			str="<a href='craft!view.action?id="+craft.getId()+"'>"+craft.getProducts().getProductsName()+"</a>"; 
-			craft.setProductsName(str);
-			craft.setTeamName(craft.getRepairName().getName());
-			pagerlist.set(i, craft);
-		}
-		pager.setList(pagerlist);
+				
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Craft.class));//排除有关联关系的属性字段  
@@ -282,26 +296,26 @@ public class CraftAction extends BaseAdminAction {
 		craft.setAbnormal(abnormal);
 		
 		if(craft.getRepairName()==null){
-			return ajaxJsonSuccessMessage("维修员不允许为空!");
+			return ajaxJsonErrorMessage("维修员不允许为空!");
 		}
 		
 		if(craft.getTreatmentMeasure_make()==null){
-			return ajaxJsonSuccessMessage("制造处理措施不允许为空!");
+			return ajaxJsonErrorMessage("制造处理措施不允许为空!");
 		}
 		
 		if(craft.getResultCode_make()==null){
-			return ajaxJsonSuccessMessage("制造处理结果不允许为空!");
+			return ajaxJsonErrorMessage("制造处理结果不允许为空!");
 		}
 		
 		if(craft.getProducts()==null){
-			return ajaxJsonSuccessMessage("产品名称不允许为空!");
+			return ajaxJsonErrorMessage("产品名称不允许为空!");
 		}
 		
 		if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			craft.setReceiptReasonSet(reasonSet);
 		} else {
-			return ajaxJsonSuccessMessage("异常描述不允许为空!");
+			return ajaxJsonErrorMessage("异常描述不允许为空!");
 		}
 		craft.setState("0");
 		craft.setIsDel("N");
@@ -321,6 +335,11 @@ public class CraftAction extends BaseAdminAction {
 		abnormalLogService.save(abnormalLog);
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	public String hview(){
+		craft = craftService.load(id);
+		return "hview";
 	}
 		
 	// 删除

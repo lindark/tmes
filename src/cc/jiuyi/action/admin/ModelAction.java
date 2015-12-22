@@ -65,6 +65,7 @@ public class ModelAction extends BaseAdminAction {
 	private Admin admin;
 	private String abnorId;
 	private String modelType;
+	private String cardnumber;//刷卡卡号
 	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
@@ -158,36 +159,37 @@ public class ModelAction extends BaseAdminAction {
 		return VIEW;
 	}
 
-	@InputConfig(resultName = "error")
-	public String update() {
+
+	public String creditupdate() {
 		Model persistent = modelService.load(id);
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId","insepector","fixer" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId","insepector","fixer","equipments" });
 		modelService.update(persistent);
-		redirectionUrl = "model!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	
 	//刷卡回复		
-	public String creditreply1() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+	public String creditreply() throws Exception{
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
+		
+		if(persistent.getFixer()!=admin){
+			return ajaxJsonSuccessMessage("您不是指定维修员,无法回复该单据!");
+		}
+		
 		if(persistent.getState().equals("2")){
-			addActionError("已确定的单据无法再回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("已确定的单据无法再回复！");
 		}
 		if(persistent.getState().equals("3")){
-			addActionError("已关闭的单据无法再回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("已关闭的单据无法再回复！");
 		}
 		if(persistent.getState().equals("1")){
-			addActionError("单据已回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已回复！");
 		}
 			
 		if(model.getFixTime()==null){
-			addActionError("维修时间不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("维修时间不允许为空!");
 		}
 				
 		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
@@ -196,20 +198,17 @@ public class ModelAction extends BaseAdminAction {
 		if(faultReasonSet!=null){
 			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
-			addActionError("故障原因不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("故障原因不允许为空!");
 		}
 		if(handleSet!=null){
 			persistent.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
 		}else{
-			addActionError("处理方法不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("处理方法不允许为空!");
 		}
 		if(longSet!=null){
 			persistent.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		}else{
-			addActionError("预防措施不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("预防措施不允许为空!");
 		}
 		
 		modelService.update(persistent);
@@ -220,20 +219,22 @@ public class ModelAction extends BaseAdminAction {
 		log.setModel(persistent);
 		modelLogService.save(log);
 		
-		redirectionUrl="model!list.action";
-		return SUCCESS;
-		//return ajaxJsonSuccessMessage("您的操作已成功!");
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	
 	//刷卡确定
 	public String creditapproval() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
+		if(persistent.getInsepector()!=admin){
+			return ajaxJsonSuccessMessage("您不是指定检验员,不能确认该单据!");
+		}
 		if(persistent.getState().equals("1")){
 			if(model.getConfirmTime()==null){
-				addActionError("确认时间不允许为空！");
-				return ERROR;
+				return ajaxJsonSuccessMessage("确认时间不允许为空！");
 			}
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
 			persistent.setState("2");
@@ -245,19 +246,21 @@ public class ModelAction extends BaseAdminAction {
 			log.setModel(persistent);
 			modelLogService.save(log);
 		}else{
-			addActionError("该单据未回复/已关闭/已确认！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("该单据未回复/已关闭/已确认！");
 		}
 				
-	//	redirectionUrl="model!list.action";
-	//	return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
+		if(persistent.getInitiator()!=admin){
+			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+		}
 		if(persistent.getState().equals("2")){
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
 			persistent.setState("3");
@@ -269,12 +272,9 @@ public class ModelAction extends BaseAdminAction {
 			log.setModel(persistent);
 			modelLogService.save(log);
 		}else{
-			addActionError("该单据已关闭/未确认！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("该单据已关闭/未确认！");
 		}
 		
-		//redirectionUrl="model!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 
@@ -360,26 +360,23 @@ public class ModelAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String creditsave1() {
-
-		Admin admin = adminService.getLoginAdmin();
+	public String creditsave() {
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
 		
 		if(model.getInsepector()==null){
-			addActionError("检验员不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("检验员不允许为空！");
 		}
 		
 		if(model.getFixer()==null){
-			addActionError("维修员不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("维修员不允许为空！");
 		}
 		
 		if(model.getEquipments()==null){
-			addActionError("设备名称不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("设备名称不允许为空!");
 		}
 		
 		if(faultReasonSet==null){
@@ -413,14 +410,11 @@ public class ModelAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
-		//return ajaxJsonSuccessMessage("您的操作已成功!");
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	// 列表
 	public String sealist() {
-		//pager = modelService.findByPager(pager,abnorId);	
 		abnormalId=abnorId;
 		return "hlist";
 	}
@@ -564,6 +558,14 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setModelType(String modelType) {
 		this.modelType = modelType;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 	

@@ -31,6 +31,7 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
 import cc.jiuyi.entity.DeviceModlue;
@@ -46,6 +47,7 @@ import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DeviceLogService;
 import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DeviceStepService;
@@ -75,6 +77,11 @@ public class DeviceAction extends BaseAdminAction {
 	private String abnorId; 
 	private String equipNo;
 	private String equipName;
+	private String deviceType;
+	private String stopMachine;
+	private String stopProduct;
+	private String faultCharactor;
+	private String serviceAttitude;
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -86,6 +93,7 @@ public class DeviceAction extends BaseAdminAction {
 	//private List<DeviceProcess> deviceProcessSet;
 	private List<DeviceStep> deviceStepSet;
 	private List<DeviceModlue> deviceModlueSet;
+	private List<Department> list;
 	
 	@Resource
 	private DeviceService deviceService;
@@ -105,6 +113,8 @@ public class DeviceAction extends BaseAdminAction {
 	private MatnrRfc matnrrfc;
 	@Resource
 	private DeviceStepService deviceStepService;
+	@Resource
+	private DepartmentService deptservice;
 	
 	// 添加
 	public String add() {
@@ -148,6 +158,7 @@ public class DeviceAction extends BaseAdminAction {
 	
 	// 人员选择
 	public String person() {
+		list = deptservice.getAllByHql();
 		return "person";
 	}
 
@@ -194,12 +205,14 @@ public class DeviceAction extends BaseAdminAction {
 		}		
 
 		List pagerlist = pager.getList();
-
+        String str;
 		for (int i = 0; i < pagerlist.size(); i++) {
-			System.out.println("into");
+
 			Device device = (Device) pagerlist.get(i);
 			device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", device.getState()));	
+			str="<a href='device!view.action?id="+device.getId()+"'>"+device.getEquipments().getEquipmentName()+"</a>"; 
+			device.setDeviceName(str);
 			device.setContactName(device.getWorkshopLinkman().getName());
 			device.setWorkShopName(device.getWorkShop().getWorkShopName());
 			device.setRepairName(device.getDisposalWorkers().getName());
@@ -395,6 +408,22 @@ public class DeviceAction extends BaseAdminAction {
 	public String view() {
 		device = deviceService.load(id);
 		abnormal=device.getAbnormal();
+		deviceType=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "deviceType", device.getMaintenanceType());
+		stopMachine=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "isDown", device.getIsDown());
+		stopProduct=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "isMaintenance", device.getIsMaintenance());
+		faultCharactor=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "deviceProperty", device.getFaultCharacter());
+		if(device.getServiceAttitude()==null){
+			serviceAttitude="";
+		}else{
+			serviceAttitude=ThinkWayUtil.getDictValueByDictKey(
+					dictService, "serAttitude", device.getServiceAttitude());
+		}
+		
+		
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
@@ -568,6 +597,54 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setDeviceStepSet(List<DeviceStep> deviceStepSet) {
 		this.deviceStepSet = deviceStepSet;
+	}
+
+	public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
+	}
+
+	public String getDeviceType() {
+		return deviceType;
+	}
+
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
+	}
+
+	public String getStopMachine() {
+		return stopMachine;
+	}
+
+	public void setStopMachine(String stopMachine) {
+		this.stopMachine = stopMachine;
+	}
+
+	public String getStopProduct() {
+		return stopProduct;
+	}
+
+	public void setStopProduct(String stopProduct) {
+		this.stopProduct = stopProduct;
+	}
+
+	public String getFaultCharactor() {
+		return faultCharactor;
+	}
+
+	public void setFaultCharactor(String faultCharactor) {
+		this.faultCharactor = faultCharactor;
+	}
+
+	public String getServiceAttitude() {
+		return serviceAttitude;
+	}
+
+	public void setServiceAttitude(String serviceAttitude) {
+		this.serviceAttitude = serviceAttitude;
 	}
 	
 	

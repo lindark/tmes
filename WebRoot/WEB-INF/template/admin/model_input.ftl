@@ -448,8 +448,8 @@ body {
 	<!-- ./ add by welson 0728 -->    
 </body>
 <script type="text/javascript">
-$(function() {	
-/*
+/*$(function() {	
+
 $("form.validatecredit").validate({
 		
 		errorClass: "validateError",

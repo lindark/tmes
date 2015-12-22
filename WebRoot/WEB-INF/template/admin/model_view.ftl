@@ -89,10 +89,10 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<div class="profile-info-name">产品名称</div>
+												<div class="profile-info-name">设备名称</div>
 
 												<div class="profile-info-value">
-													${(model.products.productsName)!}
+													${(model.equipments.equipmentName)!}
 												</div>
 
 												<div class="profile-info-name">班组</div>
@@ -109,12 +109,7 @@ body {
 												<div class="profile-info-name">种类</div>
 
 												<div class="profile-info-value">
-													<select name="model.type">
-													     <#list allState as list>
-								                             <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && model.type == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                             </#list> 
-													</select>
-																							
+													${(modelType)!}																							
 												</div>
 
 												<div class="profile-info-name">提报人</div>

@@ -59,7 +59,7 @@
 					</form>
 					<div class="register_submit clear">
 						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>&nbsp;
-						<a id="btn_login" href="javascript:;" title="刷卡登陆" class="button_blue ">刷卡登陆</a>
+						<a id="btn_login" href="javascript:;" title="刷卡登陆" class="button_blue " style="margin:auto 5px;">刷卡登陆</a>
 						<a href="javascript:;" title="登录" class="button_blue button_disable button_waiting" style="display: none">登录中<span></span></a>
 						<!--
 						<span class="register_login">

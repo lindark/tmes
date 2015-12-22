@@ -5,36 +5,61 @@ $(function() {
 	
 	
 	$("#checkModel").click(function(){
-		$("#inputForm").attr("action", "model!creditreply1.action");
-	    $("#inputForm").submit(); 	
-		/* var dt = $("#inputForm").serialize();
-			var url = "model!creditreply1.action";		
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "model!list.action";
-			},dt)*/
-	});
-	
-	$("#confirmModel").click(function(){
-		//$("#inputForm").attr("action", "model!confirm.action");
-	   // $("#inputForm").submit(); 	
-	    var dt = $("#inputForm").serialize();
-		var url = "model!creditapproval.action";		
-		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			window.location.href = "model!list.action";
+		/*$("#inputForm").attr("action", "model!creditreply1.action");
+	    $("#inputForm").submit(); 	*/
+		var dt = $("#inputForm").serialize();
+		var url = "model!creditreply.action";		
+	    credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="model!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
 		},dt)
 	});
 	
-	$("#closeModel").click(function(){
-		//$("#inputForm").attr("action", "model!close.action");
-		//$("#inputForm").submit(); 	
+	$("#confirmModel").click(function(){	
+	    var dt = $("#inputForm").serialize();
+		var url = "model!creditapproval.action";		
+		
+		credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="model!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		},dt)
+	});
+	
+	$("#closeModel").click(function(){	
 		 var dt = $("#inputForm").serialize();
-			var url = "model!creditclose.action";		
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "model!list.action";
-			},dt)
+		 var url = "model!creditclose.action";		
+			
+		credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="model!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		},dt)
 	});
 	
 	

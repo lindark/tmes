@@ -315,9 +315,9 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormalService.update(persistent);
 		}
 
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		redirectionUrl = "abnormal!list.action";
+		return SUCCESS;
+		//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String creditclose() {

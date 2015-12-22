@@ -64,12 +64,10 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '时间','产品名称','班组', '工序','问题描述','创建人','状态'],
+		colNames:['产品名称','工序','问题描述','创建人','状态'],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', sorttype:"date",width:100,unformat: pickDate,formatter:datefmt,search:false},
-			{name:'productsName',index:'products.productsName',width:180, editable:true},
-			{name:'teamName',index:'team.teamName', width:60,editable: true},
+			{name:'productsName',index:'products.productsName',width:180, editable:true},		
 			{name:'processName',index:'process.processName', width:60, editable: true},
 			{name:'problemDescription',index:'problemDescription', width:160, search:false,editable: true},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
@@ -131,7 +129,7 @@ jQuery(function($) {
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;'";
+			return "style='color:blue;'";
 		}
 		
 		//已完结

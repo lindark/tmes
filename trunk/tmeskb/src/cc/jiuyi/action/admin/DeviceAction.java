@@ -82,6 +82,7 @@ public class DeviceAction extends BaseAdminAction {
 	private String stopProduct;
 	private String faultCharactor;
 	private String serviceAttitude;
+	private String cardnumber;//刷卡卡号
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -244,42 +245,32 @@ public class DeviceAction extends BaseAdminAction {
 	}
 	
 	// 保存
-	public String creditsave1(){		
-		Admin admin1 = adminService.getLoginAdmin();
+	public String creditsave(){		
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		
 		abnormal=abnormalService.load(abnormalId);
 		device.setAbnormal(abnormal);
 		
 		if(device.getEquipments()==null){
-			addActionError("设备名称不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("设备名称不允许为空!");
 		} 
 		
 		if(device.getWorkShop()==null){
-			addActionError("使用车间不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("使用车间不允许为空!");
 		}
 		
 		if(device.getDisposalWorkers()==null){
-			addActionError("处理人员不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("处理人员不允许为空!");
 		}		
 				
-		/*if (reasonIds != null && reasonIds.length > 0) {
-			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
-			device.setReceiptSet(reasonSet);
-		} else {
-			addActionError("请选择故障原因！");
-			return ERROR;
-			//device.setReceiptSet(null);
-		}*/
 		device.setState("0");
 		device.setIsDel("N");
 		
 		deviceService.save(device);
 		
 		DeviceLog log = new DeviceLog();
-		log.setOperator(admin1);
+		log.setOperator(admin);
 		log.setInfo("已提交");
 		log.setDevice(device);
 		deviceLogService.save(log);
@@ -288,50 +279,47 @@ public class DeviceAction extends BaseAdminAction {
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
 		abnormalLog.setType("3");
-		abnormalLog.setOperator(admin1);
+		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
-		//	//return ajaxJsonSuccessMessage("您的操作已成功!");
+        return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
-	@InputConfig(resultName = "error")
-	public String update() {
+	public String creditupdate() {
 		Device persistent = deviceService.load(id);
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet","team"});
 		deviceService.update(persistent);
-		redirectionUrl = "device!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	
 	//刷卡回复	
-	public String creditreply1() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+	public String creditreply() throws Exception{
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
+		
 		Device persistent = deviceService.load(id);
+		
+		if(persistent.getDisposalWorkers()!=admin){
+			return ajaxJsonSuccessMessage("您不是指定维修员，无法回复该单据!");
+		}
 		if(persistent.getState().equals("3")){
-			addActionError("已关闭的单据无法再回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			addActionError("单据已回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已回复!");
 		}
 		
 		if(device.getBeginTime()==null){
-			addActionError("处理开始时间不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("处理开始时间不允许为空!");
 		}
 		
 		if(device.getDndTime()==null){
-			addActionError("处理结束时间不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("处理结束时间不允许为空!");
 		}
 		
 		if(deviceStepSet==null){
-			addActionError("处理过程不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("处理过程不允许为空!");
 		}else{
 			for(DeviceStep deviceStep:deviceStepSet){
 				deviceStep.setDevice(persistent);
@@ -341,13 +329,11 @@ public class DeviceAction extends BaseAdminAction {
 		}
 		
 		if(device.getCauseAnalysis()==null){
-			addActionError("原因分析不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("原因分析不允许为空!");
 		}
 		
 		if(device.getPreventionCountermeasures()==null){
-			addActionError("预防对策不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("预防对策不允许为空!");
 		}
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
 		persistent.setState("1");
@@ -359,30 +345,30 @@ public class DeviceAction extends BaseAdminAction {
 		log.setOperator(admin);
 		deviceLogService.save(log);
 		
-		redirectionUrl="device!list.action";
-		return SUCCESS;
-		//return ajaxJsonSuccessMessage("您的操作已成功!");
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 		
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Device persistent = deviceService.load(id);
+		
+		if(persistent.getWorkshopLinkman()!=admin){
+			return ajaxJsonSuccessMessage("您不是单据创建人，无法关闭该单据!");
+		}
 		if(persistent.getState().equals("1")){
 			
 			if(device.getPhone()==null){
-				addActionError("接到电话号码不允许为空！");
-				return ERROR;
+				return ajaxJsonSuccessMessage("接到电话号码不允许为空!");
 			}
 			
 			if(device.getCallTime()==null){
-				addActionError("接到电话时间不允许为空！");
-				return ERROR;
+				return ajaxJsonSuccessMessage("接到电话时间不允许为空!");
 			}
 			
 			if(device.getArrivedTime()==null){
-				addActionError("到达现场时间不允许为空！");
-				return ERROR;
+				return ajaxJsonSuccessMessage("到达现场时间不允许为空!");
 			}
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
 			persistent.setState("3");
@@ -395,12 +381,9 @@ public class DeviceAction extends BaseAdminAction {
 		    deviceLogService.save(log);
 		    
 		}else{
-			addActionError("单据已关闭/未回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
 		}
 		
-	//	redirectionUrl="device!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 	
@@ -433,7 +416,6 @@ public class DeviceAction extends BaseAdminAction {
 	
 	// 列表
 	public String sealist() {
-		//pager = deviceService.findByPager(pager,abnorId);	
 		abnormalId=abnorId;
 		return "hlist";
 	}	
@@ -645,6 +627,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setServiceAttitude(String serviceAttitude) {
 		this.serviceAttitude = serviceAttitude;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 	
 	

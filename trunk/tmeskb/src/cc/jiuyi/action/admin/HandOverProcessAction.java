@@ -199,6 +199,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 					.getMaterialName());
 			handoverprocess.setBeforworkingbillCode(handoverprocess
 					.getBeforworkingbill().getWorkingBillCode());
+			handoverprocess.setAfterworkingbillCode(handoverprocess.getAfterworkingbill().getWorkingBillCode());
 			handoverprocessList.set(i, handoverprocess);
 		}
 		
@@ -281,9 +282,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
-	// 保存
+	// 刷卡提交
 	//@InputConfig(resultName = "error")
-	public String save() throws Exception {
+	public String creditsubmit(){
 		String message="";
 		Integer ishead=0;
 		Boolean flag = true;

@@ -56,13 +56,16 @@ public class QualityAction extends BaseAdminAction {
 	private String loginUsername;
 	private Admin admin;
 	private String abnorId;
+	private String cardnumber;//刷卡卡号
+	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
 	private List<Department> list;
-
 	private List<FlowingRectify> flowingRectifys;
+	
+	
 	@Resource
 	private QualityService qualityService;
 	@Resource
@@ -183,26 +186,25 @@ public class QualityAction extends BaseAdminAction {
 	}
 	
 	// 列表
-	public String sealist() {
-		//pager = qualityService.findByPager(pager,abnorId);	
+	public String sealist() {	
 		abnormalId=abnorId;
 		return "hlist";
 	}
 
 	// 保存	
-	public String creditsave1() {		
-		Admin admin = adminService.getLoginAdmin();
+	public String creditsave() {		
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		abnormal = abnormalService.load(abnormalId);
 		
 		
 		if(quality.getProducts()==null){
-			addActionError("产品名称不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("产品名称不允许为空!");
 		}
 		
 		if(quality.getProcess()==null){
-			addActionError("工序名称不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("工序名称不允许为空!");
 		}
 		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
@@ -221,42 +223,38 @@ public class QualityAction extends BaseAdminAction {
 		abnormalLog.setType("0");
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
-		
-		//redirectionUrl = "abnormal!list.action";
+
 		return ajaxJsonSuccessMessage("您的操作已成功!");
-		//return SUCCESS;
 	}
 
-	@InputConfig(resultName = "error")
-	public String update() {
+	public String creditupdate() {
 		Quality persistent = qualityService.load(id);
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","state","products","creater","process","team","receiver"});
-		
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver"});		
 		qualityService.update(persistent);
-
-		redirectionUrl = "quality!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	
 	//刷卡回复
 	public String creditreply() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
+		
 		Quality persistent = qualityService.load(id);
-		if(persistent.getState().equals("3")){
-			addActionError("已关闭的单据无法再回复！");
-			return ERROR;
+		if(persistent.getReceiver()!=admin){
+			return ajaxJsonSuccessMessage("您不是单据接收人!");
+		}
+		if(persistent.getState().equals("3")){		
+			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			addActionError("单据已回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已回复!");
 		}
 		
 		if(quality.getRectificationScheme()==null){
-			addActionError("车间整改方案不允许为空!！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("车间整改方案不允许为空!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","overTime"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription"});
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -266,15 +264,19 @@ public class QualityAction extends BaseAdminAction {
 		log.setQuality(persistent);
 		unusualLogService.save(log);
 		
-	//	redirectionUrl="quality!list.action";
-		//return SUCCESS;
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+			return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 		
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
+		
 		Quality persistent = qualityService.load(id);
+		if(persistent.getCreater()!=admin){
+			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+		}
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime"});
 			persistent.setState("3");
@@ -286,12 +288,9 @@ public class QualityAction extends BaseAdminAction {
 			log.setQuality(persistent);
 			unusualLogService.save(log);
 		}else{
-			addActionError("单据已关闭/未回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
 		}
 		
-		//redirectionUrl="quality!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}			
 	
@@ -426,6 +425,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setList(List<Department> list) {
 		this.list = list;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 	

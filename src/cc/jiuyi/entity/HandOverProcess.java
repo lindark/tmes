@@ -37,6 +37,7 @@ public class HandOverProcess extends BaseEntity{
     private String materialCode;//物料编码
     private String materialName;//物料名称
     private String beforworkingbillCode;//上班随工单编码
+    private String afterworkingbillCode;//下班随工单
     /*冗余字段end*/
     private Process process;//工序
     private Material material;//物料组件
@@ -174,6 +175,13 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setMblnr(String mblnr) {
 		this.mblnr = mblnr;
+	}
+	@Transient
+	public String getAfterworkingbillCode() {
+		return afterworkingbillCode;
+	}
+	public void setAfterworkingbillCode(String afterworkingbillCode) {
+		this.afterworkingbillCode = afterworkingbillCode;
 	}
 
 	

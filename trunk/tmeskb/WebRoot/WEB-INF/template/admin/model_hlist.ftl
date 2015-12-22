@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/browser/commonBrowser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script type="text/javascript"src="${base}/template/admin/js/unusual/js/model_hlist.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
@@ -40,7 +40,6 @@
 	<script type="text/javascript">
 		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 	<div class="main-content">
 
 	
@@ -58,9 +57,9 @@
 								<input type="hidden" name="abnorId" id="unusualId" value="${(abnormalId)!}" />
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<label class="col-sm-2" style="text-align:right">维修人:</label>
 										<div class="col-sm-4">
-											<input type="text" name="teamId" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="repairName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-2" style="text-align:right">设备名称:</label>
 										<div class="col-sm-4">
@@ -76,26 +75,7 @@
 										</div>
 										
 									</div>
-								</form>
-							<!--  	<div class="row">
-								<div class="col-xs-12">
-								<div class="row buttons col-md-8 col-sm-4">
-								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon glyphicon glyphicon-edit"></i>
-									编辑
-								</a>
-								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-book"></i>
-									查看
-								</a>
-								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-home"></i>
-									返回
-								</a>
-							   </div>
-							   </div>
-							   </div>-->
-								
+								</form>							
 								
 								<div class="row">
 								<div class="col-xs-12">
@@ -115,11 +95,10 @@
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div><!-- /.page-content -->
 	</div><!-- /.main-content -->
 	</div><!-- /.main-container -->
-	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">	
+ 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
 
 <!-- 弹出层 -->
@@ -163,9 +142,7 @@
 				$(this).removeClass("open");
 			}
 			
-		})
-
-
+		})  	
 	})
 	
 	

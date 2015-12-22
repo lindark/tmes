@@ -31,7 +31,16 @@ $(function(){
 	        yes:function(index,layero){//刷卡保存
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
-	        	$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+	        	var url = $(docu).find("#inputForm").attr("action");
+	        	var dt = $(docu).find("#inputForm").serialize();
+	        	credit.creditCard(url,function(data){
+	    			$.message(data.status,data.message);
+	    			
+	    		},dt)
+	        	
+	        	
+	        	//$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
+	        	return false;
 	        },
 	        btn2:function(){//刷卡提交
 //	        	layer.msg("请刷卡",{

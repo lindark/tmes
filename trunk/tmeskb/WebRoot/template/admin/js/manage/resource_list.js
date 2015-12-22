@@ -81,7 +81,7 @@ jQuery(function($) {
 
 		
 		//editurl: "access_resource!saveaccess.action",//用它做标准删除动作
-		caption: "资源管理",
+		//caption: "资源管理",
 		
 
 	});

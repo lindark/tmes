@@ -41,7 +41,16 @@ public class Products extends BaseEntity{
 //	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<FactoryUnit> factoryUnitSet;//所属单元
+	private Set<ProcessRoute> processrouteSet;//工艺路线
 	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="products")
+	public Set<ProcessRoute> getProcessrouteSet() {
+		return processrouteSet;
+	}
+	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
+		this.processrouteSet = processrouteSet;
+	}
 	@ManyToMany(fetch=FetchType.LAZY,mappedBy="productsSet")
 	public Set<FactoryUnit> getFactoryUnitSet() {
 		return factoryUnitSet;

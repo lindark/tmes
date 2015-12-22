@@ -72,6 +72,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private List<Cause> list_cause;//缺陷
 	private List<ItermediateTestDetail> list_itmesg;//巡检从表不合格信息
 	private List<IpRecord> list_itbug;//不合格原因
+	private String cardnumber;//卡号
 	
 	
 	@Resource
@@ -212,7 +213,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	//更新
 		//@InputConfig(resultName = "error")
 		public String creditupdate() {
-			this.itermediateTestService.updateAll(itermediateTest, list_itmesg, list_itbug,my_id);
+			this.itermediateTestService.updateAll(itermediateTest, list_itmesg, list_itbug,my_id,cardnumber);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}
 		
@@ -222,13 +223,13 @@ public class ItermediateTestAction extends BaseAdminAction {
 	)
 	//@InputConfig(resultName = "error")
 	public String creditsave()throws Exception{
-		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id);
+		this.itermediateTestService.saveSubmit(itermediateTest, list_itmesg, list_itbug,my_id,cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 		
 	//刷卡确认
 	public String creditapproval(){
-		admin=adminService.getLoginAdmin();
+		admin=adminService.getByCardnum(cardnumber);
 		ids= id.split(",");
 		List<ItermediateTest> list=itermediateTestService.get(ids);
 		for (int i = 0; i < ids.length; i++) {
@@ -244,7 +245,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("半成品巡检表为空,不能确认!");
 			}
 		}
-		itermediateTestService.updateState(list, "2");
+		itermediateTestService.updateState(list, "2",cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");	
 	}
 	
@@ -259,7 +260,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 				}
 			}
-			itermediateTestService.updateState(list, "3");
+			itermediateTestService.updateState(list, "3",cardnumber);
 			return ajaxJsonSuccessMessage("您的操作已成功!");			
 		}
 
@@ -449,6 +450,17 @@ public class ItermediateTestAction extends BaseAdminAction {
 	public void setMy_id(String my_id) {
 		this.my_id = my_id;
 	}
+
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
 
 	
 	

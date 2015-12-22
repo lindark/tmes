@@ -55,7 +55,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validateajax"
-								action="hand_over_process!save.action"
+								action="hand_over_process!creditsubmit.action"
 								method="post">
 								<table class="table table-striped table-bordered">
 									<thead>

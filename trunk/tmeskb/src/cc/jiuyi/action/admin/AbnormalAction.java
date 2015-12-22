@@ -269,7 +269,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
-	public String creditresponse1() {
+	public String creditresponse() {
 		Admin admin1 = adminService.getLoginAdmin();
 		List<Abnormal> abnormalList = abnormalService.get(ids);
         String person = admin1.getName();
@@ -285,8 +285,7 @@ public class AbnormalAction extends BaseAdminAction {
 					}
 				}
 				if (adminList.contains(admin1)) {
-					addActionError("请勿重复刷卡!");
-					return ERROR;
+					return ajaxJsonErrorMessage("请勿重复刷卡!");
 				}
 				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
@@ -307,17 +306,16 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormalLogService.save(abnormalLog);
 				
 			} else {
-				addActionError("您不是应答人，刷卡错误!");
-				return ERROR;
+				return ajaxJsonErrorMessage("您不是应答人，刷卡错误!");
 			}
 
 			persistent.setReplyDate(new Date());
 			abnormalService.update(persistent);
 		}
 
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
-		//return ajaxJsonSuccessMessage("您的操作已成功!");
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String creditclose() {

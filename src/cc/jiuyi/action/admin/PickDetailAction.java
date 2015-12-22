@@ -88,6 +88,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private List<Dict> allType;
 	private List<Pick> pickRfc;
 	private String info;
+	private String cardnumber;
 
 	public String addAmount() {
 		pickDetail.setMaterialCode(material.getMaterialCode());
@@ -190,7 +191,7 @@ public class PickDetailAction extends BaseAdminAction {
 	public String creditsubmit() throws Exception {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		String workingBillCode = workingBill.getWorkingBillCode();
-		Admin admin = adminService.getLoginAdmin();
+		Admin admin = adminService.getByCardnum(cardnumber);
 		admin = adminService.get(admin.getId());
 		Pick pick = new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
@@ -237,7 +238,7 @@ public class PickDetailAction extends BaseAdminAction {
 		String message="";
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		String workingBillCode = workingBill.getWorkingBillCode();
-		Admin admin = adminService.getLoginAdmin();
+		Admin admin = adminService.getByCardnum(cardnumber);
 		admin = adminService.get(admin.getId());
 		Pick pick=new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
@@ -527,6 +528,14 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 

@@ -24,7 +24,7 @@ import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
- * 定时任务-每隔5分钟调用
+ * 定时任务-凌晨2点执行
  * 
  * @author weita
  * 

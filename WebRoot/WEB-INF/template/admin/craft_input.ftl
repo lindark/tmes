@@ -71,7 +71,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="craft!creditsave.action"
+								action="craft!creditsave1.action"
 								method="post">
 								<input type="hidden" name="id" value="${id}" />
                                 <input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -385,7 +385,7 @@ body {
 </body>
 <script type="text/javascript">
 $(function() {	
-	
+/*	
 $("form.validatecredit").validate({
 		
 		errorClass: "validateError",
@@ -414,6 +414,6 @@ $("form.validatecredit").validate({
 			
 		}
 	});
-})
+})*/
 </script>
 </html>

@@ -111,12 +111,8 @@ body {
 												</div>
 												<div class="profile-info-name">机台号</div>
 
-												<div class="profile-info-value">
-													<select name="craft.cabinetCode">
-                                                          <#list allCode as list>
-								                             <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && craft.cabinetCode == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                             </#list> 
-													</select>
+												<div class="profile-info-value">													
+                                                         ${(machineName)!}													
 												</div>
 											</div>
 

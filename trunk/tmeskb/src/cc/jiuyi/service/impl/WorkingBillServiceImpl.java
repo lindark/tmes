@@ -49,7 +49,7 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public void mergeWorkingBill(List list) {
+	public void mergeWorkingBill(List list){
 		for (int i = 0; i < list.size(); i++) {
 			WorkingBill workingbill = (WorkingBill) list.get(i);
 			boolean flag = workingbilldao.isExist("workingBillCode",
@@ -59,7 +59,6 @@ public class WorkingBillServiceImpl extends
 			else
 				workingbilldao.save(workingbill);
 		}
-
 	}
 
 	@Override

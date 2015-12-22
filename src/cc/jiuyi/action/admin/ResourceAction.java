@@ -16,6 +16,7 @@ import net.sf.json.util.CycleDetectionStrategy;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
+import com.opensymphony.oscache.util.StringUtil;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
@@ -63,6 +64,14 @@ public class ResourceAction extends BaseAdminAction {
 	}
 	
 	public String ajlist(){
+		if(Param !=null){
+			JSONObject jsonobject = JSONObject.fromObject(Param);
+			if(jsonobject.get("pager.keyword") != null){
+				pager.setProperty(jsonobject.get("pager.property").toString());
+				pager.setKeyword(jsonobject.get("pager.keyword").toString());
+			}
+		}
+		
 		pager = resourceService.findByPager(pager);
 		
 		JSONArray jsonarray = new JSONArray();

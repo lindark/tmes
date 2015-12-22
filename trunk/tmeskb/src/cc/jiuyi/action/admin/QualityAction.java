@@ -28,6 +28,7 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Model;
@@ -36,6 +37,7 @@ import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.QualityService;
@@ -58,6 +60,7 @@ public class QualityAction extends BaseAdminAction {
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
+	private List<Department> list;
 
 	private List<FlowingRectify> flowingRectifys;
 	@Resource
@@ -74,6 +77,8 @@ public class QualityAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AbnormalLogService abnormalLogService;
+	@Resource
+	private DepartmentService deptservice;
 
 	// 添加
 	public String add() {
@@ -136,9 +141,9 @@ public class QualityAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			
-		   if (obj.get("team") != null) { 
-			   String state = obj.getString("team").toString();
-			   map.put("team", state);
+		   if (obj.get("founder") != null) { 
+			   String founder = obj.getString("founder").toString();
+			   map.put("founder", founder);
 			}
 
 		   if (obj.get("productName") != null) { 
@@ -155,9 +160,11 @@ public class QualityAction extends BaseAdminAction {
 		}	
 
 		List pagerlist = pager.getList();
+		String str;
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Quality quality = (Quality) pagerlist.get(i);
-			quality.setProductsName(quality.getProducts().getProductsName());
+			str="<a href='quality!view.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
+			quality.setProductsName(str);
 			quality.setFounder(quality.getCreater().getName());
 			quality.setProcessName(quality.getProcess().getProcessName());
 			quality.setTeamName(quality.getTeam().getTeamName());
@@ -183,8 +190,7 @@ public class QualityAction extends BaseAdminAction {
 	}
 
 	// 保存	
-	public String creditsave() {
-		System.out.println("oc");		
+	public String creditsave1() {		
 		Admin admin = adminService.getLoginAdmin();
 		abnormal = abnormalService.load(abnormalId);
 		
@@ -294,6 +300,7 @@ public class QualityAction extends BaseAdminAction {
 	}
 	
 	public String receive(){
+		list = deptservice.getAllByHql();
 		return "receive";
 	}
 	
@@ -411,6 +418,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setAbnorId(String abnorId) {
 		this.abnorId = abnorId;
+	}
+
+	public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
 	}
 
 	

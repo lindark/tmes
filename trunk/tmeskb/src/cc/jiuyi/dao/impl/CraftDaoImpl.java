@@ -48,8 +48,8 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 
 		if (map.size() > 0) {			
 			
-			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			if(map.get("repair")!=null){
+			    detachedCriteria.add(Restrictions.like("repairName.name", "%"+map.get("repair")+"%"));
 			}
 			
 			if(map.get("productName")!=null){
@@ -95,10 +95,14 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		detachedCriteria.createAlias("abnormal", "abnormal");						
 	    }
 		
+		if(!super.existAlias(detachedCriteria, "repairName", "repairName")){
+			detachedCriteria.createAlias("repairName", "repairName");//表名，别名*/							
+		}
+		
         if (map.size() > 0) {			
 			
-			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			if(map.get("repair")!=null){
+			    detachedCriteria.add(Restrictions.like("repairName.name", "%"+map.get("repair")+"%"));
 			}
 			
 			if(map.get("productName")!=null){

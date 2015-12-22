@@ -36,19 +36,19 @@ public interface ItermediateTestService extends BaseService<ItermediateTest, Str
 	 * @param list
 	 * @param stus
 	 */
-	public void updateState(List<ItermediateTest> list, String stus);
+	public void updateState(List<ItermediateTest> list, String stus,String cardnumber);
 	
 	/**
 	 * 刷卡保存
 	 */
 	public void saveSubmit(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id);
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id,String cardnumber);
 
 	
 	/**
 	 * 修改
 	 */
 	public void updateAll(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id);
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id,String cardnumber);
 
 }

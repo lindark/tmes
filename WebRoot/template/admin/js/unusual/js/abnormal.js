@@ -108,7 +108,7 @@ $(function() {
 			
 			//var dt = $("#inputForm").serialize();
 			var ids=i;
-			var url = "abnormal!creditresponse.action";		
+			var url = "abnormal!creditresponse1.action";		
 			credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				window.location.href = "abnormal!list.action";

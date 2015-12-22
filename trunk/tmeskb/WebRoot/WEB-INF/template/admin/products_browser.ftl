@@ -108,9 +108,10 @@ body {
 		}
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
 		var rowName=rowData.productsName;
+		var rowCode=rowData.productsCode;
 		//alert(rowName);
 		//alert(ids);
-		var work=""+rowName+""+","+ids;
+		var work=""+rowName+""+","+ids+""+","+rowCode;
 		return work;
 	}
 	

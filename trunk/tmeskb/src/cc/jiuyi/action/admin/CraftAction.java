@@ -66,6 +66,7 @@ public class CraftAction extends BaseAdminAction {
 	private String[] reasonIds;
 	private String abnorId;
 	private String machineName;
+	private String cardnumber;//刷卡卡号
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -130,41 +131,40 @@ public class CraftAction extends BaseAdminAction {
 		return "repair";
 	}
     
-	@InputConfig(resultName = "error")
-	public String update() {
+	public String creditupdate() {
 		Craft persistent = craftService.load(id);
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","state","products","creater","repairName","receiptReasonSet"});
 		craftService.update(persistent);
-		redirectionUrl = "craft!list.action";
-		return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//刷卡回复
 	public String creditreply() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Craft persistent = craftService.load(id);
+		
+		if(persistent.getRepairName()!=admin){
+			return ajaxJsonSuccessMessage("您不是指定维修员,无法回复该单据!");
+		}
 		if(persistent.getState().equals("3")){
-			addActionError("已关闭的单据无法再回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			addActionError("单据已回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已回复!");
 		}
 		
 		if(craft.getUnusualDescription_process()==null){
-			addActionError("工艺分析不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("工艺分析不允许为空!");
 		}
 		
 		if(craft.getTreatmentMeasure_process()==null){
-			addActionError("工艺处理措施不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("工艺处理措施不允许为空!");
 		}
 		
 		if(craft.getResultCode_process()==null){
-			addActionError("工艺处理结果不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("工艺处理结果不允许为空!");
 		}
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet","treatmentMeasure_make","resultCode_make"});
 		persistent.setState("1");
@@ -176,15 +176,17 @@ public class CraftAction extends BaseAdminAction {
 		log.setCraft(persistent);
 		craftLogService.save(log);
 		
-		//redirectionUrl="craft!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		Craft persistent = craftService.load(id);
+		if(persistent.getCreater()!=admin){
+			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+		}
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","treatmentMeasure_make","resultCode_make","receiptReasonSet","unusualDescription_process","treatmentMeasure_process","resultCode_process"});
 			persistent.setState("3");
@@ -197,12 +199,9 @@ public class CraftAction extends BaseAdminAction {
 			craftLogService.save(log);
 			
 		}else{
-			addActionError("单据已关闭/未回复！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
 		}
 		
-		//redirectionUrl="craft!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -275,38 +274,34 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	// 保存
-	public String creditsave1() {	
-		Admin admin = adminService.getLoginAdmin();
+	public String creditsave() {	
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
 		
 		if(craft.getRepairName()==null){
-			addActionError("维修员不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("维修员不允许为空!");
 		}
 		
 		if(craft.getTreatmentMeasure_make()==null){
-			addActionError("制造处理措施不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("制造处理措施不允许为空!");
 		}
 		
 		if(craft.getResultCode_make()==null){
-			addActionError("制造处理结果不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("制造处理结果不允许为空!");
 		}
 		
 		if(craft.getProducts()==null){
-			addActionError("产品名称不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("产品名称不允许为空!");
 		}
 		
 		if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			craft.setReceiptReasonSet(reasonSet);
 		} else {
-			addActionError("异常描述不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("异常描述不允许为空!");
 		}
 		craft.setState("0");
 		craft.setIsDel("N");
@@ -325,8 +320,6 @@ public class CraftAction extends BaseAdminAction {
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 		
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 		
@@ -334,7 +327,6 @@ public class CraftAction extends BaseAdminAction {
 	public String delete() throws Exception {
 		ids=id.split(",");
 		craftService.updateisdel(ids, "Y");
-		//craftService.delete(ids);
 		redirectionUrl = "craft!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
@@ -353,7 +345,6 @@ public class CraftAction extends BaseAdminAction {
 	
 	// 列表
 	public String sealist() {
-		//pager = craftService.findByPager(pager,abnorId);	
 		abnormalId=abnorId;
 		return "hlist";
 	}	
@@ -482,6 +473,14 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setMachineName(String machineName) {
 		this.machineName = machineName;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 	
 	

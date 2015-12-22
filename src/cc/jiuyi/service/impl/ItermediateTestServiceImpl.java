@@ -119,8 +119,8 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 	/**
 	 * 确认或撤销
 	 */
-	public void updateState(List<ItermediateTest> list, String stus) {
-		Admin admin=this.adminservice.getLoginAdmin();
+	public void updateState(List<ItermediateTest> list, String stus,String cardnumber) {
+		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		for (int i = 0; i < list.size(); i++) {
 			ItermediateTest it=list.get(i);
 			it.setState(stus);
@@ -131,8 +131,8 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 
 	@Override
 	public void saveSubmit(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id) {
-		Admin admin = this.adminservice.getLoginAdmin();
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id,String cardnumber) {
+		Admin admin = this.adminservice.getByCardnum(cardnumber);
 		// 半成品巡检主表
 		itermediateTest.setState("1");
 		itermediateTest.setCreateUser(admin);
@@ -154,8 +154,8 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 
 	@Override
 	public void updateAll(ItermediateTest itermediateTest,
-			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id) {
-		Admin admin=this.adminservice.getLoginAdmin();
+			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id,String cardnumber) {
+		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		ItermediateTest it=this.itermediateTestDao.get(itermediateTest.getId());
 		it.setModifyDate(new Date());
 		if("2".equals(my_id)){

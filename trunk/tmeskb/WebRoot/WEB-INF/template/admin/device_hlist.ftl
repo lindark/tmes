@@ -39,7 +39,6 @@
 	<script type="text/javascript">
 		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 	<div class="main-content">
 	
 	<!-- ./ add by welson 0728 -->
@@ -116,7 +115,6 @@
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div><!-- /.page-content -->
 	</div><!-- /.main-content -->
 	</div><!-- /.main-container -->

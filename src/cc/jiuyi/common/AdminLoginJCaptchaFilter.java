@@ -48,7 +48,8 @@ public class AdminLoginJCaptchaFilter implements Filter {
 		if (isCaptcha) {
 			chain.doFilter(request, response);
 		} else {
-			response.sendRedirect(request.getContextPath() + ADMIN_CAPTCHA_ERROR_URL);
+			chain.doFilter(request, response);
+			//response.sendRedirect(request.getContextPath() + ADMIN_CAPTCHA_ERROR_URL);
 		}
 	}
 	

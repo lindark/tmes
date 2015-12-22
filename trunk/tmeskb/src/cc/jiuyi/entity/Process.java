@@ -37,8 +37,18 @@ public class Process extends BaseEntity {
 	private Set<HandOverProcess> handoverprocessSet;// 交接
 	private Set<Quality> qualitySet;
 	private Set<DailyWork> dailyWorkSet;// 报工
+	private Set<ProcessRoute> processrouteSet;//工艺路线
 
 	private String version;// 版本号
+
+	@OneToMany(mappedBy="process",fetch=FetchType.LAZY)
+	public Set<ProcessRoute> getProcessrouteSet() {
+		return processrouteSet;
+	}
+
+	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
+		this.processrouteSet = processrouteSet;
+	}
 
 	@OneToMany(mappedBy = "processResponse", fetch = FetchType.LAZY)
 	public Set<Repair> getRepairProcess() {

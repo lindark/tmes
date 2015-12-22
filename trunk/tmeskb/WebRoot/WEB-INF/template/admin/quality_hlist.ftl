@@ -40,7 +40,7 @@
 	<script type="text/javascript">
 		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
+	
 	<div class="main-content">
 	
 	<!-- ./ add by welson 0728 -->
@@ -71,9 +71,9 @@
 								<input type="hidden" name="abnorId" id="unusualId" value="${(abnormalId)!}" />
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<label class="col-sm-2" style="text-align:right">创建人:</label>
 										<div class="col-sm-4">
-											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="founder" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-2" style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
@@ -149,7 +149,6 @@
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div><!-- /.page-content -->
 	</div><!-- /.main-content -->
 	</div><!-- /.main-container -->

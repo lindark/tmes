@@ -71,9 +71,9 @@
 								<form class="form-horizontal" id="searchform" action="quality!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">
-										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<label class="col-sm-2" style="text-align:right">创建人:</label>
 										<div class="col-sm-4">
-											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="founder" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-2" style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
@@ -111,7 +111,7 @@
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
 									编辑
 								</a>
-								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+						 	    <a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看
 								</a>

@@ -2,31 +2,28 @@ $(function() {
 	
 	$("#completeQuality").click(function(){		
     	$("#inputForm").submit();  	
-    	/*var dt = $("#inputForm").serialize();
-		var url = "quality!creditsave.action";		
-		credit.creditCard(url,function(data){
-			alert("oo");
-			$.message(data.status,data.message);
-			window.location.href = "quality!list.action";
-		},dt)*/
 	});	
 	
 	
 	
 	$("#checkQuality").click(function(){
-		//$("#inputForm").attr("action", "quality!creditreply.action");
-	   // $("#inputForm").submit(); 	
-	    var dt = $("#inputForm").serialize();
-		var url = "quality!creditreply.action";		
+		/*$("#inputForm").attr("action", "quality!creditreply.action");
+	   $("#inputForm").submit(); 	*/
+	   var dt = $("#inputForm").serialize();
+		var url = "quality!creditreply.action";				
 		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			window.location.href = "quality!list.action";
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="quality!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
 		},dt)
-	});
-	
-	$("#confirmQuality").click(function(){
-		$("#inputForm").attr("action", "quality!confirm.action");
-	    $("#inputForm").submit(); 			
 	});
 	
 	$("#closeQuality").click(function(){
@@ -35,9 +32,18 @@ $(function() {
 		 var dt = $("#inputForm").serialize();
 			var url = "quality!creditclose.action";		
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "quality!list.action";
-			},dt)
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="quality!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+		},dt)
 		
 	});
 	

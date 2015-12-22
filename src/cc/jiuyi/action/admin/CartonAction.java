@@ -94,9 +94,10 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
+		if(carton.getCartonAmount()==null||String.valueOf(carton.getCartonAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("纸箱数量必须为零或正整数!");
+		}
 		admin = adminService.getByCardnum(cardnumber);
 		carton.setCreateUser(admin);
 		cartonService.save(carton);
@@ -108,9 +109,10 @@ public class CartonAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
+		if(carton.getCartonAmount()==null||String.valueOf(carton.getCartonAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("纸箱数量必须为零或正整数!");
+		}
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);

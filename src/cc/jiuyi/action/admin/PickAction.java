@@ -75,7 +75,7 @@ public class PickAction extends BaseAdminAction {
 	private String matnr;
 	private List<PickDetail> pkList;
 	private List<Pick> pickRfc;
-	private String cardnumber;
+	private String cardnumber;//卡号
 
 	// 添加
 	public String add() {

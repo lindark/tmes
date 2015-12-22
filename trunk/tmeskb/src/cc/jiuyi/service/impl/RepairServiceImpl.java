@@ -52,8 +52,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	 * 考虑线程同步
 	 */
 	public synchronized void updateState(List<Repair> list, String statu,
-			String workingbillid) {
-		Admin admin = adminservice.getLoginAdmin();
+			String workingbillid,String cardnumber) {
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {

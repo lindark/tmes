@@ -30,6 +30,7 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.CraftLog;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
@@ -42,6 +43,7 @@ import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CraftLogService;
 import cc.jiuyi.service.CraftService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReceiptReasonService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -63,12 +65,14 @@ public class CraftAction extends BaseAdminAction {
 	private Admin admin;
 	private String[] reasonIds;
 	private String abnorId;
+	private String machineName;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
 	private List<ReceiptReason> reasonList;
+	private List<Department> list;
 	
 	@Resource
 	private CraftService craftService;
@@ -84,6 +88,8 @@ public class CraftAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private ReceiptReasonService receiptReasonService;
+	@Resource
+	private DepartmentService deptservice;
 	
 	// 添加
 	public String add() {
@@ -120,6 +126,7 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	public String repair(){
+		list = deptservice.getAllByHql();
 		return "repair";
 	}
     
@@ -222,9 +229,9 @@ public class CraftAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 	
-			if (obj.get("team") != null) {
-				String team = obj.getString("team").toString();
-				map.put("team", team);
+			if (obj.get("repair") != null) {
+				String repair = obj.getString("repair").toString();
+				map.put("repair", repair);
 			}
 			
 			if (obj.get("productName") != null) {
@@ -243,6 +250,7 @@ public class CraftAction extends BaseAdminAction {
 		
 		
 		List pagerlist = pager.getList();
+		String str;
 		for(int i =0; i < pagerlist.size();i++){
 			Craft craft  = (Craft)pagerlist.get(i);
 			craft.setAbnormal(null);
@@ -251,8 +259,9 @@ public class CraftAction extends BaseAdminAction {
 			craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "machineNo", craft.getCabinetCode()));
 			craft.setCraftLogSet(null);
-			craft.setProductsName(craft.getProducts().getProductsName());
-			craft.setTeamName(craft.getTeam().getTeamName());
+			str="<a href='craft!view.action?id="+craft.getId()+"'>"+craft.getProducts().getProductsName()+"</a>"; 
+			craft.setProductsName(str);
+			craft.setTeamName(craft.getRepairName().getName());
 			pagerlist.set(i, craft);
 		}
 		pager.setList(pagerlist);
@@ -266,7 +275,7 @@ public class CraftAction extends BaseAdminAction {
 	}
 	
 	// 保存
-	public String creditsave() {	
+	public String creditsave1() {	
 		Admin admin = adminService.getLoginAdmin();
 		
 		abnormal=abnormalService.load(abnormalId);
@@ -296,7 +305,8 @@ public class CraftAction extends BaseAdminAction {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			craft.setReceiptReasonSet(reasonSet);
 		} else {
-			craft.setReceiptReasonSet(null);
+			addActionError("异常描述不允许为空！");
+			return ERROR;
 		}
 		craft.setState("0");
 		craft.setIsDel("N");
@@ -332,6 +342,8 @@ public class CraftAction extends BaseAdminAction {
 	public String view() {
 		craft = craftService.load(id);
 		abnormal=craft.getAbnormal();
+		machineName=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "machineNo", craft.getCabinetCode());
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
@@ -454,6 +466,22 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setAbnorId(String abnorId) {
 		this.abnorId = abnorId;
+	}
+
+	public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
+	}
+
+	public String getMachineName() {
+		return machineName;
+	}
+
+	public void setMachineName(String machineName) {
+		this.machineName = machineName;
 	}
 	
 	

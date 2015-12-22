@@ -74,7 +74,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="device!creditsave1.action"
+								action="<#if isAdd??>device!creditsave.action<#else>device!creditupdate.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> 
 								<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -238,12 +238,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障描述</div>
 												<div class="profile-info-value">
-												    <#if isAdd??> 
-												    <textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>
-                                                    <#else>
-                                                    ${(device.diagnosis)!} 
-                                                    </#if>
-													
+												    <textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>													
 												</div>
 											</div>
 										</div>
@@ -392,15 +387,19 @@ body {
 									id="completeDevice" type=button>
 									<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡提交
 								</button>
-								&nbsp;&nbsp; <#else> </#if> <#if isAdd??><#else>
-								<button class="btn btn-white btn-default btn-sm btn-round access"
-									id="checkDevice" data-access-list="deviceresponse" type=button>
+								&nbsp;&nbsp; <#else>
+								<button class="btn btn-white btn-default btn-sm btn-round" 
+									id="completeDevice" type=button>
+									<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡提交
+								</button>
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="checkDevice" type=button>
 									<i class="ace-icon glyphicon glyphicon-ok"></i> 刷卡回复
 								</button>
 								&nbsp;&nbsp;
 
-								<button class="btn btn-white btn-default btn-sm btn-round access"
-									id="closeDevice" data-access-list="deviceclose"  type=button>
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="closeDevice" type=button>
 									<i class="ace-icon fa fa-cloud-upload"></i> 刷卡关闭
 								</button>
 								&nbsp;&nbsp; </#if>
@@ -519,7 +518,7 @@ body {
 
 </body>
 <script type="text/javascript">
-/*$(function() {	
+$(function() {	
 	
 $("form.validatecredit").validate({
 		
@@ -542,13 +541,23 @@ $("form.validatecredit").validate({
 		submitHandler: function(form) {
 			var url = $(form).attr("action");
 			var dt = $(form).serialize();
+						
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-			},dt)
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+				},dt)
 			
 		}
 	});
-})*/
+})
 </script>
 </html>

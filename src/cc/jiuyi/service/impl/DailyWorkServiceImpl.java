@@ -52,9 +52,10 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 
 	@Override
 	public synchronized void updateState(List<DailyWork> list,
-			String workingbillid) throws IOException, CustomerException {
+			String workingbillid, String cardnumber) throws IOException,
+			CustomerException {
 		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
-		Admin admin = adminservice.getLoginAdmin();
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		String workingbillCode = workingbill.getWorkingBillCode();
 		String code = workingbillCode
@@ -65,7 +66,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			DailyWork dailyWork = list.get(i);
 			dailyWork = dailyWorkDao.get(dailyWork.getId());
 			dailyWork.setStep(dailyWork.getProcess().getProcessCode());
-			//dailyWork.setOrderid("100117061");
+			// dailyWork.setOrderid("100117061");
 			dailyWork.setWb(wb);
 			dailyWork.setOrderid(code);
 			// dailyWorkRfc.SetDailyWork("100117061", "0010",
@@ -105,9 +106,9 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	}
 
 	@Override
-	public void updateState2(List<DailyWork> list, String workingbillid)
-			throws IOException, CustomerException {
-		Admin admin = adminservice.getLoginAdmin();
+	public void updateState2(List<DailyWork> list, String workingbillid,
+			String cardnumber) throws IOException, CustomerException {
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
 		// 未确认的如果调sap函数会报错，所以先处理未确认的
 		for (int i = 0; i < list.size(); i++) {

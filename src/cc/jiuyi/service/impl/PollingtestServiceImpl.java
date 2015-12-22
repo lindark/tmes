@@ -65,8 +65,8 @@ public class PollingtestServiceImpl extends
 
 	@Override
 	public void saveInfo(Pollingtest pollingtest, String info, String info2,
-			String my_id) {
-		Admin admin = this.adminService.getLoginAdmin();
+			String my_id,String cardnumber) {
+		Admin admin = this.adminService.getByCardnum(cardnumber);
 		if (pollingtest != null) {
 			pollingtest.setPollingtestUser(admin);// 巡检人
 			pollingtest.setWorkingbillCode(workingbillService.get(pollingtest.getWorkingbill().getId()).getWorkingBillCode());
@@ -109,8 +109,8 @@ public class PollingtestServiceImpl extends
 
 	@Override
 	public void updateInfo(Pollingtest pollingtest, String info, String info2,
-			String my_id) {
-		Admin admin=this.adminService.getLoginAdmin();
+			String my_id,String cardnumber) {
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Pollingtest p=this.pollingtestDao.load(pollingtest.getId());
 		BeanUtils.copyProperties(pollingtest, p, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		p.setPollingtestUser(admin);

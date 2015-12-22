@@ -2,6 +2,7 @@ $(function(){
 	var $userAddBtn = $("#userAddBtn");//添加用户
 	 var $productId=$("#productId");
 	 var $productName=$("#productName");
+	 var $productCode=$("#productCode");
 
 	/**
 	 * 添加按钮点击
@@ -21,6 +22,7 @@ $(function(){
              //alert(id);
              $productId.val(id[1]);
              $productName.text(id[0]);
+             $productCode.val(id[2]);
              layer.close(index);            	          	     	
              
 //        	var docu = iframeWin.document;//获取document 对象

@@ -205,6 +205,13 @@ public class AdminAction extends BaseAdminAction {
 			scrapList=scrapService.getUnCheckList();//获取所有未确认的报废单
 			return "testindex";
 		}
+		
+	// 后台管理首页
+		public String index3(){
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			return "manageindex";
+		}
 	
 	//出错提示
 	public String error() {

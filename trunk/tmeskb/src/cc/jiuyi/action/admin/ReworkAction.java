@@ -267,24 +267,19 @@ public class ReworkAction extends BaseAdminAction {
 //  @InputConfig(resultName = "error")
 	public String creditsubmit()throws Exception{
 		if(rework.getProblem()==null||rework.getProblem()==""){
-			addActionError("问题内容不能为空!");
-			return ERROR;
+			return ajaxJsonErrorMessage("问题内容不能为空!");
 		}
 		if(rework.getRectify()==null||rework.getRectify()==""){
-			addActionError("调整方案不允许为空!");
-			return ERROR;
+			return ajaxJsonErrorMessage("调整方案不允许为空!");
 		}
 		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			addActionError("翻包次数必须为零或正整数!");
-			return ERROR;
+			return ajaxJsonErrorMessage("翻包次数必须为零或正整数!");
 		}
 		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			addActionError("翻包数量必须为零或正整数!");
-			return ERROR;
+			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
 		}
 		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			addActionError("缺陷数量必须为零或正整数!");
-			return ERROR;
+			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
 		}
 		admin= adminService.getByCardnum(cardnumber);
 		rework.setCreateUser(admin);
@@ -293,43 +288,43 @@ public class ReworkAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
-	//刷卡回复
-	public String creditreply() throws Exception{
+	// 刷卡回复
+	public String creditreply() throws Exception {
 		Rework persistent = reworkService.get(id);
-		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
-		admin=adminService.getByCardnum(cardnumber);
+		BeanUtils.copyProperties(rework, persistent, new String[] { "id",
+				"createUser" });
+		admin = adminService.getByCardnum(cardnumber);
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("3");
 		reworkService.save(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
-	
-	//刷卡确认
-	public String creditapproval() throws Exception{
+
+	// 刷卡确认
+	public String creditapproval() throws Exception {
 		Rework persistent = reworkService.load(id);
-		admin=adminService.getByCardnum(cardnumber);
+		admin = adminService.getByCardnum(cardnumber);
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("2");
 		reworkService.save(persistent);
-		//redirectionUrl="rework!list.action?workingBillId="+rework.getWorkingbill().getId();
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 刷卡撤销
 	public String creditundo() {
 		workingbill = workingBillService.get(workingBillId);
-		admin=adminService.getByCardnum(cardnumber);
+		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
-		List<Rework> list=reworkService.get(ids);
+		List<Rework> list = reworkService.get(ids);
 		for (int i = 0; i < list.size(); i++) {
 			rework = list.get(i);
 			if (UNDO.equals(rework.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
-		}	
-        reworkService.saveRepeal(list, admin, UNDO);
+		}
+		reworkService.saveRepeal(list, admin, UNDO);
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 

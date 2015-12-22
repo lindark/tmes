@@ -49,6 +49,7 @@ public class DumpAction extends BaseAdminAction {
 	private String warehouseName;
 	private String dumpId;
 	private List<Dump> dumpList;
+	private String cardnumber;//刷卡卡号
 
 	@Resource
 	private DumpRfcImpl dumpRfc;
@@ -98,7 +99,7 @@ public class DumpAction extends BaseAdminAction {
 	public String creditapproval() {
 		try {
 			String[] ids = dumpId.split(",");
-			admin = adminService.getLoginAdmin();
+			admin = adminService.getByCardnum(cardnumber);
 			admin = adminService.load(admin.getId());
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
@@ -110,7 +111,7 @@ public class DumpAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
-			dumpService.saveDump(ids, dumpList);
+			dumpService.saveDump(ids, dumpList,cardnumber);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -319,6 +320,14 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setDumpList(List<Dump> dumpList) {
 		this.dumpList = dumpList;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

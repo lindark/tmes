@@ -64,13 +64,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['产品名称','机台号', '班组', '状态'],
+		colNames:['产品名称','机台号', '维修员', '状态'],
 		colModel:[
 			
 			//{name:'createDate',index:'createDate',width:60,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'productsName',index:'products.productsName',width:160,editable:true},
 			{name:'cabinetName',index:'cabinetName', width:120,editable: true,search:false},
-			{name:'teamName',index:'team.teamName', width:260, editable: true},		
+			{name:'teamName',index:'repairName.name', width:260, editable: true},		
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
 
@@ -130,7 +130,7 @@ jQuery(function($) {
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;'";
+			return "style='color:blue;'";
 		}
 		
 		//已完结

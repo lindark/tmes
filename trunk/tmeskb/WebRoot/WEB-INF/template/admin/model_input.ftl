@@ -76,7 +76,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="model!creditsave1.action"
+								action="<#if isAdd??>model!creditsave.action<#else>model!creditupdate.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -157,19 +157,15 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">通知时间</div>
 												<div class="profile-info-value">
-												    <#if isAdd??>
 													<input type="text" name="model.noticeTime"
 														value="${(model.noticeTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
-													<#else> ${(model.noticeTime)!} </#if>
 												</div>
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
-												    <#if isAdd??>
 													<input type="text" name="model.arriveTime"
 														value="${(model.arriveTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
-													<#else> ${(model.arriveTime)!} </#if>
 												</div>
 											</div>
 											<div class="profile-info-row">
@@ -291,11 +287,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">不良现象描述</div>
 												<div class="profile-info-value">
-												    <#if isAdd??>
 													<textarea name="model.failDescript" style="width:600px;" class="formText {required: true}">${(model.failDescript)!} </textarea>
-													<#else>
-													 ${(model.failDescript)!}
-									                </#if>
 												</div>
 											</div>
 										</div>
@@ -304,22 +296,24 @@ body {
                                     <div class="buttonArea">
                                     
                                     <#if isAdd??>
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeModel" data-access-list="modelcredit" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeModel" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
-									</button>&nbsp;&nbsp;	
-									<#else>
-									</#if>	
-									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkModel" data-access-list="modelresponse" type=button>
+									</button>&nbsp;&nbsp;										
+									<#else>		
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeModel" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+									</button>&nbsp;&nbsp;						
+									<button class="btn btn-white btn-default btn-sm btn-round " id="checkModel" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="confirmModel" data-access-list="modelsure" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round " id="confirmModel" type=button>
 										<i class="ace-icon glyphicon glyphicon-play-circle"></i>
 										刷卡确认
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeModel" data-access-list="modelclose" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="closeModel" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;
@@ -448,7 +442,7 @@ body {
 	<!-- ./ add by welson 0728 -->    
 </body>
 <script type="text/javascript">
-/*$(function() {	
+$(function() {	
 
 $("form.validatecredit").validate({
 		
@@ -471,13 +465,23 @@ $("form.validatecredit").validate({
 		submitHandler: function(form) {
 			var url = $(form).attr("action");
 			var dt = $(form).serialize();
+						
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-			},dt)
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+				},dt)
 			
 		}
 	});
-})*/
+})
 </script>
 </html>

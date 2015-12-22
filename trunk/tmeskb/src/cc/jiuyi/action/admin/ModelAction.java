@@ -29,6 +29,7 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Craft;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
@@ -40,6 +41,7 @@ import cc.jiuyi.entity.Quality;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ModelLogService;
 import cc.jiuyi.service.ModelService;
@@ -62,6 +64,7 @@ public class ModelAction extends BaseAdminAction {
 	private String abnormalId;
 	private Admin admin;
 	private String abnorId;
+	private String modelType;
 	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
@@ -70,6 +73,7 @@ public class ModelAction extends BaseAdminAction {
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
+	private List<Department> list;
 
 	@Resource
 	private ModelService modelService;
@@ -83,6 +87,8 @@ public class ModelAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AbnormalLogService abnormalLogService;
+	@Resource
+	private DepartmentService deptservice;
 
 	// 添加
 	public String add() {
@@ -123,10 +129,12 @@ public class ModelAction extends BaseAdminAction {
 	}
 	
 	public String repair(){
+		list = deptservice.getAllByHql();
 		return "repair";
 	}
 	
 	public String insepector(){
+		list = deptservice.getAllByHql();
 		return "insepector";
 	}
 	
@@ -141,6 +149,8 @@ public class ModelAction extends BaseAdminAction {
 	public String view() {
 		model = modelService.load(id);
 		abnormal=model.getAbnormal();
+		modelType=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "modelType", model.getType());
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
@@ -269,7 +279,7 @@ public class ModelAction extends BaseAdminAction {
 	}	
 
 	public String ajlist() {
-   
+		System.out.println("i");
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -291,9 +301,9 @@ public class ModelAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("teamId") != null) {
-				String teamId = obj.getString("teamId").toString();
-				map.put("teamId", teamId);
+			if (obj.get("repairName") != null) {
+				String repairName = obj.getString("repairName").toString();
+				map.put("repairName", repairName);
 			}
 
 			if (obj.get("equipmentName") != null) {
@@ -311,11 +321,14 @@ public class ModelAction extends BaseAdminAction {
 		
 
 		List pagerlist = pager.getList();
+		System.out.println(pagerlist.size());
 		
+		String str1;
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Model model = (Model) pagerlist.get(i);
+			str1="<a href='model!view.action?id="+model.getId()+"'>"+model.getEquipments().getEquipmentName()+"</a>"; 
             model.setTeamName(model.getTeamId().getTeamName());
-			model.setProductName(model.getEquipments().getEquipmentName());
+			model.setProductName(str1);
 			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "receiptState", model.getState()));
 			model.setRepairName(model.getFixer().getName());
@@ -335,6 +348,7 @@ public class ModelAction extends BaseAdminAction {
 			
 			pagerlist.set(i, model);
 		}
+		System.out.println("ii");
 		pager.setList(pagerlist);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
@@ -534,6 +548,22 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setAbnorId(String abnorId) {
 		this.abnorId = abnorId;
+	}
+
+	public List<Department> getList() {
+		return list;
+	}
+
+	public void setList(List<Department> list) {
+		this.list = list;
+	}
+
+	public String getModelType() {
+		return modelType;
+	}
+
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
 	}
 
 	

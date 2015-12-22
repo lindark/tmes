@@ -33,7 +33,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class WorkingBillJob extends MyDetailQuartzJobBean {
 
 	public static Logger log = Logger.getLogger(WorkingBillJob.class);
-	@Resource
+	//@Resource
 	private WorkingBillRfc workingbillrfc;
 	
 	protected void executeInternal(JobExecutionContext context)
@@ -54,6 +54,7 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 			rightnow.add(Calendar.MINUTE,10);
 			String endtime = sdf.format(rightnow.getTime());
 			/******取10分钟之内的数据*********/
+			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
 			workingbillrfc.syncRepairorder(startdate, enddate,starttime,endtime);
 			
 			

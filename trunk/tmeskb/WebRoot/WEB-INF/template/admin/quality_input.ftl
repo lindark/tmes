@@ -71,7 +71,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="<#if isAdd??>quality!creditsave1.action<#else>quality!update.action</#if>"
+								action="<#if isAdd??>quality!creditsave.action<#else>quality!creditupdate.action</#if>"
 								method="post">
 								<input type="hidden" name="id" id="qualityId" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -133,14 +133,10 @@ body {
 												    </#if>													
 												</div>
 												<div class="profile-info-name">挤出批次</div>
-												<div class="profile-info-value">
-												    <#if isAdd??>	
+												<div class="profile-info-value">	
 													<input type="text" name="quality.extrusionBatches"
 														value="${(quality.extrusionBatches)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
-													<#else>
-													   ${(quality.extrusionBatches)!}
-													</#if>	
+														class=" input input-sm  formText {required: true, digits: true}" />													
 												</div>
 											</div>
 											
@@ -161,38 +157,30 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">抽检数量</div>
 												<div class="profile-info-value">
-												    <#if isAdd??>
 													<input type="text" name="quality.samplingAmont"
 														value="${(quality.samplingAmont)!}"
 														class=" input input-sm  formText {required: true, digits: true}" />
-													<#else> ${(quality.samplingAmont)!} </#if>
 												</div>
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
-												   <#if isAdd??>
 													<input type="text" name="quality.failAmont"
 														value="${(quality.failAmont)!}"
 														class=" input input-sm  formText {required: true, digits: true}" />
-													<#else> ${(quality.failAmont)!} </#if>
 												</div>
 											</div>
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">报告时间</div>
 												<div class="profile-info-value">
-												   <#if isAdd??>
 													<input type="text" name="quality.createDate"
 														value="${(quality.createDate)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
-													<#else> ${(quality.createDate)!} </#if>
 												</div>
 												<div class="profile-info-name">计划完成时间</div>
 												<div class="profile-info-value">
-												     <#if isAdd??>
 													<input type="text" name="quality.overTime"
 														value="${(quality.overTime)!}"
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
-													<#else> ${(quality.overTime)!} </#if>
 												</div>
 											</div>
 
@@ -201,10 +189,8 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">质量问题描述</div>
 												<div class="profile-info-value">
-												    <#if isAdd??>
 													<textarea name="quality.problemDescription"
 														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
-												    <#else> ${(quality.problemDescription)!} </#if>
 												</div>
 											</div>
 										</div>
@@ -235,35 +221,35 @@ body {
 										<!--weitao end modify-->
                                         <div class="buttonArea">
                                         
-                                     <#if isAdd??>       
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeQuality" data-access-list="qualitycredit" type=button>
+                                    <#if isAdd??>
+                                    <button class="btn btn-white btn-default btn-sm btn-round" id="completeQuality" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>&nbsp;&nbsp;
-										
-									<#else>
-									</#if>	
-									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkQuality" data-access-list="creditresponse" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="returnQuality" type=button>
+										<i class="ace-icon fa fa-home"></i>
+										返回
+									</button>  
+                                    <#else>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeQuality" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+									</button>&nbsp;&nbsp;							
+									<button class="btn btn-white btn-default btn-sm btn-round" id="checkQuality" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
 									
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeQuality" data-access-list="creditclose"  type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="closeQuality"  type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;
-									</#if>
+
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnQuality" type=button>
 										<i class="ace-icon fa fa-home"></i>
 										返回
-									</button>
-                                        
-									<!--  	<input type="submit" class="formButton" value="确  定"
-											hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp; <input
-											type="button" class="formButton"
-											onclick="window.history.back(); return false;" value="返  回"
-											hidefocus="true" />-->
+									</button>  
+									</#if>                                  
 									     </div>
    
 									</div>
@@ -433,7 +419,7 @@ body {
 	<!-- ./ add by welson 0728 -->
 <script>
 $(function() {	
-	/*
+	
 	 $("form.validatecredit").validate({
 			
 			errorClass: "validateError",
@@ -455,13 +441,27 @@ $(function() {
 			submitHandler: function(form) {
 				var url = $(form).attr("action");
 				var dt = $(form).serialize();
-				credit.creditCard(url,function(data){
+				/*credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					window.location.href = "abnormal!list.action";
+				},dt)*/
+				
+				credit.creditCard(url,function(data){
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
 				},dt)
 				
 			}
-		});*/
+		});
 	
 	$("#sample-table-1 tbody .zg .text").attr("disabled",true);
 	//$("#sample-table-1 tbody .zg .text").hide();

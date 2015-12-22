@@ -56,6 +56,7 @@ public class MaterialAction extends BaseAdminAction {
 	private String productsid;
 	private List<Material> materialList;
 	
+	
 	@Resource
 	private MaterialService materialService;
 	@Resource

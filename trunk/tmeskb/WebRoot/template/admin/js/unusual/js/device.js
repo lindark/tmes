@@ -6,24 +6,40 @@ $(function() {
 	
 	
 	$("#checkDevice").click(function(){
-		$("#inputForm").attr("action", "device!creditreply1.action");
-	    $("#inputForm").submit(); 
-		/*var dt = $("#inputForm").serialize();
+		var dt = $("#inputForm").serialize();
 		var url = "device!creditreply.action";		
-		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			window.location.href = "device!list.action";
-		},dt)*/
+		
+	    credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="device!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		},dt)
 	});
 	
-	$("#closeDevice").click(function(){
-		//$("#inputForm").attr("action", "device!close.action");
-		//$("#inputForm").submit(); 		
+	$("#closeDevice").click(function(){ 		
 		var dt = $("#inputForm").serialize();
 		var url = "device!creditclose.action";		
+		
 		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			window.location.href = "device!list.action";
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="device!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
 		},dt)
 	});
 	

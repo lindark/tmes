@@ -173,16 +173,16 @@ $(function(){
 	
 	$(".deleteImage").livequery("click", function() {
 		$(this).parent().parent().remove();
-		if($("#sample-table-1 tbody tr").length<=0){
+	/*	if($("#sample-table-1 tbody tr").length<=0){
 			$("#sure").hide();
-		}
+		}*/
 	})
 	
-	var i = $("#sample-table-1 tbody tr").length;
+	/*var i = $("#sample-table-1 tbody tr").length;
 	if(i<=0){
 		$("#sure").hide();
 	}
-	
+	*/
 	
 })
 

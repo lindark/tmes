@@ -21,6 +21,7 @@ body {
 	background: #fff;
 }
 </style>
+<script type="text/javascript" src="${base }/template/admin/js/list.js"></script>
 </head>
 <body class="no-skin list">
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
@@ -58,35 +59,38 @@ body {
 
 					<div class="row">
 						<div class="col-xs-12">
+						<form id="searchform" action="resource!ajlist.action" method="post" role="form">
 							<div class="operateBar">
-			
-				<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="resource!add.action">
-					<i class="ace-icon fa fa-pencil-square-o blue"></i>
-					添加资源
-				</a>
-				<a id="editButton" class="btn btn-white btn-sm btn-info btn-round">
-					<i class="ace-icon fa fa-pencil-square-o blue"></i>
-					修改资源
-				</a>
-				<a id="deleteButton" class="btn btn-white btn-sm btn-info btn-round">
-					<i class="ace-icon fa fa-pencil-square-o blue"></i>
-					删除资源
-				</a>
-				<select name="pager.property">
-					<option value="name">
-						资源名称
-					</option>
-					<option value="value">
-						资源值
-					</option>
-				</select>
+						<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="resource!add.action">
+							<i class="ace-icon fa fa-pencil-square-o blue"></i>
+							添加资源
+						</a>
+						<a id="editButton" class="btn btn-white btn-sm btn-info btn-round">
+							<i class="ace-icon fa fa-pencil-square-o blue"></i>
+							修改资源
+						</a>
+						<a id="deleteButton" class="btn btn-white btn-sm btn-info btn-round">
+							<i class="ace-icon fa fa-pencil-square-o blue"></i>
+							删除资源
+						</a>
 				
-<input type="text" name="pager.keyword" class="input input-sm" id="form-field-icon-1">
-				<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-					<i class="ace-icon fa fa-filter blue"></i>
-					搜索
-				</button>			
-			</div>
+					<select name="pager.property">
+						<option value="name">
+							资源名称
+						</option>
+						<option value="value">
+							资源值
+						</option>
+					</select>
+					
+					<input type="text" name="pager.keyword" class="input input-sm" id="form-field-icon-1">
+					<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+						<i class="ace-icon fa fa-filter blue"></i>
+						搜索
+					</button>	
+					</div>
+				</form>		
+			
 						
 							<!-- ./ add by welson 0728 -->
 							<table id="grid-table"></table>

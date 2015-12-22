@@ -22,13 +22,14 @@ public interface DailyWorkService extends BaseService<DailyWork, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId);
-	
-	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 
 	// 刷卡确认
-	public void updateState(List<DailyWork> list, String workingbillid)
-			throws IOException, CustomerException;
+	public void updateState(List<DailyWork> list, String workingbillid,
+			String cardnumber) throws IOException, CustomerException;
 
 	// 刷卡撤销
-	public void updateState2(List<DailyWork> list, String workingbillid) throws IOException, CustomerException;
+	public void updateState2(List<DailyWork> list, String workingbillid,
+			String cardnumber) throws IOException, CustomerException;
 }

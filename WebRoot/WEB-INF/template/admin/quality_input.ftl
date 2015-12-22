@@ -71,7 +71,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="<#if isAdd??>quality!creditsave.action<#else>quality!update.action</#if>"
+								action="<#if isAdd??>quality!creditsave1.action<#else>quality!update.action</#if>"
 								method="post">
 								<input type="hidden" name="id" id="qualityId" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -291,7 +291,7 @@ body {
 									
 									<div id="tabs-3">
 										<table id="sample-table-1"
-											class="table table-striped table-bordered table-hover">
+											class="table table-striped table-bordered table-hover access" data-access-list="flowingRec">
 											<thead>
 												<tr>									
 													<th>内容</th>
@@ -433,7 +433,7 @@ body {
 	<!-- ./ add by welson 0728 -->
 <script>
 $(function() {	
-	
+	/*
 	 $("form.validatecredit").validate({
 			
 			errorClass: "validateError",
@@ -461,7 +461,7 @@ $(function() {
 				},dt)
 				
 			}
-		});
+		});*/
 	
 	$("#sample-table-1 tbody .zg .text").attr("disabled",true);
 	//$("#sample-table-1 tbody .zg .text").hide();

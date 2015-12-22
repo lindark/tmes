@@ -358,6 +358,8 @@ public class Device extends BaseEntity{
 	public void setDeviceNo(String deviceNo) {
 		this.deviceNo = deviceNo;
 	}
+	
+	@Transient
 	public String getDeviceName() {
 		return deviceName;
 	}

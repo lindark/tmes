@@ -51,6 +51,7 @@ public class RepairAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private List<Process> allProcess;
+	private String cardnumber;//刷卡卡号
 
 	@Resource
 	private RepairService repairService;
@@ -100,7 +101,7 @@ public class RepairAction extends BaseAdminAction {
 		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}
-		admin = adminService.loadLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		repair.setCreateUser(admin);
 		repairService.save(repair);
 		/*redirectionUrl = "repair!list.action?workingBillId="
@@ -138,7 +139,7 @@ public class RepairAction extends BaseAdminAction {
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, CONFIRMED, workingBillId);
+		repairService.updateState(list, CONFIRMED, workingBillId,cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -159,7 +160,7 @@ public class RepairAction extends BaseAdminAction {
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, UNDO, workingBillId);
+		repairService.updateState(list, UNDO, workingBillId,cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -318,6 +319,14 @@ public class RepairAction extends BaseAdminAction {
 
 	public void setAllProcess(List<Process> allProcess) {
 		this.allProcess = allProcess;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

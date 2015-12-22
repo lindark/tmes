@@ -19,7 +19,7 @@
 		<!-- login-page 登录页面 -->
 		<!-- default-target-url 登录成功后跳转的URL -->
 		<!-- always-use-default-target 是否登录后必须访问default-target-url -->
-		<!-- authentication-failure-url 登录失败后跳转的URL -->
+		<!-- authentication-failure-url 登录失败后跳转的URL --> <!-- login-processing-url="/admin/loginVerify" -->
 		<sec:form-login login-page="/admin/admin!login.action" login-processing-url="/admin/loginVerify" default-target-url="/admin/admin!index.action"
 			authentication-failure-url="/admin/admin!login.action" always-use-default-target="true"  />
 		<!-- 

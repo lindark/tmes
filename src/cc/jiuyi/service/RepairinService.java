@@ -29,5 +29,5 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
-	public void updateState(List<Repairin> list,String statu,String workingbillid);
+	public void updateState(List<Repairin> list,String statu,String workingbillid,String cardnumber);
 }

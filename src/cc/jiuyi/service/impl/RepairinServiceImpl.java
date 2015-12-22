@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
-import cc.jiuyi.dao.WorkingBillDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
@@ -50,16 +49,17 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 考虑线程同步
 	 */
-	public synchronized void updateState(List<Repairin> list,String statu,String workingbillid) {
-		Admin admin = adminservice.getLoginAdmin();
+	public synchronized void updateState(List<Repairin> list, String statu,
+			String workingbillid, String cardnumber) {
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		Integer totalamount = workingbill.getTotalRepairinAmount();
-		for(int i=0;i<list.size();i++){
+		for (int i = 0; i < list.size(); i++) {
 			Repairin repairin = list.get(i);
-			if(statu.equals("1")){
-				totalamount =repairin.getReceiveAmount() + totalamount;				
+			if (statu.equals("1")) {
+				totalamount = repairin.getReceiveAmount() + totalamount;
 			}
-			if(statu.equals("3")&&repairin.getState().equals("1")){
+			if (statu.equals("3") && repairin.getState().equals("1")) {
 				totalamount -= repairin.getReceiveAmount();
 			}
 			repairin.setConfirmUser(admin);

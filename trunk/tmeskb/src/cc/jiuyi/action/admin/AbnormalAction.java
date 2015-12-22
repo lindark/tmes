@@ -269,7 +269,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
-	public String creditresponse() {
+	public String creditresponse1() {
 		Admin admin1 = adminService.getLoginAdmin();
 		List<Abnormal> abnormalList = abnormalService.get(ids);
         String person = admin1.getName();

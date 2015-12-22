@@ -51,6 +51,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private Admin admin;
 	private Integer ratio;// 箱与个的转换比率
 	private Integer totalAmount = 0;
+	private String cardnumber;//刷卡卡号
 
 	@Resource
 	private WorkingBillService workingBillService;
@@ -93,7 +94,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "enteringwareHouse.storageAmount", min = "0", message = "入库数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String creditsave() {
-		admin = adminService.loadLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		enteringwareHouse.setCreateUser(admin);
 		enteringwareHouseService.save(enteringwareHouse);
 		/*redirectionUrl = "enteringware_house!list.action?workingBillId="
@@ -116,7 +117,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
-				ratio);
+				ratio,cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
@@ -143,7 +144,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio);
+		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio,cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
@@ -318,6 +319,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	public void setTotalAmount(Integer totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

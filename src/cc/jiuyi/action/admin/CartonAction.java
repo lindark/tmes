@@ -56,6 +56,7 @@ public class CartonAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private String matnr;
+	private String cardnumber;// 刷卡卡号
 
 	@Resource
 	private CartonService cartonService;
@@ -96,11 +97,13 @@ public class CartonAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "carton.cartonAmount", min = "0", message = "纸箱数量必须为零或正整数!") })
 	@InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
-		admin = adminService.loadLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		carton.setCreateUser(admin);
 		cartonService.save(carton);
-		/*redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "carton!list.action?workingBillId=" +
+		 * carton.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -111,8 +114,10 @@ public class CartonAction extends BaseAdminAction {
 		Carton persistent = cartonService.load(id);
 		BeanUtils.copyProperties(carton, persistent, new String[] { "id" });
 		cartonService.update(persistent);
-		/*redirectionUrl = "carton!list.action?workingBillId="
-				+ carton.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "carton!list.action?workingBillId=" +
+		 * carton.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -140,7 +145,7 @@ public class CartonAction extends BaseAdminAction {
 				}
 			}
 			List<Carton> list = cartonService.get(ids);
-			cartonService.updateState(list, workingBillId);
+			cartonService.updateState(list, workingBillId, cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -171,7 +176,7 @@ public class CartonAction extends BaseAdminAction {
 			}
 		}
 		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState2(list, workingBillId);
+		cartonService.updateState2(list, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -180,8 +185,8 @@ public class CartonAction extends BaseAdminAction {
 				.toString());
 		return ajaxJson(hashmap);
 	}
-	
-	public String historylist(){
+
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -202,10 +207,11 @@ public class CartonAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -226,8 +232,10 @@ public class CartonAction extends BaseAdminAction {
 			if (carton.getConfirmUser() != null) {
 				carton.setAdminName(carton.getConfirmUser().getName());
 			}
-			carton.setWorkingbillCode(workingBillService.get(carton.getWorkingbill().getId()).getWorkingBillCode());
-			carton.setMaktx(workingBillService.get(carton.getWorkingbill().getId()).getMaktx());
+			carton.setWorkingbillCode(workingBillService.get(
+					carton.getWorkingbill().getId()).getWorkingBillCode());
+			carton.setMaktx(workingBillService.get(
+					carton.getWorkingbill().getId()).getMaktx());
 			carton.setCreateName(carton.getCreateUser().getName());
 			lst.add(carton);
 		}
@@ -325,6 +333,14 @@ public class CartonAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

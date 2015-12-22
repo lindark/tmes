@@ -51,8 +51,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		
 		if (map.size() > 0) {
 
-			if(map.get("teamId")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("teamId")+"%"));
+			if(map.get("repairName")!=null){
+			    detachedCriteria.add(Restrictions.like("fixer.name", "%"+map.get("repairName")+"%"));
 			}
 			
 			if(map.get("equipmentName")!=null){
@@ -91,8 +91,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 			detachedCriteria.createAlias("equipments", "equipments");//表名，别名*/							
 		}
 		
-		if(!super.existAlias(detachedCriteria, "teamId", "team")){
-			detachedCriteria.createAlias("teamId", "team");//表名，别名*/							
+		if(!super.existAlias(detachedCriteria, "fixer", "fixer")){
+			detachedCriteria.createAlias("fixer", "fixer");//表名，别名*/							
 		}
 		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
 		detachedCriteria.createAlias("abnormal", "abnormal");						
@@ -100,8 +100,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		
 		if (map.size() > 0) {
 
-			if(map.get("teamId")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("teamId")+"%"));
+			if(map.get("repairName")!=null){
+			    detachedCriteria.add(Restrictions.like("fixer.name", "%"+map.get("repairName")+"%"));
 			}
 			
 			if(map.get("equipmentName")!=null){

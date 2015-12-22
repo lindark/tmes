@@ -42,7 +42,7 @@
 							</li>
 							
 						</ul>
-
+						<!-- 
 						<ul class="verification_form register_form" style=" margin-top:0; padding-top:0; border-top:0;">
 							<li  class="clear">
 								<div class="sucess_info">
@@ -56,6 +56,7 @@
 								<a href="javascript:;" class="change" id="change">换一张</a>
 							</li>
 						</ul>
+						 -->
 					</form>
 					<div class="register_submit clear">
 						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>&nbsp;
@@ -143,11 +144,12 @@ $(function(){
 			alert("请输入您的密码!");
 			return false;
 		}
+		/*
 		if ($captcha.val() == "") {
 			alert("请输入您的验证码!");
 			return false;
 		}
-		
+		*/
 		/*
 		if($isSaveUsername.attr("checked") == true) {
 			jQuery.cookie("adminUsername", $username.val(), {expires: 30});

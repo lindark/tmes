@@ -54,7 +54,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm" class="validate" action="abnormal!save.action" method="post">
+		<form id="inputForm" class="validatecredit" action="abnormal!creditsave.action" method="post">
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -91,7 +91,7 @@ body{background:#fff;}
 								
 	       
 			<div class="buttonArea">
-				<input type="submit" class="formButton" id="sure" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="formButton" id="sure" value="刷卡保存" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 			
@@ -173,16 +173,67 @@ $(function(){
 	
 	$(".deleteImage").livequery("click", function() {
 		$(this).parent().parent().remove();
-	/*	if($("#sample-table-1 tbody tr").length<=0){
-			$("#sure").hide();
-		}*/
 	})
 	
-	/*var i = $("#sample-table-1 tbody tr").length;
-	if(i<=0){
-		$("#sure").hide();
-	}
-	*/
+
+	$("form.validatecredit").validate({
+			
+			errorClass: "validateError",
+			ignore: ".ignoreValidate",
+			onkeyup:false,
+			errorPlacement: function(error, element) {
+				var messagePosition = element.metadata().messagePosition;
+				if("undefined" != typeof messagePosition && messagePosition != "") {
+					var $messagePosition = $(messagePosition);
+					if ($messagePosition.size() > 0) {
+						error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
+					} else {
+						error.insertAfter(element).fadeOut(300).fadeIn(300);
+					}
+				} else {
+					error.insertAfter(element).fadeOut(300).fadeIn(300);
+				}
+			},
+			submitHandler: function(form) {
+				var url = $(form).attr("action");
+				var dt = $(form).serialize();
+				credit.creditCard(url,function(data){
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+				},dt)
+				
+			}
+		});
+	
+	$("#sure").click(function(){
+		$("#inputForm").submit(); 
+		/*var dt = $("#inputForm").serialize();
+		var url = "abnormal!creditsave.action";		
+		credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="abnormal!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		},dt)*/
+	})
+	
+	
 	
 })
 

@@ -69,8 +69,10 @@ public class AbnormalAction extends BaseAdminAction {
 	private String cancelIds;
 	private String aids;
 	private Admin admin;
+	private String cardnumber;//刷卡卡号
+	private  String job_name = "sendMessage";
+	
 	private List<Department> list;
-
 	private List<Admin> adminSet;
 	private List<Callreason> callReasonSet;
 	@Resource
@@ -206,8 +208,7 @@ public class AbnormalAction extends BaseAdminAction {
 					 String str3="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='craft'  style='color:#428bca;cursor:pointer'>工艺维修单</a>"+"("+craftList.size()+")";
 					 ablist.add(str3);
             	 }
-				 if(deviceList.size()>1){
-            		//String str4="已开"+"<a href='device!sealist.action?abnorId="+abnormal.getId()+"'>设备维修单</a>"+"("+deviceList.size()+")";
+				 if(deviceList.size()>1){    
 					 String str4="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='device'  style='color:#428bca;cursor:pointer'>设备维修单</a>"+"("+deviceList.size()+")";
 					 ablist.add(str4);
             	 }
@@ -216,8 +217,7 @@ public class AbnormalAction extends BaseAdminAction {
 				for(AbnormalLog ab:abLog){
 					
 					String type = ab.getType();
-                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	 
-                    		// str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>";             
+                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
 					 }else if(type.equalsIgnoreCase("1") && modelList.size()==1){						
                     		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
@@ -225,6 +225,8 @@ public class AbnormalAction extends BaseAdminAction {
                     		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
 					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
                     		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
+					 }else if(type.equalsIgnoreCase("5")){
+						 str="已向XX发送短信";
 					 }else{
 						 str="";
 					 }
@@ -270,39 +272,43 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	public String creditresponse() {
-		Admin admin1 = adminService.getLoginAdmin();
+		//Admin admin1 = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
+		
 		List<Abnormal> abnormalList = abnormalService.get(ids);
-        String person = admin1.getName();
+        String person = admin.getName();
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;
 			Abnormal persistent = abnormalList.get(i);
 			Set<Admin> responsorSet = persistent.getResponsorSet();
-			if (responsorSet.contains(admin1)) {
+			if (responsorSet.contains(admin)) {
 				adminList = new ArrayList<Admin>();
 				for (SwiptCard s : persistent.getSwiptCardSet()) {
 					if (s.getType().equals("0")) {
 						adminList.add(s.getAdmin());
 					}
 				}
-				if (adminList.contains(admin1)) {
+				if (adminList.contains(admin)) {
 					return ajaxJsonErrorMessage("请勿重复刷卡!");
 				}
 				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
+					removeQuartz();					
 				} else {
 					persistent.setState("1");
 
 				}
 				SwiptCard swiptCard = new SwiptCard();
 				swiptCard.setAbnormal(persistent);
-				swiptCard.setAdmin(admin1);
+				swiptCard.setAdmin(admin);
 				swiptCard.setType("0");
 				swiptCardService.save(swiptCard);
 				
 				AbnormalLog abnormalLog = new AbnormalLog();
 				abnormalLog.setAbnormal(persistent);				
 				abnormalLog.setType("4");
-				abnormalLog.setOperator(admin1);
+				abnormalLog.setOperator(admin);
 				abnormalLogService.save(abnormalLog);
 				
 			} else {
@@ -313,17 +319,16 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormalService.update(persistent);
 		}
 
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String creditclose() {
-		Admin admin3 = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin3)) {
+			if (persistent.getIniitiator().equals(admin)) {
 				if (persistent.getState() != "3" & persistent.getState() != "4") {
 					persistent.setState("3");
 					if (persistent.getReplyDate() == null) {
@@ -338,26 +343,24 @@ public class AbnormalAction extends BaseAdminAction {
 					}
 					abnormalService.update(persistent);
 				} else {
-					addActionError("异常已撤销/关闭!");
-					return ERROR;
+					return ajaxJsonSuccessMessage("异常已撤销/关闭!");
 				}
 			} else {
-				addActionError("您没有关闭的权限!");
-				return ERROR;
+				return ajaxJsonSuccessMessage("您没有关闭的权限!");
 			}
 		}
 
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String creditundo() {
-		Admin admin2 = adminService.getLoginAdmin();
+		//Admin admin2 = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin2)) {
+			if (persistent.getIniitiator().equals(admin)) {
 				if (persistent.getState().equals("0")
 						|| persistent.getState().equals("1")) {
 					persistent.setState("4");
@@ -367,12 +370,10 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
 				} else {
-					addActionError("该异常不能撤销!");
-					return ERROR;
+					return ajaxJsonSuccessMessage("该异常不能撤销!");
 				}
 			} else {
-				addActionError("您没有撤销的权限!");
-				return ERROR;
+				return ajaxJsonSuccessMessage("您没有撤销的权限!");
 			}
 
 			/*Date date = new Date();
@@ -391,9 +392,11 @@ public class AbnormalAction extends BaseAdminAction {
 		return "abnormal_message";
 	}
 
-	public String save() {
-		Admin admin = adminService.getLoginAdmin();
-
+	public String creditsave() {
+		//Admin admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
+		admin = adminService.get(admin.getId());
+		
 		Abnormal abnormal = new Abnormal();
 		abnormal.setCallDate(new Date());
 		abnormal.setIniitiator(admin);
@@ -401,29 +404,27 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setState("0");
 
 		if(adminSet==null){
-			addActionError("人员不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("人员不允许为空!");
 		} 
 		
 		if(callReasonSet==null){
-			addActionError("短信不允许为空！");
-			return ERROR;
+			return ajaxJsonSuccessMessage("短信不允许为空!");
 		} 
 		
 		abnormal.setResponsorSet(new HashSet<Admin>(adminSet));
 		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSet));
 		abnormalService.save(abnormal);
-		
-		
+				
 		Calendar can = Calendar.getInstance();		
 		can.setTime(abnormal.getCreateDate());
-		//can.add(Calendar.MINUTE, 10); //System.out.println(can.get(Calendar.MINUTE));
-		can.add(Calendar.MINUTE, 3);
-		//can.add(Calendar.SECOND, 5);
+		can.add(Calendar.MINUTE, 1);
 		Date date=can.getTime();				
 		System.out.println(ThinkWayUtil.getCron(date));
+		HashMap<String,Object> maps = new HashMap<String,Object>();
+		maps.put("id",abnormal.getId());
+		maps.put("name",admin.getId());
 		int i=0;
-		quartzMessage(ThinkWayUtil.getCron(date),i);	
+		quartzMessage(ThinkWayUtil.getCron(date),i,maps);	
 		/*if(xx==true){//xx为调短信接口返回的值       
 			i=1;
 			Calendar can1 = Calendar.getInstance();
@@ -442,21 +443,22 @@ public class AbnormalAction extends BaseAdminAction {
 			quartzMessage(ThinkWayUtil.getCron(date1),i);
 		}*/		
 		
-		redirectionUrl = "abnormal!list.action";
-		return SUCCESS;
+		//redirectionUrl = "abnormal!list.action";
+		//return SUCCESS;
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	
-	public void quartzMessage(String time,int i){		
-		  String job_name = "sendMessage";
-		  HashMap<String,Object> maps = new HashMap<String,Object>();
+	public void quartzMessage(String time,int i,HashMap<String,Object> maps){				 
 		  if(i==0){
-			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);
-			  
+			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			  
 		  }else if(i==1){
 			  QuartzManagerUtil.modifyJobTime(job_name,time,maps);
-		  }	     
-	     // QuartzManagerUtil.removeJob(job_name); 
+		  }	     	      
+	}
+	
+	public void removeQuartz(){
+		 QuartzManagerUtil.removeJob(job_name);
 	}
 	
 	// 删除
@@ -568,4 +570,13 @@ public class AbnormalAction extends BaseAdminAction {
 		this.list = list;
 	}
 
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
+	
 }

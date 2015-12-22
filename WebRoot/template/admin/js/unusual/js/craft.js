@@ -1,59 +1,46 @@
 $(function() {	
-	/*
-$("form.validatecredit").validate({
-		
-		errorClass: "validateError",
-		ignore: ".ignoreValidate",
-		onkeyup:false,
-		errorPlacement: function(error, element) {
-			var messagePosition = element.metadata().messagePosition;
-			if("undefined" != typeof messagePosition && messagePosition != "") {
-				var $messagePosition = $(messagePosition);
-				if ($messagePosition.size() > 0) {
-					error.insertAfter($messagePosition).fadeOut(300).fadeIn(300);
-				} else {
-					error.insertAfter(element).fadeOut(300).fadeIn(300);
-				}
-			} else {
-				error.insertAfter(element).fadeOut(300).fadeIn(300);
-			}
-		},
-		submitHandler: function(form) {
-			var url = $(form).attr("action");
-			var dt = $(form).serialize();
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-			},dt)
-			
-		}
-	});*/
 	
 	$("#completeCraft").click(function(){		
     	$("#inputForm").submit();  		    		
 	});
 	
 	
-	$("#checkCraft").click(function(){
-	//	$("#inputForm").attr("action", "craft!check.action");
-	 //   $("#inputForm").submit(); 	
+	$("#checkCraft").click(function(){	
 		var dt = $("#inputForm").serialize();
 		var url = "craft!creditreply.action";		
-		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
-			window.location.href = "craft!list.action";
+	    
+	    credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="craft!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
 		},dt)
 	});
 	
-	$("#closeCraft").click(function(){
-		//$("#inputForm").attr("action", "craft!close.action");
-		//$("#inputForm").submit(); 		
+	$("#closeCraft").click(function(){		
 		 var dt = $("#inputForm").serialize();
 			var url = "craft!creditclose.action";		
+			
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "craft!list.action";
-			},dt)
+			if(data.status=="success"){
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="craft!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		},dt)
 	});
 	
 	

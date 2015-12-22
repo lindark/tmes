@@ -152,6 +152,11 @@ public class DeviceAction extends BaseAdminAction {
 		return "browser";
 	}
 	
+	public String hview(){
+		device = deviceService.load(id);
+		return "hview";
+	}
+	
 	// 车间选择
 	public String workshop() {
 		return "workshop";
@@ -201,32 +206,53 @@ public class DeviceAction extends BaseAdminAction {
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = deviceService.findByPager(pager,map,abnorId);		
+			List pagerlist = pager.getList();
+	        String str;
+			for (int i = 0; i < pagerlist.size(); i++) {
+
+				Device device = (Device) pagerlist.get(i);
+				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", device.getState()));	
+				str="<a href='device!hview.action?id="+device.getId()+"'>"+device.getEquipments().getEquipmentName()+"</a>"; 
+				device.setDeviceName(str);
+				device.setContactName(device.getWorkshopLinkman().getName());
+				device.setWorkShopName(device.getWorkShop().getWorkShopName());
+				device.setRepairName(device.getDisposalWorkers().getName());
+				device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "deviceType", device.getMaintenanceType()));
+
+				ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+					String name = faultReason.getReasonName();
+					device.setFaultReason(name);
+				
+				pagerlist.set(i,device);
+			}
+			pager.setList(pagerlist);
 		}else{
 			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+
+				Device device = (Device) pagerlist.get(i);
+				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", device.getState()));	
+				device.setDeviceName(device.getEquipments().getEquipmentName());
+				device.setContactName(device.getWorkshopLinkman().getName());
+				device.setWorkShopName(device.getWorkShop().getWorkShopName());
+				device.setRepairName(device.getDisposalWorkers().getName());
+				device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "deviceType", device.getMaintenanceType()));
+
+				ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+					String name = faultReason.getReasonName();
+					device.setFaultReason(name);
+				
+				pagerlist.set(i,device);
+			}
+			pager.setList(pagerlist);
 		}		
 
-		List pagerlist = pager.getList();
-        String str;
-		for (int i = 0; i < pagerlist.size(); i++) {
-
-			Device device = (Device) pagerlist.get(i);
-			device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", device.getState()));	
-			str="<a href='device!view.action?id="+device.getId()+"'>"+device.getEquipments().getEquipmentName()+"</a>"; 
-			device.setDeviceName(str);
-			device.setContactName(device.getWorkshopLinkman().getName());
-			device.setWorkShopName(device.getWorkShop().getWorkShopName());
-			device.setRepairName(device.getDisposalWorkers().getName());
-			device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "deviceType", device.getMaintenanceType()));
-
-			ReceiptReason faultReason = receiptReasonService.load(device.getFault());
-				String name = faultReason.getReasonName();
-				device.setFaultReason(name);
-			
-			pagerlist.set(i,device);
-		}
-		pager.setList(pagerlist);
+		
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Device.class));//排除有关联关系的属性字段  
@@ -253,15 +279,15 @@ public class DeviceAction extends BaseAdminAction {
 		device.setAbnormal(abnormal);
 		
 		if(device.getEquipments()==null){
-			return ajaxJsonSuccessMessage("设备名称不允许为空!");
+			return ajaxJsonErrorMessage("设备名称不允许为空!");
 		} 
 		
 		if(device.getWorkShop()==null){
-			return ajaxJsonSuccessMessage("使用车间不允许为空!");
+			return ajaxJsonErrorMessage("使用车间不允许为空!");
 		}
 		
 		if(device.getDisposalWorkers()==null){
-			return ajaxJsonSuccessMessage("处理人员不允许为空!");
+			return ajaxJsonErrorMessage("处理人员不允许为空!");
 		}		
 				
 		device.setState("0");
@@ -301,25 +327,25 @@ public class DeviceAction extends BaseAdminAction {
 		Device persistent = deviceService.load(id);
 		
 		if(persistent.getDisposalWorkers()!=admin){
-			return ajaxJsonSuccessMessage("您不是指定维修员，无法回复该单据!");
+			return ajaxJsonErrorMessage("您不是指定维修员，无法回复该单据!");
 		}
 		if(persistent.getState().equals("3")){
-			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
+			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			return ajaxJsonSuccessMessage("单据已回复!");
+			return ajaxJsonErrorMessage("单据已回复!");
 		}
 		
 		if(device.getBeginTime()==null){
-			return ajaxJsonSuccessMessage("处理开始时间不允许为空!");
+			return ajaxJsonErrorMessage("处理开始时间不允许为空!");
 		}
 		
 		if(device.getDndTime()==null){
-			return ajaxJsonSuccessMessage("处理结束时间不允许为空!");
+			return ajaxJsonErrorMessage("处理结束时间不允许为空!");
 		}
 		
 		if(deviceStepSet==null){
-			return ajaxJsonSuccessMessage("处理过程不允许为空!");
+			return ajaxJsonErrorMessage("处理过程不允许为空!");
 		}else{
 			for(DeviceStep deviceStep:deviceStepSet){
 				deviceStep.setDevice(persistent);
@@ -329,11 +355,11 @@ public class DeviceAction extends BaseAdminAction {
 		}
 		
 		if(device.getCauseAnalysis()==null){
-			return ajaxJsonSuccessMessage("原因分析不允许为空!");
+			return ajaxJsonErrorMessage("原因分析不允许为空!");
 		}
 		
 		if(device.getPreventionCountermeasures()==null){
-			return ajaxJsonSuccessMessage("预防对策不允许为空!");
+			return ajaxJsonErrorMessage("预防对策不允许为空!");
 		}
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
 		persistent.setState("1");
@@ -355,20 +381,20 @@ public class DeviceAction extends BaseAdminAction {
 		Device persistent = deviceService.load(id);
 		
 		if(persistent.getWorkshopLinkman()!=admin){
-			return ajaxJsonSuccessMessage("您不是单据创建人，无法关闭该单据!");
+			return ajaxJsonErrorMessage("您不是单据创建人，无法关闭该单据!");
 		}
 		if(persistent.getState().equals("1")){
 			
 			if(device.getPhone()==null){
-				return ajaxJsonSuccessMessage("接到电话号码不允许为空!");
+				return ajaxJsonErrorMessage("接到电话号码不允许为空!");
 			}
 			
 			if(device.getCallTime()==null){
-				return ajaxJsonSuccessMessage("接到电话时间不允许为空!");
+				return ajaxJsonErrorMessage("接到电话时间不允许为空!");
 			}
 			
 			if(device.getArrivedTime()==null){
-				return ajaxJsonSuccessMessage("到达现场时间不允许为空!");
+				return ajaxJsonErrorMessage("到达现场时间不允许为空!");
 			}
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
 			persistent.setState("3");
@@ -381,7 +407,7 @@ public class DeviceAction extends BaseAdminAction {
 		    deviceLogService.save(log);
 		    
 		}else{
-			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
+			return ajaxJsonErrorMessage("单据已关闭/未回复!");
 		}
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

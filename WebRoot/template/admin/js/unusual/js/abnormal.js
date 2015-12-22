@@ -108,12 +108,27 @@ $(function() {
 			
 			//var dt = $("#inputForm").serialize();
 			var ids=i;
-			/*var url = "abnormal!creditresponse1.action";		
-			credit.creditCard(url,function(data){
+			var url = "abnormal!creditresponse.action";		
+			/*credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				window.location.href = "abnormal!list.action";
+				
 			},ids)*/
-			window.location.href = "abnormal!creditresponse1.action?ids="+i;
+			
+			credit.creditCard(url,function(data){
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+				},ids)
+			//window.location.href = "abnormal!creditresponse1.action?ids="+i;
 		}
 		
     });
@@ -134,11 +149,21 @@ $(function() {
 			}
 			var cancelIds=i;
 			var url = "abnormal!creditundo.action";		
+			
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
+				if(data.status=="success"){
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="abnormal!list.action";
+					}); 
+				}else if(data.status=="error"){
+					layer.alert(data.message, {
+				        closeBtn: 0,
+				        icon:5,
+				        skin:'error'
+				   });
+				}		
 			},cancelIds)
-			//window.location.href = "abnormal!creditundo.action?cancelIds="+i;
+		
 		}
 				
     });
@@ -158,12 +183,22 @@ $(function() {
 				}
 			}
 			var closeIds=i;
-			var url = "abnormal!creditclose.action";		
+			var url = "abnormal!creditclose.action";	
+			
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
+				if(data.status=="success"){
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="abnormal!list.action";
+					}); 
+				}else if(data.status=="error"){
+					layer.alert(data.message, {
+				        closeBtn: 0,
+				        icon:5,
+				        skin:'error'
+				   });
+				}		
 			},closeIds)
-			//window.location.href = "abnormal!creditclose.action?closeIds="+i;
+			
 		}
     });
 	

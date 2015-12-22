@@ -44,13 +44,13 @@ public class AdminLoginJCaptchaFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		boolean isCaptcha = validateCaptcha(request);
-		if (isCaptcha) {
-			chain.doFilter(request, response);
-		} else {
-			chain.doFilter(request, response);
+		//boolean isCaptcha = validateCaptcha(request);
+		//if (isCaptcha) {
+		//	chain.doFilter(request, response);
+		//} else {
 			//response.sendRedirect(request.getContextPath() + ADMIN_CAPTCHA_ERROR_URL);
-		}
+		//}
+			chain.doFilter(request, response);
 	}
 	
 	/**

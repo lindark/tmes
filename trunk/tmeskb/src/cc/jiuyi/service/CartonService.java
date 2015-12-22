@@ -14,8 +14,8 @@ import cc.jiuyi.util.CustomerException;
 public interface CartonService extends BaseService<Carton, String> {
 	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
 			String workingbillId);
-	
-	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 
 	/**
 	 * 标记删除
@@ -26,9 +26,11 @@ public interface CartonService extends BaseService<Carton, String> {
 	 */
 	public void updateisdel(String[] ids, String oper);
 
-	//刷卡确认
-	public void updateState(List<Carton> list,String workingbillid) throws IOException, CustomerException;
-	
-	//刷卡撤销
-	public void updateState2(List<Carton> list,String workingbillid);
+	// 刷卡确认
+	public void updateState(List<Carton> list, String workingbillid,
+			String cardnumber) throws IOException, CustomerException;
+
+	// 刷卡撤销
+	public void updateState2(List<Carton> list, String workingbillid,
+			String cardnumber);
 }

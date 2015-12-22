@@ -21,8 +21,8 @@ public interface EnteringwareHouseService extends
 	 * @return
 	 */
 	public Pager findPagerByjqGrid(Pager pager, Map map, String workingbillId);
-	
-	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 
 	/**
 	 * 根据单位描述与转换单位，查询兑换比例
@@ -37,5 +37,5 @@ public interface EnteringwareHouseService extends
 	public List<EnteringwareHouse> getByBill(String workingBillId);
 
 	public void updateState(List<EnteringwareHouse> list, String statu,
-			String workingbillid,Integer ratio);
+			String workingbillid, Integer ratio, String cardnumber);
 }

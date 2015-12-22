@@ -187,7 +187,7 @@
 				alert(0);
 			});
 			$("#addButton").click(function() {
-				window.location.href = "process!add.action";
+				window.location.href = "process_route!list.action";
 			});
 			/*
 			var ishead3=0;

@@ -99,9 +99,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	// @InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
+		if(dailyWork.getEnterAmount()==null||String.valueOf(dailyWork.getEnterAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("报工数量必须为零或正整数!");
+		}
 		admin = adminService.getByCardnum(cardnumber);
 		dailyWork.setCreateUser(admin);
 		dailyWorkService.save(dailyWork);
@@ -113,9 +114,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
-	// @InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
+		if(dailyWork.getEnterAmount()==null||String.valueOf(dailyWork.getEnterAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("报工数量必须为零或正整数!");
+		}
 		DailyWork persistent = dailyWorkService.load(id);
 		BeanUtils.copyProperties(dailyWork, persistent, new String[] { "id" });
 		dailyWorkService.update(persistent);

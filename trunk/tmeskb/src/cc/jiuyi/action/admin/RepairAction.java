@@ -95,9 +95,10 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
-	//@InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
+		if(repair.getRepairAmount()==null||String.valueOf(repair.getRepairAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
+		}
 		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}
@@ -110,9 +111,10 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repair.repairAmount", min = "0", message = "返修数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
+		if(repair.getRepairAmount()==null||String.valueOf(repair.getRepairAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
+		}
 		if (repair.getProcessResponse().getId().equals("")) {
 			repair.setProcessResponse(null);
 		}

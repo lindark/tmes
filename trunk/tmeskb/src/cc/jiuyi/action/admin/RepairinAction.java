@@ -80,9 +80,10 @@ public class RepairinAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmount", min = "0", message = "返修收货数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
+		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
+		}
 		admin = adminService.getByCardnum(cardnumber);
 		repairin.setCreateUser(admin);
 		repairinService.save(repairin);
@@ -94,9 +95,10 @@ public class RepairinAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "repairin.receiveAmoun", min = "0", message = "报工数量必须为零或正整数!") })
-	// @InputConfig(resultName = "error")
 	public String creditupdate() throws Exception {
+		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
+		}
 		Repairin persistent = repairinService.load(id);
 		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
 		repairinService.update(persistent);

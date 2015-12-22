@@ -130,9 +130,10 @@ public class PollingtestAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
-	// @InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
+		if(pollingtest.getPollingtestAmount()==null||String.valueOf(pollingtest.getPollingtestAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
+		}
 		pollingtestService
 				.saveInfo(pollingtest, info, info2, my_id, cardnumber);
 		/*
@@ -158,6 +159,9 @@ public class PollingtestAction extends BaseAdminAction {
 	 * 修改
 	 */
 	public String update() {
+		if(pollingtest.getPollingtestAmount()==null||String.valueOf(pollingtest.getPollingtestAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
+		}
 		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
 		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id,
 				cardnumber);

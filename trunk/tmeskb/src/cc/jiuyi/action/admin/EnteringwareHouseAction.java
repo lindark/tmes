@@ -91,9 +91,10 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}
 
 	// 保存
-	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "enteringwareHouse.storageAmount", min = "0", message = "入库数量必须为零或正整数!") })
-	@InputConfig(resultName = "error")
 	public String creditsave() {
+		if(enteringwareHouse.getStorageAmount()==null||String.valueOf(enteringwareHouse.getStorageAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("入库数量必须为零或正整数!");
+		}
 		admin = adminService.getByCardnum(cardnumber);
 		enteringwareHouse.setCreateUser(admin);
 		enteringwareHouseService.save(enteringwareHouse);

@@ -60,6 +60,7 @@ public class PollingtestAction extends BaseAdminAction {
 	private String add;
 	private String edit;
 	private String show;
+	private String cardnumber;// 刷卡卡号
 
 	// 获取所有状态
 	private List<Dict> allCraftWork;
@@ -132,9 +133,12 @@ public class PollingtestAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "pollingtest.pollingtestAmount", min = "0", message = "巡检数量必须为零或正整数!") })
 	// @InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
-		pollingtestService.saveInfo(pollingtest, info, info2, my_id);
-		/*redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();*/
+		pollingtestService
+				.saveInfo(pollingtest, info, info2, my_id, cardnumber);
+		/*
+		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +
+		 * pollingtest.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -155,13 +159,14 @@ public class PollingtestAction extends BaseAdminAction {
 	 */
 	public String update() {
 		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
-		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id);
+		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id,
+				cardnumber);
 		redirectionUrl = "pollingtest!list.action?workingBillId="
 				+ pollingtest.getWorkingbill().getId();
 		return SUCCESS;
 	}
-	
-	public String historylist(){
+
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -183,10 +188,11 @@ public class PollingtestAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -216,8 +222,10 @@ public class PollingtestAction extends BaseAdminAction {
 				pollingtest.setPollingtestUserName(pollingtest
 						.getPollingtestUser().getName());
 			}
-			pollingtest.setWorkingbillCode(workingBillService.get(pollingtest.getWorkingbill().getId()).getWorkingBillCode());
-			pollingtest.setMaktx(workingBillService.get(pollingtest.getWorkingbill().getId()).getMaktx());
+			pollingtest.setWorkingbillCode(workingBillService.get(
+					pollingtest.getWorkingbill().getId()).getWorkingBillCode());
+			pollingtest.setMaktx(workingBillService.get(
+					pollingtest.getWorkingbill().getId()).getMaktx());
 			pollingtest.setWorkingBillId(pollingtest.getWorkingbill().getId());
 			lst.add(pollingtest);
 		}
@@ -281,7 +289,8 @@ public class PollingtestAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
+		jsonConfig
+				.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
@@ -289,13 +298,13 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (CONFIRMED.equals(pollingtest.getState())) {
 				// addActionError("已确认的无须再确认！");
-				
+
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
 			if (UNDO.equals(pollingtest.getState())) {
@@ -442,6 +451,14 @@ public class PollingtestAction extends BaseAdminAction {
 
 	public void setShow(String show) {
 		this.show = show;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

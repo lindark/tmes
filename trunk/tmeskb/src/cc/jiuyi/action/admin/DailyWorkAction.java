@@ -52,6 +52,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private List<Process> allProcess;
+	private String cardnumber;//刷卡卡号
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -101,7 +102,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	@Validations(intRangeFields = { @IntRangeFieldValidator(fieldName = "dailyWork.enterAmout", min = "0", message = "报工数量必须为零或正整数!") })
 	// @InputConfig(resultName = "error")
 	public String creditsave() throws Exception {
-		admin = adminService.loadLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		dailyWork.setCreateUser(admin);
 		dailyWorkService.save(dailyWork);
 		/*
@@ -139,7 +140,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list, workingBillId);
+			dailyWorkService.updateState(list, workingBillId,cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -171,7 +172,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState2(list, workingBillId);
+			dailyWorkService.updateState2(list, workingBillId,cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -340,6 +341,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setAllProcess(List<Process> allProcess) {
 		this.allProcess = allProcess;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 }

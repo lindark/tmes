@@ -343,10 +343,10 @@ public class AbnormalAction extends BaseAdminAction {
 					}
 					abnormalService.update(persistent);
 				} else {
-					return ajaxJsonSuccessMessage("异常已撤销/关闭!");
+					return ajaxJsonErrorMessage("异常已撤销/关闭!");
 				}
 			} else {
-				return ajaxJsonSuccessMessage("您没有关闭的权限!");
+				return ajaxJsonErrorMessage("您没有关闭的权限!");
 			}
 		}
 
@@ -370,10 +370,10 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setHandlingTime(time);
 					abnormalService.update(persistent);
 				} else {
-					return ajaxJsonSuccessMessage("该异常不能撤销!");
+					return ajaxJsonErrorMessage("该异常不能撤销!");
 				}
 			} else {
-				return ajaxJsonSuccessMessage("您没有撤销的权限!");
+				return ajaxJsonErrorMessage("您没有撤销的权限!");
 			}
 
 			/*Date date = new Date();
@@ -404,11 +404,11 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setState("0");
 
 		if(adminSet==null){
-			return ajaxJsonSuccessMessage("人员不允许为空!");
+			return ajaxJsonErrorMessage("人员不允许为空!");
 		} 
 		
 		if(callReasonSet==null){
-			return ajaxJsonSuccessMessage("短信不允许为空!");
+			return ajaxJsonErrorMessage("短信不允许为空!");
 		} 
 		
 		abnormal.setResponsorSet(new HashSet<Admin>(adminSet));

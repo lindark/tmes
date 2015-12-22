@@ -83,12 +83,7 @@ body{background:#fff;}
 										<div class="profile-info-name"> 类型 </div>
 					
 										<div class="profile-info-value">
-										    <select name="device.maintenanceType" class="formText {required: true}">
-							                <#list allType as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.maintenanceType == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>              
-						                    </select>										
-											
+										    		${(deviceType)!}																	
 										</div>
 										 <div class="profile-info-name"> 设备名称</div>
 					
@@ -112,19 +107,11 @@ body{background:#fff;}
 									<div class="profile-info-row">
 									    <div class="profile-info-name">是否停机</div>
 									    <div class="profile-info-value">
-									          <select name="device.isDown">										          
-							                <#list allDown as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.isDown == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>              													               
-						                      </select>									
+									         ${(stopMachine)!}							
 										</div>
 										<div class="profile-info-name">停产维修</div>
 									    <div class="profile-info-value">
-									          <select name="device.isMaintenance">	
-									         <#list allMaintenance as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.isMaintenance == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>														               
-						                      </select>									
+									          		${(stopProduct)!}				
 										</div>
 									</div>
 									
@@ -150,11 +137,7 @@ body{background:#fff;}
 										
 										<div class="profile-info-name">故障性质</div>
 									    <div class="profile-info-value">
-									        <select name="device.faultCharacter">	
-									                <#list allProperty as list>
-								                     <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.faultCharacter == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                        </#list>  						
-						                      </select>												
+									        		${(faultCharactor)!}								
 										</div>								
 									</div>
 									
@@ -197,11 +180,7 @@ body{background:#fff;}
 										</div>	
 										<div class="profile-info-name">服务态度</div>
 									    <div class="profile-info-value">
-									        <select name="device.serviceAttitude">							
-								                   <#list allAttitude as list>
-								                     <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && device.serviceAttitude == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                       </#list>
-						                     </select>													
+									       		${(serviceAttitude)!}									
 										</div>
 									</div>	
 																			

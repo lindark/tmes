@@ -107,6 +107,12 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		return (WorkingBill) getSession().createQuery(hql).setParameter(0, workingbillCode).setMaxResults(1).uniqueResult();
 	}
 
+	@Override
+	public List getListWorkingBillByTeam(String teamid) {
+		String hql="from ";
+		return null;
+	}
+
 	
 
 }

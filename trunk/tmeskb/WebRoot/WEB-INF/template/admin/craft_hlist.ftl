@@ -39,7 +39,6 @@
 	<script type="text/javascript">
 		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 	</script>
-	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 	<div class="main-content">
 
 	
@@ -58,9 +57,9 @@
 								   <div class="operateBar">
 								   	<div class="form-group">
 										
-										<label class="col-sm-2" style="text-align:right">班组:</label>
+										<label class="col-sm-2" style="text-align:right">维修员:</label>
 										<div class="col-sm-4">
-											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-2">
+											<input type="text" name="repair" class="input input-sm form-control" value="" id="form-field-icon-2">
 										</div>
 										<label class="col-sm-2" style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
@@ -117,7 +116,6 @@
 					</div><!-- /.page-content-area -->
 				<!-- PAGE CONTENT ENDS -->
 
-	<#include "/WEB-INF/template/admin/admin_footer.ftl">
 	</div><!-- /.page-content -->
 	</div><!-- /.main-content -->
 	</div><!-- /.main-container -->

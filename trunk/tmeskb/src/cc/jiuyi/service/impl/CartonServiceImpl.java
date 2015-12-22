@@ -63,42 +63,45 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 	/**
 	 * 考虑线程同步
 	 */
-	public synchronized void updateState(List<Carton> list, String workingbillid) throws IOException, CustomerException {
+	public synchronized void updateState(List<Carton> list,
+			String workingbillid, String cardnumber) throws IOException,
+			CustomerException {
 		List<Carton> cartonList = new ArrayList<Carton>();
-		Admin admin = adminservice.getLoginAdmin();
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		admin = adminservice.load(admin.getId());
-		//线边仓
+		// 线边仓
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();
-		//工厂
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		// 工厂
+		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWorkShop().getFactory().getFactoryCode();
 		WorkingBill workingbill = workingbillService.get(workingbillid);
-		String matnr = workingbill.getMatnr();//物料编号
+		String matnr = workingbill.getMatnr();// 物料编号
 		ThinkWayUtil util = new ThinkWayUtil();
-		String budat = util.SystemDate();//过账日期
-		
-		//sap同步准备,有些数据是测试的，后期根据上面的变量做修改
+		String budat = util.SystemDate();// 过账日期
+
+		// sap同步准备,有些数据是测试的，后期根据上面的变量做修改
 		for (int i = 0; i < list.size(); i++) {
 			Carton carton = list.get(i);
-			//carton.setCartonCode("50110123");
+			// carton.setCartonCode("50110123");
 			carton.setCartonCode(matnr);
 			carton.setMove_type("101");
-			//carton.setLgort("2501");
+			// carton.setLgort("2501");
 			carton.setLgort(warehouse);
-			//carton.setWerks("1000");
+			// carton.setWerks("1000");
 			carton.setWerks(werks);
 			carton.setBudat(budat);
-			carton.setLifnr(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "lifnr", "1"));
+			carton.setLifnr(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"lifnr", "1"));
 			cartonList.add(carton);
 		}
 		cartonList = cartonRfc.CartonCrt(cartonList);
 		for (int i = 0; i < cartonList.size(); i++) {
 			Carton caron = cartonList.get(i);
-			if("S".equals(caron.getE_type())){
+			if ("S".equals(caron.getE_type())) {
 				System.out.println("SAP同步成功");
 				System.out.println(caron.getE_message());
-			}else if("E".equals(caron.getE_type())){
+			} else if ("E".equals(caron.getE_type())) {
 				System.out.println("SAP同步失败");
 				throw new CustomerException(caron.getE_message());
 			}
@@ -114,21 +117,20 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 			carton.setState("1");
 			cartonDao.update(carton);
 		}
-		/*for (int i = 0; i < list.size(); i++) {
-			Carton carton = list.get(i);
-			totalamount = carton.getCartonAmount() + totalamount;
-			carton.setConfirmUser(admin);
-			carton.setState("1");
-			cartonDao.update(carton);
-		}*/
+		/*
+		 * for (int i = 0; i < list.size(); i++) { Carton carton = list.get(i);
+		 * totalamount = carton.getCartonAmount() + totalamount;
+		 * carton.setConfirmUser(admin); carton.setState("1");
+		 * cartonDao.update(carton); }
+		 */
 		workingbill.setCartonTotalAmount(totalamount);
 		workingbillService.update(workingbill);
 	}
 
 	@Override
 	public synchronized void updateState2(List<Carton> list,
-			String workingbillid) {
-		Admin admin = adminservice.getLoginAdmin();
+			String workingbillid, String cardnumber) {
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		Integer totalamount = workingbill.getCartonTotalAmount();
 		for (int i = 0; i < list.size(); i++) {

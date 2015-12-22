@@ -71,7 +71,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validatecredit"
-								action="craft!creditsave1.action"
+								action="<#if isAdd??>craft!creditsave.action<#else>craft!creditupdate.action</#if>"
 								method="post">
 								<input type="hidden" name="id" value="${id}" />
                                 <input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
@@ -180,13 +180,8 @@ body {
 											
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理措施</div>
-													<div class="profile-info-value">
-													     <#if isAdd??>		
-													         <textarea name="craft.treatmentMeasure_make" style="width:600px;" class="formText {required: true}">${(craft.treatmentMeasure_make)!} </textarea>																		
-											             <#else>
-											                 ${(craft.treatmentMeasure_make)!}
-											             </#if>
-													   
+													<div class="profile-info-value">	
+													         <textarea name="craft.treatmentMeasure_make" style="width:600px;" class="formText {required: true}">${(craft.treatmentMeasure_make)!} </textarea>																															   
 													</div>
 												</div>
 											
@@ -196,11 +191,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">制造处理结果</div>
 													<div class="profile-info-value">
-													    <#if isAdd??>	
 													    <textarea name="craft.resultCode_make" style="width:600px;" class="formText {required: true}">${(craft.resultCode_make)!} </textarea>				
-													     <#else>
-													     ${(craft.resultCode_make)!}
-													     </#if>
 													</div>
 												</div>
 											</div>
@@ -232,24 +223,22 @@ body {
                                   </form>
 										<!--weitao end modify-->
 							   <div class="buttonArea">	
-				  
-				                  <!--   <button class="btn btn-white btn-default btn-sm btn-round" id="saveCraft" type=button>
-										<i class="ace-icon glyphicon  fa-square-o"></i>
-										刷卡保存
-									</button> -->
+				  				                  
 									<#if isAdd??>
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="completeCraft" data-access-list="craftcredit" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeCraft" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
-									</button>&nbsp;&nbsp;	
+									</button>&nbsp;&nbsp;										
 									<#else>
-									</#if>	
-									<#if isAdd??><#else>								
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="checkCraft" data-access-list="craftresponse" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="completeCraft" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+									</button>&nbsp;&nbsp;								
+									<button class="btn btn-white btn-default btn-sm btn-round" id="checkCraft" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
 									</button>&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round access" id="closeCraft" data-access-list="craftclose" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="closeCraft" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡关闭
 									</button>&nbsp;&nbsp;
@@ -385,7 +374,7 @@ body {
 </body>
 <script type="text/javascript">
 $(function() {	
-/*	
+
 $("form.validatecredit").validate({
 		
 		errorClass: "validateError",
@@ -408,12 +397,21 @@ $("form.validatecredit").validate({
 			var url = $(form).attr("action");
 			var dt = $(form).serialize();
 			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-			},dt)
+					if(data.status=="success"){
+						layer.alert(data.message, {icon: 6},function(){
+							window.location.href="abnormal!list.action";
+						}); 
+					}else if(data.status=="error"){
+						layer.alert(data.message, {
+					        closeBtn: 0,
+					        icon:5,
+					        skin:'error'
+					   });
+					}		
+				},dt)
 			
 		}
 	});
-})*/
+})
 </script>
 </html>

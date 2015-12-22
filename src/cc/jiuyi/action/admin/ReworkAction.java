@@ -57,6 +57,7 @@ public class ReworkAction extends BaseAdminAction {
 	private String show;
 	private String isQualified;//是否合格
 	private String isCompelete;//是否完工
+	private String cardnumber;//刷卡卡号
 
 	private List<Dict> allCheck;
 	
@@ -89,7 +90,7 @@ public class ReworkAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list(){
-		admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		admin = adminService.get(admin.getId());
 		this.workingbill=this.workingBillService.get(workingBillId);
 		return LIST;
@@ -285,7 +286,7 @@ public class ReworkAction extends BaseAdminAction {
 			addActionError("缺陷数量必须为零或正整数!");
 			return ERROR;
 		}
-		admin= adminService.getLoginAdmin();
+		admin= adminService.getByCardnum(cardnumber);
 		rework.setCreateUser(admin);
 		rework.setModifyUser(admin);
 		reworkService.save(rework);
@@ -296,7 +297,7 @@ public class ReworkAction extends BaseAdminAction {
 	public String creditreply() throws Exception{
 		Rework persistent = reworkService.get(id);
 		BeanUtils.copyProperties(rework, persistent, new String[] { "id","createUser"});
-		admin=adminService.getLoginAdmin();
+		admin=adminService.getByCardnum(cardnumber);
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("3");
@@ -307,7 +308,7 @@ public class ReworkAction extends BaseAdminAction {
 	//刷卡确认
 	public String creditapproval() throws Exception{
 		Rework persistent = reworkService.load(id);
-		admin=adminService.getLoginAdmin();
+		admin=adminService.getByCardnum(cardnumber);
 		persistent.setConfirmUser(admin);
 		persistent.setModifyUser(admin);
 		persistent.setState("2");
@@ -319,7 +320,7 @@ public class ReworkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		workingbill = workingBillService.get(workingBillId);
-		admin=adminService.getLoginAdmin();
+		admin=adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		List<Rework> list=reworkService.get(ids);
 		for (int i = 0; i < list.size(); i++) {
@@ -431,6 +432,14 @@ public class ReworkAction extends BaseAdminAction {
 
 	public void setIsQualified(String isQualified) {
 		this.isQualified = isQualified;
+	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 	

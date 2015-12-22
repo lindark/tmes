@@ -51,8 +51,8 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		}*/
 		
 		if (map.size() > 0) {
-			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			if(map.get("founder")!=null){
+			    detachedCriteria.add(Restrictions.like("creater.name", "%"+map.get("founder")+"%"));
 			}
 			
 			if(map.get("productName")!=null){
@@ -96,16 +96,16 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			detachedCriteria.createAlias("products", "products");//表名，别名*/							
 		}
 		
-		if(!super.existAlias(detachedCriteria, "team", "team")){
-			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+		if(!super.existAlias(detachedCriteria, "creater", "creater")){
+			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
 		}
 		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
 		detachedCriteria.createAlias("abnormal", "abnormal");						
 	    }
 		
 		if (map.size() > 0) {
-			if(map.get("team")!=null){
-			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			if(map.get("founder")!=null){
+			    detachedCriteria.add(Restrictions.like("creater.name", "%"+map.get("founder")+"%"));
 			}
 			
 			if(map.get("productName")!=null){

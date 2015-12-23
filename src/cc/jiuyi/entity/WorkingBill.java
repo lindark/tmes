@@ -36,6 +36,7 @@ public class WorkingBill extends BaseEntity {
 	private String werks;//工厂
 	private Integer amount;//交接数量
 	private Integer bomversion;//BOM版本
+	private Integer processversion;//工艺路线版本
 	
 
 	private Set<EnteringwareHouse> enteringwareHouse;
@@ -320,6 +321,14 @@ public class WorkingBill extends BaseEntity {
 
 	public void setBomversion(Integer bomversion) {
 		this.bomversion = bomversion;
+	}
+
+	public Integer getProcessversion() {
+		return processversion;
+	}
+
+	public void setProcessversion(Integer processversion) {
+		this.processversion = processversion;
 	}
 	
 }

@@ -64,9 +64,9 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['车间','车间联系人', '维修类型','故障原因','维修人','状态'],
+		colNames:['设备名称','车间','车间联系人', '维修类型','故障原因','维修人','状态'],
 		colModel:[
-			
+		    {name:'deviceName',index:'equipments.equipmentName',width:100, editable:true},	
 			{name:'workShopName',index:'workShop.workShopName',width:60, editable:true, sorttype:"date",unformat: pickDate},
 			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,search:false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'repairType',index:'maintenanceType', width:160, editable: true,search:false,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			

@@ -140,9 +140,7 @@ public class CraftAction extends BaseAdminAction {
 	
 	//刷卡回复
 	public String creditreply() throws Exception{
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Craft persistent = craftService.load(id);
 		
 		if(persistent.getRepairName()!=admin){
@@ -182,7 +180,6 @@ public class CraftAction extends BaseAdminAction {
 	//刷卡关闭
 	public String creditclose() throws Exception{
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Craft persistent = craftService.load(id);
 		if(persistent.getCreater()!=admin){
 			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
@@ -207,7 +204,6 @@ public class CraftAction extends BaseAdminAction {
 	
     public String ajlist(){
     	Admin admin = adminService.getLoginAdmin();
-    	admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		if (pager.getOrderBy().equals("")) {
@@ -290,7 +286,6 @@ public class CraftAction extends BaseAdminAction {
 	// 保存
 	public String creditsave() {	
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);

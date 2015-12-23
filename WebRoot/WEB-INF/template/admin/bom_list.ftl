@@ -118,8 +118,8 @@ body {
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
 														readonly="readonly" />
 													<button type="button" class="btn btn-xs btn-info"
-														id="productSeach" data-toggle="button">选择</button>
-													<span id="productCode"></span><span id="productName"></span> <label class="requireField">*</label>
+														id="productSeach" data-toggle="button">选择</button>														
+													<span id="productCode"></span><span id="productName"></span> <label class="requireField">*</label>												
 												</div>
 
 
@@ -137,7 +137,7 @@ body {
 												<div class="row buttons col-md-8 col-sm-4">
 													<a id="addImage"
 														class="btn btn-white btn-default btn-sm btn-round"> <i
-														class="ace-icon glyphicon glyphicon-plus"></i> 增加一行Bom
+														class="ace-icon glyphicon glyphicon-plus"></i> 增加一行
 													</a>
 												</div>
 											</div>
@@ -152,6 +152,7 @@ body {
 														<th class="center">组件名称</th>
 														<th class="center">组件单位</th>
 														<th class="center">组件数量</th>
+														<th class="center">是否为纸箱</th>
 														<th class="center">版本号</th>
 														<th class="center">操作</th>
 													</tr>
@@ -202,6 +203,10 @@ body {
 			showProducts();	
 		});
 		
+		$(".materialSearch").live("click", function() {
+			//var materialid = $("materialId").val;
+			showMaterial(this);
+		})
 		
 		$("#addImage").click(function() {
 			var productid = $("#productId").val();
@@ -222,18 +227,31 @@ body {
 		"<td><input type='hidden' name='bomList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
 		"<input type='text' name='bomList["+num+"].productAmount'  class='form-control'/>" +
 		"</td>" +
-		"<td><input type='hidden' name='bomList["+num+"].material.id' value='"+materialid+"' class='form-control'/>"+
-		"<input type='text' name='bomList["+num+"].bomCode'  class='form-control'/>" +
+		"<td>"  +
+		"<button type='button' class='btn btn-xs btn-info materialSearch'  data-toggle='button'>选择</button>" +
+		"<input type='hidden' name='bomList["+num+"].bomCode' class='form-control materialCode'/>"+
+		"<span class='materialCodespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='text' name='bomList["+num+"].bomName'  class='form-control'/>" +
+		"<input type='hidden' name='bomList["+num+"].bomName'  class='form-control materialName'/>" +
+		"<span class='materialNamespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='text' name='bomList["+num+"].bomUnit'  class='form-control'/>" +
+		"<input type='hidden' name='bomList["+num+"].bomUnit'  class='form-control materialUnit'/>" +
+		"<span class='materialUnitspan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='text' name='bomList["+num+"].bomAmount'  class='form-control'/>" +
+		"<input type='hidden' name='bomList["+num+"].bomAmount'  class='form-control materialAmount'/>" +
+		"<span class='materialAmountspan'></span>"+
  		"</td>" +
+ 		"<td>"  +
+ 		  "<select name='bomList["+num+"].isCarton'>" +
+	        "<option value=''>-请选择-</option>" +
+	      <#list allType as alist>
+	        "<option value='${alist.dictkey}'<#if ((isAdd &&alist.isDefault) || (isEdit && bom.isCarton ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>"+
+	      </#list>
+	      "</select>"+
+	    "</td>"+
 		"<td><input type='hidden'  value='' class='form-control'/></td>" +
 		"<td>"  +
 		"	<a class='edit'>编辑</a>" +
@@ -244,6 +262,7 @@ body {
 		$("#tb_material").append(attributeOptionTrHtml);
 		num = num+1;
 }
+	
 	
 	//读取产品信息
 	function showProducts(){
@@ -266,22 +285,36 @@ body {
 	}
 	
 	//读取组件信息
-	function showMaterial(){
+	function showMaterial(obj){
+		var $this = $(obj);
 		var title = "选择组件";
 		var width="800px";
 		var height="600px";
-		var content="products!browser.action";
+		var content="material!browser.action";
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 			
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         	//alert(iframeWin);
         	 var work = iframeWin.getGridId();
              var id=work.split(",");
-            // $("#productId").val(id[1]);
-            // $("#productName").text(id[0]);
-            // $("#productCode").text(id[2]);
+            /*
+             $("#materialName").text(id[0]);
+             $("#materialId").val(id[1]);
+             $("#materialCode").text(id[2]);
+             $("#materialUnit").text(id[3]);
+             $("#materialAmount").text(id[4]);
+             */
+             $this.parent().parent().find(".materialName").val(id[0]);
+             $this.parent().parent().find(".materialNamespan").text(id[0]);
+             $this.parent().parent().find(".materialCode").val(id[2]);
+             $this.parent().parent().find(".materialCodespan").text(id[2]);
+             $this.parent().parent().find(".materialUnit").val(id[3]);
+             $this.parent().parent().find(".materialUnitspan").text(id[3]);
+             $this.parent().parent().find(".materialAmount").val(id[4]);
+             $this.parent().parent().find(".materialAmountspan").text(id[4]);
              layer.close(index); 
-             //loadData(id[1]);//加载表单数据            
+             //alert(work);
+             loadData(id[1]);//加载表单数据            
 	  });	
 	}
 	
@@ -306,7 +339,7 @@ body {
 			dataType: "json",
 			async: false,
 			beforeSend: function(data) {
-				
+			
 			},
 			success: function(data) {
 				var list = data.list;
@@ -317,7 +350,6 @@ body {
 			},error:function(data){
 				$.message("error","系统出现问题，请联系系统管理员!");
 			}
-		});
-	
+		});	
 }
 </script>

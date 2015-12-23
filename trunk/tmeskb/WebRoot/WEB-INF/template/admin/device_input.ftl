@@ -364,8 +364,8 @@ body {
 														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="arrivedTime"/>
 												</div>
 												<div class="profile-info-name">服务态度</div>
-												<div class="profile-info-value">
-													<select name="device.serviceAttitude" class="access" data-access-list="serviceAttitude"> <#list
+												<div class="profile-info-value access" data-access-list="serviceAttitude">
+													<select name="device.serviceAttitude"> <#list
 														allAttitude as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
 															list.isDefault) || (isEdit && device.serviceAttitude ==

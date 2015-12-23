@@ -121,22 +121,12 @@ body {
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
 													<input type="hidden" id="productId"
-														name="material.products.id"
-														value="${(material.products.id)!}"
+														name="productid"
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
 														readonly="readonly" />
 													<button type="button" class="btn btn-xs btn-info"
 														id="productSeach" data-toggle="button">选择</button>
 													<span id="productCode"></span><span id="productName"></span> <label class="requireField">*</label>
-												</div>
-
-
-												<div class="profile-info-name">产品数量</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.batch"
-														value="${(material.products.productsAmount)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
 												</div>
 											</div>
 										</div>
@@ -157,6 +147,7 @@ body {
 														<th class="center">产品名称</th>
 														<th class="center">产品数量</th>
 														<th class="center">工序</th>
+														<th class="center">排序码</th>
 														<th class="center">工作中心</th>
 														<th class="center">计量单位</th>
 														<th class="center">版本号</th>
@@ -220,29 +211,29 @@ body {
 				return false;
 			}
 				
-			addAttributeOptionTr(productid,productname,productCode);
+			addAttributeOptionTr(productid,productname,productCode,"","","","","");
 		});
 	})
 	var num = 0; 
-	function addAttributeOptionTr(productid,productname,productCode) {
+	function addAttributeOptionTr(productid,productname,productCode,productsNum,version,sortcode,unit,workCenter) {
 		var attributeOptionTrHtml = "<tr>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
 		"<td><input type='hidden' name='processrouteList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
-			"<input type='text' name='processrouteList["+num+"].productAmount'  class='form-control'/>" +
+			"<input type='text' name='processrouteList["+num+"].productAmount' value='"+productsNum+"' class='form-control'/>" +
  		"</td>" +
 		"<td>" +
 			"<select name='processrouteList["+num+"].process.id'>" +
 			<#list processAll as list>
-				"<option value='${list.id}'>${list.processCode} ${list.processName}</option>"+
+				"<option value='${list.id}' <#if (processrouteList["+num+"].process.id==list.id)!> selected</#if>>${list.processCode} ${list.processName}</option>"+
 			</#list>
 			"</select>" +
 		"</td>" +
-		"<td><input type='text'  value='' class='form-control'/></td>" +
-		"<td><input type='text' name='processrouteList["+num+"].unit' value='' class='form-control'/></td>" +
-		"<td><input type='text' name='' value='' class='form-control'/></td>" +
+		"<td><input type='text' name='processrouteList["+num+"].sortcode' value='"+sortcode+"' class='form-control'/></td>" +
+		"<td><input type='text' name='processrouteList["+num+"].workCenter'  value='"+workCenter+"' class='form-control'/></td>" +
+		"<td><input type='text' name='processrouteList["+num+"].unit' value='"+unit+"' class='form-control'/></td>" +
+		"<td><input type='text' name='' value='"+version+"' class='form-control' readonly='readonly'/></td>" +
 		"<td>" +
-		"	<a onclick='edit_click()'>编辑</a>" +
 		//"	/" +
 		"	<a onclick='del_click()'>删除</a>" +
 		"</td>" +
@@ -287,7 +278,7 @@ body {
 			success: function(data) {
 				var list = data.list;
 				$.each(list,function(i,obj){
-					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode);
+					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode,obj.productsNum,obj.version,obj.sortcode,obj.unit,obj.workCenter);
 				})
 				
 			},error:function(data){

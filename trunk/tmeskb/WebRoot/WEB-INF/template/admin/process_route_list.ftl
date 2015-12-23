@@ -216,7 +216,7 @@ body {
 	})
 	var num = 0; 
 	function addAttributeOptionTr(productid,productname,productCode,productsNum,version,sortcode,unit,workCenter) {
-		var attributeOptionTrHtml = "<tr>" +
+		var attributeOptionTrHtml = "<tr class='zg'>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
 		"<td><input type='hidden' name='processrouteList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
@@ -235,7 +235,7 @@ body {
 		"<td><input type='text' name='' value='"+version+"' class='form-control' readonly='readonly'/></td>" +
 		"<td>" +
 		//"	/" +
-		"	<a onclick='del_click()'>删除</a>" +
+		"	<a class='delete'>删除</a>" +
 		"</td>" +
 		"</tr>";
 		$("#tb_material").append(attributeOptionTrHtml);
@@ -264,6 +264,13 @@ body {
 	 });
 		
 	}
+	$(".delete").livequery("click", function() {
+		if($(".zg").length > 1) {
+			$(this).parent().parent().remove();
+		} else {
+			alert("请至少保留一个选项!");
+		}
+	})
 	
 	function loadData(productid){
 		var url = "process_route!getRoute.action?productid="+productid;

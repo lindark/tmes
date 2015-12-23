@@ -19,4 +19,9 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	 * @param processRouteList
 	 */
 	public void mergeProcessroute(List<ProcessRoute> processRouteList,String productid);
+	/**
+	 * 获取最高版本号
+	 * @return
+	 */
+	public Integer getMaxVersion(String productid);
 }

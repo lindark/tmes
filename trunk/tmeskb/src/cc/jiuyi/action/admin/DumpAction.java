@@ -1,9 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +21,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
-import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
+import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpService;
@@ -49,10 +47,10 @@ public class DumpAction extends BaseAdminAction {
 	private String warehouseName;
 	private String dumpId;
 	private List<Dump> dumpList;
-	private String cardnumber;//刷卡卡号
+	private String cardnumber;// 刷卡卡号
 
 	@Resource
-	private DumpRfcImpl dumpRfc;
+	private DumpRfc dumpRfc;
 	@Resource
 	private DumpService dumpService;
 	@Resource
@@ -111,7 +109,7 @@ public class DumpAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
-			dumpService.saveDump(ids, dumpList,cardnumber);
+			dumpService.saveDump(ids, dumpList, cardnumber);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -298,11 +296,11 @@ public class DumpAction extends BaseAdminAction {
 		this.warehouseName = warehouseName;
 	}
 
-	public DumpRfcImpl getDumpRfc() {
+	public DumpRfc getDumpRfc() {
 		return dumpRfc;
 	}
 
-	public void setDumpRfc(DumpRfcImpl dumpRfc) {
+	public void setDumpRfc(DumpRfc dumpRfc) {
 		this.dumpRfc = dumpRfc;
 	}
 

@@ -144,19 +144,19 @@ jQuery(function($) {
 		//已提交
 		if(rawObject.state=="0")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:red;'";
 		}
 		
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;font-weight:bold;'";
+			return "style='color:blue;'";
 		}
 		
 		//已完结
 		if(rawObject.state=="2")
 		{
-			return "style='color:green;font-weight:bold;'";
+			return "style='color:green;'";
 		}
 	}
 

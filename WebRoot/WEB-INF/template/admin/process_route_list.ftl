@@ -268,7 +268,7 @@ body {
 		if($(".zg").length > 1) {
 			$(this).parent().parent().remove();
 		} else {
-			alert("请至少保留一个选项!");
+			$.message("error","至少保留一项！");
 		}
 	})
 	

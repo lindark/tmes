@@ -128,10 +128,25 @@ jQuery(function($) {
 		var height="632px";
 		var id=$(".abnorId").val();
 		var content="quality!sealist.action?abnorId="+id;
-		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
-			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
-			layer.close(index); 
-		});
+		
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: title,
+	        fix: false,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        area: [width, height],//弹出框的高度，宽度
+	        content:content,
+	        yes:function(index,layero){//刷卡保存
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象	        	
+	        	return false;
+	        },
+
+	    });
+		
 	}
 	
 	
@@ -142,10 +157,30 @@ jQuery(function($) {
 		var height="632px";
 		var id=$(".abnorId").val();
 		var content="model!sealist.action?abnorId="+id;
+		
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: title,
+	        fix: false,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        area: [width, height],//弹出框的高度，宽度
+	        content:content,
+	        yes:function(index,layero){//刷卡保存
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象	        	
+	        	return false;
+	        },
+
+	    });
+		
+		/*
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
 			layer.close(index); 
-		});
+		});*/
 	}
 	
 	
@@ -156,10 +191,30 @@ jQuery(function($) {
 		var height="632px";
 		var id=$(".abnorId").val();
 		var content="craft!sealist.action?abnorId="+id;
+		
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: title,
+	        fix: false,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        area: [width, height],//弹出框的高度，宽度
+	        content:content,
+	        yes:function(index,layero){//刷卡保存
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象	        	
+	        	return false;
+	        },
+
+	    });
+		
+		/*
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
 			layer.close(index); 
-		});
+		});*/
 	}
 	
 	
@@ -170,10 +225,30 @@ jQuery(function($) {
 		var height="632px";
 		var id=$(".abnorId").val();
 		var content="device!sealist.action?abnorId="+id;
+		
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: title,
+	        fix: false,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        area: [width, height],//弹出框的高度，宽度
+	        content:content,
+	        yes:function(index,layero){//刷卡保存
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象	        	
+	        	return false;
+	        },
+
+	    });
+		
+		/*
 		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象			
 			layer.close(index); 
-		});
+		});*/
 	}
 	
 	

@@ -5,7 +5,7 @@ import cc.jiuyi.sendmsg.Sendmsg_Service;
 public class SendMsgUtil {
 
 	
-	public static void SendMsg(String phone,String message){
+	public static String SendMsg(String phone,String message){
 		Sendmsg_Service service=new Sendmsg_Service();
 		int i=Integer.parseInt(phone.substring(phone.trim().length()-4,phone.trim().length()))*3+5698;
 
@@ -14,12 +14,11 @@ public class SendMsgUtil {
 				    "<password><![CDATA["+i+"]]></password>"+ 
 				    "<src_tele_num><![CDATA[106573064090]]></src_tele_num>"+ 
 				    "<dest_tele_num><![CDATA["+phone+"]]></dest_tele_num>"+ 
-				    "<msg><![CDATA[你好]]></msg>"+  
+				    "<msg><![CDATA["+message+"]]></msg>"+  
 				   "</info>"+
 				"</infos>";
 
 		String xml=service.getSendmsgHttpPort().sendmsg("nhjx_nb064090", msg);
-		System.out.println(xml);
-		
+		return xml;
 	}
 }

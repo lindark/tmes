@@ -247,7 +247,7 @@ public class PickDetailAction extends BaseAdminAction {
 //		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
 //		pick.setMove_type(info);// 移动类型 SAP测试数据
 		pick.setBudat(workingBill.getProductDate());//随工单日期
-		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitCode());//库存地点
+		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
 		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 随工单位最后两位
 		pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
 		// SAP测试数据 工厂编码

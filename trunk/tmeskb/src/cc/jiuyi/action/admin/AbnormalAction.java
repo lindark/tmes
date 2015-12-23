@@ -412,14 +412,20 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		abnormalService.save(abnormal);
 				
-		Calendar can = Calendar.getInstance();		
+		Calendar can = Calendar.getInstance();	
 		can.setTime(abnormal.getCreateDate());
 		can.add(Calendar.MINUTE, 1);
-		Date date=can.getTime();				
+		Date date=can.getTime();	
+		Calendar can1 = Calendar.getInstance();
+		can1.setTime(abnormal.getCreateDate());
+		can1.add(Calendar.MINUTE, 10);
+		Date date1=can1.getTime();
 		System.out.println(ThinkWayUtil.getCron(date));
 		HashMap<String,Object> maps = new HashMap<String,Object>();
 		maps.put("id",abnormal.getId());
 		maps.put("name",admin.getId());
+		maps.put("date", ThinkWayUtil.getCron(date1));
+		maps.put("jobname", job_name);
 		int i=0;
 		quartzMessage(ThinkWayUtil.getCron(date),i,maps);	
 		/*if(xx==true){//xx为调短信接口返回的值       
@@ -440,8 +446,6 @@ public class AbnormalAction extends BaseAdminAction {
 			quartzMessage(ThinkWayUtil.getCron(date1),i);
 		}*/		
 		
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	

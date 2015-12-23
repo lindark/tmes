@@ -198,7 +198,7 @@ body {
 		//产品点击
 		$("#productSeach").click(function(){
 			showMaterial();
-			$("#tb_material").html("");
+			$("#tb_material .zg").html("");
 		});
 		
 		

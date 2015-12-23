@@ -112,7 +112,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-													<input type="hidden" id="productId"
+													<input type="text" id="productId"
 														name="material.products.id"
 														value="${(material.products.id)!}"
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
@@ -216,50 +216,50 @@ body {
 				$.message("error","请先选择产品");
 				return false;
 			}	
-			addAttributeOptionTr(productid,productname,productCode,"","","","","","");
+			addAttributeOptionTr(productid,productname,productCode,"","","","","","","");
 		});
 	})
 	var num = 0; 
-	function addAttributeOptionTr(productid,productname,productCode,materialCode,materialName,materialUnit,materialAmount,isCarton,version) {
+	function addAttributeOptionTr(productid,productname,productCode,productAmount,materialCode,materialName,materialUnit,materialAmount,isCarton,version) {
 		var attributeOptionTrHtml = "<tr class='zg'>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
-		"<td><input type='hidden' name='bomList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
-		"<input type='text' name='bomList["+num+"].productAmount'  class='form-control'/>" +
+		"<td><input type='text' name='bomList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
+		"<input type='text' name='bomList["+num+"].productAmount' value='"+productAmount+"' class='form-control'/>" +
 		"</td>" +
 		"<td>"  +
 		"<button type='button' class='btn btn-xs btn-info materialSearch'  data-toggle='button'>选择</button>" +
-		"<input type='hidden' name='bomList["+num+"].materialCode' class='form-control materialCode'/>"+
+		"<input type='text' readonly='true' name='bomList["+num+"].materialCode' value='"+materialCode+"' class='form-control materialCode'/>"+		
 		"<span class='materialCodespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].materialName'  class='form-control materialName'/>" +
+		"<input type='text' name='bomList["+num+"].materialName' value='"+materialName+"' class='form-control materialName'/>" +
 		"<span class='materialNamespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].materialUnit'  class='form-control materialUnit'/>" +
+		"<input type='text' name='bomList["+num+"].materialUnit' value='"+materialUnit+"' class='form-control materialUnit'/>" +
 		"<span class='materialUnitspan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].materialAmount'  class='form-control materialAmount'/>" +
+		"<input type='text'  name='bomList["+num+"].materialAmount' value='"+materialAmount+"' class='form-control materialAmount'/>" +
 		"<span class='materialAmountspan'></span>"+
  		"</td>" +
  		"<td>"  +
- 		  "<select name='bomList["+num+"].isCarton'>" +
+ 		  "<select name='bomList["+num+"].isCarton' class='sele_"+num+"'>" +
 	        "<option value=''>-请选择-</option>" +
 	      <#list allType as alist>
-	        "<option value='${alist.dictkey}'<#if ((isAdd &&alist.isDefault) || (isEdit && bom.isCarton ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>"+
+	        "<option value='${alist.dictkey}'<#if ((isAdd &&alist.isDefault) || (isEdit && isCarton ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>"+
 	      </#list>
 	      "</select>"+
 	    "</td>"+
-		"<td><input type='hidden'  value='' class='form-control'/></td>" +
+		"<td><input type='text' readonly='true' value='"+version+"' class='form-control'/></td>" +
 		"<td>"  +
-		"	<a class='edit'>编辑</a>" +
 		//"	/" +
 		"	<a class='delete'>删除</a>" +
 		"</td>" +
 		"</tr>";
 		$("#tb_material").append(attributeOptionTrHtml);
+		$(".sele_"+num).val(isCarton);
 		num = num+1;
 }
 	
@@ -297,7 +297,7 @@ body {
         	//alert(iframeWin);
         	 var work = iframeWin.getGridId();
              var id=work.split(",");
-             alert(work);
+             //alert(work);
             /*
              $("#materialName").text(id[0]);
              $("#materialId").val(id[1]);
@@ -306,13 +306,13 @@ body {
              $("#materialAmount").text(id[4]);
              */
              $this.parent().parent().find(".materialName").val(id[0]);
-             $this.parent().parent().find(".materialNamespan").text(id[0]);
+            // $this.parent().parent().find(".materialNamespan").text(id[0]);
              $this.parent().parent().find(".materialCode").val(id[2]);
-             $this.parent().parent().find(".materialCodespan").text(id[2]);
+            // $this.parent().parent().find(".materialCodespan").text(id[2]);
              $this.parent().parent().find(".materialUnit").val(id[3]);
-             $this.parent().parent().find(".materialUnitspan").text(id[3]);
+            // $this.parent().parent().find(".materialUnitspan").text(id[3]);
              $this.parent().parent().find(".materialAmount").val(id[4]);
-             $this.parent().parent().find(".materialAmountspan").text(id[4]);
+            // $this.parent().parent().find(".materialAmountspan").text(id[4]);
              layer.close(index); 
              loadData(id[1]);//加载表单数据            
 	  });	
@@ -333,6 +333,7 @@ body {
 	
 	function loadData(productid){
 		var url = "bom!getBom.action?productid="+productid;
+		alert(url);
 		$.ajax({	
 			url: url,
 			//data: "{\"productid\":\""+productid+"\"}",
@@ -344,7 +345,7 @@ body {
 			success: function(data) {
 				var list = data.list;
 				$.each(list,function(i,obj){
-					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode);
+					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode,obj.productAmount,obj.materialCode,obj.materialName,obj.materialUnit,obj.materialAmount,obj.isCarton,obj.version);
 				})		
 				
 			},error:function(data){

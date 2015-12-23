@@ -96,7 +96,9 @@ public class MaterialAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.toString());	
 	}
 	
-	
+	public String browser(){
+		return "browser";
+	}
 	
 	//列表
 	public String list(){
@@ -231,14 +233,10 @@ public class MaterialAction extends BaseAdminAction {
 			  },
 			intRangeFields = {
 					@IntRangeFieldValidator(fieldName = "products.materialAmount",min="0", message = "产品数量必须为零或正整数!")
-			}
-			
-			
-			  
+			}		  
 	)
-	@InputConfig(resultName = "error")
-	public String save()throws Exception{
-		
+	//@InputConfig(resultName = "error")
+	public String save()throws Exception{		
 		materialService.save(material);
 		redirectionUrl="material!list.action";
 		return SUCCESS;	

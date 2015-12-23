@@ -5,18 +5,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 @Component
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
+	
+	@Resource
+	private AdminService adminservice;
 	@Override
 	public List<Dump> findMaterialDocument(String lgort, String bgdat,
 			String eddat) throws IOException, CustomerException {
@@ -59,9 +66,11 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr)
 			throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
+		Admin admin = adminservice.getLoginAdmin();
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("IM_MBLNR", mblnr);//库存地点
+		parameter.put("IM_LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());
 		super.setParameter(parameter);//输入参数
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/

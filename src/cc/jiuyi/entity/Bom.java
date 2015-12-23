@@ -24,13 +24,12 @@ public class Bom extends BaseEntity{
 	private static final long serialVersionUID = -7300988835184296373L;
 
 	private Products products;//产品
-	private Material material;//组件
 	private Double productAmount;//产品数量
-	private String bomCode;//Bom编码
-	private String bomName;//Bom名称
-	private String bomUnit;//计量单位
-	private Double bomAmount;//数量
-	//private String isCarton;//纸箱状态描述
+	private String materialCode;//Bom编码
+	private String materialName;//Bom名称
+	private String materialUnit;//计量单位
+	private Double materialAmount;//数量
+	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
     
 	
@@ -43,12 +42,6 @@ public class Bom extends BaseEntity{
 	public void setProducts(Products products) {
 		this.products = products;
 	}
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Material getMaterial() {
-		return material;
-	}
-
 	
 	public Double getProductAmount() {
 		return productAmount;
@@ -66,53 +59,45 @@ public class Bom extends BaseEntity{
 		this.version = version;
 	}
 
-	public void setMaterial(Material material) {
-		this.material = material;
+
+
+	public String getMaterialCode() {
+		return materialCode;
 	}
 
-	public String getBomUnit() {
-		return bomUnit;
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
 	}
 
-	public void setBomUnit(String bomUnit) {
-		this.bomUnit = bomUnit;
+	public String getMaterialName() {
+		return materialName;
 	}
 
-	public String getBomCode() {
-		return bomCode;
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 
-	public void setBomCode(String bomCode) {
-		this.bomCode = bomCode;
+	public String getMaterialUnit() {
+		return materialUnit;
 	}
 
-	public String getBomName() {
-		return bomName;
+	public void setMaterialUnit(String materialUnit) {
+		this.materialUnit = materialUnit;
 	}
 
-	public void setBomName(String bomName) {
-		this.bomName = bomName;
+	public Double getMaterialAmount() {
+		return materialAmount;
 	}
 
-	public Double getBomAmount() {
-		return bomAmount;
+	public void setMaterialAmount(Double materialAmount) {
+		this.materialAmount = materialAmount;
 	}
 
-	public void setBomAmount(Double bomAmount) {
-		this.bomAmount = bomAmount;
+	public String getIsCarton() {
+		return isCarton;
 	}
 
-//	public String getIsCarton() {
-//		return isCarton;
-//	}
-//
-//	public void setIsCarton(String isCarton) {
-//		this.isCarton = isCarton;
-//	}
-//	
-
-
-	
-	
-	
+	public void setIsCarton(String isCarton) {
+		this.isCarton = isCarton;
+	}
 }

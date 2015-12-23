@@ -916,9 +916,9 @@
 
 				<ul class="submenu">
 					<li class="">
-						<a href="product_group!list.action" >
+						<a href="material!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							产品组管理
+							物料管理
 						</a>
 
 						<b class="arrow"></b>

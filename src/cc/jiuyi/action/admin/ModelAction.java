@@ -175,21 +175,21 @@ public class ModelAction extends BaseAdminAction {
 		Model persistent = modelService.load(id);
 		
 		if(persistent.getFixer()!=admin){
-			return ajaxJsonSuccessMessage("您不是指定维修员,无法回复该单据!");
+			return ajaxJsonErrorMessage("您不是指定维修员,无法回复该单据!");
 		}
 		
 		if(persistent.getState().equals("2")){
-			return ajaxJsonSuccessMessage("已确定的单据无法再回复！");
+			return ajaxJsonErrorMessage("已确定的单据无法再回复！");
 		}
 		if(persistent.getState().equals("3")){
-			return ajaxJsonSuccessMessage("已关闭的单据无法再回复！");
+			return ajaxJsonErrorMessage("已关闭的单据无法再回复！");
 		}
 		if(persistent.getState().equals("1")){
-			return ajaxJsonSuccessMessage("单据已回复！");
+			return ajaxJsonErrorMessage("单据已回复！");
 		}
 			
 		if(model.getFixTime()==null){
-			return ajaxJsonSuccessMessage("维修时间不允许为空!");
+			return ajaxJsonErrorMessage("维修时间不允许为空!");
 		}
 				
 		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
@@ -198,17 +198,17 @@ public class ModelAction extends BaseAdminAction {
 		if(faultReasonSet!=null){
 			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
-			return ajaxJsonSuccessMessage("故障原因不允许为空!");
+			return ajaxJsonErrorMessage("故障原因不允许为空!");
 		}
 		if(handleSet!=null){
 			persistent.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
 		}else{
-			return ajaxJsonSuccessMessage("处理方法不允许为空!");
+			return ajaxJsonErrorMessage("处理方法不允许为空!");
 		}
 		if(longSet!=null){
 			persistent.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		}else{
-			return ajaxJsonSuccessMessage("预防措施不允许为空!");
+			return ajaxJsonErrorMessage("预防措施不允许为空!");
 		}
 		
 		modelService.update(persistent);
@@ -230,11 +230,11 @@ public class ModelAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
 		if(persistent.getInsepector()!=admin){
-			return ajaxJsonSuccessMessage("您不是指定检验员,不能确认该单据!");
+			return ajaxJsonErrorMessage("您不是指定检验员,不能确认该单据!");
 		}
 		if(persistent.getState().equals("1")){
 			if(model.getConfirmTime()==null){
-				return ajaxJsonSuccessMessage("确认时间不允许为空！");
+				return ajaxJsonErrorMessage("确认时间不允许为空！");
 			}
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
 			persistent.setState("2");
@@ -246,7 +246,7 @@ public class ModelAction extends BaseAdminAction {
 			log.setModel(persistent);
 			modelLogService.save(log);
 		}else{
-			return ajaxJsonSuccessMessage("该单据未回复/已关闭/已确认！");
+			return ajaxJsonErrorMessage("该单据未回复/已关闭/已确认！");
 		}
 				
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -259,7 +259,7 @@ public class ModelAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
 		if(persistent.getInitiator()!=admin){
-			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
 		}
 		if(persistent.getState().equals("2")){
 			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
@@ -272,14 +272,14 @@ public class ModelAction extends BaseAdminAction {
 			log.setModel(persistent);
 			modelLogService.save(log);
 		}else{
-			return ajaxJsonSuccessMessage("该单据已关闭/未确认！");
+			return ajaxJsonErrorMessage("该单据已关闭/未确认！");
 		}
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}	
 
 	public String ajlist() {
-		System.out.println("i");
+
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -315,41 +315,67 @@ public class ModelAction extends BaseAdminAction {
 
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = modelService.findByPager(pager,map,abnorId);	
+			List pagerlist = pager.getList();
+			
+			String str1;
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Model model = (Model) pagerlist.get(i);
+				str1="<a href='model!hview.action?id="+model.getId()+"'>"+model.getEquipments().getEquipmentName()+"</a>"; 
+	            model.setTeamName(model.getTeamId().getTeamName());
+				model.setProductName(str1);
+				model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", model.getState()));
+				model.setRepairName(model.getFixer().getName());
+							
+				List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
+						model.getFaultReasonSet());
+				List<String> strlist = new ArrayList<String>();	
+	            if(model.getFaultReasonSet()==null){
+	            	model.setFaultName("");
+				}else{
+					for (FaultReason faultReason : faultReasonList) {
+						String str = faultReason.getReasonName();
+						strlist.add(str);
+						String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+						model.setFaultName(comlist);}
+				}
+				
+				pagerlist.set(i, model);
+			}
+
+			pager.setList(pagerlist);
 		}else{
 			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Model model = (Model) pagerlist.get(i);
+	            model.setTeamName(model.getTeamId().getTeamName());
+				model.setProductName(model.getEquipments().getEquipmentName());
+				model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", model.getState()));
+				model.setRepairName(model.getFixer().getName());
+							
+				List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
+						model.getFaultReasonSet());
+				List<String> strlist = new ArrayList<String>();	
+	            if(model.getFaultReasonSet()==null){
+	            	model.setFaultName("");
+				}else{
+					for (FaultReason faultReason : faultReasonList) {
+						String str = faultReason.getReasonName();
+						strlist.add(str);
+						String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+						model.setFaultName(comlist);}
+				}
+				
+				pagerlist.set(i, model);
+			}
+
+			pager.setList(pagerlist);
 		}
 		
 
-		List pagerlist = pager.getList();
-		System.out.println(pagerlist.size());
 		
-		String str1;
-		for (int i = 0; i < pagerlist.size(); i++) {
-			Model model = (Model) pagerlist.get(i);
-			str1="<a href='model!view.action?id="+model.getId()+"'>"+model.getEquipments().getEquipmentName()+"</a>"; 
-            model.setTeamName(model.getTeamId().getTeamName());
-			model.setProductName(str1);
-			model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", model.getState()));
-			model.setRepairName(model.getFixer().getName());
-						
-			List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
-					model.getFaultReasonSet());
-			List<String> strlist = new ArrayList<String>();	
-            if(model.getFaultReasonSet()==null){
-            	model.setFaultName("");
-			}else{
-				for (FaultReason faultReason : faultReasonList) {
-					String str = faultReason.getReasonName();
-					strlist.add(str);
-					String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
-					model.setFaultName(comlist);}
-			}
-			
-			pagerlist.set(i, model);
-		}
-		System.out.println("ii");
-		pager.setList(pagerlist);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Model.class));//排除有关联关系的属性字段  
@@ -368,15 +394,15 @@ public class ModelAction extends BaseAdminAction {
 		model.setAbnormal(abnormal);
 		
 		if(model.getInsepector()==null){
-			return ajaxJsonSuccessMessage("检验员不允许为空！");
+			return ajaxJsonErrorMessage("检验员不允许为空！");
 		}
 		
 		if(model.getFixer()==null){
-			return ajaxJsonSuccessMessage("维修员不允许为空！");
+			return ajaxJsonErrorMessage("维修员不允许为空！");
 		}
 		
 		if(model.getEquipments()==null){
-			return ajaxJsonSuccessMessage("设备名称不允许为空!");
+			return ajaxJsonErrorMessage("设备名称不允许为空!");
 		}
 		
 		if(faultReasonSet==null){
@@ -417,6 +443,12 @@ public class ModelAction extends BaseAdminAction {
 	public String sealist() {
 		abnormalId=abnorId;
 		return "hlist";
+	}
+	
+	//详情
+	public String hview(){
+		model = modelService.load(id);
+		return "hview";
 	}
 
 	// 删除

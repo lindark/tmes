@@ -216,11 +216,11 @@ body {
 				$.message("error","请先选择产品");
 				return false;
 			}	
-			addAttributeOptionTr(productid,productname,productCode);
+			addAttributeOptionTr(productid,productname,productCode,"","","","","","");
 		});
 	})
 	var num = 0; 
-	function addAttributeOptionTr(productid,productname,productCode) {
+	function addAttributeOptionTr(productid,productname,productCode,materialCode,materialName,materialUnit,materialAmount,isCarton,version) {
 		var attributeOptionTrHtml = "<tr class='zg'>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
@@ -229,19 +229,19 @@ body {
 		"</td>" +
 		"<td>"  +
 		"<button type='button' class='btn btn-xs btn-info materialSearch'  data-toggle='button'>选择</button>" +
-		"<input type='hidden' name='bomList["+num+"].bomCode' class='form-control materialCode'/>"+
+		"<input type='hidden' name='bomList["+num+"].materialCode' class='form-control materialCode'/>"+
 		"<span class='materialCodespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].bomName'  class='form-control materialName'/>" +
+		"<input type='hidden' name='bomList["+num+"].materialName'  class='form-control materialName'/>" +
 		"<span class='materialNamespan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].bomUnit'  class='form-control materialUnit'/>" +
+		"<input type='hidden' name='bomList["+num+"].materialUnit'  class='form-control materialUnit'/>" +
 		"<span class='materialUnitspan'></span>"+
 		"</td>" +
 		"<td>"  +
-		"<input type='hidden' name='bomList["+num+"].bomAmount'  class='form-control materialAmount'/>" +
+		"<input type='hidden' name='bomList["+num+"].materialAmount'  class='form-control materialAmount'/>" +
 		"<span class='materialAmountspan'></span>"+
  		"</td>" +
  		"<td>"  +
@@ -297,6 +297,7 @@ body {
         	//alert(iframeWin);
         	 var work = iframeWin.getGridId();
              var id=work.split(",");
+             alert(work);
             /*
              $("#materialName").text(id[0]);
              $("#materialId").val(id[1]);
@@ -313,7 +314,6 @@ body {
              $this.parent().parent().find(".materialAmount").val(id[4]);
              $this.parent().parent().find(".materialAmountspan").text(id[4]);
              layer.close(index); 
-             //alert(work);
              loadData(id[1]);//加载表单数据            
 	  });	
 	}

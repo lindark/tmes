@@ -153,15 +153,15 @@ public class CraftAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("单据已回复!");
 		}
 		
-		if(craft.getUnusualDescription_process()==null){
+		if(craft.getUnusualDescription_process()==null || craft.getUnusualDescription_process().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("工艺分析不允许为空!");
 		}
 		
-		if(craft.getTreatmentMeasure_process()==null){
+		if(craft.getTreatmentMeasure_process()==null || craft.getTreatmentMeasure_process().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("工艺处理措施不允许为空!");
 		}
 		
-		if(craft.getResultCode_process()==null){
+		if(craft.getResultCode_process()==null || craft.getResultCode_process().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("工艺处理结果不允许为空!");
 		}
 		BeanUtils.copyProperties(craft, persistent, new String[] { "id", "team","abnormal","isDel","products","creater","repairName","receiptReasonSet","treatmentMeasure_make","resultCode_make"});
@@ -204,6 +204,7 @@ public class CraftAction extends BaseAdminAction {
 	
     public String ajlist(){
     	Admin admin = adminService.getLoginAdmin();
+    	admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		if (pager.getOrderBy().equals("")) {

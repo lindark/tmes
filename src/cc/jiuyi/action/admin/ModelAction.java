@@ -170,14 +170,11 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡回复		
 	public String creditreply() throws Exception{
-		System.out.println("in");
 		admin = adminService.getByCardnum(cardnumber);
 		Model persistent = modelService.load(id);
-		System.out.println("oc");
 		if(persistent.getFixer()!=admin){
 			return ajaxJsonErrorMessage("您不是指定维修员,无法回复该单据!");
 		}
-		System.out.println("ac");
 		if(persistent.getState().equals("2")){
 			return ajaxJsonErrorMessage("已确定的单据无法再回复！");
 		}
@@ -417,6 +414,7 @@ public class ModelAction extends BaseAdminAction {
 		}
 		model.setIsDel("N");
 		model.setState("0");
+		model.setInitiator(admin);
 		modelService.save(model);
 		
 		ModelLog log = new ModelLog();

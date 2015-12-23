@@ -313,5 +313,13 @@ public class WorkingBill extends BaseEntity {
 	public void setAfterworkingBillCode(String afterworkingBillCode) {
 		this.afterworkingBillCode = afterworkingBillCode;
 	}
+
+	public Integer getBomversion() {
+		return bomversion;
+	}
+
+	public void setBomversion(Integer bomversion) {
+		this.bomversion = bomversion;
+	}
 	
 }

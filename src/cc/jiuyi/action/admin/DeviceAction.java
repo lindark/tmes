@@ -273,7 +273,6 @@ public class DeviceAction extends BaseAdminAction {
 	// 保存
 	public String creditsave(){		
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		abnormal=abnormalService.load(abnormalId);
 		device.setAbnormal(abnormal);
@@ -322,7 +321,6 @@ public class DeviceAction extends BaseAdminAction {
 	//刷卡回复	
 	public String creditreply() throws Exception{
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		Device persistent = deviceService.load(id);
 		
@@ -377,7 +375,6 @@ public class DeviceAction extends BaseAdminAction {
 	//刷卡关闭
 	public String creditclose() throws Exception{
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Device persistent = deviceService.load(id);
 		
 		if(persistent.getWorkshopLinkman()!=admin){

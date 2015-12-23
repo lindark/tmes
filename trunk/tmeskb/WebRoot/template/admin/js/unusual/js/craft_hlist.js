@@ -131,7 +131,7 @@ jQuery(function($) {
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;'";
+			return "style='color:blue;'";
 		}
 		
 		//已完结

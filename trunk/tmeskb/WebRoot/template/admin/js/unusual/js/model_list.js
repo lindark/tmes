@@ -134,7 +134,7 @@ jQuery(function($) {
 		//已确定
 		if(rawObject.state=="2")
 		{
-			return "style='color:#0000FF;'";
+			return "style='color:#66009D;'";
 		}
 		
 		//已完结

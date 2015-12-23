@@ -198,7 +198,7 @@ body {
 		//产品点击
 		$("#productSeach").click(function(){
 			showMaterial();
-			
+			$("#tb_material").html("");
 		});
 		
 		
@@ -210,12 +210,11 @@ body {
 				$.message("error","请先选择产品");
 				return false;
 			}
-				
-			addAttributeOptionTr(productid,productname,productCode,"","","","","");
+			addAttributeOptionTr(productid,productname,productCode,"","","","","","");
 		});
 	})
 	var num = 0; 
-	function addAttributeOptionTr(productid,productname,productCode,productsNum,version,sortcode,unit,workCenter) {
+	function addAttributeOptionTr(productid,productname,productCode,productsNum,version,sortcode,unit,workCenter,processId) {
 		var attributeOptionTrHtml = "<tr class='zg'>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
@@ -223,9 +222,9 @@ body {
 			"<input type='text' name='processrouteList["+num+"].productAmount' value='"+productsNum+"' class='form-control'/>" +
  		"</td>" +
 		"<td>" +
-			"<select name='processrouteList["+num+"].process.id'>" +
+			"<select name='processrouteList["+num+"].process.id' class='sele'>" +
 			<#list processAll as list>
-				"<option value='${list.id}' <#if (processrouteList["+num+"].process.id==list.id)!> selected</#if>>${list.processCode} ${list.processName}</option>"+
+				"<option value='${list.id}'>${list.processCode} ${list.processName}</option>"+
 			</#list>
 			"</select>" +
 		"</td>" +
@@ -240,6 +239,8 @@ body {
 		"</tr>";
 		$("#tb_material").append(attributeOptionTrHtml);
 		num = num+1;
+		
+		
 }
 	
 	//读取产品信息
@@ -285,7 +286,7 @@ body {
 			success: function(data) {
 				var list = data.list;
 				$.each(list,function(i,obj){
-					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode,obj.productsNum,obj.version,obj.sortcode,obj.unit,obj.workCenter);
+					addAttributeOptionTr(obj.productsid,obj.productsName,obj.productsCode,obj.productsNum,obj.version,obj.sortcode,obj.unit,obj.workCenter,obj.processId);
 				})
 				
 			},error:function(data){

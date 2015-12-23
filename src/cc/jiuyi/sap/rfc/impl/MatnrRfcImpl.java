@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 @Component
 public class MatnrRfcImpl extends BaserfcServiceImpl implements MatnrRfc{
 	@Override
-	public List<HashMap<String, String>> getMaterialList(String matnr,
+	public List<Material> getMaterialList(String matnr,
 			String werks, String maktx)  throws IOException,CustomerException{
 		super.setProperty("materials");//获取函数名称
 		/******输入参数******/
@@ -30,16 +31,17 @@ public class MatnrRfcImpl extends BaserfcServiceImpl implements MatnrRfc{
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
 		Table T_DATA = outs.getTable("T_DATA");//列表
-		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		List<Material> list = new ArrayList<Material>();
 		for (int i = 0; i < T_DATA.getNumRows(); i++) {
 			T_DATA.setRow(i);
-			HashMap<String,String> map = new HashMap<String, String>();
-			map.put("matnr", T_DATA.getString("MATNR"));//物料编码
-			map.put("maktx", T_DATA.getString("MAKTX"));//物料描述
-			map.put("meins", T_DATA.getString("MEINS"));//单位
-			map.put("werks", T_DATA.getString("WERKS"));//工厂
-			map.put("matkl", T_DATA.getString("MATKL"));//物料组
-			list.add(map);
+			Material m = new Material();
+			m.setMaterialCode(T_DATA.getString("MATNR"));
+			m.setMaterialName(T_DATA.getString("MAKTX"));
+			m.setMaterialType(T_DATA.getString("MTART"));
+			m.setMaterialUnit(T_DATA.getString("MEINS"));
+			m.setWerks(T_DATA.getString("WERKS"));
+			m.setOrderUnit(T_DATA.getString("BSTME"));
+			list.add(m);
 		}
 		return list;
 	}

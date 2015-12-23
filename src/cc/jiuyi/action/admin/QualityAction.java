@@ -158,24 +158,37 @@ public class QualityAction extends BaseAdminAction {
 		
 		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
 			pager = qualityService.findByPager(pager,map,abnorId);	
+			List pagerlist = pager.getList();
+			String str;
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Quality quality = (Quality) pagerlist.get(i);
+				str="<a href='quality!hview.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
+				quality.setProductsName(str);
+				quality.setFounder(quality.getCreater().getName());
+				quality.setProcessName(quality.getProcess().getProcessName());
+				quality.setTeamName(quality.getTeam().getTeamName());
+				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", quality.getState()));		
+				pagerlist.set(i,quality);
+			}
+			pager.setList(pagerlist);
 		}else{
 			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Quality quality = (Quality) pagerlist.get(i);
+				quality.setProductsName(quality.getProducts().getProductsName());
+				quality.setFounder(quality.getCreater().getName());
+				quality.setProcessName(quality.getProcess().getProcessName());
+				quality.setTeamName(quality.getTeam().getTeamName());
+				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", quality.getState()));		
+				pagerlist.set(i,quality);
+			}
+			pager.setList(pagerlist);
 		}	
 
-		List pagerlist = pager.getList();
-		String str;
-		for (int i = 0; i < pagerlist.size(); i++) {
-			Quality quality = (Quality) pagerlist.get(i);
-			str="<a href='quality!view.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
-			quality.setProductsName(str);
-			quality.setFounder(quality.getCreater().getName());
-			quality.setProcessName(quality.getProcess().getProcessName());
-			quality.setTeamName(quality.getTeam().getTeamName());
-			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", quality.getState()));		
-			pagerlist.set(i,quality);
-		}
-		pager.setList(pagerlist);
+		
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Quality.class));//排除有关联关系的属性字段  
@@ -190,6 +203,12 @@ public class QualityAction extends BaseAdminAction {
 		abnormalId=abnorId;
 		return "hlist";
 	}
+	
+	//详情
+	public String hview(){
+		quality = qualityService.load(id);
+		return "hview";
+	}
 
 	// 保存	
 	public String creditsave() {		
@@ -200,11 +219,11 @@ public class QualityAction extends BaseAdminAction {
 		
 		
 		if(quality.getProducts()==null){
-			return ajaxJsonSuccessMessage("产品名称不允许为空!");
+			return ajaxJsonErrorMessage("产品名称不允许为空!");
 		}
 		
 		if(quality.getProcess()==null){
-			return ajaxJsonSuccessMessage("工序名称不允许为空!");
+			return ajaxJsonErrorMessage("工序名称不允许为空!");
 		}
 		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
@@ -242,17 +261,17 @@ public class QualityAction extends BaseAdminAction {
 		
 		Quality persistent = qualityService.load(id);
 		if(persistent.getReceiver()!=admin){
-			return ajaxJsonSuccessMessage("您不是单据接收人!");
+			return ajaxJsonErrorMessage("您不是单据接收人!");
 		}
 		if(persistent.getState().equals("3")){		
-			return ajaxJsonSuccessMessage("已关闭的单据无法再回复!");
+			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
 		if(persistent.getState().equals("1")){
-			return ajaxJsonSuccessMessage("单据已回复!");
+			return ajaxJsonErrorMessage("单据已回复!");
 		}
 		
 		if(quality.getRectificationScheme()==null){
-			return ajaxJsonSuccessMessage("车间整改方案不允许为空!");
+			return ajaxJsonErrorMessage("车间整改方案不允许为空!");
 		}
 		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription"});
 		persistent.setState("1");
@@ -275,7 +294,7 @@ public class QualityAction extends BaseAdminAction {
 		
 		Quality persistent = qualityService.load(id);
 		if(persistent.getCreater()!=admin){
-			return ajaxJsonSuccessMessage("您不是单据创建人,无法关闭该单据!");
+			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
 		}
 		if(persistent.getState().equals("1")){
 			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","abnormal","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime"});
@@ -288,7 +307,7 @@ public class QualityAction extends BaseAdminAction {
 			log.setQuality(persistent);
 			unusualLogService.save(log);
 		}else{
-			return ajaxJsonSuccessMessage("单据已关闭/未回复!");
+			return ajaxJsonErrorMessage("单据已关闭/未回复!");
 		}
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

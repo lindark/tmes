@@ -488,13 +488,12 @@ public class TestSAPUtilService extends BaseTestCase {
 	@Test
 	public void testgetMatnr(){
 		try {
-			List<HashMap<String,String>> list=matnrrfc.getMaterialList("", "1000", "线圈");
+			List<Material> list=matnrrfc.getMaterialList("", "1000", "线圈");
 			for(int i=0;i<list.size();i++){
 				System.out.println("长度："+list.size());
-				HashMap map=list.get(i);
-				System.out.println(map);
-				System.out.println(map.get("matnr"));
-				System.out.println(map.get("maktx"));
+				Material m=list.get(i);
+				System.out.println(m.getMaterialCode());
+				System.out.println(m.getMaterialName());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

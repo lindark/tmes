@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Locationonside;
@@ -26,10 +27,12 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -84,27 +87,36 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private LocationonsideRfc rfc;
 	@Resource
 	private HandOverProcessRfc handoverprocessrfc;
+	@Resource
+	private BomService bomservice;
+	@Resource
+	private ProductsService productsservice;
 
 	// 添加 工序交接
 	public String add() {
+		/***获取当班随工单,将产品编码的集合放到 list****/
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		material = materialservice.get("materialCode", materialCode);
-		List<Products> prouctsSet = new ArrayList<Products>(
-				material.getProducts());// 产品列表
-		Object[] list = new Object[prouctsSet.size()];
-		for (int i = 0; i < prouctsSet.size(); i++) {
-			Products products = prouctsSet.get(i);
-			list[i] = products.getProductsCode();
-		}
-		workingbillList = workingbillservice.findListWorkingBill(list,
-				admin.getProductDate(), admin.getShift());
-
-		for (int i = 0; i < workingbillList.size(); i++) {
-			WorkingBill workingbill = workingbillList.get(i);
-			HandOverProcess handoverprocess = handOverProcessService
-					.findhandoverBypro(materialCode, processid,
-							workingbill.getMatnr());
+		//material = materialservice.get("materialCode", materialCode);
+		List<WorkingBill> workingbillAll = workingbillservice.getListWorkingBillByDate(admin);//获取当班随工单集合
+//		Object[] list = new Object[workingbillList.size()];
+//		for(int i=0;i<workingbillList.size();i++){
+//			WorkingBill workingbill = workingbillList.get(i);
+//			list[i] = workingbill.getMatnr();
+//		}
+		//workingbillList = workingbillservice.findListWorkingBill(list,admin.getProductDate(), admin.getShift());
+		/***找出今日随工单中跟materialCode 的相关的产品****/
+		for (int i = 0; i < workingbillAll.size(); i++) {
+			WorkingBill workingbill = workingbillAll.get(i);
+			Integer version = workingbill.getBomversion();
+			if(version == null) {
+				version = bomservice.getMaxVersionBycode(workingbill.getMatnr());
+			}
+			List<Bom> bomList = bomservice.getBomByProductCode(workingbill.getMatnr(),materialCode,version);
+		    //此处明天接着写
+			
+			
+			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr());
 			if (handoverprocess != null) {
 				Integer amount = handoverprocess.getAmount();
 				workingbill.setAmount(amount);
@@ -112,7 +124,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
 			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode());//下一随工单--此处有问题。根据什么条件获取下一随工单
 			workingbill.setAfterworkingBillCode(nextWorkingbill.getWorkingBillCode());
-			workingbillList.set(i, workingbill);
+			workingbillList.add(workingbill);
 		}
 
 		return INPUT;

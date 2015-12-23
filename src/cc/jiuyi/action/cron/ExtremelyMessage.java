@@ -1,5 +1,7 @@
 package cc.jiuyi.action.cron;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -15,6 +17,7 @@ import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
 
 @Component 
@@ -41,6 +44,9 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     JobDataMap data = context.getJobDetail().getJobDataMap();  
 		     String abnorId = data.getString("id");//异常id
 		     String adminId = data.getString("name");//人员id
+		     String time1 = data.getString("date");//时间
+		     String jobname = data.getString("jobname");//任务名称
+		     HashMap<String,Object> maps = new HashMap<String,Object>();
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");
 		     Abnormal abnormal = abnormalService.get(abnorId);
@@ -56,6 +62,8 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					abnormalLog.setType("5");
 					abnormalLog.setOperator(admin);
 					abnormalLogService.save(abnormalLog);
+					
+					QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
 			  }
 		  }catch(Exception e){
 		      log.error("ExtremelyMessage任务出错",e);

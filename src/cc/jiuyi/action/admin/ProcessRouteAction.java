@@ -83,14 +83,24 @@ public class ProcessRouteAction extends BaseAdminAction {
 		for(int i=0;i<processrouteList.size();i++){
 			ProcessRoute processroute = processrouteList.get(i);
 			Products product = processroute.getProducts();
-			cc.jiuyi.entity.Process process = processroute.getProcess();
-			JSONObject jsonobject = new JSONObject();
-			jsonobject.put("productsid", product.getId());
-			jsonobject.put("productsCode", product.getProductsCode());
-			jsonobject.put("productsName", product.getProductsName());
-			jsonobject.put("processCode", process.getProcessCode());
-			jsonobject.put("processName", process.getProcessName());
-			jsonarray.add(jsonobject);
+			int version1 = processroute.getVersion();
+			int version2 = processrouteservice.getMaxVersion(productid);
+			if(version1==version2){
+				cc.jiuyi.entity.Process process = processroute.getProcess();
+				JSONObject jsonobject = new JSONObject();
+				jsonobject.put("productsid", product.getId());
+				jsonobject.put("productsCode", product.getProductsCode());
+				jsonobject.put("productsName", product.getProductsName());
+				jsonobject.put("processId", process.getId());
+				jsonobject.put("processCode", process.getProcessCode());
+				jsonobject.put("processName", process.getProcessName());
+				jsonobject.put("productsNum", processroute.getProductAmount());
+				jsonobject.put("sortcode", processroute.getSortcode());
+				jsonobject.put("unit", processroute.getUnit());
+				jsonobject.put("version", processroute.getVersion());
+				jsonobject.put("workCenter", processroute.getWorkCenter());
+				jsonarray.add(jsonobject);				
+			}
 		}
 		json.put("list", jsonarray);
 		System.out.println(json.toString());

@@ -212,9 +212,7 @@ public class QualityAction extends BaseAdminAction {
 
 	// 保存	
 	public String creditsave() {		
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		abnormal = abnormalService.load(abnormalId);
 		
 		
@@ -257,7 +255,6 @@ public class QualityAction extends BaseAdminAction {
 	//刷卡回复
 	public String creditreply() throws Exception{
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		Quality persistent = qualityService.load(id);
 		if(persistent.getReceiver()!=admin){
@@ -288,9 +285,7 @@ public class QualityAction extends BaseAdminAction {
 		
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		Quality persistent = qualityService.load(id);
 		if(persistent.getCreater()!=admin){

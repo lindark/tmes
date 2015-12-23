@@ -136,7 +136,7 @@ body {
 													</select>
 																							
 												</div>
-
+                                                <!-- 
 												<div class="profile-info-name">提报人</div>
 												<div class="profile-info-value">
 													<#if isAdd??> 	
@@ -146,7 +146,7 @@ body {
 														class=" input input-sm  formText {required: true}" />
 													<#else> ${(model.initiator.name)!} </#if>
 
-												</div>
+												</div> -->
 											</div>
 
 							

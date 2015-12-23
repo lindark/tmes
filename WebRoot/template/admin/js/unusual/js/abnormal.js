@@ -182,12 +182,12 @@ $(function() {
 				}
 			}
 			var closeIds=i;
-			var url = "abnormal!creditclose.action";	
+			var url = "abnormal!creditclose.action?closeIds="+closeIds;	
 			
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
 					layer.alert(data.message, {icon: 6},function(){
-						window.location.href="abnormal!list.action?closeIds="+closeIds;
+						window.location.href="abnormal!list.action";
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {

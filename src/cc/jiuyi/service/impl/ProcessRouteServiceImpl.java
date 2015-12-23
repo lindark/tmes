@@ -59,5 +59,10 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 			processroutedao.save(processroute);
 		}
 	}
+
+	@Override
+	public Integer getMaxVersion(String productid) {
+		return processroutedao.getMaxVersion(productid);
+	}
 	
 }

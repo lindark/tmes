@@ -188,8 +188,6 @@ body {
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-
-
 </body>
 </html>
 <script type="text/javascript">

@@ -15,4 +15,9 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @param BomList
 	 */
 	public void mergeBom(List<Bom> bomList,String productid);
+	
+	/**
+	 * 获取最高版本号
+	 */
+	public Integer getMaxVersionByid(String productid);
 }

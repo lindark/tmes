@@ -105,10 +105,9 @@ $(function() {
 					return false;
 				}
 			}
-			
 			//var dt = $("#inputForm").serialize();
 			var ids=i;
-			var url = "abnormal!creditresponse.action";		
+			var url = "abnormal!creditresponse.action?ids="+ids;		
 			/*credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				window.location.href = "abnormal!list.action";
@@ -127,7 +126,7 @@ $(function() {
 					        skin:'error'
 					   });
 					}		
-				},ids)
+				})
 			//window.location.href = "abnormal!creditresponse1.action?ids="+i;
 		}
 		
@@ -148,7 +147,7 @@ $(function() {
 				}
 			}
 			var cancelIds=i;
-			var url = "abnormal!creditundo.action";		
+			var url = "abnormal!creditundo.action?cancelIds="+cancelIds;		
 			
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
@@ -162,7 +161,7 @@ $(function() {
 				        skin:'error'
 				   });
 				}		
-			},cancelIds)
+			})
 		
 		}
 				
@@ -188,7 +187,7 @@ $(function() {
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
 					layer.alert(data.message, {icon: 6},function(){
-						window.location.href="abnormal!list.action";
+						window.location.href="abnormal!list.action?closeIds="+closeIds;
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {
@@ -197,7 +196,7 @@ $(function() {
 				        skin:'error'
 				   });
 				}		
-			},closeIds)
+			})
 			
 		}
     });

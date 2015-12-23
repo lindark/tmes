@@ -105,7 +105,6 @@ public class AbnormalAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		// pager = abnormalService.findByPager(pager);
 		return LIST;
 	}
 
@@ -272,12 +271,9 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	public String creditresponse() {
-		//Admin admin1 = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		List<Abnormal> abnormalList = abnormalService.get(ids);
-        String person = admin.getName();
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;
 			Abnormal persistent = abnormalList.get(i);
@@ -324,7 +320,6 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public String creditclose() {
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
@@ -354,9 +349,7 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	public String creditundo() {
-		//Admin admin2 = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
@@ -376,14 +369,8 @@ public class AbnormalAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("您没有撤销的权限!");
 			}
 
-			/*Date date = new Date();
-			int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
-			persistent.setHandlingTime(time);
-			abnormalService.update(persistent);*/
 		}
 
-		//redirectionUrl = "abnormal!list.action";
-		//return SUCCESS;
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -393,9 +380,7 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	public String creditsave() {
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		
 		Abnormal abnormal = new Abnormal();
 		abnormal.setCallDate(new Date());
@@ -411,8 +396,20 @@ public class AbnormalAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("短信不允许为空!");
 		} 
 		
-		abnormal.setResponsorSet(new HashSet<Admin>(adminSet));
-		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSet));
+		List<Admin> adminSets= new ArrayList<Admin>();
+		for(int i=0;i<adminSet.size();i++){
+			if(adminSet.get(i)==null)continue;
+			adminSets.add(adminSet.get(i));
+		}
+		
+		List<Callreason> callReasonSets= new ArrayList<Callreason>();
+		for(int i=0;i<callReasonSet.size();i++){
+			if(callReasonSet.get(i)==null)continue;
+			callReasonSets.add(callReasonSet.get(i));
+		}
+		abnormal.setResponsorSet(new HashSet<Admin>(adminSets));
+		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
+		
 		abnormalService.save(abnormal);
 				
 		Calendar can = Calendar.getInstance();		

@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
@@ -12,8 +13,25 @@ import cc.jiuyi.entity.Bom;
 public interface BomDao extends BaseDao<Bom, String> {
 
 	/**
-	 * 获取最高版本号
+	 * 获取最高版本号,根据产品id
 	 * @return
 	 */
-	public Integer getMaxVersion(String productid);
+	public Integer getMaxVersionByid(String productid);
+	
+	/**
+	 * 获取最高版本号,根据产品产品编码
+	 * @param productCode
+	 * @return
+	 */
+	
+	public Integer getMaxVersionBycode(String productCode);
+	
+	/**
+	 * 根据产品编码获取 bom 信息
+	 * @param productCode
+	 * @return
+	 */
+	public List<Bom> getBomByProductCode(String productCode,String materialCode,Integer version);
+	
+	
 }

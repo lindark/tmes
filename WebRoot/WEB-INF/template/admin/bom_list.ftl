@@ -199,7 +199,7 @@ body {
 
 		//产品点击
 		$("#productSeach").click(function(){
-			showMaterial();	
+			showProducts();	
 		});
 		
 		
@@ -210,8 +210,7 @@ body {
 			if(productid == ""){
 				$.message("error","请先选择产品");
 				return false;
-			}
-				
+			}	
 			addAttributeOptionTr(productid,productname,productCode);
 		});
 	})
@@ -223,20 +222,20 @@ body {
 		"<td><input type='hidden' name='bomList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
 		"<input type='text' name='bomList["+num+"].productAmount'  class='form-control'/>" +
 		"</td>" +
-		"<td>"  +
+		"<td><input type='hidden' name='bomList["+num+"].material.id' value='"+materialid+"' class='form-control'/>"+
 		"<input type='text' name='bomList["+num+"].bomCode'  class='form-control'/>" +
 		"</td>" +
 		"<td>"  +
 		"<input type='text' name='bomList["+num+"].bomName'  class='form-control'/>" +
 		"</td>" +
-		"<td>"+
+		"<td>"  +
 		"<input type='text' name='bomList["+num+"].bomUnit'  class='form-control'/>" +
 		"</td>" +
-		"<td>"+
+		"<td>"  +
 		"<input type='text' name='bomList["+num+"].bomAmount'  class='form-control'/>" +
  		"</td>" +
 		"<td><input type='hidden'  value='' class='form-control'/></td>" +
-		"<td>" +
+		"<td>"  +
 		"	<a class='edit'>编辑</a>" +
 		//"	/" +
 		"	<a class='delete'>删除</a>" +
@@ -247,7 +246,7 @@ body {
 }
 	
 	//读取产品信息
-	function showMaterial(){
+	function showProducts(){
 		var title = "选择产品";
 		var width="800px";
 		var height="600px";
@@ -261,12 +260,31 @@ body {
              $("#productId").val(id[1]);
              $("#productName").text(id[0]);
              $("#productCode").text(id[2]);
-             layer.close(index);
-             
-             loadData(id[1]);//加载表单数据
-             
+             layer.close(index); 
+             loadData(id[1]);//加载表单数据            
 	 });	
 	}
+	
+	//读取组件信息
+	function showMaterial(){
+		var title = "选择组件";
+		var width="800px";
+		var height="600px";
+		var content="products!browser.action";
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+			
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	//alert(iframeWin);
+        	 var work = iframeWin.getGridId();
+             var id=work.split(",");
+            // $("#productId").val(id[1]);
+            // $("#productName").text(id[0]);
+            // $("#productCode").text(id[2]);
+             layer.close(index); 
+             //loadData(id[1]);//加载表单数据            
+	  });	
+	}
+	
 	
 	$(".edit").livequery("click", function(){
 		$(this).prev().prev().attr("disabled",false);

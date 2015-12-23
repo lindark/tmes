@@ -1,59 +1,18 @@
 package cc.jiuyi.action.admin;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-
-import cc.jiuyi.action.cron.ExtremelyMessage;
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Abnormal;
-import cc.jiuyi.entity.AbnormalLog;
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Callreason;
-import cc.jiuyi.entity.Craft;
-import cc.jiuyi.entity.Department;
-import cc.jiuyi.entity.Device;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.FlowingRectify;
-import cc.jiuyi.entity.Member;
-import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.Quality;
-import cc.jiuyi.entity.SwiptCard;
-import cc.jiuyi.service.AbnormalLogService;
-import cc.jiuyi.service.AbnormalService;
-import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.CallreasonService;
-import cc.jiuyi.service.DepartmentService;
-import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
-import cc.jiuyi.service.SwiptCardService;
-import cc.jiuyi.util.CommonUtil;
-import cc.jiuyi.util.QuartzManagerUtil;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 工艺路线

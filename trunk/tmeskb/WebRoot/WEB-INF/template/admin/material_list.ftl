@@ -102,17 +102,13 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索Bom
 											</a>
+											<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
+										        <i class="ace-icon glyphicon glyphicon-edit"></i>
+										               维护Bom
+									        </button>
 										</div>
-										
 									</div>
-								</form>
-								<div>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
-										<i class="ace-icon glyphicon glyphicon-edit"></i>
-										维护Bom
-									</button>
-								   </div>
-								
+								</form>							
 								<table id="grid-table"></table>
 
 								<div id="grid-pager"></div>
@@ -190,7 +186,7 @@
 		
 				
 		$("#btn_save").click(function(){
-			window.location.href="material!add.action";
+			window.location.href="bom!list.action";
 		});
 		/*
 		var ishead3=0;

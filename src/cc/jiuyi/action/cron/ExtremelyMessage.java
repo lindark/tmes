@@ -19,6 +19,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
+import cc.jiuyi.util.SendMsgUtil;
 
 @Component 
 public class ExtremelyMessage extends MyDetailQuartzJobBean {
@@ -55,6 +56,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     abnormalLogService=(AbnormalLogService) SpringUtil.getBean("abnormalLogServiceImpl");
 		     
 			 System.out.println("ExtremelyMessage任务执行");
+			 SendMsgUtil.SendMsg("13330073212","xx异常还未响应");
 			 			 
 			 if(1==1){
 				    AbnormalLog abnormalLog = new AbnormalLog();
@@ -63,7 +65,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					abnormalLog.setOperator(admin);
 					abnormalLogService.save(abnormalLog);
 					
-					QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
+					//QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
 			  }
 		  }catch(Exception e){
 		      log.error("ExtremelyMessage任务出错",e);

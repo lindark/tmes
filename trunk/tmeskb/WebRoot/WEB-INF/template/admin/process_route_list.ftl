@@ -222,7 +222,7 @@ body {
 			"<input type='text' name='processrouteList["+num+"].productAmount' value='"+productsNum+"' class='form-control'/>" +
  		"</td>" +
 		"<td>" +
-			"<select name='processrouteList["+num+"].process.id' class='sele'>" +
+			"<select name='processrouteList["+num+"].process.id' class='sele_"+num+"'>" +
 			<#list processAll as list>
 				"<option value='${list.id}'>${list.processCode} ${list.processName}</option>"+
 			</#list>
@@ -238,8 +238,9 @@ body {
 		"</td>" +
 		"</tr>";
 		$("#tb_material").append(attributeOptionTrHtml);
-		num = num+1;
 		
+		$(".sele_"+num).val(processId);
+		num = num+1;
 		
 }
 	

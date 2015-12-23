@@ -129,13 +129,13 @@ jQuery(function($) {
 		//已回复
 		if(rawObject.state=="1")
 		{
-			return "style='color:#FFBB66;'";
+			return "style='color:blue;'";
 		}
 		
 		//已确定
 		if(rawObject.state=="2")
 		{
-			return "style='color:#0000FF;'";
+			return "style='color:#66009D;'";
 		}
 		
 		//已完结

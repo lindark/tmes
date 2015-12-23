@@ -35,6 +35,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairAmount;// 累计返修数量
 	private String werks;//工厂
 	private Integer amount;//交接数量
+	private Integer bomversion;//BOM版本
 	
 
 	private Set<EnteringwareHouse> enteringwareHouse;

@@ -171,7 +171,6 @@ public class ModelAction extends BaseAdminAction {
 	//刷卡回复		
 	public String creditreply() throws Exception{
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
 		
 		if(persistent.getFixer()!=admin){
@@ -225,9 +224,7 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡确定
 	public String creditapproval() throws Exception{
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
 		if(persistent.getInsepector()!=admin){
 			return ajaxJsonErrorMessage("您不是指定检验员,不能确认该单据!");
@@ -254,9 +251,7 @@ public class ModelAction extends BaseAdminAction {
 	
 	//刷卡关闭
 	public String creditclose() throws Exception{
-		//Admin admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 		Model persistent = modelService.load(id);
 		if(persistent.getInitiator()!=admin){
 			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
@@ -388,7 +383,6 @@ public class ModelAction extends BaseAdminAction {
 	// 保存
 	public String creditsave() {
 		admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
 
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);

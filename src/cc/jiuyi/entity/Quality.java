@@ -36,6 +36,7 @@ public class Quality extends BaseEntity{
 	private String isDel;//是否删除	
 	private String state;//状态
 	private Abnormal abnormal;//异常
+	private String process;//工序
 	
 	private String stateRemark;//状态描述    
 	private String founder;
@@ -201,6 +202,12 @@ public class Quality extends BaseEntity{
 	}
 	public void setReceiver(Admin receiver) {
 		this.receiver = receiver;
+	}
+	public String getProcess() {
+		return process;
+	}
+	public void setProcess(String process) {
+		this.process = process;
 	}
 	
 	

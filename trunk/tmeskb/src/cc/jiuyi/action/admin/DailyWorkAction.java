@@ -22,17 +22,17 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 后台Action类 - 报工
@@ -52,7 +52,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private List<Process> allProcess;
-	private String cardnumber;//刷卡卡号
+	private String cardnumber;// 刷卡卡号
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -64,6 +64,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private ProcessService processService;
+	@Resource
+	private ProcessRouteService processRouteService;
+	@Resource
+	private ProductsService productsService;
 
 	/**
 	 * 跳转list 页面
@@ -82,9 +86,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
-		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
-		workingbills.add(workingbill);
-		allProcess = processService.findProcess(workingbills);
+		String productCode = workingbill.getMatnr();
+		allProcess = new ArrayList<Process>();
+		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList = processRouteService
+				.getProcessRouteByProductCode(productCode);
+		for (int i = 0; i < processRouteList.size(); i++) {
+			allProcess.add(processRouteList.get(i).getProcess());
+		}
 		return INPUT;
 	}
 
@@ -92,15 +101,27 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String edit() {
 		dailyWork = dailyWorkService.load(id);
 		workingbill = workingBillService.get(workingBillId);
-		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
-		workingbills.add(workingbill);
-		allProcess = processService.findProcess(workingbills);
+		String productCode = workingbill.getMatnr();
+		Integer version = workingbill.getProcessversion();
+		if (version == null) {
+			version = processRouteService.getMaxVersion(productsService.get(
+					"productsCode", productCode).getId());
+		}
+		allProcess = new ArrayList<Process>();
+		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
+				version, productCode);
+		for (int i = 0; i < processRouteList.size(); i++) {
+			allProcess.add(processRouteList.get(i).getProcess());
+		}
 		return INPUT;
 	}
 
 	// 保存
 	public String creditsave() throws Exception {
-		if(dailyWork.getEnterAmount()==null||String.valueOf(dailyWork.getEnterAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (dailyWork.getEnterAmount() == null
+				|| String.valueOf(dailyWork.getEnterAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("报工数量必须为零或正整数!");
 		}
 		admin = adminService.getByCardnum(cardnumber);
@@ -115,7 +136,9 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 更新
 	public String creditupdate() throws Exception {
-		if(dailyWork.getEnterAmount()==null||String.valueOf(dailyWork.getEnterAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (dailyWork.getEnterAmount() == null
+				|| String.valueOf(dailyWork.getEnterAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("报工数量必须为零或正整数!");
 		}
 		DailyWork persistent = dailyWorkService.load(id);
@@ -142,7 +165,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list, workingBillId,cardnumber);
+			dailyWorkService.updateState(list, workingBillId, cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -174,7 +197,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState2(list, workingBillId,cardnumber);
+			dailyWorkService.updateState2(list, workingBillId, cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -238,10 +261,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			if (dailyWork.getProcess() != null) {
-				dailyWork.setResponseName(dailyWork.getProcess()
-						.getProcessName());
-			}
+			dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			dailyWork.setMaktx(workingBillService.get(
 					dailyWork.getWorkingbill().getId()).getMaktx());
@@ -290,10 +311,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			if (dailyWork.getProcess() != null) {
-				dailyWork.setResponseName(dailyWork.getProcess()
-						.getProcessName());
-			}
+			dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}

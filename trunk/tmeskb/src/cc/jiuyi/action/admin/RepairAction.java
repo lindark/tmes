@@ -27,6 +27,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -67,6 +68,8 @@ public class RepairAction extends BaseAdminAction {
 	private ProcessService processService;
 	@Resource
 	private ProcessRouteService processRouteService;
+	@Resource
+	private ProductsService productsService;
 
 	public String list() {
 		admin = adminService.getLoginAdmin();
@@ -97,33 +100,18 @@ public class RepairAction extends BaseAdminAction {
 	public String edit() {
 		repair = repairService.load(id);
 		workingbill = workingBillService.get(workingBillId);
+		Integer version = workingbill.getProcessversion();
 		String productCode = workingbill.getMatnr();
+		if (version == null) {
+			version = processRouteService.getMaxVersion(productsService.get(
+					"productsCode", productCode).getId());
+		}
 		allProcess = new ArrayList<Process>();
 		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService
-				.getAllProcessRouteByProductCode(productCode);
-		// 将历史版本中出现过的工序去重复地加入allProcess集合中
+		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
+				version, productCode);
 		for (int i = 0; i < processRouteList.size(); i++) {
-			if (allProcess.size() > 0) {
-				// 标记
-				int index = 0;
-				String routeProcess = processRouteList.get(i).getProcess()
-						.getProcessCode();
-				for (int j = 0; j < allProcess.size(); j++) {
-					String aProcess = allProcess.get(j).getProcessCode();
-					// 一旦出现一样的工序，改变标记，并且结束内层循环
-					if (routeProcess.equals(aProcess)) {
-						index = 1;
-						break;
-					}
-				}
-				// 如果allProcess中没有相同的工序则添加
-				if (index == 0) {
-					allProcess.add(processRouteList.get(i).getProcess());
-				}
-			} else {
-				allProcess.add(processRouteList.get(i).getProcess());
-			}
+			allProcess.add(processRouteList.get(i).getProcess());
 		}
 		return INPUT;
 	}

@@ -21,7 +21,6 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
@@ -88,82 +87,66 @@ public class ProcessAction extends BaseAdminAction {
 	public String ajlist() {
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		try {
-			if (pager.getOrderBy().equals("")) {
-				pager.setOrderType(OrderType.desc);
-				pager.setOrderBy("modifyDate");
+		try
+		{
+			if(pager == null) {
+				pager = new Pager();
+				pager.setOrderType(OrderType.asc);
+				pager.setOrderBy("orderList");
 			}
-			if (pager.is_search() == true && filters != null) {// 需要查询条件
+			if(pager.is_search()==true && filters != null){
 				JSONObject filt = JSONObject.fromObject(filters);
 				Pager pager1 = new Pager();
 				Map m = new HashMap();
 				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
 				pager.setRules(pager1.getRules());
 				pager.setGroupOp(pager1.getGroupOp());
 			}
-
-			if (pager.is_search() == true && Param != null) {// 普通搜索功能
-				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			
+			if (pager.is_search() == true && Param != null) {
 				JSONObject obj = JSONObject.fromObject(Param);
 				if (obj.get("processCode") != null) {
 					System.out.println("obj=" + obj);
-					String processCode = obj.getString("processCode")
-							.toString();
+					String processCode = obj.getString("processCode").toString();
 					map.put("processCode", processCode);
 				}
 				if (obj.get("processName") != null) {
-					String processName = obj.getString("processName")
-							.toString();
-					map.put("processName", processName);
+						String processName = obj.getString("processName").toString();
+						map.put("processName", processName);
 				}
-				if (obj.get("xproductnum") != null) {
-					String xproductnum = obj.getString("xproductnum")
-							.toString();
-					map.put("xproductnum", xproductnum);
+				if (obj.get("state") != null) {
+					String state = obj.getString("state").toString();
+					map.put("state", state);
 				}
-				if (obj.get("xproductname") != null) {
-					String xproductname = obj.getString("xproductname")
-							.toString();
-					map.put("xproductname", xproductname);
+				if(obj.get("start")!=null&&obj.get("end")!=null){
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
 				}
 			}
 
 			pager = processService.getProcessPager(pager, map);
 			List<Process> processList = pager.getList();
 			List<Process> list2 = new ArrayList<Process>();
-			for (int i = 0; i < processList.size(); i++) {
-				Process p = processList.get(i);
-				// 根据当前工序id获取对应的产品
-				List<Products> productsList = productsService
-						.getProductsByProcessId(p.getId());
-				if (productsList.size() <= 0) {
-					p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+			for (int i = 0; i < processList.size(); i++) 
+			{
+				Process p =processList.get(i);
+				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "processState", p.getState()));
-					list2.add(p);
-				}
-				// 循环productsList
-				for (int j = 0; j < productsList.size(); j++) {
-					Process pro = new Process();
-					Products products = productsList.get(j);
-					pro.setCreateDate(p.getCreateDate());
-					pro.setProcessCode(p.getProcessCode());
-					pro.setProcessName(p.getProcessName());
-					pro.setState(p.getState());
-					pro.setXproductnum(products.getProductsCode());
-					pro.setXproductname(products.getProductsName());
-					pro.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "processState", pro.getState()));
-					list2.add(pro);
-				}
+				list2.add(p);
 			}
 			pager.setList(list2);
-			JsonConfig jsonConfig = new JsonConfig();
-			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Process.class));// 排除有关联关系的属性字段
-			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			JsonConfig jsonConfig=new JsonConfig();
+			jsonConfig.setExcludes(new String[]{"products"});
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Process.class)); 
+			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+			System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
-		} catch (Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return null;
 		}

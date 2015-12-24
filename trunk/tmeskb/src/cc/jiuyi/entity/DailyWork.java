@@ -37,6 +37,7 @@ public class DailyWork extends BaseEntity {
 	private String wb;//文本
 	private String workingbillCode;
 	private String maktx;//产品描述
+	private String processCode;//工序编码
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -203,6 +204,14 @@ public class DailyWork extends BaseEntity {
 
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
+	}
+
+	public String getProcessCode() {
+		return processCode;
+	}
+
+	public void setProcessCode(String processCode) {
+		this.processCode = processCode;
 	}
 
 }

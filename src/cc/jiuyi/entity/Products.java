@@ -29,6 +29,7 @@ public class Products extends BaseEntity{
 	
 	private String productsCode;//产品编码
     private String productsName;//产品名称
+    private String productsAmount;//产品数量
     private String materialGroup;//物料组
     //private String materialDescript;//物料描述
     private String state;//状态
@@ -42,8 +43,16 @@ public class Products extends BaseEntity{
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<FactoryUnit> factoryUnitSet;//所属单元
 	private Set<ProcessRoute> processrouteSet;//工艺路线
+	private Set<Bom> bom;//产品Bom
 	
-	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="products")
+	public Set<Bom> getBom() {
+		return bom;
+	}
+	public void setBom(Set<Bom> bom) {
+		this.bom = bom;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="products")
 	public Set<ProcessRoute> getProcessrouteSet() {
 		return processrouteSet;
@@ -145,6 +154,12 @@ public class Products extends BaseEntity{
 	}
 	public void setCraftSet(Set<Craft> craftSet) {
 		this.craftSet = craftSet;
+	}
+	public String getProductsAmount() {
+		return productsAmount;
+	}
+	public void setProductsAmount(String productsAmount) {
+		this.productsAmount = productsAmount;
 	}
 
    

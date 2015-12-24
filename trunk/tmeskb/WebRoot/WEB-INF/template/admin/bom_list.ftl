@@ -113,8 +113,8 @@ body {
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
 													<input type="text" id="productId"
-														name="material.products.id"
-														value="${(material.products.id)!}"
+														name="productid"
+														value=""
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
 														readonly="readonly" />
 													<button type="button" class="btn btn-xs btn-info"
@@ -224,7 +224,8 @@ body {
 		var attributeOptionTrHtml = "<tr class='zg'>" +
 		"<td>"+productCode+"</td>" +
 		"<td>"+productname+"</td>" +
-		"<td><input type='text' name='bomList["+num+"].products.id' value='"+productid+"' class='form-control'/>" +
+		"<td>" +
+		"<input type='hidden' name='bomList["+num+"].products.id' value='"+productid+"'/>"+
 		"<input type='text' name='bomList["+num+"].productAmount' value='"+productAmount+"' class='form-control'/>" +
 		"</td>" +
 		"<td>"  +

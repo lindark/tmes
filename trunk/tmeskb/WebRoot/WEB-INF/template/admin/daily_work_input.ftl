@@ -121,9 +121,9 @@ body {
 												<div class="profile-info-name">报工工序</div>
 
 												<div class="profile-info-value">
-													<select name="dailyWork.process.id" id="form-field-icon-1" class="chosen-select"> 
+													<select name="dailyWork.processCode" id="form-field-icon-1" class="chosen-select"> 
 												        <#list allProcess as list>
-											            <option value="${list.id}"<#if (isEdit&&dailyWork.process.id==list.id)!> selected</#if>>${list.processName}</option>
+											            <option value="${list.processCode}"<#if (isEdit&&dailyWork.process.id==list.id)!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

@@ -34,12 +34,14 @@ import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FlowingRectifyService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.service.UnusualLogService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -82,6 +84,8 @@ public class QualityAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private DepartmentService deptservice;
+	@Resource
+	private ProcessService processService;
 
 	// 添加
 	public String add() {
@@ -165,7 +169,8 @@ public class QualityAction extends BaseAdminAction {
 				str="<a href='quality!hview.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
 				quality.setProductsName(str);
 				quality.setFounder(quality.getCreater().getName());
-				quality.setProcessName(quality.getProcess().getProcessName());
+				Process process = processService.get(quality.getProcess());
+				quality.setProcessName(process.getProcessName());
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));		
@@ -179,7 +184,8 @@ public class QualityAction extends BaseAdminAction {
 				Quality quality = (Quality) pagerlist.get(i);
 				quality.setProductsName(quality.getProducts().getProductsName());
 				quality.setFounder(quality.getCreater().getName());
-				quality.setProcessName(quality.getProcess().getProcessName());
+				Process process = processService.get(quality.getProcess());
+				quality.setProcessName(process.getProcessName());
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));		

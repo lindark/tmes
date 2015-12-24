@@ -104,6 +104,7 @@ public class DumpAction extends BaseAdminAction {
 			String productDate = admin.getProductDate();
 			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate,
 					productDate);
+			//根据凭证号查找数据库是否已经存在
 			for (int i = 0; i < ids.length; i++) {
 				if (dumpService.isExist("voucherId", ids[i])) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
@@ -141,6 +142,10 @@ public class DumpAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
+	/**
+	 * 历史转储记录
+	 * @return
+	 */
 	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {

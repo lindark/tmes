@@ -111,7 +111,7 @@ body {
 														
 													</select>
 													<#else>
-													${(quality.process)!}
+													${(process)!}
 													</#if>
 												</div>
 

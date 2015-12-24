@@ -100,6 +100,11 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		}
 		return processDao.findProcess(obj);
 	}
+	
+	@Override
+	public Integer getMaxVersion(String productid) {
+		return processDao.getMaxVersion(productid);
+	}
 
 	@Override
 	public List<Process> findProcessByProductsId(String id) {

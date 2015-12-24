@@ -1,7 +1,9 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ProcessRoute;
 
 
@@ -10,6 +12,7 @@ import cc.jiuyi.entity.ProcessRoute;
  */
 public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 
+	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 	/**
 	 * 获取最高版本号
 	 * @return
@@ -36,4 +39,12 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	 * @return
 	 */
 	public List<ProcessRoute> getAllProcessRouteByProductCode(String productCode);
+	
+	/**
+	 * 根据版本号和产品编号获取相关工序
+	 * @param version
+	 * @param productCode
+	 * @return
+	 */
+	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,String productCode);
 }

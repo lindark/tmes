@@ -204,7 +204,7 @@ public class DeviceAction extends BaseAdminAction {
 
 		}
 
-		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
 			pager = deviceService.findByPager(pager,map,abnorId);		
 			List pagerlist = pager.getList();
 	        String str;
@@ -228,7 +228,7 @@ public class DeviceAction extends BaseAdminAction {
 				pagerlist.set(i,device);
 			}
 			pager.setList(pagerlist);
-		}else{
+		}else{//普通清单页面
 			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
@@ -270,7 +270,7 @@ public class DeviceAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
-	// 保存
+	// 刷卡提交
 	public String creditsave(){		
 		admin = adminService.getByCardnum(cardnumber);
 		

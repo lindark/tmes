@@ -59,4 +59,11 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	
 	
 	public List<Process> findProcessByProductsId(String id);
+	
+	/**
+	 * 根据产品编码 工艺路线
+	 * @param matnrs
+	 * @return
+	 */
+	public List<Process> getListRoute(String matnrs,Integer version);
 }

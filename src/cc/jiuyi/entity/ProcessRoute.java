@@ -30,6 +30,10 @@ public class ProcessRoute extends BaseEntity{
 	private String unit;//计量单位
 	private Integer version;//版本	
 	private String workCenter;//工作中心
+	private String productsCode;//产品编号
+	private String productsName;//产品名称
+	private String processCode;//工序编号
+	private String processName;//工序名称
 
 	public Double getProductAmount() {
 		return productAmount;
@@ -88,6 +92,42 @@ public class ProcessRoute extends BaseEntity{
 
 	public void setWorkCenter(String workCenter) {
 		this.workCenter = workCenter;
+	}
+
+	@Transient
+	public String getProductsCode() {
+		return productsCode;
+	}
+
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+
+	@Transient
+	public String getProductsName() {
+		return productsName;
+	}
+
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+
+	@Transient
+	public String getProcessCode() {
+		return processCode;
+	}
+
+	public void setProcessCode(String processCode) {
+		this.processCode = processCode;
+	}
+
+	@Transient
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 		
 }

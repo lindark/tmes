@@ -40,7 +40,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		tablemodel.setData("IT_ITEM");//表名
 		for(HandOverProcess p : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("MATNR", p.getMaterial().getMaterialCode());//物料编码
+			item.put("MATNR", p.getMaterialCode());//物料编码
 			item.put("ZSFSL", p.getAmount().toString());//数量
 			item.put("ORDERID1", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
 			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单

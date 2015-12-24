@@ -306,7 +306,7 @@ public class ModelAction extends BaseAdminAction {
 
 		}
 
-		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
 			pager = modelService.findByPager(pager,map,abnorId);	
 			List pagerlist = pager.getList();
 			
@@ -337,7 +337,7 @@ public class ModelAction extends BaseAdminAction {
 			}
 
 			pager.setList(pagerlist);
-		}else{
+		}else{//普通清单页面
 			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
@@ -378,7 +378,7 @@ public class ModelAction extends BaseAdminAction {
 
 	}
 
-	// 保存
+	// 刷卡提交
 	public String creditsave() {
 		admin = adminService.getByCardnum(cardnumber);
 

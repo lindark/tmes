@@ -1,11 +1,14 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessRouteDao;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.service.ProcessRouteService;
@@ -15,6 +18,7 @@ import cc.jiuyi.service.ProcessRouteService;
  */
 
 @Service
+@Transactional
 public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, String> implements ProcessRouteService {
 
 	@Resource
@@ -56,6 +60,17 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	@Override
 	public List<ProcessRoute> getAllProcessRouteByProductCode(String productCode) {
 		return processroutedao.getAllProcessRouteByProductCode(productCode);
+	}
+
+	@Override
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
+		return processroutedao.findPagerByjqGrid(pager, map);
+	}
+
+	@Override
+	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,
+			String productCode) {
+		return processroutedao.getProcessRouteByVersionAndCode(version, productCode);
 	}
 	
 }

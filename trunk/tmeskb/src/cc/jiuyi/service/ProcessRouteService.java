@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 - 工艺路线
  */
 
 public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
+
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
 
 	/**
 	 * 根据processroute 集合 merge
@@ -52,4 +52,14 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	 * @return
 	 */
 	public List<ProcessRoute> getAllProcessRouteByProductCode(String productCode);
+
+	/**
+	 * 根据版本号和产品编号获取相关工序
+	 * 
+	 * @param version
+	 * @param productCode
+	 * @return
+	 */
+	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,
+			String productCode);
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.ProcessRoute;
 
 
@@ -12,13 +13,18 @@ import cc.jiuyi.entity.ProcessRoute;
  */
 public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 
-	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 	
 	/**
 	 * 获取最高版本号
 	 * @return
 	 */
 	public Integer getMaxVersion(String productid);
+	
+	/**
+	 * 获取最高版本号
+	 * @return
+	 */
+	public Integer getMaxVersionBycode(String productcode);
 	
 	/**
 	 * 根据产品编码获取最高版本号

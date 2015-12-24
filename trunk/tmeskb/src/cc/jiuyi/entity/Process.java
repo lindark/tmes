@@ -32,11 +32,7 @@ public class Process extends BaseEntity {
 	private String xproductnum;// 产品编码
 	private String xproductname;// 产品名称
 
-	private Set<Products> products;// 产品表
-	private Set<Repair> repairProcess;// 返修责任工序
-	private Set<HandOverProcess> handoverprocessSet;// 交接
-	private Set<Quality> qualitySet;
-	private Set<DailyWork> dailyWorkSet;// 报工
+	
 	private Set<ProcessRoute> processrouteSet;//工艺路线
 
 	private String version;// 版本号
@@ -48,15 +44,6 @@ public class Process extends BaseEntity {
 
 	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
 		this.processrouteSet = processrouteSet;
-	}
-
-	@OneToMany(mappedBy = "processResponse", fetch = FetchType.LAZY)
-	public Set<Repair> getRepairProcess() {
-		return repairProcess;
-	}
-
-	public void setRepairProcess(Set<Repair> repairProcess) {
-		this.repairProcess = repairProcess;
 	}
 
 	public String getProcessCode() {
@@ -103,15 +90,6 @@ public class Process extends BaseEntity {
 		this.stateRemark = stateRemark;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "process")
-	public Set<Products> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Products> products) {
-		this.products = products;
-	}
-
 	@Transient
 	public String getXproductnum() {
 		return xproductnum;
@@ -130,32 +108,9 @@ public class Process extends BaseEntity {
 		this.xproductname = xproductname;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "process")
-	public Set<HandOverProcess> getHandoverprocessSet() {
-		return handoverprocessSet;
-	}
 
-	public void setHandoverprocessSet(Set<HandOverProcess> handoverprocessSet) {
-		this.handoverprocessSet = handoverprocessSet;
-	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "process")
-	public Set<Quality> getQualitySet() {
-		return qualitySet;
-	}
 
-	public void setQualitySet(Set<Quality> qualitySet) {
-		this.qualitySet = qualitySet;
-	}
-
-	@OneToMany(mappedBy = "process", fetch = FetchType.LAZY)
-	public Set<DailyWork> getDailyWorkSet() {
-		return dailyWorkSet;
-	}
-
-	public void setDailyWorkSet(Set<DailyWork> dailyWorkSet) {
-		this.dailyWorkSet = dailyWorkSet;
-	}
 
 	public String getVersion() {
 		return version;

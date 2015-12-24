@@ -14,10 +14,6 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -26,7 +22,6 @@ import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.PollingtestRecord;
-import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
@@ -131,7 +126,9 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 保存
 	public String creditsave() throws Exception {
-		if(pollingtest.getPollingtestAmount()==null||String.valueOf(pollingtest.getPollingtestAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (pollingtest.getPollingtestAmount() == null
+				|| String.valueOf(pollingtest.getPollingtestAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
 		}
 		pollingtestService
@@ -159,7 +156,9 @@ public class PollingtestAction extends BaseAdminAction {
 	 * 修改
 	 */
 	public String update() {
-		if(pollingtest.getPollingtestAmount()==null||String.valueOf(pollingtest.getPollingtestAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (pollingtest.getPollingtestAmount() == null
+				|| String.valueOf(pollingtest.getPollingtestAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
 		}
 		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认

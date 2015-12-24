@@ -33,5 +33,21 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 */
 	public List<Bom> getBomByProductCode(String productCode,String materialCode,Integer version);
 	
+	/**
+	 * 根据 产品ID 和 版本号获取指定的版本
+	 * @param productid 产品ID
+	 * @param version 版本
+	 * @return
+	 */
+	public List<Bom> getListByid(String productid,Integer version);
+	
+	/**
+	 * 根据 产品编码 和 版本号获取指定的版本
+	 * @param productid 产品ID
+	 * @param version 版本
+	 * @return
+	 */
+	public List<Bom> getListBycode(String productcode,Integer version);
+	
 	
 }

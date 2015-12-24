@@ -56,6 +56,12 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 				.forClass(ProcessRoute.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
+			if(!existAlias(detachedCriteria, "process", "process")){
+				detachedCriteria.createAlias("process", "process");
+			}
+			if(!existAlias(detachedCriteria, "products", "products")){
+				detachedCriteria.createAlias("products", "products");
+			}
 			if (map.get("processCode") != null) {
 				detachedCriteria.add(Restrictions.like("process.processCode",
 						"%" + map.get("processCode") + "%"));

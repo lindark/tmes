@@ -5,6 +5,11 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -20,6 +25,7 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.SendMsgUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 @Component 
 public class ExtremelyMessage extends MyDetailQuartzJobBean {
@@ -45,9 +51,10 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     JobDataMap data = context.getJobDetail().getJobDataMap();  
 		     String abnorId = data.getString("id");//异常id
 		     String adminId = data.getString("name");//人员id
-		     String time1 = data.getString("date");//时间
+		     String time1 = data.getString("date");//时间1
+		     String time2 = data.getString("time");//时间2
 		     String jobname = data.getString("jobname");//任务名称
-		     HashMap<String,Object> maps = new HashMap<String,Object>();
+		     String count = data.getString("count");//次数
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");
 		     Abnormal abnormal = abnormalService.get(abnorId);
@@ -55,17 +62,43 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     Admin admin = adminService.get(adminId);
 		     abnormalLogService=(AbnormalLogService) SpringUtil.getBean("abnormalLogServiceImpl");
 		     
-			 System.out.println("ExtremelyMessage任务执行");
-			 SendMsgUtil.SendMsg("13330073212","xx异常还未响应");
-			 			 
-			 if(1==1){
+		     String str;
+		     if(Integer.parseInt(count)==1){
+		    	 System.out.println("ExtremelyMessage任务执行");
+				 str= SendMsgUtil.SendMsg("13330073212","xx异常还未响应");
+				 System.out.println(str);	
+		     }else{
+		    	 System.out.println("ExtremelyMessage2任务执行");
+				 str= SendMsgUtil.SendMsg("13876321363","xx异常仍未响应");
+				 System.out.println(str);
+		     }
+			 
+			 
+			 SAXReader reader = new SAXReader();  //解析返回xml文件
+             Document doc;   
+             doc = DocumentHelper.parseText(str); 
+             Node stateNode = doc.selectSingleNode("/infos/info/state");
+             
+             System.out.println("节点内容*--"+stateNode.getText()); 
+             System.out.println(stateNode.getText().equalsIgnoreCase("0"));
+			 
+			 if(stateNode.getText().equalsIgnoreCase("0")){//短信发送成功
 				    AbnormalLog abnormalLog = new AbnormalLog();
 					abnormalLog.setAbnormal(abnormal);
 					abnormalLog.setType("5");
 					abnormalLog.setOperator(admin);
 					abnormalLogService.save(abnormalLog);
 					
-					//QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
+				    HashMap<String,Object> maps = new HashMap<String,Object>();
+				    maps.put("id",abnorId);
+					maps.put("name",adminId);
+					maps.put("date", time1);
+					maps.put("time",time2);
+					maps.put("jobname",jobname);
+					maps.put("count","2");
+					QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
+					//QuartzManagerUtil.modifyJobTime(jobname,time2,maps);
+					System.out.println("2");
 			  }
 		  }catch(Exception e){
 		      log.error("ExtremelyMessage任务出错",e);

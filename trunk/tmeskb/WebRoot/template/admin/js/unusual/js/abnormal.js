@@ -105,19 +105,19 @@ $(function() {
 					return false;
 				}
 			}
-			//var dt = $("#inputForm").serialize();
 			var ids=i;
 			var url = "abnormal!creditresponse.action?ids="+ids;		
-			/*credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				window.location.href = "abnormal!list.action";
-				
-			},ids)*/
 			
 			credit.creditCard(url,function(data){
 					if(data.status=="success"){
-						layer.alert(data.message, {icon: 6},function(){
-							window.location.href="abnormal!list.action";
+						var index = layer.alert(data.message, {icon: 6},function(){
+							$("#grid-table1").jqGrid('setGridParam',{
+								url:"abnormal!ajlist.action",
+								datatype:"json",
+								page:1
+							}).trigger("reloadGrid");
+							layer.close(index);
+							//window.location.href="abnormal!list.action";
 						}); 
 					}else if(data.status=="error"){
 						layer.alert(data.message, {
@@ -127,7 +127,6 @@ $(function() {
 					   });
 					}		
 				})
-			//window.location.href = "abnormal!creditresponse1.action?ids="+i;
 		}
 		
     });
@@ -151,8 +150,14 @@ $(function() {
 			
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
-					layer.alert(data.message, {icon: 6},function(){
-						window.location.href="abnormal!list.action";
+					var index = layer.alert(data.message, {icon: 6},function(){		
+						$("#grid-table1").jqGrid('setGridParam',{
+							url:"abnormal!ajlist.action",
+							datatype:"json",
+							page:1
+						}).trigger("reloadGrid");
+						layer.close(index);
+						//window.location.href="abnormal!list.action";
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {
@@ -186,8 +191,14 @@ $(function() {
 			
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
-					layer.alert(data.message, {icon: 6},function(){
-						window.location.href="abnormal!list.action";
+					var index = layer.alert(data.message, {icon: 6},function(){
+						$("#grid-table1").jqGrid('setGridParam',{
+							url:"abnormal!ajlist.action",
+							datatype:"json",
+							page:1
+						}).trigger("reloadGrid");
+						layer.close(index);
+						//window.location.href="abnormal!list.action";
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {

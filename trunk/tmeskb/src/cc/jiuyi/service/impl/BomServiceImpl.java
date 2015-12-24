@@ -44,4 +44,9 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		return bomDao.getMaxVersionByid(productid);
 	}
 
+	@Override
+	public List<Bom> getBomListByMaxVersion(Integer version) {
+		return bomDao.getBomListByMaxVersion(version);
+	}
+
 }

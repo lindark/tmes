@@ -59,6 +59,7 @@ public class QualityAction extends BaseAdminAction {
 	private Admin admin;
 	private String abnorId;
 	private String cardnumber;//刷卡卡号
+	private String process;//工序
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -105,6 +106,8 @@ public class QualityAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		quality = qualityService.load(id);
+		Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();
 		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
@@ -213,6 +216,8 @@ public class QualityAction extends BaseAdminAction {
 	//详情
 	public String hview(){
 		quality = qualityService.load(id);
+		Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();
 		return "hview";
 	}
 
@@ -327,6 +332,8 @@ public class QualityAction extends BaseAdminAction {
 	public String view() {
 		quality = qualityService.load(id);
 		abnormal=quality.getAbnormal();
+		Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
@@ -453,6 +460,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getProcess() {
+		return process;
+	}
+
+	public void setProcess(String process) {
+		this.process = process;
 	}
 
 	

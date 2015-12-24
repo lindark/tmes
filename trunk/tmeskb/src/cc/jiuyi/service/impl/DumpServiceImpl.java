@@ -51,8 +51,12 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 		return dumpDao.findPagerByjqGrid(pager, map);
 	}
 
+	/**
+	 * 刷卡确认
+	 */
 	@Override
 	public void saveDump(String[] ids, List<Dump> dumpList,String cardnumber) throws IOException, CustomerException {
+		//先将转储单保存到数据库
 		Admin admin = adminService.getByCardnum(cardnumber);
 		for (int i = 0; i < ids.length; i++) {
 			for (int j = 0; j < dumpList.size(); j++) {
@@ -64,10 +68,13 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 				}
 			}
 		}
+		//再保存相关明细
 		for (int i = 0; i < ids.length; i++) {
 			Dump dump = dumpDao.get("voucherId", ids[i]);
+			//调用sap函数接口，根据凭证号找到所有相关明细
 			List<DumpDetail> dDList = dumpRfc
 					.findMaterialDocumentByMblnr(ids[i]);
+			//将明细保存到本地数据库
 			for (int j = 0; j < dDList.size(); j++) {
 				DumpDetail dumpDetail = dDList.get(j);
 				dumpDetail.setDump(dump);

@@ -61,6 +61,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 
 	@Override
 	/**
+	 * 刷卡确认
 	 * 考虑线程同步
 	 */
 	public synchronized void updateState(List<Carton> list,
@@ -95,7 +96,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 					"lifnr", "1"));
 			cartonList.add(carton);
 		}
+		//调用sap函数接口
 		cartonList = cartonRfc.CartonCrt(cartonList);
+		//根据返回集合，判断函数调用是否成功
 		for (int i = 0; i < cartonList.size(); i++) {
 			Carton caron = cartonList.get(i);
 			if ("S".equals(caron.getE_type())) {
@@ -106,6 +109,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 				throw new CustomerException(caron.getE_message());
 			}
 		}
+		//若成功，则更新数据库
 		Integer totalamount = workingbill.getCartonTotalAmount();
 		for (int i = 0; i < cartonList.size(); i++) {
 			Carton carton = cartonList.get(i);
@@ -127,6 +131,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 		workingbillService.update(workingbill);
 	}
 
+	/**
+	 * 刷卡撤销
+	 */
 	@Override
 	public synchronized void updateState2(List<Carton> list,
 			String workingbillid, String cardnumber) {

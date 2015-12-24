@@ -141,10 +141,10 @@ body {
 												<div class="profile-info-name">责任工序</div>
 
 												<div class="profile-info-value">
-													<select name="repair.processResponse.id" id="form-field-icon-1" class="chosen-select"> 
+													<select name="repair.processCode" id="form-field-icon-1" class="chosen-select"> 
 														<option value="" >&nbsp;</option>
 												        <#list allProcess as list>
-											            <option value="${list.id}"<#if (isEdit&&repair.processResponse.id==list.id)!> selected</#if>>${list.processName}</option>
+											            <option value="${list.processCode}"<#if (isEdit&&repair.processResponse.id==list.id)!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

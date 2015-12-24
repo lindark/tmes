@@ -67,9 +67,13 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		    	 System.out.println("ExtremelyMessage任务执行");
 				 str= SendMsgUtil.SendMsg("13330073212","xx异常还未响应");
 				 System.out.println(str);	
-		     }else{
+		     }else if(Integer.parseInt(count)==2){
 		    	 System.out.println("ExtremelyMessage2任务执行");
 				 str= SendMsgUtil.SendMsg("13876321363","xx异常仍未响应");
+				 System.out.println(str);
+		     }else{
+		    	 System.out.println("ExtremelyMessage3任务执行");
+				 str= SendMsgUtil.SendMsg("18073231623","xx异常未响应");
 				 System.out.println(str);
 		     }
 			 
@@ -89,15 +93,29 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					abnormalLog.setOperator(admin);
 					abnormalLogService.save(abnormalLog);
 					
-				    HashMap<String,Object> maps = new HashMap<String,Object>();
-				    maps.put("id",abnorId);
-					maps.put("name",adminId);
-					maps.put("date", time1);
-					maps.put("time",time2);
-					maps.put("jobname",jobname);
-					maps.put("count","2");
-					QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
-					//QuartzManagerUtil.modifyJobTime(jobname,time2,maps);
+					if(Integer.parseInt(count)==1){
+						HashMap<String,Object> maps = new HashMap<String,Object>();
+					    maps.put("id",abnorId);
+						maps.put("name",adminId);
+						maps.put("date", time1);
+						maps.put("time",time2);
+						maps.put("jobname",jobname);
+						maps.put("count","2");
+						QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
+						System.out.println(Integer.parseInt(count)==1);
+					
+					}else{
+						HashMap<String,Object> maps = new HashMap<String,Object>();
+					    maps.put("id",abnorId);
+						maps.put("name",adminId);
+						maps.put("date", time1);
+						maps.put("time",time2);
+						maps.put("jobname",jobname);
+						maps.put("count","3");
+						QuartzManagerUtil.modifyJobTime(jobname,time2,maps);
+						System.out.println(Integer.parseInt(count)==1);
+					}
+				    
 					System.out.println("2");
 			  }
 		  }catch(Exception e){

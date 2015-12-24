@@ -56,6 +56,13 @@ public interface ProcessService extends BaseService<Process, String> {
 	public List<Process> findProcess(List<WorkingBill> workingbill);
 	
 	/**
+	 * 获取最高版本号
+	 * 
+	 * @return
+	 */
+	public Integer getMaxVersion(String productid);
+	
+	/**
 	 * 根据产品id找到所对应的工序
 	 */
 	

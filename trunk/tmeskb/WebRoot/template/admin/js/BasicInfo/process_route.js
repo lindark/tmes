@@ -107,7 +107,7 @@ jQuery(function($) {
 		},
 
 		editurl: "process!delete.adction",//用它做标准删除动作
-		caption: "工序管理"
+		caption: "工艺路线管理"
 
 		//,autowidth: true,
 //		,

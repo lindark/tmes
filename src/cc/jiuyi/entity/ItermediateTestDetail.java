@@ -40,7 +40,6 @@ public class ItermediateTestDetail extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin confirmUser;//确认人
-    private String materialId;//物料主键
       
 	
 	
@@ -164,14 +163,6 @@ public class ItermediateTestDetail extends BaseEntity{
 	public void setFailAmount(Double failAmount) {
 		this.failAmount = failAmount;
 	}
-	public String getMaterialId() {
-		return materialId;
-	}
-	public void setMaterialId(String materialId) {
-		this.materialId = materialId;
-	}
-	
-	
 	
 	
 }

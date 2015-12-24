@@ -37,22 +37,21 @@ public class Products extends BaseEntity{
     private String stateRemark;//状态描述
 	
 	private Set<Material> material;//产    品
-	private Set<Process> process;//工序
 	private Set<Quality> qualitySet;//质量问题单
 //	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<FactoryUnit> factoryUnitSet;//所属单元
 	private Set<ProcessRoute> processrouteSet;//工艺路线
-	private Set<Bom> bom;//产品Bom
+	private Set<Bom> bomSet;//bom集合  --modify weitao
+	
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="products")
-	public Set<Bom> getBom() {
-		return bom;
+	public Set<Bom> getBomSet() {
+		return bomSet;
 	}
-	public void setBom(Set<Bom> bom) {
-		this.bom = bom;
+	public void setBomSet(Set<Bom> bomSet) {
+		this.bomSet = bomSet;
 	}
-
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="products")
 	public Set<ProcessRoute> getProcessrouteSet() {
 		return processrouteSet;
@@ -67,15 +66,7 @@ public class Products extends BaseEntity{
 	public void setFactoryUnitSet(Set<FactoryUnit> factoryUnitSet) {
 		this.factoryUnitSet = factoryUnitSet;
 	}
-	@ManyToMany(fetch=FetchType.LAZY)
-	public Set<Process> getProcess()
-	{
-		return process;
-	}
-	public void setProcess(Set<Process> process)
-	{
-		this.process = process;
-	}
+
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Material> getMaterial() {
@@ -154,12 +145,6 @@ public class Products extends BaseEntity{
 	}
 	public void setCraftSet(Set<Craft> craftSet) {
 		this.craftSet = craftSet;
-	}
-	public String getProductsAmount() {
-		return productsAmount;
-	}
-	public void setProductsAmount(String productsAmount) {
-		this.productsAmount = productsAmount;
 	}
 
    

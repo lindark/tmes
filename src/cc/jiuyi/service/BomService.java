@@ -20,4 +20,9 @@ public interface BomService extends BaseService<Bom, String> {
 	 * 获取最高版本号
 	 */
 	public Integer getMaxVersionByid(String productid);
+	
+	/**
+	 * 获取最高版本号的Bom清单
+	 */
+	public List<Bom> getBomListByMaxVersion(Integer version);
 }

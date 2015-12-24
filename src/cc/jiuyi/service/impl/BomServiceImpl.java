@@ -28,7 +28,8 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Override
 	public void mergeBom(List<Bom> bomList, String productid) {
 		Integer maxversion = bomDao.getMaxVersionByid(productid);// 当前最大版本
-		if (maxversion == null) maxversion = 0;
+		if (maxversion == null)
+			maxversion = 0;
 		maxversion++; // 最大版本+1
 		for (int i = 0; i < bomList.size(); i++) {
 			Bom bom = (Bom) bomList.get(i);
@@ -40,10 +41,31 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	}
 
 	@Override
+	public List<Bom> getBomByProductCode(String productCode,String materialCode,Integer version) {
+		
+		return bomDao.getBomByProductCode(productCode,materialCode,version);
+	}
+
+	@Override
+	public Integer getMaxVersionBycode(String productCode) {
+		return bomDao.getMaxVersionBycode(productCode);
+	}
+
+	@Override
 	public Integer getMaxVersionByid(String productid) {
 		return bomDao.getMaxVersionByid(productid);
 	}
 
+	@Override
+	public List<Bom> getListByid(String productid, Integer version) {
+		return bomDao.getListByid(productid, version);
+	}
+	
+	@Override
+	public List<Bom> getListBycode(String productcode, Integer version) {
+		return bomDao.getListBycode(productcode, version);
+	}
+	
 	@Override
 	public List<Bom> getBomListByMaxVersion(Integer version) {
 		return bomDao.getBomListByMaxVersion(version);

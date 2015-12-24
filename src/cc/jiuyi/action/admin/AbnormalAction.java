@@ -191,19 +191,16 @@ public class AbnormalAction extends BaseAdminAction {
 	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
 	 
 			if(abLog.size()>0){	
-				if(qualityList.size()>1){
-					//String str1="已开"+"<a href='quality!sealist.action?abnorId="+abnormal.getId()+"'>质量问题单</a>"+"("+qualityList.size()+")";
+				if(qualityList.size()>1){					
 					String str1="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='quality'  style='color:#428bca;cursor:pointer'>质量问题单</a>"+"("+qualityList.size()+")";
 					ablist.add(str1);
 				}
-				if(modelList.size()>1){
-					//String str2="已开"+"<a href='model!sealist.action?abnorId="+abnormal.getId()+"'>工模维修单</a>"+"("+modelList.size()+")";
+				if(modelList.size()>1){					
 					String str2="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='model'  style='color:#428bca;cursor:pointer'>工模维修单</a>"+"("+modelList.size()+")";
            		    ablist.add(str2);
            	    }
 				
-				 if(craftList.size()>1){
-            		//String str3="已开"+"<a href='craft!sealist.action?abnorId="+abnormal.getId()+"'>工艺维修单</a>"+"("+craftList.size()+")";
+				 if(craftList.size()>1){            		
 					 String str3="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='craft'  style='color:#428bca;cursor:pointer'>工艺维修单</a>"+"("+craftList.size()+")";
 					 ablist.add(str3);
             	 }
@@ -270,6 +267,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
+	//响应刷卡
 	public String creditresponse() {
 		admin = adminService.getByCardnum(cardnumber);
 		
@@ -277,11 +275,11 @@ public class AbnormalAction extends BaseAdminAction {
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;
 			Abnormal persistent = abnormalList.get(i);
-			Set<Admin> responsorSet = persistent.getResponsorSet();
+			Set<Admin> responsorSet = persistent.getResponsorSet();//获取应答人
 			if (responsorSet.contains(admin)) {
 				adminList = new ArrayList<Admin>();
 				for (SwiptCard s : persistent.getSwiptCardSet()) {
-					if (s.getType().equals("0")) {
+					if (s.getType().equals("0")) {//判断是否是响应刷卡类型
 						adminList.add(s.getAdmin());
 					}
 				}
@@ -290,7 +288,7 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
-					removeQuartz();					
+					removeQuartz();			//删除定时发短信任务		
 				} else {
 					persistent.setState("1");
 
@@ -318,13 +316,14 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
+	//关闭异常
 	public String creditclose() {
 		admin = adminService.getByCardnum(cardnumber);
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin)) {
-				if (persistent.getState() != "3" & persistent.getState() != "4") {
+			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
+				if (persistent.getState() != "3" & persistent.getState() != "4") {//"3"异常关闭 "4"异常撤销
 					persistent.setState("3");
 					if (persistent.getReplyDate() == null) {
 						persistent.setReplyDate(new Date());
@@ -348,14 +347,15 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
+    //撤销呼叫
 	public String creditundo() {
 		admin = adminService.getByCardnum(cardnumber);
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin)) {
+			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
 				if (persistent.getState().equals("0")
-						|| persistent.getState().equals("1")) {
+						|| persistent.getState().equals("1")) {//"0"未响应  "1"未完全响应
 					persistent.setState("4");
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
@@ -379,6 +379,7 @@ public class AbnormalAction extends BaseAdminAction {
 		return "abnormal_message";
 	}
 
+	//刷卡提交
 	public String creditsave() {
 		admin = adminService.getByCardnum(cardnumber);
 		
@@ -412,52 +413,40 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		abnormalService.save(abnormal);
 				
-		Calendar can = Calendar.getInstance();	
+		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
 		can.add(Calendar.MINUTE, 1);
 		Date date=can.getTime();	
-		Calendar can1 = Calendar.getInstance();
+		
+		Calendar can1 = Calendar.getInstance();//定时任务时间2
 		can1.setTime(abnormal.getCreateDate());
-		can1.add(Calendar.MINUTE, 10);
+		can1.add(Calendar.MINUTE, 3);
 		Date date1=can1.getTime();
+		
+		Calendar can2 = Calendar.getInstance();//定时任务时间3
+		can2.setTime(abnormal.getCreateDate());
+		can2.add(Calendar.MINUTE, 5);
+		Date date2=can2.getTime();
+		
 		System.out.println(ThinkWayUtil.getCron(date));
 		HashMap<String,Object> maps = new HashMap<String,Object>();
 		maps.put("id",abnormal.getId());
 		maps.put("name",admin.getId());
 		maps.put("date", ThinkWayUtil.getCron(date1));
+		maps.put("time", ThinkWayUtil.getCron(date2));
 		maps.put("jobname", job_name);
-		int i=0;
-		quartzMessage(ThinkWayUtil.getCron(date),i,maps);	
-		/*if(xx==true){//xx为调短信接口返回的值       
-			i=1;
-			Calendar can1 = Calendar.getInstance();
-			can1.setTime(abnormal.getCreateDate());
-			can1.add(Calendar.SECOND,12);
-			Date date1=can1.getTime();
-			System.out.println(ThinkWayUtil.getCron(date1));
-			quartzMessage(ThinkWayUtil.getCron(date1),i);
-		}else{
-			i=0;
-			Calendar can1 = Calendar.getInstance();
-			can1.setTime(abnormal.getCreateDate());
-			can1.add(Calendar.SECOND,12);
-			Date date1=can1.getTime();
-			System.out.println(ThinkWayUtil.getCron(date1));
-			quartzMessage(ThinkWayUtil.getCron(date1),i);
-		}*/		
+		maps.put("count","1");
+		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
-	
-	public void quartzMessage(String time,int i,HashMap<String,Object> maps){				 
-		  if(i==0){
-			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			  
-		  }else if(i==1){
-			  QuartzManagerUtil.modifyJobTime(job_name,time,maps);
-		  }	     	      
+	//创建定时任务
+	public void quartzMessage(String time,HashMap<String,Object> maps){				 
+			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			      	      
 	}
 	
+	//删除定时任务
 	public void removeQuartz(){
 		 QuartzManagerUtil.removeJob(job_name);
 	}

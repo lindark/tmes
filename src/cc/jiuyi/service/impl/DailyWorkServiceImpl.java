@@ -50,6 +50,9 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		return dailyWorkDao.findPagerByjqGrid(pager, map, workingbillId);
 	}
 
+	/**
+	 * 刷卡确认
+	 */
 	@Override
 	public synchronized void updateState(List<DailyWork> list,
 			String workingbillid, String cardnumber) throws IOException,
@@ -62,6 +65,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				.substring(0, workingbillCode.length() - 2);
 		String wb = workingbillCode.substring(workingbillCode.length() - 2);
 		Double totalamount = workingbill.getDailyWorkTotalAmount();
+		//sap同步前的准备，包括传入文本、工序等
 		for (int i = 0; i < list.size(); i++) {
 			DailyWork dailyWork = list.get(i);
 			dailyWork = dailyWorkDao.get(dailyWork.getId());
@@ -73,7 +77,9 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			// dailyWork.getEnterAmount().toString());
 			dailyWorkList.add(dailyWork);
 		}
+		//调用sap函数接口
 		dailyWorkList = dailyWorkRfc.BatchSetDailyWork(dailyWorkList);
+		//遍历返回的集合，判断sap同步是否成功
 		for (int i = 0; i < dailyWorkList.size(); i++) {
 			DailyWork dailyWork = dailyWorkList.get(i);
 			if ("S".equals(dailyWork.getE_type())) {
@@ -84,6 +90,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				throw new CustomerException(dailyWork.getE_message());
 			}
 		}
+		//若成功则更新数据库
 		for (int i = 0; i < dailyWorkList.size(); i++) {
 			DailyWork dailyWork = dailyWorkList.get(i);
 			String CONF_NO = dailyWork.getCONF_NO();// 确认号
@@ -105,6 +112,9 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		workingbillService.update(workingbill);
 	}
 
+	/**
+	 * 刷卡撤销
+	 */
 	@Override
 	public void updateState2(List<DailyWork> list, String workingbillid,
 			String cardnumber) throws IOException, CustomerException {

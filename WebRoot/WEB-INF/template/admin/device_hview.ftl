@@ -138,8 +138,7 @@ body{background:#fff;}
 									    
 										<div class="profile-info-name">故障原因</div>
 									    <div class="profile-info-value">
-											<#list device.receiptSet as list>
-													${list.reasonName}, </#list>
+											${reasonName}
 										</div>												
 									</div>																												
 									
@@ -179,7 +178,9 @@ body{background:#fff;}
 						        <div class="profile-info-row">	
 									    <div class="profile-info-name">处理过程</div>
 									    <div class="profile-info-value">
-									        ${(device.process)!}
+						                                    <#list (device.deviceStepSet)! as list> 
+												            <span> ${(list.vornr)!}</span>&nbsp;&nbsp;&nbsp; 
+												            </#list> 
 									    </div>
 									</div>	
 						</div>

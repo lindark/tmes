@@ -165,11 +165,18 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return getSession().createQuery(hql)
 				.setParameterList("list", productsCodes).list();
 	}
+	
+	public Integer getMaxVersion(String productId) {
+		String hql="select max(a.version) from ProcessRoute a where a.products.id = ?";
+		return (Integer)getSession().createQuery(hql).setParameter(0, productId).uniqueResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Process> findProcessByProductsId(String id) {
 
-		String hql = "select a from Process a join a.products b where b.id=?";
+		//String hql = "select a from Process a join a.products b where b.id=?";
+		int version = getMaxVersion(id);
+		String hql = "select a from Process a join a.processrouteSet b join b.products c where b.version="+version+" and c.id=?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}
 

@@ -441,6 +441,8 @@ public class ModelAction extends BaseAdminAction {
 	//详情
 	public String hview(){
 		model = modelService.load(id);
+		modelType=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "modelType", model.getType());
 		return "hview";
 	}
 

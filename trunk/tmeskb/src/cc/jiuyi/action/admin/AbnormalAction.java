@@ -420,12 +420,12 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		Calendar can1 = Calendar.getInstance();//定时任务时间2
 		can1.setTime(abnormal.getCreateDate());
-		can1.add(Calendar.MINUTE, 3);
+		can1.add(Calendar.MINUTE, 2);
 		Date date1=can1.getTime();
 		
 		Calendar can2 = Calendar.getInstance();//定时任务时间3
 		can2.setTime(abnormal.getCreateDate());
-		can2.add(Calendar.MINUTE, 5);
+		can2.add(Calendar.MINUTE, 3);
 		Date date2=can2.getTime();
 		
 		System.out.println(ThinkWayUtil.getCron(date));

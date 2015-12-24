@@ -107,11 +107,11 @@ body {
 
 												<div class="profile-info-value" >
 												     <#if isAdd??>												    
-													<select name="quality.process.id" id="processName" class="formText {required: true}">
+													<select name="quality.process" id="processName" class="formText {required: true}">
 														
 													</select>
 													<#else>
-													${(quality.process.processName)!}
+													${(quality.process)!}
 													</#if>
 												</div>
 

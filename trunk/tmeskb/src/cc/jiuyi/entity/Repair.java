@@ -28,21 +28,12 @@ public class Repair extends BaseEntity {
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
 	private String dutyName;//责任人名字
-	private Process processResponse;// 责任工序
 	private String responseName;//责任工序名称
 	private String workingbillCode;
 	private String maktx;//产品描述
 
 	private WorkingBill workingbill;// 随工单
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	public Process getProcessResponse() {
-		return processResponse;
-	}
-
-	public void setProcessResponse(Process processResponse) {
-		this.processResponse = processResponse;
-	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {

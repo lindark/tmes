@@ -14,6 +14,11 @@ import cc.jiuyi.entity.Process;
 
 public interface ProcessDao extends BaseDao<Process,String> {
 	
+	/**
+	 * 获取最高版本号
+	 * @return
+	 */
+	public Integer getMaxVersion(String productid);
 	
 	/**
 	 * 取出所有工序对象

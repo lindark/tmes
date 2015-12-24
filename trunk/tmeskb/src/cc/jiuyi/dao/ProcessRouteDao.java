@@ -13,6 +13,7 @@ import cc.jiuyi.entity.ProcessRoute;
  */
 public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 
+	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 	
 	/**
 	 * 获取最高版本号

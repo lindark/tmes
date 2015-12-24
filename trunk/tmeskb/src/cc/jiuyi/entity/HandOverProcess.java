@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,16 +32,14 @@ public class HandOverProcess extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Integer amount;//数量
-    
-    /*冗余字段*/
-    private String processName;//工序名称
     private String materialCode;//物料编码
     private String materialName;//物料名称
+    /*冗余字段*/
+    private String processName;//工序名称
     private String beforworkingbillCode;//上班随工单编码
     private String afterworkingbillCode;//下班随工单
     /*冗余字段end*/
-    private Process process;//工序
-    private Material material;//物料组件
+    //private Material material;//物料组件
     private WorkingBill afterworkingbill;//下班随工单
     private WorkingBill beforworkingbill;//上班随工单
     private Admin saveadmin;//保存人
@@ -80,24 +79,12 @@ public class HandOverProcess extends BaseEntity{
 			amount = 0;
 		this.amount = amount;
 	}
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Process getProcess() {
-		return process;
-	}
-	public void setProcess(Process process) {
-		this.process = process;
-	}
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Material getMaterial() {
-		return material;
-	}
-	public void setMaterial(Material material) {
-		this.material = material;
-	}
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	public WorkingBill getAfterworkingbill() {
 		return afterworkingbill;
 	}
+	
 	public void setAfterworkingbill(WorkingBill afterworkingbill) {
 		this.afterworkingbill = afterworkingbill;
 	}
@@ -115,14 +102,12 @@ public class HandOverProcess extends BaseEntity{
 	public void setProcessName(String processName) {
 		this.processName = processName;
 	}
-	@Transient
 	public String getMaterialCode() {
 		return materialCode;
 	}
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
 	}
-	@Transient
 	public String getMaterialName() {
 		return materialName;
 	}

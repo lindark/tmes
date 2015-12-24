@@ -86,7 +86,7 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 	@Override
 	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,
 			String productCode) {
-		String hql = "from ProcessRoute a where a.version=? a.products.productsCode=?";
+		String hql = "from ProcessRoute a where a.version=? and a.products.productsCode=?";
 		return getSession().createQuery(hql).setParameter(0, version).setParameter(1, productCode).list();
 	}
 }

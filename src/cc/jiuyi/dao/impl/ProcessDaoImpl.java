@@ -14,6 +14,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.dao.ProductsDao;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 
 /**
@@ -49,7 +50,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 
 	public Pager getProcessPager(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(Process.class);
+				.forClass(ProcessRoute.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 
 		if (map.size() > 0) {

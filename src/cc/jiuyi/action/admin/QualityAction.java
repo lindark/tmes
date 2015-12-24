@@ -156,7 +156,7 @@ public class QualityAction extends BaseAdminAction {
 
 		}
 		
-		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
 			pager = qualityService.findByPager(pager,map,abnorId);	
 			List pagerlist = pager.getList();
 			String str;
@@ -172,7 +172,7 @@ public class QualityAction extends BaseAdminAction {
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
-		}else{
+		}else{//普通清单页面
 			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
@@ -210,7 +210,7 @@ public class QualityAction extends BaseAdminAction {
 		return "hview";
 	}
 
-	// 保存	
+	// 刷卡提交	
 	public String creditsave() {		
 		admin = adminService.getByCardnum(cardnumber);
 		abnormal = abnormalService.load(abnormalId);

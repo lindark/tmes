@@ -1,12 +1,10 @@
 package cc.jiuyi.action.admin;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -19,10 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -30,19 +24,15 @@ import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Craft;
-import cc.jiuyi.entity.CraftLog;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceLog;
 import cc.jiuyi.entity.DeviceModlue;
-import cc.jiuyi.entity.DeviceProcess;
 import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
-import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -52,10 +42,7 @@ import cc.jiuyi.service.DeviceLogService;
 import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DeviceStepService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.FaultReasonService;
 import cc.jiuyi.service.ReceiptReasonService;
-import cc.jiuyi.util.CommonUtil;
-import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -83,6 +70,7 @@ public class DeviceAction extends BaseAdminAction {
 	private String faultCharactor;
 	private String serviceAttitude;
 	private String cardnumber;//刷卡卡号
+	private String reasonName;//故障原因
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -154,6 +142,25 @@ public class DeviceAction extends BaseAdminAction {
 	
 	public String hview(){
 		device = deviceService.load(id);
+		abnormal=device.getAbnormal();
+		deviceType=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "deviceType", device.getMaintenanceType());
+		stopMachine=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "isDown", device.getIsDown());
+		stopProduct=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "isMaintenance", device.getIsMaintenance());
+		faultCharactor=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "deviceProperty", device.getFaultCharacter());
+		
+		ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+		reasonName=faultReason.getReasonName();
+		if(device.getServiceAttitude()==null){
+			serviceAttitude="";
+		}else{
+			serviceAttitude=ThinkWayUtil.getDictValueByDictKey(
+					dictService, "serAttitude", device.getServiceAttitude());
+		}
+		
 		return "hview";
 	}
 	
@@ -422,6 +429,9 @@ public class DeviceAction extends BaseAdminAction {
 				dictService, "isMaintenance", device.getIsMaintenance());
 		faultCharactor=ThinkWayUtil.getDictValueByDictKey(
 				dictService, "deviceProperty", device.getFaultCharacter());
+		
+		ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+		reasonName=faultReason.getReasonName();
 		if(device.getServiceAttitude()==null){
 			serviceAttitude="";
 		}else{
@@ -658,6 +668,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getReasonName() {
+		return reasonName;
+	}
+
+	public void setReasonName(String reasonName) {
+		this.reasonName = reasonName;
 	}
 	
 	

@@ -1,6 +1,5 @@
 package cc.jiuyi.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -31,6 +30,13 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		String hql="from Bom where products.productsCode=? and materialCode=? and version = ?";
 		return getSession().createQuery(hql).setParameter(0, productCode).setParameter(1, materialCode).setParameter(2, version).list();
 	}
+
+	@Override
+	public List<Bom> getBomListByMaxVersion(Integer version) {
+		String hql="from Bom where version = ?";
+		return getSession().createQuery(hql).setParameter(0, version).list();
+	}
+	
 
 	@Override
 	public List<Bom> getListByid(String productid, Integer version) {

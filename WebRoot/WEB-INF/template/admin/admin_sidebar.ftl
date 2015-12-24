@@ -1049,6 +1049,17 @@
 
 						
 					</li>
+					<li class="">
+						<a href="process_route!show.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							工艺路线管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
 					
 					<li class="">
 						<a href="factory!list.action" >

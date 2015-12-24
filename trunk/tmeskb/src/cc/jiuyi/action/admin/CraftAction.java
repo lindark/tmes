@@ -237,7 +237,7 @@ public class CraftAction extends BaseAdminAction {
 			
 		}
 
-		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
 			pager = craftService.findByPager(pager,map,abnorId);
 			List pagerlist = pager.getList();
 			String str;
@@ -256,7 +256,7 @@ public class CraftAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 
-		}else{
+		}else{//正常清单页面
 			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 			List pagerlist = pager.getList();
 			for(int i =0; i < pagerlist.size();i++){
@@ -284,7 +284,7 @@ public class CraftAction extends BaseAdminAction {
 		
 	}
 	
-	// 保存
+	// 刷卡提交
 	public String creditsave() {	
 		admin = adminService.getByCardnum(cardnumber);
 		

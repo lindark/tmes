@@ -20,10 +20,12 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
@@ -51,7 +53,7 @@ public class RepairAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private List<Process> allProcess;
-	private String cardnumber;//刷卡卡号
+	private String cardnumber;// 刷卡卡号
 
 	@Resource
 	private RepairService repairService;
@@ -63,6 +65,8 @@ public class RepairAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private ProcessService processService;
+	@Resource
+	private ProcessRouteService processRouteService;
 
 	public String list() {
 		admin = adminService.getLoginAdmin();
@@ -73,14 +77,19 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
-		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
-		workingbills.add(workingbill);
-		allProcess = processService.findProcess(workingbills);
+		String productCode = workingbill.getMatnr();
+		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList = processRouteService
+				.getProcessRouteByProductCode(productCode);
+		allProcess = new ArrayList<Process>();
+		for (int i = 0; i < processRouteList.size(); i++) {
+			allProcess.add(processRouteList.get(i).getProcess());
+		}
 		return INPUT;
 	}
-	
-	//历史返修记录
-	public String history(){
+
+	// 历史返修记录
+	public String history() {
 		return "history";
 	}
 
@@ -88,41 +97,68 @@ public class RepairAction extends BaseAdminAction {
 	public String edit() {
 		repair = repairService.load(id);
 		workingbill = workingBillService.get(workingBillId);
-		List<WorkingBill> workingbills = new ArrayList<WorkingBill>();
-		workingbills.add(workingbill);
-		allProcess = processService.findProcess(workingbills);
+		String productCode = workingbill.getMatnr();
+		allProcess = new ArrayList<Process>();
+		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList = processRouteService
+				.getAllProcessRouteByProductCode(productCode);
+		// 将历史版本中出现过的工序去重复地加入allProcess集合中
+		for (int i = 0; i < processRouteList.size(); i++) {
+			if (allProcess.size() > 0) {
+				// 标记
+				int index = 0;
+				String routeProcess = processRouteList.get(i).getProcess()
+						.getProcessCode();
+				for (int j = 0; j < allProcess.size(); j++) {
+					String aProcess = allProcess.get(j).getProcessCode();
+					// 一旦出现一样的工序，改变标记，并且结束内层循环
+					if (routeProcess.equals(aProcess)) {
+						index = 1;
+						break;
+					}
+				}
+				// 如果allProcess中没有相同的工序则添加
+				if (index == 0) {
+					allProcess.add(processRouteList.get(i).getProcess());
+				}
+			} else {
+				allProcess.add(processRouteList.get(i).getProcess());
+			}
+		}
 		return INPUT;
 	}
 
 	// 保存
 	public String creditsave() throws Exception {
-		if(repair.getRepairAmount()==null||String.valueOf(repair.getRepairAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (repair.getRepairAmount() == null
+				|| String.valueOf(repair.getRepairAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
-		}
-		if (repair.getProcessResponse().getId().equals("")) {
-			repair.setProcessResponse(null);
 		}
 		admin = adminService.getByCardnum(cardnumber);
 		repair.setCreateUser(admin);
 		repairService.save(repair);
-		/*redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "repair!list.action?workingBillId=" +
+		 * repair.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	public String creditupdate() throws Exception {
-		if(repair.getRepairAmount()==null||String.valueOf(repair.getRepairAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+		if (repair.getRepairAmount() == null
+				|| String.valueOf(repair.getRepairAmount()).matches(
+						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
-		}
-		if (repair.getProcessResponse().getId().equals("")) {
-			repair.setProcessResponse(null);
 		}
 		Repair persistent = repairService.load(id);
 		BeanUtils.copyProperties(repair, persistent, new String[] { "id" });
 		repairService.update(persistent);
-		/*redirectionUrl = "repair!list.action?workingBillId="
-				+ repair.getWorkingbill().getId();*/
+		/*
+		 * redirectionUrl = "repair!list.action?workingBillId=" +
+		 * repair.getWorkingbill().getId();
+		 */
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -141,7 +177,7 @@ public class RepairAction extends BaseAdminAction {
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, CONFIRMED, workingBillId,cardnumber);
+		repairService.updateState(list, CONFIRMED, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -162,7 +198,7 @@ public class RepairAction extends BaseAdminAction {
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, UNDO, workingBillId,cardnumber);
+		repairService.updateState(list, UNDO, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
@@ -176,7 +212,7 @@ public class RepairAction extends BaseAdminAction {
 		return "browser";
 	}
 
-	public String historylist(){
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -198,10 +234,11 @@ public class RepairAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workingbillCode") != null) {
 				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode").toString();
+				String workingbillCode = obj.getString("workingbillCode")
+						.toString();
 				map.put("workingbillCode", workingbillCode);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
@@ -219,12 +256,12 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
-			repair.setWorkingbillCode(workingBillService.get(repair.getWorkingbill().getId()).getWorkingBillCode());
-			repair.setMaktx(workingBillService.get(repair.getWorkingbill().getId()).getMaktx());
-			if (repair.getProcessResponse() != null) {
-				repair.setResponseName(repair.getProcessResponse()
-						.getProcessName());
-			}
+			repair.setWorkingbillCode(workingBillService.get(
+					repair.getWorkingbill().getId()).getWorkingBillCode());
+			repair.setMaktx(workingBillService.get(
+					repair.getWorkingbill().getId()).getMaktx());
+			repair.setResponseName(processService.get("processCode",
+					repair.getProcessCode()).getProcessName());
 			lst.add(repair);
 		}
 		pager.setList(lst);
@@ -234,6 +271,7 @@ public class RepairAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+
 	/**
 	 * ajax 列表
 	 * 
@@ -268,10 +306,8 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
-			if (repair.getProcessResponse() != null) {
-				repair.setResponseName(repair.getProcessResponse()
-						.getProcessName());
-			}
+			repair.setResponseName(processService.get("processCode",
+					repair.getProcessCode()).getProcessName());
 			lst.add(repair);
 		}
 		pager.setList(lst);

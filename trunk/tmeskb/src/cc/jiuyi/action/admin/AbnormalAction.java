@@ -412,6 +412,16 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
 		
 		abnormalService.save(abnormal);
+		
+		
+		List<Admin> adminList=new ArrayList<Admin>(adminService.getByAdminId(admin.getDepartment().getId()));
+		System.out.println(adminList);
+		for(int i=0;i<adminList.size();i++){
+			System.out.println(adminList.get(i));
+			System.out.println("i");
+			System.out.println(admin.getId());
+		}
+		System.out.println(adminList.size());
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());

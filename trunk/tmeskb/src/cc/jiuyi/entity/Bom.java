@@ -45,6 +45,8 @@ public class Bom extends BaseEntity{
 	private String xitid;
 	private String xrecordid;
 	private String xrecordNum;
+	private String pickAmount;
+	private String pickType;
 	private String xsbids;
 	private String xsbnums;
 	private String xsmreson;
@@ -204,6 +206,27 @@ public class Bom extends BaseEntity{
 	}
 
 
+
+	@Transient
+	public String getPickAmount() {
+		return pickAmount;
+	}
+
+	public void setPickAmount(String pickAmount) {
+		this.pickAmount = pickAmount;
+	}
+
+
+	@Transient
+	public String getPickType() {
+		return pickType;
+	}
+	public void setPickType(String pickType) {
+		this.pickType = pickType;
+	}
+
+
+
 	@Transient
 	public Double getXtestAmount() {
 		return xtestAmount;
@@ -256,6 +279,6 @@ public class Bom extends BaseEntity{
 	public void setXsmid(String xsmid) {
 		this.xsmid = xsmid;
 	}
-	
+
 	
 }

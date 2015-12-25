@@ -60,6 +60,7 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 登录名 </label>
 										<div class="col-sm-9">
+											<input type="hidden" name="id" value="${(admin.id) }"/>
 											<#if isAdd??>
 											<input type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}" title="登录名只允许包含中文、英文、数字和下划线">
 											<label class="requireField">*</label>

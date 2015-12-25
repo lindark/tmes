@@ -79,9 +79,10 @@ body {
 													<input type="text" name="handoverprocessList[${num }].afterworkingbill.workingBillCode" class="form-control" value="${list.afterworkingBillCode }"/>
 												</td>
 												<td class="center">
-													<input type="hidden" class="form-control" name="handoverprocessList[${num }].material.id" value="${material.id }"/> <!-- 物料组件 -->
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialCode" value="${materialCode }"/> <!-- 物料组件 -->
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialName" value="${materialName }"/> <!-- 物料描述 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
-													<input type="hidden" class="form-control" name="handoverprocessList[${num }].process.id" value="${processid }"/><!-- 工序-->
+													<input type="hidden" class="form-control" name="handoverprocessList[${num }].processid" value="${processid }"/><!-- 工序-->
 													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 数量 -->
 												</td>
 											</tr>

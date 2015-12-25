@@ -95,7 +95,7 @@
 									</li>
 								</ul>
 								<div id="tabs-1">
-									<a href="#0" class="cd-btn">右侧滑动弹出框</a>
+									<!-- <a href="#0" class="cd-btn">右侧滑动弹出框</a>  -->
 
 									<div class="cd-panel from-right" style="z-index:9999">
 										<header class="cd-panel-header">

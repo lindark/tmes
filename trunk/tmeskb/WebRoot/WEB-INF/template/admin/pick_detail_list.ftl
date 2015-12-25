@@ -53,18 +53,16 @@ body {
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-
-									<form id="inputForm" name="inputForm" class="validate" action="pick_detail!creditsubmit.action?id+"=id
+						<form id="inputForm" name="inputForm" class="validate" action="<#if isAdd??>pick_detail!creditsubmit.action<#else>pick_detail!creditupdate.action</#if>"
 							 method="post">
+							 <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
                             <input type="hidden" class="input input-sm" id="workingBillId" name="workingBillId" value="${(workingbill.id)!} ">
-                            <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
-							
+                            <input type="hidden" id="pickId" name="pickId" value="${(pick.id)! }" />
 							<div id="inputtabs">
 								 <ul>
 								    <li><a href="#tabs-1">领/退料详情</a></li>
 								</ul>
-								<div id="tabs-1" class="tab1">
-								
+								<div id="tabs-1" class="tab1">						
 								<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row">
 													<div class="profile-info-name">随工单号</div>
@@ -89,7 +87,7 @@ body {
 													<div class="profile-info-value">
 														<select name="info" style="width:300px;">
 													    <option value="">-请选择-</option> <#list allType as alist>
-													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pickDetail.pickType ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
+													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pick.move_type ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
 													    </#list>
 													</select>
 													</div>
@@ -109,15 +107,16 @@ body {
 
 									<tbody>
 									    <#assign  num=0/>
-										<#list materialList as list>
+										<#list bomList as list>
 											<tr id="tr_1">
 												<td class="center" name="">${(list.materialCode)! }</td>
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" ></td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" class=" input input-sm formText {digits:true}"/>
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class=" input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 												</td>											
 											</tr>
 											<#assign num=num+1/>
@@ -174,7 +173,11 @@ body {
 		$("#btn_save").click(function(){
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
+				<#if isAdd??>
 				var url="pick_detail!creditsubmit.action";
+				<#else>
+				var url="pick_detail!creditupdate.action";
+				</#if>
 				credit.creditCard(url,function(data){
 					if(data.status=="success"){
 						layer.alert(data.message, {icon: 6},function(){
@@ -190,6 +193,12 @@ body {
 				},dt)
 		});
 
+		
+		function sub_event(my_id){
+			
+		}
+	
+		
 		$("#btn_confirm").click(function(){
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();

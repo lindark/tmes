@@ -116,15 +116,19 @@
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建领料单
+										创建领/退料单
 									</button>
 									<!--  <a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}">
 										<i class="ace-icon fa fa-folder-open-o"></i>
 										创建领料单
-									</a>-->
+									</a>-->	
+									<button class="btn btn-white btn-default btn-sm btn-round" id="editPick" type=button>
+									    <i class="ace-icon glyphicon glyphicon-edit"></i>
+									      编辑领/退料单
+								    </button>  							
 									<button class="btn btn-white btn-default btn-sm btn-round" id="viewPick" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
-										查看领料单
+										查看领/退料单
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmPick" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
@@ -248,7 +252,28 @@
 			}
 		});
 
-			
+		$("#editPick").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				alert("请选择至少一条记录");
+				return false;
+			}
+			if(id.length>1){
+				alert("只能选择一条记录");
+				return false;
+			}
+			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3"){
+					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
+					return false;
+				}else{
+					window.location.href="pick_detail!edit.action?id="+id+"&workingBillId=${workingbill.id}&matnr=${(workingbill.matnr)!}";
+				}				
+			}		
+		});
 		
 		
 		$("#viewPick").click(function(){

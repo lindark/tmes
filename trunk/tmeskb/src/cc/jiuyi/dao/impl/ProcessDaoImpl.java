@@ -179,5 +179,16 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		String hql = "select a from Process a join a.processrouteSet b join b.products c where b.version="+version+" and c.id=?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}
+	
+	/**
+	 * 根据产品编码 工艺路线
+	 * @param matnrs
+	 * @return
+	 */
+	public List<Process> getListRoute(String matnrs,Integer version){
+		String hql="select distinct a from Process a join a.processrouteSet b where b.products.productsCode = ? and b.version = ?";
+		return getSession().createQuery(hql).setParameter(0, matnrs).setParameter(1, version).list();
+		
+	}
 
 }

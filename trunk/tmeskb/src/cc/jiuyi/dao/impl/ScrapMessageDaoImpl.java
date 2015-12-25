@@ -19,7 +19,7 @@ public class ScrapMessageDaoImpl extends BaseDaoImpl<ScrapMessage, String> imple
 	 */
 	public ScrapMessage getBySidAndMid(String sid, String mid)
 	{
-		String hql="from ScrapMessage where isDel='N' and scrap_id=? and materialId=?";
+		String hql="from ScrapMessage where isDel='N' and scrap_id=? and smmatterNum=?";
 		return (ScrapMessage) this.getSession().createQuery(hql).setParameter(0, sid).setParameter(1, mid).uniqueResult();
 	}
 

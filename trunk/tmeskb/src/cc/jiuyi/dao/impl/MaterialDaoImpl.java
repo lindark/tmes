@@ -82,7 +82,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	public void updateisdel(String[] ids, String oper) {
 		for(String id:ids){
 			Material material=super.load(id);
-			material.setIsDel(oper);//标记删除
+			//material.setIsDel(oper);//标记删除
 			super.update(material);
 		}
 		

@@ -92,7 +92,7 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 	}
 	
 	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr){
-		String hql="from HandOverProcess a where a.material.materialCode = ? and a.process.id=? and a.beforworkingbill.matnr=?";
+		String hql="select a from HandOverProcess a where a.materialCode = ? and a.processid=? and a.beforworkingbill.matnr=?";
 		return (HandOverProcess) getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, processid).setParameter(2, matnr).uniqueResult();
 	}
 	
@@ -100,6 +100,12 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {
 		String hql="from HandOverProcess as model where model."+propertyName+" in (:list) order by "+orderBy+" "+ordertype;
 		return getSession().createQuery(hql).setParameterList("list", objlist).list();		
+	}
+	
+	public HandOverProcess findhandover(String materialCode, String processid,String matnrid){
+		String hql="select a from HandOverProcess a  where a.materialCode = ? and a.processid = ? and a.beforworkingbill.id = ?";
+		
+		return (HandOverProcess) getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, processid).setParameter(2, matnrid).uniqueResult();
 	}
 	
 	

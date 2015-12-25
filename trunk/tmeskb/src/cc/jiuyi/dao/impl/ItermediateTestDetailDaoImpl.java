@@ -68,15 +68,15 @@ public class ItermediateTestDetailDaoImpl extends BaseDaoImpl<ItermediateTestDet
 	@Override
 	public List<ItermediateTestDetail> getItermediateTestDetail(String id) {
 		String hql="from ItermediateTestDetail a inner join fetch a.itermediateTest b where b.id=?";
-		return getSession().createQuery(hql).setParameter("list", id).list();
+		return getSession().createQuery(hql).setParameter(0, id).list();
 	}
 
 	@Override
 	/**
 	 * 根据主表id和物料表id查询
 	 */
-	public ItermediateTestDetail getBySidAndMid(String sid, String mid) {
-		String hql="from ItermediateTestDetail where isDel='N' and itermediateTest_id=? and materialId=?";
+	public ItermediateTestDetail getBySidAndMid(String sid, String mid){
+		String hql="from ItermediateTestDetail where isDel='N' and itermediateTest.id=? and materialCode=?";
 		return (ItermediateTestDetail)this.getSession().createQuery(hql).setParameter(0, sid).setParameter(1, mid).uniqueResult();
 	}
 

@@ -334,7 +334,7 @@ body {
 	
 	function loadData(productid){
 		var url = "bom!getBom.action?productid="+productid;
-		alert(url);
+
 		$.ajax({	
 			url: url,
 			//data: "{\"productid\":\""+productid+"\"}",

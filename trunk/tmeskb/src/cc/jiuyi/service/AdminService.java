@@ -78,5 +78,13 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @param enddate
 	 */
 	public void updateByCreditCard(Date startdate, Date enddate,String teamid);
+	
+	
+	/**
+	 * 根据员工部门id获取部长
+	 * @param id
+	 * @return
+	 */
+	public List<Admin> getByAdminId(String id);
 
 }

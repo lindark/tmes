@@ -1,6 +1,8 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessDao;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.ProcessService;
 
@@ -102,7 +105,7 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 	}
 	
 	@Override
-	public Integer getMaxVersion(String productid){
+	public Integer getMaxVersion(String productid) {
 		return processDao.getMaxVersion(productid);
 	}
 
@@ -116,4 +119,20 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 	{
 		return this.processDao.getProductsList(pager,map);
 	}*/
+	
+	public List<Process> getListRoute(List<HashMap<String,Object>> hashmap){
+		HashSet<Process> set = new HashSet<Process>();
+		for(int i=0;i<hashmap.size();i++){
+			HashMap<String,Object> map = hashmap.get(i);
+			Object matnr = map.get("matnr");
+			Object version = map.get("version");
+			List<Process> processList = this.getListRoute(String.valueOf(matnr),version == null ? 0:(Integer)version);
+			set.addAll(processList);
+		}
+		return new ArrayList<Process>(set);
+	}
+	
+	public List<Process> getListRoute(String matnr,Integer version){
+		return processDao.getListRoute(matnr,version);
+	}
 }

@@ -415,11 +415,7 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		
 		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());
-		System.out.println(adminList);
-		for(int i=0;i<adminList.size();i++){
-			System.out.println(adminList.get(i));
-		}
-		System.out.println(adminList.size());
+		String phone = adminList.get(0).getPhoneNo();
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
@@ -444,6 +440,7 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("time", ThinkWayUtil.getCron(date2));
 		maps.put("jobname", job_name);
 		maps.put("count","1");
+		maps.put("phone",phone);
 		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

@@ -113,7 +113,7 @@ body {
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" ></td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class=" input input-sm formText {digits:true}"/>
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class=" notnull input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
@@ -197,9 +197,19 @@ body {
 		function sub_event(my_id){
 			
 		}
-	
-		
+			
 		$("#btn_confirm").click(function(){
+			var flag = false;
+			$(".notnull").each(function(){
+				var sVal = $(this).val();
+				if(sVal != "" && sVal !="0")
+					flag = true;
+			})
+			if(!flag){
+				layer.alert("数量为0或者空时不允许刷卡确认",{icon: 7});
+				return false;
+			}
+			
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
 				var url="pick_detail!creditapproval.action";	
@@ -218,6 +228,9 @@ body {
 				},dt)
 		});
 		
+		
+	
+
 		
 		$("#btn_back").click(function(){
 			window.history.back();
@@ -255,7 +268,7 @@ body {
 			 var value = $(this).text();
 			});
      });
-	
+
 
 
 	

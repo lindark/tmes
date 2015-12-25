@@ -36,10 +36,10 @@ public class MaterialRfcImpl extends BaserfcServiceImpl implements MaterialRfc{
 			m.setMaterialCode(T_DATA.getString("IDNRK"));//物料编码
 			m.setMaterialName(T_DATA.getString("OJTXP"));//物料描述
 			m.setMaterialUnit(T_DATA.getString("MMEIN"));//单位
-			m.setMaterialAmount(Double.parseDouble(T_DATA.getString("MNGKO")));//数量
-			m.setProject(T_DATA.getString("POSNR"));//项目
-			m.setSpread(Double.parseDouble(T_DATA.getString("WEGXX")));//层
-			m.setProjectType(T_DATA.getString("POSTP"));//项目类别
+			//m.setMaterialAmount(Double.parseDouble(T_DATA.getString("MNGKO")));//数量
+			//m.setProject(T_DATA.getString("POSNR"));//项目
+			//m.setSpread(Double.parseDouble(T_DATA.getString("WEGXX")));//层
+			//m.setProjectType(T_DATA.getString("POSTP"));//项目类别
 			material.add(m);
 		}
 		return material;

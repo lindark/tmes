@@ -22,6 +22,7 @@ import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
@@ -31,6 +32,7 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
@@ -62,14 +64,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private List<Dict> allState;
 	private List<Process> processList;
 	private List<WorkingBill> workingbillList;
-	private List<Material> materialList;
+	private List<Bom> materialList;
 	private List<HandOverProcess> handoverprocessList;
 	private String materialCode;// 组件编码
-	private Material material;// 组件
+	private Bom material;// Bom
 	private String processid;// 工序ID
 	private List<Locationonside> locationonsideList;
 	private String orderBy;// 排序字段
 	private String orderType;// 排序类型
+	private String materialName;//组件物料描述
 
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -91,13 +94,16 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private BomService bomservice;
 	@Resource
 	private ProductsService productsservice;
+	@Resource
+	private ProcessRouteService processrouteservice;
 
 	// 添加 工序交接
 	public String add() {
+		workingbillList = new ArrayList<WorkingBill>();
 		/***获取当班随工单,将产品编码的集合放到 list****/
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		//material = materialservice.get("materialCode", materialCode);
+		//material = bomservice.get("materialCode", materialCode);
 		List<WorkingBill> workingbillAll = workingbillservice.getListWorkingBillByDate(admin);//获取当班随工单集合
 //		Object[] list = new Object[workingbillList.size()];
 //		for(int i=0;i<workingbillList.size();i++){
@@ -106,16 +112,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 //		}
 		//workingbillList = workingbillservice.findListWorkingBill(list,admin.getProductDate(), admin.getShift());
 		/***找出今日随工单中跟materialCode 的相关的产品****/
-		for (int i = 0; i < workingbillAll.size(); i++) {
+		for (int i = 0; i < workingbillAll.size(); i++){
 			WorkingBill workingbill = workingbillAll.get(i);
 			Integer version = workingbill.getBomversion();
 			if(version == null) {
 				version = bomservice.getMaxVersionBycode(workingbill.getMatnr());
 			}
 			List<Bom> bomList = bomservice.getBomByProductCode(workingbill.getMatnr(),materialCode,version);
-		    //此处明天接着写
-			
-			
+		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
+		    	continue;
 			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr());
 			if (handoverprocess != null) {
 				Integer amount = handoverprocess.getAmount();
@@ -138,6 +143,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		materialList = new ArrayList<Bom>();
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);// 获取当前身份的所有随工单对象
@@ -146,21 +152,40 @@ public class HandOverProcessAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		Object[] obj = new Object[workingbillList.size()];
+		List<HashMap<String,Object>> matnrList = new ArrayList<HashMap<String,Object>>();
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
-			obj[i] = workingbill.getMatnr();
-		}
-		materialList = materialservice.getMantrBom(obj);// 取出随工单对应的物料BOM
-		processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
-		if (processList.size() <= 0) {
-			addActionError("未找到一条工序记录");
-			return ERROR;
-		}
+			HashMap<String,Object> hashmap = new HashMap<String, Object>();
+			Integer bomversion = workingbill.getBomversion();
+			if(bomversion == null)
+				bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
+			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+			Integer processversion = workingbill.getProcessversion();
+			if(processversion == null)
+				processversion = processrouteservice.getMaxVersionBycode(workingbill.getMatnr());
+			if (processversion== null) {
+				addActionError("未找到一条工序记录");
+				return ERROR;
+			}
+			for(int y=0;y<bomList.size();y++){
+				Bom bom = bomList.get(y);
+				if(materialList.contains(bom))
+					continue;
+				materialList.add(bom);
+			}
+			hashmap.put("matnr", workingbill.getMatnr());
+			hashmap.put("version",processversion);
+			matnrList.add(hashmap);
+		}		
+		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
+		processList = processservice.getListRoute(matnrList);//取出所有工序
+		
+		
+		
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
-		for (Material material : materialList) {
+		for (Bom material : materialList) {
 			materialCodeList.add(material.getMaterialCode());
 		}
 
@@ -188,27 +213,34 @@ public class HandOverProcessAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
+		materialList = new ArrayList<Bom>();
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);// 获取当前身份的所有随工单对象
 		Object[] obj = new Object[workingbillList.size()];
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
+			Integer bomversion = workingbill.getBomversion();
+			if(bomversion == null)
+				bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
+			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
 			obj[i] = workingbill.getMatnr();
-		}
-		
-		materialList = materialservice.getMantrBom(obj);// 取出随工单对应的物料BOM
+			for(int y=0;y<bomList.size();y++){
+				Bom bom = bomList.get(y);
+				if(materialList.contains(bom))
+					continue;
+				materialList.add(bom);
+			}
+		}		
 		handoverprocessList = handOverProcessService.getList(
 				"beforworkingbill.matnr", obj, orderBy, orderType);
 
 		for (int i = 0; i < handoverprocessList.size(); i++) {
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			handoverprocess.setProcessName(handoverprocess.getProcess()
-					.getProcessName());
-			handoverprocess.setMaterialCode(handoverprocess.getMaterial()
-					.getMaterialCode());
-			handoverprocess.setMaterialName(handoverprocess.getMaterial()
-					.getMaterialName());
+			Process process = processservice.get(handoverprocess.getProcessid());
+			handoverprocess.setProcessName(process.getProcessName());
+			handoverprocess.setMaterialCode(handoverprocess.getMaterialCode());
+			handoverprocess.setMaterialName(handoverprocess.getMaterialName());
 			handoverprocess.setBeforworkingbillCode(handoverprocess
 					.getBeforworkingbill().getWorkingBillCode());
 			handoverprocess.setAfterworkingbillCode(handoverprocess.getAfterworkingbill().getWorkingBillCode());
@@ -218,7 +250,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
-		for (Material material : materialList) {
+		for (Bom material : materialList) {
 			materialCodeList.add(material.getMaterialCode());
 		}
 		try {
@@ -437,11 +469,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		this.workingbillList = workingbillList;
 	}
 
-	public List<Material> getMaterialList() {
+	public List<Bom> getMaterialList() {
 		return materialList;
 	}
 
-	public void setMaterialList(List<Material> materialList) {
+	public void setMaterialList(List<Bom> materialList) {
 		this.materialList = materialList;
 	}
 
@@ -461,11 +493,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		this.handoverprocessList = handoverprocessList;
 	}
 
-	public Material getMaterial() {
+	public Bom getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(Material material) {
+	public void setMaterial(Bom material) {
 		this.material = material;
 	}
 
@@ -501,4 +533,13 @@ public class HandOverProcessAction extends BaseAdminAction {
 		this.orderType = orderType;
 	}
 
+	public String getMaterialName() {
+		return materialName;
+	}
+
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+
+	
 }

@@ -18,6 +18,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
@@ -28,8 +29,10 @@ import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
@@ -58,7 +61,7 @@ public class ScrapAction extends BaseAdminAction
 	private String edit;//编辑时
 	private String show;//查看时
 	private Products product;//产品
-	private List<Material>list_material;//物料
+	private List<Bom>list_material;//物料
 	private List<Dict>list_dict;//责任划分
 	private String smdutytype;//报废信息--责任类型
 	private List<Cause>list_cause;//缺陷
@@ -84,6 +87,10 @@ public class ScrapAction extends BaseAdminAction
 	private CauseService causeService;//缺陷
 	@Resource
 	private ScrapMessageService smService;//报废信息表
+	@Resource
+	private ProcessRouteService processrouteservice;
+	@Resource
+	private BomService bomservice;
 	
 	/**======================end 对象，变量，接口=*=================================*/
 	
@@ -146,13 +153,21 @@ public class ScrapAction extends BaseAdminAction
 	}
 	
 	/**
-	 * 新增前
+	 * 新增前  --modify weitao
 	 */
 	public String add()
 	{
 		this.workingbill=this.wbService.get(wbId);
-		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
-		this.list_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
+		//this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
+		Integer bomversion = workingbill.getBomversion();
+		if(bomversion == null)
+			bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
+		if(bomversion == null){
+			addActionError("未维护BOM信息");
+			return ERROR;
+		}
+		list_material = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+		//this.list_material=new ArrayList<Bom>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
 		this.add="add";
@@ -175,20 +190,26 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	
 	/**
-	 * 编辑前
+	 * 编辑前 --modify weitao
 	 */
 	public String edit()
 	{
-		this.list_material=new ArrayList<Material>();
+		this.list_material=new ArrayList<Bom>();
 		this.workingbill=this.wbService.get(wbId);
-		this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
-		List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());//产品对应的物料(/组件)
+		Integer bomversion = workingbill.getBomversion();
+		if(bomversion == null)
+			bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
+		if(bomversion == null){
+			addActionError("未维护BOM信息");
+			return ERROR;
+		}
+		List<Bom> l_material = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
 		for(int i=0;i<l_material.size();i++)
 		{
-			Material m=l_material.get(i);
+			Bom m=l_material.get(i);
 			if(m!=null)
 			{
-				ScrapMessage sm=this.smService.getBySidAndMid(id,m.getId());//根据scrap表id和物料表id查询报废信息
+				ScrapMessage sm=this.smService.getBySidAndMid(id,m.getMaterialCode());//根据scrap表id和物料表id查询报废信息
 				if(sm!=null)
 				{
 					m.setXsmreson(sm.getSmreson());//原因
@@ -389,12 +410,12 @@ public class ScrapAction extends BaseAdminAction
 		this.product = product;
 	}
 
-	public List<Material> getList_material()
+	public List<Bom> getList_material()
 	{
 		return list_material;
 	}
 
-	public void setList_material(List<Material> list_material)
+	public void setList_material(List<Bom> list_material)
 	{
 		this.list_material = list_material;
 	}

@@ -19,6 +19,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.IpRecord;
@@ -29,6 +30,7 @@ import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ItermediateTestDetailService;
@@ -68,7 +70,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private Products product;//产品
 	private String my_id;//
 	private List<Dict> allState;//获取所有状态
-	private List<Material> list_material;//产品Bom
+	private List<Bom> list_material;//产品Bom
 	private List<Cause> list_cause;//缺陷
 	private List<ItermediateTestDetail> list_itmesg;//巡检从表不合格信息
 	private List<IpRecord> list_itbug;//不合格原因
@@ -89,14 +91,20 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private ProductsService productsService;
 	@Resource
 	private CauseService causeService;
+	@Resource
+	private BomService bomservice;
 	
 	
 
-	//添加
+	//添加 ----modify weitao
 	public String add(){
 		this.workingbill=this.workingBillService.load(workingBillId);
-		this.product=this.productsService.getProducts(workingbill.getMatnr());//随工单对应的产品
-		this.list_material=new ArrayList<Material>(this.product.getMaterial());//产品对应的物料
+		Integer version = bomservice.getMaxVersionBycode(workingbill.getMatnr());//获取最大版本号
+		if(version == null){
+			addActionError("未维护BOM");
+			return ERROR;
+		}
+		list_material = bomservice.getListBycode(workingbill.getMatnr(), version);//取出产品最大的BOM集合
 		this.list_cause=this.causeService.getBySample("3");//半成品不合格内容
 		this.add="add";
 		return INPUT;
@@ -173,23 +181,31 @@ public class ItermediateTestAction extends BaseAdminAction {
 	
 	//编辑
 		public String edit(){
-			this.list_material=new ArrayList<Material>();
+			this.list_material=new ArrayList<Bom>();
 			this.workingbill=this.workingBillService.load(workingBillId);
-			this.product=this.productsService.getProducts(workingbill.getMatnr());
-			List<Material>l_material=new ArrayList<Material>( this.product.getMaterial());
+			Integer version = workingbill.getBomversion();
+			if(version == null)
+				version = bomservice.getMaxVersionBycode(workingbill.getMatnr());//获取最大版本号
+			if(version == null){
+				addActionError("未找到BOM信息");
+				return ERROR;
+			}
+				
+			List<Bom> l_material = bomservice.getListBycode(workingbill.getMatnr(), version);//取出产品最大的BOM集合
+			
 			for(int i=0;i<l_material.size();i++){
-				Material m=l_material.get(i);
-				ItermediateTestDetail it=this.itermediateTestDetailService.getBySidAndMid(id, m.getId());
+				Bom bom =l_material.get(i);
+				ItermediateTestDetail it=this.itermediateTestDetailService.getBySidAndMid(id, bom.getMaterialCode());
 				if(it!=null){
-					m.setXfailReason(it.getFailReason());
-					m.setXfailAmount(it.getFailAmount());
-					m.setXtestAmount(it.getTestAmount());
-					m.setXgoodsSzie1(it.getGoodsSzie1());
-					m.setXgoodsSzie2(it.getGoodsSzie2());
-					m.setXgoodsSzie3(it.getGoodsSzie3());
-					m.setXgoodsSzie4(it.getGoodsSzie4());
-					m.setXgoodsSzie5(it.getGoodsSzie5());
-					m.setXitid(it.getId());
+					bom.setXtestAmount(it.getTestAmount());
+					bom.setXfailReason(it.getFailReason());
+					bom.setXfailAmount(it.getFailAmount());
+					bom.setXgoodsSzie1(it.getGoodsSzie1());
+					bom.setXgoodsSzie2(it.getGoodsSzie2());
+					bom.setXgoodsSzie3(it.getGoodsSzie3());
+					bom.setXgoodsSzie4(it.getGoodsSzie4());
+					bom.setXgoodsSzie5(it.getGoodsSzie5());
+					bom.setXitid(it.getId());
 					List<IpRecord> l_ir=new ArrayList<IpRecord>(it.getIpRecord());//获取每个物料对应的不合格原因
 					String sbids="",sbnums="";
 					for (int j = 0; j < l_ir.size(); j++) {
@@ -199,10 +215,10 @@ public class ItermediateTestAction extends BaseAdminAction {
 							sbnums=sbnums+ip.getRecordNum()+",";
 						}
 					}
-					m.setXrecordid(sbids);
-					m.setXrecordNum(sbnums);				
+					bom.setXrecordid(sbids);
+					bom.setXrecordNum(sbnums);				
 				}
-				list_material.add(m);
+				list_material.add(bom);
 			}
 			this.list_cause=this.causeService.getBySample("3");
 			this.itermediateTest=this.itermediateTestService.load(id);
@@ -402,12 +418,12 @@ public class ItermediateTestAction extends BaseAdminAction {
 	}
 
 
-	public List<Material> getList_material() {
+	public List<Bom> getList_material() {
 		return list_material;
 	}
 
 
-	public void setList_material(List<Material> list_material) {
+	public void setList_material(List<Bom> list_material) {
 		this.list_material = list_material;
 	}
 

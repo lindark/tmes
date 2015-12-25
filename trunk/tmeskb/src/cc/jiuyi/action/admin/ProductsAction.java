@@ -162,9 +162,6 @@ public class ProductsAction extends BaseAdminAction {
 			Products products = (Products) productsList.get(i);
 			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "productsState", products.getState()));
-			products.setMaterial(null);
-			products.setProcess(null);
-			products.setQualitySet(null);
 			lst.add(products);
 		}
 		pager.setList(lst);
@@ -240,20 +237,20 @@ public class ProductsAction extends BaseAdminAction {
 
 	// 保存相关工序
 	public String saveprocess() {
-		Products pt = productsService.get(id);
-		List<Process> prolist = new ArrayList<Process>();
-		if (ids == null) {
-			pt.setProcess(null);
-		} else {
-			for (int i = 0; i < ids.length; i++) {
-				Process process = new Process();
-				process.setId(ids[i]);
-				prolist.add(process);
-			}
-			pt.setProcess(new HashSet<Process>(prolist));
-		}
-		productsService.update(pt);
-		redirectionUrl = "products!list.action";
+//		Products pt = productsService.get(id);
+//		List<Process> prolist = new ArrayList<Process>();
+//		if (ids == null) {
+//			pt.setProcess(null);
+//		} else {
+//			for (int i = 0; i < ids.length; i++) {
+//				Process process = new Process();
+//				process.setId(ids[i]);
+//				prolist.add(process);
+//			}
+//			pt.setProcess(new HashSet<Process>(prolist));
+//		}
+//		productsService.update(pt);
+//		redirectionUrl = "products!list.action";
 		return SUCCESS;
 	}
 

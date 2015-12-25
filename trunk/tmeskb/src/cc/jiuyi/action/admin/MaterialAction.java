@@ -165,11 +165,9 @@ public class MaterialAction extends BaseAdminAction {
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
 				Material material  = (Material)materialList.get(i);
-				material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "materialState", material.getState()));
-				material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "iscartonSate", material.getIsCarton()));
-				material.setProducts(null);
+				//material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "materialState", material.getState()));
+				//material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(dictService, "iscartonSate", material.getIsCarton()));
+				//material.setProducts(null);
 				lst.add(material);
 			}
 		pager.setList(lst);

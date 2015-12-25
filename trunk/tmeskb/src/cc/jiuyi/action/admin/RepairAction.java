@@ -294,8 +294,7 @@ public class RepairAction extends BaseAdminAction {
 				repair.setAdminName(repair.getConfirmUser().getName());
 			}
 			repair.setCreateName(repair.getCreateUser().getName());
-			repair.setResponseName(processService.get("processCode",
-					repair.getProcessCode()).getProcessName());
+			repair.setResponseName(processService.get("processCode",repair.getProcessCode()).getProcessName());
 			lst.add(repair);
 		}
 		pager.setList(lst);

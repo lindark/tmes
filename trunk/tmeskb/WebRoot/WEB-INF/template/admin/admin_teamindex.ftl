@@ -114,7 +114,7 @@
 								<div class="col-xs-12 col-sm-6 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
-											<h4 class="widget-title lighter">按钮组</h4>
+											<h4 class="widget-title lighter">业务处理</h4>
 											<div class="widget-toolbar no-border">
 												<a href="#" data-action="collapse"> <i
 													class="ace-icon fa fa-chevron-up"></i> </a>

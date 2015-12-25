@@ -92,11 +92,11 @@
 									        <div class="tree_top">
 									            <h5><span>部门列表</span></h5>
 									        </div>
-									        <div id="treeDiv">
-									            <ul id="ingageTree" class="ztree"></ul>
+									        <div id="treeDiv" style="height:100%;max-height:100%;">
+									             <ul id="ingageTree" class="ztree"></ul>
 									        </div>
 									        <div class="tree_bottom">
-									           <!-- <a href="javascript:void(0);" title="部门合并" class="group_merge" id="merge_a">部门合并</a> -->
+									          
 									        </div>
 								    	</div><!--left_tree-->
 							    		<div class="right_grid" id="right_grid">

@@ -22,7 +22,7 @@ $(function(){
              //alert(id);
              $productId.val(id[1]);
              $productName.text(id[0]);
-             $productCode.val(id[2]);
+             $productCode.text(id[2]);
              layer.close(index);            	          	     	
              
 //        	var docu = iframeWin.document;//获取document 对象

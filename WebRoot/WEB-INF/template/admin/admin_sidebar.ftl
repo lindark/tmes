@@ -697,14 +697,14 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
-					<li class="">
+					<!--  <li class="">
 						<a href="abnormal!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							异常
 						</a>
 
 						<b class="arrow"></b>
-					</li>
+					</li>-->
 
 					<li class="">
 						<a href="quality!list.action" >

@@ -24,7 +24,7 @@ public class ScrapMessage extends BaseEntity
 	private String smduty;//责任划分
 	private String smreson;//报废原因
 	private String isDel;//删除
-	private String materialId;//物料主键
+	private String materialCode;//物料编码
 	private Scrap scrap;//报废表：外键
 	private Double menge;//数量
 	private String charg;//批号
@@ -144,15 +144,12 @@ public class ScrapMessage extends BaseEntity
 	{
 		this.scrapBug = scrapBug;
 	}
-	@Column
-	public String getMaterialId()
-	{
-		return materialId;
+	public String getMaterialCode() {
+		return materialCode;
 	}
-	public void setMaterialId(String materialId)
-	{
-		this.materialId = materialId;
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
 	}
-	
+
 	
 }

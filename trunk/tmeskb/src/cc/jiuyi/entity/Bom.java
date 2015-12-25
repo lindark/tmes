@@ -34,6 +34,7 @@ public class Bom extends BaseEntity{
 	
     
 	/**冗余**/
+	private Double xtestAmount;
 	private String xfailReason;
 	private Double xfailAmount;
 	private String xgoodsSzie1;
@@ -44,6 +45,12 @@ public class Bom extends BaseEntity{
 	private String xitid;
 	private String xrecordid;
 	private String xrecordNum;
+	private String xsbids;
+	private String xsbnums;
+	private String xsmreson;
+	private Double xmenge;
+	private String xsmduty;
+	private String xsmid;
 	/**冗余 end**/
 	
 	
@@ -194,6 +201,60 @@ public class Bom extends BaseEntity{
 
 	public void setXrecordNum(String xrecordNum) {
 		this.xrecordNum = xrecordNum;
+	}
+
+
+	@Transient
+	public Double getXtestAmount() {
+		return xtestAmount;
+	}
+	public void setXtestAmount(Double xtestAmount) {
+		this.xtestAmount = xtestAmount;
+	}
+
+
+	@Transient
+	public String getXsbids() {
+		return xsbids;
+	}
+	public void setXsbids(String xsbids) {
+		this.xsbids = xsbids;
+	}
+	@Transient
+	public String getXsbnums() {
+		return xsbnums;
+	}
+	public void setXsbnums(String xsbnums) {
+		this.xsbnums = xsbnums;
+	}
+	@Transient
+	public String getXsmreson() {
+		return xsmreson;
+	}
+	public void setXsmreson(String xsmreson) {
+		this.xsmreson = xsmreson;
+	}
+	@Transient
+	public Double getXmenge() {
+		return xmenge;
+	}
+	public void setXmenge(Double xmenge) {
+		this.xmenge = xmenge;
+	}
+	@Transient
+	public String getXsmduty() {
+		return xsmduty;
+	}
+	public void setXsmduty(String xsmduty) {
+		this.xsmduty = xsmduty;
+	}
+	@Transient
+	public String getXsmid() {
+		return xsmid;
+	}
+
+	public void setXsmid(String xsmid) {
+		this.xsmid = xsmid;
 	}
 	
 	

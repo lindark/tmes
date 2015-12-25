@@ -67,6 +67,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
 		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("IM_MBLNR", mblnr);//库存地点

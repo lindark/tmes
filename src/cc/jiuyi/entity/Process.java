@@ -31,7 +31,6 @@ public class Process extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String xproductnum;// 产品编码
 	private String xproductname;// 产品名称
-
 	
 	private Set<ProcessRoute> processrouteSet;//工艺路线
 

@@ -1,3 +1,4 @@
+
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
@@ -23,6 +25,7 @@ import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
@@ -69,6 +72,8 @@ public class PickDetailAction extends BaseAdminAction {
 	private PickService pickService;
 	@Resource
 	private PickRfcImpl pickRfcImple;
+	@Resource
+	private BomService bomService;
 
 	private String productsId;
 	private WorkingBill workingbill;
@@ -77,18 +82,18 @@ public class PickDetailAction extends BaseAdminAction {
 	private Admin admin;
 	private Material material;
 	private String matnr;
-	private String[] rbg;
-	private String[] pt;
-	private String text;
 	private String my_id;// 自定义ID
-	private List<Material> materialList;
+	private List<Bom> bomList;
 	private List<PickDetail> pickDetailList;
 	private List<PickDetail> pkList;
 	private List<Pick> pickList=new ArrayList<Pick>();;
 	private List<Dict> allType;
 	private List<Pick> pickRfc;
-	private String info;
+	private String info;//领退料类型/移动类型
 	private String cardnumber;//卡号
+	private String pickId;//页面传过来主表id
+	
+	
 
 	public String addAmount() {
 		pickDetail.setMaterialCode(material.getMaterialCode());
@@ -100,15 +105,15 @@ public class PickDetailAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
-		return INPUT;
+		return LIST;
 	}
 
 	// 列表
 	public String list() {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		Products products = productsServce.getProducts(matnr);
-		materialList = new ArrayList<Material>(products.getMaterial());
+		Products products = productsServce.getProducts(matnr);//获取产品
+		bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionByid(products.getId()));//取出最高版本号的BomList
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
 	}
@@ -125,7 +130,7 @@ public class PickDetailAction extends BaseAdminAction {
 		}
 		pkList.add(pickDetail);
 		Products products = productsServce.getProducts(matnr);
-		materialList = new ArrayList<Material>(products.getMaterial());
+		bomList = new ArrayList<Bom>(products.getBomSet());
 		return VIEW;
 	}
 
@@ -164,19 +169,38 @@ public class PickDetailAction extends BaseAdminAction {
 
 	// 编辑
 	public String edit() {
-		pickDetail = pickDetailService.load(id);
-		return INPUT;
+		pick = pickService.load(id);
+		WorkingBill workingBill = workingBillService.get(workingBillId);
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		Integer bomversion = workingBill.getBomversion();//取出
+		if (bomversion == null) {
+			bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionBycode(workingBill.getMatnr()));// 取出最高版本号的BomList
+		}else{
+			bomList = bomService.getBomListByMaxVersion(bomversion);//取出随工单中最高版本的Bom
+		}
+		
+		for(int i = 0 ;i< bomList.size();i++){
+			Bom bom = bomList.get(i);
+			String materialCode = bom.getMaterialCode();
+			String[] propertyNames = {"pick.id","materialCode"};
+			Object[] propertyValues = {id,materialCode};
+			PickDetail pickdetail = pickDetailService.get(propertyNames, propertyValues);
+			if(pickdetail == null)
+				continue;
+			bom.setPickAmount(pickdetail.getPickAmount());
+			bom.setPickDetailid(pickdetail.getId());
+		}
+		workingbill = workingBillService.get(workingBillId);
+		return LIST;
 	}
 
 	// 更新
-	@InputConfig(resultName = "error")
-	public String update() {
-		PickDetail persistent = pickDetailService.load(id);
-		BeanUtils.copyProperties(pickDetail, persistent, new String[] { "id",
-				"createDate", "modifyDate" });
-		pickDetailService.update(persistent);
-		redirectionUrl = "pick_detail!list.action";
-		return SUCCESS;
+	//@InputConfig(resultName = "error")
+	public String creditupdate() {
+		pick = pickService.get(pickId);//根据页面传过来的主表id拿主表对象
+	    this.pickDetailService.updateAll(pick, pickDetailList, cardnumber,info);
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 保存
@@ -229,6 +253,13 @@ public class PickDetailAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 		}
 		pickDetailService.save(pickDetailList1, pick);
+		/** 领料单保存成功后把Bom最高版本存到随工单中去 **/
+		Products products = productsServce.getProducts(workingBill.getMatnr());//获取产品
+	    Integer Maxversion =  bomService.getMaxVersionByid(products.getId());//获取最大版本号
+	    if(!Maxversion.equals("")){
+	    	workingBill.setBomversion(Maxversion);
+	    	workingBillService.update(workingBill);
+	    }
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -426,36 +457,20 @@ public class PickDetailAction extends BaseAdminAction {
 		this.material = material;
 	}
 
-	public String[] getRbg() {
-		return rbg;
+	public String getProductsId() {
+		return productsId;
 	}
 
-	public void setRbg(String[] rbg) {
-		this.rbg = rbg;
+	public void setProductsId(String productsId) {
+		this.productsId = productsId;
 	}
 
-	public String[] getPt() {
-		return pt;
+	public List<Bom> getBomList() {
+		return bomList;
 	}
 
-	public void setPt(String[] pt) {
-		this.pt = pt;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public List<Material> getMaterialList() {
-		return materialList;
-	}
-
-	public void setMaterialList(List<Material> materialList) {
-		this.materialList = materialList;
+	public void setBomList(List<Bom> bomList) {
+		this.bomList = bomList;
 	}
 
 	public Pick getPick() {
@@ -536,6 +551,14 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getPickId() {
+		return pickId;
+	}
+
+	public void setPickId(String pickId) {
+		this.pickId = pickId;
 	}
 
 

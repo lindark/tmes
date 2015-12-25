@@ -268,7 +268,7 @@
 										</div>
 
 										<div class="widget-body">
-											<div class="widget-main no-padding">
+											<div class="widget-main no-padding" style="height:250px;overflow:auto;">
 												<table class="table table-bordered table-striped">
 													<thead class="thin-border-bottom">
 														<tr>	
@@ -296,7 +296,7 @@
 
 													</tbody>
 												</table>
-											</div>
+											  </div>
 											<!-- /.widget-main -->
 										</div>
 										<!-- /.widget-body -->

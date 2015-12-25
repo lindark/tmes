@@ -53,4 +53,13 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @return
 	 */
 	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype);
+	
+	/**
+	 * 根据物料编码，工序id，产品ID 获取工序交接记录
+	 * @param materialCode	物料编码
+	 * @param processid	工序ID
+	 * @param matnrid 产品ID
+	 * @return
+	 */
+	public HandOverProcess findhandover(String materialCode, String processid,String matnrid);
 }

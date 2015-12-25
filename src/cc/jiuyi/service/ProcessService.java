@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
 
 /**
@@ -67,4 +68,19 @@ public interface ProcessService extends BaseService<Process, String> {
 	 */
 	
 	public List<Process> findProcessByProductsId(String id);
+	
+	/**
+	 * 根据 产品编码和内容 工艺路线 key matnr,version
+	 * @param matnrs
+	 * @return
+	 */
+	public List<Process> getListRoute(List<HashMap<String,Object>> hashmap);
+	
+	/**
+	 * 根据产品编码获取 工艺路线
+	 * @param matnrs
+	 * @return
+	 */
+	public List<Process> getListRoute(String matnr,Integer version);
+	
 }

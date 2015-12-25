@@ -90,6 +90,14 @@ body {
 										</div>
 								</div>
 								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 联系电话</label>
+										<div class="col-sm-9">
+											<input type="text" name="admin.phoneNo"
+												class="col-xs-10 col-sm-5 formText {required: true, mobile: true}"
+												value="${(admin.phoneNo)!}" /> <label class="requireField">*</label>
+										</div>
+								</div>
+								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> E-mail</label>
 										<div class="col-sm-9">
 											<input type="text" name="admin.email"

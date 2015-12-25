@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -139,6 +141,41 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql="from Admin where cardNumber=?";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).uniqueResult();
 	}
+	
+	
+	/**
+	 * 根据员工部门id获取部长
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getByAdminId(String id)
+	{
+		String hql="from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
+		if(adminList1==null){
+			getParentById(id,null);
+		}
+		return adminList1;
+	}
+	
+	
+	/**
+	 * 递归获取部长
+	 */
+	public List<Admin> getParentById(String id,List<Admin> temp){
+		if (temp == null) {
+			temp = new ArrayList<Admin>();
+		}
+		String hql = "from  Department where childDept.id=?";	
+		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+		String hql1="from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
+		
+		if(temp==null){
+			getParentById(dept.getId(),temp);
+		}
+		return temp;
+	}
+	
 	/**
 	 * 根据卡号 班组ID查询
 	 */

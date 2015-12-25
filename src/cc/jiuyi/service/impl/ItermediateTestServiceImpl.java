@@ -178,6 +178,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 					}
 					if(newdit.getTestAmount()!=null&&!"".equals(newdit.getTestAmount())){						
 						//修改半成品巡检从表
+						dit1.setTestAmount(newdit.getTestAmount());
 						dit1.setFailReason(newdit.getFailReason());
 						dit1.setFailAmount(newdit.getFailAmount());
 						dit1.setGoodsSzie1(newdit.getGoodsSzie1());

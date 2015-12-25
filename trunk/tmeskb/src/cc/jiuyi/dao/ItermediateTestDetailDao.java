@@ -41,5 +41,5 @@ public interface ItermediateTestDetailDao extends BaseDao<ItermediateTestDetail,
 	/**
 	 * 根据主表id和物料表id查询
 	 */
-	ItermediateTestDetail getBySidAndMid(String sid,String mid);
+	public ItermediateTestDetail getBySidAndMid(String sid,String mid);
 }

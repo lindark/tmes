@@ -6,6 +6,7 @@ $(function(){
 	
 	$maclick.click(function(){
 		var materialCode = $(this).find(".materialCode").text();
+		var materialName = $(this).find(".materialName").text();
 		var active = $(".step-jump.active").find(".process").val();
 		var title = "工序交接";
 		//var widths = $(window).width();
@@ -14,7 +15,7 @@ $(function(){
 		//var height=heights-86+"px";
 		var width="800px";
 		var height="400px";
-		var content="hand_over_process!add.action?materialCode="+materialCode+"&processid="+active;
+		var content="hand_over_process!add.action?materialCode="+materialCode+"&materialName="+materialName+"&processid="+active;
 		layer.open({
 	        type: 2,
 	        skin: 'layui-layer-lan',

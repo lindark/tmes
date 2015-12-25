@@ -18,7 +18,6 @@ import cc.jiuyi.service.ProcessRouteService;
  */
 
 @Service
-@Transactional
 public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, String> implements ProcessRouteService {
 
 	@Resource
@@ -46,6 +45,13 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	public Integer getMaxVersion(String productid) {
 		return processroutedao.getMaxVersion(productid);
 	}
+
+	@Override
+	public Integer getMaxVersionBycode(String productcode) {
+		return processroutedao.getMaxVersionBycode(productcode);
+	}
+	
+	
 
 	@Override
 	public Integer getMaxVersionByCode(String productCode) {

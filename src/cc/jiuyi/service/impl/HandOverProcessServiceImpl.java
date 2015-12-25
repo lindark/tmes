@@ -64,9 +64,10 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	@Override
 	public void saveorupdate(List<HandOverProcess> handoverprocessList) {
 		for(HandOverProcess handoverprocess : handoverprocessList){
-			String[] propertyNames = {"material.id","process.id","beforworkingbill.id"};
-			Object[] propertyValues = {handoverprocess.getMaterial().getId(), handoverprocess.getProcess().getId(),handoverprocess.getBeforworkingbill().getId()};
-			HandOverProcess handover = handOverProcessDao.get(propertyNames, propertyValues);
+			//String[] propertyNames = {"bom.materialCode","process.id","beforworkingbill.id"};
+			//Object[] propertyValues = {handoverprocess.getMaterialCode(), handoverprocess.getProcess().getId(),handoverprocess.getBeforworkingbill().getId()};
+			//HandOverProcess handover = handOverProcessDao.get(propertyNames, propertyValues);
+			HandOverProcess handover = this.findhandover(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(), handoverprocess.getBeforworkingbill().getId());
 			if(handover != null){
 				if(handoverprocess.getAmount() <=0){
 					handOverProcessDao.delete(handover);
@@ -93,6 +94,12 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	
 	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {
 		return handOverProcessDao.getList(propertyName, objlist, orderBy, ordertype);
+	}
+
+	@Override
+	public HandOverProcess findhandover(String materialCode, String processid,
+			String matnrid) {
+		return handOverProcessDao.findhandover(materialCode, processid, matnrid);
 	}
 	
 	

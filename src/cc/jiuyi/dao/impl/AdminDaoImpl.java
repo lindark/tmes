@@ -149,7 +149,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin> getByAdminId(String id)
 	{
-		String hql="from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
 		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
 		if(adminList1==null){
 			getParentById(id,null);
@@ -167,7 +167,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
-		String hql1="from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
 		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
 		
 		if(temp==null){

@@ -185,16 +185,16 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
 			List<String> ablist = new ArrayList<String>();	
-			List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
+			//List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
 			List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());
 			List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());
 	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
 	 
 			if(abLog.size()>0){	
-				if(qualityList.size()>1){					
+				/*if(qualityList.size()>1){					
 					String str1="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='quality'  style='color:#428bca;cursor:pointer'>质量问题单</a>"+"("+qualityList.size()+")";
 					ablist.add(str1);
-				}
+				}*/
 				if(modelList.size()>1){					
 					String str2="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='model'  style='color:#428bca;cursor:pointer'>工模维修单</a>"+"("+modelList.size()+")";
            		    ablist.add(str2);
@@ -213,9 +213,9 @@ public class AbnormalAction extends BaseAdminAction {
 				for(AbnormalLog ab:abLog){
 					
 					String type = ab.getType();
-                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
+                     /*if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
-					 }else if(type.equalsIgnoreCase("1") && modelList.size()==1){						
+					 }else*/ if(type.equalsIgnoreCase("1") && modelList.size()==1){						
                     		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
 					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
                     		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	

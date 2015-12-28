@@ -175,6 +175,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.DeviceModlue</value>
 				<value>cc.jiuyi.entity.ProcessRoute</value>
 				<value>cc.jiuyi.entity.Bom</value>
+				<value>cc.jiuyi.entity.KaoqinBrushCardRecord</value>
 			</list>
 		</property>
 	</bean>

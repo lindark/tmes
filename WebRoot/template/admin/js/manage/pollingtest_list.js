@@ -249,11 +249,19 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		//var index = "";
 		if(getId()){
-			var url = "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				$("#grid-table").trigger("reloadGrid");
-			})
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
+			if(row_state=="1"){
+				layer.msg("已确认的无须再确认!", {icon: 5});
+			}else if(row_state=="3"){
+				layer.msg("已撤销的无法再确认！", {icon: 5});
+			}else{
+				var url = "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
+				})
+			}
 			/*$.ajax({	
 				url: "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
 				//data: $(form).serialize(),
@@ -278,11 +286,17 @@ function btn_event()
 	$("#btn_revoke").click(function(){
 		//var index = "";
 		if(getId()){
-			var url = "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId;
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				$("#grid-table").trigger("reloadGrid");
-			})
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
+			if(row_state=="3"){
+				layer.msg("已撤销的无法再撤销！", {icon: 5});
+			}else{
+				var url = "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
+				})
+			}
 			/*$.ajax({	
 				url: "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId,
 				//data: $(form).serialize(),

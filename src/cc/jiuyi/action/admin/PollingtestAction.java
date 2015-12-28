@@ -164,9 +164,9 @@ public class PollingtestAction extends BaseAdminAction {
 		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
 		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id,
 				cardnumber);
-		redirectionUrl = "pollingtest!list.action?workingBillId="
-				+ pollingtest.getWorkingbill().getId();
-		return SUCCESS;
+		/*redirectionUrl = "pollingtest!list.action?workingBillId="
+				+ pollingtest.getWorkingbill().getId();*/
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	public String historylist() {

@@ -49,9 +49,12 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 */
 	public List<Bom> getListBycode(String productcode,Integer version);
 	
+
 	/**
 	 * 获取最高版本号的Bom清单
 	 */
 	public List<Bom> getBomListByMaxVersion(Integer version);
 	
+	
+	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 }

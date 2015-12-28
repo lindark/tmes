@@ -49,7 +49,7 @@ public class ScrapAction extends BaseAdminAction
 {
 	private static final long serialVersionUID = -1318544796737785311L;
 
-	/**======================对象，变量，接口 start=================================*/
+	/**========================variable,object,interface  start========================*/
 	/**
 	 * 对象或变量
 	 */
@@ -92,9 +92,9 @@ public class ScrapAction extends BaseAdminAction
 	@Resource
 	private BomService bomservice;
 	
-	/**======================end 对象，变量，接口=*=================================*/
+	/**========================end  variable,object,interface==========================*/
 	
-	/**===========================方法start=====================================*/
+	/**========================method  start======================================*/
 	
 	/**
 	 * 当前随工单的报废数单数据
@@ -327,7 +327,7 @@ public class ScrapAction extends BaseAdminAction
 	/**
 	 * 
 	 */
-	/**==========================end 方法=======================================*/
+	/**========================end  method======================================*/
 	
 	/**=========================="get/set"  start==============================*/
 	public Scrap getScrap()

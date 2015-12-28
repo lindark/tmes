@@ -73,14 +73,15 @@ body {
 							<form id="inputForm" class="validatecredit"
 								action="<#if isAdd??>quality!creditsave.action<#else>quality!creditupdate.action</#if>"
 								method="post">
-								<input type="hidden" name="id" id="qualityId" value="${id}" /> <input
-									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
+								<input type="hidden" name="id" id="qualityId" value="${id}" /> 
+								<!-- <input
+									type="hidden" name="abnormalId" value="${(abnormal.id)!}" /> -->
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">基本信息</a></li>
 										<li><a href="#tabs-2">单据日志</a></li>
 									    <#if isAdd??> <#else><li><a href="#tabs-3">整改情况跟踪</a></li> </#if>									 
-										<li><a href="#tabs-4">相关单据</a></li>
+									<!--  	<li><a href="#tabs-4">相关单据</a></li>-->
 									</ul>
 
 									<div id="tabs-1">
@@ -151,6 +152,14 @@ body {
 													<span id="receiveName1"></span>
 												    <input type="hidden" name="quality.receiver.id" id="receiveNa" value="" class="formText {required: true}"/>
 													<#else> ${(quality.receiver.name)!} </#if>
+												</div>
+												<div class="profile-info-name">工程师</div>
+												<div class="profile-info-value">
+												     <#if isAdd??>
+												     <img id="receive1" class="img_addbug" title="添加人员信息1" alt="添加人员信息1" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<span id="receiveName2"></span>
+												    <input type="hidden" name="quality.engineer.id" id="receiveNa1" value="" class="formText {required: true}"/>
+													<#else> ${(quality.engineer.name)!} </#if>
 												</div>
 											</div>
 											
@@ -254,7 +263,7 @@ body {
    
 									</div>
                                     
-                                    <form id="inputForm1" action="flowing_rectify!save.action" method="post"></form>
+                                    <form id="inputForm1" action="flowing_rectify!creditsave.action" method="post">
                                     
 									<table id="tabs-2" class="inputTable tabContent">
 										<tbody>
@@ -289,7 +298,7 @@ body {
 												<tr class="zg">						
 													<td><div><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"
 														style="width:600px;" class="text">${(list.content)!}</textarea>
-														&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">保存</a>&nbsp;&nbsp;<a  style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a>			
+														&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">刷卡保存</a>&nbsp;&nbsp;<a  style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a>			
 														</div>													
 													</td>
 												</tr>
@@ -300,7 +309,7 @@ body {
 													<div>
 													<input type="hidden" name="flowingId" value="${(list.id)!}"/>
 													<textarea name="flowingRectify.content"
-														style="width:600px;" class="text">${(list.content)!}</textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
+														style="width:600px;" class="text">${(list.content)!}</textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer" >刷卡保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div>		
 													</div>
 													</td>
 												</tr>
@@ -315,86 +324,8 @@ body {
 			                             
 											</tbody>
 										</table>
-									</div>
+									</div> </#if></form>
 							
-									 </#if>
-									<table id="tabs-4" class="inputTable tabContent">                                      
-										<tbody>	
-										        <#if (qualityList?size>1) >
-										            <tr>						
-													<td>
-														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
-													</td>
-												    </tr>
-										        <#else>
-										            <#list (qualityList)! as list>
-										            <tr>						
-													<td>
-														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
-													</td>
-												    </tr>
-												    </#list>
-										        </#if>
-										        <#if (modelList?size>1) >
-										            <tr>						
-													<td>
-														<a href="model!sealist.action?abnorId=${(abnormal.id)}">工模维修单</a>										
-													</td>
-												    </tr>
-										        <#else>
-										            <#list (modelList)! as list>
-										            <tr>						
-													<td>
-														<a href="model!view.action?id=${(list.id)}">工模维修单</a>										
-													</td>
-												    </tr>
-												     </#list>
-										        </#if>
-										         <#if (craftList?size>1) >
-										            <tr>						
-													<td>
-														<a href="craft!sealist.action?abnorId=${(abnormal.id)}">工艺维修单</a>										
-													</td>
-												    </tr>
-										        <#else>
-										            <#list (craftList)! as list>
-										            <tr>						
-													<td>
-														<a href="craft!view.action?id=${(list.id)}">工艺维修单</a>										
-													</td>
-												    </tr>
-												     </#list>
-										        </#if>
-										         <#if (deviceList?size>1) >
-										            <tr>						
-													<td>
-														<a href="device!sealist.action?abnorId=${(abnormal.id)}">设备维修单</a>										
-													</td>
-												    </tr>
-										        <#else>
-										            <#list (deviceList)! as list>
-										            <tr>						
-													<td>
-														<a href="device!view.action?id=${(list.id)}">设备维修单</a>										
-													</td>
-												    </tr>
-												    </#list>
-										        </#if>
-										        <!--  
-										        <#list (qualityList)! as list>
-										        <tr>						
-													<td>
-														<a href="quality!view.action?id=${(list.id)}">质量问题单${(list_index+1)!}</a>										
-													</td>
-												</tr>
-												</#list> -->
-																																
-										</tbody>
-									</table>
-
-									
-							
-
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->
@@ -477,8 +408,27 @@ $(function() {
 		}
 		var ids = "";
 		ids += ii+","+i+","+iii;
-	    url="flowing_rectify!save.action?ids="+ids;
-		$.ajax({
+	    url="flowing_rectify!creditsave.action?ids="+ids;
+	    
+	    credit.creditCard(url,function(data){
+			if(data.status=="success"){
+				var index = layer.alert(data.message, {icon: 6},function(){
+				//	$.tip(data.status, data.message);
+					$input.val(data.id);
+					$text.attr("disabled",true);
+					layer.close(index);
+					//window.location.href="abnormal!list.action";
+				}); 
+			}else if(data.status=="error"){
+				layer.alert(data.message, {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			   });
+			}		
+		})
+	    
+		/*$.ajax({
 			url: url,
 			//data: ids,
 			dataType: "json",		
@@ -488,7 +438,7 @@ $(function() {
 				$input.val(data.id);
 				$text.attr("disabled",true);
 			}
-		});	
+		});	*/
 		  		  		  
 	});
 	

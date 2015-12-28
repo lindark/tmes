@@ -65,11 +65,12 @@ public class PollingtestServiceImpl extends
 
 	@Override
 	public void saveInfo(Pollingtest pollingtest, String info, String info2,
-			String my_id,String cardnumber) {
+			String my_id, String cardnumber) {
 		Admin admin = this.adminService.getByCardnum(cardnumber);
 		if (pollingtest != null) {
 			pollingtest.setPollingtestUser(admin);// 巡检人
-			pollingtest.setWorkingbillCode(workingbillService.get(pollingtest.getWorkingbill().getId()).getWorkingBillCode());
+			pollingtest.setWorkingbillCode(workingbillService.get(
+					pollingtest.getWorkingbill().getId()).getWorkingBillCode());
 			if ("2".equals(my_id)) {
 				pollingtest.setConfirmUser(admin);
 				pollingtest.setState("1");
@@ -78,10 +79,8 @@ public class PollingtestServiceImpl extends
 			String[] qxids = info.split(",");// 缺陷IDS
 			String[] qxnums = info2.split(",");// 缺陷nums
 			Pollingtest pollingtest2 = this.pollingtestDao.load(pollingtestId);
-			for(int i=0;i<qxids.length;i++)
-			{
-				if(qxids[i]!=null&&!"".equals(qxids[i]))
-				{
+			for (int i = 0; i < qxids.length; i++) {
+				if (qxids[i] != null && !"".equals(qxids[i])) {
 					PollingtestRecord pr = new PollingtestRecord();
 					Cause cause = this.causeDao.get(qxids[i]);// 根据缺陷ID查询
 					pr.setCreateDate(new Date());// 初始化创建日期
@@ -89,7 +88,7 @@ public class PollingtestServiceImpl extends
 					pr.setPollingtest(pollingtest2);// 巡检单对象
 					pr.setRecordDescription(cause.getCauseName());
 					pr.setRecordNum(qxnums[i]);// 缺陷数量
-					pr.setCauseId(qxids[i]);//缺陷ID
+					pr.setCauseId(qxids[i]);// 缺陷ID
 					this.pollingtestRecordDao.save(pr);
 				}
 			}
@@ -109,78 +108,72 @@ public class PollingtestServiceImpl extends
 
 	@Override
 	public void updateInfo(Pollingtest pollingtest, String info, String info2,
-			String my_id,String cardnumber) {
-		Admin admin=this.adminService.getByCardnum(cardnumber);
-		Pollingtest p=this.pollingtestDao.load(pollingtest.getId());
+			String my_id, String cardnumber) {
+		Admin admin = this.adminService.getByCardnum(cardnumber);
+		Pollingtest p = this.pollingtestDao.load(pollingtest.getId());
 		BeanUtils.copyProperties(pollingtest, p, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		p.setPollingtestUser(admin);
-		if("2".equals(my_id))
-		{
+		if ("2".equals(my_id)) {
 			p.setConfirmUser(admin);
 			p.setState("1");
 		}
 		p.setModifyDate(new Date());
-		this.pollingtestDao.update(p);//修改操作
-		/**缺陷记录更新*/
-		String[]qxids=info.split(",");//缺陷IDS
-		String[]qxnums=info2.split(",");//缺陷nums
-		for(int i=0;i<qxids.length;i++)
-		{
-			if(qxids[i]!=null&&!"".equals(qxids[i]))
-			{
-				Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
-				//根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增
-				PollingtestRecord pr1=this.pollingtestRecordDao.getBySidAndCid(pollingtest.getId(),qxids[i]);
-				if(pr1!=null)
-				{
-					//if(qxnums[i]==null)
-					//修改
-					PollingtestRecord pr2=this.pollingtestRecordDao.get(pr1.getId());
-					pr2.setModifyDate(new Date());//更新日期
+		this.pollingtestDao.update(p);// 修改操作
+		/** 缺陷记录更新 */
+		String[] qxids = info.split(",");// 缺陷IDS
+		String[] qxnums = info2.split(",");// 缺陷nums
+		for (int i = 0; i < qxids.length; i++) {
+			if (qxids[i] != null && !"".equals(qxids[i])) {
+				Cause cause = this.causeDao.get(qxids[i]);// 根据缺陷ID查询
+				// 根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增
+				PollingtestRecord pr1 = this.pollingtestRecordDao
+						.getBySidAndCid(pollingtest.getId(), qxids[i]);
+				if (pr1 != null) {
+					// if(qxnums[i]==null)
+					// 修改
+					PollingtestRecord pr2 = this.pollingtestRecordDao.get(pr1
+							.getId());
+					pr2.setModifyDate(new Date());// 更新日期
 					pr2.setRecordDescription(cause.getCauseName());
-					pr2.setRecordNum(qxnums[i]);//缺陷数量
+					pr2.setRecordNum(qxnums[i]);// 缺陷数量
 					pr2.setIsDel("N");
 					pr2.setIstoDel("N");
 					this.pollingtestRecordDao.update(pr2);
-				}
-				else
-				{
-					//新增
-					PollingtestRecord pr=new PollingtestRecord();
-					pr.setModifyDate(new Date());//初始化修改日期
+				} else {
+					// 新增
+					PollingtestRecord pr = new PollingtestRecord();
+					pr.setModifyDate(new Date());// 初始化修改日期
 					pr.setPollingtest(pollingtestDao.get(pollingtest.getId()));
 					pr.setRecordDescription(cause.getCauseName());
-					pr.setRecordNum(qxnums[i]);//缺陷数量
-					pr.setCauseId(qxids[i]);//缺陷ID
+					pr.setRecordNum(qxnums[i]);// 缺陷数量
+					pr.setCauseId(qxids[i]);// 缺陷ID
 					pr.setIstoDel("N");
 					this.pollingtestRecordDao.save(pr);
 				}
 			}
 		}
-		/**删除操作*/
-		List<PollingtestRecord> list_pr=this.pollingtestRecordDao.getBySidAndMark(pollingtest.getId(),"Y");//根据抽检单id和标记查询该缺陷记录
-		if(list_pr.size()>0)
-		{
-			for(int i=0;i<list_pr.size();i++)
-			{
-				PollingtestRecord pr=list_pr.get(i);
-				pr=this.pollingtestRecordDao.load(pr.getId());
+		/** 删除操作 */
+		List<PollingtestRecord> list_pr = this.pollingtestRecordDao
+				.getBySidAndMark(pollingtest.getId(), "Y");// 根据抽检单id和标记查询该缺陷记录
+		if (list_pr.size() > 0) {
+			for (int i = 0; i < list_pr.size(); i++) {
+				PollingtestRecord pr = list_pr.get(i);
+				pr = this.pollingtestRecordDao.load(pr.getId());
 				pr.setIsDel("Y");
 				this.pollingtestRecordDao.update(pr);
 			}
 		}
-		List<PollingtestRecord> list_sr2=this.pollingtestRecordDao.getBySidAndMark(pollingtest.getId(),"N");
-		if(list_sr2.size()>0)
-		{
-			for(int i=0;i<list_sr2.size();i++)
-			{
-				PollingtestRecord pr=list_sr2.get(i);
-				pr=this.pollingtestRecordDao.load(pr.getId());
+		List<PollingtestRecord> list_sr2 = this.pollingtestRecordDao
+				.getBySidAndMark(pollingtest.getId(), "N");
+		if (list_sr2.size() > 0) {
+			for (int i = 0; i < list_sr2.size(); i++) {
+				PollingtestRecord pr = list_sr2.get(i);
+				pr = this.pollingtestRecordDao.load(pr.getId());
 				pr.setIstoDel("Y");
 				this.pollingtestRecordDao.update(pr);
 			}
 		}
-		
+
 	}
 
 	@Override

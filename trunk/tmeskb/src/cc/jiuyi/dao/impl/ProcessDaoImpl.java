@@ -50,7 +50,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 
 	public Pager getProcessPager(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(ProcessRoute.class);
+				.forClass(Process.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 
 		if (map.size() > 0) {

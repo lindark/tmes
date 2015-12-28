@@ -84,8 +84,9 @@
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="btn_show"
-											class="btn btn-white btn-default btn-sm btn-round"> <i
-											class="ace-icon fa fa-filter blue"></i> 查看
+											class="btn btn-white btn-default btn-sm btn-round"> 
+											<i class="ace-icon fa fa-book"></i>
+											 查看
 										</a>
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i

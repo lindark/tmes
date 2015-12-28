@@ -61,7 +61,7 @@ $(function() {
 	
 	function addAttributeOptionTr() {
 		var size=$(".zg").length;
-		var attributeOptionTrHtml = '<tr class="zg"><td><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"	style="width:600px;" class="text"></textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div></td></tr>';
+		var attributeOptionTrHtml = '<tr class="zg"><td><input type="hidden" name="flowingId" value=""/><textarea name="flowingRectify.content"	style="width:600px;" class="text"></textarea>&nbsp;&nbsp;&nbsp;<a class="save" style="cursor:pointer">刷卡保存</a>&nbsp;&nbsp;<a style="cursor:pointer" class="edit">编辑</a>&nbsp;&nbsp;<a class="deleteButton" style="cursor:pointer">删除</a></div></td></tr>';
 		if($(".zg").length >= 0) {
 			$(".zg:last").after(attributeOptionTrHtml);
 		} 
@@ -124,7 +124,7 @@ $(function() {
 	
 	
 	
-	// 人员弹出框
+	// 人员弹出框1
 	$("#receive").click( function() {
 		showReceive();
 	})
@@ -146,6 +146,29 @@ $(function() {
 	});
 }
 	
+	
+	
+	// 人员弹出框2
+	$("#receive1").click( function() {
+		showReceive1();
+	})
+	
+	
+	function showReceive1()
+{
+	var title = "选择人员";
+	var width="800px";
+	var height="500px";
+	var content="quality!engineer.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		$("#receiveName2").text(id[0]);
+		$("#receiveNa1").val(id[1]);//
+		layer.close(index); 
+	});
+}
 
 })
 

@@ -63,4 +63,10 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public WorkingBill getCodeNext(String workingbillCode);
 	
+	
+	 /**
+     * 根据产品Code查询随工单
+     */
+	public WorkingBill getWorkingBillByProductsCode(String matnr);
+	
 }

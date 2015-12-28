@@ -10,8 +10,10 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
 
@@ -33,6 +35,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	}
 	@Resource
 	private TeamService teamService;
+	@Resource
+	private KaoqinBrushCardRecordService kqBCRService;
 
 	/**
 	 * jqGrid查询
@@ -96,5 +100,18 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			team.setState("1");
 			this.teamService.update(team);
 		}
+	}
+
+	/**
+	 * 保存开启考勤(刷卡)记录
+	 */
+	public void saveBrushCardEmp(Admin admin)
+	{
+		KaoqinBrushCardRecord kqbcr=new KaoqinBrushCardRecord();
+		kqbcr.setCardnum(admin.getCardNumber());//刷卡人卡号
+		kqbcr.setEmpname(admin.getName());//刷卡人姓名
+		kqbcr.setAdmin(admin);//admin表
+		kqbcr.setCreateDate(new Date());//刷卡时间
+		this.kqBCRService.save(kqbcr);
 	}
 }

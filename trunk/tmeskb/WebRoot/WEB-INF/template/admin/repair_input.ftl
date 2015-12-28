@@ -113,7 +113,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="repair.repairAmount"
 														value="${(repair.repairAmount)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {required: true,min: 1}" />
 													<label class="requireField">*</label>
 												</div>
 											</div>

@@ -55,14 +55,14 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 
 
 	/**
-	 * 根据班组取出对应的随工单
-	 */
-	public List getListWorkingBillByTeam(String teamid);
-	
-
-	/**
 	 * 根据随工单编号 获取 下一条记录
 	 */
 	public WorkingBill getCodeNext(String workingbillCode);
+	
+	
+    /**
+     * 根据产品Code查询随工单
+     */
+	public WorkingBill getWorkingBillByProductsCode(String matnr);
 
 }

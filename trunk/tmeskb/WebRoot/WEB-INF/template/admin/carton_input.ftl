@@ -110,7 +110,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="carton.cartonAmount"
 														value="${(carton.cartonAmount)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {required: true,min: 1}" />
 													<label class="requireField">*</label>
 												</div>
 											</div>

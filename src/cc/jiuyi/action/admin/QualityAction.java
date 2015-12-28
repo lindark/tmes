@@ -278,9 +278,9 @@ public class QualityAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){		
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
-		if(persistent.getState().equals("1")){
+		/*if(persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("单据已回复!");
-		}
+		}*/
 		
 		if(quality.getRectificationScheme()==null || quality.getRectificationScheme().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("车间整改方案不允许为空!");

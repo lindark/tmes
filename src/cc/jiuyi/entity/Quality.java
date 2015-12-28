@@ -25,6 +25,7 @@ public class Quality extends BaseEntity{
 	private String problemDescription;//问题描述
 	private Admin creater;//创建人
 	private Admin receiver;//接收人
+	private Admin engineer;//工程师
 	
 	private Integer samplingAmont;//抽检数量
 	private Integer failAmont;//缺陷数量
@@ -35,7 +36,7 @@ public class Quality extends BaseEntity{
 	private String engineerOpinion;//工程师意见
 	private String isDel;//是否删除	
 	private String state;//状态
-	private Abnormal abnormal;//异常
+	//private Abnormal abnormal;//异常
 	private String process;//工序
 	
 	private String stateRemark;//状态描述    
@@ -114,13 +115,13 @@ public class Quality extends BaseEntity{
 		this.team = team;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	public Abnormal getAbnormal() {
 		return abnormal;
 	}
 	public void setAbnormal(Abnormal abnormal) {
 		this.abnormal = abnormal;
-	}
+	}*/
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quality")
 	@Cascade(value = { CascadeType.DELETE })
@@ -208,6 +209,14 @@ public class Quality extends BaseEntity{
 	}
 	public void setProcess(String process) {
 		this.process = process;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Admin getEngineer() {
+		return engineer;
+	}
+	public void setEngineer(Admin engineer) {
+		this.engineer = engineer;
 	}
 	
 	

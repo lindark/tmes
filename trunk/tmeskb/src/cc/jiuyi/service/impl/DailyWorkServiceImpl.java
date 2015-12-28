@@ -69,7 +69,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		for (int i = 0; i < list.size(); i++) {
 			DailyWork dailyWork = list.get(i);
 			dailyWork = dailyWorkDao.get(dailyWork.getId());
-			dailyWork.setStep(dailyWork.getProcess().getProcessCode());
+			dailyWork.setStep(dailyWork.getProcessCode());
 			// dailyWork.setOrderid("100117061");
 			dailyWork.setWb(wb);
 			dailyWork.setOrderid(code);

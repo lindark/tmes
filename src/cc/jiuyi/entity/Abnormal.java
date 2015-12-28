@@ -34,11 +34,11 @@ public class Abnormal extends BaseEntity{
 	
 	private Admin iniitiator;//发起人
 	private Set<Admin> responsorSet;//应答人
-	private Set<Quality> qualitySet;//质量问题单
+	//private Set<Quality> qualitySet;//质量问题单
 	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<Callreason> callreasonSet;//呼叫原因
-	private Set<Device> deviceSet;//工艺维修单
+	private Set<Device> deviceSet;//设备维修单
 	private Set<AbnormalLog> AbnormalLogSet;//异常日志
 	private Set<SwiptCard> swiptCardSet;//刷卡
 	
@@ -104,13 +104,13 @@ public class Abnormal extends BaseEntity{
 		this.isDel = isDel;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
 	public Set<Quality> getQualitySet() {
 		return qualitySet;
 	}
 	public void setQualitySet(Set<Quality> qualitySet) {
 		this.qualitySet = qualitySet;
-	}
+	}*/
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "abnormal")
 	public Set<Model> getModelSet() {

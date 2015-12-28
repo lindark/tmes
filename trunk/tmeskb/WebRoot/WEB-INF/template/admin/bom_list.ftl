@@ -192,7 +192,6 @@ body {
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
 
-
 </body>
 </html>
 <script type="text/javascript">
@@ -228,9 +227,9 @@ body {
 		"<input type='hidden' name='bomList["+num+"].products.id' value='"+productid+"'/>"+
 		"<input type='text' name='bomList["+num+"].productAmount' value='"+productAmount+"' class='form-control'/>" +
 		"</td>" +
-		"<td>"  +
-		"<button type='button' class='btn btn-xs btn-info materialSearch'  data-toggle='button'>选择</button>" +
-		"<input type='text' readonly='true' name='bomList["+num+"].materialCode' value='"+materialCode+"' class='form-control materialCode'/>"+		
+		"<td width='165px'>"  +
+		"<button type='button' class='btn btn-xs btn-info materialSearch'  data-toggle='button' style='display: inline;'>选择</button>&nbsp;" +
+		"<input style='width:95px;display: inline;' type='text' readonly='true' name='bomList["+num+"].materialCode' value='"+materialCode+"' class='form-control materialCode'/>"+		
 		"<span class='materialCodespan'></span>"+
 		"</td>" +
 		"<td>"  +

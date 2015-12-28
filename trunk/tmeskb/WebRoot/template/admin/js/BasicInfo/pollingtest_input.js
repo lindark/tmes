@@ -108,7 +108,13 @@ function sub_event(my_id)
 			//提交
 			//$("#inputForm").submit();
 			var dt = $("#inputForm").serialize();
-			var url = "pollingtest!creditsave.action";
+			var url = "";
+			<#if add??>
+				url = "pollingtest!creditsave.action";			
+			</#if>
+			<#if edit??>
+				url = "pollingtest!creditupdate.action";
+			</#if>
 			credit.creditCard(url,function(data){
 				var workingbillid = $("#wkid").val();
 				//$.message(data.status,data.message);

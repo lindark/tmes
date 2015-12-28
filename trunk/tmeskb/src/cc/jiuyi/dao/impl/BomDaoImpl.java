@@ -1,11 +1,16 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.ProcessRoute;
 
 /**
  * Dao实现类 - 产品Bom
@@ -48,6 +53,38 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	public List<Bom> getListBycode(String productcode, Integer version) {
 		String hql="from Bom where products.productsCode = ? and version = ?";
 		return getSession().createQuery(hql).setParameter(0, productcode).setParameter(1, version).list();
+	}
+
+	@Override
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Bom.class);
+		pagerSqlByjqGrid(pager, detachedCriteria);
+		if (map.size() > 0) {
+			if(!existAlias(detachedCriteria, "bom", "bom")){
+				detachedCriteria.createAlias("bom", "bom");
+			}
+			if(!existAlias(detachedCriteria, "products", "products")){
+				detachedCriteria.createAlias("products", "products");
+			}
+			if (map.get("materialCode") != null) {
+				detachedCriteria.add(Restrictions.like("bom.materialCode",
+						"%" + map.get("materialCode") + "%"));
+			}
+			if (map.get("materialName") != null) {
+				detachedCriteria.add(Restrictions.like("bom.materialName",
+						"%" + map.get("materialName") + "%"));
+			}
+			if (map.get("productsCode") != null) {
+				detachedCriteria.add(Restrictions.like("products.productsCode",
+						"%" + map.get("productsCode") + "%"));
+			}
+			if (map.get("productsName") != null) {
+				detachedCriteria.add(Restrictions.like("products.productsName",
+						"%" + map.get("productsName") + "%"));
+			}
+		}
+		return super.findByPager(pager, detachedCriteria);
 	}
 	
 	

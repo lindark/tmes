@@ -155,7 +155,7 @@ public class PollingtestAction extends BaseAdminAction {
 	/**
 	 * 修改
 	 */
-	public String update() {
+	public String creditupdate() {
 		if (pollingtest.getPollingtestAmount() == null
 				|| String.valueOf(pollingtest.getPollingtestAmount()).matches(
 						"^[0-9]*[1-9][0-9]*$ ")) {

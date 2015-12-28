@@ -205,9 +205,16 @@
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
+				if(row_state=="1"){
+					layer.msg("已确认的无须再确认!", {icon: 5});
+				}else if(row_state=="3"){
+					layer.msg("已撤销的无法再确认！", {icon: 5});
+				}else{
 				var url = "enteringware_house!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
@@ -215,6 +222,7 @@
 					$("#total").text(data.total);
 					$("#grid-table").trigger("reloadGrid");
 				})
+				}
 				/* var index = "";
 				$.ajax({	
 					url: "enteringware_house!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
@@ -245,9 +253,14 @@
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
+				if(row_state=="3"){
+					layer.msg("已撤销的无法再撤销！", {icon: 5});
+				}else{
 				var url = "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
@@ -255,6 +268,7 @@
 					$("#total").text(data.total);
 					$("#grid-table").trigger("reloadGrid");
 				})
+				}
 				/* var index = "";
 				$.ajax({	
 					url: "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId,

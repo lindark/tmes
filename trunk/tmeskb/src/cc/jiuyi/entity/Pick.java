@@ -34,7 +34,9 @@ public class Pick extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin createUser;
+    private Admin modifyUser;
     private Admin confirmUser;
+    private String pickType;
 	private Set<PickDetail> pickDetail;//领料从表
 	
 	private WorkingBill workingbill;//随工单
@@ -80,9 +82,15 @@ public class Pick extends BaseEntity{
 		this.confirmUser = confirmUser;
 	}
 
-    
-    
-    public String getE_type() {
+	@ManyToOne(fetch = FetchType.LAZY)
+    public Admin getModifyUser() {
+		return modifyUser;
+	}
+	public void setModifyUser(Admin modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+	
+	public String getE_type() {
 		return e_type;
 	}
 	public void setE_type(String e_type) {
@@ -187,6 +195,12 @@ public class Pick extends BaseEntity{
 	}
 	public void setMblnr(String mblnr) {
 		this.mblnr = mblnr;
+	}
+	public String getPickType() {
+		return pickType;
+	}
+	public void setPickType(String pickType) {
+		this.pickType = pickType;
 	}
 
    

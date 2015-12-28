@@ -126,4 +126,9 @@ public class WorkingBillServiceImpl extends
 	public WorkingBill getCodeNext(String workingbillCode){
 		return workingbilldao.getCodeNext(workingbillCode);
 	}
+
+	@Override
+	public WorkingBill getWorkingBillByProductsCode(String matnr) {
+		return workingbilldao.getWorkingBillByProductsCode(matnr);
+	}
 }

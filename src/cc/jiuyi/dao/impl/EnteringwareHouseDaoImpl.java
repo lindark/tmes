@@ -56,9 +56,14 @@ public class EnteringwareHouseDaoImpl extends BaseDaoImpl<EnteringwareHouse, Str
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(EnteringwareHouse.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		if (map.size() > 0) {
-			if(map.get("workingbillCode")!=null){
-			    detachedCriteria.add(Restrictions.eq("workingbillCode", map.get("workingbillCode")));
-			}		
+			if (!existAlias(detachedCriteria, "workingbill", "workingbill")) {
+				detachedCriteria.createAlias("workingbill", "workingbill");
+			}
+			if (map.get("maktx") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"workingbill.maktx",
+						"%" + map.get("maktx") + "%"));
+			}	
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{

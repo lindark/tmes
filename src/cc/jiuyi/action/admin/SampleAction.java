@@ -40,7 +40,7 @@ public class SampleAction extends BaseAdminAction
 {
 	private static final long serialVersionUID = 7706687725550333117L;
 	
-	/**======================对象，变量，接口 start=================================*/
+	/**========================variable,object,interface  start========================*/
 	/**
 	 * 对象或变量
 	 */
@@ -73,9 +73,9 @@ public class SampleAction extends BaseAdminAction
 	private AdminService adminService;
 	@Resource
 	private SampleRecordService srService;//缺陷记录
-	/**======================end 对象，变量，接口=*=================================*/
+	/**========================end  variable,object,interface==========================*/
 	
-	/**======================方法start==========================================*/
+	/**========================method  start======================================*/
 	
 	/**
 	 * 查询选择的那条随工单
@@ -276,7 +276,7 @@ public class SampleAction extends BaseAdminAction
 		return INPUT;
 	}
 	
-	/**==========================end 方法========================================*/
+	/**========================end  method======================================*/
 	
 	/**=========================="get/set"  start===============================*/
 	

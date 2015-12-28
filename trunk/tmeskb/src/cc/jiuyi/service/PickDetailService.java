@@ -34,6 +34,9 @@ public interface PickDetailService extends BaseService<PickDetail, String> {
 	
 	public List<PickDetail> getPickDetail(String id);
 	
-	
+	/**
+	 * 修改
+	 */
+	public void updateAll(Pick pick,List<PickDetail> pickDetail,String cardnumber,String info);
 
 }

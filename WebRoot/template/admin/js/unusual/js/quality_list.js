@@ -68,7 +68,7 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'productsName',index:'products.productsName',width:180, editable:true},		
-			{name:'processName',index:'process.processName', width:60, editable: true},
+			{name:'processName',index:'process.processName', width:60, editable: true, search:false},
 			{name:'problemDescription',index:'problemDescription', width:160, search:false,editable: true},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		

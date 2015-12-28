@@ -112,7 +112,7 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-													<input type="text" id="productId"
+													<input type="hidden" id="productId"
 														name="productid"
 														value=""
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"

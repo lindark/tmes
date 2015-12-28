@@ -1,7 +1,9 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
 
 /**
@@ -56,4 +58,6 @@ public interface BomService extends BaseService<Bom, String> {
 	 * 获取最高版本号的Bom清单
 	 */
 	public List<Bom> getBomListByMaxVersion(Integer version);
+	
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
 }

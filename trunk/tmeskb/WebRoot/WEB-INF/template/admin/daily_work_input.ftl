@@ -123,7 +123,7 @@ body {
 												<div class="profile-info-value">
 													<select name="dailyWork.processCode" id="form-field-icon-1" class="chosen-select"> 
 												        <#list allProcess as list>
-											            <option value="${list.processCode}"<#if (isEdit&&dailyWork.process.id==list.id)!> selected</#if>>${list.processName}</option>
+											            <option value="${list.processCode}"<#if (isEdit&&dailyWork.processCode==list.processCode)!> selected</#if>>${list.processName}</option>
 										                </#list>   
 												    </select> 
 												</div>

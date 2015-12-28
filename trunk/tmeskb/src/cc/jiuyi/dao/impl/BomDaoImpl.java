@@ -57,22 +57,18 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
-		DetachedCriteria detachedCriteria = DetachedCriteria
-				.forClass(Bom.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
-			if(!existAlias(detachedCriteria, "bom", "bom")){
-				detachedCriteria.createAlias("bom", "bom");
-			}
 			if(!existAlias(detachedCriteria, "products", "products")){
 				detachedCriteria.createAlias("products", "products");
 			}
 			if (map.get("materialCode") != null) {
-				detachedCriteria.add(Restrictions.like("bom.materialCode",
+				detachedCriteria.add(Restrictions.like("materialCode",
 						"%" + map.get("materialCode") + "%"));
 			}
 			if (map.get("materialName") != null) {
-				detachedCriteria.add(Restrictions.like("bom.materialName",
+				detachedCriteria.add(Restrictions.like("materialName",
 						"%" + map.get("materialName") + "%"));
 			}
 			if (map.get("productsCode") != null) {

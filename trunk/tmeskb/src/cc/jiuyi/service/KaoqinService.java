@@ -46,4 +46,10 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 */
 	public void updateEmpWorkState(Admin admin);
 
+	/**
+	 * 保存开启考勤(刷卡)记录
+	 * @param admin
+	 */
+	public void saveBrushCardEmp(Admin admin);
+
 }

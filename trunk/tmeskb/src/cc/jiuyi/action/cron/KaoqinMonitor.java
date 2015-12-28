@@ -52,6 +52,7 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 			if (data.getString("d_value")!=null)
 			{
 				can.add(Calendar.MINUTE, -1);
+				startdate=can.getTime();
 				n = Integer.parseInt(data.getString("d_value"))+1;// 跨时后的差值
 				teamid = teamid.substring(15, teamid.length());// 获取当前员工所在班组的ID
 			}

@@ -254,21 +254,7 @@ body{background:#fff;}
 														
 			<table id="tabs-3" class="inputTable tabContent">
 				    <tbody>	
-										       <#if (qualityList?size>1) >
-										            <tr>						
-													<td>
-														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
-													</td>
-												    </tr>
-										        <#else>
-										            <#list (qualityList)! as list>
-										            <tr>						
-													<td>
-														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
-													</td>
-												    </tr>
-												    </#list>
-										        </#if>
+										       
 										        <#if (modelList?size>1) >
 										            <tr>						
 													<td>

@@ -1,11 +1,13 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.service.BomService;
@@ -69,6 +71,11 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Override
 	public List<Bom> getBomListByMaxVersion(Integer version) {
 		return bomDao.getBomListByMaxVersion(version);
+	}
+
+	@Override
+	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
+		return bomDao.findPagerByjqGrid(pager, map);
 	}
 
 }

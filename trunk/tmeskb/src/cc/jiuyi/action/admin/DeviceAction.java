@@ -340,9 +340,9 @@ public class DeviceAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
-		if(persistent.getState().equals("1")){
+		/*if(persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("单据已回复!");
-		}
+		}*/
 		
 		if(device.getBeginTime()==null){
 			return ajaxJsonErrorMessage("处理开始时间不允许为空!");

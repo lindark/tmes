@@ -74,7 +74,7 @@ public class DeviceAction extends BaseAdminAction {
 	
 	// 获取所有类型
 	private List<Dict> allType;
-	private List<Quality>  qualityList;
+//	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
@@ -109,7 +109,7 @@ public class DeviceAction extends BaseAdminAction {
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
-			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		//	qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 			modelList=new ArrayList<Model>(abnormal.getModelSet());
 			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -123,7 +123,7 @@ public class DeviceAction extends BaseAdminAction {
 	public String edit() {
 		device = deviceService.load(id);
 		abnormal=device.getAbnormal();
-		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+	//	qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -319,6 +319,9 @@ public class DeviceAction extends BaseAdminAction {
 	
 	public String creditupdate() {
 		Device persistent = deviceService.load(id);
+		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
+			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
+		}
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet","team"});
 		deviceService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -440,7 +443,7 @@ public class DeviceAction extends BaseAdminAction {
 		}
 		
 		
-		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		//qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -525,13 +528,13 @@ public class DeviceAction extends BaseAdminAction {
 		return dictService.getList("dictname", "isMaintenance");
 	}
 
-	public List<Quality> getQualityList() {
+	/*public List<Quality> getQualityList() {
 		return qualityList;
 	}
 
 	public void setQualityList(List<Quality> qualityList) {
 		this.qualityList = qualityList;
-	}
+	}*/
 
 	public List<Model> getModelList() {
 		return modelList;

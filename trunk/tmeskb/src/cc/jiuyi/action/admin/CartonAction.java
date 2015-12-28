@@ -207,11 +207,10 @@ public class CartonAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("workingbillCode") != null) {
-				System.out.println("obj=" + obj);
-				String workingbillCode = obj.getString("workingbillCode")
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx")
 						.toString();
-				map.put("workingbillCode", workingbillCode);
+				map.put("maktx", maktx);
 			}
 			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();

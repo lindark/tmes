@@ -63,6 +63,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Model> modelSet2;//一个检验员对应多个工模维修单
 	private Set<Craft> craftSet1;//一个维修员对应多个工艺维修单
 	private Set<Quality> qualitySet1;//一个接收人对应多个质量问题单
+	private Set<Quality> qualitySet2;//一个工程师对应多个质量问题单
 
 	private Set<Role> roleSet;// 管理角色
 	private GrantedAuthority[] authorities;// 角色信息
@@ -878,5 +879,17 @@ public class Admin extends BaseEntity implements UserDetails {
 		}
 		this.isdaiban = isdaiban;
 	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="engineer")
+	public Set<Quality> getQualitySet2() {
+		return qualitySet2;
+	}
+
+	public void setQualitySet2(Set<Quality> qualitySet2) {
+		this.qualitySet2 = qualitySet2;
+	}
+	
+	
+	
 	
 }

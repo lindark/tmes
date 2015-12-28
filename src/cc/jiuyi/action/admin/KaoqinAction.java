@@ -41,7 +41,7 @@ public class KaoqinAction extends BaseAdminAction
 
 	private static final long serialVersionUID = -7695470770728132309L;
 	
-	/**========================对象，变量，接口 start============================*/
+	/**========================variable,object,interface  start========================*/
 	
 	/**
 	 * 对象，变量
@@ -66,9 +66,9 @@ public class KaoqinAction extends BaseAdminAction
 	private DictService dictService;
 	@Resource
 	private TeamService teamService;
-	/**========================end 对象，变量，接口 =============================*/
+	/**========================end  variable,object,interface==========================*/
 	
-	/**===========================方法start==================================*/
+	/**========================method  start======================================*/
 	
 	/**
 	 * 进入list页面
@@ -301,6 +301,8 @@ public class KaoqinAction extends BaseAdminAction
 			map2.put("d_value", n+"");
 			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz,map2);
 		}
+		//保存开启考勤(刷卡)记录
+		this.kqService.saveBrushCardEmp(admin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -334,7 +336,7 @@ public class KaoqinAction extends BaseAdminAction
 		}
 		return list2;
 	}
-	/**===========================end 方法===================================*/
+	/**========================end  method======================================*/
 	
 	/**===========================get/set start=============================*/
 	

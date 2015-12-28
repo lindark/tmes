@@ -314,13 +314,22 @@ public class KaoqinAction extends BaseAdminAction
 		{
 			Admin a=list1.get(i);
 			//班次
-			a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
+			if(a.getShift()!=null&&!"".equals(a.getShift()))
+			{
+				a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
+			}
 			//班组
 			a.setXteam( a.getDepartment().getTeam().getTeamName());
 			//工作状态
-			a.setXworkstate(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", a.getWorkstate()));
+			if(a.getWorkstate()!=null&&!"".equals(a.getWorkstate()))
+			{
+				a.setXworkstate(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", a.getWorkstate()));
+			}
 			//技能
-			a.setXpost(a.getPost().getPostName());
+			if(a.getPost()!=null)
+			{
+				a.setXpost(a.getPost().getPostName());
+			}
 			list2.add(a);
 		}
 		return list2;

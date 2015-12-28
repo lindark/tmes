@@ -242,7 +242,8 @@ function btn_style_startkaoqin()
 	//班组未开启
 	if(isstartteam=="N")
 	{
-		$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+		$("#span_startkaoqin").text("考勤未开启");
+		$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
 	}
 	else if(isstartteam=="Y")
 	{

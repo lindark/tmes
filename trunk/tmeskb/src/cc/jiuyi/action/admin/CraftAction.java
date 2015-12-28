@@ -152,9 +152,9 @@ public class CraftAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
-		if(persistent.getState().equals("1")){
+/*		if(persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("单据已回复!");
-		}
+		}*/
 		
 		if(craft.getUnusualDescription_process()==null || craft.getUnusualDescription_process().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("工艺分析不允许为空!");
@@ -338,6 +338,8 @@ public class CraftAction extends BaseAdminAction {
 	
 	public String hview(){
 		craft = craftService.load(id);
+		machineName=ThinkWayUtil.getDictValueByDictKey(
+				dictService, "machineNo", craft.getCabinetCode());
 		return "hview";
 	}
 		

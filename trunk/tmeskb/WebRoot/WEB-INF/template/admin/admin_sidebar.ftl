@@ -934,7 +934,7 @@
 					</li>
 					
 					<li class="">
-						<a href="material!list.action" >
+						<a href="bom!show.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							产品Bom管理
 							<b class="arrow fa"></b>

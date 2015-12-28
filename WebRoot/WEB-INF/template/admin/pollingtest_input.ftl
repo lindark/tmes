@@ -131,7 +131,7 @@ body {
 													<#else>
 													<input id="sample_num" type="text" name="pollingtest.pollingtestAmount"
 														value="${(pollingtest.pollingtestAmount)!}"
-														class=" input input-sm formText {required: true,min: 0}" />
+														class=" input input-sm formText {required: true,min: 1}" />
 													</#if>
 												</div>
 

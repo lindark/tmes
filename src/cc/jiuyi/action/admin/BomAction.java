@@ -1,20 +1,28 @@
 package cc.jiuyi.action.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - Bom
@@ -42,7 +50,80 @@ public class BomAction extends BaseAdminAction {
 	public String list(){
 		return LIST;
 	}
+	
+	// 读取list页面
+	public String show() {
+		return "show";
+	}
 
+	/**
+	 * ajax List
+	 * @return
+	 */
+	public String ajlist() {
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		try {
+			if (pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
+			}
+			if (pager.is_search() == true && filters != null) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+
+			if (pager.is_search() == true && Param != null) {
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("materialCode") != null) {
+					String materialCode = obj.getString("materialCode")
+							.toString();
+					map.put("materialCode", materialCode);
+				}
+				if (obj.get("materialName") != null) {
+					String materialName = obj.getString("materialName")
+							.toString();
+					map.put("materialName", materialName);
+				}
+				if (obj.get("productsCode") != null) {
+					String productsCode = obj.getString("productsCode")
+							.toString();
+					map.put("productsCode", productsCode);
+				}
+				if (obj.get("productsName") != null) {
+					String productsName = obj.getString("productsName")
+							.toString();
+					map.put("productsName", productsName);
+				}
+			}
+
+			pager = bomService.findPagerByjqGrid(pager, map);
+			List<Bom> list = pager.getList();
+			for (int i = 0; i < list.size(); i++) {
+				Bom bom = list.get(i);
+				bom.setMaterialCode(bom.getMaterialCode());
+				bom.setMaterialName(bom.getMaterialName());
+				bom.setProductsCode(bom.getProducts().getProductsCode());
+				bom.setProductsName(bom.getProducts().getProductsName());
+			}
+			pager.setList(list);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig
+					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Bom.class));
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	// 获取产品的Bom
 	public String getBom() {
 		bomList = bomService.getList("products.id", productid);
@@ -69,7 +150,7 @@ public class BomAction extends BaseAdminAction {
 			}
 		}
 		json.put("list", jsonarray);
-		System.out.println(json.toString());
+		//System.out.println(json.toString());
 		return ajaxJson(json.toString());
 	}
 	
@@ -79,6 +160,7 @@ public class BomAction extends BaseAdminAction {
 	
 	public String save(){
 		bomService.mergeBom(bomList, productid);
+		redirectionUrl="bom!show.action";
 		return SUCCESS;
 	}
 	

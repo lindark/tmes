@@ -109,12 +109,14 @@ function sub_event(my_id)
 			//$("#inputForm").submit();
 			var dt = $("#inputForm").serialize();
 			var url = "";
-			<#if add??>
-				url = "pollingtest!creditsave.action";			
-			</#if>
-			<#if edit??>
+			var isAdd = $("#isAdd").val();
+			var isEdit = $("#isEdit").val();
+			if(isAdd=='add'){
+				url = "pollingtest!creditsave.action";											
+			}
+			if(isEdit=='edit'){
 				url = "pollingtest!creditupdate.action";
-			</#if>
+			}
 			credit.creditCard(url,function(data){
 				var workingbillid = $("#wkid").val();
 				//$.message(data.status,data.message);

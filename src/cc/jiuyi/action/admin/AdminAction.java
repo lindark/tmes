@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,9 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
@@ -84,6 +87,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Sample> sampleList;
 	private String departid;
 	private String departName;
+	private String teamid;
 
 	@Resource
 	private AdminService adminService;
@@ -199,11 +203,29 @@ public class AdminAction extends BaseAdminAction {
 		public String index2() {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
-			teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
-			pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
+            teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
+ /**		pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
 			sampleList=sampleService.getUncheckList();//获取所有未确认的抽检单
-			scrapList=scrapService.getUnCheckList();//获取所有未确认的报废单
+			scrapList=scrapService.getUnCheckList();//获取所有未确认的报废单                   **/
 			return "testindex";
+		}
+		
+		//根据班组ID查询所有随工单
+		public List<WorkingBill> getTeamById()
+		{
+			Team team=this.teamService.get(teamid);
+			List<Products> product_list=new ArrayList<Products>(team.getFactoryUnit().getProductsSet());
+			List<WorkingBill> workingBill_list=new ArrayList<WorkingBill>();
+			if(product_list.size()>0)
+			{
+				for(int i=0;i<product_list.size();i++)
+				{
+					Products products=product_list.get(i);
+					WorkingBill workingBill = workingbillservice.getWorkingBillByProductsCode(products.getProductsCode());  //根据产品code获取对应的随工单
+					workingBill_list.add(workingBill);
+				}		
+			}	
+			return workingBill_list;
 		}
 		
 	// 后台管理首页
@@ -607,6 +629,14 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setScrapList(List<Scrap> scrapList) {
 		this.scrapList = scrapList;
+	}
+
+	public String getTeamid() {
+		return teamid;
+	}
+
+	public void setTeamid(String teamid) {
+		this.teamid = teamid;
 	}
 	
 	

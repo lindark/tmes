@@ -55,7 +55,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String time2 = data.getString("time");//时间2
 		     String jobname = data.getString("jobname");//任务名称
 		     String count = data.getString("count");//次数
-		    // String phone = data.getString("phone");//电话
+		     String phone = data.getString("phone");//电话
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");
 		     Abnormal abnormal = abnormalService.get(abnorId);
@@ -66,7 +66,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String str;
 		     if(Integer.parseInt(count)==1){
 		    	 System.out.println("ExtremelyMessage任务执行");
-				 str= SendMsgUtil.SendMsg("15270993212","xx异常还未响应");
+				 str= SendMsgUtil.SendMsg(phone,"xx异常还未响应");
 				 System.out.println(str);	
 		     }else if(Integer.parseInt(count)==2){
 		    	 System.out.println("ExtremelyMessage2任务执行");
@@ -102,7 +102,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 						maps.put("time",time2);
 						maps.put("jobname",jobname);
 						maps.put("count","2");
-					//	maps.put("phone",phone);
+						maps.put("phone",phone);
 						QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
 						System.out.println(Integer.parseInt(count)==1);
 					
@@ -114,6 +114,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 						maps.put("time",time2);
 						maps.put("jobname",jobname);
 						maps.put("count","3");
+						maps.put("phone",phone);
 						QuartzManagerUtil.modifyJobTime(jobname,time2,maps);
 						System.out.println(Integer.parseInt(count)==1);
 					}

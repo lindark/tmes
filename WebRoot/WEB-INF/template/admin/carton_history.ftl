@@ -64,9 +64,9 @@
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">随工单号:</label>
+											style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="workingbillCode"
+											<input type="text" name="maktx"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>

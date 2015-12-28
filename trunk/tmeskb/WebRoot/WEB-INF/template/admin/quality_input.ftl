@@ -380,7 +380,7 @@ $(function() {
 				credit.creditCard(url,function(data){
 					if(data.status=="success"){
 						layer.alert(data.message, {icon: 6},function(){
-							window.location.href="abnormal!list.action";
+							window.location.href="quality!list.action";
 						}); 
 					}else if(data.status=="error"){
 						layer.alert(data.message, {

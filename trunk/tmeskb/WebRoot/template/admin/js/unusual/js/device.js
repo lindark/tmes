@@ -129,7 +129,7 @@ $(function() {
 	
 	function addAttributeOptionTr() {
 		var size=$(".deleteImage").length;
-		var html="<div style='padding:3px;'><input name='deviceStepSet["+size+"].vornr' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
+		var html="<div style='padding:3px;'><span style='padding:3px;'>"+(size+1)+"."+"</span><input name='deviceStepSet["+size+"].vornr' style='width:300px;' class='input input-sm'/><img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;padding:6px;' alt='删除'>";
         html +="</div>";
         
         $(".deleteImage").live("click",function(){

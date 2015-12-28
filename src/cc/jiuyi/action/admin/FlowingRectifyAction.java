@@ -33,6 +33,8 @@ public class FlowingRectifyAction extends BaseAdminAction {
 	private Quality quality;
 	private FlowingRectify flowingRectify;
 	private String flowingId;
+	private String cardnumber;//刷卡卡号
+	private Admin admin;
 	
 	@Resource
 	private QualityService qualityService;	
@@ -41,8 +43,8 @@ public class FlowingRectifyAction extends BaseAdminAction {
 	@Resource
 	private AdminService adminService;
 		
-	public String save() {		
-		 Admin admin = adminService.getLoginAdmin();
+	public String creditsave() {		
+		admin = adminService.getByCardnum(cardnumber);
 		 String id[]=ids[0].split(",");
 		 quality = qualityService.load(id[0]);
 		 String content[]=id[1].split("=");
@@ -100,6 +102,26 @@ public class FlowingRectifyAction extends BaseAdminAction {
 
 	public void setFlowingId(String flowingId) {
 		this.flowingId = flowingId;
+	}
+
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 	
 	

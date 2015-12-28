@@ -26,12 +26,24 @@ function sample_event()
 			var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
 			if(reg.test(samplenum))
 			{
-				var num_qx=getqxnum();
-				samplenum=setScale(samplenum,0,"");//精度
-				$(this).val(samplenum);
-				$("#span_sq").text(samplenum);//合格数量
-				$("#input_qulified").val(samplenum);//合格数量
-				tocalc(samplenum,num_qx,"");
+				if(samplenum>0)
+				{
+					var num_qx=getqxnum();
+					samplenum=setScale(samplenum,0,"");//精度
+					$(this).val(samplenum);
+					$("#span_sq").text(samplenum);//合格数量
+					$("#input_qulified").val(samplenum);//合格数量
+					tocalc(samplenum,num_qx,"");
+				}
+				else
+				{
+					layer.alert("抽检数量必须大于0!",false);
+					$(this).val("");
+					$("#span_sq").text("0");//合格数量
+					$("#input_qulified").val("-1");//合格数量
+					$("#span_qrate").text("0.00%");//合格率
+					$("#span_tip").text("");
+				}
 			}
 			else
 			{

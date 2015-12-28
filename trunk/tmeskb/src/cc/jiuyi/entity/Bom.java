@@ -53,6 +53,9 @@ public class Bom extends BaseEntity{
 	private Double xmenge;
 	private String xsmduty;
 	private String xsmid;
+	private String pickDetailid;
+	private String productsCode;
+	private String productsName;
 	/**冗余 end**/
 	
 	
@@ -62,8 +65,6 @@ public class Bom extends BaseEntity{
 	public Products getProducts() {
 		return products;
 	}
-
-
 
 	public void setProducts(Products products) {
 		this.products = products;
@@ -279,6 +280,34 @@ public class Bom extends BaseEntity{
 	public void setXsmid(String xsmid) {
 		this.xsmid = xsmid;
 	}
+	
+	@Transient
+	public String getPickDetailid() {
+		return pickDetailid;
+	}
 
+	public void setPickDetailid(String pickDetailid) {
+		this.pickDetailid = pickDetailid;
+	}
+
+	@Transient
+	public String getProductsCode() {
+		return productsCode;
+	}
+
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+
+	@Transient
+	public String getProductsName() {
+		return productsName;
+	}
+
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+	
+	
 	
 }

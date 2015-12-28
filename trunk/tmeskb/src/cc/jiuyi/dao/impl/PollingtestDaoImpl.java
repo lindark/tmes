@@ -47,16 +47,21 @@ public class PollingtestDaoImpl extends BaseDaoImpl<Pollingtest, String>
 				.forClass(Pollingtest.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
-			if(map.get("workingbillCode")!=null){
-			    detachedCriteria.add(Restrictions.eq("workingbillCode", map.get("workingbillCode")));
-			}		
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
+			if (!existAlias(detachedCriteria, "workingbill", "workingbill")) {
+				detachedCriteria.createAlias("workingbill", "workingbill");
+			}
+			if (map.get("maktx") != null) {
+				detachedCriteria.add(Restrictions.like("workingbill.maktx", "%"
+						+ map.get("maktx") + "%"));
+			}
+			if (map.get("start") != null || map.get("end") != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					Date start = sdf.parse(map.get("start"));
+					Date end = sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate",
+							start, end));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -67,7 +72,7 @@ public class PollingtestDaoImpl extends BaseDaoImpl<Pollingtest, String>
 
 	@Override
 	public List<Pollingtest> getUncheckList() {
-		String hql="from Pollingtest where state='2'";
+		String hql = "from Pollingtest where state='2'";
 		return this.getSession().createQuery(hql).list();
 	}
 

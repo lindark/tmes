@@ -184,9 +184,9 @@ public class ModelAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复！");
 		}
-		if(persistent.getState().equals("1")){
+/*		if(persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("单据已回复！");
-		}
+		}*/
 			
 		if(model.getFixTime()==null){
 			return ajaxJsonErrorMessage("维修时间不允许为空!");

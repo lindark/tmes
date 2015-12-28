@@ -107,6 +107,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Sample> comfirmation;//确认人
 	private Set<Scrap> scrapcreaterSet;//提交人
 	private Set<Scrap> scrapcomfirmationSet;//确认人
+	private Set<KaoqinBrushCardRecord>kaoqinBCR;//开启考勤记录
 
 	private Post post;//技能
 	private String workstate;//状态1，考勤：添加代班员工时用到
@@ -879,6 +880,18 @@ public class Admin extends BaseEntity implements UserDetails {
 		}
 		this.isdaiban = isdaiban;
 	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="admin")
+	public Set<KaoqinBrushCardRecord> getKaoqinBCR()
+	{
+		return kaoqinBCR;
+	}
+
+	public void setKaoqinBCR(Set<KaoqinBrushCardRecord> kaoqinBCR)
+	{
+		this.kaoqinBCR = kaoqinBCR;
+	}
+	
 
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="engineer")
 	public Set<Quality> getQualitySet2() {

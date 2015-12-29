@@ -63,6 +63,6 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
     /**
      * 根据产品Code查询随工单
      */
-	public WorkingBill getWorkingBillByProductsCode(String matnr);
+	public List<WorkingBill> getWorkingBillByProductsCode(String matnr);
 
 }

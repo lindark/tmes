@@ -111,11 +111,12 @@ body {
 											<tr id="tr_1">
 												<td class="center" name="">${(list.materialCode)! }</td>
 												<td class="center" name="">${(list.materialName)! }</td>
-												<td class="center" ></td>
+												<td class="center" name="">${(list.stockAmount)! } </td>
 												<td class="center">
 													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class=" notnull input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 												</td>											
 											</tr>

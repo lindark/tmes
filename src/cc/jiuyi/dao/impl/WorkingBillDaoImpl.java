@@ -108,9 +108,9 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	}
 
 	@Override
-	public WorkingBill getWorkingBillByProductsCode(String matnr) {
-		String hql="from WokingBill where matnr = ? ";
-		return (WorkingBill) getSession().createQuery(hql).setParameter(0, matnr).list();
+	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
+		String hql="from WorkingBill where matnr = ? ";
+		return getSession().createQuery(hql).setParameter(0, matnr).list();
 	}
 
 

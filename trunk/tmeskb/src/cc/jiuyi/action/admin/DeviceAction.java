@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,9 +32,11 @@ import cc.jiuyi.entity.DeviceLog;
 import cc.jiuyi.entity.DeviceModlue;
 import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
+import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -43,6 +47,7 @@ import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DeviceStepService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReceiptReasonService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -70,7 +75,7 @@ public class DeviceAction extends BaseAdminAction {
 	private String faultCharactor;
 	private String serviceAttitude;
 	private String cardnumber;//刷卡卡号
-	private String reasonName;//故障原因
+	private String reasonName;//故障原因	
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -104,6 +109,8 @@ public class DeviceAction extends BaseAdminAction {
 	private DeviceStepService deviceStepService;
 	@Resource
 	private DepartmentService deptservice;
+	@Resource
+	private DeviceRfc devicerfc;
 	
 	// 添加
 	public String add() {
@@ -340,9 +347,6 @@ public class DeviceAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
-		/*if(persistent.getState().equals("1")){
-			return ajaxJsonErrorMessage("单据已回复!");
-		}*/
 		
 		if(device.getBeginTime()==null){
 			return ajaxJsonErrorMessage("处理开始时间不允许为空!");
@@ -350,6 +354,14 @@ public class DeviceAction extends BaseAdminAction {
 		
 		if(device.getDndTime()==null){
 			return ajaxJsonErrorMessage("处理结束时间不允许为空!");
+		}
+		
+		if(device.getCauseAnalysis()==null || device.getCauseAnalysis().equalsIgnoreCase("")){
+			return ajaxJsonErrorMessage("原因分析不允许为空!");
+		}
+		
+		if(device.getPreventionCountermeasures()==null || device.getPreventionCountermeasures().equalsIgnoreCase("")){
+			return ajaxJsonErrorMessage("预防对策不允许为空!");
 		}
 		
 		if(deviceStepSet==null){
@@ -361,14 +373,7 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			device.setDeviceStepSet(new HashSet<DeviceStep>(deviceStepSet));
 		}
-		
-		if(device.getCauseAnalysis()==null){
-			return ajaxJsonErrorMessage("原因分析不允许为空!");
-		}
-		
-		if(device.getPreventionCountermeasures()==null){
-			return ajaxJsonErrorMessage("预防对策不允许为空!");
-		}
+				
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
 		persistent.setState("1");
 		deviceService.update(persistent);
@@ -406,6 +411,52 @@ public class DeviceAction extends BaseAdminAction {
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
 			persistent.setState("3");
 			deviceService.update(persistent);
+			
+			
+			Device d=persistent;
+			Equipments e = persistent.getEquipments();
+			e.setEquipmentNo("JX-B-C0001");
+			Admin a=new Admin();
+			a.setName("张三");
+			d.setSHORT_TEXT("测试维修单");
+			d.setEquipments(e);
+			d.setBeginTime(new Date());//开始日期
+			d.setDndTime(new Date());//结束日期
+			d.setCOST("2");//成本
+			d.setORDER_TYPE("PM01");//订单类型
+			d.setTotalDownTime(5.0);//停机时间
+			d.setURGRP("PM1");//原因代码组
+			d.setURCOD("1001");//原因代码
+			d.setDisposalWorkers(a);
+			List<DeviceStep> step=new ArrayList<DeviceStep>();
+			DeviceStep s=new DeviceStep();
+			s.setVornr("0010");
+			s.setArbpl("2101");//工作中心
+			s.setWerks("1000");//工厂
+			s.setSteus("PM01");//控制码
+			s.setDescription("维修");//工序短文本
+			s.setWork_activity("10");
+			s.setDuration("10");			
+			step.add(s);
+			List<DeviceModlue> module=new ArrayList<DeviceModlue>();
+			DeviceModlue dm=new DeviceModlue();
+			dm.setMaterial("60000167");//物料编码
+			dm.setMenge("1");
+			dm.setVornr("0010");
+			dm.setPostp("L");
+			module.add(dm);
+			
+			System.out.println("1");
+			try {
+				String aufnr=devicerfc.DeviceCrt(d, step, module);
+				System.out.println("订单号为："+aufnr);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (CustomerException e1) {
+				System.out.println(e1.getMsgDes());
+				e1.printStackTrace();
+			}
+			System.out.println("2");
 			
 			DeviceLog log = new DeviceLog();
 			log.setDevice(persistent);

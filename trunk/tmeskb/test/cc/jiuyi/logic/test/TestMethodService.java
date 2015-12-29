@@ -1,59 +1,36 @@
 package cc.jiuyi.logic.test;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import cc.jiuyi.util.*;
+import javax.annotation.Resource;
 
-import com.sap.mw.jco.JCO;
+import org.junit.Test;
 
-import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.common.Key;
-import cc.jiuyi.dao.DictDao;
-import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.CreditCard;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sendmsg.Sendmsg_Service;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.CreditCardService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.service.impl.ArticleServiceImpl;
-
-import net.sf.json.JSONArray;
-
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.compass.gps.device.hibernate.dep.AbstractHibernateGpsDevice.HibernateSessionWrapper;
-import org.hibernate.Hibernate;
-import org.hibernate.jmx.HibernateService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-
-import junit.framework.TestCase;
+import cc.jiuyi.util.QuartzManagerUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 public class TestMethodService extends BaseTestCase {
 	@Resource  
@@ -74,9 +51,33 @@ public class TestMethodService extends BaseTestCase {
 	
 	@Resource
 	private ProcessService processservice;
+	@Resource
+	private TeamService teamService;
+	
 	
 	protected void setUp() {
 		
+	}
+	
+	@Test
+	public void TestgetWorkingBillByTeamid() throws IOException{
+		String teamid = "402880f1513d6d2f01513d6f30e30003";
+		List<WorkingBill> workingBill_list=new ArrayList<WorkingBill>();
+		List<WorkingBill> workingBillList = new ArrayList<WorkingBill>();
+		Team team=this.teamService.get(teamid);
+		List<Products> product_list=new ArrayList<Products>(team.getFactoryUnit().getProductsSet());
+		for(int i=0;i<product_list.size();i++)
+		{
+			Products products=product_list.get(i);
+			//System.out.println(products.getProductsCode());
+			workingBillList = workingbillservice.getWorkingBillByProductsCode(products.getProductsCode());  //根据产品code获取对应的随工单								
+		}
+		for (int i = 0; i < workingBillList.size(); i++) {
+			WorkingBill workingBill =workingBillList.get(i);
+			workingBill_list.add(workingBill);
+		}
+		System.out.println(workingBill_list.toString());
+			
 	}
 	
 	@Test

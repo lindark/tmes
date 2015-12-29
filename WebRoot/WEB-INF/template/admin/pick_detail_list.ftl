@@ -85,7 +85,7 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">操作类型</div>
 													<div class="profile-info-value">
-														<select name="info" style="width:300px;">
+														<select id="pickType" name="info" style="width:300px;">
 													    <option value="">-请选择-</option> <#list allType as alist>
 													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pick.move_type ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
 													    </#list>
@@ -111,18 +111,18 @@ body {
 											<tr id="tr_1">
 												<td class="center" name="">${(list.materialCode)! }</td>
 												<td class="center" name="">${(list.materialName)! }</td>
-												<td class="center" name="">${(list.stockAmount)! } </td>
+												<td class="center" name="">${(list.stockAmount)!  }</td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class=" notnull input input-sm formText {digits:true}"/>
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
-													<input type="hidden" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }"/>
+													<input type="hidden" id="stockAmount${(num)}" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }" class="stockAmount"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 												</td>											
 											</tr>
 											<#assign num=num+1/>
 										</#list>
-
+										
 									</tbody>
 								</table>
 							  </div>
@@ -172,7 +172,28 @@ body {
 	
 	$(function(){		
 		$("#btn_save").click(function(){
-			 var dt=$("#inputForm").serialize();
+			var i = 0;
+			var pickType = $("#pickType").val();
+			if(pickType ==''){
+				layer.alert("请选择正确的操作类型",{icon: 7});
+				return false;
+			}
+			if(pickType =='261') {
+			$("#mytable tr").each(function(){
+				var stockAmount = ($(this).children("td:eq(2)").text());
+				var pickAmount = ($(this).children("td:eq(3)").children("input:first").val());
+				if(pickAmount != null){
+					i=floatSub(pickAmount,stockAmount);//减法
+					if(i>0)
+					{
+						layer.alert("领料数量不能大于库存数量",{icon: 7});
+						return false;
+					}
+						
+				}
+			});
+		}
+		 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
 				<#if isAdd??>
 				var url="pick_detail!creditsubmit.action";
@@ -191,15 +212,33 @@ body {
 					        skin:'error'
 					    });
 					}					
-				},dt)
+				},dt)  
 		});
-
 		
-		function sub_event(my_id){
-			
+		
+		$("#btn_confirm").click(function(){
+			var i = 0;
+			var pickType = $("#pickType").val();
+			if(pickType ==''){
+				layer.alert("请选择正确的操作类型",{icon: 7});
+				return false;
+			}
+			if(pickType =='261') {
+			$("#mytable tr").each(function(){
+				var stockAmount = ($(this).children("td:eq(2)").text());
+				var pickAmount = ($(this).children("td:eq(3)").children("input:first").val());
+				if(pickAmount != null){
+					i=floatSub(pickAmount,stockAmount);//减法
+					if(i>0)
+					{
+						layer.alert("领料数量不能大于库存数量",{icon: 7});
+						return false;
+					}
+						
+				}
+			});
 		}
 			
-		$("#btn_confirm").click(function(){
 			var flag = false;
 			$(".notnull").each(function(){
 				var sVal = $(this).val();
@@ -210,6 +249,7 @@ body {
 				layer.alert("数量为0或者空时不允许刷卡确认",{icon: 7});
 				return false;
 			}
+		
 			
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();

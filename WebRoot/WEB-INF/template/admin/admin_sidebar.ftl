@@ -790,6 +790,14 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
+						<a href="post!list.actio" >
+							<i class="menu-icon"></i>
+							岗位管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>
 							权限管理
@@ -1031,14 +1039,6 @@
 								<a href="locationonside!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
 									库存地点管理
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							<li class="">
-								<a href="post!list.action" >
-									<i class="menu-icon fa fa-caret-right"></i>
-									岗位管理
 								</a>
 
 								<b class="arrow"></b>

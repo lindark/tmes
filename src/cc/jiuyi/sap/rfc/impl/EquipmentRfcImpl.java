@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
@@ -12,12 +14,12 @@ import cc.jiuyi.entity.Equipment;
 import cc.jiuyi.sap.rfc.EquipmentRfc;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
-
+@Component
 public class EquipmentRfcImpl extends BaserfcServiceImpl implements EquipmentRfc{
 
 	@Override
 	public List<Equipment> getEquipment(String equipmentNo, String equipmentName) throws IOException,CustomerException{
-		super.setProperty("matstock");//获取函数名称
+		super.setProperty("equipment");//获取函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("IM_EQUNR", equipmentNo);//设备编码

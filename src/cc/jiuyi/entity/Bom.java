@@ -31,7 +31,7 @@ public class Bom extends BaseEntity{
 	private Double materialAmount;//数量
 	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
-	
+	private String stockAmount;//库存数量
     
 	/**冗余**/
 	private Double xtestAmount;
@@ -306,6 +306,14 @@ public class Bom extends BaseEntity{
 
 	public void setProductsName(String productsName) {
 		this.productsName = productsName;
+	}
+
+	public String getStockAmount() {
+		return stockAmount;
+	}
+
+	public void setStockAmount(String stockAmount) {
+		this.stockAmount = stockAmount;
 	}
 	
 	

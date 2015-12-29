@@ -184,4 +184,73 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where a.cardNumber=? and c.id=?";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).uniqueResult();
 	}
+	
+	
+	/**
+	 * 根据员工部门id获取副总
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getManagerByDeptId(String id)
+	{
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_MANAGER").list();
+		if(adminList1==null){
+			getParentById1(id,null);
+		}
+		return adminList1;
+	}
+	
+	
+	/**
+	 * 递归获取副总
+	 */
+	public List<Admin> getParentById1(String id,List<Admin> temp){
+		if (temp == null) {
+			temp = new ArrayList<Admin>();
+		}
+		String hql = "from  Department where childDept.id=?";	
+		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_MANAGER").list();
+		
+		if(temp==null){
+			getParentById1(dept.getId(),temp);
+		}
+		return temp;
+	}
+	
+	
+	
+	/**
+	 * 根据员工部门id获取主任
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getDirectorByDeptId(String id)
+	{
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_DIRECTOR").list();
+		if(adminList1==null){
+			getParentById2(id,null);
+		}
+		return adminList1;
+	}
+	
+	
+	/**
+	 * 递归获取副总
+	 */
+	public List<Admin> getParentById2(String id,List<Admin> temp){
+		if (temp == null) {
+			temp = new ArrayList<Admin>();
+		}
+		String hql = "from  Department where childDept.id=?";	
+		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_DIRECTOR").list();
+		
+		if(temp==null){
+			getParentById2(dept.getId(),temp);
+		}
+		return temp;
+	}
 }

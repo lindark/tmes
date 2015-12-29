@@ -9,6 +9,12 @@ import cc.jiuyi.entity.Resource;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.ResourceService;
 import cc.jiuyi.service.RoleService;
+import cc.jiuyi.util.ThinkWayUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -77,6 +83,39 @@ public class RoleAction extends BaseAdminAction {
 		roleService.delete(ids);
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
+	
+	public String ajlist(){
+		if(Param !=null){
+			JSONObject jsonobject = JSONObject.fromObject(Param);
+			if(jsonobject.get("pager.keyword") != null){
+				pager.setProperty(jsonobject.get("pager.property").toString());
+				pager.setKeyword(jsonobject.get("pager.keyword").toString());
+			}
+		}
+		pager = roleService.findByPager(pager);
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i < pager.getList().size();i++){
+			Role role = (Role)pager.getList().get(i);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("id", role.getId());
+			jsonobject.put("name", role.getName());
+			if(role.getIsSystem()==true)
+				jsonobject.put("isSystem", "<img src='/template/admin/images/list_true_icon.gif' />");
+			else
+				jsonobject.put("isSystem", "<img src='/template/admin/images/list_false_icon.gif' />");
+			jsonobject.put("description", role.getDescription());
+			jsonarray.add(jsonobject);
+		}
+		pager.setList(jsonarray);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Role.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		System.out.println(jsonArray.get(0).toString());
+		return ajaxJson(jsonArray.get(0).toString());
+		
+	}
+	
 
 	// 添加
 	public String add() {

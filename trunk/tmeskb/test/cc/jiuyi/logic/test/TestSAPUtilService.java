@@ -18,6 +18,7 @@ import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.DeviceModlue;
 import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.Equipment;
 import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
@@ -31,6 +32,7 @@ import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.sap.rfc.EquipmentRfc;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.sap.rfc.MatStockRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
@@ -77,6 +79,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private MatnrRfc matnrrfc;
 	@Resource
 	private MatStockRfc matstockrfc;
+	@Resource
+	private EquipmentRfc eq;
 	protected void setUp() {
 		
 	}
@@ -520,6 +524,18 @@ public class TestSAPUtilService extends BaseTestCase {
 				System.out.println("物料编码："+data.get(i).get("matnr"));
 				System.out.println("非限制库存："+data.get(i).get("labst"));
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void getEquipment(){
+		try {
+			eq.getEquipment("", "");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

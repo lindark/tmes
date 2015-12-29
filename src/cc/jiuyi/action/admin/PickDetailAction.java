@@ -137,7 +137,8 @@ public class PickDetailAction extends BaseAdminAction {
 					if(matnr.equals(bom.getMaterialCode())){
 						bom.setStockAmount(labst);
 					}
-				}
+					bomList.set(j, bom);
+				}			
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -185,7 +186,6 @@ public class PickDetailAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(map1);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
-
 	}
 
 	// 删除
@@ -209,17 +209,40 @@ public class PickDetailAction extends BaseAdminAction {
 			bomList = bomService.getBomListByMaxVersion(bomversion);//取出随工单中最高版本的Bom
 		}
 		
-		for(int i = 0 ;i< bomList.size();i++){
-			Bom bom = bomList.get(i);
-			String materialCode = bom.getMaterialCode();
-			String[] propertyNames = {"pick.id","materialCode"};
-			Object[] propertyValues = {id,materialCode};
-			PickDetail pickdetail = pickDetailService.get(propertyNames, propertyValues);
-			if(pickdetail == null)
-				continue;
-			bom.setPickAmount(pickdetail.getPickAmount());
-			bom.setPickDetailid(pickdetail.getId());
-			bom.setStockAmount(pickdetail.getStockAmount());
+		/** 调SAP接口取库存数量 **/
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
+		try {
+			for (int i = 0; i < bomList.size(); i++) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				Bom bom = bomList.get(i);
+				map.put("matnr", bom.getMaterialCode());
+				map.put("lgort", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());		
+				list.add(map);
+			}			
+			List<HashMap<String, String>> data = matstockrfc.getMatStockList(list);
+			for (int j = 0; j < bomList.size(); j++) {
+				Bom bom = bomList.get(j);
+				String materialCode = bom.getMaterialCode();
+				String[] propertyNames = {"pick.id","materialCode"};
+				Object[] propertyValues = {id,materialCode};
+				PickDetail pickdetail = pickDetailService.get(propertyNames, propertyValues);
+				for (int i = 0; i < data.size(); i++) {
+					String matnr = data.get(i).get("matnr");//1
+					String labst = data.get(i).get("labst");
+					if(matnr.equals(materialCode)){
+						bom.setStockAmount(labst);
+					}
+				}
+				if(pickdetail == null)
+					continue;
+				bom.setPickAmount(pickdetail.getPickAmount());
+				bom.setPickDetailid(pickdetail.getId());
+				bomList.set(j, bom);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
 		}
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;

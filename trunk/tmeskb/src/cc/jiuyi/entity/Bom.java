@@ -31,7 +31,7 @@ public class Bom extends BaseEntity{
 	private Double materialAmount;//数量
 	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
-	private String stockAmount;//库存数量
+	
     
 	/**冗余**/
 	private Double xtestAmount;
@@ -56,6 +56,7 @@ public class Bom extends BaseEntity{
 	private String pickDetailid;
 	private String productsCode;
 	private String productsName;
+	private String stockAmount;//库存数量
 	/**冗余 end**/
 	
 	

@@ -56,6 +56,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String jobname = data.getString("jobname");//任务名称
 		     String count = data.getString("count");//次数
 		     String phone = data.getString("phone");//电话
+		     String name = data.getString("minister");//部长
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");
 		     Abnormal abnormal = abnormalService.get(abnorId);
@@ -87,14 +88,17 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
              System.out.println("节点内容*--"+stateNode.getText()); 
              System.out.println(stateNode.getText().equalsIgnoreCase("0"));
 			 
-			 if(stateNode.getText().equalsIgnoreCase("0")){//短信发送成功
-				    AbnormalLog abnormalLog = new AbnormalLog();
-					abnormalLog.setAbnormal(abnormal);
-					abnormalLog.setType("5");
-					abnormalLog.setOperator(admin);
-					abnormalLogService.save(abnormalLog);
+			 if(stateNode.getText().equalsIgnoreCase("0")){//短信发送成功			    
 					
 					if(Integer.parseInt(count)==1){
+						
+						AbnormalLog abnormalLog = new AbnormalLog();
+						abnormalLog.setAbnormal(abnormal);
+						abnormalLog.setType("5");
+						abnormalLog.setOperator(admin);
+						abnormalLog.setInfo(name);
+						abnormalLogService.save(abnormalLog);
+						
 						HashMap<String,Object> maps = new HashMap<String,Object>();
 					    maps.put("id",abnorId);
 						maps.put("name",adminId);
@@ -107,6 +111,13 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 						System.out.println(Integer.parseInt(count)==1);
 					
 					}else{
+						
+						AbnormalLog abnormalLog = new AbnormalLog();
+						abnormalLog.setAbnormal(abnormal);
+						abnormalLog.setType("5");
+						abnormalLog.setOperator(admin);
+						abnormalLogService.save(abnormalLog);
+						
 						HashMap<String,Object> maps = new HashMap<String,Object>();
 					    maps.put("id",abnorId);
 						maps.put("name",adminId);

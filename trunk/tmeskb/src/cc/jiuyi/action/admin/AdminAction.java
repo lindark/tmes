@@ -210,31 +210,35 @@ public class AdminAction extends BaseAdminAction {
 			return "testindex";
 		}
 		
-		//根据班组ID查询所有随工单
-		public List<WorkingBill> getTeamById()
-		{
-			Team team=this.teamService.get(teamid);
-			List<Products> product_list=new ArrayList<Products>(team.getFactoryUnit().getProductsSet());
-			List<WorkingBill> workingBill_list=new ArrayList<WorkingBill>();
-			if(product_list.size()>0)
-			{
-				for(int i=0;i<product_list.size();i++)
-				{
-					Products products=product_list.get(i);
-					WorkingBill workingBill = workingbillservice.getWorkingBillByProductsCode(products.getProductsCode());  //根据产品code获取对应的随工单
-					workingBill_list.add(workingBill);
-				}		
-			}	
-			return workingBill_list;
+	// 根据班组ID查询所有随工单
+	public List<WorkingBill> getTeamById() {
+		Team team = this.teamService.get(teamid);
+		List<Products> product_list = new ArrayList<Products>(team
+				.getFactoryUnit().getProductsSet());
+		List<WorkingBill> workingBill_list = new ArrayList<WorkingBill>();
+		List<WorkingBill> workingBillList = new ArrayList<WorkingBill>();
+		if (product_list.size() > 0) {
+			for (int i = 0; i < product_list.size(); i++) {
+				Products products = product_list.get(i);
+				workingBillList = workingbillservice
+						.getWorkingBillByProductsCode(products
+								.getProductsCode()); // 根据产品code获取对应的随工单
+			}
+			for (int i = 0; i < workingBillList.size(); i++) {
+				WorkingBill workingBill = workingBillList.get(i);
+				workingBill_list.add(workingBill);
+			}
 		}
-		
+		return workingBill_list;
+	}
+
 	// 后台管理首页
-		public String index3(){
-			admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
-			return "manageindex";
-		}
-	
+	public String index3() {
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		return "manageindex";
+	}
+
 	//出错提示
 	public String error() {
 		return "error";

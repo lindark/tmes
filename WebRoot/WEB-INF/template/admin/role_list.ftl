@@ -69,7 +69,7 @@ body {
 						</a>
 						<a id="deleteButton" class="btn btn-white btn-sm btn-info btn-round">
 							<i class="ace-icon fa fa-pencil-square-o blue"></i>
-							删除橘色
+							删除角色
 						</a>
 				
 					<select name="pager.property">

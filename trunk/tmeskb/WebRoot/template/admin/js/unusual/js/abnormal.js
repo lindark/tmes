@@ -112,13 +112,13 @@ $(function() {
 			credit.creditCard(url,function(data){
 					if(data.status=="success"){
 						var index = layer.alert(data.message, {icon: 6},function(){
-							$("#grid-table1").jqGrid('setGridParam',{
+							/*$("#grid-table1").jqGrid('setGridParam',{
 								url:"abnormal!ajlist.action",
 								datatype:"json",
 								page:1
 							}).trigger("reloadGrid");
-							layer.close(index);
-							//window.location.href="abnormal!list.action";
+							layer.close(index);*/
+							window.location.href="abnormal!list.action";
 						}); 
 					}else if(data.status=="error"){
 						layer.alert(data.message, {
@@ -152,13 +152,13 @@ $(function() {
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
 					var index = layer.alert(data.message, {icon: 6},function(){		
-						$("#grid-table1").jqGrid('setGridParam',{
+						/*$("#grid-table1").jqGrid('setGridParam',{
 							url:"abnormal!ajlist.action",
 							datatype:"json",
 							page:1
 						}).trigger("reloadGrid");
-						layer.close(index);
-						//window.location.href="abnormal!list.action";
+						layer.close(index);*/
+						window.location.href="abnormal!list.action";
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {
@@ -193,13 +193,13 @@ $(function() {
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
 					var index = layer.alert(data.message, {icon: 6},function(){
-						$("#grid-table1").jqGrid('setGridParam',{
+						/*$("#grid-table1").jqGrid('setGridParam',{
 							url:"abnormal!ajlist.action",
 							datatype:"json",
 							page:1
 						}).trigger("reloadGrid");
-						layer.close(index);
-						//window.location.href="abnormal!list.action";
+						layer.close(index);*/
+						window.location.href="abnormal!list.action";
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {

@@ -105,6 +105,22 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	{
 		return this.adminDao.getByAdminId(id);
 	}
+	
+	/**
+	 * 根据员工部门id获取主任
+	 */
+	public List<Admin> getDirectorByDeptId(String id)
+	{
+		return this.adminDao.getDirectorByDeptId(id);
+	}
+	
+	/**
+	 * 根据员工部门id获取副总
+	 */
+	public List<Admin> getManagerByDeptId(String id)
+	{
+		return this.adminDao.getManagerByDeptId(id);
+	}
 
 	/**
 	 * jqgrid分页条件查询

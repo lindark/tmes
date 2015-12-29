@@ -543,7 +543,7 @@ public class TestSAPUtilService extends BaseTestCase {
 	@Test
 	public void getEquipment(){
 		try {
-			List<Equipment> list=eq.getEquipment("100010", "");
+			List<Equipments> list=eq.getEquipment("100010", "");
 			for(int i=0;i<list.size();i++){
 				System.out.println(list.get(i).getEquipmentName());
 			}

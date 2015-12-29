@@ -18,6 +18,11 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -49,6 +54,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.QuartzManagerUtil;
+import cc.jiuyi.util.SendMsgUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -382,7 +388,7 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 
 	//刷卡提交
-	public String creditsave() {
+	public String creditsave(){
 		admin = adminService.getByCardnum(cardnumber);
 		
 		Abnormal abnormal = new Abnormal();
@@ -400,11 +406,14 @@ public class AbnormalAction extends BaseAdminAction {
 		} 
 		
 		List<Admin> adminSets= new ArrayList<Admin>();
+		List<String> strList= new ArrayList<String>();
 		for(int i=0;i<adminSet.size();i++){
 			if(adminSet.get(i)==null)continue;
 			adminSets.add(adminSet.get(i));
+			strList.add(adminSet.get(i).getName());
 		}
 		
+		String comlist = CommonUtil.toString(strList, ",");// 获取问题的字符串
 		List<Callreason> callReasonSets= new ArrayList<Callreason>();
 		for(int i=0;i<callReasonSet.size();i++){
 			if(callReasonSet.get(i)==null)continue;
@@ -415,9 +424,39 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		abnormalService.save(abnormal);
 		
-		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());
+		
+		AbnormalLog abnormalLog = new AbnormalLog();
+		abnormalLog.setAbnormal(abnormal);
+		abnormalLog.setType("5");
+		abnormalLog.setOperator(admin);
+		abnormalLog.setInfo(comlist);
+		abnormalLogService.save(abnormalLog);
+		
+		for(Admin admin:adminSets){
+			
+			try{
+			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),"XX工厂出现异常");			
+			 SAXReader reader = new SAXReader();  //解析返回xml文件
+             Document doc;   
+             doc = DocumentHelper.parseText(str); 
+             Node stateNode = doc.selectSingleNode("/infos/info/state");
+        	 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
+        		 ajaxJsonErrorMessage("短信发送失败!");
+        	 }
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+
+		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());//部长
+		List<Admin> adminList1=adminService.getDirectorByDeptId(admin.getDepartment().getId());//主任
+		List<Admin> adminList2=adminService.getManagerByDeptId(admin.getDepartment().getId());//副总
 		String phone = adminList.get(0).getPhoneNo();
+		String phone1 = adminList1.get(0).getPhoneNo();
+		String phone2 = adminList2.get(0).getPhoneNo();
 		String name=adminList.get(0).getName();
+		String name1=adminList1.get(0).getName();
+		String name2=adminList2.get(0).getName();
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
@@ -444,6 +483,10 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("count","1");
 		maps.put("phone",phone);
 		maps.put("minister", name);
+		maps.put("phone1",phone1);
+		maps.put("director", name1);
+		maps.put("phone2",phone2);
+		maps.put("manager", name2);
 		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

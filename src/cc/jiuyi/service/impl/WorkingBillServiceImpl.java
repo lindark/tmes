@@ -128,7 +128,7 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public WorkingBill getWorkingBillByProductsCode(String matnr) {
+	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
 		return workingbilldao.getWorkingBillByProductsCode(matnr);
 	}
 }

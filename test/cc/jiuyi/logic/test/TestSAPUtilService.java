@@ -32,6 +32,7 @@ import cc.jiuyi.sap.rfc.DailyWorkRfc;
 import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
+import cc.jiuyi.sap.rfc.MatStockRfc;
 import cc.jiuyi.sap.rfc.MaterialRfc;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.sap.rfc.PickRfc;
@@ -74,6 +75,8 @@ public class TestSAPUtilService extends BaseTestCase {
 	private DeviceRfc devicerfc;
 	@Resource
 	private MatnrRfc matnrrfc;
+	@Resource
+	private MatStockRfc matstockrfc;
 	protected void setUp() {
 		
 	}
@@ -213,7 +216,7 @@ public class TestSAPUtilService extends BaseTestCase {
 				Material m=list.get(i);
 				System.out.println(m.getMaterialName());
 				System.out.println(m.getMaterialCode());
-				System.out.println(m.getMaterialAmount());
+				//System.out.println(m.getMaterialAmount());
 				System.out.println(m.getMaterialUnit());
 			}
 		}catch(CustomerException e){
@@ -494,6 +497,28 @@ public class TestSAPUtilService extends BaseTestCase {
 				Material m=list.get(i);
 				System.out.println(m.getMaterialCode());
 				System.out.println(m.getMaterialName());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void getKc(){
+		List<HashMap<String, String>> list=new ArrayList<HashMap<String,String>>();
+		HashMap<String, String> map=new HashMap<String, String>();
+		try {
+			map.put("matnr", "10110001");
+			map.put("lgort", "1905");
+			list.add(map);
+			List<HashMap<String, String>> data=matstockrfc.getMatStockList(list);
+			for(int i=0;i<data.size();i++){
+				System.out.println("物料编码："+data.get(i).get("matnr"));
+				System.out.println("非限制库存："+data.get(i).get("labst"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -12,17 +12,17 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.MatStockRfc;
+import cc.jiuyi.sap.rfc.impl.MatStockRfcImpl;
 import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
@@ -35,7 +35,6 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -73,6 +72,8 @@ public class PickDetailAction extends BaseAdminAction {
 	@Resource
 	private PickRfcImpl pickRfcImple;
 	@Resource
+	private MatStockRfc matstockrfc;
+	@Resource
 	private BomService bomService;
 
 	private String productsId;
@@ -92,16 +93,17 @@ public class PickDetailAction extends BaseAdminAction {
 	private String info;//领退料类型/移动类型
 	private String cardnumber;//卡号
 	private String pickId;//页面传过来主表id
+	private String labst;//库存地点
 	
 	
 
-	public String addAmount() {
-		pickDetail.setMaterialCode(material.getMaterialCode());
-		pickDetail.setMaterialName(material.getMaterialName());
-		pickDetailService.save(pickDetail);
-		redirectionUrl = "pick!list.action";
-		return SUCCESS;
-	}
+//	public String addAmount() {
+//		pickDetail.setMaterialCode(material.getMaterialCode());
+//		pickDetail.setMaterialName(material.getMaterialName());
+//		pickDetailService.save(pickDetail);
+//		redirectionUrl = "pick!list.action";
+//		return SUCCESS;
+//	}
 
 	// 添加
 	public String add() {
@@ -112,9 +114,36 @@ public class PickDetailAction extends BaseAdminAction {
 	public String list() {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		Products products = productsServce.getProducts(matnr);//获取产品
-		bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionByid(products.getId()));//取出最高版本号的BomList
+		Products products = productsServce.getProducts(matnr);// 获取产品
+		bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionByid(products.getId()));// 取出最高版本号的BomList
 		workingbill = workingBillService.get(workingBillId);
+
+		/** 调SAP接口取库存数量 **/
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
+		try {
+			for (int i = 0; i < bomList.size(); i++) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				Bom bom = bomList.get(i);
+				map.put("matnr", bom.getMaterialCode());
+				map.put("lgort", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());		
+				list.add(map);
+			}			
+			List<HashMap<String, String>> data = matstockrfc.getMatStockList(list);
+			for (int i = 0; i < data.size(); i++) {
+				String matnr = data.get(i).get("matnr");
+				String labst = data.get(i).get("labst");
+				for (int j = 0; j < bomList.size(); j++) {
+					Bom bom = bomList.get(j);
+					if(matnr.equals(bom.getMaterialCode())){
+						bom.setStockAmount(labst);
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
 		return LIST;
 	}
 
@@ -190,6 +219,7 @@ public class PickDetailAction extends BaseAdminAction {
 				continue;
 			bom.setPickAmount(pickdetail.getPickAmount());
 			bom.setPickDetailid(pickdetail.getId());
+			bom.setStockAmount(pickdetail.getStockAmount());
 		}
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
@@ -211,7 +241,7 @@ public class PickDetailAction extends BaseAdminAction {
 
 	}
 	)
-	@InputConfig(resultName = "error")
+	//@InputConfig(resultName = "error")
 	public String creditsubmit() throws Exception {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		String workingBillCode = workingBill.getWorkingBillCode();
@@ -222,7 +252,7 @@ public class PickDetailAction extends BaseAdminAction {
 //		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 //		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 //		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
-		pick.setMove_type(info);// 移动类型 SAP测试数据
+		pick.setMove_type(info);//移动类型 
 		pick.setBudat(workingBill.getProductDate());//随工单日期
 		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
 		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
@@ -252,7 +282,10 @@ public class PickDetailAction extends BaseAdminAction {
 		if(flag == false){
 			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 		}
+
+		/**同时保存主从表**/
 		pickDetailService.save(pickDetailList1, pick);
+		
 		/** 领料单保存成功后把Bom最高版本存到随工单中去 **/
 		Products products = productsServce.getProducts(workingBill.getMatnr());//获取产品
 	    Integer Maxversion =  bomService.getMaxVersionByid(products.getId());//获取最大版本号
@@ -559,6 +592,14 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setPickId(String pickId) {
 		this.pickId = pickId;
+	}
+
+	public String getLabst() {
+		return labst;
+	}
+
+	public void setLabst(String labst) {
+		this.labst = labst;
 	}
 
 

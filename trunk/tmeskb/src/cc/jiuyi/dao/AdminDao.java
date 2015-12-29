@@ -66,5 +66,20 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @return
 	 */
 	public List<Admin> getByAdminId(String id);
+	
+	/**
+	 * 根据员工部门id获取主任
+	 * @param id
+	 * @return
+	 */
+	public List<Admin> getDirectorByDeptId(String id);
+	
+	
+	/**
+	 * 根据员工部门id获取副总
+	 * @param id
+	 * @return
+	 */
+	public List<Admin> getManagerByDeptId(String id);
 
 }

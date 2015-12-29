@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript"
 	src="${base }/template/admin/js/manage/role_list.js"></script>
+<script type="text/javascript"
+	src="${base }/template/admin/js/manage/role.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body {
@@ -59,7 +61,7 @@ body {
 						<div class="col-xs-12">
 						<form id="searchform" action="resource!ajlist.action" method="post" role="form">
 							<div class="operateBar">
-						<a id="addButton" class="btn btn-white btn-sm btn-info btn-round" href="role!add.action">
+						<a id="addButton" class="btn btn-white btn-sm btn-info btn-round">
 							<i class="ace-icon fa fa-pencil-square-o blue"></i>
 							添加角色
 						</a>

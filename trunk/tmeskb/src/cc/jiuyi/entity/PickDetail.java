@@ -28,7 +28,7 @@ public class PickDetail extends BaseEntity{
 
 	private String pickType;//领料类型
     private String pickAmount;//领料数量
-    private Integer stockAmount;//库存数量
+    private String stockAmount;//库存数量
    // private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
@@ -98,13 +98,14 @@ public class PickDetail extends BaseEntity{
 	public void setPickAmount(String pickAmount) {
 		this.pickAmount = pickAmount;
 	}
-	public Integer getStockAmount() {
+
+	
+	public String getStockAmount() {
 		return stockAmount;
 	}
-	public void setStockAmount(Integer stockAmount) {
+	public void setStockAmount(String stockAmount) {
 		this.stockAmount = stockAmount;
 	}
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Admin getConfirmUser() {
 		return confirmUser;

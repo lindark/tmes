@@ -14,7 +14,6 @@ jQuery(function($){
 					if(obj[i].state=="2")
 						$this.removeClass("access");
 				}else if(obj[i].type=="input"){//文本框
-					alert(obj[i].state);
 					if(obj[i].state=="3"){//隐藏
 						
 					}else if(obj[i].state=="2"){//必填

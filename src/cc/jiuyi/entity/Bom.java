@@ -308,6 +308,7 @@ public class Bom extends BaseEntity{
 		this.productsName = productsName;
 	}
 
+	@Transient
 	public String getStockAmount() {
 		return stockAmount;
 	}

@@ -425,14 +425,14 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormalService.save(abnormal);
 		
 		
-		AbnormalLog abnormalLog = new AbnormalLog();
+		AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
 		abnormalLog.setAbnormal(abnormal);
 		abnormalLog.setType("5");
 		abnormalLog.setOperator(admin);
 		abnormalLog.setInfo(comlist);
 		abnormalLogService.save(abnormalLog);
 		
-		for(Admin admin:adminSets){
+		for(Admin admin:adminSets){//向应答人发送短信
 			
 			try{
 			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),"XX工厂出现异常");			
@@ -448,6 +448,7 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 		}
 
+		//定时短信任务处理
 		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());//部长
 		List<Admin> adminList1=adminService.getDirectorByDeptId(admin.getDepartment().getId());//主任
 		List<Admin> adminList2=adminService.getManagerByDeptId(admin.getDepartment().getId());//副总

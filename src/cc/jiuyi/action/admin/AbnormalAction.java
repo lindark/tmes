@@ -213,16 +213,18 @@ public class AbnormalAction extends BaseAdminAction {
 				for(AbnormalLog ab:abLog){
 					
 					String type = ab.getType();
+					String info= ab.getInfo();
                      /*if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
-					 }else*/ if(type.equalsIgnoreCase("1") && modelList.size()==1){						
+					 }else*/ 
+					 if(type.equalsIgnoreCase("1") && modelList.size()==1){						
                     		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
 					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
                     		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
 					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
                     		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
-					 }else if(type.equalsIgnoreCase("5")){
-						 str="已向XX发送短信";
+					 }else if(type.equalsIgnoreCase("5") && StringUtils.isNotEmpty(info)){
+						 str="已向"+info+"发送短信";
 					 }else{
 						 str="";
 					 }
@@ -415,6 +417,7 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());
 		String phone = adminList.get(0).getPhoneNo();
+		String name=adminList.get(0).getName();
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
@@ -440,6 +443,7 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("jobname", job_name);
 		maps.put("count","1");
 		maps.put("phone",phone);
+		maps.put("minister", name);
 		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

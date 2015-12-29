@@ -46,9 +46,9 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			detachedCriteria.createAlias("receiver", "receiver");//表名，别名*/							
 		}
 		
-		/*if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
-			detachedCriteria.createAlias("abnormal", "abnormal");						
-		}*/
+		if(!super.existAlias(detachedCriteria, "engineer", "engineer")){
+			detachedCriteria.createAlias("engineer", "engineer");						
+		}
 		
 		if (map.size() > 0) {
 			if(map.get("founder")!=null){
@@ -65,7 +65,7 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		}*/
 		
 		Disjunction disjunction = Restrictions.disjunction();  
-		disjunction.add(Restrictions.eq("creater.id", id));
+		disjunction.add(Restrictions.eq("engineer.id", id));
 		disjunction.add(Restrictions.eq("receiver.id", id));
 		disjunction.add(Restrictions.eq("team.id", team));
 		detachedCriteria.add(disjunction);

@@ -38,7 +38,7 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:[ '产品编码','产品名称','物料组','状态', '操作'],
+		colNames:[ '产品编码','产品名称','物料组','状态'],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
 			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
@@ -46,8 +46,7 @@ jQuery(function($) {
 			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=productsState"}},
-			{name:'myac',index:'myac', width:200, fixed:true, sortable:false, resize:false}
+			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=productsState"}}
 		], 
 
 		viewrecords : true,

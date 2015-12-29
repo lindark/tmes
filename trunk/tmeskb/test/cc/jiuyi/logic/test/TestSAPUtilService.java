@@ -466,14 +466,16 @@ public class TestSAPUtilService extends BaseTestCase {
 		s.setDescription("维修");//工序短文本
 		s.setWork_activity("10");
 		s.setDuration("10");
-		s.setVornr("0010");
-		s.setArbpl("1001");//工作中心
-		s.setWerks("1000");//工厂
-		s.setSteus("PM01");//控制码
-		s.setDescription("维修");//工序短文本
-		s.setWork_activity("10");
-		s.setDuration("10");
 		step.add(s);
+		DeviceStep ss=new DeviceStep();
+		ss.setVornr("0020");
+		ss.setArbpl("2101");//工作中心
+		ss.setWerks("1000");//工厂
+		ss.setSteus("PM01");//控制码
+		ss.setDescription("维修");//工序短文本
+		ss.setWork_activity("10");
+		ss.setDuration("10");
+		step.add(ss);
 		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
 		DeviceModlue dm=new DeviceModlue();
 		dm.setMaterial("60000167");//物料编码
@@ -481,6 +483,12 @@ public class TestSAPUtilService extends BaseTestCase {
 		dm.setVornr("0010");
 		dm.setPostp("L");
 		module.add(dm);
+		DeviceModlue d1=new DeviceModlue();
+		d1.setMaterial("60000167");//物料编码
+		d1.setMenge("1");
+		d1.setVornr("0020");
+		d1.setPostp("L");
+		module.add(d1);
 		try {
 			String aufnr=devicerfc.DeviceCrt(d, step, module);
 			System.out.println("订单号为："+aufnr);

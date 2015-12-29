@@ -533,115 +533,100 @@
 						<b class="arrow"></b>	
 					</li>
 					
-				   <li class="">
-						<a href="pick!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							领退料
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					 <li class="">
-						<a href="dump!history.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史转储确认记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
 					<li class="">
-						<a href="handover!list.action" >
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>
-							交接
-							<b class="arrow fa"></b>
+							生产记录
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
-						<b class="arrow"></b>	
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									工序交接记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									领退料记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									报工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返修记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返修收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									报废记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									入库记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									转储确认记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									纸箱收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
 					
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							报废
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="pro!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							返工
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					
-					<li class="">
-						<a href="repair!history.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史返修记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="repairin!history.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史返修收货记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-						<a href="daily_work!history.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史报工记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					
-					<li class="">
-
-						<a href="enteringware_house!history.action" >
-
-
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史入库记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
-					
-					<li class="">
-						<a href="carton!history.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							历史纸箱收货记录
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>	
-					</li>
 					
 				 </ul>
 		     </li>
@@ -656,33 +641,52 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
-				<li class="">
-						<a href="pros!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							抽检
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
+				
 					<li class="">
-						<a href="pollingtest!history.action" >
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>
-							历史巡检记录
+							质检记录
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
 						<b class="arrow"></b>
-					</li>
-					
-					
-					<li class="">
-						<a href="pros!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							半成品巡检
-						</a>
 
-						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品抽检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									半成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
+					
 			</ul>
 		</li>
 		
@@ -709,7 +713,7 @@
 					<li class="">
 						<a href="quality!list.action" >
 							<i class="menu-icon"></i>
-							质量问题单
+							质量问题单记录
 						</a>
 
 						<b class="arrow"></b>
@@ -718,7 +722,7 @@
 					<li class="">
 						<a href="model!list.action" >
 							<i class="menu-icon"></i>
-							工模维修单
+							工模维修单记录
 						</a>
 
 						<b class="arrow"></b>
@@ -728,7 +732,7 @@
 					<li class="">
 						<a href="craft!list.action" >
 							<i class="menu-icon"></i>
-							工艺维修单
+							工艺维修单记录
 						</a>
 
 						<b class="arrow"></b>
@@ -738,7 +742,7 @@
 					<li class="">
 						<a href="device!list.action" >
 							<i class="menu-icon"></i>
-							设备维修单
+							设备维修单记录
 						</a>
 
 						<b class="arrow"></b>
@@ -812,6 +816,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							<!-- 
 							<li class="">
 								<a href="credit_access!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -820,6 +825,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							 -->
 							<li class="">
 								<a href="access_object!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -831,7 +837,7 @@
 							<li class="">
 								<a href="access_resource!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
-									权限资源对象
+									权限资源设置
 								</a>
 
 								<b class="arrow"></b>
@@ -916,6 +922,18 @@
 
 				<ul class="submenu">
 					<li class="">
+						<a href="working_bill!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							随工单同步管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+				
+					<li class="">
 						<a href="material!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							物料管理
@@ -944,104 +962,10 @@
 
 						
 					</li>
-					
-					
-								
-					
-					<li class="">
-
-						<a href="work_shop!list.action" >
-
-							<i class="menu-icon fa fa-caret-right"></i>
-							车间管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					
-					<li class="">
-						<a href="permission!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							权限管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					
-					<li class="">
-						<a href="post!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							岗位管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-	
-	
-	               <li class="">
-						<a href="factory_unit!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							单元管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					
-					
-					<li class="">
-						<a href="callreason!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							呼叫原因管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-						
-					<li class="">
-						<a href="department!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							部门管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>						
-					</li>	
-					
-					<li class="">
-						<a href="locationonside!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							线边仓管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>						
-					</li>	
-					
-						
-					</li>
-					
 					<li class="">
 						<a href="process!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							工序管理
+							工序代码管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -1052,7 +976,7 @@
 					<li class="">
 						<a href="process_route!show.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							工艺路线管理
+							产品工艺管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -1060,50 +984,135 @@
 
 						
 					</li>
-					
 					<li class="">
-						<a href="factory!list.action" >
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>
-						   工厂管理
-							<b class="arrow fa"></b>
+							组织管理
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
 						<b class="arrow"></b>
 
-						
+						<ul class="submenu">
+							<li class="">
+								<a href="factory!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									 工厂管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="work_shop!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									车间管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="factory_unit!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									单元管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="team!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									班组管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="locationonside!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									库存地点管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="post!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									岗位管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
-					
-					
-					
-					
+
 					<li class="">
-						<a href="working_bill!list.action" >
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>
-							SAP生产计划同步管理
-							<b class="arrow fa"></b>
+							代码管理
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
 						<b class="arrow"></b>
 
+						<ul class="submenu">
+							<li class="">
+								<a href="callreason!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									 呼叫原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="cause!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									缺陷代码管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="fault_reason!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									故障原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="handlemeans_results!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									处理结果代码
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="longtime_preventstep!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									预防措施
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="receipt_reason!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									单据原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						
+						</ul>
 					</li>
+					
 					
 					<li class="">
 						<a href="unit_conversion!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							计量单位转换
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					<li class="">
-						<a href="team!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							班组管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -1124,31 +1133,6 @@
 						
 					</li>
 					
-					<li class="">
-						<a href="cause!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							缺陷代码管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					
-					<li class="">
-						<a href="fault_reason!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							故障原因管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
 						<li class="">
 						<a href="equipments!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
@@ -1160,43 +1144,7 @@
 
 						
 					</li>
-								
 					
-						<li class="">
-						<a href="handlemeans_results!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							处理方法管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-					<li class="">
-						<a href="longtime_preventstep!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							预防措施管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
-					
-						<li class="">
-						<a href="receipt_reason!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							单据原因管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
 					
 					<!--
 					<li class="">

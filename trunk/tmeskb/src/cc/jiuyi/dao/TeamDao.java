@@ -46,4 +46,6 @@ public interface TeamDao extends BaseDao<Team,String> {
 	 * @return
 	 */
 	public List<Team> getTeamListByWork();
+	
+	
 }

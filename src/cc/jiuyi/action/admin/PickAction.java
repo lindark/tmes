@@ -199,13 +199,13 @@ public class PickAction extends BaseAdminAction {
 	public String creditapproval() {
 		ids = id.split(",");
 		String message = "";
-		String pickId="";
+		String pickId = "";
 		List<Pick> list = pickService.get(ids);
 		admin = adminService.getByCardnum(cardnumber);
-		List<PickDetail> pickdetailList=new ArrayList<PickDetail>();
+		List<PickDetail> pickdetailList = new ArrayList<PickDetail>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
-			pickId=pick.getId();
+			pickId = pick.getId();
 			if (REPEAL.equals(pick.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
 			}
@@ -219,52 +219,52 @@ public class PickAction extends BaseAdminAction {
 				pickdetailList.add(pickDetail);
 			}
 		}
-			try {
-				Boolean flag = true;
-				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+		try {
+			Boolean flag = true;
+			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+					pickdetailList);
+			for (Pick pick2 : pickRfc) {
+				String e_type = pick2.getE_type();
+				if (e_type.equals("E")) { // 如果有一行发生了错误
+					flag = false;
+					message += pick2.getE_message();
+				}
+			}
+			if (!flag)
+				return ajaxJsonErrorMessage(message);
+			else {
+				flag = true;
+				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
 						pickdetailList);
 				for (Pick pick2 : pickRfc) {
 					String e_type = pick2.getE_type();
+					String e_message = pick2.getE_message();
+					String ex_mblnr = pick2.getEx_mblnr();
+					// String move_type = pick2.getMove_type();
 					if (e_type.equals("E")) { // 如果有一行发生了错误
 						flag = false;
 						message += pick2.getE_message();
+					} else {
+						Pick pickReturn = pickService.get(pick2.getId());
+						pickReturn.setE_message(e_message);
+						pickReturn.setEx_mblnr(ex_mblnr);
+						pickReturn.setE_type(e_type);
+						// pickReturn.setMove_type(move_type);
+						pickReturn.setState(CONFIRMED);
+						pickReturn.setConfirmUser(admin);
+						pickService.update(pickReturn);
 					}
 				}
 				if (!flag)
 					return ajaxJsonErrorMessage(message);
-				else {
-					flag = true;
-					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
-							pickdetailList);
-					for (Pick pick2 : pickRfc) {
-						String e_type = pick2.getE_type();
-						String e_message = pick2.getE_message();
-						String ex_mblnr = pick2.getEx_mblnr();
-						//String move_type = pick2.getMove_type();
-						if (e_type.equals("E")) { // 如果有一行发生了错误
-							flag = false;
-							message += pick2.getE_message();
-						} else {
-							Pick pickReturn = pickService.get(pick2.getId());
-							pickReturn.setE_message(e_message);
-							pickReturn.setEx_mblnr(ex_mblnr);
-							pickReturn.setE_type(e_type);
-							//pickReturn.setMove_type(move_type);
-							pickReturn.setState(CONFIRMED);
-							pickReturn.setConfirmUser(admin);
-							pickService.update(pickReturn);
-						}
-					}
-					if (!flag)
-						return ajaxJsonErrorMessage(message);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+		}
 
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -303,8 +303,7 @@ public class PickAction extends BaseAdminAction {
 				str="2";
            }
 		}
-		
-		
+
 		if (str.equals("1")) {
 			for (int i = 0; i < list.size(); i++) {
 				Pick pick = list.get(i);
@@ -315,27 +314,27 @@ public class PickAction extends BaseAdminAction {
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}
 		
-		List<Pick> listsap=new ArrayList<Pick>();
-		if(str.equals("2")){	
+		List<Pick> listsap = new ArrayList<Pick>();
+		if (str.equals("2")) {
 			for (int i = 0; i < list.size(); i++) {
 				Pick pick = list.get(i);
-			if(!"262".equals(pick.getMove_type())){
-				pick.setMove_type("262");
-			}else{
-				pick.setMove_type("261");
+				if (!"262".equals(pick.getMove_type())) {
+					pick.setMove_type("262");
+				} else {
+					pick.setMove_type("261");
+				}
+
+				listsap.add(pick);
+
+				pkList = pickDetailService.getPickDetail(pick.getId());
+				List<Pick> list1 = pickService.get(ids);
+				for (int j = 0; j < pkList.size(); j++) {
+					PickDetail pickDetail = pkList.get(j);
+					pickDetail.setXh(pick.getId());
+					pickdetailList.add(pickDetail);
+				}
 			}
-			
-			
-			listsap.add(pick);
-			
-			pkList = pickDetailService.getPickDetail(pick.getId());
-			for (int j = 0; j < pkList.size(); j++) {
-				PickDetail pickDetail = pkList.get(j);
-				pickDetail.setXh(pickId);
-				pickdetailList.add(pickDetail);
-			}
-		  }
-		}	
+		}
 			try {
 				Boolean flag = true;
 				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", listsap,

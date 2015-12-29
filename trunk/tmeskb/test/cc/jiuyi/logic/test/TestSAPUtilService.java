@@ -535,7 +535,10 @@ public class TestSAPUtilService extends BaseTestCase {
 	@Test
 	public void getEquipment(){
 		try {
-			eq.getEquipment("", "");
+			List<Equipment> list=eq.getEquipment("100010", "");
+			for(int i=0;i<list.size();i++){
+				System.out.println(list.get(i).getEquipmentName());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

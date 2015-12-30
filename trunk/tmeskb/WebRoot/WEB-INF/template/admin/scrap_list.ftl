@@ -67,19 +67,10 @@
 														<div class="profile-info-value">
 															<span class="editable editable-click">${(workingbill.workingBillCode)!}</span>
 														</div>
-													</div>
-
-													<div class="profile-info-row">
+														
 														<div class="profile-info-name">产品编号</div>
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="username">${(workingbill.matnr)!}</span>
-														</div>
-													</div>
-
-													<div class="profile-info-row">
-														<div class="profile-info-name">产品名称</div>
-														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${(workingbill.maktx)!}</span>
 														</div>
 													</div>
 
@@ -90,7 +81,13 @@
 															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">中</span></#if>
 															<#if (admin.shift == "3")!><span class="editable editable-click" id="signup">晚</span></#if>
 														</div>
+														
+														<div class="profile-info-name">产品名称</div>
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${(workingbill.maktx)!}</span>
+														</div>
 													</div>
+
 													<!-- 
 													<div class="profile-info-row">
 														<div class="profile-info-name">时间</div>

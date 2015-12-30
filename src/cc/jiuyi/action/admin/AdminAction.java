@@ -199,6 +199,14 @@ public class AdminAction extends BaseAdminAction {
 		return "teamindex";
 	}
 	
+	// 后台首页
+		public String teamWorkingBill() {
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			return "teamworkingbill";
+		}
+	
 	// 后台至质检首页
 		public String index2() {
 			admin = adminService.getLoginAdmin();

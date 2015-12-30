@@ -55,13 +55,13 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate" action="<#if add??>sample!save.action</#if><#if edit??>sample!update.action</#if><#if show??></#if>" method="post">
+							<form id="inputForm" class="validate" action="" method="post">
 								<input type="hidden" id="input_qulified"  name="sample.qulified" value="${(sample.qulified)! }" />
 								<input type="hidden" id="input_qrate" name="sample.qulifiedRate" value="${(sample.qulifiedRate)! }" />
 								<input type="hidden" id="input_rd" name="info"  value="" />
 								<input type="hidden" id="input_rnum" name="info2" value="" />
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
-								<input type="hidden" name="sample.workingBill.id" value="${(workingbill.id)! }" />
+								<input type="hidden" id="xwbid" name="sample.workingBill.id" value="${(workingbill.id)! }" />
 								<input type="hidden" id="id" name="sample.id" value="${(sample.id)! }" />
 								
 								<!-- tabs start -->
@@ -325,5 +325,47 @@ function tip_event()
 	<#if show??>
 		$(".requireField").hide();
 	</#if>
+}
+
+//提交事件:1.刷卡保存，2.刷卡确认
+function sub_event(my_id)
+{
+	var samplenum=$("#sample_num").val();//抽检数量
+	if(samplenum==""||samplenum==null)
+	{
+		layer.alert("抽检数量不能为空!",false);
+	}
+	else
+	{
+		var hgnum=$("#input_qulified").val();//合格数量--如果走到这一步，合格数量是一个整数
+		if(hgnum<0)
+		{
+			layer.alert("缺陷数量不能大于抽检数量!",false);
+		}
+		else
+		{
+			//赋值
+			fuzhi(my_id);
+			var url="";
+			//1.刷卡保存
+			if(my_id=="1")
+			{
+				//新增保存
+				<#if add??>url="sample!creditsave.action";</#if>
+				//修改保存
+				<#if update??>url="sample!creditupdate.action";</#if>
+				tosubmit(url);//提交
+			}
+			//2.刷卡确认
+			if(my_id=="2")
+			{
+				//新增确认
+				<#if add??>url="sample!creditsubmit.action";</#if>
+				//修改确认
+				<#if update??>url="sample!creditreply.action";</#if>
+				tosubmit(url);//提交
+			}
+		}
+	}
 }
 </script>	

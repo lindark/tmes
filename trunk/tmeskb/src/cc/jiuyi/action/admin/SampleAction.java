@@ -101,9 +101,20 @@ public class SampleAction extends BaseAdminAction
 		return INPUT;
 	}
 	/**
-	 * 增加
+	 * 新增刷卡保存
 	 */
-	public String save()
+	public String creditsave()
+	{
+		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
+		this.sampleService.saveInfo(sample,info,info2,my_id);
+		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 新增刷卡确认
+	 */
+	public String creditsubmit()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.saveInfo(sample,info,info2,my_id);
@@ -170,46 +181,49 @@ public class SampleAction extends BaseAdminAction
 	}
 
 	/**
-	 * 刷卡确认/刷卡撤销
-	 * my_id=1--确认
-	 * my_id=2--撤销
+	 * list页面--刷卡确认
 	 */
-	public String confirmOrRevoke()
+	public String creditapproval()
 	{
 		ids = info.split(",");
-		String newstate = "1";
 		for (int i = 0; i < ids.length; i++)
 		{
 			this.sample = this.sampleService.get(ids[i]);
 			String state = sample.getState();
-			// 确认
-			if ("1".equals(my_id))
+			// 已经确认的不能重复确认
+			if ("2".equals(state))
 			{
-				newstate = "2";
-				// 已经确认的不能重复确认
-				if ("2".equals(state))
-				{
-					return ajaxJsonErrorMessage("已确认的无须再确认！");
-				}
-				// 已经撤销的不能再确认
-				if ("3".equals(state))
-				{
-					return ajaxJsonErrorMessage("已撤销的无法再确认！");
-				}
+				return ajaxJsonErrorMessage("已确认的无须再确认！");
 			}
-			// 撤销
-			if ("2".equals(my_id))
+			// 已经撤销的不能再确认
+			if ("3".equals(state))
 			{
-				newstate = "3";
-				// 已经撤销的不能再确认
-				if ("3".equals(state))
-				{
-					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
-				}
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Sample> list = this.sampleService.get(ids);
-		this.sampleService.updateState(list, newstate);
+		this.sampleService.updateState(list, "2");
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	/**
+	 * list页面--刷卡撤销
+	 */
+	public String creditundo()
+	{
+		ids = info.split(",");
+		for (int i = 0; i < ids.length; i++)
+		{
+			this.sample = this.sampleService.get(ids[i]);
+			String state = sample.getState();
+			// 已经撤销的不能再确认
+			if ("3".equals(state))
+			{
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+			}
+		}
+		List<Sample> list = this.sampleService.get(ids);
+		this.sampleService.updateState(list, "3");
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -218,44 +232,47 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String edit()
 	{
-		try
+		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+		List<Cause> l_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
+		this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
+		this.sample=this.sampleService.get(id);
+		this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
+		list_cause=new ArrayList<Cause>();
+		for(int i=0;i<l_cause.size();i++)
 		{
-			this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
-			List<Cause> l_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
-			this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
-			this.sample=this.sampleService.get(id);
-			this.list_samrecord=this.srService.getBySampleId(id);//根据抽检id获取缺陷记录
-			list_cause=new ArrayList<Cause>();
-			for(int i=0;i<l_cause.size();i++)
+			Cause c=l_cause.get(i);
+			for(int j=0;j<list_samrecord.size();j++)
 			{
-				Cause c=l_cause.get(i);
-				for(int j=0;j<list_samrecord.size();j++)
+				SampleRecord sr=list_samrecord.get(j);
+				if(c!=null&&sr!=null)
 				{
-					SampleRecord sr=list_samrecord.get(j);
-					if(c!=null&&sr!=null)
+					if(c.getId().equals(sr.getCauseId()))
 					{
-						if(c.getId().equals(sr.getCauseId()))
-						{
-							c.setCauseNum(sr.getRecordNum());
-						}
+						c.setCauseNum(sr.getRecordNum());
 					}
 				}
-				this.list_cause.add(c);
 			}
-			this.edit="edit";
-			return INPUT;
+			this.list_cause.add(c);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		this.edit="edit";
+		return INPUT;
 	}
 	
 	/**
-	 * 修改
+	 * 修改刷卡保存
 	 */
-	public String update()
+	public String creditupdate()
+	{
+		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
+		this.sampleService.updateInfo(sample,info,info2,my_id);
+		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改刷卡确认
+	 */
+	public String creditreply()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.updateInfo(sample,info,info2,my_id);

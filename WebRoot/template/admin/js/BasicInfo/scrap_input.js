@@ -199,32 +199,6 @@ function del_click(obj)
 	$("#opt_"+obj).show();//对应的下拉框内容释放出来
 }
 
-/**
- * 按钮事件 
- */
-//1.刷卡保存2.刷卡确认
-function sub_event(my_id)
-{
-	$("#my_id").val(my_id);//赋值
-	if(my_id=="1")
-	{
-		
-		$("#inputForm").submit();//提交
-	}
-	if(my_id=="2")
-	{
-		
-		if(!sm_event()&&!sl_event())
-		{
-			layer.alert("报废表为空,不能确认!",false);
-		}
-		else
-		{
-			$("#inputForm").submit();//提交
-		}
-	}
-}
-
 //报废产出后是否为空
 function sl_event()
 {
@@ -245,6 +219,29 @@ function sl_event()
 	{
 		return true;
 	}
+}
+
+//提交
+function tosubmit(url)
+{
+	var xwbid=$("#xwbid").val();
+	var dt=$("#inputForm").serialize();
+	credit.creditCard(url,function(data){
+		if(data.status=="success")
+		{
+			layer.alert(data.message, {icon: 6},function(){
+				window.location.href="scrap!list.action?wbId="+xwbid;
+			}); 
+		}
+		else if(data.status=="error")
+		{
+			layer.alert(data.message, {
+		        closeBtn: 0,
+		        icon:5,
+		        skin:'error'
+		    });
+		}					
+	},dt);
 }
 
 

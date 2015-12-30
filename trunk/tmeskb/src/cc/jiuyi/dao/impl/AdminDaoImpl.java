@@ -237,7 +237,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	
 	
 	/**
-	 * 递归获取副总
+	 * 递归获取主任
 	 */
 	public List<Admin> getParentById2(String id,List<Admin> temp){
 		if (temp == null) {

@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,19 +22,18 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.ScrapRfc;
+import cc.jiuyi.sap.rfc.impl.ScrapRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.ProcessRouteService;
-import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
@@ -82,13 +82,9 @@ public class ScrapAction extends BaseAdminAction
 	@Resource
 	private DictService dictService;//字典表
 	@Resource
-	private ProductsService productService;//产品
-	@Resource
 	private CauseService causeService;//缺陷
 	@Resource
 	private ScrapMessageService smService;//报废信息表
-	@Resource
-	private ProcessRouteService processrouteservice;
 	@Resource
 	private BomService bomservice;
 	
@@ -177,10 +173,22 @@ public class ScrapAction extends BaseAdminAction
 	/**
 	 * 新增保存
 	 */
-	public String save()
+	public String creditsave()
 	{
-		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存
-		
+		//保存新增数据，返回主表新增数据的ID
+		String scrapid=this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
+		//如果是确认则需要与SAP交互
+		if("2".equals(my_id))
+		{
+			Scrap s=this.scrapService.get(scrapid);//根据ID获取刚新增的数据
+			List<Scrap>list1=new ArrayList<Scrap>();
+			list1.add(s);
+			List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+			if(list2.size()>0)
+			{
+				xconfirm(list1,"2",1);
+			}
+		}
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return SUCCESS;
 	}
@@ -243,7 +251,7 @@ public class ScrapAction extends BaseAdminAction
 	/**
 	 * 修改
 	 */
-	public String update()
+	public String creditupdate()
 	{
 		this.scrapService.updateInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
@@ -277,25 +285,27 @@ public class ScrapAction extends BaseAdminAction
 	 * 1刷卡确认
 	 * 2刷卡撤销
 	 */
-	public String confirmOrRevoke()
+	public String creditreply()
 	{
 		ids = info.split(",");
 		String newstate = "1";
+		int xmyid=0;
 		for (int i = 0; i < ids.length; i++)
 		{
 			this.scrap = this.scrapService.get(ids[i]);
 			String state = scrap.getState();
 			//报废信息表和报废后产出表是否同时为空
-			List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());
+			//List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());
 			List<ScrapLater>list2=new ArrayList<ScrapLater>(scrap.getScrapLaterSet());
-			if(list1.size()==0&&list2.size()==0&&"1".equals(my_id))
+			if(list2.size()==0&&"1".equals(my_id))
 			{
-				return ajaxJsonErrorMessage("报废表为空,不能确认!");
+				return ajaxJsonErrorMessage("有'报废后产出表'数据为空,不能确认!");
 			}
 			// 确认
 			if ("1".equals(my_id))
 			{
 				newstate = "2";
+				xmyid=1;
 				// 已经确认的不能重复确认
 				if ("2".equals(state))
 				{
@@ -312,6 +322,7 @@ public class ScrapAction extends BaseAdminAction
 			if ("2".equals(my_id))
 			{
 				newstate = "3";
+				xmyid=2;
 				// 已经撤销的不能再确认
 				if ("3".equals(state))
 				{
@@ -320,13 +331,121 @@ public class ScrapAction extends BaseAdminAction
 			}
 		}
 		List<Scrap> list = this.scrapService.get(ids);
-		this.scrapService.updateState(list, newstate);
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		//this.scrapService.updateState(list, newstate);
+		return xconfirm(list,newstate,xmyid);
 	}
 	
 	/**
-	 * 
+	 * list页面
+	 * xmyid=1 确认操作=退料  
+	 * xmyid=2 撤销操作=领料
 	 */
+	public String xconfirm(List<Scrap>xlist_scrap,String newstate,int xmyid)
+	{
+		List<Scrap>list_sapreturn=null;
+		List<ScrapLater>xlist_sl=new ArrayList<ScrapLater>();
+		List<Scrap>xlist_scrap2=new ArrayList<Scrap>();
+		for (int i = 0; i < xlist_scrap.size(); i++)
+		{
+			Scrap s=xlist_scrap.get(i);
+			/**确认操作*/
+			if(xmyid==1)
+			{
+				//报废后产出--根据主表获取对应从表的数据
+				List<ScrapLater>list1=new ArrayList<ScrapLater>(s.getScrapLaterSet());
+				for(int j=0;j<list1.size();j++)
+				{
+					ScrapLater sl=list1.get(j);
+					xlist_sl.add(sl);
+				}
+				s.setMove_type("262");
+				xlist_scrap2.add(s);
+			}
+			/**撤销操作*/
+			if(xmyid==2)
+			{
+				/**撤销未确认的*/
+				if("1".equals(s.getState()))
+				{
+					this.scrapService.updateState(s, "3");
+				}
+				/**撤销已确认的*/
+				if("2".equals(s.getState()))
+				{
+					//报废后产出--根据主表获取对应从表的数据
+					List<ScrapLater>list1=new ArrayList<ScrapLater>(s.getScrapLaterSet());
+					for(int j=0;j<list1.size();j++)
+					{
+						ScrapLater sl=list1.get(j);
+						xlist_sl.add(sl);
+					}
+					s.setMove_type("261");
+					xlist_scrap2.add(s);
+				}
+			}
+		}
+		/** xlist_sl.size()>0说明有领料/退料操作 */
+		if(xlist_sl.size()>0)
+		{
+			try
+			{
+				String e_msg="";
+				boolean flag=true;
+				ScrapRfc scrapRfc=new ScrapRfcImpl();
+				//调用SAP，返回一个List数据，判断检索是否通过
+				list_sapreturn=new ArrayList<Scrap>(scrapRfc.ScrappedCrt("X",xlist_scrap2,xlist_sl));
+				for(int i=0;i<list_sapreturn.size();i++)
+				{
+					Scrap s=list_sapreturn.get(i);
+					if("E".equalsIgnoreCase(s.getE_type()))
+					{
+						flag=false;
+						e_msg+=s.getE_message();
+					}
+				}
+				//检索是否通过
+				if(!flag)
+				{
+					return ajaxJsonErrorMessage(e_msg);
+				}
+				else
+				{
+					//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+					list_sapreturn=new ArrayList<Scrap>(scrapRfc.ScrappedCrt("",xlist_scrap2,xlist_sl));
+					flag=true;
+					e_msg="";
+					for(int i=0;i<list_sapreturn.size();i++)
+					{
+						Scrap s=list_sapreturn.get(i);
+						/**出现问题*/
+						if("E".equalsIgnoreCase(s.getE_type()))
+						{
+							flag=false;
+							e_msg+=s.getE_message();
+						}
+						else
+						{
+							/**与SAP交互没有问题,更新本地数据库*/
+							this.scrapService.updateMyData(s,newstate);
+						}
+					}
+					if(!flag)
+					{
+						return ajaxJsonErrorMessage(e_msg);
+					}
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+			}
+		}
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+	}
 	/**========================end  method======================================*/
 	
 	/**=========================="get/set"  start==============================*/

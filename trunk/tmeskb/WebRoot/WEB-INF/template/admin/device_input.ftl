@@ -248,33 +248,33 @@ body {
 										<#if isAdd??> 
                                             <#else>
                                             <div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
+											<div class="profile-info-row access" data-access-list="beginEndTime">
 												<div class="profile-info-name">处理开始时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.beginTime"
 														value="${(device.beginTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="beginTime"/>
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
 												</div>
 												<div class="profile-info-name">处理结束时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.dndTime"
 														value="${(device.dndTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="endTime"/>
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
 												</div>
 											</div>
 											
-											<div class="profile-info-row">
+											<div class="profile-info-row access" data-access-list="totalTime">
 												<div class="profile-info-name">总维修时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.totalMaintenanceTime"
 														value="${(device.totalMaintenanceTime)!}"
-														class="access input input-sm  formText {digits: true}" data-access-list="totalMaintenanceTime"/>
+														class="input input-sm  formText {digits: true}"/>
 												</div>
 												<div class="profile-info-name">总停机时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.totalDownTime"
 														value="${(device.totalDownTime)!}"
-														class="access input input-sm  formText {digits: true}" data-access-list="totalDownTime"/>
+														class="input input-sm  formText {digits: true}"/>
 												</div>
 											</div>      
 											</div>
@@ -292,7 +292,7 @@ body {
 										
 										<#if isAdd??>												
 										<#else>
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="process">
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理过程</div>
 												<div class="profile-info-value" id="process">	
@@ -307,29 +307,29 @@ body {
 												</div>
 											</div>
 										</div>
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="causeAnalysis">
 											<div class="profile-info-row">
 												<div class="profile-info-name">原因分析</div>
 												<div class="profile-info-value">
-													<textarea name="device.causeAnalysis" style="width:600px;" class="access" data-access-list="causeAnalysis">${(device.causeAnalysis)!} </textarea>
+													<textarea name="device.causeAnalysis" style="width:600px;" >${(device.causeAnalysis)!} </textarea>
 												</div>
 											</div>
 										</div>
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="preventionCountermeasures">
 											<div class="profile-info-row">
 												<div class="profile-info-name">预防对策</div>
 												<div class="profile-info-value">
 													<textarea name="device.preventionCountermeasures"
-														style="width:600px;" class="access" data-access-list="preventionCountermeasures">${(device.preventionCountermeasures)!} </textarea>
+														style="width:600px;" >${(device.preventionCountermeasures)!} </textarea>
 												</div>
 											</div>
 										</div>
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="changeAccessoryAmountType">
 											<div class="profile-info-row">
 												<div class="profile-info-name">更换零部件数量及型号</div>
 												<div class="profile-info-value">
 													<textarea name="device.changeAccessoryAmountType"
-														style="width:600px;" class="access" data-access-list="changeAccessoryAmountType">${(device.changeAccessoryAmountType)!} </textarea>
+														style="width:600px;" >${(device.changeAccessoryAmountType)!} </textarea>
 												</div>
 											</div>
 										</div>
@@ -340,19 +340,19 @@ body {
 										 <#if isAdd??> 
                                             <#else>
 											                                    											
-                                            <div class="profile-user-info profile-user-info-striped">
+                                            <div class="profile-user-info profile-user-info-striped access" data-access-list="phoneTimeAttitude">
 											<div class="profile-info-row">
 												<div class="profile-info-name">接到电话号码</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.phone"
 														value="${(device.phone)!}"
-														class="access input input-sm" data-access-list="phone"/>
+														class="input input-sm"/>
 												</div>
 												<div class="profile-info-name">接到电话时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.callTime"
 														value="${(device.callTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="callTime"/>
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
 												</div>
 											</div>
 
@@ -361,10 +361,10 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.arrivedTime"
 														value="${(device.arrivedTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="arrivedTime"/>
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
 												</div>
 												<div class="profile-info-name">服务态度</div>
-												<div class="profile-info-value access" data-access-list="serviceAttitude">
+												<div class="profile-info-value">
 													<select name="device.serviceAttitude"> <#list
 														allAttitude as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
@@ -429,7 +429,21 @@ body {
 
 						<table id="tabs-3" class="inputTable tabContent">
 							<tbody>
-								  
+								                <#if (qualityList?size>1) >
+										            <tr>						
+													<td>
+														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (qualityList)! as list>
+										            <tr>						
+													<td>
+														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>
 										        <#if (modelList?size>1) >
 										            <tr>						
 													<td>

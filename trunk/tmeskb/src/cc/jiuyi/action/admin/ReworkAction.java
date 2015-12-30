@@ -90,8 +90,8 @@ public class ReworkAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list(){
-//		admin = adminService.getByCardnum(cardnumber);
-//		admin = adminService.get(admin.getId());
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		this.workingbill=this.workingBillService.get(workingBillId);
 		return LIST;
 	}

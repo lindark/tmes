@@ -210,7 +210,7 @@ public class KaoqinAction extends BaseAdminAction
 		{
 			Kaoqin k=list1.get(i);
 			//k.setXclasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", k.getClasstime()));
-			k.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", k.getWorkState()));
+			//k.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", k.getWorkState()));
 			list2.add(k);
 		}
 		pager.setList(list2);
@@ -244,7 +244,7 @@ public class KaoqinAction extends BaseAdminAction
 	/**
 	 * 开启考勤
 	 */
-	public String startWorking()
+	public String creditreply()
 	{
 		
 		/**获取班组状态*/

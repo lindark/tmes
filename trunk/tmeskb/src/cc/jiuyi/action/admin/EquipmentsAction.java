@@ -24,6 +24,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Equipments;
+import cc.jiuyi.sap.rfc.EquipmentRfc;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EquipmentService;
@@ -49,6 +50,8 @@ public class EquipmentsAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private MatnrRfc matnrrfc;
+	@Resource
+	private EquipmentRfc eq;
 	
 	
 	// 是否已存在 ajax验证
@@ -80,7 +83,8 @@ public class EquipmentsAction extends BaseAdminAction {
 	//同步
 	public String sync() {
 		try {
-			matnrrfc.getMaterialList("", "1000", "线圈");
+		//	matnrrfc.getMaterialList("", "1000", "线圈");
+		eq.getEquipment("100010", "");
 			//workingbillrfc.syncRepairorder();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -20,7 +20,6 @@ public class ScrapLater extends BaseEntity
 	private String slmatterDes;//物料描述
 	private String slmatterCount;//物料数量
 	private Scrap scrap;//报废表id外键
-	private Double menge;//数量
 	private String charg;//批号
 	private String item_text;//项目文本
 	
@@ -73,14 +72,6 @@ public class ScrapLater extends BaseEntity
 	public void setScrap(Scrap scrap)
 	{
 		this.scrap = scrap;
-	}
-	public Double getMenge()
-	{
-		return menge;
-	}
-	public void setMenge(Double menge)
-	{
-		this.menge = menge;
 	}
 	public String getCharg()
 	{

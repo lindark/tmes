@@ -217,16 +217,16 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var url="scrap!creditreply.action?info="+info+"&wbId="+wbId+"&my_id=1";
-			sub_event(wbId,url);
+			var url="scrap!creditapproval.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			sub_event(url);
 		}
 	});
 	//刷卡撤销
 	$("#btn_revoke").click(function(){
 		if(getId())
 		{
-			var url="scrap!creditreply.action?info="+info+"&wbId="+wbId+"&my_id=2";
-			sub_event(wbId,url);
+			var url="scrap!creditundo.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			sub_event(url);
 		}
 	});
 	//返回
@@ -259,24 +259,11 @@ function btn_event()
 }
 
 //刷卡确认或撤销
-function sub_event(wbId,url)
+function sub_event(url)
 {
-	$.ajax({	
-		url: url,
-		//data: $(form).serialize(),
-		dataType: "json",
-		async: false,
-		beforeSend: function(data) {
-			$(this).attr("disabled", true);
-			index = layer.load();
-		},
-		success: function(data) {
-			layer.close(index);
-			$.message(data.status,data.message);
-			$("#grid-table").trigger("reloadGrid");
-		},error:function(data){
-			$.message("error","系统出现问题，请联系系统管理员");
-		}
+	credit.creditCard(url,function(data){
+		$.message(data.status,data.message);
+		$("#grid-table").trigger("reloadGrid");
 	});
 }
 

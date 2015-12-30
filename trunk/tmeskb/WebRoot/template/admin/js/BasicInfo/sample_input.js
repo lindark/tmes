@@ -95,31 +95,6 @@ function tocalc(samplenum,qxnum,qxnum_bt)
 	$("#input_qulified").val(hgnum);//合格数量
 }
 
-//提交事件:1.刷卡保存，2.刷卡确认
-function sub_event(my_id)
-{
-	var samplenum=$("#sample_num").val();//抽检数量
-	if(samplenum==""||samplenum==null)
-	{
-		layer.alert("抽检数量不能为空!",false);
-	}
-	else
-	{
-		var hgnum=$("#input_qulified").val();//合格数量--如果走到这一步，合格数量是一个整数
-		if(hgnum<0)
-		{
-			layer.alert("缺陷数量不能大于抽检数量!",false);
-		}
-		else
-		{
-			//赋值
-			fuzhi(my_id);
-			//提交
-			$("#inputForm").submit();
-		}
-	}
-}
-
 //赋值
 function fuzhi(my_id)
 {
@@ -133,4 +108,27 @@ function fuzhi(my_id)
 	var qxnums=getqxnums();
 	$("#input_rnum").val(qxnums);
 	$("#my_id").val(my_id);//1.保存，2.确认
+}
+
+//提交
+function tosubmit(url)
+{
+	var xwbid=$("#xwbid").val();
+	var dt=$("#inputForm").serialize();
+	credit.creditCard(url,function(data){
+		if(data.status=="success")
+		{
+			layer.alert(data.message, {icon: 6},function(){
+				window.location.href="sample!list.action?wbId="+xwbid;
+			}); 
+		}
+		else if(data.status=="error")
+		{
+			layer.alert(data.message, {
+		        closeBtn: 0,
+		        icon:5,
+		        skin:'error'
+		    });
+		}					
+	},dt);
 }

@@ -59,7 +59,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String name = data.getString("minister");//部长
 		     String phone1 = data.getString("phone1");//主任电话
 		     String name1 = data.getString("director");//主任
-		     String phone2 = data.getString("phone2");//主任电话
+		     String phone2 = data.getString("phone2");//副总电话
 		     String name2 = data.getString("manager");//副总
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");

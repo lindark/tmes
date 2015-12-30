@@ -176,19 +176,7 @@ public class ScrapAction extends BaseAdminAction
 	public String creditsave()
 	{
 		//保存新增数据，返回主表新增数据的ID
-		String scrapid=this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
-		//如果是确认则需要与SAP交互
-		if("2".equals(my_id))
-		{
-			Scrap s=this.scrapService.get(scrapid);//根据ID获取刚新增的数据
-			List<Scrap>list1=new ArrayList<Scrap>();
-			list1.add(s);
-			List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
-			if(list2.size()>0)
-			{
-				xconfirm(list1,"2",1);
-			}
-		}
+		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return SUCCESS;
 	}
@@ -196,6 +184,22 @@ public class ScrapAction extends BaseAdminAction
 	/**
 	 * 新增确认
 	 */
+	public String creditsubmit()
+	{
+		//保存新增数据，返回主表新增数据的ID
+		String scrapid=this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
+		//确认需要与SAP交互
+		Scrap s=this.scrapService.get(scrapid);//根据ID获取刚新增的数据
+		List<Scrap>list1=new ArrayList<Scrap>();
+		list1.add(s);
+		List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+		if(list2.size()>0)
+		{
+			xconfirm(list1,"2",1);
+		}
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
+		return SUCCESS;		
+	}
 	
 	/**
 	 * 编辑前 --modify weitao
@@ -249,7 +253,7 @@ public class ScrapAction extends BaseAdminAction
 		return INPUT;
 	}
 	/**
-	 * 修改
+	 * 修改保存
 	 */
 	public String creditupdate()
 	{
@@ -257,6 +261,25 @@ public class ScrapAction extends BaseAdminAction
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return SUCCESS;
 	}
+	
+	/**
+	 * 修改确认
+	 */
+	public String creditreply()
+	{
+		this.scrapService.updateInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);
+		Scrap s=this.scrapService.get(scrap.getId());//根据ID获取刚新增的数据
+		List<Scrap>list1=new ArrayList<Scrap>();
+		list1.add(s);
+		List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+		if(list2.size()>0)
+		{
+			xconfirm(list1,"2",1);
+		}
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
+		return SUCCESS;
+	}
+	
 	
 	/**
 	 * 查看
@@ -282,57 +305,55 @@ public class ScrapAction extends BaseAdminAction
 	}
 	
 	/**
-	 * 1刷卡确认
-	 * 2刷卡撤销
+	 * list页面
+	 * 刷卡确认
 	 */
-	public String creditreply()
+	public String creditapproval()
 	{
 		ids = info.split(",");
-		String newstate = "1";
-		int xmyid=0;
 		for (int i = 0; i < ids.length; i++)
 		{
 			this.scrap = this.scrapService.get(ids[i]);
 			String state = scrap.getState();
-			//报废信息表和报废后产出表是否同时为空
-			//List<ScrapMessage>list1=new ArrayList<ScrapMessage>(scrap.getScrapMsgSet());
+			//报废后产出表是否为空
 			List<ScrapLater>list2=new ArrayList<ScrapLater>(scrap.getScrapLaterSet());
-			if(list2.size()==0&&"1".equals(my_id))
+			if(list2.size()==0)
 			{
 				return ajaxJsonErrorMessage("有'报废后产出表'数据为空,不能确认!");
 			}
-			// 确认
-			if ("1".equals(my_id))
+			// 已经确认的不能重复确认
+			if ("2".equals(state))
 			{
-				newstate = "2";
-				xmyid=1;
-				// 已经确认的不能重复确认
-				if ("2".equals(state))
-				{
-					//addActionError("已确认的无须再确认！");
-					return ajaxJsonErrorMessage("已确认的无须再确认！");
-				}
-				// 已经撤销的不能再确认
-				if ("3".equals(state))
-				{
-					return ajaxJsonErrorMessage("已撤销的无法再确认！");
-				}
+				return ajaxJsonErrorMessage("已确认的无须再确认！");
 			}
-			// 撤销
-			if ("2".equals(my_id))
+			// 已经撤销的不能再确认
+			if ("3".equals(state))
 			{
-				newstate = "3";
-				xmyid=2;
-				// 已经撤销的不能再确认
-				if ("3".equals(state))
-				{
-					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
-				}
-			}
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
+			}	
 		}
 		List<Scrap> list = this.scrapService.get(ids);
-		//this.scrapService.updateState(list, newstate);
-		return xconfirm(list,newstate,xmyid);
+		return xconfirm(list,"2",1);
+	}
+	/**
+	 * list页面
+	 * 刷卡撤销
+	 */
+	public String creditundo()
+	{
+		ids = info.split(",");
+		for (int i = 0; i < ids.length; i++)
+		{
+			this.scrap = this.scrapService.get(ids[i]);
+			String state = scrap.getState();
+			// 已经撤销的不能再确认
+			if ("3".equals(state))
+			{
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+			}	
+		}
+		List<Scrap> list = this.scrapService.get(ids);
+		return xconfirm(list,"3",2);
 	}
 	
 	/**

@@ -62,7 +62,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<!-- 设置数据库方言 -->
 				hibernate.dialect=${hibernate.dialect}
 				<!-- 设置自动创建|更新|验证数据库表结构 -->
-				hibernate.hbm2ddl.auto=update
+				hibernate.hbm2ddl.auto=none
 				<!-- 输出SQL语句到控制台 -->
 				hibernate.show_sql=${hibernate.show_sql}
 				<!-- 格式化输出到控制台的SQL语句 -->

@@ -90,14 +90,14 @@ public class QualityAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
-		/*if (aid != null) {
+		if (aid != null) {
 			abnormal = abnormalService.load(aid);
 			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 			modelList=new ArrayList<Model>(abnormal.getModelSet());
 			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 			
-		}*/
+		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		return INPUT;
@@ -108,11 +108,11 @@ public class QualityAction extends BaseAdminAction {
 		quality = qualityService.load(id);
 		Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();
-		/*abnormal=quality.getAbnormal();
+		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
-		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());*/
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return INPUT;
 	}
 
@@ -163,7 +163,7 @@ public class QualityAction extends BaseAdminAction {
 
 		}
 		
-		/*if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
+		if(StringUtils.isNotEmpty(abnorId) && !abnorId.equalsIgnoreCase("")){//日志链接页面
 			pager = qualityService.findByPager(pager,map,abnorId);	
 			List pagerlist = pager.getList();
 			String str;
@@ -181,23 +181,21 @@ public class QualityAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 		}else{//普通清单页面
-			
-		}	*/
-
-		pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
-		List pagerlist = pager.getList();
-		for (int i = 0; i < pagerlist.size(); i++) {
-			Quality quality = (Quality) pagerlist.get(i);
-			quality.setProductsName(quality.getProducts().getProductsName());
-			quality.setFounder(quality.getCreater().getName());
-			Process process = processService.get(quality.getProcess());
-			quality.setProcessName(process.getProcessName());
-			quality.setTeamName(quality.getTeam().getTeamName());
-			quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "receiptState", quality.getState()));		
-			pagerlist.set(i,quality);
-		}
-		pager.setList(pagerlist);
+			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Quality quality = (Quality) pagerlist.get(i);
+				quality.setProductsName(quality.getProducts().getProductsName());
+				quality.setFounder(quality.getCreater().getName());
+				Process process = processService.get(quality.getProcess());
+				quality.setProcessName(process.getProcessName());
+				quality.setTeamName(quality.getTeam().getTeamName());
+				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", quality.getState()));		
+				pagerlist.set(i,quality);
+			}
+			pager.setList(pagerlist);
+		}			
 		
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
@@ -225,7 +223,7 @@ public class QualityAction extends BaseAdminAction {
 	// 刷卡提交	
 	public String creditsave() {		
 		admin = adminService.getByCardnum(cardnumber);
-		//abnormal = abnormalService.load(abnormalId);
+		abnormal = abnormalService.load(abnormalId);
 		
 		
 		if(quality.getProducts()==null){
@@ -235,7 +233,7 @@ public class QualityAction extends BaseAdminAction {
 		if(quality.getProcess()==null){
 			return ajaxJsonErrorMessage("工序名称不允许为空!");
 		}
-		//quality.setAbnormal(abnormal);
+		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
 		quality.setIsDel("N");
 		quality.setState("0");
@@ -247,11 +245,11 @@ public class QualityAction extends BaseAdminAction {
 		log.setQuality(quality);
 		unusualLogService.save(log);
 		
-		/*AbnormalLog abnormalLog = new AbnormalLog();
+		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
 		abnormalLog.setType("0");
 		abnormalLog.setOperator(admin);
-		abnormalLogService.save(abnormalLog);*/
+		abnormalLogService.save(abnormalLog);
 
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -261,7 +259,7 @@ public class QualityAction extends BaseAdminAction {
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion"});		
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion"});		
 		qualityService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -285,7 +283,7 @@ public class QualityAction extends BaseAdminAction {
 		if(quality.getRectificationScheme()==null || quality.getRectificationScheme().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("车间整改方案不允许为空!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription","engineer","engineerOpinion"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate","abnormal", "modifyDate","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription","engineer","engineerOpinion"});
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -312,7 +310,7 @@ public class QualityAction extends BaseAdminAction {
 		}
 		
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","createUser","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime","engineer"});
+			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","createUser","abnormal","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime","engineer"});
 			persistent.setState("3");
 			qualityService.update(persistent);
 			
@@ -345,13 +343,13 @@ public class QualityAction extends BaseAdminAction {
 
 	public String view() {
 		quality = qualityService.load(id);
-		//abnormal=quality.getAbnormal();
+		abnormal=quality.getAbnormal();
 		Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();
-		/*qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
-		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());*/
+		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
 		return VIEW;
 	}
 

@@ -216,6 +216,7 @@ function btn_style()
 	});
 
 	//查看考勤历史
+	/*
 	var $btnopen=$("#btn_viewhistory");
 	//鼠标移到按钮上时事件
 	$btnopen.mouseover(function(){
@@ -233,6 +234,7 @@ function btn_style()
 	$btnopen.mouseup(function(){
 		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
+	*/
 }
 
 //开启考勤按钮样式

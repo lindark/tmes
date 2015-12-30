@@ -77,11 +77,11 @@
 	position: absolute;
 }
 .div-height{height:194px;}
-.div-btn{margin-left:10px;display: inline;}
-.div-btn2{margin-left:10px;display: inline;}
+.div-btn{margin-left:50px;display: inline;}
+.div-btn2{margin-left:50px;display: inline;}
 .div-btn3{margin-left:165px;display: inline;}
 .tabtd{text-align:center;}
-.btn_tab{text-align:right;}
+.btn_tab{text-align:left;}
 .a_edit{cursor: pointer;}
 .select_state{width:150px;}
 .xtxt{font-family: 微软雅黑}
@@ -187,12 +187,14 @@
 														<span id="span_startkaoqin"></span>
 													</button>
 												</div>
+												<!-- 
 												<div class="div-btn3">
 													<button id="btn_viewhistory" class="btn_viewhistory">
 														<img style="" src="${base}/template/admin/images/viewhistory.gif"></img>
 														查看历史
 													</button>
 												</div>
+												 -->
 											</div>
 										</div>
 									</div>

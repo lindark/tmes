@@ -58,7 +58,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 新增
 	 */
-	public void saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
+	public String saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
 	{
 		Admin admin=this.adminService.getLoginAdmin();
 		//报废主表
@@ -66,11 +66,6 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setCreater(admin);//提交人
 		scrap.setCreateDate(new Date());//初始化创建日期
 		scrap.setModifyDate(new Date());//初始化修改日期
-		if("2".equals(my_id))
-		{
-			scrap.setState("2");
-			scrap.setConfirmation(admin);//确认人
-		}
 		String scrapId=this.scrapDao.save(scrap);
 		Scrap scp=this.scrapDao.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
@@ -96,6 +91,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				}
 			}
 		}
+		return scrapId;
 	}
 
 	/**
@@ -236,20 +232,32 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 确认或撤销
 	 */
-	public void updateState(List<Scrap> list, String newstate)
+	public void updateState(Scrap scrap, String newstate)
 	{
 		Admin admin=this.adminService.getLoginAdmin();
-		for(int i=0;i<list.size();i++)
-		{
-			Scrap scrap=list.get(i);
-			scrap.setState(newstate);
-			scrap.setConfirmation(admin);
-			this.scrapDao.update(scrap);
-		}
+		scrap.setState(newstate);
+		scrap.setConfirmation(admin);
+		this.scrapDao.update(scrap);
 	}
 
 	@Override
 	public List<Scrap> getUnCheckList() {
 		return scrapDao.getUnCheckList();
+	}
+
+	/**
+	 * 与SAP交互没有问题,更新本地数据库
+	 */
+	public void updateMyData(Scrap s,String newstate)
+	{
+		Admin admin=this.adminService.getLoginAdmin();
+		Scrap s2=this.scrapDao.get(s.getId());
+		s2.setE_type(s.getE_type());//类型S/E
+		s2.setE_message(s.getE_message());//反馈消息
+		s2.setMblnr(s.getMblnr());//物料凭证
+		s2.setState(newstate);//状态
+		s2.setConfirmation(admin);//撤销/确认人
+		s2.setModifyDate(new Date());//修改日期
+		this.scrapDao.update(s2);
 	}
 }

@@ -115,7 +115,7 @@ padding-top:2px;
 	
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="username">${(admin.department.team.factoryUnit.workShop.factory.factoryName)!}</span>
-														</div>
+														</div>                                                    
 													</div>
 	
 													<div class="profile-info-row">
@@ -138,7 +138,7 @@ padding-top:2px;
 														<div class="profile-info-name"> 班组</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">${admin.department.team.teamName }</span>
+															<span class="editable editable-click" id="signup">${(admin.department.team.teamName)!}</span>
 														</div>
 													</div>
     

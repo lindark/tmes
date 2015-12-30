@@ -65,7 +65,7 @@ body {background: #fff;font-family: 微软雅黑;}
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate" action="<#if add??>scrap!save.action</#if><#if edit??>scrap!update.action</#if><#if show??></#if>" method="post">
+							<form id="inputForm" class="validate" action="<#if add??>scrap!creditsave.action</#if><#if edit??>scrap!creditupdate.action</#if><#if show??></#if>" method="post">
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
 								<input type="hidden" name="scrap.workingBill.id" value="${(workingbill.id)! }" />
 								<input type="hidden" id="id" name="scrap.id" value="${(scrap.id)! }" />

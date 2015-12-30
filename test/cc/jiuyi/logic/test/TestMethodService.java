@@ -215,28 +215,28 @@ public class TestMethodService extends BaseTestCase {
 	
 	@Test
 	public void ceshi(){
-		List<HashMap> jsonlist = new ArrayList<HashMap>();
-		List<cc.jiuyi.entity.Process> processList = processservice.getAll();
-		for(int i = 0 ; i < processList.size();i++){
-			cc.jiuyi.entity.Process process = processList.get(i);
-			List<Products> productsList = new ArrayList<Products>(process.getProducts());
-			for(int y=0;y<productsList.size();y++){
-				HashMap<String, Object> map = new HashMap<String,Object>();
-				Products products = productsList.get(y);
-				String name = products.getProductsName();
-				String processname = process.getProcessName();
-				map.put("name", name);
-				map.put("processname", processname);
-				jsonlist.add(map);
-			}
-		}
-		
-		
-		for(int i =0;i<jsonlist.size();i++){
-			HashMap<String,Object> map1 = jsonlist.get(i);
-			System.out.println("name:"+map1.get("name")+",processname:"+map1.get("processname"));
-		}
-		
+//		List<HashMap> jsonlist = new ArrayList<HashMap>();
+//		List<cc.jiuyi.entity.Process> processList = processservice.getAll();
+//		for(int i = 0 ; i < processList.size();i++){
+//			cc.jiuyi.entity.Process process = processList.get(i);
+//			List<Products> productsList = new ArrayList<Products>(process.getProducts());
+//			for(int y=0;y<productsList.size();y++){
+//				HashMap<String, Object> map = new HashMap<String,Object>();
+//				Products products = productsList.get(y);
+//				String name = products.getProductsName();
+//				String processname = process.getProcessName();
+//				map.put("name", name);
+//				map.put("processname", processname);
+//				jsonlist.add(map);
+//			}
+//		}
+//		
+//		
+//		for(int i =0;i<jsonlist.size();i++){
+//			HashMap<String,Object> map1 = jsonlist.get(i);
+//			System.out.println("name:"+map1.get("name")+",processname:"+map1.get("processname"));
+//		}
+//		
 	}
 	
 }

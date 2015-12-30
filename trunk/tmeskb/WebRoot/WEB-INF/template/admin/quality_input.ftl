@@ -74,14 +74,14 @@ body {
 								action="<#if isAdd??>quality!creditsave.action<#else>quality!creditupdate.action</#if>"
 								method="post">
 								<input type="hidden" name="id" id="qualityId" value="${id}" /> 
-								<!-- <input
-									type="hidden" name="abnormalId" value="${(abnormal.id)!}" /> -->
+								<input
+									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">基本信息</a></li>
 										<li><a href="#tabs-2">单据日志</a></li>
 									    <#if isAdd??> <#else><li><a href="#tabs-3">整改情况跟踪</a></li> </#if>									 
-									<!--  	<li><a href="#tabs-4">相关单据</a></li>-->
+									  	<li><a href="#tabs-4">相关单据</a></li>
 									</ul>
 
 									<div id="tabs-1">
@@ -206,7 +206,7 @@ body {
                                        
                                        <#if isAdd??>
                                        <#else>
-										<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-user-info profile-user-info-striped access" data-access-list="rectificationScheme">
 											<div class="profile-info-row">
 												<div class="profile-info-name">车间整改方案</div>
 												<div class="profile-info-value">
@@ -324,7 +324,75 @@ body {
 			                             
 											</tbody>
 										</table>
-									</div> </#if></form>
+									</div> </#if>
+									
+									<table id="tabs-4" class="inputTable tabContent">
+                                          <tbody>	
+                                                <#if (qualityList?size>1) >
+										            <tr>						
+													<td>
+														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (qualityList)! as list>
+										            <tr>						
+													<td>
+														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>									     
+										        <#if (modelList?size>1) >
+										            <tr>						
+													<td>
+														<a href="model!sealist.action?abnorId=${(abnormal.id)}">工模维修单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (modelList)! as list>
+										            <tr>						
+													<td>
+														<a href="model!view.action?id=${(list.id)}">工模维修单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>
+										         <#if (craftList?size>1) >
+										            <tr>						
+													<td>
+														<a href="craft!sealist.action?abnorId=${(abnormal.id)}">工艺维修单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (craftList)! as list>
+										            <tr>						
+													<td>
+														<a href="craft!view.action?id=${(list.id)}">工艺维修单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>
+										         <#if (deviceList?size>1) >
+										            <tr>						
+													<td>
+														<a href="device!sealist.action?abnorId=${(abnormal.id)}">设备维修单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (deviceList)! as list>
+										            <tr>						
+													<td>
+														<a href="device!view.action?id=${(list.id)}">设备维修单</a>										
+													</td>
+												    </tr>
+												    </#list>
+										        </#if>
+										</tbody>
+									</table>
+									
+									
+									</form>
 							
 							<!-- add by welson 0728 -->
 						</div>

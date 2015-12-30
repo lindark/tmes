@@ -91,7 +91,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		for(ScrapLater s : list_scraplater){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", s.getSlmatterNum());//物料编码
-			item.put("ZSFSL", s.getMenge().toString());//数量
+			item.put("ZSFSL", s.getSlmatterCount().toString());//数量
 			item.put("ITEM_TEXT", s.getItem_text());//项目文本
 			item.put("XUH", s.getId());//ID
 			arrList.add(item);

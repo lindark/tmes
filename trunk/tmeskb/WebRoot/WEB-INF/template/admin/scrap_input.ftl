@@ -65,9 +65,9 @@ body {background: #fff;font-family: 微软雅黑;}
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validate" action="<#if add??>scrap!creditsave.action</#if><#if edit??>scrap!creditupdate.action</#if><#if show??></#if>" method="post">
+							<form id="inputForm" class="validate" action="" method="post">
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
-								<input type="hidden" name="scrap.workingBill.id" value="${(workingbill.id)! }" />
+								<input type="hidden" id="xwbid" name="scrap.workingBill.id" value="${(workingbill.id)! }" />
 								<input type="hidden" id="id" name="scrap.id" value="${(scrap.id)! }" />
 								
 								<!-- tabs start -->
@@ -425,27 +425,38 @@ function scraplater_event()
 	});
 }
 
-//报废信息表是否为空
-function sm_event()
+/**
+ * 按钮事件 
+ */
+//1.刷卡保存2.刷卡确认
+function sub_event(my_id)
 {
-	number="0";
-	var i=0;
-	<#list list_material as smlist>
-		var xval=$("#input_msgbug"+i).val();
-		if(xval!=null&&xval!="")
-		{
-			number="1";
-		}
-		i+=1;
-	</#list>
-	if(number=="0")
+	$("#my_id").val(my_id);//赋值
+	var url="";
+	//1.刷卡保存
+	if(my_id=="1")
 	{
-		return false;
+		//新增保存
+		<#if add??>url="scrap!creditsave.action";</#if>
+		//修改保存
+		<#if update??>url="scrap!creditupdate.action";</#if>
+		tosubmit(url);//提交
 	}
-	else
+	//2.刷卡确认
+	if(my_id=="2")
 	{
-		return true;
+		//新增确认
+		<#if add??>url="scrap!creditsubmit.action";</#if>
+		//修改确认
+		<#if update??>url="scrap!creditreply.action";</#if>
+		if(!sl_event())
+		{
+			layer.alert("报废后产出表为空,不能确认!",false);
+		}
+		else
+		{
+			tosubmit(url);//提交
+		}
 	}
 }
-
 </script>

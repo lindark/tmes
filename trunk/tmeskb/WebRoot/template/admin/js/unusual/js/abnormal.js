@@ -31,8 +31,8 @@ $(function() {
 	
 	var $qualityque = $("#qualityque");// 质量
 	$qualityque.click(function() {
-		window.location.href = "quality!add.action";
-		/*var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+		//window.location.href = "quality!add.action";
+		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		
 		if(i.length<=0){
@@ -47,7 +47,7 @@ $(function() {
 			}else{
 				alert("当前状态不能开单");
 			}			
-		}*/
+		}
 		
     });
 	

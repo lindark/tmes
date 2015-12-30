@@ -31,7 +31,7 @@ public interface ScrapService extends BaseService<Scrap, String>
 	 * @param list_scraplater
 	 * @param my_id
 	 */
-	public void saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,
+	public String saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,
 			List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,
 			String my_id);
 
@@ -52,12 +52,15 @@ public interface ScrapService extends BaseService<Scrap, String>
 	 * @param list
 	 * @param newstate
 	 */
-	public void updateState(List<Scrap> list, String newstate);
+	public void updateState(Scrap scrap, String newstate);
 	
 	
 	/**
 	 * 取出所有未确认的报废单
 	 */
 	public List<Scrap> getUnCheckList();
+
+	/**与SAP交互没有问题,更新本地数据库*/
+	public void updateMyData(Scrap s,String newstate);
 
 }

@@ -79,7 +79,7 @@ public class DeviceAction extends BaseAdminAction {
 	
 	// 获取所有类型
 	private List<Dict> allType;
-//	private List<Quality>  qualityList;
+	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
@@ -116,7 +116,7 @@ public class DeviceAction extends BaseAdminAction {
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
-		//	qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 			modelList=new ArrayList<Model>(abnormal.getModelSet());
 			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -130,7 +130,7 @@ public class DeviceAction extends BaseAdminAction {
 	public String edit() {
 		device = deviceService.load(id);
 		abnormal=device.getAbnormal();
-	//	qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -494,7 +494,7 @@ public class DeviceAction extends BaseAdminAction {
 		}
 		
 		
-		//qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -579,13 +579,13 @@ public class DeviceAction extends BaseAdminAction {
 		return dictService.getList("dictname", "isMaintenance");
 	}
 
-	/*public List<Quality> getQualityList() {
+	public List<Quality> getQualityList() {
 		return qualityList;
 	}
 
 	public void setQualityList(List<Quality> qualityList) {
 		this.qualityList = qualityList;
-	}*/
+	}
 
 	public List<Model> getModelList() {
 		return modelList;

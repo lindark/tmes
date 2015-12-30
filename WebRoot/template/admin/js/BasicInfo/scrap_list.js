@@ -217,7 +217,7 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			var url="scrap!creditreply.action?info="+info+"&wbId="+wbId+"&my_id=1";
 			sub_event(wbId,url);
 		}
 	});
@@ -225,7 +225,7 @@ function btn_event()
 	$("#btn_revoke").click(function(){
 		if(getId())
 		{
-			var url="scrap!confirmOrRevoke.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			var url="scrap!creditreply.action?info="+info+"&wbId="+wbId+"&my_id=2";
 			sub_event(wbId,url);
 		}
 	});

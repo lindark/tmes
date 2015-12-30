@@ -180,8 +180,10 @@ body {
 													<#else> ${(model.fixer.name)!} </#if>
 
 												</div>
+											</div>
 												 <#if isAdd??>												
 												 <#else>
+												<div class="profile-info-row access" data-access-list="fixTime">
 												<div class="profile-info-name">维修时间</div>
 												<div class="profile-info-value">
 												   
@@ -190,8 +192,9 @@ body {
 														class=" input input-sm  formText {digits: true}" />
 												    
 												</div>
+												</div>
 												</#if>
-											</div>
+											
 											<div class="profile-info-row">
 												<div class="profile-info-name">检验员</div>
 												<div class="profile-info-value">
@@ -204,21 +207,24 @@ body {
 													<#else> ${(model.insepector.name)!} </#if>
 
 												</div>
+											</div>
 												<#if isAdd??>												
 												<#else>
+												<div class="profile-info-row access" data-access-list="confirmTime">
 												<div class="profile-info-name">确认时间</div>
 												<div class="profile-info-value">
 												    
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="access formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" data-access-list="confirmTime"/>											
+														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />											
+												</div>
 												</div>
 												</#if>
-											</div>
+											
                                            
                                            <#if isAdd??>
 											<#else>
-											<div class="profile-info-row">
+											<div class="profile-info-row access" data-access-list="modelreason">
 												<div class="profile-info-name">故障原因</div>
 												<div class="profile-info-value" id="reason">
 						                               <#if ((model.faultReasonSet)!?size>0)>
@@ -227,7 +233,7 @@ body {
 												       </#list> 
 												       
 													   <#else>
-													    <img id="faultReason" class="img_addbug access" data-access-list="modelreason"  title="添加故障信息" alt="添加故障信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													    <img id="faultReason" class="img_addbug"  title="添加故障信息" alt="添加故障信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 													  <!--   <button type="button" class="btn btn-xs btn-info  access"
 														id="faultReason" data-access-list="modelreason" data-toggle="button">选择</button>--> 
 												       </#if>																			
@@ -239,7 +245,7 @@ body {
 											
 											<#if isAdd??>
 											<#else>
-											<div class="profile-info-row" >
+											<div class="profile-info-row access" data-access-list="modelhandle">
 											    <div class="profile-info-name">处理方法与结果</div>
 												<div class="profile-info-value" id="means">
 												       <#if ((model.handleSet)!?size>0)>	
@@ -248,7 +254,7 @@ body {
 												        </#list> 				                               
 												       
 													   <#else>
-													   <img id="handleResult" class="img_addbug access" data-access-list="modelhandle"  title="添加处理信息" alt="添加处理信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													   <img id="handleResult" class="img_addbug"  title="添加处理信息" alt="添加处理信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 													 <!--   <button type="button" class="btn btn-xs btn-info  access"
 														id="handleResult" data-access-list="modelhandle" data-toggle="button">选择</button> -->
 												       </#if>													    
@@ -259,7 +265,7 @@ body {
 											
 											<#if isAdd??>
 											<#else>
-											<div class="profile-info-row " >
+											<div class="profile-info-row access" data-access-list="modelprevent">
 											    <div class="profile-info-name">长期预防措施</div>
 												<div class="profile-info-value" id="prevent">
 												
@@ -268,7 +274,7 @@ body {
 												         <span> ${(list.discribe)!}</span>&nbsp;&nbsp;&nbsp; 
 												        </#list> 
 													<#else>
-													     <img id="longPrevent" class="img_addbug access" data-access-list="modelprevent"  title="添加预防措施信息" alt="添加预防措施信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													     <img id="longPrevent" class="img_addbug"   title="添加预防措施信息" alt="添加预防措施信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 													   <!--  <button type="button" class="btn btn-xs btn-info access"
 														id="longPrevent" data-access-list="modelprevent" data-toggle="button">选择</button> --> 
 													    
@@ -348,7 +354,22 @@ body {
 									</table>
 
 									<table id="tabs-3" class="inputTable tabContent">
-                                          <tbody>										     
+                                          <tbody>	
+                                                <#if (qualityList?size>1) >
+										            <tr>						
+													<td>
+														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (qualityList)! as list>
+										            <tr>						
+													<td>
+														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>									     
 										        <#if (modelList?size>1) >
 										            <tr>						
 													<td>

@@ -199,20 +199,20 @@ body {
                                             <#if isAdd??>												
 											<#else>
 											<div class="profile-user-info profile-user-info-striped">
-												<div class="profile-info-row">
+												<div class="profile-info-row access" data-access-list="unusualDescription_process">
 													<div class="profile-info-name">工艺异常分析</div>
 													<div class="profile-info-value">
 													     <textarea name="craft.unusualDescription_process" style="width:600px;">${(craft.unusualDescription_process)!} </textarea>												
 													</div>
 												</div>
 
-												<div class="profile-info-row">
+												<div class="profile-info-row access" data-access-list="treatmentMeasure_process">
 													<div class="profile-info-name">工艺处理措施</div>
 													<div class="profile-info-value">
 													  <textarea name="craft.treatmentMeasure_process" style="width:600px;">${(craft.treatmentMeasure_process)!} </textarea>													
 													</div>
 												</div>
-												<div class="profile-info-row">
+												<div class="profile-info-row access" data-access-list="resultCode_process">
 													<div class="profile-info-name">工艺处理结果</div>
 													<div class="profile-info-value">
 													    <textarea name="craft.resultCode_process" style="width:600px;">${(craft.resultCode_process)!} </textarea>												
@@ -283,7 +283,21 @@ body {
 
 									<table id="tabs-3" class="inputTable tabContent">
                                             <tbody>	
-										         
+										         <#if (qualityList?size>1) >
+										            <tr>						
+													<td>
+														<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+										        <#else>
+										            <#list (qualityList)! as list>
+										            <tr>						
+													<td>
+														<a href="quality!view.action?id=${(list.id)}">质量问题单</a>										
+													</td>
+												    </tr>
+												     </#list>
+										        </#if>
 										        <#if (modelList?size>1) >
 										            <tr>						
 													<td>

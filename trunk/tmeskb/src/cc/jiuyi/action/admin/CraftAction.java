@@ -68,7 +68,7 @@ public class CraftAction extends BaseAdminAction {
 	private String machineName;
 	private String cardnumber;//刷卡卡号
 	
-	//private List<Quality>  qualityList;
+	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
@@ -96,7 +96,7 @@ public class CraftAction extends BaseAdminAction {
 	public String add() {
 		if(aid!=null){
 			abnormal=abnormalService.load(aid);
-			//qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 			modelList=new ArrayList<Model>(abnormal.getModelSet());
 			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 			deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -110,7 +110,7 @@ public class CraftAction extends BaseAdminAction {
 	public String edit() {
 		craft = craftService.load(id);
 		abnormal=craft.getAbnormal();
-		//qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -356,7 +356,7 @@ public class CraftAction extends BaseAdminAction {
 		abnormal=craft.getAbnormal();
 		machineName=ThinkWayUtil.getDictValueByDictKey(
 				dictService, "machineNo", craft.getCabinetCode());
-		//qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
+		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		deviceList=new ArrayList<Device>(abnormal.getDeviceSet());
@@ -422,13 +422,13 @@ public class CraftAction extends BaseAdminAction {
 		return dictService.getList("dictname", "machineNo");
 	}
 
-	/*public List<Quality> getQualityList() {
+	public List<Quality> getQualityList() {
 		return qualityList;
 	}
 
 	public void setQualityList(List<Quality> qualityList) {
 		this.qualityList = qualityList;
-	}*/
+	}
 
 	public List<Model> getModelList() {
 		return modelList;

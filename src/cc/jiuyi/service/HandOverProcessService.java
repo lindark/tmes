@@ -33,7 +33,7 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @param handoverprocessList
 	 * @return
 	 */
-	public void saveorupdate(List<HandOverProcess> handoverprocessList);
+	public void saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber);
 	
 	/**
 	 * 根据组件编码，工序ID，产品编码获取对象
@@ -62,4 +62,12 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @return
 	 */
 	public HandOverProcess findhandover(String materialCode, String processid,String matnrid);
+	
+	/**
+	 * 刷卡保存，刷卡提交，刷卡确认
+	 * @param handoverprocessList  操作的 交接集合
+	 * @param state 做的什么操作
+	 * @return
+	 */
+	public String savehandover(List<HandOverProcess> handoverprocessList,String state,String cardNumber);
 }

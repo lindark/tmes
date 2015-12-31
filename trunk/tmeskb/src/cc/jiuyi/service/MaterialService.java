@@ -26,7 +26,7 @@ public interface MaterialService extends BaseService<Material, String> {
 	 */
 	public List<Products> getProductsList();
 
-	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName);
+	public Pager getMaterialPager(Pager pager, HashMap<String, String> map);
 	
 	/**
 	 * 标记删除
@@ -54,5 +54,11 @@ public interface MaterialService extends BaseService<Material, String> {
      * @return
      */
 	public List<Material> getMantrBom(Object[] matnrs);
+	
+	/**
+	 * 更新物料编码清单
+	 * @param materialList
+	 */
+	public void mergeMaterialList(List<Material> materialList);
 
 }

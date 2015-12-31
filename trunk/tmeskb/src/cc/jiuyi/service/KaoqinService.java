@@ -51,5 +51,10 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @param admin
 	 */
 	public void saveBrushCardEmp(Admin admin);
+	
+	/**
+	 * 人员下班
+	 */
+	public void mergeAdminafterWork();
 
 }

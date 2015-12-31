@@ -34,8 +34,8 @@ jQuery(function($) {
 	    	rows:"pager.pageSize",
 	    	page:"pager.pageNumber",
 	    	search:"pager._search",
-	    	sort:"orderBy",
-	    	order:"orderType"
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
 	    	
 	    },
 		//colNames:[ 'ID','权限对象名称','权限对象类型', 'myac'],

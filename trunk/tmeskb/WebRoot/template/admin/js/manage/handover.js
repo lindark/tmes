@@ -32,37 +32,44 @@ $(function(){
 	        yes:function(index,layero){//刷卡保存
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
-	        	var url = $(docu).find("#inputForm").attr("action");
+	        	var url = "hand_over_process!creditsave.action";
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
 	    			$.message(data.status,data.message);
 	    			
 	    		},dt)
-	        	
-	        	
-	        	//$(docu).find("#submit_btn").trigger("click");//点击ifream里面的提交按钮
 	        	return false;
 	        },
-	        btn2:function(){//刷卡提交
-//	        	layer.msg("请刷卡",{
-//	        		icon:16,
-//	        		shade:0.3,
-//	        		time:60000 //60秒
-//	        	},function(){
-//	        		alert("60秒未操作，关闭");
-//	        	});
+	        btn2:function(index,layero){//刷卡提交
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+	        	var docu = iframeWin.document;//获取document 对象
+	        	var url = "hand_over_process!creditsubmit.action";
+	        	var dt = $(docu).find("#inputForm").serialize();
+	        	credit.creditCard(url,function(data){
+	    			$.message(data.status,data.message);
+	    			
+	    		},dt)
 	        	return false;
 	        },
-	        btn3:function(){//刷卡确认
-	        	//return false;
+	        btn3:function(index,layero){//刷卡确认
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+	        	var docu = iframeWin.document;//获取document 对象
+	        	var url = "hand_over_process!creditapproval.action";
+	        	var dt = $(docu).find("#inputForm").serialize();
+	        	credit.creditCard(url,function(data){
+	    			$.message(data.status,data.message);
+	    			
+	    		},dt)
+	        	return false;
 	        }
 
 	    });
 		
 	});
-	
+	/*
 	$btnsubmit.click(function(){//刷卡提交
 		window.location.href="hand_over_process!submit.action";
 		
 	})
+	*/
 })

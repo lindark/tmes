@@ -31,9 +31,9 @@ public class CallreasonDaoImpl extends BaseDaoImpl<Callreason, String> implement
 			if(map.get("callReason")!=null){
 				detachedCriteria.add(Restrictions.like("callReason", "%"+map.get("callReason")+"%"));								
 			}
-			if(map.get("state")!=null){
+			/*if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));								
-			}
+			}*/
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

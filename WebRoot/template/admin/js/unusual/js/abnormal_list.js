@@ -354,7 +354,7 @@ jQuery(function($) {
 		{
 			return "style='color:green;'";
 		}
-		//已撤销
+		//已关闭
 		if(rawObject.state=="3")
 		{
 			return "style='color:#AAAAAA;'";
@@ -363,7 +363,7 @@ jQuery(function($) {
 		//已撤销
 		if(rawObject.state=="4")
 		{
-			return "style='color:#DDDDDD;'";
+			return "style='color:#000000;'";
 		}
 	}
 

@@ -73,6 +73,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private String orderBy;// 排序字段
 	private String orderType;// 排序类型
 	private String materialName;//组件物料描述
+	private String cardnumber;
 
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -155,6 +156,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		List<HashMap<String,Object>> matnrList = new ArrayList<HashMap<String,Object>>();
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
+			Products products = productsservice.get("productsCode",workingbill.getMatnr());
+			if(products == null){
+				addActionError(workingbill.getMatnr()+"未维护");
+				return ERROR;
+			}
 			HashMap<String,Object> hashmap = new HashMap<String, Object>();
 			Integer bomversion = workingbill.getBomversion();
 			if(bomversion == null)
@@ -162,7 +168,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
 			Integer processversion = workingbill.getProcessversion();
 			if(processversion == null)
-				processversion = processrouteservice.getMaxVersionBycode(workingbill.getMatnr());
+				processversion = processrouteservice.getMaxVersionBycode(products.getId());
 			if (processversion== null) {
 				addActionError("未找到一条工序记录");
 				return ERROR;
@@ -241,9 +247,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 			handoverprocess.setProcessName(process.getProcessName());
 			handoverprocess.setMaterialCode(handoverprocess.getMaterialCode());
 			handoverprocess.setMaterialName(handoverprocess.getMaterialName());
-			handoverprocess.setBeforworkingbillCode(handoverprocess
-					.getBeforworkingbill().getWorkingBillCode());
+			handoverprocess.setBeforworkingbillCode(handoverprocess.getBeforworkingbill().getWorkingBillCode());
 			handoverprocess.setAfterworkingbillCode(handoverprocess.getAfterworkingbill().getWorkingBillCode());
+			handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "handOverProcessState", handoverprocess.getState()));
 			handoverprocessList.set(i, handoverprocess);
 		}
 		
@@ -326,31 +332,27 @@ public class HandOverProcessAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
-	// 刷卡提交
+	// 刷卡提交 --员工
 	//@InputConfig(resultName = "error")
 	public String creditsubmit(){
-		String message="";
-		Integer ishead=0;
-		Boolean flag = true;
-		for(int i=0;i<handoverprocessList.size();i++){
-			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			String afterworkingbillCode = handoverprocess.getAfterworkingbill().getWorkingBillCode();
-			WorkingBill afterworkingbill = workingbillservice.get("workingBillCode", afterworkingbillCode);
-			if(afterworkingbill == null){
-				flag = false;
-				if(ishead == 0)
-					message+="第"+i+"行,未找到下一随工单";
-				else
-					message+=",第"+i+"行,未找到下一随工单";
-			}
-			handoverprocess.setAfterworkingbill(afterworkingbill);
-			handoverprocessList.set(i, handoverprocess);
+		String message = handOverProcessService.savehandover(handoverprocessList,"creditsubmit",cardnumber);
+		String [] msg = message.split(",");
+		if(msg[0] == "false"){
+			return ajaxJsonErrorMessage(msg[1]);
 		}
-		if(!flag)
-			return ajaxJsonErrorMessage(message);
-		
-		handOverProcessService.saveorupdate(handoverprocessList);
-		redirectionUrl = "hand_over_process!list.action";
+		return ajaxJsonSuccessMessage("保存成功!");
+	}
+
+	/**
+	 * 刷卡保存
+	 * @return
+	 */
+	public String creditsave(){
+		String message = handOverProcessService.savehandover(handoverprocessList,"creditsave",cardnumber);
+		String [] msg = message.split(",");
+		if(msg[0] == "false"){
+			return ajaxJsonErrorMessage(msg[1]);
+		}
 		return ajaxJsonSuccessMessage("保存成功!");
 	}
 	
@@ -359,64 +361,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
-		//List<String> workingbillIdList = new ArrayList<String>();
-
-		Object[] workingbillIdList = new Object[workingbillList.size()];
-		for(int i=0;i<workingbillList.size();i++){
-			WorkingBill workingbill = workingbillList.get(i);
-			workingbillIdList[i] = workingbill.getId();
+		String message = handOverProcessService.savehandover(handoverprocessList,"creditapproval",cardnumber);
+		String [] msg = message.split(",");
+		if(msg[0] == "false"){
+			return ajaxJsonErrorMessage(msg[1]);
 		}
-		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
-
-		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
-			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
-				handoverprocessList.remove(i);
-		}
-		try {
-			Boolean flag = true;
-			String message = "";
-			List<HandOverProcess> handList02 = handoverprocessrfc.BatchHandOver(handoverprocessList,"X");//尝试调用
-			for(HandOverProcess handoverprocess : handList02){
-				String e_type = handoverprocess.getE_type();
-				if(e_type.equals("E")){ //如果有一行发生了错误
-					flag = false;
-					message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
-				}
-			}
-			if(!flag)
-				return ajaxJsonErrorMessage(message);
-			else{
-				flag = true;
-				List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "");//执行
-				for(HandOverProcess handoverprocess : handList03){
-					String e_type = handoverprocess.getE_type();
-					if(e_type.equals("E")){ //如果有一行发生了错误
-						flag = false;
-						message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
-					}else{
-						handOverProcessService.merge(handoverprocess);
-					}
-				}
-				if(!flag)
-					return ajaxJsonErrorMessage(message);
-			}
-			
-		//以上跟SAP接口完全没有问题，成功后
-			
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
-		}catch(Exception e){
-			e.printStackTrace();
-			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
-		}
-		
-		return ajaxJsonSuccessMessage("您的操作已成功");
+		return ajaxJsonSuccessMessage("保存成功!");
 	}
 
 	public HandOverProcess getHandOverProcess() {
@@ -540,6 +490,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public void setMaterialName(String materialName) {
 		this.materialName = materialName;
 	}
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
+	}
+
 
 	
 }

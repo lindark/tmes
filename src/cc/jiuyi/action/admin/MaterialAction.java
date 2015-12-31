@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,10 +23,12 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.sap.rfc.impl.MaterialRfcImpl;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -64,7 +67,7 @@ public class MaterialAction extends BaseAdminAction {
 	@Resource
 	private ProductsService productsService;
 	@Resource
-	private MaterialRfcImpl materialRfcImpl;
+	private MatnrRfc matnrrfc;
 	
 	
 	//添加
@@ -140,34 +143,17 @@ public class MaterialAction extends BaseAdminAction {
 				String materialCode = obj.getString("materialCode").toString();
 				map.put("materialCode", materialCode);
 			}
-			if (obj.get("productsName1") != null) {
-				String factoryName1 = obj.getString("productsName1").toString();
-				map.put("productsName1", factoryName1);
-			}
 			if (obj.get("materialName") != null) {
 				String materialName = obj.getString("materialName").toString();
 				map.put("materialName", materialName);
 			}
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
-			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
 		}
             List<HashMap> list=new ArrayList<HashMap>();
-			pager = materialService.getMaterialPager(pager, map, productsName);
+			pager = materialService.getMaterialPager(pager, map);
 			List<Material> materialList = pager.getList();
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
 				Material material  = (Material)materialList.get(i);
-				//material.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "materialState", material.getState()));
-				//material.setStateCarton(ThinkWayUtil.getDictValueByDictKey(dictService, "iscartonSate", material.getIsCarton()));
-				//material.setProducts(null);
 				lst.add(material);
 			}
 		pager.setList(lst);
@@ -242,6 +228,22 @@ public class MaterialAction extends BaseAdminAction {
 	
 	// 同步
 	public String sync() {
+		try {
+			List<Material> materialList = matnrrfc.getMaterialList("", "1000", "");
+			materialService.mergeMaterialList(materialList);
+		} catch (IOException e) {
+			addActionError("IO写入失败!");
+			e.printStackTrace();
+			return ERROR;
+		} catch (CustomerException e) {
+			addActionError(e.getMessage());
+			e.printStackTrace();
+			return ERROR;
+		} catch(Exception e){
+			addActionError("系统出现错误，请联系系统管理员");
+			e.printStackTrace();
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 

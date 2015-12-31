@@ -55,8 +55,8 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 			String endtime = sdf.format(rightnow.getTime());
 			/******取10分钟之内的数据*********/
 			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
-			workingbillrfc.syncRepairorder(startdate, enddate,starttime,endtime);
-			
+			//workingbillrfc.syncRepairorder(startdate, enddate,starttime,endtime);
+			workingbillrfc.syncRepairorderAll(startdate, enddate);
 			
 			log.info("WorkingBillJob任务结束");
 		} catch (Exception e) {

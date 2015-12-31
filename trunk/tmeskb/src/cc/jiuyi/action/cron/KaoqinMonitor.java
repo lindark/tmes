@@ -72,7 +72,6 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 				t.setModifyDate(new Date());
 				teamService.update(t);
 			}
-			//开始重置编码
 			adminService = (AdminService)SpringUtil.getBean("adminServiceImpl");
 			//根据开始时间和当前时间查询出刷卡表该时间段刷卡的人,并更新admin表对应的员工
 			this.adminService.updateByCreditCard(startdate,enddate,teamid);

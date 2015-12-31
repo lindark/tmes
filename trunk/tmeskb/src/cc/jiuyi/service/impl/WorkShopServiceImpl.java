@@ -60,14 +60,12 @@ public class WorkShopServiceImpl extends BaseServiceImpl<WorkShop, String>implem
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		workShopDao.updateisdel(ids, oper);
 		
 	}
 
 	@Override
 	public boolean isExistByWorkShopCode(String workShopCode) {
-		// TODO Auto-generated method stub
 		return workShopDao.isExistByWorkShopCode(workShopCode);
 	}
 

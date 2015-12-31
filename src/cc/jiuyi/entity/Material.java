@@ -19,7 +19,6 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Table(name = "Material")
 public class Material extends BaseEntity{
 
 	private static final long serialVersionUID = -7988553859353286910L;

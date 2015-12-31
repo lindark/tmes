@@ -66,7 +66,7 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: true,summaryType:'sum',hidden:true},
-			{name:'dictname',index:'dictname',label:"字典名称",editable:true, sorttype:"date",unformat: pickDate,},
+			{name:'dictname',index:'dictname',label:"字典名称",editable:true, sorttype:"text",unformat: pickDate,},
 			{name:'dictdesp',index:'dictdesp',label:"字典描述", editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'dictkey',index:'dictkey',label:"Key", editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 			{name:'dictvalue',index:'dictvalue',label:"Value",  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},

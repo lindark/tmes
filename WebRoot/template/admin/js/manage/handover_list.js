@@ -38,9 +38,10 @@ jQuery(function($) {
 			{name:'processName',index:'processid',width:60,label:"工序名称",sortable:false},
 			{name:'materialCode',index:'materialCode',label:"物料编码", width:80,sortable:false},
 			{name:'materialName',index:'materialName',label:"物料描述", width:200,sortable:false},
-			{name:'beforworkingbillCode',index:'beforworkingbillCode',label:"上班随工单", width:200,sortable:false},
-			{name:'afterworkingbillCode',index:'afterworkingbillCode',label:"下班随工单", width:200,sortable:false},
-			{name:'amount',index:'amount',label:"数量", width:200,sortable:false},
+			{name:'beforworkingbillCode',index:'beforworkingbillCode',label:"上班随工单", width:60,sortable:false},
+			{name:'afterworkingbillCode',index:'afterworkingbillCode',label:"下班随工单", width:60,sortable:false},
+			{name:'amount',index:'amount',label:"数量", width:60,sortable:false},
+			{name:'state',index:'state',label:"状态", width:60,sortable:false},
 			{name:'modifyDate',index:'modifyDate',label:"修改日期", width:200,hidden:true},
 		], 
 

@@ -120,10 +120,10 @@ public class CallreasonAction extends BaseAdminAction {
 				String callReason = obj.get("callReason").toString();
 				map.put("callReason", callReason);				
 			}
-			if(obj.get("state")!=null){
+			/*if(obj.get("state")!=null){
 				String state = obj.get("state").toString();
 				map.put("state", state);				
-			}		
+			}		*/
 		}
 		pager = callreasonService.getCallreasonPager(pager,map);
 		List<Callreason> callreasonList = pager.getList();

@@ -141,7 +141,7 @@ function startWorking()
 		}
 		else if(iscancreditcard=="Y")
 		{
-			var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val(),
+			var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val();
 			credit.creditCard(url,function(data){
 				$.message(data.status,data.message);
 				$("#grid-table").trigger("reloadGrid");

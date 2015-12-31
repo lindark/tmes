@@ -18,12 +18,14 @@ import cc.jiuyi.entity.Callreason;
 @Repository
 public class CallreasonDaoImpl extends BaseDaoImpl<Callreason, String> implements CallreasonDao{
 	public Pager getCallreasonPager(Pager pager,HashMap<String,String> map) {
-		String wheresql = callreasonpagerSql(pager);
+		//String wheresql = callreasonpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Callreason.class);
-		if (!wheresql.equals("")) {
+		/*if (!wheresql.equals("")) {
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
 		}
+		*/
+		pagerSqlByjqGrid(pager,detachedCriteria);	
 		if(map.size()>0){
 			if(map.get("callType")!=null){
 				detachedCriteria.add(Restrictions.like("callType", "%"+map.get("callType")+"%"));								
@@ -40,7 +42,7 @@ public class CallreasonDaoImpl extends BaseDaoImpl<Callreason, String> implement
 
 	}
 
-	public String callreasonpagerSql(Pager pager) {
+	/*public String callreasonpagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
 		if (pager.is_search() == true && pager.getRules() != null) {
@@ -58,7 +60,7 @@ public class CallreasonDaoImpl extends BaseDaoImpl<Callreason, String> implement
 
 		}
 		return wheresql;
-	}
+	}*/
 	@Override
 	public void updateisdel(String[] ids,String oper) {
 		for(String id : ids){

@@ -45,14 +45,12 @@ jQuery(function($){
 //			{name:'projectType',index:'projectType', label:"项目类别",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 //			{name:'runOver',index:'runOver', label:"溢出指示符",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 //			{name:'exception',index:'exception', label:"例外",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialCode',index:'materialCode',label:"组件编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialName',index:'materialName',label:"组件名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialUnit',index:'materialUnit',label:"组件单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialAmount',index:'materialAmount',label:"组件数量", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'batch',index:'batch', width:200,label:"批次",editable: true,editoptions:{size:"20",maxlength:"30"}},
-//			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialState"}},	 
-			{name:'stateCarton',index:'isCarton', width:200, label:"纸箱状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=iscartonSate"}},
-			{name:'version',index:'version', width:200,label:"版本号",editable: true,editoptions:{size:"20",maxlength:"30"}}
+			{name:'materialCode',index:'materialCode',label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialName',index:'materialName',label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'orderUnit',index:'orderUnit',label:"订单单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialUnit',index:'materialUnit',label:"基本单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialType',index:'materialType',label:"物料类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'werks',index:'werks',label:"工厂", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -77,7 +75,7 @@ jQuery(function($){
 		},
 
 		editurl: "material!delete.action",//用它做标准删除动作
-		caption: "产品Bom"
+		caption: "物料基础数据"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

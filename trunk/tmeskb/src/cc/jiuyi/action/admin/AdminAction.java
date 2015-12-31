@@ -78,6 +78,7 @@ public class AdminAction extends BaseAdminAction {
 	
 	private Admin admin;
 	private String adminDeptName;
+	private List<Role> allRoleSystem;
 	private List<Role> allRole;
 	private List<Role> roleList;
 	private List<WorkingBill> workingbillList;
@@ -439,6 +440,7 @@ public class AdminAction extends BaseAdminAction {
 		admin.setRoleSet(new HashSet<Role>(roleList));
 		String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 		admin.setPassword(passwordMd5);
+		admin.setIsDel("N");
 		adminService.save(admin);
 		//redirectionUrl = "admin!list.action";
 		return ajaxJsonSuccessMessage("保存成功！");
@@ -562,13 +564,12 @@ public class AdminAction extends BaseAdminAction {
 		this.admin = admin;
 	}
 
-	public List<Role> getAllRole() {
-		allRole = roleService.getAll();
-		return allRole;
+	public List<Role> getAllRoleSystem() {
+		return roleService.getList("isSystem", true);
 	}
 
-	public void setAllRole(List<Role> allRole) {
-		this.allRole = allRole;
+	public void setAllRoleSystem(List<Role> allRoleSystem) {
+		this.allRoleSystem = allRoleSystem;
 	}
 
 	public List<Role> getRoleList() {
@@ -649,6 +650,14 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setTeamid(String teamid) {
 		this.teamid = teamid;
+	}
+
+	public List<Role> getAllRole() {
+		return roleService.getList("isSystem", false);
+	}
+
+	public void setAllRole(List<Role> allRole) {
+		this.allRole = allRole;
 	}
 	
 	

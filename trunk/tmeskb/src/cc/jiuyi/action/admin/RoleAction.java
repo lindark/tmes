@@ -67,7 +67,7 @@ public class RoleAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		pager = roleService.findByPager(pager);
+		//pager = roleService.findByPager(pager);
 		return LIST;
 	}
 

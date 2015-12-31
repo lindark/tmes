@@ -111,23 +111,12 @@
 											</div> <!-- cd-panel-content -->
 										</div> <!-- cd-panel-container -->
 									</div> <!-- cd-panel -->
-									
-									
-									
-									
-									
-									
-									
-									
-									
-								 
 									<div class="widget-box">
 										<div
 											class="widget-header widget-header-blue widget-header-flat">
 
 											<div class="widget-toolbar"></div>
 										</div>
-
 										<div class="widget-body">
 											<div class="widget-main">
 												<!-- #section:plugins/fuelux.wizard -->
@@ -209,7 +198,7 @@
 									</div>
 										
 									<div class="buttonArea">
-										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" type=button>
+										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="creditsubmit" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 										</button>&nbsp;&nbsp;
@@ -274,7 +263,16 @@
 		
 		/*刷卡确认*/
 		$("#creditapproval").click(function(){
-			var url="hand_over_process!creditapproval.action";
+			var url="hand_over!creditapproval.action";
+			credit.creditCard(url,function(data){
+				alert("OK");
+			})
+			
+		});
+		
+		/*刷卡提交*/
+		$("#creditsubmit").click(function(){
+			var url="hand_over!creditsubmit.action";
 			credit.creditCard(url,function(data){
 				alert("OK");
 			})

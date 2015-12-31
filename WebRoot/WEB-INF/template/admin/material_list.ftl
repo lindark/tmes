@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>产品Bom管理</title>
+		<title>物料管理</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> 
@@ -36,7 +36,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">产品Bom列表</li>
+			<li class="active">物料管理</li>
 		</ul>
 	</div>
 	
@@ -50,35 +50,16 @@
 								<form class="form-horizontal" id="searchform" action="material!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">组件编码:</label>
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">物料编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="materialCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">组件名称:</label>
+										<label class="col-sm-1" style="text-align:right">物料名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="materialName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-									</div>
-								   
-								   
-								    <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品名称:</label>
-										<div class="col-sm-4">
-											<input type="text" name="productsName1" class="input input-sm form-control" value="" id="form-field-icon-1">
-										</div>
-										
-										
-										<label class="col-sm-1 " style="text-align:right">状态:</label>
-									  <div class="col-sm-4">
-										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
-							                <option value="">全选</option> 
-							                <#list allState as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && material.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>              
-						               </select>
-									  </div>
 									</div>
 								   
 								   	<div class="form-group">
@@ -100,12 +81,12 @@
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
-												搜索Bom
+												搜索
 											</a>
-											<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
-										        <i class="ace-icon glyphicon glyphicon-edit"></i>
-										               维护Bom
-									        </button>
+											<a id="syncButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												同步
+											</a>
 										</div>
 									</div>
 								</form>							

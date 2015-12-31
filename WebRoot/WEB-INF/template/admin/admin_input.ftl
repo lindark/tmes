@@ -108,12 +108,21 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 管理角色</label>
 										<div class="col-sm-9">
-											<#list allRole as list> <label> <input
+											<#list allRoleSystem as list> <label> <input
 												type="checkbox" name="roleList.id"
 												class="{required: true, messages: {required: '请至少选择一个角色!'}, messagePosition: '#roleMessagePosition'}"
 												value="${list.id}"<#if (admin.roleSet.contains(list)
 												== true)!> checked="checked"</#if> /> ${(list.name)!} </label>
 											</#list> <span id="roleMessagePosition"></span>
+											<a href="javascript:void(0);" class="a" onClick="$('#morerole').removeClass('hide')"><span id="more">更多...</span></a>
+											<div style="border:1px solid #ccc" class="hide" id="morerole">
+												<#list allRole as list>
+													<label> <input
+													type="checkbox" name="roleList.id"
+													value="${list.id}"<#if (admin.roleSet.contains(list)
+													== true)!> checked="checked"</#if> /> ${(list.name)!} </label>
+												</#list>
+											</div>
 										</div>
 								</div>
 								<div class="form-group">

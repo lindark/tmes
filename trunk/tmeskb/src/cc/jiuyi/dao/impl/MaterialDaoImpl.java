@@ -46,7 +46,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		return getSession().createQuery(hql).setCacheable(true).list();
 	}
 
-	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName) {
+	public Pager getMaterialPager(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Material.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
@@ -58,22 +58,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			if(map.get("materialName")!=null){
 				detachedCriteria.add(Restrictions.like("materialName", "%"+map.get("materialName")+"%"));
 			}
-			if(map.get("state")!=null){
-				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
-			}
-//			if(map.get("start")!=null||map.get("end")!=null){
-//				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-//				try{
-//					Date start=sdf.parse(map.get("start"));
-//					Date end=sdf.parse(map.get("end"));
-//					detachedCriteria.add(Restrictions.between("createDate", start, end));
-//				}catch(Exception e){
-//					e.printStackTrace();
-//				}
-//			}
 		}		
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
-		//detachedCriteria.createAlias("products", "products");
 		return super.findByPager(pager, detachedCriteria);
 	}
 

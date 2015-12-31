@@ -19,7 +19,7 @@ import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.MaterialService;
 
 /**
- * Service实现类 -产品Bom管理
+ * Service实现类 -物料基本数据
  * @author Reece
  *
  */
@@ -42,14 +42,12 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	}
 
 	@Override
-	public Pager getMaterialPager(Pager pager, HashMap<String, String> map,String productsName) {
-		// TODO Auto-generated method stub
-		return materialDao.getMaterialPager(pager, map,productsName);
+	public Pager getMaterialPager(Pager pager, HashMap<String, String> map) {
+		return materialDao.getMaterialPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		materialDao.updateisdel(ids, oper);
 		
 	}
@@ -93,6 +91,28 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	@CacheFlush(modelId="flushing")
 	public void update(Material entity) {
 		materialDao.update(entity);
+	}
+	
+	@Override
+	@CacheFlush(modelId="flushing")
+	public Material merge(Material entity) {
+		// TODO Auto-generated method stub
+		return super.merge(entity);
+	}
+	
+	
+	public void mergeMaterialList(List<Material> materialList){
+		for(int i = 0; i < materialList.size();i++){
+			Material material = materialList.get(i);
+			Material material1 = this.get("materialCode",material.getMaterialCode());
+			if(material1 == null){
+				this.save(material);
+			}else{
+				material.setId(material1.getId());
+				this.merge(material);
+			}
+		}
+		
 	}
 	
 }

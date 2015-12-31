@@ -11,11 +11,13 @@ import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
+import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 考勤
@@ -113,5 +115,36 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		kqbcr.setAdmin(admin);//admin表
 		kqbcr.setCreateDate(new Date());//刷卡时间
 		this.kqBCRService.save(kqbcr);
+	}
+	
+	/**
+	 * 交接完成后，下班。等操作
+	 */
+	public void mergeAdminafterWork(){
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
+		for(int i=0;i<adminList.size();i++){
+			Admin admin1 = adminList.get(i);
+			Kaoqin kaoqin = new Kaoqin();
+			Post post = admin1.getPost();
+			String cardNumber= admin1.getCardNumber();//卡号
+			String classtime = admin1.getShift();//班次
+			String empname = admin1.getName(); //名字
+			String postname = post.getPostName();//技能名称
+			String team = admin.getDepartment().getTeam().getTeamName();//班组
+			String workState = admin1.getWorkstate();//工作状态
+			kaoqin.setCardNumber(cardNumber);
+			kaoqin.setClasstime(classtime);
+			kaoqin.setEmpname(empname);
+			kaoqin.setPostname(postname);
+			kaoqin.setTeam(team);
+			kaoqin.setWorkState(workState);
+			this.save(kaoqin);
+			admin1.setWorkstate("1");//未上班
+			adminService.update(admin1);//人员下班
+		}
+		
+		
 	}
 }

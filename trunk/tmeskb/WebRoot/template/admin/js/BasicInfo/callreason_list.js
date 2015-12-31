@@ -78,7 +78,7 @@ jQuery(function($) {
 				colModel:[
 					
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-					{name:'callType',index:'callType', width:200},
+					{name:'callType',index:'callType', width:200,search:false},
 					{name:'callReason',index:'callReason', width:200,sortable:"true",sorttype:"text"},
 					{name:'state',index:'state', width:100,sortable:"true",sorttype:"text"}
 				], 

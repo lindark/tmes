@@ -1,11 +1,11 @@
 
+
 $(function(){
 	var $userAddBtn = $("#userAddBtn");//添加用户
 	var $userDeleteBtn = $("#userDeleteBtn");//删除用户
 	var $userEditBtn = $("#userEditBtn");//编辑用户
 	var $userTeamBtn = $("#userTeamBtn");//班组分配
 	
-
 	/**
 	 * 分配班组点击
 	 */

@@ -115,7 +115,8 @@ public class PickDetailAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		Products products = productsServce.getProducts(matnr);// 获取产品
-		bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionByid(products.getId()));// 取出最高版本号的BomList
+		Integer MaxVersion = bomService.getMaxVersionByid(products.getId());//获取该产品下版本号最高的Bom
+		bomList = bomService.getListByid(products.getId(), MaxVersion);// 根据产品ID和最大版本号取出最高版本号的BomList
 		workingbill = workingBillService.get(workingBillId);
 
 		/** 调SAP接口取库存数量 **/

@@ -204,7 +204,7 @@ public class AdminAction extends BaseAdminAction {
 		public String teamWorkingBill() {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
-			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			workingbillList = new ArrayList<WorkingBill>(getTeamById(teamid));
 			return "teamworkingbill";
 		}
 	
@@ -213,6 +213,10 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
             teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
+            for (int i = 0; i < teamList.size(); i++) {
+				Team  team =teamList.get(i);
+				System.out.println("================="+team.getId());
+			}
  /**		pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
 			sampleList=sampleService.getUncheckList();//获取所有未确认的抽检单
 			scrapList=scrapService.getUnCheckList();//获取所有未确认的报废单                   **/
@@ -220,7 +224,7 @@ public class AdminAction extends BaseAdminAction {
 		}
 		
 	// 根据班组ID查询所有随工单
-	public List<WorkingBill> getTeamById() {
+	public List<WorkingBill> getTeamById(String teamid) {
 		Team team = this.teamService.get(teamid);
 		List<Products> product_list = new ArrayList<Products>(team
 				.getFactoryUnit().getProductsSet());

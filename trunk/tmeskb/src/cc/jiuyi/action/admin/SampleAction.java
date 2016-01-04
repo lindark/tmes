@@ -108,7 +108,7 @@ public class SampleAction extends BaseAdminAction
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.saveInfo(sample,info,info2,my_id);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
-		return SUCCESS;
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class SampleAction extends BaseAdminAction
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.saveInfo(sample,info,info2,my_id);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
-		return SUCCESS;
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**
@@ -266,7 +266,7 @@ public class SampleAction extends BaseAdminAction
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.updateInfo(sample,info,info2,my_id);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
-		return SUCCESS;
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**
@@ -277,7 +277,7 @@ public class SampleAction extends BaseAdminAction
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
 		this.sampleService.updateInfo(sample,info,info2,my_id);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
-		return SUCCESS;
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**

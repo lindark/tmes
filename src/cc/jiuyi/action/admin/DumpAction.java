@@ -96,6 +96,7 @@ public class DumpAction extends BaseAdminAction {
 	 */
 	public String creditapproval() {
 		try {
+			
 			String[] ids = dumpId.split(",");
 			admin = adminService.getByCardnum(cardnumber);
 			admin = adminService.load(admin.getId());

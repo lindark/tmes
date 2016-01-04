@@ -89,6 +89,7 @@ public class AdminAction extends BaseAdminAction {
 	private String departid;
 	private String departName;
 	private String teamid;
+	private Team team;
 
 	@Resource
 	private AdminService adminService;
@@ -205,6 +206,7 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
 			workingbillList = new ArrayList<WorkingBill>(getTeamById(teamid));
+			team = teamService.get(teamid);
 			return "teamworkingbill";
 		}
 	
@@ -213,11 +215,11 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
             teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
-            for (int i = 0; i < teamList.size(); i++) {
+/**         for (int i = 0; i < teamList.size(); i++) {
 				Team  team =teamList.get(i);
 				System.out.println("================="+team.getId());
 			}
- /**		pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
+		    pollingtestList=pollingtestService.getUncheckList();//获取所有未确认的巡检单
 			sampleList=sampleService.getUncheckList();//获取所有未确认的抽检单
 			scrapList=scrapService.getUnCheckList();//获取所有未确认的报废单                   **/
 			return "testindex";
@@ -663,6 +665,14 @@ public class AdminAction extends BaseAdminAction {
 	public void setAllRole(List<Role> allRole) {
 		this.allRole = allRole;
 	}
-	
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
 	
 }

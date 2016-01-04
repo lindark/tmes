@@ -107,8 +107,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String creditapproval() {
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		ids = id.split(",");
-		for (int i = 0; i < ids.length; i++) {
-			enteringwareHouse = enteringwareHouseService.load(ids[i]);
+		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
+		for (int i = 0; i < list.size(); i++) {
+			enteringwareHouse = list.get(i);
 			if (CONFIRMED.equals(enteringwareHouse.getState())) {
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
@@ -116,7 +117,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
-		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
+		
 		enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
 				ratio,cardnumber);
 		workingbill = workingBillService.get(workingBillId);

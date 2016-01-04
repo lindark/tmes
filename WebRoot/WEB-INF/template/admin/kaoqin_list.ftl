@@ -226,7 +226,7 @@
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
 												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />
 											</td>
-											<td><a id="a_edit${(list.cardNumber)!}" onclick="edit_event(${(list.cardNumber)!})" class="a_edit">编辑</a>
+											<td><a id="a_edit${(list.cardNumber)!}" onclick="edit_event('${(list.cardNumber)!}')" class="a_edit">编辑</a>
 											</td>
 										</tr>
 										<#assign num=num+1>

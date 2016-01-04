@@ -47,6 +47,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		  try{
+			  
 			// 获取 JobDataMap , 并从中取出参数   
 		     JobDataMap data = context.getJobDetail().getJobDataMap();  
 		     String abnorId = data.getString("id");//异常id
@@ -82,7 +83,6 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
              Document doc;   
              doc = DocumentHelper.parseText(str); 
              Node stateNode = doc.selectSingleNode("/infos/info/state");
-             
 			 
 			 if(stateNode.getText().equalsIgnoreCase("0")){//短信发送成功			    
 					
@@ -90,7 +90,6 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					abnormalLog.setAbnormal(abnormal);
 					abnormalLog.setType("5");
 					abnormalLog.setOperator(admin);
-					
 					
 					HashMap<String,Object> maps = new HashMap<String,Object>();
 				    maps.put("id",abnorId);
@@ -104,13 +103,13 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					maps.put("director", name1);
 					maps.put("phone2",phone2);
 					maps.put("manager", name2);
+					
 																			
 					if(Integer.parseInt(count)==1){
 												
 						abnormalLog.setInfo(name);
 						abnormalLogService.save(abnormalLog);
 						maps.put("count","2");
-						
 						QuartzManagerUtil.modifyJobTime(jobname,time1,maps);
 					
 					}else if(Integer.parseInt(count)==2){

@@ -178,7 +178,7 @@ public class ScrapAction extends BaseAdminAction
 		//保存新增数据，返回主表新增数据的ID
 		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
-		return this.ajaxJsonSuccessMessage("success");
+		return this.ajaxJsonSuccessMessage("您的操作已经成功");
 	}
 	
 	/**
@@ -198,7 +198,7 @@ public class ScrapAction extends BaseAdminAction
 			xconfirm(list1,"2",1);
 		}
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
-		return this.ajaxJsonSuccessMessage("success");	
+		return this.ajaxJsonSuccessMessage("您的操作已经成功");	
 	}
 	
 	/**
@@ -259,7 +259,7 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.scrapService.updateInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
-		return this.ajaxJsonSuccessMessage("success");
+		return this.ajaxJsonSuccessMessage("您的操作已经成功");
 	}
 	
 	/**

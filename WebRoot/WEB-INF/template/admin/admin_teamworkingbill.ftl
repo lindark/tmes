@@ -47,7 +47,7 @@
 									<!-- #section:custom/widget-box -->
 									<div class="widget-box transparent">
 										<div class="widget-header">
-											<h4 class="widget-title lighter">班组信息</h4>
+											<h4 class="widget-title lighter">选中班组信息</h4>
 											<div class="widget-toolbar no-border">
 												<a href="#" data-action="collapse"> <i
 													class="ace-icon fa fa-chevron-up"></i> </a>
@@ -62,24 +62,22 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">工厂：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.workShop.factory.factoryName)!
-															}</div>
+															${(team.factoryUnit.workShop.factory.factoryName)!}</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">车间：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.workShop.workShopName)!
-															}</div>
+															${(team.factoryUnit.workShop.workShopName)!}</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>
+															${(team.factoryUnit.factoryUnitName)!}</div>
 													</div>
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.teamName)! }</div>
+															${(team.teamName)! }</div>
 													</div>
 												</div>
 											</div>
@@ -97,7 +95,6 @@
 											<div class="widget-toolbar no-border">
 												<a href="#" data-action="collapse"> <i
 													class="ace-icon fa fa-chevron-up"></i> </a>
-
 											</div>
 										</div>
 

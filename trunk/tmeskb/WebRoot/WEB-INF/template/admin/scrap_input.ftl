@@ -142,7 +142,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="${(list.xmenge)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.materialCode)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.materialName)! }" />
-																			<input type="hidden" name="list_scrapmsg[${num}].materialId" value="${(list.id)! }" />
+																			<!-- <input type="hidden" name="list_scrapmsg[${num}].materialId" value="${(list.id)! }" /> -->
 																			<input type="hidden" name="list_scrapmsg[${num}].id" value="${(list.xsmid)! }" />
 																			
 																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden" value="${(list.xsbnums)! }" />

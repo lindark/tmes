@@ -59,86 +59,7 @@
 						<div class="col-xs-12">
 
 							<div class="row">
-                                       <!--按钮组start-->
-								<div class="col-xs-12 col-sm-12 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header">
-											<h4 class="widget-title lighter">按钮组</h4>
-											<div class="widget-toolbar no-border">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<divclass="widget-main padding-6 no-padding-left no-padding-right">
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="scrapTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled" type="button" id="scrap">
-														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">报废</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="reworkTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="rework">
-														<i class="ace-icon fa fa-exchange bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">返工</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="repairTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="repair">
-														<i class="ace-icon fa fa-cog bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">返修</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="sampleTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="sample">
-														<i class="ace-icon fa fa-flag bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">抽检</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="inspectionTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="pollingtest">
-														<i class="ace-icon fa fa-leaf bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">巡检</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="halfinspectionTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="halfinspection">
-														<i class="ace-icon fa fa-star-half-o bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">半成品巡检</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="quickresponseTest">
-													<button 
-														class="btn btn-white btn-success btn-bold btn-round btn-block"
-														id="qResponse">
-														<i class="ace-icon fa fa-volume-up bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">快速响应</span>
-													</button>
-												</div>
-												<div class="col-md-2 col-sm-4 access" style="padding:2px;" data-access-list="attendanceTest">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block">
-														<i class="ace-icon fa fa-users bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">考勤</span>
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								<!--按钮组end-->
+                                      
 							</div>
 							
 						   <div>&nbsp</div>
@@ -179,9 +100,10 @@
 														<#list teamList as list>
 														<tr>
 														   
-															<td ><a href="javascript:void(0);" class="maclick">
-															       <b class="green" >${list.teamName}</b>
-															     </a>
+															<td>
+															<input type="hidden" style="width:350px;" class="teamId" name="team.id" value="${(list.id)! }"/>
+															<a href="javascript:void(0);" class="matkx">
+															       <b class="green" >${list.teamName}</b></a>
 															</td>								
                                                             <td class="hidden-480">${list.factoryUnit.factoryUnitName}</td>
 															<td class="hidden-480">${list.factoryUnit.workShop.workShopName}</td>
@@ -198,210 +120,8 @@
 									</div>
 									<!-- /.widget-box -->
 								</div>
-							</div>
-							
-						   <div>&nbsp</div>
-						   <div>&nbsp</div>
-						   
-							<div class="row">
-							<div class="col-xs-12 col-sm-6 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header widget-header-flat">
-											<h4 class="widget-title lighter">
-												<i class="ace-icon fa fa-star orange"></i> 未确认的巡检单
-											</h4>
-
-											<div class="widget-toolbar">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<div class="widget-main no-padding" style="height:250px;overflow:auto;">
-												<table class="table table-bordered table-striped">
-													<thead class="thin-border-bottom">
-														<tr>
-														    <th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
-															</th>														
-															<th><i class="ace-icon fa fa-caret-right blue"></i>巡检数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
-															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
-														</tr>
-													</thead>
-
-													<tbody>
-														<#list pollingtestList as list>
-														<tr>			
-														    <td class="hidden-480">${list.workingbill.maktx}</td>		
-															<td class="hidden-480">${list.pollingtestAmount}</td>
-                                                            <td class="hidden-480">${list.qualifiedAmount}</td>
-															<td class="hidden-480">${list.passedPercent}</td>
-															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
-														</tr>
-														</#list>
-
-													</tbody>
-												</table>
-											</div>
-											<!-- /.widget-main -->
-										</div>
-										<!-- /.widget-body -->
-									</div>
-									<!-- /.widget-box -->
-								</div>
-										
-							      <div class="col-xs-12 col-sm-6 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header widget-header-flat">
-											<h4 class="widget-title lighter">
-												<i class="ace-icon fa fa-star orange"></i> 未确认的抽检单
-											</h4>
-
-											<div class="widget-toolbar">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<div class="widget-main no-padding" style="height:250px;overflow:auto;">
-												<table class="table table-bordered table-striped">
-													<thead class="thin-border-bottom">
-														<tr>	
-														<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
-															</th>													
-															<th><i class="ace-icon fa fa-caret-right blue"></i>抽检数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
-															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
-														</tr>
-													</thead>
-
-													<tbody>
-														<#list sampleList as list>
-														<tr>	
-														    <td class="hidden-480">${list.workingBill.maktx}</td>				
-															<td class="hidden-480">${list.sampleNum}</td>
-                                                            <td class="hidden-480">${list.qulified}</td>
-															<td class="hidden-480">${list.qulifiedRate}</td>
-															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
-														</tr>
-														</#list>
-
-													</tbody>
-												</table>
-											  </div>
-											<!-- /.widget-main -->
-										</div>
-										<!-- /.widget-body -->
-									</div>
-									<!-- /.widget-box -->
-								</div>							
-							</div>
-							
-							<div>&nbsp</div>
-							<div>&nbsp</div>
-							
-							
-							<div class="row">
-							<div class="col-xs-12 col-sm-6 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header widget-header-flat">
-											<h4 class="widget-title lighter">
-												<i class="ace-icon fa fa-star orange"></i> 未确认的报废单
-											</h4>
-
-											<div class="widget-toolbar">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<div class="widget-main no-padding">
-												<table class="table table-bordered table-striped">
-													<thead class="thin-border-bottom">
-														<tr>
-														    <th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
-															</th>																					
-															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
-														</tr>
-													</thead>
-
-													<tbody>
-														<#list scrapList as list>
-														<tr>			
-														    <td class="hidden-480">${list.workingBill.maktx}</td>														
-															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
-														</tr>
-														</#list>
-
-													</tbody>
-												</table>
-											</div>
-											<!-- /.widget-main -->
-										</div>
-										<!-- /.widget-body -->
-									</div>
-									<!-- /.widget-box -->
-								</div>
-										
-							      <div class="col-xs-12 col-sm-6 widget-container-col">
-									<div class="widget-box transparent">
-										<div class="widget-header widget-header-flat">
-											<h4 class="widget-title lighter">
-												<i class="ace-icon fa fa-star orange"></i> 未确认的半成品巡检单
-											</h4>
-
-											<div class="widget-toolbar">
-												<a href="#" data-action="collapse"> <i
-													class="ace-icon fa fa-chevron-up"></i> </a>
-											</div>
-										</div>
-
-										<div class="widget-body">
-											<div class="widget-main no-padding">
-												<table class="table table-bordered table-striped">
-													<thead class="thin-border-bottom">
-														<tr>	
-														<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
-															</th>													
-															<th><i class="ace-icon fa fa-caret-right blue"></i>抽检数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格数量
-															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>合格率
-															<th><i class="ace-icon fa fa-caret-right blue"></i>创建日期
-														</tr>
-													</thead>
-
-													<tbody>
-														<#list sampleList as list>
-														<tr>	
-														    <td class="hidden-480">${list.workingBill.maktx}</td>				
-															<td class="hidden-480">${list.sampleNum}</td>
-                                                            <td class="hidden-480">${list.qulified}</td>
-															<td class="hidden-480">${list.qulifiedRate}</td>
-															<td class="hidden-480">${list.createDate?string("yyyy-MM-dd HH:mm:ss")}</td>
-														</tr>
-														</#list>
-
-													</tbody>
-												</table>
-											</div>
-											<!-- /.widget-main -->
-										</div>
-										<!-- /.widget-body -->
-									</div>
-									<!-- /.widget-box -->
-								</div>							
-							</div>
+							</div>														
+			
 						</div>
 						<!-- /.col -->
 					</div>
@@ -421,7 +141,22 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-		
+	$(".matkx").click(function() {
+		var teamid = $(this).prev().val();
+		var index = layer.open({
+			type : 2,
+			skin : 'layui-layer-lan',
+			title : "<font size='5px'>当前班组正在生产的随工单</font>",
+			fix : false,
+			shadeClose : false,
+			maxmin : true,
+			scrollbar : false,
+			btn:['确定'],
+			area : [ '800px', '400px' ],//弹出框的高度，宽度
+			content : "admin!teamWorkingBill.action?teamid="+teamid
+		});
+		layer.full(index);//弹出既全屏
+	});
 	</script>
 
 </body>

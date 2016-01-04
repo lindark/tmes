@@ -460,17 +460,17 @@ public class AbnormalAction extends BaseAdminAction {
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
-		can.add(Calendar.MINUTE, 10);
+		can.add(Calendar.MINUTE, 1);
 		Date date=can.getTime();	
 		
 		Calendar can1 = Calendar.getInstance();//定时任务时间2
 		can1.setTime(abnormal.getCreateDate());
-		can1.add(Calendar.MINUTE, 30);
+		can1.add(Calendar.MINUTE, 3);
 		Date date1=can1.getTime();
 		
 		Calendar can2 = Calendar.getInstance();//定时任务时间3
 		can2.setTime(abnormal.getCreateDate());
-		can2.add(Calendar.MINUTE, 60);
+		can2.add(Calendar.MINUTE, 6);
 		Date date2=can2.getTime();
 		
 		System.out.println(ThinkWayUtil.getCron(date));
@@ -493,8 +493,9 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 	
 	//创建定时任务
-	public void quartzMessage(String time,HashMap<String,Object> maps){				 
-			  QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			      	      
+	public void quartzMessage(String time,HashMap<String,Object> maps){	
+		removeQuartz();
+		QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			      	      
 	}
 	
 	//删除定时任务

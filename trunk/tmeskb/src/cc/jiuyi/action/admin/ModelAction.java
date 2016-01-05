@@ -195,17 +195,17 @@ public class ModelAction extends BaseAdminAction {
 		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
 		persistent.setState("1");	
 
-		if(faultReasonSet!=null){
+		if(faultReasonSet!=null || persistent.getFaultReasonSet()!=null){
 			persistent.setFaultReasonSet(new HashSet<FaultReason>(faultReasonSet));
 		}else{
 			return ajaxJsonErrorMessage("故障原因不允许为空!");
 		}
-		if(handleSet!=null){
+		if(handleSet!=null || persistent.getHandleSet()!=null){
 			persistent.setHandleSet(new HashSet<HandlemeansResults>(handleSet));
 		}else{
 			return ajaxJsonErrorMessage("处理方法不允许为空!");
 		}
-		if(longSet!=null){
+		if(longSet!=null || persistent.getLongSet()!=null){
 			persistent.setLongSet(new HashSet<LongtimePreventstep>(longSet));
 		}else{
 			return ajaxJsonErrorMessage("预防措施不允许为空!");

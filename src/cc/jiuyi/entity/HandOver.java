@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,6 +28,16 @@ public class HandOver extends BaseEntity{
 	private String state;//状态
 	private Admin submitadmin;//提交人
 	private Admin approvaladmin;//确认人
+	private Set<HandOverProcess> handoverprocess;//交接从表
+	
+	@OneToMany(mappedBy = "handover", fetch = FetchType.LAZY)
+	public Set<HandOverProcess> getHandoverprocess() {
+		return handoverprocess;
+	}
+	public void setHandoverprocess(Set<HandOverProcess> handoverprocess) {
+		this.handoverprocess = handoverprocess;
+	}
+	
 	public String getState() {
 		return state;
 	}

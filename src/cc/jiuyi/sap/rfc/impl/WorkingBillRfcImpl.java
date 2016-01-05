@@ -14,9 +14,12 @@ import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Locationonside;
+import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
@@ -34,8 +37,38 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	private WorkingBillService workingbillservice;
 	@Override
 	public void syncRepairorder(String startdate,String enddate,String starttime,String endtime) throws IOException, CustomerException {
-		super.setProperty("workingbill");//根据配置文件读取到函数名称
-		/******输入参数******/
+//		super.setProperty("workingbill");//根据配置文件读取到函数名称
+//		/******输入参数******/
+//		HashMap<String,Object> parameter = new HashMap<String,Object>();
+//		parameter.put("STARTDATE", startdate);
+//		parameter.put("ENDDATE", enddate);
+//		parameter.put("STARTTIME", starttime);
+//		parameter.put("ENDTIME", endtime);
+//		
+//		super.setParameter(parameter);
+//		SAPModel model = execBapi();//执行 并获取返回值
+//		
+//		ParameterList outs = model.getOuttab();//返回表
+//		Table table01 = outs.getTable("ET_ITEM");//列表
+//		List<WorkingBill> list = new ArrayList<WorkingBill>();
+//		for(int i=0;i<table01.getNumRows();i++){
+//			WorkingBill workingbill = new WorkingBill();
+//			table01.setRow(i);
+//			workingbill.setWorkingBillCode(table01.getString("ZSGD"));//随工单号
+//			workingbill.setProductDate(table01.getString("GLTRS"));//生产日期
+//			workingbill.setPlanCount(table01.getInt("NEWS"));//计划数
+//			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
+//			workingbill.setMatnr(table01.getString("PLNBEZ"));//物料编号
+//			workingbill.setWerks(table01.getString("WERKS"));//工厂
+//			list.add(workingbill);
+//		}
+//		//workingbillservice.mergeWorkingBill(list);
+		
+	}
+	
+	@Override
+	public void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime) throws IOException, CustomerException {
+		super.setProperty("workingbillall");//根据配置文件读取到函数名称
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("STARTDATE", startdate);
 		parameter.put("ENDDATE", enddate);
@@ -46,35 +79,10 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		SAPModel model = execBapi();//执行 并获取返回值
 		
 		ParameterList outs = model.getOuttab();//返回表
-		Table table01 = outs.getTable("ET_ITEM");//列表
-		List<WorkingBill> list = new ArrayList<WorkingBill>();
-		for(int i=0;i<table01.getNumRows();i++){
-			WorkingBill workingbill = new WorkingBill();
-			table01.setRow(i);
-			workingbill.setWorkingBillCode(table01.getString("ZSGD"));//随工单号
-			workingbill.setProductDate(table01.getString("GLTRS"));//生产日期
-			workingbill.setPlanCount(table01.getInt("NEWS"));//计划数
-			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
-			workingbill.setMatnr(table01.getString("PLNBEZ"));//物料编号
-			workingbill.setWerks(table01.getString("WERKS"));//工厂
-			list.add(workingbill);
-		}
-		workingbillservice.mergeWorkingBill(list);
-		
-	}
-	
-	@Override
-	public void syncRepairorderAll(String startdate,String enddate) throws IOException, CustomerException {
-		super.setProperty("workingbillall");//根据配置文件读取到函数名称
-		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("STARTDATE", startdate);
-		parameter.put("ENDDATE", enddate);
-		
-		super.setParameter(parameter);
-		SAPModel model = execBapi();//执行 并获取返回值
-		
-		ParameterList outs = model.getOuttab();//返回表
-		Table table01 = outs.getTable("ET_ITEM");//列表
+		Table table01 = outs.getTable("ET_ITEM");//随工单
+		Table table02 = outs.getTable("ET_AFKO");//订单
+		Table table03 = outs.getTable("ET_AFVC");//订单工艺路线
+		Table table04 = outs.getTable("ET_RESB");//生产订单BOM
 		List<WorkingBill> list = new ArrayList<WorkingBill>();
 		for(int i=0;i<table01.getNumRows();i++){
 			WorkingBill workingbill = new WorkingBill();
@@ -85,9 +93,47 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			workingbill.setMaktx(table01.getString("MAKTX"));//物料描述
 			workingbill.setMatnr(table01.getString("MATNR"));//物料编号
 			workingbill.setWerks(table01.getString("WERKS"));//工厂
+			workingbill.setAufnr(table01.getString("AUFNR"));//订单号
 			list.add(workingbill);
 		}
-		workingbillservice.mergeWorkingBill(list);
+		List<Order> orderlist = new ArrayList<Order>();//生产订单
+		for(int i=0;i<table02.getNumRows();i++){
+			Order order = new Order();
+			table02.setRow(i);
+			order.setAufnr(table02.getString("AUFNR"));//订单号
+			order.setAuart(table02.getString("AUART"));//订单类型
+			order.setAutyp(table02.getString("AUTYP"));//订单类别
+			order.setMatnr(table02.getString("MATNR"));//产品
+			order.setMaktx(table02.getString("MAKTX"));//物料描述
+			order.setAufpl(table02.getString("AUFPL"));//工艺路线号
+			if(table02.getString("LOEKZ").equals("X")){//删除标记
+				order.setIsdel("Y");
+			}else{
+				order.setIsdel("N");
+			}
+			orderlist.add(order);
+		}
+		
+		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
+		for(int i=0;i<table03.getNumRows();i++){
+			ProcessRoute processroute = new ProcessRoute();
+			processroute.setAufpl(table03.getString("AUFPL"));//工艺路线号
+			processroute.setProcessCode(table03.getString("VORNR"));//操作，mes系统中是工序编码
+			processroute.setProcessName(table03.getString("LTXA1"));//短文本
+			processroute.setSteus(table03.getString("STEUS"));//控制码
+			//TODO 缺少工作中心
+			processrouteList.add(processroute);
+		}
+		
+		List<Bom> bomList = new ArrayList<Bom>();//BOM
+		for(int i=0;i<table04.getNumRows();i++){
+			Bom bom = new Bom();
+			bom.setRsnum(table04.getString("RSNUM"));//预留号
+			bom.setMaterialCode(table04.getString("MATNR"));//物料
+			//TODO 缺少物料描述
+			bomList.add(bom);
+		}
+		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
 	}
 
 }

@@ -276,7 +276,7 @@
 			
 			var url="hand_over!creditsubmit.action";
 			credit.creditCard(url,function(data){
-				alert("OK");
+				//alert("OK");
 			})
 			
 		});

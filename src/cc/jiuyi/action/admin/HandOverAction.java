@@ -132,13 +132,15 @@ public class HandOverAction extends BaseAdminAction {
 
 		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			
+			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
+				handoverprocessList.remove(i);
 			/**获取主表id**/
 			String id = handoverprocess.getHandover().getId();
 			handoverId = id;
-			
-			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
-				handoverprocessList.remove(i);
+			HandOver hdover = handOverService.get(handoverId);
+			if(hdover.getState().equals("1")){
+				return ajaxJsonErrorMessage("交接状态为未提交不能确认,请先提交后确认!");
+			}		
 		}
 		try {
 			Boolean flag = true;

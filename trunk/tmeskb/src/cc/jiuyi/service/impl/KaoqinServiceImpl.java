@@ -17,7 +17,6 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 考勤
@@ -120,7 +119,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 交接完成后，下班。等操作
 	 */
-	public void mergeAdminafterWork(){//状态改成已确认,给人员历史插入数据,人员下班，班组下班。
+	public void mergeAdminafterWork(){
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());

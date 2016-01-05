@@ -9,7 +9,9 @@ import cc.jiuyi.dao.ResourceDao;
 import cc.jiuyi.entity.Resource;
 import cc.jiuyi.entity.Role;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -97,7 +99,69 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	public Pager findByPager(Pager pager) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Resource.class);
 		return this.findByPager(pager, detachedCriteria);
+		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Resource> getResourcePager(Pager pager){
+		String hql="from Resource model";
+		if (pager == null) {
+			pager = new Pager();
+		}
+		Integer pageNumber = pager.getPageNumber();
+		Integer pageSize = pager.getPageSize();
+		String property = pager.getProperty();
+		String keyword = pager.getKeyword();
+		String orderBy = pager.getOrderBy();
+		OrderType orderType = pager.getOrderType();
+		if (StringUtils.isNotEmpty(property) && StringUtils.isNotEmpty(keyword)) {
+			String propertyString = "";
+			if (property.contains(".")) {
+				String propertyPrefix = StringUtils.substringBefore(property,
+						".");
+				String propertySuffix = StringUtils.substringAfter(property,
+						".");
+				propertyString = "model." + propertySuffix;
+			} else {
+				propertyString = property;
+			}
+			hql+=" where "+propertyString+" like '%"+keyword+"%'";
+		}
+		if (StringUtils.isNotEmpty(orderBy) && orderType != null) {
+			hql+=" order by "+orderBy+" "+orderType;
+		}
+		
+		return getSession().createQuery(hql).setFirstResult((pageNumber - 1) * pageSize).setMaxResults(pageSize).list();
+	}
+	
+	public Integer resourceCount(Pager pager){
+		String hql="select count(model) from Resource model";
+		if (pager == null) {
+			pager = new Pager();
+		}
+		String property = pager.getProperty();
+		String keyword = pager.getKeyword();
+		String orderBy = pager.getOrderBy();
+		OrderType orderType = pager.getOrderType();
+		if (StringUtils.isNotEmpty(property) && StringUtils.isNotEmpty(keyword)) {
+			String propertyString = "";
+			if (property.contains(".")) {
+				String propertyPrefix = StringUtils.substringBefore(property,
+						".");
+				String propertySuffix = StringUtils.substringAfter(property,
+						".");
+				propertyString = "model." + propertySuffix;
+			} else {
+				propertyString = property;
+			}
+			hql+=" where "+propertyString+" like '%"+keyword+"%'";
+		}
+		if (StringUtils.isNotEmpty(orderBy) && orderType != null) {
+			hql+=" order by "+orderBy+" "+orderType;
+		}
+		return ((Number) getSession().createQuery(hql).uniqueResult()).intValue();
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public Integer getListByadmin(List<String> roleid,String path){

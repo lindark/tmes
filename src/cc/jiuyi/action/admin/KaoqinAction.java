@@ -86,7 +86,7 @@ public class KaoqinAction extends BaseAdminAction
 			this.list_emp=getNewAdminList(l_emp);
 		}
 		Team t=this.teamService.get(tid);
-		this.isstartteam=t.getIsWork();//班组是否开启
+		//this.isstartteam=t.getIsWork();//班组是否开启
 		this.iscancreditcard=t.getIscancreditcard();//是否可以开启考勤
 		return LIST;
 	}
@@ -246,18 +246,8 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String creditreply()
 	{
-		
-		/**获取班组状态*/
-		this.admin=this.adminService.getLoginAdmin();
-		this.admin=this.adminService.get(admin.getId());
-		Team t=admin.getDepartment().getTeam();
-		t.setIscancreditcard("N");
-		t.setModifyDate(new Date());
-		this.teamService.update(t);
-		
 		String job_name = "startWorking"+this.sameTeamId;
 		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
-		
 		//当前时间
 		Calendar can=Calendar.getInstance();
 		this.kqService.updateState(can.getTime());
@@ -303,6 +293,14 @@ public class KaoqinAction extends BaseAdminAction
 		}
 		//保存开启考勤(刷卡)记录
 		this.kqService.saveBrushCardEmp(admin);
+		/**获取班组状态*/
+		this.admin=this.adminService.getLoginAdmin();
+		this.admin=this.adminService.get(admin.getId());
+		Team t=admin.getDepartment().getTeam();
+		t.setIscancreditcard("N");
+		t.setState("1");//班组状态改为开启状态
+		t.setModifyDate(new Date());
+		this.teamService.update(t);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	

@@ -347,7 +347,9 @@ public class DeviceAction extends BaseAdminAction {
 		if(persistent.getState().equals("3")){
 			return ajaxJsonErrorMessage("已关闭的单据无法再回复!");
 		}
-		
+		if(persistent.getState().equals("1")){
+			return ajaxJsonErrorMessage("单据已回复!");
+		}
 		if(device.getBeginTime()==null){
 			return ajaxJsonErrorMessage("处理开始时间不允许为空!");
 		}
@@ -367,11 +369,12 @@ public class DeviceAction extends BaseAdminAction {
 		if(deviceStepSet==null){
 			return ajaxJsonErrorMessage("处理过程不允许为空!");
 		}else{
-			for(DeviceStep deviceStep:deviceStepSet){
-				deviceStep.setDevice(persistent);
-				deviceStepService.save(deviceStep);
-			}
-			device.setDeviceStepSet(new HashSet<DeviceStep>(deviceStepSet));
+				for(DeviceStep deviceStep:deviceStepSet){
+					deviceStep.setDevice(persistent);
+					deviceStepService.save(deviceStep);
+				}
+				device.setDeviceStepSet(new HashSet<DeviceStep>(deviceStepSet));
+			
 		}
 				
 		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
@@ -412,13 +415,19 @@ public class DeviceAction extends BaseAdminAction {
 			persistent.setState("3");
 			deviceService.update(persistent);
 			
+			DeviceLog log = new DeviceLog();
+			log.setDevice(persistent);
+			log.setOperator(admin);
+			log.setInfo("已关闭");
+		    deviceLogService.save(log);
+			
 			
 			Device d=persistent;
 			Equipments e = persistent.getEquipments();
 			e.setEquipmentNo("JX-B-C0001");
 			Admin a=new Admin();
 			a.setName("张三");
-			d.setSHORT_TEXT("测试维修单");
+			d.setSHORT_TEXT("设备维修单");
 			d.setEquipments(e);
 			d.setBeginTime(new Date());//开始日期
 			d.setDndTime(new Date());//结束日期
@@ -446,7 +455,6 @@ public class DeviceAction extends BaseAdminAction {
 			dm.setPostp("L");
 			module.add(dm);
 			
-			System.out.println("1");
 			try {
 				String aufnr=devicerfc.DeviceCrt(d, step, module);
 				System.out.println("订单号为："+aufnr);
@@ -456,13 +464,6 @@ public class DeviceAction extends BaseAdminAction {
 				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
 			}
-			System.out.println("2");
-			
-			DeviceLog log = new DeviceLog();
-			log.setDevice(persistent);
-			log.setOperator(admin);
-			log.setInfo("已关闭");
-		    deviceLogService.save(log);
 		    
 		}else{
 			return ajaxJsonErrorMessage("单据已关闭/未回复!");

@@ -1,4 +1,3 @@
-
 $(function() {
 	var $storage = $("#storage");// 入库
 	var $dump = $("#dump");// 转储
@@ -244,6 +243,7 @@ $(function() {
 	$kaoqin.click(function(){
 		var istrue = init.notCheck();
 		var loginid=$("#loginid").val();//当前登录人的id
+			//alert(loginid);
 		if (istrue) 
 		{
 			window.location.href = "kaoqin!list.action?loginid="+loginid;

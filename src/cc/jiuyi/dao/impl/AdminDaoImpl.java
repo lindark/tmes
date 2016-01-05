@@ -150,7 +150,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin> getByAdminId(String id)
 	{
 		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_BZ").list();
 		if(adminList1==null){
 			getParentById(id,null);
 		}
@@ -168,7 +168,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_MINISTER").list();
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_BZ").list();
 		
 		if(temp==null){
 			getParentById(dept.getId(),temp);
@@ -193,7 +193,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin> getManagerByDeptId(String id)
 	{
 		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_MANAGER").list();
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_FZ").list();
 		if(adminList1==null){
 			getParentById1(id,null);
 		}
@@ -211,7 +211,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_MANAGER").list();
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_FZ").list();
 		
 		if(temp==null){
 			getParentById1(dept.getId(),temp);
@@ -228,7 +228,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin> getDirectorByDeptId(String id)
 	{
 		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_DIRECTOR").list();
+		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_ZR").list();
 		if(adminList1==null){
 			getParentById2(id,null);
 		}
@@ -246,7 +246,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
-		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_DIRECTOR").list();
+		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_ZR").list();
 		
 		if(temp==null){
 			getParentById2(dept.getId(),temp);

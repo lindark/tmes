@@ -56,7 +56,7 @@ body {
 
 							<form id="inputForm" class="validateajax form-horizontal"
 								action="<#if isAdd??>admin!save.action<#else>admin!update.action</#if>"
-								method="post">
+								method="post">								
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 登录名 </label>
 										<div class="col-sm-9">
@@ -87,6 +87,30 @@ body {
 											<input type="password" name="rePassword" placeholder="请重复输入密码"
 												class="col-xs-10 col-sm-5 formText {equalTo: '#password', messages: {equalTo: '两次密码输入不一致!'}}" />
 											<#if isAdd??><label class="requireField">*</label></#if>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工号</label>
+										<div class="col-sm-9">
+											<input type="text" name="admin.workNumber"
+												class="col-xs-10 col-sm-5 formText {required: true}"
+												value="${(admin.workNumber)!}" /> <label class="requireField">*</label>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">身份证号</label>
+										<div class="col-sm-9">
+											<input type="text" name="admin.identityCard"
+												class="col-xs-10 col-sm-5 formText {required: true}"
+												value="${(admin.identityCard)!}" /> <label class="requireField">*</label>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">技能</label>
+										<div class="col-sm-9">
+											<input type="text" name="admin.skill"
+												class="col-xs-10 col-sm-5 formText {required: true}"
+												value="${(admin.skill)!}" /> <label class="requireField">*</label>
 										</div>
 								</div>
 								<div class="form-group">

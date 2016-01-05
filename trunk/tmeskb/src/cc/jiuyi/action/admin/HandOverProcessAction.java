@@ -168,7 +168,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
 			Integer processversion = workingbill.getProcessversion();
 			if(processversion == null)
-				processversion = processrouteservice.getMaxVersionBycode(products.getId());
+				processversion = processrouteservice.getMaxVersion(products.getId());
 			if (processversion== null) {
 				addActionError("未找到一条工序记录");
 				return ERROR;

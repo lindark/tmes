@@ -70,6 +70,7 @@ public class ScrapAction extends BaseAdminAction
 	private List<ScrapBug>list_scrapbug;//报废原因
 	private String my_id;//1刷卡保存2刷卡确认
 	private String info;
+	private String cardnumber;
 	/**
 	 * service接口
 	 */
@@ -133,7 +134,10 @@ public class ScrapAction extends BaseAdminAction
 		{
 			Scrap s1=scraplist.get(i);
 			s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState()));//状态
-			s1.setXcreater(s1.getCreater().getName());//提单人
+			if(s1.getCreater()!=null)
+			{
+				s1.setXcreater(s1.getCreater().getName());//提单人
+			}
 			if(s1.getConfirmation()!=null)
 			{
 				s1.setXconfirmation(s1.getConfirmation().getName());//确认人
@@ -176,7 +180,7 @@ public class ScrapAction extends BaseAdminAction
 	public String creditsave()
 	{
 		//保存新增数据，返回主表新增数据的ID
-		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
+		this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id,cardnumber);//保存		
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -187,17 +191,18 @@ public class ScrapAction extends BaseAdminAction
 	public String creditsubmit()
 	{
 		//保存新增数据，返回主表新增数据的ID
-		String scrapid=this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);//保存		
+		String scrapid=this.scrapService.saveInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id,cardnumber);//保存		
 		//确认需要与SAP交互
 		Scrap s=this.scrapService.get(scrapid);//根据ID获取刚新增的数据
 		List<Scrap>list1=new ArrayList<Scrap>();
 		list1.add(s);
-		List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+		//List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+		List<ScrapLater>list2=this.scrapService.getSlBySid(scrapid);//报废产出表数据
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		if(list2.size()>0)
 		{
-			xconfirm(list1,"2",1);
+			return xconfirm(list1,"2",1);
 		}
-		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");	
 	}
 	
@@ -373,7 +378,7 @@ public class ScrapAction extends BaseAdminAction
 			if(xmyid==1)
 			{
 				//报废后产出--根据主表获取对应从表的数据
-				List<ScrapLater>list1=new ArrayList<ScrapLater>(s.getScrapLaterSet());
+				List<ScrapLater>list1=this.scrapService.getSlBySid(s.getId());
 				for(int j=0;j<list1.size();j++)
 				{
 					ScrapLater sl=list1.get(j);
@@ -388,7 +393,7 @@ public class ScrapAction extends BaseAdminAction
 				/**撤销未确认的*/
 				if("1".equals(s.getState()))
 				{
-					this.scrapService.updateState(s, "3");
+					this.scrapService.updateState(s, "3",cardnumber);
 				}
 				/**撤销已确认的*/
 				if("2".equals(s.getState()))
@@ -447,7 +452,7 @@ public class ScrapAction extends BaseAdminAction
 						else
 						{
 							/**与SAP交互没有问题,更新本地数据库*/
-							this.scrapService.updateMyData(s,newstate);
+							this.scrapService.updateMyData(s,newstate,cardnumber);
 						}
 					}
 					if(!flag)
@@ -639,6 +644,18 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.info = info;
 	}
+
+	public String getCardnumber()
+	{
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber)
+	{
+		this.cardnumber = cardnumber;
+	}
+
+	
 	
 	/**==========================end "get/set"=================================*/
 }

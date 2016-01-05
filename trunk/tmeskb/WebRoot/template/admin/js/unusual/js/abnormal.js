@@ -106,8 +106,8 @@ $(function() {
 					return false;
 				}
 			}
-			var ids=i;
-			var url = "abnormal!creditresponse.action?ids="+ids;		
+			var id=i;
+			var url = "abnormal!creditresponse.action?id="+id;		
 			
 			credit.creditCard(url,function(data){
 					if(data.status=="success"){

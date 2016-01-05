@@ -16,6 +16,7 @@
 		<sec:intercept-url pattern="/template/*" filters="none" />
 		<sec:intercept-url pattern="/admin/base_admin!getSystemDate.action" filters="none" />
 		<sec:intercept-url pattern="/admin/credit_card!getCredit.action" filters="none" />
+		<sec:intercept-url pattern="/admin/*!credit*.action" filters="none" />
 
 		<!-- login-page 登录页面 -->
 		<!-- default-target-url 登录成功后跳转的URL -->

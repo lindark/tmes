@@ -69,6 +69,7 @@ public class HandOverAction extends BaseAdminAction {
 
 	private List<WorkingBill> workingbillList;
 	private String cardnumber;
+	private String loginid;//当前登录人的ID
 	
 	@Resource
 	private AdminService adminservice;
@@ -129,23 +130,21 @@ public class HandOverAction extends BaseAdminAction {
 			workingbillIdList[i] = workingbill.getId();
 		}
 		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
-
+        HandOver handOver =new  HandOver();
 		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
 			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
 				handoverprocessList.remove(i);
-			/**获取主表id**/
-			String id = handoverprocess.getHandover().getId();
-			handoverId = id;
-			HandOver hdover = handOverService.get(handoverId);
-			if(hdover.getState().equals("1")){
-				return ajaxJsonErrorMessage("交接状态为未提交不能确认,请先提交后确认!");
-			}		
+			handOver =	handoverprocess.getHandover();	
 		}
+		System.out.println(handOver.getState()+"ceshi");
+		if(handOver.getState().equals("1")){
+			return ajaxJsonErrorMessage("交接状态为未提交不能确认,请先提交后确认!");
+		}		
 		try {
 			Boolean flag = true;
 			String message = "";
-			List<HandOverProcess> handList02 = handoverprocessrfc.BatchHandOver(handoverprocessList,"X");//尝试调用
+			List<HandOverProcess> handList02 = handoverprocessrfc.BatchHandOver(handoverprocessList,"X",loginid);//尝试调用
 			for(HandOverProcess handoverprocess : handList02){
 				String e_type = handoverprocess.getE_type();
 				if(e_type.equals("E")){ //如果有一行发生了错误
@@ -157,7 +156,7 @@ public class HandOverAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage(message);
 			else{
 				flag = true;
-				List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "");//执行
+				List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "",loginid);//执行
 				for(HandOverProcess handoverprocess : handList03){
 					String e_type = handoverprocess.getE_type();
 					if(e_type.equals("E")){ //如果有一行发生了错误
@@ -172,7 +171,9 @@ public class HandOverAction extends BaseAdminAction {
 			}
 			
 		//以上跟SAP接口完全没有问题，成功后
-			kaoqinservice.mergeAdminafterWork(admin);
+			kaoqinservice.mergeAdminafterWork(admin,handoverId);
+			
+			
 		//TODO 工序交接下班未测试
 			
 		} catch (IOException e) {
@@ -183,11 +184,7 @@ public class HandOverAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
 		
-		/**主表修改状态和确认人**/
-		HandOver handover = handOverService.get(handoverId);
-		handover.setState("3");
-		handover.setApprovaladmin(admin);
-		handOverService.update(handover);
+		
 		
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
@@ -206,6 +203,14 @@ public class HandOverAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 	
 	

@@ -362,8 +362,10 @@ public class PickDetailAction extends BaseAdminAction {
 				p.setPickType(info);
 				p.setMaterialCode(p.getMaterialCode());//物料编码
 				p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
+				//System.out.println("项目文本:"+p.getItem_text());
 				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
-				pickDetailList1.add(i, p);
+				//System.out.println("工单号:"+p.getOrderid());
+				pickDetailList1.add(p);
 			}
 		}	
 		if(flag == false){

@@ -5,15 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Repository;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
@@ -38,6 +42,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	private TeamService teamService;
 	@Resource
 	private KaoqinBrushCardRecordService kqBCRService;
+	@Resource
+	private HandOverService handOverService;
 
 	/**
 	 * jqGrid查询
@@ -119,7 +125,17 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 交接完成后，下班。等操作
 	 */
-	public void mergeAdminafterWork(Admin admin){//状态改成已确认,给人员历史插入数据,人员下班，班组下班。
+	public void mergeAdminafterWork(Admin admin,String handoverId){//状态改成已确认,给人员历史插入数据,人员下班，班组下班。
+		/**主表修改状态和确认人**/
+		HandOver handover = handOverService.get(handoverId);
+		handover.setState("3");
+		handover.setApprovaladmin(admin);
+		handOverService.update(handover);
+		
+		/**班组下班**/
+		Team team = admin.getDepartment().getTeam();//取得班组
+		team.setIsWork("N");
+		
 		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
 		for(int i=0;i<adminList.size();i++){
 			Admin admin1 = adminList.get(i);
@@ -129,13 +145,12 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			String classtime = admin1.getShift();//班次
 			String empname = admin1.getName(); //名字
 			String postname = post.getPostName();//技能名称
-			String team = admin.getDepartment().getTeam().getTeamName();//班组
 			String workState = admin1.getWorkstate();//工作状态
 			kaoqin.setCardNumber(cardNumber);
 			kaoqin.setClasstime(classtime);
 			kaoqin.setEmpname(empname);
 			kaoqin.setPostname(postname);
-			kaoqin.setTeam(team);
+			kaoqin.setTeam(team.getTeamName());
 			kaoqin.setWorkState(workState);
 			this.save(kaoqin);
 			admin1.setWorkstate("1");//未上班

@@ -32,7 +32,6 @@ body {
 </style>
 </head>
 <body class="no-skin input">
-
 	<!-- add by welson 0728 -->
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">

@@ -278,7 +278,7 @@ public class AbnormalAction extends BaseAdminAction {
 	//响应刷卡
 	public String creditresponse() {
 		admin = adminService.getByCardnum(cardnumber);
-		
+		ids= id.split(",");
 		List<Abnormal> abnormalList = abnormalService.get(ids);
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;

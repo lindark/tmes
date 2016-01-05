@@ -45,7 +45,7 @@
 </head>
 
 <body class="no-skin list">
-
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -263,15 +263,18 @@
 		
 		/*刷卡确认*/
 		$("#creditapproval").click(function(){
-			var url="hand_over!creditapproval.action";
+			var loginid = $("#loginid").val();//当前登录人的id
+			alert(loginid);
+			var url="hand_over!creditapproval.action?loginid="+loginid;
 			credit.creditCard(url,function(data){
-				alert("OK");
+				//alert("OK");
 			})
 			
 		});
 		
 		/*刷卡提交*/
 		$("#creditsubmit").click(function(){
+			
 			var url="hand_over!creditsubmit.action";
 			credit.creditCard(url,function(data){
 				alert("OK");

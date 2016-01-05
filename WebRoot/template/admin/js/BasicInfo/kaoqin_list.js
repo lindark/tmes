@@ -1,7 +1,7 @@
-var isstartteam="";
+//var isstartteam="";
 var iscancreditcard=""
 jQuery(function($) {
-	isstartteam=$("#isstartteam").val();
+	//isstartteam=$("#isstartteam").val();
 	iscancreditcard=$("#iscancreditcard").val();
 	//初始化操作事件
 	//按钮事件
@@ -129,24 +129,20 @@ function addemp()
 //开启考勤
 function startWorking()
 {
-	if(isstartteam=="N")
+	var $img_startkaoqi=$("#img_startkaoqin");
+	if(iscancreditcard=="N")
 	{
-		layer.alert("该班组未开启,无法开启考勤!",{icon:5},false);
+		layer.alert("开启考勤后40分钟以内不能重复开启!",{icon:5},false);
 	}
-	else if(isstartteam=="Y")
+	else if(iscancreditcard=="Y")
 	{
-		if(iscancreditcard=="N")
-		{
-			layer.alert("开启考勤后40分钟以内不能重复开启!",{icon:5},false);
-		}
-		else if(iscancreditcard=="Y")
-		{
-			var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val();
-			credit.creditCard(url,function(data){
-				$.message(data.status,data.message);
-				$("#grid-table").trigger("reloadGrid");
-			});
-		}
+		var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val();
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+			iscancreditcard="N";
+			$("#span_startkaoqin").text("考勤已开启");
+			$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+		});
 	}
 }
 
@@ -229,24 +225,15 @@ function btn_style()
 function btn_style_startkaoqin()
 {
 	var $img_startkaoqi=$("#img_startkaoqin");
-	//班组未开启
-	if(isstartteam=="N")
+	//已经开启过考勤
+	if(iscancreditcard=="N")
+	{
+		$("#span_startkaoqin").text("考勤已开启");
+		$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+	}
+	else if(iscancreditcard=="Y")
 	{
 		$("#span_startkaoqin").text("考勤未开启");
 		$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
-	}
-	else if(isstartteam=="Y")
-	{
-		//已经开启过考勤
-		if(iscancreditcard=="N")
-		{
-			$("#span_startkaoqin").text("考勤已开启");
-			$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
-		}
-		else if(iscancreditcard=="Y")
-		{
-			$("#span_startkaoqin").text("考勤未开启");
-			$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
-		}
 	}
 }

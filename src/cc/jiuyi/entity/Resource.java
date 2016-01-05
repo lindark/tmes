@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 /**
@@ -53,6 +54,7 @@ public class Resource extends BaseEntity {
 	}
 
 	@Column(nullable = false, unique = true)
+	@OrderBy(value="name asc")
 	public String getName() {
 		return name;
 	}

@@ -37,6 +37,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer amount;//交接数量
 	private Integer bomversion;//BOM版本
 	private Integer processversion;//工艺路线版本
+	private String aufnr;//订单号
 	
 
 	private Set<EnteringwareHouse> enteringwareHouse;
@@ -61,6 +62,14 @@ public class WorkingBill extends BaseEntity {
     @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<ItermediateTest> getItermediateTest() {
 		return itermediateTest;
+	}
+
+	public String getAufnr() {
+		return aufnr;
+	}
+
+	public void setAufnr(String aufnr) {
+		this.aufnr = aufnr;
 	}
 
 	public void setItermediateTest(Set<ItermediateTest> itermediateTest) {

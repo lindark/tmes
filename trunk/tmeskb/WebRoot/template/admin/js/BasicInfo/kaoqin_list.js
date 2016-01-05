@@ -130,13 +130,14 @@ function addemp()
 function startWorking()
 {
 	var $img_startkaoqi=$("#img_startkaoqin");
+	var loginid=$("#loginid").val();//当前登录人的id
 	if(iscancreditcard=="N")
 	{
 		layer.alert("开启考勤后40分钟以内不能重复开启!",{icon:5},false);
 	}
 	else if(iscancreditcard=="Y")
 	{
-		var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val();
+		var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+loginid;
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
 			if(data.status=="success")

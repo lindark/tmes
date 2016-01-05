@@ -90,8 +90,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	 */
 	public void updateState(Date date)
 	{
-		Admin a=this.adminService.getLoginAdmin();
-		a=this.adminService.get(a.getId());
+		Admin b=this.adminService.getLoginAdmin();
+		Admin a=this.adminService.get(b.getId());
 		String teamstate=a.getDepartment().getTeam().getState();
 		Team team=a.getDepartment().getTeam();
 		team=this.teamService.get(team.getId());
@@ -119,9 +119,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 交接完成后，下班。等操作
 	 */
-	public void mergeAdminafterWork(){
-		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+	public void mergeAdminafterWork(Admin admin){//状态改成已确认,给人员历史插入数据,人员下班，班组下班。
 		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
 		for(int i=0;i<adminList.size();i++){
 			Admin admin1 = adminList.get(i);

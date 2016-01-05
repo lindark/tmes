@@ -25,9 +25,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 	@Resource
 	private AdminService adminservice;
 	@Override
-	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun)
+	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun,String loginid)
 			throws IOException {
-		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
+		Admin admin = adminservice.get(loginid);//获取当前登录身份
 		admin = adminservice.load(admin.getId());
 		super.setProperty("handover");//根据配置文件读取到函数名称
 		/******输入参数******/

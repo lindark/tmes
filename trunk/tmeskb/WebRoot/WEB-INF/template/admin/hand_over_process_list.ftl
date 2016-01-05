@@ -264,7 +264,6 @@
 		/*刷卡确认*/
 		$("#creditapproval").click(function(){
 			var loginid = $("#loginid").val();//当前登录人的id
-			alert(loginid);
 			var url="hand_over!creditapproval.action?loginid="+loginid;
 			credit.creditCard(url,function(data){
 				//alert("OK");

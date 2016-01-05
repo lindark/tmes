@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ResourceDao;
 import cc.jiuyi.entity.Resource;
 import cc.jiuyi.entity.Role;
@@ -96,6 +97,14 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 		return resourceDao.getListByadmin(roleid,path);
 	}
 	
+	@Override
+	public Pager findByPager(Pager pager) {
+		Integer totalCount = resourceDao.resourceCount(pager);
+		List<Resource> resourceList = resourceDao.getResourcePager(pager);
+		pager.setTotalCount(totalCount);
+		pager.setList(resourceList);
+		return pager;
+	}
 	
 
 

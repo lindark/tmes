@@ -6,10 +6,12 @@ import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
-
 /**
  * Service接口 - 字典
  */
@@ -23,7 +25,7 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 */
 	public Pager findPagerByjqGrid(Pager pager,Map map);
 	
-	public void mergeWorkingBill(List list);
+	public void mergeWorkingBill(List<WorkingBill> workingbillList,List<Order> orderList,List<ProcessRoute> processrouteList,List<Bom> bomList);
 
 	/**
 	 * 标记删除

@@ -40,10 +40,10 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 			item.put("XUH", c.getId());//序号
 			arrList.add(item);
 		}
+		//去重
 		List<HashMap<String,Object>> arr 
 		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
 		ET_HEADER.setList(arr);
-		System.out.println("长度："+arr.size());
 		tablemodelList.add(ET_HEADER);
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();

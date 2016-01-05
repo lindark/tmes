@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -76,12 +77,18 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	
 	@Override
 	public void saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber) {
-		//handoverservice.save(entity);
+		Admin admin = adminservice.get("cardNumber", cardNumber);
+		HandOver handOver = new HandOver();
+		handOver.setState("1");
+		handOver.setSubmitadmin(admin);
+		String hanoverId=handoverservice.save(handOver);//保存主表
+		handOver.setId(hanoverId);
 		for(HandOverProcess handoverprocess : handoverprocessList){
-			Admin admin = adminservice.get("cardNumber", cardNumber);
+			//Admin admin = adminservice.get("cardNumber", cardNumber);
 			if(state.equals("creditsubmit")){//刷卡提交
 				handoverprocess.setSubmitadmin(admin);
 				handoverprocess.setState("notapproval");
+				handoverprocess.setHandover(handOver);
 			}
 			if(state.equals("creditapproval")){//刷卡确认
 				handoverprocess.setApprovaladmin(admin);
@@ -112,8 +119,8 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 
 	@Override
 	public HandOverProcess findhandoverBypro(String materialCode,
-			String processid, String matnr) {
-		return handOverProcessDao.findhandoverBypro(materialCode, processid, matnr);
+			String processid, String matnr,String workingBillId) {
+		return handOverProcessDao.findhandoverBypro(materialCode, processid, matnr,workingBillId);
 	}
 	
 	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {

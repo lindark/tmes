@@ -3,6 +3,7 @@ package cc.jiuyi.sap.rfc.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+		
 		TableModel ET_HEADER = new TableModel();
 		ET_HEADER.setData("ET_HEADER");//表名
 		for(Carton c : list){
@@ -38,7 +40,10 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 			item.put("XUH", c.getId());//序号
 			arrList.add(item);
 		}
-		ET_HEADER.setList(arrList);
+		List<HashMap<String,Object>> arr 
+		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+		ET_HEADER.setList(arr);
+		System.out.println("长度："+arr.size());
 		tablemodelList.add(ET_HEADER);
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();

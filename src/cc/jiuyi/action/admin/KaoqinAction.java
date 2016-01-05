@@ -55,6 +55,7 @@ public class KaoqinAction extends BaseAdminAction
 	private String sameTeamId;//当前班组ID
 	private String isstartteam;//是否开启班组
 	private String iscancreditcard;//是否可以刷卡
+	private String loginid;//当前登录人的ID
 	/**
 	 * service接口
 	 */
@@ -75,8 +76,7 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String list()
 	{
-		this.admin=this.adminService.getLoginAdmin();
-		this.admin=this.adminService.get(admin.getId());
+		this.admin=this.adminService.get(loginid);
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
@@ -113,8 +113,7 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String getemp()
 	{
-		this.admin=this.adminService.getLoginAdmin();
-		this.admin=this.adminService.get(admin.getId());
+		this.admin=this.adminService.get(loginid);
 		HashMap<String ,String>map=new HashMap<String,String>();
 		if(pager==null)
 		{
@@ -246,11 +245,12 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String creditreply()
 	{
+		this.admin=this.adminService.get(loginid);//当前登录人
 		String job_name = "startWorking"+this.sameTeamId;
 		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
 		//当前时间
 		Calendar can=Calendar.getInstance();
-		this.kqService.updateState(can.getTime());
+		//this.kqService.updateState(can.getTime());
 		int fen=can.get(Calendar.MINUTE);//分
 		int miao=can.get(Calendar.SECOND);//秒
 		
@@ -284,8 +284,7 @@ public class KaoqinAction extends BaseAdminAction
 			//添加定时任务
 			map1.put("kaoqintime", xquartz);
 			map1.put("teamid", job_name);
-			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);
-			
+			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);			
 			map2.put("kaoqintime", x2quartz);
 			map2.put("teamid", "xxx"+job_name);
 			map2.put("d_value", n+"");
@@ -294,8 +293,6 @@ public class KaoqinAction extends BaseAdminAction
 		//保存开启考勤(刷卡)记录
 		this.kqService.saveBrushCardEmp(admin);
 		/**获取班组状态*/
-		this.admin=this.adminService.getLoginAdmin();
-		this.admin=this.adminService.get(admin.getId());
 		Team t=admin.getDepartment().getTeam();
 		t.setIscancreditcard("N");
 		t.setState("1");//班组状态改为开启状态
@@ -426,6 +423,16 @@ public class KaoqinAction extends BaseAdminAction
 	public void setIsstartteam(String isstartteam)
 	{
 		this.isstartteam = isstartteam;
+	}
+
+	public String getLoginid()
+	{
+		return loginid;
+	}
+
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
 	}
 	
 	

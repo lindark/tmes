@@ -44,7 +44,10 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String productDate;// 生产日期
 	private String phoneNo;// 手机号
 	private String cardNumber;//卡号
-	
+	private String workNumber;//工号
+	private String  identityCard;//身份证
+	private String skill;//技能
+
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
 	private Set<SwiptCard> swiptCardSet;// 刷卡
@@ -93,6 +96,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private Set<PickDetail> pickDetailConfirmUser;//领料从表确认人
 	private Set<Pick> pickConfirmUser;//领料主表确认人
+	private Set<Pick> pickModifyUser;//领料主表修改人
 	private Set<Pick> pickCreateUser;//领料主表创建人
 	private Set<ItermediateTest> intermediateTestConfirmUser;//半成品巡检确认人
 	private Set<ItermediateTest> intermediateTestCreateUser;//半成品巡检创建人
@@ -140,8 +144,16 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.intermediateTestCreateUser = intermediateTestCreateUser;
 	}
 
-	
-	
+	//领料主表修改人
+	@OneToMany(mappedBy = "modifyUser", fetch = FetchType.LAZY)
+	public Set<Pick> getPickModifyUser() {
+		return pickModifyUser;
+	}
+
+	public void setPickModifyUser(Set<Pick> pickModifyUser) {
+		this.pickModifyUser = pickModifyUser;
+	}
+
 	//领料主表确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<Pick> getPickConfirmUser() {
@@ -172,6 +184,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setPickDetailConfirmUser(Set<PickDetail> pickDetailConfirmUser) {
 		this.pickDetailConfirmUser = pickDetailConfirmUser;
 	}
+
 
 	//责任人名
 	@OneToMany(mappedBy = "duty", fetch = FetchType.LAZY)
@@ -900,6 +913,30 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setQualitySet2(Set<Quality> qualitySet2) {
 		this.qualitySet2 = qualitySet2;
+	}
+
+	public String getWorkNumber() {
+		return workNumber;
+	}
+
+	public void setWorkNumber(String workNumber) {
+		this.workNumber = workNumber;
+	}
+
+	public String getIdentityCard() {
+		return identityCard;
+	}
+
+	public void setIdentityCard(String identityCard) {
+		this.identityCard = identityCard;
+	}
+
+	public String getSkill() {
+		return skill;
+	}
+
+	public void setSkill(String skill) {
+		this.skill = skill;
 	}
 	
 	

@@ -139,9 +139,12 @@ function startWorking()
 		var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val();
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
-			iscancreditcard="N";
-			$("#span_startkaoqin").text("考勤已开启");
-			$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+			if(data.status=="success")
+			{
+				iscancreditcard="N";
+				$("#span_startkaoqin").text("考勤已开启");
+				$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+			}
 		});
 	}
 }

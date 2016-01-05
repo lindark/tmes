@@ -75,6 +75,7 @@ public class Device extends BaseEntity{
 	
 	private String deviceNo;//设备编码
 	private String deviceName;//设备描述
+	private String orderNo;//订单号
 	
 	public String getURGRP() {
 		return URGRP;
@@ -381,6 +382,12 @@ public class Device extends BaseEntity{
 	}
 	public void setDeviceStepSet(Set<DeviceStep> deviceStepSet) {
 		this.deviceStepSet = deviceStepSet;
+	}
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 		
 	

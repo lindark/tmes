@@ -49,6 +49,8 @@
 		<script type="text/javascript" src="${base}/template/common/js/jquery.timers-1.1.2.js"></script>
 		<#include "/WEB-INF/template/common/include_access.ftl">
 	<script type="text/javascript">
+		
+	
 	    //open Menu
 		jQuery(function($) {
 			var path = document.location.pathname;
@@ -125,6 +127,8 @@
 		
 		var credit = {
 				"creditCard":function(url,callback,data){
+					if(typeof(data) == "undefined")
+						data = "";
 					var bool = url.indexOf("?");
 					var cardnubmer="";
 					credit.index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
@@ -147,7 +151,7 @@
 								callback(data);
 							},error:function(data){
 								layer.close(index1);
-								$.message("error","系统出现问题，请联系系统管理员!");
+								$.message("error","您当前无权限!");
 							}
 						});
 					});

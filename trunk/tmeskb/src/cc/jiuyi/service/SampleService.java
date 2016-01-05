@@ -26,14 +26,14 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @param info2 缺陷数量
 	 * @param my_id 1保存/2确认
 	 */
-	public void saveInfo(Sample sample, String info, String info2, String my_id);
+	public void saveInfo(Sample sample, String info, String info2, String my_id,String cardnumber);
 
 	/**
 	 * 确认/撤销
 	 * @param list
 	 * @param newstate
 	 */
-	public void updateState(List<Sample> list, String newstate);
+	public void updateState(List<Sample> list, String newstate,String cardnumber);
 
 	/**
 	 * 
@@ -42,7 +42,7 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @param info2 缺陷数量
 	 * @param my_id 1保存/2确认
 	 */
-	public void updateInfo(Sample sample, String info, String info2, String my_id);
+	public void updateInfo(Sample sample, String info, String info2, String my_id,String cardnumber);
 	
 	
 	/**

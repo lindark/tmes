@@ -49,6 +49,15 @@ public class HandOverProcess extends BaseEntity{
     private String e_type;
     private String e_message;
     private String mblnr;
+    private HandOver handover;//交接主表
+
+    @ManyToOne(fetch = FetchType.LAZY)
+	public HandOver getHandover() {
+		return handover;
+	}
+	public void setHandover(HandOver handover) {
+		this.handover = handover;
+	}
 	public String getState() {
 		return state;
 	}

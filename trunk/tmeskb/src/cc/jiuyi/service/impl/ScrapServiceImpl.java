@@ -58,9 +58,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 新增
 	 */
-	public String saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
+	public String saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id,String cardNumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardNumber);
 		//报废主表
 		scrap.setState("1");
 		scrap.setCreater(admin);//提交人
@@ -225,9 +225,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 确认或撤销
 	 */
-	public void updateState(Scrap scrap, String newstate)
+	public void updateState(Scrap scrap, String newstate,String cardnumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		scrap.setState(newstate);
 		scrap.setConfirmation(admin);
 		this.scrapDao.update(scrap);
@@ -241,9 +241,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Scrap s,String newstate)
+	public void updateMyData(Scrap s,String newstate,String cardnumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Scrap s2=this.scrapDao.get(s.getId());
 		s2.setE_type(s.getE_type());//类型S/E
 		s2.setE_message(s.getE_message());//反馈消息
@@ -252,5 +252,13 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		s2.setConfirmation(admin);//撤销/确认人
 		s2.setModifyDate(new Date());//修改日期
 		this.scrapDao.update(s2);
+	}
+	
+	/**
+	 * 根据主表id获取产出表数据
+	 */
+	public List<ScrapLater>getSlBySid(String sid)
+	{
+		return this.slaterDao.getSlBySid(sid);
 	}
 }

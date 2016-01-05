@@ -239,7 +239,9 @@ function tosubmit(url)
 		        closeBtn: 0,
 		        icon:5,
 		        skin:'error'
-		    });
+		    },function(){
+				window.location.href="scrap!list.action?wbId="+xwbid;
+			});
 		}					
 	},dt);
 }

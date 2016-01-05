@@ -223,7 +223,7 @@ body {
 													<select name="device.fault"> <#list
 														reasonList as list>
 														<option value="${list.id}"<#if ((isAdd &&
-															list.isDefault) || (isEdit && device.faultReason ==
+															list.isDefault) || (isEdit && device.fault ==
 															list.id))!> selected</#if>>${list.reasonName}</option>
 														</#list>
 													</select>
@@ -253,13 +253,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.beginTime"
 														value="${(device.beginTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
+														class="datePicker"/>
 												</div>
 												<div class="profile-info-name">处理结束时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="device.dndTime"
 														value="${(device.dndTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
+														class="datePicker"/>
 												</div>
 											</div>
 											
@@ -352,7 +352,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.callTime"
 														value="${(device.callTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
+														class="datePicker"/>
 												</div>
 											</div>
 
@@ -361,7 +361,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="device.arrivedTime"
 														value="${(device.arrivedTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker"/>
+														class="datePicker"/>
 												</div>
 												<div class="profile-info-name">服务态度</div>
 												<div class="profile-info-value">

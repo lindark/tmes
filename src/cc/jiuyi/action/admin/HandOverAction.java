@@ -38,6 +38,7 @@ import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FlowingRectify;
+import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.Model;
@@ -52,6 +53,7 @@ import cc.jiuyi.service.CallreasonService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
+import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.service.WorkingBillService;
@@ -78,23 +80,37 @@ public class HandOverAction extends BaseAdminAction {
 	private HandOverProcessRfc handoverprocessrfc;
 	@Resource
 	private KaoqinService kaoqinservice;
+	@Resource
+	private HandOverService handOverService;
 	
 	/**
 	 * 刷卡提交
 	 * @return
 	 */
 	public String creditsubmit(){
-//		Admin admin = adminservice.getLoginAdmin();
-//		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-//		Object[] workingbillIdList = new Object[workingbillList.size()];
-//		for(int i=0;i<workingbillList.size();i++){
-//			WorkingBill workingbill = workingbillList.get(i);
-//			workingbillIdList[i] = workingbill.getId();
-//		}
-//		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//取出当班所有的工序交接记录
+		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
+		String handoverId ="";
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
+		Object[] workingbillIdList = new Object[workingbillList.size()];
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			workingbillIdList[i] = workingbill.getId();
+		}
 		
+		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
+		for (int i = 0; i < handoverprocessList.size(); i++) {
+			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			/**获取主表id**/
+			String id = handoverprocess.getHandover().getId();
+			handoverId = id;
+		}
+		/**主表修改状态和修改人**/
+		HandOver handover = handOverService.get(handoverId);
+		handover.setState("2");
+		handover.setSubmitadmin(admin);
+		handOverService.update(handover);
 		//TODO 工序交接刷卡提交未完成
-		return null;
+		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 	
 	/**
@@ -102,7 +118,8 @@ public class HandOverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
+		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
+		String handoverId ="";
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
 		//List<String> workingbillIdList = new ArrayList<String>();
 
@@ -115,6 +132,11 @@ public class HandOverAction extends BaseAdminAction {
 
 		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			
+			/**获取主表id**/
+			String id = handoverprocess.getHandover().getId();
+			handoverId = id;
+			
 			if(!StringUtil.isEmpty(handoverprocess.getMblnr()))
 				handoverprocessList.remove(i);
 		}
@@ -148,7 +170,7 @@ public class HandOverAction extends BaseAdminAction {
 			}
 			
 		//以上跟SAP接口完全没有问题，成功后
-			kaoqinservice.mergeAdminafterWork();
+			kaoqinservice.mergeAdminafterWork(admin);
 		//TODO 工序交接下班未测试
 			
 		} catch (IOException e) {
@@ -158,6 +180,12 @@ public class HandOverAction extends BaseAdminAction {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
+		
+		/**主表修改状态和确认人**/
+		HandOver handover = handOverService.get(handoverId);
+		handover.setState("3");
+		handover.setApprovaladmin(admin);
+		handOverService.update(handover);
 		
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}

@@ -58,6 +58,7 @@ public class SampleAction extends BaseAdminAction
 	private String show;
 	private List<SampleRecord>list_samrecord;//缺陷记录
 	private String sampletype;//抽检类型
+	private String cardnumber;//刷卡人卡号
 	/**
 	 * service接口
 	 */
@@ -106,7 +107,7 @@ public class SampleAction extends BaseAdminAction
 	public String creditsave()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
-		this.sampleService.saveInfo(sample,info,info2,my_id);
+		this.sampleService.saveInfo(sample,info,info2,my_id,cardnumber);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -117,7 +118,7 @@ public class SampleAction extends BaseAdminAction
 	public String creditsubmit()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
-		this.sampleService.saveInfo(sample,info,info2,my_id);
+		this.sampleService.saveInfo(sample,info,info2,my_id,cardnumber);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -202,7 +203,7 @@ public class SampleAction extends BaseAdminAction
 			}
 		}
 		List<Sample> list = this.sampleService.get(ids);
-		this.sampleService.updateState(list, "2");
+		this.sampleService.updateState(list, "2",cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -223,7 +224,7 @@ public class SampleAction extends BaseAdminAction
 			}
 		}
 		List<Sample> list = this.sampleService.get(ids);
-		this.sampleService.updateState(list, "3");
+		this.sampleService.updateState(list, "3",cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -264,7 +265,7 @@ public class SampleAction extends BaseAdminAction
 	public String creditupdate()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
-		this.sampleService.updateInfo(sample,info,info2,my_id);
+		this.sampleService.updateInfo(sample,info,info2,my_id,cardnumber);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -275,7 +276,7 @@ public class SampleAction extends BaseAdminAction
 	public String creditreply()
 	{
 		//保存抽检单信息:抽检单，缺陷ID，缺陷数量，1保存/2确认
-		this.sampleService.updateInfo(sample,info,info2,my_id);
+		this.sampleService.updateInfo(sample,info,info2,my_id,cardnumber);
 		this.redirectionUrl="sample!list.action?wbId="+this.sample.getWorkingBill().getId();
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -434,6 +435,16 @@ public class SampleAction extends BaseAdminAction
 	public void setSampletype(String sampletype)
 	{
 		this.sampletype = sampletype;
+	}
+
+	public String getCardnumber()
+	{
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber)
+	{
+		this.cardnumber = cardnumber;
 	}
 	
 	/**==========================end "get/set"====================================*/

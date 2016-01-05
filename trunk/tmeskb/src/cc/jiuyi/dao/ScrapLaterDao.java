@@ -1,5 +1,7 @@
 package cc.jiuyi.dao;
 
+import java.util.List;
+
 import cc.jiuyi.entity.ScrapLater;
 
 /**
@@ -9,5 +11,10 @@ import cc.jiuyi.entity.ScrapLater;
  */
 public interface ScrapLaterDao extends BaseDao<ScrapLater, String>
 {
+
+	/**
+	 * 根据主表id获取产出表数据
+	 */
+	public List<ScrapLater> getSlBySid(String sid);
 
 }

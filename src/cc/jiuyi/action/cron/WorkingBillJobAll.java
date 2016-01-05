@@ -45,13 +45,16 @@ public class WorkingBillJobAll extends MyDetailQuartzJobBean {
 			Date d = new Date();
 			Calendar rightnow = Calendar.getInstance();
 			rightnow.setTime(d);
-			rightnow.add(Calendar.DAY_OF_YEAR, -1);
-			String startdate = sdf.format(rightnow.getTime());//开始时间
-			rightnow.add(Calendar.DAY_OF_YEAR, 2);
-			String enddate = sdf.format(rightnow.getTime());//结束日期
+			rightnow.add(Calendar.MINUTE,-10);
+			String startdate = sdf.format(d);
+			String enddate = sdf.format(d);
+			sdf = new SimpleDateFormat("hh:mm:ss");
+			String starttime = sdf.format(rightnow.getTime());
+			rightnow.add(Calendar.MINUTE,10);
+			String endtime = sdf.format(rightnow.getTime());
 			/*********用于取出3天内的数据**************/
 			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
-			workingbillrfc.syncRepairorderAll(startdate, enddate);
+			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime);
 			
 			log.info("WorkingBillJobAll任务结束");
 		} catch (Exception e) {

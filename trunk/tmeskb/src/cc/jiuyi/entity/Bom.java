@@ -1,19 +1,9 @@
 package cc.jiuyi.entity;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 /**
  * 实体类 - 产品Bom
@@ -31,6 +21,7 @@ public class Bom extends BaseEntity{
 	private Double materialAmount;//数量
 	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
+	private String rsnum;//预留编码
 	
     
 	/**冗余**/
@@ -65,6 +56,14 @@ public class Bom extends BaseEntity{
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Products getProducts() {
 		return products;
+	}
+
+	public String getRsnum() {
+		return rsnum;
+	}
+
+	public void setRsnum(String rsnum) {
+		this.rsnum = rsnum;
 	}
 
 	public void setProducts(Products products) {

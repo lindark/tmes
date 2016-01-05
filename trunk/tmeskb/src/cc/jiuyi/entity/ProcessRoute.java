@@ -22,7 +22,6 @@ import org.hibernate.annotations.CascadeType;
 public class ProcessRoute extends BaseEntity{
 	private static final long serialVersionUID = 2614072427487765268L;
 
-	
 	private Products products;//产品
 	private Process process;//工序
 	private String sortcode;//排序码
@@ -34,6 +33,25 @@ public class ProcessRoute extends BaseEntity{
 	private String productsName;//产品名称
 	private String processCode;//工序编号
 	private String processName;//工序名称
+	private String aufpl;//工艺路线号
+	private String steus;//控制码
+	
+
+	public String getSteus() {
+		return steus;
+	}
+
+	public void setSteus(String steus) {
+		this.steus = steus;
+	}
+
+	public String getAufpl() {
+		return aufpl;
+	}
+
+	public void setAufpl(String aufpl) {
+		this.aufpl = aufpl;
+	}
 
 	public Double getProductAmount() {
 		return productAmount;
@@ -129,5 +147,5 @@ public class ProcessRoute extends BaseEntity{
 	public void setProcessName(String processName) {
 		this.processName = processName;
 	}
-		
+
 }

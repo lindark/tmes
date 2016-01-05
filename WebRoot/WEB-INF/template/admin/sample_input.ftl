@@ -266,7 +266,7 @@ function cause_event()
 			else
 			{
 				$("#sr_num2"+i).val("");//缺陷数量--备胎
-				alert(samplenum);
+				//alert(samplenum);
 				if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))
 				{
 					tocalc(samplenum,"",num_bt);
@@ -353,7 +353,7 @@ function sub_event(my_id)
 				//新增保存
 				<#if add??>url="sample!creditsave.action";</#if>
 				//修改保存
-				<#if update??>url="sample!creditupdate.action";</#if>
+				<#if edit??>url="sample!creditupdate.action";</#if>
 				tosubmit(url);//提交
 			}
 			//2.刷卡确认
@@ -362,7 +362,7 @@ function sub_event(my_id)
 				//新增确认
 				<#if add??>url="sample!creditsubmit.action";</#if>
 				//修改确认
-				<#if update??>url="sample!creditreply.action";</#if>
+				<#if edit??>url="sample!creditreply.action";</#if>
 				tosubmit(url);//提交
 			}
 		}

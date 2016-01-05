@@ -55,9 +55,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	 * @param my_id 1保存/2确认
 	 */
 	@Override
-	public void saveInfo(Sample sample, String info, String info2, String my_id)
+	public void saveInfo(Sample sample, String info, String info2, String my_id,String cardnumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		if(sample!=null)
 		{
 			sample.setSampler(admin);//抽检人
@@ -93,9 +93,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	 * 确认/撤销
 	 */
 	@Override
-	public void updateState(List<Sample> list, String newstate)
+	public void updateState(List<Sample> list, String newstate,String cardnumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		for(int i=0;i<list.size();i++)
 		{
 			Sample sample=list.get(i);
@@ -115,9 +115,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	 * b.根据抽检单id和缺陷表id查询缺陷记录表存在更新，不存在新增
 	 * 删除操作：a中有和数组中不匹配的则假删除
 	 */
-	public void updateInfo(Sample sample, String info, String info2, String my_id)
+	public void updateInfo(Sample sample, String info, String info2, String my_id,String cardnumber)
 	{
-		Admin admin=this.adminService.getLoginAdmin();
+		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Sample s=this.sampleDao.get(sample.getId());
 		BeanUtils.copyProperties(sample, s, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		s.setSampler(admin);//抽检人

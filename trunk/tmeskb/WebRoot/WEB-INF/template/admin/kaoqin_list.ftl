@@ -276,7 +276,7 @@
 	</div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-<input type="hidden" id="isstartteam" value="${isstartteam!}">
+<!-- <input type="hidden" id="isstartteam" value="${isstartteam!}"> -->
 <input type="hidden" id="iscancreditcard" value="${iscancreditcard!}">
 </body>
 </html>

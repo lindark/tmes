@@ -439,7 +439,7 @@ function sub_event(my_id)
 		//新增保存
 		<#if add??>url="scrap!creditsave.action";</#if>
 		//修改保存
-		<#if update??>url="scrap!creditupdate.action";</#if>
+		<#if edit??>url="scrap!creditupdate.action";</#if>
 		tosubmit(url);//提交
 	}
 	//2.刷卡确认
@@ -448,7 +448,7 @@ function sub_event(my_id)
 		//新增确认
 		<#if add??>url="scrap!creditsubmit.action";</#if>
 		//修改确认
-		<#if update??>url="scrap!creditreply.action";</#if>
+		<#if edit??>url="scrap!creditreply.action";</#if>
 		if(!sl_event())
 		{
 			layer.alert("报废后产出表为空,不能确认!",false);

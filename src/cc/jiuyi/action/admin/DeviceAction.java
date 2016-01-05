@@ -413,7 +413,7 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
 			persistent.setState("3");
-			deviceService.update(persistent);
+			
 			
 			DeviceLog log = new DeviceLog();
 			log.setDevice(persistent);
@@ -422,21 +422,27 @@ public class DeviceAction extends BaseAdminAction {
 		    deviceLogService.save(log);
 			
 			
-			Device d=persistent;
-			Equipments e = persistent.getEquipments();
-			e.setEquipmentNo("JX-B-C0001");
-			Admin a=new Admin();
-			a.setName("张三");
-			d.setSHORT_TEXT("设备维修单");
-			d.setEquipments(e);
-			d.setBeginTime(new Date());//开始日期
-			d.setDndTime(new Date());//结束日期
-			d.setCOST("2");//成本
-			d.setORDER_TYPE("PM01");//订单类型
-			d.setTotalDownTime(5.0);//停机时间
+			//Device d=persistent;
+			//Equipments e = persistent.getEquipments();
+			//e.setEquipmentNo("JX-B-C0001");
+			//Admin a=new Admin();
+			//a.setName("张三");
+			//d.setSHORT_TEXT("设备维修单");
+			persistent.setSHORT_TEXT("设备维修单");
+			//d.setEquipments(e);
+			//d.setBeginTime(new Date());//开始日期
+			//d.setDndTime(new Date());//结束日期
+			persistent.setCOST("2");
+			//d.setCOST("2");//成本
+			persistent.setORDER_TYPE("PM01");//订单类型
+			//d.setORDER_TYPE("PM01");//订单类型
+			persistent.setTotalDownTime(5.0);//停机时间
+			persistent.setURGRP("PM1");//原因代码组
+			persistent.setURCOD("1001");//原因代码
+			/*d.setTotalDownTime(5.0);//停机时间
 			d.setURGRP("PM1");//原因代码组
 			d.setURCOD("1001");//原因代码
-			d.setDisposalWorkers(a);
+*/		//	d.setDisposalWorkers(a);
 			List<DeviceStep> step=new ArrayList<DeviceStep>();
 			DeviceStep s=new DeviceStep();
 			s.setVornr("0010");
@@ -456,14 +462,18 @@ public class DeviceAction extends BaseAdminAction {
 			module.add(dm);
 			
 			try {
-				String aufnr=devicerfc.DeviceCrt(d, step, module);
+				String aufnr=devicerfc.DeviceCrt(persistent, step, module);
 				System.out.println("订单号为："+aufnr);
+				persistent.setOrderNo(aufnr);
+				deviceService.update(persistent);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (CustomerException e1) {
 				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
 			}
+			
+			
 		    
 		}else{
 			return ajaxJsonErrorMessage("单据已关闭/未回复!");

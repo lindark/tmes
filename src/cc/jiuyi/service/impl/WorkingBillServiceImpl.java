@@ -15,12 +15,20 @@ import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.MemberRankDao;
 import cc.jiuyi.dao.WorkingBillDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Brand;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.MemberRank;
+import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.BrandService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.OrderService;
+import cc.jiuyi.service.ProcessRouteService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -37,6 +45,12 @@ public class WorkingBillServiceImpl extends
 		BaseServiceImpl<WorkingBill, String> implements WorkingBillService {
 	@Resource
 	private WorkingBillDao workingbilldao;
+	@Resource
+	private OrderService orderservice;
+	@Resource
+	private ProductsService productsservice;
+	@Resource
+	private ProcessRouteService processrouteservice;
 
 	@Resource
 	public void setBaseDao(WorkingBillDao workingbilldao) {
@@ -48,18 +62,7 @@ public class WorkingBillServiceImpl extends
 		return workingbilldao.findPagerByjqGrid(pager, map);
 	}
 
-	@Override
-	public void mergeWorkingBill(List list){
-		for (int i = 0; i < list.size(); i++) {
-			WorkingBill workingbill = (WorkingBill) list.get(i);
-			boolean flag = workingbilldao.isExist("workingBillCode",
-					workingbill.getWorkingBillCode());
-			if (flag)
-				this.updateWorkingBill(workingbill);
-			else
-				workingbilldao.save(workingbill);
-		}
-	}
+	
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
@@ -131,4 +134,91 @@ public class WorkingBillServiceImpl extends
 	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
 		return workingbilldao.getWorkingBillByProductsCode(matnr);
 	}
+
+	@Override
+	public void mergeWorkingBill(List<WorkingBill> workingbillList,
+			List<Order> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
+		
+		//生产订单
+		for(int i=0;i<orderList.size();i++){
+			Order order = orderList.get(i);
+			Order order1 = orderservice.get("aufnr",order.getAufnr());//生产订单号
+			if(order1 == null){
+				orderservice.save(order);
+			}else{
+				order.setId(order1.getId());
+				orderservice.merge(order);
+			}
+			Products products = productsservice.get("productsCode",order.getMatnr());
+			if(products==null){
+				Products products1 = new Products();
+				products1.setProductsCode(order.getMatnr());
+				products1.setProductsName(order.getMaktx());
+				products1.setIsDel("N");
+				productsservice.save(products1);
+			}else{
+				products.setProductsName(order.getMaktx());
+				productsservice.update(products);
+			}
+			List<WorkingBill> workingbillList00 = new ArrayList<WorkingBill>();
+			for(int y=0;y<workingbillList.size();y++){
+				WorkingBill workingBill = workingbillList.get(i);
+				if(workingBill.getAufnr().equals(order.getAufnr())){
+					workingbillList00.add(workingBill);
+				}
+			}
+			List<WorkingBill> workingbillList01 = workingbilldao.getList("aufnr", order.getAufnr());
+			if(workingbillList00.size() >= workingbillList01.size()){//如果SAP的比MES 多
+			 boolean flag = false;
+			 for(int x=0;x<workingbillList00.size();x++){
+				WorkingBill WorkingBill00 = workingbillList00.get(x);
+				for(int z=0;z<workingbillList01.size();z++){
+					WorkingBill WorkingBill01 = workingbillList01.get(z);
+					if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+						this.updateWorkingBill(WorkingBill00);
+						flag = true;
+					}
+					
+				}
+				if(!flag){ //没找到
+					this.save(WorkingBill00);
+				}
+			 }
+			}else if(workingbillList00.size() < workingbillList01.size()){//如果MES比SAP多
+				boolean flag = false;
+				 for(int x=0;x<workingbillList01.size();x++){
+					WorkingBill WorkingBill01 = workingbillList01.get(x);
+					for(int z=0;z<workingbillList00.size();z++){
+						WorkingBill WorkingBill00 = workingbillList00.get(z);
+						if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+							this.updateWorkingBill(WorkingBill00);
+							flag = true;
+						}
+					}
+					if(!flag){ //没找到
+						WorkingBill01.setIsdel("Y");
+						this.update(WorkingBill01);
+					}
+				 }
+			}
+			
+		}
+		
+		//工艺路线
+//		for(int i=0;i<processrouteList.size();i++){
+//			//processrouteservice
+//		}
+//		
+		//Bom
+
+		
+		
+		
+	}
+
+	
+
+
+
+
 }

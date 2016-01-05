@@ -45,7 +45,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active"><#if isAdd??>添加产品组<#else>编辑产品组</#if></li>
+					<li class="active"><#if isAdd??>添加权限资源对象<#else>编辑权限资源对象</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -66,7 +66,7 @@ body {
 
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">产品组管理</a></li>
+										<li><a href="#tabs-1">权限资源管理</a></li>
 
 									</ul>
 

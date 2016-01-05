@@ -397,8 +397,19 @@ public class TestSAPUtilService extends BaseTestCase {
 		c.setCartonAmount(1);
 		c.setLifnr("10503");
 		c.setId("1");
+		Carton cc=new Carton();
+		cc.setWerks("1000");
+		cc.setLgort("2501");
+		cc.setBudat("2015-12-08");
+		cc.setMove_type("101");
+		cc.setId("1");
+		cc.setCartonCode("50110123");
+		cc.setCartonAmount(1);
+		cc.setLifnr("10503");
+		cc.setId("1");
 		List<Carton> list=new ArrayList<Carton>();
 		list.add(c);
+		list.add(cc);
 		try {
 			List<Carton> l=cartonrfc.CartonCrt(list);
 			for(Carton c1:l){

@@ -250,6 +250,7 @@
 															class="bigger-110 no-text-shadow">考勤</span>
 													</button>
 												</div>
+												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="cartonreceiving">
 													<button

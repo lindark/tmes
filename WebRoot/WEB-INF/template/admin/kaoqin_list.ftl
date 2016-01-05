@@ -28,7 +28,6 @@
 		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/kaoqin_list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 		
-		
 
 <style type="text/css">
 .btn_add
@@ -88,6 +87,8 @@
 </style>
 </head>
 <body class="no-skin list xtxt">
+
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">

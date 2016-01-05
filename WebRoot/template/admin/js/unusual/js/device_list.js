@@ -63,7 +63,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['设备名称','车间','车间联系人', '维修类型','故障原因','维修人','状态'],
+		colNames:['设备名称','车间','车间联系人', '维修类型','故障原因','维修人','订单号','状态'],
 		colModel:[
             {name:'deviceName',index:'equipments.equipmentName',width:60, editable:true},			
 			{name:'workShopName',index:'workShop.workShopName',width:60, editable:true, sorttype:"date",unformat: pickDate},
@@ -71,6 +71,7 @@ jQuery(function($) {
 			{name:'repairType',index:'maintenanceType', width:160, editable: true,search:false,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
 			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,search:false,edittype:"textarea"},
 			{name:'repairName',index:'disposalWorkers.name', width:60, sortable:false,editable: true,edittype:"textarea"},
+			{name:'orderNo',index:'orderNo', width:60, sortable:false,editable: true},
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
 

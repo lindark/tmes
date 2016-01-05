@@ -122,7 +122,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			List<Bom> bomList = bomservice.getBomByProductCode(workingbill.getMatnr(),materialCode,version);
 		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
 		    	continue;
-			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr());
+			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
 			if (handoverprocess != null) {
 				Integer amount = handoverprocess.getAmount();
 				workingbill.setAmount(amount);

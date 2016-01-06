@@ -36,7 +36,7 @@ public class Receiver extends BaseEntity {
 		this.name = name;
 	}
 	
-	@Column(nullable = false, length = 10000)
+	//@Column(nullable = false, length = 10000)
 	public String getAreaPath() {
 		return areaPath;
 	}
@@ -45,7 +45,7 @@ public class Receiver extends BaseEntity {
 		this.areaPath = areaPath;
 	}
 	
-	@Column(nullable = false, length = 5000)
+	//@Column(nullable = false, length = 5000)
 	public String getAddress() {
 		return address;
 	}

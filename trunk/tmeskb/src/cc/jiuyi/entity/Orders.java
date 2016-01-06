@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
  * 实体类 - 生产订单
  */
 @Entity
-public class Order extends BaseEntity{
+public class Orders extends BaseEntity{
 
 	/**
 	 * 
@@ -32,8 +32,23 @@ public class Order extends BaseEntity{
 	private String matnr;//物料
 	private String maktx;//物料描述
 	private String aufpl;//工艺路线号
+	private String rsnum;//bom预留号
 	private String isdel;//是否删除
+	private String gamng;//订单数量
 
+	
+	public String getGamng() {
+		return gamng;
+	}
+	public void setGamng(String gamng) {
+		this.gamng = gamng;
+	}
+	public String getRsnum() {
+		return rsnum;
+	}
+	public void setRsnum(String rsnum) {
+		this.rsnum = rsnum;
+	}
 	public String getMaktx() {
 		return maktx;
 	}

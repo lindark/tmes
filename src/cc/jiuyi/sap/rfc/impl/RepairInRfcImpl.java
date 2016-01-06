@@ -3,6 +3,7 @@ package cc.jiuyi.sap.rfc.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.sap.mw.jco.JCO.ParameterList;
@@ -28,14 +29,28 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc{
 		for(Repairin r : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			//物料凭证抬头，需要去重 参考：http://www.2cto.com/kf/201410/341634.html
+			item.put("WERKS", "");//工厂 必填
+			item.put("LGORT", "");//库存地点
+			item.put("ZTEXT", "");//抬头文本，选填
+			item.put("XUH", "");//序号  必填
+			item.put("KOSTL", "10008431");//成本中心
 			arrList.add(item);
 		}
+		//去重
+		List<HashMap<String,Object>> arr 
+		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+		ET_HEADER.setList(arr);
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();
 		ET_ITEM.setData("ET_ITEM");
 		for(Repairin r : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			//物料凭证明细
+			//物料凭证明细
+			item.put("MATNR", "");//物料编码
+			item.put("ZSFSL", "");//数量
+			item.put("ITEM_TEXT", "");//项目文本 选填
+			item.put("XUH", "");//序号 必填
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +20,13 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.RepairInRfc;
+import cc.jiuyi.sap.rfc.impl.RepairInRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 返修收货
@@ -125,11 +124,17 @@ public class RepairinAction extends BaseAdminAction {
 		List<Repairin> list = repairinService.get(ids);
 		repairinService.updateState(list, CONFIRMED, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
+		String str=toSAP(list,workingbill);
+		String isSuccess=ERROR;
+		if("S".equals(str))
+		{
+			isSuccess=SUCCESS;
+			str="您的操作已成功!";
+		}
 		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount()
-				.toString());
+		hashmap.put(STATUS, isSuccess);
+		hashmap.put(MESSAGE, str);
+		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount().toString());
 		return ajaxJson(hashmap);
 	}
 
@@ -255,6 +260,58 @@ public class RepairinAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
+	/**
+	 * 与SAP交互   退料262  905
+	 * list 主表数据   wbid随工单对象
+	 * @return
+	 * @author gyf
+	 */
+	public String toSAP(List<Repairin>list,WorkingBill wb)
+	{
+		List listall =this.repairinService.getSAPMap(list,wb,cardnumber);
+		List<Map<Object,Object>> list1 =(List<Map<Object, Object>>) listall.get(0);
+		List<Map<Object,Object>> list2 =(List<Map<Object, Object>>) listall.get(1);
+		List<Map<Object,Object>>list_sapreturn=null;
+		try
+		{
+			String e_msg="";
+			boolean flag=true;
+			RepairInRfc repairinRfc=new RepairInRfcImpl();
+			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+			list_sapreturn=new ArrayList<Map<Object,Object>>(repairinRfc.repairCrt(list1,list2));
+			flag=true;
+			e_msg="";
+			for(int i=0;i<list_sapreturn.size();i++)
+			{
+				Map<Object,Object>m=list_sapreturn.get(i);
+				/**出现问题*/
+				if("E".equalsIgnoreCase(m.get("E_TYPE").toString()))
+				{
+					flag=false;
+					e_msg+=m.get("E_MESSAGE").toString();
+				}
+				else
+				{
+					/**与SAP交互没有问题,更新本地数据库*/
+					this.repairinService.updateMyData(m,cardnumber);
+				}
+			}
+			if(!flag)
+			{
+				return e_msg;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return "IO出现异常，请联系系统管理员";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "系统出现问题，请联系系统管理员";
+		}
+		return "S";
+	}
+	
 	public Repairin getRepairin() {
 		return repairin;
 	}

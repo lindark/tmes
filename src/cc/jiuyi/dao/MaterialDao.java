@@ -58,4 +58,11 @@ public interface MaterialDao extends BaseDao<Material,String> {
      */
     public List<Material> getMantrBom(Object[] matnrs);
 
+    /**
+     * 根据物料id查询是否存在
+     * @param code
+     * @return
+     */
+	public boolean getByCode(String code);
+
 }

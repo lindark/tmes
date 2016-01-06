@@ -47,5 +47,12 @@ public interface ProductsDao extends BaseDao<Products,String> {
 	
 	public Products getProducts(String matnr);
 	public List<Products> getProductsByProcessId(String id);
+
+	/**
+	 * 根据产品编号查询产品
+	 * @param pcode
+	 * @return
+	 */
+	public Products getByPcode(String pcode);
 	
 }

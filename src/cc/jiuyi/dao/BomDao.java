@@ -57,4 +57,12 @@ public interface BomDao extends BaseDao<Bom, String> {
 	
 	
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
+
+	/**
+	 * 根据产品id和随工单中的bom版本号查询bom表
+	 * @param pid
+	 * @param version
+	 * @return
+	 */
+	public List<Bom> getByPidAndWversion(String pid, String version);
 }

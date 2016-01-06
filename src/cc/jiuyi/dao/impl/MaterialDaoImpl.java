@@ -108,4 +108,17 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
 	}
 
+	/**
+	 * 根据物料id查询是否存在
+	 */
+	public boolean getByCode(String code)
+	{
+		String hql="from Material where materialCode=?";
+		List<Material>list=this.getSession().createQuery(hql).setParameter(0, code).list();
+		if(list.size()>0)
+		{
+			return true;
+		}
+		return false;
+	}
 }

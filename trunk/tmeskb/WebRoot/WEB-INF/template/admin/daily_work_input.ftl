@@ -118,14 +118,17 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">报工工序</div>
+												<div class="profile-info-name">模具</div>
 
 												<div class="profile-info-value">
-													<select name="dailyWork.processCode" id="form-field-icon-1" class="chosen-select"> 
-												        <#list allProcess as list>
-											            <option value="${list.processCode}"<#if (isEdit&&dailyWork.processCode==list.processCode)!> selected</#if>>${list.processName}</option>
-										                </#list>   
-												    </select> 
+												    <select name="dailyWork.moudle"> <#list
+														allMoudle as list>
+														<option value="${list.dictkey}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && dailyWork.moudle ==
+															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+														</#list>
+													</select>
+													
 												</div>
 											</div>
 										</div>

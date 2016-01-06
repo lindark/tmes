@@ -19,8 +19,10 @@ import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ScrapService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * 报废
@@ -46,7 +48,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public void setBaseDao(ScrapDao scrapDao) {
 		super.setBaseDao(scrapDao);
 	}
-	
+	@Resource
+	private WorkingBillService wbService;
 	/**
 	 * jqGrid查询
 	 */
@@ -61,11 +64,18 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public String saveInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id,String cardNumber)
 	{
 		Admin admin=this.adminService.getByCardnum(cardNumber);
+		WorkingBill wb = wbService.get(scrap.getWorkingBill().getId());//当前随工单
+		String workingBillCode = wb.getWorkingBillCode();
 		//报废主表
 		scrap.setState("1");
 		scrap.setCreater(admin);//提交人
 		scrap.setCreateDate(new Date());//初始化创建日期
 		scrap.setModifyDate(new Date());//初始化修改日期
+		scrap.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
+		scrap.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+		scrap.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+		scrap.setBudat(wb.getProductDate());//过账日期
+		
 		String scrapId=this.scrapDao.save(scrap);
 		Scrap scp=this.scrapDao.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
@@ -86,6 +96,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if(str!=null&&!"".equals(str)&&!"0".equals(str))
 				{
 					sl.setCreateDate(new Date());//初始化创建日期
+					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 					sl.setScrap(scp);
 					this.slaterDao.save(sl);
 				}

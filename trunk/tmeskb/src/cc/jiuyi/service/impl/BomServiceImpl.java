@@ -78,4 +78,11 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		return bomDao.findPagerByjqGrid(pager, map);
 	}
 
+	/**
+	 * 根据产品id和随工单中的bom版本号查询bom表
+	 */
+	public List<Bom>list_bom(String pid,String version)
+	{
+		return this.bomDao.getByPidAndWversion(pid,version);
+	}
 }

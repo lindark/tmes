@@ -16,9 +16,9 @@ jQuery(function($) {
 		}
     })
 
-
-
 	jQuery(grid_selector).jqGrid({
+		
+		
 		//direction: "rtl",
 
 		//subgrid options
@@ -253,17 +253,18 @@ function btn_event()
 		}
 //		var url ="dump_detail!list.action?dumpId="+dumpId+"&loginid="+loginid; 
 //		alert(url);
-		window.location.href="dump_detail!list.action?dumpId="+dumpId+"&loginid="+loginid;
+		window.location.href="dump_detail!list.action?loginid="+loginid+"&dumpId="+dumpId;
 		
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
+		var loginid=$("#loginid").val();//当前登录人的id
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
-		var url = "dump!creditapproval.action?dumpId="+dumpId;
+		var url = "dump!creditapproval.action?dumpId="+dumpId+"&loginid="+loginid;
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
 			$("#grid-table").trigger("reloadGrid");

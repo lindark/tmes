@@ -216,7 +216,7 @@ body {
 												    
 													<input type="text" name="model.confirmTime"
 														value="${(model.confirmTime)!}"
-														class="formText {date:'date',dateFormat: 'yy-mm-dd'} datePicker" />											
+														class="datePicker" />											
 												</div>
 												</div>
 												</#if>

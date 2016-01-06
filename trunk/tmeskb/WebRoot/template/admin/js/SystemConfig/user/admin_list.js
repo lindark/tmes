@@ -42,9 +42,11 @@ jQuery(function($) {
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
 			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
+			{name:'workNumber',label:"工号",width:200,index:'workNumber',editable:true,editrules : {required : true}},
 			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
 			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}},
 			{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
+			{name:'xpost',label:"岗位",width:200,index:'xpost.postName', editable: true},
 			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 

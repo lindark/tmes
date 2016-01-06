@@ -5,11 +5,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import cc.jiuyi.dao.AreaDao;
-import cc.jiuyi.dao.OrderDao;
+import cc.jiuyi.dao.OrdersDao;
 import cc.jiuyi.entity.Area;
-import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.service.AreaService;
-import cc.jiuyi.service.OrderService;
+import cc.jiuyi.service.OrdersService;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ import org.springmodules.cache.annotations.Cacheable;
  */
 
 @Service
-public class OrderServiceImpl extends BaseServiceImpl<Order, String> implements OrderService {
+public class OrdersServiceImpl extends BaseServiceImpl<Orders, String> implements OrdersService {
 	
 	@Resource
-	private OrderDao orderdao;
+	private OrdersDao orderdao;
 
 	@Resource
-	public void setBaseDao(OrderDao orderdao) {
+	public void setBaseDao(OrdersDao orderdao) {
 		super.setBaseDao(orderdao);
 	}
 

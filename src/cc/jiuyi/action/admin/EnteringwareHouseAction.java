@@ -106,6 +106,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
+		if (ratio == null && ratio.equals("")) {
+           return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
+		}
 		ids = id.split(",");
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		for (int i = 0; i < list.size(); i++) {

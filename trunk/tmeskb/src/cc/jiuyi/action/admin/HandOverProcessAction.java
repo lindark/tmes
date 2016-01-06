@@ -185,7 +185,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		}		
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
-		processList = processservice.getAll();//取出工序表中所有工序
+		processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
 		
 		
 		

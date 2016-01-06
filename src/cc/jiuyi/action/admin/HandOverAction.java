@@ -136,7 +136,8 @@ public class HandOverAction extends BaseAdminAction {
 			if(!StringUtil.isEmpty(handoverprocess.getMblnr())){
 				handoverprocessList.remove(i);
 			}				
-			handOver =	handoverprocess.getHandover();	
+			handOver =	handoverprocess.getHandover();
+			handoverId = handOver.getId();
 		}
 //		System.out.println(handOver.getState()+"ceshi");
 		if(handOver.getState().equals("1")){

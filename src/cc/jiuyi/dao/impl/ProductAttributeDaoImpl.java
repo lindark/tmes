@@ -78,8 +78,8 @@ public class ProductAttributeDaoImpl extends BaseDaoImpl<ProductAttribute, Strin
 		String hql = "from Product as product join product.productAttributeMapStore productAttributeMapStore where index(productAttributeMapStore) = :key";
 		List<Product> productList = getSession().createQuery(hql).setParameter("key", productAttribute).list();
 		for (Product product : productList) {
-			Map<ProductAttribute, String> productAttributeMapStore = product.getProductAttributeMapStore();
-			productAttributeMapStore.remove(productAttribute);
+//			Map<ProductAttribute, String> productAttributeMapStore = product.getProductAttributeMapStore();
+//			productAttributeMapStore.remove(productAttribute);
 		}
 		super.delete(productAttribute);
 	}

@@ -29,7 +29,7 @@ public class Repairin extends BaseEntity {
 	private String maktx;//产品描述
 
 	private WorkingBill workingbill;// 随工单
-
+	private String mblnr;//物料凭证
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -130,6 +130,16 @@ public class Repairin extends BaseEntity {
 
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
+	}
+
+	public String getMblnr()
+	{
+		return mblnr;
+	}
+
+	public void setMblnr(String mblnr)
+	{
+		this.mblnr = mblnr;
 	}
 
 }

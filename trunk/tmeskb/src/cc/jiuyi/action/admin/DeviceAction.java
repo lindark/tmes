@@ -305,6 +305,7 @@ public class DeviceAction extends BaseAdminAction {
 				
 		device.setState("0");
 		device.setIsDel("N");
+		device.setWorkshopLinkman(admin);
 		
 		deviceService.save(device);
 		
@@ -324,8 +325,13 @@ public class DeviceAction extends BaseAdminAction {
         return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
-	public String creditupdate() {
+	public String creditupdate() {		
+		admin = adminService.getByCardnum(cardnumber);
+		
 		Device persistent = deviceService.load(id);
+		if(persistent.getWorkshopLinkman()!=admin){
+			return ajaxJsonErrorMessage("您不是单据创建人，无权提交该单据!");
+		}
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}

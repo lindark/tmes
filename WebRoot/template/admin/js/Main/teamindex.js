@@ -146,7 +146,7 @@ $(function() {
 	$dump.click(function() {
 		var istrue = init.notCheck();
 		var loginid=$("#loginid").val();//当前登录人的id
-		alert(loginid);
+		//alert(loginid);
 		if (istrue) {
 			window.location.href = "dump!list.action?loginid="+loginid;
 		}

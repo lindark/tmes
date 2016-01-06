@@ -111,6 +111,24 @@ public class ArithUtil {
 		BigDecimal one = new BigDecimal("1");
 		return b.divide(one, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
+	
+	/**
+	 * 提供精确的小数位 不四舍五入,向上+1
+	 * 
+	 * @param v
+	 *            数字
+	 * @param scale
+	 *            小数点后保留几位
+	 * @return 非四舍五入结果
+	 */
+	public static double round1(double v, int scale) {
+		if (scale < 0) {
+			throw new IllegalArgumentException("参数scale必须为整数为零!");
+		}
+		BigDecimal b = new BigDecimal(Double.toString(v));
+		BigDecimal one = new BigDecimal("1");
+		return b.divide(one, scale, BigDecimal.ROUND_UP).doubleValue();
+	}
 
 	/**
 	 * 提供精确的类型转换(Float)

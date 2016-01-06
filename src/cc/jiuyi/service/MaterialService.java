@@ -61,4 +61,11 @@ public interface MaterialService extends BaseService<Material, String> {
 	 */
 	public void mergeMaterialList(List<Material> materialList);
 
+	/**
+	 * 根据物料id查询是否存在
+	 * @param materialCode
+	 * @return
+	 */
+	public boolean getByCode(String materialCode);
+
 }

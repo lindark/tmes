@@ -207,9 +207,9 @@ public class ProductAction extends BaseAdminAction {
 					productAttributeMap.put(productAttribute, Arrays.asList(parameterValues));
 				}
 			}
-			product.setProductAttributeMap(productAttributeMap);
+//			product.setProductAttributeMap(productAttributeMap);
 		} else {
-			product.setProductAttributeMap(null);
+//			product.setProductAttributeMap(null);
 		}
 		product.setProductType(productType);
 
@@ -361,9 +361,9 @@ public class ProductAction extends BaseAdminAction {
 					productAttributeMap.put(productAttribute, Arrays.asList(parameterValues));
 				}
 			}
-			product.setProductAttributeMap(productAttributeMap);
+//			product.setProductAttributeMap(productAttributeMap);
 		} else {
-			product.setProductAttributeMap(null);
+//			product.setProductAttributeMap(null);
 		}
 		product.setProductType(productType);
 		if (productImages != null) {

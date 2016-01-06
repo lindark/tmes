@@ -21,6 +21,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
@@ -259,9 +260,7 @@ public class DailyWorkAction extends BaseAdminAction {
 					dictService, "dailyWorkState", dailyWork.getState()));
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
-			}
-			dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());
+			}			
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			dailyWork.setMaktx(workingBillService.get(
 					dailyWork.getWorkingbill().getId()).getMaktx());
@@ -310,8 +309,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());
+			/*dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());*/
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}
@@ -371,4 +370,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		this.cardnumber = cardnumber;
 	}
 
+	public List<Dict> getAllMoudle() {
+		return dictService.getList("dictname", "moudleType");
+	}
 }

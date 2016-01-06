@@ -34,8 +34,8 @@ public class Repair extends BaseEntity {
 	private String processCode;//责任工序名称
 
 	private WorkingBill workingbill;// 随工单
-
-
+	private String mblnr;//物料凭证
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -178,6 +178,16 @@ public class Repair extends BaseEntity {
 
 	public void setProcessCode(String processCode) {
 		this.processCode = processCode;
+	}
+
+	public String getMblnr()
+	{
+		return mblnr;
+	}
+
+	public void setMblnr(String mblnr)
+	{
+		this.mblnr = mblnr;
 	}
 
 }

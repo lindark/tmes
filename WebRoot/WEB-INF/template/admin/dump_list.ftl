@@ -107,7 +107,7 @@
 								
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
-									返回
+									返回 
 								</a>
 							</div>
 							<div class="row">

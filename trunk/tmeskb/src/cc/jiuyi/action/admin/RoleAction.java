@@ -74,7 +74,7 @@ public class RoleAction extends BaseAdminAction {
 	// 删除
 	public String delete() throws Exception{
 		for (String id : ids) {
-			Role role = roleService.load(id);
+			Role role = roleService.get(id);
 			Set<Admin> adminSet = role.getAdminSet();
 			if (adminSet != null && adminSet.size() > 0) {
 				return ajaxJsonErrorMessage("角色[" + role.getName() + "]下存在管理员，删除失败！");

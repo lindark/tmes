@@ -62,7 +62,7 @@ public class ProcessRouteAction extends BaseAdminAction {
 			int version1 = processroute.getVersion();
 			int version2 = processrouteservice.getMaxVersion(productid);
 			if (version1 == version2) {
-				cc.jiuyi.entity.Process process = processroute.getProcess();
+				cc.jiuyi.entity.Process process = processservice.get("processCode",processroute.getProcessCode());
 				JSONObject jsonobject = new JSONObject();
 				jsonobject.put("productsid", product.getId());
 				jsonobject.put("productsCode", product.getProductsCode());
@@ -138,8 +138,9 @@ public class ProcessRouteAction extends BaseAdminAction {
 				ProcessRoute p = list.get(i);
 				p.setProductsCode(p.getProducts().getProductsCode());
 				p.setProductsName(p.getProducts().getProductsName());
-				p.setProcessCode(p.getProcess().getProcessCode());
-				p.setProcessName(p.getProcess().getProcessName());
+				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
+				p.setProcessCode(process.getProcessCode());
+				p.setProcessName(process.getProcessName());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();

@@ -63,10 +63,10 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	}
 
 	@Override
-	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr)
+	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr,String loginid)
 			throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
-		Admin admin = adminservice.getLoginAdmin();
+		Admin admin = adminservice.get(loginid);
 		admin = adminservice.get(admin.getId());
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();

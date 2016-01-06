@@ -18,7 +18,7 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Locationonside;
-import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
@@ -96,16 +96,16 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			workingbill.setAufnr(table01.getString("AUFNR"));//订单号
 			list.add(workingbill);
 		}
-		List<Order> orderlist = new ArrayList<Order>();//生产订单
+		List<Orders> orderlist = new ArrayList<Orders>();//生产订单
 		for(int i=0;i<table02.getNumRows();i++){
-			Order order = new Order();
+			Orders order = new Orders();
 			table02.setRow(i);
 			order.setAufnr(table02.getString("AUFNR"));//订单号
-			order.setAuart(table02.getString("AUART"));//订单类型
-			order.setAutyp(table02.getString("AUTYP"));//订单类别
-			order.setMatnr(table02.getString("MATNR"));//产品
+			order.setMatnr(table02.getString("PLNBEZ"));//产品
 			order.setMaktx(table02.getString("MAKTX"));//物料描述
 			order.setAufpl(table02.getString("AUFPL"));//工艺路线号
+			order.setRsnum(table02.getString("RSNUM"));//BOM预留号
+			order.setGamng(table02.getString("GAMNG"));//订单数量
 			if(table02.getString("LOEKZ").equals("X")){//删除标记
 				order.setIsdel("Y");
 			}else{
@@ -116,6 +116,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		
 		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
 		for(int i=0;i<table03.getNumRows();i++){
+			table03.setRow(i);
 			ProcessRoute processroute = new ProcessRoute();
 			processroute.setAufpl(table03.getString("AUFPL"));//工艺路线号
 			processroute.setProcessCode(table03.getString("VORNR"));//操作，mes系统中是工序编码
@@ -127,9 +128,11 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		
 		List<Bom> bomList = new ArrayList<Bom>();//BOM
 		for(int i=0;i<table04.getNumRows();i++){
+			table04.setRow(i);
 			Bom bom = new Bom();
 			bom.setRsnum(table04.getString("RSNUM"));//预留号
 			bom.setMaterialCode(table04.getString("MATNR"));//物料
+			bom.setMaterialAmount(table04.getDouble("BDMNG"));//需求数量
 			//TODO 缺少物料描述
 			bomList.add(bom);
 		}

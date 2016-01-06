@@ -18,5 +18,5 @@ public interface DumpRfc extends BaserfcService{
 	 * @throws CustomerException
 	 */
 	public List<Dump> findMaterialDocument(String lgort,String bgdat,String eddat) throws IOException,CustomerException;
-	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr) throws IOException,CustomerException;
+	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr,String loginid) throws IOException,CustomerException;
 }

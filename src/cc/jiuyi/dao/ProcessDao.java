@@ -26,6 +26,14 @@ public interface ProcessDao extends BaseDao<Process,String> {
 	 */
 	public List<Process> getProcessList();
 	
+	
+	/**
+	 * 取出所有未删除的工序对象
+	 * @return
+	 */
+	public List<Process> getExistProcessList();
+	
+	
 	public Pager getProcessPager(Pager pager,HashMap<String,String>map);
 
 	/**

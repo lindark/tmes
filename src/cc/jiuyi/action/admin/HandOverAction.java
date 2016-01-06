@@ -163,8 +163,11 @@ public class HandOverAction extends BaseAdminAction {
 					if(e_type.equals("E")){ //如果有一行发生了错误
 						flag = false;
 						message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
-					}else{
-						handOverProcessService.merge(handoverprocess);
+					}else{					
+						HandOverProcess handOverProcess = handOverProcessService.get(handoverprocess.getId());
+						handOverProcess.setE_message(handoverprocess.getE_message());
+						handOverProcess.setE_type(handoverprocess.getE_type());
+						handOverProcessService.update(handOverProcess);
 					}
 				}
 				if(!flag)

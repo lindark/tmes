@@ -38,6 +38,7 @@ public class DailyWork extends BaseEntity {
 	private String workingbillCode;
 	private String maktx;//产品描述
 	private String processCode;//工序编码
+	private String moudle;//模具
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -214,4 +215,13 @@ public class DailyWork extends BaseEntity {
 		this.processCode = processCode;
 	}
 
+	public String getMoudle() {
+		return moudle;
+	}
+
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
+	}
+
+	
 }

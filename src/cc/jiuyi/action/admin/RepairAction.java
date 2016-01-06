@@ -86,7 +86,9 @@ public class RepairAction extends BaseAdminAction {
 				.getProcessRouteByProductCode(productCode);
 		allProcess = new ArrayList<Process>();
 		for (int i = 0; i < processRouteList.size(); i++) {
-			allProcess.add(processRouteList.get(i).getProcess());
+			ProcessRoute processroute = processRouteList.get(i);
+			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
+			allProcess.add(process);
 		}
 		return INPUT;
 	}
@@ -111,7 +113,9 @@ public class RepairAction extends BaseAdminAction {
 		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
 				version, productCode);
 		for (int i = 0; i < processRouteList.size(); i++) {
-			allProcess.add(processRouteList.get(i).getProcess());
+			ProcessRoute processroute = processRouteList.get(i);
+			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
+			allProcess.add(process);
 		}
 		return INPUT;
 	}

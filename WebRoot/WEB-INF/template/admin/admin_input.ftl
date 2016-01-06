@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>权限对象管理 - Powered By ${systemConfig.systemName}</title>
+<title>人员管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <#include "/WEB-INF/template/common/includelist.ftl">
@@ -105,12 +105,16 @@ body {
 												value="${(admin.identityCard)!}" /> <label class="requireField">*</label>
 										</div>
 								</div>
+								
 								<div class="form-group">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">技能</label>
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">岗位</label>
 										<div class="col-sm-9">
-											<input type="text" name="admin.skill"
-												class="col-xs-10 col-sm-5 formText {required: true}"
-												value="${(admin.skill)!}" /> <label class="requireField">*</label>
+											<select name="admin.post.id" id="form-field-icon-1" class="col-xs-10 col-sm-5 formText {required: true}"> 
+											    <option value="">-请选择-</option>											
+										        <#list postList as list>							
+									            <option value="${list.id}"<#if ((isAdd && list.isDefault) || (isEdit && admin.post.id == list.id))!> selected</#if>>${list.postName}</option>
+								                </#list>   
+										      </select> 
 										</div>
 								</div>
 								<div class="form-group">

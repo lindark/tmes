@@ -48,6 +48,7 @@ public class DumpAction extends BaseAdminAction {
 	private String dumpId;
 	private List<Dump> dumpList;
 	private String cardnumber;// 刷卡卡号
+	private String loginid;//当前登录人id
 
 	@Resource
 	private DumpRfc dumpRfc;
@@ -59,8 +60,8 @@ public class DumpAction extends BaseAdminAction {
 	private AdminService adminService;
 
 	public String list() {
-		admin = adminService.getLoginAdmin();
-		admin = adminService.load(admin.getId());
+		admin = adminService.get(loginid);
+		//admin = adminService.load(admin.getId());
 		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();
 		warehouseName = admin.getDepartment().getTeam().getFactoryUnit()
@@ -334,4 +335,14 @@ public class DumpAction extends BaseAdminAction {
 		this.cardnumber = cardnumber;
 	}
 
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+
+	
+	
 }

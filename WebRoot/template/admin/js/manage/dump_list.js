@@ -241,6 +241,7 @@ function btn_event()
 	});
 	//查看
 	$("#btn_show").click(function(){
+		var loginid=$("#loginid").val();//当前登录人的id
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(dumpId.length <1){
 			layer.msg("请选择一条记录!", {icon: 5});
@@ -250,7 +251,10 @@ function btn_event()
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
-		window.location.href="dump_detail!list.action?dumpId="+dumpId;
+//		var url ="dump_detail!list.action?dumpId="+dumpId+"&loginid="+loginid; 
+//		alert(url);
+		window.location.href="dump_detail!list.action?dumpId="+dumpId+"&loginid="+loginid;
+		
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){

@@ -30,6 +30,12 @@ public interface ProcessService extends BaseService<Process, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
+	/**
+	 * 取出所有未删除的工序对象
+	 * @return
+	 */
+	public List<Process> getExistProcessList();
+	
 	
 	/**
 	 * 根据ProcessCode判断Process是否存在

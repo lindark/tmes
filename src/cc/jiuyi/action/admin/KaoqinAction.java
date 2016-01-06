@@ -295,7 +295,7 @@ public class KaoqinAction extends BaseAdminAction
 		/**获取班组状态*/
 		Team t=admin.getDepartment().getTeam();
 		t.setIscancreditcard("N");
-		t.setState("1");//班组状态改为开启状态
+		t.setIsWork("Y");//班组状态改为开启状态
 		t.setModifyDate(new Date());
 		this.teamService.update(t);
 		return ajaxJsonSuccessMessage("您的操作已成功!");

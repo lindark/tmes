@@ -281,6 +281,36 @@
 			
 		});
 		
+		$("#btn_back").click(function(){
+			window.history.back();
+		});
+		
+		var ishead=0;
+		$("#ace-settings-btn").click(function(){
+			if(ishead==0){
+				ishead=1;
+				$("#ace-settings-box").addClass("open");
+			}else{
+				ishead=0;
+				$("#ace-settings-box").removeClass("open");
+			}
+		});
+		$(".btn-colorpicker").click(function(){
+				$(".dropdown-colorpicker").addClass("open");
+		})
+		
+		var ishead2=0;
+		$(".light-blue").click(function(){
+			if(ishead2==0){
+				ishead2=1;
+				$(this).addClass("open");
+			}else{
+				ishead2=0;
+				$(this).removeClass("open");
+			}
+			
+		})
+		
 	})
 	
 	

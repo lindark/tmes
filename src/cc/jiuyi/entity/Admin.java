@@ -46,7 +46,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String cardNumber;//卡号
 	private String workNumber;//工号
 	private String  identityCard;//身份证
-	private String skill;//技能
 
 	private Set<Abnormal> abnormalList;// 一个发起人对应多个异常
 	private Set<Abnormal> abnormalSet;// 应答人与异常多对多
@@ -931,14 +930,6 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.identityCard = identityCard;
 	}
 
-	public String getSkill() {
-		return skill;
-	}
-
-	public void setSkill(String skill) {
-		this.skill = skill;
-	}
-	
 	
 	
 	

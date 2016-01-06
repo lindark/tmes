@@ -93,7 +93,9 @@ public class DailyWorkAction extends BaseAdminAction {
 		processRouteList = processRouteService
 				.getProcessRouteByProductCode(productCode);
 		for (int i = 0; i < processRouteList.size(); i++) {
-			allProcess.add(processRouteList.get(i).getProcess());
+			ProcessRoute processroute = processRouteList.get(i);
+			Process process = processService.get("processCode",processroute.getProcessCode());
+			allProcess.add(process);
 		}
 		return INPUT;
 	}
@@ -113,7 +115,9 @@ public class DailyWorkAction extends BaseAdminAction {
 		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
 				version, productCode);
 		for (int i = 0; i < processRouteList.size(); i++) {
-			allProcess.add(processRouteList.get(i).getProcess());
+			ProcessRoute processroute = processRouteList.get(i);
+			Process process = processService.get("processCode",processroute.getProcessCode());
+			allProcess.add(process);
 		}
 		return INPUT;
 	}
@@ -260,7 +264,9 @@ public class DailyWorkAction extends BaseAdminAction {
 					dictService, "dailyWorkState", dailyWork.getState()));
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
-			}			
+			}
+			dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			dailyWork.setMaktx(workingBillService.get(
 					dailyWork.getWorkingbill().getId()).getMaktx());
@@ -309,8 +315,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			/*dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());*/
+			dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}

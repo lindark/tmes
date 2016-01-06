@@ -35,6 +35,7 @@ public class DumpDetailAction extends BaseAdminAction {
 	
 	private DumpDetail dumpDetail;
 	private String dumpId;
+	private String loginid;
 	
 	@Resource
 	private DumpDetailService dumpDetailService;
@@ -84,7 +85,7 @@ public class DumpDetailAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 		try {
-			List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(dumpId);
+			List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(dumpId,loginid);
 			JsonConfig jsonConfig=new JsonConfig();
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(DumpDetail.class));//排除有关联关系的属性字段 
@@ -117,4 +118,13 @@ public class DumpDetailAction extends BaseAdminAction {
 		this.dumpId = dumpId;
 	}
 
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+
+	
 }

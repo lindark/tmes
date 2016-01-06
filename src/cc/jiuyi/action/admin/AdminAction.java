@@ -30,8 +30,8 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
-import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.Sample;
@@ -44,6 +44,7 @@ import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.PollingtestService;
+import cc.jiuyi.service.PostService;
 import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
 import cc.jiuyi.service.SampleService;
@@ -90,6 +91,7 @@ public class AdminAction extends BaseAdminAction {
 	private String departName;
 	private String teamid;
 	private Team team;
+	private List<Post> postList;//岗位List
 
 	@Resource
 	private AdminService adminService;
@@ -118,6 +120,8 @@ public class AdminAction extends BaseAdminAction {
 	private SampleService sampleService;
 	@Resource
 	private ScrapService scrapService;
+	@Resource
+	private PostService postService;
 	
 	// 登录页面
 	public String login() {
@@ -279,6 +283,7 @@ public class AdminAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		Department depart = departmentservice.get(departid);
+		postList = postService.getAll();
 		departName = depart.getDeptName();
 		return INPUT;
 	}
@@ -286,6 +291,7 @@ public class AdminAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		admin = adminService.load(id);
+		postList = postService.getAll();
 		return INPUT;
 	}
 	
@@ -331,6 +337,9 @@ public class AdminAction extends BaseAdminAction {
 		for(int i =0; i < pagerlist.size();i++){
 			Admin admin  = (Admin)pagerlist.get(i);
 			admin.setDepartName(admin.getDepartment().getDeptName());
+			if(admin.getPost()!=null){
+			  admin.setXpost(admin.getPost().getPostName());
+			}		
 			pagerlist.set(i, admin);
 		}
 		pager.setList(pagerlist);
@@ -672,6 +681,14 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+
+	public List<Post> getPostList() {
+		return postList;
+	}
+
+	public void setPostList(List<Post> postList) {
+		this.postList = postList;
 	}
 
 	

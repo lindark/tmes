@@ -130,17 +130,19 @@
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建返修单
 								</a>
-								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon glyphicon glyphicon-edit"></i>
-									编辑
-								</a>
 								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
+								<!-- 
 								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
+								</a>
+								 -->
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
 								</a>
 								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
@@ -223,65 +225,46 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
-			if(id==""){
+			if(id=="")
+			{
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}else{
-				if(row_state=="1"){
-					layer.msg("已确认的无须再确认!", {icon: 5});
-				}else if(row_state=="3"){
-					layer.msg("已撤销的无法再确认！", {icon: 5});
-				}else{
+			}
+			else
+			{
 				var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);
 					$("#grid-table").trigger("reloadGrid");
-				})					
-				}
-				/* var index = "";
-				$.ajax({	
-					url: "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
-					//data: $(form).serialize(),
-					dataType: "json",
-					async: false,
-					beforeSend: function(data) {
-						$(this).attr("disabled", true);
-						index = layer.load();
-					},
-					success: function(data) {
-						layer.close(index);
-						$.message(data.status,data.message);
-						$("#totalAmount").text(data.totalAmount);
-						$("#grid-table").trigger("reloadGrid");
-					},error:function(data){
-						layer.close(index);
-						$.message("error","系统出现问题，请联系系统管理员");
-					}
-				}); */
-				
-				//window.location.href="repair!confirms.action?id="+id+"&workingBillId="+workingBillId;			
+				});					
 			}
-			
 		});
+		/*
 		$("#undoCarton").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
-			if(id==""){
+			if(id=="")
+			{
 				layer.msg("请选择一条记录!", {icon: 5});
-			}else{
-				if(row_state=="3"){
+			}
+			else
+			{
+				if(row_state=="3")
+				{
 					layer.msg("已撤销的无法再撤销！", {icon: 5});
-				}else{
-				var url = "repair!creditundo.action?id="+id+"&workingBillId="+workingBillId;
-				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#totalAmount").text(data.totalAmount);
-					$("#grid-table").trigger("reloadGrid");
-				})					
+				}
+				else
+				{
+					var url = "repair!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+					credit.creditCard(url,function(data){
+						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
+						$("#grid-table").trigger("reloadGrid");
+					});					
 				}
 				/* var index = "";
 				$.ajax({	
@@ -302,12 +285,13 @@
 						layer.close(index);
 						$.message("error","系统出现问题，请联系系统管理员");
 					}
-				}); */
+				}); /
 				
 				//window.location.href="repair!undo.action?id="+id+"&workingBillId="+workingBillId;			
 			}
 			
 		});
+		*/
 		$("#returnCarton").click(function(){
 			window.history.back();
 		});

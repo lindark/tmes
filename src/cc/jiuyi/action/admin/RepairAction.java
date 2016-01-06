@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.RepairRfc;
+import cc.jiuyi.sap.rfc.impl.RepairRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
@@ -31,10 +34,6 @@ import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 返修
@@ -86,9 +85,7 @@ public class RepairAction extends BaseAdminAction {
 				.getProcessRouteByProductCode(productCode);
 		allProcess = new ArrayList<Process>();
 		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = processRouteList.get(i);
-			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
-			allProcess.add(process);
+			allProcess.add(processRouteList.get(i).getProcess());
 		}
 		return INPUT;
 	}
@@ -159,23 +156,29 @@ public class RepairAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
-			if (CONFIRMED.equals(repair.getState())) {
-				// addActionError("已确认的无须再确认！");
+			if (CONFIRMED.equals(repair.getState())) 
+			{
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
-			if (UNDO.equals(repair.getState())) {
-				// addActionError("已撤销的无法再确认！");
+			if (UNDO.equals(repair.getState())) 
+			{
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
 		repairService.updateState(list, CONFIRMED, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
+		String str=toSAP(list,workingbill);
+		String isSuccess=ERROR;
+		if("S".equals(str))
+		{
+			isSuccess=SUCCESS;
+			str="您的操作已成功!";
+		}
 		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
-				.toString());
+		hashmap.put(STATUS, isSuccess);
+		hashmap.put(MESSAGE, str);
+		hashmap.put("totalAmount", workingbill.getTotalRepairAmount().toString());
 		return ajaxJson(hashmap);
 	}
 
@@ -309,6 +312,58 @@ public class RepairAction extends BaseAdminAction {
 
 	}
 
+	/**
+	 * 与SAP交互   退料262  905
+	 * list 主表数据   wbid随工单对象
+	 * @return
+	 * @author gyf
+	 */
+	public String toSAP(List<Repair>list,WorkingBill wb)
+	{
+		List listall =this.repairService.getSAPMap(list,wb,cardnumber);
+		List<Map<Object,Object>> list1 =(List<Map<Object, Object>>) listall.get(0);
+		List<Map<Object,Object>> list2 =(List<Map<Object, Object>>) listall.get(1);
+		List<Map<Object,Object>>list_sapreturn=null;
+		try
+		{
+			String e_msg="";
+			boolean flag=true;
+			RepairRfc repairRfc=new RepairRfcImpl();
+			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+			list_sapreturn=new ArrayList<Map<Object,Object>>(repairRfc.repairCrt(list1,list2));
+			flag=true;
+			e_msg="";
+			for(int i=0;i<list_sapreturn.size();i++)
+			{
+				Map<Object,Object>m=list_sapreturn.get(i);
+				/**出现问题*/
+				if("E".equalsIgnoreCase(m.get("E_TYPE").toString()))
+				{
+					flag=false;
+					e_msg+=m.get("E_MESSAGE").toString();
+				}
+				else
+				{
+					/**与SAP交互没有问题,更新本地数据库*/
+					this.repairService.updateMyData(m,cardnumber);
+				}
+			}
+			if(!flag)
+			{
+				return e_msg;
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return "IO出现异常，请联系系统管理员";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "系统出现问题，请联系系统管理员";
+		}
+		return "S";
+	}
+	
 	public Repair getRepair() {
 		return repair;
 	}

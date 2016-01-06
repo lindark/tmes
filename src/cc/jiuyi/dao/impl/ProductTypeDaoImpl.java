@@ -21,7 +21,7 @@ public class ProductTypeDaoImpl extends BaseDaoImpl<ProductType, String> impleme
 		Set<Product> productSet = productType.getProductSet();
 		for (Product product : productSet) {
 			product.setProductType(null);
-			product.setProductAttributeMap(null);
+//			product.setProductAttributeMap(null);
 		}
 		super.delete(productType);
 	}

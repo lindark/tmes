@@ -60,4 +60,12 @@ public interface BomService extends BaseService<Bom, String> {
 	public List<Bom> getBomListByMaxVersion(Integer version);
 	
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
+
+	/**
+	 * 根据产品id和随工单中的bom版本号查询bom表
+	 * @param id
+	 * @param bomversion
+	 * @return
+	 */
+	public List<Bom> getByPidAndWversion(String id, Integer bomversion);
 }

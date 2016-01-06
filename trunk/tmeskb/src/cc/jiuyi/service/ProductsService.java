@@ -45,4 +45,11 @@ public interface ProductsService extends BaseService<Products, String> {
 	public List<Material> getAllMaterial();
 	public Products getProducts(String matnr);
 	public List<Products> getProductsByProcessId(String id);
+
+	/**
+	 * 根据产品编号查询产品
+	 * @param matnr
+	 * @return
+	 */
+	public Products getByPcode(String matnr);
 }

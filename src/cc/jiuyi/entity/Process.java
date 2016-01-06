@@ -32,18 +32,18 @@ public class Process extends BaseEntity {
 	private String xproductnum;// 产品编码
 	private String xproductname;// 产品名称
 	
-	private Set<ProcessRoute> processrouteSet;//工艺路线
+	//private Set<ProcessRoute> processrouteSet;//工艺路线
 
 	private String version;// 版本号
 
-	@OneToMany(mappedBy="process",fetch=FetchType.LAZY)
-	public Set<ProcessRoute> getProcessrouteSet() {
-		return processrouteSet;
-	}
-
-	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
-		this.processrouteSet = processrouteSet;
-	}
+//	@OneToMany(mappedBy="process",fetch=FetchType.LAZY)
+//	public Set<ProcessRoute> getProcessrouteSet() {
+//		return processrouteSet;
+//	}
+//
+//	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
+//		this.processrouteSet = processrouteSet;
+//	}
 
 	public String getProcessCode() {
 		return processCode;

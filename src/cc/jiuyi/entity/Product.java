@@ -76,7 +76,6 @@ public class Product extends BaseEntity {
 	private ProductCategory productCategory;// 商品分类
 	private Brand brand;// 品牌
 	private ProductType productType;// 商品类型
-	private Map<ProductAttribute, String> productAttributeMapStore;// 商品属性存储
 	private Set<Member> favoriteMemberSet; // 收藏夹会员
 	/*
 	private Set<CartItem> cartItemSet;// 购物车项
@@ -215,7 +214,6 @@ public class Product extends BaseEntity {
 		this.isHot = isHot;
 	}
 	
-	@Column(length = 10000)
 	public String getDescription() {
 		return description;
 	}
@@ -224,7 +222,6 @@ public class Product extends BaseEntity {
 		this.description = description;
 	}
 	
-	@Column(length = 5000)
 	public String getMetaKeywords() {
 		return metaKeywords;
 	}
@@ -233,7 +230,6 @@ public class Product extends BaseEntity {
 		this.metaKeywords = metaKeywords;
 	}
 
-	@Column(length = 5000)
 	public String getMetaDescription() {
 		return metaDescription;
 	}
@@ -253,7 +249,6 @@ public class Product extends BaseEntity {
 	}
 
 	@SearchableProperty(store = Store.YES)
-	@Column(length = 10000)
 	public String getProductImageListStore() {
 		return productImageListStore;
 	}
@@ -290,17 +285,7 @@ public class Product extends BaseEntity {
 		this.productType = productType;
 	}
 
-	@CollectionOfElements
-	@MapKey(targetElement = ProductAttribute.class)
-	@LazyCollection(LazyCollectionOption.TRUE)
-	@Cascade(value = { CascadeType.DELETE })
-	public Map<ProductAttribute, String> getProductAttributeMapStore() {
-		return productAttributeMapStore;
-	}
-
-	public void setProductAttributeMapStore(Map<ProductAttribute, String> productAttributeMapStore) {
-		this.productAttributeMapStore = productAttributeMapStore;
-	}
+	
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy="favoriteProductSet")
 	public Set<Member> getFavoriteMemberSet() {
@@ -365,45 +350,7 @@ public class Product extends BaseEntity {
 		productImageListStore = jsonArray.toString();
 	}
 
-	// 获取属性
-	@SuppressWarnings("unchecked")
-	@Transient
-	public Map<ProductAttribute, List<String>> getProductAttributeMap() {
-		if (productAttributeMapStore == null || productAttributeMapStore.size() == 0) {
-			return null;
-		}
-		Map<ProductAttribute, List<String>> productAttributeMap = new HashMap<ProductAttribute, List<String>>();
-		for (ProductAttribute productAttribute : productAttributeMapStore.keySet()) {
-			String productAttributeValueStore = productAttributeMapStore.get(productAttribute);
-			if (StringUtils.isNotEmpty(productAttributeValueStore)) {
-				JSONArray jsonArray = JSONArray.fromObject(productAttributeMapStore.get(productAttribute));
-				productAttributeMap.put(productAttribute, (List<String>) JSONSerializer.toJava(jsonArray));
-			} else {
-				productAttributeMap.put(productAttribute, null);
-			}
-		}
-		return productAttributeMap;
-	}
 
-	// 设置商品属性
-	@Transient
-	public void setProductAttributeMap(Map<ProductAttribute, List<String>> productAttributeMap) {
-		if (productAttributeMap == null || productAttributeMap.size() == 0) {
-			productAttributeMapStore = null;
-			return;
-		}
-		Map<ProductAttribute, String> productAttributeMapStore = new HashMap<ProductAttribute, String>();
-		for (ProductAttribute productAttribute : productAttributeMap.keySet()) {
-			List<String> productAttributeValueList = productAttributeMap.get(productAttribute);
-			if (productAttributeValueList != null && productAttributeValueList.size() > 0) {
-				JSONArray jsonArray = JSONArray.fromObject(productAttributeValueList);
-				productAttributeMapStore.put(productAttribute, jsonArray.toString());
-			} else {
-				productAttributeMapStore.put(productAttribute, "");
-			}
-		}
-		this.productAttributeMapStore = productAttributeMapStore;
-	}
 	
 	/**
 	 * 根据商品图片ID获取商品图片，未找到则返回null

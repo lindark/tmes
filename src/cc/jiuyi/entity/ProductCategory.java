@@ -39,8 +39,6 @@ public class ProductCategory extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	@Column(length = 5000)
 	public String getMetaKeywords() {
 		return metaKeywords;
 	}
@@ -49,7 +47,6 @@ public class ProductCategory extends BaseEntity {
 		this.metaKeywords = metaKeywords;
 	}
 
-	@Column(length = 5000)
 	public String getMetaDescription() {
 		return metaDescription;
 	}

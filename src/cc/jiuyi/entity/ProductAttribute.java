@@ -25,7 +25,8 @@ import org.apache.commons.lang.StringUtils;
 @Table(
 	uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"name", "productType_id"})
-	}
+	},
+	name="attribute"
 )
 public class ProductAttribute extends BaseEntity {
 
@@ -54,7 +55,7 @@ public class ProductAttribute extends BaseEntity {
 		this.name = name;
 	}
 
-	@Enumerated
+	//@Enumerated
 	@Column(nullable = false)
 	public AttributeType getAttributeType() {
 		return attributeType;

@@ -85,7 +85,6 @@ public class Article extends BaseEntity {
 	}
 	
 	@SearchableProperty(store = Store.YES)
-	@Column(length = 10000, nullable = false)
 	public String getContent() {
 		return content;
 	}
@@ -94,7 +93,6 @@ public class Article extends BaseEntity {
 		this.content = content;
 	}
 
-	@Column(length = 5000)
 	public String getMetaKeywords() {
 		return metaKeywords;
 	}
@@ -103,7 +101,6 @@ public class Article extends BaseEntity {
 		this.metaKeywords = metaKeywords;
 	}
 
-	@Column(length = 5000)
 	public String getMetaDescription() {
 		return metaDescription;
 	}

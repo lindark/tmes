@@ -40,7 +40,6 @@ public class ArticleCategory extends BaseEntity {
 		this.name = name;
 	}
 	
-	@Column(length = 5000)
 	public String getMetaKeywords() {
 		return metaKeywords;
 	}
@@ -49,7 +48,6 @@ public class ArticleCategory extends BaseEntity {
 		this.metaKeywords = metaKeywords;
 	}
 
-	@Column(length = 5000)
 	public String getMetaDescription() {
 		return metaDescription;
 	}
@@ -67,7 +65,6 @@ public class ArticleCategory extends BaseEntity {
 		this.orderList = orderList;
 	}
 
-	@Column(nullable = true, length = 10000)
 	public String getPath() {
 		return path;
 	}

@@ -23,7 +23,7 @@ public class ProcessRoute extends BaseEntity{
 	private static final long serialVersionUID = 2614072427487765268L;
 
 	private Products products;//产品
-	private Process process;//工序
+	//private Process process;//工序
 	private String sortcode;//排序码
 	private Double productAmount;//产品数量
 	private String unit;//计量单位
@@ -79,14 +79,14 @@ public class ProcessRoute extends BaseEntity{
 	public void setProducts(Products products) {
 		this.products = products;
 	}
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Process getProcess() {
-		return process;
-	}
-
-	public void setProcess(Process process) {
-		this.process = process;
-	}
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	public Process getProcess() {
+//		return process;
+//	}
+//
+//	public void setProcess(Process process) {
+//		this.process = process;
+//	}
 
 	public String getSortcode() {
 		return sortcode;
@@ -130,7 +130,6 @@ public class ProcessRoute extends BaseEntity{
 		this.productsName = productsName;
 	}
 
-	@Transient
 	public String getProcessCode() {
 		return processCode;
 	}
@@ -139,7 +138,6 @@ public class ProcessRoute extends BaseEntity{
 		this.processCode = processCode;
 	}
 
-	@Transient
 	public String getProcessName() {
 		return processName;
 	}

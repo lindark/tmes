@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
+@Table(name="Resources")
 public class Resource extends BaseEntity {
 
 	private static final long serialVersionUID = 8931644891304446093L;

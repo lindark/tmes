@@ -790,7 +790,7 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
-						<a href="post!list.actio" >
+						<a href="post!list.action" >
 							<i class="menu-icon"></i>
 							岗位管理
 						</a>

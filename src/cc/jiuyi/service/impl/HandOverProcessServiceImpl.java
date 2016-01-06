@@ -93,6 +93,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			if(state.equals("creditapproval")){//刷卡确认
 				handoverprocess.setApprovaladmin(admin);
 				handoverprocess.setState("approval");
+				handoverprocess.setHandover(handOver);
 			}
 			if(state.equals("creditsave")){//刷卡保存
 				handoverprocess.setSaveadmin(admin);

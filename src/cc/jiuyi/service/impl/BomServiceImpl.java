@@ -85,4 +85,12 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	{
 		return this.bomDao.getByPidAndWversion(pid,version);
 	}
+
+	/**
+	 * 根据产品id和随工单中的bom版本号查询bom表
+	 */
+	public List<Bom> getByPidAndWversion(String id, Integer bomversion)
+	{
+		return this.getByPidAndWversion(id, bomversion);
+	}
 }

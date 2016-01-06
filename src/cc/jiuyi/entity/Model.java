@@ -52,7 +52,44 @@ public class Model extends BaseEntity{
 	private String faultName;
 	private Set<HandlemeansResults> handleSet;//处理方法与结果 
 	private Set<LongtimePreventstep> longSet;//长期预防措施
-    
+	
+	
+	private String SHORT_TEXT;//短文本
+	private String COST;//成本
+	private String ORDER_TYPE;//订单类型
+	private String URGRP;//原因代码组
+	private String URCOD;//原因代码
+    		
+	public String getSHORT_TEXT() {
+		return SHORT_TEXT;
+	}
+	public void setSHORT_TEXT(String sHORT_TEXT) {
+		SHORT_TEXT = sHORT_TEXT;
+	}
+	public String getCOST() {
+		return COST;
+	}
+	public void setCOST(String cOST) {
+		COST = cOST;
+	}
+	public String getORDER_TYPE() {
+		return ORDER_TYPE;
+	}
+	public void setORDER_TYPE(String oRDER_TYPE) {
+		ORDER_TYPE = oRDER_TYPE;
+	}
+	public String getURGRP() {
+		return URGRP;
+	}
+	public void setURGRP(String uRGRP) {
+		URGRP = uRGRP;
+	}
+	public String getURCOD() {
+		return URCOD;
+	}
+	public void setURCOD(String uRCOD) {
+		URCOD = uRCOD;
+	}
 	/*@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
 		return products;

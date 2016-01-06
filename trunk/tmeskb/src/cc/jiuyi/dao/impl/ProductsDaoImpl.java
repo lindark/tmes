@@ -167,4 +167,13 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 		String hql = "select a from Products a join a.process pc where pc.id=?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
 	}
+	
+	/**
+	 * 根据产品编号查询产品
+	 */
+	public Products getByPcode(String pcode)
+	{
+		String hql="from Products where productsCode=?";
+		return (Products) this.getSession().createQuery(hql).setParameter(0, pcode).uniqueResult();
+	}
 }

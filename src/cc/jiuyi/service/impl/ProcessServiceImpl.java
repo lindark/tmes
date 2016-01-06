@@ -135,4 +135,10 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 	public List<Process> getListRoute(String matnr,Integer version){
 		return processDao.getListRoute(matnr,version);
 	}
+
+	@Override
+	public List<Process> getExistProcessList() {
+		// TODO Auto-generated method stub
+		return processDao.getExistProcessList();
+	}
 }

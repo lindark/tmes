@@ -18,7 +18,7 @@ jQuery(function($) {
     })
 
 
-
+    var loginid=$("#loginid").val();
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
 
@@ -46,7 +46,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"dump_detail!ajlist.action?dumpId="+dumpId,
+		url:"dump_detail!ajlist.action?dumpId="+dumpId+"&loginid="+loginid,
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度

@@ -36,7 +36,7 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 
 public class BaseAdminAction extends ActionSupport {
-
+	
 	private static final long serialVersionUID = 6718838822334455667L;
 	
 
@@ -218,7 +218,7 @@ public class BaseAdminAction extends ActionSupport {
 		getResponse().setHeader("progma", "no-cache");
 		getResponse().setHeader("Cache-Control", "no-cache");
 		getResponse().setHeader("Cache-Control", "no-store");
-		getResponse().setDateHeader("Expires", 0);
+		getResponse().setDateHeader("Expires", -10);
 	}
 	
 	/**

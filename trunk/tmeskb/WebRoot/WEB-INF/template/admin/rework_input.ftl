@@ -100,6 +100,7 @@ body{background:#fff;}
 				
 
 											<div class="profile-info-row">
+											  <div class="profile-info-row access"  data-access-list="reworkCount">
 												<div class="profile-info-name">翻包次数</div>
 												<div class="profile-info-value">
 												   <#if show??>
@@ -109,7 +110,9 @@ body{background:#fff;}
 												   </#if>
 												   <label class="requireField">*</label>
 												</div>
+											 </div>
 
+                                           <div class="profile-info-row access"  data-access-list="reworkAmount">
 											<div class="profile-info-name">翻包数量</div>
 												<div class="profile-info-value">
 												  <#if show??>
@@ -120,9 +123,11 @@ body{background:#fff;}
 												<label class="requireField">*</label>
 												</div>
 											</div>
+										</div>
 
 
 											<div class="profile-info-row">
+											<div class="profile-info-row access"  data-access-list="defectAmount">
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
 												<#if show??>
@@ -132,8 +137,9 @@ body{background:#fff;}
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
+                                            </div>
 
-
+                                            <div class="profile-info-row access"  data-access-list="isQualified">
 												<div class="profile-info-name">是否合格</div>
 												<div class="profile-info-value">
 												     <#if show??>
@@ -150,6 +156,7 @@ body{background:#fff;}
 											</div>
 										</div>
 											
+										<div class="profile-info-row access"  data-access-list="problem">	
 											<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">问题描述:</div>
@@ -162,10 +169,10 @@ body{background:#fff;}
 												   <label class="requireField">*</label>
 												</div>
 											</div>
-										</div>
-                             
+										 </div>
+                                       </div>
                                       
-                                      
+                                     <div class="profile-info-row access"  data-access-list="rectify">	 
                                         <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">整改方案:</div>
@@ -179,8 +186,10 @@ body{background:#fff;}
 												</div>
 											</div>
 										</div>
-										
-										
+									</div>	
+									
+									
+									<div class="profile-info-row access"  data-access-list="dutyName">	 	
 										<div class="profile-user-info profile-user-info-striped">
 										  <div class="profile-info-row">
 												<div class="profile-info-name">责任人</div>
@@ -199,9 +208,11 @@ body{background:#fff;}
 										         	 </#if>								
 										        </div>
 										 </div>
-										</div>
-										
-										
+									  </div>
+									</div>	
+									
+									
+									<div class="profile-info-row access"  data-access-list="completeDate">
 										<div class="profile-user-info profile-user-info-striped">
 										  <div class="profile-info-row">
 										   <div class="profile-info-name">完工日期</div>
@@ -215,9 +226,11 @@ body{background:#fff;}
 											</#if>
 											</div>						
 										 </div>
-										</div>
-										
-										
+									   </div>
+									</div>	
+									
+									
+									<div class="profile-info-row access"  data-access-list="isCompelete">	
 										<div class="profile-user-info profile-user-info-striped">
 										 <div class="profile-info-name ">是否完工</div>
 												<div class="profile-info-value {required: true}">
@@ -237,6 +250,7 @@ body{background:#fff;}
 													</#if>
 												</div>															
 										</div>
+								   </div>
 								</div>
 							</div>
 							

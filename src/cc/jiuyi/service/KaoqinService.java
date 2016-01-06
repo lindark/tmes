@@ -55,6 +55,6 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	/**
 	 * 人员下班
 	 */
-	public void mergeAdminafterWork(Admin admin);
+	public void mergeAdminafterWork(Admin admin,String handoverId);
 
 }

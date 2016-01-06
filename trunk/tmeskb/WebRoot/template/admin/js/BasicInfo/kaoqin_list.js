@@ -115,7 +115,7 @@ function addemp()
 					"<td>"+info2[1]+"</td>" +
 					"<td>"+info2[2]+"</td>" +
 					"<td>"+info2[3]+"</td>" +
-					"<td><span id='span_state"+info2[0]+"' style='color:#008B00;font-weight:bold;'>代班</span><input id='input_state"+info2[0]+"' type='hidden' value='6' /></td> " +
+					"<td><span id='span_state"+info2[0]+"' style='color:#b22;font-weight:bold;'>未上班</span><input id='input_state"+info2[0]+"' type='hidden' value='1' /></td> " +
 					"<td><a id='a_edit"+info2[0]+"' onclick='edit_event("+info2[0]+")' style='cursor:pointer;'>编辑</a><input type='hidden' value='"+info2[7]+"' /></td>" +
 					"</tr>";
 				}

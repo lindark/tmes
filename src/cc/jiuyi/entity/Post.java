@@ -28,7 +28,7 @@ public class Post extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-    private Set<Admin>adminSet;
+    private Set<Admin> adminSet;
     
 	public String getPostCode() {
 		return postCode;

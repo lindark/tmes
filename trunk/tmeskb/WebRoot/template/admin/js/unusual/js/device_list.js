@@ -68,10 +68,10 @@ jQuery(function($) {
             {name:'deviceName',index:'equipments.equipmentName',width:60, editable:true},			
 			{name:'workShopName',index:'workShop.workShopName',width:60, editable:true, sorttype:"date",unformat: pickDate},
 			{name:'contactName',index:'workshopLinkman.name', width:60,editable: true,search:false,editoptions:{size:"20",maxlength:"30"}},
-			{name:'repairType',index:'maintenanceType', width:160, editable: true,search:false,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
-			{name:'faultReason',index:'faultReason', width:160, sortable:false,editable: true,search:false,edittype:"textarea"},
+			{name:'repairType',index:'maintenanceType', width:120, editable: true,search:false,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},			
+			{name:'faultReason',index:'faultReason', width:120, sortable:false,editable: true,search:false,edittype:"textarea"},
 			{name:'repairName',index:'disposalWorkers.name', width:60, sortable:false,editable: true,edittype:"textarea"},
-			{name:'orderNo',index:'orderNo', width:60, sortable:false,editable: true},
+			{name:'orderNo',index:'orderNo', width:120, sortable:false,editable: true},
 			{name:'stateRemark',index:'state', width:60, sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 
 

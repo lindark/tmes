@@ -112,7 +112,7 @@ public class DumpAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
-			dumpService.saveDump(ids, dumpList, cardnumber);
+			dumpService.saveDump(ids, dumpList, cardnumber,loginid);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();

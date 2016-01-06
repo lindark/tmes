@@ -8,13 +8,13 @@ import cc.jiuyi.entity.AccessFunction;
 import cc.jiuyi.entity.AccessObject;
 import cc.jiuyi.entity.AccessResource;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Order;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Role;
 
 /**
  * Service接口 - 生产订单
  */
 
-public interface OrderService extends BaseService<Order, String> {
+public interface OrdersService extends BaseService<Orders, String> {
 	
 }

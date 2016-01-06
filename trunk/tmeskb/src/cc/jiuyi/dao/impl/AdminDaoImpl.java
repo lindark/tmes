@@ -181,8 +181,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 */
 	public Admin getByCardnumAndTeamid(String cardNumber,String teamid)
 	{
-		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where a.cardNumber=? and c.id=?";
-		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).uniqueResult();
+		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where a.cardNumber=? and (c.id=? or a.isdaiban=?)";
+		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).setParameter(2, teamid).uniqueResult();
 	}
 	
 	

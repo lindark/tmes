@@ -153,13 +153,14 @@ body {
 													${(device.workShop.workShopName)!} </#if>
 
 												</div>
+												<!-- 
 												<div class="profile-info-name">车间联系人</div>
 												<div class="profile-info-value">
 													<#if isAdd??> <span>${(admin.name)!}</span> <input
 														type="hidden" name="device.workshopLinkman.id"
 														value="${(admin.id)!}" /> <#else>
 													${(device.workshopLinkman.name)!} </#if>
-												</div>
+												</div> -->
 											</div>
 
 											<div class="profile-info-row">

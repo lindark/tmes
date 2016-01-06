@@ -84,7 +84,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 				System.out.println(ids[i]);
 				Admin a=this.adminService.get(ids[i]);
 				a.setIsdaiban(sameteamid);//班组ID
-				a.setWorkstate("6");
 				a.setModifyDate(new Date());
 				this.adminService.update(a);
 			}

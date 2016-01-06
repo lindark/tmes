@@ -134,10 +134,12 @@
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
+								<!-- 
 								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-remove"></i>
 									刷卡撤销
 								</a>
+								 -->
 								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回
@@ -203,21 +205,19 @@
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
-			if(id==""){
+			if(id=="")
+			{
 				layer.msg("请选择一条记录!", {icon: 5});
-			}else{
-				if(row_state=="1"){
-					layer.msg("已确认的无须再确认!", {icon: 5});
-				}else if(row_state=="3"){
-					layer.msg("已撤销的无法再确认！", {icon: 5});
-				}else{
+			}
+			else
+			{
 				var url = "repairin!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);
 					$("#grid-table").trigger("reloadGrid");
 				})
-				}
+			}
 				/* var index = "";
 				$.ajax({	
 					url: "repairin!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
@@ -240,8 +240,6 @@
 				}); */
 				
 				//window.location.href="repairin!confirms.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
 		});
 		$("#undoCarton").click(function(){
 			var workingBillId = $("#workingBillId").val();

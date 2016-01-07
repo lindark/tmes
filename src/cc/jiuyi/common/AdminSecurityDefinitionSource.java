@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import cc.jiuyi.entity.Resource;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.entity.Resources;
+import cc.jiuyi.service.ResourcesService;
 import cc.jiuyi.service.RoleService;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class AdminSecurityDefinitionSource implements FactoryBean {
 
 	@javax.annotation.Resource
-	private ResourceService resourceService;
+	private ResourcesService resourceService;
 	@javax.annotation.Resource
 	private RoleService roleService;
 
@@ -62,8 +62,8 @@ public class AdminSecurityDefinitionSource implements FactoryBean {
 
 	protected Map<String, String> getResourceMap() {
 		Map<String, String> resourceMap = new LinkedHashMap<String, String>();
-		List<Resource> resourceList = resourceService.getAll();
-		for (Resource resource : resourceList) {
+		List<Resources> resourceList = resourceService.getAll();
+		for (Resources resource : resourceList) {
 			String resourceValue = resource.getValue();
 			String rolesetstring = roleService.getRoleSetString(resource.getId());
 			if (StringUtils.isNotEmpty(rolesetstring)) {

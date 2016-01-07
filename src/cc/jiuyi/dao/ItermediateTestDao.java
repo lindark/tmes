@@ -21,7 +21,7 @@ public interface ItermediateTestDao extends BaseDao<ItermediateTest,String> {
 	 */
 	public List<ItermediateTest> getItermediateTestList();
 	
-	public Pager getItermediateTestPager(Pager pager,HashMap<String,String>map);
+	public Pager getItermediateTestPager(String workingBillId,Pager pager,HashMap<String,String>map);
 
 	/**
 	 * 标记删除

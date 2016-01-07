@@ -132,7 +132,7 @@ public class PickAction extends BaseAdminAction {
 				map.put("end", end);
 			}
 		}
-		pager = pickService.getPickPager(pager, map);
+		pager = pickService.getPickPager(workingBillId,pager, map);
 		List<Pick> pickList = pager.getList();
 		List<Pick> lst = new ArrayList<Pick>();
 		for (int i = 0; i < pickList.size(); i++) {

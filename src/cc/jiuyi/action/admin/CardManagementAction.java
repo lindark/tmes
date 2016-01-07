@@ -106,7 +106,7 @@ public class CardManagementAction extends BaseAdminAction {
 				String cardManagementName = obj.getString("pcIp").toString();
 				map.put("pcIp", cardManagementName);
 			}
-			if (obj.get("state") != null) {
+			/*if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
 			}
@@ -115,7 +115,7 @@ public class CardManagementAction extends BaseAdminAction {
 				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
-			}
+			}*/
 		}
 
 			pager = cardManagementService.getCardManagementPager(pager, map);

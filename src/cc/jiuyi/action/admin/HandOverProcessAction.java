@@ -167,12 +167,18 @@ public class HandOverProcessAction extends BaseAdminAction {
 				bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
 			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
 			Integer processversion = workingbill.getProcessversion();
-			if(processversion == null)
-				processversion = processrouteservice.getMaxVersion(products.getId());
-			if (processversion== null) {
+//			if(processversion == null)
+//				processversion = processrouteservice.getMaxVersion(products.getId());
+//			if (processversion== null) {
+//				addActionError("未找到一条工序记录");
+//				return ERROR;
+//			}
+			processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
+			if(processList.isEmpty()){
 				addActionError("未找到一条工序记录");
 				return ERROR;
 			}
+			
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
 				if(materialList.contains(bom))
@@ -185,10 +191,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		}		
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
-		processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
-		if(processList.isEmpty()){
-			return ajaxJsonErrorMessage("未找到工序!");
-		}
+		
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();

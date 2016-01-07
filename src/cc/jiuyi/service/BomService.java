@@ -67,5 +67,5 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @param bomversion
 	 * @return
 	 */
-	public List<Bom> getByPidAndWversion(String id, Integer bomversion);
+	public List<Bom> getByPidAndWversion(String id, String bomversion);
 }

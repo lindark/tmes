@@ -83,22 +83,12 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	
 	/**
 	 * 根据产品id和随工单中的bom版本号查询bom表
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Bom>list_bom(String pid,String version)
-	{
-		String hql="from Bom where products.id=? and version=?";
-		return this.getSession().createQuery(hql).setParameter(0, pid).setParameter(1, version).list();
-	}
-
-	/**
-	 * 根据产品id和随工单中的bom版本号查询bom表
 	 * @param pid
 	 * @param version
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Bom> getByPidAndWversion(String pid, String version)
+	public List<Bom> getByPidAndWversion(String pid, Integer version)
 	{
 		String hql="from Bom where products.id=? and version=?";
 		return this.getSession().createQuery(hql).setParameter(0, pid).setParameter(1, version).list();

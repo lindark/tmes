@@ -59,7 +59,7 @@ public class RoleDaoImpl extends BaseDaoImpl<Role, String> implements RoleDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Role> getList(String resourceid) {
-		String hql="select a from Role a join a.resourceSet b where b.id = ?";
+		String hql="select a from Role a join a.resourcesSet b where b.id = ?";
 		return getSession().createQuery(hql).setParameter(0, resourceid).list();
 	}
 

@@ -45,7 +45,7 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getPickPager(Pager pager, HashMap<String, String> map) {
+	public Pager getPickPager(String workingBillId,Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Pick.class);
 		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
@@ -54,6 +54,7 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 		}		
 		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("workingbill.id", workingBillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

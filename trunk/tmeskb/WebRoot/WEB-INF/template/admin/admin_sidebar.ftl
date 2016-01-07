@@ -57,7 +57,7 @@
 				<b class="arrow"></b>
 			</li>
 			<li>
-				<a href="admin!index2.action" >
+	<!--  			<a href="admin!index2.action" >
 					<i class="menu-icon fa fa-gavel"></i>
 					<span class="menu-text"> 质检首页 </span>
 				</a>
@@ -71,7 +71,8 @@
 				</a>
 
 				<b class="arrow"></b>
-			</li>
+			</li> -->
+			
 			<!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">

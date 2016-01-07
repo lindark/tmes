@@ -163,6 +163,7 @@ public class WorkingBillServiceImpl extends
 				products1.setProductsCode(order.getMatnr());
 				products1.setProductsName(order.getMaktx());
 				products1.setIsDel("N");
+				products1.setState("1");
 				productsid = productsservice.save(products1);
 			}else{
 				products.setProductsName(order.getMaktx());

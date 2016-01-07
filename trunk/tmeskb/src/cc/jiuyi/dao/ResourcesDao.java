@@ -3,14 +3,14 @@ package cc.jiuyi.dao;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Resource;
+import cc.jiuyi.entity.Resources;
 import cc.jiuyi.entity.Role;
 
 /**
  * Dao接口 - 资源
  */
 
-public interface ResourceDao extends BaseDao<Resource, String> {
+public interface ResourcesDao extends BaseDao<Resources, String> {
 
 	/**
 	 * 根据角色清单和路径获取权限
@@ -32,5 +32,5 @@ public interface ResourceDao extends BaseDao<Resource, String> {
 	 * @param pager
 	 * @return
 	 */
-	public List<Resource> getResourcePager(Pager pager);
+	public List<Resources> getResourcePager(Pager pager);
 }

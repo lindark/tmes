@@ -92,7 +92,7 @@ body {
 												<div class="profile-info-name">生产工序</div>
 
 												<div class="profile-info-value" >												    
-													${(process)!}
+													${(quality.process)!}
 												</div>
 
 											</div>

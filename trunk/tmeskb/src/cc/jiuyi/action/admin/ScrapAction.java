@@ -440,6 +440,10 @@ public class ScrapAction extends BaseAdminAction
 					list_sapreturn=new ArrayList<Scrap>(scrapRfc.ScrappedCrt("",xlist_scrap2,xlist_sl));
 					flag=true;
 					e_msg="";
+					if(list_sapreturn.size()==0)
+					{
+						return ajaxJsonErrorMessage("生成凭证失败!");
+					}
 					for(int i=0;i<list_sapreturn.size();i++)
 					{
 						Scrap s=list_sapreturn.get(i);

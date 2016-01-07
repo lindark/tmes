@@ -202,5 +202,25 @@ public class ProcessRouteAction extends BaseAdminAction {
 	public void setProductid(String productid) {
 		this.productid = productid;
 	}
+	
+	// 根据产品productCode查询对应工序
+	public String getProcessList() {
+		//List<Process> processList = processService.findProcessByProductsId(id);
+		List<ProcessRoute> processrouteList=processrouteservice.getAllProcessRouteByProductCode(id);
+		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
+		for (ProcessRoute o : processrouteList) {
+			Map<String, String> maps = new HashMap<String, String>();
+			maps.put("id", o.getProcessCode());
+			maps.put("name", o.getProcessName());
+			lists.add(maps);
+		}
+		JSONArray json = JSONArray.fromObject(lists);
+		return ajaxText(json.toString());
+	}	
+	
+	
+	/*public List<ProcessRoute> getProcessList(String productCode){
+		return processrouteservice.getAllProcessRouteByProductCode(productCode);
+	}*/
 
 }

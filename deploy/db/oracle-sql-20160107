@@ -1,0 +1,8 @@
+CREATE SEQUENCE creditcard_sequence INCREMENT BY 1 START WITH 1 MINVALUE 1 MAXVALUE 9999999999999 NOCACHE ORDER;
+
+create or replace trigger creditcard_sequence 
+before insert on creditcard
+for each row 
+begin 
+      select   creditcard_sequence.nextval   into:new.id from sys.dual ; 
+end;

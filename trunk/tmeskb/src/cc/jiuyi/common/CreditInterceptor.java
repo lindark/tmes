@@ -20,7 +20,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AccessFunctionService;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.service.ResourcesService;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -43,7 +43,7 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 	@Resource
 	private AccessFunctionService accessfunctionservice;
 	@Resource
-	private ResourceService resourceService;
+	private ResourcesService resourceService;
 	
 	@Override
 	protected String doIntercept(ActionInvocation invo) throws Exception {

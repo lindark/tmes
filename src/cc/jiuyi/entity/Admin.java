@@ -820,6 +820,9 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setWorkstate(String workstate)
 	{
+		if( workstate == null){
+			workstate ="1";
+		}
 		this.workstate = workstate;
 	}
 

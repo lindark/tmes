@@ -19,13 +19,13 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 
@@ -265,6 +265,9 @@ public class TeamAction extends BaseAdminAction {
 	// 更新
 	public String update() {
 		Team t1 = teamService.get(id);
+		String job_name = "startWorking"+t1.getId();
+		QuartzManagerUtil.removeJob(job_name);
+		QuartzManagerUtil.removeJob("xxx"+job_name);
 		BeanUtils.copyProperties(team, t1, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		teamService.update(t1);
 		redirectionUrl = "team!list.action";

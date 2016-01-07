@@ -27,21 +27,21 @@ public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 		TableModel IT_HEADER_DATA = new TableModel();
 		IT_HEADER_DATA.setData("IT_HEADER_DATA");//表名
 		HashMap<String,Object> header = new HashMap<String,Object>();
-		header.put("EQUIPMENT", "");//设备编号
-		header.put("SHORT_TEXT", "");//短文本
-		header.put("START_DATE","yyyy-MM-dd");//开始日期
-		header.put("FINISH_DATE", "yyyy-MM-dd");//完成日期
-		header.put("ESTIMATED_COSTS", "");//成本
-		header.put("ORDER_TYPE", "");//订单类型
-		header.put("AUSVN", "yyyy-MM-dd");//故障开始日期yyyy-mm-dd
-		header.put("AUZTV", "HH:mm:ss");//故障开始时间 hh:mm:ss
-		header.put("AUSBS", "yyyy-MM-dd");//故障结束日期yyyy-mm-dd
-		header.put("AUZTB", "HH:mm:ss");//故障结束时间 hh:mm:ss
+		header.put("EQUIPMENT", model.getEquipments().getEquipmentNo());//设备编号
+		header.put("SHORT_TEXT", model.getSHORT_TEXT());//短文本
+		header.put("START_DATE",ThinkWayUtil.formatDateByPattern(model.getCreateDate(),"yyyy-MM-dd"));//开始日期
+		header.put("FINISH_DATE", ThinkWayUtil.formatDateByPattern(model.getConfirmTime(),"yyyy-MM-dd"));//完成日期
+		header.put("ESTIMATED_COSTS", model.getCOST());//成本
+		header.put("ORDER_TYPE", model.getORDER_TYPE());//订单类型
+		header.put("AUSVN", ThinkWayUtil.formatDateByPattern(model.getCreateDate(),"yyyy-MM-dd"));//故障开始日期yyyy-mm-dd
+		header.put("AUZTV", ThinkWayUtil.formatDateByPattern(model.getCreateDate(),"HH:mm:ss"));//故障开始时间 hh:mm:ss
+		header.put("AUSBS", ThinkWayUtil.formatDateByPattern(model.getConfirmTime(),"yyyy-MM-dd"));//故障结束日期yyyy-mm-dd
+		header.put("AUZTB", ThinkWayUtil.formatDateByPattern(model.getConfirmTime(),"HH:mm:ss"));//故障结束时间 hh:mm:ss
 		header.put("EAUSZT","");//停机期间
-		header.put("URGRP", "");//原因代码组
-		header.put("URCOD", "");//原因代码
+		header.put("URGRP",model.getURGRP());//原因代码组
+		header.put("URCOD", model.getURCOD());//原因代码
 		//header.put("URTXT", device.getURTXT());//原因文本
-		header.put("QMNAM", "");//维修人
+		header.put("QMNAM", model.getFixer().getName());//维修人
 		arrList.add(header);
 		IT_HEADER_DATA.setList(arrList);
 		tablemodelList.add(IT_HEADER_DATA);

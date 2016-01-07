@@ -25,7 +25,7 @@ body {
 
 </head>
 <body class="no-skin input">
-
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">

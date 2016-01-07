@@ -102,7 +102,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		Products p=this.productsService.getByPcode(wb.getMatnr());//根据产品编号查询产品
-		List<Bom> list_bom=this.bomService.getByPidAndWversion(p.getId(),wb.getBomversion().toString());//根据产品id和随工单中的bom版本号查询bom表
+		List<Bom> list_bom=this.bomService.getByPidAndWversion(p.getId(),Integer.parseInt(wb.getBomversion().toString()));//根据产品id和随工单中的bom版本号查询bom表
 		String workingBillCode=wb.getWorkingBillCode();
 		List<Bom>listbom=new ArrayList<Bom>();
 		//物料表是否存在

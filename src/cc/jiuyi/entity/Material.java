@@ -28,7 +28,15 @@ public class Material extends BaseEntity{
     private String materialUnit;//基本单位
     private String materialType;//物料类型
     private Factory factory;//工厂
+    private String productmanager;//生产管理员
     
+    
+	public String getProductmanager() {
+		return productmanager;
+	}
+	public void setProductmanager(String productmanager) {
+		this.productmanager = productmanager;
+	}
 	public String getMaterialCode() {
 		return materialCode;
 	}

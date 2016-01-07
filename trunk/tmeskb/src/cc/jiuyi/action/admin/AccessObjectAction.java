@@ -24,7 +24,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.service.ResourcesService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -38,12 +38,12 @@ public class AccessObjectAction extends BaseAdminAction {
 	@Resource
 	private AccessObjectService accessobjectservice;
 	@Resource
-	private ResourceService resourceService;
+	private ResourcesService resourceService;
 	@Resource
 	private DictService dictService;
 	
 	private AccessObject accessObject;
-	private List<cc.jiuyi.entity.Resource> allRes;
+	private List<cc.jiuyi.entity.Resources> allRes;
 	private List<Dict> allDict;
 	private List<Dict> allDictState;
 	public String list(){
@@ -80,7 +80,7 @@ public class AccessObjectAction extends BaseAdminAction {
 			AccessObject accessObject  = (AccessObject)pagerlist.get(i);
 			String typeName = ThinkWayUtil.getDictValueByDictKey(dictService, "accessobject", accessObject.getType());
 			accessObject.setTypeName(typeName);
-			accessObject.setResourceName(accessObject.getResource().getName());
+			accessObject.setResourceName(accessObject.getResources().getName());
 			pagerlist.set(i, accessObject);
 		}
 		pager.setList(pagerlist);
@@ -139,12 +139,12 @@ public class AccessObjectAction extends BaseAdminAction {
 		this.accessObject = accessObject;
 	}
 
-	public List<cc.jiuyi.entity.Resource> getAllRes() {
+	public List<cc.jiuyi.entity.Resources> getAllRes() {
 		this.allRes = resourceService.getAll();
 		return allRes;
 	}
 
-	public void setAllRes(List<cc.jiuyi.entity.Resource> allRes) {
+	public void setAllRes(List<cc.jiuyi.entity.Resources> allRes) {
 		this.allRes = allRes;
 	}
 

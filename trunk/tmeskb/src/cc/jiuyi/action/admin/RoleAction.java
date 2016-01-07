@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Resource;
+import cc.jiuyi.entity.Resources;
 import cc.jiuyi.entity.Role;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.service.ResourcesService;
 import cc.jiuyi.service.RoleService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -36,12 +36,12 @@ public class RoleAction extends BaseAdminAction {
 
 	private Role role;
 	private String[] resourceIds;
-	private List<Resource> allResource;
+	private List<Resources> allResource;
 
 	@javax.annotation.Resource
 	private RoleService roleService;
 	@javax.annotation.Resource
-	private ResourceService resourceService;
+	private ResourcesService resourceService;
 
 	// 是否已存在 ajax验证
 	public String checkName() {
@@ -144,10 +144,10 @@ public class RoleAction extends BaseAdminAction {
 	@InputConfig(resultName = "error")
 	public String save() throws Exception {
 		if (resourceIds != null && resourceIds.length > 0) {
-			Set<Resource> resourceSet = new HashSet<Resource>(resourceService.get(resourceIds));
-			role.setResourceSet(resourceSet);
+			Set<Resources> resourcesSet = new HashSet<Resources>(resourceService.get(resourceIds));
+			role.setResourcesSet(resourcesSet);
 		} else {
-			role.setResourceSet(null);
+			role.setResourcesSet(null);
 		}
 		roleService.save(role);
 		redirectionUrl = "role!list.action";
@@ -175,10 +175,10 @@ public class RoleAction extends BaseAdminAction {
 			return ERROR;
 		}
 		if (resourceIds != null && resourceIds.length > 0) {
-			Set<Resource> resourceSet = new HashSet<Resource>(resourceService.get(resourceIds));
-			role.setResourceSet(resourceSet);
+			Set<Resources> resourcesSet = new HashSet<Resources>(resourceService.get(resourceIds));
+			role.setResourcesSet(resourcesSet);
 		} else {
-			role.setResourceSet(null);
+			role.setResourcesSet(null);
 		}
 		BeanUtils.copyProperties(role, persistent, new String[] {"id", "createDate", "modifyDate", "isSystem", "adminSet"});
 		roleService.update(persistent);
@@ -202,12 +202,12 @@ public class RoleAction extends BaseAdminAction {
 		this.resourceIds = resourceIds;
 	}
 
-	public List<Resource> getAllResource() {
+	public List<Resources> getAllResource() {
 		allResource = resourceService.getAll();
 		return allResource;
 	}
 
-	public void setAllResource(List<Resource> allResource) {
+	public void setAllResource(List<Resources> allResource) {
 		this.allResource = allResource;
 	}
 

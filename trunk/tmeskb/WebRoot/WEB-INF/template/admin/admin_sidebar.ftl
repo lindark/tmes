@@ -40,14 +40,14 @@
 		</div><!-- /.sidebar-shortcuts -->
 
 		<ul class="nav nav-list">
-			<li>
+		<!-- <li>
 				<a href="admin!index.action" >
 					<i class="menu-icon fa fa-tachometer"></i>
 					<span class="menu-text"> 首页 </span>
 				</a>
 
 				<b class="arrow"></b>
-			</li>
+			</li> -->	
 			<li>
 				<a href="admin!index1.action" >
 					<i class="menu-icon fa fa-tachometer"></i>
@@ -57,7 +57,7 @@
 				<b class="arrow"></b>
 			</li>
 			<li>
-	<!--  			<a href="admin!index2.action" >
+			<a href="admin!index2.action" >
 					<i class="menu-icon fa fa-gavel"></i>
 					<span class="menu-text"> 质检首页 </span>
 				</a>
@@ -71,7 +71,7 @@
 				</a>
 
 				<b class="arrow"></b>
-			</li> -->
+			</li>
 			
 			<!-- 
 			<li class="">

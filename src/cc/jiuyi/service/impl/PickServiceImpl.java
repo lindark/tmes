@@ -56,9 +56,9 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 	}
 
 	@Override
-	public Pager getPickPager(Pager pager, HashMap<String, String> map) {
+	public Pager getPickPager(String workingBillId,Pager pager, HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		return pickDao.getPickPager(pager, map);
+		return pickDao.getPickPager(workingBillId,pager, map);
 	}
 
 	@Override

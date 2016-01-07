@@ -20,7 +20,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"itermediate_test!ajlist.action",
+		url:"itermediate_test!ajlist.action?workingBillId="+$("#workingbill").val(),
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

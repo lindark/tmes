@@ -37,7 +37,7 @@ public class AccessObjectDaoImpl extends BaseDaoImpl<AccessObject, String> imple
 	}
 	
 	public List<AccessObject> getAccessObjectList(String accessResourceid){
-		String hql="select a from AccessObject a join a.resource b join b.accessResourceSet c where c.id = ?";
+		String hql="select a from AccessObject a join a.resources b join b.accessResourceSet c where c.id = ?";
 		List<AccessObject> list = getSession().createQuery(hql).setParameter(0, accessResourceid).list();
 		return list;
 	}

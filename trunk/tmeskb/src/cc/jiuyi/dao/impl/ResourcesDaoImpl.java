@@ -5,8 +5,8 @@ import java.util.Set;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.dao.ResourceDao;
-import cc.jiuyi.entity.Resource;
+import cc.jiuyi.dao.ResourcesDao;
+import cc.jiuyi.entity.Resources;
 import cc.jiuyi.entity.Role;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,18 +19,18 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements ResourceDao {
+public class ResourcesDaoImpl extends BaseDaoImpl<Resources, String> implements ResourcesDao {
 
 	// 处理关联，忽略isSystem=true的对象
 	@Override
-	public void delete(Resource resource) {
+	public void delete(Resources resource) {
 		if (resource.getIsSystem()) {
 			return;
 		}
 		Set<Role> roleSet = resource.getRoleSet();
 		if (roleSet != null) {
 			for (Role role : roleSet) {
-				role.getResourceSet().remove(resource);
+				role.getResourcesSet().remove(resource);
 			}
 		}
 		super.delete(resource);
@@ -39,7 +39,7 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	// 处理关联，忽略isSystem=true的对象
 	@Override
 	public void delete(String id) {
-		Resource resource = load(id);
+		Resources resource = load(id);
 		this.delete(resource);
 	}
 
@@ -53,14 +53,14 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 
 	// 设置isSystem=false。
 	@Override
-	public String save(Resource resource) {
+	public String save(Resources resource) {
 		resource.setIsSystem(false);
 		return super.save(resource);
 	}
 
 	// 忽略isSystem=true的对象。
 	@Override
-	public void update(Resource resource) {
+	public void update(Resources resource) {
 		if (resource.getIsSystem()) {
 			return;
 		}
@@ -70,16 +70,16 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	// 根据orderList排序
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Resource> getAll() {
-		String hql = "from Resource resource order by resource.orderList asc resource.createDate desc";
+	public List<Resources> getAll() {
+		String hql = "from Resources resource order by resource.orderList asc resource.createDate desc";
 		return getSession().createQuery(hql).list();
 	}
 
 	// 根据orderList排序
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Resource> getList(String propertyName, Object value) {
-		String hql = "from Resource resource where resource." + propertyName + "=? order by resource.orderList asc resource.createDate desc";
+	public List<Resources> getList(String propertyName, Object value) {
+		String hql = "from Resources resource where resource." + propertyName + "=? order by resource.orderList asc resource.createDate desc";
 		return getSession().createQuery(hql).setParameter(0, value).list();
 	}
 	
@@ -97,14 +97,14 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	// 根据orderList排序
 	@Override
 	public Pager findByPager(Pager pager) {
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Resource.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Resources.class);
 		return this.findByPager(pager, detachedCriteria);
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Resource> getResourcePager(Pager pager){
-		String hql="from Resource model";
+	public List<Resources> getResourcePager(Pager pager){
+		String hql="from Resources model";
 		if (pager == null) {
 			pager = new Pager();
 		}
@@ -135,7 +135,7 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	}
 	
 	public Integer resourceCount(Pager pager){
-		String hql="select count(model) from Resource model";
+		String hql="select count(model) from Resources model";
 		if (pager == null) {
 			pager = new Pager();
 		}
@@ -165,7 +165,7 @@ public class ResourceDaoImpl extends BaseDaoImpl<Resource, String> implements Re
 	
 	@SuppressWarnings("unchecked")
 	public Integer getListByadmin(List<String> roleid,String path){
-		String hql="select count(a) from Resource a join a.roleSet b where a.value like ? and b.id in (:list)";
+		String hql="select count(a) from Resources a join a.roleSet b where a.value like ? and b.id in (:list)";
 		return ((Number) getSession().createQuery(hql).setParameter(0, path+"%").setParameterList("list", roleid).uniqueResult()).intValue();
 	}
 	

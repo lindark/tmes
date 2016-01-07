@@ -21,7 +21,7 @@ public interface PickDao extends BaseDao<Pick,String> {
 	 */
 	public List<Pick> getPickList();
 	
-	public Pager getPickPager(Pager pager,HashMap<String,String>map);
+	public Pager getPickPager(String workingBillId,Pager pager,HashMap<String,String>map);
 
 	/**
 	 * 标记删除

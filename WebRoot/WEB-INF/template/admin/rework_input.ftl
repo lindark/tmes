@@ -99,10 +99,9 @@ body{background:#fff;}
 											</div>
 				
 
-											<div class="profile-info-row">
-											  <div class="profile-info-row access"  data-access-list="reworkCount">
-												<div class="profile-info-name">翻包次数</div>
-												<div class="profile-info-value">
+											<div class="profile-info-row">							  
+												<div class="profile-info-name" >翻包次数</div>
+												<div class="profile-info-value access" data-access-list="reworkCount">
 												   <#if show??>
 															<span>${(rework.reworkCount)! }</span>
 												   <#else>
@@ -110,11 +109,9 @@ body{background:#fff;}
 												   </#if>
 												   <label class="requireField">*</label>
 												</div>
-											 </div>
-
-                                           <div class="profile-info-row access"  data-access-list="reworkAmount">
-											<div class="profile-info-name">翻包数量</div>
-												<div class="profile-info-value">
+                                                                              
+											 <div class="profile-info-name" >翻包数量</div>
+												<div class="profile-info-value access" data-access-list="reworkAmount">
 												  <#if show??>
 															<span>${(rework.reworkAmount)! }</span>
 												  <#else>
@@ -122,11 +119,10 @@ body{background:#fff;}
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
-											</div>
 										</div>
 
 
-											<div class="profile-info-row">
+										<div class="profile-info-row">
 											<div class="profile-info-row access"  data-access-list="defectAmount">
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">

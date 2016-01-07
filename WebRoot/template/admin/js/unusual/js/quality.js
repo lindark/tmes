@@ -101,9 +101,9 @@ $(function() {
 		//$("#productName1").val(id[0]);//产品名称
 		$("#productName1").html(id[0]);
 		$("#productNa").val(id[1]);//产品id
-		
+		alert(id[2]);
 
-		url="process!getProcessList.action?id="+id[1];
+		url="process_route!getProcessList.action?id="+id[2];
 		  $.ajax({
 				url: url,
 				//data: ids,

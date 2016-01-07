@@ -106,8 +106,8 @@ public class QualityAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		quality = qualityService.load(id);
-		Process pro = processService.get(quality.getProcess());
-		process=pro.getProcessName();
+		/*Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();*/
 		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
@@ -172,8 +172,8 @@ public class QualityAction extends BaseAdminAction {
 				str="<a href='quality!hview.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
 				quality.setProductsName(str);
 				quality.setFounder(quality.getCreater().getName());
-				Process process = processService.get(quality.getProcess());
-				quality.setProcessName(process.getProcessName());
+				/*Process process = processService.get(quality.getProcess());
+				quality.setProcessName(process.getProcessName());*/
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));		
@@ -187,8 +187,8 @@ public class QualityAction extends BaseAdminAction {
 				Quality quality = (Quality) pagerlist.get(i);
 				quality.setProductsName(quality.getProducts().getProductsName());
 				quality.setFounder(quality.getCreater().getName());
-				Process process = processService.get(quality.getProcess());
-				quality.setProcessName(process.getProcessName());
+				/*Process process = processService.get(quality.getProcess());
+				quality.setProcessName(process.getProcessName());*/
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));		
@@ -215,8 +215,8 @@ public class QualityAction extends BaseAdminAction {
 	//详情
 	public String hview(){
 		quality = qualityService.load(id);
-		Process pro = processService.get(quality.getProcess());
-		process=pro.getProcessName();
+		/*Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();*/
 		return "hview";
 	}
 
@@ -344,8 +344,8 @@ public class QualityAction extends BaseAdminAction {
 	public String view() {
 		quality = qualityService.load(id);
 		abnormal=quality.getAbnormal();
-		Process pro = processService.get(quality.getProcess());
-		process=pro.getProcessName();
+		/*Process pro = processService.get(quality.getProcess());
+		process=pro.getProcessName();*/
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());

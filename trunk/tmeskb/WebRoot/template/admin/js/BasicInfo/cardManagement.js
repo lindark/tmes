@@ -63,13 +63,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '创建日期','刷卡机编码','电脑IP','状态', ],
+		colNames:['刷卡机编码','电脑IP','状态', ],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},			
 			{name:'posCode',index:'posCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'pcIp',index:'pcIp', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'state', width:200, sortable:false,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=creditdevice"}}
 			 
 		], 
 
@@ -95,7 +94,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "card_management!delete.adction",//用它做标准删除动作
+		editurl: "card_management!delete.action",//用它做标准删除动作
 		caption: "刷卡设备管理"
 
 		//,autowidth: true,
@@ -142,6 +141,12 @@ jQuery(function($) {
 		{ 	//navbar options
 			//edit: true,
 		    editfunc:function(rowId){
+		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+				if(ids.length >1){
+					alert("请选择一条记录");
+					return false;
+				}
+			   // window.location.href="fault_reason!edit.action?id="+rowId;
 			    window.location.href="card_management!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
@@ -150,10 +155,10 @@ jQuery(function($) {
 				window.location.href="card_management!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="card_management!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -215,10 +220,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			
+			multipleGroup:false,
 			showQuery: true
-			*/
+			
 		},
 		{
 			//view record form

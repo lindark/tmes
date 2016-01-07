@@ -112,11 +112,15 @@ public class PickDetailAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		Products products = productsServce.getProducts(matnr);// 获取产品
-		Integer MaxVersion = bomService.getMaxVersionByid(products.getId());//获取该产品下版本号最高的Bom
-		bomList = bomService.getListByid(products.getId(), MaxVersion);// 根据产品ID和最大版本号取出最高版本号的BomList
+		Integer MaxVersion = workingbill.getBomversion();//获取随工单的版本号
+		if(!MaxVersion.equals("")&&MaxVersion==null){
+			return ajaxJsonErrorMessage("请检查随工单Bom版本号是否为空!");
+		}
+		bomList = bomService.getListByid(products.getId(), MaxVersion);// 根据产品ID和随工单版本号取出Bom
 		workingbill = workingBillService.get(workingBillId);
 
 		/** 调SAP接口取库存数量 **/
@@ -202,12 +206,13 @@ public class PickDetailAction extends BaseAdminAction {
 		pick = pickService.load(id);
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
+		Products products = productsServce.getProducts(matnr);// 获取产品
 		admin = adminService.get(admin.getId());
-		Integer bomversion = workingBill.getBomversion();//取出
+		Integer bomversion = workingBill.getBomversion();//取出随工单的Bom
 		if (bomversion == null) {
 			bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionBycode(workingBill.getMatnr()));// 取出最高版本号的BomList
 		}else{
-			bomList = bomService.getBomListByMaxVersion(bomversion);//取出随工单中最高版本的Bom
+			bomList = bomService.getListByid(products.getId(), bomversion);// 根据产品ID和随工单版本号取出Bom
 		}
 		
 		/** 调SAP接口取库存数量 **/

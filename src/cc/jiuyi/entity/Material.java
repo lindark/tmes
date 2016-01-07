@@ -27,7 +27,7 @@ public class Material extends BaseEntity{
     private String orderUnit;//订单单位
     private String materialUnit;//基本单位
     private String materialType;//物料类型
-    private String werks;//工厂
+    private Factory factory;//工厂
     
 	public String getMaterialCode() {
 		return materialCode;
@@ -59,12 +59,14 @@ public class Material extends BaseEntity{
 	public void setMaterialType(String materialType) {
 		this.materialType = materialType;
 	}
-	public String getWerks() {
-		return werks;
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Factory getFactory() {
+		return factory;
 	}
-	public void setWerks(String werks) {
-		this.werks = werks;
+	public void setFactory(Factory factory) {
+		this.factory = factory;
 	}
+	
     
     
     

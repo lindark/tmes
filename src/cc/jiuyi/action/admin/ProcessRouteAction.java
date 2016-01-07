@@ -138,9 +138,9 @@ public class ProcessRouteAction extends BaseAdminAction {
 				ProcessRoute p = list.get(i);
 				p.setProductsCode(p.getProducts().getProductsCode());
 				p.setProductsName(p.getProducts().getProductsName());
-				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
-				p.setProcessCode(process.getProcessCode());
-				p.setProcessName(process.getProcessName());
+//				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
+//				p.setProcessCode(process.getProcessCode());
+//				p.setProcessName(process.getProcessName());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();

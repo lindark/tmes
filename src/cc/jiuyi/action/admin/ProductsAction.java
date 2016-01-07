@@ -160,8 +160,7 @@ public class ProductsAction extends BaseAdminAction {
 		List<Products> lst = new ArrayList<Products>();
 		for (int i = 0; i < productsList.size(); i++) {
 			Products products = (Products) productsList.get(i);
-			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "productsState", products.getState()));
+			products.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "productsState", products.getState()));
 			lst.add(products);
 		}
 		pager.setList(lst);

@@ -193,12 +193,15 @@ public class AdminAction extends BaseAdminAction {
 	}
 	
 	// 后台首页
-	public String index() {
-		return "index";
+	public String index1() {
+		//return "index";
+		//redirectionUrl = "admin!index1.action";
+		//return "teamindex";
+		return null;
 	}
 	
 	// 后台首页
-	public String index1() {
+	public String index() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);

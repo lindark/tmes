@@ -16,11 +16,11 @@ jQuery(function($) {
 		}
     })
 
-
-
+   
+    
 	jQuery(grid_selector).jqGrid({
 		
-		url:"pick!ajlist.action",
+		url:"pick!ajlist.action?workingBillId="+$("#workingbill").val(),
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -37,13 +37,14 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-		colNames:['创建日期','创建人','确认人','物料凭证号','状态'],
+		//colNames:['创建日期','创建人','确认人','物料凭证号','状态'],
 		colModel:[
-			{name:'createDate',index:'createDate',search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'xcreateUser',index:'createUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'xconfirmUser',index:'confirmUser.name',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'ex_mblnr',index:'ex_mblnr',search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:300,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}}		 
+			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'ex_mblnr',index:'ex_mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'stateRemark',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},		 
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
 		viewrecords : true,

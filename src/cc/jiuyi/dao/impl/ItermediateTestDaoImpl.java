@@ -45,7 +45,7 @@ public class ItermediateTestDaoImpl extends BaseDaoImpl<ItermediateTest, String>
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getItermediateTestPager(Pager pager, HashMap<String, String> map) {
+	public Pager getItermediateTestPager(String workingBillId,Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(ItermediateTest.class);
 		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
@@ -54,6 +54,7 @@ public class ItermediateTestDaoImpl extends BaseDaoImpl<ItermediateTest, String>
 		}		
 		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("workingbill.id", workingBillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

@@ -272,6 +272,10 @@ public class RepairinAction extends BaseAdminAction {
 		List<Map<Object,Object>> list1 =(List<Map<Object, Object>>) listall.get(0);
 		List<Map<Object,Object>> list2 =(List<Map<Object, Object>>) listall.get(1);
 		List<Map<Object,Object>>list_sapreturn=null;
+		if(list1.size()==0||list2.size()==0)
+		{
+			return "对应物料为空!";
+		}
 		try
 		{
 			String e_msg="";
@@ -280,10 +284,6 @@ public class RepairinAction extends BaseAdminAction {
 			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
 			list_sapreturn=new ArrayList<Map<Object,Object>>(repairinRfc.repairCrt(list1,list2));
 			e_msg="";
-			if(list_sapreturn.size()==0)
-			{
-				return "生成凭证失败!";
-			}
 			for(int i=0;i<list_sapreturn.size();i++)
 			{
 				Map<Object,Object>m=list_sapreturn.get(i);

@@ -45,13 +45,14 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 	}
 
 	public Pager getCardManagementPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = cardManagementpagerSql(pager);
+		//String wheresql = cardManagementpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(CardManagement.class);
-		if (!wheresql.equals("")) {
+		pagerSqlByjqGrid(pager,detachedCriteria);	
+		/*if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		//System.out.println(map.size());
 		if (map.size() > 0) {
 			if(map.get("posCode")!=null){
@@ -60,7 +61,7 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 			if(map.get("pcIp")!=null){
 				detachedCriteria.add(Restrictions.like("pcIp", "%"+map.get("pcIp")+"%"));
 			}
-			if(map.get("state")!=null){
+			/*if(map.get("state")!=null){
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
 			if(map.get("start")!=null||map.get("end")!=null){
@@ -72,13 +73,13 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 				}catch(Exception e){
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String cardManagementpagerSql(Pager pager) {
+	/*public String cardManagementpagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
 		if (pager.is_search() == true && pager.getRules() != null) {
@@ -97,7 +98,7 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 		}
 		//System.out.println("wheresql:" + wheresql);
 		return wheresql;
-	}
+	}*/
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

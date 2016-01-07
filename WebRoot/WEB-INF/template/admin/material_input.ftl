@@ -85,20 +85,10 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">展开层</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.spread"
-														value="${(material.spread)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-
-											</div>
 
 
 											<div class="profile-info-row">
-												<div class="profile-info-name">组件编码</div>
+												<div class="profile-info-name">物料编码</div>
 												<div class="profile-info-value">
 													<#if isAdd??> <input type="text"
 														name="material.materialCode"
@@ -111,7 +101,7 @@ body{background:#fff;}
 												</div>
 
 
-												<div class="profile-info-name">组件名称</div>
+												<div class="profile-info-name">物料名称</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.materialName"
 														value="${(material.materialName)!}"
@@ -120,36 +110,16 @@ body{background:#fff;}
 												</div>
 												
 											</div>
-
 											<div class="profile-info-row">
-											<div class="profile-info-name">溢出指示符</div>
+												<div class="profile-info-name">工厂</div>
 												<div class="profile-info-value">
-													<input type="text" name="material.runOver"
-														value="${(material.runOver)!}"
+													<input type="text" name="material.factory.id"
+														value="${(material.factory.id)!}"
 														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 												
-												<div class="profile-info-name">例外</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.exception"
-														value="${(material.exception)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div>
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">组件单位</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.materialUnit"
-														value="${(material.materialUnit)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">组件数量</div>
+												<div class="profile-info-name">生产管理员</div>
 												<div class="profile-info-value">
 													<input type="text" name="material.materialAmount"
 														value="${(material.materialAmount)!}"
@@ -159,64 +129,7 @@ body{background:#fff;}
 											</div>
 
 
-											<div class="profile-info-row">
-												<div class="profile-info-name">批次</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.batch"
-														value="${(material.batch)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">项目</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.project"
-														value="${(material.project)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div>
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">项目类别</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.projectType"
-														value="${(material.projectType)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">状态</div>
-												<div class="profile-info-value">
-													<label class="pull-left inline"> <small
-														class="muted smaller-90">启用:</small> <input type="radio"
-														class="ace" name="material.state" value="1"<#if
-														(material.state == '1')!> checked</#if> /> <span
-														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
-														class="pull-left inline"> <small
-														class="muted smaller-90">未 启用:</small> <input type="radio"
-														class="ace" name="material.state" value="2"<#if
-														(isAdd || material.state == '2')!> checked</#if> /> <span
-														class="lbl middle"></span> </label>
-												</div>
-											</div>
 																						
-											<div class="profile-info-row">											
-												<div class="profile-info-name">是否为纸箱</div>
-												<div class="profile-info-value">
-													<label class="pull-left inline">是<small
-														class="muted smaller-90">:</small> <input type="radio"
-														class="ace" name="material.isCarton" value="Y"<#if
-														(material.isCarton == 'Y')!> checked</#if> /> <span
-														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
-														class="pull-left inline"> <small
-														class="muted smaller-90">否:</small> <input type="radio"
-														class="ace" name="material.isCarton" value="N"<#if
-														(isAdd || material.isCarton == 'N')!> checked</#if> /> <span
-														class="lbl middle"></span> </label>
-												</div>
-											</div>												
 										</div>
 				
 			<div class="buttonArea">

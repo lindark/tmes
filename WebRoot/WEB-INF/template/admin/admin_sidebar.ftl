@@ -49,7 +49,7 @@
 				<b class="arrow"></b>
 			</li> -->	
 			<li>
-				<a href="admin!index1.action" >
+				<a href="admin!index.action" >
 					<i class="menu-icon fa fa-tachometer"></i>
 					<span class="menu-text"> 生产首页 </span>
 				</a>

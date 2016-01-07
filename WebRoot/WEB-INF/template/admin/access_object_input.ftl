@@ -110,10 +110,10 @@ body {
 												<div class="profile-info-name">所属资源</div>
 
 												<div class="profile-info-value">
-													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="请选择..." name="accessObject.resource.id">
+													<select class="chosen-select formText {required: true,messagePosition:'#resMessagePosition'}" data-placeholder="请选择..." name="accessObject.resources.id">
 																	<option value=""></option>
 																	<#list	allRes as list>
-																		<option value="${list.id}" <#if (list.id ==accessObject.resource.id)!> selected</#if>>${(list.name)! }</option>
+																		<option value="${list.id}" <#if (list.id ==accessObject.resources.id)!> selected</#if>>${(list.name)! }</option>
 																	</#list>
 													</select>
 													<label id="resMessagePosition"></label>

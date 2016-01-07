@@ -93,7 +93,7 @@ body {
 												<div class="profile-info-value">
 													<#list allResource as list>
 														<label>
-															<input type="radio" name="accessResource.resource.id" class="{required: true, messages: {required: '请至少选择一个角色!'}, messagePosition: '#roleMessagePosition'}" value="${list.id}"  />
+															<input type="radio" name="accessResource.resources.id" class="{required: true, messages: {required: '请至少选择一个角色!'}, messagePosition: '#roleMessagePosition'}" value="${list.id}"  />
 															${(list.name)!}
 														</label>
 													</#list>

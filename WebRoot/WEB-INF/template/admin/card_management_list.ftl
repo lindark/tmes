@@ -48,10 +48,10 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="process!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="card_management!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">刷卡机编码:</label>
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">机器编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="posCode" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
@@ -65,7 +65,7 @@
 								   
 								   
 								   
-								   	<div class="form-group">
+								   	<!--<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
 										<select name="cardManagement.state">
@@ -88,7 +88,7 @@
 											</div>
 										</div>
 									</div>	
-										<div class="form-group" style="text-align:center">
+										--><div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索

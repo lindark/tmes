@@ -300,7 +300,7 @@ public class PickDetailAction extends BaseAdminAction {
 //				p.setCharg("15091901");//批号
 				p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
 				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
-				pickDetailList1.add(i, p);
+				pickDetailList1.add(p);
 			}
 		}	
 		if(flag == false){

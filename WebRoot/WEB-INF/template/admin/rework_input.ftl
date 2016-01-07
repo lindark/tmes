@@ -119,13 +119,12 @@ body{background:#fff;}
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
-										</div>
+										 </div>
 
 
-										<div class="profile-info-row">
-											<div class="profile-info-row access"  data-access-list="defectAmount">
+										<div class="profile-info-row">								
 												<div class="profile-info-name">缺陷数量</div>
-												<div class="profile-info-value">
+												<div class="profile-info-value access" data-access-list="defectAmount">
 												<#if show??>
 													 <span>${(rework.defectAmount)!}</span>
 												  <#else>
@@ -133,11 +132,9 @@ body{background:#fff;}
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
-                                            </div>
 
-                                            <div class="profile-info-row access"  data-access-list="isQualified">
 												<div class="profile-info-name">是否合格</div>
-												<div class="profile-info-value">
+												<div class="profile-info-value access" data-access-list="isQualified">
 												     <#if show??>
 														<span>${isQualified! }</span>
 													<#else>
@@ -149,14 +146,13 @@ body{background:#fff;}
 													</#if>
 														<label class="requireField">*</label>
 												</div>												
-											</div>
 										</div>
 											
-										<div class="profile-info-row access"  data-access-list="problem">	
-											<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
+									
+										
+										<div class="profile-info-row">
 												<div class="profile-info-name">问题描述:</div>
-												<div class="profile-info-value">
+												<div class="profile-info-value access" data-access-list="problem">
 												 <#if show??>
 													 <span>${(rework.problem)! }</span>
 												  <#else>
@@ -164,15 +160,14 @@ body{background:#fff;}
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
-											</div>
-										 </div>
-                                       </div>
-                                      
-                                     <div class="profile-info-row access"  data-access-list="rectify">	 
-                                        <div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
+										</div>
+										
+                                     
+                               
+                                       
+										<div class="profile-info-row">
 												<div class="profile-info-name">整改方案:</div>
-												<div class="profile-info-value">
+												<div class="profile-info-value access"  data-access-list="rectify">
 												<#if show??>
 													 <span>${(rework.rectify)! }</span>
 												  <#else>
@@ -180,16 +175,14 @@ body{background:#fff;}
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
-											</div>
 										</div>
-									</div>	
+										
+								
 									
 									
-									<div class="profile-info-row access"  data-access-list="dutyName">	 	
-										<div class="profile-user-info profile-user-info-striped">
 										  <div class="profile-info-row">
 												<div class="profile-info-name">责任人</div>
-												<div class="profile-info-value">
+												<div class="profile-info-value access" data-access-list="dutyName">
 												 <#if show??>
 													 <span>${(rework.duty.name)! }</span>
 												 <#else>
@@ -202,17 +195,13 @@ body{background:#fff;}
 										         	 ${(rework.duty.name)!}    
 										         	 </#if>	
 										         	 </#if>								
-										        </div>
-										 </div>
-									  </div>
-									</div>	
+										    </div>
+									     </div>	
 									
 									
-									<div class="profile-info-row access"  data-access-list="completeDate">
-										<div class="profile-user-info profile-user-info-striped">
 										  <div class="profile-info-row">
 										   <div class="profile-info-name">完工日期</div>
-										     <div class="profile-info-value">
+										     <div class="profile-info-value access" data-access-list="completeDate">
 										      <#if show??>
 													 <span>${(rework.completeDate)! }</span>
 											  <#else>
@@ -221,15 +210,11 @@ body{background:#fff;}
 											</div>
 											</#if>
 											</div>						
-										 </div>
-									   </div>
 									</div>	
 									
-									
-									<div class="profile-info-row access"  data-access-list="isCompelete">	
-										<div class="profile-user-info profile-user-info-striped">
+									    <div class="profile-info-row">
 										 <div class="profile-info-name ">是否完工</div>
-												<div class="profile-info-value {required: true}">
+												<div class="profile-info-value access" data-access-list="isCompelete">
 												<#if show??>
 													<span>${isCompelete! }</span>
 												<#else>
@@ -244,9 +229,8 @@ body{background:#fff;}
 														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span
 														class="lbl middle"></span> </label>
 													</#if>
-												</div>															
-										</div>
-								   </div>
+											</div>															
+								   </div>   
 								</div>
 							</div>
 							

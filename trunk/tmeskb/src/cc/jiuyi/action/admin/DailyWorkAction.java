@@ -265,8 +265,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());
+			/*dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());*/
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			dailyWork.setMaktx(workingBillService.get(
 					dailyWork.getWorkingbill().getId()).getMaktx());
@@ -315,8 +315,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());
+			/*dailyWork.setResponseName(processService.get("processCode",
+					dailyWork.getProcessCode()).getProcessName());*/
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
 			lst.add(dailyWork);
 		}

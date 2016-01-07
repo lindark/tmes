@@ -31,6 +31,7 @@ public class Factory extends BaseEntity{
     private String workshopName;//工厂名称
     
     private Set<WorkShop> workShopSet;//车间
+    private Set<Material> materialSet;//物料
     
     
     
@@ -72,7 +73,14 @@ public class Factory extends BaseEntity{
 		this.isDel = isDel;
 	}
 	
-	 @Transient
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factory")
+	public Set<Material> getMaterialSet() {
+		return materialSet;
+	}
+	public void setMaterialSet(Set<Material> materialSet) {
+		this.materialSet = materialSet;
+	}
+	@Transient
 	public String getStateRemark() {
 		return stateRemark;
 	}

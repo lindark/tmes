@@ -38,7 +38,7 @@
 	     			{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}"},
 	     		</#list>
 	     	];
-
+			
 			jiuyi.admin.depart.initTree(zNodes);
 	         $("#ingageTree a:first").trigger("click");
 	})

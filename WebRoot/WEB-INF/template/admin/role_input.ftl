@@ -120,13 +120,13 @@ body {
 												<div style="width: 30%;float:left">
 													<label><input type="checkbox" name="resourceIds"
 														value="${list.id}"<#if
-														(role.resourceSet.contains(list) == true)!>
+														(role.resourcesSet.contains(list) == true)!>
 														checked="checked"</#if> />${(list.name)!}</label>
 												</div> </#list>
 											 <!-- 
 										    <select id='keep-order' multiple='multiple' name="resourceIds">
 										    	<#list allResource as list>
-													<option value='${list.id}' <#if (role.resourceSet.contains(list)==true)!> selected </#if>>${(list.name)!}</option>
+													<option value='${list.id}' <#if (role.resourcesSet.contains(list)==true)!> selected </#if>>${(list.name)!}</option>
 												</#list>
 											</select>
 											 -->

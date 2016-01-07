@@ -153,9 +153,15 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 				Admin a=this.adminDao.getByCardnumAndTeamid(cc.getCardNumber(),teamid);
 				if(a!=null)
 				{
-					if(!"2".equals(a.getWorkstate()))
+					//过滤已上班的或者代班的
+					if(!"2".equals(a.getWorkstate())&&!"6".equals(a.getWorkstate()))
 					{
 						a.setWorkstate("2");
+						//是否是代班的
+						if(a.getIsdaiban().equals(teamid))
+						{
+							a.setWorkstate("6");
+						}
 						a.setModifyDate(new Date());
 						this.adminDao.update(a);
 					}

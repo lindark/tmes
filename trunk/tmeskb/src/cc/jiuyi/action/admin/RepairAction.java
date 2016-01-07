@@ -336,8 +336,11 @@ public class RepairAction extends BaseAdminAction {
 			RepairRfc repairRfc=new RepairRfcImpl();
 			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
 			list_sapreturn=new ArrayList<Map<Object,Object>>(repairRfc.repairCrt(list1,list2));
-			flag=true;
 			e_msg="";
+			if(list_sapreturn.size()==0)
+			{
+				return "生成凭证失败!";
+			}
 			for(int i=0;i<list_sapreturn.size();i++)
 			{
 				Map<Object,Object>m=list_sapreturn.get(i);

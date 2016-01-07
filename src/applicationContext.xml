@@ -87,7 +87,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Log</value>
 				<value>cc.jiuyi.entity.Admin</value>
 				<value>cc.jiuyi.entity.Role</value>
-				<value>cc.jiuyi.entity.Resource</value>
+				<value>cc.jiuyi.entity.Resources</value>
 				<value>cc.jiuyi.entity.MemberRank</value>
 				<value>cc.jiuyi.entity.Member</value>
 				<value>cc.jiuyi.entity.MemberAttribute</value>

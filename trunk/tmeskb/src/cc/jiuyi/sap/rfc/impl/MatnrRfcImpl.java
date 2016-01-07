@@ -39,7 +39,7 @@ public class MatnrRfcImpl extends BaserfcServiceImpl implements MatnrRfc{
 			m.setMaterialName(T_DATA.getString("MAKTX"));
 			m.setMaterialType(T_DATA.getString("MTART"));
 			m.setMaterialUnit(T_DATA.getString("MEINS"));
-			m.setWerks(T_DATA.getString("WERKS"));
+			//m.setWerks(T_DATA.getString("WERKS"));
 			m.setOrderUnit(T_DATA.getString("BSTME"));
 			list.add(m);
 		}

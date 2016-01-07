@@ -20,7 +20,7 @@ public class AccessResource extends BaseEntity {
 	private static final long serialVersionUID = -8900934872438073557L;
 
 	private Role role;//角色
-	private Resource resource;//资源
+	private Resources resources;//资源
 	private String rolename;//角色名称
 	private String resourcename;//资源名称
 	private String accessobjectname;//对象名称
@@ -36,11 +36,11 @@ public class AccessResource extends BaseEntity {
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Resource getResource() {
-		return resource;
+	public Resources getResources() {
+		return resources;
 	}
-	public void setResource(Resource resource) {
-		this.resource = resource;
+	public void setResources(Resources resources) {
+		this.resources = resources;
 	}
 	
 	

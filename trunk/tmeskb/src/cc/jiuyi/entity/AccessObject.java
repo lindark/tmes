@@ -27,20 +27,22 @@ public class AccessObject extends BaseEntity implements Comparable<AccessObject>
 	private String resourceName;//冗余，资源名称
 	private String requesturl;//权限对象对应的请求地址
 	private String htmlarea;//按钮代码编辑器
-	private Resource resource;//所属资源
+	private Resources resources;//所属资源
 	private String typeName;//数据字典名称
 	private Set<AccessFunction> acccessFunctionSet;//关系表
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	public Resource getResource() {
-		return resource;
+	public Resources getResources() {
+		return resources;
 	}
-	public void setResource(Resource resource) {
-		this.resource = resource;
+	public void setResources(Resources resources) {
+		this.resources = resources;
 	}
+	
 	public String getAccObjName() {
 		return accObjName;
 	}
+
 	public void setAccObjName(String accObjName) {
 		this.accObjName = accObjName;
 	}

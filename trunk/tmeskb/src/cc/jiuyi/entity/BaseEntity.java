@@ -29,7 +29,7 @@ public class BaseEntity implements Serializable {
 
 	@SearchableId
 	@Id
-	@Column(length = 32, nullable = true)
+	@Column(length = 32, nullable = true,name="id")
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	public String getId() {

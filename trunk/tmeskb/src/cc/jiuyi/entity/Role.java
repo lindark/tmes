@@ -24,7 +24,7 @@ public class Role extends BaseEntity {
 	private String description;// 描述
 	
 	private Set<Admin> adminSet;// 管理员
-	private Set<Resource> resourceSet;// 资源
+	private Set<Resources> resourcesSet;// 资源
 	private Set<AccessResource> accessResourceSet;//权限对象
 	private Set<CreditAccess> creditAccessSet;//刷卡权限管理
 
@@ -93,12 +93,12 @@ public class Role extends BaseEntity {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	public Set<Resource> getResourceSet() {
-		return resourceSet;
+	public Set<Resources> getResourcesSet() {
+		return resourcesSet;
 	}
 
-	public void setResourceSet(Set<Resource> resourceSet) {
-		this.resourceSet = resourceSet;
+	public void setResourcesSet(Set<Resources> resourcesSet) {
+		this.resourcesSet = resourcesSet;
 	}
 
 }

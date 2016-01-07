@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="Resources")
-public class Resource extends BaseEntity {
+public class Resources extends BaseEntity {
 
 	private static final long serialVersionUID = 8931644891304446093L;
 
@@ -35,7 +35,7 @@ public class Resource extends BaseEntity {
 	private Set<AccessResource> accessResourceSet;//权限资源对象
 
 	
-	@OneToMany(mappedBy = "resource", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "resources", fetch = FetchType.LAZY)
 	public Set<AccessResource> getAccessResourceSet() {
 		return accessResourceSet;
 	}
@@ -44,7 +44,7 @@ public class Resource extends BaseEntity {
 		this.accessResourceSet = accessResourceSet;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "resource")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "resources")
 	public Set<AccessObject> getAccessobjectSet() {
 		return accessobjectSet;
 	}
@@ -101,7 +101,7 @@ public class Resource extends BaseEntity {
 		this.orderList = orderList;
 	}
 	
-	@ManyToMany(mappedBy = "resourceSet", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "resourcesSet", fetch = FetchType.EAGER)
 	public Set<Role> getRoleSet() {
 		return roleSet;
 	}

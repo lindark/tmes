@@ -64,5 +64,5 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 * @param version
 	 * @return
 	 */
-	public List<Bom> getByPidAndWversion(String pid, String version);
+	public List<Bom> getByPidAndWversion(String pid, Integer version);
 }

@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var loginid=$("#loginid").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -44,7 +45,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"kaoqin!getemp.action",
+		url:"kaoqin!getemp.action?loginid="+loginid,
 		datatype: "json",
 		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

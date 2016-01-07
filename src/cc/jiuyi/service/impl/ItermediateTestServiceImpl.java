@@ -69,9 +69,9 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 	}
 
 	@Override
-	public Pager getItermediateTestPager(Pager pager, HashMap<String, String> map) {
+	public Pager getItermediateTestPager(String workingBillId,Pager pager, HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		return itermediateTestDao.getItermediateTestPager(pager, map);
+		return itermediateTestDao.getItermediateTestPager(workingBillId,pager, map);
 	}
 
 	@Override

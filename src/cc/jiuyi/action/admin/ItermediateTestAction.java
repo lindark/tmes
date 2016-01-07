@@ -145,7 +145,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-			pager = itermediateTestService.getItermediateTestPager(pager, map);
+			pager = itermediateTestService.getItermediateTestPager(workingBillId,pager, map);
 			List<ItermediateTest> itermediateTestList = pager.getList();
 			List<ItermediateTest> lst = new ArrayList<ItermediateTest>();
 			for (int i = 0; i < itermediateTestList.size(); i++) {

@@ -129,7 +129,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
 			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode());//下一随工单--此处有问题。根据什么条件获取下一随工单
-			workingbill.setAfterworkingBillCode(nextWorkingbill.getWorkingBillCode());
+			if(nextWorkingbill==null){
+				workingbill.setAfterworkingBillCode("");
+			}else{
+				workingbill.setAfterworkingBillCode(nextWorkingbill.getWorkingBillCode());
+			}
 			workingbillList.add(workingbill);
 		}
 

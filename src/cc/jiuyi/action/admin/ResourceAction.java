@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Resource;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.entity.Resources;
+import cc.jiuyi.service.ResourcesService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import net.sf.json.JSONArray;
@@ -30,10 +30,10 @@ public class ResourceAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -1066168819528324882L;
 
-	private Resource resource;
+	private Resources resource;
 
 	@javax.annotation.Resource
-	private ResourceService resourceService;
+	private ResourcesService resourceService;
 
 	// 是否已存在ajax验证
 	public String checkName() {
@@ -76,7 +76,7 @@ public class ResourceAction extends BaseAdminAction {
 		
 		JSONArray jsonarray = new JSONArray();
 		for(int i=0;i < pager.getList().size();i++){
-			Resource resource = (Resource)pager.getList().get(i);
+			Resources resource = (Resources)pager.getList().get(i);
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("id", resource.getId());
 			jsonobject.put("name", resource.getName());
@@ -91,7 +91,7 @@ public class ResourceAction extends BaseAdminAction {
 		pager.setList(jsonarray);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Resource.class));//排除有关联关系的属性字段  
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Resources.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
@@ -103,7 +103,7 @@ public class ResourceAction extends BaseAdminAction {
 		ids = ids[0].split(",");
 		for(int i=0;i<ids.length;i++){
 			System.out.println(ids[i]);
-			Resource resource = resourceService.load(ids[i]);
+			Resources resource = resourceService.load(ids[i]);
 			if(resource.getIsSystem()){
 				return ajaxJsonErrorMessage("系统内置不允许删除");
 			}
@@ -147,7 +147,7 @@ public class ResourceAction extends BaseAdminAction {
 	)
 	@InputConfig(resultName = "error")
 	public String update() throws Exception {
-		Resource persistent = resourceService.load(id);
+		Resources persistent = resourceService.load(id);
 		if (persistent.getIsSystem()) {
 			addActionError("系统内置资源不允许修改!");
 			return ERROR;
@@ -158,11 +158,11 @@ public class ResourceAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 
-	public Resource getResource() {
+	public Resources getResource() {
 		return resource;
 	}
 
-	public void setResource(Resource resource) {
+	public void setResource(Resources resource) {
 		this.resource = resource;
 	}
 }

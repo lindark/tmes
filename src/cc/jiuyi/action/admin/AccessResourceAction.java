@@ -32,7 +32,7 @@ import cc.jiuyi.service.AccessFunctionService;
 import cc.jiuyi.service.AccessObjectService;
 import cc.jiuyi.service.AccessResourceService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.ResourceService;
+import cc.jiuyi.service.ResourcesService;
 import cc.jiuyi.service.RoleService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -48,7 +48,7 @@ public class AccessResourceAction extends BaseAdminAction {
 	@Resource
 	private RoleService roleservice;
 	@Resource
-	private ResourceService resourceservice;
+	private ResourcesService resourceservice;
 	@Resource
 	private AccessObjectService accessobjectservice;
 	@Resource
@@ -57,7 +57,7 @@ public class AccessResourceAction extends BaseAdminAction {
 	private AccessFunctionService accessfunctionservice;
 	
 	private List<Role> allRole;
-	private List<cc.jiuyi.entity.Resource> allResource;
+	private List<cc.jiuyi.entity.Resources> allResource;
 	private List<AccessObject> allAccessobject;
 	private List<AccessObject> accessobjectlist;
 	private AccessResource accessResource;
@@ -180,7 +180,7 @@ public class AccessResourceAction extends BaseAdminAction {
 		for(int i =0; i < pagerlist.size();i++){
 			AccessResource accessresource  = (AccessResource)pagerlist.get(i);
 			//accessresource.setAccessobjectname(accessresource.getAccessobject().getAccObjName());
-			accessresource.setResourcename(accessresource.getResource().getName());
+			accessresource.setResourcename(accessresource.getResources().getName());
 			accessresource.setRolename(accessresource.getRole().getName());
 			pagerlist.set(i, accessresource);
 		}
@@ -202,12 +202,12 @@ public class AccessResourceAction extends BaseAdminAction {
 		this.allRole = allRole;
 	}
 
-	public List<cc.jiuyi.entity.Resource> getAllResource() {
+	public List<cc.jiuyi.entity.Resources> getAllResource() {
 		this.allResource = resourceservice.getAll();
 		return allResource;
 	}
 
-	public void setAllResource(List<cc.jiuyi.entity.Resource> allResource) {
+	public void setAllResource(List<cc.jiuyi.entity.Resources> allResource) {
 		this.allResource = allResource;
 	}
 

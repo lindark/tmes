@@ -48,6 +48,7 @@
 	
 	<!-- add by welson 0728 -->
 				<!-- /section:basics/content.breadcrumbs -->
+			<input type="hidden" id="workingbill" value="${workingbill.id}"/>
 				<div class="page-content" id="page-content">					
 					<div class="page-content-area">
 							<div class="row">

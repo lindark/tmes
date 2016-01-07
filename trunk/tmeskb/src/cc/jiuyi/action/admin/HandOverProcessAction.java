@@ -186,9 +186,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
 		processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
-		
-		
-		
+		if(processList.isEmpty()){
+			return ajaxJsonErrorMessage("未找到工序!");
+		}
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();

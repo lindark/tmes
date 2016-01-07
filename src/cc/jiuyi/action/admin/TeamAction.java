@@ -265,11 +265,11 @@ public class TeamAction extends BaseAdminAction {
 	// 更新
 	public String update() {
 		Team t1 = teamService.get(id);
-		String job_name = "startWorking"+t1.getId();
-		QuartzManagerUtil.removeJob(job_name);
-		QuartzManagerUtil.removeJob("xxx"+job_name);
+		String job_name = "startWorking"+t1.getId();		
 		BeanUtils.copyProperties(team, t1, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		teamService.update(t1);
+		QuartzManagerUtil.removeJob(job_name);
+		QuartzManagerUtil.removeJob("xxx"+job_name);
 		redirectionUrl = "team!list.action";
 		return SUCCESS;
 	}

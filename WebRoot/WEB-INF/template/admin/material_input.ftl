@@ -121,9 +121,9 @@ body{background:#fff;}
 												
 												<div class="profile-info-name">生产管理员</div>
 												<div class="profile-info-value">
-													<input type="text" name="material.materialAmount"
-														value="${(material.materialAmount)!}"
-														class=" input input-sm formText {digits:true,required: true,minlength:0,maxlength: 100}" />
+													<input type="text" name="material.productmanager"
+														value="${(material.productmanager)!}"
+														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
 											</div>

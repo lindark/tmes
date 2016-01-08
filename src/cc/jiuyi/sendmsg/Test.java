@@ -25,5 +25,6 @@ public class Test {
 			"</infos>";
 
 		String xml=service.getSendmsgHttpPort().sendmsg("nhjx_nb064090", msg);
+		System.out.println(xml);
 	}
 }

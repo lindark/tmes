@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
@@ -58,6 +59,7 @@ public class QuartzManagerUtil {
 			// 触发器
 			CronTrigger trigger = new CronTrigger(jobName, TRIGGER_GROUP_NAME);// 触发器名,触发器组
 			trigger.setCronExpression(time);// 触发器时间设定
+			trigger.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));//设置默认时区
 			sched.scheduleJob(jobDetail, trigger);
 			// 启动
 			if (!sched.isShutdown()) {

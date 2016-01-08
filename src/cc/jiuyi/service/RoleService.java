@@ -1,5 +1,8 @@
 package cc.jiuyi.service;
 
+import java.util.List;
+
+import cc.jiuyi.entity.Resources;
 import cc.jiuyi.entity.Role;
 
 /**
@@ -8,5 +11,5 @@ import cc.jiuyi.entity.Role;
 
 public interface RoleService extends BaseService<Role, String> {
 
-	public String getRoleSetString(String resourceid);
+	public String getRoleSetString(String resourcesid);
 }

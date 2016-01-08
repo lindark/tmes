@@ -188,8 +188,7 @@ body {
 					{
 						layer.alert("领料数量不能大于库存数量",{icon: 7});
 						return false;
-					}
-						
+					}	
 				}
 			});
 		}
@@ -212,7 +211,7 @@ body {
 					        skin:'error'
 					    });
 					}					
-				},dt)  
+				},dt)
 		});
 		
 		
@@ -304,12 +303,7 @@ body {
 		})
 	})
 	
-	$(function(){
-		$("#mytable td").each(function(){
-			 var value = $(this).text();
-			});
-     });
-
+	
 
 
 	

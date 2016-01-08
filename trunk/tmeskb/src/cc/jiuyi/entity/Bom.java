@@ -22,6 +22,7 @@ public class Bom extends BaseEntity{
 	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
 	private String rsnum;//预留编码
+	private String shift;//班次
 	
     
 	/**冗余**/
@@ -56,6 +57,14 @@ public class Bom extends BaseEntity{
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Products getProducts() {
 		return products;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 
 	public String getRsnum() {

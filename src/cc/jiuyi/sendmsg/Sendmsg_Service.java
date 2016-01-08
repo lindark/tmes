@@ -23,7 +23,7 @@ import javax.xml.ws.WebServiceClient;
  * </p>
  * 
  */
-@WebServiceClient(name = "sendmsg", targetNamespace = "http://DefaultNamespace", wsdlLocation = "http://111.1.2.28/webservice/services/sendmsg?wsdl")
+@WebServiceClient(name = "sendmsg", targetNamespace = "http://cc.jiuyi.sendmsg", wsdlLocation = "http://111.1.2.28/webservice/services/sendmsg?wsdl")
 public class Sendmsg_Service extends Service {
 
 	private final static URL SENDMSG_WSDL_LOCATION;
@@ -49,7 +49,7 @@ public class Sendmsg_Service extends Service {
 	}
 
 	public Sendmsg_Service() {
-		super(SENDMSG_WSDL_LOCATION, new QName("http://DefaultNamespace",
+		super(SENDMSG_WSDL_LOCATION, new QName("http://cc.jiuyi.sendmsg",
 				"sendmsg"));
 	}
 
@@ -59,7 +59,7 @@ public class Sendmsg_Service extends Service {
 	 */
 	@WebEndpoint(name = "sendmsgHttpPort")
 	public SendmsgPortType getSendmsgHttpPort() {
-		return super.getPort(new QName("http://DefaultNamespace",
+		return super.getPort(new QName("http://cc.jiuyi.sendmsg",
 				"sendmsgHttpPort"), SendmsgPortType.class);
 	}
 

@@ -83,7 +83,7 @@ jQuery(function($){
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: false,
+			//edit: false,
 //		   editfunc : function(rowId) {
 //			   var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
 //		    	if(ids.length>1){
@@ -93,10 +93,13 @@ jQuery(function($){
 //				window.location.href = "material!edit.action?id=" + rowId;
 //			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			add: false,
-//			addfunc:function(rowId){
-//				window.location.href="material!add.action";
-//			},
+			//add: false,
+			addfunc:function(rowId){
+				window.location.href="material!add.action";
+			},
+			editfunc:function(rowId){
+				//window.location.href="material!add.action";
+			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',

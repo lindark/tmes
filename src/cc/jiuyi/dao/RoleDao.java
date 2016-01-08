@@ -15,4 +15,5 @@ public interface RoleDao extends BaseDao<Role, String> {
 	 * @return
 	 */
 	public List<Role> getList(String resourceid);
+	
 }

@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>权限对象管理 - Powered By ${systemConfig.systemName}</title>
+<title>工序交接管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <#include "/WEB-INF/template/common/includelist.ftl">
@@ -63,7 +63,8 @@ body {
 											<th class="center">产品编号</th>
 											<th class="center">产品名称</th>
 											<th class="center">下班随工单</th>
-											<th class="center">交接数量</th>
+											<th class="center">正常交接数量</th>
+											
 										</tr>
 									</thead>
 
@@ -82,8 +83,9 @@ body {
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialName" value="${materialName }"/> <!-- 物料描述 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].processid" value="${processid }"/><!-- 工序-->
-													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 数量 -->
+													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 正常交接数量 -->							
 												</td>
+							 			       
 											</tr>
 											<#assign  num=num+1/>
 										</#list>

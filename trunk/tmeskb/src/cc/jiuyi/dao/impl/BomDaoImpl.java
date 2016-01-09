@@ -19,38 +19,44 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 
 	
 	public Integer getMaxVersionByid(String productid){
-		String hql="select max(a.version) from Bom a where a.products.id = ?";
+		String hql="select max(a.version) from Bom a where a.products.id = ? and isDel = 'N'";
 		return (Integer)getSession().createQuery(hql).setParameter(0, productid).uniqueResult();
 	}
 	
 	public Integer getMaxVersionBycode(String productCode){
-		String hql="select max(a.version) from Bom a where a.products.productsCode = ?";
+		String hql="select max(a.version) from Bom a where a.products.productsCode = ? and isDel= 'N'";
 		return (Integer)getSession().createQuery(hql).setParameter(0, productCode).uniqueResult();
 	}
 
 	@Override
 	public List<Bom> getBomByProductCode(String productCode,String materialCode,Integer version) {
-		String hql="from Bom where products.productsCode=? and materialCode=? and version = ?";
+		String hql="from Bom where products.productsCode=? and materialCode=? and version = ? and isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, productCode).setParameter(1, materialCode).setParameter(2, version).list();
 	}
 
 	@Override
 	public List<Bom> getBomListByMaxVersion(Integer version) {
-		String hql="from Bom where version = ?";
+		String hql="from Bom where version = ? and isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, version).list();
 	}
 	
 
 	@Override
 	public List<Bom> getListByid(String productid, Integer version) {
-		String hql="from Bom where products.id = ? and version = ?";
+		String hql="from Bom where products.id = ? and version = ? and isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, productid).setParameter(1, version).list();
 	}
 	
 	@Override
 	public List<Bom> getListBycode(String productcode, Integer version) {
-		String hql="from Bom where products.productsCode = ? and version = ?";
+		String hql="from Bom where products.productsCode = ? and version = ? and isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, productcode).setParameter(1, version).list();
+	}
+	
+	@Override
+	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria) {
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
 	}
 
 	@Override

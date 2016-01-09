@@ -22,8 +22,9 @@ public class Bom extends BaseEntity{
 	private String isCarton;//纸箱状态描述
 	private Integer version;//版本
 	private String rsnum;//预留编码
+	private String rspos;//项目
 	private String shift;//班次
-	
+	private String isDel;//是否删除
     
 	/**冗余**/
 	private Double xtestAmount;
@@ -324,6 +325,22 @@ public class Bom extends BaseEntity{
 
 	public void setStockAmount(String stockAmount) {
 		this.stockAmount = stockAmount;
+	}
+
+	public String getRspos() {
+		return rspos;
+	}
+
+	public void setRspos(String rspos) {
+		this.rspos = rspos;
+	}
+
+	public String getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(String isDel) {
+		this.isDel = isDel;
 	}
 	
 	

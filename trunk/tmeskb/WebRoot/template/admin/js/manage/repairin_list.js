@@ -260,5 +260,35 @@ jQuery(function($) {
 		}
 	)
 
-
+	//按钮事件
+	btn_event();
 });
+
+//按钮事件
+function btn_event()
+{
+	//编辑
+	$("#btn_edit").click(function(){
+		var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		if(id.length > 1||id==""||id==null){
+			layer.msg("请选择一条记录!", {icon: 5});
+			return false;
+		}
+		var workingBillId = $("#workingBillId").val();
+		var rowData = $("#grid-table").jqGrid('getRowData',id);
+		var row_state=rowData.state;
+		if(row_state=="1"||row_state=="3"){
+			layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
+		}else{
+			window.location.href="repairin!edit.action?workingBillId="+workingBillId+"&id="+id;				
+		}
+		
+	});
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			window.location.href="repairin!show.action?id="+info+"&workingBillId="+$("#workingBillId").val();
+		}
+	});
+}

@@ -263,5 +263,18 @@ jQuery(function($) {
 		}
 	)
 
-
+	//查看
+	show_event();
 });
+
+//查看
+function show_event()
+{
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			window.location.href="repair!show.action?id="+info+"&workingBillId="+$("#workingBillId").val();
+		}
+	});
+}

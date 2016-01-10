@@ -10,7 +10,7 @@ function addpiece()
 {
 	var title = "添加产品组件";
 	var width="800px";
-	var height="620px";
+	var height="610px";
 	var content="repair!beforegetpiece.action?info="+$("#wkid").val();
 	var html="<th style='width:20%;'>组件编码</th> <th style='width:35%;'>组件描述</th> <th style='width:15%;'>产品数量</th> <th style='width:15%;'>组件数量</th>  <th style='width:15%;'>操作</th>";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){

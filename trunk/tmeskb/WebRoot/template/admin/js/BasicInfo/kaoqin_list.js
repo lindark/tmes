@@ -102,13 +102,12 @@ function addemp()
 		var infos=iframeWin.getGridId();
 		if(infos!=""&&infos!=null)
 		{
-			var info=infos.split(",");
 			var info1=infos.split("?");
 			for(var i=0;i<info1.length;i++)
 			{
 				var info2=info1[i].split(",");
 				//info2 --- 0卡号1姓名2技能3班组4班次5工作状态描述6工作状态key7主键ID
-				if(info2!=null&&info2!="")
+				if(info2.length>1)
 				{
 					html+="<tr>" +
 					"<td>"+info2[0]+"</td>" +

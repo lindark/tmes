@@ -233,35 +233,28 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		}
 	}
 
-	/**
-	 * 确认或撤销
-	 */
-	public void updateState(Scrap scrap, String newstate,String cardnumber)
-	{
-		Admin admin=this.adminService.getByCardnum(cardnumber);
-		scrap.setState(newstate);
-		scrap.setConfirmation(admin);
-		this.scrapDao.update(scrap);
-	}
-
 	@Override
 	public List<Scrap> getUnCheckList() {
 		return scrapDao.getUnCheckList();
 	}
 
 	/**
-	 * 与SAP交互没有问题,更新本地数据库
+	 * 1.与SAP交互没有问题,更新本地数据库
+	 * 2.确认或撤销
 	 */
-	public void updateMyData(Scrap s,String newstate,String cardnumber)
+	public void updateMyData(Scrap s,String newstate,String cardnumber,int my_id)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Scrap s2=this.scrapDao.get(s.getId());
-		s2.setE_type(s.getE_type());//类型S/E
-		s2.setE_message(s.getE_message());//反馈消息
-		s2.setMblnr(s.getMblnr());//物料凭证
 		s2.setState(newstate);//状态
-		s2.setConfirmation(admin);//撤销/确认人
 		s2.setModifyDate(new Date());//修改日期
+		s2.setConfirmation(admin);//撤销/确认人
+		if(my_id==1)
+		{
+			s2.setE_type(s.getE_type());//类型S/E
+			s2.setE_message(s.getE_message());//反馈消息
+			s2.setMblnr(s.getMblnr());//物料凭证
+		}
 		this.scrapDao.update(s2);
 	}
 	

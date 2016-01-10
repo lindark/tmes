@@ -1,3 +1,4 @@
+var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -291,4 +292,18 @@ function btn_event()
 			window.location.href="repairin!show.action?id="+info+"&workingBillId="+$("#workingBillId").val();
 		}
 	});
+}
+//得到1条id
+function getId2()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.alert("请选择一条返修单！",false);
+		return false;
+	}
 }

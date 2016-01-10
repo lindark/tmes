@@ -10,7 +10,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/kaoqin_alert.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/repairin_alert.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>

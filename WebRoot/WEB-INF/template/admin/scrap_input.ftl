@@ -449,14 +449,17 @@ function sub_event(my_id)
 		<#if add??>url="scrap!creditsubmit.action";</#if>
 		//修改确认
 		<#if edit??>url="scrap!creditreply.action";</#if>
+		tosubmit(url);//提交
+		/*
 		if(!sl_event())
 		{
 			layer.alert("报废后产出表为空,不能确认!",false);
 		}
 		else
 		{
-			tosubmit(url);//提交
+			
 		}
+		*/
 	}
 }
 </script>

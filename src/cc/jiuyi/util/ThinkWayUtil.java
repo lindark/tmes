@@ -190,6 +190,18 @@ public class ThinkWayUtil {
 		String dd = format.format(date);
 		return dd;
 	}
+	
+	public static Date formatStringDate(String date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1=null;
+		try {
+			date1 = format.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date1;
+	}
 
 	public static String formatdateDateTime(Date datetime) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

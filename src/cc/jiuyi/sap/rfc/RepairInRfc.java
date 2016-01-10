@@ -2,10 +2,21 @@ package cc.jiuyi.sap.rfc;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
+import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.util.CustomerException;
 
-public interface RepairInRfc  extends BaserfcService{
-	public List<Map<Object,Object>> repairCrt(List<Map<Object,Object>> list,List<Map<Object,Object>> list2) throws IOException,CustomerException;
-	}
+/**
+ * 返修收获
+ * 
+ * @author lenovo
+ * 
+ */
+public interface RepairInRfc extends BaserfcService
+{
+
+	public Repairin repairinCrt(Repairin repairin, List<RepairinPiece> list_rp)
+			throws IOException, CustomerException;
+
+}

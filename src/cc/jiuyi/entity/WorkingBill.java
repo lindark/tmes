@@ -35,6 +35,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairAmount;// 累计返修数量
 	private String werks;//工厂
 	private Integer amount;//交接数量
+	private Integer repairamount;//返修交接数量
 	private Integer bomversion;//BOM版本
 	private Integer processversion;//工艺路线版本
 	private String aufnr;//订单号
@@ -338,6 +339,14 @@ public class WorkingBill extends BaseEntity {
 
 	public void setProcessversion(Integer processversion) {
 		this.processversion = processversion;
+	}
+
+	public Integer getRepairamount() {
+		return repairamount;
+	}
+
+	public void setRepairamount(Integer repairamount) {
+		this.repairamount = repairamount;
 	}
 	
 }

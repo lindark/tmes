@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import cc.jiuyi.util.ThinkWayUtil;
+
 /**
  * 实体类 - 工艺路线表
  */
@@ -22,7 +24,6 @@ import org.hibernate.annotations.CascadeType;
 public class ProcessRoute extends BaseEntity{
 	private static final long serialVersionUID = 2614072427487765268L;
 
-	private Products products;//产品
 	//private Process process;//工序
 	private String sortcode;//排序码
 	private Double productAmount;//产品数量
@@ -35,7 +36,19 @@ public class ProcessRoute extends BaseEntity{
 	private String processName;//工序名称
 	private String aufpl;//工艺路线号
 	private String steus;//控制码
+	private String effectiveDate;//生效日期
+	private Orders orders;
+	private String isDel;
 	
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Orders getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Orders orders) {
+		this.orders = orders;
+	}
 
 	public String getSteus() {
 		return steus;
@@ -71,14 +84,6 @@ public class ProcessRoute extends BaseEntity{
 		this.version = version;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Products getProducts() {
-		return products;
-	}
-
-	public void setProducts(Products products) {
-		this.products = products;
-	}
 //	@ManyToOne(fetch=FetchType.LAZY)
 //	public Process getProcess() {
 //		return process;
@@ -144,6 +149,27 @@ public class ProcessRoute extends BaseEntity{
 
 	public void setProcessName(String processName) {
 		this.processName = processName;
+	}
+	
+	public String getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(String effectiveDate) {
+		if(effectiveDate == null){
+			effectiveDate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd");
+		}
+		this.effectiveDate = effectiveDate;
+	}
+
+	public String getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(String isDel) {
+		if(isDel == null)
+			isDel ="N";
+		this.isDel = isDel;
 	}
 
 }

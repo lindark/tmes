@@ -1,9 +1,13 @@
 package cc.jiuyi.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 实体类 - 产品Bom
@@ -13,7 +17,7 @@ public class Bom extends BaseEntity{
 
 	private static final long serialVersionUID = -7300988835184296373L;
 
-	private Products products;//产品
+	private Orders orders;
 	private Double productAmount;//产品数量
 	private String materialCode;//Bom编码
 	private String materialName;//Bom名称
@@ -25,7 +29,8 @@ public class Bom extends BaseEntity{
 	private String rspos;//项目
 	private String shift;//班次
 	private String isDel;//是否删除
-    
+	private String effectiveDate;//生效日期
+	
 	/**冗余**/
 	private Double xtestAmount;
 	private String xfailReason;
@@ -55,10 +60,6 @@ public class Bom extends BaseEntity{
 	
 	
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Products getProducts() {
-		return products;
-	}
 
 	public String getShift() {
 		return shift;
@@ -76,9 +77,6 @@ public class Bom extends BaseEntity{
 		this.rsnum = rsnum;
 	}
 
-	public void setProducts(Products products) {
-		this.products = products;
-	}
 	public Double getProductAmount() {
 		return productAmount;
 	}
@@ -340,7 +338,29 @@ public class Bom extends BaseEntity{
 	}
 
 	public void setIsDel(String isDel) {
+		if(isDel == null)
+			isDel="N";
 		this.isDel = isDel;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Orders getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Orders orders) {
+		this.orders = orders;
+	}
+
+	public String getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(String effectiveDate) {
+		if(effectiveDate == null){
+			effectiveDate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd");
+		}
+		this.effectiveDate = effectiveDate;
 	}
 	
 	

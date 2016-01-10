@@ -2,11 +2,11 @@ package cc.jiuyi.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repairin;
-import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.RepairinPiece;
 
 /**
  * Service接口
@@ -32,15 +32,27 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	public void updateState(List<Repairin> list,String statu,String workingbillid,String cardnumber);
 	
 	/**
-	 * 与SAP交互   退料262  905
-	 * list 主表数据   wbid随工单id
-	 * @return
-	 * @author gyf
-	 */
-	public List<Map<Object, Object>> getSAPMap(List<Repairin> list, WorkingBill wb,String cardnumber);
-	
-	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Map<Object, Object> m, String cardnumber);
+	public void updateMyData(Repairin repairin, String cardnumber,int my_id);
+
+	/**
+	 * 获取物料表中包含list1中的数据
+	 * @param list1
+	 * @return
+	 */
+	public List<Bom> getIncludedByMaterial(List<Bom> list1);
+
+	/**
+	 * 新增
+	 * @param repair
+	 * @param cardnumber
+	 */
+	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp);
+
+	/**
+	 * 修改
+	 * @param id
+	 */
+	public void updateData(Repairin repairin,List<RepairinPiece>list_rp);
 }

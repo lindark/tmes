@@ -19,12 +19,10 @@ import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.MaterialService;
-import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.RepairinPieceService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 返修收货
@@ -50,9 +48,6 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * =========================================================
 	 */
-	@Resource
-	private OrdersService ordersservice;
-	
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId) {
@@ -94,7 +89,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	}
 
 	/**
-	 * 与SAP交互没有问题,更新本地数据库
+	 * 1.与SAP交互没有问题,更新本地数据库
+	 * 2.确认
 	 */
 	public void updateMyData(Repairin repairin,String cardnumber,int my_id)
 	{
@@ -117,13 +113,6 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	 */
 	public List<Bom> getIncludedByMaterial(List<Bom> list1)
 	{
-
-		Admin admin = adminservice.getByCardnum(cardnumber);
-		Products p=this.productsService.getByPcode(wb.getMatnr());//根据产品编号查询产品
-		//Date productDate = ThinkWayUtil.formatStringDate(wb.getProductDate());//生产日期
-		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
-		List<Bom> list_bom=bomService.findBom(aufnr, wb.getProductDate());
-		String workingBillCode=wb.getWorkingBillCode();
 		List<Bom>listbom=new ArrayList<Bom>();
 		if(list1.size()>0)
 		{

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,19 +15,15 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.MaterialService;
-import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 返修
@@ -48,10 +43,6 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	public void setBaseDao(RepairDao repairDao) {
 		super.setBaseDao(repairDao);
 	}
-	@Resource
-	private ProductsService productsService;
-	@Resource
-	private BomService bomService;
 	@Resource
 	private MaterialService mService;//物料表
 	@Resource
@@ -121,12 +112,6 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	 */
 	public List<Bom> getIncludedByMaterial(List<Bom> list1)
 	{
-
-		Admin admin = adminservice.getByCardnum(cardnumber);
-		//Date productDate = ThinkWayUtil.formatStringDate(wb.getProductDate());//生产日期
-		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
-		List<Bom> list_bom=bomService.findBom(aufnr, wb.getProductDate());
-		String workingBillCode=wb.getWorkingBillCode();
 		List<Bom>listbom=new ArrayList<Bom>();
 		if(list1.size()>0)
 		{

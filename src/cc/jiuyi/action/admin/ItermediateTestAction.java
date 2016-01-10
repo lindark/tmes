@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,12 +100,10 @@ public class ItermediateTestAction extends BaseAdminAction {
 	//添加 ----modify weitao
 	public String add(){
 		this.workingbill=this.workingBillService.load(workingBillId);
-		Integer version = bomservice.getMaxVersionBycode(workingbill.getMatnr());//获取最大版本号
-		if(version == null){
-			addActionError("未维护BOM");
-			return ERROR;
-		}
-		list_material = bomservice.getListBycode(workingbill.getMatnr(), version);//取出产品最大的BOM集合
+		
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		list_material = bomservice.findBom(aufnr, workingbill.getProductDate());
 		this.list_cause=this.causeService.getBySample("3");//半成品不合格内容
 		this.add="add";
 		return INPUT;
@@ -183,16 +182,9 @@ public class ItermediateTestAction extends BaseAdminAction {
 		public String edit(){
 			this.list_material=new ArrayList<Bom>();
 			this.workingbill=this.workingBillService.load(workingBillId);
-			Integer version = workingbill.getBomversion();
-			if(version == null)
-				version = bomservice.getMaxVersionBycode(workingbill.getMatnr());//获取最大版本号
-			if(version == null){
-				addActionError("未找到BOM信息");
-				return ERROR;
-			}
-				
-			List<Bom> l_material = bomservice.getListBycode(workingbill.getMatnr(), version);//取出产品最大的BOM集合
-			
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate());
 			for(int i=0;i<l_material.size();i++){
 				Bom bom =l_material.get(i);
 				ItermediateTestDetail it=this.itermediateTestDetailService.getBySidAndMid(id, bom.getMaterialCode());

@@ -53,6 +53,7 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -92,6 +93,7 @@ public class AdminAction extends BaseAdminAction {
 	private String teamid;
 	private Team team;
 	private List<Post> postList;//岗位List
+	private String cardnumber;//卡号
 
 	@Resource
 	private AdminService adminService;
@@ -170,6 +172,19 @@ public class AdminAction extends BaseAdminAction {
 			return "loginapp";
 		else
 			return "login";
+	}
+	
+	
+	//刷卡登录
+	public String creditlogin(){
+		try{
+		Admin admin = adminService.get("cardNumber", cardnumber);
+		
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "teamindex";
 	}
 	
 	// 后台主页面
@@ -692,6 +707,16 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setPostList(List<Post> postList) {
 		this.postList = postList;
+	}
+
+
+	public String getCardnumber() {
+		return cardnumber;
+	}
+
+
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 	

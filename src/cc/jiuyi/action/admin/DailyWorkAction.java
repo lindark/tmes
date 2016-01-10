@@ -86,39 +86,39 @@ public class DailyWorkAction extends BaseAdminAction {
 	}
 
 	public String add() {
-		workingbill = workingBillService.get(workingBillId);
-		String productCode = workingbill.getMatnr();
-		allProcess = new ArrayList<Process>();
-		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService
-				.getProcessRouteByProductCode(productCode);
-		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = processRouteList.get(i);
-			Process process = processService.get("processCode",processroute.getProcessCode());
-			allProcess.add(process);
-		}
+//		workingbill = workingBillService.get(workingBillId);
+//		String productCode = workingbill.getMatnr();
+//		allProcess = new ArrayList<Process>();
+//		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+//		processRouteList = processRouteService
+//				.getProcessRouteByProductCode(productCode);
+//		for (int i = 0; i < processRouteList.size(); i++) {
+//			ProcessRoute processroute = processRouteList.get(i);
+//			Process process = processService.get("processCode",processroute.getProcessCode());
+//			allProcess.add(process);
+//		}
 		return INPUT;
 	}
 
 	// 编辑
 	public String edit() {
-		dailyWork = dailyWorkService.load(id);
-		workingbill = workingBillService.get(workingBillId);
-		String productCode = workingbill.getMatnr();
-		Integer version = workingbill.getProcessversion();
-		if (version == null) {
-			version = processRouteService.getMaxVersion(productsService.get(
-					"productsCode", productCode).getId());
-		}
-		allProcess = new ArrayList<Process>();
-		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
-				version, productCode);
-		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = processRouteList.get(i);
-			Process process = processService.get("processCode",processroute.getProcessCode());
-			allProcess.add(process);
-		}
+//		dailyWork = dailyWorkService.load(id);
+//		workingbill = workingBillService.get(workingBillId);
+//		String productCode = workingbill.getMatnr();
+//		Integer version = workingbill.getProcessversion();
+//		if (version == null) {
+//			version = processRouteService.getMaxVersion(productsService.get(
+//					"productsCode", productCode).getId());
+//		}
+//		allProcess = new ArrayList<Process>();
+//		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+//		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
+//				version, productCode);
+//		for (int i = 0; i < processRouteList.size(); i++) {
+//			ProcessRoute processroute = processRouteList.get(i);
+//			Process process = processService.get("processCode",processroute.getProcessCode());
+//			allProcess.add(process);
+//		}
 		return INPUT;
 	}
 

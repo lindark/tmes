@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,17 +116,18 @@ public class HandOverProcessAction extends BaseAdminAction {
 		/***找出今日随工单中跟materialCode 的相关的产品****/
 		for (int i = 0; i < workingbillAll.size(); i++){
 			WorkingBill workingbill = workingbillAll.get(i);
-			Integer version = workingbill.getBomversion();
-			if(version == null) {
-				version = bomservice.getMaxVersionBycode(workingbill.getMatnr());
-			}
-			List<Bom> bomList = bomservice.getBomByProductCode(workingbill.getMatnr(),materialCode,version);
+			
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
 		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
 		    	continue;
 			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
 			if (handoverprocess != null) {
 				Integer amount = handoverprocess.getAmount();
+				Integer repairamount = handoverprocess.getRepairAmount();
 				workingbill.setAmount(amount);
+				workingbill.setRepairamount(repairamount);
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
 			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode());//下一随工单--此处有问题。根据什么条件获取下一随工单
@@ -166,10 +168,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 				return ERROR;
 			}
 			HashMap<String,Object> hashmap = new HashMap<String, Object>();
-			Integer bomversion = workingbill.getBomversion();
-			if(bomversion == null)
-				bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
-			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
 			Integer processversion = workingbill.getProcessversion();
 //			if(processversion == null)
 //				processversion = processrouteservice.getMaxVersion(products.getId());
@@ -234,10 +235,10 @@ public class HandOverProcessAction extends BaseAdminAction {
 		Object[] obj = new Object[workingbillList.size()];
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
-			Integer bomversion = workingbill.getBomversion();
-			if(bomversion == null)
-				bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
-			List<Bom> bomList = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
+			
 			obj[i] = workingbill.getMatnr();
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);

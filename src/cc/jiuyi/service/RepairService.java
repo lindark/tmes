@@ -61,5 +61,5 @@ public interface RepairService extends BaseService<Repair, String> {
 	 * 修改
 	 * @param id
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp);
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber);
 }

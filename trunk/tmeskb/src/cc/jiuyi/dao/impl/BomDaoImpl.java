@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.WorkingBill;
 /**
  * Dao实现类 - 产品Bom
  */
@@ -54,4 +55,38 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	}
 	
 
+
+	/**
+	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 */
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,WorkingBill wb)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		//产品
+		if(!super.existAlias(detachedCriteria, "products", "products"))
+		{
+			detachedCriteria.createAlias("products", "products");
+		}
+		if(map.size()>0)
+		{
+			//子件编码
+			if(map.get("piececode")!=null)
+			{
+			    detachedCriteria.add(Restrictions.like("materialCode","%"+ map.get("piececode")+"%"));
+			}
+			//子件名称
+			if(map.get("piecename")!=null)
+			{
+				detachedCriteria.add(Restrictions.eq("materialName", map.get("piecename")));
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "K"));//取出空数据
+		if(wb.getBomversion()!=null)
+		{
+			detachedCriteria.add(Restrictions.eq("products.id", Integer.parseInt(wb.getBomversion().toString())));
+			detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		}
+		return super.findByPager(pager, detachedCriteria);
+	}
 }

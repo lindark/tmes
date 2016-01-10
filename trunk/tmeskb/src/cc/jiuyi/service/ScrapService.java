@@ -65,4 +65,10 @@ public interface ScrapService extends BaseService<Scrap, String>
 	 */
 	public List<ScrapLater> getSlBySid(String scrapid);
 
+	/**
+	 * 如果没有SAP交互把状态先改为已确认及确认人
+	 * @param scrapid
+	 */
+	public void updateState(String scrapid,String cardnumber);
+
 }

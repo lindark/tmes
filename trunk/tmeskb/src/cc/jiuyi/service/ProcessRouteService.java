@@ -1,12 +1,10 @@
 package cc.jiuyi.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 - 工艺路线
@@ -40,5 +38,15 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	 * @return
 	 */
 	public Integer getMaxVersion(String aufnr);
+
+	/**
+	 * 生产订单号,日期,编码查询一条工艺路线
+	 * @param aufnr
+	 * @param productDate
+	 * @param processCode
+	 * @return
+	 */
+	public ProcessRoute getOneByConditions(String aufnr, String productDate,
+			String processCode);
 
 }

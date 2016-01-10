@@ -35,8 +35,17 @@ public class Orders extends BaseEntity{
 	private String rsnum;//bom预留号
 	private String isdel;//是否删除
 	private String gamng;//订单数量
-
+	private Set<Bom> bomSet;//Bom集合
+	private Set<ProcessRoute> processrouteSet;
 	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="orders")
+	public Set<ProcessRoute> getProcessrouteSet() {
+		return processrouteSet;
+	}
+	public void setProcessrouteSet(Set<ProcessRoute> processrouteSet) {
+		this.processrouteSet = processrouteSet;
+	}
 	public String getGamng() {
 		return gamng;
 	}
@@ -90,6 +99,13 @@ public class Orders extends BaseEntity{
 	}
 	public void setIsdel(String isdel) {
 		this.isdel = isdel;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="orders")
+	public Set<Bom> getBomSet() {
+		return bomSet;
+	}
+	public void setBomSet(Set<Bom> bomSet) {
+		this.bomSet = bomSet;
 	}
 	
 }

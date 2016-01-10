@@ -37,12 +37,11 @@ public interface BomDao extends BaseDao<Bom, String> {
 	
 
 	/**
-	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 * jqGrid:(根据:子件编码/名称,凭证,版本号)查询
 	 * @param pager
 	 * @param map
 	 * @param workingBillId
 	 * @return
 	 */
-	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,
-			WorkingBill wb);
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion);
 }

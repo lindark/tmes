@@ -1,11 +1,9 @@
 package cc.jiuyi.dao;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.ProcessRoute;
 
 
@@ -38,4 +36,15 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	 * @return
 	 */
 	public Integer getMaxVersion(String aufnr);
+
+	/**
+	 * 生产订单号,版本号,编码查询一条工艺路线
+	 * @param aufnr
+	 * @param maxversion
+	 * @param processCode
+	 * @return
+	 */
+	public ProcessRoute getOneByConditions(String aufnr, Integer maxversion,
+			String processCode);
+
 }

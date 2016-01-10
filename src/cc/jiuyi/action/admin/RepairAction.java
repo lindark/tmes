@@ -33,7 +33,6 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
-import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -76,8 +75,6 @@ public class RepairAction extends BaseAdminAction {
 	@Resource
 	private ProcessRouteService processRouteService;
 	@Resource
-	private ProductsService productsService;
-	@Resource
 	private BomService bomService;
 
 	public String list() {
@@ -89,10 +86,11 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() 
 	{
-		workingbill = workingBillService.get(workingBillId);//随工单
-		String productCode = workingbill.getMatnr();//产品编码
+		workingbill = workingBillService.get(workingBillId);
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService.getProcessRouteByProductCode(productCode);//根据产品编码查询工艺路线
+		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.add="add";
 		return INPUT;
 	}
@@ -109,12 +107,15 @@ public class RepairAction extends BaseAdminAction {
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
 		Integer version = workingbill.getProcessversion();//版本号
-		String productCode = workingbill.getMatnr();
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		if (version == null) 
 		{
-			version = processRouteService.getMaxVersion(productsService.get("productsCode", productCode).getId());
+			version = processRouteService.getMaxVersion(aufnr, productDate);
 		}
-		processRouteList = processRouteService.getProcessRouteByVersionAndCode(version, productCode);
+		
+		processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.edit="edit";
 		return INPUT;
 		

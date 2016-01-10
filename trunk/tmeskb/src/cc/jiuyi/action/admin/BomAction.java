@@ -108,8 +108,8 @@ public class BomAction extends BaseAdminAction {
 				Bom bom = list.get(i);
 				bom.setMaterialCode(bom.getMaterialCode());
 				bom.setMaterialName(bom.getMaterialName());
-				bom.setProductsCode(bom.getProducts().getProductsCode());
-				bom.setProductsName(bom.getProducts().getProductsName());
+				bom.setProductsCode(bom.getOrders().getMatnr());
+				bom.setProductsName(bom.getOrders().getMaktx());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();
@@ -126,32 +126,40 @@ public class BomAction extends BaseAdminAction {
 	
 	// 获取产品的Bom
 	public String getBom() {
-		bomList = bomService.getList("products.id", productid);
-		JSONObject json = new JSONObject();
-		JSONArray jsonarray = new JSONArray();
-		for (int i = 0; i < bomList.size(); i++) {
-			Bom bom = bomList.get(i);
-			Products product = bom.getProducts();
-			int versionBefore = bom.getVersion();
-			int versionNow = bomService.getMaxVersionByid(productid);
-			if (versionBefore == versionNow) {
-				JSONObject jsonobject = new JSONObject();
-				jsonobject.put("productsid", product.getId());
-				jsonobject.put("productsCode", product.getProductsCode());
-				jsonobject.put("productsName", product.getProductsName());
-				jsonobject.put("productAmount", bom.getProductAmount());
-				jsonobject.put("materialCode", bom.getMaterialCode());
-				jsonobject.put("materialName", bom.getMaterialName());
-				jsonobject.put("materialUnit", bom.getMaterialUnit());
-				jsonobject.put("materialAmount", bom.getMaterialAmount());
-				jsonobject.put("isCarton", bom.getIsCarton());
-				jsonobject.put("version", bom.getVersion());
-				jsonarray.add(jsonobject);
-			}
-		}
-		json.put("list", jsonarray);
-		//System.out.println(json.toString());
-		return ajaxJson(json.toString());
+//		bomList = bomService.getList("products.id", productid);
+//		
+//		
+//		
+//		
+//		
+//		JSONObject json = new JSONObject();
+//		JSONArray jsonarray = new JSONArray();
+//		for (int i = 0; i < bomList.size(); i++) {
+//			Bom bom = bomList.get(i);
+//			Products product = bom.getProducts();
+//			int versionBefore = bom.getVersion();
+//			int versionNow = bomService.getMaxVersionByid(productid);
+//			if (versionBefore == versionNow) {
+//				JSONObject jsonobject = new JSONObject();
+//				jsonobject.put("productsid", product.getId());
+//				jsonobject.put("productsCode", product.getProductsCode());
+//				jsonobject.put("productsName", product.getProductsName());
+//				jsonobject.put("productAmount", bom.getProductAmount());
+//				jsonobject.put("materialCode", bom.getMaterialCode());
+//				jsonobject.put("materialName", bom.getMaterialName());
+//				jsonobject.put("materialUnit", bom.getMaterialUnit());
+//				jsonobject.put("materialAmount", bom.getMaterialAmount());
+//				jsonobject.put("isCarton", bom.getIsCarton());
+//				jsonobject.put("version", bom.getVersion());
+//				jsonarray.add(jsonobject);
+//			}
+//		}
+//		json.put("list", jsonarray);
+//		//System.out.println(json.toString());
+//		return ajaxJson(json.toString());
+		
+		//TODO 此处有问题
+		return null;
 	}
 	
 	public String maintain(){	
@@ -159,7 +167,8 @@ public class BomAction extends BaseAdminAction {
 	}
 	
 	public String save(){
-		bomService.mergeBom(bomList, productid);
+		//bomService.mergeBom(bomList, productid);
+		//TODO 保存BOM信息
 		redirectionUrl="bom!show.action";
 		return SUCCESS;
 	}

@@ -139,41 +139,35 @@ public class HandOverAction extends BaseAdminAction {
 			handOver =	handoverprocess.getHandover();
 			handoverId = handOver.getId();
 		}
-//		System.out.println(handOver.getState()+"ceshi");
 		if(handOver.getState().equals("1")){
 			return ajaxJsonErrorMessage("交接状态为未提交不能确认,请先提交后确认!");
-		}		
+		}	
+		
+		
 		try {
-			Boolean flag = true;
 			String message = "";
-			List<HandOverProcess> handList02 = handoverprocessrfc.BatchHandOver(handoverprocessList,"X",loginid);//尝试调用
-			for(HandOverProcess handoverprocess : handList02){
+			boolean flag = true;
+			List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "",loginid);//执行
+			for(HandOverProcess handoverprocess : handList03){
 				String e_type = handoverprocess.getE_type();
 				if(e_type.equals("E")){ //如果有一行发生了错误
 					flag = false;
 					message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
+				}else{					
+					message += handoverprocess.getE_message();
 				}
+				
+				HandOverProcess handOverProcess = handOverProcessService.get(handoverprocess.getId());
+				handOverProcess.setE_message(handOverProcess.getE_message()+handoverprocess.getE_message());
+				if(handOverProcess.getE_type().equals("E"))
+					handOverProcess.setE_type("E");
+				else
+					handOverProcess.setE_type(e_type);
+				
+				handOverProcessService.update(handOverProcess);
 			}
 			if(!flag)
 				return ajaxJsonErrorMessage(message);
-			else{
-				flag = true;
-				List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "",loginid);//执行
-				for(HandOverProcess handoverprocess : handList03){
-					String e_type = handoverprocess.getE_type();
-					if(e_type.equals("E")){ //如果有一行发生了错误
-						flag = false;
-						message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
-					}else{					
-						HandOverProcess handOverProcess = handOverProcessService.get(handoverprocess.getId());
-						handOverProcess.setE_message(handoverprocess.getE_message());
-						handOverProcess.setE_type(handoverprocess.getE_type());
-						handOverProcessService.update(handOverProcess);
-					}
-				}
-				if(!flag)
-					return ajaxJsonErrorMessage(message);
-			}
 			
 		//以上跟SAP接口完全没有问题，成功后
 			kaoqinservice.mergeAdminafterWork(admin,handoverId);

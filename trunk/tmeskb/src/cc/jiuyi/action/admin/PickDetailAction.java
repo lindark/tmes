@@ -115,14 +115,9 @@ public class PickDetailAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		Products products = productsServce.getProducts(matnr);// 获取产品
-		Integer MaxVersion = workingbill.getBomversion();//获取随工单的版本号
-		if(!MaxVersion.equals("")&&MaxVersion==null){
-			return ajaxJsonErrorMessage("请检查随工单Bom版本号是否为空!");
-		}
-		bomList = bomService.getListByid(products.getId(), MaxVersion);// 根据产品ID和随工单版本号取出Bom
-		workingbill = workingBillService.get(workingBillId);
-
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
 		/** 调SAP接口取库存数量 **/
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
 		try {
@@ -164,8 +159,9 @@ public class PickDetailAction extends BaseAdminAction {
 					dictService, "pickType", pickDetail.getPickType()));	
 		}
 		pkList.add(pickDetail);
-		Products products = productsServce.getProducts(matnr);
-		bomList = new ArrayList<Bom>(products.getBomSet());
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
 		return VIEW;
 	}
 
@@ -206,15 +202,10 @@ public class PickDetailAction extends BaseAdminAction {
 		pick = pickService.load(id);
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
-		Products products = productsServce.getProducts(matnr);// 获取产品
 		admin = adminService.get(admin.getId());
-		Integer bomversion = workingBill.getBomversion();//取出随工单的Bom
-		if (bomversion == null) {
-			bomList = bomService.getBomListByMaxVersion(bomService.getMaxVersionBycode(workingBill.getMatnr()));// 取出最高版本号的BomList
-		}else{
-			bomList = bomService.getListByid(products.getId(), bomversion);// 根据产品ID和随工单版本号取出Bom
-		}
-		
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
 		/** 调SAP接口取库存数量 **/
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
 		try {
@@ -315,13 +306,7 @@ public class PickDetailAction extends BaseAdminAction {
 		/**同时保存主从表**/
 		pickDetailService.save(pickDetailList1, pick);
 		
-		/** 领料单保存成功后把Bom最高版本存到随工单中去 **/
-		Products products = productsServce.getProducts(workingBill.getMatnr());//获取产品
-	    Integer Maxversion =  bomService.getMaxVersionByid(products.getId());//获取最大版本号
-	    if(!Maxversion.equals("")){
-	    	workingBill.setBomversion(Maxversion);
-	    	workingBillService.update(workingBill);
-	    }
+		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 

@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,15 +159,9 @@ public class ScrapAction extends BaseAdminAction
 	public String add()
 	{
 		this.workingbill=this.wbService.get(wbId);
-		//this.product=this.productService.getProducts(workingbill.getMatnr());//随工单对应的产品
-		Integer bomversion = workingbill.getBomversion();
-		if(bomversion == null)
-			bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
-		if(bomversion == null){
-			addActionError("未维护BOM信息");
-			return ERROR;
-		}
-		list_material = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		list_material = bomservice.findBom(aufnr, workingbill.getProductDate());
 		//this.list_material=new ArrayList<Bom>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
@@ -213,14 +208,9 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.list_material=new ArrayList<Bom>();
 		this.workingbill=this.wbService.get(wbId);
-		Integer bomversion = workingbill.getBomversion();
-		if(bomversion == null)
-			bomversion = bomservice.getMaxVersionBycode(workingbill.getMatnr());
-		if(bomversion == null){
-			addActionError("未维护BOM信息");
-			return ERROR;
-		}
-		List<Bom> l_material = bomservice.getListBycode(workingbill.getMatnr(), bomversion);
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate());
 		for(int i=0;i<l_material.size();i++)
 		{
 			Bom m=l_material.get(i);

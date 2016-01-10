@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,10 +80,10 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
-		String productCode = workingbill.getMatnr();
-		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService
-				.getProcessRouteByProductCode(productCode);
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		List<ProcessRoute> processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
+		
 		allProcess = new ArrayList<Process>();
 		for (int i = 0; i < processRouteList.size(); i++) {
 			ProcessRoute processroute = processRouteList.get(i);
@@ -99,24 +100,26 @@ public class RepairAction extends BaseAdminAction {
 
 	// 编辑
 	public String edit() {
-		repair = repairService.load(id);
-		workingbill = workingBillService.get(workingBillId);
-		Integer version = workingbill.getProcessversion();
-		String productCode = workingbill.getMatnr();
-		if (version == null) {
-			version = processRouteService.getMaxVersion(productsService.get(
-					"productsCode", productCode).getId());
-		}
-		allProcess = new ArrayList<Process>();
-		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
-				version, productCode);
-		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = processRouteList.get(i);
-			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
-			allProcess.add(process);
-		}
+//		repair = repairService.load(id);
+//		workingbill = workingBillService.get(workingBillId);
+//		Integer version = workingbill.getProcessversion();
+//		String productCode = workingbill.getMatnr();
+//		if (version == null) {
+//			version = processRouteService.getMaxVersion(productsService.get(
+//					"productsCode", productCode).getId());
+//		}
+//		allProcess = new ArrayList<Process>();
+//		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
+//		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
+//				version, productCode);
+//		for (int i = 0; i < processRouteList.size(); i++) {
+//			ProcessRoute processroute = processRouteList.get(i);
+//			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
+//			allProcess.add(process);
+//		}
 		return INPUT;
+		
+		//TODO 返修收货未完成
 	}
 
 	// 保存

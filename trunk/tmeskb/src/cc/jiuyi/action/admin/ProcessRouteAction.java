@@ -52,35 +52,36 @@ public class ProcessRouteAction extends BaseAdminAction {
 
 	// 获取产品的工艺路线
 	public String getRoute() {
-		processrouteList = processrouteservice
-				.getList("products.id", productid);
-		JSONObject json = new JSONObject();
-		JSONArray jsonarray = new JSONArray();
-		for (int i = 0; i < processrouteList.size(); i++) {
-			ProcessRoute processroute = processrouteList.get(i);
-			Products product = processroute.getProducts();
-			int version1 = processroute.getVersion();
-			int version2 = processrouteservice.getMaxVersion(productid);
-			if (version1 == version2) {
-				cc.jiuyi.entity.Process process = processservice.get("processCode",processroute.getProcessCode());
-				JSONObject jsonobject = new JSONObject();
-				jsonobject.put("productsid", product.getId());
-				jsonobject.put("productsCode", product.getProductsCode());
-				jsonobject.put("productsName", product.getProductsName());
-				jsonobject.put("processId", process.getId());
-				jsonobject.put("processCode", process.getProcessCode());
-				jsonobject.put("processName", process.getProcessName());
-				jsonobject.put("productsNum", processroute.getProductAmount());
-				jsonobject.put("sortcode", processroute.getSortcode());
-				jsonobject.put("unit", processroute.getUnit());
-				jsonobject.put("version", processroute.getVersion());
-				jsonobject.put("workCenter", processroute.getWorkCenter());
-				jsonarray.add(jsonobject);
-			}
-		}
-		json.put("list", jsonarray);
-		System.out.println(json.toString());
-		return ajaxJson(json.toString());
+//		processrouteList = processrouteservice
+//				.getList("products.id", productid);
+//		JSONObject json = new JSONObject();
+//		JSONArray jsonarray = new JSONArray();
+//		for (int i = 0; i < processrouteList.size(); i++) {
+//			ProcessRoute processroute = processrouteList.get(i);
+//			Products product = processroute.getProducts();
+//			int version1 = processroute.getVersion();
+//			int version2 = processrouteservice.getMaxVersion(productid);
+//			if (version1 == version2) {
+//				cc.jiuyi.entity.Process process = processservice.get("processCode",processroute.getProcessCode());
+//				JSONObject jsonobject = new JSONObject();
+//				jsonobject.put("productsid", product.getId());
+//				jsonobject.put("productsCode", product.getProductsCode());
+//				jsonobject.put("productsName", product.getProductsName());
+//				jsonobject.put("processId", process.getId());
+//				jsonobject.put("processCode", process.getProcessCode());
+//				jsonobject.put("processName", process.getProcessName());
+//				jsonobject.put("productsNum", processroute.getProductAmount());
+//				jsonobject.put("sortcode", processroute.getSortcode());
+//				jsonobject.put("unit", processroute.getUnit());
+//				jsonobject.put("version", processroute.getVersion());
+//				jsonobject.put("workCenter", processroute.getWorkCenter());
+//				jsonarray.add(jsonobject);
+//			}
+//		}
+//		json.put("list", jsonarray);
+//		System.out.println(json.toString());
+//		return ajaxJson(json.toString());
+		return null;
 	}
 	
 	/**
@@ -136,8 +137,8 @@ public class ProcessRouteAction extends BaseAdminAction {
 			List<ProcessRoute> list = pager.getList();
 			for (int i = 0; i < list.size(); i++) {
 				ProcessRoute p = list.get(i);
-				p.setProductsCode(p.getProducts().getProductsCode());
-				p.setProductsName(p.getProducts().getProductsName());
+				//p.setProductsCode(p.getProducts().getProductsCode());
+				//p.setProductsName(p.getProducts().getProductsName());
 //				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
 //				p.setProcessCode(process.getProcessCode());
 //				p.setProcessName(process.getProcessName());
@@ -160,7 +161,7 @@ public class ProcessRouteAction extends BaseAdminAction {
 	}
 
 	public String save() {
-		processrouteservice.mergeProcessroute(processrouteList, productid);
+		//processrouteservice.mergeProcessroute(processrouteList, productid);
 		return SUCCESS;
 	}
 
@@ -206,16 +207,17 @@ public class ProcessRouteAction extends BaseAdminAction {
 	// 根据产品productCode查询对应工序
 	public String getProcessList() {
 		//List<Process> processList = processService.findProcessByProductsId(id);
-		List<ProcessRoute> processrouteList=processrouteservice.getAllProcessRouteByProductCode(id);
-		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
-		for (ProcessRoute o : processrouteList) {
-			Map<String, String> maps = new HashMap<String, String>();
-			maps.put("id", o.getProcessCode());
-			maps.put("name", o.getProcessName());
-			lists.add(maps);
-		}
-		JSONArray json = JSONArray.fromObject(lists);
-		return ajaxText(json.toString());
+//		List<ProcessRoute> processrouteList=processrouteservice.getAllProcessRouteByProductCode(id);
+//		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
+//		for (ProcessRoute o : processrouteList) {
+//			Map<String, String> maps = new HashMap<String, String>();
+//			maps.put("id", o.getProcessCode());
+//			maps.put("name", o.getProcessName());
+//			lists.add(maps);
+//		}
+//		JSONArray json = JSONArray.fromObject(lists);
+//		return ajaxText(json.toString());
+		return null;
 	}	
 	
 	

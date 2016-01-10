@@ -9,5 +9,5 @@ import cc.jiuyi.util.CustomerException;
 
 public interface ScrapRfc extends BaserfcService {
 	//public List<Scrap> ScrappedCrt(String testrun,List<Scrap> scrap,List<ScrapMessage> scrapmessage) throws IOException,CustomerException;
-	public List<Scrap> ScrappedCrt(String testrun,List<Scrap> scrap,List<ScrapLater> list_scraplater) throws IOException,CustomerException;
+	public Scrap ScrappedCrt(String testrun,Scrap scrap,List<ScrapLater> list_scraplater) throws IOException,CustomerException;
 }

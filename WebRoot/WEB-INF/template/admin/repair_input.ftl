@@ -10,6 +10,7 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/repair_input.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -74,97 +75,166 @@ body {
 									</ul>
 
 									<div id="tabs-1">
-
-										<!--weitao begin modify-->
+										<!--weitao begin modify , gyf modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-													<div class="profile-info-name">随工单</div>
-	
-													<div class="profile-info-value">
-														<span>${workingbill.workingBillCode}</span>
-													</div>
+												<div class="profile-info-name">随工单</div>
+												<div class="profile-info-value">
+													<span>${workingbill.workingBillCode}</span>
+												</div>
+												
+												<div class="profile-info-name">产品名称</div>
+												<div class="profile-info-value">
+													<span>${workingbill.maktx}</span>
+												</div>
 	
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">产品编号</div>
-
 												<div class="profile-info-value">
 													<span>${workingbill.matnr}</span>
 												</div>
-
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name">产品名称</div>
-
-												<div class="profile-info-value">
-													<span>${workingbill.maktx}</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">累计返修数量</div>
-
 												<div class="profile-info-value">
 													<span class="editable editable-click" id="age">${workingbill.totalRepairAmount}</span>
 												</div>
+
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">本次返修数量</div>
-
 												<div class="profile-info-value">
-													<input type="text" name="repair.repairAmount"
-														value="${(repair.repairAmount)!}"
-														class=" input input-sm formText {required: true,min: 1}" />
-													<label class="requireField">*</label>
+													<#if show??>
+														${(repair.repairAmount)!}
+													<#else>
+														<input type="text" name="repair.repairAmount"
+															value="${(repair.repairAmount)!}"
+															class=" input input-sm formText {required: true,min: 1}" />
+														<label class="requireField">*</label>
+													</#if>
 												</div>
-											</div>
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">返修部位</div>
-
 												<div class="profile-info-value">
-													<input type="text" name="repair.repairPart"
-														value="${(repair.repairPart)!}"
-														class=" input input-sm formText {required: true}" />
-													<label class="requireField">*</label>
+													<#if show??>
+														${(repair.repairPart)!}
+													<#else>
+														<input type="text" name="repair.repairPart"
+															value="${(repair.repairPart)!}"
+															class=" input input-sm formText {required: true}" />
+														<label class="requireField">*</label>
+													</#if>
 												</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">责任人/批次</div>
-
 												<div class="profile-info-value">
-													<input type="text" name="repair.duty"
-														value="${(repair.duty)!}"
-														class=" input input-sm formText {required: true}" />
-													<label class="requireField">*</label>
+													<#if show??>
+														${(repair.duty)!}
+													<#else>
+														<input type="text" name="repair.duty"
+															value="${(repair.duty)!}"
+															class=" input input-sm formText {required: true}" />
+														<label class="requireField">*</label>
+													</#if>
 												</div>
-											</div>
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">责任工序</div>
-
 												<div class="profile-info-value">
-													<select name="repair.processCode" id="form-field-icon-1" class="chosen-select"> 
-												        <#list allProcess as list>
-											            <option value="${(list.processCode)!}"<#if (isEdit&&repair.processCode==list.processCode)!> selected</#if>>${(list.processName)!}</option>
-										                </#list>   
-												    </select> 
+													<#if show??>
+														${(repair.processDes)! }
+													<#else>
+														<select name="repair.processCode" id="r_select" class="chosen-select">
+															<#if processRouteList??>
+												        		<#list processRouteList as list>
+											            			<option id="opt_${(list.processCode)!}" value="${(list.processCode)!}"<#if (repair.processCode==list.processCode)!> selected</#if>>${(list.processName)!}</option>
+										                		</#list>  
+										                	</#if>
+												    	</select> 
+												    	<input type="hidden" id="processDes" name="processDes" value="${(repair.processDes)! }" />
+													</#if>
 												</div>
 											</div>
 										</div>
-										<!--weitao end modify-->
-
-
+										<!--weitao end modify , gyf modify-->
+										<br/>
+										<!-- gyf start piece-->
+										<div class="profile-user-info profile-user-info-striped">
+											<#if show??>
+											<#else>
+												<div class="profile-info-row">
+													<div class="row buttons col-md-8 col-sm-4">
+														<a id="btn_addpiece" class="btn btn-white btn-default btn-sm btn-round">
+															<i class="ace-icon glyphicon glyphicon-plus"></i>
+															添加产品组件
+														</a>
+													</div>
+												</div>
+											</#if>
+											 
+											<div class="profile-info-row">
+												<table id="tb_repairpiece" class="table table-striped table-bordered table-hover">
+													<#if show??>
+														<tr>
+															<th style="width:25%;">组件编码</th>
+															<th style="width:35%;">组件描述</th>
+															<th style="width:20%;">产品数量</th>
+															<th style="width:20%;">组件数量</th>
+														</tr>
+														<#if list_rp??>
+															<#list list_rp as rplist>
+																<tr>
+																	<td>${(rplist.rpcode)! }</td>
+																	<td>${(rplist.rpname)! }</td>
+																	<td>${(rplist.productnum)! }</td>
+																	<td>${(rplist.piecenum)! }</td>
+																</tr>
+															</#list>
+														</#if>
+													<#else>
+														<tr>
+															<th style="width:20%;">组件编码</th>
+															<th style="width:35%;">组件描述</th>
+															<th style="width:15%;">产品数量</th>
+															<th style="width:15%;">组件数量</th>
+															<th style="width:15%;">操作</th>
+														</tr>
+														<#if list_rp??>
+															<#assign rpnum=0 />
+															<#list list_rp as rplist>
+																<tr>
+																	<td>${(rplist.rpcode)! }<input type="hidden" name="list_rp[${rpnum}].rpcode" value="${(rplist.rpcode)! }" /></td>
+																	<td>${(rplist.rpname)! }<input type="hidden" name="list_rp[${rpnum}].rpname" value="${(rplist.rpname)! }" /></td>
+																	<td>${(rplist.productnum)! }<input type="hidden" name="list_rp[${rpnum}].productnum" value="${(rplist.productnum)! }" /></td>
+																	<td>${(rplist.piecenum)! }<input type="hidden" name="list_rp[${rpnum}].piecenum" value="${(rplist.piecenum)! }" /></td>
+																	<td>
+																		<a onclick="del_event()">删除</a>
+																	</td>
+																</tr>
+																<#assign rpnum=rpnum+1 />
+															</#list>
+														</#if>
+													</#if>
+												</table>
+											</div>
+										</div>
+										<!-- gyf end piece-->
 									</div>
 									<div class="buttonArea">
-										<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
-											<i class="ace-icon fa fa-cloud-upload"></i>
-											刷卡保存
-										</a>
+										<#if show??>
+										<#else>
+											<a id="btn_save" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-cloud-upload"></i>
+												刷卡保存
+											</a>
+										</#if>
 										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-home"></i>
 											返回
 										</a>
 									</div>
+								</div>
 							</form>
-
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->
@@ -196,12 +266,13 @@ $(function(){
 	$("#btn_save").click(function(){
 		//提交
 		//$("#inputForm").submit();
-		var dt = $("#inputForm").serialize();
-		<#if isAdd??>
-			var url = "repair!creditsave.action";		
+		<#if add??>
+			var url = "repair!creditsave.action";
 		<#else>
 			var url = "repair!creditupdate.action";
 		</#if>
+		$("#processDes").val($("#opt_"+$("#r_select").val()).text());
+		var dt = $("#inputForm").serialize();
 		credit.creditCard(url,function(data){
 			var workingbillid = $("#wkid").val();
 			/* $.message(data.status,data.message);

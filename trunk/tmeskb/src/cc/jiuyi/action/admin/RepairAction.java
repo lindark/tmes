@@ -94,18 +94,6 @@ public class RepairAction extends BaseAdminAction {
 		processRouteList = new ArrayList<ProcessRoute>();
 		processRouteList = processRouteService.getProcessRouteByProductCode(productCode);//根据产品编码查询工艺路线
 		this.add="add";
-	public String add() {
-		workingbill = workingBillService.get(workingBillId);
-		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		List<ProcessRoute> processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
-		
-		allProcess = new ArrayList<Process>();
-		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = processRouteList.get(i);
-			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
-			allProcess.add(process);
-		}
 		return INPUT;
 	}
 

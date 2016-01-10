@@ -10,19 +10,24 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.RepairInRfc;
 import cc.jiuyi.sap.rfc.impl.RepairInRfcImpl;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
@@ -38,7 +43,6 @@ public class RepairinAction extends BaseAdminAction {
 	private static final long serialVersionUID = -5368121517667092305L;
 
 	private static final String CONFIRMED = "1";
-	private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 
 	private Repairin repairin;
@@ -46,6 +50,12 @@ public class RepairinAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private Admin admin;
 	private String cardnumber;// 刷卡卡号
+	private String add;//新增时
+	private String edit;//编辑时
+	private String show;//查看时
+	private List<ProcessRoute> processRouteList;//工艺路线
+	private String info;
+	private List<RepairinPiece>list_rp;//子件
 
 	@Resource
 	private RepairinService repairinService;
@@ -55,7 +65,8 @@ public class RepairinAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
-
+	@Resource
+	private BomService bomService;
 	/**
 	 * 跳转list 页面
 	 * 
@@ -70,6 +81,7 @@ public class RepairinAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		this.add="add";
 		return INPUT;
 	}
 
@@ -79,17 +91,13 @@ public class RepairinAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String creditsave() throws Exception {
+	public String creditsave() throws Exception
+	{
+		//验证
 		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
 			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
 		}
-		admin = adminService.getByCardnum(cardnumber);
-		repairin.setCreateUser(admin);
-		repairinService.save(repairin);
-		/*
-		 * redirectionUrl = "repairin!list.action?workingBillId=" +
-		 * repairin.getWorkingbill().getId();
-		 */
+		this.repairinService.saveData(repairin,cardnumber,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -98,13 +106,7 @@ public class RepairinAction extends BaseAdminAction {
 		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
 			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
 		}
-		Repairin persistent = repairinService.load(id);
-		BeanUtils.copyProperties(repairin, persistent, new String[] { "id" });
-		repairinService.update(persistent);
-		/*
-		 * redirectionUrl = "repairin!list.action?workingBillId=" +
-		 * repairin.getWorkingbill().getId();
-		 */
+		this.repairinService.updateData(repairin,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -124,7 +126,7 @@ public class RepairinAction extends BaseAdminAction {
 		List<Repairin> list = repairinService.get(ids);
 		repairinService.updateState(list, CONFIRMED, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
-		String str=toSAP(list,workingbill);
+		String str=toSAP(list);
 		String isSuccess=ERROR;
 		if("S".equals(str))
 		{
@@ -259,6 +261,69 @@ public class RepairinAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	/**
+	 * 转到添加产品子件页面
+	 */
+	public String beforegetpiece()
+	{
+		this.workingBillId=this.info;
+		return "alert";
+	}
+	
+
+	/**
+	 * 获取对应随工单的产品子件
+	 */
+	public String getpiece()
+	{
+		HashMap<String ,String>map=new HashMap<String,String>();
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("createDate");//以创建日期排序
+		if(pager.is_search()==true&&Param!=null)
+		{
+			JSONObject obj=JSONObject.fromObject(Param);
+			//子件编码
+			if (obj.get("piececode") != null)
+			{
+				String piececode = obj.getString("piececode").toString();
+				map.put("piececode", piececode);
+			}
+			//子件名称
+			if (obj.get("piecename") != null)
+			{
+				String piecename = obj.getString("piecename").toString();
+				map.put("piecename", piecename);
+			}
+		}
+		workingbill = workingBillService.get(workingBillId);
+		pager = this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
+		@SuppressWarnings("unchecked")
+		List<Bom>list1=pager.getList();
+		List<Bom>list2=this.repairinService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		pager.setList(list2);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Bom.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.getString(0).toString());
+	}
+	
+	/**
+	 * 查看
+	 */
+	public String show()
+	{
+		repairin = repairinService.get(id);//根据id查询
+		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
+		workingbill = workingBillService.get(workingBillId);//当前随工单
+		this.show="show";
+		return INPUT;
+	}
 
 	/**
 	 * 与SAP交互   退料262  905
@@ -266,49 +331,46 @@ public class RepairinAction extends BaseAdminAction {
 	 * @return
 	 * @author gyf
 	 */
-	public String toSAP(List<Repairin>list,WorkingBill wb)
+	public String toSAP(List<Repairin>list)
 	{
-		List listall =this.repairinService.getSAPMap(list,wb,cardnumber);
-		List<Map<Object,Object>> list1 =(List<Map<Object, Object>>) listall.get(0);
-		List<Map<Object,Object>> list2 =(List<Map<Object, Object>>) listall.get(1);
-		List<Map<Object,Object>>list_sapreturn=null;
-		if(list1.size()==0||list2.size()==0)
-		{
-			return "对应物料为空!";
-		}
 		try
 		{
-			String e_msg="";
-			boolean flag=true;
-			RepairInRfc repairinRfc=new RepairInRfcImpl();
-			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
-			list_sapreturn=new ArrayList<Map<Object,Object>>(repairinRfc.repairCrt(list1,list2));
-			e_msg="";
-			for(int i=0;i<list_sapreturn.size();i++)
+			RepairInRfc repairinRfc = new RepairInRfcImpl();
+			// 取出主表及组件数据
+			for (int i = 0; i < list.size(); i++)
 			{
-				Map<Object,Object>m=list_sapreturn.get(i);
-				/**出现问题*/
-				if("E".equalsIgnoreCase(m.get("E_TYPE").toString()))
+				Repairin r = list.get(i);
+				List<RepairinPiece> listrp = new ArrayList<RepairinPiece>(r.getRpieceSet());// 取出对应的组件
+				if (listrp.size() > 0)
 				{
-					flag=false;
-					e_msg+=m.get("E_MESSAGE").toString();
+					/**有组件数据,进行SAP交互*/
+					// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+					Repairin r_sapreturn = repairinRfc.repairinCrt(r, listrp);
+					/** 出现问题 */
+					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
+					{
+						return r_sapreturn.getE_MESSAGE();
+					}
+					else
+					{
+						/** 与SAP交互没有问题,更新本地数据库 */
+						this.repairinService.updateMyData(r_sapreturn, cardnumber,1);
+					}
 				}
 				else
 				{
-					/**与SAP交互没有问题,更新本地数据库*/
-					this.repairinService.updateMyData(m,cardnumber);
+					/**没有组件数据,只把状态改为确认*/
+					this.repairinService.updateMyData(r, cardnumber,2);
 				}
-			}
-			if(!flag)
-			{
-				return e_msg;
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 			return "IO出现异常，请联系系统管理员";
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return "系统出现问题，请联系系统管理员";
 		}
@@ -353,6 +415,66 @@ public class RepairinAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getAdd()
+	{
+		return add;
+	}
+
+	public void setAdd(String add)
+	{
+		this.add = add;
+	}
+
+	public String getEdit()
+	{
+		return edit;
+	}
+
+	public void setEdit(String edit)
+	{
+		this.edit = edit;
+	}
+
+	public String getShow()
+	{
+		return show;
+	}
+
+	public void setShow(String show)
+	{
+		this.show = show;
+	}
+
+	public String getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(String info)
+	{
+		this.info = info;
+	}
+
+	public List<RepairinPiece> getList_rp()
+	{
+		return list_rp;
+	}
+
+	public void setList_rp(List<RepairinPiece> list_rp)
+	{
+		this.list_rp = list_rp;
+	}
+
+	public List<ProcessRoute> getProcessRouteList()
+	{
+		return processRouteList;
+	}
+
+	public void setProcessRouteList(List<ProcessRoute> processRouteList)
+	{
+		this.processRouteList = processRouteList;
 	}
 
 }

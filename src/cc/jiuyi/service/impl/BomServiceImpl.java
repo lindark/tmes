@@ -12,6 +12,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
 import cc.jiuyi.dao.OrdersDao;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.service.BomService;
 
@@ -56,5 +57,14 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Override
 	public List<Bom> getBomList(String aufnr, Integer maxversion) {
 		return bomDao.getBomList(aufnr, maxversion);
+	}
+	
+	/**
+	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 */
+	public Pager getPieceByCondition(Pager pager,HashMap<String, String> map,
+			WorkingBill wb)
+	{
+		return this.bomDao.getPieceByCondition(pager,map,wb);
 	}
 }

@@ -84,6 +84,16 @@ public class RepairinAction extends BaseAdminAction {
 		this.add="add";
 		return INPUT;
 	}
+	// 编辑
+	public String edit() 
+	{
+		repairin = repairinService.get(id);//根据id查询
+		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
+		workingbill = workingBillService.get(workingBillId);//当前随工单
+		this.edit="edit";
+		return INPUT;
+		//TODO 返修收货未完成
+	}
 
 	// 历史返修记录
 	public String history() {
@@ -91,22 +101,16 @@ public class RepairinAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String creditsave() throws Exception
+	public String creditsave()
 	{
-		//验证
-		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
-		}
 		this.repairinService.saveData(repairin,cardnumber,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
-	public String creditupdate() throws Exception {
-		if(repairin.getReceiveAmount()==null||String.valueOf(repairin.getReceiveAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			return ajaxJsonErrorMessage("返修收货数量必须为零或正整数!");
-		}
-		this.repairinService.updateData(repairin,list_rp);
+	public String creditupdate()
+	{
+		this.repairinService.updateData(repairin,list_rp,cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -227,7 +231,7 @@ public class RepairinAction extends BaseAdminAction {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+			pager.setOrderBy("createDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
 			if (!filters.equals("")) {
@@ -240,26 +244,27 @@ public class RepairinAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-
 		pager = repairinService.findPagerByjqGrid(pager, map, workingBillId);
 		List<Repairin> repairinList = pager.getList();
 		List<Repairin> lst = new ArrayList<Repairin>();
-		for (int i = 0; i < repairinList.size(); i++) {
+		for (int i = 0; i < repairinList.size(); i++) 
+		{
 			Repairin repairin = (Repairin) repairinList.get(i);
 			repairin.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "repairinState", repairin.getState()));
+					dictService, "repairState", repairin.getState()));
 			if (repairin.getConfirmUser() != null) {
 				repairin.setAdminName(repairin.getConfirmUser().getName());
 			}
 			repairin.setCreateName(repairin.getCreateUser().getName());
-			repairin.setWorkingbill(null);
-			repairin.setConfirmUser(null);
-			repairin.setCreateUser(null);
 			lst.add(repairin);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repairin.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
+
 	}
 	
 	/**

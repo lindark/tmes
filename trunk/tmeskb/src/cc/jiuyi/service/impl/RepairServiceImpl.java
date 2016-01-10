@@ -148,13 +148,15 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 修改
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp)
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber)
 	{
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		/**修改主表数据*/
 		Repair r = repairDao.get(repair.getId());
 		List<RepairPiece>list=new ArrayList<RepairPiece>(r.getRpieceSet());
 		BeanUtils.copyProperties(repair, r, new String[] { "id" });
 		r.setModifyDate(new Date());//修改日期
+		r.setCreateUser(admin);
 		this.repairDao.update(r);
 		/**修改组件表数据*/
 		//1.删除原数据

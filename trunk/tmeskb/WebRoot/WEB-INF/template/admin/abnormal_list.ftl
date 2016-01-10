@@ -171,7 +171,29 @@ padding-top:2px;
                                
 							</div>																												
 
-							<div class="row buttons">						  
+							<div class="row buttons">	
+							    <button class="btn btn-white btn-default btn-lg btn-round access" id="qualityque" data-access-list="qualityReceipt" type=button>
+										创建质量问题单
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="modelrep" data-access-list="modelReceipt" type=button>
+										创建工模维修单
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="craftrep" data-access-list="craftReceipt" type=button>
+										创建工艺维修单
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="devicerep" data-access-list="deviceReceipt" type=button>
+										创建设备维修单
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="responsecar" data-access-list="responseCredit" type=button>
+										响应刷卡
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="cancelcal" data-access-list="cancelCall" type=button>
+										撤销呼叫
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-white btn-default btn-lg btn-round access" id="closeAbn" data-access-list="closeUnnormal" type=button>
+										关闭异常
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
+								<!-- 					  
 								<div class="col-md-2 col-sm-4 access" data-access-list="qualityReceipt">
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="qualityque">
                                       <span class="bigger-110 no-text-shadow">创建质量问题单</span>
@@ -208,7 +230,7 @@ padding-top:2px;
 									<button	class="btn btn-white btn-success btn-bold btn-round btn-block" id="closeAbn">
                                       <span class="bigger-110 no-text-shadow">关闭异常</span>
 									</button>
-								</div> 
+								</div>  -->
 							</div>
 
 							<table id="grid-table1"></table>

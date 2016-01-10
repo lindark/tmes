@@ -1,17 +1,14 @@
 package cc.jiuyi.service.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessRouteDao;
-import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.service.OrdersService;
@@ -61,4 +58,18 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 		return processroutedao.getMaxVersion(aufnr);
 	}
 
+	/**
+	 * 生产订单号,日期,编码查询一条工艺路线
+	 */
+	public ProcessRoute getOneByConditions(String aufnr, String productDate,
+			String processCode)
+	{
+		Orders orders = ordersservice.get("aufnr",aufnr);
+		Integer maxversion = processroutedao.getMaxVersion(orders.getMatnr(), productDate);
+		if(maxversion!=null)
+		{
+			return processroutedao.getOneByConditions(aufnr, maxversion,processCode);
+		}
+		return null;
+	}
 }

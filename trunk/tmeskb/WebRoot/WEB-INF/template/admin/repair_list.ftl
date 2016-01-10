@@ -144,6 +144,10 @@
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
 									编辑
 								</a>
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
+								</a>
 								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回
@@ -205,7 +209,7 @@
 		});
 		$("#btn_edit").click(function(){
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id.length > 1||id==""){
+			if(id.length > 1||id==""||id==null){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}

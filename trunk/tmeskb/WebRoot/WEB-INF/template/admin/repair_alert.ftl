@@ -41,47 +41,26 @@ body {
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-							<form class="form-horizontal" id="searchform" action="kaoqin!getemp.action" role="form">
-								<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
+							<form class="form-horizontal" id="searchform" action="repair!getpiece.action" role="form">
+								<input type="hidden" id="workingBillId" name="workingBillId" value="${(workingBillId)! }" />
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-2"
-											style="text-align:right;">班组:</label>
+											style="text-align:right;">子件编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="team"
+											<input type="text" name="piececode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
-
-										<label class="col-sm-2" style="text-align:right;">班次:</label>
+										<label class="col-sm-2" style="text-align:right;">子件名称:</label>
 										<div class="col-sm-4">
-											<select name="shift" id="form-field-icon-1" class="input input-sm form-control">
-							                <option value="">&nbsp;</option>
-							                <option value="1">早班</option>
-							                <option value="2">中班</option>
-							                <option value="3">晚班</option>
-						               </select>
-										</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<label class="col-sm-2" style="text-align:right;">员工姓名:</label>
-										<div class="col-sm-4">
-											<input type="text" name="name"
-												class="input input-sm form-control" value=""
-												id="form-field-icon-1">
-										</div>
-										<label class="col-sm-2" style="text-align:right;">技能:</label>
-										<div class="col-sm-4">
-											<input type="text" name="skill"
+											<input type="text" name="piecename"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 									</div>
 									
-
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
@@ -121,10 +100,9 @@ function getGridId()
 	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 	if(ids.length <1)
 	{
-		layer.alert("请选择至少一个员工",false);
+		layer.alert("请选择至少一个子件",false);
 		return "";
 	}
-	$.post("kaoqin!addnewemp.action?ids="+ids+"&sameTeamId="+$("#sameteamid").val(),function(data){},"json");
 	infos=getinfos(ids);
 	return infos;
 }
@@ -136,7 +114,7 @@ function getinfos(ids)
 	for(var i=0;i<ids.length;i++)
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-		var info=rowData.cardNumber+","+rowData.name+","+rowData.xpost+","+rowData.xteam+","+rowData.xshift+","+rowData.xworkstate+","+rowData.workstate+","+rowData.id;
+		var info=rowData.id+","+rowData.materialCode+","+rowData.materialName+","+rowData.productAmount+","+rowData.materialAmount;
 		infos+=info+"?";
 	}
 	return infos;

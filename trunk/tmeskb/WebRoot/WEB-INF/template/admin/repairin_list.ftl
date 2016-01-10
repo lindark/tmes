@@ -140,6 +140,14 @@
 									刷卡撤销
 								</a>
 								 -->
+								 <a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
+								</a>
+								 <a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
+								</a>
 								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回

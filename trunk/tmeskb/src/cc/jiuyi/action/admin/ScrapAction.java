@@ -195,9 +195,16 @@ public class ScrapAction extends BaseAdminAction
 		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		if(list2.size()>0)
 		{
-			return xconfirm(list1,"2",1);
+			String str = xconfirm(list1,"2",1);
+			if("S".equals(str))
+			{
+				return this.ajaxJsonSuccessMessage("您的操作已成功!");
+			}
+			return this.ajaxJsonErrorMessage(str);
 		}
-		return this.ajaxJsonSuccessMessage("您的操作已成功!");	
+		this.scrapService.updateState(scrapid,cardnumber);//如果没有SAP交互把状态先改为已确认及确认人 
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		
 	}
 	
 	/**
@@ -262,15 +269,21 @@ public class ScrapAction extends BaseAdminAction
 	public String creditreply()
 	{
 		this.scrapService.updateInfo(scrap,list_scrapmsg,list_scrapbug,list_scraplater,my_id);
-		Scrap s=this.scrapService.get(scrap.getId());//根据ID获取刚新增的数据
+		Scrap s=this.scrapService.get(scrap.getId());//根据ID获取刚更新的数据
 		List<Scrap>list1=new ArrayList<Scrap>();
 		list1.add(s);
-		List<ScrapLater>list2=new ArrayList<ScrapLater>(s.getScrapLaterSet());//报废产出表数据
+		List<ScrapLater>list2=this.scrapService.getSlBySid(scrap.getId());//报废产出表数据
+		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
 		if(list2.size()>0)
 		{
-			xconfirm(list1,"2",1);
+			String str=xconfirm(list1,"2",1);
+			if("S".equals(str))
+			{
+				return this.ajaxJsonSuccessMessage("您的操作已成功!");
+			}
+			return this.ajaxJsonErrorMessage(str);
 		}
-		this.redirectionUrl="scrap!list.action?wbId="+this.scrap.getWorkingBill().getId();
+		this.scrapService.updateState(scrap.getId(),cardnumber);//如果没有SAP交互把状态先改为已确认及确认人 
 		return this.ajaxJsonSuccessMessage("你的操作已成功!");
 	}
 	
@@ -309,12 +322,6 @@ public class ScrapAction extends BaseAdminAction
 		{
 			this.scrap = this.scrapService.get(ids[i]);
 			String state = scrap.getState();
-			//报废后产出表是否为空
-			List<ScrapLater>list2=new ArrayList<ScrapLater>(scrap.getScrapLaterSet());
-			if(list2.size()==0)
-			{
-				return ajaxJsonErrorMessage("有'报废后产出表'数据为空,不能确认!");
-			}
 			// 已经确认的不能重复确认
 			if ("2".equals(state))
 			{
@@ -327,7 +334,12 @@ public class ScrapAction extends BaseAdminAction
 			}	
 		}
 		List<Scrap> list = this.scrapService.get(ids);
-		return xconfirm(list,"2",1);
+		String str= xconfirm(list,"2",1);
+		if("S".equals(str))
+		{
+			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		}
+		return this.ajaxJsonErrorMessage(str);
 	}
 	/**
 	 * list页面
@@ -347,7 +359,12 @@ public class ScrapAction extends BaseAdminAction
 			}	
 		}
 		List<Scrap> list = this.scrapService.get(ids);
-		return xconfirm(list,"3",2);
+		String str= xconfirm(list,"3",2);
+		if("S".equals(str))
+		{
+			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		}
+		return this.ajaxJsonErrorMessage(str);
 	}
 	
 	/**
@@ -376,7 +393,7 @@ public class ScrapAction extends BaseAdminAction
 						Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
 						if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 						{
-							return ajaxJsonErrorMessage(s.getE_message());
+							return s_sapreturn.getE_message();
 						}
 						else
 						{
@@ -384,7 +401,7 @@ public class ScrapAction extends BaseAdminAction
 							Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
 							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 							{
-								return ajaxJsonErrorMessage(s.getE_message());
+								return s_sapreturn.getE_message();
 							}
 							else
 							{
@@ -421,7 +438,7 @@ public class ScrapAction extends BaseAdminAction
 							Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
 							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 							{
-								return ajaxJsonErrorMessage(s.getE_message());
+								return s_sapreturn.getE_message();
 							}
 							else
 							{
@@ -429,7 +446,7 @@ public class ScrapAction extends BaseAdminAction
 								Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
 								if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 								{
-									return ajaxJsonErrorMessage(s.getE_message());
+									return s_sapreturn.getE_message();
 								}
 								else
 								{
@@ -450,12 +467,12 @@ public class ScrapAction extends BaseAdminAction
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+			return "IO出现异常，请联系系统管理员";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+			return "系统出现问题，请联系系统管理员";
 		}
-		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		return "S";
 	}
 	/**========================end  method======================================*/
 	

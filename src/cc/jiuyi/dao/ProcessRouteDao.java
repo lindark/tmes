@@ -30,7 +30,7 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	 * @param productDate
 	 * @return
 	 */
-	public Integer getMaxVersion(String matnr,Date productDate);
+	public Integer getMaxVersion(String matnr,String productDate);
 	
 	/**
 	 * 根据生产订单获取最大版本号

@@ -35,7 +35,6 @@ public class Repair extends BaseEntity {
 	private String workingbillCode;
 	private String maktx;//产品描述
 	private String processCode;//责任工序编码
-	private String processDes;//责任工序名称
 	private Set<RepairPiece>rpieceSet;//从表,组件表
 
 	private WorkingBill workingbill;// 随工单
@@ -230,16 +229,6 @@ public class Repair extends BaseEntity {
 	public void setRpieceSet(Set<RepairPiece> rpieceSet)
 	{
 		this.rpieceSet = rpieceSet;
-	}
-
-	public String getProcessDes()
-	{
-		return processDes;
-	}
-
-	public void setProcessDes(String processDes)
-	{
-		this.processDes = processDes;
 	}
 
 	public String getE_TYPE()

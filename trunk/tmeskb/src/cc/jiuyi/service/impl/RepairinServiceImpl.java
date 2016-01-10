@@ -20,10 +20,12 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 返修收货
@@ -48,6 +50,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	private BomService bomService;
 	@Resource
 	private MaterialService mService;//物料表
+	@Resource
+	private OrdersService ordersservice;
+	
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map,
 			String workingbillId) {
@@ -100,7 +105,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		Products p=this.productsService.getByPcode(wb.getMatnr());//根据产品编号查询产品
-		List<Bom> list_bom=this.bomService.getByPidAndWversion(p.getId(),wb.getBomversion());//根据产品id和随工单中的bom版本号查询bom表
+		//Date productDate = ThinkWayUtil.formatStringDate(wb.getProductDate());//生产日期
+		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+		List<Bom> list_bom=bomService.findBom(aufnr, wb.getProductDate());
 		String workingBillCode=wb.getWorkingBillCode();
 		List<Bom>listbom=new ArrayList<Bom>();
 		//物料表是否存在

@@ -147,282 +147,238 @@ public class WorkingBillServiceImpl extends
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
 			Orders order = orderList.get(i);
-			Orders order1 = orderservice.get("aufnr",order.getAufnr());//生产订单号
-			if(order1 == null){
-				orderservice.save(order);
-			}else{
-				order.setId(order1.getId());
-				orderservice.merge(order);
-			}
-			
+			/***生产订单黑醋栗***/
+			mergeorderdeal(order);//订单处理
 			/**处理产品信息***/
-			Products products = productsservice.get("productsCode",order.getMatnr());
-			String productsid="";
-			if(products==null){
-				Products products1 = new Products();
-				products1.setProductsCode(order.getMatnr());
-				products1.setProductsName(order.getMaktx());
-				products1.setIsDel("N");
-				products1.setState("1");
-				productsid = productsservice.save(products1);
-			}else{
-				products.setProductsName(order.getMaktx());
-				productsservice.update(products);
-				productsid = products.getId();
-			}
-			
+			mergeproductdeal(order);//产品处理
 			/**处理随工单信息***/
-			List<WorkingBill> workingbillList00 = new ArrayList<WorkingBill>();
-			for(int y=0;y<workingbillList.size();y++){
-				WorkingBill workingBill = workingbillList.get(y);
-				if(workingBill.getAufnr().equals(order.getAufnr())){
-					workingbillList00.add(workingBill);
-				}
-			}
-			List<WorkingBill> workingbillList01 = workingbilldao.getList("aufnr", order.getAufnr());
-			if(workingbillList00.size() >= workingbillList01.size()){//如果SAP的比MES 多
-			 boolean flag = false;
-			 for(int x=0;x<workingbillList00.size();x++){
-				WorkingBill WorkingBill00 = workingbillList00.get(x);
-				for(int z=0;z<workingbillList01.size();z++){
-					WorkingBill WorkingBill01 = workingbillList01.get(z);
-					if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
-						this.updateWorkingBill(WorkingBill00);
-						flag = true;
-					}
-					
-				}
-				if(!flag){ //没找到
-					String id = this.save(WorkingBill00);
-					WorkingBill00.setId(id);
-					workingbillList01.add(WorkingBill00);
-				}
-			 }
-			}else if(workingbillList00.size() < workingbillList01.size()){//如果MES比SAP多
-				boolean flag = false;
-				 for(int x=0;x<workingbillList01.size();x++){
-					WorkingBill WorkingBill01 = workingbillList01.get(x);
-					for(int z=0;z<workingbillList00.size();z++){
-						WorkingBill WorkingBill00 = workingbillList00.get(z);
-						if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
-							this.updateWorkingBill(WorkingBill00);
-							flag = true;
-						}
-					}
-					if(!flag){ //没找到
-						WorkingBill01.setIsdel("Y");
-						this.update(WorkingBill01);
-					}
-				 }
-			}
-			
+			mergeworkingbilldeal(order,workingbillList);
 			/**处理BOM信息***/
-			Integer maxVersion = bomservice.getMaxVersionBycode(order.getMatnr());
-			List<Bom> bomList00 = new ArrayList<Bom>();
-			for(int y=0;y<bomList.size();y++){
-				Bom bom = bomList.get(y);
-				if(bom.getRsnum().equals(order.getRsnum())){
-					bomList00.add(bom);
-				}
-			}
+			mergebomdeal(order,bomList);
+			/***处理工艺路线***/
+			mergeprocessroutedeal(order,processrouteList);
 			
-			List<Bom> bomList01 = bomservice.getList("rsnum",order.getRsnum());
-			if(bomList00.size() != bomList01.size()){//如果双方不相等，升级版本
-					for(int y=0;y<bomList00.size();y++){
-						Bom bom = bomList00.get(y);
-						if(maxVersion == null){//如果没有找到
-							bom.setVersion(1);
-						}else{//如果找到
-							bom.setVersion(maxVersion+1);
-						}
-						Products products1 = new Products();
-						products1.setId(productsid);
-						bom.setProducts(products1);
-						Double oneAmount = ArithUtil.div(bom.getMaterialAmount(), Double.parseDouble(order.getGamng()));//获取一个多少数量
-						oneAmount = ArithUtil.round1(oneAmount,4);
-						bom.setProductAmount(1d);//一个产品
-						bom.setMaterialAmount(oneAmount);//一个产品需要的数量
-						bomservice.save(bom);
-						for(WorkingBill workingbill : workingbillList01){
-							int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-							if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-								workingbill.setBomversion(maxVersion);
-								workingbilldao.update(workingbill);
-							}
-						}
-					}
-				
-		}else{
-			boolean flag = true;
-			for(int x=0;x<bomList00.size();x++){//用SAP在MES中找
-				boolean flag1 = false;
-				Bom bom00 = bomList00.get(x);
-				for(int z=0;z<bomList01.size();z++){
-					Bom bom01 = bomList01.get(z);
-					if(bom01.getMaterialCode().equals(bom00.getMaterialCode()) || bom01.getMaterialAmount() != bom00.getMaterialAmount()){//如果找到。 跳出一层循环
-						flag1 = true;
-						break;
-					}
-				}
-				if(flag1 == false){//如有发现有一条没找到。需要升级版本，跳出循环
-					flag = false;
-					break;
-				}
-			}
-			boolean flag2 = true;
-			for(int x=0;x<bomList01.size();x++){//MES 在SAP中找
-				boolean flag3 = false;
-				Bom bom01 = bomList01.get(x);
-				for(int z=0;z<bomList00.size();z++){
-					Bom bom00 = bomList00.get(z);
-					if(bom00.getMaterialCode().equals(bom01.getMaterialCode()) || bom01.getMaterialAmount() != bom00.getMaterialAmount()){//
-						flag3 = true;
-						break;
-					}
-				}
-				if(flag3 == false){//如果发现有一条没找到。需要升级版本，跳出循环
-					flag2 = false;
-					break;
-				}
-			}
-			
-			if(flag==false || flag2==false){//如果两方相比，如果都发现有不对的地方，升级版本
-				for(int y=0;y<bomList00.size();y++){
-					Bom bom = bomList00.get(y);
-					if(maxVersion == null){//如果没有找到
-						bom.setVersion(1);
-					}else{//如果找到
-						bom.setVersion(maxVersion+1);
-					}
-					Products products1 = new Products();
-					products1.setId(productsid);
-					bom.setProducts(products1);
-					Double oneAmount = ArithUtil.div(bom.getMaterialAmount(), Double.parseDouble(order.getGamng()));//获取一个多少数量
-					oneAmount = ArithUtil.round1(oneAmount,4);
-					bom.setProductAmount(1d);//一个产品
-					bom.setMaterialAmount(oneAmount);//一个产品需要的数量
-					bomservice.save(bom);
-					for(WorkingBill workingbill : workingbillList01){
-						int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-						if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-							workingbill.setBomversion(maxVersion);
-							workingbilldao.update(workingbill);
-						}
-					}
-				}
-			}else{//给随工单分配版本
-				for(WorkingBill workingbill : workingbillList01){
-					int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-					if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-						workingbill.setBomversion(maxVersion);
-						workingbilldao.update(workingbill);
-					}
-				}
-			}
-		}
-		
-		/***处理工艺路线***/
-			Integer maxVersion1 = processrouteservice.getMaxVersionBycode(order.getMatnr());
-			List<ProcessRoute> processrouteList00 = new ArrayList<ProcessRoute>();
-			for(int y=0;y<processrouteList.size();y++){
-				ProcessRoute processroute = processrouteList.get(y);
-				if(processroute.getAufpl().equals(order.getAufpl())){
-					processrouteList00.add(processroute);
-				}
-			}
-			List<ProcessRoute> processrouteList01 = processrouteservice.getList("aufpl", order.getAufpl());
-			if(processrouteList00.size() != processrouteList01.size()){//如果双方不相等，升级版本
-				for(int y=0;y<processrouteList00.size();y++){
-					ProcessRoute processroute = processrouteList00.get(y);
-					if(maxVersion1 == null){//如果没有找到
-						processroute.setVersion(1);
-					}else{//如果找到
-						processroute.setVersion(maxVersion1+1);
-					}
-					Products products1 = new Products();
-					products1.setId(productsid);
-					processroute.setProducts(products1);
-					processrouteservice.save(processroute);
-					for(WorkingBill workingbill : workingbillList01){
-						int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-						if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-							workingbill.setProcessversion(maxVersion1);
-							workingbilldao.update(workingbill);
-						}
-					}
-				}
-			}else{
-				boolean flag = true;
-				for(int x=0;x<processrouteList00.size();x++){//用SAP在MES中找
-					boolean flag1 = false;
-					ProcessRoute processroute00 = processrouteList00.get(x);
-					for(int z=0;z<processrouteList01.size();z++){
-						ProcessRoute processroute01 = processrouteList01.get(z);
-						if(processroute01.getProcessCode().equals(processroute00.getProcessCode())){//如果找到。 跳出一层循环
-							flag1 = true;
-							break;
-						}
-					}
-					if(flag1 == false){//如有发现有一条没找到。需要升级版本，跳出循环
-						flag = false;
-						break;
-					}
-				}
-				boolean flag2 = true;
-				for(int x=0;x<processrouteList01.size();x++){//MES 在SAP中找
-					boolean flag3 = false;
-					ProcessRoute processroute01 = processrouteList01.get(x);
-					for(int z=0;z<processrouteList00.size();z++){
-						ProcessRoute processroute00 = processrouteList00.get(z);
-						if(processroute00.getProcessCode().equals(processroute01.getProcessCode())){//
-							flag3 = true;
-							break;
-						}
-					}
-					if(flag3 == false){//如果发现有一条没找到。需要升级版本，跳出循环
-						flag2 = false;
-						break;
-					}
-				}
-				
-				if(flag==false || flag2==false){//如果两方相比，如果都发现有不对的地方，升级版本
-					for(int y=0;y<processrouteList00.size();y++){
-						ProcessRoute processroute = processrouteList00.get(y);
-						if(maxVersion1 == null){//如果没有找到
-							processroute.setVersion(1);
-						}else{//如果找到
-							processroute.setVersion(maxVersion1+1);
-						}
-						Products products1 = new Products();
-						products1.setId(productsid);
-						processroute.setProducts(products1);
-						processrouteservice.save(processroute);
-						for(WorkingBill workingbill : workingbillList01){
-							int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-							if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-								workingbill.setBomversion(maxVersion1);
-								workingbilldao.update(workingbill);
-							}
-						}
-					}
-				}else{//给随工单分配版本
-					for(WorkingBill workingbill : workingbillList01){
-						int res = workingbill.getProductDate().compareTo(ThinkWayUtil.SystemDate());
-						if(res>=0){//如果随工单日期比系统日期大，应该更新bom 版本
-							workingbill.setProcessversion(maxVersion1);
-							workingbilldao.update(workingbill);
-						}
-					}
-				}
-			}
 	}
 
 	
 
 }
-
-
 	
+	//订单处理
+	public void mergeorderdeal(Orders order){
+		Orders order1 = orderservice.get("aufnr",order.getAufnr());//生产订单号
+		if(order1 == null){
+			orderservice.save(order);
+		}else{
+			order.setId(order1.getId());
+			orderservice.merge(order);
+		}
+		
+	}
 	
+	//产品处理
+	public void mergeproductdeal(Orders order){
+		Products products = productsservice.get("productsCode",order.getMatnr());
+		if(products==null){
+			Products products1 = new Products();
+			products1.setProductsCode(order.getMatnr());
+			products1.setProductsName(order.getMaktx());
+			products1.setIsDel("N");
+			products1.setState("1");
+			productsservice.save(products1);
+		}else{
+			products.setProductsName(order.getMaktx());
+			productsservice.update(products);
+		}
+		
+	}
+	
+	//随工单处理
+	public void mergeworkingbilldeal(Orders order,List<WorkingBill> workingbillList){
+		List<WorkingBill> workingbillList00 = new ArrayList<WorkingBill>();
+		for(int y=0;y<workingbillList.size();y++){
+			WorkingBill workingBill = workingbillList.get(y);
+			if(workingBill.getAufnr().equals(order.getAufnr())){
+				workingbillList00.add(workingBill);
+			}
+		}
+		List<WorkingBill> workingbillList01 = workingbilldao.getList("aufnr", order.getAufnr());
+		if(workingbillList00.size() >= workingbillList01.size()){//如果SAP的比MES 多
+		 boolean flag = false;
+		 for(int x=0;x<workingbillList00.size();x++){
+			WorkingBill WorkingBill00 = workingbillList00.get(x);
+			for(int z=0;z<workingbillList01.size();z++){
+				WorkingBill WorkingBill01 = workingbillList01.get(z);
+				if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+					this.updateWorkingBill(WorkingBill00);
+					flag = true;
+				}
+				
+			}
+			if(!flag){ //没找到
+				String id = this.save(WorkingBill00);
+				WorkingBill00.setId(id);
+				workingbillList01.add(WorkingBill00);
+			}
+		 }
+		}else if(workingbillList00.size() < workingbillList01.size()){//如果MES比SAP多
+			boolean flag = false;
+			 for(int x=0;x<workingbillList01.size();x++){
+				WorkingBill WorkingBill01 = workingbillList01.get(x);
+				for(int z=0;z<workingbillList00.size();z++){
+					WorkingBill WorkingBill00 = workingbillList00.get(z);
+					if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+						this.updateWorkingBill(WorkingBill00);
+						flag = true;
+					}
+				}
+				if(!flag){ //没找到
+					WorkingBill01.setIsdel("Y");
+					this.update(WorkingBill01);
+				}
+			 }
+		}
+	}
+	
+	//处理BOM信息
+	public void mergebomdeal(Orders order,List<Bom> bomList){
+		List<Bom> bomList00 = new ArrayList<Bom>();//SAP
+		for(int y=0;y<bomList.size();y++){
+			Bom bom = bomList.get(y);
+			if(bom.getRsnum().equals(order.getRsnum())){
+				bomList00.add(bom);
+			}
+		}
+		boolean flag = true;
+		Integer maxversion = bomservice.getMaxVersion(order.getAufnr());//根据生产订单获取最高版本号
+		if(maxversion == null){//如果没有找到，需要创建版本
+			flag = false;
+		}else{
+			List<Bom> bomList01 = bomservice.getBomList(order.getAufnr(), maxversion);//根据生产订单和版本号获取Bom结合
+			if(bomList00.size() >= bomList01.size()){//SAP 比MES 多
+				for(int y=0;y<bomList00.size();y++){
+					Bom bom00 = bomList00.get(y);
+					boolean flag1 = false;
+					String bom00str = order.getMatnr()+order.getGamng()+bom00.getMaterialCode()+bom00.getMaterialAmount()+bom00.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					for(int z=0;z<bomList01.size();z++){
+						Bom bom01 = bomList01.get(z);
+						String bom01str = order.getMatnr()+order.getGamng()+bom01.getMaterialCode()+bom01.getMaterialAmount()+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						if(bom00str.equals(bom01str)){//如果找到.flag1 设置为true,停止
+							flag1 = true;
+							break;
+						}
+					}
+					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
+						flag = false;
+						break;
+					}
+				}
+			}else{
+				for(int y=0;y<bomList01.size();y++){
+					Bom bom01 = bomList01.get(y);
+					boolean flag1 = false;
+					String bom01str = order.getMatnr()+order.getGamng()+bom01.getMaterialCode()+bom01.getMaterialAmount()+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					for(int z=0;z<bomList00.size();z++){
+						Bom bom00 = bomList00.get(z);
+						String bom00str = order.getMatnr()+order.getGamng()+bom00.getMaterialCode()+bom00.getMaterialAmount()+bom00.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						if(bom01str.equals(bom00str)){//如果找到.flag1 设置为true,停止
+							flag1 = true;
+							break;
+						}
+					}
+					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
+						flag = false;
+						break;
+					}
+				}
+			}
+		}
+		
+		if(!flag){//升级版本
+			for(int y=0;y<bomList00.size();y++){
+				Bom bom00 = bomList00.get(y);
+				//TODO BOM信息未完成
+				if(maxversion == null)
+					maxversion = 0;
+				Orders orders = orderservice.get("aufnr",order.getAufnr());
+				bom00.setVersion(maxversion+1);
+				bom00.setOrders(orders);
+				bomservice.save(bom00);
+			}
+		}
+		
+	}
+
+	//处理工艺路线
+	public void mergeprocessroutedeal(Orders order,List<ProcessRoute> processrouteList){
+		List<ProcessRoute> processrouteList00 = new ArrayList<ProcessRoute>();//获得跟当前订单相关的工艺路线
+		for(int y=0;y<processrouteList.size();y++){
+			ProcessRoute processroute = processrouteList.get(y);
+			if(processroute.getAufpl().equals(order.getAufpl())){
+				processrouteList00.add(processroute);
+			}
+		}
+		boolean flag = true;
+		Integer maxversion = processrouteservice.getMaxVersion(order.getAufnr());
+		if(maxversion == null){
+			flag = false;
+		}else{
+			List<ProcessRoute> processrouteList01 = processrouteservice.getProcessRouteList(order.getAufnr(), maxversion);
+			if(processrouteList00.size()>=processrouteList01.size()){//如果SAP 比MES 多
+				for(int y=0;y<processrouteList00.size();y++){
+					ProcessRoute processroute00 = processrouteList00.get(y);
+					boolean flag1 = false;
+					String process00str = order.getMatnr()+processroute00.getProcessCode()+processroute00.getWorkCenter()+processroute00.getSteus()+processroute00.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+					for(int z=0;z<processrouteList01.size();z++){
+						ProcessRoute processroute01 = processrouteList01.get(z);
+						String process01str = order.getMatnr()+processroute01.getProcessCode()+processroute01.getWorkCenter()+processroute01.getSteus()+processroute01.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+						if(process00str.equals(process01str)){//如果找到.flag1 设置为true,停止
+							flag1 = true;
+							break;
+						}
+					}
+					if(!flag1){
+						flag = false;
+						break;
+					}
+				}
+			}else{
+				for(int y=0;y<processrouteList01.size();y++){
+					ProcessRoute processroute01 = processrouteList01.get(y);
+					boolean flag1 = false;
+					String process01str = order.getMatnr()+processroute01.getProcessCode()+processroute01.getWorkCenter()+processroute01.getSteus()+processroute01.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+					for(int z=0;z<processrouteList00.size();z++){
+						ProcessRoute processroute00 = processrouteList00.get(z);
+						String process00str = order.getMatnr()+processroute00.getProcessCode()+processroute00.getWorkCenter()+processroute00.getSteus()+processroute00.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+						if(process00str.equals(process01str)){//如果找到.flag1 设置为true,停止
+							flag1 = true;
+							break;
+						}
+						
+					}
+					if(!flag1){
+						flag = false;
+						break;
+					}
+				}
+			}
+			
+			
+		}
+		
+		if(!flag){
+			for(int y=0;y<processrouteList00.size();y++){
+				ProcessRoute processroute = processrouteList00.get(y);
+				if(maxversion == null)
+					maxversion = 0;
+				Orders orders = orderservice.get("aufnr",order.getAufnr());
+				processroute.setVersion(maxversion+1);
+				processroute.setOrders(orders);
+				processrouteservice.save(processroute);
+			}
+		}
+		
+		
+	}
 	
 }

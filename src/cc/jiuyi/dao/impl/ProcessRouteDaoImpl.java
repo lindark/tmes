@@ -52,13 +52,13 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<ProcessRoute> getProcessRouteList(String aufnr, Integer version) {
 		String hql="from ProcessRoute where orders.aufnr = ? and version = ?";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).list();
 	}
 	
-	public Integer getMaxVersion(String matnr,Date productDate){
+	public Integer getMaxVersion(String matnr,String productDate){
 		String hql="select max(a.version) from ProcessRoute a where a.orders.matnr = ? and a.effectiveDate <= ?";
 		return (Integer)getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).uniqueResult();
 	}

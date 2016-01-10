@@ -1,8 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
@@ -31,11 +34,19 @@ public class Repair extends BaseEntity {
 	private String responseName;//责任工序名称
 	private String workingbillCode;
 	private String maktx;//产品描述
-	private String processCode;//责任工序名称
+	private String processCode;//责任工序编码
+	private String processDes;//责任工序名称
+	private Set<RepairPiece>rpieceSet;//从表,组件表
 
 	private WorkingBill workingbill;// 随工单
-	private String mblnr;//物料凭证
+	private String EX_MBLNR;//物料凭证
 	
+	//SAP
+	private String WERKS;//工厂
+	private String LGORT;//库存地点
+	private String ZTEXT;//抬头文本
+	private String E_TYPE;//返回类型S/E
+	private String E_MESSAGE;//返回消息
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -180,14 +191,85 @@ public class Repair extends BaseEntity {
 		this.processCode = processCode;
 	}
 
-	public String getMblnr()
+	public String getWERKS()
 	{
-		return mblnr;
+		return WERKS;
 	}
 
-	public void setMblnr(String mblnr)
+	public void setWERKS(String wERKS)
 	{
-		this.mblnr = mblnr;
+		WERKS = wERKS;
+	}
+
+	public String getLGORT()
+	{
+		return LGORT;
+	}
+
+	public void setLGORT(String lGORT)
+	{
+		LGORT = lGORT;
+	}
+
+	public String getZTEXT()
+	{
+		return ZTEXT;
+	}
+
+	public void setZTEXT(String zTEXT)
+	{
+		ZTEXT = zTEXT;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="repair")
+	public Set<RepairPiece> getRpieceSet()
+	{
+		return rpieceSet;
+	}
+
+	public void setRpieceSet(Set<RepairPiece> rpieceSet)
+	{
+		this.rpieceSet = rpieceSet;
+	}
+
+	public String getProcessDes()
+	{
+		return processDes;
+	}
+
+	public void setProcessDes(String processDes)
+	{
+		this.processDes = processDes;
+	}
+
+	public String getE_TYPE()
+	{
+		return E_TYPE;
+	}
+
+	public void setE_TYPE(String e_TYPE)
+	{
+		E_TYPE = e_TYPE;
+	}
+
+	public String getE_MESSAGE()
+	{
+		return E_MESSAGE;
+	}
+
+	public void setE_MESSAGE(String e_MESSAGE)
+	{
+		E_MESSAGE = e_MESSAGE;
+	}
+
+	public String getEX_MBLNR()
+	{
+		return EX_MBLNR;
+	}
+
+	public void setEX_MBLNR(String eX_MBLNR)
+	{
+		EX_MBLNR = eX_MBLNR;
 	}
 
 }

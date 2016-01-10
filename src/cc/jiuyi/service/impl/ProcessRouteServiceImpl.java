@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessRouteDao;
+import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessRouteService;
 
 /**
@@ -22,6 +26,8 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 
 	@Resource
 	private ProcessRouteDao processroutedao;
+	@Resource
+	private OrdersService ordersservice;
 
 	@Resource
 	public void setBaseDao(ProcessRouteDao processroutedao) {
@@ -29,54 +35,26 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	}
 
 	@Override
-	public void mergeProcessroute(List<ProcessRoute> processRouteList,String productid) {
-		Integer maxversion = processroutedao.getMaxVersion(productid);//当前最大版本
-		if(maxversion == null) maxversion = 0;
-		maxversion++;//最大版本加1
-		for (int i = 0; i < processRouteList.size(); i++) {
-			ProcessRoute processroute = (ProcessRoute) processRouteList.get(i);
-			if(processroute == null) continue;
-			processroute.setVersion(maxversion);
-			processroutedao.save(processroute);
-		}
-	}
-
-	@Override
-	public Integer getMaxVersion(String productid) {
-		return processroutedao.getMaxVersion(productid);
-	}
-
-	@Override
-	public Integer getMaxVersionBycode(String productcode) {
-		return processroutedao.getMaxVersionBycode(productcode);
-	}
-	
-	
-
-	@Override
-	public Integer getMaxVersionByCode(String productCode) {
-		return processroutedao.getMaxVersionByCode(productCode);
-	}
-
-	@Override
-	public List<ProcessRoute> getProcessRouteByProductCode(String productCode) {
-		return processroutedao.getProcessRouteByProductCode(productCode);
-	}
-
-	@Override
-	public List<ProcessRoute> getAllProcessRouteByProductCode(String productCode) {
-		return processroutedao.getAllProcessRouteByProductCode(productCode);
-	}
-
-	@Override
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
 		return processroutedao.findPagerByjqGrid(pager, map);
 	}
-
-	@Override
-	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,
-			String productCode) {
-		return processroutedao.getProcessRouteByVersionAndCode(version, productCode);
+	
+	public List<ProcessRoute> getProcessRouteList(String aufnr, Integer version) {
+		return processroutedao.getProcessRouteList(aufnr, version);
 	}
 	
+	public Integer getMaxVersion(String matnr,Date productDate){
+		return processroutedao.getMaxVersion(matnr, productDate);
+	}
+	
+	public List<ProcessRoute> findProcessRoute(String aufnr,Date productDate) {
+		Orders orders = ordersservice.get("aufnr",aufnr);
+		Integer maxversion = processroutedao.getMaxVersion(orders.getMatnr(), productDate);
+		return processroutedao.getProcessRouteList(aufnr, maxversion);
+	}
+
+	public Integer getMaxVersion(String aufnr) {
+		return processroutedao.getMaxVersion(aufnr);
+	}
+
 }

@@ -25,6 +25,7 @@ import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 返修
@@ -101,8 +102,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	public List getSAPMap(List<Repair> list, WorkingBill wb,String cardnumber)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
-		Products p=this.productsService.getByPcode(wb.getMatnr());//根据产品编号查询产品
-		List<Bom> list_bom=this.bomService.getByPidAndWversion(p.getId(),Integer.parseInt(wb.getBomversion().toString()));//根据产品id和随工单中的bom版本号查询bom表
+		//Date productDate = ThinkWayUtil.formatStringDate(wb.getProductDate());//生产日期
+		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+		List<Bom> list_bom=bomService.findBom(aufnr, wb.getProductDate());
 		String workingBillCode=wb.getWorkingBillCode();
 		List<Bom>listbom=new ArrayList<Bom>();
 		//物料表是否存在

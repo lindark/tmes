@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,56 +14,24 @@ import cc.jiuyi.entity.Bom;
 public interface BomDao extends BaseDao<Bom, String> {
 
 	/**
-	 * 获取最高版本号,根据产品id
+	 * 根据生产订单和版本获取BOM集合
+	 * @param aufnr 订单号
+	 * @param maxversion 版本号
 	 * @return
 	 */
-	public Integer getMaxVersionByid(String productid);
-	
-	/**
-	 * 获取最高版本号,根据产品产品编码
-	 * @param productCode
-	 * @return
-	 */
-	
-	public Integer getMaxVersionBycode(String productCode);
-	
-	/**
-	 * 根据产品编码获取 bom 信息
-	 * @param productCode
-	 * @return
-	 */
-	public List<Bom> getBomByProductCode(String productCode,String materialCode,Integer version);
-	
-	/**
-	 * 根据 产品ID 和 版本号获取指定的版本
-	 * @param productid 产品ID
-	 * @param version 版本
-	 * @return
-	 */
-	public List<Bom> getListByid(String productid,Integer version);
-	
-	/**
-	 * 根据 产品编码 和 版本号获取指定的版本
-	 * @param productid 产品ID
-	 * @param version 版本
-	 * @return
-	 */
-	public List<Bom> getListBycode(String productcode,Integer version);
-	
-
-	/**
-	 * 获取最高版本号的Bom清单
-	 */
-	public List<Bom> getBomListByMaxVersion(Integer version);
+	public List<Bom> getBomList(String aufnr,Integer maxversion);
 	
 	
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 
+	
+	public Integer getMaxVersion(String matnr,String productDate);
+	
 	/**
-	 * 根据产品id和随工单中的bom版本号查询bom表
-	 * @param pid
-	 * @param version
+	 * 根据生产订单获取最高版本号
+	 * @param aufnr
 	 * @return
 	 */
-	public List<Bom> getByPidAndWversion(String pid, Integer version);
+	public Integer getMaxVersion(String aufnr);
+	
 }

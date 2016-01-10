@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,43 +17,25 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 	
 	/**
-	 * 获取最高版本号
-	 * @return
-	 */
-	public Integer getMaxVersion(String productid);
-	
-	/**
-	 * 获取最高版本号
-	 * @return
-	 */
-	public Integer getMaxVersionBycode(String productcode);
-	
-	/**
-	 * 根据产品编码获取最高版本号
-	 * @param productCode
-	 * @return
-	 */
-	public Integer getMaxVersionByCode(String productCode);
-	
-	/**
-	 * 根据产品编码获取最高版本的工艺路线
-	 * @param productCode
-	 * @return
-	 */
-	public List<ProcessRoute> getProcessRouteByProductCode(String productCode);
-	
-	/**
-	 * 根据产品编号，获取所有相关工序，包括历史版本
-	 * @param productCode
-	 * @return
-	 */
-	public List<ProcessRoute> getAllProcessRouteByProductCode(String productCode);
-	
-	/**
-	 * 根据版本号和产品编号获取相关工序
+	 * 根据订单编号+版本获取工艺路线
+	 * @param aufnr
 	 * @param version
-	 * @param productCode
 	 * @return
 	 */
-	public List<ProcessRoute> getProcessRouteByVersionAndCode(Integer version,String productCode);
+	public List<ProcessRoute> getProcessRouteList(String aufnr,Integer version);
+	
+	/**
+	 * 根据物料号+生产日期获取最大版本
+	 * @param matnr
+	 * @param productDate
+	 * @return
+	 */
+	public Integer getMaxVersion(String matnr,Date productDate);
+	
+	/**
+	 * 根据生产订单获取最大版本号
+	 * @param aufnr
+	 * @return
+	 */
+	public Integer getMaxVersion(String aufnr);
 }

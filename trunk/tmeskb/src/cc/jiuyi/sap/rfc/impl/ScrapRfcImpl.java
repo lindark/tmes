@@ -77,7 +77,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		return list;
 	}*/
 
-	public List<Scrap> ScrappedCrt(String testrun,List<Scrap> list_scrap,List<ScrapLater> list_scraplater) throws IOException, CustomerException  {
+	public Scrap ScrappedCrt(String testrun,Scrap scrap,List<ScrapLater> list_scraplater) throws IOException, CustomerException  {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -101,16 +101,14 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		List<HashMap<String,Object>> arrList1 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_HEADER = new TableModel();
 		ET_HEADER.setData("ET_HEADER");//表名
-		for(Scrap s : list_scrap){
-			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("BUDAT", s.getBudat());//过账日期
-			item.put("WERKS", s.getWerks());//工厂
-			item.put("LGORT", s.getLgort());//库存地点
-			item.put("ZTEXT", s.getZtext());//抬头文本
-			item.put("MOVE_TYPE",s.getMove_type());//移动类型
-			item.put("XUH", s.getId());//ID
-			arrList1.add(item);
-		}
+		HashMap<String,Object> item2 = new HashMap<String,Object>();
+		item2.put("BUDAT", scrap.getBudat());//过账日期
+		item2.put("WERKS", scrap.getWerks());//工厂
+		item2.put("LGORT", scrap.getLgort());//库存地点
+		item2.put("ZTEXT", scrap.getZtext());//抬头文本
+		item2.put("MOVE_TYPE",scrap.getMove_type());//移动类型
+		item2.put("XUH", scrap.getId());//ID
+		arrList1.add(item2);
 		ET_HEADER.setList(arrList1);
 		tablemodelList.add(ET_HEADER);
 		/*******执行******/
@@ -120,16 +118,12 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表
-		List<Scrap> list = new ArrayList<Scrap>();
-		for (int i = 0; i < t_data.getNumRows(); i++) {
-			t_data.setRow(i);
-			Scrap s = new Scrap();
-			s.setE_type(t_data.getString("E_TYPE"));
-			s.setE_message(t_data.getString("E_MESSAGE"));
-			s.setId(t_data.getString("XUH"));
-			s.setMblnr(t_data.getString("EX_MBLNR"));
-			list.add(s);
-		}
-		return list;
+		t_data.setRow(0);
+		Scrap s = new Scrap();
+		s.setE_type(t_data.getString("E_TYPE"));
+		s.setE_message(t_data.getString("E_MESSAGE"));
+		s.setId(t_data.getString("XUH"));
+		s.setMblnr(t_data.getString("EX_MBLNR"));
+		return s;
 	}
 }

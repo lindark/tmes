@@ -115,25 +115,16 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 保存
-	public String creditsave() throws Exception {
-		if (repair.getRepairAmount() == null
-				|| String.valueOf(repair.getRepairAmount()).matches(
-						"^[0-9]*[1-9][0-9]*$ ")) {
-			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
-		}
-		admin = adminService.getByCardnum(cardnumber);
+	public String creditsave()
+	{
 		this.repairService.saveData(repair,cardnumber,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	//修改
-	public String creditupdate() throws Exception {
-		if (repair.getRepairAmount() == null
-				|| String.valueOf(repair.getRepairAmount()).matches(
-						"^[0-9]*[1-9][0-9]*$ ")) {
-			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
-		}
-		this.repairService.updateData(repair,list_rp);
+	public String creditupdate() 
+	{
+		this.repairService.updateData(repair,list_rp,cardnumber);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -261,7 +252,7 @@ public class RepairAction extends BaseAdminAction {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+			pager.setOrderBy("createDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
 			if (!filters.equals("")) {
@@ -367,6 +358,14 @@ public class RepairAction extends BaseAdminAction {
 		repair = repairService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		String productDate = workingbill.getProductDate();
+		//生产订单号,日期,编码查询一条工艺路线
+		ProcessRoute pr= processRouteService.getOneByConditions(aufnr, productDate,repair.getProcessCode());
+		if(pr!=null)
+		{
+			repair.setResponseName(pr.getProcessName());
+		}
 		this.show="show";
 		return INPUT;
 	}

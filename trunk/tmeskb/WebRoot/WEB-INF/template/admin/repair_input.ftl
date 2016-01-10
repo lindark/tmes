@@ -71,13 +71,10 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate"
-								action="<#if isAdd??>repair!save.action<#else>repair!update.action</#if>"
+								action=""
 								method="post">
-								<input type="hidden" name="id" value="${(id)!}" />
+								<input type="hidden" name="repair.id" value="${(repair.id)!}" />
 								<input type="hidden" class="input input-sm" name="repair.workingbill.id" value="${workingbill.id} " id="wkid">
-								<#if isEdit>
-								<input type="hidden" class="input input-sm" name="repair.createUser.id" value="${repair.createUser.id} ">
-								</#if>
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修单</a></li>
@@ -117,9 +114,9 @@ body {
 													<#if show??>
 														${(repair.repairAmount)!}
 													<#else>
-														<input type="text" name="repair.repairAmount"
+														<input type="text" id="input_num" name="repair.repairAmount"
 															value="${(repair.repairAmount)!}"
-															class=" input input-sm formText {required: true,min: 1}" />
+															class=" input input-sm" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>
@@ -129,7 +126,7 @@ body {
 													<#if show??>
 														${(repair.repairPart)!}
 													<#else>
-														<input type="text" name="repair.repairPart"
+														<input type="text" id="input_part" name="repair.repairPart"
 															value="${(repair.repairPart)!}"
 															class=" input input-sm formText {required: true}" />
 														<label class="requireField">*</label>
@@ -142,7 +139,7 @@ body {
 													<#if show??>
 														${(repair.duty)!}
 													<#else>
-														<input type="text" name="repair.duty"
+														<input type="text" id="input_duty" name="repair.duty"
 															value="${(repair.duty)!}"
 															class=" input input-sm formText {required: true}" />
 														<label class="requireField">*</label>
@@ -152,7 +149,7 @@ body {
 												<div class="profile-info-name">责任工序</div>
 												<div class="profile-info-value">
 													<#if show??>
-														${(repair.processDes)! }
+														${(repair.responseName)! }
 													<#else>
 														<select name="repair.processCode" id="r_select" class="chosen-select">
 															<#if processRouteList??>
@@ -161,7 +158,6 @@ body {
 										                		</#list>  
 										                	</#if>
 												    	</select> 
-												    	<input type="hidden" id="processDes" name="processDes" value="${(repair.processDes)! }" />
 													</#if>
 												</div>
 											</div>
@@ -218,7 +214,7 @@ body {
 																	<td>${(rplist.productnum)! }<input type="hidden" name="list_rp[${rpnum}].productnum" value="${(rplist.productnum)! }" /></td>
 																	<td>${(rplist.piecenum)! }<input type="hidden" name="list_rp[${rpnum}].piecenum" value="${(rplist.piecenum)! }" /></td>
 																	<td>
-																		<a onclick="del_event()">删除</a>
+																		<a id="a_${(rplist.rpcode)! }" onclick="del_event(${(rplist.rpcode)! })" style="cursor:pointer;">删除</a>
 																	</td>
 																</tr>
 																<#assign rpnum=rpnum+1 />
@@ -275,30 +271,20 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		//$("#inputForm").submit();
-		<#if add??>
-			var url = "repair!creditsave.action";
-		<#else>
-			var url = "repair!creditupdate.action";
-		</#if>
-		$("#processDes").val($("#opt_"+$("#r_select").val()).text());
-		var dt = $("#inputForm").serialize();
-		credit.creditCard(url,function(data){
-			var workingbillid = $("#wkid").val();
-			/* $.message(data.status,data.message);
-			window.location.href = "repair!list.action?workingBillId="+ workingbillid; */
-			if(data.status=="success"){
-	    		layer.alert(data.message, {icon: 6},function(){
-	    			window.location.href = "repair!list.action?workingBillId="+ workingbillid;
-	    	});
-	    	}else if(data.status=="error"){
-	    		layer.alert(data.message,{
-	    			closeBtn: 0,
-	    			icon: 5,
-	    			skin:'error'
-	    		});
-	    	}
-		},dt)
+		if(iscansave())
+		{
+			var url=""
+			<#if add??>
+				url = "repair!creditsave.action";
+			<#else>
+				url = "repair!creditupdate.action";
+			</#if>
+			save_event(url);
+		}
+		else
+		{
+			layer.alert("必填项不能为空,请检查!",false);
+		}
 	});
 	
 	//返回

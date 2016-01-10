@@ -46,14 +46,14 @@ body {
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-2"
-											style="text-align:right;">子件编码:</label>
+											style="text-align:right;">组件编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="piececode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
-										<label class="col-sm-2" style="text-align:right;">子件名称:</label>
+										<label class="col-sm-2" style="text-align:right;">组件名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="piecename"
 												class="input input-sm form-control" value=""

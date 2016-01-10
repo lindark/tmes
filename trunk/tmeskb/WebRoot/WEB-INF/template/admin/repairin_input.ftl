@@ -70,7 +70,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate" action="" method="post">
-								<input type="hidden" name="id" value="${(id)!}" />
+								<input type="hidden" name="repairin.id" value="${(repairin.id)!}" />
 								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} " id="wkid">
 								<div id="inputtabs">
 									<ul>
@@ -110,9 +110,9 @@ body {
 													<#if show??>
 														${(repairin.receiveAmount)!}
 													<#else>
-														<input type="text" name="repairin.receiveAmount"
+														<input type="text" id="input_num" name="repairin.receiveAmount"
 															value="${(repairin.receiveAmount)!}"
-															class=" input input-sm formText {required: true,min: 1}" />
+															class=" input input-sm" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>
@@ -170,7 +170,7 @@ body {
 																	<td>${(rplist.productnum)! }<input type="hidden" name="list_rp[${rpnum}].productnum" value="${(rplist.productnum)! }" /></td>
 																	<td>${(rplist.piecenum)! }<input type="hidden" name="list_rp[${rpnum}].piecenum" value="${(rplist.piecenum)! }" /></td>
 																	<td>
-																		<a onclick="del_event()">删除</a>
+																		<a id="a_${(rplist.rpcode)! }" onclick="del_event(${(rplist.rpcode)! })"  style="cursor:pointer;">删除</a>
 																	</td>
 																</tr>
 																<#assign rpnum=rpnum+1 />
@@ -228,27 +228,21 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		//$("#inputForm").submit();
-		var dt = $("#inputForm").serialize();
-		<#if add??>
-			var url = "repairin!creditsave.action";		
-		<#else>
-			var url = "repairin!creditupdate.action";
-		</#if>
-		credit.creditCard(url,function(data){
-			var workingbillid = $("#wkid").val();
-			if(data.status=="success"){
-	    		layer.alert(data.message, {icon: 6},function(){
-    			window.location.href = "repairin!list.action?workingBillId="+ workingbillid;
-	    	});
-	    	}else if(data.status=="error"){
-	    		layer.alert(data.message,{
-	    			closeBtn: 0,
-	    			icon: 5,
-	    			skin:'error'
-	    		});
-	    	}
-		},dt)
+		if(iscansave())
+		{
+			var url="";
+			<#if add??>
+				url = "repairin!creditsave.action";		
+			<#else>
+				url = "repairin!creditupdate.action";
+			</#if>
+			save_event(url);
+		}
+		else
+		{
+			layer.alert("必填项不能为空,请检查!",false);
+		}
+		
 	});
 	
 	//返回

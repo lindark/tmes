@@ -8,6 +8,7 @@
 <link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/jquery-ui.css"/>
 <link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/base.css"/>
 <link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/ingageapp/css/register.css"/>
+
 <script type="text/javascript">
     pageContextPath = '';
     resJsPath = '/js';
@@ -17,6 +18,7 @@
     DATA_VALIDATE_ERROR = "402";
     SYSTEM_ERROR = "501";
 </script>
+
 </head>
 <body>
 <div class="wrapper" >
@@ -60,7 +62,7 @@
 					</form>
 					<div class="register_submit clear">
 						<a id="btn_login" href="javascript:;" title="登录" class="button_blue ">登录</a>&nbsp;
-						<a id="btn_login" href="javascript:;" title="刷卡登陆" class="button_blue " style="margin:auto 5px;">刷卡登陆</a>
+						<a id="btn_creditlogin" href="javascript:;" title="刷卡登陆" class="button_blue " style="margin:auto 5px;">刷卡登陆</a>
 						<a href="javascript:;" title="登录" class="button_blue button_disable button_waiting" style="display: none">登录中<span></span></a>
 						<!--
 						<span class="register_login">
@@ -95,7 +97,9 @@
 </script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/common/jquery.form-3.45.min.js">
 </script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js/page/login/login.js">
 </script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js//common/jquery.watermark.js">
-</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js//common/jquery.json-2.2.js">
+</script><script type="text/javascript" src="${base}/template/admin/jiuyi/ingageapp/js//common/jquery.json-2.2.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.timers-1.1.2.js"></script>
+<script src="${base}/template/admin/js/layer/layer.js"></script>
 </script><script type="text/javascript">
 
 // 登录页面若在框架内，则跳出框架
@@ -109,6 +113,7 @@ $(function(){
 	var $password = $("#password");
 	var $captcha = $("#captcha");
 	var $isSaveUsername = $("#isSaveUsername");
+	var $btn_creditlogin = $("#btn_creditlogin");//刷卡登录
 	
 	
 	
@@ -176,12 +181,88 @@ $(function(){
 		imageSrc = imageSrc + "?timestamp=" + timestamp;
 		$captchaImage.attr("src", imageSrc);
 	});
+	
+	//刷卡登录
+	$btn_creditlogin.click(function(){
+		var url="admin!creditlogin.action";
+		credit.creditCard(url,function(data){
+			$.message(data.status,data.message);
+		})
+	});
+	
 });
 
 <#if (actionErrors?size > 0)>
 		alert("<#list errorMessages as list>${list}\n</#list>");
 	</#if>
 
+	
+	var credit = {
+			"creditCard":function(url,callback,data){
+				if(typeof(data) == "undefined")
+					data = "";
+				var bool = url.indexOf("?");
+				var cardnubmer="";
+				credit.index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
+					var index1;
+					if(bool >0)
+						cardnumber = "&cardnumber="+credit.cardnumber;
+					else
+						cardnumber = "?cardnumber="+credit.cardnumber;
+					$.ajax({	
+						url: url+cardnumber,
+						data:data,
+						dataType: "json",
+						async: false,
+						beforeSend: function(data) {
+							index1 = layer.load();
+						},
+						success: function(data) {
+							layer.close(index1);
+							$.message(data.status,data.message);
+							callback(data);
+						},error:function(data){
+							layer.close(index1);
+							$.message("error","您当前无权限!");
+						}
+					});
+				});
+				//var systemDate = "${.now?string('yyyy-MM-dd HH:mm:ss')}";//服务器时间
+				
+				$.post("base_admin!getSystemDate.action",function(data){
+					var systemDate = data.systemDate;
+					credit.everyTime(systemDate);
+				},"json" );
+				
+			},
+			"everyTime":function(sysdate){
+				$('body').everyTime('1s','B',function(){//计划任务
+					$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
+						if(data.status == "no"){//未找到
+							//layer.close(index);
+						}else if(data.status == "yes"){//已找到
+							$('body').stopTime ();
+							credit.cardnumber = data.cardnumber;//获取卡号
+							layer.close(credit.index);
+						}
+						
+					},"json" );
+				},0,true);
+			}
+	}
+	
+	$.message = function(status,message){
+		if(status=="success"){
+			layer.msg(message, {icon: 6}); 
+		}else if(status=="error"){
+			layer.alert(message, {
+		        closeBtn: 0,
+		        icon:5,
+		        skin:'error'
+		    });
+		}
+		
+	}
 </script>
 </body>
 </html>

@@ -50,7 +50,11 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	public List<ProcessRoute> findProcessRoute(String aufnr,String productDate) {
 		Orders orders = ordersservice.get("aufnr",aufnr);
 		Integer maxversion = processroutedao.getMaxVersion(orders.getMatnr(), productDate);
-		return processroutedao.getProcessRouteList(aufnr, maxversion);
+		if(maxversion!=null)
+		{
+			return processroutedao.getProcessRouteList(aufnr, maxversion);
+		}
+		return null;
 	}
 
 	public Integer getMaxVersion(String aufnr) {

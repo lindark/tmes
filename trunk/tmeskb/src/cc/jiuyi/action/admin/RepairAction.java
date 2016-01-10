@@ -15,19 +15,21 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
+import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.RepairRfc;
 import cc.jiuyi.sap.rfc.impl.RepairRfcImpl;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
@@ -46,7 +48,6 @@ public class RepairAction extends BaseAdminAction {
 	private static final long serialVersionUID = -5187671258106950991L;
 
 	private static final String CONFIRMED = "1";
-	private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 
 	private Repair repair;
@@ -55,6 +56,12 @@ public class RepairAction extends BaseAdminAction {
 	private Admin admin;
 	private List<Process> allProcess;
 	private String cardnumber;// 刷卡卡号
+	private String add;//新增时
+	private String edit;//编辑时
+	private String show;//查看时
+	private List<ProcessRoute> processRouteList;//工艺路线
+	private String info;
+	private List<RepairPiece>list_rp;//子件
 
 	@Resource
 	private RepairService repairService;
@@ -70,6 +77,8 @@ public class RepairAction extends BaseAdminAction {
 	private ProcessRouteService processRouteService;
 	@Resource
 	private ProductsService productsService;
+	@Resource
+	private BomService bomService;
 
 	public String list() {
 		admin = adminService.getLoginAdmin();
@@ -78,6 +87,13 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 添加
+	public String add() 
+	{
+		workingbill = workingBillService.get(workingBillId);//随工单
+		String productCode = workingbill.getMatnr();//产品编码
+		processRouteList = new ArrayList<ProcessRoute>();
+		processRouteList = processRouteService.getProcessRouteByProductCode(productCode);//根据产品编码查询工艺路线
+		this.add="add";
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
@@ -99,24 +115,19 @@ public class RepairAction extends BaseAdminAction {
 	}
 
 	// 编辑
-	public String edit() {
-//		repair = repairService.load(id);
-//		workingbill = workingBillService.get(workingBillId);
-//		Integer version = workingbill.getProcessversion();
-//		String productCode = workingbill.getMatnr();
-//		if (version == null) {
-//			version = processRouteService.getMaxVersion(productsService.get(
-//					"productsCode", productCode).getId());
-//		}
-//		allProcess = new ArrayList<Process>();
-//		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
-//		processRouteList = processRouteService.getProcessRouteByVersionAndCode(
-//				version, productCode);
-//		for (int i = 0; i < processRouteList.size(); i++) {
-//			ProcessRoute processroute = processRouteList.get(i);
-//			cc.jiuyi.entity.Process process = processService.get("processCode",processroute.getProcessCode());
-//			allProcess.add(process);
-//		}
+	public String edit() 
+	{
+		repair = repairService.get(id);//根据id查询
+		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
+		workingbill = workingBillService.get(workingBillId);//当前随工单
+		Integer version = workingbill.getProcessversion();//版本号
+		String productCode = workingbill.getMatnr();
+		if (version == null) 
+		{
+			version = processRouteService.getMaxVersion(productsService.get("productsCode", productCode).getId());
+		}
+		processRouteList = processRouteService.getProcessRouteByVersionAndCode(version, productCode);
+		this.edit="edit";
 		return INPUT;
 		
 		//TODO 返修收货未完成
@@ -130,29 +141,18 @@ public class RepairAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
 		}
 		admin = adminService.getByCardnum(cardnumber);
-		repair.setCreateUser(admin);
-		repairService.save(repair);
-		/*
-		 * redirectionUrl = "repair!list.action?workingBillId=" +
-		 * repair.getWorkingbill().getId();
-		 */
+		this.repairService.saveData(repair,cardnumber,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
-	// 更新
+	//修改
 	public String creditupdate() throws Exception {
 		if (repair.getRepairAmount() == null
 				|| String.valueOf(repair.getRepairAmount()).matches(
 						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("返修数量必须为零或正整数!");
 		}
-		Repair persistent = repairService.load(id);
-		BeanUtils.copyProperties(repair, persistent, new String[] { "id" });
-		repairService.update(persistent);
-		/*
-		 * redirectionUrl = "repair!list.action?workingBillId=" +
-		 * repair.getWorkingbill().getId();
-		 */
+		this.repairService.updateData(repair,list_rp);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -171,9 +171,9 @@ public class RepairAction extends BaseAdminAction {
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, CONFIRMED, workingBillId, cardnumber);
+		repairService.updateState(list, CONFIRMED, workingBillId, cardnumber);//修改当前随工返修的累计数量
 		workingbill = workingBillService.get(workingBillId);
-		String str=toSAP(list,workingbill);
+		String str=toSAP(list);
 		String isSuccess=ERROR;
 		if("S".equals(str))
 		{
@@ -319,6 +319,67 @@ public class RepairAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
+	/**
+	 * 转到添加产品子件页面
+	 */
+	public String beforegetpiece()
+	{
+		this.workingBillId=this.info;
+		return "alert";
+	}
+	
+	/**
+	 * 获取对应随工单的产品子件
+	 */
+	public String getpiece()
+	{
+		HashMap<String ,String>map=new HashMap<String,String>();
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("createDate");//以创建日期排序
+		if(pager.is_search()==true&&Param!=null)
+		{
+			JSONObject obj=JSONObject.fromObject(Param);
+			//子件编码
+			if (obj.get("piececode") != null)
+			{
+				String piececode = obj.getString("piececode").toString();
+				map.put("piececode", piececode);
+			}
+			//子件名称
+			if (obj.get("piecename") != null)
+			{
+				String piecename = obj.getString("piecename").toString();
+				map.put("piecename", piecename);
+			}
+		}
+		workingbill = workingBillService.get(workingBillId);
+		pager = this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
+		@SuppressWarnings("unchecked")
+		List<Bom>list1=pager.getList();
+		List<Bom>list2=this.repairService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		pager.setList(list2);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Bom.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.getString(0).toString());
+	}
+	
+	/**
+	 * 查看
+	 */
+	public String show()
+	{
+		repair = repairService.get(id);//根据id查询
+		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
+		workingbill = workingBillService.get(workingBillId);//当前随工单
+		this.show="show";
+		return INPUT;
+	}
 
 	/**
 	 * 与SAP交互   退料262  905
@@ -326,55 +387,52 @@ public class RepairAction extends BaseAdminAction {
 	 * @return
 	 * @author gyf
 	 */
-	public String toSAP(List<Repair>list,WorkingBill wb)
+	public String toSAP(List<Repair>list)
 	{
-		List listall =this.repairService.getSAPMap(list,wb,cardnumber);
-		List<Map<Object,Object>> list1 =(List<Map<Object, Object>>) listall.get(0);
-		List<Map<Object,Object>> list2 =(List<Map<Object, Object>>) listall.get(1);
-		List<Map<Object,Object>>list_sapreturn=null;
-		if(list1.size()==0||list2.size()==0)
-		{
-			return "对应物料为空!";
-		}
 		try
 		{
-			String e_msg="";
-			boolean flag=true;
-			RepairRfc repairRfc=new RepairRfcImpl();
-			//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
-			list_sapreturn=new ArrayList<Map<Object,Object>>(repairRfc.repairCrt(list1,list2));
-			e_msg="";
-			for(int i=0;i<list_sapreturn.size();i++)
+			RepairRfc repairRfc = new RepairRfcImpl();
+			// 取出主表及组件数据
+			for (int i = 0; i < list.size(); i++)
 			{
-				Map<Object,Object>m=list_sapreturn.get(i);
-				/**出现问题*/
-				if("E".equalsIgnoreCase(m.get("E_TYPE").toString()))
+				Repair r = list.get(i);
+				List<RepairPiece> listrp = new ArrayList<RepairPiece>(r.getRpieceSet());// 取出对应的组件
+				if (listrp.size() > 0)
 				{
-					flag=false;
-					e_msg+=m.get("E_MESSAGE").toString();
+					/**有组件数据,进行SAP交互*/
+					// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+					Repair r_sapreturn = repairRfc.repairCrt(r, listrp);
+					/** 出现问题 */
+					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
+					{
+						return r_sapreturn.getE_MESSAGE();
+					}
+					else
+					{
+						/** 与SAP交互没有问题,更新本地数据库 */
+						this.repairService.updateMyData(r_sapreturn, cardnumber,1);
+					}
 				}
 				else
 				{
-					/**与SAP交互没有问题,更新本地数据库*/
-					this.repairService.updateMyData(m,cardnumber);
+					/**没有组件数据,只把状态改为确认*/
+					this.repairService.updateMyData(r, cardnumber,2);
 				}
-			}
-			if(!flag)
-			{
-				return e_msg;
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 			return "IO出现异常，请联系系统管理员";
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return "系统出现问题，请联系系统管理员";
 		}
 		return "S";
 	}
-	
+
 	public Repair getRepair() {
 		return repair;
 	}
@@ -421,6 +479,66 @@ public class RepairAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getAdd()
+	{
+		return add;
+	}
+
+	public void setAdd(String add)
+	{
+		this.add = add;
+	}
+
+	public String getEdit()
+	{
+		return edit;
+	}
+
+	public void setEdit(String edit)
+	{
+		this.edit = edit;
+	}
+
+	public String getShow()
+	{
+		return show;
+	}
+
+	public void setShow(String show)
+	{
+		this.show = show;
+	}
+
+	public List<ProcessRoute> getProcessRouteList()
+	{
+		return processRouteList;
+	}
+
+	public void setProcessRouteList(List<ProcessRoute> processRouteList)
+	{
+		this.processRouteList = processRouteList;
+	}
+
+	public String getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(String info)
+	{
+		this.info = info;
+	}
+
+	public List<RepairPiece> getList_rp()
+	{
+		return list_rp;
+	}
+
+	public void setList_rp(List<RepairPiece> list_rp)
+	{
+		this.list_rp = list_rp;
 	}
 
 }

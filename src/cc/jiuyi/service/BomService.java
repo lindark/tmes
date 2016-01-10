@@ -6,6 +6,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 - 产品Bom
@@ -39,4 +40,14 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @return
 	 */
 	public List<Bom> getBomList(String aufnr,Integer maxversion);
+
+	/**
+	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 * @param pager
+	 * @param map
+	 * @param workingBillId
+	 * @return
+	 */
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,
+			WorkingBill wb);
 }

@@ -48,20 +48,15 @@ public interface ScrapService extends BaseService<Scrap, String>
 			String my_id);
 
 	/**
-	 * 确认或撤销
-	 * @param list
-	 * @param newstate
-	 */
-	public void updateState(Scrap scrap, String newstate,String cardnumber);
-	
-	
-	/**
 	 * 取出所有未确认的报废单
 	 */
 	public List<Scrap> getUnCheckList();
 
-	/**与SAP交互没有问题,更新本地数据库*/
-	public void updateMyData(Scrap s,String newstate,String cardnumber);
+	/**
+	 * 1.与SAP交互没有问题,更新本地数据库
+	 * 2.确认或撤销
+	 */
+	public void updateMyData(Scrap s,String newstate,String cardnumber,int my_id);
 
 	/**
 	 * 根据主表id获取产出后表数据

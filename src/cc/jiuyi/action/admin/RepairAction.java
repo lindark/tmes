@@ -2,7 +2,6 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +87,7 @@ public class RepairAction extends BaseAdminAction {
 	{
 		workingbill = workingBillService.get(workingBillId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
 		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.add="add";
@@ -106,19 +105,12 @@ public class RepairAction extends BaseAdminAction {
 		repair = repairService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
-		Integer version = workingbill.getProcessversion();//版本号
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		if (version == null) 
-		{
-			version = processRouteService.getMaxVersion(aufnr, productDate);
-		}
-		
+		String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
 		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.edit="edit";
 		return INPUT;
-		
 		//TODO 返修收货未完成
 	}
 

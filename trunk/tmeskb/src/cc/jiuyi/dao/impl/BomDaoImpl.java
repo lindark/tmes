@@ -57,16 +57,16 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 
 
 	/**
-	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 * jqGrid:(根据:子件编码/名称,凭证,版本号)查询
 	 */
-	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,WorkingBill wb)
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion)
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		//产品
-		if(!super.existAlias(detachedCriteria, "products", "products"))
+		if(!super.existAlias(detachedCriteria, "orders", "orders"))
 		{
-			detachedCriteria.createAlias("products", "products");
+			detachedCriteria.createAlias("orders", "orders");
 		}
 		if(map.size()>0)
 		{
@@ -81,12 +81,9 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 				detachedCriteria.add(Restrictions.eq("materialName", map.get("piecename")));
 			}
 		}
-		detachedCriteria.add(Restrictions.eq("isDel", "K"));//取出空数据
-		if(wb.getBomversion()!=null)
-		{
-			detachedCriteria.add(Restrictions.eq("products.id", Integer.parseInt(wb.getBomversion().toString())));
-			detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
-		}
+		detachedCriteria.add(Restrictions.eq("orders.aufnr", aufnr));
+		detachedCriteria.add(Restrictions.eq("version", maxversion));
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 }

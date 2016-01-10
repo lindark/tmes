@@ -1,11 +1,9 @@
 package cc.jiuyi.dao.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
@@ -68,5 +66,13 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 		return (Integer)getSession().createQuery(hql).setParameter(0, aufnr).uniqueResult();
 	}
 
-
+	/**
+	 * 生产订单号,版本号,编码查询一条工艺路线
+	 */
+	public ProcessRoute getOneByConditions(String aufnr, Integer maxversion,
+			String processCode)
+	{
+		String hql="from ProcessRoute where orders.aufnr = ? and version = ? and processCode=?";
+		return (ProcessRoute) getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, maxversion).setParameter(2, processCode).uniqueResult();
+	}
 }

@@ -75,7 +75,6 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		scrap.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		scrap.setBudat(wb.getProductDate());//过账日期
-		
 		String scrapId=this.scrapDao.save(scrap);
 		Scrap scp=this.scrapDao.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
@@ -112,6 +111,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	{
 		Scrap scp=this.scrapDao.get(scrap.getId());//当前报废(主表)对象
 		scp.setModifyDate(new Date());//修改日期
+		scp.setState("1");
 		this.scrapDao.update(scp);//执行修改
 		/**修改报废信息表，及对应bug表*/
 		if(list_scrapmsg!=null)
@@ -264,5 +264,18 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public List<ScrapLater>getSlBySid(String sid)
 	{
 		return this.slaterDao.getSlBySid(sid);
+	}
+
+	/**
+	 * 如果没有SAP交互把状态先改为已确认及确认人
+	 */
+	public void updateState(String scrapid, String cardnumber)
+	{
+		Admin admin=this.adminService.getByCardnum(cardnumber);
+		Scrap scrap=this.scrapDao.get(scrapid);
+		scrap.setModifyDate(new Date());//修改日期
+		scrap.setState("2");//状态--已确认
+		scrap.setConfirmation(admin);//确认人
+		this.scrapDao.update(scrap);
 	}
 }

@@ -62,9 +62,16 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	/**
 	 * jqGrid:(根据:子件编码/名称,随工单)查询
 	 */
-	public Pager getPieceByCondition(Pager pager,HashMap<String, String> map,
-			WorkingBill wb)
+	public Pager getPieceByCondition(Pager pager,HashMap<String, String> map,WorkingBill wb)
 	{
-		return this.bomDao.getPieceByCondition(pager,map,wb);
+		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+		String productDate = wb.getProductDate();
+		Orders orders = orderdao.get("aufnr",aufnr);
+		Integer maxversion = bomDao.getMaxVersion(orders.getMatnr(), productDate);
+		if(maxversion!=null)
+		{
+			return this.bomDao.getPieceByCondition(pager,map, aufnr, maxversion);
+		}
+		return null;
 	}
 }

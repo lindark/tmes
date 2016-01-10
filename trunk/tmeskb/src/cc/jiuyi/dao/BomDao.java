@@ -6,6 +6,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.WorkingBill;
 
 
 /**
@@ -34,4 +35,14 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 */
 	public Integer getMaxVersion(String aufnr);
 	
+
+	/**
+	 * jqGrid:(根据:子件编码/名称,随工单)查询
+	 * @param pager
+	 * @param map
+	 * @param workingBillId
+	 * @return
+	 */
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,
+			WorkingBill wb);
 }

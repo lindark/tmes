@@ -358,111 +358,103 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String xconfirm(List<Scrap>xlist_scrap,String newstate,int xmyid)
 	{
-		List<Scrap>list_sapreturn=null;
-		List<ScrapLater>xlist_sl=new ArrayList<ScrapLater>();
-		List<Scrap>xlist_scrap2=new ArrayList<Scrap>();
-		for (int i = 0; i < xlist_scrap.size(); i++)
+		try
 		{
-			Scrap s=xlist_scrap.get(i);
-			/**确认操作*/
-			if(xmyid==1)
+			ScrapRfc scrapRfc=new ScrapRfcImpl();
+			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
-				//报废后产出--根据主表获取对应从表的数据
-				List<ScrapLater>list1=this.scrapService.getSlBySid(s.getId());
-				for(int j=0;j<list1.size();j++)
-				{
-					ScrapLater sl=list1.get(j);
-					xlist_sl.add(sl);
-				}
-				s.setMove_type("262");
-				xlist_scrap2.add(s);
-			}
-			/**撤销操作*/
-			if(xmyid==2)
-			{
-				/**撤销未确认的*/
-				if("1".equals(s.getState()))
-				{
-					this.scrapService.updateState(s, "3",cardnumber);
-				}
-				/**撤销已确认的*/
-				if("2".equals(s.getState()))
+				Scrap s=xlist_scrap.get(i);
+				/**确认操作*/
+				if(xmyid==1)
 				{
 					//报废后产出--根据主表获取对应从表的数据
-					List<ScrapLater>list1=new ArrayList<ScrapLater>(s.getScrapLaterSet());
-					for(int j=0;j<list1.size();j++)
+					List<ScrapLater>list1=this.scrapService.getSlBySid(s.getId());
+					s.setMove_type("262");
+					if(list1.size()>0)
 					{
-						ScrapLater sl=list1.get(j);
-						xlist_sl.add(sl);
-					}
-					s.setMove_type("261");
-					xlist_scrap2.add(s);
-				}
-			}
-		}
-		/** xlist_sl.size()>0说明有领料/退料操作 */
-		if(xlist_sl.size()>0)
-		{
-			try
-			{
-				String e_msg="";
-				boolean flag=true;
-				ScrapRfc scrapRfc=new ScrapRfcImpl();
-				//调用SAP，返回一个List数据，判断检索是否通过
-				list_sapreturn=new ArrayList<Scrap>(scrapRfc.ScrappedCrt("X",xlist_scrap2,xlist_sl));
-				for(int i=0;i<list_sapreturn.size();i++)
-				{
-					Scrap s=list_sapreturn.get(i);
-					if("E".equalsIgnoreCase(s.getE_type()))
-					{
-						flag=false;
-						e_msg+=s.getE_message();
-					}
-				}
-				//检索是否通过
-				if(!flag)
-				{
-					return ajaxJsonErrorMessage(e_msg);
-				}
-				else
-				{
-					//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
-					list_sapreturn=new ArrayList<Scrap>(scrapRfc.ScrappedCrt("",xlist_scrap2,xlist_sl));
-					flag=true;
-					e_msg="";
-					if(list_sapreturn.size()==0)
-					{
-						return ajaxJsonErrorMessage("生成凭证失败!");
-					}
-					for(int i=0;i<list_sapreturn.size();i++)
-					{
-						Scrap s=list_sapreturn.get(i);
-						/**出现问题*/
-						if("E".equalsIgnoreCase(s.getE_type()))
+						/**有产后数据,和SAP交互*/
+						//调用SAP，返回一个List数据，判断检索是否通过
+						Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
+						if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 						{
-							flag=false;
-							e_msg+=s.getE_message();
+							return ajaxJsonErrorMessage(s.getE_message());
 						}
 						else
 						{
-							/**与SAP交互没有问题,更新本地数据库*/
-							this.scrapService.updateMyData(s,newstate,cardnumber);
+							//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+							Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
+							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
+							{
+								return ajaxJsonErrorMessage(s.getE_message());
+							}
+							else
+							{
+								/**与SAP交互没有问题,更新本地数据库*/
+								this.scrapService.updateMyData(s_sapreturn2,newstate,cardnumber,1);
+							}
 						}
 					}
-					if(!flag)
+					else
 					{
-						return ajaxJsonErrorMessage(e_msg);
+						/**没有产后数据,修改状态*/
+						this.scrapService.updateMyData(s,newstate,cardnumber,2);
+					}
+				}
+				/**撤销操作*/
+				else if(xmyid==2)
+				{
+					/**撤销未确认的*/
+					if("1".equals(s.getState()))
+					{
+						this.scrapService.updateMyData(s, "3",cardnumber,2);
+					}
+					/**撤销已确认的*/
+					if("2".equals(s.getState()))
+					{
+						//报废后产出--根据主表获取对应从表的数据
+						List<ScrapLater>list1=this.scrapService.getSlBySid(s.getId());
+						s.setMove_type("261");
+						
+						if(list1.size()>0)
+						{
+							/**有产后数据,和SAP交互*/
+							//调用SAP，返回一个List数据，判断检索是否通过
+							Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
+							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
+							{
+								return ajaxJsonErrorMessage(s.getE_message());
+							}
+							else
+							{
+								//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+								Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
+								if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
+								{
+									return ajaxJsonErrorMessage(s.getE_message());
+								}
+								else
+								{
+									/**与SAP交互没有问题,更新本地数据库*/
+									this.scrapService.updateMyData(s_sapreturn2,newstate,cardnumber,1);
+								}
+							}
+						}
+						else
+						{
+							/**没有产后数据,修改状态*/
+							this.scrapService.updateMyData(s,newstate,cardnumber,2);
+						}
 					}
 				}
 			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
-			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}

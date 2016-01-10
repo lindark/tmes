@@ -278,7 +278,8 @@ public class RepairAction extends BaseAdminAction {
 		pager = repairService.findPagerByjqGrid(pager, map, workingBillId);
 		List<Repair> repairList = pager.getList();
 		List<Repair> lst = new ArrayList<Repair>();
-		for (int i = 0; i < repairList.size(); i++) {
+		for (int i = 0; i < repairList.size(); i++) 
+		{
 			Repair repair = (Repair) repairList.get(i);
 			repair.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "repairState", repair.getState()));
@@ -288,7 +289,15 @@ public class RepairAction extends BaseAdminAction {
 			repair.setCreateName(repair.getCreateUser().getName());
 			if(repair.getProcessCode()!=null)
 			{
-				repair.setResponseName(processService.get("processCode",repair.getProcessCode()).getProcessName());
+				workingbill = workingBillService.get(workingBillId);
+				String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+				String productDate = workingbill.getProductDate();
+				//生产订单号,日期,编码查询一条工艺路线
+				ProcessRoute pr= processRouteService.getOneByConditions(aufnr, productDate,repair.getProcessCode());
+				if(pr!=null)
+				{
+					repair.setResponseName(pr.getProcessName());
+				}
 			}
 			lst.add(repair);
 		}

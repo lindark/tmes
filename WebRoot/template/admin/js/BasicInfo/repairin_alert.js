@@ -65,8 +65,8 @@ jQuery(function($) {
 		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'materialCode',index:'materialCode',label:"子件编码",width:200, editable: false},
-			{name:'materialName',index:'materialName',label:"子件名称",width:200, editable: false},
+			{name:'materialCode',index:'materialCode',label:"组件编码",width:200, editable: false},
+			{name:'materialName',index:'materialName',label:"组件名称",width:200, editable: false},
 			{name:'productAmount',index:'productAmount',label:"产品数量",width:100, editable: false},
 			{name:'materialAmount',index:'materialAmount',label:"组件数量",width:100, editable: false}
 		], 

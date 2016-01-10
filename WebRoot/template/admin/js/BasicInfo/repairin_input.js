@@ -3,6 +3,10 @@ $(function(){
 	$("#btn_addpiece").click(function(){
 		addpiece();
 	});
+	//返修收货数量是否输入合法
+	$("#input_num").change(function(){
+		inputnum_event();
+	});
 });
 
 //添加产品子件
@@ -12,36 +16,84 @@ function addpiece()
 	var width="800px";
 	var height="610px";
 	var content="repairin!beforegetpiece.action?info="+$("#wkid").val();
-	var html="<th style='width:20%;'>组件编码</th> <th style='width:35%;'>组件描述</th> <th style='width:15%;'>产品数量</th> <th style='width:15%;'>组件数量</th>  <th style='width:15%;'>操作</th>";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var infos=iframeWin.getGridId();
 		if(infos!=""&&infos!=null)
 		{
 			var info1=infos.split("?");//分行
+			var xhtml="";
 			for(var i=0;i<info1.length;i++)
 			{
 				var info2=info1[i].split(",");//分列
 				//info2 --- 0主键ID 1组件编码 2组件名称 3产品数量  4组件数量
 				if(info2.length>1)
 				{
-					html+="<tr>" +
+					xhtml+="<tr>" +
 					"<td>"+info2[1]+"<input type='hidden' name='list_rp["+i+"].rpcode' value='"+info2[1]+"' /></td>" +
 					"<td>"+info2[2]+"<input type='hidden' name='list_rp["+i+"].rpname' value='"+info2[2]+"' /></td>" +
 					"<td>"+info2[3]+"<input type='hidden' name='list_rp["+i+"].productnum' value='"+info2[3]+"' /></td>" +
 					"<td>"+info2[4]+"<input type='hidden' name='list_rp["+i+"].piecenum' value='"+info2[4]+"' /></td>" +
-					"<td><a onclick='del_event()' style='cursor:pointer;'>删除</a></td>" +
+					"<td><a id='a_"+info2[1]+"' onclick='del_event("+info2[1]+")' style='cursor:pointer;'>删除</a></td>" +
 					"</tr>";
 				}
 			}
-			$("#tb_repairinpiece").html(html);
+			$("#tb_repairinpiece tr:gt(0)").remove();//除了第一行,删除所有其他行
+			$("#tb_repairinpiece").append(xhtml);
 			layer.close(index);
 		}
 	});
 }
 
 //删除
-function del_event()
+function del_event(obj)
 {
-	$(this).parent().parent().remove();
+	$("#a_"+obj).parent().parent().remove();
+}
+
+//
+function save_event(url)
+{
+	var dt = $("#inputForm").serialize();
+	credit.creditCard(url,function(data){
+		var workingbillid = $("#wkid").val();
+		if(data.status=="success"){
+    		layer.alert(data.message, {icon: 6},function(){
+			window.location.href = "repairin!list.action?workingBillId="+ workingbillid;
+    	});
+    	}else if(data.status=="error"){
+    		layer.alert(data.message,{
+    			closeBtn: 0,
+    			icon: 5,
+    			skin:'error'
+    		});
+    	}
+	},dt);
+}
+
+//返修收货数量是否输入合法
+function inputnum_event()
+{
+	var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
+	var input_num=$("#input_num").val().replace(/\s+/g,"") //返修数量
+	if(reg.test(input_num))
+	{
+		input_num=setScale(input_num,0,"");//精度
+		$("#input_num").val(input_num);
+	}
+	else
+	{
+		layer.alert("输入不合法!",false);
+		$("#input_num").val("");
+	}
+}
+//是否可以提交
+function iscansave()
+{
+	var input_num=$("#input_num").val();//返修数量
+	if(input_num==""||input_num==null)
+	{
+		return false;
+	}
+	return true;
 }

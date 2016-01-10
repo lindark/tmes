@@ -135,6 +135,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			bom.setMaterialAmount(table04.getDouble("BDMNG"));//需求数量
 			bom.setMaterialName(table04.getString("MAKTX"));//物料描述
 			bom.setShift(table04.getString("ABLAD"));//班组
+			bom.setRspos(table04.getString("RSPOS"));//项目
 			bomList.add(bom);
 		}
 		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);

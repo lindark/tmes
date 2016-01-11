@@ -21,8 +21,7 @@
 	src="${base}/template/common/js/jquery.validate.cn.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/browser/browserValidate.js"></script>
-<link href="${base}/template/admin/css/input.css" rel="stylesheet"
-	type="text/css" />
+<link href="${base}/template/admin/css/input.css" rel="stylesheet"	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -95,6 +94,21 @@ body {
 											<input type="text" name="admin.workNumber"
 												class="col-xs-10 col-sm-5 formText {required: true}"
 												value="${(admin.workNumber)!}" /> <label class="requireField">*</label>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">直接上级</label>
+										<div class="col-sm-9">
+										     <#if isAdd??>
+										    <select style="width:290px;" name="parentId">
+														<option value="">请选择...</option> 
+														<#list adminList as list>
+														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
+														</#list>
+											</select>
+											<#else>
+										       ${(admin.parentAdmin.name)!}
+										    </#if>
 										</div>
 								</div>
 								<div class="form-group">

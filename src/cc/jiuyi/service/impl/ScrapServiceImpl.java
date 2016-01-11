@@ -96,6 +96,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				{
 					sl.setCreateDate(new Date());//初始化创建日期
 					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+					sl.setOrderid(wb.getAufnr());//订单号
 					sl.setScrap(scp);
 					this.slaterDao.save(sl);
 				}
@@ -110,6 +111,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public void updateInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
 	{
 		Scrap scp=this.scrapDao.get(scrap.getId());//当前报废(主表)对象
+		WorkingBill wb = wbService.get(scrap.getWorkingBill().getId());//当前随工单
+		String workingBillCode = wb.getWorkingBillCode();
 		scp.setModifyDate(new Date());//修改日期
 		scp.setState("1");
 		this.scrapDao.update(scp);//执行修改
@@ -192,6 +195,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if(str!=null&&!"".equals(str)&&!"0".equals(str))
 				{
 					sl.setCreateDate(new Date());//初始化创建日期
+					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+					sl.setOrderid(wb.getAufnr());//订单号
 					sl.setScrap(scp);
 					this.slaterDao.save(sl);
 				}

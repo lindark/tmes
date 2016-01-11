@@ -144,6 +144,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		repairin.setLGORT(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
 		repairin.setWERKS(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		repairin.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+		repairin.setBUDAT(wb.getProductDate());//过账日期
 		String rid=this.repairinDao.save(repairin);
 		/**保存组件表数据*/
 		Repairin r=this.repairinDao.get(rid);//根据id查询

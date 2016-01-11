@@ -27,7 +27,7 @@ public interface CartonService extends BaseService<Carton, String> {
 	public void updateisdel(String[] ids, String oper);
 
 	// 刷卡确认
-	public void updateState(List<Carton> list, String workingbillid,
+	public String updateState(List<Carton> list, String workingbillid,
 			String cardnumber) throws IOException, CustomerException;
 
 	// 刷卡撤销

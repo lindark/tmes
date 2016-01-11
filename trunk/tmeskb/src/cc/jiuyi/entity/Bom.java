@@ -55,6 +55,7 @@ public class Bom extends BaseEntity{
 	private String productsCode;
 	private String productsName;
 	private String stockAmount;//库存数量
+	private String oerderCode;
 	/**冗余 end**/
 	
 	
@@ -361,6 +362,15 @@ public class Bom extends BaseEntity{
 			effectiveDate = ThinkWayUtil.formatDateByPattern(new Date(),"yyyy-MM-dd");
 		}
 		this.effectiveDate = effectiveDate;
+	}
+
+	@Transient
+	public String getOerderCode() {
+		return oerderCode;
+	}
+
+	public void setOerderCode(String oerderCode) {
+		this.oerderCode = oerderCode;
 	}
 	
 	

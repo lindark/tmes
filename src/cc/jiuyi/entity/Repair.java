@@ -44,6 +44,7 @@ public class Repair extends BaseEntity {
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
 	private String ZTEXT;//抬头文本
+	private String BUDAT;//过账日期
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -259,6 +260,16 @@ public class Repair extends BaseEntity {
 	public void setEX_MBLNR(String eX_MBLNR)
 	{
 		EX_MBLNR = eX_MBLNR;
+	}
+
+	public String getBUDAT()
+	{
+		return BUDAT;
+	}
+
+	public void setBUDAT(String bUDAT)
+	{
+		BUDAT = bUDAT;
 	}
 
 }

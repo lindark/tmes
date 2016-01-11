@@ -51,7 +51,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 		for(EnteringwareHouse e:list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", e.getWorkingbill().getMatnr());//物料编码
-			item.put("ZSFSL", e.getStorageAmount());//数量
+			item.put("ZSFSL", e.getStorageAmount().toString());//数量
 			item.put("XUH",e.getId());//ID
 			//item.put("ITEM_TEXT", "");//项目文本
 			arrList2.add(item);

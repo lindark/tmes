@@ -58,6 +58,7 @@ import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -90,7 +91,6 @@ public class HandOverAction extends BaseAdminAction {
 	 */
 	public String creditsubmit(){
 		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
-		String handoverId ="";
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
 		Object[] workingbillIdList = new Object[workingbillList.size()];
 		for(int i=0;i<workingbillList.size();i++){
@@ -99,18 +99,15 @@ public class HandOverAction extends BaseAdminAction {
 		}
 		
 		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
-		for (int i = 0; i < handoverprocessList.size(); i++) {
-			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			/**获取主表id**/
-			String id = handoverprocess.getHandover().getId();
-			handoverId = id;
+		for(HandOverProcess handoverprocess : handoverprocessList){
+			String state = handoverprocess.getState();
+			if(!state.equals("approval")){//如果状态 不等于 审批完成
+				return ajaxJsonErrorMessage("对不起，有工序未交接完成!");
+			}
 		}
+		
 		/**主表修改状态和修改人**/
-		HandOver handover = handOverService.get(handoverId);
-		handover.setState("2");
-		handover.setSubmitadmin(admin);
-		handOverService.update(handover);
-		//TODO 工序交接刷卡提交未完成
+		handOverService.saveandgx(admin,handoverprocessList);
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 	
@@ -120,69 +117,64 @@ public class HandOverAction extends BaseAdminAction {
 	 */
 	public String creditapproval(){
 		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
-		String handoverId ="";
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
-		//List<String> workingbillIdList = new ArrayList<String>();
-
 		Object[] workingbillIdList = new Object[workingbillList.size()];
 		for(int i=0;i<workingbillList.size();i++){
 			WorkingBill workingbill = workingbillList.get(i);
 			workingbillIdList[i] = workingbill.getId();
 		}
 		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
-        HandOver handOver =new  HandOver();
-        List<HandOverProcess> temp = new ArrayList<HandOverProcess>();
-		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
-			HandOverProcess handoverprocess = handoverprocessList.get(i);
-			if(!StringUtil.isEmpty(handoverprocess.getMblnr())){
-				handoverprocessList.remove(i);
-			}	
-			String aufnr = handoverprocess.getAfterworkingbill().getAufnr();//取生产订单号
-			handOver =	handoverprocess.getHandover();
-			handoverId = handOver.getId();
+		if(handoverprocessList == null){
+			return ajaxJsonErrorMessage("未找到任何交接记录");
 		}
-		if(handOver.getState().equals("1")){
-			return ajaxJsonErrorMessage("交接状态为未提交不能确认,请先提交后确认!");
-		}	
-		
-		
 		try {
-			String message = "";
-			boolean flag = true;
-			List<HandOverProcess> handList03 = handoverprocessrfc.BatchHandOver(handoverprocessList, "",loginid);//执行
-			for(HandOverProcess handoverprocess : handList03){
-				String e_type = handoverprocess.getE_type();
-				if(e_type.equals("E")){ //如果有一行发生了错误
-					flag = false;
-					message +=handoverprocess.getMaterialCode()+":"+handoverprocess.getE_message();
-				}else{					
-					message += handoverprocess.getE_message();
+			String mblnr="";
+			String handoverId="";
+			List<String> aufnrList = new ArrayList<String>();
+			for(int i=0;i<handoverprocessList.size();i++){//取出所有的不同aufnr 的集合
+				HandOverProcess handoverprocess = handoverprocessList.get(i);
+				String aufnr = handoverprocess.getBeforworkingbill().getAufnr();//生产订单号
+				HandOver handover = handoverprocess.getHandover();
+				String state = handover.getState();
+				if(!state.equals("2")){
+					return ajaxJsonErrorMessage("对不起,交接状态未处于提交状态，无法确认");
 				}
-				
-				HandOverProcess handOverProcess = handOverProcessService.get(handoverprocess.getId());
-				handOverProcess.setE_message(handOverProcess.getE_message()+handoverprocess.getE_message());
-				if(handOverProcess.getE_type().equals("E"))
-					handOverProcess.setE_type("E");
-				else
-					handOverProcess.setE_type(e_type);
-				
-				handOverProcessService.update(handOverProcess);
+				handoverId = handover.getId();
+				if(!aufnrList.contains(aufnr)){
+					aufnrList.add(aufnr);
+				}
 			}
-			if(!flag)
-				return ajaxJsonErrorMessage(message);
 			
-		//以上跟SAP接口完全没有问题，成功后
+			List<HandOverProcess> handoverprocessList01 = null;
+			for(int i=0;i<aufnrList.size();i++){
+				handoverprocessList01 = new ArrayList<HandOverProcess>();
+				String aufnr = aufnrList.get(i);
+				for(int y=0;y<handoverprocessList.size();y++){
+					HandOverProcess handoverprocess = handoverprocessList.get(y);
+					if(aufnr.equals(handoverprocess.getBeforworkingbill().getAufnr())){
+						handoverprocessList01.add(handoverprocess);
+					}
+				}
+				if(!mblnr.equals(""))
+					mblnr+=",";
+				String mblnr1 = handoverprocessrfc.BatchHandOver(handoverprocessList01, "",loginid);//执行
+				mblnr+=mblnr1;
+				handOverService.updateHand(handoverprocessList01,mblnr1,handoverId,admin);
+			}
+			//以上跟SAP接口完全没有问题，成功后
 			kaoqinservice.mergeAdminafterWork(admin,handoverId);
 			
 			
-		//TODO 工序交接下班未测试
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+		} catch (CustomerException e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMsgDes());
 		}catch(Exception e){
 			e.printStackTrace();
-			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+			return ajaxJsonErrorMessage("系统出现问题");
 		}
 		
 		

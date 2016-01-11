@@ -254,4 +254,15 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		return temp;
 	}
+	
+	/**
+	 * 根据id获取直接上级
+	 * 
+	 */
+	public Admin getAdminById(String id){
+		
+		String hql="select b from Admin a join a.parentAdmin b where a.id=?";
+		return (Admin) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+	}
+	
 }

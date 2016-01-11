@@ -178,14 +178,10 @@ public class AdminAction extends BaseAdminAction {
 	
 	//刷卡登录
 	public String creditlogin(){
-		try{
 		Admin admin = adminService.get("cardNumber", cardnumber);
-		
-		
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return "teamindex";
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("username", admin.getUsername());
+		return ajaxJson(map);
 	}
 	
 	// 后台主页面

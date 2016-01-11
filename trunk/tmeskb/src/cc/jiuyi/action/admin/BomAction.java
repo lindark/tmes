@@ -110,6 +110,7 @@ public class BomAction extends BaseAdminAction {
 				bom.setMaterialName(bom.getMaterialName());
 				bom.setProductsCode(bom.getOrders().getMatnr());
 				bom.setProductsName(bom.getOrders().getMaktx());
+				bom.setOerderCode(bom.getOrders().getAufnr());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();

@@ -38,7 +38,6 @@ public class Orders extends BaseEntity{
 	private Set<Bom> bomSet;//Bom集合
 	private Set<ProcessRoute> processrouteSet;
 	
-	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="orders")
 	public Set<ProcessRoute> getProcessrouteSet() {
 		return processrouteSet;

@@ -29,6 +29,7 @@ public class HandOver extends BaseEntity{
 	private Admin submitadmin;//提交人
 	private Admin approvaladmin;//确认人
 	private Set<HandOverProcess> handoverprocess;//交接从表
+	private String mblnr;//物料凭证号 
 	
 	@OneToMany(mappedBy = "handover", fetch = FetchType.LAZY)
 	public Set<HandOverProcess> getHandoverprocess() {
@@ -57,6 +58,12 @@ public class HandOver extends BaseEntity{
 	}
 	public void setApprovaladmin(Admin approvaladmin) {
 		this.approvaladmin = approvaladmin;
+	}
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
 	}
 	
 }

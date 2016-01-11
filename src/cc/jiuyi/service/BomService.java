@@ -50,4 +50,12 @@ public interface BomService extends BaseService<Bom, String> {
 	 */
 	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,
 			WorkingBill wb);
+	
+	/**
+	 * 根据订单id和生产日期获取最大版本号
+	 * @param aufnr 订单号
+	 * @param maxversion 版本号
+	 * @return
+	 * */
+	public Integer getMaxversion(String orderId,String productDate);
 }

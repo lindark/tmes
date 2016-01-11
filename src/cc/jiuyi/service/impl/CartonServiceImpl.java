@@ -13,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.CartonDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
@@ -41,6 +43,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 	private CartonRfc cartonRfc;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private BomService bomService;
 
 	@Resource
 	public void setBaseDao(CartonDao cartonDao) {
@@ -64,25 +68,34 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 	 * 刷卡确认
 	 * 考虑线程同步
 	 */
-	public synchronized void updateState(List<Carton> list,
-			String workingbillid, String cardnumber) throws IOException,
-			CustomerException {
+	public synchronized String updateState(List<Carton> list,String workingbillid, String cardnumber) throws IOException,CustomerException {
 		List<Carton> cartonList = new ArrayList<Carton>();
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		admin = adminservice.load(admin.getId());
-		// 线边仓
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
-				.getWarehouse();
-		// 工厂
-		String werks = admin.getDepartment().getTeam().getFactoryUnit()
-				.getWorkShop().getFactory().getFactoryCode();
 		WorkingBill workingbill = workingbillService.get(workingbillid);
-		String matnr = workingbill.getMatnr();// 物料编号
+		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
+		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+		//String matnr = workingbill.getMatnr();// 物料编号
 		ThinkWayUtil util = new ThinkWayUtil();
 		String budat = util.SystemDate();// 过账日期
 
+		
+		String matnr ="";  //物料编码
+		List<Bom> bomList = new ArrayList<Bom>();
+		bomList = bomService.findBom(workingbill.getAufnr(), workingbill.getProductDate());
+		for (int i = 0; i < bomList.size(); i++) {
+			Bom bom = bomList.get(i);
+			if(bom.getMaterialCode().startsWith("5")){
+				matnr = bom.getMaterialCode();
+			}	
+		}
+		
+		if(matnr.equals("")){
+			return ajaxJsonErrorMessage("没有找到该纸箱！");
+		}
+		
 		// sap同步准备,有些数据是测试的，后期根据上面的变量做修改
-		for (int i = 0; i < list.size(); i++) {
+		    for (int i = 0; i < list.size(); i++) {
 			Carton carton = list.get(i);
 			// carton.setCartonCode("50110123");
 			carton.setCartonCode(matnr);
@@ -92,10 +105,11 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 			// carton.setWerks("1000");
 			carton.setWerks(werks);
 			carton.setBudat(budat);
-			carton.setLifnr(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"lifnr", "1"));
+			carton.setLifnr(ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1"));
+			//System.out.println("Lifnr"+carton.getLifnr());
 			cartonList.add(carton);
 		}
+		    
 		//调用sap函数接口
 		cartonList = cartonRfc.CartonCrt(cartonList);
 		//根据返回集合，判断函数调用是否成功
@@ -129,6 +143,13 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 		 */
 		workingbill.setCartonTotalAmount(totalamount);
 		workingbillService.update(workingbill);
+		return null;
+	}
+
+
+	private String ajaxJsonErrorMessage(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

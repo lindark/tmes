@@ -77,6 +77,7 @@ public class AdminAction extends BaseAdminAction {
 	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring security 最后登录异常Session名称
 
 	private String loginUsername;
+	private String parentId;
 	
 	private Admin admin;
 	private String adminDeptName;
@@ -465,6 +466,13 @@ public class AdminAction extends BaseAdminAction {
 		if (roleList == null || roleList.size() == 0) {
 			return ERROR;
 		}
+		
+		if(parentId!=null && !parentId.equalsIgnoreCase("")){
+			Admin admin1 = adminService.get(parentId);
+			admin.setParentAdmin(admin1);
+		}else{
+			admin.setParentAdmin(null);
+		}
 		admin.setUsername(admin.getUsername().toLowerCase());
 		admin.setLoginFailureCount(0);
 		admin.setIsAccountLocked(false);
@@ -717,6 +725,16 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+
+	public String getParentId() {
+		return parentId;
+	}
+
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	

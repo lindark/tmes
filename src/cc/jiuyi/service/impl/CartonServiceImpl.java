@@ -91,7 +91,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 		}
 		
 		if(matnr.equals("")){
-			return ajaxJsonErrorMessage("没有找到该纸箱！");
+			return "E";
 		}
 		
 		// sap同步准备,有些数据是测试的，后期根据上面的变量做修改
@@ -146,11 +146,6 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String>
 		return null;
 	}
 
-
-	private String ajaxJsonErrorMessage(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * 刷卡撤销

@@ -132,7 +132,7 @@ public class CartonAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
-	// 刷卡确认
+	// 刷卡完工
 	public String creditapproval() {
 
 		try {
@@ -147,7 +147,10 @@ public class CartonAction extends BaseAdminAction {
 				}
 			}
 			List<Carton> list = cartonService.get(ids);
-			cartonService.updateState(list, workingBillId, cardnumber);
+			String str = cartonService.updateState(list, workingBillId, cardnumber);
+			if(str.equals("E")){
+				return ajaxJsonErrorMessage("未找到该纸箱!");
+			}
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);

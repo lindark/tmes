@@ -7,5 +7,5 @@ import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.util.CustomerException;
 
 public interface EnteringwareHouseRfc extends BaserfcService{
-	public List<EnteringwareHouse> CartonCrt(String testrun,List<EnteringwareHouse> list) throws IOException,CustomerException;
+	public List<EnteringwareHouse> WarehousingCrt(String testrun,List<EnteringwareHouse> list) throws IOException,CustomerException;
 }

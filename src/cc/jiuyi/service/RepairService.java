@@ -2,13 +2,11 @@ package cc.jiuyi.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
-import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 返修

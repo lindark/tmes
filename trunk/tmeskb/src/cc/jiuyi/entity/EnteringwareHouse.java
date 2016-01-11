@@ -38,6 +38,15 @@ public class EnteringwareHouse extends BaseEntity {
 	private String maktx;//产品描述
 
 	private WorkingBill workingbill;// 随工单
+	
+	private String budat;//过账日期
+	private String werks;//工厂
+	private String lgort;//库存地点
+	private String ztext;//文本
+	private String moveType;//移动类型 
+	private String ex_mblnr;//凭证号
+	private String e_message; 
+	private String e_type;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -148,5 +157,79 @@ public class EnteringwareHouse extends BaseEntity {
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
 	}
+
+	@Transient
+	public String getBudat() {
+		return budat;
+	}
+
+	public void setBudat(String budat) {
+		this.budat = budat;
+	}
+
+	@Transient
+	public String getWerks() {
+		return werks;
+	}
+
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+
+	@Transient
+	public String getLgort() {
+		return lgort;
+	}
+
+	public void setLgort(String lgort) {
+		this.lgort = lgort;
+	}
+
+	@Transient
+	public String getZtext() {
+		return ztext;
+	}
+
+	public void setZtext(String ztext) {
+		this.ztext = ztext;
+	}
+
+	@Transient
+	public String getMoveType() {
+		return moveType;
+	}
+
+	public void setMoveType(String moveType) {
+		this.moveType = moveType;
+	}
+
+	public String getEx_mblnr() {
+		return ex_mblnr;
+	}
+
+	public void setEx_mblnr(String ex_mblnr) {
+		this.ex_mblnr = ex_mblnr;
+	}
+
+	@Transient
+	public String getE_message() {
+		return e_message;
+	}
+
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+
+	@Transient
+	public String getE_type() {
+		return e_type;
+	}
+
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+	
+	
+	
 	
 }

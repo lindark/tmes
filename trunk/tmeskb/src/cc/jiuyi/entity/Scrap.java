@@ -41,7 +41,6 @@ public class Scrap extends BaseEntity
 	private String xstate;//状态描述
 	private String xcreater;//提交人
 	private String xconfirmation;//确认人
-	private String xorderid;//订单号
 	
 	//表字段
 	@Column
@@ -190,14 +189,5 @@ public class Scrap extends BaseEntity
 	}
 	public void setMblnr(String mblnr) {
 		this.mblnr = mblnr;
-	}
-	@Transient
-	public String getXorderid()
-	{
-		return xorderid;
-	}
-	public void setXorderid(String xorderid)
-	{
-		this.xorderid = xorderid;
 	}
 }

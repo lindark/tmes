@@ -22,6 +22,7 @@ public class ScrapLater extends BaseEntity
 	private Scrap scrap;//报废表id外键
 	private String charg;//批号
 	private String item_text;//项目文本
+	private String orderid;//订单号
 	
 	/**get/set*/
 	@Column
@@ -88,6 +89,14 @@ public class ScrapLater extends BaseEntity
 	public void setItem_text(String item_text)
 	{
 		this.item_text = item_text;
+	}
+	public String getOrderid()
+	{
+		return orderid;
+	}
+	public void setOrderid(String orderid)
+	{
+		this.orderid = orderid;
 	}
 	
 }

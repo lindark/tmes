@@ -149,13 +149,15 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	//同步
 	public String sync() {
-//		try {
-//			//workingbillrfc.syncRepairorder(ThinkWayUtil.);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (CustomerException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			workingbillrfc.syncRepairorderAll("2016-01-09", "2016-01-09", "", "");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 	//投入产出

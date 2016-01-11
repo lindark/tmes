@@ -159,7 +159,6 @@ public class HandOverProcessAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		List<HashMap<String,Object>> matnrList = new ArrayList<HashMap<String,Object>>();
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
 			Products products = productsservice.get("productsCode",workingbill.getMatnr());
@@ -167,17 +166,14 @@ public class HandOverProcessAction extends BaseAdminAction {
 				addActionError(workingbill.getMatnr()+"未维护");
 				return ERROR;
 			}
-			HashMap<String,Object> hashmap = new HashMap<String, Object>();
 			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
-			Integer processversion = workingbill.getProcessversion();
-//			if(processversion == null)
-//				processversion = processrouteservice.getMaxVersion(products.getId());
-//			if (processversion== null) {
-//				addActionError("未找到一条工序记录");
-//				return ERROR;
-//			}
+			if(bomList == null){
+				addActionError("未找到一条BOM信息");
+				return ERROR;
+			}
+			
 			processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
 			if(processList.isEmpty()){
 				addActionError("未找到一条工序记录");
@@ -190,9 +186,6 @@ public class HandOverProcessAction extends BaseAdminAction {
 					continue;
 				materialList.add(bom);
 			}
-			hashmap.put("matnr", workingbill.getMatnr());
-			hashmap.put("version",processversion);
-			matnrList.add(hashmap);
 		}		
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
@@ -346,7 +339,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String creditsubmit(){
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditsubmit",cardnumber);
 		String [] msg = message.split(",");
-		if(msg[0] == "false"){
+		if(msg[0].equals("false")){
 			return ajaxJsonErrorMessage(msg[1]);
 		}
 		return ajaxJsonSuccessMessage("保存成功!");
@@ -359,7 +352,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String creditsave(){
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditsave",cardnumber);
 		String [] msg = message.split(",");
-		if(msg[0] == "false"){
+		if(msg[0].equals("false")){
 			return ajaxJsonErrorMessage(msg[1]);
 		}
 		return ajaxJsonSuccessMessage("保存成功!");
@@ -372,7 +365,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String creditapproval(){
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditapproval",cardnumber);
 		String [] msg = message.split(",");
-		if(msg[0] == "false"){
+		if(msg[0].equals("false")){
 			return ajaxJsonErrorMessage(msg[1]);
 		}
 		return ajaxJsonSuccessMessage("保存成功!");

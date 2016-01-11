@@ -25,8 +25,8 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 	@Resource
 	private AdminService adminservice;
 	@Override
-	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun,String loginid)
-			throws IOException {
+	public String BatchHandOver(List<HandOverProcess> list,String testrun,String loginid)
+			throws IOException,CustomerException {
 		Admin admin = adminservice.get(loginid);//获取当前登录身份
 		admin = adminservice.load(admin.getId());
 		super.setProperty("handover");//根据配置文件读取到函数名称
@@ -57,19 +57,13 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
-		Table t_data = outs.getTable("IT_ITEM");//列表
-		List<HandOverProcess> backlist = new ArrayList<HandOverProcess>();
-		for (int i = 0; i < t_data.getNumRows(); i++) {
-			t_data.setRow(i);
-			HandOverProcess h = new HandOverProcess();
-			h.setE_type(t_data.getString("E_TYPE"));
-			h.setE_message(t_data.getString("E_MESSAGE"));
-			h.setMblnr(t_data.getString("MBLNR"));
-			h.setMaterialCode(t_data.getString("MATNR"));
-			h.setId(t_data.getString("XUH"));
-			backlist.add(h);
+		String EX_MBLNR=outs.getString("EX_MBLNR");
+		String E_TYPE=outs.getString("E_TYPE");
+		String E_MESSAGE=outs.getString("E_MESSAGE");
+		if(E_TYPE.equals("E")){
+			throw new CustomerException("1400001", "交接失败,"+E_MESSAGE);
 		}
-		return backlist;
+		return EX_MBLNR;
 	}
 
 }

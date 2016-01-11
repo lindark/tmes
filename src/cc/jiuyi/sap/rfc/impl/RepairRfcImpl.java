@@ -34,22 +34,16 @@ public class RepairRfcImpl extends BaserfcServiceImpl implements RepairRfc{
 		HashMap<String,Object> item = new HashMap<String,Object>();
 		//物料凭证抬头，需要去重 参考：http://www.2cto.com/kf/201410/341634.html
 		item.put("WERKS", repair.getWERKS());//工厂 必填
+		item.put("BUDAT", repair.getBUDAT());//过账日期
 		item.put("LGORT", repair.getLGORT());//库存地点
 		item.put("ZTEXT", repair.getZTEXT());//抬头文本，选填
 		item.put("XUH", repair.getId());//序号  必填
 		item.put("MOVE_TYPE","262");//移动类型
 		item.put("KOSTL", "10008431");//成本中心
 		arrList.add(item);
-			
-		item.put("WERKS", repair.getWERKS());//工厂 必填
-		item.put("LGORT", repair.getLGORT());//库存地点
-		item.put("ZTEXT", repair.getZTEXT());//抬头文本，选填
-		item.put("XUH", repair.getId());//序号  必填
 		item.put("MOVE_TYPE","905");//移动类型
-		item.put("KOSTL", "10008431");//成本中心
 		arrList.add(item);
-		
-		
+
 		//去重
 		List<HashMap<String,Object>> arr = new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
 		ET_HEADER.setList(arr);

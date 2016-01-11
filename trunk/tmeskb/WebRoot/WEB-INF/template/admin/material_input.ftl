@@ -5,24 +5,10 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>添加/编辑产品管理 - Powered By ${systemConfig.systemName}</title>
+<title>物料管理- Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/matbrower.js"></script>
-<script type="text/javascript">
-$().ready( function() {
-
-	// 地区选择菜单
-	$(".areaSelect").lSelect({
-		url: "${base}/admin/area!ajaxChildrenArea.action"// Json数据获取url
-	});
-
-});
-</script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -57,8 +43,7 @@ body{background:#fff;}
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			
-			<li class="active"><#if isAdd??>添加产品记录<#else>编辑产品记录</#if></li>
+			<li class="active"><#if isAdd??>添加物料<#else>编辑物料</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -76,7 +61,7 @@ body{background:#fff;}
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">产品信息</a>
+					<a href="#tabs-1">物料管理</a>
 				</li>
 				
 			</ul>
@@ -85,52 +70,53 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-
-
-											<div class="profile-info-row">
-												<div class="profile-info-name">物料编码</div>
-												<div class="profile-info-value">
-													<#if isAdd??> <input type="text"
-														name="material.materialCode"
-														value="${(material.materialCode)!}"
-														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100, remote: 'material!checkMaterialCode.action', messages: {remote: '组件编码已存在!'}}" />
-													<label class="requireField">*</label> <#else>
-													${(material.materialCode)!} <input type="hidden"
-														name="material.materialCode"
-														value="${(material.materialCode)!}" /></#if>
-												</div>
-
-
-												<div class="profile-info-name">物料名称</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.materialName"
-														value="${(material.materialName)!}"
-														class=" input input-sm formText {required: true,minlength:2,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name">工厂</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.factory.id"
-														value="${(material.factory.id)!}"
-														class=" input input-sm formText {required: true,minlength:1,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-												
-												<div class="profile-info-name">生产管理员</div>
-												<div class="profile-info-value">
-													<input type="text" name="material.productmanager"
-														value="${(material.productmanager)!}"
-														class=" input input-sm formText {required: true,minlength:0,maxlength: 100}" />
-													<label class="requireField">*</label>
-												</div>
-											</div>
-
-
-																						
+						            <div class="profile-info-row">
+										<div class="profile-info-name"> 物料编码 </div>					
+										<div class="profile-info-value">
+										<#if isAdd??>
+											<input type="text" name="material.materialCode" class="formText {digits:true,required: true,minlength:2,maxlength: 100,productsCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'物料编码已存在'}}" />
+											<label class="requireField">*</label>
+										<#else>
+										    ${material.materialCode}
+										    <input type="hidden" name="material.materialCode" value="${(material.materialCode)!}"/>
+										</#if>	
 										</div>
+									</div>	
+																		
+						            <div class="profile-info-row">	
+										<div class="profile-info-name"> 物料描述 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="material.materialName" value="${(material.materialName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
+									
+						
+						             <div class="profile-info-row">
+										<div class="profile-info-name"> 工厂 </div>					
+										<div class="profile-info-value">
+											<select class="chosen-select" name="material.factory.id" class="{required: true}"
+														style="width:200px;">
+														<option value="">请选择...</option> 
+														<#list factoryList as list>
+														<option value="${list.id}" <#if (list.id == material.factory.id)!> selected</#if>>${list.factoryCode} ${list.factoryName}</option>
+														</#list>
+											</select>
+											
+											
+											<label class="requireField">*</label>	
+										</div>
+									</div>	
+									
+								  <div class="profile-info-row">	
+										<div class="profile-info-name"> 生产管理员 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="material.productmanager" value="${(material.productmanager)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+								</div> 
+									
+						</div>
 				
 			<div class="buttonArea">
 				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;

@@ -84,9 +84,11 @@ body {
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].processid" value="${processid }"/><!-- 工序-->
 													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 正常交接数量 -->							
-													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].repairAmount" value="${(list.repairamount)! }"/><!-- 返修交接数量 -->
+													
 												</td>
-							 			       
+							 					<td class="center">
+							 						<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].repairAmount" value="${(list.repairamount)! }"/><!-- 返修交接数量 -->
+							 					</td>		       
 											</tr>
 											<#assign  num=num+1/>
 										</#list>

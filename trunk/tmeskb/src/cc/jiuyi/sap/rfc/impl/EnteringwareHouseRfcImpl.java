@@ -17,7 +17,7 @@ import cc.jiuyi.util.TableModel;
 public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements EnteringwareHouseRfc{
 
 	@Override
-	public List<EnteringwareHouse> CartonCrt(String testrun,List<EnteringwareHouse> list)
+	public List<EnteringwareHouse> WarehousingCrt(String testrun,List<EnteringwareHouse> list)
 			throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/

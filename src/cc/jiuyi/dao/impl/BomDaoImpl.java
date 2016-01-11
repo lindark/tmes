@@ -32,7 +32,11 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	}
 	
 	
-	
+	@Override
+	public Integer getMaxversion(String orderId, String productDate) {
+		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.effectiveDate <= ?";
+		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, productDate).uniqueResult();
+	}
 	
 	@Override
 	public Pager findByPager(Pager pager, DetachedCriteria detachedCriteria) {
@@ -55,6 +59,7 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	}
 	
 
+	
 
 	/**
 	 * jqGrid:(根据:子件编码/名称,凭证,版本号)查询
@@ -86,4 +91,6 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+
+	
 }

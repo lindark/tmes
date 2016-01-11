@@ -19,6 +19,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
+import cc.jiuyi.util.ThinkWayUtil;
 @Component
 public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOverProcessRfc{
 
@@ -41,7 +42,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		for(HandOverProcess p : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterialCode());//物料编码
-			item.put("ZSFSL", p.getAmount().toString());//数量
+			item.put("ZSFSL", ThinkWayUtil.null2o(p.getAmount())+ThinkWayUtil.null2o(p.getRepairAmount()));//数量
 			item.put("ORDERID1", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
 			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
 			item.put("XUH", p.getId());

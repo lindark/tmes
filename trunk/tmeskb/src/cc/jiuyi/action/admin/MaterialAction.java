@@ -21,11 +21,13 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.sap.rfc.impl.MaterialRfcImpl;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.CustomerException;
@@ -58,6 +60,7 @@ public class MaterialAction extends BaseAdminAction {
 	private String productsName;
 	private String productsid;
 	private List<Material> materialList;
+	private List<Factory> factoryList;
 	
 	
 	@Resource
@@ -68,6 +71,8 @@ public class MaterialAction extends BaseAdminAction {
 	private ProductsService productsService;
 	@Resource
 	private MatnrRfc matnrrfc;
+	@Resource
+	private FactoryService factoryservice;
 	
 	
 	//添加
@@ -139,7 +144,6 @@ public class MaterialAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("materialCode") != null) {
-				System.out.println("obj=" + obj);
 				String materialCode = obj.getString("materialCode").toString();
 				map.put("materialCode", materialCode);
 			}
@@ -154,6 +158,7 @@ public class MaterialAction extends BaseAdminAction {
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
 				Material material  = (Material)materialList.get(i);
+				material.setFactoryName(material.getFactory().getFactoryName());
 				lst.add(material);
 			}
 		pager.setList(lst);
@@ -181,23 +186,7 @@ public class MaterialAction extends BaseAdminAction {
 			return INPUT;	
 		}
 		
-	//更新
-    @Validations(
-				requiredStrings = {
-						//@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
-						//@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
-						@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
-						@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
-						@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
-				  },
-				intRangeFields = {
-						@IntRangeFieldValidator(fieldName = "products.materialAmount",min="0", message = "产品数量必须为零或正整数!")
-				}
-				
-				
-				  
-		)
-		@InputConfig(resultName = "error")
+
 		public String update() {
 			Material persistent = materialService.load(id);
 			BeanUtils.copyProperties(material, persistent, new String[] { "id","createDate", "modifyDate"});
@@ -207,19 +196,7 @@ public class MaterialAction extends BaseAdminAction {
 		}
 		
 	//保存
-	@Validations(
-			requiredStrings = {
-					//@RequiredStringValidator(fieldName = "material.productsCode", message = "产品编码不允许为空!"),
-					//@RequiredStringValidator(fieldName = "material.productsName", message = "产品名称不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.materialCode", message = "组件编号不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.materialName", message = "组件名称不允许为空!"),
-					@RequiredStringValidator(fieldName = "material.materialUnit", message = "组件单位不允许为空!"),
-			  },
-			intRangeFields = {
-					@IntRangeFieldValidator(fieldName = "products.materialAmount",min="0", message = "产品数量必须为零或正整数!")
-			}		  
-	)
-	//@InputConfig(resultName = "error")
+	
 	public String save()throws Exception{		
 		materialService.save(material);
 		redirectionUrl="material!list.action";
@@ -339,6 +316,15 @@ public class MaterialAction extends BaseAdminAction {
 
 	public void setMaterialList(List<Material> materialList) {
 		this.materialList = materialList;
+	}
+
+	public List<Factory> getFactoryList() {
+		this.factoryList = factoryservice.getAll();
+		return factoryList;
+	}
+
+	public void setFactoryList(List<Factory> factoryList) {
+		this.factoryList = factoryList;
 	}
 
 

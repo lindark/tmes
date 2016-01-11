@@ -81,5 +81,11 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @return
 	 */
 	public List<Admin> getManagerByDeptId(String id);
+	
+	/**
+	 * 根据id获取直接上级
+	 * 
+	 */
+	public Admin getAdminById(String id);
 
 }

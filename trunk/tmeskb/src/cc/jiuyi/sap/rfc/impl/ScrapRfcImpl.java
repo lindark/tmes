@@ -24,7 +24,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		*//******输入参数******//*
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("GM_CODE", "03");//移动类型
+		parameter.put("GM_CODE", "03");//
 		parameter.put("IS_COMMIT", testrun);//testrun
 		*//******输入表******//*
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
@@ -92,6 +92,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", s.getSlmatterNum());//物料编码
 			item.put("ZSFSL", s.getSlmatterCount().toString());//数量
+			item.put("ORDERID", s.getOrderid());//订单
 			item.put("ITEM_TEXT", s.getItem_text());//项目文本
 			item.put("XUH", s.getScrap().getId());//ID
 			arrList.add(item);

@@ -39,18 +39,11 @@ jQuery(function($){
 	    	
 	    },
 		//colNames:[ '展开层','项目','项目类别','溢出指示符','例外','组件编码','组件名称','组件单位','组件数量','批次','状态', '是否为纸箱'],
-		colModel:[		
-//			{name:'spread',index:'spread', width:200,label:"展开层"editable: true,editoptions:{size:"20",maxlength:"30"}},
-//			{name:'project',index:'project', width:200,label:"项目",editable: true,editoptions:{size:"20",maxlength:"30"}},
-//			{name:'projectType',index:'projectType', label:"项目类别",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-//			{name:'runOver',index:'runOver', label:"溢出指示符",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-//			{name:'exception',index:'exception', label:"例外",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+		colModel:[
 			{name:'materialCode',index:'materialCode',label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName',label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'orderUnit',index:'orderUnit',label:"订单单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialUnit',index:'materialUnit',label:"基本单位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialType',index:'materialType',label:"物料类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'werks',index:'werks',label:"工厂", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'factoryName',index:'factory.factoryName',label:"工厂名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'productmanager',index:'productmanager',label:"生产管理员", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		], 
 		viewrecords : true,
 		rowNum:10,

@@ -343,6 +343,7 @@ public class RepairAction extends BaseAdminAction {
 		List<Bom>list1=pager.getList();
 		List<Bom>list2=this.repairService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
 		pager.setList(list2);
+		pager.setTotalCount(list2.size());//更新总数量
 		JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Bom.class));//排除有关联关系的属性字段 

@@ -21,6 +21,7 @@ import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 考勤
@@ -140,10 +141,15 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			Admin admin1 = adminList.get(i);
 			Kaoqin kaoqin = new Kaoqin();
 			Post post = admin1.getPost();
+			String postname="";
+			if(post == null)
+				postname = "";//技能名称
+			else
+				postname = ThinkWayUtil.null2String(post.getPostName());
 			String cardNumber= admin1.getCardNumber();//卡号
 			String classtime = admin1.getShift();//班次
 			String empname = admin1.getName(); //名字
-			String postname = post.getPostName();//技能名称
+			
 			String workState = admin1.getWorkstate();//工作状态
 			kaoqin.setCardNumber(cardNumber);
 			kaoqin.setClasstime(classtime);

@@ -43,7 +43,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Override
 	public List<Bom> findBom(String aufnr,String productDate) {
 		Orders orders = orderdao.get("aufnr",aufnr);
-		Integer maxversion = bomDao.getMaxVersion(orders.getMatnr(), productDate);
+		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		return bomDao.getBomList(aufnr, maxversion);
 	}
 
@@ -73,5 +73,11 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 			return this.bomDao.getPieceByCondition(pager,map, aufnr, maxversion);
 		}
 		return null;
+	}
+
+
+	@Override
+	public Integer getMaxversion(String orderId, String productDate) {
+		return bomDao.getMaxversion(orderId, productDate);
 	}
 }

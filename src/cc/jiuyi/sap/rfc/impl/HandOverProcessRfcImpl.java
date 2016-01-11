@@ -57,10 +57,10 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		super.setParameter(parameter);
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/
-		ParameterList outs = model.getOuttab();//返回表
-		String EX_MBLNR=outs.getString("EX_MBLNR");
-		String E_TYPE=outs.getString("E_TYPE");
-		String E_MESSAGE=outs.getString("E_MESSAGE");
+		ParameterList out = model.getOuts();//返回表
+		String EX_MBLNR=out.getString("EX_MBLNR");
+		String E_TYPE=out.getString("E_TYPE");
+		String E_MESSAGE=out.getString("E_MESSAGE");
 		if(E_TYPE.equals("E")){
 			throw new CustomerException("1400001", "交接失败,"+E_MESSAGE);
 		}

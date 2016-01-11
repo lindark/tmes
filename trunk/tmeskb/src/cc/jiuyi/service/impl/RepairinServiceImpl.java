@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
@@ -136,14 +135,19 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
+		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
+		String workingBillCode = wb.getWorkingBillCode();
 		/**保存主表数据*/
 		repairin.setCreateUser(admin);
 		repairin.setCreateDate(new Date());//创建日期
 		repairin.setModifyDate(new Date());//修改日期
+		repairin.setLGORT(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
+		repairin.setWERKS(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+		repairin.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		String rid=this.repairinDao.save(repairin);
 		/**保存组件表数据*/
 		Repairin r=this.repairinDao.get(rid);//根据id查询
-		saveInfo(r,list_rp);
+		saveInfo(r,list_rp,workingBillCode);
 	}
 
 	/**
@@ -151,13 +155,15 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	 */
 	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber)
 	{
-		Admin admin = adminservice.getByCardnum(cardnumber);
+		//Admin admin = adminservice.getByCardnum(cardnumber);
+		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
+		String workingBillCode = wb.getWorkingBillCode();
 		/**修改主表数据*/
 		Repairin r = repairinDao.get(repairin.getId());
 		List<RepairinPiece>list=new ArrayList<RepairinPiece>(r.getRpieceSet());
-		BeanUtils.copyProperties(repairin, r, new String[] { "id" });
+		r.setReceiveAmount(repairin.getReceiveAmount());//返修收货数量
 		r.setModifyDate(new Date());//修改日期
-		r.setCreateUser(admin);
+		//r.setCreateUser(admin);
 		this.repairinDao.update(r);
 		/**修改组件表数据*/
 		//1.删除原数据
@@ -170,13 +176,13 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			}
 		}
 		//2.新增
-		saveInfo(r,list_rp);
+		saveInfo(r,list_rp,workingBillCode);
 	}
 	
 	/**
 	 * 新增组件数据共用方法
 	 */
-	public void saveInfo(Repairin r,List<RepairinPiece>list_rp)
+	public void saveInfo(Repairin r,List<RepairinPiece>list_rp,String workingBillCode)
 	{
 		if(list_rp!=null)
 		{
@@ -185,6 +191,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				RepairinPiece rp=list_rp.get(i);
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
+				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
 				//组件总数量=返修数量/产品数量 *组件数量
 				if(rp.getProductnum()==0||rp.getProductnum()==null)
 				{

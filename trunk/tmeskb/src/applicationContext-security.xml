@@ -32,8 +32,10 @@
 	</sec:http>
 
 	<!-- 后台管理权限认证 -->
+	<bean id="pwdencoder" class="cc.jiuyi.common.JiuyiPasswordEncoder"/>
 	<sec:authentication-provider user-service-ref="adminDetailsServiceImpl">
-		<sec:password-encoder hash="md5" />
+		<!-- <sec:password-encoder hash="md5" /> -->
+		<sec:password-encoder ref="pwdencoder"/>
 	</sec:authentication-provider>
 
 	<sec:authentication-manager alias="authenticationManager" />

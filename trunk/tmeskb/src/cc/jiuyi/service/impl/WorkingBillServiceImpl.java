@@ -259,10 +259,10 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<bomList00.size();y++){
 					Bom bom00 = bomList00.get(y);
 					boolean flag1 = false;
-					String bom00str = order.getMatnr()+order.getGamng()+bom00.getMaterialCode()+bom00.getMaterialAmount()+bom00.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount());//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList01.size();z++){
 						Bom bom01 = bomList01.get(z);
-						String bom01str = order.getMatnr()+order.getGamng()+bom01.getMaterialCode()+bom01.getMaterialAmount()+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount());//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 						if(bom00str.equals(bom01str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
@@ -277,10 +277,10 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<bomList01.size();y++){
 					Bom bom01 = bomList01.get(y);
 					boolean flag1 = false;
-					String bom01str = order.getMatnr()+order.getGamng()+bom01.getMaterialCode()+bom01.getMaterialAmount()+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount());//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList00.size();z++){
 						Bom bom00 = bomList00.get(z);
-						String bom00str = order.getMatnr()+order.getGamng()+bom00.getMaterialCode()+bom00.getMaterialAmount()+bom00.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount());//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 						if(bom01str.equals(bom00str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
@@ -328,10 +328,10 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<processrouteList00.size();y++){
 					ProcessRoute processroute00 = processrouteList00.get(y);
 					boolean flag1 = false;
-					String process00str = order.getMatnr()+processroute00.getProcessCode()+processroute00.getWorkCenter()+processroute00.getSteus()+processroute00.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+					String process00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(processroute00.getProcessCode())+ThinkWayUtil.null2String(processroute00.getWorkCenter())+ThinkWayUtil.null2String(processroute00.getSteus())+ThinkWayUtil.null2String(processroute00.getProcessName());//产品编码+工序编码+工作中心+控制码+工序名称
 					for(int z=0;z<processrouteList01.size();z++){
 						ProcessRoute processroute01 = processrouteList01.get(z);
-						String process01str = order.getMatnr()+processroute01.getProcessCode()+processroute01.getWorkCenter()+processroute01.getSteus()+processroute01.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+						String process01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(processroute01.getProcessCode())+ThinkWayUtil.null2String(processroute01.getWorkCenter())+ThinkWayUtil.null2String(processroute01.getSteus())+ThinkWayUtil.null2String(processroute01.getProcessName());//产品编码+工序编码+工作中心+控制码+工序名称
 						if(process00str.equals(process01str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
@@ -346,10 +346,10 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<processrouteList01.size();y++){
 					ProcessRoute processroute01 = processrouteList01.get(y);
 					boolean flag1 = false;
-					String process01str = order.getMatnr()+processroute01.getProcessCode()+processroute01.getWorkCenter()+processroute01.getSteus()+processroute01.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+					String process01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(processroute01.getProcessCode())+ThinkWayUtil.null2String(processroute01.getWorkCenter())+ThinkWayUtil.null2String(processroute01.getSteus())+ThinkWayUtil.null2String(processroute01.getProcessName());//产品编码+工序编码+工作中心+控制码+工序名称
 					for(int z=0;z<processrouteList00.size();z++){
 						ProcessRoute processroute00 = processrouteList00.get(z);
-						String process00str = order.getMatnr()+processroute00.getProcessCode()+processroute00.getWorkCenter()+processroute00.getSteus()+processroute00.getProcessName();//产品编码+工序编码+工作中心+控制码+工序名称
+						String process00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(processroute00.getProcessCode())+ThinkWayUtil.null2String(processroute00.getWorkCenter())+ThinkWayUtil.null2String(processroute00.getSteus())+ThinkWayUtil.null2String(processroute00.getProcessName());//产品编码+工序编码+工作中心+控制码+工序名称
 						if(process00str.equals(process01str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;

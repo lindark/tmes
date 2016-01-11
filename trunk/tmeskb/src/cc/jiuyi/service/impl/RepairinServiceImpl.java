@@ -186,7 +186,14 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
 				//组件总数量=返修数量/产品数量 *组件数量
-				rp.setRpcount(""+ArithUtil.mul(ArithUtil.div(r.getReceiveAmount(), rp.getProductnum()), rp.getPiecenum()));//组件总数量
+				if(rp.getProductnum()==0||rp.getProductnum()==null)
+				{
+					rp.setRpcount(""+ArithUtil.mul(r.getReceiveAmount(),rp.getPiecenum()));//乘法
+				}
+				else
+				{
+					rp.setRpcount(""+ArithUtil.mul(ArithUtil.div(r.getReceiveAmount(), rp.getProductnum()), rp.getPiecenum()));//组件总数量
+				}
 				rp.setRepairin(r);
 				this.rpService.save(rp);
 			}

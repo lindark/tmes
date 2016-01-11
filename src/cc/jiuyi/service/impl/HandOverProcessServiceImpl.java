@@ -31,11 +31,10 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	@Resource
 	private HandOverProcessDao handOverProcessDao;
 	@Resource
-	private HandOverService handoverservice;
-	@Resource
 	private WorkingBillService workingbillservice;
 	@Resource
 	private AdminService adminservice;
+	
 	
 	@Resource
 	public void setBaseDao(HandOverProcessDao handOverProcessDao){
@@ -161,6 +160,8 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		this.saveorupdate(handoverprocessList,state,cardNumber);
 		return flag+","+"操作成功";
 	}
+	
+	
 	
 	
 }

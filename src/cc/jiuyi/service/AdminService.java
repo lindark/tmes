@@ -100,5 +100,11 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @return
 	 */
 	public List<Admin> getManagerByDeptId(String id);
+	
+	/**
+	 * 根据id获取直接上级
+	 * 
+	 */
+	public Admin getAdminById(String id);
 
 }

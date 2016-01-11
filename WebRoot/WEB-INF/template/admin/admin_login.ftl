@@ -186,7 +186,9 @@ $(function(){
 	$btn_creditlogin.click(function(){
 		var url="admin!creditlogin.action";
 		credit.creditCard(url,function(data){
-			$.message(data.status,data.message);
+			var username = data.username;
+			var cardnumber = credit.cardnumber;
+			window.location.href="${base}/admin/loginVerify?j_card=true&j_username="+username+"&j_password=shuaka-"+cardnumber;
 		})
 	});
 	

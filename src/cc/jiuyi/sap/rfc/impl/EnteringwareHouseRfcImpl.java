@@ -9,8 +9,6 @@ import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.EnteringwareHouse;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;

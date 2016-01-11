@@ -131,11 +131,13 @@ public class HandOverAction extends BaseAdminAction {
 		}
 		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录
         HandOver handOver =new  HandOver();
+        List<HandOverProcess> temp = new ArrayList<HandOverProcess>();
 		for(int i=0; i<handoverprocessList.size() ;i++){//用于处理如果有一半成功，一半失败的处理
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
 			if(!StringUtil.isEmpty(handoverprocess.getMblnr())){
 				handoverprocessList.remove(i);
-			}				
+			}	
+			String aufnr = handoverprocess.getAfterworkingbill().getAufnr();//取生产订单号
 			handOver =	handoverprocess.getHandover();
 			handoverId = handOver.getId();
 		}

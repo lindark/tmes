@@ -122,7 +122,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			processroute.setProcessCode(table03.getString("VORNR"));//操作，mes系统中是工序编码
 			processroute.setProcessName(table03.getString("LTXA1"));//短文本
 			processroute.setSteus(table03.getString("STEUS"));//控制码
-			//TODO 缺少工作中心
+			processroute.setWorkCenter(table03.getString("ARBPL"));//工作中心
 			processrouteList.add(processroute);
 		}
 		
@@ -136,6 +136,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			bom.setMaterialName(table04.getString("MAKTX"));//物料描述
 			bom.setShift(table04.getString("ABLAD"));//班组
 			bom.setRspos(table04.getString("RSPOS"));//项目
+			bom.setMaterialUnit(table04.getString("MEINS"));//基本单位
 			bomList.add(bom);
 		}
 		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);

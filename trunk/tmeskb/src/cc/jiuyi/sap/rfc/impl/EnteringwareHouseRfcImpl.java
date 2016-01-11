@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
@@ -14,6 +16,7 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 
+@Component
 public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements EnteringwareHouseRfc{
 
 	@Override

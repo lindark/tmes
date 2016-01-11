@@ -7,5 +7,5 @@ import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.util.CustomerException;
 
 public interface HandOverProcessRfc extends BaserfcService {
-	public List<HandOverProcess> BatchHandOver(List<HandOverProcess> list,String testrun,String loginid) throws IOException;
+	public String BatchHandOver(List<HandOverProcess> list,String testrun,String loginid) throws IOException,CustomerException;
 }

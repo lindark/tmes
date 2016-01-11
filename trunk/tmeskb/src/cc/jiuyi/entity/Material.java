@@ -29,6 +29,7 @@ public class Material extends BaseEntity{
     private String materialType;//物料类型
     private Factory factory;//工厂
     private String productmanager;//生产管理员
+    private String factoryName;//工厂名称
     
     
 	public String getProductmanager() {
@@ -73,6 +74,13 @@ public class Material extends BaseEntity{
 	}
 	public void setFactory(Factory factory) {
 		this.factory = factory;
+	}
+	@Transient
+	public String getFactoryName() {
+		return factoryName;
+	}
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
 	}
 	
     

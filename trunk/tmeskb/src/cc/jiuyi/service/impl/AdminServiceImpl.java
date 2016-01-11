@@ -68,6 +68,14 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	public Admin getAdminByUsername(String username) {
 		return adminDao.getAdminByUsername(username);
 	}
+	
+	/**
+	 * 根据id获取直接上级
+	 * 
+	 */
+	public Admin getAdminById(String id){
+		return adminDao.getAdminById(id);
+	}
 
 	@Override
 	public Pager findPagerByjqGrid(Pager pager, Map map,String departid) {
@@ -169,4 +177,6 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			}
 		}
 	}
+	
+	
 }

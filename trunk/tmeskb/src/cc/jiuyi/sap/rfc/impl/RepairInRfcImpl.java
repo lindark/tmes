@@ -22,7 +22,7 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 	public Repairin repairinCrt(Repairin repairin, List<RepairinPiece> list_rp)
 			throws IOException, CustomerException
 	{
-		super.setProperty("repair");// 根据配置文件读取到函数名称
+		super.setProperty("repairin");// 根据配置文件读取到函数名称
 		/****** 输入参数 ******/
 		HashMap<String, Object> parameter = new HashMap<String, Object>();
 		/****** 输入表 ******/

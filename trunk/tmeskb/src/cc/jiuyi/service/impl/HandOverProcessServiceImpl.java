@@ -78,22 +78,24 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	@Override
 	public void saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber) {
 		Admin admin = adminservice.get("cardNumber", cardNumber);
-		HandOver handOver = new HandOver();
-		handOver.setState("1");
-		handOver.setSubmitadmin(admin);
-		String hanoverId=handoverservice.save(handOver);//保存主表
-		handOver.setId(hanoverId);
+//		HandOver handOver = new HandOver();
+//		handOver.setState("1");
+//		handOver.setSubmitadmin(admin);
+		
+		
+		//String hanoverId=handoverservice.save(handOver);//保存主表
+		//handOver.setId(hanoverId);
 		for(HandOverProcess handoverprocess : handoverprocessList){
 			//Admin admin = adminservice.get("cardNumber", cardNumber);
 			if(state.equals("creditsubmit")){//刷卡提交
 				handoverprocess.setSubmitadmin(admin);
 				handoverprocess.setState("notapproval");
-				handoverprocess.setHandover(handOver);
+				//handoverprocess.setHandover(handOver);
 			}
 			if(state.equals("creditapproval")){//刷卡确认
 				handoverprocess.setApprovaladmin(admin);
 				handoverprocess.setState("approval");
-				handoverprocess.setHandover(handOver);
+				//handoverprocess.setHandover(handOver);
 			}
 			if(state.equals("creditsave")){//刷卡保存
 				handoverprocess.setSaveadmin(admin);

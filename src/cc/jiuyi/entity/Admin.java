@@ -121,6 +121,27 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xteam;//班组
 	private String xpost;//技能
 	
+	private Admin parentAdmin;//上级
+	private Set<Admin> adminSet;//下级
+	
+	@ManyToOne(fetch = FetchType.LAZY)	
+	public Admin getParentAdmin() {
+		return parentAdmin;
+	}
+
+	public void setParentAdmin(Admin parentAdmin) {
+		this.parentAdmin = parentAdmin;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="parentAdmin")
+	public Set<Admin> getAdminSet() {
+		return adminSet;
+	}
+
+	public void setAdminSet(Set<Admin> adminSet) {
+		this.adminSet = adminSet;
+	}
+
 	//半成品巡检确认人
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<ItermediateTest> getIntermediateTestConfirmUser() {

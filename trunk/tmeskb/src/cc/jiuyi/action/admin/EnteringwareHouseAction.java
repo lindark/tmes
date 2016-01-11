@@ -110,12 +110,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		/*ratio = unitConversionService.getRatioByCode(UNITCODE);
-		if (ratio == null && ratio.equals("")) {
+		ratio = unitConversionService.getRatioByCode(UNITCODE);
+		/*if (ratio == null && ratio.equals("")) {
            return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
 		}*/
 		Admin admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.load(admin.getId());
 
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
@@ -143,17 +142,21 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		
 		try {
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
-			System.out.println(aufnr.size());
 			for(EnteringwareHouse e:aufnr){
-				System.out.println(e.getEx_mblnr());
+				if("E".equalsIgnoreCase(e.getE_type()))
+				{
+					return e.getE_message();
+				}
+				
 			}
 			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingBillId,
 					ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (CustomerException e1) {
-			System.out.println(e1.getMsgDes());
 			e1.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		workingbill = workingBillService.get(workingBillId);

@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 
+import com.opensymphony.oscache.util.StringUtil;
+
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -51,6 +53,10 @@ public class ThinkWayUtil {
 
 	public static String null2String(Object s) {
 		return (String) (s != null ? s : "");
+	}
+	
+	public static Double null2o(Double s) {
+		return (s != null ? s : 0);
 	}
 
 	/**
@@ -285,5 +291,6 @@ public class ThinkWayUtil {
         String dateFormat="ss mm HH dd MM ? yyyy";  
         return formatDateByPattern(date, dateFormat);  
     }  
+
 
 }

@@ -17,7 +17,6 @@ $(function(){
         var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         var work = iframeWin.getGridId();
         var id=work.split(",");
-        alert(id);
         $workShopId.val(id[0]);
         $workShopId2.val(id[1]);
         layer.close(index);            	          	     	

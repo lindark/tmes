@@ -180,7 +180,7 @@ public class CauseAction extends BaseAdminAction {
 
 	// 获取所有状态
 	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
+		return dictService.getList("dictname", "causeState");
 	}
 
 	public void setAllState(List<Dict> allState) {

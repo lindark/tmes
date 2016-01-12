@@ -72,4 +72,10 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 		}
 		return null;
 	}
+
+	@Override
+	public String getProcess(List<String> processRouteIdList) {
+		return processroutedao.getProcess(processRouteIdList);
+	}
+	
 }

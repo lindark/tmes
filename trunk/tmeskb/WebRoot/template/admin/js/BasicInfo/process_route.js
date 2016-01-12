@@ -66,11 +66,11 @@ jQuery(function($) {
 		//colNames:['创建日期','工厂编码','工厂名称','状态', ],
 	    colModel:[	
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'productsCode',index:'productsCode',label:"产品编号",width:50, editable: false},
-			{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
+			//{name:'productsCode',index:'productsCode',label:"产品编号",width:50, editable: false},
+			//{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
 			{name:'processCode',index:'processCode',label:"工序编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'sortcode',index:'sortcode',label:"排序码",width:50, editable: false},
+			//{name:'sortcode',index:'sortcode',label:"排序码",width:50, editable: false},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
 			//{name:"showproducts",label:"相关产品",width:100,search:false, sortable:false, resize:false}

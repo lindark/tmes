@@ -138,7 +138,7 @@ body {
 		}
 		var rowData = $("#grid-table2").jqGrid('getRowData',ids);
 		var rowName=rowData.name;
-		alert(rowName);
+		//alert(rowName);
 		var work=""+rowName+""+","+ids;
 		return work;
 	}

@@ -166,9 +166,10 @@ body {background: #fff;font-family: 微软雅黑;}
 															报废产出后添加
 														</a>
 													</div>
-												</div>
+												</div>					
 												</#if>
 												<div class="profile-info-row">
+												    <div style="padding:6px;margin:6px;">报废产出</div>
 													<table id="tb_scraplater" class="table table-striped table-bordered table-hover">
 														<#if show??>
 															<tr>
@@ -386,8 +387,8 @@ function boxtorow_event(index)
 			var des="${(list.causeName)!}";
 			rowids=rowids+id+",";
 			rownums=rownums+boxnum+",";
-			count=floatAdd(count,boxnum);
-			spanbug=spanbug+des+""+boxnum+",";
+			count=floatAdd(count,boxnum);			
+			spanbug=spanbug+des+""+"/"+boxnum+",";
 		}
 		i+=1;
 	</#list>
@@ -405,6 +406,7 @@ function boxtorow_event(index)
 	if(spanbug!="")
 	{
 		spanbug=spanbug.substring(0, spanbug.length-1);
+		alert(spanbug);
 	}
 	$("#span_bug"+index).text(spanbug);
 	$("#input_msgbug"+index).val(spanbug);

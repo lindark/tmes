@@ -103,7 +103,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "team!delete.adction",//用它做标准删除动作
+		editurl: "team!delete.action",//用它做标准删除动作
 		caption: "班组管理"
 
 		//,autowidth: true,
@@ -158,10 +158,10 @@ jQuery(function($) {
 				window.location.href="team!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
+			del: true,
+			/*delfunc:function(rowId){
 				window.location.href="team!delete.action?id="+rowId;
-			},
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

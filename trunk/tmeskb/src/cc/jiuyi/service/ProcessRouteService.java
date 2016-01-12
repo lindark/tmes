@@ -48,5 +48,10 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	 */
 	public ProcessRoute getOneByConditions(String aufnr, String productDate,
 			String processCode);
-
+	
+	/*
+	 * 获取工序
+	 * */
+     public String getProcess(List<String> processRouteIdList);    
+	
 }

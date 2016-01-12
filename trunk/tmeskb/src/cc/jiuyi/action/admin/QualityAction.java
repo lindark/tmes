@@ -32,9 +32,11 @@ import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
@@ -42,8 +44,10 @@ import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.service.UnusualLogService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 @ParentPackage("admin")
@@ -87,6 +91,10 @@ public class QualityAction extends BaseAdminAction {
 	private DepartmentService deptservice;
 	@Resource
 	private ProcessService processService;
+	@Resource
+	private WorkingBillService workingBillService;
+	@Resource
+	private ProductsService productsService;
 
 	// 添加
 	public String add() {
@@ -255,7 +263,11 @@ public class QualityAction extends BaseAdminAction {
 	}
 
 	public String creditupdate() {
+		admin = adminService.getByCardnum(cardnumber);		
 		Quality persistent = qualityService.load(id);
+		if(admin!=persistent.getCreater()){
+			return ajaxJsonErrorMessage("您不是单据创建人，无权提交该单据!");
+		}
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}
@@ -360,6 +372,24 @@ public class QualityAction extends BaseAdminAction {
 		redirectionUrl = "quality!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
+	
+	public List<WorkingBill> getWorkList(){
+		Admin admin1 = adminService.getLoginAdmin();
+		admin1 = adminService.get(admin1.getId());
+		List list=workingBillService.getListWorkingBillByDate(admin1);
+		return list;
+	}
+	
+	/*public List<Products> getProductsList(){
+		List<WorkingBill> workList=getWor();
+		List<Products> productsList= new ArrayList<Products>();
+		for(WorkingBill work:workList){
+			Products products = productsService.getProducts(work.getMatnr());
+			productsList.add(products);
+		}
+		return productsList;
+	}
+	*/
 
 	public Quality getQuality() {
 		return quality;

@@ -463,12 +463,12 @@ public class AdminAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
-		if(parentId!=null && !parentId.equalsIgnoreCase("")){
+		/*if(parentId!=null && !parentId.equalsIgnoreCase("")){
 			Admin admin1 = adminService.get(parentId);
 			admin.setParentAdmin(admin1);
 		}else{
 			admin.setParentAdmin(null);
-		}
+		}*/
 		admin.setUsername(admin.getUsername().toLowerCase());
 		admin.setLoginFailureCount(0);
 		admin.setIsAccountLocked(false);
@@ -733,5 +733,9 @@ public class AdminAction extends BaseAdminAction {
 		this.parentId = parentId;
 	}
 
+	public List<Admin> getAdminList(){
+		List<Admin> adminList = adminService.getAll();
+		return adminList;
+	}
 	
 }

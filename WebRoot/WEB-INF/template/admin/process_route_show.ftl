@@ -69,7 +69,7 @@
 								action="process!ajlist.action" role="form">
 								<div class="operateBar">
 
-									<div class="form-group">
+						<!--		<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
 											style="text-align:right">产品编码:</label>
 										<div class="col-sm-4">
@@ -85,7 +85,7 @@
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-									</div>
+									</div>  -->	
 
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
@@ -105,15 +105,15 @@
 									</div>
 
 									<div class="form-group" style="text-align:center">
-										<a id="addButton"
-											class="btn btn-white btn-default btn-sm btn-round"> <i
-											class="ace-icon fa fa-filter blue"></i> 维护工艺路线
-										</a> <a id="searchButton"
+									   <a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
+										<a id="addButton"
+											class="btn btn-white btn-default btn-sm btn-round"> <i
+											class="ace-icon fa fa-filter blue"></i> 维护工艺路线
+										</a>				
 									</div>
-
 								</div>
 							</form>
 

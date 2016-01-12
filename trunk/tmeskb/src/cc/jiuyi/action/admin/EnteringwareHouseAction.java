@@ -145,7 +145,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			for(EnteringwareHouse e:aufnr){
 				if("E".equalsIgnoreCase(e.getE_type()))
 				{
-					return e.getE_message();
+					return this.ajaxJsonErrorMessage(e.getE_message());
 				}
 				
 			}

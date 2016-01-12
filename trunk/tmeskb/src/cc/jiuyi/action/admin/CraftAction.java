@@ -34,10 +34,12 @@ import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.WorkShop;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
@@ -45,7 +47,9 @@ import cc.jiuyi.service.CraftLogService;
 import cc.jiuyi.service.CraftService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.ReceiptReasonService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -91,6 +95,10 @@ public class CraftAction extends BaseAdminAction {
 	private ReceiptReasonService receiptReasonService;
 	@Resource
 	private DepartmentService deptservice;
+	@Resource
+	private WorkingBillService workingBillService;
+	@Resource
+	private ProductsService productsService;
 	
 	// 添加
 	public String add() {
@@ -368,6 +376,25 @@ public class CraftAction extends BaseAdminAction {
 		abnormalId=abnorId;
 		return "hlist";
 	}	
+	
+	//获取当班随工单
+	public List getWor(){
+		Admin admin1 = adminService.getLoginAdmin();
+		admin1 = adminService.get(admin1.getId());
+		List list=workingBillService.getListWorkingBillByDate(admin1);
+		return list;
+	}
+	
+	//获取随工单下所有产品
+	public List<Products> getProductsList(){
+		List<WorkingBill> workList=getWor();
+		List<Products> productsList= new ArrayList<Products>();
+		for(WorkingBill work:workList){
+			Products products = productsService.getProducts(work.getMatnr());
+			productsList.add(products);
+		}
+		return productsList;
+	}
 
 	public Craft getCraft() {
 		return craft;

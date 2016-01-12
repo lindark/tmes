@@ -20,8 +20,11 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -35,6 +38,10 @@ public class ProcessRouteAction extends BaseAdminAction {
 	private ProcessRouteService processrouteservice;
 	@Resource
 	private ProcessService processservice;
+	@Resource
+	private WorkingBillService workingbillService;
+	@Resource
+	private ProductsService productsService;
 
 	private List<ProcessRoute> processrouteList;
 	private String productid;// 产品ID
@@ -207,17 +214,19 @@ public class ProcessRouteAction extends BaseAdminAction {
 	// 根据产品productCode查询对应工序
 	public String getProcessList() {
 		//List<Process> processList = processService.findProcessByProductsId(id);
-//		List<ProcessRoute> processrouteList=processrouteservice.getAllProcessRouteByProductCode(id);
-//		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
-//		for (ProcessRoute o : processrouteList) {
-//			Map<String, String> maps = new HashMap<String, String>();
-//			maps.put("id", o.getProcessCode());
-//			maps.put("name", o.getProcessName());
-//			lists.add(maps);
-//		}
-//		JSONArray json = JSONArray.fromObject(lists);
-//		return ajaxText(json.toString());
-		return null;
+		WorkingBill workingBill = workingbillService.get(id);
+		Products products = productsService.getByPcode(workingBill.getMatnr());
+		String time = ThinkWayUtil.formatdateDate(products.getCreateDate());
+		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),time);
+		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
+		for (ProcessRoute o : processrouteList) {
+			Map<String, String> maps = new HashMap<String, String>();
+			maps.put("id", o.getProcessCode());
+			maps.put("name", o.getProcessName());
+			lists.add(maps);
+		}
+		JSONArray json = JSONArray.fromObject(lists);
+		return ajaxText(json.toString());
 	}	
 	
 	

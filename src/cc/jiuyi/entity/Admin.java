@@ -111,6 +111,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Scrap> scrapcreaterSet;//提交人
 	private Set<Scrap> scrapcomfirmationSet;//确认人
 	private Set<KaoqinBrushCardRecord>kaoqinBCR;//开启考勤记录
+	private Set<Team> teamSet;//班组
 
 	private Post post;//技能
 	private String workstate;//状态1，考勤：添加代班员工时用到
@@ -952,6 +953,16 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setIdentityCard(String identityCard) {
 		this.identityCard = identityCard;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@OrderBy("createDate desc ")
+	public Set<Team> getTeamSet() {
+		return teamSet;
+	}
+
+	public void setTeamSet(Set<Team> teamSet) {
+		this.teamSet = teamSet;
 	}
 
 	

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
@@ -22,33 +23,21 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(ProcessRoute.class);
-//		pagerSqlByjqGrid(pager, detachedCriteria);
-//		if (map.size() > 0) {
-//			if(!existAlias(detachedCriteria, "process", "process")){
-//				detachedCriteria.createAlias("process", "process");
-//			}
-//			if(!existAlias(detachedCriteria, "products", "products")){
-//				detachedCriteria.createAlias("products", "products");
-//			}
-//			if (map.get("processCode") != null) {
-//				detachedCriteria.add(Restrictions.like("process.processCode",
-//						"%" + map.get("processCode") + "%"));
-//			}
-//			if (map.get("processName") != null) {
-//				detachedCriteria.add(Restrictions.like("process.processName",
-//						"%" + map.get("processName") + "%"));
-//			}
-//			if (map.get("productsCode") != null) {
-//				detachedCriteria.add(Restrictions.like("products.productsCode",
-//						"%" + map.get("productsCode") + "%"));
-//			}
-//			if (map.get("productsName") != null) {
-//				detachedCriteria.add(Restrictions.like("products.productsName",
-//						"%" + map.get("productsName") + "%"));
-//			}
-//		}
+		pagerSqlByjqGrid(pager, detachedCriteria);
+		if (map.size() > 0) {
+			if (map.get("processCode") != null) {
+				detachedCriteria.add(Restrictions.like("processCode",
+						"%" + map.get("processCode") + "%"));
+			}
+			if (map.get("processName") != null) {
+				detachedCriteria.add(Restrictions.like("processName",
+						"%" + map.get("processName") + "%"));
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	public List<ProcessRoute> getProcessRouteList(String aufnr, Integer version) {

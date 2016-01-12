@@ -51,11 +51,6 @@ public class ProcessRouteAction extends BaseAdminAction {
 	public String list() {
 		return LIST;
 	}
-	
-	//读取list页面
-	public String show(){
-		return "show";
-	}
 
 	// 获取产品的工艺路线
 	public String getRoute() {
@@ -91,6 +86,12 @@ public class ProcessRouteAction extends BaseAdminAction {
 		return null;
 	}
 	
+	
+	// 读取list页面
+	public String show() {
+		return "show";
+	}
+
 	/**
 	 * ajax 列表
 	 * 
@@ -128,7 +129,7 @@ public class ProcessRouteAction extends BaseAdminAction {
 							.toString();
 					map.put("processName", processName);
 				}
-				if (obj.get("productsCode") != null) {
+             /**if (obj.get("productsCode") != null) {
 					String productsCode = obj.getString("productsCode")
 							.toString();
 					map.put("productsCode", productsCode);
@@ -137,23 +138,24 @@ public class ProcessRouteAction extends BaseAdminAction {
 					String productsName = obj.getString("productsName")
 							.toString();
 					map.put("productsName", productsName);
-				}
+				}  **/
 			}
 
 			pager = processrouteservice.findPagerByjqGrid(pager, map);
 			List<ProcessRoute> list = pager.getList();
-			for (int i = 0; i < list.size(); i++) {
-				ProcessRoute p = list.get(i);
-				//p.setProductsCode(p.getProducts().getProductsCode());
-				//p.setProductsName(p.getProducts().getProductsName());
+//			for (int i = 0; i < list.size(); i++) {
+//				ProcessRoute p = list.get(i);
+//              p.setProductsCode(p.getProducts().getProductsCode());
+//              p.setProductsName(p.getProducts().getProductsName());
 //				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
 //				p.setProcessCode(process.getProcessCode());
 //				p.setProcessName(process.getProcessName());
-			}
+//			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(ProcessRoute.class));// 排除有关联关系的属性字段
+			jsonConfig.setExcludes(ThinkWayUtil
+					.getExcludeFields(ProcessRoute.class));// 排除有关联关系的属性字段
 			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 			return ajaxJson(jsonArray.get(0).toString());
 		} catch (Exception e) {

@@ -24,6 +24,7 @@ import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
@@ -69,6 +70,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	private ProcessRouteService processRouteService;
 	@Resource
 	private ProductsService productsService;
+	@Resource
+	private WorkingBillService workingbillService;
+	@Resource
+	private ProcessRouteService processrouteservice;
 
 	/**
 	 * 跳转list 页面
@@ -124,6 +129,20 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 保存
 	public String creditsave() throws Exception {
+		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
+		Products products = productsService.getByPcode(workingBill.getMatnr());
+		String time = ThinkWayUtil.formatdateDate(products.getCreateDate());
+		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),time);
+		System.out.println(processrouteList.size());
+		List<String> ProcessRouteIdList = new ArrayList<String>();
+		for(ProcessRoute pr:processrouteList){
+			ProcessRouteIdList.add(pr.getId());
+			System.out.println("in");
+		}
+		String process = processRouteService.getProcess(ProcessRouteIdList);
+		System.out.println(process);
+		
+		dailyWork.setProcessCode(process);
 		if (dailyWork.getEnterAmount() == null
 				|| String.valueOf(dailyWork.getEnterAmount()).matches(
 						"^[0-9]*[1-9][0-9]*$ ")) {

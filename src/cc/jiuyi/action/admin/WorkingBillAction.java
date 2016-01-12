@@ -51,7 +51,7 @@ import com.opensymphony.xwork2.validator.annotations.UrlValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
- * 后台Action类 - DICT
+ * 后台Action类 - WorkingBill
  */
 
 @ParentPackage("admin")
@@ -61,6 +61,9 @@ public class WorkingBillAction extends BaseAdminAction {
 	
 	private WorkingBill workingbill;
 	private List<Material> materialList;
+	private String aufnr;
+	private String start;
+	private String end;
 
 	@Resource
 	private WorkingBillService workingbillService;
@@ -68,6 +71,7 @@ public class WorkingBillAction extends BaseAdminAction {
 	private WorkingBillRfc workingbillrfc;
 	@Resource
 	private MaterialService materialservice;
+	
 	
 	
 	// 添加
@@ -147,8 +151,15 @@ public class WorkingBillAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
+	
+	//手工同步随工单弹窗
+	public String browser(){
+		return "browser";
+	}
+
 	//同步
 	public String sync() {
+		System.out.println(aufnr+","+start+","+end);
 		try {
 			workingbillrfc.syncRepairorderAll("2016-01-09", "2016-01-09", "", "");
 		} catch (IOException e) {
@@ -160,13 +171,12 @@ public class WorkingBillAction extends BaseAdminAction {
 		}
 		return SUCCESS;
 	}
+	
+	
 	//投入产出
 	public String inout(){
 		workingbill = workingbillService.get(this.workingbill.getId());
 		materialList = materialservice.getMantrBom(workingbill.getMatnr());//获取产品对应的BOM信息
-		
-		
-		
 		return "intout";
 	}
 	
@@ -224,6 +234,30 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	public void setMaterialList(List<Material> materialList) {
 		this.materialList = materialList;
+	}
+
+	public String getAufnr() {
+		return aufnr;
+	}
+
+	public void setAufnr(String aufnr) {
+		this.aufnr = aufnr;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 

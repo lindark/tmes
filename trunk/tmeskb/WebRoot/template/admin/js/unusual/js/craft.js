@@ -51,7 +51,7 @@ $(function() {
 	
 	
 	
-	// 产品弹出框
+	/*// 产品弹出框
 	$("#productId").click( function() {
 		showProduct();
 	})
@@ -74,7 +74,7 @@ $(function() {
 	});
 }
 	
-	
+	*/
 	
 	// 人员弹出框
 	$("#repair").click( function() {

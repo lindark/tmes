@@ -99,7 +99,13 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">直接上级</label>
 										<div class="col-sm-9">
-										     <#if isAdd??>
+										    <select style="width:290px;" name="admin.parentAdmin.id">
+														<option value="">请选择...</option> 
+														<#list adminList as list>
+														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
+														</#list>
+											</select>
+										   <!--   <#if isAdd??>
 										    <select style="width:290px;" name="parentId">
 														<option value="">请选择...</option> 
 														<#list adminList as list>
@@ -108,7 +114,7 @@ body {
 											</select>
 											<#else>
 										       ${(admin.parentAdmin.name)!}
-										    </#if>
+										    </#if>--> 
 										</div>
 								</div>
 								<div class="form-group">

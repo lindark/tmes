@@ -106,8 +106,8 @@ public class BomAction extends BaseAdminAction {
 			List<Bom> list = pager.getList();
 			for (int i = 0; i < list.size(); i++) {
 				Bom bom = list.get(i);
-				bom.setMaterialCode(bom.getMaterialCode());
-				bom.setMaterialName(bom.getMaterialName());
+//				bom.setMaterialCode(bom.getMaterialCode());
+//				bom.setMaterialName(bom.getMaterialName());
 				bom.setProductsCode(bom.getOrders().getMatnr());
 				bom.setProductsName(bom.getOrders().getMaktx());
 				bom.setOerderCode(bom.getOrders().getAufnr());

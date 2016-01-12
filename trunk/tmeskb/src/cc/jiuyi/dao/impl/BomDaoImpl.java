@@ -48,7 +48,28 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		
+		if (map.size() > 0) {
+			if(!existAlias(detachedCriteria, "orders", "orders")){
+				detachedCriteria.createAlias("orders", "orders");
+			}
+			if (map.get("materialCode") != null) {
+				detachedCriteria.add(Restrictions.like("materialCode",
+						"%" + map.get("materialCode") + "%"));
+			}
+			if (map.get("materialName") != null) {
+				detachedCriteria.add(Restrictions.like("materialName",
+						"%" + map.get("materialName") + "%"));
+			}
+			if(map.get("productsCode") != null){
+				detachedCriteria.add(Restrictions.like("orders.matnr",
+						"%" + map.get("productsCode") + "%"));
+			}
+			if(map.get("productsName") != null){
+				detachedCriteria.add(Restrictions.like("orders.maktx",
+						"%" + map.get("productsName") + "%"));
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 

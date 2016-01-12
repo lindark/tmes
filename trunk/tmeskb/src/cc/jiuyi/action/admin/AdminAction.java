@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
@@ -30,6 +31,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
+import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Products;
@@ -41,6 +43,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DepartmentService;
+import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
 import cc.jiuyi.service.PollingtestService;
@@ -95,6 +98,7 @@ public class AdminAction extends BaseAdminAction {
 	private Team team;
 	private List<Post> postList;//岗位List
 	private String cardnumber;//卡号
+	private List<Factory> factoryList;
 
 	@Resource
 	private AdminService adminService;
@@ -125,6 +129,8 @@ public class AdminAction extends BaseAdminAction {
 	private ScrapService scrapService;
 	@Resource
 	private PostService postService;
+	@Resource
+	private FactoryService factoryService;
 	
 	// 登录页面
 	public String login() {
@@ -228,12 +234,69 @@ public class AdminAction extends BaseAdminAction {
 			team = teamService.get(teamid);
 			return "teamworkingbill";
 		}
-	
+	//	绑定班组
+		public String addTeam(){
+			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+			Admin admin = adminService.get("username", loginUsername);
+			Team tm = teamService.get(teamid);
+			Set<Team> tmSet = admin.getTeamSet();
+			if(tmSet!=null){
+				for(Team tms : tmSet){
+					if(tms.getId().equals(teamid)){
+						return ajaxJsonErrorMessage("保存失败，改数据已存在");
+					}
+				}
+				tmSet.add(tm);
+				admin.setTeamSet(tmSet);
+				adminService.update(admin);
+				if("Y".equals(tm.getIsWork())){
+					return ajaxJsonSuccessMessage("保存成功,当前班组正在工作中");
+				}else{
+					return ajaxJsonSuccessMessage("保存成功,当前班组未在工作中");
+				}
+				
+			}else{
+				tmSet = new HashSet<Team>();
+				tmSet.add(tm);
+				admin.setTeamSet(tmSet);
+				adminService.update(admin);
+				if("Y".equals(tm.getIsWork())){
+					return ajaxJsonSuccessMessage("保存成功,当前班组正在工作中");
+				}else{
+					return ajaxJsonSuccessMessage("保存成功,当前班组未在工作中");
+				}
+			}
+		}
+		//删除绑定班组
+		public String deleteTeam(){
+			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+			Admin admin = adminService.get("username", loginUsername);
+			//Team tm = teamService.get(id);
+			Set<Team> tmSet = admin.getTeamSet();
+			if(tmSet!=null){
+				for(Team tms : tmSet){
+					if(tms.getId().equals(id)){
+						tmSet.remove(tms);
+						break;
+					}
+				}
+				admin.setTeamSet(tmSet);
+				adminService.update(admin);
+				return ajaxJsonSuccessMessage("删除成功");
+			}else{
+				return ajaxJsonErrorMessage("删除失败");
+			}
+			
+		}
 	// 后台质检首页
 		public String index2() {
-			admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
-            teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
+			//admin = adminService.getLoginAdmin();
+			//admin = adminService.get(admin.getId());
+           // teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
+			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
+			admin = adminService.get("username", loginUsername);
+			
+            factoryList = factoryService.getAll();
 /**         for (int i = 0; i < teamList.size(); i++) {
 				Team  team =teamList.get(i);
 				System.out.println("================="+team.getId());
@@ -731,6 +794,16 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+
+
+	public List<Factory> getFactoryList() {
+		return factoryList;
+	}
+
+
+	public void setFactoryList(List<Factory> factoryList) {
+		this.factoryList = factoryList;
 	}
 
 	public List<Admin> getAdminList(){

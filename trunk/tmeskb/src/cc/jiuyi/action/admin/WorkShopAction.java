@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -213,7 +214,28 @@ public class WorkShopAction extends BaseAdminAction {
 		redirectionUrl="work_shop!list.action";
 		return SUCCESS;	
 	}
+	
+	//根据工厂查找车间
+	public String findWorkShopByFactory(){
+		Factory ft = factoryService.get(factoryId);
+		Set<WorkShop> wsSet = ft.getWorkShopSet();
+		List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+		//List<WorkShop> wsList = workShopService.getList("id", factoryId);
+		if(wsSet!=null){
+			for(WorkShop ws : wsSet){
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("wsId", ws.getId());
+				map.put("wsName", ws.getWorkShopName());
+				ListMap.add(map);
+			}
+			JSONArray jsonArray = JSONArray.fromObject(ListMap);
+			return ajaxJson(jsonArray.toString());
+		}else{
+			return ajaxJsonErrorMessage("请先维护数据");
+		}
 		
+		
+	}
 	// 获取所有工厂
 	public List<Factory> getFactoryList() {
 		return workShopService.getAllFactory();

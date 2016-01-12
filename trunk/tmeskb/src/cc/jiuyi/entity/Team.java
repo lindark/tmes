@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,6 +32,7 @@ public class Team extends BaseEntity {
 	private FactoryUnit factoryUnit;// 单元
 	private String isWork;//是否正在工作
 	private String iscancreditcard;//是否可以刷卡
+	private Set<Admin> adminSet;//用户-质检首页
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -222,6 +224,14 @@ public class Team extends BaseEntity {
 			iscancreditcard="Y";
 		}
 		this.iscancreditcard = iscancreditcard;
+	}
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "teamSet")
+	public Set<Admin> getAdminSet() {
+		return adminSet;
+	}
+
+	public void setAdminSet(Set<Admin> adminSet) {
+		this.adminSet = adminSet;
 	}
 	
 	

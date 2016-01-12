@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -293,6 +294,27 @@ public class TeamAction extends BaseAdminAction {
 		return this.ajaxJsonSuccessMessage("s");
 	}
 
+	//单元改变查找班组
+	public String findTeamByFactoryUnit(){
+		List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+		FactoryUnit ftu = fuService.get(info);
+		Set<Team> teamSet = ftu.getTeam();
+		if(teamSet!=null){
+			for(Team tm : teamSet){
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("tmId", tm.getId());
+				map.put("tmName", tm.getTeamName());
+				map.put("work", tm.getIsWork());
+				ListMap.add(map);
+			}
+			JSONArray jsonArray = JSONArray.fromObject(ListMap);
+			return ajaxJson(jsonArray.toString());
+		}else{
+			return ajaxJsonErrorMessage("请先维护数据");
+		}
+		
+	}
+	
 	/**
 	 */
 	public Team getTeam() {

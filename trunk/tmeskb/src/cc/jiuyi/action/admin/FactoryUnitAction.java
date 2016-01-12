@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -243,7 +244,26 @@ public class FactoryUnitAction extends BaseAdminAction {
 		return SUCCESS;	
 	}
 		
-
+	//改变车间查找单元
+	public String findFactoryUnitByWorkShop(){
+		List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+		WorkShop ws = workShopService.get(workShopId);
+		Set<FactoryUnit> ftuSet = ws.getFactoryUnitSet();
+		if(ftuSet!=null){
+			for(FactoryUnit ftu : ftuSet){
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("ftuId", ftu.getId());
+				map.put("ftuName", ftu.getFactoryUnitName());
+				ListMap.add(map);
+			}
+			JSONArray jsonArray = JSONArray.fromObject(ListMap);
+			return ajaxJson(jsonArray.toString());
+		}else{
+			return ajaxJsonErrorMessage("请先维护数据");
+		}
+		
+		
+	}
 
 	public FactoryUnit getFactoryUnit() {
 		return factoryUnit;

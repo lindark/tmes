@@ -290,7 +290,7 @@ public class ProductsAction extends BaseAdminAction {
 
 	// 获取所有状态
 	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
+		return dictService.getList("dictname", "productsState");
 	}
 
 	public void setAllState(List<Dict> allState) {

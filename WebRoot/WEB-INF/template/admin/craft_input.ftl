@@ -91,13 +91,21 @@ body {
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">
-												    <#if isAdd??>
+												    <#if isAdd??> <select class="chosen-select"
+														name="craft.products.productsCode" id="productChoice"
+														style="width:200px;">
+														<option value="">请选择...</option> <#list productsList as
+														list>
+														<option value="${list.productsCode}"<#if
+															(list.productsCode == craft.products.productsCode)!>
+															selected</#if>>${list.productsName}</option> </#list>
+													</select> <#else> ${(craft.products.productsName)!} </#if>
+												
+												    <!-- <#if isAdd??>
 												     <img id="productId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-													<!-- <button type="button" class="btn btn-xs btn-info"
-														id="productId" data-toggle="button">选择</button> -->
 													<span id="productName1"></span>
 												    <input type="hidden" name="craft.products.id" id="productNa" value="" class="formText {required: true}"/>
-													<#else> ${(craft.products.productsName)!} </#if>
+													<#else> ${(craft.products.productsName)!} </#if> -->
 													
 												</div>
 											 	<div class="profile-info-name">产品编码</div>
@@ -412,6 +420,14 @@ $("form.validatecredit").validate({
 			
 		}
 	});
+	
+	
+$("#productChoice").change(function() {
+	var code = $("#productChoice").val();
+	$("#productNo").text(code);
+})
+
+
 })
 </script>
 </html>

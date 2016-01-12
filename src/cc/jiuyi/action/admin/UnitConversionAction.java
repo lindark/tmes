@@ -207,7 +207,7 @@ public class UnitConversionAction extends BaseAdminAction {
 
 	//获取所有状态
 	public List<Dict> getAllState() {
-		return dictService.getList("dictname", "StateRemark");
+		return dictService.getList("dictname", "unitConversionState");
 	}
 
 

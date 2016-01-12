@@ -86,7 +86,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	}
 
 	public String add() {
-//		workingbill = workingBillService.get(workingBillId);
+		workingbill = workingBillService.get(workingBillId);
 //		String productCode = workingbill.getMatnr();
 //		allProcess = new ArrayList<Process>();
 //		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();

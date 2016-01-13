@@ -50,7 +50,7 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	/*
 	 * 获取工序
 	 * */
-     public String getProcess(List<String> processRouteIdList); 
+     public String getProcess(List<String> processRouteIdList,String steus); 
      
      /*通过工序编号获取工序名
       * 

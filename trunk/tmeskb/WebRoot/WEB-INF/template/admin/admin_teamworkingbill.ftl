@@ -150,7 +150,7 @@
 													</button>
 												</div>
 												
-												
+												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="attendance_1">
 													<button

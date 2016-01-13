@@ -248,6 +248,7 @@ public class Repairin extends BaseEntity {
 		this.costcenter = costcenter;
 	}
 
+	@Transient
 	public String getXrepairintype()
 	{
 		return xrepairintype;

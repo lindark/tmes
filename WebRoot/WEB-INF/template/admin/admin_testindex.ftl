@@ -56,7 +56,11 @@
 					dataType:"json",
 					success:function(data){
 						if(data.status=="error"){
-							$.message(data.message);
+							$workShop.html("<option value='0'>无</option>");
+							$factoryUnit.html("<option value='0'>无</option>");
+							$team.html("<option value='0'>无</option>");
+							alert(data.message);
+							//$.message(data.message);
 						}else{
 							if(data.length==0){
 								$workShop.html("<option value='0'>无</option>");
@@ -73,89 +77,12 @@
 									$workShop.append(opt); 
 								}
 								 //车间改变查找单元
-								$workShop.change(function(){
-									if($(this).val()!="0"){
-									var workShopId = $(this).val();
-									$.ajax({
-										url:"factory_unit!findFactoryUnitByWorkShop.action",
-										data:{"workShopId":workShopId},
-										dataType:"json",
-										success:function(data){
-											if(data.status=="error"){
-												$.message(data.message);
-											}else{
-												if(data.length==0){
-													$factoryUnit.html("<option value='0'>无</option>");
-													$team.html("<option value='0'>无</option>");
-												}else{
-													$factoryUnit.html("");
-													for(var i=0;i<data.length;i++){
-														if(i==0){
-															opt = $("<option/>").text(data[i].ftuName).attr("value", data[i].ftuId).attr("selected","selected");
-														}else{
-															opt = $("<option/>").text(data[i].ftuName).attr("value", data[i].ftuId);
-														}
-														$factoryUnit.append(opt); 
-													}
-												}
-											}
-											//单元改变查找班组
-											$factoryUnit.change(function(){
-												if($(this).val()!="0"){
-													var info = $(this).val();
-													$.ajax({
-														url:"team!findTeamByFactoryUnit.action",
-														data:{"info":info},
-														dataType:"json",
-														success:function(data){
-															if(data.status=="error"){
-																$.message(data.message);
-															}else{
-																if(data.length==0){
-																	$team.html("<option value='0'>无</option>");
-																}else{
-																	$team.html("");
-																	for(var i=0;i<data.length;i++){
-																		if(i==0){
-																			opt = $("<option/>").text(data[i].tmName).attr("value", data[i].tmId).attr("selected","selected");
-																			if(data[i].work=="Y"){
-																				working.push(true);
-																			}else{
-																				working.push(false);
-																			}
-																		}else{
-																			opt = $("<option/>").text(data[i].tmName).attr("value", data[i].tmId);
-																			if(data[i].work=="Y"){
-																				working.push(true);
-																			}else{
-																				working.push(false);
-																			}
-																		}
-																		$team.append(opt); 
-																	}
-																}
-															}
-															
-														},
-														error:function(){
-															alert("数据读取失败");
-														}
-													});
-												}else{
-													$team.html("<option value='0'>无</option>");
-												}
-												
-											});  
-										},
-										error:function(){
-											alert("数据读取失败");
-										}
-									});
+								if($("#sl_ws").val()!="0"){
+									findFT($("#sl_ws"));
 									}else{
 										$factoryUnit.html("<option value='0'>无</option>");
 										$team.html("<option value='0'>无</option>");
 									}
-								}); 
 							}
 						}
 					},
@@ -170,9 +97,117 @@
 			}
 		
 		});
-
+		
+		 var findT = function findTeam(){
+			 return function($_this){
+				 if($_this.val()!="0"){
+						var info = $_this.val();
+						$.ajax({
+							url:"team!findTeamByFactoryUnit.action",
+							data:{"info":info},
+							dataType:"json",
+							success:function(data){
+								if(data.status=="error"){
+									$team.html("<option value='0'>无</option>");
+									alert(data.message);
+									//$.message(data.message);
+								}else{
+									if(data.length==0){
+										$team.html("<option value='0'>无</option>");
+									}else{
+										$team.html("");
+										for(var i=0;i<data.length;i++){
+											if(i==0){
+												opt = $("<option/>").text(data[i].tmName).attr("value", data[i].tmId).attr("selected","selected");
+												if(data[i].work=="Y"){
+													working.push(true);
+												}else{
+													working.push(false);
+												}
+											}else{
+												opt = $("<option/>").text(data[i].tmName).attr("value", data[i].tmId);
+												if(data[i].work=="Y"){
+													working.push(true);
+												}else{
+													working.push(false);
+												}
+											}
+											$team.append(opt); 
+										}
+									}
+								}
+								
+							},
+							error:function(){
+								alert("数据读取失败");
+							}
+						});
+					}else{
+						$team.html("<option value='0'>无</option>");
+					}
+					
+			 }
+		 }();
+		var findFT = function findTactoryUnit(){
+			return function($_this){
+				if($_this.val()!="0"){
+					var workShopId = $_this.val();
+					$.ajax({
+						url:"factory_unit!findFactoryUnitByWorkShop.action",
+						data:{"workShopId":workShopId},
+						dataType:"json",
+						success:function(data){
+							if(data.status=="error"){
+								$factoryUnit.html("<option value='0'>无</option>");
+								$team.html("<option value='0'>无</option>");
+								alert(data.message);
+								//$.message(data.message);
+							}else{
+								if(data.length==0){
+									$factoryUnit.html("<option value='0'>无</option>");
+									$team.html("<option value='0'>无</option>");
+								}else{
+									$factoryUnit.html("");
+									for(var i=0;i<data.length;i++){
+										if(i==0){
+											opt = $("<option/>").text(data[i].ftuName).attr("value", data[i].ftuId).attr("selected","selected");
+										}else{
+											opt = $("<option/>").text(data[i].ftuName).attr("value", data[i].ftuId);
+										}
+										$factoryUnit.append(opt); 
+									}
+									
+									//单元改变查找班组
+									if($("#sl_ftu").val()!="0"){
+										findT($("#sl_ftu"));
+									}else{
+										$team.html("<option value='0'>无</option>");
+									}
+								}
+							}
+						},
+						error:function(){
+							alert("数据读取失败");
+						}
+					});
+					}else{
+						$factoryUnit.html("<option value='0'>无</option>");
+						$team.html("<option value='0'>无</option>");
+					}
+			}
+		}();
 		
 		
+		//单元改变查找班组
+		$factoryUnit.change(function(){
+			findT($(this));
+		});  
+		
+		 //车间改变查找单元
+		$workShop.change(function(){
+			findFT($(this));
+		}); 
+		 
 		$saveButton.click(function(){
 			var teamId = $team.val();
 			var productDate = $("#productDate").val();
@@ -197,19 +232,6 @@
 					alert("日期不允许为空");
 					 return false;
 				}
-				//alert("请先确定数据完整");
-				/* $.ajax({
-					url:"admin!findAllTeam.action",
-					dataType:"json",
-					success:function(data){
-						for(var i=0;i<data.length;i++){
-							$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value="+op_tmId+"/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+op_tmName+"</b></a></td><td class=\"hidden-480\">"+op_ftuName+"</td><td class=\"hidden-480\">"+op_wsName+"</td><td class=\"hidden-480\">"+op_ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
-						}
-					},
-					error:function(){
-						alert("数据读取失败");
-					}
-				}); */
 				$.ajax({
 					url:"admin!addTeam.action",
 					data:{"teamid":teamId,"productDate":productDate,"shift":shift},
@@ -286,14 +308,6 @@
 									});
 								}
 							}
-							/* if(data.status=="success"){
-								
-								
-								alert(data.message);
-								//window.self.localtion = "admin!index2.action";
-							}else{
-								alert(data.message);
-							} */
 						}else{
 							if(data.length>0){
 								if(data[0].YORN=="Y"){
@@ -339,7 +353,6 @@
 						alert("数据读取失败");
 					}
 				});
-			//}
 		});
 		
 		$(".a_delete").bind("click",function(){

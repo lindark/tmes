@@ -39,7 +39,7 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 		item.put("ZTEXT", repairin.getZTEXT());// 抬头文本，选填
 		item.put("XUH", repairin.getId());// 序号 必填
 		item.put("MOVE_TYPE", "261");// 移动类型
-		item.put("KOSTL", "10008431");// 成本中心
+		item.put("KOSTL", repairin.getCostcenter());// 成本中心
 		arrList.add(item);
 		item.put("MOVE_TYPE", "906");// 移动类型
 		arrList.add(item);

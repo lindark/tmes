@@ -64,11 +64,11 @@
 
 				<b class="arrow"></b>
 			</li>
-			<li>
+		<!--<li>
 				<a href="#" >
 					<i class="menu-icon glyphicon glyphicon-user"></i>
 					<span class="menu-text"> 管理首页 </span>
-				</a>
+				</a>  -->	
 
 				<b class="arrow"></b>
 			</li>

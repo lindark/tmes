@@ -7,6 +7,18 @@ $(function(){
 	$("#input_num").change(function(){
 		inputnum_event();
 	});
+	
+	//成品/组件-单选按钮
+	$("input[type='radio']").click(function(){
+		radio_event();
+	});
+	
+	//添加成本中心
+	$("#img_costcenter").click(function(){
+		addcostcenter_event();
+	});
+	
+	radio_event2();
 });
 
 //添加产品子件
@@ -86,6 +98,56 @@ function inputnum_event()
 		layer.alert("输入不合法!",false);
 		$("#input_num").val("");
 	}
+}
+
+//成品/组件-单选按钮
+function radio_event()
+{
+	//成品
+	if($("#repairintype_cp").attr("checked"))
+	{
+		$("#div_addpiece").hide();
+		$("#tb_repairinpiece tr:gt(0)").remove();//除了第一行,删除所有其他行,两种方法都一样
+	}
+	//组件
+	if($("#repairintype_zj").attr("checked"))
+	{
+		$("#div_addpiece").show();
+	}
+}
+
+//成品/组件-单选按钮
+function radio_event2()
+{
+	//成品
+	if($("#repairintype_cp").attr("checked"))
+	{
+		$("#div_addpiece").hide();
+	}
+	//组件
+	if($("#repairintype_zj").attr("checked"))
+	{
+		$("#div_addpiece").show();
+	}
+}
+
+//添加成本中心
+function addcostcenter_event()
+{
+	var title = "添加成本中心";
+	var width="800px";
+	var height="525px";
+	var content="repairin!beforegetcostcenter.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var info=iframeWin.getGridId();
+		if(info!=""&&info!=null)
+		{
+			$("#span_costcenter").text(info);
+			$("#input_costcenter").val(info);
+			layer.close(index);
+		}
+	});
 }
 //是否可以提交
 function iscansave()

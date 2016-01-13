@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var loginid=$("#loginid").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -14,9 +15,7 @@ jQuery(function($) {
 				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
 			}, 0);
 		}
-    })
-
-
+    });
 
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
@@ -46,9 +45,9 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"factory_unit!ajlist.action",
+		url:"repair!getpiece.action",
 		datatype: "json",
-		height: "250",//weitao 修改此参数可以修改表格的高度
+		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -63,19 +62,11 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:['工厂名称','车间名称','单元编码','单元名称','工作中心','状态'/*,'操作'*/],
+		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'factoryName',label:"工厂名称",index:'workShop.factory.factoryName', width:100,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'workShopName',label:"车间名称",index:'workShop.workShopName', width:100,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'factoryUnitCode',label:"单元编码",index:'factoryUnitCode', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'factoryUnitName',label:"单元名称",index:'factoryUnitName', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'workCenter',label:"工作中心",index:'workCenter', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'costcenter',label:"成本中心",index:'costcenter', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'xiscanrepair',label:"是否可以返修/返修收货",index:'iscanrepair', width:100, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitIscanrepair"}},
-			{name:'stateRemark',label:"状态",index:'state', width:100, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitState"}}
-			/*{name:'myac',width:200,fixed:true,sorttable:false,resize:false}*/
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'costcenter',index:'costcenter',label:"成本中心",width:300, editable: false},
+			{name:'xiscanrepair',index:'iscanrepair',label:"是否可以返修/返修收货",width:300, editable: false}
 		], 
 
 		viewrecords : true,
@@ -89,15 +80,6 @@ jQuery(function($) {
 		//multikey: "ctrlKey",
         multiboxonly: true,
 
-        gridComplete : function(){
-        	  var ids = jQuery(grid_selector).jqGrid('getDataIDs');
-        	  for(var i =0 ;i<ids.length;i++){
-        	    var cl=ids[i];
-        	    be= "<a href='factory_unit!editproducts.action?id="+ids[i]+"'>相关产品</a>";
-        	    jQuery(grid_selector).jqGrid('setRowData',ids[i],{myac:be});
-        	  }
-        	},
-        
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -109,8 +91,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "factory_unit!delete.action",//用它做标准删除动作
-		caption: "单元管理"
+		//editurl: "work_shop!delete.adction"//用它做标准删除动作
+		//caption: "员工信息"
 
 		//,autowidth: true,
 //		,
@@ -154,33 +136,27 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
+			edit: false,
 		    editfunc:function(rowId){
-		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
-				if(ids.length >1){
-					alert("请选择一条记录");
-					return false;
-				}
-			    window.location.href="factory_unit!edit.action?id="+rowId;
+			   // window.location.href="work_shop!edit.action?id="+rowId;
 		    },
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			//editicon : 'ace-icon fa fa-pencil blue',
+			add: false,
 			addfunc:function(){
-				window.location.href="factory_unit!add.action";
+				//window.location.href="work_shop!add.action";
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
-			/*
+			//addicon : 'ace-icon fa fa-plus-circle purple',
+			del: false,
 			delfunc:function(rowId){
-				window.location.href="factory_unit!delete.action?id="+rowId;
-			},*/
-			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
-			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
-			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
-			viewicon : 'ace-icon fa fa-search-plus grey',
+				//window.location.href="work_shop!delete.action?id="+rowId;
+			},
+			//delicon : 'ace-icon fa fa-trash-o red',
+			search: false,
+			//searchicon : 'ace-icon fa fa-search orange',
+			refresh: false,
+			//refreshicon : 'ace-icon fa fa-refresh green',
+			view: false,
+			//viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
 			//edit record form
@@ -235,10 +211,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			
-			multipleGroup:false,
+			/**
+			multipleGroup:true,
 			showQuery: true
-	
+			*/
 		},
 		{
 			//view record form
@@ -249,6 +225,4 @@ jQuery(function($) {
 			}
 		}
 	)
-
-
 });

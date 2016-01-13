@@ -72,6 +72,7 @@ body {
 							<form id="inputForm" class="validate" action="" method="post">
 								<input type="hidden" name="repairin.id" value="${(repairin.id)!}" />
 								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} " id="wkid">
+								<input type="hidden" name="workingBillId" value="${workingbill.id} ">
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修收货管理</a></li>
@@ -124,7 +125,7 @@ body {
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
 														<span id="span_costcenter">${(repairin.costcenter)!}</span>
-														<input type="hidden" id="input_costcenter" value="${(repairin.costcenter)!}" />
+														<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="${(repairin.costcenter)!}" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>

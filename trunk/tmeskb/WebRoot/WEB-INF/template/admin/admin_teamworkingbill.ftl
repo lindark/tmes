@@ -18,6 +18,7 @@
 </head>
 <body class="no-skin">
 
+	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
@@ -26,6 +27,8 @@
 			} catch (e) {
 			}
 		</script>
+
+	<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 
 		<div class="main-content">
 			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
@@ -252,7 +255,7 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-	$(".matkx").click(function() {
+	/* $(".matkx").click(function() {
 		var previd = $(this).prev().val();
 		var index = layer.open({
 			type : 2,
@@ -268,6 +271,12 @@
 		});
 		layer.full(index);//弹出既全屏
 
+	}); */
+	$(function(){
+		$(".matkx").click(function() {
+			var previd = $(this).prev().val();
+			window.self.location= "working_bill!inout.action?workingbill.id="+previd;
+		});
 	});
 	</script>
 

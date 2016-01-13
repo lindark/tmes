@@ -2,65 +2,25 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
-import com.opensymphony.oscache.util.StringUtil;
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
-import cc.jiuyi.action.cron.ExtremelyMessage;
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Abnormal;
-import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Callreason;
-import cc.jiuyi.entity.Craft;
-import cc.jiuyi.entity.Department;
-import cc.jiuyi.entity.Device;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
-import cc.jiuyi.entity.Member;
-import cc.jiuyi.entity.Model;
-import cc.jiuyi.entity.Quality;
-import cc.jiuyi.entity.SwiptCard;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
-import cc.jiuyi.service.AbnormalLogService;
-import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.CallreasonService;
-import cc.jiuyi.service.DepartmentService;
-import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
-import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.QuartzManagerUtil;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 交接主表
@@ -152,9 +112,14 @@ public class HandOverAction extends BaseAdminAction {
 				for(int y=0;y<handoverprocessList.size();y++){
 					HandOverProcess handoverprocess = handoverprocessList.get(y);
 					if(aufnr.equals(handoverprocess.getBeforworkingbill().getAufnr())){
+						if(handoverprocess.getMblnr()!=null){
+							continue;
+						}
 						handoverprocessList01.add(handoverprocess);
 					}
 				}
+				if(handoverprocessList01.size()<=0)
+					continue;
 				if(!mblnr.equals(""))
 					mblnr+=",";
 				String mblnr1 = handoverprocessrfc.BatchHandOver(handoverprocessList01, "",loginid);//执行
@@ -162,7 +127,10 @@ public class HandOverAction extends BaseAdminAction {
 				handOverService.updateHand(handoverprocessList01,mblnr1,handoverId,admin);
 			}
 			//以上跟SAP接口完全没有问题，成功后
-			kaoqinservice.mergeAdminafterWork(admin,handoverId);
+			
+			kaoqinservice.updateHandOver(handoverId, mblnr, admin);
+			
+			
 			
 			
 			

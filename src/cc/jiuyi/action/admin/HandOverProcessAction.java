@@ -117,11 +117,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 		for (int i = 0; i < workingbillAll.size(); i++){
 			WorkingBill workingbill = workingbillAll.get(i);
 			
-			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
+			String aufnr = workingbill.getAufnr();//生产订单号
+			//TODO 根据传入进来的物料号
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),materialCode);
 		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
 		    	continue;
+		    else{
+		    	if(bomList.size() <=0)
+		    		continue;
+		    }
 			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
 			if (handoverprocess != null) {
 				Integer amount = handoverprocess.getAmount();

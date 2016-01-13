@@ -129,4 +129,10 @@ public class TeamDaoImpl extends BaseDaoImpl<Team, String> implements
 		String hql="from Team where isWork='Y'";
 		return this.getSession().createQuery(hql).list();
 	}
+
+	@Override
+	public List<Team> getTeamListByWorkAndDel() {
+		String hql="from Team where isWork='Y' and isDel='N' and state='1'";
+		return this.getSession().createQuery(hql).list();
+	}
 }

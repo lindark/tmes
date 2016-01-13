@@ -27,4 +27,8 @@ public interface FactoryService extends BaseService<Factory, String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByFactoryCode(String factoryCode);
+	/**
+	 * 获取有的工厂
+	 */
+	public List<Factory> getFactoryListByY();
 }

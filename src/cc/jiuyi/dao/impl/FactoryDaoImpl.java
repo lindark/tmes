@@ -84,7 +84,12 @@ public class FactoryDaoImpl extends BaseDaoImpl<Factory, String> implements Fact
 			return false;
 		}
 	}
-	
+
+	@Override
+	public List<Factory> getFactoryListByY() {
+		String hql = "from Factory factory where isDel='N' and state='1' ";
+		return getSession().createQuery(hql).list();
+	}
 	
 	
 }

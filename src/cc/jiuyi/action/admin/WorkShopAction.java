@@ -223,13 +223,18 @@ public class WorkShopAction extends BaseAdminAction {
 		//List<WorkShop> wsList = workShopService.getList("id", factoryId);
 		if(wsSet!=null){
 			for(WorkShop ws : wsSet){
-				Map<String,String> map = new HashMap<String,String>();
-				map.put("wsId", ws.getId());
-				map.put("wsName", ws.getWorkShopName());
-				ListMap.add(map);
+				if("N".equals(ws.getIsDel()) && "1".equals(ws.getState())){
+					Map<String,String> map = new HashMap<String,String>();
+					map.put("wsId", ws.getId());
+					map.put("wsName", ws.getWorkShopName());
+					ListMap.add(map);
+				}
 			}
-			JSONArray jsonArray = JSONArray.fromObject(ListMap);
-			return ajaxJson(jsonArray.toString());
+			if(ListMap.size()>0){
+				JSONArray jsonArray = JSONArray.fromObject(ListMap);
+				return ajaxJson(jsonArray.toString());
+			}
+			return ajaxJsonErrorMessage("未找到可用车间");
 		}else{
 			return ajaxJsonErrorMessage("请先维护数据");
 		}

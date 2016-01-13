@@ -255,13 +255,20 @@ public class FactoryUnitAction extends BaseAdminAction {
 		Set<FactoryUnit> ftuSet = ws.getFactoryUnitSet();
 		if(ftuSet!=null){
 			for(FactoryUnit ftu : ftuSet){
-				Map<String,String> map = new HashMap<String,String>();
-				map.put("ftuId", ftu.getId());
-				map.put("ftuName", ftu.getFactoryUnitName());
-				ListMap.add(map);
+				if("N".equals(ftu.getIsDel()) && "1".equals(ftu.getState())){
+					Map<String,String> map = new HashMap<String,String>();
+					map.put("ftuId", ftu.getId());
+					map.put("ftuName", ftu.getFactoryUnitName());
+					ListMap.add(map);
+				}
 			}
-			JSONArray jsonArray = JSONArray.fromObject(ListMap);
-			return ajaxJson(jsonArray.toString());
+			if(ListMap.size()>0){
+				JSONArray jsonArray = JSONArray.fromObject(ListMap);
+				return ajaxJson(jsonArray.toString());
+			}else{
+				return ajaxJsonErrorMessage("未找到可用单元");
+			}
+			
 		}else{
 			return ajaxJsonErrorMessage("请先维护数据");
 		}

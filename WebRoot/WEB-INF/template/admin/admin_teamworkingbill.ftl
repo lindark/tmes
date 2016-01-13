@@ -101,44 +101,10 @@
 										<div class="widget-body">
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
+											
+												
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="handover">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block"
-														id="handoverprocess">
-														<i class="ace-icon fa fa-fire bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">交接</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="getmaterial">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="pick">
-														<i class="ace-icon fa fa-credit-card bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">领退料</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="dumpconfirm">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block"
-														id="dump">
-														<i class="ace-icon fa fa-credit-card bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">转储确认</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="scrap">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														type="button" id="scrap">
-														<i class="ace-icon fa fa-inbox bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">报废</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="rework">
+													data-access-list="rework_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="rework">
@@ -146,26 +112,9 @@
 															class="bigger-110 no-text-shadow">返工</span>
 													</button>
 												</div>
+									
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="repair">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="repair">
-														<i class="ace-icon fa fa-cog bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">返修</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="repairgoods">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="repairin">
-														<i class="ace-icon fa fa-glass bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">返修收货</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="sample">
+													data-access-list="sample_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="sample">
@@ -174,7 +123,7 @@
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="inspection">
+													data-access-list="inspection_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="pollingtest">
@@ -183,7 +132,7 @@
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="halfinspection">
+													data-access-list="halfinspection_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
 														id="halfinspection">
@@ -192,7 +141,7 @@
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="quickresponse">
+													data-access-list="quickresponse_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block"
 														id="qResponse">
@@ -200,39 +149,14 @@
 															class="bigger-110 no-text-shadow">快速响应</span>
 													</button>
 												</div>
+												
+												
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="sttm">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="dailywork">
-														<i class="ace-icon fa fa-share-alt bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">报工</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="putstorage">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="storage">
-														<i class="ace-icon fa fa-tasks bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">入库</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="attendance">
+													data-access-list="attendance_1">
 													<button
 														class="btn btn-white btn-success btn-bold btn-round btn-block" id="kaoqin" type="button">
 														<i class="ace-icon fa fa-users bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">考勤</span>
-													</button>
-												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="cartonreceiving">
-													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="carton">
-														<i class="ace-icon fa fa-file-archive-o bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">纸箱收货</span>
 													</button>
 												</div>
 
@@ -328,7 +252,23 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-		
+	$(".matkx").click(function() {
+		var previd = $(this).prev().val();
+		var index = layer.open({
+			type : 2,
+			skin : 'layui-layer-lan',
+			title : '投入产出显示表',
+			fix : false,
+			shadeClose : false,
+			maxmin : true,
+			scrollbar : false,
+			btn:['确定'],
+			area : [ '800px', '400px' ],//弹出框的高度，宽度
+			content : "working_bill!inout.action?workingbill.id="+previd
+		});
+		layer.full(index);//弹出既全屏
+
+	});
 	</script>
 
 </body>

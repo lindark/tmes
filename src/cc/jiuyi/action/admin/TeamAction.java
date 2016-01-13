@@ -314,6 +314,23 @@ public class TeamAction extends BaseAdminAction {
 		}
 		
 	}
+	//找出所有正在工作中的班组
+	public String findAllTeam(){
+		List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+		List<Team> tmLists= teamService.getList("isWork", "Y");
+		for(Team tm : tmLists){
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("tmId", tm.getId());
+			map.put("tmName", tm.getTeamName());
+			map.put("work", tm.getIsWork());
+			map.put("ftuName", tm.getFactoryUnit().getFactoryUnitName());
+			map.put("wsName", tm.getFactoryUnit().getWorkShop().getWorkShopName());
+			map.put("ftName", tm.getFactoryUnit().getWorkShop().getFactory().getFactoryName());
+			ListMap.add(map);
+		}
+		JSONArray jsonArray = JSONArray.fromObject(ListMap);
+		return ajaxJson(jsonArray.toString());
+	}
 	
 	/**
 	 */

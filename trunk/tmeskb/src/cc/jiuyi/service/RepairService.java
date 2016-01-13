@@ -53,11 +53,11 @@ public interface RepairService extends BaseService<Repair, String> {
 	 * @param repair
 	 * @param cardnumber
 	 */
-	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp);
+	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom);
 
 	/**
 	 * 修改
 	 * @param id
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber);
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom);
 }

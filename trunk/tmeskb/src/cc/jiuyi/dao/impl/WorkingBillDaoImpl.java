@@ -76,11 +76,11 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	}
 
 	@Override
-	public List getListWorkingBillByDate(Admin admin) {
+	public List<WorkingBill> getListWorkingBillByDate(Admin admin) {
 		String hql = "from WorkingBill where productDate = ? and workingBillCode like ?";
 		List list = getSession().createQuery(hql)
 				.setParameter(0, admin.getProductDate())
-				.setParameter(1, "%" + admin.getShift()).setCacheable(true).list();
+				.setParameter(1, "%" + admin.getShift()).list();
 		return list;
 	}
 
@@ -111,6 +111,13 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
 		String hql="from WorkingBill where matnr = ? ";
 		return getSession().createQuery(hql).setParameter(0, matnr).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<WorkingBill> findWorkingBill(List<String> aufnr,String productDate,String shift) {
+		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and aufnr in (:list)";
+		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, "%"+shift).setParameterList("list", aufnr).list();
+		
 	}
 
 

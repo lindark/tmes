@@ -48,6 +48,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private static final String CONFIRMED = "1";
 	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
+	private static final String steus="pp02";
 
 	private DailyWork dailyWork;
 	private String workingBillId;
@@ -133,14 +134,11 @@ public class DailyWorkAction extends BaseAdminAction {
 		Products products = productsService.getByPcode(workingBill.getMatnr());
 		String time = ThinkWayUtil.formatdateDate(products.getCreateDate());
 		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),time);
-		System.out.println(processrouteList.size());
 		List<String> ProcessRouteIdList = new ArrayList<String>();
 		for(ProcessRoute pr:processrouteList){
 			ProcessRouteIdList.add(pr.getId());
-			System.out.println("in");
 		}
-		String process = processRouteService.getProcess(ProcessRouteIdList);
-		System.out.println(process);
+		String process = processRouteService.getProcess(ProcessRouteIdList,steus);
 		
 		dailyWork.setProcessCode(process);
 		if (dailyWork.getEnterAmount() == null

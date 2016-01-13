@@ -189,7 +189,7 @@ body {
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
 														<span id="span_costcenter">${(repair.costcenter)!}</span>
-														<input type="hidden" id="input_costcenter" value="${(repair.costcenter)!}" />
+														<input type="hidden" id="input_costcenter" name="repair.costcenter" value="${(repair.costcenter)!}" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>

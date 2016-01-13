@@ -73,6 +73,7 @@ function getGridId()
 		layer.alert("请选择一个成本中心!",false);
 		return "";
 	}
+	var rowData = $("#grid-table").jqGrid('getRowData',ids[0]);
 	return rowData.costcenter;
 }
 </script>

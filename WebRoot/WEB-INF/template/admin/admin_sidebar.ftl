@@ -1036,6 +1036,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							<!-- 
 							<li class="">
 								<a href="locationonside!list.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -1044,6 +1045,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							 -->
 						</ul>
 					</li>
 

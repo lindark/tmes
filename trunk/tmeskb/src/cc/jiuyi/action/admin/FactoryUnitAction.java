@@ -180,14 +180,16 @@ public class FactoryUnitAction extends BaseAdminAction {
 			factoryUnit.setFactoryName(factoryUnit.getWorkShop().getFactory().getFactoryName());
 			factoryUnit.setWorkShopName(factoryUnit.getWorkShop().getWorkShopName());
 			//是否可以返修/返修收获
-			factoryUnit.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", factoryUnit.getIscanrepair()));
+			if(factoryUnit.getIscanrepair()!=null)
+			{
+				factoryUnit.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", factoryUnit.getIscanrepair()));
+			}
 			lst.add(factoryUnit);
 		}
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig
-				.setExcludes(ThinkWayUtil.getExcludeFields(FactoryUnit.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(FactoryUnit.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());

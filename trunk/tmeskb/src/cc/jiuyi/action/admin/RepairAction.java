@@ -296,6 +296,7 @@ public class RepairAction extends BaseAdminAction {
 				{
 					repair.setResponseName(pr.getProcessName());
 				}
+				repair.setXrepairtype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairtype",repair.getRepairtype()));//成品/子件
 			}
 			lst.add(repair);
 		}

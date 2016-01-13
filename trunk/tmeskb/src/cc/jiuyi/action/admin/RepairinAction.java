@@ -263,6 +263,7 @@ public class RepairinAction extends BaseAdminAction {
 				repairin.setAdminName(repairin.getConfirmUser().getName());
 			}
 			repairin.setCreateName(repairin.getCreateUser().getName());
+			repairin.setXrepairintype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairintype",repairin.getRepairintype()));//成品/子件
 			lst.add(repairin);
 		}
 		pager.setList(lst);

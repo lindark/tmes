@@ -48,11 +48,11 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param repair
 	 * @param cardnumber
 	 */
-	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp);
+	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp,List<Bom>list_bom);
 
 	/**
 	 * 修改
 	 * @param id
 	 */
-	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber);
+	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom);
 }

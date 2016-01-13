@@ -33,4 +33,11 @@ public interface FactoryUnitService extends BaseService<FactoryUnit, String> {
 	
 	public List<Products> getAllProducts();
 
+	/**
+	 *  获取单元中的成本中心
+	 * @param pager
+	 * @return
+	 */
+	public Pager getCostCenter(Pager pager);
+
 }

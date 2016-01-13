@@ -48,21 +48,21 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form class="form-horizontal" id="searchform"
-								action="products!ajlist.action" role="form">
+								action="bom!ajlist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-2"
-											style="text-align:right;">产品编码:</label>
+											style="text-align:right;">组件编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsCode"
+											<input type="text" name="materialCode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
 
-										<label class="col-sm-2" style="text-align:right;">产品名称:</label>
+										<label class="col-sm-2" style="text-align:right;">组件名称:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsName"
+											<input type="text" name="materialName"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
@@ -113,9 +113,9 @@ body {
 			return false;
 		}
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
-		var rowName=rowData.productsName;
-		var rowCode=rowData.productsCode;
-		var work=""+rowName+""+","+ids+","+rowCode;
+		var rowName=rowData.materialName;
+		var rowCode=rowData.materialCode;
+		var work=""+rowName+""+","+rowCode;
 		return work;
 	}
 	

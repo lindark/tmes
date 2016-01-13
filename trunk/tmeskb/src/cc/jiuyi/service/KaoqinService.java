@@ -57,4 +57,5 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 */
 	public void mergeAdminafterWork(Admin admin,String handoverId);
 
+	public void updateHandOver(String handoverid,String mblnr,Admin admin);
 }

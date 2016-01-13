@@ -38,7 +38,7 @@ public interface WorkingBillService extends BaseService<WorkingBill, String> {
 	 * 根据登录身份获取当班随工单信息
 	 * @return
 	 */
-	public List getListWorkingBillByDate(Admin admin);
+	public List<WorkingBill> getListWorkingBillByDate(Admin admin);
 
 	/**
 	 * 查询随工单表中的id 和 产品名称maktx

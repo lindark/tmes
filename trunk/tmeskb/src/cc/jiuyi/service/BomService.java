@@ -58,4 +58,6 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @return
 	 * */
 	public Integer getMaxversion(String orderId,String productDate);
+	
+	public List<Bom> findBom(String aufnr,String productDate,String materialCode);
 }

@@ -1,4 +1,3 @@
-
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -17,15 +16,45 @@ jQuery(function($) {
 		}
     })
 
+
+
 	jQuery(grid_selector).jqGrid({
-		url:"products!ajlist.action",
+		//direction: "rtl",
+
+		//subgrid options
+		subGrid : false,
+		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
+		//datatype: "xml",
+		subGridOptions : {
+			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
+			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
+			openicon : "ace-icon fa fa-chevron-right center orange"
+		},
+		//for this example we are using local data
+		subGridRowExpanded: function (subgridDivId, rowId) {
+			var subgridTableId = subgridDivId + "_t";
+			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+			$("#" + subgridTableId).jqGrid({
+				datatype: 'local',
+				data: subgrid_data,
+				colNames: ['No','Item Name','Qty'],
+				colModel: [
+					{ name: 'id', width: 50 },
+					{ name: 'name', width: 150 },
+					{ name: 'qty', width: 50 }
+				]
+			});
+		},
+		
+		url:"bom!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount"
+	          records:"totalCount",
+	          id:"id"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -33,19 +62,16 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
-	    	
 	    },
-		colNames:[ '产品编码','产品名称','物料组','状态', ],
-		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'productsCode',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'productsName',index:'productsName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'materialGroup',index:'materialGroup', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			//{name:'materialDescript',index:'productsCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'stateRemark',index:'state', width:200, label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=productsState"}}		 
-		], 
-
+	    colModel:[	
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'productsCode',index:'productsCode',label:"产品编号",width:50, editable: false},
+			{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
+			{name:'materialCode',index:'materialCode',label:"组件编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialName',index:'materialName',label:"组件名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
+		],
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -68,20 +94,46 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "products!delete.action",//用它做标准删除动作
-		caption: "产品管理"
+		editurl: "bom!delete.adction",//用它做标准删除动作
+		caption: "Bom管理"
 
 	});
-	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+	$(window).triggerHandler('resize.jqGrid');
 	
+
+	function aceSwitch( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=checkbox]')
+				.addClass('ace ace-switch ace-switch-5')
+				.after('<span class="lbl"></span>');
+		}, 0);
+	}
+	//enable datepicker
+	function pickDate( cellvalue, options, cell ) {
+		setTimeout(function(){
+			$(cell) .find('input[type=text]')
+					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+		}, 0);
+	}
+
+
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: false,		
+			edit: false,
+		  editfunc:function(rowId){
+			    window.location.href="process!edit.action?id="+rowId;
+		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
+			addfunc:function(){
+				window.location.href="bom!add.action";
+			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
+			delfunc:function(rowId){
+				window.location.href="bom!delete.action?id="+rowId;
+			},
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -160,3 +212,4 @@ jQuery(function($) {
 
 
 });
+

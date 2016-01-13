@@ -65,10 +65,11 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:['产品名称','问题描述','创建人','状态'],
+		colNames:['产品名称','工序','问题描述','创建人','状态'],
 		colModel:[
 						
-			{name:'productsName',index:'products.productsName',width:180, editable:true},						
+			{name:'productsName',index:'productsName',width:180, editable:true},	
+			{name:'process',index:'process',width:120, editable:true},
 			{name:'problemDescription',index:'problemDescription', width:160, search:false,editable: true},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		

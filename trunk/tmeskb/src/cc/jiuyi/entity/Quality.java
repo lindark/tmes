@@ -41,7 +41,8 @@ public class Quality extends BaseEntity{
 	
 	private String stateRemark;//状态描述    
 	private String founder;
-	private Products products;//产品
+	private String products;//产品
+	private String bom;//产品bom
 	
 	private String productsName;
 	private String processName;
@@ -157,17 +158,24 @@ public class Quality extends BaseEntity{
 		this.founder = founder;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	public Products getProducts() {
 		return products;
 	}
 	public void setProducts(Products products) {
 		this.products = products;
-	}
+	}*/
 	
+		
 	@Transient
 	public String getProductsName() {
 		return productsName;
+	}
+	public String getProducts() {
+		return products;
+	}
+	public void setProducts(String products) {
+		this.products = products;
 	}
 	public void setProductsName(String productsName) {
 		this.productsName = productsName;
@@ -217,6 +225,12 @@ public class Quality extends BaseEntity{
 	}
 	public void setEngineer(Admin engineer) {
 		this.engineer = engineer;
+	}
+	public String getBom() {
+		return bom;
+	}
+	public void setBom(String bom) {
+		this.bom = bom;
 	}
 	
 	

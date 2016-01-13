@@ -67,12 +67,13 @@ jQuery(function($) {
 	    },
 		colNames:[ '返修收货数量','收货日期','创建人', '确认人','状态',''],
 		colModel:[
-			
-			{name:'receiveAmount',index:'receiveAmount', width:200},
-			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}},
+		    {name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'receiveAmount',label:"返修收货数量",index:'receiveAmount', width:100},
+			{name:'createDate',label:"收货日期",label:"返修部位",index:'createDate',width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:100,sortable:"true",sorttype:"text"},
+			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',label:"状态",index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 
 		], 

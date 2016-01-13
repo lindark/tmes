@@ -65,7 +65,7 @@
 											 <select name="causeType" id="form-field-icon-1" class="input input-sm form-control"> 
 											 	<option value="">全选</option> 
 								                <#list allCauseType as list>
-									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.causeType == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+									            <option value="${list.dictkey}">${list.dictvalue}</option>
 								                </#list>   
 										      </select>   
 										</div>
@@ -74,7 +74,7 @@
 											 <select name="state" id="form-field-icon-1" class="input input-sm form-control"> 
 											 	<option value="">全选</option> 
 								                <#list allState as list>
-									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+									            <option value="${list.dictkey}">${list.dictvalue}</option>
 								                </#list>    
 										      </select>   
 										</div>
@@ -84,10 +84,12 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											<!-- 
 											<a id="searchButton" href="cause!sync.action" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												SAP同步
 											</a>
+											 -->
 										</div>
 										
 									</div>

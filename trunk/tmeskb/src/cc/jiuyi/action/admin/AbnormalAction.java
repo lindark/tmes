@@ -432,10 +432,13 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setJobname(job_name);
 		abnormalService.save(abnormal);
 		
+		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
+		String adminName =admin.getName();
+		String message=werks+"工厂"+adminName+"处出现异常";
 		for(Admin admin:adminSets){//向应答人发送短信
 			try{
 			 
-			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),"XX工厂出现异常");			
+			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);			
 			 SAXReader reader = new SAXReader();  //解析返回xml文件
              Document doc;   
              doc = DocumentHelper.parseText(str); 
@@ -495,6 +498,7 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("director", name1);
 		maps.put("phone2",phone2);
 		maps.put("manager", name2);
+		maps.put("message", message);
 		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

@@ -45,7 +45,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"repair!getpiece.action",
+		url:"repair!getcostcenter.action",
 		datatype: "json",
 		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

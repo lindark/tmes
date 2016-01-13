@@ -89,4 +89,9 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		return bomDao.getMaxversion(orderId, productDate);
 	}
 	
+	@Override
+	public String getMaterialName(String materialCode) {
+		return bomDao.getMaterialName(materialCode);
+	}
+	
 }

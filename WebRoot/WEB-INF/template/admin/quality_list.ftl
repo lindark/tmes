@@ -75,9 +75,9 @@
 										<div class="col-sm-4">
 											<input type="text" name="founder" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-2" style="text-align:right">产品名称:</label>
+										<label class="col-sm-2" style="text-align:right">工序:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="process" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 																									
 									</div>

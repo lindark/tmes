@@ -67,7 +67,7 @@ body {
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">												    
-													${(quality.products.productsName)!}													
+													${(product)!}													
 												</div>
 												
 												<div class="profile-info-name">生产工序</div>
@@ -76,6 +76,11 @@ body {
 													${(quality.process)!}
 												</div>
 
+											</div>
+											
+											<div class="profile-info-row">
+											<div class="profile-info-name">产品bom</div>
+											<div class="profile-info-value">${(bomproduct)!}</div>
 											</div>
 
 											<div class="profile-info-row">

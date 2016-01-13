@@ -50,5 +50,10 @@ public interface TeamService extends BaseService<Team, String> {
 	 * @return
 	 */
 	public List<Team> getTeamListByWork();
+	/**
+	 * 取出所有正在工作并未删除的班组
+	 * @return
+	 */
+	public List<Team> getTeamListByWorkAndDel();
 
 }

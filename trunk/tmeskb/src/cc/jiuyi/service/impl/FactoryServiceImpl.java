@@ -65,6 +65,12 @@ public class FactoryServiceImpl extends BaseServiceImpl<Factory, String>implemen
 		return factoryDao.isExistByFactoryCode(factoryCode);
 	}
 
+	@Override
+	public List<Factory> getFactoryListByY() {
+		// TODO Auto-generated method stub
+		return factoryDao.getFactoryListByY();
+	}
+
 
 	
 }

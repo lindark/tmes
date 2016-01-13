@@ -95,5 +95,11 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 		return this.teamDao.getTeamListByWork();
 	}
 
+	@Override
+	public List<Team> getTeamListByWorkAndDel() {
+		
+		return this.teamDao.getTeamListByWorkAndDel();
+	}
+
 	
 }

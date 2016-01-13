@@ -250,7 +250,7 @@ public class AdminAction extends BaseAdminAction {
 			}
 				if("0".equals(teamid)){
 					List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
-					List<Team> tmLists= teamService.getList("isWork", "Y");
+					List<Team> tmLists= teamService.getTeamListByWorkAndDel();
 					if(tmLists.size()>0){
 						if(productDate.equals(admin.getProductDate()) && shift.equals(admin.getShift())){
 							for(Team tms : tmSet){
@@ -379,7 +379,7 @@ public class AdminAction extends BaseAdminAction {
 					team = tm;
 				}
 			}
-            factoryList = factoryService.getAll();
+            factoryList = factoryService.getFactoryListByY();
 /**         for (int i = 0; i < teamList.size(); i++) {
 				Team  team =teamList.get(i);
 				System.out.println("================="+team.getId());

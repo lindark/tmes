@@ -301,23 +301,30 @@ public class TeamAction extends BaseAdminAction {
 		Set<Team> teamSet = ftu.getTeam();
 		if(teamSet!=null){
 			for(Team tm : teamSet){
-				Map<String,String> map = new HashMap<String,String>();
-				map.put("tmId", tm.getId());
-				map.put("tmName", tm.getTeamName());
-				map.put("work", tm.getIsWork());
-				ListMap.add(map);
+				if("N".equals(tm.getIsDel()) && "1".equals(tm.getState())){
+					Map<String,String> map = new HashMap<String,String>();
+					map.put("tmId", tm.getId());
+					map.put("tmName", tm.getTeamName());
+					map.put("work", tm.getIsWork());
+					ListMap.add(map);
+				}
 			}
-			JSONArray jsonArray = JSONArray.fromObject(ListMap);
-			return ajaxJson(jsonArray.toString());
+			if(ListMap.size()>0){
+				JSONArray jsonArray = JSONArray.fromObject(ListMap);
+				return ajaxJson(jsonArray.toString());
+			}else{
+				return ajaxJsonErrorMessage("没有正在工作中的班组");
+			}
+			
 		}else{
 			return ajaxJsonErrorMessage("请先维护数据");
 		}
 		
 	}
-	//找出所有正在工作中的班组
+	//找出所有正在工作中并未删除的班组
 	public String findAllTeam(){
 		List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
-		List<Team> tmLists= teamService.getList("isWork", "Y");
+		List<Team> tmLists= teamService.getTeamListByWorkAndDel();
 		for(Team tm : tmLists){
 			Map<String,String> map = new HashMap<String,String>();
 			map.put("tmId", tm.getId());

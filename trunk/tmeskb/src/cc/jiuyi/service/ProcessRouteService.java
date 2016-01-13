@@ -53,5 +53,12 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	 * 获取工序
 	 * */
      public String getProcess(List<String> processRouteIdList);    
+     
+     
+    /*通过工序编号获取工序名
+     * 
+     * */ 
+     public String getProcessName(String processCode);
+     
 	
 }

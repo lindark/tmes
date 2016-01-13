@@ -21,7 +21,7 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 * @return
 	 */
 	public List<Bom> getBomList(String aufnr,Integer maxversion);
-	
+	public List<Bom> getBomList(String aufnr,Integer maxversion,String materialCode);
 	
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 

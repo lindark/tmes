@@ -35,6 +35,8 @@ public class Orders extends BaseEntity{
 	private String rsnum;//bom预留号
 	private String isdel;//是否删除
 	private String gamng;//订单数量
+	private String gstrp;//订单开始日期
+	private String gltrp;//订单结束日期
 	private Set<Bom> bomSet;//Bom集合
 	private Set<ProcessRoute> processrouteSet;
 	
@@ -105,6 +107,18 @@ public class Orders extends BaseEntity{
 	}
 	public void setBomSet(Set<Bom> bomSet) {
 		this.bomSet = bomSet;
+	}
+	public String getGstrp() {
+		return gstrp;
+	}
+	public void setGstrp(String gstrp) {
+		this.gstrp = gstrp;
+	}
+	public String getGltrp() {
+		return gltrp;
+	}
+	public void setGltrp(String gltrp) {
+		this.gltrp = gltrp;
 	}
 	
 }

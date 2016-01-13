@@ -116,5 +116,9 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	
+	@Override
+	public String getMaterialName(String materialCode) {
+		String hql="select b.materialName from Bom b where b.materialCode = ? ";
+		return (String)getSession().createQuery(hql).setParameter(0,materialCode).uniqueResult();
+	}
 }

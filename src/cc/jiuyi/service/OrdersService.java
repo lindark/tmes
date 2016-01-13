@@ -17,4 +17,21 @@ import cc.jiuyi.entity.Role;
 
 public interface OrdersService extends BaseService<Orders, String> {
 	
+
+	/**
+	 * 获取生产订单的集合
+	 * @param productDate
+	 * @param maxversion
+	 * @param steus
+	 * @param workcenter
+	 * @return
+	 */
+	public Orders findOrders(String productDate,Integer maxversion,String steus,String workcenter);
+	
+	/**
+	 * 获取生产订单的集合
+	 * @param productDate
+	 * @return
+	 */
+	public List<Orders> findOrders(String productDate);
 }

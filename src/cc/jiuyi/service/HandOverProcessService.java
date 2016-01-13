@@ -71,4 +71,6 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @return
 	 */
 	public String savehandover(List<HandOverProcess> handoverprocessList,String state,String cardNumber);
+	
+
 }

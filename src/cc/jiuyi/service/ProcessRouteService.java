@@ -23,12 +23,12 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	public List<ProcessRoute> getProcessRouteList(String aufnr, Integer version);
 	
 	/**
-	 * 根据物料号+生产日期获取最大版本
-	 * @param matnr
+	 * 根据生产订单ID+生产日期获取最大版本
+	 * @param orderid
 	 * @param productDate
 	 * @return
 	 */
-	public Integer getMaxVersion(String matnr,String productDate);
+	public Integer getMaxVersion(String orderid,String productDate);
 	
 	public List<ProcessRoute> findProcessRoute(String aufnr,String productDate);
 	

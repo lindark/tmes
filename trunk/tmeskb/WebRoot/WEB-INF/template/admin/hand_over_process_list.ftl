@@ -19,6 +19,9 @@
 <script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/manage/handover_list.js"></script>
+
+<script type="text/javascript" src="${base }/template/admin/js/Lodop/LodopFuncs.js"></script>
+
 <style type="text/css">
 .ztree li span.button.add {
 	margin-left: 2px;
@@ -42,6 +45,20 @@
 
 </script><script type="text/javascript" src="${base }/template/admin/js/sliding/js/main.js"></script>
 
+<script>
+/*
+	$(function(){
+		var LODOP=getLodop();
+		LODOP.PRINT_INIT("打印任务名");
+		LODOP.SET_PRINT_PAGESIZE(1,"10mm","10mm","10mm");
+		LODOP.ADD_PRINT_HTM("0mm","6mm","31.15mm","6mm","<p>建新赵氏集团</p>");
+		LODOP.ADD_PRINT_TEXT("6mm","2mm","49mm","6mm","桑塔纳NF/前门dfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"128Auto","123231231");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.PREVIEW();
+	})
+	*/
+</script>
 </head>
 
 <body class="no-skin list">
@@ -88,6 +105,8 @@
 							<div id="inputtabs">
 								<ul>
 									<li><a href="#tabs-1">工序交接</a>
+									</li>
+									<li><a href="#tabs-4">零头数交接</a>
 									</li>
 									<li><a href="#tabs-2">线边仓交接</a>
 									</li>
@@ -165,6 +184,10 @@
 										</div>
 										<!-- /.widget-body -->
 									</div>
+								</div>
+								<div id="tabs-4">
+									这里是零头数交接
+									<a href="显示"></a>
 								</div>
 								<div id="tabs-2">
 									<table class="table table-striped table-bordered">

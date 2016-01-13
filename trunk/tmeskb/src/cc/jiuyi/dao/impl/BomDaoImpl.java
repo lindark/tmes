@@ -1,6 +1,5 @@
 package cc.jiuyi.dao.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
 import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.WorkingBill;
 /**
  * Dao实现类 - 产品Bom
  */

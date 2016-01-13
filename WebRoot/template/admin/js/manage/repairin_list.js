@@ -65,11 +65,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '返修收货数量','收货日期','创建人', '确认人','状态',''],
+		//colNames:[ '返修收货数量','收货日期','创建人', '确认人','状态',''],
 		colModel:[
 		    {name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'receiveAmount',label:"返修收货数量",index:'receiveAmount', width:100},
 			{name:'createDate',label:"收货日期",label:"返修部位",index:'createDate',width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xrepairintype',label:"成品/组件",index:'repairintype', width:100,sortable:"true",sorttype:"text"},
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},

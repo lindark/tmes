@@ -55,4 +55,8 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 * @return
 	 */
 	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion);
+	
+	/*根据组件编码获取组件名称
+	 * */
+	public String getMaterialName(String materialCode);
 }

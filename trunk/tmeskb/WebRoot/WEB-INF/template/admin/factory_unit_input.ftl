@@ -138,8 +138,31 @@ body{background:#fff;}
 											<input type="text" name="factoryUnit.workCenter" value="${(factoryUnit.workCenter)!}" id="workCenter" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>	
+									</div>
+									<div class="profile-info-row">	
+										<div class="profile-info-name">成本中心</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.costcenter" value="${(factoryUnit.workCenter)!}" id="costcenter" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
 									
+									<div class="profile-info-row">
+										<div class="profile-info-name">是否可以返修/返修收货</div>					
+										<div class="profile-info-value">
+											<label class="pull-left inline">
+					                           <small class="muted smaller-90">是:</small>
+						                       <input type="radio" class="ace" name="factoryUnit.iscanrepair" value="Y"<#if (isAdd || factoryUnit.iscanrepair == 'Y')!> checked</#if> />
+						                       <span class="lbl middle"></span>
+						                         &nbsp;&nbsp;
+					                        </label>						
+					                        <label class="pull-left inline">
+					                            <small class="muted smaller-90">否:</small>
+						                        <input type="radio" class="ace" name="factoryUnit.iscanrepair" value="N"<#if (factoryUnit.iscanrepair == 'N')!> checked</#if>  />
+						                         <span class="lbl middle"></span>
+					                        </label>		
+										</div>	
+									</div>	
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
 										<div class="profile-info-value">

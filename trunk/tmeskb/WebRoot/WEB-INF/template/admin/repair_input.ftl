@@ -27,6 +27,7 @@
 body {
 	background: #fff;
 }
+.img_costcenter{cursor:pointer;margin-left:1px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -74,7 +75,8 @@ body {
 								action=""
 								method="post">
 								<input type="hidden" name="repair.id" value="${(repair.id)!}" />
-								<input type="hidden" class="input input-sm" name="repair.workingbill.id" value="${workingbill.id} " id="wkid">
+								<input type="hidden" name="repair.workingbill.id" value="${workingbill.id} " id="wkid">
+								<input type="hidden" name="workingBillId" value="${workingbill.id}" />
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修单</a></li>
@@ -161,11 +163,42 @@ body {
 													</#if>
 												</div>
 											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name">成品/组件</div>					
+												<div class="profile-info-value">
+													<#if show??>
+														${(repair.repairtype)! }
+													<#else>
+														<label class="pull-left inline">
+					                          				<small class="muted smaller-90">成品:</small>
+						                       				<input type="radio" id="repairtype_cp" class="ace" name="repair.repairtype" value="CP"<#if (isAdd || repair.repairtype == 'CP')!> checked</#if> />
+						                       				<span class="lbl middle"></span>
+					                        			</label>&nbsp;&nbsp;					
+					                        			<label class="pull-left inline">
+					                            			<small class="muted smaller-90">组件:</small>
+						                        			<input type="radio" id="repairtype_zj" class="ace" name="repair.repairtype" value="ZJ"<#if (repair.repairtype == 'ZJ')!> checked</#if>  />
+						                         			<span class="lbl middle"></span>
+					                        			</label>
+													</#if>
+												</div>	
+												
+												<div class="profile-info-name">成本中心</div>
+												<div class="profile-info-value">
+													<#if show??>
+														${(repair.costcenter)!}
+													<#else>
+														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
+														<span id="span_costcenter">${(repair.costcenter)!}</span>
+														<input type="hidden" id="input_costcenter" value="${(repair.costcenter)!}" />
+														<label class="requireField">*</label>
+													</#if>
+												</div>
+											</div>
 										</div>
 										<!--weitao end modify , gyf modify-->
 										<br/>
 										<!-- gyf start piece-->
-										<div class="profile-user-info profile-user-info-striped">
+										<div id="div_addpiece" class="profile-user-info profile-user-info-striped">
 											<#if show??>
 											<#else>
 												<div class="profile-info-row">

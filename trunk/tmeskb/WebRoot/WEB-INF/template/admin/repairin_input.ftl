@@ -116,12 +116,44 @@ body {
 														<label class="requireField">*</label>
 													</#if>
 												</div>
+												
+												<div class="profile-info-name">成本中心</div>
+												<div class="profile-info-value">
+													<#if show??>
+														${(repairin.costcenter)!}
+													<#else>
+														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
+														<span id="span_costcenter">${(repairin.costcenter)!}</span>
+														<input type="hidden" id="input_costcenter" value="${(repairin.costcenter)!}" />
+														<label class="requireField">*</label>
+													</#if>
+												</div>
+											</div>
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">成品/组件</div>					
+												<div class="profile-info-value">
+													<#if show??>
+														${(repairin.repairintype)! }
+													<#else>
+														<label class="pull-left inline">
+					                          				<small class="muted smaller-90">成品:</small>
+						                       				<input type="radio" id="repairintype_cp" class="ace" name="repairin.repairintype" value="CP"<#if (isAdd || repairin.repairintype == 'CP')!> checked</#if> />
+						                       				<span class="lbl middle"></span>
+					                        			</label>&nbsp;&nbsp;					
+					                        			<label class="pull-left inline">
+					                            			<small class="muted smaller-90">组件:</small>
+						                        			<input type="radio" id="repairintype_zj" class="ace" name="repairin.repairintype" value="ZJ"<#if (repairin.repairintype == 'ZJ')!> checked</#if>  />
+						                         			<span class="lbl middle"></span>
+					                        			</label>
+													</#if>
+												</div>	
 											</div>
 										</div>
 										<!--weitao end modify , gyf modify-->
 										<br/>
 										<!-- gyf start piece-->
-										<div class="profile-user-info profile-user-info-striped">
+										<div id="div_addpiece" class="profile-user-info profile-user-info-striped">
 											<#if show??>
 											<#else>
 												<div class="profile-info-row">

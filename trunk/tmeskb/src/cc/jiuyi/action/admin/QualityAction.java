@@ -310,7 +310,7 @@ public class QualityAction extends BaseAdminAction {
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion"});		
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion","bom"});		
 		qualityService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -334,7 +334,7 @@ public class QualityAction extends BaseAdminAction {
 		if(quality.getRectificationScheme()==null || quality.getRectificationScheme().equalsIgnoreCase("")){
 			return ajaxJsonErrorMessage("车间整改方案不允许为空!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate","abnormal", "modifyDate","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription","engineer","engineerOpinion"});
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate","abnormal", "modifyDate","isDel","products","creater","process","team","receiver","extrusionBatches","samplingAmont","failAmont","overTime","problemDescription","engineer","engineerOpinion","bom"});
 		persistent.setState("1");
 		qualityService.update(persistent);
 		
@@ -361,7 +361,7 @@ public class QualityAction extends BaseAdminAction {
 		}
 		
 		if(persistent.getState().equals("1")){
-			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","createUser","abnormal","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime","engineer"});
+			BeanUtils.copyProperties(quality, persistent, new String[] {"id","createDate", "modifyDate","createUser","abnormal","modifyUser","isDel","products","creater","process","team","receiver","samplingAmont","failAmont","extrusionBatches","problemDescription","rectificationScheme","overTime","engineer","bom"});
 			persistent.setState("3");
 			qualityService.update(persistent);
 			

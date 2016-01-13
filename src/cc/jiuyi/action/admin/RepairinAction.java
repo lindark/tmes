@@ -20,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.Repairin;
@@ -29,6 +30,7 @@ import cc.jiuyi.sap.rfc.impl.RepairInRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -67,6 +69,8 @@ public class RepairinAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private BomService bomService;
+	@Resource
+	private FactoryUnitService fuService;//单元
 	/**
 	 * 跳转list 页面
 	 * 
@@ -92,7 +96,6 @@ public class RepairinAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);//当前随工单
 		this.edit="edit";
 		return INPUT;
-		//TODO 返修收货未完成
 	}
 
 	// 历史返修记录
@@ -103,14 +106,16 @@ public class RepairinAction extends BaseAdminAction {
 	// 保存
 	public String creditsave()
 	{
-		this.repairinService.saveData(repairin,cardnumber,list_rp);
+		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
+		this.repairinService.saveData(repairin,cardnumber,list_rp,list_bom);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	public String creditupdate()
 	{
-		this.repairinService.updateData(repairin,list_rp,cardnumber);
+		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
+		this.repairinService.updateData(repairin,list_rp,cardnumber,list_bom);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -198,6 +203,7 @@ public class RepairinAction extends BaseAdminAction {
 			}
 		}
 		pager = repairinService.historyjqGrid(pager, map);
+		@SuppressWarnings("unchecked")
 		List<Repairin> repairinList = pager.getList();
 		List<Repairin> lst = new ArrayList<Repairin>();
 		for (int i = 0; i < repairinList.size(); i++) {
@@ -245,6 +251,7 @@ public class RepairinAction extends BaseAdminAction {
 			}
 		}
 		pager = repairinService.findPagerByjqGrid(pager, map, workingBillId);
+		@SuppressWarnings("unchecked")
 		List<Repairin> repairinList = pager.getList();
 		List<Repairin> lst = new ArrayList<Repairin>();
 		for (int i = 0; i < repairinList.size(); i++) 
@@ -320,6 +327,45 @@ public class RepairinAction extends BaseAdminAction {
 	}
 	
 	/**
+	 * 转到添加单元中的成本中心页面
+	 */
+	public String beforegetcostcenter()
+	{
+		return "costcenter";
+	}
+	
+	/**
+	 * 获取单元中的成本中心
+	 */
+	public String getcostcenter()
+	{
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("createDate");//以创建日期排序
+		pager = this.fuService.getCostCenter(pager);//(根据:子件编码/名称,随工单)查询
+		@SuppressWarnings("unchecked")
+		List<FactoryUnit>list1=pager.getList();
+		List<FactoryUnit>list2=new ArrayList<FactoryUnit>();
+		for(int i=0;i<list1.size();i++)
+		{
+			FactoryUnit fu=list1.get(i);
+			//是否可以返修/返修收获
+			fu.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", fu.getIscanrepair()));
+			list2.add(fu);
+		}
+		pager.setList(list2);
+		pager.setTotalCount(list2.size());//更新总数量
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(FactoryUnit.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.getString(0).toString());
+	}
+	
+	/**
 	 * 查看
 	 */
 	public String show()
@@ -381,6 +427,21 @@ public class RepairinAction extends BaseAdminAction {
 			return "系统出现问题，请联系系统管理员";
 		}
 		return "S";
+	}
+	
+	/**
+	 * 查询bom,并从物料表中过滤
+	 */
+	public List<Bom>getbomlist()
+	{
+		HashMap<String ,String>map=new HashMap<String,String>();
+		workingbill = workingBillService.get(workingBillId);
+		pager = new Pager();
+		pager=this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
+		@SuppressWarnings("unchecked")
+		List<Bom>list1=pager.getList();
+		List<Bom>list_bom=this.repairinService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		return list_bom;
 	}
 	
 	public Repairin getRepairin() {

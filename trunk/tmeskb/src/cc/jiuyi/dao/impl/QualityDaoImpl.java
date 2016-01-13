@@ -30,9 +30,9 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 				.forClass(Quality.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
-		if(!super.existAlias(detachedCriteria, "products", "products")){
-			detachedCriteria.createAlias("products", "products");//表名，别名*/							
-		}
+		/*if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");						
+		}*/
 		
 		if(!super.existAlias(detachedCriteria, "team", "team")){
 			detachedCriteria.createAlias("team", "team");//表名，别名*/							
@@ -55,8 +55,8 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			    detachedCriteria.add(Restrictions.like("creater.name", "%"+map.get("founder")+"%"));
 			}
 			
-			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
+			if(map.get("process")!=null){
+			    detachedCriteria.add(Restrictions.like("process", "%"+map.get("process")+"%"));
 			}				
 		}
 		
@@ -92,9 +92,9 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 				.forClass(Quality.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
-		if(!super.existAlias(detachedCriteria, "products", "products")){
-			detachedCriteria.createAlias("products", "products");//表名，别名*/							
-		}
+		/*if(!super.existAlias(detachedCriteria, "products", "products")){
+			detachedCriteria.createAlias("products", "products");						
+		}*/
 		
 		if(!super.existAlias(detachedCriteria, "creater", "creater")){
 			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
@@ -108,8 +108,8 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 			    detachedCriteria.add(Restrictions.like("creater.name", "%"+map.get("founder")+"%"));
 			}
 			
-			if(map.get("productName")!=null){
-			    detachedCriteria.add(Restrictions.like("products.productsName", "%"+map.get("productName")+"%"));
+			if(map.get("process")!=null){
+			    detachedCriteria.add(Restrictions.like("process", "%"+map.get("process")+"%"));
 			}				
 		}
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));

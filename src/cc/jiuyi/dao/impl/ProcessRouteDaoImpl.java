@@ -70,4 +70,10 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 		String hql="select max(p.processCode) from ProcessRoute p where p.steus != ? and  p.id in(:list) order by p.processCode desc";
 		return (String)getSession().createQuery(hql).setParameter(0, "pp02").setParameterList("list", processRouteIdList).uniqueResult();
 	}
+	
+	@Override
+	public String getProcessName(String processCode) {
+		String hql="select p.processName from ProcessRoute p where p.processCode = ? ";
+		return (String)getSession().createQuery(hql).setParameter(0,processCode).uniqueResult();
+	}
 }

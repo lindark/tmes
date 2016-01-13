@@ -16,6 +16,16 @@ $(function(){
 	$("#input_part").change(function(){
 		inputpart_event();
 	});
+	//成品/组件-单选按钮
+	$("input[type='radio']").click(function(){
+		radio_event();
+	});
+	
+	//添加成本中心
+	$("#img_costcenter").click(function(){
+		addcostcenter_event();
+	});
+	radio_event2();
 });
 
 //添加产品组件
@@ -114,12 +124,63 @@ function inputpart_event()
 	$("#input_part").val(input_part);
 }
 
+//成品/组件-单选按钮
+function radio_event2()
+{
+	//成品
+	if($("#repairtype_cp").attr("checked"))
+	{
+		$("#div_addpiece").hide();
+	}
+	//组件
+	if($("#repairtype_zj").attr("checked"))
+	{
+		$("#div_addpiece").show();
+	}
+}
+
+//成品/组件-单选按钮
+function radio_event()
+{
+	//成品
+	if($("#repairtype_cp").attr("checked"))
+	{
+		$("#div_addpiece").hide();
+		$("#tb_repairpiece tr:gt(0)").remove();//除了第一行,删除所有其他行,两种方法都一样
+	}
+	//组件
+	if($("#repairtype_zj").attr("checked"))
+	{
+		$("#div_addpiece").show();
+	}
+}
+
+//添加成本中心
+function addcostcenter_event()
+{
+	var title = "添加成本中心";
+	var width="800px";
+	var height="525px";
+	var content="repair!beforegetcostcenter.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var info=iframeWin.getGridId();
+		if(info!=""&&info!=null)
+		{
+			$("#span_costcenter").text(info);
+			$("#input_costcenter").val(info);
+			layer.close(index);
+		}
+	});
+}
+
 function iscansave()
 {
 	var input_num=$("#input_num").val();//返修数量
 	var input_duty=$("#input_duty").val();//责任人/批次
 	var input_part=$("#input_part").val();//返修部位
-	if(input_num==""||input_num==null||input_duty==""||input_duty==null||input_part==""||input_part==null)
+	var input_costcenter=$("#input_costcenter").val();//成本中心
+	if(input_num==""||input_num==null||input_duty==""||input_duty==null||input_part==""||input_part==null||input_costcenter==""||input_costcenter==null)
 	{
 		return false;
 	}

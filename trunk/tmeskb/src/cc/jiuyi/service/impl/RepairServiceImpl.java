@@ -147,12 +147,12 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		String rid=this.repairDao.save(repair);
 		/**保存组件表数据*/
 		Repair r=this.repairDao.get(rid);//根据id查询
-		if("CP".equals(repair.getRepairtype()))
+		if("ZJ".equals(repair.getRepairtype()))
 		{
 			//组件--选择的组件
 			saveInfo(r,list_rp,workingBillCode);
 		}
-		else if("ZJ".equals(repair.getRepairtype()))
+		else if("CP".equals(repair.getRepairtype()))
 		{
 			//成品--所有组件
 			saveInfo2(r,list_bom,workingBillCode);
@@ -188,12 +188,12 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			}
 		}
 		//2.新增
-		if("CP".equals(repair.getRepairtype()))
+		if("ZJ".equals(repair.getRepairtype()))
 		{
 			//组件--选择的组件
 			saveInfo(r,list_rp,workingBillCode);
 		}
-		else if("ZJ".equals(repair.getRepairtype()))
+		else if("CP".equals(repair.getRepairtype()))
 		{
 			//成品--所有组件
 			saveInfo2(r,list_bom,workingBillCode);
@@ -214,8 +214,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
 				//组件总数量=返修数量/产品数量 *组件数量
-				if(rp.getProductnum()==0||rp.getProductnum()==null)
+				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
+					rp.setProductnum(Double.parseDouble("1"));//产品数量
 					rp.setRpcount(""+ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
 				}
 				else
@@ -247,8 +248,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				rp.setProductnum(b.getProductAmount());//产品数量
 				rp.setPiecenum(b.getMaterialAmount());//组件数量
 				//组件总数量=返修数量/产品数量 *组件数量
-				if(rp.getProductnum()==0||rp.getProductnum()==null)
+				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
+					rp.setProductnum(Double.parseDouble("1"));//产品数量
 					rp.setRpcount(""+ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
 				}
 				else

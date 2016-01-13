@@ -1,6 +1,12 @@
 $(function() {			   
 	
 	$("#completeQuality").click(function(){		
+		var choice = $("#productChoice").val();
+		var bom = $("#productNa").val();
+		if(choice.length>0 && bom.length>0){
+			alert("产品与产品Bom只能选择一个");
+			return false;
+		}
     	$("#inputForm").submit();  	
 	});	
 	
@@ -98,11 +104,11 @@ $(function() {
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
-		//$("#productName1").val(id[0]);//产品名称
-		$("#productName1").html(id[0]);
-		$("#productNa").val(id[1]);//产品id
+		//$("#productName1").val(id[0]);产品名称
+		$("#productName1").html(id[0]);//组件名称
+		$("#productNa").val(id[1]);//组件编码
 
-		url="process_route!getProcessList.action?id="+id[2];
+		/*url="process_route!getProcessList.action?id="+id[2];
 		  $.ajax({
 				url: url,
 				//data: ids,
@@ -114,7 +120,7 @@ $(function() {
 			            .appendTo("#processName");
 			        });
 				}
-			});	
+			});	*/
 		  
 	
 		layer.close(index); 

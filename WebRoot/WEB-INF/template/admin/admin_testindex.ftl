@@ -7,12 +7,19 @@
 <title>管理中心 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
+<#include "/WEB-INF/template/common/include.ftl">
+<link href="${base}/template/admin/css/list.css" rel="stylesheet"
+	type="text/css" />
 <link rel="stylesheet"
 	href="${base}/template/admin/assets/css/jquery.gritter.css" />
-<script src='${base}/template/admin/assets/js/jquery.min.js'></script>
 <script src="${base}/template/admin/js/Main/testindex.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
+<style type="text/css">
+	.ui-datepicker td {
+		padding:0px;
+	}
+</style>
 </head>
 <script type="text/javascript">
 	$(function(){
@@ -27,7 +34,18 @@
 			$("#sl_ftu").html("<option value='0'>无</option>");
 			$("#sl_team").html("<option value='0'>无</option>");
 		}
-	
+		var nowDate = new Date();
+		var nowYear = nowDate.getFullYear();
+		var nowMonth = nowDate.getMonth()+1;
+		var nowDay = nowDate.getDate();
+		if(nowMonth.toString().length==1){
+			nowMonth = "0"+nowMonth;
+		}
+		if(nowDay.toString().length==1){
+			nowDay = "0"+nowDay;
+		}
+	    var nowtime = nowYear+"-"+nowMonth+"-"+nowDay;
+		$("#productDate").val(nowtime);
 		//工厂改变查找车间
 		$factory.change(function(){
 			if($(this).val()!="1" && $(this).val()!="0"){
@@ -157,60 +175,171 @@
 		
 		$saveButton.click(function(){
 			var teamId = $team.val();
-			if($team.val()=="0"){
-				alert("请先确定数据完整");
-			}else{
-				$.ajax({
-					url:"admin!addTeam.action",
-					data:{"teamid":teamId},
+			var productDate = $("#productDate").val();
+			var shift = $("#sl_sh").val();
+				if(productDate!=""){
+					// 统一日期格式
+					var strDate = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
+					var beforelength = productDate.length;
+					if(beforelength==9){
+						var befores = productDate.charAt(beforelength-1);
+						if(befores=="0"){
+							alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+							return false;
+						}
+					}
+					  //判断日期是否是预期的格式
+					  if (!strDate.test(productDate)) {
+					    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+					    return false;
+					  }
+				}else{
+					alert("日期不允许为空");
+					 return false;
+				}
+				//alert("请先确定数据完整");
+				/* $.ajax({
+					url:"admin!findAllTeam.action",
 					dataType:"json",
 					success:function(data){
-						if(data.status=="success"){
-							var op_ftName = $('#sl_ft option:selected').text();//选中的文本
-							var op_wsName = $('#sl_ws option:selected').text();//选中的文本
-							var op_ftuName = $('#sl_ftu option:selected').text();//选中的文本
-							var op_tmName = $('#sl_team option:selected').text();//选中的文本
-							var op_tmId = $('#sl_team option:selected').val();//选中的值
-							var op_tmIndex = $("#sl_team").get(0).selectedIndex;//索引
-							var op_tmwork = working[op_tmIndex];
-							if(op_tmwork){
-								$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value="+op_tmId+"/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+op_tmName+"</b></a></td><td class=\"hidden-480\">"+op_ftuName+"</td><td class=\"hidden-480\">"+op_wsName+"</td><td class=\"hidden-480\">"+op_ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
-								$(".a_delete").bind("click",function(){
-									if(confirm("您确定删除此记录？")){
-										var $thisA = $(this).parent().parent();
-										var url = "admin!deleteTeam.action";
-										var teamId =$thisA.find(".teamId").val();
-										$.ajax({
-											url:url,
-											data:{"id":teamId},
-											dataType:"json",
-											success:function(data){
-												if(data.status=="success"){
-													$thisA.remove();
-												}
-												alert(data.message);
-											},
-											error:function(){
-												alert("数据读取失败");
-											}
-											
-										});
-									}
-								});
-							}
-							alert(data.message);
-							//window.self.localtion = "admin!index2.action";
-						}else{
-							alert(data.message);
+						for(var i=0;i<data.length;i++){
+							$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value="+op_tmId+"/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+op_tmName+"</b></a></td><td class=\"hidden-480\">"+op_ftuName+"</td><td class=\"hidden-480\">"+op_wsName+"</td><td class=\"hidden-480\">"+op_ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
 						}
-						
+					},
+					error:function(){
+						alert("数据读取失败");
+					}
+				}); */
+				$.ajax({
+					url:"admin!addTeam.action",
+					data:{"teamid":teamId,"productDate":productDate,"shift":shift},
+					dataType:"json",
+					success:function(data){
+						if(teamId!="0"){
+							if(data[0].YORN=="Y"){
+								var op_ftName = $('#sl_ft option:selected').text();//选中的文本
+								var op_wsName = $('#sl_ws option:selected').text();//选中的文本
+								var op_ftuName = $('#sl_ftu option:selected').text();//选中的文本
+								var op_tmName = $('#sl_team option:selected').text();//选中的文本
+								var op_tmId = $('#sl_team option:selected').val();//选中的值
+								var op_tmIndex = $("#sl_team").get(0).selectedIndex;//索引
+								var op_tmwork = working[op_tmIndex];
+								if(op_tmwork){
+									$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value='"+op_tmId+"'/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+op_tmName+"</b></a></td><td class=\"hidden-480\">"+op_ftuName+"</td><td class=\"hidden-480\">"+op_wsName+"</td><td class=\"hidden-480\">"+op_ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
+									$(".a_delete").bind("click",function(){
+										if(confirm("您确定删除此记录？")){
+											var $thisA = $(this).parent().parent();
+											var url = "admin!deleteTeam.action";
+											var teamId =$thisA.find(".teamId").val();
+											$.ajax({
+												url:url,
+												data:{"id":teamId},
+												dataType:"json",
+												success:function(data){
+													if(data.status=="success"){
+														$thisA.remove();
+													}
+													alert(data.message);
+												},
+												error:function(){
+													alert("数据读取失败");
+												}
+												
+											});
+										}
+									});
+								}
+							}else if(data[0].YORN=="Y1"){
+								alert("保存成功");
+							}else{
+								$(".working").empty();
+								var op_ftName = $('#sl_ft option:selected').text();//选中的文本
+								var op_wsName = $('#sl_ws option:selected').text();//选中的文本
+								var op_ftuName = $('#sl_ftu option:selected').text();//选中的文本
+								var op_tmName = $('#sl_team option:selected').text();//选中的文本
+								var op_tmId = $('#sl_team option:selected').val();//选中的值
+								var op_tmIndex = $("#sl_team").get(0).selectedIndex;//索引
+								var op_tmwork = working[op_tmIndex];
+								if(op_tmwork){
+									$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value='"+op_tmId+"'/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+op_tmName+"</b></a></td><td class=\"hidden-480\">"+op_ftuName+"</td><td class=\"hidden-480\">"+op_wsName+"</td><td class=\"hidden-480\">"+op_ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
+									$(".a_delete").bind("click",function(){
+										if(confirm("您确定删除此记录？")){
+											var $thisA = $(this).parent().parent();
+											var url = "admin!deleteTeam.action";
+											var teamId =$thisA.find(".teamId").val();
+											$.ajax({
+												url:url,
+												data:{"id":teamId},
+												dataType:"json",
+												success:function(data){
+													if(data.status=="success"){
+														$thisA.remove();
+													}
+													alert(data.message);
+												},
+												error:function(){
+													alert("数据读取失败");
+												}
+												
+											});
+										}
+									});
+								}
+							}
+							/* if(data.status=="success"){
+								
+								
+								alert(data.message);
+								//window.self.localtion = "admin!index2.action";
+							}else{
+								alert(data.message);
+							} */
+						}else{
+							if(data.length>0){
+								if(data[0].YORN=="Y"){
+									for(var i=0;i<data.length;i++){
+										$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value='"+data[i].tmId+"'/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+data[i].tmName+"</b></a></td><td class=\"hidden-480\">"+data[i].ftuName+"</td><td class=\"hidden-480\">"+data[i].wsName+"</td><td class=\"hidden-480\">"+data[i].ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
+									}
+								}else{
+									$(".working").empty();
+									for(var i=0;i<data.length;i++){
+										$(".working").prepend("<tr><td><input type=\"hidden\" style=\"width:350px;\" class=\"teamId\" name=\"team.id\" value='"+data[i].tmId+"'/><a href=\"javascript:;\" class=\"matkx\"><b class=\"green\" >"+data[i].tmName+"</b></a></td><td class=\"hidden-480\">"+data[i].ftuName+"</td><td class=\"hidden-480\">"+data[i].wsName+"</td><td class=\"hidden-480\">"+data[i].ftName+"</td><td class=\"hidden-480\"><a href=\"javascript:;\" class=\"a_delete\">[删除]</a></td></tr>");
+									}
+								}
+								alert("保存成功");
+							}else{
+								alert(data.message);
+							}
+							$(".a_delete").bind("click",function(){
+								if(confirm("您确定删除此记录？")){
+									var $thisA = $(this).parent().parent();
+									var url = "admin!deleteTeam.action";
+									var teamId =$thisA.find(".teamId").val();
+									$.ajax({
+										url:url,
+										data:{"id":teamId},
+										dataType:"json",
+										success:function(data){
+											if(data.status=="success"){
+												$thisA.remove();
+											}
+											alert(data.message);
+										},
+										error:function(){
+											alert("数据读取失败");
+										}
+										
+									});
+								}
+							});
+						}
 						//$.message(data.message);
 					},
 					error:function(){
 						alert("数据读取失败");
 					}
 				});
-			}
+			//}
 		});
 		
 		$(".a_delete").bind("click",function(){
@@ -293,14 +422,23 @@
 										<#else>
 											<option value="1">请选择</option>
 											<#list  (factoryList)! as fl>
-										  		<option value="${fl.id}">${fl.factoryName}</option>
-										  	</#list>
-										</#if>
+											  		<option value="${fl.id}">${fl.factoryName}</option>
+											  	</#list>
+											<!-- <#if team!=null>
+												<#list  (factoryList)! as fl>
+											  		<option value="${fl.id}" <#if fl.id==team.factoryUnit.workShop.factory.id>selected</#if>>${fl.factoryName}</option>
+											  	</#list>
+											  <#else>
+											  	<#list  (factoryList)! as fl>
+											  		<option value="${fl.id}">${fl.factoryName}</option>
+											  	</#list>
+										  	</#if> -->
+									</#if>
 									</select>
 									&nbsp;&nbsp;
 									车间:
                                    <select name="" id="sl_ws">
-                                   </select>
+                                </select>
                                    &nbsp;&nbsp;
                                    单元:
                                     <select name=""id="sl_ftu">
@@ -308,6 +446,16 @@
                                    &nbsp;&nbsp;
                                    班组:
                                      <select name=""id="sl_team">
+                                   </select>
+                                   &nbsp;&nbsp;
+                                     生产日期:
+                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
+                                   &nbsp;&nbsp;
+                                     班次:
+                                     <select name=""id="sl_sh">
+                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
                                    </select>
                                    &nbsp;&nbsp;
                                    <input type="button"  class="saveButton btn btn-white btn-default btn-sm btn-round" value="保存"></button>
@@ -354,7 +502,7 @@
 
 													<tbody class="working">
 														<#list (admin.teamSet)! as list>
-														<#if list.isWork=="Y">
+														<!-- <#if list.isWork=="Y"> -->
 														<tr>
 															<td>
 															<input type="hidden" style="width:350px;" class="teamId" name="team.id" value="${(list.id)! }"/>
@@ -366,7 +514,7 @@
 															<td class="hidden-480">${(list.factoryUnit.workShop.factory.factoryName)!}</td>
 															<td class="hidden-480"><a href="javascript:;" class="a_delete">[删除]</a></td>
 														</tr>
-														</#if>
+														<!-- </#if> -->
 														</#list>
 
 													</tbody>
@@ -399,7 +547,7 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-	$(".matkx").click(function() {
+	$(".matkx").live("click",function() {
 		var teamid = $(this).prev().val();
 		var index = layer.open({
 			type : 2,

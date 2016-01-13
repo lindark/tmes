@@ -47,7 +47,7 @@ $(function() {
 					$repairin.removeClass("disabled");
 					$pick.removeClass("disabled");
 					$dailywork.removeClass("disabled");
-					$carton.removeClass("disabled");
+					//$carton.removeClass("disabled");
 					$rework.removeClass("disabled");
 					$sample.removeClass("disabled");
 					$halfinspection.removeClass("disabled");
@@ -59,7 +59,7 @@ $(function() {
 					$repairin.addClass("disabled");
 					$pick.addClass("disabled");
 					$dailywork.addClass("disabled");
-					$carton.addClass("disabled");
+					//$carton.addClass("disabled");
 					$rework.addClass("disabled");
 					$sample.addClass("disabled");
 					$halfinspection.addClass("disabled");
@@ -155,10 +155,10 @@ $(function() {
 	 * 纸箱收货按钮点击
 	 */
 	$carton.click(function() {
-		var istrue = init.isCheck();
+		var istrue = init.notCheck();
 		if (istrue) {
 			var id = getCKboxById();
-			window.location.href = "carton!list.action?workingBillId=" + id;
+			window.location.href = "carton!list.action";
 		}
 
 	});

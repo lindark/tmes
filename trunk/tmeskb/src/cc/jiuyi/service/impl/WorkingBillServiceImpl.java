@@ -75,8 +75,32 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public List getListWorkingBillByDate(Admin admin) {
-		return workingbilldao.getListWorkingBillByDate(admin);
+	public List<WorkingBill> getListWorkingBillByDate(Admin admin) {
+		// 找到当班随工单思路
+		// 1. 获取 生产日期 
+		// 2. 获取 班次
+		// 3. 获取工作中心
+		// 4. 根据工作中心 跟 当前身份的 单元上维护的 工作中心比较
+		// 5. 显示出对应的随工单
+		String productDate = admin.getProductDate();//生产日期
+		String shift = admin.getShift();//班次
+		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
+		String steus = "PP01";//关键工序
+		List<Orders> orderList = orderservice.findOrders(productDate);
+		List<String> aufnrList = new ArrayList<String>();
+		for(Orders orders : orderList){
+			Integer maxversion = processrouteservice.getMaxVersion(orders.getId(), productDate);
+			Orders orders1 = orderservice.findOrders(productDate, maxversion, steus, workcenter);
+			if(orders1 == null)
+				continue;
+			aufnrList.add(orders1.getAufnr());
+		}
+		if(aufnrList.size() <=0){
+			return null;
+		}
+		List<WorkingBill> workingbillList = workingbilldao.findWorkingBill(aufnrList,productDate,shift);
+		
+		return workingbillList;
 	}
 
 	@Cacheable(modelId = "caching")
@@ -297,7 +321,6 @@ public class WorkingBillServiceImpl extends
 		if(!flag){//升级版本
 			for(int y=0;y<bomList00.size();y++){
 				Bom bom00 = bomList00.get(y);
-				//TODO BOM信息未完成
 				if(maxversion == null)
 					maxversion = 0;
 				Orders orders = orderservice.get("aufnr",order.getAufnr());

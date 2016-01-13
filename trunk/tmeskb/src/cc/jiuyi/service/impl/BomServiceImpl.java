@@ -15,6 +15,7 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.service.BomService;
+import cc.jiuyi.service.OrdersService;
 
 /**
  * Service实现类 - Bom
@@ -26,7 +27,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Resource
 	private BomDao bomDao;
 	@Resource
-	private OrdersDao orderdao;
+	private OrdersService orderservice;
 
 	@Resource
 	public void setBaseDao(BomDao bomDao) {
@@ -42,9 +43,16 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 
 	@Override
 	public List<Bom> findBom(String aufnr,String productDate) {
-		Orders orders = orderdao.get("aufnr",aufnr);
+		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		return bomDao.getBomList(aufnr, maxversion);
+	}
+	
+	public List<Bom> findBom(String aufnr,String productDate,String materialCode){
+		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
+		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
+		return bomDao.getBomList(aufnr, maxversion,materialCode);
+		
 	}
 
 
@@ -66,7 +74,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	{
 		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
 		String productDate = wb.getProductDate();
-		Orders orders = orderdao.get("aufnr",aufnr);
+		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxVersion(orders.getMatnr(), productDate);
 		if(maxversion!=null)
 		{
@@ -80,4 +88,5 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	public Integer getMaxversion(String orderId, String productDate) {
 		return bomDao.getMaxversion(orderId, productDate);
 	}
+	
 }

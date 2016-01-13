@@ -164,4 +164,14 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		
 		
 	}
+	
+	public void updateHandOver(String handoverid,String mblnr,Admin admin){
+		HandOver handover = handOverService.load(handoverid);
+		handover.setMblnr(mblnr);
+		handover.setState("3");
+		handover.setApprovaladmin(admin);
+		handOverService.update(handover);
+		this.mergeAdminafterWork(admin,handoverid);
+	}
+	
 }

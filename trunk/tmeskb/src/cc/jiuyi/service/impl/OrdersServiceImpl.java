@@ -31,5 +31,10 @@ public class OrdersServiceImpl extends BaseServiceImpl<Orders, String> implement
 		super.setBaseDao(orderdao);
 	}
 
-
+	public Orders findOrders(String productDate,Integer version,String steus,String workcenter){
+		return orderdao.findOrders(productDate,version,steus,workcenter);
+	}
+	public List<Orders> findOrders(String productDate){
+		return orderdao.findOrders(productDate);
+	}
 }

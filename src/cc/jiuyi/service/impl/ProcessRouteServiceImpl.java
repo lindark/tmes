@@ -78,4 +78,7 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 		return processroutedao.getProcess(processRouteIdList);
 	}
 	
+	 public String getProcessName(String processCode){
+    	 return processroutedao.getProcessName(processCode);
+     }
 }

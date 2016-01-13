@@ -179,6 +179,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Orders</value>
 				<value>cc.jiuyi.entity.RepairPiece</value>
 				<value>cc.jiuyi.entity.RepairinPiece</value>
+				<value>cc.jiuyi.entity.ReworkRecord</value>
 			</list>
 		</property>
 	</bean>

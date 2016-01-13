@@ -73,5 +73,13 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 		return factoryUnitDao.getAllProducts();
 	}
 
+	/**
+	 *  获取单元中的成本中心
+	 */
+	public Pager getCostCenter(Pager pager)
+	{
+		return this.factoryUnitDao.getCostCenter(pager);
+	}
+
 	
 }

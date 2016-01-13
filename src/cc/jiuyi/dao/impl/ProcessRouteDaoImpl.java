@@ -66,9 +66,9 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String getProcess(List<String> processRouteIdList) {
+	public String getProcess(List<String> processRouteIdList,String steus) {
 		String hql="select max(p.processCode) from ProcessRoute p where p.steus != ? and  p.id in(:list) order by p.processCode desc";
-		return (String)getSession().createQuery(hql).setParameter(0, "pp02").setParameterList("list", processRouteIdList).uniqueResult();
+		return (String)getSession().createQuery(hql).setParameter(0, steus).setParameterList("list", processRouteIdList).uniqueResult();
 	}
 	
 	@Override

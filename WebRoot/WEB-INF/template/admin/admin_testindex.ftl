@@ -377,7 +377,10 @@
 				});
 			}
 		});
-		
+		$(".matkx").live("click",function() {
+			var teamid = $(this).prev().val();
+			window.self.location  = "admin!teamWorkingBill.action?teamid="+teamid;
+		});
 	});
 </script>
 <body class="no-skin">
@@ -560,9 +563,9 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-	$(".matkx").live("click",function() {
-		var teamid = $(this).prev().val();
-		var index = layer.open({
+	//$(".matkx").live("click",function() {
+		//var teamid = $(this).prev().val();
+		/* var index = layer.open({
 			type : 2,
 			skin : 'layui-layer-lan',
 			title : "<font size='5px'>当前班组正在生产的随工单</font>",
@@ -574,8 +577,9 @@
 			area : [ '800px', '400px' ],//弹出框的高度，宽度
 			content : "admin!teamWorkingBill.action?teamid="+teamid
 		});
-		layer.full(index);//弹出既全屏
-	});
+		layer.full(index);//弹出既全屏 */
+		//window.self.location  = "admin!teamWorkingBill.action?teamid="+teamid;
+	//});
 	</script>
 
 </body>

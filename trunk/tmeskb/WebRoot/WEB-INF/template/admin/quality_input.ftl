@@ -100,16 +100,16 @@ body {
 
 												<div class="profile-info-value">
 													<#if isAdd??> <select class="chosen-select"
-														name="quality.products.productsCode" id="productChoice"
+														name="quality.products" id="productChoice"
 														style="width:200px;">
 														<option value="">请选择...</option>
 														<#list workList as list>	
 																								
 														<option value="${list.matnr}" label="${list.maktx},${list.id}"　<#if
-															(list.matnr == quality.products.productsCode)!>
+															(list.matnr == quality.products)!>
 															selected</#if>>${list.maktx}</option> 														
 															</#list>
-													</select> <#else> ${(quality.products.productsName)!} </#if>
+													</select> <#else> ${(product)!} </#if>
                                                     
 													<!-- 
 													<#if isAdd??> <img id="productId" class="img_addbug"
@@ -126,11 +126,24 @@ body {
 
 												<div class="profile-info-value">
 													<#if isAdd??> <select name="quality.process"
-														id="processName" class="formText {required: true}">
+														id="processName">
 
 													</select> <#else> ${(quality.process)!} </#if>
 												</div>
 
+											</div>
+											
+											<div class="profile-info-row">
+											<div class="profile-info-name">产品bom</div>
+											<div class="profile-info-value">
+											       <#if isAdd??> <img id="productId" class="img_addbug"
+														title="添加产品信息" alt="添加产品信息" style="cursor:pointer"
+														src="${base}/template/shop/images/add_bug.gif" />
+													<span id="productName1"></span> <input type="hidden"
+														name="quality.bom" id="productNa" value=""
+														/> <#else>
+													${(bomproduct)!} </#if>
+											</div>
 											</div>
 
 											<div class="profile-info-row">
@@ -485,7 +498,7 @@ body {
 																				icon : 6
 																			},
 																			function() {
-																				window.location.href = "quality!list.action";
+																				window.location.href = "abnormal!list.action";
 																			});
 														} else if (data.status == "error") {
 															layer
@@ -566,6 +579,11 @@ body {
 			})
 
 			$("#productChoice").change(function() {
+				var cc = $("#productChoice").val();
+				if(cc.length==0){
+					$("#processName").html("");
+					return false;
+				}
 				process();
 			})
 

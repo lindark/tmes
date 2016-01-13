@@ -254,8 +254,7 @@
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="cartonreceiving">
 													<button
-														class="btn btn-white btn-success btn-bold btn-round btn-block disabled"
-														id="carton">
+														class="btn btn-white btn-success btn-bold btn-round btn-block" id="carton">
 														<i class="ace-icon fa fa-file-archive-o bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">纸箱收货</span>
 													</button>

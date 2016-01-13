@@ -62,6 +62,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String name1 = data.getString("director");//主任
 		     String phone2 = data.getString("phone2");//副总电话
 		     String name2 = data.getString("manager");//副总
+		     String message=data.getString("message");//信息
 		     
 		     abnormalService=(AbnormalService) SpringUtil.getBean("abnormalServiceImpl");
 		     Abnormal abnormal = abnormalService.get(abnorId);
@@ -71,11 +72,14 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     
 		     String str;
 		     if(Integer.parseInt(count)==1){
-				 str= SendMsgUtil.SendMsg(phone,"xx异常还未响应");
+		    	 message=message+"还未响应";
+				 str= SendMsgUtil.SendMsg(phone,message);
 		     }else if(Integer.parseInt(count)==2){
-				 str= SendMsgUtil.SendMsg(phone1,"xx异常仍未响应");
+		    	 message=message+"仍未响应";
+				 str= SendMsgUtil.SendMsg(phone1,message);
 		     }else{
-				 str= SendMsgUtil.SendMsg(phone2,"xx异常未响应");
+		    	 message=message+"未响应";
+				 str= SendMsgUtil.SendMsg(phone2,message);
 		     }
 			 
 			 
@@ -103,7 +107,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 					maps.put("director", name1);
 					maps.put("phone2",phone2);
 					maps.put("manager", name2);
-					
+					maps.put("message", message);
 																			
 					if(Integer.parseInt(count)==1){
 												

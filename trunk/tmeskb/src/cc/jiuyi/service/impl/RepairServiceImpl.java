@@ -131,7 +131,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 新增
 	 */
-	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp)
+	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repair.getWorkingbill().getId());//当前随工单
@@ -147,13 +147,22 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		String rid=this.repairDao.save(repair);
 		/**保存组件表数据*/
 		Repair r=this.repairDao.get(rid);//根据id查询
-		saveInfo(r,list_rp,workingBillCode);
+		if("CP".equals(repair.getRepairtype()))
+		{
+			//组件--选择的组件
+			saveInfo(r,list_rp,workingBillCode);
+		}
+		else if("ZJ".equals(repair.getRepairtype()))
+		{
+			//成品--所有组件
+			saveInfo2(r,list_bom,workingBillCode);
+		}
 	}
 
 	/**
 	 * 修改
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber)
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom)
 	{
 		//Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repair.getWorkingbill().getId());//当前随工单
@@ -179,7 +188,16 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			}
 		}
 		//2.新增
-		saveInfo(r,list_rp,workingBillCode);
+		if("CP".equals(repair.getRepairtype()))
+		{
+			//组件--选择的组件
+			saveInfo(r,list_rp,workingBillCode);
+		}
+		else if("ZJ".equals(repair.getRepairtype()))
+		{
+			//成品--所有组件
+			saveInfo2(r,list_bom,workingBillCode);
+		}
 	}
 	
 	/**
@@ -195,6 +213,39 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
+				//组件总数量=返修数量/产品数量 *组件数量
+				if(rp.getProductnum()==0||rp.getProductnum()==null)
+				{
+					rp.setRpcount(""+ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
+				}
+				else
+				{
+					rp.setRpcount(""+ArithUtil.mul(ArithUtil.div(r.getRepairAmount(), rp.getProductnum()), rp.getPiecenum()));//组件总数量
+				}
+				rp.setRepair(r);
+				this.rpService.save(rp);
+			}
+		}
+	}
+	
+	/**
+	 * 新增组件数据共用方法2
+	 */
+	public void saveInfo2(Repair r,List<Bom>list_bom,String workingBillCode)
+	{
+		if(list_bom!=null)
+		{
+			for(int i=0;i<list_bom.size();i++)
+			{
+				RepairPiece rp=new RepairPiece();
+				Bom b=list_bom.get(i);
+				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
+				rp.setCreateDate(new Date());//创建日期
+				rp.setModifyDate(new Date());//修改日期
+				rp.setRpcode(b.getMaterialCode());//物料编码
+				rp.setRpname(b.getMaterialName());//组件名称
+				rp.setProductnum(b.getProductAmount());//产品数量
+				rp.setPiecenum(b.getMaterialAmount());//组件数量
 				//组件总数量=返修数量/产品数量 *组件数量
 				if(rp.getProductnum()==0||rp.getProductnum()==null)
 				{

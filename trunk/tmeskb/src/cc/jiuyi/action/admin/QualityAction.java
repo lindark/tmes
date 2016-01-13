@@ -27,11 +27,13 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Model;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.UnusualLog;
@@ -40,9 +42,11 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FlowingRectifyService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.QualityService;
@@ -64,6 +68,8 @@ public class QualityAction extends BaseAdminAction {
 	private String abnorId;
 	private String cardnumber;//刷卡卡号
 	private String process;//工序
+	private String product;
+	private String bomproduct;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -95,6 +101,10 @@ public class QualityAction extends BaseAdminAction {
 	private WorkingBillService workingBillService;
 	@Resource
 	private ProductsService productsService;
+	@Resource
+	private OrdersService ordersService;
+	@Resource
+	private BomService bomService;
 
 	// 添加
 	public String add() {
@@ -116,6 +126,14 @@ public class QualityAction extends BaseAdminAction {
 		quality = qualityService.load(id);
 		/*Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();*/
+		if(quality.getBom()!=null && !quality.getBom().equalsIgnoreCase("")){
+			bomproduct=bomService.getMaterialName(quality.getBom());
+		}
+		if(quality.getProducts()!=null && !quality.getProducts().equalsIgnoreCase("")){
+			Products products=productsService.get("productsCode",quality.getProducts());
+			product = products.getProductsName();
+		}
+		
 		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
@@ -136,15 +154,13 @@ public class QualityAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		/*if (pager == null) {
-			pager = new Pager();
-			pager.setOrderBy("modifyDate");
-		}*/
-		
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+		if(pager==null)
+		{
+			pager=new Pager();
 		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("modifyDate");//以修改日期排序
+
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
@@ -164,9 +180,9 @@ public class QualityAction extends BaseAdminAction {
 			   map.put("founder", founder);
 			}
 
-		   if (obj.get("productName") != null) { 
-			   String productName = obj.getString("productName").toString();
-			   map.put("productName", productName);
+		   if (obj.get("process") != null) { 
+			   String process = obj.getString("process").toString();
+			   map.put("process", process);
 		   }
 
 		}
@@ -177,7 +193,15 @@ public class QualityAction extends BaseAdminAction {
 			String str;
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Quality quality = (Quality) pagerlist.get(i);
-				str="<a href='quality!hview.action?id="+quality.getId()+"'>"+quality.getProducts().getProductsName()+"</a>"; 
+				if(quality.getProducts()==null){
+					String product=bomService.getMaterialName(quality.getBom());
+					str="<a href='quality!hview.action?id="+quality.getId()+"'>"+product+"</a>"; 
+				}else{	
+					Products products=productsService.get("productsCode",quality.getProducts());
+					String product = products.getProductsName();
+					str="<a href='quality!hview.action?id="+quality.getId()+"'>"+product+"</a>"; 
+				}
+				
 				quality.setProductsName(str);
 				quality.setFounder(quality.getCreater().getName());
 				/*Process process = processService.get(quality.getProcess());
@@ -193,7 +217,15 @@ public class QualityAction extends BaseAdminAction {
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Quality quality = (Quality) pagerlist.get(i);
-				quality.setProductsName(quality.getProducts().getProductsName());
+				if(quality.getProducts()==null){
+					String product=bomService.getMaterialName(quality.getBom());
+					quality.setProductsName(product);
+				}else{
+					Products products=productsService.get("productsCode",quality.getProducts());
+					String product = products.getProductsName();
+					quality.setProductsName(product);
+				}
+				
 				quality.setFounder(quality.getCreater().getName());
 				/*Process process = processService.get(quality.getProcess());
 				quality.setProcessName(process.getProcessName());*/
@@ -223,6 +255,13 @@ public class QualityAction extends BaseAdminAction {
 	//详情
 	public String hview(){
 		quality = qualityService.load(id);
+		if(quality.getBom()!=null && !quality.getBom().equalsIgnoreCase("")){
+			bomproduct=bomService.getMaterialName(quality.getBom());
+		}
+		if(quality.getProducts()!=null && !quality.getProducts().equalsIgnoreCase("")){
+			Products products=productsService.get("productsCode",quality.getProducts());
+			product = products.getProductsName();
+		}
 		/*Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();*/
 		return "hview";
@@ -234,13 +273,13 @@ public class QualityAction extends BaseAdminAction {
 		abnormal = abnormalService.load(abnormalId);
 		
 		
-		if(quality.getProducts()==null){
+		/*if(quality.getProducts()==null){
 			return ajaxJsonErrorMessage("产品名称不允许为空!");
 		}
 		
 		if(quality.getProcess()==null){
 			return ajaxJsonErrorMessage("工序名称不允许为空!");
-		}
+		}*/
 		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
 		quality.setIsDel("N");
@@ -355,6 +394,13 @@ public class QualityAction extends BaseAdminAction {
 
 	public String view() {
 		quality = qualityService.load(id);
+		if(quality.getBom()!=null && !quality.getBom().equalsIgnoreCase("")){
+			bomproduct=bomService.getMaterialName(quality.getBom());
+		}
+		if(quality.getProducts()!=null && !quality.getProducts().equalsIgnoreCase("")){
+			Products products=productsService.get("productsCode",quality.getProducts());
+			product = products.getProductsName();
+		}
 		abnormal=quality.getAbnormal();
 		/*Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();*/
@@ -378,6 +424,16 @@ public class QualityAction extends BaseAdminAction {
 		admin1 = adminService.get(admin1.getId());
 		List list=workingBillService.getListWorkingBillByDate(admin1);
 		return list;
+	}
+	
+	public List<Bom> getBomList(){
+		List<WorkingBill> workList=getWorkList();
+		List<Bom> bomList = new ArrayList<Bom>();
+		for(WorkingBill work:workList){
+			Orders order = ordersService.get("aufnr",work.getAufnr());
+			bomList.addAll(new ArrayList<Bom>(order.getBomSet()));
+		}
+		return bomList;
 	}
 	
 	/*public List<Products> getProductsList(){
@@ -511,6 +567,23 @@ public class QualityAction extends BaseAdminAction {
 	public void setProcess(String process) {
 		this.process = process;
 	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getBomproduct() {
+		return bomproduct;
+	}
+
+	public void setBomproduct(String bomproduct) {
+		this.bomproduct = bomproduct;
+	}
+
 
 	
 }

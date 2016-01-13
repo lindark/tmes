@@ -36,10 +36,10 @@ public class Repair extends BaseEntity {
 	private String maktx;//产品描述
 	private String processCode;//责任工序编码
 	private Set<RepairPiece>rpieceSet;//从表,组件表
-
+	private String repairtype;//成品/子件
 	private WorkingBill workingbill;// 随工单
 	private String EX_MBLNR;//物料凭证
-	
+	private String costcenter;//成本中心
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -47,6 +47,9 @@ public class Repair extends BaseEntity {
 	private String BUDAT;//过账日期
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
+	
+	//假字段
+	private String xrepairtype;//成品/子件
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -272,4 +275,35 @@ public class Repair extends BaseEntity {
 		BUDAT = bUDAT;
 	}
 
+	public String getRepairtype()
+	{
+		return repairtype;
+	}
+
+	public void setRepairtype(String repairtype)
+	{
+		this.repairtype = repairtype;
+	}
+
+	public String getCostcenter()
+	{
+		return costcenter;
+	}
+
+	public void setCostcenter(String costcenter)
+	{
+		this.costcenter = costcenter;
+	}
+
+	@Transient
+	public String getXrepairtype()
+	{
+		return xrepairtype;
+	}
+
+	public void setXrepairtype(String xrepairtype)
+	{
+		this.xrepairtype = xrepairtype;
+	}
+	
 }

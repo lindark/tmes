@@ -3,6 +3,7 @@ package cc.jiuyi.action.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -99,7 +100,9 @@ public class AdminAction extends BaseAdminAction {
 	private List<Post> postList;//岗位List
 	private String cardnumber;//卡号
 	private List<Factory> factoryList;
-
+	private String productDate;
+	private String shift;
+	
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -225,47 +228,115 @@ public class AdminAction extends BaseAdminAction {
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 		return "teamindex";
 	}
-	
 	// 后台质检首页弹出层
-		public String teamWorkingBill() {
-			admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
-			workingbillList = new ArrayList<WorkingBill>(getTeamById(teamid));
-			team = teamService.get(teamid);
-			return "teamworkingbill";
+	public String teamWorkingBill() {
+		if(team==null){
+			team = new Team();
 		}
+		team = teamService.get(teamid);
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		//workingbillList = new ArrayList<WorkingBill>(getTeamById(teamid));
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		return "teamworkingbill";
+	}
 	//	绑定班组
 		public String addTeam(){
 			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
 			Admin admin = adminService.get("username", loginUsername);
-			Team tm = teamService.get(teamid);
 			Set<Team> tmSet = admin.getTeamSet();
-			if(tmSet!=null){
-				for(Team tms : tmSet){
-					if(tms.getId().equals(teamid)){
-						return ajaxJsonErrorMessage("保存失败，改数据已存在");
-					}
-				}
-				tmSet.add(tm);
-				admin.setTeamSet(tmSet);
-				adminService.update(admin);
-				if("Y".equals(tm.getIsWork())){
-					return ajaxJsonSuccessMessage("保存成功,当前班组正在工作中");
-				}else{
-					return ajaxJsonSuccessMessage("保存成功,当前班组未在工作中");
-				}
-				
-			}else{
+			if(tmSet==null){
 				tmSet = new HashSet<Team>();
-				tmSet.add(tm);
-				admin.setTeamSet(tmSet);
-				adminService.update(admin);
-				if("Y".equals(tm.getIsWork())){
-					return ajaxJsonSuccessMessage("保存成功,当前班组正在工作中");
-				}else{
-					return ajaxJsonSuccessMessage("保存成功,当前班组未在工作中");
-				}
 			}
+				if("0".equals(teamid)){
+					List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+					List<Team> tmLists= teamService.getList("isWork", "Y");
+					if(tmLists.size()>0){
+						if(productDate.equals(admin.getProductDate()) && shift.equals(admin.getShift())){
+							for(Team tms : tmSet){
+								for(Team tml : tmLists){
+									if(tms.getId().equals(tml.getId())){
+										tmLists.remove(tml);
+										break;
+									}
+								}
+							}
+							for(Team tml : tmLists){
+								Map<String,String> map = new HashMap<String,String>();
+								map.put("tmId", tml.getId());
+								map.put("tmName", tml.getTeamName());
+								map.put("work", tml.getIsWork());
+								map.put("ftuName", tml.getFactoryUnit().getFactoryUnitName());
+								map.put("wsName", tml.getFactoryUnit().getWorkShop().getWorkShopName());
+								map.put("ftName", tml.getFactoryUnit().getWorkShop().getFactory().getFactoryName());
+								map.put("YORN", "Y");
+								ListMap.add(map);
+								tmSet.add(tml);
+							}
+						}else{
+							tmSet = new  HashSet<Team>();
+							for(Team tml : tmLists){
+								Map<String,String> map = new HashMap<String,String>();
+								map.put("tmId", tml.getId());
+								map.put("tmName", tml.getTeamName());
+								map.put("work", tml.getIsWork());
+								map.put("ftuName", tml.getFactoryUnit().getFactoryUnitName());
+								map.put("wsName", tml.getFactoryUnit().getWorkShop().getWorkShopName());
+								map.put("ftName", tml.getFactoryUnit().getWorkShop().getFactory().getFactoryName());
+								map.put("YORN", "N");
+								ListMap.add(map);
+								tmSet.add(tml);
+							}
+						}
+						admin.setProductDate(productDate);
+						admin.setShift(shift);
+						admin.setTeamSet(tmSet);
+						adminService.update(admin);
+						if(ListMap.size()>0){
+							JSONArray jsonArray = JSONArray.fromObject(ListMap);
+							return ajaxJson(jsonArray.toString());
+						}else{
+							return ajaxJsonSuccessMessage("保存成功");
+						}
+					}else{
+						return ajaxJsonErrorMessage("当前没有正在工作的班组");
+					}
+				}else{
+					Team tm = teamService.get(teamid);
+					List<Map<String,String>> ListMap = new ArrayList<Map<String,String>>();
+					Map<String,String> map = new HashMap<String,String>();
+					if(productDate.equals(admin.getProductDate()) && shift.equals(admin.getShift())){
+						if(!tmSet.contains(tm)){
+							map.put("YORN", "Y");
+							ListMap.add(map);
+							tmSet.add(tm);
+							admin.setProductDate(productDate);
+							admin.setTeamSet(tmSet);
+							adminService.update(admin);
+							JSONArray jsonArray = JSONArray.fromObject(ListMap);
+							return ajaxJson(jsonArray.toString());
+						}else{
+							map.put("YORN", "Y1");
+							ListMap.add(map);
+							JSONArray jsonArray = JSONArray.fromObject(ListMap);
+							return ajaxJson(jsonArray.toString());
+						}
+					}else{
+						tmSet = new  HashSet<Team>();
+						tmSet.add(tm);
+						map.put("YORN", "N");
+						ListMap.add(map);
+						admin.setProductDate(productDate);
+						admin.setTeamSet(tmSet);
+						adminService.update(admin);
+						JSONArray jsonArray = JSONArray.fromObject(ListMap);
+						return ajaxJson(jsonArray.toString());
+					}
+					
+					
+				}
+					
+				
 		}
 		//删除绑定班组
 		public String deleteTeam(){
@@ -295,7 +366,19 @@ public class AdminAction extends BaseAdminAction {
            // teamList=teamService.getTeamListByWork();//获取所有当前正在工作的班组
 			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
 			admin = adminService.get("username", loginUsername);
-			
+			Set<Team> tmSet = admin.getTeamSet();
+			Iterator<Team> it = tmSet.iterator();
+			while(it.hasNext()){
+				Team tm = it.next();
+				if(it.hasNext()){
+					continue;
+				}else{
+					if(team==null){
+						team = new Team();
+					}
+					team = tm;
+				}
+			}
             factoryList = factoryService.getAll();
 /**         for (int i = 0; i < teamList.size(); i++) {
 				Team  team =teamList.get(i);
@@ -809,6 +892,26 @@ public class AdminAction extends BaseAdminAction {
 	public List<Admin> getAdminList(){
 		List<Admin> adminList = adminService.getAll();
 		return adminList;
+	}
+
+
+	public String getProductDate() {
+		return productDate;
+	}
+
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+
+	public String getShift() {
+		return shift;
+	}
+
+
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 	
 }

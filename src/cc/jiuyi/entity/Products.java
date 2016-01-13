@@ -33,7 +33,7 @@ public class Products extends BaseEntity{
     private String stateRemark;//状态描述
 	
 	private Set<Material> material;//产    品
-	private Set<Quality> qualitySet;//质量问题单
+	//private Set<Quality> qualitySet;//质量问题单
 //	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
 	private Set<FactoryUnit> factoryUnitSet;//所属单元
@@ -102,13 +102,13 @@ public class Products extends BaseEntity{
 		this.materialGroup = materialGroup;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
 	public Set<Quality> getQualitySet() {
 		return qualitySet;
 	}
 	public void setQualitySet(Set<Quality> qualitySet) {
 		this.qualitySet = qualitySet;
-	}
+	}*/
 	
 	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "products")
 	public Set<Model> getModelSet() {

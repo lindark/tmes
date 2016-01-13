@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
@@ -40,7 +39,9 @@ public class FactoryUnit extends BaseEntity {
 	private Set<Products> productsSet;// 相关产品
 
 	private String workCenter;// 工作中心
-
+	private String costcenter;//成本中心
+	private String iscanrepair;//是否可以返修/返修收获-编码
+	private String xiscanrepair;//是否可以返修/返修收获-描述
 	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Products> getProductsSet() {
 		return productsSet;
@@ -154,4 +155,35 @@ public class FactoryUnit extends BaseEntity {
 		this.workCenter = workCenter;
 	}
 
+	public String getIscanrepair()
+	{
+		return iscanrepair;
+	}
+
+	public void setIscanrepair(String iscanrepair)
+	{
+		this.iscanrepair = iscanrepair;
+	}
+
+	public String getCostcenter()
+	{
+		return costcenter;
+	}
+
+	public void setCostcenter(String costcenter)
+	{
+		this.costcenter = costcenter;
+	}
+
+	@Transient
+	public String getXiscanrepair()
+	{
+		return xiscanrepair;
+	}
+
+	public void setXiscanrepair(String xiscanrepair)
+	{
+		this.xiscanrepair = xiscanrepair;
+	}
+	
 }

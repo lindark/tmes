@@ -31,9 +31,10 @@ public class Repairin extends BaseEntity {
 	private String workingbillCode;
 	private String maktx;//产品描述
 	private Set<RepairinPiece>rpieceSet;//从表--组件
-
+	private String repairintype;//成品/子件
 	private WorkingBill workingbill;// 随工单
 	private String EX_MBLNR;//物料凭证
+	private String costcenter;//成本中心
 	
 	//SAP
 	private String WERKS;//工厂
@@ -42,6 +43,8 @@ public class Repairin extends BaseEntity {
 	private String BUDAT;//过账日期
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
+	
+	private String xrepairintype;//成品/子件-描述
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -225,4 +228,33 @@ public class Repairin extends BaseEntity {
 		BUDAT = bUDAT;
 	}
 
+	public String getRepairintype()
+	{
+		return repairintype;
+	}
+
+	public void setRepairintype(String repairintype)
+	{
+		this.repairintype = repairintype;
+	}
+
+	public String getCostcenter()
+	{
+		return costcenter;
+	}
+
+	public void setCostcenter(String costcenter)
+	{
+		this.costcenter = costcenter;
+	}
+
+	public String getXrepairintype()
+	{
+		return xrepairintype;
+	}
+
+	public void setXrepairintype(String xrepairintype)
+	{
+		this.xrepairintype = xrepairintype;
+	}
 }

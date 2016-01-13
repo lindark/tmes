@@ -74,8 +74,8 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	}
 
 	@Override
-	public String getProcess(List<String> processRouteIdList) {
-		return processroutedao.getProcess(processRouteIdList);
+	public String getProcess(List<String> processRouteIdList,String steus) {
+		return processroutedao.getProcess(processRouteIdList,steus);
 	}
 	
 	 public String getProcessName(String processCode){

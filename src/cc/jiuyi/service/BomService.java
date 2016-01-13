@@ -60,4 +60,9 @@ public interface BomService extends BaseService<Bom, String> {
 	public Integer getMaxversion(String orderId,String productDate);
 	
 	public List<Bom> findBom(String aufnr,String productDate,String materialCode);
+	
+	
+	/*根据组件编码获取组件名称
+	 * */
+	public String getMaterialName(String materialCode);
 }

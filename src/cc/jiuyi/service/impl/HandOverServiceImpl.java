@@ -14,6 +14,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.BrandService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 
 import org.springframework.stereotype.Service;
@@ -45,17 +46,17 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 		}
 	}
 	
-public void updateHand(List<HandOverProcess> handoverprocessList,String mblnr1,String handoverId,Admin admin){
+	public void updateHand(List<HandOverProcess> handoverprocessList,String mblnr1,String handoverId,Admin admin){
 		
 		for(HandOverProcess handoverprocess : handoverprocessList){
 			handoverprocess.setMblnr(mblnr1);
 			handoverprocessservice.update(handoverprocess);
 		}
-		HandOver handover = this.load(handoverId);
-		handover.setMblnr(mblnr1);
-		handover.setState("3");
-		handover.setApprovaladmin(admin);
-		this.update(handover);
+		
 	}
+	
+
+
+
 
 }

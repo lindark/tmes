@@ -17,6 +17,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 
 /**
@@ -61,13 +62,11 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 
 	@Override
 	public Pager getHandOverProcessPager(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return handOverProcessDao.getHandOverProcessPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		handOverProcessDao.updateisdel(ids, oper);
 		
 	}
@@ -161,7 +160,6 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		return flag+","+"操作成功";
 	}
 	
-	
-	
+
 	
 }

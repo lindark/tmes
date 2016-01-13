@@ -40,13 +40,13 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 		return processroutedao.getProcessRouteList(aufnr, version);
 	}
 	
-	public Integer getMaxVersion(String matnr,String productDate){
-		return processroutedao.getMaxVersion(matnr, productDate);
+	public Integer getMaxVersion(String orderid,String productDate){
+		return processroutedao.getMaxVersion(orderid, productDate);
 	}
 	
 	public List<ProcessRoute> findProcessRoute(String aufnr,String productDate) {
 		Orders orders = ordersservice.get("aufnr",aufnr);
-		Integer maxversion = processroutedao.getMaxVersion(orders.getMatnr(), productDate);
+		Integer maxversion = processroutedao.getMaxVersion(orders.getId(), productDate);
 		if(maxversion!=null)
 		{
 			return processroutedao.getProcessRouteList(aufnr, maxversion);
@@ -65,7 +65,7 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 			String processCode)
 	{
 		Orders orders = ordersservice.get("aufnr",aufnr);
-		Integer maxversion = processroutedao.getMaxVersion(orders.getMatnr(), productDate);
+		Integer maxversion = processroutedao.getMaxVersion(orders.getId(), productDate);
 		if(maxversion!=null)
 		{
 			return processroutedao.getOneByConditions(aufnr, maxversion,processCode);

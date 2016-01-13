@@ -296,7 +296,7 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
-					removeQuartz();			//删除定时发短信任务		
+					removeQuartz(persistent.getJobname());			//删除定时发短信任务		
 				} else {
 					persistent.setState("1");
 
@@ -333,6 +333,7 @@ public class AbnormalAction extends BaseAdminAction {
 			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
 				if (persistent.getState() != "3" & persistent.getState() != "4") {//"3"异常关闭 "4"异常撤销
 					persistent.setState("3");
+					removeQuartz(persistent.getJobname());	
 					if (persistent.getReplyDate() == null) {
 						persistent.setReplyDate(new Date());
 						Date date = new Date();
@@ -365,6 +366,7 @@ public class AbnormalAction extends BaseAdminAction {
 				if (persistent.getState().equals("0")
 						|| persistent.getState().equals("1")) {//"0"未响应  "1"未完全响应
 					persistent.setState("4");
+					removeQuartz(persistent.getJobname());	
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
 					int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
@@ -422,6 +424,12 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setResponsorSet(new HashSet<Admin>(adminSets));
 		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
 		
+		//定时任务名称
+		Date dates = new Date();
+		String jobname=ThinkWayUtil.formatdateDateTime(dates);
+		job_name=job_name+jobname;
+		
+		abnormal.setJobname(job_name);
 		abnormalService.save(abnormal);
 		
 		for(Admin admin:adminSets){//向应答人发送短信
@@ -456,7 +464,7 @@ public class AbnormalAction extends BaseAdminAction {
 		String phone2 = adminList2.get(0).getPhoneNo();
 		String name=adminList.get(0).getName();
 		String name1=adminList1.get(0).getName();
-		String name2=adminList2.get(0).getName();
+		String name2=adminList2.get(0).getName();		
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
@@ -494,12 +502,13 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	//创建定时任务
 	public void quartzMessage(String time,HashMap<String,Object> maps){	
-		removeQuartz();
-		QuartzManagerUtil.addJob(job_name, ExtremelyMessage.class,time,maps);			      	      
+		String name=(String)maps.get("jobname");
+		removeQuartz(name);
+		QuartzManagerUtil.addJob(name, ExtremelyMessage.class,time,maps);			      	      
 	}
 	
 	//删除定时任务
-	public void removeQuartz(){
+	public void removeQuartz(String job_name){
 		 QuartzManagerUtil.removeJob(job_name);
 	}
 	

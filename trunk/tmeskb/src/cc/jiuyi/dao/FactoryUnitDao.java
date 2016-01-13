@@ -38,4 +38,11 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	 */
 	public Pager getFuPager(Pager pager, HashMap<String, String> map);
 	public List<Products> getAllProducts();
+
+	/**
+	 *  获取单元中的成本中心
+	 * @param pager
+	 * @return
+	 */
+	public Pager getCostCenter(Pager pager);
 }

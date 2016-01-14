@@ -62,6 +62,7 @@ public class Device extends BaseEntity{
 	private String repairName;//维修人
 	private String repairType;//维修类型
 	private String fault; //故障原因
+	private Integer scrapNo;//报废数
 	//private Set<ReceiptReason> receiptSet;//设备原因 
 	//private Set<DeviceProcess> deviceProcessSet;//处理过程
 	private Set<DeviceModlue> deviceModlueSet;//物料（更换零部件数量及型号）
@@ -388,6 +389,12 @@ public class Device extends BaseEntity{
 	}
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+	public Integer getScrapNo() {
+		return scrapNo;
+	}
+	public void setScrapNo(Integer scrapNo) {
+		this.scrapNo = scrapNo;
 	}
 		
 	

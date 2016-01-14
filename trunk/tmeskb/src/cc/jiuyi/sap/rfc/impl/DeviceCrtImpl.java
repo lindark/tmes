@@ -21,9 +21,12 @@ import cc.jiuyi.util.ThinkWayUtil;
 @Component
 public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 	@Override
-	public String DeviceCrt(Device device, List<DeviceStep> step,
+	public String DeviceCrt(String iscrtOrchange,Device device, List<DeviceStep> step,
 			List<DeviceModlue> module) throws IOException, CustomerException {
 		super.setProperty("model");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("IS_CREATE", iscrtOrchange);//创建还是修改
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel IT_HEADER_DATA = new TableModel();
@@ -80,6 +83,7 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		IT_ITEM_ZJ.setList(arrList2);
 		tablemodelList.add(IT_ITEM_ZJ);
 		/*******执行******/
+		super.setParameter(parameter);
 		super.setTable(tablemodelList);
 		SAPModel model = execBapi();//执行 并获取返回值;
 		ParameterList out = model.getOuts();//返回参数

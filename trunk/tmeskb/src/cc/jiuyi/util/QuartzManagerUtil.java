@@ -55,6 +55,7 @@ public class QuartzManagerUtil {
 					String key = (String) iter.next();
 					jobDetail.getJobDataMap().put(key, maps.get(key));
 				}
+				
 			}
 			// 触发器
 			CronTrigger trigger = new CronTrigger(jobName, TRIGGER_GROUP_NAME);// 触发器名,触发器组

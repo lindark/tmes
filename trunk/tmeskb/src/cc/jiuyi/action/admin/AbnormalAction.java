@@ -409,9 +409,14 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		List<Admin> adminSets= new ArrayList<Admin>();
 		List<String> strList= new ArrayList<String>();
+		List<HashMap<String,Object>> hashmapList = new ArrayList<HashMap<String,Object>>();		
 		for(int i=0;i<adminSet.size();i++){
+			HashMap<String,Object> maps1 = new HashMap<String,Object>();
 			if(adminSet.get(i)==null)continue;
 			adminSets.add(adminSet.get(i));
+			maps1.put("id", adminSet.get(i).getId());
+			maps1.put("phoneNo",adminSet.get(i).getPhoneNo());
+			hashmapList.add(maps1);
 			strList.add(adminSet.get(i).getName());
 		}
 		
@@ -432,9 +437,10 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setJobname(job_name);
 		abnormalService.save(abnormal);
 		
+		//短信内容
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
 		String adminName =admin.getName();
-		String message=werks+"工厂"+adminName+"处出现异常";
+		String message=werks+"工厂"+adminName+"所在车间出现异常";
 		for(Admin admin:adminSets){//向应答人发送短信
 			try{
 			 
@@ -456,18 +462,7 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormalLog.setType("5");
 		abnormalLog.setOperator(admin);
 		abnormalLog.setInfo(comlist);
-		abnormalLogService.save(abnormalLog);
-
-		//定时短信任务处理
-		List<Admin> adminList=adminService.getByAdminId(admin.getDepartment().getId());//部长
-		List<Admin> adminList1=adminService.getDirectorByDeptId(admin.getDepartment().getId());//主任
-		List<Admin> adminList2=adminService.getManagerByDeptId(admin.getDepartment().getId());//副总
-		String phone = adminList.get(0).getPhoneNo();
-		String phone1 = adminList1.get(0).getPhoneNo();
-		String phone2 = adminList2.get(0).getPhoneNo();
-		String name=adminList.get(0).getName();
-		String name1=adminList1.get(0).getName();
-		String name2=adminList2.get(0).getName();		
+		abnormalLogService.save(abnormalLog);	
 				
 		Calendar can = Calendar.getInstance();	//定时任务时间1
 		can.setTime(abnormal.getCreateDate());
@@ -483,8 +478,9 @@ public class AbnormalAction extends BaseAdminAction {
 		can2.setTime(abnormal.getCreateDate());
 		can2.add(Calendar.MINUTE, 60);
 		Date date2=can2.getTime();
+
+		JSONArray jsonArray = JSONArray.fromObject(hashmapList);
 		
-		System.out.println(ThinkWayUtil.getCron(date));
 		HashMap<String,Object> maps = new HashMap<String,Object>();
 		maps.put("id",abnormal.getId());
 		maps.put("name",admin.getId());
@@ -492,13 +488,8 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("time", ThinkWayUtil.getCron(date2));
 		maps.put("jobname", job_name);
 		maps.put("count","1");
-		maps.put("phone",phone);
-		maps.put("minister", name);
-		maps.put("phone1",phone1);
-		maps.put("director", name1);
-		maps.put("phone2",phone2);
-		maps.put("manager", name2);
 		maps.put("message", message);
+		maps.put("list", jsonArray.toString());
 		quartzMessage(ThinkWayUtil.getCron(date),maps);	
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");

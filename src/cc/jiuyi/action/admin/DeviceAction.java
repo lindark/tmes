@@ -494,7 +494,6 @@ public class DeviceAction extends BaseAdminAction {
 			try {
 				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);
 				System.out.println("订单号为："+aufnr);
-				persistent.setOrderNo(aufnr);
 				deviceService.update(persistent);
 			} catch (IOException e1) {
 				e1.printStackTrace();

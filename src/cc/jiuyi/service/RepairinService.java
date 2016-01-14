@@ -34,7 +34,7 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Repairin repairin, String cardnumber,int my_id);
+	public void updateMyData(Repairin repairin, String cardnumber,int my_id,String wbid);
 
 	/**
 	 * 获取物料表中包含list1中的数据

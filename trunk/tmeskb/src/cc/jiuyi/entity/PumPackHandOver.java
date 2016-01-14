@@ -3,7 +3,7 @@ package cc.jiuyi.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-
+ 
 /**
  * 实体类 -抽包异常交接
  */

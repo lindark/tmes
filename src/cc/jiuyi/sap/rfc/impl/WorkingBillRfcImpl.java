@@ -94,6 +94,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			workingbill.setMatnr(table01.getString("MATNR"));//物料编号
 			workingbill.setWerks(table01.getString("WERKS"));//工厂
 			workingbill.setAufnr(table01.getString("AUFNR"));//订单号
+			workingbill.setWorkcenter(table01.getString("ARBPL"));//工作中心
 			list.add(workingbill);
 		}
 		List<Orders> orderlist = new ArrayList<Orders>();//生产订单

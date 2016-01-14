@@ -9,5 +9,5 @@ import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.util.CustomerException;
 
 public interface DeviceRfc extends BaserfcService{
-	public String DeviceCrt(Device device,List<DeviceStep> step,List<DeviceModlue> module) throws IOException,CustomerException;
+	public String DeviceCrt(String iscrtOrchange,Device device,List<DeviceStep> step,List<DeviceModlue> module) throws IOException,CustomerException;
 }

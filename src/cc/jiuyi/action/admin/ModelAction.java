@@ -487,12 +487,6 @@ public class ModelAction extends BaseAdminAction {
 		s.setDuration("10");			
 		step.add(s);
 		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
-		DeviceModlue dm=new DeviceModlue();
-		dm.setMaterial("60000167");//物料编码
-		dm.setMenge("1");
-		dm.setVornr("0010");
-		dm.setPostp("L");
-		module.add(dm);
 		
 		try {
 			String aufnr=moderfc.ModelCrt("0",model, step, module);

@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -469,6 +470,8 @@ public class ModelAction extends BaseAdminAction {
 				
 		model.setSHORT_TEXT("工模维修单");
 		model.setCOST("2");
+		model.setCreateDate(new Date());
+		model.setConfirmTime(new Date());
 		model.setORDER_TYPE("PM01");//订单类型
 		model.setURGRP("PM1");//原因代码组
 		model.setURCOD("1001");//原因代码

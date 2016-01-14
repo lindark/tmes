@@ -7,6 +7,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Area;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.CustomerException;
 
@@ -16,7 +17,7 @@ import cc.jiuyi.util.CustomerException;
 
 public interface HandOverService extends BaseService<HandOver, String> {
 	
-	public void saveandgx(Admin admin,List<HandOverProcess> handoverprocess);
+	public void saveandgx(Admin admin,List<HandOverProcess> handoverprocess,List<OddHandOver> oddHandOverList);
 	
 	public void updateHand(List<HandOverProcess> handoverprocessList,String mblnr1,String handoverId,Admin admin);
 	

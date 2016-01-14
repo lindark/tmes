@@ -55,6 +55,7 @@ public class WorkingBill extends BaseEntity {
     
     private Set<Pick> pick;//领料
     private Set<ItermediateTest> itermediateTest;//半成品巡检
+    private Set<OddHandOver> oddHandOverSet;//零头数交接
     
     /*冗余*/
     private String afterworkingBillCode;//下一随工单
@@ -347,6 +348,14 @@ public class WorkingBill extends BaseEntity {
 
 	public void setRepairamount(Integer repairamount) {
 		this.repairamount = repairamount;
+	}
+	@OneToMany(mappedBy = "workingBill", fetch = FetchType.LAZY)
+	public Set<OddHandOver> getOddHandOverSet() {
+		return oddHandOverSet;
+	}
+
+	public void setOddHandOverSet(Set<OddHandOver> oddHandOverSet) {
+		this.oddHandOverSet = oddHandOverSet;
 	}
 	
 }

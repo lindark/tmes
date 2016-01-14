@@ -51,8 +51,8 @@ body {
 								method="post">
 								
 								<div class="operateBar">
-									生产日期:<input type="text" class="input input-sm datePicker"/>
-									班次:<select>
+									生产日期:<input type="text" name ="nowDate" class="input input-sm datePicker"/>
+									班次:<select name="shift">
 											<option value="1">早</option>
 											<option value="2">白</option>
 											<option value="3">晚</option>

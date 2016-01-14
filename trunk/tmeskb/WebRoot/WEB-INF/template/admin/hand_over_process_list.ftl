@@ -14,13 +14,12 @@
 <!--modify weitao-->
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <script src="${base}/template/admin/assets/js/ace-extra.min.js"></script>
+
 <script src="${base }/template/admin/js/manage/handover.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/manage/handover_list.js"></script>
-
-<script type="text/javascript" src="${base }/template/admin/js/Lodop/LodopFuncs.js"></script>
 
 <style type="text/css">
 .ztree li span.button.add {
@@ -36,6 +35,9 @@
 }
 input.handOverMount{
 	padding:2px;
+}
+.div_top{
+	margin:10px;
 }
 </style>
 
@@ -118,6 +120,17 @@ input.handOverMount{
 									<li class="over"><a href="#tabs-3">总体交接确认</a>
 									</li>
 								</ul>
+								<div class="div_top">
+										  生产日期:
+                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
+                                   &nbsp;&nbsp;
+                                     班次:
+                                     <select name="shift"id="sl_sh">
+                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+                                   </select>
+									</div>
 								<div id="tabs-1">
 									<!-- <a href="#0" class="cd-btn">右侧滑动弹出框</a>  -->
 
@@ -191,6 +204,7 @@ input.handOverMount{
 									</div>
 								</div>
 								<div id="tabs-4">
+								<form id="oddlist" action="odd_hand_over!creditsubmit.action" method="post">
 									<!-- 这里是零头数交接
 									<a href="显示"></a> -->
 									<table class="table table-striped table-bordered">
@@ -206,7 +220,7 @@ input.handOverMount{
 										</thead>
 	
 										<tbody>
-											<form id="oddlist" action="odd_hand_over!creditsubmit.action" method="post">
+											
 											<#list workingbillList as list>
 												<tr>
 													<input type="hidden" class="workkingId"name="workingBillIds" value="${list.id}" />
@@ -369,6 +383,19 @@ input.handOverMount{
 </html>
 <script type="text/javascript">
 	$(function() {
+		var nowDate = new Date();
+		var nowYear = nowDate.getFullYear();
+		var nowMonth = nowDate.getMonth()+1;
+		var nowDay = nowDate.getDate();
+		if(nowMonth.toString().length==1){
+			nowMonth = "0"+nowMonth;
+		}
+		if(nowDay.toString().length==1){
+			nowDay = "0"+nowDay;
+		}
+	    var nowtime = nowYear+"-"+nowMonth+"-"+nowDay;
+		$("#productDate").val(nowtime);
+		
 		$("#inputtabs").tabs();
 		$(".over").click(function(){
 			$(window).triggerHandler('resize.jqGrid');
@@ -381,8 +408,30 @@ input.handOverMount{
 		
 		/*刷卡确认*/
 		$("#creditapproval").click(function(){
+			var productDate = $("#productDate").val();
+			if(productDate==""){
+				alert("生产日期不允许为空");
+				return false;
+			}else{
+					// 统一日期格式
+					var strDate = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
+					var beforelength = productDate.length;
+					if(beforelength==9){
+						var befores = productDate.charAt(beforelength-1);
+						if(befores=="0"){
+							alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+							return false;
+						}
+					}
+					  //判断日期是否是预期的格式
+					  if (!strDate.test(productDate)) {
+					    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+					    return false;
+					  }
+			}
+			var shift = $("#sl_sh").val();
 			var loginid = $("#loginid").val();//当前登录人的id
-			var url="hand_over!creditapproval.action?loginid="+loginid;
+			var url="hand_over!creditapproval.action?loginid="+loginid+"&shift="+shift+"&nowDate="+productDate;
 			credit.creditCard(url,function(data){
 				//alert("OK");
 			})

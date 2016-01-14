@@ -186,15 +186,20 @@ public class HandOverProcessAction extends BaseAdminAction {
 				return ERROR;
 			}
 			
-			
-			
-			for(int y=0;y<bomList.size();y++){
-				Bom bom = bomList.get(y);
-				if(materialList.contains(bom))
-					continue;
-				materialList.add(bom);
-			}
-		}		
+			//获取维护物料信息
+			List<Material> ml= materialservice.getAll();
+			if(ml!=null && ml.size()>0){
+				for(int y=0;y<bomList.size();y++){
+					Bom bom = bomList.get(y);
+					for(Material mt : ml){
+						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+							materialList.add(bom);
+							break;
+						}
+					}
+				}
+			}	
+		}
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
 		

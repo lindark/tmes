@@ -54,6 +54,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			item.put("ZSFSL", e.getStorageAmount().toString());//数量
 			item.put("XUH",e.getId());//ID
 			item.put("ORDERID", e.getWorkingbill().getAufnr());//订单号
+			item.put("CHARG", "");//批次
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

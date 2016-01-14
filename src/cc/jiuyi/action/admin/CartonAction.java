@@ -161,6 +161,7 @@ public class CartonAction extends BaseAdminAction {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String ajlist() {
 		if(pager==null)
 		{
@@ -194,7 +195,7 @@ public class CartonAction extends BaseAdminAction {
 			{
 				c.setXconfirmUser(c.getConfirmUser().getName());//确认人
 			}
-			lst.add(carton);
+			lst.add(c);
 		}
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();

@@ -111,8 +111,8 @@ input.handOverMount{
 									</li>
 									<li><a href="#tabs-4">零头数交接</a>
 									</li>
-									<li><a href="#tabs-5">抽包异常交接</a>
-									</li>
+									<!-- <li><a href="#tabs-5">抽包异常交接</a>
+									</li> -->
 									<li><a href="#tabs-2">线边仓交接</a>
 									</li>
 									<li class="over"><a href="#tabs-3">总体交接确认</a>
@@ -200,53 +200,7 @@ input.handOverMount{
 												<th class="center">计划数量</th>
 												<th class="center">产品编号</th>
 												<th class="center">随工单编号</th>
-												<th class="center">交接数量</th>
-											</tr>
-										</thead>
-	
-										<tbody>
-											<form id="oddlist" action="odd_hand_over!creditsubmit.action" method="post">
-											<#list workingbillList as list>
-												<tr>
-													<input type="hidden" class="workkingId"name="workingBillIds" value="${list.id}" />
-													<td class="center">${list.maktx }</td>
-													<td class="center">${list.planCount }</td>
-													<td class="center">${list.matnr }</td>
-													<td class="center">${list.workingBillCode }	</td>
-													<#if list.oddHandOverSet!=null>
-														<#list list.oddHandOverSet as loh>
-															<td class="center"><input type="text" class="handOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
-														<#break>
-														</#list>
-														<#else>
-														<td class="center"><input type="text" class="handOverMount" name="actualMounts" value=""/></td>
-														</#if>
-												</tr>
-											</#list>
-											</form>
-										</tbody>
-									</table>
-									<div class="buttonArea" >
-										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="oddcreditsubmit" type=button>
-										<i class="ace-icon glyphicon glyphicon-check"></i>
-										刷卡提交
-										</button>&nbsp;&nbsp;
-										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" id="oddcreditapproval" type=button>
-										<i class="ace-icon glyphicon glyphicon-check"></i>
-										刷卡确认
-										</button>
-									</div>
-								</div>
-								<div id="tabs-5">
-									<!-- 这里是零头数交接
-									<a href="显示"></a> -->
-									<table class="table table-striped table-bordered">
-										<thead>
-											<tr>
-												<th class="center">产品名称</th>
-												<th class="center">计划数量</th>
-												<th class="center">产品编号</th>
-												<th class="center">随工单编号</th>
+												<th class="center">零头数交接数量</th>
 												<th class="center">异常交接数量</th>
 											</tr>
 										</thead>
@@ -262,7 +216,8 @@ input.handOverMount{
 													<td class="center">${list.workingBillCode }	</td>
 													<#if list.oddHandOverSet!=null>
 														<#list list.oddHandOverSet as loh>
-															<td class="center"><input type="text" class="handOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
+															<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
+															<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unHOMount }"/></td>
 														<#break>
 														</#list>
 														<#else>
@@ -284,6 +239,51 @@ input.handOverMount{
 										</button>
 									</div>
 								</div>
+								<!-- <div id="tabs-5">
+									<table class="table table-striped table-bordered">
+										<thead>
+											<tr>
+												<th class="center">产品名称</th>
+												<th class="center">计划数量</th>
+												<th class="center">产品编号</th>
+												<th class="center">随工单编号</th>
+												<th class="center">异常交接数量</th>
+											</tr>
+										</thead>
+	
+										<tbody>
+											<form id="pplist" action="odd_hand_over!creditsubmit.action" method="post">
+											<#list workingbillList as list>
+												<tr>
+													<input type="hidden" class="workkingId"name="workingBillIds" value="${list.id}" />
+													<td class="center">${list.maktx }</td>
+													<td class="center">${list.planCount }</td>
+													<td class="center">${list.matnr }</td>
+													<td class="center">${list.workingBillCode }	</td>
+													<#if list.oddHandOverSet!=null>
+														<#list list.oddHandOverSet as loh>
+															<td class="center"><input type="text" class="handOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
+														<#break>
+														</#list>
+														<#else>
+														<td class="center"><input type="text" class="handOverMount" name="actualMounts" value=""/></td>
+														</#if>
+												</tr>
+											</#list>
+											</form>
+										</tbody>
+									</table>
+									<div class="buttonArea" >
+										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="oddcreditsubmit" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡提交
+										</button>&nbsp;&nbsp;
+										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" id="oddcreditapproval" type=button>
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡确认
+										</button>
+									</div>
+								</div> -->
 								<div id="tabs-2">
 									<table class="table table-striped table-bordered">
 										<thead>
@@ -447,7 +447,22 @@ input.handOverMount{
 			},dt);
 		});
 		
+	/* 	//抽包异常交接提交
+		$("#ppcreditsubmit").click(function(){
+			var url = "pum_pack_hand_over!creditSubmit.action";
+			var dt = $("#pplist").serialize();
+			credit.creditCard(url,function(data){
+			},dt);
+
+		});
 		
+		//抽包异常交接提交
+		$("#ppcreditapproval").click(function(){
+			var url = "pum_pack_hand_over!crediTapproval.action";
+			var dt = $("#pplist").serialize();
+			credit.creditCard(url,function(data){
+			},dt);
+		}); */
 		
 		
 	});

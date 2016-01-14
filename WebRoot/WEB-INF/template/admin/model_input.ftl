@@ -107,6 +107,9 @@ body {
 													 <img id="deviceId" class="img_addbug" title="添加产品信息" alt="添加产品信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />							
 														<span id="productName1"></span> <input type="hidden"
 														name="model.equipments.id" id="productNa" value="" class="formText {required: true}"/>
+														<input type="hidden"
+														name="model.equipments.equipmentNo" id="equipNo" value=""
+														class="formText {required: true}" />
 													<#else> ${(model.equipments.equipmentName)!} </#if>
 												</div>
 

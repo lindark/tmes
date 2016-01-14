@@ -492,7 +492,7 @@ public class ModelAction extends BaseAdminAction {
 		module.add(dm);
 		
 		try {
-			String aufnr=moderfc.ModelCrt("1",model, step, module);
+			String aufnr=moderfc.ModelCrt("0",model, step, module);
 			System.out.println("订单号为："+aufnr);
 			model.setOrderNo(aufnr);
 			modelService.save(model);

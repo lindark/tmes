@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'materialCode',index:'materialCode',label:"物料编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName',label:"物料名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'ordercode',index:'orders.aufnr',label:"生产订单号",width:100,search:false,editable:false,unformat: pickDate,formatter:datefmt},
+			{name:'oerderCode',index:'orders.aufnr',label:"生产订单号",width:100,search:false,editable:false},
 			{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
 		],
 		viewrecords : true,

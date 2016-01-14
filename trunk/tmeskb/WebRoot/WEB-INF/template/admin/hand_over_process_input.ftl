@@ -9,18 +9,7 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
 <#include "/WEB-INF/template/common/includelist.ftl">
-<script type="text/javascript"
-	src="${base}/template/common/js/jquery.form.js"></script>
-<script type="text/javascript"
-	src="${base}/template/common/js/jquery.metadata.js"></script>
-<script type="text/javascript"
-	src="${base}/template/common/js/jquery.validate.js"></script>
-<script type="text/javascript"
-	src="${base}/template/common/js/jquery.validate.methods.js"></script>
-<script type="text/javascript"
-	src="${base}/template/common/js/jquery.validate.cn.js"></script>
-<script type="text/javascript"
-	src="${base}/template/admin/js/browser/browserValidate.js"></script>
+<#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
@@ -28,6 +17,10 @@
 <style>
 body {
 	background: #fff;
+}
+
+.operateBar{
+	padding:3px 0px;
 }
 </style>
 </head>
@@ -53,9 +46,18 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 
-							<form id="inputForm" class="validateajax"
+							<form id="inputForm" class="validate"
 								action="#"
 								method="post">
+								
+								<div class="operateBar">
+									生产日期:<input type="text" class="input input-sm datePicker"/>
+									班次:<select>
+											<option value="1">早</option>
+											<option value="2">白</option>
+											<option value="3">晚</option>
+										</select>
+								</div>
 								<table class="table table-striped table-bordered">
 									<thead>
 										<tr>

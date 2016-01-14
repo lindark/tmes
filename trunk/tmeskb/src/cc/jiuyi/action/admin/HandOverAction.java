@@ -48,6 +48,8 @@ public class HandOverAction extends BaseAdminAction {
 	private String loginid;//当前登录人的ID
 	private String[] workingBillIds;//零头数交接Id
 	private String[] actualMounts;//零头数交接数量
+	private String nowDate;
+	private String shift;
 	
 	@Resource
 	private AdminService adminservice;
@@ -192,7 +194,7 @@ public class HandOverAction extends BaseAdminAction {
 						HandOverProcess handoverprocess = new HandOverProcess();
 						handoverprocess.setMaterialCode(oddHandOver.getMaterialCode()); //物料编码
 						handoverprocess.setActualAmount(oddHandOver.getActualBomMount());//实际零头数交接数量
-						handoverprocess.setAfterworkingbill(workingbillservice.getCodeNext(oddHandOver.getWorkingBill().getWorkingBillCode()));//下班随工单
+						handoverprocess.setAfterworkingbill(workingbillservice.getCodeNext(oddHandOver.getWorkingBill().getWorkingBillCode(),nowDate,shift));//下班随工单
 						handoverprocess.setBeforworkingbill(oddHandOver.getWorkingBill());//上班随工单
 						handoverprocess.setId(oddHandOver.getId());//id
 						handoverprocessList01.add(handoverprocess);
@@ -268,6 +270,22 @@ public class HandOverAction extends BaseAdminAction {
 
 	public void setActualMounts(String[] actualMounts) {
 		this.actualMounts = actualMounts;
+	}
+
+	public String getNowDate() {
+		return nowDate;
+	}
+
+	public void setNowDate(String nowDate) {
+		this.nowDate = nowDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 	
 	

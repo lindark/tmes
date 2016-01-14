@@ -33,11 +33,7 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	/**
-	 * 根据生产日期取出对应的随工单信息
-	 * @return
-	 */
-	public List<WorkingBill> getListWorkingBillByDate(Admin admin);
+	
 
 	/**
 	 * 查询随工单表中的id 和 产品名称maktx
@@ -57,7 +53,7 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	/**
 	 * 根据随工单编号 获取 下一条记录
 	 */
-	public WorkingBill getCodeNext(String workingbillCode,List<String> aufnrList);
+	public WorkingBill getCodeNext(String workingbillCode,List<String> aufnrList,String formtdate);
 	
 	
     /**
@@ -70,6 +66,8 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	 * @param orderId
 	 * @return
 	 */
-	public List<WorkingBill> findWorkingBill(List<String> aufnr,String productDate,String shift);
+	public List<WorkingBill> findWorkingBill(String workcenter,String productDate,String shift);
+	
+	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr);
 
 }

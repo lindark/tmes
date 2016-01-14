@@ -15,11 +15,7 @@
 <script src="${base}/template/admin/js/Main/testindex.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
-<style type="text/css">
-	.ui-datepicker td {
-		padding:0px;
-	}
-</style>
+
 </head>
 <script type="text/javascript">
 	$(function(){

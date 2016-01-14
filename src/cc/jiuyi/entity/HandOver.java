@@ -30,6 +30,7 @@ public class HandOver extends BaseEntity{
 	private Admin approvaladmin;//确认人
 	private Set<HandOverProcess> handoverprocess;//交接从表
 	private Set<OddHandOver> oddHandOver;//零头交接从表
+	private Set<PumPackHandOver> PumPackHandOver;//零头交接从表
 	private String mblnr;//物料凭证号 
 	
 	@OneToMany(mappedBy = "handover", fetch = FetchType.LAZY)
@@ -73,5 +74,14 @@ public class HandOver extends BaseEntity{
 	public void setOddHandOver(Set<OddHandOver> oddHandOver) {
 		this.oddHandOver = oddHandOver;
 	}
+	@OneToMany(mappedBy = "handOver", fetch = FetchType.LAZY)
+	public Set<PumPackHandOver> getPumPackHandOver() {
+		return PumPackHandOver;
+	}
+	public void setPumPackHandOver(Set<PumPackHandOver> pumPackHandOver) {
+		PumPackHandOver = pumPackHandOver;
+	}
+
+
 	
 }

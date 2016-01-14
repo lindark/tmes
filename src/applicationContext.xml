@@ -180,6 +180,8 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.RepairPiece</value>
 				<value>cc.jiuyi.entity.RepairinPiece</value>
 				<value>cc.jiuyi.entity.ReworkRecord</value>
+				<value>cc.jiuyi.entity.OddHandOver</value>
+				<value>cc.jiuyi.entity.PumPackHnadOver</value>
 			</list>
 		</property>
 	</bean>

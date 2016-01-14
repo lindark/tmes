@@ -42,12 +42,17 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		for(HandOverProcess p : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterialCode());//物料编码
-			Integer amount = ThinkWayUtil.null2o(p.getAmount());
-			Integer repairamount = ThinkWayUtil.null2o(p.getRepairAmount());
-			amount = amount + repairamount;
-			item.put("ZSFSL", amount.toString());//数量
-			item.put("ORDERID1", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
-			item.put("ORDERID2", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
+			if(p.getActualAmount()!=null){
+				Double amounts =  ThinkWayUtil.null2o(p.getActualAmount());
+				item.put("ZSFSL", amounts.toString());//数量
+			}else{
+				Integer amount = ThinkWayUtil.null2o(p.getAmount());
+				Integer repairamount = ThinkWayUtil.null2o(p.getRepairAmount());
+				amount = amount + repairamount;
+				item.put("ZSFSL", amount.toString());//数量
+			}
+			item.put("ORDERID1", p.getBeforworkingbill().getWorkingBillCode());//上班随工单
+			item.put("ORDERID2", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
 			item.put("XUH", p.getId());
 			item.put("WERKS", p.getBeforworkingbill().getWerks());//工厂
 			item.put("LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());

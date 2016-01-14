@@ -36,10 +36,12 @@ public class HandOverProcess extends BaseEntity{
     private String materialName;//物料名称
     private String processid;//工序id
     private Integer repairAmount;//返修交接数量
+   
     /*冗余字段*/
     private String processName;//工序名称
     private String beforworkingbillCode;//上班随工单编码
     private String afterworkingbillCode;//下班随工单
+    private Double actualAmount;//实际零头数交接数量
     /*冗余字段end*/
     //private Material material;//物料组件
     private WorkingBill afterworkingbill;//下班随工单
@@ -191,6 +193,13 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setRepairAmount(Integer repairAmount) {
 		this.repairAmount = repairAmount;
+	}
+	@Transient
+	public Double getActualAmount() {
+		return actualAmount;
+	}
+	public void setActualAmount(Double actualAmount) {
+		this.actualAmount = actualAmount;
 	}
 
 	

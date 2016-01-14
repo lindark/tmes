@@ -3,22 +3,31 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
+
+
+
 
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 
+
+
+
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 
@@ -31,6 +40,8 @@ public class HandOverAction extends BaseAdminAction {
 	private List<WorkingBill> workingbillList;
 	private String cardnumber;
 	private String loginid;//当前登录人的ID
+	private String[] workingBillIds;//零头数交接Id
+	private String[] actualMounts;//零头数交接数量
 	
 	@Resource
 	private AdminService adminservice;
@@ -44,6 +55,8 @@ public class HandOverAction extends BaseAdminAction {
 	private KaoqinService kaoqinservice;
 	@Resource
 	private HandOverService handOverService;
+	@Resource
+	private OddHandOverService oddHandOverService;
 	
 	/**
 	 * 刷卡提交
@@ -66,8 +79,16 @@ public class HandOverAction extends BaseAdminAction {
 			}
 		}
 		
+		List<OddHandOver> oddHandOverList = oddHandOverService.getList("workingBill.id", workingbillIdList);
+		for(OddHandOver oddHandOver : oddHandOverList){
+			String state = oddHandOver.getState();
+			if(!state.equals("2")){//如果状态 不等于 审批完成
+				return ajaxJsonErrorMessage("对不起，有零头交接未交接完成!");
+			}
+		}
+		
 		/**主表修改状态和修改人**/
-		handOverService.saveandgx(admin,handoverprocessList);
+		handOverService.saveandgx(admin,handoverprocessList,oddHandOverList);
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 	
@@ -87,6 +108,7 @@ public class HandOverAction extends BaseAdminAction {
 		if(handoverprocessList == null){
 			return ajaxJsonErrorMessage("未找到任何交接记录");
 		}
+		List<OddHandOver> oddHandOverList = oddHandOverService.getList("workingBill.id", workingbillIdList);
 		try {
 			String mblnr="";
 			String handoverId="";
@@ -105,6 +127,19 @@ public class HandOverAction extends BaseAdminAction {
 				}
 			}
 			
+			for(OddHandOver oddHandOver : oddHandOverList){
+				String state = oddHandOver.getState();
+				if(!state.equals("2")){//如果状态 不等于 审批完成
+					return ajaxJsonErrorMessage("对不起,交接状态未处于确认状态，无法确认!");
+				}
+				String aufnr = oddHandOver.getWorkingBill().getAufnr();//生产订单号
+				if(!aufnrList.contains(aufnr)){
+					HandOver handover = oddHandOver.getHandOver();
+					handoverId = handover.getId();
+					aufnrList.add(aufnr);
+				}
+			}
+			
 			List<HandOverProcess> handoverprocessList01 = null;
 			for(int i=0;i<aufnrList.size();i++){
 				handoverprocessList01 = new ArrayList<HandOverProcess>();
@@ -115,6 +150,18 @@ public class HandOverAction extends BaseAdminAction {
 						if(handoverprocess.getMblnr()!=null){
 							continue;
 						}
+						handoverprocessList01.add(handoverprocess);
+					}
+				}
+				for(int y=0;y<oddHandOverList.size();y++){
+					OddHandOver oddHandOver = oddHandOverList.get(y);
+					if(aufnr.equals(oddHandOver.getWorkingBill().getAufnr())){
+						HandOverProcess handoverprocess = new HandOverProcess();
+						handoverprocess.setMaterialCode(oddHandOver.getMaterialCode()); //物料编码
+						handoverprocess.setActualAmount(oddHandOver.getActualBomMount());//实际零头数交接数量
+						handoverprocess.setAfterworkingbill(workingbillservice.getCodeNext(oddHandOver.getWorkingBill().getWorkingBillCode()));//下班随工单
+						handoverprocess.setBeforworkingbill(oddHandOver.getWorkingBill());//上班随工单
+						handoverprocess.setId(oddHandOver.getId());//id
 						handoverprocessList01.add(handoverprocess);
 					}
 				}
@@ -172,6 +219,22 @@ public class HandOverAction extends BaseAdminAction {
 
 	public void setLoginid(String loginid) {
 		this.loginid = loginid;
+	}
+
+	public String[] getWorkingBillIds() {
+		return workingBillIds;
+	}
+
+	public void setWorkingBillIds(String[] workingBillIds) {
+		this.workingBillIds = workingBillIds;
+	}
+
+	public String[] getActualMounts() {
+		return actualMounts;
+	}
+
+	public void setActualMounts(String[] actualMounts) {
+		this.actualMounts = actualMounts;
 	}
 	
 	

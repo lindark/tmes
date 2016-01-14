@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import cc.jiuyi.util.ThinkWayUtil;
@@ -30,6 +31,7 @@ public class Bom extends BaseEntity{
 	private String shift;//班次
 	private String isDel;//是否删除
 	private String effectiveDate;//生效日期
+	
 	
 	/**冗余**/
 	private Double xtestAmount;

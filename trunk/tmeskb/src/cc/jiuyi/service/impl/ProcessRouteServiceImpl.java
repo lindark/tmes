@@ -77,7 +77,19 @@ public class ProcessRouteServiceImpl extends BaseServiceImpl<ProcessRoute, Strin
 	public String getProcess(List<String> processRouteIdList,String steus) {
 		return processroutedao.getProcess(processRouteIdList,steus);
 	}
+
+	public List<Object[]> getMaxVersion1(String workcenter){
+		return processroutedao.getMaxVersion1(workcenter);
+	}
 	
+	
+	public List<Object[]> getMaxVersion(List<String> orderidList){
+		return processroutedao.getMaxVersion(orderidList);
+	}
+	
+	public ProcessRoute getProcessRoute(Integer version,String orderid){
+		return processroutedao.getProcessRoute(version, orderid);
+	}
 	 public String getProcessName(String processCode){
     	 return processroutedao.getProcessName(processCode);
      }

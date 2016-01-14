@@ -24,6 +24,7 @@ import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.BrandService;
 import cc.jiuyi.service.DictService;
@@ -38,6 +39,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 //import org.springmodules.cache.annotations.CacheFlush;
 import org.springmodules.cache.annotations.Cacheable;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 
 /**
  * Service实现类 - 随工单
@@ -56,7 +59,10 @@ public class WorkingBillServiceImpl extends
 	private ProcessRouteService processrouteservice;
 	@Resource
 	private BomService bomservice;
-
+	@Resource
+	private AdminService adminservice;
+	@Resource
+	private OrdersService ordersservice;
 	@Resource
 	public void setBaseDao(WorkingBillDao workingbilldao) {
 		super.setBaseDao(workingbilldao);
@@ -85,12 +91,11 @@ public class WorkingBillServiceImpl extends
 		String productDate = admin.getProductDate();//生产日期
 		String shift = admin.getShift();//班次
 		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
-		String steus = "PP01";//关键工序
 		List<Orders> orderList = orderservice.findOrders(productDate);
 		List<String> aufnrList = new ArrayList<String>();
 		for(Orders orders : orderList){
 			Integer maxversion = processrouteservice.getMaxVersion(orders.getId(), productDate);
-			Orders orders1 = orderservice.findOrders(productDate, maxversion, steus, workcenter);
+			Orders orders1 = orderservice.findOrders(productDate, maxversion,workcenter,orders.getId());
 			if(orders1 == null)
 				continue;
 			aufnrList.add(orders1.getAufnr());
@@ -128,23 +133,6 @@ public class WorkingBillServiceImpl extends
 		return workingbilldao.findListWorkingBill(productsid, productDate, shift);
 	}
 	
-	/**
-	 * 根据随工单id 获取下一随工单
-	 * @param workingBillid
-	 * @return
-	 */
-	public WorkingBill getNextWorkingBill(String workingBillid) {
-		WorkingBill workingbill = workingbilldao.get(workingBillid);
-		String productdate = workingbill.getProductDate();//生产日期
-		String workingcode = workingbill.getWorkingBillCode();//随工单id
-		String laststr = workingcode.substring(workingcode.length()-1, workingcode.length());//获取最后一个值
-		String beforestr = workingcode.substring(0,workingcode.length()-1);
-		Integer last = Integer.parseInt(laststr)+1;
-		laststr = last.toString();
-		String str = beforestr + laststr;
-		//workingbilldao.isExist("workingBillCode", value)
-		return null;
-	}
 
 	@Cacheable(modelId = "flushing")
 	public void updateWorkingBill(WorkingBill workingbill) {
@@ -156,7 +144,43 @@ public class WorkingBillServiceImpl extends
 	 */
 	@Cacheable(modelId = "caching")
 	public WorkingBill getCodeNext(String workingbillCode){
-		return workingbilldao.getCodeNext(workingbillCode);
+		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
+		admin = adminservice.get(admin.getId());
+		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();
+		WorkingBill workingbill00 = workingbilldao.get("workingBillCode",workingbillCode);
+		String productDate = workingbill00.getProductDate();
+		String lastChar = workingbillCode.substring(workingbillCode.length()-1, workingbillCode.length());
+		String firstChar = workingbillCode.substring(0,workingbillCode.length()-1);
+		Integer lastChar00 = Integer.parseInt(lastChar)+1;//最后一位字符串+1 拿去随工单表中找
+		String char00 = firstChar + lastChar00;//拼接下一随工单
+		WorkingBill workingbill = this.get("workingBillCode", char00);
+		if(workingbill == null){
+			Date date = ThinkWayUtil.formatStringDate(productDate);
+			date = DateUtils.addDays(date, 1);//日期+ 1天
+			List<Orders> ordersList = ordersservice.findOrders(ThinkWayUtil.formatdateDate(date));
+			List<String> ordersId = new ArrayList<String>();
+			for(int i=0;i<ordersList.size();i++){
+				Orders orders = ordersList.get(i);
+				ordersId.add(orders.getId());
+			}
+			List<Object[]> objList = processrouteservice.getMaxVersion(ordersId);
+			List<String> aufnrList = new ArrayList<String>();
+			for(int i=0;i<objList.size();i++){
+				Object[] obj = objList.get(i);
+				Integer version = Integer.parseInt(obj[0] == null ? "0":obj[0].toString());
+				String orderid = obj[1].toString();
+				ProcessRoute processroute = processrouteservice.getProcessRoute(version, orderid);
+				String workcenter00 = processroute.getWorkCenter() == null ? "" : processroute.getWorkCenter();
+				if(workcenter00.equals(workcenter)){//两个工作中心匹配
+					aufnrList.add(processroute.getOrders().getAufnr());
+				}
+			}
+			if(aufnrList.size() <=0)
+				workingbill = null;
+			else
+				workingbill = workingbilldao.getCodeNext(workingbillCode,aufnrList);
+		}
+		return workingbill;
 	}
 
 	@Override
@@ -326,6 +350,7 @@ public class WorkingBillServiceImpl extends
 				Orders orders = orderservice.get("aufnr",order.getAufnr());
 				bom00.setVersion(maxversion+1);
 				bom00.setOrders(orders);
+				bom00.setProductAmount(Double.parseDouble(orders.getGamng()));//将生产数量写入到Bom表中
 				bomservice.save(bom00);
 			}
 		}

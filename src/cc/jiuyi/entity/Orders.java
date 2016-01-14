@@ -37,6 +37,7 @@ public class Orders extends BaseEntity{
 	private String gamng;//订单数量
 	private String gstrp;//订单开始日期
 	private String gltrp;//订单结束日期
+	private String mujuntext;//长文本
 	private Set<Bom> bomSet;//Bom集合
 	private Set<ProcessRoute> processrouteSet;
 	
@@ -119,6 +120,12 @@ public class Orders extends BaseEntity{
 	}
 	public void setGltrp(String gltrp) {
 		this.gltrp = gltrp;
+	}
+	public String getMujuntext() {
+		return mujuntext;
+	}
+	public void setMujuntext(String mujuntext) {
+		this.mujuntext = mujuntext;
 	}
 	
 }

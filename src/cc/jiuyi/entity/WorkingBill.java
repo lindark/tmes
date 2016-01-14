@@ -39,6 +39,7 @@ public class WorkingBill extends BaseEntity {
 	private Integer bomversion;//BOM版本
 	private Integer processversion;//工艺路线版本
 	private String aufnr;//订单号
+	private String workcenter;//工作中心
 	
 
 	private Set<EnteringwareHouse> enteringwareHouse;
@@ -349,6 +350,14 @@ public class WorkingBill extends BaseEntity {
 
 	public void setRepairamount(Integer repairamount) {
 		this.repairamount = repairamount;
+	}
+
+	public String getWorkcenter() {
+		return workcenter;
+	}
+
+	public void setWorkcenter(String workcenter) {
+		this.workcenter = workcenter;
 	}
 	@OneToMany(mappedBy = "workingBill", fetch = FetchType.LAZY)
 	public Set<OddHandOver> getOddHandOverSet() {

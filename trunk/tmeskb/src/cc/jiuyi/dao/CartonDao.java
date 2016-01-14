@@ -1,18 +1,19 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
-import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Carton;
-import cc.jiuyi.entity.Material;
-
 /**
  * Dao接口 纸箱
  */
-public interface CartonDao extends BaseDao<Carton, String> {
-	public Pager getCartonPager(Pager pager, HashMap<String, String> map,
-			String workingbillId);
+public interface CartonDao extends BaseDao<Carton, String>
+{
+	
+	/**
+	 * jqgrid查询
+	 */
+	public Pager getCartonPager(Pager pager);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 

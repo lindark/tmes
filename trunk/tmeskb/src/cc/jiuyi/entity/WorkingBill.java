@@ -4,14 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 实体类 - 随工单
@@ -45,7 +39,6 @@ public class WorkingBill extends BaseEntity {
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Rework> rework;//返工
     private Set<DailyWork> dailyWork;
-    private Set<Carton> carton;
     private Set<Repair> repair;
     private Set<Repairin> repairin;
     private Set<HandOverProcess> afterhandoverprocessSet;//交下班
@@ -106,15 +99,6 @@ public class WorkingBill extends BaseEntity {
 
 	public void setRepair(Set<Repair> repair) {
 		this.repair = repair;
-	}
-
-	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
-    public Set<Carton> getCarton() {
-		return carton;
-	}
-
-	public void setCarton(Set<Carton> carton) {
-		this.carton = carton;
 	}
 
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)

@@ -71,7 +71,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private GrantedAuthority[] authorities;// 角色信息
 	private Department department;// 部门
 
-	private Set<Carton> cartonConfirmUser;// 纸箱收货确认人
 	private Set<DailyWork> dailyWorkConfirmUser;// 报工确认人
 	private Set<EnteringwareHouse> enteringwareHouseConfirmUser;// 入库确认人
 	private Set<Repairin> repairinConfirmUser;// 返修收货确认人
@@ -80,7 +79,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Pollingtest> pollingtestConfirmUser;//巡检确认人
 	private Set<Repairin> repairinCreateUser;// 返修收货创建人
 	private Set<Repair> repairCreateUser;// 返修创建人
-	private Set<Carton> cartonCreateUser;// 纸箱收货创建人
 	private Set<DailyWork> dailyWorkCreateUser;// 报工创建人
 	private Set<EnteringwareHouse> enteringwareHouseCreateUser;// 入库创建人
 	private Set<Dump> dumpCreateUser;//转储创建人
@@ -112,10 +110,13 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Scrap> scrapcomfirmationSet;//确认人
 	private Set<KaoqinBrushCardRecord>kaoqinBCR;//开启考勤记录
 	private Set<Team> teamSet;//班组
+	private Set<Carton> cartonCreateUser;// 纸箱收货主表创建人
+	private Set<Carton> cartonConfirmUser;// 纸箱收货主表确认人
 
 	private Post post;//技能
 	private String workstate;//状态1，考勤：添加代班员工时用到
 	private String isdaiban;//是否代班
+	
 	//假字段
 	private String xworkstate;//员工工作状态描述
 	private String xshift;//班次
@@ -964,8 +965,4 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setTeamSet(Set<Team> teamSet) {
 		this.teamSet = teamSet;
 	}
-
-	
-	
-	
 }

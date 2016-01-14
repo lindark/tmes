@@ -380,6 +380,9 @@ public class ScrapAction extends BaseAdminAction
 			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
 				Scrap s=xlist_scrap.get(i);
+				Admin a=this.adminService.getByCardnum(cardnumber);
+				s.setLgort(a.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
+				s.setWerks(a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				/**确认操作*/
 				if(xmyid==1)
 				{

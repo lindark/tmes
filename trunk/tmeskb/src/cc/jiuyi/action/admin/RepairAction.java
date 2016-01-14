@@ -142,15 +142,14 @@ public class RepairAction extends BaseAdminAction {
 			{
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
-			if (UNDO.equals(repair.getState())) 
+			/*if (UNDO.equals(repair.getState())) 
 			{
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
-			}
+			}*/
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, CONFIRMED, workingBillId, cardnumber);//修改当前随工返修的累计数量
+		String str=toSAP(list);//与SAP
 		workingbill = workingBillService.get(workingBillId);
-		String str=toSAP(list);
 		String isSuccess=ERROR;
 		if("S".equals(str))
 		{
@@ -433,7 +432,10 @@ public class RepairAction extends BaseAdminAction {
 			for (int i = 0; i < list.size(); i++)
 			{
 				Repair r = list.get(i);
-				List<RepairPiece> listrp = new ArrayList<RepairPiece>(r.getRpieceSet());// 取出对应的组件
+				Admin a= adminService.getByCardnum(cardnumber);
+				r.setLGORT(a.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
+				r.setWERKS(a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+				List<RepairPiece> listrp =new ArrayList<RepairPiece>(r.getRpieceSet());// 取出对应的组件
 				if (listrp.size() > 0)
 				{
 					/**有组件数据,进行SAP交互*/
@@ -447,13 +449,13 @@ public class RepairAction extends BaseAdminAction {
 					else
 					{
 						/** 与SAP交互没有问题,更新本地数据库 */
-						this.repairService.updateMyData(r_sapreturn, cardnumber,1);
+						this.repairService.updateMyData(r_sapreturn, cardnumber,1,workingBillId);
 					}
 				}
 				else
 				{
 					/**没有组件数据,只把状态改为确认*/
-					this.repairService.updateMyData(r, cardnumber,2);
+					this.repairService.updateMyData(r, cardnumber,2,"");
 				}
 			}
 		}

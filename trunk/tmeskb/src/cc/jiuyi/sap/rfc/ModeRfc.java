@@ -9,5 +9,5 @@ import cc.jiuyi.entity.Model;
 import cc.jiuyi.util.CustomerException;
 
 public interface ModeRfc extends BaserfcService{
-	public String ModelCrt(Model model,List<DeviceStep> step,List<DeviceModlue> module) throws IOException,CustomerException;
+	public String ModelCrt(String iscrtOrchange,Model model,List<DeviceStep> step,List<DeviceModlue> module) throws IOException,CustomerException;
 }

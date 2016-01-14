@@ -91,7 +91,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	 * 1.与SAP交互没有问题,更新本地数据库
 	 * 2.确认
 	 */
-	public void updateMyData(Repairin repairin,String cardnumber,int my_id)
+	public void updateMyData(Repairin repairin,String cardnumber,int my_id,String wbid)
 	{
 		Repairin r=this.repairinDao.get(repairin.getId());//根据id查询
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
@@ -103,6 +103,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			r.setE_TYPE(repairin.getE_TYPE());//返回类型：成功S/失败E
 			r.setE_MESSAGE(repairin.getE_MESSAGE());//返回消息
 			r.setEX_MBLNR(repairin.getEX_MBLNR());//返回物料凭证
+			WorkingBill wb = workingbillService.get(wbid);
+			wb.setRepairamount(Integer.parseInt(ArithUtil.add(repairin.getReceiveAmount(), wb.getCartonTotalAmount())+""));
+			this.workingbillService.update(wb);
 		}
 		this.repairinDao.update(r);
 	}
@@ -141,8 +144,6 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		repairin.setCreateUser(admin);
 		repairin.setCreateDate(new Date());//创建日期
 		repairin.setModifyDate(new Date());//修改日期
-		repairin.setLGORT(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
-		repairin.setWERKS(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		repairin.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repairin.setBUDAT(wb.getProductDate());//过账日期
 		String rid=this.repairinDao.save(repairin);

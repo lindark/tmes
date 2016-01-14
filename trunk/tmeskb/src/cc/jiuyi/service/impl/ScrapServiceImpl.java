@@ -71,8 +71,6 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setCreater(admin);//提交人
 		scrap.setCreateDate(new Date());//初始化创建日期
 		scrap.setModifyDate(new Date());//初始化修改日期
-		scrap.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
-		scrap.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		scrap.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		scrap.setBudat(wb.getProductDate());//过账日期
 		String scrapId=this.scrapDao.save(scrap);

@@ -1,6 +1,5 @@
 package cc.jiuyi.service.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.BomDao;
-import cc.jiuyi.dao.OrdersDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.Orders;
@@ -92,6 +90,26 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	@Override
 	public String getMaterialName(String materialCode) {
 		return bomDao.getMaterialName(materialCode);
+	}
+
+
+	/**
+	 * 根据订单号,生产日期,以"5"开关的查询
+	 */
+	public Bom getBomByConditions(String aufnr, String productDate, String num)
+	{
+		Orders orders = orderservice.get("aufnr",aufnr);
+		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
+		List<Bom>list=bomDao.getBomList(aufnr, maxversion);
+		for(int i=0;i<list.size();i++)
+		{
+			Bom bom = list.get(i);
+			if(bom.getMaterialCode().startsWith("5"))
+			{
+				return bom;
+			}	
+		}
+		return null;
 	}
 	
 }

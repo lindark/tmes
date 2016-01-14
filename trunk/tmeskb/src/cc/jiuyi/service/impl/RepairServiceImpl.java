@@ -69,12 +69,10 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repair repair = list.get(i);
-			if (statu.equals("1")) {
-				totalamount = repair.getRepairAmount() + totalamount;
-			}
-			if (statu.equals("3") && repair.getState().equals("1")) {
+			totalamount = repair.getRepairAmount() + totalamount;
+			/*if (statu.equals("3") && repair.getState().equals("1")) {
 				totalamount -= repair.getRepairAmount();
-			}
+			}*/
 			//repair.setConfirmUser(admin);
 			//repairDao.update(repair);
 		}
@@ -90,7 +88,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Repair repair,String cardnumber,int my_id)
+	public void updateMyData(Repair repair,String cardnumber,int my_id,String wbid)
 	{
 		Repair r=this.repairDao.get(repair.getId());//根据id查询
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
@@ -102,6 +100,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			r.setE_TYPE(repair.getE_TYPE());//返回类型：成功S/失败E
 			r.setE_MESSAGE(repair.getE_MESSAGE());//返回消息
 			r.setEX_MBLNR(repair.getEX_MBLNR());//返回物料凭证
+			WorkingBill wb = workingbillService.get(wbid);
+			wb.setRepairamount(Integer.parseInt(ArithUtil.sub(wb.getCartonTotalAmount(),repair.getRepairAmount())+""));
+			this.workingbillService.update(wb);
 		}
 		this.repairDao.update(r);
 	}
@@ -140,8 +141,6 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		repair.setCreateUser(admin);
 		repair.setCreateDate(new Date());//创建日期
 		repair.setModifyDate(new Date());//修改日期
-		repair.setLGORT(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
-		repair.setWERKS(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		repair.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repair.setBUDAT(wb.getProductDate());//过账日期
 		String rid=this.repairDao.save(repair);

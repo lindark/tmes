@@ -108,6 +108,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			order.setGamng(table02.getString("GAMNG"));//订单数量
 			order.setGstrp(table02.getString("GSTRP"));//订单开始日期
 			order.setGltrp(table02.getString("GLTRP"));//订单结束日期
+			order.setMujuntext(table02.getString("TEXT"));//长文本
 			if(table02.getString("LOEKZ").equals("X")){//删除标记
 				order.setIsdel("Y");
 			}else{

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.sap.mw.jco.JCO.ParameterList;
 
 import cc.jiuyi.entity.DeviceModlue;
@@ -15,7 +17,7 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 import cc.jiuyi.util.ThinkWayUtil;
-
+@Component
 public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 
 	@Override

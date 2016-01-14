@@ -59,6 +59,7 @@ public class Model extends BaseEntity{
 	private String ORDER_TYPE;//订单类型
 	private String URGRP;//原因代码组
 	private String URCOD;//原因代码
+	private String orderNo;//订单号
     		
 	public String getSHORT_TEXT() {
 		return SHORT_TEXT;
@@ -282,6 +283,12 @@ public class Model extends BaseEntity{
 	}
 	public void setEquipments(Equipments equipments) {
 		this.equipments = equipments;
+	}
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 	
 	

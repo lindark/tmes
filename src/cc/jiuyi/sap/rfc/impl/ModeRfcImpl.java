@@ -21,14 +21,20 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 
 	@Override
-	public String ModelCrt(Model model, List<DeviceStep> step,
+	public String ModelCrt(String iscrtOrchange,Model model, List<DeviceStep> step,
 			List<DeviceModlue> module) throws IOException, CustomerException {
 		super.setProperty("model");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("IS_CREATE", iscrtOrchange);//创建还是修改
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel IT_HEADER_DATA = new TableModel();
 		IT_HEADER_DATA.setData("IT_HEADER_DATA");//表名
+		String orderno="";
 		HashMap<String,Object> header = new HashMap<String,Object>();
+		orderno=model.getOrderNo();
+		header.put("ORDERID", model.getOrderNo());//订单号
 		header.put("EQUIPMENT", model.getEquipments().getEquipmentNo());//设备编号
 		header.put("SHORT_TEXT", model.getSHORT_TEXT());//短文本
 		header.put("START_DATE",ThinkWayUtil.formatDateByPattern(model.getCreateDate(),"yyyy-MM-dd"));//开始日期
@@ -60,6 +66,7 @@ public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 			item_gx.put("WORK_ACTIVITY", d.getWork_activity());//
 			item_gx.put("DURATION_NORMAL", d.getDuration());//
 			item_gx.put("WERKS", d.getWerks());//工厂
+			item_gx.put("ORDERID", orderno);//
 			arrList1.add(item_gx);
 		}
 		IT_ITEM_GX.setList(arrList1);
@@ -75,6 +82,7 @@ public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 			item_zj.put("POSTP", dm.getPostp());//项目类型
 			item_zj.put("MEINS", dm.getMeins());//基本单位
 			item_zj.put("VORNR", dm.getVornr());//工序
+			item_zj.put("ORDERID", orderno);//
 			arrList2.add(item_zj);
 		}
 		IT_ITEM_ZJ.setList(arrList2);

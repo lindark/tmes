@@ -34,6 +34,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	
 	private String[] workingBillIds;
 	private Double[] actualMounts;
+	private Double[] unMounts;
 	private String cardnumber;//刷卡卡号
 	private Admin admin;
 	
@@ -56,73 +57,79 @@ public class OddHandOverAction extends BaseAdminAction {
 		
 		//获取维护物料信息
 		List<Material> materialList = materialService.getAll();
-		if(materialList != null && materialList.size()>0){
-			if(actualMounts!=null && actualMounts.length>0){
-				for(int i=0;i<actualMounts.length;i++){
-					if(actualMounts[i]!=null && !"".equals(actualMounts[i])){
-						//获取随工单 
-						WorkingBill wb = workingBillService.get(workingBillIds[i]);
-						
-						//若存在先删除
-						Set<OddHandOver> ohoSet = wb.getOddHandOverSet();
-						if(ohoSet!=null && ohoSet.size()>0){
-							for(OddHandOver oho : ohoSet){
-								oddHandOverService.delete(oho);
-							}
-						}
-						
-						//获取Bom
-						String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
-						List<Bom> bomList = bomService.findBom(aufnr, wb.getProductDate());
-						if(bomList == null || bomList.size()<=0){
-							//addActionError("未找到一条BOM信息");
-							return ajaxJsonErrorMessage("未找到一条BOM信息");
-						}
-						
-						//删除Bom中未维护物料
-						List<Bom> bmls = new ArrayList<Bom>();
-						for(Bom bm : bomList){
-							for(Material mt : materialList){
-								if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactory().getFactoryCode())){
-									bmls.add(bm);
-									break;
+			if(materialList!=null && materialList.size()>0){
+						for(int i=0;i<actualMounts.length;i++){
+							if((actualMounts[i]!=null && !"".equals(actualMounts[i])) || (unMounts[i]!=null && !"".equals(unMounts[i]))){
+								//获取随工单 
+								WorkingBill wb = workingBillService.get(workingBillIds[i]);
+								
+								//若存在先删除
+								Set<OddHandOver> ohoSet = wb.getOddHandOverSet();
+								if(ohoSet!=null && ohoSet.size()>0){
+									for(OddHandOver oho : ohoSet){
+										oddHandOverService.delete(oho);
+									}
+								}
+								
+								//获取Bom
+								String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+								List<Bom> bomList = bomService.findBom(aufnr, wb.getProductDate());
+								if(bomList == null || bomList.size()<=0){
+									//addActionError("未找到一条BOM信息");
+									return ajaxJsonErrorMessage("未找到一条BOM信息");
+								}
+								
+								//删除Bom中未维护物料
+								List<Bom> bmls = new ArrayList<Bom>();
+								for(Bom bm : bomList){
+									for(Material mt : materialList){
+										if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactory().getFactoryCode())){
+											bmls.add(bm);
+											break;
+										}
+									}
+								}
+								 
+								//通过交接数量，计算bom实际数量
+								if(bmls.size()>0){
+									Set<OddHandOver> ohoSets = new HashSet<OddHandOver>();
+									for(Bom bm : bmls){
+										OddHandOver oho = new OddHandOver();
+										if(actualMounts[i]!=null && !"".equals(actualMounts[i])){
+											Double mount = actualMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
+											BigDecimal   b   =   new   BigDecimal(mount);  
+											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
+											oho.setActualBomMount(mount);
+										}
+										//获取提交人
+										if(admin == null){
+											admin = new Admin();
+										}
+										admin = adminService.getByCardnum(cardnumber);
+										oho.setSubmitCode(admin.getCardNumber());
+										oho.setSureName(admin.getName());
+										oho.setWorkingBill(wb);
+										oho.setActualHOMount(actualMounts[i]);
+										
+										oho.setState("1");
+										oho.setMaterialCode(bm.getMaterialCode());
+										if(unMounts[i]!=null && !"".equals(unMounts[i])){
+											Double mount = unMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
+											BigDecimal   b   =   new   BigDecimal(mount);  
+											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
+											oho.setUnHOMount(mount);
+										}
+										oddHandOverService.save(oho);
+										ohoSets.add(oho);
+									}
+									wb.setOddHandOverSet(ohoSets);
+									workingBillService.update(wb);
+								}else{
+									//addActionError("没有找到可交接记录");
+									return ajaxJsonErrorMessage("没有找到可交接记录");
 								}
 							}
 						}
-						 
-						//通过交接数量，计算bom实际数量
-						if(bmls.size()>0){
-							Set<OddHandOver> ohoSets = new HashSet<OddHandOver>();
-							for(Bom bm : bmls){
-								OddHandOver oho = new OddHandOver();
-								Double mount = actualMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
-								BigDecimal   b   =   new   BigDecimal(mount);  
-								mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
-								//获取提交人
-								if(admin == null){
-									admin = new Admin();
-								}
-								admin = adminService.getByCardnum(cardnumber);
-								oho.setSubmitCode(admin.getCardNumber());
-								oho.setSureName(admin.getName());
-								oho.setWorkingBill(wb);
-								oho.setActualHOMount(actualMounts[i]);
-								oho.setActualBomMount(mount);
-								oho.setState("1");
-								oho.setMaterialCode(bm.getMaterialCode());
-								oddHandOverService.save(oho);
-								ohoSets.add(oho);
-							}
-							wb.setOddHandOverSet(ohoSets);
-							workingBillService.update(wb);
-						}else{
-							//addActionError("没有找到可交接记录");
-							return ajaxJsonErrorMessage("没有找到可交接记录");
-						}
-					}
-				}
-			}
-			
 		}else{
 			//addActionError("未维护物料信息");
 			//return ERROR;
@@ -188,6 +195,14 @@ public class OddHandOverAction extends BaseAdminAction {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
+	}
+
+	public Double[] getUnMounts() {
+		return unMounts;
+	}
+
+	public void setUnMounts(Double[] unMounts) {
+		this.unMounts = unMounts;
 	}
 	
 

@@ -11,7 +11,11 @@ import javax.annotation.Resource;
 
 
 
+
+
 import org.apache.struts2.convention.annotation.ParentPackage;
+
+
 
 
 
@@ -21,6 +25,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.PumPackHandOver;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
@@ -28,6 +33,7 @@ import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.PumPackHandOverService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 
@@ -57,6 +63,8 @@ public class HandOverAction extends BaseAdminAction {
 	private HandOverService handOverService;
 	@Resource
 	private OddHandOverService oddHandOverService;
+	@Resource
+	private PumPackHandOverService pumPackHandOverService;
 	
 	/**
 	 * 刷卡提交
@@ -87,6 +95,14 @@ public class HandOverAction extends BaseAdminAction {
 			}
 		}
 		
+		/*List<PumPackHandOver> ppohoList = pumPackHandOverService.getList("workingBill.id", workingbillIdList);
+		for(PumPackHandOver pumPackHandOver : ppohoList){
+			String state = pumPackHandOver.getState();
+			if(!state.equals("2")){//如果状态 不等于 审批完成
+				return ajaxJsonErrorMessage("对不起，有抽包异常交接未交接完成!");
+			}
+		}*/
+		
 		/**主表修改状态和修改人**/
 		handOverService.saveandgx(admin,handoverprocessList,oddHandOverList);
 		return ajaxJsonSuccessMessage("您的操作已成功");
@@ -109,6 +125,7 @@ public class HandOverAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("未找到任何交接记录");
 		}
 		List<OddHandOver> oddHandOverList = oddHandOverService.getList("workingBill.id", workingbillIdList);
+		//List<PumPackHandOver> ppohoList = pumPackHandOverService.getList("workingBill.id", workingbillIdList);
 		try {
 			String mblnr="";
 			String handoverId="";
@@ -130,7 +147,7 @@ public class HandOverAction extends BaseAdminAction {
 			for(OddHandOver oddHandOver : oddHandOverList){
 				String state = oddHandOver.getState();
 				if(!state.equals("2")){//如果状态 不等于 审批完成
-					return ajaxJsonErrorMessage("对不起,交接状态未处于确认状态，无法确认!");
+					return ajaxJsonErrorMessage("对不起,零头数交接状态未处于确认状态，无法确认!");
 				}
 				String aufnr = oddHandOver.getWorkingBill().getAufnr();//生产订单号
 				if(!aufnrList.contains(aufnr)){
@@ -139,6 +156,22 @@ public class HandOverAction extends BaseAdminAction {
 					aufnrList.add(aufnr);
 				}
 			}
+			
+
+			/*for(PumPackHandOver pumPackHandOver : ppohoList){
+				String state = pumPackHandOver.getState();
+				if(!state.equals("2")){//如果状态 不等于 审批完成
+					return ajaxJsonErrorMessage("对不起,抽包交接状态未处于确认状态，无法确认!");
+				}
+				String aufnr = pumPackHandOver.getWorkingBill().getAufnr();//生产订单号
+				if(!aufnrList.contains(aufnr)){
+					HandOver handover = pumPackHandOver.getHandOver();
+					handoverId = handover.getId();
+					aufnrList.add(aufnr);
+				}
+			}*/
+			
+			
 			
 			List<HandOverProcess> handoverprocessList01 = null;
 			for(int i=0;i<aufnrList.size();i++){

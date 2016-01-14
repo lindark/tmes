@@ -26,7 +26,7 @@ public interface OrdersService extends BaseService<Orders, String> {
 	 * @param workcenter
 	 * @return
 	 */
-	public Orders findOrders(String productDate,Integer maxversion,String steus,String workcenter);
+	public Orders findOrders(String productDate,Integer maxversion,String workcenter,String ordersid);
 	
 	/**
 	 * 获取生产订单的集合
@@ -34,4 +34,7 @@ public interface OrdersService extends BaseService<Orders, String> {
 	 * @return
 	 */
 	public List<Orders> findOrders(String productDate);
+	
+	public List<Object[]> findOrders();
+	
 }

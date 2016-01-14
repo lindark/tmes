@@ -311,8 +311,44 @@ public class DeviceAction extends BaseAdminAction {
 		device.setState("0");
 		device.setIsDel("N");
 		device.setWorkshopLinkman(admin);
+
 		
-		deviceService.save(device);
+		
+		List<DeviceStep> step=new ArrayList<DeviceStep>();
+		DeviceStep s=new DeviceStep();
+		s.setVornr("0010");
+		s.setArbpl("2101");//工作中心
+		s.setWerks("1000");//工厂
+		s.setSteus("PM01");//控制码
+		s.setDescription("维修");//工序短文本
+		s.setWork_activity("10");
+		s.setDuration("10");			
+		step.add(s);
+		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
+		device.setORDER_TYPE("PM01");//订单类型
+		device.setCOST("2");
+		device.setBeginTime(new Date());
+		device.setDndTime(new Date());
+		device.setTotalDownTime(5.0);
+		device.setSHORT_TEXT("设备维修单");
+		System.out.println("into");
+		try {				
+			String aufnr=devicerfc.DeviceCrt("0",device,step,module);
+			System.out.println("in");
+			System.out.println("订单号为："+aufnr);
+			device.setOrderNo(aufnr);
+			deviceService.save(device);
+				
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (CustomerException e1) {
+			System.out.println(e1.getMsgDes());
+			e1.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		System.out.println("to");
 		
 		DeviceLog log = new DeviceLog();
 		log.setOperator(admin);
@@ -340,7 +376,7 @@ public class DeviceAction extends BaseAdminAction {
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet","team"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","receiptSet","team","orderNo"});
 		deviceService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -388,7 +424,7 @@ public class DeviceAction extends BaseAdminAction {
 			
 		}
 				
-		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team"});
+		BeanUtils.copyProperties(device, persistent, new String[] { "id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","team","scrapNo","orderNo"});
 		persistent.setState("1");
 		deviceService.update(persistent);
 		
@@ -422,38 +458,21 @@ public class DeviceAction extends BaseAdminAction {
 			if(device.getArrivedTime()==null){
 				return ajaxJsonErrorMessage("到达现场时间不允许为空!");
 			}
-			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team"});
+			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team","scrapNo","orderNo"});
 			persistent.setState("3");
-			
-			
+						
 			DeviceLog log = new DeviceLog();
 			log.setDevice(persistent);
 			log.setOperator(admin);
 			log.setInfo("已关闭");
 		    deviceLogService.save(log);
 			
-			
-			//Device d=persistent;
-			//Equipments e = persistent.getEquipments();
-			//e.setEquipmentNo("JX-B-C0001");
-			//Admin a=new Admin();
-			//a.setName("张三");
-			//d.setSHORT_TEXT("设备维修单");
 			persistent.setSHORT_TEXT("设备维修单");
-			//d.setEquipments(e);
-			//d.setBeginTime(new Date());//开始日期
-			//d.setDndTime(new Date());//结束日期
 			persistent.setCOST("2");
-			//d.setCOST("2");//成本
 			persistent.setORDER_TYPE("PM01");//订单类型
-			//d.setORDER_TYPE("PM01");//订单类型
 			persistent.setTotalDownTime(5.0);//停机时间
 			persistent.setURGRP("PM1");//原因代码组
 			persistent.setURCOD("1001");//原因代码
-			/*d.setTotalDownTime(5.0);//停机时间
-			d.setURGRP("PM1");//原因代码组
-			d.setURCOD("1001");//原因代码
-*/		//	d.setDisposalWorkers(a);
 			List<DeviceStep> step=new ArrayList<DeviceStep>();
 			DeviceStep s=new DeviceStep();
 			s.setVornr("0010");
@@ -473,7 +492,7 @@ public class DeviceAction extends BaseAdminAction {
 			module.add(dm);
 			
 			try {
-				String aufnr=devicerfc.DeviceCrt(persistent, step, module);
+				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);
 				System.out.println("订单号为："+aufnr);
 				persistent.setOrderNo(aufnr);
 				deviceService.update(persistent);

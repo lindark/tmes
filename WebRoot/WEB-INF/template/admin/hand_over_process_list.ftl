@@ -21,6 +21,7 @@
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/manage/handover_list.js"></script>
 
+
 <style type="text/css">
 .ztree li span.button.add {
 	margin-left: 2px;
@@ -33,7 +34,7 @@
 	padding:2px;
 	text-align:center;
 }
-input.handOverMount{
+input.oddhandOverMount,input.unhandOverMount{
 	padding:2px;
 }
 .div_top{
@@ -228,14 +229,15 @@ input.handOverMount{
 													<td class="center">${list.planCount }</td>
 													<td class="center">${list.matnr }</td>
 													<td class="center">${list.workingBillCode }	</td>
-													<#if list.oddHandOverSet!=null>
-														<#list list.oddHandOverSet as loh>
-															<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
-															<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unHOMount }"/></td>
-														<#break>
-														</#list>
+														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
+															<#list list.oddHandOverSet as loh>
+																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
+																<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unHOMount }"/></td>
+															<#break>
+															</#list>
 														<#else>
-														<td class="center"><input type="text" class="handOverMount" name="actualMounts" value=""/></td>
+														<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value=""/></td>
+														<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value=""/></td>
 														</#if>
 												</tr>
 											</#list>

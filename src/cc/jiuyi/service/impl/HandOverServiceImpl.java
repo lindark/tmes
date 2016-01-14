@@ -57,6 +57,12 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 		for(HandOverProcess handoverprocess : handoverprocessList){
 			handoverprocess.setMblnr(mblnr1);
 			handoverprocessservice.update(handoverprocess);
+			OddHandOver oddHandOver = oddHandOverService.get(handoverprocess.getId());
+			if(oddHandOver!=null){
+				oddHandOver.setMblnr(mblnr1);
+				oddHandOverService.update(oddHandOver);
+			}
+			
 		}
 		
 	}

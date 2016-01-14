@@ -71,11 +71,16 @@ body{background:#fff;}
 		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if><#if show??></#if>"	method="post">
 			<input id="rk" type="hidden" name="id" value="${(id)!}" />
 			<input type="hidden" id="workingBillId" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
-			
+			<input type="hidden" id="reworkId" value="${(rework.id)!''}"/>
+			<input type="hidden" id="reworkCount" name="rework.reworkCount" value="${(rework.reworkCount)!}"/>
 			<div id="inputtabs">
 			<ul>
 				<li>
-					<a href="#tabs-1">编辑返工单</a>
+				  <#if show??>
+				     <a href="#tabs-1">查看返工单</a>
+				  <#else>
+				     <a href="#tabs-1">编辑返工单</a>
+				  </#if>			
 				</li>
 				
 			</ul>
@@ -100,44 +105,39 @@ body{background:#fff;}
 				
 
 											<div class="profile-info-row">							  
-												<div class="profile-info-name" >翻包次数</div>
-												<div class="profile-info-value access" data-access-list="reworkCount">
-													<span>${(rework.reworkCount)! }</span>
-												
-												   <label class="requireField">*</label>
-												</div>
-                                                                              
-											 <div class="profile-info-name" >翻包数量</div>
+                                               <div class="profile-info-name" >翻包数量</div>
 												<div class="profile-info-value access" data-access-list="reworkAmount">
 												  <#if show??>
-															<span>${(rework.reworkAmount)! }</span>
+															<span>${(reworkRecord.reworkAmount)! }</span>
 												  <#else>
-													<input type="text" name="rework.reworkAmount" value="${(rework.reworkAmount)!}" class=" input input-sm"/>
+													<input type="text" name="reworkRecord.reworkAmount" value="${(reworkRecord.reworkAmount)!}" class=" input input-sm"/>
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
+												
+												<div class="profile-info-name">缺陷数量</div>
+												<div class="profile-info-value access" data-access-list="defectAmount">
+												<#if show??>
+													 <span>${(reworkRecord.defectAmount)!}</span>
+												  <#else>
+													<input type="text" name="reworkRecord.defectAmount" value="${(reworkRecord.defectAmount)!}" class=" input input-sm" />	
+												</#if>
+												<label class="requireField">*</label>												
+											 </div>
 										 </div>
 
 
 										<div class="profile-info-row">								
-												<div class="profile-info-name">缺陷数量</div>
-												<div class="profile-info-value access" data-access-list="defectAmount">
-												<#if show??>
-													 <span>${(rework.defectAmount)!}</span>
-												  <#else>
-													<input type="text" name="rework.defectAmount" value="${(rework.defectAmount)!}" class=" input input-sm" />	
-												</#if>
-												<label class="requireField">*</label>												
-											 </div>
+												
 
 												<div class="profile-info-name">是否合格</div>
 												<div class="profile-info-value access" data-access-list="isQualified">
 												     <#if show??>
 														<span>${isQualified! }</span>
 													<#else>
-													<select name=rework.isQualified id="form-field-icon-1" class=" {required: true}">
-														<option value="">--</option> <#list allCheck as list>
-														<option value="${list.dictkey}"<#if ((isAdd &&list.isDefault) || (isEdit && rework.isQualified ==list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+													<select name=reworkRecord.isQualified id="form-field-icon-1" class=" {required: true}">
+														<#list allCheck as list>
+														<option value="${list.dictkey}"<#if ((isAdd &&list.dictkey =='N') || (isEdit && reworkRecord.isQualified ==list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
 													</select>
 													</#if>
@@ -151,9 +151,9 @@ body{background:#fff;}
 												<div class="profile-info-name">问题描述:</div>
 												<div class="profile-info-value access" data-access-list="problem">
 												 <#if show??>
-													 <span>${(rework.problem)! }</span>
+													 <span>${(reworkRecord.problem)! }</span>
 												  <#else>
-													<textarea name="rework.problem" style="width:600px;" class="input input-sm">${(rework.problem)!}</textarea>
+													<textarea name="reworkRecord.problem" style="width:600px;" class="input input-sm">${(reworkRecord.problem)!}</textarea>
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -166,9 +166,9 @@ body{background:#fff;}
 												<div class="profile-info-name">整改方案:</div>
 												<div class="profile-info-value access"  data-access-list="rectify">
 												<#if show??>
-													 <span>${(rework.rectify)! }</span>
+													 <span>${(reworkRecord.rectify)! }</span>
 												  <#else>
-													<textarea name="rework.rectify" style="width:600px;" class="input input-sm">${(rework.rectify)!}</textarea>
+													<textarea name="reworkRecord.rectify" style="width:600px;" class="input input-sm">${(reworkRecord.rectify)!}</textarea>
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -181,15 +181,15 @@ body{background:#fff;}
 												<div class="profile-info-name">责任人</div>
 												<div class="profile-info-value access" data-access-list="dutyName">
 												 <#if show??>
-													 <span>${(rework.duty.name)! }</span>
+													 <span>${(reworkRecord.duty.name)! }</span>
 												 <#else>
-												 <input type="hidden" id="adminId" name="rework.duty.id" value="${(rework.duty.id)!}"  class=" input input-sm" readonly="readonly"/>					
+												 <input type="hidden" id="adminId" name="reworkRecord.duty.id" value="${(reworkRecord.duty.id)!}"  class=" input input-sm" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="adminName"></span>
 										         	 <label class="requireField">*</label>	
 										         	 <#else>
-										         	 ${(rework.duty.name)!}    
+										         	 ${(reworkRecord.duty.name)!}    
 										         	 </#if>	
 										         	 </#if>								
 										    </div>
@@ -200,34 +200,14 @@ body{background:#fff;}
 										   <div class="profile-info-name">完工日期</div>
 										     <div class="profile-info-value access" data-access-list="completeDate">
 										      <#if show??>
-													 <span>${(rework.completeDate)! }</span>
+													 <span>${(reworkRecord.completeDate)! }</span>
 											  <#else>
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="rework.completeDate" value="${(rework.completeDate)!}"  onchange=out(this); >
+												<input type="text" class="input-sm form-control datePicker" name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  onchange=out(this); >
 											</div>
 											</#if>
 											</div>						
-									</div>	
-									
-							<!-- 	    <div class="profile-info-row">
-										 <div class="profile-info-name ">是否完工</div>
-												<div class="profile-info-value access" data-access-list="isCompelete">
-												<#if show??>
-													<span>${isCompelete! }</span>
-												<#else>
-													<label class="pull-left inline"> <small
-														class="muted smaller-90">已完工:</small> <input type="radio"
-														class="ace" name="rework.isCompelete" value="Y"<#if
-														(rework.isCompelete == 'Y')!> checked</#if> /> <span
-														class="lbl middle"></span> &nbsp;&nbsp; </label> <label
-														class="pull-left inline"> <small
-														class="muted smaller-90">未完工:</small> <input type="radio"
-														class="ace" name="rework.isCompelete" value="N"<#if
-														(isAdd || rework.isCompelete == 'N')!> checked</#if> /> <span
-														class="lbl middle"></span> </label>
-													</#if>
-											</div>															
-								       </div> -->	   
+									    </div>	
 								</div>
 							</div>
 							
@@ -317,6 +297,7 @@ if(date1.getMilliseconds()>date2.getMilliseconds()){
 }
 
 $(function(){
+	var reworkId = $("#reworkId").val();
 	var ishead=0;
 	$("#ace-settings-btn").click(function(){
 		if(ishead==0){
@@ -331,11 +312,12 @@ $(function(){
 	$("#completeRework").click(function(){	
 		 var dt=$("#inputForm").serialize();
 			var workingBillId = $("#workingBillId").val();
-			var url="rework!creditsubmit.action";
+			var reworkCount = $("#reworkCount").val();
+			var url="rework_record!creditsubmit.action?reworkId="+reworkId+"&workingBillId="+workingBillId+"&reworkCount="+reworkCount;
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){
 					layer.alert(data.message, {icon: 6},function(){
-						window.location.href="rework!list.action?workingBillId="+workingBillId;
+						window.location.href="rework_record!list.action?reworkId="+data.reworkId+"&workingBillId="+workingBillId;
 					}); 
 				}else if(data.status=="error"){
 					layer.alert(data.message, {
@@ -351,11 +333,11 @@ $(function(){
 	$("#checkRework").click(function(){
 		var dt=$("#inputForm").serialize();
 		var workingBillId = $("#workingBillId").val();
-		var url="rework!creditreply.action";
+		var url="rework_record!creditreply.action?reworkId="+reworkId;
 		credit.creditCard(url,function(data){
 			if(data.status=="success"){
 				layer.alert(data.message, {icon: 6},function(){
-					window.location.href="rework!list.action?workingBillId="+workingBillId;
+					window.location.href="rework_record!list.action?reworkId="+data.reworkId+"&workingBillId="+workingBillId;
 				}); 
 			}else if(data.status=="error"){
 				layer.alert(data.message, {
@@ -368,13 +350,14 @@ $(function(){
 	});
 	
 	$("#confirmRework").click(function(){
-		var id=$("#rk").val();
+	//	var id=$("#rk").val();
+		var dt=$("#inputForm").serialize();
 		var workingBillId = $("#workingBillId").val();
-		var url="rework!creditapproval.action?id="+id;
+		var url="rework_record!creditapproval.action?reworkId="+reworkId;
 		credit.creditCard(url,function(data){
 			if(data.status=="success"){
 				layer.alert(data.message, {icon: 6},function(){
-					window.location.href="rework!list.action?workingBillId="+workingBillId;
+					window.location.href="rework_record!list.action?reworkId="+data.reworkId+"&workingBillId="+workingBillId;
 				}); 
 			}else if(data.status=="error"){
 				layer.alert(data.message, {
@@ -383,7 +366,7 @@ $(function(){
 			        skin:'error'
 			   });
 			}		
-		});		
+		},dt);		
 	});
 	
 	

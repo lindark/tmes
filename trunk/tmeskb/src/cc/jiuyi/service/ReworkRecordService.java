@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.ReworkRecord;
 
 /**
@@ -20,15 +21,31 @@ public interface ReworkRecordService extends BaseService<ReworkRecord, String> {
 	 */
 	public List<ReworkRecord> getReworkRecordList();
 
-	public Pager getReworkRecordPager(Pager pager, HashMap<String, String> map,String workingbillId);
+	public Pager getReworkRecordPager(Pager pager, HashMap<String, String> map,String id);
 	
 	/**
 	 * 标记删除
+	 * 
 	 * @param ids
-	 * @param oper Y/N
+	 * @param oper
+	 *            Y/N
 	 */
-	public void updateisdel(String[] ids,String oper);
+	public void updateisdel(String[] ids, String oper);
+
+	public void saveRepeal(List<ReworkRecord> list, Admin admin, String stu);
+
+	/**
+	 * 刷卡提交
+	 * @param cardnumber
+	 * @param workingBillId
+	 * @param reworkId
+	 * @param reworkCount
+	 * @param reworkRecord
+	 * @return reworkId
+	 */
+	public String saveSubmit(String cardnumber, String workingBillId,
+			String reworkId, Integer reworkCount, ReworkRecord reworkRecord);
 	
-	public void saveRepeal(List<ReworkRecord> list,Admin admin,String stu);
+	public String saveApproval(String cardnumber,ReworkRecord reworkRecord);
 
 }

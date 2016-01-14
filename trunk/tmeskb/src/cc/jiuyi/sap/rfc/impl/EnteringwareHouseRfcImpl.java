@@ -26,7 +26,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 		/******输入参数******/
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("GM_CODE", "03");//移动类型
+		parameter.put("GM_CODE", "02");//
 		parameter.put("IS_COMMIT", testrun);//testrun
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();

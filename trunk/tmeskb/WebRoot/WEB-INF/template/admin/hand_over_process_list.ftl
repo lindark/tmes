@@ -40,6 +40,9 @@ input.oddhandOverMount,input.unhandOverMount{
 .div_top{
 	margin:10px;
 }
+#ui-datepicker-div{
+	z-index:9999 !important;
+}
 </style>
 
  
@@ -108,6 +111,18 @@ input.oddhandOverMount,input.unhandOverMount{
 
 					<div class="row">
 						<div class="col-xs-12">
+						<div class="div_top">
+										 下班生产日期:
+                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
+                                   &nbsp;&nbsp;
+                                     班次:
+                                     <select name="shift"id="sl_sh">
+                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+                                   </select>
+									</div>
+						
 							<div id="inputtabs">
 								<ul>
 									<li><a href="#tabs-1">工序交接</a>
@@ -121,17 +136,7 @@ input.oddhandOverMount,input.unhandOverMount{
 									<li class="over"><a href="#tabs-3">总体交接确认</a>
 									</li>
 								</ul>
-								<div class="div_top">
-										  生产日期:
-                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
-                                   &nbsp;&nbsp;
-                                     班次:
-                                     <select name="shift"id="sl_sh">
-                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
-										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
-										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
-                                   </select>
-									</div>
+								
 								<div id="tabs-1">
 									<!-- <a href="#0" class="cd-btn">右侧滑动弹出框</a>  -->
 

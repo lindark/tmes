@@ -1,6 +1,5 @@
 package cc.jiuyi.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,4 +64,13 @@ public interface BomService extends BaseService<Bom, String> {
 	/*根据组件编码获取组件名称
 	 * */
 	public String getMaterialName(String materialCode);
+
+	/**
+	 * 根据订单号,生产日期,以"5"开关的查询
+	 * @param aufnr
+	 * @param productDate
+	 * @param string
+	 * @return
+	 */
+	public Bom getBomByConditions(String aufnr, String productDate,String num);
 }

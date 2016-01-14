@@ -39,7 +39,7 @@ public interface RepairService extends BaseService<Repair, String> {
 	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Repair repair, String cardnumber,int my_id);
+	public void updateMyData(Repair repair, String cardnumber,int my_id,String wbid);
 
 	/**
 	 * 获取物料表中包含list1中的数据

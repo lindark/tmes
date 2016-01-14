@@ -63,12 +63,13 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:['设备名称','故障原因','维修人','状态'],
+		colNames:['设备名称','故障原因','维修人','订单号','状态'],
 		colModel:[
 			
 			{name:'productName',index:'equipments.equipmentName',editable: true},		
 			{name:'faultName',index:'faultName', width:120, sortable:false,search:false,edRitable: true},
 			{name:'repairName',index:'fixer.name',sortable:false,editable: true},
+			{name:'orderNo',index:'orderNo', width:120, sortable:false,editable: true},
 			{name:'stateRemark',index:'state',sortable:true,editable: true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 			], 
 

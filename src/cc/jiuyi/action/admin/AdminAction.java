@@ -225,7 +225,9 @@ public class AdminAction extends BaseAdminAction {
 	public String index() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		if(admin.getProductDate() != null && admin.getShift() != null){
+			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		}
 		return "teamindex";
 	}
 	// 后台质检首页弹出层

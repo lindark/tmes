@@ -171,7 +171,8 @@ public class WorkingBillServiceImpl extends
 				String orderid = obj[1].toString();
 				ProcessRoute processroute = processrouteservice.getProcessRoute(version, orderid);
 				String workcenter00 = processroute.getWorkCenter() == null ? "" : processroute.getWorkCenter();
-				if(workcenter00.equals(workcenter)){//两个工作中心匹配
+				String productCode = processroute.getOrders().getMatnr();//获取产品
+				if(workcenter00.equals(workcenter) && workingbill00.getMatnr().equals(productCode)){//两个工作中心匹配,并且 产品匹配
 					aufnrList.add(processroute.getOrders().getAufnr());
 				}
 			}

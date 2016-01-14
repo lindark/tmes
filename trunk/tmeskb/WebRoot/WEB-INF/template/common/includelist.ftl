@@ -12,7 +12,7 @@
 <!--[if IE]>
 <script type="text/javascript">
  window.jQuery || document.write("<script src='${base}/template/admin/assets/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
+</script> 
 <![endif]-->
 <script type="text/javascript">
 	if('ontouchstart' in document.documentElement) document.write("<script src='${base}/template/admin/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");

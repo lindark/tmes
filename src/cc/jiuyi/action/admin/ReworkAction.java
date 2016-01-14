@@ -153,12 +153,12 @@ public class ReworkAction extends BaseAdminAction {
 					Rework rework = (Rework) reworkList.get(i);
 					rework.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "reworkState", rework.getState()));
-					rework.setIsQualifieds(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "isQualifieds", rework.getIsQualified()));
-					rework.setIsCompeletes(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "isCompeletes", rework.getIsCompelete()));
-					rework.setProductsCode(rework.getWorkingbill().getMatnr());
-					rework.setProductsName(rework.getWorkingbill().getMaktx());
+//					rework.setIsQualifieds(ThinkWayUtil.getDictValueByDictKey(
+//							dictService, "isQualifieds", rework.getIsQualified()));
+//					rework.setIsCompeletes(ThinkWayUtil.getDictValueByDictKey(
+//							dictService, "isCompeletes", rework.getIsCompelete()));
+//					rework.setProductsCode(rework.getWorkingbill().getMatnr());
+//					rework.setProductsName(rework.getWorkingbill().getMaktx());
 					rework.setXduty(rework.getDuty().getName());//责任人名
 				    rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
 				    if(rework.getConfirmUser()!=null){

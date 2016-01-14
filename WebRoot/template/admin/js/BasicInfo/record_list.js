@@ -18,11 +18,9 @@ jQuery(function($){
     })
 
 
-
-	jQuery(grid_selector).jqGrid({
-
-		
-		url:"rework!ajlist.action?workingBillId="+$("#workingBillId").val(),
+    var id = $("#reworkId").val();
+	jQuery(grid_selector).jqGrid({	
+		url:"rework_record!ajlist.action?workingBillId="+$("#workingBillId").val()+"&id="+id,
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -41,16 +39,15 @@ jQuery(function($){
 	    },
 		//colNames:[ '创建人','确认人','责任人','返工次数','翻包数量','缺陷数量','状态', '是否完工'],
 		colModel:[	
-		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:150,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xduty',index:'duty.name',label:"责任人",search:false,width:150,sortable:"true",sorttype:"text"},
 		  //{name:'reworkCount',index:'reworkCount',label:"返工次数",search:false,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-		  //{name:'reworkAmount',index:'reworkAmount',label:"翻包数量",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-		  //{name:'defectAmount',index:'defectAmount',label:"缺陷数量",search:false,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state',label:"状态",width:200, cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}},	 
-		  //{name:'isCompeletes',index:'isCompelete',width:200,label:"完工状态",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isCompeletes"}}	
-			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt}
+		    {name:'reworkAmount',index:'reworkAmount',label:"翻包数量",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+		    {name:'defectAmount',index:'defectAmount',label:"缺陷数量",search:false,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+		    {name:'stateRemark',index:'state',label:"状态",width:200, cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}}, 
+		    {name:'isQualifieds',index:'isQualifieds',width:200,label:"是否合格",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isQualifieds"}},
+		    {name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt}
 		], 
 
 
@@ -76,29 +73,12 @@ jQuery(function($){
 			}, 0);
 		},
 
-		editurl: "rework!delete.action",//用它做标准删除动作
-		caption: "返工"
+		editurl: "rework_record!delete.action",//用它做标准删除动作
+		caption: "返工记录表"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	
-	//给状态加样式
-	function addstyle1(rowId, val, rawObject, cm, rdata)
-	{
-		
-		//待确认
-		if(rawObject.state=="Y")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
-		//已确认
-		if(rawObject.state=="N")
-		{
-			return "style='color:green;font-weight:bold;'";
-		}
-		
-	}
 	
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)

@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>返工单</title>
+		<title>返工记录表</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		
@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/rework_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/record_list.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -56,7 +56,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">返工单&nbsp;<span class="pageInfo"></span></li>
+			<li class="active">返工记录表&nbsp;<span class="pageInfo"></span></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 
@@ -64,11 +64,11 @@
 	<!-- add by welson 0728 -->
 	<div class="page-content">
 					<div class="page-content-area">					
-
+                    <input type="hidden" id="reworkId" value="${(rework.id)!''}"/>
 						<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by weitao  -->
-					<div class="row">
+					    <div class="row">
 								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
@@ -122,29 +122,51 @@
 														</div>
 														
 													</div>
+													
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name" >翻包次数</div>
+											             	<div class="profile-info-value">
+													           <span>${(rework.reworkCount)! }</span>
+												           </div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							 <div>
-									<button class="btn btn-white btn-default btn-sm btn-round " id="addRework">
-										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建返工单
-									</button>
+							<div>
+								<#if xedit??>
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="editRework">
+									<i class="ace-icon fa fa-pencil-square-o"></i> 编辑返工单记录
+								</button>
 
-                                    <button class="btn btn-white btn-default btn-sm btn-round" id="editRework">
-										<i class="ace-icon fa fa-pencil-square-o"></i>
-										编辑返工单
-									</button>
-									
-                                    <button class="btn btn-white btn-default btn-sm btn-round" id="showRework">
-										<i class="ace-icon fa fa-book"></i>
-										查看返工单
-									</button>
-									
-									<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="showRework">
+									<i class="ace-icon fa fa-book"></i> 查看返工单记录
+								</button>
+								<#else>
+
+								<button class="btn btn-white btn-default btn-sm btn-round "
+									id="addRework">
+									<i class="ace-icon fa fa-folder-open-o"></i> 新建返工单记录
+								</button>
+
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="editRework">
+									<i class="ace-icon fa fa-pencil-square-o"></i> 编辑返工单记录
+								</button>
+
+								<button class="btn btn-white btn-default btn-sm btn-round"
+									id="showRework">
+									<i class="ace-icon fa fa-book"></i> 查看返工单记录
+								</button>
+								</#if>
+
+
+								<!--<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
 									</button>
@@ -153,8 +175,8 @@
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
 										<i class="ace-icon fa fa-home"></i>
 										返回
-									</button>
-				
+									</button> -->
+
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
@@ -208,10 +230,19 @@
 			}
 		});
 		
+		
 		$("#addRework").click(function(){
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="rework!add.action?workingBillId="+$("#workingBillId").val();
-			
+			var reworkId = $("#reworkId").val();
+//			if(reworkId ==null){
+			     window.location.href="rework_record!add.action?workingBillId="+$("#workingBillId").val()+"&reworkId="+reworkId;				
+//			}else{
+//				layer.alert("已经确认的不能再次增加返工记录,重新添加返工单请返回上一层!", {
+//			        closeBtn: 0,
+//			        icon:5,
+//			        skin:'error'
+//			   });
+//			}		
 		});
 
 		$("#editRework").click(function(){
@@ -226,7 +257,7 @@
 	    		return false;
 	    	}else{
 	    		$.ajax({
-					url: "rework!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
+					url: "rework_record!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
 					dataType: "json",
 					async: false,
 					beforeSend: function(data) {
@@ -236,12 +267,11 @@
 				success:function(data){
 					layer.close(index);
 					if(data.status=="success"){
-						window.location.href="rework!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();
+						window.location.href="rework_record!edit.action?id=" + id+"&workingBillId="+$("#workingBillId").val();
 					}else{						
 						$.message(data.status,data.message);
 					}				
 				},error:function(data){
-					alert(data);
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
 			  });   		
@@ -260,7 +290,7 @@
 				alert("至少选择一条返工记录！");
 				return false;
 			}else{
-				window.location.href="rework!show.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
+				window.location.href="rework_record!show.action?id="+id+"&workingBillId="+$("#workingBillId").val();			
 			}
 			
 		});

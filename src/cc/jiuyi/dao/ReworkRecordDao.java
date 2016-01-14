@@ -21,7 +21,7 @@ public interface ReworkRecordDao extends BaseDao<ReworkRecord, String> {
 	public List<ReworkRecord> getReworkRecordList();
 	
 	
-	public Pager getReworkRecordPager(Pager pager,HashMap<String,String> map,String workingbillId);
+	public Pager getReworkRecordPager(Pager pager,HashMap<String,String> map,String id);
 	
 
 	/**

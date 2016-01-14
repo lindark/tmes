@@ -1,10 +1,12 @@
 package cc.jiuyi.entity;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -56,8 +58,19 @@ public class Rework extends BaseEntity{
     
     private String productsCode;//产品编码
     private String productsName;//产品名称
+    private Set<ReworkRecord> reworkRecord;//返工记录表
     
     
+    @OneToMany(mappedBy = "rework", fetch = FetchType.LAZY)
+	public Set<ReworkRecord> getReworkRecord() {
+		return reworkRecord;
+	}
+
+	public void setReworkRecord(Set<ReworkRecord> reworkRecord) {
+		this.reworkRecord = reworkRecord;
+	}
+
+	
     @ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -71,6 +84,9 @@ public class Rework extends BaseEntity{
 		return reworkCount;
 	}
 	public void setReworkCount(Integer reworkCount) {
+//		if(reworkCount == null){
+//			reworkCount = 1;
+//		}
 		this.reworkCount = reworkCount;
 	}
 	public Integer getReworkAmount() {

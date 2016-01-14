@@ -42,13 +42,13 @@ public class ReworkRecordDaoImpl extends BaseDaoImpl<ReworkRecord, String> imple
 		return getSession().createQuery(hql).list();
 	}
 
-	public Pager getReworkRecordPager(Pager pager, HashMap<String, String> map,String workingbillId) {
+	public Pager getReworkRecordPager(Pager pager, HashMap<String, String> map,String id) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(ReworkRecord.class);
-		if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
+		/**if(!this.existAlias(detachedCriteria, "workingbill", "workingbill"))
 		{
 			detachedCriteria.createAlias("workingbill", "workingbill");
-		}
+		}**/
 		/*//责任人
 		if(!this.existAlias(detachedCriteria, "duty", "duty"))
 		{
@@ -70,8 +70,9 @@ public class ReworkRecordDaoImpl extends BaseDaoImpl<ReworkRecord, String> imple
 			detachedCriteria.createAlias("modifyUser", "modifyUser");
 		}*/
 		pagerSqlByjqGrid(pager,detachedCriteria);	
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
-		detachedCriteria.add(Restrictions.eq("workingbill.id", workingbillId));
+		//detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("rework.id", id));
+		//detachedCriteria.add(Restrictions.eq("workingbill.id", workingbillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -86,4 +87,5 @@ public class ReworkRecordDaoImpl extends BaseDaoImpl<ReworkRecord, String> imple
 		}
 		
 	}
+
 }

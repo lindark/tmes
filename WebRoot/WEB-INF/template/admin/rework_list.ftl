@@ -131,23 +131,23 @@
 							 <div>
 									<button class="btn btn-white btn-default btn-sm btn-round " id="addRework">
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建返工单
+										创建新返工单
 									</button>
 
                                     <button class="btn btn-white btn-default btn-sm btn-round" id="editRework">
 										<i class="ace-icon fa fa-pencil-square-o"></i>
-										编辑返工单
+										查看编辑返工单
 									</button>
 									
-                                    <button class="btn btn-white btn-default btn-sm btn-round" id="showRework">
+                               <!-- <button class="btn btn-white btn-default btn-sm btn-round" id="showRework">
 										<i class="ace-icon fa fa-book"></i>
 										查看返工单
-									</button>
+									</button>  --> 
 									
-									<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
+							   <!-- <button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</button>
+									</button> --> 
 
 
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
@@ -209,9 +209,10 @@
 		});
 		
 		$("#addRework").click(function(){
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="rework!add.action?workingBillId="+$("#workingBillId").val();
-			
+			window.location.href="rework_record!list.action?workingBillId="+$("#workingBillId").val();
+			//window.location.href="rework_record!list.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	
 		});
 
 		$("#editRework").click(function(){
@@ -225,7 +226,8 @@
 	    		alert("至少选择一条返工记录");
 	    		return false;
 	    	}else{
-	    		$.ajax({
+	    		window.location.href="rework_record!list.action?id=" + id+"&workingBillId="+$("#workingBillId").val();	    		
+	/**    		$.ajax({
 					url: "rework!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
 					dataType: "json",
 					async: false,
@@ -241,10 +243,9 @@
 						$.message(data.status,data.message);
 					}				
 				},error:function(data){
-					alert(data);
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
-			  });   		
+			  });     **/		
 	    	}	
 		});
 		

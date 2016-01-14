@@ -1,12 +1,14 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 /**
  * 实体类 -抽包异常交接
  */
 @Entity
-public class PumPackHnadOver extends BaseEntity {
+public class PumPackHandOver extends BaseEntity {
 	private static final long serialVersionUID = -5222443445114313847L;
 	private String materialCode;//生产订单编码
 	private Double actualHOMount;//实际交接数量
@@ -16,9 +18,10 @@ public class PumPackHnadOver extends BaseEntity {
 	private String sureCode;//提交人编号
 	private String sureName;//确认人姓名
 	private String state;//状态(1、未确认，2、已确认)
+	private String mblnr;//物料凭证号 
 	
-	//private WorkingBill workingBill;//随工单 
-	//private HandOver handOver;//主表
+	private WorkingBill workingBill;//随工单 
+	private HandOver handOver;//主表
 	public String getMaterialCode() {
 		return materialCode;
 	}
@@ -67,17 +70,25 @@ public class PumPackHnadOver extends BaseEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
-	/*public WorkingBill getWorkingBill() {
+	@ManyToOne(fetch=FetchType.LAZY)
+	public WorkingBill getWorkingBill() {
 		return workingBill;
 	}
 	public void setWorkingBill(WorkingBill workingBill) {
 		this.workingBill = workingBill;
 	}
+	@ManyToOne(fetch = FetchType.LAZY)
 	public HandOver getHandOver() {
 		return handOver;
 	}
 	public void setHandOver(HandOver handOver) {
 		this.handOver = handOver;
-	}*/
+	}
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
+	}
 	
 }

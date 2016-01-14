@@ -70,6 +70,7 @@ $(function() {
 		//$("#productName1").val(id[0]);//产品id
 		$("#deviceName1").text(id[0]);
 		$("#deviceNa").val(id[1]);//产品名称
+		$("#equipNo").val(id[2]);
 		layer.close(index); 
 	});
 }

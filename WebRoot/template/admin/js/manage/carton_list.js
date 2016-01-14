@@ -1,11 +1,11 @@
+var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
-	var workingBillId = $("#workingBillId").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
-    })
+    });
 	//resize on sidebar collapse/expand
 	var parent_column = $(grid_selector).closest('[class*="col-"]');
 	$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
@@ -15,7 +15,7 @@ jQuery(function($) {
 				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
 			}, 0);
 		}
-    })
+    });
 
 
 
@@ -46,7 +46,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"carton!ajlist.action?workingBillId="+workingBillId,
+		url:"carton!ajlist.action",
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -64,17 +64,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ /*'纸箱编码','纸箱描述',*/'物料凭证号','数量','收货日期','创建人', '确认人','状态',''],
+		//colNames:[ '返修部位','返修数量','返修日期','责任工序','责任人/批次','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
-			
-			/*{name:'cartonCode',index:'cartonCode', width:200},
-			{name:'cartonDescribe',index:'cartonDescribe', width:200},*/
-			{name:'ex_mblnr',index:'ex_mblnr', width:100,sortable:"true",sorttype:"text"},
-			{name:'cartonAmount',index:'cartonAmount', width:200,sorttype:"int"},
-			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
+		    {name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'createDate',label:"创建日期",index:'createDate',width:120,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xcreateUser',label:"创建人",index:'createUser', width:120,sortable:"true",sorttype:"text"},
+			{name:'xconfirmUser',label:"确认人",index:'confirmUser', width:120,sortable:"true",sorttype:"text"},
+			{name:'xstate',label:"状态",index:'state', width:120,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 
 		], 
@@ -104,22 +100,8 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-		gridComplete: function () {
-            var rowNum = parseInt($(this).getGridParam("records"), 10);
-            if (rowNum > 0) {
-                $(".ui-jqgrid-sdiv").show();
-                var cartonAmount = jQuery(this).getCol("cartonAmount", false, "sum");
-                var materialCode = jQuery(this).getCol("materialCode");
-                $(this).footerData("set", {
-                	materialCode: "累计纸箱数："+cartonAmount+"个"
-	            });
-	        }else {
-	            $(".ui-jqgrid-sdiv").hide();
-	        }
-	    }, //底部合计
-
-		editurl: "carton!delete.action",//用它做标准删除动作
-		caption: "纸箱记录"
+		editurl: "",//用它做标准删除动作
+		caption: "返修记录"
 
 		//,autowidth: true,
 //		,
@@ -158,7 +140,7 @@ jQuery(function($) {
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
 	}
-	
+
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
@@ -178,8 +160,6 @@ jQuery(function($) {
 			return "style='color:red;font-weight:bold;'";
 		}
 	}
-
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
@@ -279,5 +259,94 @@ jQuery(function($) {
 		}
 	)
 
-
+	//按钮事件
+	btn_event();
 });
+
+//按钮事件
+function btn_event()
+{
+	//创建报废单
+	$("#btn_creat").click(function(){
+		window.location.href="carton!add.action";
+	});
+	//刷卡确认
+	$("#btn_confirm").click(function(){
+		if(getId())
+		{
+			var url="carton!creditapproval.action?info="+info+"&my_id=1";
+			sub_event(url);
+		}
+	});
+	//刷卡撤销
+	$("#btn_revoke").click(function(){
+		if(getId())
+		{
+			var url="carton!creditundo.action?info="+info+"&my_id=2";
+			sub_event(url);
+		}
+	});
+	//返回
+	$("#btn_back").click(function(){
+		window.history.back();
+	});
+	//编辑
+	$("#btn_edit").click(function(){
+		if(getId2())
+		{
+			var rowData = $("#grid-table").jqGrid('getRowData',info);
+			var row_state=rowData.state;
+			if(row_state=="2"||row_state=="3")
+			{
+				layer.alert("已确认或已撤销的纸箱收货单无法再编辑!",false);
+			}
+			else
+			{
+				window.location.href="carton!edit.action?id="+info;
+			}
+		}
+	});
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			window.location.href="carton!show.action?id="+info;
+		}
+	});
+}
+
+//刷卡确认或撤销
+function sub_event(url)
+{
+	credit.creditCard(url,function(data){
+		$.message(data.status,data.message);
+		$("#grid-table").trigger("reloadGrid");
+	});
+}
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info==null||info=="")
+	{
+		layer.alert("请选择至少一条纸箱收货记录!",false);
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	info=$("#grid-table").jqGrid("getGridParam","selarrrow");
+	if(info.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.alert("请选择一条纸箱收货记录!",false);
+		return false;
+	}
+}

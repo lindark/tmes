@@ -42,6 +42,8 @@ import org.springmodules.cache.annotations.Cacheable;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import freemarker.template.utility.DateUtil;
+
 /**
  * Service实现类 - 随工单
  */
@@ -61,8 +63,6 @@ public class WorkingBillServiceImpl extends
 	private BomService bomservice;
 	@Resource
 	private AdminService adminservice;
-	@Resource
-	private OrdersService ordersservice;
 	@Resource
 	public void setBaseDao(WorkingBillDao workingbilldao) {
 		super.setBaseDao(workingbilldao);
@@ -91,19 +91,8 @@ public class WorkingBillServiceImpl extends
 		String productDate = admin.getProductDate();//生产日期
 		String shift = admin.getShift();//班次
 		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
-		List<Orders> orderList = orderservice.findOrders(productDate);
-		List<String> aufnrList = new ArrayList<String>();
-		for(Orders orders : orderList){
-			Integer maxversion = processrouteservice.getMaxVersion(orders.getId(), productDate);
-			Orders orders1 = orderservice.findOrders(productDate, maxversion,workcenter,orders.getId());
-			if(orders1 == null)
-				continue;
-			aufnrList.add(orders1.getAufnr());
-		}
-		if(aufnrList.size() <=0){
-			return null;
-		}
-		List<WorkingBill> workingbillList = workingbilldao.findWorkingBill(aufnrList,productDate,shift);
+		
+		List<WorkingBill> workingbillList = workingbilldao.findWorkingBill(workcenter,productDate,shift);
 		
 		return workingbillList;
 	}
@@ -143,45 +132,24 @@ public class WorkingBillServiceImpl extends
 	 * 根据随工单编号 获取 下一条记录
 	 */
 	@Cacheable(modelId = "caching")
-	public WorkingBill getCodeNext(String workingbillCode){
+	public WorkingBill getCodeNext(String workingbillCode,String productDate,String shift){
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		admin = adminservice.get(admin.getId());
+		WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
+		Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
 		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();
-		WorkingBill workingbill00 = workingbilldao.get("workingBillCode",workingbillCode);
-		String productDate = workingbill00.getProductDate();
-		String lastChar = workingbillCode.substring(workingbillCode.length()-1, workingbillCode.length());
-		String firstChar = workingbillCode.substring(0,workingbillCode.length()-1);
-		Integer lastChar00 = Integer.parseInt(lastChar)+1;//最后一位字符串+1 拿去随工单表中找
-		String char00 = firstChar + lastChar00;//拼接下一随工单
-		WorkingBill workingbill = this.get("workingBillCode", char00);
-		if(workingbill == null){
-			Date date = ThinkWayUtil.formatStringDate(productDate);
-			date = DateUtils.addDays(date, 1);//日期+ 1天
-			List<Orders> ordersList = ordersservice.findOrders(ThinkWayUtil.formatdateDate(date));
-			List<String> ordersId = new ArrayList<String>();
-			for(int i=0;i<ordersList.size();i++){
-				Orders orders = ordersList.get(i);
-				ordersId.add(orders.getId());
+		if(workcenter == null)return null;
+		List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			String aufnr = workingbill.getAufnr();
+			Orders order = orderservice.get("aufnr",aufnr);
+			order.getMujuntext();
+			if(ThinkWayUtil.null2String(order00.getMujuntext()).equals(ThinkWayUtil.null2String(order.getMujuntext()))){
+				return workingbill;
 			}
-			List<Object[]> objList = processrouteservice.getMaxVersion(ordersId);
-			List<String> aufnrList = new ArrayList<String>();
-			for(int i=0;i<objList.size();i++){
-				Object[] obj = objList.get(i);
-				Integer version = Integer.parseInt(obj[0] == null ? "0":obj[0].toString());
-				String orderid = obj[1].toString();
-				ProcessRoute processroute = processrouteservice.getProcessRoute(version, orderid);
-				String workcenter00 = processroute.getWorkCenter() == null ? "" : processroute.getWorkCenter();
-				String productCode = processroute.getOrders().getMatnr();//获取产品
-				if(workcenter00.equals(workcenter) && workingbill00.getMatnr().equals(productCode)){//两个工作中心匹配,并且 产品匹配
-					aufnrList.add(processroute.getOrders().getAufnr());
-				}
-			}
-			if(aufnrList.size() <=0)
-				workingbill = null;
-			else
-				workingbill = workingbilldao.getCodeNext(workingbillCode,aufnrList);
 		}
-		return workingbill;
+		return null;
 	}
 
 	@Override
@@ -196,7 +164,7 @@ public class WorkingBillServiceImpl extends
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
 			Orders order = orderList.get(i);
-			/***生产订单黑醋栗***/
+			/***生产订单***/
 			mergeorderdeal(order);//订单处理
 			/**处理产品信息***/
 			mergeproductdeal(order);//产品处理
@@ -428,6 +396,10 @@ public class WorkingBillServiceImpl extends
 		}
 		
 		
+	}
+	
+	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr){
+		return workingbilldao.getListWorkingBillByDate(productDate,shift,workcenter,matnr);
 	}
 	
 }

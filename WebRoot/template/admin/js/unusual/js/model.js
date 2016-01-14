@@ -181,6 +181,7 @@ $(function() {
 		var id=work.split(",");
 		$("#productName1").text(id[0]);//设备id productName1
 		$("#productNa").val(id[1]);//设备名称
+		$("#equipNo").val(id[2]);
 		layer.close(index); 
 	});
 }

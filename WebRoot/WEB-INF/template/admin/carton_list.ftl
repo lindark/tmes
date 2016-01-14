@@ -55,17 +55,21 @@
 						<div class="col-xs-12">
 							<!-- ./ add by weitao  -->
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="addCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建纸箱收货单
 								</a>
-								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
+								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
-								<a id="undoCarton" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon glyphicon glyphicon-remove"></i>
-									刷卡撤销
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
+								</a>
+								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
 								</a>
 								<a id="returnCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
@@ -76,7 +80,7 @@
 								<div class="col-xs-12">
 									<table id="grid-table"></table>
 
-										<div id="grid-pager"></div>
+									<div id="grid-pager"></div>
 								</div>
 							</div>
 							<!-- add by weitao -->
@@ -96,10 +100,6 @@
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-	<div style="display:none">
-		<input type="hidden" id="workingBillId" value="${workingbill.id}"/>
-	</div>
-
 </body>
 
 </html>
@@ -120,105 +120,6 @@
 			}
 		});
 		
-		$("#addCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			window.location.href="carton!add.action?workingBillId="+workingBillId;
-			
-		});
-		$("#confirmCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			var rowData = $("#grid-table").jqGrid('getRowData',id);
-			var row_state=rowData.state;
-			if(id==""){
-				layer.msg("请选择一条记录!", {icon: 5});
-			}else{
-				if(row_state=="1"){
-					layer.msg("已确认的无须再确认!", {icon: 5});
-				}else if(row_state=="3"){
-					layer.msg("已撤销的无法再确认！", {icon: 5});
-				}else{
-					var url = "carton!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
-					credit.creditCard(url,function(data){
-						$.message(data.status,data.message);
-						$("#totalAmount").text(data.totalAmount);
-						$("#grid-table").trigger("reloadGrid");
-					})
-				}
-				/* var index = "";
-				$.ajax({	
-					url: "carton!creditapproval.action?id="+id+"&workingBillId="+workingBillId,
-					//data: $(form).serialize(),
-					dataType: "json",
-					async: false,
-					beforeSend: function(data) {
-						$(this).attr("disabled", true);
-						index = layer.load();
-					},
-					success: function(data) {
-						layer.close(index);
-						$.message(data.status,data.message);
-						$("#totalAmount").text(data.totalAmount);
-						$("#grid-table").trigger("reloadGrid");
-					},error:function(data){
-						layer.close(index);
-						$.message("error","系统出现问题，请联系系统管理员");
-					}
-				}); */
-				
-				//window.location.href="carton!confirms.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#undoCarton").click(function(){
-			var workingBillId = $("#workingBillId").val();
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			var rowData = $("#grid-table").jqGrid('getRowData',id);
-			var row_state=rowData.state;
-			if(id==""){
-				layer.msg("请选择一条记录!", {icon: 5});
-			}else{
-				if(row_state=="3"){
-					layer.msg("已撤销的无法再撤销！", {icon: 5});
-				}else{
-					var url =  "carton!creditundo.action?id="+id+"&workingBillId="+workingBillId;
-					credit.creditCard(url,function(data){
-						$.message(data.status,data.message);
-						$("#totalAmount").text(data.totalAmount);
-						$("#grid-table").trigger("reloadGrid");
-					})
-				}
-				/* var index = "";
-				$.ajax({	
-					url: "carton!creditundo.action?id="+id+"&workingBillId="+workingBillId,
-					//data: $(form).serialize(),
-					dataType: "json",
-					async: false,
-					beforeSend: function(data) {
-						$(this).attr("disabled", true);
-						index = layer.load();
-					},
-					success: function(data) {
-						layer.close(index);
-						$.message(data.status,data.message);
-						$("#totalAmount").text(data.totalAmount);
-						$("#grid-table").trigger("reloadGrid");
-					},error:function(data){
-						layer.close(index);
-						$.message("error","系统出现问题，请联系系统管理员");
-					}
-				}); */
-				
-				//window.location.href="carton!undo.action?id="+id+"&workingBillId="+workingBillId;			
-			}
-			
-		});
-		$("#returnCarton").click(function(){
-			window.history.back();
-		});
-		
 		$(".btn-colorpicker").click(function() {
 			$(".dropdown-colorpicker").addClass("open");
 		})
@@ -235,7 +136,6 @@
 
 		})
 
-		/*
 		var ishead3=0;
 		$(".hsub").click(function(){
 			if(ishead3==0){
@@ -248,8 +148,7 @@
 				//$(this).removeClass("open");
 				//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
 			}
-			
 		})
-		 */
-	})
+		 
+	});
 </script>

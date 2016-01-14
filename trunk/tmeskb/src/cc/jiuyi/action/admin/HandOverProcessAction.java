@@ -75,6 +75,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private String orderType;// 排序类型
 	private String materialName;//组件物料描述
 	private String cardnumber;
+	private String nowDate;
+	private String shift;
 
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -134,7 +136,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				workingbill.setRepairamount(repairamount);
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
-			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode());//下一随工单--此处有问题。根据什么条件获取下一随工单
+			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);//下一随工单--此处有问题。根据什么条件获取下一随工单
 			if(nextWorkingbill==null){
 				workingbill.setAfterworkingBillCode("");
 			}else{
@@ -183,6 +185,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 				addActionError("未找到一条工序记录");
 				return ERROR;
 			}
+			
+			
 			
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
@@ -503,6 +507,22 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getNowDate() {
+		return nowDate;
+	}
+
+	public void setNowDate(String nowDate) {
+		this.nowDate = nowDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 
 

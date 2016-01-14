@@ -158,7 +158,11 @@ body{background:#fff;}
 										<div class="profile-info-name">故障原因</div>
 									    <div class="profile-info-value">											
 													${reasonName}
-										</div>												
+										</div>	
+										<div class="profile-info-name">报废数</div>
+									    <div class="profile-info-value">											
+													${device.scrapNo}
+										</div>											
 									</div>																												
 									
 									<div class="profile-info-row">

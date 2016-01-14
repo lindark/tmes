@@ -88,11 +88,10 @@ body {
 
 									<div id="tabs-1">
 
-										<!--weitao begin modify-->
-										<div class="profile-user-info profile-user-info-striped">
+										<!--weitao begin modify-->							                                         
+                                           <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<div class="profile-info-name">类型</div>
-
+											    <div class="profile-info-name">类型</div>
 												<div class="profile-info-value">
 													<select name="device.maintenanceType"
 														class="formText {required: true}"> <#list allType
@@ -102,66 +101,61 @@ body {
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
 													</select>
-
 												</div>
+												
+												<div class="profile-info-name">故障原因</div>
+												<div class="profile-info-value">
+													
+													<select name="device.fault"> <#list
+														reasonList as list>
+														<option value="${list.id}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && device.fault ==
+															list.id))!> selected</#if>>${list.reasonName}</option>
+														</#list>
+													</select>
+													
+												</div>
+											   
+												
+											</div></div>
+											
+											<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												
 												<div class="profile-info-name">设备名称</div>
-
 												<div class="profile-info-value">
 													<#if isAdd??>
 													<img id="deviceId" class="img_addbug" title="添加设备信息" alt="添加设备信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-												<!-- 	<button type="button" class="btn btn-xs btn-info"
-														id="deviceId" data-toggle="button">选择</button> -->
 													<span id="deviceName1"></span> <input type="hidden"
 														name="device.equipments.id" id="deviceNa" value=""
+														class="formText {required: true}" />
+														<input type="hidden"
+														name="device.equipments.equipmentNo" id="equipNo" value=""
 														class="formText {required: true}" /> <#else>
 													${(device.equipments.equipmentName)!} </#if>
 
-												</div>
-
+												</div>	
+																					
 											</div>
-
-											<!--  	<div class="profile-info-row">
-										<div class="profile-info-name"> 设备名称</div>
-					
-										<div class="profile-info-value">							
-								<input type="text" name="device.deviceName" value="${(device.deviceName)!}" class=" input input-sm  formText {required: true}" />									
-										</div>
-										<div class="profile-info-name">设备型号</div>
-					
-										<div class="profile-info-value">
-											 <select name="device.deviceModel">							
-								<option value="1">
-									z-00A
-								</option>
-								<option value="2">
-									z-00B
-								</option>
-						</select>
-										</div>
-									</div>	-->
+                                           </div>
+                                           
+                                           <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												<div class="profile-info-name">使用车间</div>
-												<div class="profile-info-value">
+                                           <div class="profile-info-name">使用车间</div>
+											<div class="profile-info-value">
 
 													<#if isAdd??>
 													<img id="workShopId" class="img_addbug" title="添加车间信息" alt="添加车间信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-												<!--  	<button type="button" class="btn btn-xs btn-info"
-														id="workShopId" data-toggle="button">选择</button>-->
 													<span id="workShopName1"></span> <input type="hidden"
 														name="device.workShop.id" id="workShopNa" value=""
 														class="formText {required: true}" /> <#else>
 													${(device.workShop.workShopName)!} </#if>
 
 												</div>
-												<!-- 
-												<div class="profile-info-name">车间联系人</div>
-												<div class="profile-info-value">
-													<#if isAdd??> <span>${(admin.name)!}</span> <input
-														type="hidden" name="device.workshopLinkman.id"
-														value="${(admin.id)!}" /> <#else>
-													${(device.workshopLinkman.name)!} </#if>
-												</div> -->
-											</div>
+												</div>
+												</div>	                                          											
+											
+											<div class="profile-user-info profile-user-info-striped">
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">是否停机</div>
@@ -186,22 +180,30 @@ body {
 						
 													</select>
 												</div>
-											</div>
+											</div></div>
                                             
 
+                                           <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">处理人员</div>
 												<div class="profile-info-value">
 													<#if isAdd??>
 													<img id="adminId" class="img_addbug" title="添加人员信息" alt="添加人员信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-													<!--  <button type="button" class="btn btn-xs btn-info"
-														id="adminId" data-toggle="button">选择</button>-->
 													<span id="adminName1"></span> <input type="hidden"
 														name="device.disposalWorkers.id" id="adminNa" value=""
 														class="formText {required: true}" /> <#else>
 													${(device.disposalWorkers.name)!} </#if>
 
 												</div>
+												
+												
+
+											</div></div>
+                                             
+                                             <div class="profile-user-info profile-user-info-striped">
+                                             <div class="profile-info-row">
+
+												
 												<div class="profile-info-name">故障性质</div>
 												<div class="profile-info-value">
 													<select name="device.faultCharacter"> <#list
@@ -211,42 +213,33 @@ body {
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
 													</select>
-												</div>
-
-											</div>
-                                             
-                                             
-                                             <div class="profile-info-row">
-
-												<div class="profile-info-name">故障原因</div>
-												<div class="profile-info-value">
-													
-													<select name="device.fault"> <#list
-														reasonList as list>
-														<option value="${list.id}"<#if ((isAdd &&
-															list.isDefault) || (isEdit && device.fault ==
-															list.id))!> selected</#if>>${list.reasonName}</option>
-														</#list>
-													</select>
-													
-												</div>
-											</div>
-                                             
+												</div>												
+											    
+											</div>                                      
                                                                                        
 										</div>
 										
 										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+										 <div class="profile-info-name">报废数</div>
+												<div class="profile-info-value">
+												   <input type="text" name="device.scrapNo"	value="${(device.scrapNo)!}" class="formText {required: true}" />
+												</div>
+										 </div>
+										 </div>
+										
+										 <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">故障描述</div>
 												<div class="profile-info-value">
 												    <textarea name="device.diagnosis" style="width:600px;" class="formText {required: true}">${(device.diagnosis)!} </textarea>													
 												</div>
 											</div>
-										</div>
+										</div> 
 										
 										
 										
-										<#if isAdd??> 
+										    <#if isAdd??> 
                                             <#else>
                                             <div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row access" data-access-list="beginEndTime">
@@ -280,16 +273,7 @@ body {
 											</div>      
 											</div>
                                             </#if> 
-																			
-										<!-- 
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">故障处理过程</div>
-												<div class="profile-info-value" id="process">
-												    <img id="faultProcess" class="img_addbug" title="添加信息" alt="添加信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />												  														
-												</div>
-											</div>
-										</div> -->																				
+																																					
 										
 										<#if isAdd??>												
 										<#else>
@@ -304,7 +288,7 @@ body {
 												       
 													   <#else>											    
 												    <img id="faultProcess" class="img_addbug" title="添加信息" alt="添加信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />												  														
-												 	   </#if><!--<textarea name="device.process" style="width:300px;" class="access" data-access-list="process">${(device.process)!} </textarea>-->
+												 	   </#if>
 												</div>
 											</div>
 										</div>

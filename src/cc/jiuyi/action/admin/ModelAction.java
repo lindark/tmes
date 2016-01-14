@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,8 @@ import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
+import cc.jiuyi.entity.DeviceModlue;
+import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.HandlemeansResults;
@@ -38,6 +41,8 @@ import cc.jiuyi.entity.LongtimePreventstep;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.sap.rfc.DeviceRfc;
+import cc.jiuyi.sap.rfc.ModeRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
@@ -46,6 +51,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ModelLogService;
 import cc.jiuyi.service.ModelService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -90,6 +96,8 @@ public class ModelAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private DepartmentService deptservice;
+	@Resource
+	private ModeRfc moderfc;
 
 	// 添加
 	public String add() {
@@ -267,6 +275,44 @@ public class ModelAction extends BaseAdminAction {
 			log.setOperator(admin);
 			log.setModel(persistent);
 			modelLogService.save(log);
+			
+			persistent.setSHORT_TEXT("工模维修单");
+			persistent.setCOST("2");
+			persistent.setORDER_TYPE("PM01");//订单类型
+			persistent.setURGRP("PM1");//原因代码组
+			persistent.setURCOD("1001");//原因代码
+
+			List<DeviceStep> step=new ArrayList<DeviceStep>();
+			DeviceStep s=new DeviceStep();
+			s.setVornr("0010");
+			s.setArbpl("2101");//工作中心
+			s.setWerks("1000");//工厂
+			s.setSteus("PM01");//控制码
+			s.setDescription("维修");//工序短文本
+			s.setWork_activity("10");
+			s.setDuration("10");			
+			step.add(s);
+			List<DeviceModlue> module=new ArrayList<DeviceModlue>();
+			DeviceModlue dm=new DeviceModlue();
+			dm.setMaterial("60000167");//物料编码
+			dm.setMenge("1");
+			dm.setVornr("0010");
+			dm.setPostp("L");
+			module.add(dm);
+			
+			try {
+				String aufnr=moderfc.ModelCrt(persistent, step, module);
+				System.out.println("订单号为："+aufnr);
+				persistent.setOrderNo(aufnr);
+				modelService.update(persistent);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (CustomerException e1) {
+				System.out.println(e1.getMsgDes());
+				e1.printStackTrace();
+			}
+		
+			
 		}else{
 			return ajaxJsonErrorMessage("该单据已关闭/未确认！");
 		}
@@ -279,11 +325,13 @@ public class ModelAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
-
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+		if(pager==null)
+		{
+			pager=new Pager();
 		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("modifyDate");//以修改日期排序
+		
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();

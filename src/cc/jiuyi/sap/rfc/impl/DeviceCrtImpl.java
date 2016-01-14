@@ -31,7 +31,10 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel IT_HEADER_DATA = new TableModel();
 		IT_HEADER_DATA.setData("IT_HEADER_DATA");//表名
+		String orderno="";
 		HashMap<String,Object> header = new HashMap<String,Object>();
+		orderno=device.getOrderNo();
+		header.put("ORDERID", device.getOrderNo());//设备编号
 		header.put("EQUIPMENT", device.getEquipments().getEquipmentNo());//设备编号
 		header.put("SHORT_TEXT", device.getSHORT_TEXT());//短文本
 		header.put("START_DATE", ThinkWayUtil.formatDateByPattern(device.getBeginTime(),"yyyy-MM-dd"));//开始日期
@@ -56,6 +59,7 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		IT_ITEM_GX.setData("IT_ITEM_GX");
 		for(DeviceStep d : step){
 			HashMap<String,Object> item_gx = new HashMap<String,Object>();
+			item_gx.put("ORDERID", orderno);//设备编号
 			item_gx.put("VORNR", d.getVornr());//工序
 			item_gx.put("STEUS", d.getSteus());//控制码
 			item_gx.put("ARBPL", d.getArbpl());//工作中心
@@ -73,6 +77,7 @@ public class DeviceCrtImpl extends BaserfcServiceImpl implements DeviceRfc{
 		IT_ITEM_ZJ.setData("IT_ITEM_ZJ");
 		for(DeviceModlue dm : module){
 			HashMap<String,Object> item_zj = new HashMap<String,Object>();
+			item_zj.put("ORDERID", orderno);//物料号
 			item_zj.put("MATERIAL", dm.getMaterial());//物料号
 			item_zj.put("MENGE", dm.getMenge());//数量
 			item_zj.put("POSTP", dm.getPostp());//项目类型

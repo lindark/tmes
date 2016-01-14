@@ -680,7 +680,9 @@ public class AdminAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")
 	public String productupdate(){
 		Admin persistent = adminService.load(id);
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities","cardNumber"});
+		//BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password","email","name","isAccountEnabled", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp","isDel","roleSet","department", "authorities","cardNumber"});
+		persistent.setProductDate(admin.getProductDate());
+		persistent.setShift(admin.getShift());
 		adminService.update(persistent);
 		return SUCCESS;
 		

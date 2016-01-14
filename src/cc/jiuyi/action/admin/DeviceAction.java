@@ -460,6 +460,7 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			BeanUtils.copyProperties(device, persistent, new String[] {"id", "abnormal","isDel","state","workShop","workshopLinkman","disposalWorkers","equipments","receiptSet","maintenanceType","isDown","isMaintenance","faultCharacter","diagnosis","beginTime","dndTime","deviceStepSet","causeAnalysis","preventionCountermeasures","changeAccessoryAmountType","team","scrapNo","orderNo"});
 			persistent.setState("3");
+			deviceService.update(persistent);
 						
 			DeviceLog log = new DeviceLog();
 			log.setDevice(persistent);
@@ -491,10 +492,15 @@ public class DeviceAction extends BaseAdminAction {
 			dm.setPostp("L");
 			module.add(dm);
 			
+			//判断是否停机
+			if(persistent.getIsDown().equalsIgnoreCase("0")){
+				persistent.setIsDown("X");
+			}
+			
 			try {
 				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);
 				System.out.println("订单号为："+aufnr);
-				deviceService.update(persistent);
+				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (CustomerException e1) {

@@ -56,5 +56,10 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
       * 
       * */ 
       public String getProcessName(String processCode);
-
+     
+     public List<Object[]> getMaxVersion1(String workcenter);
+     
+     public List<Object[]> getMaxVersion(List<String> orderidList);
+     
+     public ProcessRoute getProcessRoute(Integer version,String orderid);
 }

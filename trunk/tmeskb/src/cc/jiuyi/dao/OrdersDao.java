@@ -19,7 +19,8 @@ public interface OrdersDao extends BaseDao<Orders, String> {
 	 * @param workcenter
 	 * @return
 	 */
-	public Orders findOrders(String productDate,Integer version,String steus,String workcenter);
+	public Orders findOrders(String productDate,Integer version,String workcenter,String ordersid);
 	
 	public List<Orders> findOrders(String productDate);
+	public List<Object[]> findOrders();
 }

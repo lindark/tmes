@@ -57,7 +57,7 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	/**
 	 * 根据随工单编号 获取 下一条记录
 	 */
-	public WorkingBill getCodeNext(String workingbillCode);
+	public WorkingBill getCodeNext(String workingbillCode,List<String> aufnrList);
 	
 	
     /**

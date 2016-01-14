@@ -93,6 +93,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		return this.getSession().createQuery(hql).setCacheable(true).list();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<WorkingBill> findListWorkingBill(Object[] productsid,
 			String productDate, String shift) {
 		String hql = "from WorkingBill where productDate = ? and workingBillCode like ? and matnr in (:list)";
@@ -102,11 +103,12 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	}
 	
 	
-	public WorkingBill getCodeNext(String workingbillCode) {
-		String hql="from WorkingBill where workingBillCode > ? order by workingbillCode asc";
-		return (WorkingBill) getSession().createQuery(hql).setParameter(0, workingbillCode).setMaxResults(1).uniqueResult();
+	public WorkingBill getCodeNext(String workingbillCode,List<String> aufnrList) {
+		String hql="from WorkingBill where workingBillCode > ? and aufnr in (:list) order by workingbillCode asc";
+		return (WorkingBill) getSession().createQuery(hql).setParameter(0, workingbillCode).setParameterList("list", aufnrList).setMaxResults(1).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
 		String hql="from WorkingBill where matnr = ? ";
@@ -117,9 +119,9 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	public List<WorkingBill> findWorkingBill(List<String> aufnr,String productDate,String shift) {
 		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and aufnr in (:list)";
 		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, "%"+shift).setParameterList("list", aufnr).list();
-		
 	}
-
+	
+	
 
 	
 

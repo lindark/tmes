@@ -15,16 +15,26 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrdersDaoImpl extends BaseDaoImpl<Orders, String> implements OrdersDao {
 
-	public Orders findOrders(String productDate,Integer version,String steus,String workcenter) {
-		String hql="select a from Orders a join a.processrouteSet b where a.gstrp <= ? and a.gltrp >= ? and b.version = ? and b.steus = ? and b.workCenter = ? and b.effectiveDate <= ?";
+	public Orders findOrders(String productDate,Integer version,String workcenter,String ordersid) {
+		String hql="select a from Orders a join a.processrouteSet b where a.gstrp <= ? and a.gltrp >= ? and b.version = ? and b.workCenter = ? and b.effectiveDate <= ? and a.id = ? order by b.processCode asc";
 		return (Orders) getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, productDate)
-				.setParameter(2, version).setParameter(3, steus).setParameter(4, workcenter).setParameter(5, productDate).setMaxResults(1).uniqueResult();
+				.setParameter(2, version).setParameter(3, workcenter).setParameter(4, productDate).setParameter(5, ordersid).setMaxResults(1).uniqueResult();
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<Orders> findOrders(String productDate){
 		String hql="from Orders a where a.gstrp <= ? and a.gltrp >= ?";
 		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, productDate).list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> findOrders(){
+//		String hql="select max(b.version),a.id from Orders a join a.processrouteSet b group by a.id";
+//		List<Object[]> obj = getSession().createQuery(hql).list();
+		//return obj;
+		return null;
+	}
+	
 	
 }

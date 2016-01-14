@@ -54,6 +54,19 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 		String hql="select max(a.version) from ProcessRoute a where a.orders.aufnr = ?";
 		return (Integer)getSession().createQuery(hql).setParameter(0, aufnr).uniqueResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getMaxVersion(List<String> orderidList){
+		String hql="select max(a.version),a.orders.id from ProcessRoute a where a.orders.id in (:list) group by a.orders.id";
+		return (List<Object[]>)getSession().createQuery(hql).setParameterList("list", orderidList).list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getMaxVersion1(String workcenter){
+		String hql="select max(a.version),a.orders.id from ProcessRoute a where a.workCenter = ? group by a.orders.id";
+		return getSession().createQuery(hql).setParameter(0, workcenter).list();
+		
+	}
 
 	/**
 	 * 生产订单号,版本号,编码查询一条工艺路线
@@ -76,4 +89,11 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 		String hql="select p.processName from ProcessRoute p where p.processCode = ? ";
 		return (String)getSession().createQuery(hql).setParameter(0,processCode).uniqueResult();
 	}
+	
+	public ProcessRoute getProcessRoute(Integer version,String orderid){
+		String hql="from ProcessRoute a where a.version = ? and a.orders.id = ? order by a.processCode asc";
+		return (ProcessRoute) getSession().createQuery(hql).setParameter(0, version).setParameter(1, orderid).setMaxResults(1).uniqueResult();
+		
+	}
+	
 }

@@ -173,7 +173,7 @@ public class ModelAction extends BaseAdminAction {
 		if(persistent.getState().equals("3") || persistent.getState().equals("2") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/确定/回复的单据无法再提交！");
 		}
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId","insepector","fixer","equipments" });
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","state","initiator","products","teamId","insepector","fixer","equipments","orderNo" });
 		modelService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -200,7 +200,7 @@ public class ModelAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("维修时间不允许为空!");
 		}
 				
-		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime"});
+		BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","initiator","equipments","teamId","insepector","fixer","failDescript","noticeTime","arriveTime","orderNo"});
 		persistent.setState("1");	
 
 		if(faultReasonSet!=null || persistent.getFaultReasonSet()!=null){
@@ -242,7 +242,7 @@ public class ModelAction extends BaseAdminAction {
 			if(model.getConfirmTime()==null){
 				return ajaxJsonErrorMessage("确认时间不允许为空！");
 			}
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","fixTime","failDescript","noticeTime","arriveTime","orderNo"});
 			persistent.setState("2");
 			modelService.update(persistent);
 			
@@ -266,7 +266,7 @@ public class ModelAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
 		}
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime","orderNo"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -301,9 +301,9 @@ public class ModelAction extends BaseAdminAction {
 			module.add(dm);
 			
 			try {
-				String aufnr=moderfc.ModelCrt(persistent, step, module);
+				String aufnr=moderfc.ModelCrt("1",persistent, step, module);
 				System.out.println("订单号为："+aufnr);
-				persistent.setOrderNo(aufnr);
+				//persistent.setOrderNo(aufnr);
 				modelService.update(persistent);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -466,7 +466,42 @@ public class ModelAction extends BaseAdminAction {
 		model.setIsDel("N");
 		model.setState("0");
 		model.setInitiator(admin);
-		modelService.save(model);
+				
+		model.setSHORT_TEXT("工模维修单");
+		model.setCOST("2");
+		model.setORDER_TYPE("PM01");//订单类型
+		model.setURGRP("PM1");//原因代码组
+		model.setURCOD("1001");//原因代码
+
+		List<DeviceStep> step=new ArrayList<DeviceStep>();
+		DeviceStep s=new DeviceStep();
+		s.setVornr("0010");
+		s.setArbpl("2101");//工作中心
+		s.setWerks("1000");//工厂
+		s.setSteus("PM01");//控制码
+		s.setDescription("维修");//工序短文本
+		s.setWork_activity("10");
+		s.setDuration("10");			
+		step.add(s);
+		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
+		DeviceModlue dm=new DeviceModlue();
+		dm.setMaterial("60000167");//物料编码
+		dm.setMenge("1");
+		dm.setVornr("0010");
+		dm.setPostp("L");
+		module.add(dm);
+		
+		try {
+			String aufnr=moderfc.ModelCrt("1",model, step, module);
+			System.out.println("订单号为："+aufnr);
+			model.setOrderNo(aufnr);
+			modelService.save(model);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (CustomerException e1) {
+			System.out.println(e1.getMsgDes());
+			e1.printStackTrace();
+		}
 		
 		ModelLog log = new ModelLog();
 		log.setInfo("已提交");

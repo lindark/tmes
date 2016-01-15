@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.opensymphony.oscache.util.StringUtil;
 
 
@@ -206,7 +208,6 @@ public class ThinkWayUtil {
 		try {
 			date1 = format.parse(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return date1;
@@ -294,6 +295,26 @@ public class ThinkWayUtil {
         String dateFormat="ss mm HH dd MM ? yyyy";  
         return formatDateByPattern(date, dateFormat);  
     }  
-
+    
+    
+    public static String getIp2(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        System.out.println("ip1:"+ip);
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if(index != -1){
+                return ip.substring(0,index);
+            }else{
+                return ip;
+            }
+        }
+        ip = request.getHeader("X-Real-IP");
+        System.out.println("ip2:"+ip);
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            return ip;
+        }
+        return request.getRemoteAddr();
+    }
 
 }

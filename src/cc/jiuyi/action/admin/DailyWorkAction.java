@@ -108,8 +108,8 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 编辑
 	public String edit() {
-//		dailyWork = dailyWorkService.load(id);
-//		workingbill = workingBillService.get(workingBillId);
+		dailyWork = dailyWorkService.load(id);
+		workingbill = workingBillService.get(workingBillId);
 //		String productCode = workingbill.getMatnr();
 //		Integer version = workingbill.getProcessversion();
 //		if (version == null) {

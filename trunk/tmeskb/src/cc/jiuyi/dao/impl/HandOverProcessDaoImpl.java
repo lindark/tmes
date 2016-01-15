@@ -109,4 +109,9 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 	}
 	
 	
+	public Double findhandoverbyinout(String processid){
+		
+		return null;
+	}
+	
 }

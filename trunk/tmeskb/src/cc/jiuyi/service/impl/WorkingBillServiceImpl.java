@@ -51,7 +51,7 @@ import freemarker.template.utility.DateUtil;
 
 @Service
 public class WorkingBillServiceImpl extends
-		BaseServiceImpl<WorkingBill, String> implements WorkingBillService,WorkingInoutCalculateBase<WorkingBill>{
+		BaseServiceImpl<WorkingBill, String> implements WorkingBillService{
 	@Resource
 	private WorkingBillDao workingbilldao;
 	@Resource

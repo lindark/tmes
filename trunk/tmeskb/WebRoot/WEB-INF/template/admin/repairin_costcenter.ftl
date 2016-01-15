@@ -74,6 +74,6 @@ function getGridId()
 		return "";
 	}
 	var rowData = $("#grid-table").jqGrid('getRowData',ids[0]);
-	return rowData.costcenter;
+	return rowData.costcenter+","+rowData.CXORJC;
 }
 </script>

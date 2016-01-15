@@ -77,6 +77,7 @@ body {
 								<input type="hidden" name="repair.id" value="${(repair.id)!}" />
 								<input type="hidden" name="repair.workingbill.id" value="${workingbill.id} " id="wkid">
 								<input type="hidden" name="workingBillId" value="${workingbill.id}" />
+								<input type="hidden" name="repair.CXORJC" id="input_cxorjc" value="${(repair.CXORJC)! }" />
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修单</a></li>

@@ -162,7 +162,23 @@ body{background:#fff;}
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
-									</div>	
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">成型/挤压</div>					
+										<div class="profile-info-value">
+											<label class="pull-left inline">
+					                           <small class="muted smaller-90">成型:</small>
+						                       <input type="radio" class="ace" name="factoryUnit.CXORJC" value="CX"<#if (isAdd || factoryUnit.CXORJC == 'CX')!> checked</#if> />
+						                       <span class="lbl middle"></span>
+						                         &nbsp;&nbsp;
+					                        </label>						
+					                        <label class="pull-left inline">
+					                            <small class="muted smaller-90">挤出:</small>
+						                        <input type="radio" class="ace" name="factoryUnit.CXORJC" value="JC"<#if (factoryUnit.CXORJC == 'JC')!> checked</#if>  />
+						                         <span class="lbl middle"></span>
+					                        </label>		
+										</div>	
+									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
 										<div class="profile-info-value">

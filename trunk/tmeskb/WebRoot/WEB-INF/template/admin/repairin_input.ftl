@@ -73,6 +73,7 @@ body {
 								<input type="hidden" name="repairin.id" value="${(repairin.id)!}" />
 								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} " id="wkid">
 								<input type="hidden" name="workingBillId" value="${workingbill.id} ">
+								<input type="hidden" name="repairin.CXORJC" id="input_cxorjc" value="${(repairin.CXORJC)! }" />
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">返修收货管理</a></li>

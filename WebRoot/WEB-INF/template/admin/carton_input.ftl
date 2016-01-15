@@ -26,6 +26,7 @@ body {
 	background: #fff;
 }
 .tabth{text-align:center;}
+.sub_style{text-align: center;}
 </style>
 </head>
 <body class="no-skin input">
@@ -117,9 +118,11 @@ body {
 																<td>
 																	${(list.MATNRDES)! }
 																	<input type="hidden" name="list_cs[${num}].MATNRDES" value="${(list.MATNRDES)! }" />
+																	<input type="hidden" name="list_cs[${num}].wbid" value="${(list.wbid)! }" />
 																</td>
 																<td>
 																	<input type="text" name="list_cs[${num}].cscount" value="${(list.cscount)! }" id="input_cscount${(list.matnr)! }" class="notnull input input-sm"/>
+																	
 																</td>
 																<td>
 																	${(list.xcstotal)! }
@@ -135,11 +138,14 @@ body {
                      			</div>
 							</form>
 							<br/>
-							<div class="row buttons col-md-8 col-sm-4 sub-style">
-                            	<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type="button" />
-									<i class="ace-icon glyphicon glyphicon-check"></i>
-									刷卡保存
-								</button>
+							<div class="row buttons col-md-8 col-sm-4 sub_style">
+                            	<#if show??>
+                            	<#else>
+                            		<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type="button" />
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡保存
+									</button>
+                            	</#if>
 								<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button" />
 									<i class="ace-icon fa fa-home"></i>
 									返回

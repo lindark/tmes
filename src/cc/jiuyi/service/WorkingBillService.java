@@ -16,7 +16,7 @@ import cc.jiuyi.entity.WorkingBill;
  * Service接口 - 字典
  */
 
-public interface WorkingBillService extends BaseService<WorkingBill, String> {
+public interface WorkingBillService extends BaseService<WorkingBill, String>,WorkingInoutCalculateBase<WorkingBill> {
 	/**
 	 * 分页查询
 	 * @param pager

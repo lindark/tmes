@@ -14,4 +14,6 @@ public interface WorkingInoutCalculateBase<T>{
 	 * @param list
 	 */
 	public void updateWorkingInoutCalculate(List<T> paramaterList);
+	
+	
 }

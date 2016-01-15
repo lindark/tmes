@@ -32,4 +32,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		// TODO Auto-generated method stub
 		return workingInoutDao.isExist(workingBillId, materialCode);
 	}
+
+	@Override
+	public WorkingInout findWorkingInout(String workingBillId,String materialCode) {
+		return workingInoutDao.findWorkingInout(workingBillId, materialCode);
+	}
 }

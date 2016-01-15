@@ -26,7 +26,7 @@ body{background:#fff;}
 .div-value{padding-right:30px;min-width:200px; }
 .div-value2{text-align:right;padding-right:0px;min-width:200px;}
 .input-value{width:80px;height:30px;line-height:30px;}
-.sub-style{float: center;}
+.sub-style{float: right;}
 </style>
 </head>
 <body class="no-skin input">
@@ -210,7 +210,7 @@ body{background:#fff;}
 									    </div>	
 								</div>
 							</div>
-							
+							<br/>
 						          <div class="row buttons col-md-8 col-sm-4 sub-style">	
 				                  <#if show??><#else>
 				                    <#if xadd??>

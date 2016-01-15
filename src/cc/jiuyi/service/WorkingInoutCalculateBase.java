@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.entity.Abnormal;
@@ -13,7 +14,7 @@ public interface WorkingInoutCalculateBase<T>{
 	 * 计算 投入产出信息方法
 	 * @param list
 	 */
-	public void updateWorkingInoutCalculate(List<T> paramaterList);
+	public void updateWorkingInoutCalculate(List<T> paramaterList,HashMap<String,Object> maps);
 	
 	
 }

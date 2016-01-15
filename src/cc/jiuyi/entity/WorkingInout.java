@@ -43,13 +43,13 @@ public class WorkingInout extends BaseEntity {
 	private Double inspectionforeAmount;//检验合格数4
 	private Double qualifiedRate;//一次合格率 %
 	
+	private Set<WorkingBill> workingBill;
 	//维修合格接收数
 	//数量差异
 	//计划达成率
 	//报废金额
 	
 	@OneToMany(mappedBy = "workingInout", fetch = FetchType.LAZY)
-	private Set<WorkingBill> workingBill;
 	public Set<WorkingBill> getWorkingBill() {
 		return workingBill;
 	}

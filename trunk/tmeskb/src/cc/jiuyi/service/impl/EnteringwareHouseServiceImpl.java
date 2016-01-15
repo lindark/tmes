@@ -67,7 +67,7 @@ public class EnteringwareHouseServiceImpl extends
 			}
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(statu);
-			enteringwareHouseDao.update(enteringwareHouse);
+			this.update(enteringwareHouse);
 		}
 		workingbill.setTotalSingleAmount(totalamount);
 		workingbillService.update(workingbill);

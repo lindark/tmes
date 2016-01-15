@@ -75,7 +75,7 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 			pick.setState(stu);
 			pick.setConfirmUser(admin);
 			pick.setMblnr(mblnr);
-			pickDao.update(pick);
+			this.update(pick);
 		}
 		
 	}
@@ -86,7 +86,7 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 			Pick pick=list.get(i);
 			pick.setState(stu);
 			pick.setConfirmUser(admin);
-			pickDao.update(pick);
+			this.update(pick);
 		}
 	}
 	

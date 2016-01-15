@@ -111,9 +111,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
-		/*if (ratio == null && ratio.equals("")) {
+		if (ratio == null && ratio.equals("")) {
            return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
-		}*/
+		}
 		Admin admin = adminService.getByCardnum(cardnumber);
 
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
@@ -122,14 +122,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		String budat = util.SystemDate();// 过账日期
 		ids = id.split(",");
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
-		for(EnteringwareHouse e:list){
-			e.setBudat(budat);
-			e.setWerks(werks);
-			e.setLgort(warehouse);
-			e.setMoveType("101");
-			enterList.add(e);
-		}
+		
 		for (int i = 0; i < list.size(); i++) {
 			enteringwareHouse = list.get(i);
 			if (CONFIRMED.equals(enteringwareHouse.getState())) {
@@ -138,18 +131,28 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			if (UNDO.equals(enteringwareHouse.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
-		}
+		}	
 		
+		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
+		for(EnteringwareHouse e:list){
+			e.setBudat(budat);
+			e.setWerks(werks);
+			e.setLgort(warehouse);
+			e.setMoveType("101");
+			e.setStorageAmount(e.getStorageAmount()*ratio);
+			enterList.add(e);
+		}
 		try {
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
+			//List<EnteringwareHouse> enteringList=new ArrayList<EnteringwareHouse>();
 			for(EnteringwareHouse e:aufnr){
 				if("E".equalsIgnoreCase(e.getE_type()))
 				{
 					return this.ajaxJsonErrorMessage(e.getE_message());
 				}
 				
-			}
-			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingBillId,
+			}	
+			enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
 					ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();

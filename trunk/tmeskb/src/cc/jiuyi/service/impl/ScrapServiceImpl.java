@@ -8,11 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.CauseDao;
-import cc.jiuyi.dao.ScrapBugDao;
 import cc.jiuyi.dao.ScrapDao;
-import cc.jiuyi.dao.ScrapLaterDao;
-import cc.jiuyi.dao.ScrapMessageDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Scrap;
@@ -21,6 +17,10 @@ import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
+import cc.jiuyi.service.ScrapBugService;
+import cc.jiuyi.service.ScrapLaterService;
+import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
 
@@ -35,13 +35,13 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	@Resource
 	private ScrapDao scrapDao;
 	@Resource
-	private ScrapMessageDao smsgDao;
+	private ScrapMessageService smsgService;
 	@Resource
-	private ScrapBugDao sbugDao;
+	private ScrapBugService sbugService;
 	@Resource
-	private ScrapLaterDao slaterDao;
+	private ScrapLaterService slaterService;
 	@Resource
-	private CauseDao causeDao;
+	private CauseService causeService;
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -73,8 +73,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setModifyDate(new Date());//初始化修改日期
 		scrap.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		scrap.setBudat(wb.getProductDate());//过账日期
-		String scrapId=this.scrapDao.save(scrap);
-		Scrap scp=this.scrapDao.get(scrapId);//获取新增的对象
+		String scrapId=this.save(scrap);
+		Scrap scp=this.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
 		{
 			for (int i = 0; i < list_scrapmsg.size(); i++)
@@ -96,7 +96,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 					sl.setOrderid(wb.getAufnr());//订单号
 					sl.setScrap(scp);
-					this.slaterDao.save(sl);
+					this.slaterService.save(sl);
 				}
 			}
 		}
@@ -108,12 +108,12 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	 */
 	public void updateInfo(Scrap scrap, List<ScrapMessage> list_scrapmsg,List<ScrapBug> list_scrapbug, List<ScrapLater> list_scraplater,String my_id)
 	{
-		Scrap scp=this.scrapDao.get(scrap.getId());//当前报废(主表)对象
+		Scrap scp=this.get(scrap.getId());//当前报废(主表)对象
 		WorkingBill wb = wbService.get(scrap.getWorkingBill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
 		scp.setModifyDate(new Date());//修改日期
 		scp.setState("1");
-		this.scrapDao.update(scp);//执行修改
+		this.update(scp);//执行修改
 		/**修改报废信息表，及对应bug表*/
 		if(list_scrapmsg!=null)
 		{
@@ -122,14 +122,14 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				ScrapMessage newsm=list_scrapmsg.get(i);
 				if(newsm.getId()!=null&&!"".equals(newsm.getId()))
 				{
-					ScrapMessage sm1=this.smsgDao.get(newsm.getId());
+					ScrapMessage sm1=this.smsgService.get(newsm.getId());
 					List<ScrapBug>l_sbug=new ArrayList<ScrapBug>(sm1.getScrapBug());
 					for(int i2=0;i2<l_sbug.size();i2++)
 					{
 						ScrapBug s=l_sbug.get(i2);
 						if(s!=null)
 						{
-							this.sbugDao.delete(s.getId());
+							this.sbugService.delete(s.getId());
 						}
 					}
 					if(newsm.getSmreson()!=null&&!"".equals(newsm.getSmreson()))
@@ -138,7 +138,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 						sm1.setSmduty(newsm.getSmduty());
 						sm1.setSmreson(newsm.getSmreson());
 						sm1.setModifyDate(new Date());
-						this.smsgDao.update(sm1);
+						this.smsgService.update(sm1);
 						
 						/**报废原因表*/
 						ScrapBug newsb=list_scrapbug.get(i);
@@ -148,7 +148,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 						{
 							if(newsbids[j]!=null&&!"".equals(newsbids[j]))
 							{
-								Cause cause=this.causeDao.get(newsbids[j]);
+								Cause cause=this.causeService.get(newsbids[j]);
 								//2.2新增报废原因
 								ScrapBug sb2=new ScrapBug();
 								sb2.setCreateDate(new Date());//初始化创建日期
@@ -156,14 +156,14 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 								sb2.setSbbugNum(newsbnums[j]);//缺陷数量
 								sb2.setSbbugContent(cause.getCauseName());//缺陷描述
 								sb2.setScrapMessage(sm1);//报废信息表对象
-								this.sbugDao.save(sb2);
+								this.sbugService.save(sb2);
 							}
 						}
 					}
 					else
 					{
 						//1.2删除报废信息
-						this.smsgDao.delete(sm1.getId());
+						this.smsgService.delete(sm1.getId());
 					}
 				}
 				else
@@ -181,7 +181,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			ScrapLater sl=l_slater.get(i);
 			if(sl!=null)
 			{
-				this.slaterDao.delete(sl.getId());
+				this.slaterService.delete(sl.getId());
 			}
 		}
 		if(list_scraplater!=null)
@@ -196,7 +196,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 					sl.setOrderid(wb.getAufnr());//订单号
 					sl.setScrap(scp);
-					this.slaterDao.save(sl);
+					this.slaterService.save(sl);
 				}
 			}
 		}
@@ -213,8 +213,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			sm.setCreateDate(new Date());// 初始化创建日期
 			sm.setModifyDate(new Date());// 初始化修改日期
 			sm.setScrap(scp);
-			String smId = this.smsgDao.save(sm);
-			ScrapMessage sm2 = this.smsgDao.get(smId);// 获取新增的对象
+			String smId = this.smsgService.save(sm);
+			ScrapMessage sm2 = this.smsgService.get(smId);// 获取新增的对象
 			// 报废bug表新增
 			ScrapBug sb1 = list_scrapbug.get(i);
 			String[] bugids = sb1.getXbugids().split(",");// 缺陷id
@@ -224,13 +224,13 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if (bugids[j] != null && !"".equals(bugids[j]))
 				{
 					ScrapBug sbug = new ScrapBug();
-					Cause cause = this.causeDao.get(bugids[j]);
+					Cause cause = this.causeService.get(bugids[j]);
 					sbug.setCreateDate(new Date());// 初始化创建日期
 					sbug.setCauseId(bugids[j]);// 缺陷ID
 					sbug.setSbbugNum(bugnums[j]);// 缺陷数量
 					sbug.setSbbugContent(cause.getCauseName());// 缺陷描述
 					sbug.setScrapMessage(sm2);// 报废信息表对象
-					this.sbugDao.save(sbug);
+					this.sbugService.save(sbug);
 				}
 			}
 		}
@@ -248,7 +248,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public void updateMyData(Scrap s,String newstate,String cardnumber,int my_id)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
-		Scrap s2=this.scrapDao.get(s.getId());
+		Scrap s2=this.get(s.getId());
 		s2.setState(newstate);//状态
 		s2.setModifyDate(new Date());//修改日期
 		s2.setConfirmation(admin);//撤销/确认人
@@ -258,7 +258,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			s2.setE_message(s.getE_message());//反馈消息
 			s2.setMblnr(s.getMblnr());//物料凭证
 		}
-		this.scrapDao.update(s2);
+		this.update(s2);
 	}
 	
 	/**
@@ -266,7 +266,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	 */
 	public List<ScrapLater>getSlBySid(String sid)
 	{
-		return this.slaterDao.getSlBySid(sid);
+		return this.slaterService.getSlBySid(sid);
 	}
 
 	/**
@@ -275,10 +275,10 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	public void updateState(String scrapid, String cardnumber)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
-		Scrap scrap=this.scrapDao.get(scrapid);
+		Scrap scrap=this.get(scrapid);
 		scrap.setModifyDate(new Date());//修改日期
 		scrap.setState("2");//状态--已确认
 		scrap.setConfirmation(admin);//确认人
-		this.scrapDao.update(scrap);
+		this.update(scrap);
 	}
 }

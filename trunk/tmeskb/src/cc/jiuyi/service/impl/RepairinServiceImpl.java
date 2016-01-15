@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
@@ -26,7 +26,7 @@ import cc.jiuyi.util.ArithUtil;
 /**
  * Service实现类 返修收货
  */
-@Service
+@Repository
 public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		implements RepairinService {
 	@Resource
@@ -93,7 +93,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	 */
 	public void updateMyData(Repairin repairin,String cardnumber,int my_id,String wbid)
 	{
-		Repairin r=this.repairinDao.get(repairin.getId());//根据id查询
+		Repairin r=this.get(repairin.getId());//根据id查询
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		r.setConfirmUser(admin);//确认人
 		r.setState("1");//状态改为已确认
@@ -107,7 +107,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			wb.setRepairamount(Integer.parseInt(ArithUtil.add(repairin.getReceiveAmount(), wb.getCartonTotalAmount())+""));
 			this.workingbillService.update(wb);
 		}
-		this.repairinDao.update(r);
+		this.update(r);
 	}
 
 	/**
@@ -146,9 +146,9 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		repairin.setModifyDate(new Date());//修改日期
 		repairin.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repairin.setBUDAT(wb.getProductDate());//过账日期
-		String rid=this.repairinDao.save(repairin);
+		String rid=this.save(repairin);
 		/**保存组件表数据*/
-		Repairin r=this.repairinDao.get(rid);//根据id查询
+		Repairin r=this.get(rid);//根据id查询
 		//2.新增
 		if("ZJ".equals(repairin.getRepairintype()))
 		{
@@ -171,12 +171,12 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
 		/**修改主表数据*/
-		Repairin r = repairinDao.get(repairin.getId());
+		Repairin r = this.get(repairin.getId());
 		List<RepairinPiece>list=new ArrayList<RepairinPiece>(r.getRpieceSet());
 		r.setReceiveAmount(repairin.getReceiveAmount());//返修收货数量
 		r.setModifyDate(new Date());//修改日期
 		//r.setCreateUser(admin);
-		this.repairinDao.update(r);
+		this.update(r);
 		/**修改组件表数据*/
 		//1.删除原数据
 		if(list.size()>0)

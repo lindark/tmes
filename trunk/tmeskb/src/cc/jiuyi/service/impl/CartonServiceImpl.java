@@ -169,7 +169,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			}
 			carton.setConfirmUser(admin);
 			carton.setState("3");
-			cartonDao.update(carton);
+			this.update(carton);
 		}
 		workingbill.setCartonTotalAmount(totalamount);
 		workingbillService.update(workingbill);
@@ -225,7 +225,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		c.setModifyDate(new Date());//修改日期
 		c.setCreateUser(admin);//创建人
 		c.setState("2");//状态-未确认
-		String cid=this.cartonDao.save(c);//保存
+		String cid=this.save(c);//保存
 		/**子表数据插入*/
 		saveinfo(cid,list_cs);
 	}
@@ -235,6 +235,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	 */
 	public void saveinfo(String cid,List<CartonSon> list_cs)
 	{
+		Carton c=this.get(cid);
 		if(list_cs!=null)
 		{
 			for(int i=0;i<list_cs.size();i++)
@@ -242,6 +243,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				CartonSon cs=list_cs.get(i);
 				if(cs.getCscount()!=null&&!"".equals(cs.getCscount()))
 				{
+					cs.setCarton(c);
 					this.csService.save(cs);
 				}
 			}
@@ -266,15 +268,18 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			if(bom!=null)
 			{
 				CartonSon cs=new CartonSon();
-				cs.setMATNR(bom.getMaterialCode());//产品编号(物料编码)
-				cs.setMATNRDES(bom.getMaterialName());//产品名称(物料描述)
-				cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
+				cs.setMATNR(bom.getMaterialCode());//物料编码
+				cs.setMATNRDES(bom.getMaterialName());//物料描述
+				cs.setProductcode(wb.getMatnr());//产品编号
+				cs.setProductname(wb.getMaktx());//产品名称
+				cs.setWbcode(wb.getWorkingBillCode());//随工单编码
 				cs.setWbid(wb.getId());//随工单ID
+				cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
 				xlist.add(cs);
 			}
 		}
 		/**外表数据和本表的数据融合*/
-		Carton c=this.cartonDao.get(id);
+		Carton c=this.get(id);
 		List<CartonSon>xlist2=new ArrayList<CartonSon>(c.getCartonsonSet());
 		if(xlist2.size()>0&&xlist.size()>0)
 		{
@@ -304,10 +309,10 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	 */
 	public void updateData(List<CartonSon> list_cs, String id)
 	{
-		Carton c=this.cartonDao.get(id);
+		Carton c=this.get(id);
 		List<CartonSon>list=new ArrayList<CartonSon>(c.getCartonsonSet());//获取对应子表数据
 		c.setModifyDate(new Date());//修改日期
-		this.cartonDao.update(c);
+		this.update(c);
 		if(list.size()>0)
 		{
 			for(int i=0;i<list.size();i++)
@@ -332,7 +337,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
 		for (int i = 0; i < ids.length; i++)
 		{
-			Carton c = this.cartonDao.get(ids[i]);
+			Carton c = this.get(ids[i]);
 			List<CartonSon>list=new ArrayList<CartonSon>();
 			List<CartonSon>listcs=new ArrayList<CartonSon>(c.getCartonsonSet());
 			for(int j=0;j<listcs.size();j++)
@@ -352,19 +357,48 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				for(int j=0;j<list.size();j++)
 				{
 					CartonSon cs=list.get(j);
-					cartonRfc.CartonCrt(cs);
+					CartonSon cs_return=cartonRfc.CartonCrt(cs);
 					if("E".equals(cs.getE_TYPE()))
 					{
 						return cs.getE_MESSAGE();
 					}
 					WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
-					wb.setCartonTotalAmount(Integer.parseInt(ArithUtil.add(Double.parseDouble(cs.getCscount()), wb.getCartonTotalAmount())+""));
+					Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
+					wb.setCartonTotalAmount(d.intValue());
 					this.workingbillService.update(wb);
+					cs.setE_TYPE(cs_return.getE_TYPE());//返回类型
+					cs.setEX_MBLNR(cs_return.getEX_MBLNR());//凭证号
+					cs.setE_MESSAGE(cs_return.getE_MESSAGE());//返回消息
+					this.csService.update(cs);
 				}
 			}
+			c.setModifyDate(new Date());//确认时间
+			c.setConfirmUser(admin);//确认人
 			c.setState("1");
-			this.cartonDao.update(c);
+			this.update(c);
 		}
 		return "S";
+	}
+
+	/**
+	 * 查看
+	 */
+	public List<CartonSon> getToShow(String id)
+	{
+		List<CartonSon> list_cs=new ArrayList<CartonSon>();
+		//根据id查询主表
+		Carton c=this.get(id);
+		List<CartonSon> list=new ArrayList<CartonSon>(c.getCartonsonSet());
+		if(list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				CartonSon cs=list.get(i);
+				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询随工单
+				cs.setXcstotal(wb.getCartonTotalAmount()+"");
+				list_cs.add(cs);
+			}
+		}
+		return list_cs;
 	}
 }

@@ -19,6 +19,9 @@ public class WorkingInout extends BaseEntity {
 
 	private static final long serialVersionUID = -1376887577702408799L;
 	
+	
+	private String materialCode;//物料编码
+	private String materialName;//物料描述
 	private Double beforeCutting;//接上班裁切数
 	private Double beforeHalfproduct;//接上班半成品
 	private Double beforeJointangle;//接上班接角返修品
@@ -197,6 +200,18 @@ public class WorkingInout extends BaseEntity {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getMaterialCode() {
+		return materialCode;
+	}
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 	
 	

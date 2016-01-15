@@ -16,7 +16,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 
 	@Override
 	public boolean isExist(String workingBillId, String materialCode) {
-		String hql = "from WorkingInout where workingBill.id=? and materialCode=?";
+		String hql = "from WorkingInout where workingBillId=? and materialCode=?";
 		WorkingInout workingInout = (WorkingInout) getSession()
 				.createQuery(hql).setParameter(0, workingBillId)
 				.setParameter(1, materialCode).uniqueResult();
@@ -30,7 +30,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 	@Override
 	public WorkingInout findWorkingInout(String workingBillId,
 			String materialCode) {
-		String hql = "from WorkingInout where workingBill.id=? and materialCode=?";
+		String hql = "from WorkingInout where workingBillId=? and materialCode=?";
 		return (WorkingInout) getSession().createQuery(hql)
 				.setParameter(0, workingBillId).setParameter(1, materialCode)
 				.uniqueResult();

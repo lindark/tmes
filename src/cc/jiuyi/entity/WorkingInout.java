@@ -1,8 +1,11 @@
 package cc.jiuyi.entity;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
@@ -45,6 +48,15 @@ public class WorkingInout extends BaseEntity {
 	//计划达成率
 	//报废金额
 	
+	@OneToMany(mappedBy = "workingInout", fetch = FetchType.LAZY)
+	private Set<WorkingBill> workingBill;
+	public Set<WorkingBill> getWorkingBill() {
+		return workingBill;
+	}
+	public void setWorkingBill(Set<WorkingBill> workingBill) {
+		this.workingBill = workingBill;
+	}
+
 	public Double getBeforeCutting() {
 		return beforeCutting;
 	}

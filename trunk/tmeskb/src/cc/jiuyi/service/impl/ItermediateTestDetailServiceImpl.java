@@ -40,15 +40,6 @@ public class ItermediateTestDetailServiceImpl extends BaseServiceImpl<Itermediat
 	public void setBaseDao(ItermediateTestDetailDao itermediateTestDetailDao){
 		super.setBaseDao(itermediateTestDetailDao);
 	}
-	@Resource
-	private AdminService adminService;
-	@Resource
-	private ItermediateTestService itermediateTestService;
-	@Resource
-	private WorkingBillService workingBillService;
-	
-	
-	
 
 	@Override
 	public List<ItermediateTestDetail> getItermediateTestDetailList() {		

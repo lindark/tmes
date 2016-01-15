@@ -67,14 +67,7 @@ public class CartonSon extends BaseEntity
 	{
 		LIFNR = lIFNR;
 	}
-	public String getCscount()
-	{
-		return cscount;
-	}
-	public void setCscount(String cscount)
-	{
-		this.cscount = cscount;
-	}
+	
 	@Transient
 	public String getMOVE_TYPE()
 	{
@@ -173,5 +166,14 @@ public class CartonSon extends BaseEntity
 	{
 		this.productname = productname;
 	}
+	public String getCscount()
+	{
+		return cscount;
+	}
+	public void setCscount(String cscount)
+	{
+		this.cscount = cscount;
+	}
+	
 	
 }

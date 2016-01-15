@@ -96,6 +96,14 @@ public class CartonAction extends BaseAdminAction {
 		this.cartonService.updateData(list_cs,id);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
+	
+	//查看
+	public String show()
+	{
+		this.list_cs=this.cartonService.getToShow(id);
+		this.show="show";
+		return INPUT;
+	}
 
 	// 刷卡确认
 	public String creditapproval()
@@ -109,9 +117,9 @@ public class CartonAction extends BaseAdminAction {
 				if (CONFIRMED.equals(c.getState())) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
-				if (UNDO.equals(c.getState())) {
+				/*if (UNDO.equals(c.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
-				}
+				}*/
 			}
 			String str = this.cartonService.updateToSAP(ids,cardnumber);
 			String issuccess=ERROR;

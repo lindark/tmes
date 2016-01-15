@@ -20,7 +20,8 @@
 <script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/manage/handover_list.js"></script>
-
+<script src="${base}/template/admin/assets/js/chosen.jquery.min.js"></script>
+ <script type="text/javascript" src="${base}/template/common/js/base.js"></script>
 
 <style type="text/css">
 .ztree li span.button.add {
@@ -34,7 +35,7 @@
 	padding:2px;
 	text-align:center;
 }
-input.oddhandOverMount,input.unhandOverMount{
+input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 	padding:2px;
 }
 .div_top{
@@ -117,6 +118,7 @@ input.oddhandOverMount,input.unhandOverMount{
                                    &nbsp;&nbsp;
                                      班次:
                                      <select name="shift"id="sl_sh">
+                                     	<option value="" <#if (admin.shift == "")!> selected</#if>></option>
                                      	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
 										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
 										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
@@ -220,6 +222,7 @@ input.oddhandOverMount,input.unhandOverMount{
 												<th class="center">计划数量</th>
 												<th class="center">产品编号</th>
 												<th class="center">随工单编号</th>
+												<th class="center">下一班随工单编号</th>
 												<th class="center">零头数交接数量</th>
 												<th class="center">异常交接数量</th>
 											</tr>
@@ -233,7 +236,8 @@ input.oddhandOverMount,input.unhandOverMount{
 													<td class="center">${list.maktx }</td>
 													<td class="center">${list.planCount }</td>
 													<td class="center">${list.matnr }</td>
-													<td class="center">${list.workingBillCode }	</td>
+													<td class="center workingCode" name="workingCode">${list.workingBillCode}</td>
+													<td class="center"><input value="" type="text" class="afterWork"/>	</td>
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
 															<#list list.oddHandOverSet as loh>
 																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
@@ -415,6 +419,18 @@ input.oddhandOverMount,input.unhandOverMount{
 		
 		/*刷卡确认*/
 		$("#creditapproval").click(function(){
+			var shift = $("#sl_sh").val();
+			if(shift==""){
+				alert("请选择班次");
+				return false;
+			}
+			var $afterwork = $(".afterWork");
+			for(var i=0;i<$afterwork.length;i++){
+				if($afterwork.eq(i).val()==""){
+					alert("数据错误,无法查询到下一班随工单");
+					return false;
+				}
+			}
 			var productDate = $("#productDate").val();
 			if(productDate==""){
 				alert("生产日期不允许为空");
@@ -447,7 +463,18 @@ input.oddhandOverMount,input.unhandOverMount{
 		
 		/*刷卡提交*/
 		$("#creditsubmit").click(function(){
-			
+			var shift = $("#sl_sh").val();
+			if(shift==""){
+				alert("请选择班次");
+				return false;
+			}
+			var $afterwork = $(".afterWork");
+			for(var i=0;i<$afterwork.length;i++){
+				if($afterwork.eq(i).val()==""){
+					alert("数据错误,无法查询到下一班随工单");
+					return false;
+				}
+			}
 			var url="hand_over!creditsubmit.action";
 			credit.creditCard(url,function(data){
 				//alert("OK");
@@ -488,6 +515,20 @@ input.oddhandOverMount,input.unhandOverMount{
 		
 		//零头交接提交
 		$("#oddcreditsubmit").click(function(){
+			var shift = $("#sl_sh").val();
+			if(shift==""){
+				alert("请选择班次");
+				return false;
+			}
+			var $afterwork = $(".afterWork");
+			for(var i=0;i<$afterwork.length;i++){
+				if($afterwork.eq(i).val()==""){
+					alert("数据错误,无法查询到下一班随工单");
+					return false;
+				}
+			}
+			
+			
 			var url = "odd_hand_over!creditSubmit.action";
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
@@ -497,6 +538,18 @@ input.oddhandOverMount,input.unhandOverMount{
 		
 		//零头交接确认
 		$("#oddcreditapproval").click(function(){
+			var shift = $("#sl_sh").val();
+			if(shift==""){
+				alert("请选择班次");
+				return false;
+			}
+			var $afterwork = $(".afterWork");
+			for(var i=0;i<$afterwork.length;i++){
+				if($afterwork.eq(i).val()==""){
+					alert("数据错误,无法查询到下一班随工单");
+					return false;
+				}
+			}
 			var url = "odd_hand_over!crediTapproval.action";
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
@@ -519,6 +572,140 @@ input.oddhandOverMount,input.unhandOverMount{
 			credit.creditCard(url,function(data){
 			},dt);
 		}); */
+		
+		var productDates = $("#productDate").val();
+		/* var array = new Array();
+		$(".workingCode").each(function(){
+			array.push($(this).text());
+		}); 
+		var shift = $("#sl_sh").val();
+		var $afterwork = $(".afterWork");
+		if(productDates!=""){
+			$.ajax({
+				url:"odd_hand_over!findAfterWorkingCode.action",
+				data:{"nowDate":productDates,"shift":shift,"workingCode":array},
+				traditional: true,  
+				dataType: "json",
+				type:"POST",
+				success:function(data){
+					if(data.status=="error"){
+						for(var i=0;i<$afterwork.length;i++){
+							$afterwork.eq(i).val("");
+						}
+					}else{
+						for(var i=0;i<$afterwork.length;i++){
+							$afterwork.eq(i).val(data[i].afterCode);
+						}
+					}
+					
+				},
+				error:function(){
+					alert("操作失败");
+				}
+			});
+			
+		} */
+		$("#sl_sh").change(function(){
+			var shift = $("#sl_sh").val();
+			if(shift==""){
+				var $afterwork = $(".afterWork");
+				for(var i=0;i<$afterwork.length;i++){
+					$afterwork.eq(i).val("");
+				}
+				return false;
+			}
+			var productDate = $("#productDate").val();
+			if(productDate==""){
+				return false;
+			}
+			
+			 var array = [];
+				$(".workingCode").each(function(){
+					array.push($(this).text());
+				});
+				var $afterwork = $(".afterWork");
+			  $.ajax({
+					url:"odd_hand_over!findAfterWorkingCode.action",
+					data:{"nowDate":productDate,"shift":shift,"workingCode":array},
+					traditional: true,  
+					dataType: "json",
+					type:"POST",
+					success:function(data){
+						if(data.status=="error"){
+							for(var i=0;i<$afterwork.length;i++){
+								$afterwork.eq(i).val("");
+							}
+						}else{
+							for(var i=0;i<$afterwork.length;i++){
+								$afterwork.eq(i).val(data[i].afterCode);
+							}
+						}
+					},
+					error:function(){
+						alert("操作失败");
+					}
+				});  
+			
+		});
+		$("#productDate").change(function(){
+			if($(this).val()==""){
+				alert("生产日期不允许为空");
+				$(this).val(productDates);
+				return false;
+			}else{
+					// 统一日期格式
+					var strDate = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
+					var beforelength = $(this).val().length;
+					if(beforelength==9){
+						var befores = $(this).val().charAt(beforelength-1);
+						if(befores=="0"){
+							alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+							$(this).val(productDates);
+							return false;
+						}
+					}
+					  //判断日期是否是预期的格式
+					  if (!strDate.test($(this).val())) {
+					    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+					    $(this).val(productDates);
+					    return false;
+					  }
+					  var shift = $("#sl_sh").val();
+						if(shift==""){
+							return false;
+						}
+					  var productDate = $(this).val();
+					  var array = [];
+						$(".workingCode").each(function(){
+							array.push($(this).text());
+						});
+						var $afterwork = $(".afterWork");
+					  $.ajax({
+							url:"odd_hand_over!findAfterWorkingCode.action",
+							data:{"nowDate":productDate,"shift":shift,"workingCode":array},
+							traditional: true,  
+							dataType: "json",
+							type:"POST",
+							success:function(data){
+								if(data.status=="error"){
+									for(var i=0;i<$afterwork.length;i++){
+										$afterwork.eq(i).val("");
+									}
+								}else{
+									for(var i=0;i<$afterwork.length;i++){
+										$afterwork.eq(i).val(data[i].afterCode);
+									}
+								}
+							},
+							error:function(){
+								alert("操作失败");
+							}
+						});  
+					  
+			}
+			
+		});
+		
 		
 		
 	});

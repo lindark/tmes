@@ -193,7 +193,8 @@ public class HandOverAction extends BaseAdminAction {
 					if(aufnr.equals(oddHandOver.getWorkingBill().getAufnr())){
 						HandOverProcess handoverprocess = new HandOverProcess();
 						handoverprocess.setMaterialCode(oddHandOver.getMaterialCode()); //物料编码
-						handoverprocess.setActualAmount(oddHandOver.getActualBomMount());//实际零头数交接数量
+						handoverprocess.setActualAmount(oddHandOver.getActualHOMount());//实际零头数交接数量
+						handoverprocess.setUnAmount(oddHandOver.getUnHOMount());
 						handoverprocess.setAfterworkingbill(workingbillservice.getCodeNext(oddHandOver.getWorkingBill().getWorkingBillCode(),nowDate,shift));//下班随工单
 						handoverprocess.setBeforworkingbill(oddHandOver.getWorkingBill());//上班随工单
 						handoverprocess.setId(oddHandOver.getId());//id

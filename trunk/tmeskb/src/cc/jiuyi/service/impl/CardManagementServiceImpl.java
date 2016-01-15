@@ -30,6 +30,7 @@ public class CardManagementServiceImpl extends BaseServiceImpl<CardManagement, S
 		super.setBaseDao(cardManagementDao);
 	}
 	
+	
 	@Override
 	public void delete(String id) {
 		CardManagement cardManagement = cardManagementDao.load(id);

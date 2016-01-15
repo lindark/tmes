@@ -74,14 +74,15 @@ body {
 
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
+											<!-- 
 											<div class="profile-info-row">
 												<div class="profile-info-name">姓名</div>
 
 												<div class="profile-info-value">
 													<span>${admin.name }</span>
 												</div>
-
 											</div>
+											 -->
 											<div class="profile-info-row">
 												<div class="profile-info-name">生产日期</div>
 

@@ -142,7 +142,7 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name">成本中心</div>					
 										<div class="profile-info-value">
-											<input type="text" name="factoryUnit.costcenter" value="${(factoryUnit.workCenter)!}" id="costcenter" class=" input input-sm  formText {required: true}" />
+											<input type="text" name="factoryUnit.costcenter" value="${(factoryUnit.costcenter)!}" id="costcenter" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>

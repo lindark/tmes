@@ -352,7 +352,7 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
-		<#if !workingbillList??>
+		<#if workingbillList?size <=0>
 		$.gritter
 				.add({
 					// (string | mandatory) the heading of the notification

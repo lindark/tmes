@@ -83,10 +83,12 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											<!-- 
 											<a id="syncButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												同步
 											</a>
+											 -->
 										</div>
 									</div>
 								</form>							

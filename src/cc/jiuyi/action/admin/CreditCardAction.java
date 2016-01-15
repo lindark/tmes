@@ -4,10 +4,15 @@ import java.util.Date;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import com.opensymphony.xwork2.ActionContext;
+
+import cc.jiuyi.entity.CardManagement;
 import cc.jiuyi.entity.CreditCard;
+import cc.jiuyi.service.CardManagementService;
 import cc.jiuyi.service.CreditCardService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -22,15 +27,32 @@ public class CreditCardAction extends BaseAdminAction {
 	
 	@Resource
 	private CreditCardService creditCardService;
+	@Resource
+	private CardManagementService cardmanagementservice;
 	
 	private Date createDate;
 	
 	public String getCredit(){
+		HttpServletRequest request = getRequest();
+		String ip = ThinkWayUtil.getIp2(request);
+		System.out.println(ip);
+		String serverName = request.getServerName();
+		System.out.println(serverName);
+		
 		HashMap<String, String> map = new HashMap<String,String>();
 		CreditCard creditCard = creditCardService.get(createDate);
 		if(creditCard == null){//未找到
 			map.put("status", "no");
 		}else{
+//			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
+//			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
+//			String pcip = cardment.getPcIp();
+//			if(ip.equals(pcip)){
+//				map.put("status", "yes");
+//				map.put("cardnumber", creditCard.getCardNumber());//卡号
+//			}else{
+//				map.put("status", "no");
+//			}
 			map.put("status", "yes");
 			map.put("cardnumber", creditCard.getCardNumber());//卡号
 		}

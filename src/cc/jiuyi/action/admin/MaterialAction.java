@@ -174,7 +174,7 @@ public class MaterialAction extends BaseAdminAction {
 	//删除
 	public String delete(){
 		ids=id.split(",");
-		materialService.updateisdel(ids, "Y");
+		materialService.delete(ids);
 		redirectionUrl = "material!list.action";
 		return SUCCESS;
 	}

@@ -137,24 +137,14 @@
 								</div>
 							</div>
 							<div>
-								<#if xedit??>
-								<button class="btn btn-white btn-default btn-sm btn-round"
-									id="editRework">
-									<i class="ace-icon fa fa-pencil-square-o"></i> 编辑返工单记录
-								</button>
-
-								<button class="btn btn-white btn-default btn-sm btn-round"
-									id="showRework">
-									<i class="ace-icon fa fa-book"></i> 查看返工单记录
-								</button>
+								<#if xedit??>								
 								<#else>
-
 								<button class="btn btn-white btn-default btn-sm btn-round "
 									id="addRework">
 									<i class="ace-icon fa fa-folder-open-o"></i> 新建返工单记录
-								</button>
-
-								<button class="btn btn-white btn-default btn-sm btn-round"
+								</button>		
+								</#if>
+                                <button class="btn btn-white btn-default btn-sm btn-round"
 									id="editRework">
 									<i class="ace-icon fa fa-pencil-square-o"></i> 编辑返工单记录
 								</button>
@@ -163,19 +153,20 @@
 									id="showRework">
 									<i class="ace-icon fa fa-book"></i> 查看返工单记录
 								</button>
-								</#if>
+                                 
+                                 <button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
+										<i class="ace-icon fa fa-home"></i>
+										返回上一级
+								</button> 
 
-
+ 
 								<!--<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</button>
+									</button>  -->
 
 
-									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
-										<i class="ace-icon fa fa-home"></i>
-										返回
-									</button> -->
+									
 
 							</div>
 							<div class="row">
@@ -331,7 +322,8 @@
 	
 	
 		$("#returnRework").click(function(){
-			window.history.back();
+			var workingBillId = $("#workingBillId").val();
+			window.location.href = "rework!list.action?workingBillId=" + $("#workingBillId").val();
 		});
 		
 		

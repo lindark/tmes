@@ -26,7 +26,7 @@ body{background:#fff;}
 .div-value{padding-right:30px;min-width:200px; }
 .div-value2{text-align:right;padding-right:0px;min-width:200px;}
 .input-value{width:80px;height:30px;line-height:30px;}
-.sub-style{float: right;}
+.sub-style{float: center;}
 </style>
 </head>
 <body class="no-skin input">
@@ -213,24 +213,28 @@ body{background:#fff;}
 							
 						          <div class="row buttons col-md-8 col-sm-4 sub-style">	
 				                  <#if show??><#else>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
+				                    <#if xadd??>
+								    <button class="btn btn-white btn-default btn-sm btn-round" id="completeRework" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
-									</button>									
-									<button class="btn btn-white btn-default btn-sm btn-round" id="checkRework" type=button>
+									</button>
+								   <#else>
+										<button class="btn btn-white btn-default btn-sm btn-round" id="checkRework" type=button>
 										<i class="ace-icon glyphicon glyphicon-ok"></i>
 										刷卡回复
-									</button>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmRework" type=button>
+									   </button>
+									   <button class="btn btn-white btn-default btn-sm btn-round" id="confirmRework" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
-									</button>
+									   </button>
+								   </#if>
 									</#if>
-									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework" type=button>
+								   <button class="btn btn-white btn-default btn-sm btn-round" id="returnRework" type=button>
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-                 	               </div>
+								  
+                 	             </div>
 						</form>				
 						
 	

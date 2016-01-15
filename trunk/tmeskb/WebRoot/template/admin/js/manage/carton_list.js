@@ -101,7 +101,7 @@ jQuery(function($) {
 			}, 0);
 		},
 		editurl: "",//用它做标准删除动作
-		caption: "返修记录"
+		caption: "纸箱收货"
 
 		//,autowidth: true,
 //		,

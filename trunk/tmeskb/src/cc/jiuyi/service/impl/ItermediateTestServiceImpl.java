@@ -10,16 +10,16 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.CauseDao;
-import cc.jiuyi.dao.IpRecordDao;
 import cc.jiuyi.dao.ItermediateTestDao;
-import cc.jiuyi.dao.ItermediateTestDetailDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.IpRecord;
 import cc.jiuyi.entity.ItermediateTest;
 import cc.jiuyi.entity.ItermediateTestDetail;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
+import cc.jiuyi.service.IpRecordService;
+import cc.jiuyi.service.ItermediateTestDetailService;
 import cc.jiuyi.service.ItermediateTestService;
 import cc.jiuyi.service.WorkingBillService;
 
@@ -35,11 +35,11 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 	@Resource
 	private ItermediateTestDao itermediateTestDao;
 	@Resource
-	private ItermediateTestDetailDao itdDao;
+	private ItermediateTestDetailService itdService;
 	@Resource
-	private CauseDao causeDao;
+	private CauseService causeService;
 	@Resource
-	private IpRecordDao ipRecordDao;
+	private IpRecordService ipRecordService;
 	@Resource
 	private WorkingBillService workingbillService;
 	@Resource
@@ -92,8 +92,8 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			it.setCreateDate(new Date());
 			it.setModifyDate(new Date());
 			it.setItermediateTest(itermediateTest);
-			String DetailId = this.itdDao.save(it);
-			ItermediateTestDetail it2 = this.itdDao.load(DetailId);
+			String DetailId = this.itdService.save(it);
+			ItermediateTestDetail it2 = this.itdService.load(DetailId);
 
 			if (it.getFailReason() != null && !"".equals(it.getFailReason())) {
 				IpRecord ip1 = list_itbug.get(i);
@@ -102,13 +102,13 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 				for (int j = 0; j < bugids.length; j++) {
 					if (bugids[j] != null && !"".equals(bugids[j])) {
 						IpRecord ipRecord = new IpRecord();
-						Cause cause = this.causeDao.get(bugids[j]);
+						Cause cause = this.causeService.get(bugids[j]);
 						ipRecord.setCreateDate(new Date());
 						ipRecord.setCauseId(bugids[j]);// 缺陷ID
 						ipRecord.setRecordNum(bugnums[j]);// 缺陷数量
 						ipRecord.setRecordDescription(cause.getCauseName());// 缺陷描述
 						ipRecord.setItermediateTestDetail(it2);// 巡检从表对象
-						this.ipRecordDao.save(ipRecord);
+						this.ipRecordService.save(ipRecord);
 					}
 				}
 			}
@@ -168,12 +168,12 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			for (int i = 0; i < list_itmesg.size(); i++) {
 				ItermediateTestDetail newdit=list_itmesg.get(i);
 				if(newdit.getId()!=null&&!"".equals(newdit.getId())){
-					ItermediateTestDetail dit1=this.itdDao.get(newdit.getId());
+					ItermediateTestDetail dit1=this.itdService.get(newdit.getId());
 					List<IpRecord> l_sbug=new ArrayList<IpRecord>(dit1.getIpRecord());
 					for(int i2=0;i2<l_sbug.size();i2++){						
 						IpRecord s=l_sbug.get(i2);
 						if(s!=null){
-							this.ipRecordDao.delete(s.getId());
+							this.ipRecordService.delete(s.getId());
 						}
 					}
 					if(newdit.getTestAmount()!=null&&!"".equals(newdit.getTestAmount())){						
@@ -187,7 +187,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 						dit1.setGoodsSzie4(newdit.getGoodsSzie4());
 						dit1.setGoodsSzie5(newdit.getGoodsSzie5());
 						dit1.setModifyDate(new Date());
-						this.itdDao.update(dit1);
+						this.itdService.update(dit1);
 						
 						if(newdit.getFailReason()!=null&&!"".equals(newdit.getFailReason())){
 							IpRecord newip=list_itbug.get(i);
@@ -195,7 +195,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 							String[] newsbnums=newip.getXbugnums().split(",");//缺陷描述
 							for (int j = 0; j < newsbids.length; j++) {
 								 if(newsbids[j]!=null&&!"".equals(newsbids[j])){
-									 Cause cause=this.causeDao.get(newsbids[j]);
+									 Cause cause=this.causeService.get(newsbids[j]);
 									 //新增报废原因
 									 IpRecord ip2=new IpRecord();
 									 ip2.setCreateDate(new Date());
@@ -203,14 +203,14 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 									 ip2.setRecordNum(newsbnums[j]);
 									 ip2.setRecordDescription(cause.getCauseName());
 									 ip2.setItermediateTestDetail(dit1);
-									 this.ipRecordDao.save(ip2);
+									 this.ipRecordService.save(ip2);
 								 }
 							}	
 						}							
 					}
 					else{
 						//删除从表信息
-						this.itdDao.delete(dit1.getId());
+						this.itdService.delete(dit1.getId());
 					}	
 				  }
 				else{

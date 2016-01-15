@@ -216,8 +216,8 @@
 			var workingBillId = $("#workingBillId").val();
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
-			if(row_state=="1"||row_state=="3"){
-				layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
+			if(row_state=="1"){
+				layer.msg("已确认的返修单无法再编辑!", {icon: 5});
 			}else{
 				window.location.href="repair!edit.action?workingBillId="+workingBillId+"&id="+id;				
 			}

@@ -183,6 +183,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.CartonSon</value>
 				<value>cc.jiuyi.entity.OddHandOver</value>
 				<value>cc.jiuyi.entity.PumPackHandOver</value>
+				<value>cc.jiuyi.entity.WorkingInout</value>
 			</list>
 		</property>
 	</bean>

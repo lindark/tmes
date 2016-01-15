@@ -65,8 +65,10 @@ jQuery(function($) {
 		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'costcenter',index:'costcenter',label:"成本中心",width:300, editable: false},
-			{name:'xiscanrepair',index:'iscanrepair',label:"是否可以返修/返修收货",width:300, editable: false}
+			{name:'costcenter',index:'costcenter',label:"成本中心",width:200, editable: false},
+			{name:'XCXORJC',index:'CXORJC',label:"成型/挤出",width:200, editable: false},
+			{name:'CXORJC',index:'CXORJC',label:"成型/挤出",width:10, editable: false,hidden:true},
+			{name:'xiscanrepair',index:'iscanrepair',label:"是否可以返修/返修收货",width:200, editable: false}
 		], 
 
 		viewrecords : true,

@@ -143,8 +143,10 @@ function addcostcenter_event()
 		var info=iframeWin.getGridId();
 		if(info!=""&&info!=null)
 		{
-			$("#span_costcenter").text(info);
-			$("#input_costcenter").val(info);
+			var mydata=info.split(",");
+			$("#span_costcenter").text(mydata[0]);
+			$("#input_costcenter").val(mydata[0]);
+			$("#input_cxorjc").val(mydata[1]);
 			layer.close(index);
 		}
 	});

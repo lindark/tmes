@@ -32,6 +32,7 @@ import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutCalculateBase;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -50,7 +51,7 @@ import freemarker.template.utility.DateUtil;
 
 @Service
 public class WorkingBillServiceImpl extends
-		BaseServiceImpl<WorkingBill, String> implements WorkingBillService {
+		BaseServiceImpl<WorkingBill, String> implements WorkingBillService,WorkingInoutCalculateBase<WorkingBill>{
 	@Resource
 	private WorkingBillDao workingbilldao;
 	@Resource

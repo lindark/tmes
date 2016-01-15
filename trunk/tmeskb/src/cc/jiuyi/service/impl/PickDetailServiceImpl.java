@@ -34,10 +34,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 
 	@Resource
 	private PickDetailDao pickDetailDao;
-	@Resource
-	private PickDao pickDao;
-	
-	
+
 	@Resource
 	public void setBaseDao(PickDetailDao pickDetailDao){
 		super.setBaseDao(pickDetailDao);
@@ -110,31 +107,33 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	@Override
 	public void updateAll(Pick pick, List<PickDetail> pickDetail,String cardNumber,String info) {
 		Admin admin = this.adminService.getByCardnum(cardNumber);
-		Pick pickNew = this.pickDao.get(pick.getId());//获取主表对象
+		Pick pickNew = this.pickService.get(pick.getId());//获取主表对象
 		pickNew.setModifyDate(new Date());
 		pickNew.setModifyUser(admin);
-		this.pickDao.update(pickNew);
+		this.pickService.update(pickNew);
 		
 
 		for (int i = 0; i < pickDetail.size(); i++) {
-			PickDetail pickDetailOld =pickDetail.get(i);
-			if(pickDetailOld.getId()!=null&&!"".equals(pickDetailOld.getId())){
-				PickDetail pickDetailNow =this.pickDetailDao.get(pickDetailOld.getId());
-				if(pickDetailOld.getPickAmount()!=null&&!"".equals(pickDetailOld.getPickAmount())){
+			PickDetail pickDetailOld = pickDetail.get(i);
+			if (pickDetailOld.getId() != null
+					&& !"".equals(pickDetailOld.getId())) {
+				PickDetail pickDetailNow = this.pickDetailDao.get(pickDetailOld
+						.getId());
+				if (pickDetailOld.getPickAmount() != null
+						&& !"".equals(pickDetailOld.getPickAmount())) {
 					pickDetailNow.setPickAmount(pickDetailOld.getPickAmount());
 					pickDetailNow.setPickType(pickDetailOld.getPickType());
 					pickDetailNow.setModifyDate(new Date());
-					this.pickDetailDao.update(pickDetailNow);
+					this.update(pickDetailNow);
+				} else {
+					this.delete(pickDetailNow.getId());
 				}
-				else{
-					this.pickDetailDao.delete(pickDetailNow.getId());
-				}
-			}
-			else{
-				if(pickDetailOld.getPickAmount()!=null&&!"".equals(pickDetailOld.getPickAmount())){
+			} else {
+				if (pickDetailOld.getPickAmount() != null
+						&& !"".equals(pickDetailOld.getPickAmount())) {
 					pickDetailOld.setPickType(info);
 					pickDetailOld.setPick(pickNew);
-					this.pickDetailDao.save(pickDetailOld);
+					this.save(pickDetailOld);
 				}				
 			}
 		}

@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
-import cc.jiuyi.dao.SampleDao;
 import cc.jiuyi.dao.SampleRecordDao;
 import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.service.SampleRecordService;
@@ -32,6 +31,20 @@ public class SampleRecordServiceImpl extends BaseServiceImpl<SampleRecord, Strin
 	public List<SampleRecord> getBySampleId(String id)
 	{
 		return this.srDao.getBySampleId(id);
+	}
+
+	/**
+	 * 根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增
+	 */
+	public SampleRecord getBySidAndCid(String sid, String cid)
+	{
+		return this.srDao.getBySidAndCid(sid, cid);
+	}
+
+	/**根据抽检单id和标记查询该缺陷记录*/
+	public List<SampleRecord> getBySidAndMark(String sid, String mark)
+	{
+		return this.srDao.getBySidAndMark(sid, mark);
 	}
 	
 }

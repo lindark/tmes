@@ -7,8 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairDao;
@@ -27,8 +26,7 @@ import cc.jiuyi.util.ArithUtil;
 /**
  * Service实现类 返修
  */
-@Service
-@Transactional
+@Repository
 public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		implements RepairService {
 	@Resource
@@ -90,7 +88,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	 */
 	public void updateMyData(Repair repair,String cardnumber,int my_id,String wbid)
 	{
-		Repair r=this.repairDao.get(repair.getId());//根据id查询
+		Repair r=this.get(repair.getId());//根据id查询
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		r.setConfirmUser(admin);//确认人
 		r.setState("1");//状态改为已确认
@@ -104,7 +102,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			wb.setRepairamount(Integer.parseInt(ArithUtil.sub(wb.getCartonTotalAmount(),repair.getRepairAmount())+""));
 			this.workingbillService.update(wb);
 		}
-		this.repairDao.update(r);
+		this.update(r);
 	}
 
 	/**
@@ -143,9 +141,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		repair.setModifyDate(new Date());//修改日期
 		repair.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repair.setBUDAT(wb.getProductDate());//过账日期
-		String rid=this.repairDao.save(repair);
+		String rid=this.save(repair);
 		/**保存组件表数据*/
-		Repair r=this.repairDao.get(rid);//根据id查询
+		Repair r=this.get(rid);//根据id查询
 		if("ZJ".equals(repair.getRepairtype()))
 		{
 			//组件--选择的组件
@@ -167,7 +165,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		WorkingBill wb = workingbillService.get(repair.getWorkingbill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
 		/**修改主表数据*/
-		Repair r = repairDao.get(repair.getId());
+		Repair r = this.get(repair.getId());
 		List<RepairPiece>list=new ArrayList<RepairPiece>(r.getRpieceSet());
 		r.setRepairAmount(repair.getRepairAmount());//返修数量
 		r.setRepairPart(repair.getRepairPart());//返修部位
@@ -175,7 +173,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		r.setProcessCode(repair.getProcessCode());//责任工序
 		r.setModifyDate(new Date());//修改日期
 		//r.setCreateUser(admin);
-		this.repairDao.update(r);
+		this.update(r);
 		/**修改组件表数据*/
 		//1.删除原数据
 		if(list.size()>0)

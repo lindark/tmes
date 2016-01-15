@@ -8,14 +8,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.CauseDao;
 import cc.jiuyi.dao.SampleDao;
-import cc.jiuyi.dao.SampleRecordDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CauseService;
+import cc.jiuyi.service.SampleRecordService;
 import cc.jiuyi.service.SampleService;
 
 /**
@@ -29,9 +29,9 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	@Resource
 	private SampleDao sampleDao;
 	@Resource
-	private SampleRecordDao sampleRecordDao;
+	private SampleRecordService sampleRecordService;
 	@Resource
-	private CauseDao causeDao;
+	private CauseService causeService;
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -67,8 +67,8 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 				sample.setComfirmation(admin);
 				sample.setState("2");
 			}
-			String sampleId=this.sampleDao.save(sample);
-			Sample sam=this.sampleDao.get(sampleId);
+			String sampleId=this.save(sample);
+			Sample sam=this.get(sampleId);
 			String[]qxids=info.split(",");//缺陷IDS
 			String[]qxnums=info2.split(",");//缺陷nums
 			for(int i=0;i<qxids.length;i++)
@@ -76,14 +76,14 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 				if(qxids[i]!=null&&!qxids[i].equals(""))
 				{
 					SampleRecord sr=new SampleRecord();
-					Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
+					Cause cause=this.causeService.get(qxids[i]);//根据缺陷ID查询
 					sr.setCreateDate(new Date());//初始化创建日期
 					sr.setModifyDate(new Date());//初始化修改日期
 					sr.setSample(sam);//抽检单对象
 					sr.setRecordDescription(cause.getCauseName());
 					sr.setRecordNum(qxnums[i]);//缺陷数量
 					sr.setCauseId(qxids[i]);//缺陷ID
-					this.sampleRecordDao.save(sr);
+					this.sampleRecordService.save(sr);
 				}
 			}
 		}
@@ -101,7 +101,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			Sample sample=list.get(i);
 			sample.setState(newstate);
 			sample.setComfirmation(admin);
-			this.sampleDao.update(sample);
+			this.update(sample);
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	public void updateInfo(Sample sample, String info, String info2, String my_id,String cardnumber)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
-		Sample s=this.sampleDao.get(sample.getId());
+		Sample s=this.get(sample.getId());
 		BeanUtils.copyProperties(sample, s, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		s.setSampler(admin);//抽检人
 		s.setState("1");
@@ -128,8 +128,8 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 			s.setState("2");
 		}
 		s.setModifyDate(new Date());
-		this.sampleDao.update(s);//修改操作
-		Sample sam=this.sampleDao.get(sample.getId());
+		this.update(s);//修改操作
+		Sample sam=this.get(sample.getId());
 		/**缺陷记录更新*/
 		String[]qxids=info.split(",");//缺陷IDS
 		String[]qxnums=info2.split(",");//缺陷nums
@@ -137,20 +137,20 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		{
 			if(qxids[i]!=null&&!qxids[i].equals(""))
 			{
-				Cause cause=this.causeDao.get(qxids[i]);//根据缺陷ID查询
+				Cause cause=this.causeService.get(qxids[i]);//根据缺陷ID查询
 				//根据抽检单id和缺陷表id查询缺陷记录表是否存在，存在更新，不存在新增
-				SampleRecord sr1=this.sampleRecordDao.getBySidAndCid(sample.getId(),qxids[i]);
+				SampleRecord sr1=this.sampleRecordService.getBySidAndCid(sample.getId(),qxids[i]);
 				if(sr1!=null)
 				{
 					//if(qxnums[i]==null)
 					//修改
-					SampleRecord sr2=this.sampleRecordDao.get(sr1.getId());
+					SampleRecord sr2=this.sampleRecordService.get(sr1.getId());
 					sr2.setModifyDate(new Date());//更新日期
 					sr2.setRecordDescription(cause.getCauseName());
 					sr2.setRecordNum(qxnums[i]);//缺陷数量
 					sr2.setIsDel("N");
 					sr2.setIstoDel("N");
-					this.sampleRecordDao.update(sr2);
+					this.sampleRecordService.update(sr2);
 				}
 				else
 				{
@@ -163,31 +163,31 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 					sr.setRecordNum(qxnums[i]);//缺陷数量
 					sr.setCauseId(qxids[i]);//缺陷ID
 					sr.setIstoDel("N");
-					this.sampleRecordDao.save(sr);
+					this.sampleRecordService.save(sr);
 				}
 			}
 		}
 		/**删除操作*/
-		List<SampleRecord> list_sr=this.sampleRecordDao.getBySidAndMark(sample.getId(),"Y");//根据抽检单id和标记查询该缺陷记录
+		List<SampleRecord> list_sr=this.sampleRecordService.getBySidAndMark(sample.getId(),"Y");//根据抽检单id和标记查询该缺陷记录
 		if(list_sr.size()>0)
 		{
 			for(int i=0;i<list_sr.size();i++)
 			{
 				SampleRecord sr=list_sr.get(i);
-				sr=this.sampleRecordDao.get(sr.getId());
+				sr=this.sampleRecordService.get(sr.getId());
 				sr.setIsDel("Y");
-				this.sampleRecordDao.update(sr);
+				this.sampleRecordService.update(sr);
 			}
 		}
-		List<SampleRecord> list_sr2=this.sampleRecordDao.getBySidAndMark(sample.getId(),"N");
+		List<SampleRecord> list_sr2=this.sampleRecordService.getBySidAndMark(sample.getId(),"N");
 		if(list_sr2.size()>0)
 		{
 			for(int i=0;i<list_sr2.size();i++)
 			{
 				SampleRecord sr=list_sr2.get(i);
-				sr=this.sampleRecordDao.get(sr.getId());
+				sr=this.sampleRecordService.get(sr.getId());
 				sr.setIstoDel("Y");
-				this.sampleRecordDao.update(sr);
+				this.sampleRecordService.update(sr);
 			}
 		}
 	}

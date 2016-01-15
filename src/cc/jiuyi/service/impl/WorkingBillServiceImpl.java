@@ -401,5 +401,13 @@ public class WorkingBillServiceImpl extends
 	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr){
 		return workingbilldao.getListWorkingBillByDate(productDate,shift,workcenter,matnr);
 	}
+
+	/**
+	 * 计算投入产出表逻辑
+	 */
+	public void updateWorkingInoutCalculate(List<WorkingBill> paramaterList) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

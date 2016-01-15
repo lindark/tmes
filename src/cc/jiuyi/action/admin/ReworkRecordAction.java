@@ -70,14 +70,8 @@ public class ReworkRecordAction extends BaseAdminAction {
 	private String id;//前台JQ传的主表ID
 	private Integer reworkCount;//前台隐藏传的翻包次数
 	private String xedit;
-
-	public String getXedit() {
-		return xedit;
-	}
-
-	public void setXedit(String xedit) {
-		this.xedit = xedit;
-	}
+	private String xadd;
+	
 
 	private List<Dict> allCheck;
 	
@@ -99,6 +93,7 @@ public class ReworkRecordAction extends BaseAdminAction {
 	public String add(){
 		rework = reworkService.get(reworkId);
 		workingbill=workingBillService.get(workingBillId);
+		xadd = "xadd";
 		return INPUT;
 	}
 
@@ -241,13 +236,13 @@ public class ReworkRecordAction extends BaseAdminAction {
 	  }
 		
 		
-		//编辑
-		public String edit(){
-		    workingbill = workingBillService.get(workingBillId);
-			reworkRecord = reworkRecordService.get(id);
-			return INPUT;
-		}	
-		
+	// 编辑
+	public String edit() {
+		workingbill = workingBillService.get(workingBillId);
+		reworkRecord = reworkRecordService.get(id);
+		return INPUT;
+	}
+
 	//更新
 		@Validations(
 				requiredStrings = {
@@ -542,7 +537,21 @@ public class ReworkRecordAction extends BaseAdminAction {
 		this.reworkCount = reworkCount;
 	}
 
+	public String getXadd() {
+		return xadd;
+	}
 
-	
-	
+	public void setXadd(String xadd) {
+		this.xadd = xadd;
+	}
+
+
+	public String getXedit() {
+		return xedit;
+	}
+
+	public void setXedit(String xedit) {
+		this.xedit = xedit;
+	}
+
 }

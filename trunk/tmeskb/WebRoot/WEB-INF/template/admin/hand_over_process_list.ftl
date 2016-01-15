@@ -237,14 +237,15 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 													<td class="center">${list.planCount }</td>
 													<td class="center">${list.matnr }</td>
 													<td class="center workingCode" name="workingCode">${list.workingBillCode}</td>
-													<td class="center"><input value="" type="text" class="afterWork"/>	</td>
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
 															<#list list.oddHandOverSet as loh>
+																<td class="center"><input type="text" class="afterWork" value="${loh.afterWorkingCode}"/>	</td>
 																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
 																<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unHOMount }"/></td>
 															<#break>
 															</#list>
 														<#else>
+														<td class="center"><input type="text" class="afterWork" value=""/>	</td>
 														<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value=""/></td>
 														<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value=""/></td>
 														</#if>
@@ -528,8 +529,8 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				}
 			}
 			
-			
-			var url = "odd_hand_over!creditSubmit.action";
+			var productDate = $("#productDate").val();
+			var url = "odd_hand_over!creditSubmit.action?nowDate="+productDate+"&shift="+shift;
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
 			},dt);

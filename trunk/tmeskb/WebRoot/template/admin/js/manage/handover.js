@@ -68,6 +68,7 @@ $(function(){
 	        btn2:function(index,layero){//刷卡确认
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
+	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");
 	        	for(var i=0;i<$afterworkingBillCode.length;i++){
 					if($afterworkingBillCode.eq(i).val()==""){
 						alert("数据错误,无法查询到下一班随工单,或手动填写随工单");

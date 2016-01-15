@@ -145,7 +145,7 @@ $.extend($.livequery, {
 	
 	checkQueue: function() {
 		if ( $.livequery.running && $.livequery.queue.length ) {
-			var length = $.livequery.queue.length;
+			var length = team.livequery.queue.length;
 			// Run each Live Query currently in the queue
 			while ( length-- )
 				$.livequery.queries[ $.livequery.queue.shift() ].run();

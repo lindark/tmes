@@ -191,6 +191,9 @@ public class HandOverAction extends BaseAdminAction {
 				for(int y=0;y<oddHandOverList.size();y++){
 					OddHandOver oddHandOver = oddHandOverList.get(y);
 					if(aufnr.equals(oddHandOver.getWorkingBill().getAufnr())){
+						if(oddHandOver.getMblnr()!=null){
+							continue;
+						}
 						HandOverProcess handoverprocess = new HandOverProcess();
 						handoverprocess.setMaterialCode(oddHandOver.getMaterialCode()); //物料编码
 						handoverprocess.setActualAmount(oddHandOver.getActualHOMount());//实际零头数交接数量

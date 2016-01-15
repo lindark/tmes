@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.WorkingInoutService;
@@ -21,6 +22,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	@Resource
 	private WorkingInoutDao workingInoutDao;
 	
+	@Resource
+	public void setBaseDao(WorkingInoutDao workingInoutDao){
+		super.setBaseDao(workingInoutDao);
+	}
 	
 	@Override
 	public boolean isExist(String workingBillId, String materialCode) {

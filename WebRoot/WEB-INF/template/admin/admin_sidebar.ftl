@@ -753,6 +753,28 @@
 				</ul>
 			</li>
 
+			<li class="#">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text"> 报表管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="working_inout!list.action" >
+							<i class="menu-icon"></i>
+							投入产出报表
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
+
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-cog"></i>

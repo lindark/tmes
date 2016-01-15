@@ -97,11 +97,13 @@
 														<div class="profile-info-value">
 															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>
 													</div>
+													<!-- 
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">
 															${(admin.department.team.teamName)! }</div>
 													</div>
+													 -->
 												</div>
 											</div>
 										</div>

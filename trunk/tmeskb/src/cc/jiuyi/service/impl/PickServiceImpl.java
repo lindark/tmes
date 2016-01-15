@@ -98,4 +98,11 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 		xpick.setState("2");	
 	}
 
+	@Override
+	public void updateWorkingInoutCalculate(List<Pick> paramaterList,
+			HashMap<String, Object> maps) {
+		
+		
+	}
+
 }

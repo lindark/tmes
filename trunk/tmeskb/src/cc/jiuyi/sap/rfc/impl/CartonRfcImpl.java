@@ -48,6 +48,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		ET_ITEM.setData("ET_ITEM");
 		HashMap<String,Object> item2 = new HashMap<String,Object>();
 		item2.put("MATNR", cs.getMATNR());//物料编码
+		System.out.println(cs.getCscount());
 		item2.put("ZSFSL", cs.getCscount());//数量
 		item2.put("LIFNR", cs.getLIFNR());//供应商
 		item2.put("XUH", cs.getId());//序号

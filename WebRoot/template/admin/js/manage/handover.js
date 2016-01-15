@@ -5,9 +5,16 @@ $(function(){
 	
 	
 	$maclick.click(function(){
+		var shift = $("#sl_sh").val();
+		if(shift==""){
+			alert("请选择班次");
+			return false;
+		}
 		var materialCode = $(this).find(".materialCode").text();
 		var materialName = $(this).find(".materialName").text();
 		var active = $(".step-jump.active").find(".process").val();
+		var nowdate = $("#productDate").val();
+		
 		var title = "工序交接";
 		//var widths = $(window).width();
 		//var heights = $(window).height();
@@ -15,7 +22,7 @@ $(function(){
 		//var height=heights-86+"px";
 		var width="800px";
 		var height="400px";
-		var content="hand_over_process!add.action?materialCode="+materialCode+"&materialName="+materialName+"&processid="+active;
+		var content="hand_over_process!add.action?materialCode="+materialCode+"&materialName="+materialName+"&processid="+active+"&nowDate="+nowdate+"&shift="+shift;
 		layer.open({
 	        type: 2,
 	        skin: 'layui-layer-lan',
@@ -43,6 +50,13 @@ $(function(){
 	        yes:function(index,layero){//刷卡提交
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
+	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");
+	        	for(var i=0;i<$afterworkingBillCode.length;i++){
+					if($afterworkingBillCode.eq(i).val()==""){
+						alert("数据错误,无法查询到下一班随工单,或手动填写随工单");
+						return false;
+					}
+				}
 	        	var url = "hand_over_process!creditsubmit.action";
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
@@ -54,6 +68,12 @@ $(function(){
 	        btn2:function(index,layero){//刷卡确认
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
+	        	for(var i=0;i<$afterworkingBillCode.length;i++){
+					if($afterworkingBillCode.eq(i).val()==""){
+						alert("数据错误,无法查询到下一班随工单,或手动填写随工单");
+						return false;
+					}
+				}
 	        	var url = "hand_over_process!creditapproval.action";
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){

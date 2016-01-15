@@ -191,8 +191,10 @@ public class OddHandOverAction extends BaseAdminAction {
 			}
 			JSONArray jsonArray = JSONArray.fromObject(mapList);
 			return ajaxJson(jsonArray.toString());
+		}else{
+			return ajaxJsonSuccessMessage("操作成功");
 		}
-		return ajaxJsonErrorMessage("操作成功");
+		
 	}
 	
 	

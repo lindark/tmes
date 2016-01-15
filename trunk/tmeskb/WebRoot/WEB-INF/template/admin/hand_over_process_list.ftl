@@ -457,10 +457,12 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			var loginid = $("#loginid").val();//当前登录人的id
 			var url="hand_over!creditapproval.action?loginid="+loginid+"&shift="+shift+"&nowDate="+productDate;
 			credit.creditCard(url,function(data){
-				$("#creditapproval").prop("disabled",true);
-				$("#creditsubmit").prop("disabled",true);
-				$("#sl_sh").prop("disabled",true);
-				$("#productDate").prop("disabled",true);
+				if(data.status=="success"){
+					$("#creditapproval").prop("disabled",true);
+					$("#creditsubmit").prop("disabled",true);
+					$("#sl_sh").prop("disabled",true);
+					$("#productDate").prop("disabled",true);	
+				}
 			})
 			
 		});
@@ -557,8 +559,10 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			var url = "odd_hand_over!crediTapproval.action";
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
-				$("#oddcreditapproval").prop("disabled",true);
-				$("#oddcreditsubmit").prop("disabled",true);
+				if(data.status=="success"){
+					$("#oddcreditapproval").prop("disabled",true);
+					$("#oddcreditsubmit").prop("disabled",true);
+				}
 			},dt);
 		});
 		

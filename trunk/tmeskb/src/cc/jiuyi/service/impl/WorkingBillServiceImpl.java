@@ -2,6 +2,7 @@ package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -407,6 +408,13 @@ public class WorkingBillServiceImpl extends
 	 * 计算投入产出表逻辑
 	 */
 	public void updateWorkingInoutCalculate(List<WorkingBill> paramaterList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWorkingInoutCalculate(List<WorkingBill> paramaterList,
+			HashMap<String, Object> maps) {
 		// TODO Auto-generated method stub
 		
 	}

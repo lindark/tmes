@@ -408,7 +408,8 @@ public class WorkingBillServiceImpl extends
 	 * 计算投入产出表逻辑
 	 */
 	public void updateWorkingInoutCalculate(List<WorkingBill> paramaterList) {
-		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
@@ -418,5 +419,6 @@ public class WorkingBillServiceImpl extends
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -35,6 +36,7 @@ public class WorkingBill extends BaseEntity {
 	private String aufnr;//订单号
 	private String workcenter;//工作中心
 	
+	private WorkingInout workingInout;//投入产出表
 
 	private Set<EnteringwareHouse> enteringwareHouse;
 	private Set<Rework> rework;//返工
@@ -56,11 +58,23 @@ public class WorkingBill extends BaseEntity {
     private String afterworkingBillCode;//下一随工单
     /*冗余end*/
     
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    public WorkingInout getWorkingInout() {
+		return workingInout;
+	}
+	public void setWorkingInout(WorkingInout workingInout) {
+		this.workingInout = workingInout;
+	} 
+    
     @OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<ItermediateTest> getItermediateTest() {
 		return itermediateTest;
 	}
-
+	
+	public void setItermediateTest(Set<ItermediateTest> itermediateTest) {
+		this.itermediateTest = itermediateTest;
+	}
 	public String getAufnr() {
 		return aufnr;
 	}
@@ -68,11 +82,6 @@ public class WorkingBill extends BaseEntity {
 	public void setAufnr(String aufnr) {
 		this.aufnr = aufnr;
 	}
-
-	public void setItermediateTest(Set<ItermediateTest> itermediateTest) {
-		this.itermediateTest = itermediateTest;
-	}
-
 
 	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
     public Set<Pick> getPick() {

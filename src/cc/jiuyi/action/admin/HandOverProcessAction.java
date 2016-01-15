@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -22,6 +23,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
@@ -193,12 +195,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 					Bom bom = bomList.get(y);
 					for(Material mt : ml){
 						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
-							materialList.add(bom);
+							boolean f = true;
+							for(Bom b : materialList){
+								if(b.getMaterialCode().equals(bom.getMaterialCode())){
+									f=false;
+								}
+							}
+							if(f){
+								materialList.add(bom);	
+							}
 							break;
 						}
 					}
 				}
-			}	
+			}
+			
 		}
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
@@ -246,16 +257,38 @@ public class HandOverProcessAction extends BaseAdminAction {
 			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate());
 			
 			obj[i] = workingbill.getMatnr();
-			for(int y=0;y<bomList.size();y++){
+			/*for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
 				if(materialList.contains(bom))
 					continue;
 				materialList.add(bom);
+			}*/
+			//获取维护物料信息
+			List<Material> ml= materialservice.getAll();
+			if(ml!=null && ml.size()>0){
+				for(int y=0;y<bomList.size();y++){
+					Bom bom = bomList.get(y);
+					for(Material mt : ml){
+						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+							boolean f = true;
+							for(Bom b : materialList){
+								if(b.getMaterialCode().equals(bom.getMaterialCode())){
+									f=false;
+								}
+							}
+							if(f){
+								materialList.add(bom);	
+							}
+							break;
+						}
+					}
+				}
 			}
+			
 		}		
 		handoverprocessList = handOverProcessService.getList(
 				"beforworkingbill.matnr", obj, orderBy, orderType);
-
+		
 		for (int i = 0; i < handoverprocessList.size(); i++) {
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
 			Process process = processservice.get(handoverprocess.getProcessid());
@@ -265,9 +298,32 @@ public class HandOverProcessAction extends BaseAdminAction {
 			handoverprocess.setBeforworkingbillCode(handoverprocess.getBeforworkingbill().getWorkingBillCode());
 			handoverprocess.setAfterworkingbillCode(handoverprocess.getAfterworkingbill().getWorkingBillCode());
 			handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "handOverProcessState", handoverprocess.getState()));
+			Integer amount = ThinkWayUtil.null2o(handoverprocess.getAmount());
+			Integer repairamount = ThinkWayUtil.null2o(handoverprocess.getRepairAmount());
+			amount = amount + repairamount;
+			handoverprocess.setAmount(amount);
 			handoverprocessList.set(i, handoverprocess);
 		}
-		
+		for (int i = 0; i < workingbillList.size(); i++) {
+			Set<OddHandOver> ohoSet = workingbillList.get(i).getOddHandOverSet();
+			if(ohoSet!=null && ohoSet.size()>0){
+				for(OddHandOver oho : ohoSet){
+					HandOverProcess handoverprocess = new HandOverProcess();
+					handoverprocess.setProcessName("零头数交接");
+					handoverprocess.setMaterialCode(oho.getMaterialCode());
+					handoverprocess.setMaterialName(oho.getMaterialDesp());
+					handoverprocess.setBeforworkingbillCode(oho.getBeforeWokingCode());
+					handoverprocess.setAfterworkingbillCode(oho.getAfterWorkingCode());
+					handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStauts", oho.getState()));
+					Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
+					Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
+					amount = amount + repairamount;
+					handoverprocess.setAmount(amount.intValue());
+					handoverprocessList.add(handoverprocess);
+				}
+			}
+			
+		}
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
@@ -350,6 +406,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 	// 刷卡提交 --员工
 	//@InputConfig(resultName = "error")
 	public String creditsubmit(){
+		//若存在先删除
+		/*for(HandOverProcess hopl  : handoverprocessList){
+			//若存在先删除
+			HandOverProcess hop = handOverProcessService.get(hopl.getId());
+			if(hop!=null){}
+			
+		}*/
+		
+		
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditsubmit",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){

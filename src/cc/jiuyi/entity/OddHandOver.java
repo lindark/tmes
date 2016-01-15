@@ -15,6 +15,7 @@ public class OddHandOver extends BaseEntity {
 	private static final long serialVersionUID = -5222443445114313847L;
 	
 	private String materialCode;//生产订单编码
+	private String materialDesp;//生产订单描述
 	private Double actualHOMount;//实际零头数交接数量
 	private Double unHOMount;//实际异常交接数量
 	private Double actualBomMount;//实际物料数量
@@ -23,8 +24,11 @@ public class OddHandOver extends BaseEntity {
 	private String submitName;//提交人姓名
 	private String sureCode;//确认编号
 	private String sureName;//确认人姓名
-	private String state;//状态(1、未确认，2、已确认)
+	private String state;//状态(1、已提交，2、已确认)
 	private String mblnr;//物料凭证号 
+	private String beforeWokingCode;//上班随工单
+	private String afterWorkingCode;//下班随工单
+	
 	
 	private WorkingBill workingBill;//随工单 
 	private HandOver handOver;//主表
@@ -111,6 +115,24 @@ public class OddHandOver extends BaseEntity {
 	}
 	public void setUnBomMount(Double unBomMount) {
 		this.unBomMount = unBomMount;
+	}
+	public String getBeforeWokingCode() {
+		return beforeWokingCode;
+	}
+	public void setBeforeWokingCode(String beforeWokingCode) {
+		this.beforeWokingCode = beforeWokingCode;
+	}
+	public String getAfterWorkingCode() {
+		return afterWorkingCode;
+	}
+	public void setAfterWorkingCode(String afterWorkingCode) {
+		this.afterWorkingCode = afterWorkingCode;
+	}
+	public String getMaterialDesp() {
+		return materialDesp;
+	}
+	public void setMaterialDesp(String materialDesp) {
+		this.materialDesp = materialDesp;
 	}
 
 	

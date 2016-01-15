@@ -108,6 +108,9 @@ public class OddHandOverAction extends BaseAdminAction {
 											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
 											oho.setActualHOMount(mount);
 										}
+										oho.setBeforeWokingCode(wb.getWorkingBillCode());
+										WorkingBill wbnext = workingBillService.getCodeNext(wb.getWorkingBillCode(),nowDate,shift);
+										oho.setAfterWorkingCode(wbnext.getWorkingBillCode());//下班随工单
 										//获取提交人
 										if(admin == null){
 											admin = new Admin();
@@ -120,6 +123,7 @@ public class OddHandOverAction extends BaseAdminAction {
 										oho.setUnBomMount(unMounts[i]);
 										oho.setState("1");
 										oho.setMaterialCode(bm.getMaterialCode());
+										oho.setMaterialDesp(bm.getMaterialName());
 										if(unMounts[i]!=null && !"".equals(unMounts[i])){
 											Double mount = unMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
 											BigDecimal   b   =   new   BigDecimal(mount);  

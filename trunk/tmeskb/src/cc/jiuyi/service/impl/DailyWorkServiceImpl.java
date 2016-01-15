@@ -101,7 +101,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			totalamount = dailyWork.getEnterAmount() + totalamount;
 			dailyWork.setConfirmUser(admin);
 			dailyWork.setState("1");
-			dailyWorkDao.update(dailyWork);
+			this.update(dailyWork);
 		}
 		/*
 		 * for (int i = 0; i < list.size(); i++) { DailyWork d = list.get(i);
@@ -127,7 +127,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			if ("2".equals(dailyWork.getState())) {
 				dailyWork.setState("3");
 				dailyWork.setConfirmUser(admin);
-				dailyWorkDao.update(dailyWork);
+				this.update(dailyWork);
 			} else {
 				dailyWorkList.add(dailyWork);
 			}
@@ -153,7 +153,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				}
 				dailyWork.setConfirmUser(admin);
 				dailyWork.setState("3");
-				dailyWorkDao.update(dailyWork);
+				this.update(dailyWork);
 			}
 			workingbill.setDailyWorkTotalAmount(totalamount);
 			workingbillService.update(workingbill);

@@ -42,6 +42,8 @@ public class HandOverProcess extends BaseEntity{
     private String beforworkingbillCode;//上班随工单编码
     private String afterworkingbillCode;//下班随工单
     private Double actualAmount;//实际零头数交接数量
+    private Double unAmount;//实际异常交接数量
+    
     /*冗余字段end*/
     //private Material material;//物料组件
     private WorkingBill afterworkingbill;//下班随工单
@@ -200,6 +202,12 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setActualAmount(Double actualAmount) {
 		this.actualAmount = actualAmount;
+	}
+	public Double getUnAmount() {
+		return unAmount;
+	}
+	public void setUnAmount(Double unAmount) {
+		this.unAmount = unAmount;
 	}
 
 	

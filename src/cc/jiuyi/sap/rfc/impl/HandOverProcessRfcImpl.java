@@ -42,8 +42,10 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		for(HandOverProcess p : list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", p.getMaterialCode());//物料编码
-			if(p.getActualAmount()!=null){
+			if(p.getActualAmount()!=null || p.getUnAmount()!=null){
 				Double amounts =  ThinkWayUtil.null2o(p.getActualAmount());
+				Double repairamounts = ThinkWayUtil.null2o(p.getUnAmount());
+				amounts = amounts + repairamounts;
 				item.put("ZSFSL", amounts.toString());//数量
 			}else{
 				Integer amount = ThinkWayUtil.null2o(p.getAmount());

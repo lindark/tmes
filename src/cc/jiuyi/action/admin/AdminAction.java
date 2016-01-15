@@ -245,7 +245,7 @@ public class AdminAction extends BaseAdminAction {
 	//	绑定班组
 		public String addTeam(){
 			loginUsername = ((String) getSession("SPRING_SECURITY_LAST_USERNAME")).toLowerCase();
-			Admin admin = adminService.get("username", loginUsername);
+			admin = adminService.get("username", loginUsername);
 			Set<Team> tmSet = admin.getTeamSet();
 			if(tmSet==null){
 				tmSet = new HashSet<Team>();

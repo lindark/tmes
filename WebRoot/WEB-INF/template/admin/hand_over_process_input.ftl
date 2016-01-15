@@ -70,7 +70,7 @@ body {
 												<td class="center">${list.matnr }</td>
 												<td class="center">${list.maktx }</td>
 												<td class="center">
-													<input type="text" name="handoverprocessList[${num }].afterworkingbill.workingBillCode" class="form-control" value="${list.afterworkingBillCode }"/>
+													<input type="text" name="handoverprocessList[${num }].afterworkingbill.workingBillCode" class="form-control afterworkingBillCode" value="${list.afterworkingBillCode }"/>
 												</td>
 												<td class="center">
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialCode" value="${materialCode }"/> <!-- 物料组件 -->

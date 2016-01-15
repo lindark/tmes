@@ -2,11 +2,15 @@ package cc.jiuyi.action.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
@@ -37,6 +41,9 @@ public class OddHandOverAction extends BaseAdminAction {
 	private Double[] unMounts;
 	private String cardnumber;//刷卡卡号
 	private Admin admin;
+	private String[] workingCode;
+	private String nowDate;
+	private String shift;
 	
 	@Resource
 	private WorkingBillService workingBillService;
@@ -99,7 +106,7 @@ public class OddHandOverAction extends BaseAdminAction {
 											Double mount = actualMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
 											BigDecimal   b   =   new   BigDecimal(mount);  
 											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
-											oho.setActualBomMount(mount);
+											oho.setActualHOMount(mount);
 										}
 										//获取提交人
 										if(admin == null){
@@ -107,10 +114,10 @@ public class OddHandOverAction extends BaseAdminAction {
 										}
 										admin = adminService.getByCardnum(cardnumber);
 										oho.setSubmitCode(admin.getCardNumber());
-										oho.setSureName(admin.getName());
+										oho.setSubmitName(admin.getName());
 										oho.setWorkingBill(wb);
-										oho.setActualHOMount(actualMounts[i]);
-										
+										oho.setActualBomMount(actualMounts[i]);
+										oho.setUnBomMount(unMounts[i]);
 										oho.setState("1");
 										oho.setMaterialCode(bm.getMaterialCode());
 										if(unMounts[i]!=null && !"".equals(unMounts[i])){
@@ -153,7 +160,7 @@ public class OddHandOverAction extends BaseAdminAction {
 						for(OddHandOver oho : ohoSet){
 							//获取确认人
 							admin = adminService.getByCardnum(cardnumber);
-							oho.setSubmitCode(admin.getCardNumber());
+							oho.setSureCode(admin.getCardNumber());
 							oho.setSureName(admin.getName());
 							oho.setState("2");
 							oddHandOverService.update(oho);
@@ -164,7 +171,27 @@ public class OddHandOverAction extends BaseAdminAction {
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
-
+	
+	
+	public String findAfterWorkingCode(){
+		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
+		if(workingCode!=null && workingCode.length>0){
+			for(int i=0;i<workingCode.length;i++){
+				Map<String,String> map = new HashMap<String,String>();
+				WorkingBill nextWorkingbill = workingBillService.getCodeNext(workingCode[i],nowDate,shift);//下一随工单
+				if(nextWorkingbill == null){
+					return ajaxJsonErrorMessage("无下一班随工单");
+				}
+				map.put("afterCode", nextWorkingbill.getWorkingBillCode());
+				mapList.add(map);
+			}
+			JSONArray jsonArray = JSONArray.fromObject(mapList);
+			return ajaxJson(jsonArray.toString());
+		}
+		return ajaxJsonErrorMessage("操作成功");
+	}
+	
+	
 	public Double[] getActualMounts() {
 		return actualMounts;
 	}
@@ -203,6 +230,38 @@ public class OddHandOverAction extends BaseAdminAction {
 
 	public void setUnMounts(Double[] unMounts) {
 		this.unMounts = unMounts;
+	}
+
+	public String[] getWorkingCode() {
+		return workingCode;
+	}
+
+	public void setWorkingCode(String[] workingCode) {
+		this.workingCode = workingCode;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public WorkingBillService getWorkingBillService() {
+		return workingBillService;
+	}
+
+	public void setWorkingBillService(WorkingBillService workingBillService) {
+		this.workingBillService = workingBillService;
+	}
+
+	public String getNowDate() {
+		return nowDate;
+	}
+
+	public void setNowDate(String nowDate) {
+		this.nowDate = nowDate;
 	}
 	
 

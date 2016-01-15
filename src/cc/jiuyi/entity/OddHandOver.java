@@ -18,9 +18,10 @@ public class OddHandOver extends BaseEntity {
 	private Double actualHOMount;//实际零头数交接数量
 	private Double unHOMount;//实际异常交接数量
 	private Double actualBomMount;//实际物料数量
+	private Double unBomMount;//实际物料数量
 	private String submitCode;//提交人编号
 	private String submitName;//提交人姓名
-	private String sureCode;//提交人编号
+	private String sureCode;//确认编号
 	private String sureName;//确认人姓名
 	private String state;//状态(1、未确认，2、已确认)
 	private String mblnr;//物料凭证号 
@@ -104,6 +105,12 @@ public class OddHandOver extends BaseEntity {
 	}
 	public void setUnHOMount(Double unHOMount) {
 		this.unHOMount = unHOMount;
+	}
+	public Double getUnBomMount() {
+		return unBomMount;
+	}
+	public void setUnBomMount(Double unBomMount) {
+		this.unBomMount = unBomMount;
 	}
 
 	

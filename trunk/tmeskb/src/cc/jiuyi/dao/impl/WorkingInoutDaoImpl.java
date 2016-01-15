@@ -20,6 +20,12 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		return false;
 	}
 
+	@Override
+	public WorkingInout findWorkingInout(String workingBillId, String materialCode) {
+		String hql = "from WorkingInout where workingBill.id? and materialCode?";
+		return (WorkingInout) getSession().createQuery(hql).setParameter(0, workingBillId).setParameter(1, materialCode).uniqueResult();
+	}
+
 	
 
 }

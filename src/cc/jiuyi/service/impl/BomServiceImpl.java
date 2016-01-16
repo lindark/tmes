@@ -58,7 +58,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		List<Bom> bomList = bomDao.getBomList(aufnr, maxversion,materialCode,workingbilllast);
 		if(bomList !=null)
-			bomList = bomDao.getBomList(aufnr, maxversion);
+			bomList = bomDao.getBomList(aufnr, maxversion, materialCode,null);
 		return bomList;
 		
 	}

@@ -19,12 +19,12 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 
 	
 	@SuppressWarnings("unchecked")
-	public List<Bom> getBomList(String aufnr,Integer version){
-		String hql="from Bom where orders.aufnr = ? and version = ?";
+	public List<Bom> getBomList(String aufnr,Integer version,String shift){
+		String hql="from Bom where orders.aufnr = ? and version = ? and shift = ?";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).list();
 	}
 	
-	public List<Bom> getBomList(String aufnr,Integer version,String materialCode){
+	public List<Bom> getBomList(String aufnr,Integer version,String materialCode,String shift){
 		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ?";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, materialCode).list();
 	}

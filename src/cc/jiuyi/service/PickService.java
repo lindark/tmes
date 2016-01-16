@@ -11,7 +11,7 @@ import cc.jiuyi.entity.Pick;
  * Service接口 - 领/退料主表
  */
 
-public interface PickService extends BaseService<Pick, String> {
+public interface PickService extends BaseService<Pick, String>,WorkingInoutCalculateBase<Pick> {
 
 	/**
 	 * 取出所有Pick对象

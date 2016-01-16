@@ -46,10 +46,15 @@ public class WorkingInout extends BaseEntity {
 	private Double inspectionforeAmount;//检验合格数4
 	private Double qualifiedRate;//一次合格率 %
 	private WorkingBill workingbill;
+	
 	//维修合格接收数
 	//数量差异
 	//计划达成率
 	//报废金额
+	
+	/**冗余**/
+	private String workingBillCode;
+	/**冗余end**/
 	
 	
 	public Double getBeforeCutting() {
@@ -211,6 +216,13 @@ public class WorkingInout extends BaseEntity {
 	}
 	public void setMaterialName(String materialName) {
 		this.materialName = materialName;
+	}
+	@Transient
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
 	}
 	
 	

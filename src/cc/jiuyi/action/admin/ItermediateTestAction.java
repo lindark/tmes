@@ -103,7 +103,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		list_material = bomservice.findBom(aufnr, workingbill.getProductDate());
+		list_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		this.list_cause=this.causeService.getBySample("3");//半成品不合格内容
 		this.add="add";
 		return INPUT;
@@ -184,7 +184,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 			this.workingbill=this.workingBillService.load(workingBillId);
 			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-			List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate());
+			List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 			for(int i=0;i<l_material.size();i++){
 				Bom bom =l_material.get(i);
 				ItermediateTestDetail it=this.itermediateTestDetailService.getBySidAndMid(id, bom.getMaterialCode());

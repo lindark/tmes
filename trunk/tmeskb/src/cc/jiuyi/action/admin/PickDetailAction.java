@@ -117,7 +117,7 @@ public class PickDetailAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		/** 调SAP接口取库存数量 **/
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
 		try {
@@ -161,7 +161,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pkList.add(pickDetail);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		return VIEW;
 	}
 
@@ -205,7 +205,7 @@ public class PickDetailAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		bomList = bomService.findBom(aufnr, workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		/** 调SAP接口取库存数量 **/
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
 		try {

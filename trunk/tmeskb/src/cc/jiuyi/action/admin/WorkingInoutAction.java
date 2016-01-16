@@ -42,8 +42,9 @@ public class WorkingInoutAction extends BaseAdminAction {
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
-		
-		
+		nameobj.add("id");labelobj.add("ID");indexobj.add("id");
+		nameobj.add("workingBillCode");labelobj.add("随工单编号");indexobj.add("workingbill.workingBillCode");
+		nameobj.add("materialCode");labelobj.add("子件编码");indexobj.add("materialCode");
 		
 		/**处理接上班**/
 		List<Process> processList00 = processservice.getAll();
@@ -57,21 +58,21 @@ public class WorkingInoutAction extends BaseAdminAction {
 			labelobj.add(label);
 		}
 		/**处理接上班 end**/
-
+		
 		
 //		String[] nameobj1= {"id","workingBillCode","materialCode","recipientsAmount"};
 //		String[] indexobj = {"id","workingbill.workingBillCode","materialCode","recipientsAmount"};
 //		String[] labelobj={"ID","随工单编号","子件编号","领用数量"};
-//		JSONArray jsonarray = new JSONArray();
-//		for(int i=0;i<nameobj.length;i++){
-//			JSONObject jsonobject = new JSONObject();
-//			jsonobject.put("name", nameobj[i]);
-//			jsonobject.put("index", indexobj[i]);
-//			jsonobject.put("label", labelobj[i]);
-//			jsonobject.put("width", 200);
-//			jsonarray.add(jsonobject);
-//		}
-//		jsondata = jsonarray.toString();
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i<nameobj.size();i++){
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("name", nameobj.get(i));
+			jsonobject.put("index", indexobj.get(i));
+			jsonobject.put("label", labelobj.get(i));
+			jsonobject.put("width", 200);
+			jsonarray.add(jsonobject);
+		}
+		jsondata = jsonarray.toString();
 		
 		return LIST;
 	}
@@ -82,7 +83,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		List<WorkingInout> workingInoutList = (List<WorkingInout>)pager.getList();
 		for(int i=0;i<workingInoutList.size();i++){
 			WorkingInout workinginout = workingInoutList.get(i);
-			
+			workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
 		}
 		
 		

@@ -80,7 +80,7 @@ public class OddHandOverAction extends BaseAdminAction {
 								
 								//获取Bom
 								String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
-								List<Bom> bomList = bomService.findBom(aufnr, wb.getProductDate());
+								List<Bom> bomList = bomService.findBom(aufnr, wb.getProductDate(),wb.getWorkingBillCode());
 								if(bomList == null || bomList.size()<=0){
 									//addActionError("未找到一条BOM信息");
 									return ajaxJsonErrorMessage("未找到一条BOM信息");

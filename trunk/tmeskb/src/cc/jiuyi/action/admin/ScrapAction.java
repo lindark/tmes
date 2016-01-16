@@ -160,7 +160,7 @@ public class ScrapAction extends BaseAdminAction
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		list_material = bomservice.findBom(aufnr, workingbill.getProductDate());
+		list_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		//this.list_material=new ArrayList<Bom>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
@@ -216,7 +216,7 @@ public class ScrapAction extends BaseAdminAction
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate());
+		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		for(int i=0;i<l_material.size();i++)
 		{
 			Bom m=l_material.get(i);

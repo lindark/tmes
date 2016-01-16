@@ -27,7 +27,7 @@ public interface BomDao extends BaseDao<Bom, String> {
 
 	
 	public Integer getMaxVersion(String matnr,String productDate);
-	
+	public List<Bom> getBomList(String aufnr,Integer version);
 	
 	/**
 	 * 根据订单id和生产日期获取最大版本号

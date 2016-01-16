@@ -38,5 +38,7 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	 * 修改
 	 */
 	public void updateAll(Pick pick,List<PickDetail> pickDetail,String cardnumber,String info);
+	
+	public void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList);
 
 }

@@ -46,14 +46,20 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		return bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		List<Bom> bomList = bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		if(bomList != null)
+			bomList = bomDao.getBomList(aufnr, maxversion);
+		return bomList;
 	}
 	
 	public List<Bom> findBom(String aufnr,String productDate,String materialCode,String workingBillCode){
 		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
 		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		return bomDao.getBomList(aufnr, maxversion,materialCode,workingbilllast);
+		List<Bom> bomList = bomDao.getBomList(aufnr, maxversion,materialCode,workingbilllast);
+		if(bomList !=null)
+			bomList = bomDao.getBomList(aufnr, maxversion);
+		return bomList;
 		
 	}
 

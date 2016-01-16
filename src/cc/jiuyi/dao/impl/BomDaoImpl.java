@@ -36,6 +36,12 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, materialCode).setParameter(3, shift).list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Bom> getBomList1(String aufnr,Integer version,String materialCode){
+		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ?";
+		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, materialCode).list();
+	}
+	
 	public Integer getMaxVersion(String matnr,String productDate){
 		String hql="select max(a.version) from Bom a where a.orders.matnr = ? and a.effectiveDate <= ?";
 		return (Integer)getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).uniqueResult();

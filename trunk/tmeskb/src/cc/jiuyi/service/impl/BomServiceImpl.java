@@ -40,13 +40,13 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 
 
 	@Override
-	public List<Bom> findBom(String aufnr,String productDate) {
+	public List<Bom> findBom(String aufnr,String productDate,String workingBillCode) {
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		return bomDao.getBomList(aufnr, maxversion);
 	}
 	
-	public List<Bom> findBom(String aufnr,String productDate,String materialCode){
+	public List<Bom> findBom(String aufnr,String productDate,String materialCode,String workingBillCode){
 		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		return bomDao.getBomList(aufnr, maxversion,materialCode);

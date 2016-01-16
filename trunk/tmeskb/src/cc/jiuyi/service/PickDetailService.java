@@ -39,6 +39,15 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	 */
 	public void updateAll(Pick pick,List<PickDetail> pickDetail,String cardnumber,String info);
 	
+	/**
+	 * 刷卡撤销向投入产出表更新数据
+	 * @param paramaterList
+	 */
 	public void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList);
+	
+	/**
+	 * 计算倍数
+	 */
+	public Double Calculate(Double planCount,Double pickAmount);
 
 }

@@ -252,7 +252,11 @@ public class PickAction extends BaseAdminAction {
 						// pickReturn.setMove_type(move_type);
 						pickReturn.setState(CONFIRMED);
 						pickReturn.setConfirmUser(admin);
-						pickService.update(pickReturn);
+						pickService.update(pickReturn);	
+						
+						List<PickDetail> pickDetailList = (List<PickDetail>) pickReturn.getPickDetail();
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						pickDetailService.updateWorkingInoutCalculate(pickDetailList , map);//往投入产出表中写数据
 					}
 				}
 				if (!flag)
@@ -350,8 +354,7 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
-					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,
-							pickdetailList);
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
 					for (Pick pick2 : pickRfc) {
 						String e_type = pick2.getE_type();
 						String e_message = pick2.getE_message();
@@ -369,6 +372,9 @@ public class PickAction extends BaseAdminAction {
 							pickReturn.setState(REPEAL);
 							pickReturn.setConfirmUser(admin);
 							pickService.update(pickReturn);
+							
+							List<PickDetail> pickDetailList = (List<PickDetail>) pickReturn.getPickDetail();
+							pickDetailService.updateWorkingInoutCalculateBack(pickDetailList);//往投入产出表中写数据
 						}
 					}
 					if (!flag)

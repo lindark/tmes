@@ -100,7 +100,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			pickDetailDao.save(pickDetail);
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		this.updateWorkingInoutCalculate(pickDetailList,map);
+		this.updateWorkingInoutCalculate(pickDetailList,map);//向投入产出表更新数据
 		return pk;
 	}
 	

@@ -50,10 +50,10 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	}
 	
 	public List<Bom> findBom(String aufnr,String productDate,String materialCode,String workingBillCode){
-//		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
-//		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-//		return bomDao.getBomList(aufnr, maxversion,materialCode);
-		return null;
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
+		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
+		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
+		return bomDao.getBomList(aufnr, maxversion,materialCode,workingbilllast);
 		
 	}
 
@@ -100,11 +100,12 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	/**
 	 * 根据订单号,生产日期,以"5"开关的查询
 	 */
-	public Bom getBomByConditions(String aufnr, String productDate, String num)
+	public Bom getBomByConditions(String aufnr, String productDate, String num,String workingBillCode)
 	{
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		List<Bom>list=bomDao.getBomList(aufnr, maxversion);
+		List<Bom>list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
 		for(int i=0;i<list.size();i++)
 		{
 			Bom bom = list.get(i);

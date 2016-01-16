@@ -12,7 +12,7 @@ import cc.jiuyi.entity.PickDetail;
  * Service接口 - 领/退料
  */
 
-public interface PickDetailService extends BaseService<PickDetail, String> {
+public interface PickDetailService extends BaseService<PickDetail, String>,WorkingInoutCalculateBase<PickDetail> {
 
 	/**
 	 * 取出所有PickDetail对象

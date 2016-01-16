@@ -1,6 +1,5 @@
 package cc.jiuyi.service.impl;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,20 +10,19 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.PickDao;
 import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
-import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutService;
-import cc.jiuyi.util.CustomerException;
 
 /**
  * Service实现类 -领/退料
@@ -39,7 +37,8 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	private PickDetailDao pickDetailDao;
 	@Resource
 	private WorkingInoutService workingInoutService;
-
+	@Resource
+	private BomService bomService;
 
 	@Resource
 	public void setBaseDao(PickDetailDao pickDetailDao){
@@ -149,13 +148,25 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		for (int i = 0; i < paramaterList.size(); i++) {
 			PickDetail pickDetail = paramaterList.get(i);
 			
-			Double planCount = pickDetail.getPick().getWorkingbill().getPlanCount().doubleValue();//找到随工单订单数量
-			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());//领料数量
-	        BigDecimal str = new BigDecimal(planCount / pickAmount);
-	        Double multiple = str.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();//倍数=订单数量/领料数量 保留小数点后三位          
-		    
-	        String workingBillId = pickDetail.getPick().getWorkingbill().getId();//随工单号
-			String materialCode = pickDetail.getMaterialCode();//物料号
+			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
+			String workingBillId = pickDetail.getPick().getWorkingbill().getId();// 随工单号			
+			String materialCode = pickDetail.getMaterialCode();// 物料号
+						
+			List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
+			Double d = 0.0;
+			Double p = 0.0;
+			for (int j = 0; j < bomList.size(); j++) {
+				Bom bom = bomList.get(j);
+				d += bom.getMaterialAmount();// Bom数量
+				p = bom.getProductAmount();// 产品数量
+			}
+			Double unitChange = d/p ;//(兑换比例)一个产品需要几个子件
+		
+			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
+			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
+			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
+			BigDecimal str = new BigDecimal(planCount / pickAmount);
+			Double multiple = str.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();// 倍数=订单数量/领料数量 保留小数点后三位
 			
 			/**根据随工单号查询投入产出表中是否已经有数据**/			
 			boolean flag = workingInoutService.isExist(workingBillId, materialCode);
@@ -165,13 +176,13 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				/**如果退料的情况**/
 				if(pickDetail.getPickType().equals("262")){
 					workingInout.setMultiple(0-multiple);//投入产出减
-				}				
-				workingInout.setMultiple(multiple);//投入产出加
+				}else{				
+					workingInout.setMultiple(multiple);//投入产出加
+				}
+				workingInout.setMaterialCode(materialCode);//保存物料号
+				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
 				workingInoutService.save(workingInout);//投入产出表保存
 							
-				WorkingBill workingBill = workingBillService.get(workingBillId);
-				workingBill.setWorkingInout(workingInout);
-				workingBillService.update(workingBill);//随工单保存
 			}
 			else{
 				/**如果不存在就更新一条进去**/
@@ -179,8 +190,9 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				/**如果退料的情况**/
 				if (pickDetail.getPickType().equals("262")) {
 					workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
+				}else{					
+					workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
 				}
-				workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
 				workingInoutService.update(workingInout);
 			}
 		}

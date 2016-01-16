@@ -20,8 +20,8 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 * @param maxversion 版本号
 	 * @return
 	 */
-	public List<Bom> getBomList(String aufnr,Integer maxversion);
-	public List<Bom> getBomList(String aufnr,Integer maxversion,String materialCode);
+	public List<Bom> getBomList(String aufnr,Integer maxversion,String shift);
+	public List<Bom> getBomList(String aufnr,Integer maxversion,String materialCode,String shift);
 	
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 

@@ -143,6 +143,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
     }
 
 	@Override
+	//刷卡确认向投入产出表更新数据
 	public void updateWorkingInoutCalculate(List<PickDetail> paramaterList,
 			HashMap<String, Object> maps) {
 		for (int i = 0; i < paramaterList.size(); i++) {
@@ -165,8 +166,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
 			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
-			BigDecimal str = new BigDecimal(planCount / pickAmount);
-			Double multiple = str.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();// 倍数=订单数量/领料数量 保留小数点后三位
+			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
 			
 			/**根据随工单号查询投入产出表中是否已经有数据**/			
 			boolean flag = workingInoutService.isExist(workingBillId, materialCode);
@@ -198,5 +198,46 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		}
 	}
 
-	
+	@Override
+	//刷卡撤销向投入产出表更新数据
+	public void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList) {
+		for (int i = 0; i < paramaterList.size(); i++) {
+			PickDetail pickDetail = paramaterList.get(i);
+			
+			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
+			String workingBillId = pickDetail.getPick().getWorkingbill().getId();// 随工单号			
+			String materialCode = pickDetail.getMaterialCode();// 物料号
+						
+			List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
+			Double d = 0.0;
+			Double p = 0.0;
+			for (int j = 0; j < bomList.size(); j++) {
+				Bom bom = bomList.get(j);
+				d += bom.getMaterialAmount();// Bom数量
+				p = bom.getProductAmount();// 产品数量
+			}
+			Double unitChange = d/p ;//(兑换比例)一个产品需要几个子件
+		
+			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
+			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
+			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
+			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
+			
+		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
+		   /**如果退料的情况**/
+		   if (pickDetail.getPickType().equals("262")) {
+				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
+			}else{					
+				workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
+			}
+				workingInoutService.update(workingInout);
+		}
+	}
+
+	@Override
+	public Double Calculate(Double planCount, Double pickAmount) {
+		BigDecimal str = new BigDecimal(planCount / pickAmount);
+		Double multiple = str.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();// 倍数=订单数量/领料数量 保留小数点后三位
+		return multiple;
+	}
 }

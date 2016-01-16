@@ -45,23 +45,22 @@ public class WorkingInout extends BaseEntity {
 	private Double inspectionthreeAmount;//检验合格数3
 	private Double inspectionforeAmount;//检验合格数4
 	private Double qualifiedRate;//一次合格率 %
-	
-	private Set<WorkingBill> workingBill;
+	private WorkingBill workingbill;
 	//维修合格接收数
 	//数量差异
 	//计划达成率
 	//报废金额
 	
-	@OneToMany(mappedBy = "workingInout", fetch = FetchType.LAZY)
-	public Set<WorkingBill> getWorkingBill() {
-		return workingBill;
-	}
-	public void setWorkingBill(Set<WorkingBill> workingBill) {
-		this.workingBill = workingBill;
-	}
-
+	
 	public Double getBeforeCutting() {
 		return beforeCutting;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
 	}
 	public void setBeforeCutting(Double beforeCutting) {
 		this.beforeCutting = beforeCutting;

@@ -23,7 +23,7 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @param productDate
 	 * @return
 	 */
-	public Bom findBom(String aufnr,String productDate,String workingBillCode);
+	public List<Bom> findBom(String aufnr,String productDate,String workingBillCode);
 	
 	/**
 	 * 根据生产订单获取最高版本号
@@ -58,7 +58,7 @@ public interface BomService extends BaseService<Bom, String> {
 	 * */
 	public Integer getMaxversion(String orderId,String productDate);
 	
-	public List<Bom> findBom(String aufnr,String productDate,String materialCode,String workingBillCode);
+	public Bom findBom(String aufnr,String productDate,String materialCode,String workingBillCode);
 	
 	
 	/*根据组件编码获取组件名称

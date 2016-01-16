@@ -195,7 +195,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			for(int i=0;i<list_wb.size();i++)
 			{
 				WorkingBill wb=list_wb.get(i);
-				Bom bom=this.bomService.getBomByConditions(wb.getAufnr(), wb.getProductDate(),"5");//根据订单号,生产日期,以"5"开关的查询
+				Bom bom=this.bomService.getBomByConditions(wb.getAufnr(), wb.getProductDate(),"5",wb.getWorkingBillCode());//根据订单号,生产日期,以"5"开关的查询
 				if(bom!=null)
 				{
 					CartonSon cs=new CartonSon();
@@ -264,7 +264,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		for(int i=0;i<list_wb.size();i++)
 		{
 			WorkingBill wb=list_wb.get(i);
-			Bom bom=this.bomService.getBomByConditions(wb.getAufnr(), wb.getProductDate(),"5");//根据订单号,生产日期,以"5"开关的查询
+			Bom bom=this.bomService.getBomByConditions(wb.getAufnr(), wb.getProductDate(),"5",wb.getWorkingBillCode());//根据订单号,生产日期,以"5"开关的查询
 			if(bom!=null)
 			{
 				CartonSon cs=new CartonSon();

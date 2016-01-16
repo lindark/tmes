@@ -72,5 +72,5 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @param string
 	 * @return
 	 */
-	public Bom getBomByConditions(String aufnr, String productDate,String num);
+	public Bom getBomByConditions(String aufnr, String productDate,String num,String workingBillCode);
 }

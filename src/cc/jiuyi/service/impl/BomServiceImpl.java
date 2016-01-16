@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
@@ -41,15 +42,18 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 
 	@Override
 	public List<Bom> findBom(String aufnr,String productDate,String workingBillCode) {
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
+		
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
 		return bomDao.getBomList(aufnr, maxversion);
 	}
 	
-	public List<Bom> findBom(String aufnr,String productDate,String materialCode,String workingBillCode){
-		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
-		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		return bomDao.getBomList(aufnr, maxversion,materialCode);
+	public Bom findBom(String aufnr,String productDate,String materialCode,String workingBillCode){
+//		Orders orders = orderservice.get("aufnr",aufnr);//获取生产订单号
+//		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
+//		return bomDao.getBomList(aufnr, maxversion,materialCode);
+		return null;
 		
 	}
 

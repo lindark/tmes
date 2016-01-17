@@ -155,10 +155,14 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 	/**
 	 *  获取单元中的成本中心
 	 */
-	public Pager getCostCenter(Pager pager)
+	public Pager getCostCenter(Pager pager,String type)
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(FactoryUnit.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(type!=null)
+		{
+			detachedCriteria.add(Restrictions.eq("CXORJC", type));//成型/挤出
+		}
 		detachedCriteria.add(Restrictions.eq("iscanrepair", "Y"));//可以返修/返修收货
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

@@ -35,6 +35,11 @@ public class WorkingBill extends BaseEntity {
 	private Integer processversion;//工艺路线版本
 	private String aufnr;//订单号
 	private String workcenter;//工作中心
+	private String checknum1;//检验合格数1
+	private String checknum2;//检验合格数2
+	private String checknum3;//检验合格数3
+	private String checknum4;//检验合格数4
+	private String checknum5;//检验合格数5
 	
 	private Set<WorkingInout> workingInoutSet;//投入产出表
 
@@ -369,6 +374,36 @@ public class WorkingBill extends BaseEntity {
 
 	public void setPumPackHandOverSet(Set<PumPackHandOver> pumPackHandOverSet) {
 		this.pumPackHandOverSet = pumPackHandOverSet;
+	}
+	public String getChecknum1() {
+		return checknum1;
+	}
+	public void setChecknum1(String checknum1) {
+		this.checknum1 = checknum1;
+	}
+	public String getChecknum2() {
+		return checknum2;
+	}
+	public void setChecknum2(String checknum2) {
+		this.checknum2 = checknum2;
+	}
+	public String getChecknum3() {
+		return checknum3;
+	}
+	public void setChecknum3(String checknum3) {
+		this.checknum3 = checknum3;
+	}
+	public String getChecknum4() {
+		return checknum4;
+	}
+	public void setChecknum4(String checknum4) {
+		this.checknum4 = checknum4;
+	}
+	public String getChecknum5() {
+		return checknum5;
+	}
+	public void setChecknum5(String checknum5) {
+		this.checknum5 = checknum5;
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.EnteringwareHouse;
 
 /**
@@ -12,7 +13,7 @@ import cc.jiuyi.entity.EnteringwareHouse;
  */
 
 public interface EnteringwareHouseService extends
-		BaseService<EnteringwareHouse, String> {
+		BaseService<EnteringwareHouse, String> ,WorkingInoutCalculateBase<EnteringwareHouse> {
 	/**
 	 * 分页查询
 	 * 

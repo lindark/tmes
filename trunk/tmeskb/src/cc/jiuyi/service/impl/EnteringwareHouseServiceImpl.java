@@ -53,30 +53,55 @@ public class EnteringwareHouseServiceImpl extends
 	@Override
 	public synchronized void updateState(List<EnteringwareHouse> list,
 			String statu, String workingbillid, Integer ratio, String cardnumber) {
-		Admin admin = adminservice.getByCardnum(cardnumber);
-		WorkingBill workingbill = workingbillService.get(workingbillid);
-		Integer totalamount = workingbill.getTotalSingleAmount();
-		for (int i = 0; i < list.size(); i++) {
-			EnteringwareHouse enteringwareHouse = list.get(i);
-			if (statu.equals("1")) {
-				totalamount = enteringwareHouse.getStorageAmount() * ratio
-						+ totalamount;
-			}
-			if (statu.equals("3") && enteringwareHouse.getState().equals("1")) {
-				totalamount -= enteringwareHouse.getStorageAmount() * ratio;
-			}
-			enteringwareHouse.setConfirmUser(admin);
-			enteringwareHouse.setState(statu);
-			this.update(enteringwareHouse);
-		}
-		workingbill.setTotalSingleAmount(totalamount);
-		workingbillService.update(workingbill);
+		HashMap<String,Object> maps = new HashMap<String,Object>();
+		maps.put("id",workingbillid);
+		maps.put("state", statu);
+		maps.put("cardno", cardnumber);
+		maps.put("ratio", ratio.toString());
+		
+		updateWorkingInoutCalculate(list,maps);
 
 	}
 
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		return enteringwareHouseDao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public void updateWorkingInoutCalculate(
+		List<EnteringwareHouse> list,HashMap<String,Object> maps) {
+		String card=(String)maps.get("cardno");
+		Admin admin = adminservice.getByCardnum(card);
+		String workid=(String)maps.get("id");
+		String state=(String)maps.get("state");
+		String ratio=(String)maps.get("ratio");
+		Integer ratio1=Integer.parseInt(ratio);
+		WorkingBill workingbill = workingbillService.get(workid);
+		Integer totalamount = workingbill.getTotalSingleAmount();
+		
+		if(state.equalsIgnoreCase("1")){//刷卡确定
+		for (int i = 0; i < list.size(); i++) {
+			EnteringwareHouse enteringwareHouse = list.get(i);			
+			totalamount = enteringwareHouse.getStorageAmount() * ratio1
+						+ totalamount;						
+			enteringwareHouse.setConfirmUser(admin);
+			enteringwareHouse.setState(state);
+			this.update(enteringwareHouse);
+		}
+		
+		}else{//刷卡撤销
+			for (int i = 0; i < list.size(); i++) {
+				EnteringwareHouse enteringwareHouse = list.get(i);								
+				totalamount -= enteringwareHouse.getStorageAmount() * ratio1;				
+				enteringwareHouse.setConfirmUser(admin);
+				enteringwareHouse.setState(state);
+				this.update(enteringwareHouse);
+			}
+		}
+		
+		workingbill.setTotalSingleAmount(totalamount);
+		workingbillService.update(workingbill);
 	}
 
 }

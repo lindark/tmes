@@ -38,6 +38,6 @@ public interface FactoryUnitService extends BaseService<FactoryUnit, String> {
 	 * @param pager
 	 * @return
 	 */
-	public Pager getCostCenter(Pager pager);
+	public Pager getCostCenter(Pager pager,String type);
 
 }

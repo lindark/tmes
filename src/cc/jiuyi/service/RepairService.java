@@ -11,7 +11,7 @@ import cc.jiuyi.entity.RepairPiece;
 /**
  * Service接口 返修
  */
-public interface RepairService extends BaseService<Repair, String> {
+public interface RepairService extends BaseService<Repair, String>{
 	/**
 	 * 分页查询
 	 * 

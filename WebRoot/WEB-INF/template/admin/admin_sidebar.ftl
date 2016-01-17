@@ -972,7 +972,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					
+					<!-- 
 					<li class="">
 						<a href="products!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
@@ -981,7 +981,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					
+					 -->
 					<li class="">
 						<a href="bom!show.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

@@ -1,15 +1,9 @@
 package cc.jiuyi.entity;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import org.compass.annotations.Searchable;
-
 /**
  * 实体类——投入产出表
  * 
@@ -45,6 +39,8 @@ public class WorkingInout extends BaseEntity {
 	private Double inspectionthreeAmount;//检验合格数3
 	private Double inspectionforeAmount;//检验合格数4
 	private Double qualifiedRate;//一次合格率 %
+	private Double repairAmount;//返修
+	private Double repairinAmount;//返修收货
 	private WorkingBill workingbill;
 	
 	//维修合格接收数
@@ -224,6 +220,20 @@ public class WorkingInout extends BaseEntity {
 	public void setWorkingBillCode(String workingBillCode) {
 		this.workingBillCode = workingBillCode;
 	}
-	
-	
+	public Double getRepairAmount()
+	{
+		return repairAmount;
+	}
+	public void setRepairAmount(Double repairAmount)
+	{
+		this.repairAmount = repairAmount;
+	}
+	public Double getRepairinAmount()
+	{
+		return repairinAmount;
+	}
+	public void setRepairinAmount(Double repairinAmount)
+	{
+		this.repairinAmount = repairinAmount;
+	}
 }

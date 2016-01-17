@@ -35,6 +35,7 @@ public class Repairin extends BaseEntity {
 	private WorkingBill workingbill;// 随工单
 	private String EX_MBLNR;//物料凭证
 	private String costcenter;//成本中心
+	private String CXORJC;//成型/挤出
 	
 	//SAP
 	private String WERKS;//工厂
@@ -258,4 +259,15 @@ public class Repairin extends BaseEntity {
 	{
 		this.xrepairintype = xrepairintype;
 	}
+
+	public String getCXORJC()
+	{
+		return CXORJC;
+	}
+
+	public void setCXORJC(String cXORJC)
+	{
+		CXORJC = cXORJC;
+	}
+	
 }

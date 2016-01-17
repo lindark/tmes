@@ -62,10 +62,6 @@ public class WorkingInoutAction extends BaseAdminAction {
 		}
 		/**处理接上班 end**/
 		
-		
-//		String[] nameobj1= {"id","workingBillCode","materialCode","recipientsAmount"};
-//		String[] indexobj = {"id","workingbill.workingBillCode","materialCode","recipientsAmount"};
-//		String[] labelobj={"ID","随工单编号","子件编号","领用数量"};
 		JSONArray jsonarray = new JSONArray();
 		for(int i=0;i<nameobj.size();i++){
 			JSONObject jsonobject = new JSONObject();

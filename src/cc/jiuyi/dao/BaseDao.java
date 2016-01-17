@@ -23,6 +23,7 @@ public interface BaseDao<T, PK extends Serializable> {
 	 */
 	public T get(PK id);
 	
+	
 
 	/**
 	 * 根据ID获取实体对象.

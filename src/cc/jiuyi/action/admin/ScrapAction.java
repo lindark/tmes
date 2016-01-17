@@ -202,7 +202,7 @@ public class ScrapAction extends BaseAdminAction
 			}
 			return this.ajaxJsonErrorMessage(str);
 		}
-		this.scrapService.updateState(scrapid,cardnumber);//如果没有SAP交互把状态先改为已确认及确认人 
+		this.scrapService.updateState(scrapid,cardnumber,list_scrapmsg);//如果没有SAP交互把状态先改为已确认及确认人 
 		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 		
 	}
@@ -283,7 +283,7 @@ public class ScrapAction extends BaseAdminAction
 			}
 			return this.ajaxJsonErrorMessage(str);
 		}
-		this.scrapService.updateState(scrap.getId(),cardnumber);//如果没有SAP交互把状态先改为已确认及确认人 
+		this.scrapService.updateState(scrap.getId(),cardnumber,list_scrapmsg);//如果没有SAP交互把状态先改为已确认及确认人 
 		return this.ajaxJsonSuccessMessage("你的操作已成功!");
 	}
 	

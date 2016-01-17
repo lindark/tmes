@@ -128,6 +128,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 		}
 		return query.list();
 	}
+
 	
 	@SuppressWarnings("unchecked")
 	public List<T> getList(String propertyName,Object[] objlist){

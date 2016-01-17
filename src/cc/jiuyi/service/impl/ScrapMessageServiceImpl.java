@@ -18,6 +18,10 @@ public class ScrapMessageServiceImpl extends BaseServiceImpl<ScrapMessage, Strin
 {
 	@Resource
 	private ScrapMessageDao smDao;
+	@Resource
+	public void setBaseDao(ScrapMessageDao smDao) {
+		super.setBaseDao(smDao);
+	}
 	/**
 	 * 根据scrap表id和物料表id查询
 	 */

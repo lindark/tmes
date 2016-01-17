@@ -16,11 +16,14 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.RepairinPieceService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutCalculateBase;
+import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
 
 /**
@@ -28,7 +31,7 @@ import cc.jiuyi.util.ArithUtil;
  */
 @Repository
 public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
-		implements RepairinService {
+		implements RepairinService,WorkingInoutCalculateBase<RepairinPiece> {
 	@Resource
 	private RepairinDao repairinDao;
 	@Resource
@@ -44,6 +47,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	private MaterialService mService;//物料表
 	@Resource
 	private RepairinPieceService rpService;//组件表
+	@Resource
+	private WorkingInoutService wiService;
 	/**
 	 * =========================================================
 	 */
@@ -106,6 +111,13 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			WorkingBill wb = workingbillService.get(wbid);
 			wb.setRepairamount(Integer.parseInt(ArithUtil.add(repairin.getReceiveAmount(), wb.getCartonTotalAmount())+""));
 			this.workingbillService.update(wb);
+			List<RepairinPiece>list_rp=new ArrayList<RepairinPiece>(r.getRpieceSet());
+			HashMap<String,Object>map=new HashMap<String,Object>();
+			map.put("wbid", wbid);//随工单ID
+			if(list_rp.size()>0)
+			{
+				updateWorkingInoutCalculate(list_rp,map);
+			}
 		}
 		this.update(r);
 	}
@@ -259,6 +271,42 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				}
 				rp.setRepairin(r);
 				this.rpService.save(rp);
+			}
+		}
+	}
+	@Override
+	public void updateWorkingInoutCalculate(List<RepairinPiece> list_rp,
+			HashMap<String, Object> map)
+	{
+		for(int i=0;i<list_rp.size();i++)
+		{
+			RepairinPiece rp=list_rp.get(i);
+			String wbid=map.get("wbid").toString();//随工单ID
+			String code=rp.getRpcode();//物料编码
+			Double count=Double.parseDouble(rp.getRpcount());//数量
+			WorkingInout wi = this.wiService.findWorkingInout(wbid, code);
+			if(wi!=null)
+			{
+				Double wicount=wi.getRepairinAmount();//数量
+				if(wicount==null)
+				{
+					wicount=0d;
+				}
+				wi.setRepairAmount(ArithUtil.add(wicount, count));
+				wi.setModifyDate(new Date());
+				this.wiService.update(wi);
+			}
+			else
+			{
+				/**新增*/
+				WorkingBill wb=this.workingbillService.get(wbid);//根据ID查询一条
+				WorkingInout w=new WorkingInout();
+				w.setWorkingbill(wb);//随工单
+				w.setMaterialCode(code);//物料号
+				w.setRepairinAmount((count));//数量
+				w.setCreateDate(new Date());//初始化创建日期
+				w.setModifyDate(new Date());//初始化修改日期
+				this.wiService.save(w);
 			}
 		}
 	}

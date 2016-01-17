@@ -2,6 +2,7 @@ package cc.jiuyi.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.ScrapBugService;
@@ -23,6 +25,9 @@ import cc.jiuyi.service.ScrapLaterService;
 import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutCalculateBase;
+import cc.jiuyi.service.WorkingInoutService;
+import cc.jiuyi.util.ArithUtil;
 
 /**
  * 报废
@@ -30,7 +35,7 @@ import cc.jiuyi.service.WorkingBillService;
  *
  */
 @Repository
-public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements ScrapService
+public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements ScrapService,WorkingInoutCalculateBase<Scrap>
 {
 	@Resource
 	private ScrapDao scrapDao;
@@ -44,6 +49,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	private CauseService causeService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private WorkingInoutService wiService;
 	@Resource
 	public void setBaseDao(ScrapDao scrapDao) {
 		super.setBaseDao(scrapDao);
@@ -137,6 +144,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 						//1.1修改报废信息
 						sm1.setSmduty(newsm.getSmduty());
 						sm1.setSmreson(newsm.getSmreson());
+						sm1.setMenge(newsm.getMenge());
+						sm1.setSmmatterNum(newsm.getSmmatterNum());
+						sm1.setSmmatterDes(newsm.getSmmatterDes());
 						sm1.setModifyDate(new Date());
 						this.smsgService.update(sm1);
 						
@@ -258,6 +268,28 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			s2.setE_message(s.getE_message());//反馈消息
 			s2.setMblnr(s.getMblnr());//物料凭证
 		}
+		List<ScrapMessage>list_sm=new ArrayList<ScrapMessage>(s2.getScrapMsgSet());//信息表
+		/**计算报废缺陷数量保存到主表中*/
+		if(list_sm.size()>0)
+		{
+			for(int i=0;i<list_sm.size();i++)
+			{
+				ScrapMessage sm=list_sm.get(i);
+				int count=0;
+				Double d=sm.getMenge();
+				count=d.intValue();
+				/**投入产出*/
+				if(count>0)
+				{
+					HashMap<String,Object>map=new HashMap<String,Object>();
+					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
+					map.put("wbid", s2.getWorkingBill().getId());//随工单ID
+					map.put("count", count+"");//数量
+					map.put("newstate", newstate);//2确认3撤销
+					updateWorkingInoutCalculate(null,map);
+				}
+			}
+		}
 		this.update(s2);
 	}
 	
@@ -280,5 +312,52 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setState("2");//状态--已确认
 		scrap.setConfirmation(admin);//确认人
 		this.update(scrap);
+	}
+
+	/**
+	 * 投入产出
+	 */
+	public void updateWorkingInoutCalculate(List<Scrap> paramaterList,HashMap<String, Object> map)
+	{
+		//根据随工单ID和物料号查询一个是否存在,存在就更新报废数量,不存在就新插入一条
+		String wbid=map.get("wbid").toString();//随工单ID
+		String code=map.get("smmatterNum").toString();//物料号
+		Double count=Double.parseDouble(map.get("count").toString());//数量
+		String newstate=map.get("newstate").toString();//2确认3撤销
+		WorkingInout wi = this.wiService.findWorkingInout(wbid, code);
+		if(wi!=null)
+		{
+			Double wicount=wi.getScrapNumber();
+			if(wicount==null)
+			{
+				wicount=0d;
+			}
+			//确认--加
+			if("2".equals(newstate))
+			{
+				count=ArithUtil.add(wicount, count);//加法
+			}
+			//撤销
+			if("3".equals(newstate))
+			{
+				count=ArithUtil.sub(wicount, count);//减法
+			}
+			/**修改*/
+			wi.setScrapNumber(count);
+			wi.setModifyDate(new Date());//修改日期
+			this.wiService.update(wi);
+		}
+		else
+		{
+			/**新增*/
+			WorkingBill wb=this.wbService.get(wbid);//根据ID查询一条
+			WorkingInout w=new WorkingInout();
+			w.setWorkingbill(wb);//随工单
+			w.setMaterialCode(code);//物料号
+			w.setScrapNumber(count);//数量
+			w.setCreateDate(new Date());//初始化创建日期
+			w.setModifyDate(new Date());//初始化修改日期
+			this.wiService.save(w);
+		}
 	}
 }

@@ -187,7 +187,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list, workingBillId, cardnumber);
+			dailyWorkService.updateState(list,CONFIRMED,workingBillId, cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -219,7 +219,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				}
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState2(list, workingBillId, cardnumber);
+			dailyWorkService.updateState(list,UNDO,workingBillId, cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);

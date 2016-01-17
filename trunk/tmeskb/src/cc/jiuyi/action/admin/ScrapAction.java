@@ -302,7 +302,10 @@ public class ScrapAction extends BaseAdminAction
 			for(int i=0;i<l_scrapmsg.size();i++)
 			{
 				ScrapMessage sm=l_scrapmsg.get(i);
-				sm.setXsmduty(this.dictService.getByState("scrapMessageType",sm.getSmduty()));
+				if(sm.getSmduty()!=null)
+				{
+					sm.setXsmduty(this.dictService.getByState("scrapMessageType",sm.getSmduty()));
+				}
 				this.list_scrapmsg.add(sm);
 			}
 		}

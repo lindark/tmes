@@ -259,6 +259,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Scrap s2=this.get(s.getId());
+		String oldstate=s2.getState();
 		s2.setState(newstate);//状态
 		s2.setModifyDate(new Date());//修改日期
 		s2.setConfirmation(admin);//撤销/确认人
@@ -279,7 +280,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				Double d=sm.getMenge();
 				count=d.intValue();
 				/**投入产出*/
-				if(count>0)
+				if((count>0&&"2".equals(oldstate)&&"3".equals(newstate))||(count>0&&"2".equals(newstate)))
 				{
 					HashMap<String,Object>map=new HashMap<String,Object>();
 					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
@@ -304,7 +305,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	/**
 	 * 如果没有SAP交互把状态先改为已确认及确认人
 	 */
-	public void updateState(String scrapid, String cardnumber)
+	public void updateState(String scrapid, String cardnumber,List<ScrapMessage>list_sm)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Scrap scrap=this.get(scrapid);
@@ -312,6 +313,25 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setState("2");//状态--已确认
 		scrap.setConfirmation(admin);//确认人
 		this.update(scrap);
+		if(list_sm!=null)
+		{
+			for(int i=0;i<list_sm.size();i++)
+			{
+				ScrapMessage sm=list_sm.get(i);
+				if(sm.getSmreson()!=null&&!"".equals(sm.getSmreson()))
+				{
+					int count=0;
+					Double d=sm.getMenge();
+					count=d.intValue();
+					HashMap<String,Object>map=new HashMap<String,Object>();
+					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
+					map.put("wbid", scrap.getWorkingBill().getId());//随工单ID
+					map.put("count", count+"");//数量
+					map.put("newstate", "2");//2确认3撤销
+					updateWorkingInoutCalculate(null,map);
+				}
+			}
+		}
 	}
 
 	/**

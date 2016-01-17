@@ -111,10 +111,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			List<RepairPiece>list_rp=new ArrayList<RepairPiece>(r.getRpieceSet());
 			HashMap<String,Object>map=new HashMap<String,Object>();
 			map.put("wbid", wbid);//随工单ID
-			if(list_rp.size()>0)
-			{
-				updateWorkingInoutCalculate(list_rp,map);
-			}
+			updateWorkingInoutCalculate(list_rp,map);
 		}
 		this.update(r);
 	}

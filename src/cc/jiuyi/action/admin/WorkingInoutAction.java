@@ -1,7 +1,9 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -36,22 +38,23 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private Pager pager;
 	
 	private String jsondata;
-
+	
+	private String[] strlen = {"workingBillCode","materialCode"};
+	private String[] lavenlen={"随工单编号","子件编码"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
-		nameobj.add("id");labelobj.add("ID");indexobj.add("id");
-		nameobj.add("workingBillCode");labelobj.add("随工单编号");indexobj.add("workingbill.workingBillCode");
-		nameobj.add("materialCode");labelobj.add("子件编码");indexobj.add("materialCode");
+		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);
+		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);
 		
 		/**处理接上班**/
 		List<Process> processList00 = processservice.getAll();
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
-			String label = process.getProcessName();
-			String name = "GXJSB_"+process.getId();
+			String label = "接上班"+process.getProcessName();
+			String name ="GXJSB_"+process.getId();
 			String index="GXJSB_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
@@ -79,29 +82,41 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	public String ajlist(){//投入产出逻辑处理
 		
-		pager = workinginoutservice.findByPager(pager);
-		List<WorkingInout> workingInoutList = (List<WorkingInout>)pager.getList();
+		JSONArray jsonstr = new JSONArray();
+		
+		JSONArray jsonarray = JSONArray.fromObject(jsondata);
+		List<WorkingInout> workingInoutList = workinginoutservice.getAll();
+		try{
 		for(int i=0;i<workingInoutList.size();i++){
+			JSONObject map = new JSONObject();
 			WorkingInout workinginout = workingInoutList.get(i);
-			workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
+			//workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
+			map.put(strlen[0], workinginout.getWorkingbill().getWorkingBillCode());
+			map.put(strlen[1], workinginout.getMaterialCode());
+			
+			for(int y=0;y<jsonarray.size();y++){
+				JSONObject json = (JSONObject) jsonarray.get(y);
+				String name = json.getString("name");
+				int firstls = StringUtils.indexOf(name, "GXJSB_");
+				if(firstls >= 0){//如果找到，表示是接上班工序交接
+					String processid = StringUtils.substringAfter(name, "GXJSB_");//获取接上班ID
+					String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+					String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+					HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
+					if(handoverprocess == null)
+						map.put("GXJSB_"+processid,"0" );//正常交接数量
+					else
+						map.put("GXJSB_"+processid,handoverprocess.getAmount() );//正常交接数量
+				}
+				
+			}
+			jsonstr.add(map);
+		}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
-		
-		JsonConfig jsonConfig=new JsonConfig();   
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(WorkingInout.class));//排除有关联关系的属性字段  
-		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
-		
-//		JSONArray jsonarray = JSONArray.fromObject(jsondata);
-//		for(int i=0;i<jsonarray.size();i++){
-//			JSONObject jsonobject = (JSONObject)jsonarray.get(i);
-//			String index = (String)jsonobject.get("index");
-//			String laststr = StringUtils.substringAfter(index, "_");
-//			HandOverProcess handoverprocess = handoverprocessservice.get("processid",laststr);
-//			
-//		}
-		return ajaxJson(jsonArray.get(0).toString());
+		return ajaxJson(jsonstr.toString());
 	}
 	
 

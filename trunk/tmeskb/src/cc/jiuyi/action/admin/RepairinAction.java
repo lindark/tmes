@@ -343,13 +343,15 @@ public class RepairinAction extends BaseAdminAction {
 		}
 		pager.setOrderType(OrderType.desc);//倒序
 		pager.setOrderBy("createDate");//以创建日期排序
-		pager = this.fuService.getCostCenter(pager);//(根据:子件编码/名称,随工单)查询
+		pager = this.fuService.getCostCenter(pager,null);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<FactoryUnit>list1=pager.getList();
 		List<FactoryUnit>list2=new ArrayList<FactoryUnit>();
 		for(int i=0;i<list1.size();i++)
 		{
 			FactoryUnit fu=list1.get(i);
+			//成型/挤出
+			fu.setxCXORJC(ThinkWayUtil.getDictValueByDictKey(dictService, "fucxorjc", fu.getCXORJC()));
 			//是否可以返修/返修收获
 			fu.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", fu.getIscanrepair()));
 			list2.add(fu);

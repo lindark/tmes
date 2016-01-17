@@ -755,7 +755,7 @@
 
 			<li class="#">
 				<a href="" class="dropdown-toggle">
-					<i class="menu-icon fa fa-video-camera"></i>
+					<i class="menu-icon fa fa-bar-chart-o"></i>
 					<span class="menu-text"> 报表管理 </span>
 
 					<b class="arrow fa fa-angle-down"></b>

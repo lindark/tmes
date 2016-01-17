@@ -35,13 +35,18 @@ public class FactoryUnit extends BaseEntity {
 	private String warehouse;// 线边仓
 	private String warehouseName;// 线边仓描述
 	private Set<Team> team;// 班组
+	private String CXORJC;//成型/挤出
 
 	private Set<Products> productsSet;// 相关产品
 
 	private String workCenter;// 工作中心
 	private String costcenter;//成本中心
 	private String iscanrepair;//是否可以返修/返修收获-编码
+	
+	//假字段
 	private String xiscanrepair;//是否可以返修/返修收获-描述
+	private String xCXORJC;//成型/挤出 描述
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	public Set<Products> getProductsSet() {
 		return productsSet;
@@ -184,6 +189,27 @@ public class FactoryUnit extends BaseEntity {
 	public void setXiscanrepair(String xiscanrepair)
 	{
 		this.xiscanrepair = xiscanrepair;
+	}
+
+	public String getCXORJC()
+	{
+		return CXORJC;
+	}
+
+	public void setCXORJC(String cXORJC)
+	{
+		CXORJC = cXORJC;
+	}
+
+	@Transient
+	public String getxCXORJC()
+	{
+		return xCXORJC;
+	}
+
+	public void setxCXORJC(String xCXORJC)
+	{
+		this.xCXORJC = xCXORJC;
 	}
 	
 }

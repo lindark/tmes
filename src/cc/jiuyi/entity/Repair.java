@@ -40,6 +40,7 @@ public class Repair extends BaseEntity {
 	private WorkingBill workingbill;// 随工单
 	private String EX_MBLNR;//物料凭证
 	private String costcenter;//成本中心
+	private String CXORJC;//成型/挤出
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -304,6 +305,16 @@ public class Repair extends BaseEntity {
 	public void setXrepairtype(String xrepairtype)
 	{
 		this.xrepairtype = xrepairtype;
+	}
+
+	public String getCXORJC()
+	{
+		return CXORJC;
+	}
+
+	public void setCXORJC(String cXORJC)
+	{
+		CXORJC = cXORJC;
 	}
 	
 }

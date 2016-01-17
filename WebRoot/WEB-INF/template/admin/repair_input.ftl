@@ -57,7 +57,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">返修单</li>
+					<li class="active">成品返修</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -80,7 +80,7 @@ body {
 								<input type="hidden" name="repair.CXORJC" id="input_cxorjc" value="${(repair.CXORJC)! }" />
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">返修单</a></li>
+										<li><a href="#tabs-1">成品返修</a></li>
 
 									</ul>
 
@@ -189,8 +189,13 @@ body {
 														${(repair.costcenter)!}
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
-														<span id="span_costcenter">${(repair.costcenter)!}</span>
-														<input type="hidden" id="input_costcenter" name="repair.costcenter" value="${(repair.costcenter)!}" />
+														<#if add??>
+															<span id="span_costcenter">10008431</span>
+															<input type="hidden" id="input_costcenter" name="repair.costcenter" value="10008431" />
+														<#else>
+															<span id="span_costcenter">${(repair.costcenter)!}</span>
+															<input type="hidden" id="input_costcenter" name="repair.costcenter" value="${(repair.costcenter)!}" />
+														</#if>
 														<label class="requireField">*</label>
 													</#if>
 												</div>

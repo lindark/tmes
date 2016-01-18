@@ -149,8 +149,8 @@ body {
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> E-mail</label>
 										<div class="col-sm-9">
 											<input type="text" name="admin.email"
-												class="col-xs-10 col-sm-5 formText {required: true, email: true}"
-												value="${(admin.email)!}" /> <label class="requireField">*</label>
+												class="col-xs-10 col-sm-5"
+												value="${(admin.email)!}" />
 										</div>
 								</div>
 								<div class="form-group">
@@ -216,14 +216,14 @@ body {
 												value="${(admin.cardNumber)!}" />
 										</div>
 								</div>
-								<div class="form-group">
+								<!--  <div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 状态</label>
 										<div class="col-sm-9">
 											<input type="text" name=""
 												class=" input input-sm  formText {required: true}"
 												value="${(admin.name)!}" />
 										</div>
-								</div>
+								</div>-->
 								
 								<div class="buttonArea" style="display:none">
 									<input type="submit" class="formButton" id="submit_btn"

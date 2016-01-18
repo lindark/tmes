@@ -2,6 +2,7 @@ var info="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var loginid=$("#loginid").val();//当前登录人ID
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -46,7 +47,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"carton!ajlist.action",
+		url:"carton!ajlist.action?loginid="+loginid,
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -70,6 +71,7 @@ jQuery(function($) {
 			{name:'createDate',label:"创建日期",index:'createDate',width:120,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',label:"创建人",index:'createUser', width:120,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'confirmUser', width:120,sortable:"true",sorttype:"text"},
+			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:120,sortable:"true",sorttype:"text"},
 			{name:'xstate',label:"状态",index:'state', width:120,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 

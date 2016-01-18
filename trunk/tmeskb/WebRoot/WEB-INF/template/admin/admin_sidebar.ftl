@@ -985,7 +985,7 @@
 					<li class="">
 						<a href="bom!show.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							产品Bom管理
+							订单Bom管理
 							<b class="arrow fa"></b>
 						</a>
 
@@ -1007,7 +1007,7 @@
 					<li class="">
 						<a href="process_route!show.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							产品工艺管理
+							订单工艺管理
 							<b class="arrow fa"></b>
 						</a>
 

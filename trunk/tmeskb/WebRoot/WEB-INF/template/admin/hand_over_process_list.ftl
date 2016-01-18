@@ -240,8 +240,8 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
 															<#list list.oddHandOverSet as loh>
 																<td class="center"><input type="text" class="afterWork" value="${loh.afterWorkingCode}"/>	</td>
-																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualHOMount }"/></td>
-																<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unHOMount }"/></td>
+																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualBomMount }"/></td>
+																<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unBomMount }"/></td>
 															<#break>
 															</#list>
 														<#else>

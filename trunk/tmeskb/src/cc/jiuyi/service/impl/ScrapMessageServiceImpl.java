@@ -19,7 +19,7 @@ public class ScrapMessageServiceImpl extends BaseServiceImpl<ScrapMessage, Strin
 	@Resource
 	private ScrapMessageDao smDao;
 	@Resource
-	public void setBaseDao(ScrapMessageDao smDao) {
+	public void setBaseDao(ScrapMessageDao smDao){
 		super.setBaseDao(smDao);
 	}
 	/**

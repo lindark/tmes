@@ -634,6 +634,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					array.push($(this).text());
 				});
 				var $afterwork = $(".afterWork");
+				
 			  $.ajax({
 					url:"odd_hand_over!findAfterWorkingCode.action",
 					data:{"nowDate":productDate,"shift":shift,"workingCode":array},

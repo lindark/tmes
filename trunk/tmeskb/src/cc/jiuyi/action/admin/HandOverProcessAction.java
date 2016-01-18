@@ -2,8 +2,8 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -188,6 +188,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 				return ERROR;
 			}
 			
+			Collections.sort(processList, new Comparator<Process>() {
+	            public int compare(Process arg0, Process arg1) {
+	                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+	            }
+	        });
+			
 			//获取维护物料信息
 			List<Material> ml= materialservice.getAll();
 			if(ml!=null && ml.size()>0){
@@ -304,25 +310,27 @@ public class HandOverProcessAction extends BaseAdminAction {
 			handoverprocess.setAmount(amount);
 			handoverprocessList.set(i, handoverprocess);
 		}
-		for (int i = 0; i < workingbillList.size(); i++) {
-			Set<OddHandOver> ohoSet = workingbillList.get(i).getOddHandOverSet();
-			if(ohoSet!=null && ohoSet.size()>0){
-				for(OddHandOver oho : ohoSet){
-					HandOverProcess handoverprocess = new HandOverProcess();
-					handoverprocess.setProcessName("零头数交接");
-					handoverprocess.setMaterialCode(oho.getMaterialCode());
-					handoverprocess.setMaterialName(oho.getMaterialDesp());
-					handoverprocess.setBeforworkingbillCode(oho.getBeforeWokingCode());
-					handoverprocess.setAfterworkingbillCode(oho.getAfterWorkingCode());
-					handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStauts", oho.getState()));
-					Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
-					Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
-					amount = amount + repairamount;
-					handoverprocess.setAmount(amount.intValue());
-					handoverprocessList.add(handoverprocess);
+		if(workingbillList!=null && workingbillList.size()>0){
+			for (int i = 0; i < workingbillList.size(); i++) {
+				Set<OddHandOver> ohoSet = workingbillList.get(i).getOddHandOverSet();
+				if(ohoSet!=null && ohoSet.size()>0){
+					for(OddHandOver oho : ohoSet){
+						HandOverProcess handoverprocess = new HandOverProcess();
+						handoverprocess.setProcessName("零头数交接");
+						handoverprocess.setMaterialCode(oho.getMaterialCode());
+						handoverprocess.setMaterialName(oho.getMaterialDesp());
+						handoverprocess.setBeforworkingbillCode(oho.getBeforeWokingCode());
+						handoverprocess.setAfterworkingbillCode(oho.getAfterWorkingCode());
+						handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStauts", oho.getState()));
+						Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
+						Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
+						amount = amount + repairamount;
+						handoverprocess.setAmount(amount.intValue());
+						handoverprocessList.add(handoverprocess);
+					}
 				}
+				
 			}
-			
 		}
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据

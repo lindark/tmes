@@ -90,12 +90,17 @@ public class WorkingBillServiceImpl extends
 		// 3. 获取工作中心
 		// 4. 根据工作中心 跟 当前身份的 单元上维护的 工作中心比较
 		// 5. 显示出对应的随工单
+		List<WorkingBill> workingbillList = null;
+		try{
 		String productDate = admin.getProductDate();//生产日期
 		String shift = admin.getShift();//班次
 		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
 		
-		List<WorkingBill> workingbillList = workingbilldao.findWorkingBill(workcenter,productDate,shift);
 		
+		workingbillList = workingbilldao.findWorkingBill(workcenter,productDate,shift);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return workingbillList;
 	}
 

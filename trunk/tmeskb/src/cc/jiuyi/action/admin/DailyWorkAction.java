@@ -22,6 +22,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
@@ -32,6 +33,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -49,6 +51,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 	private static final String steus="PP02";
+	private static final String UNITCODE = "1001";
 
 	private DailyWork dailyWork;
 	private String workingBillId;
@@ -56,6 +59,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private Admin admin;
 	private List<Process> allProcess;
 	private String cardnumber;// 刷卡卡号
+	private Integer ratio;// 箱与个的转换比率
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -75,6 +79,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	private WorkingBillService workingbillService;
 	@Resource
 	private ProcessRouteService processrouteservice;
+	@Resource
+	private UnitConversionService unitConversionService;
 
 	/**
 	 * 跳转list 页面
@@ -174,8 +180,13 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		ratio = unitConversionService.getRatioByCode(UNITCODE);
+		if (ratio == null && ratio.equals("")) {
+           return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
+		}
 		try {
 			ids = id.split(",");
+			List<DailyWork> dailyList = new ArrayList<DailyWork>();
 			for (int i = 0; i < ids.length; i++) {
 				dailyWork = dailyWorkService.load(ids[i]);
 				if (CONFIRMED.equals(dailyWork.getState())) {
@@ -184,9 +195,12 @@ public class DailyWorkAction extends BaseAdminAction {
 				if (UNDO.equals(dailyWork.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}
+				dailyWork.setEnterAmount(dailyWork.getEnterAmount()*ratio);
+				dailyList.add(dailyWork);
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list,CONFIRMED,workingBillId, cardnumber);
+			
+			dailyWorkService.updateState(dailyList,CONFIRMED,workingBillId,ratio.toString(),cardnumber);
 			
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
@@ -212,14 +226,18 @@ public class DailyWorkAction extends BaseAdminAction {
 
 		try {
 			ids = id.split(",");
+			List<DailyWork> dailyList = new ArrayList<DailyWork>();
 			for (int i = 0; i < ids.length; i++) {
 				dailyWork = dailyWorkService.load(ids[i]);
 				if (UNDO.equals(dailyWork.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 				}
+				dailyWork.setEnterAmount(dailyWork.getEnterAmount()*ratio);
+				dailyList.add(dailyWork);
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
-			dailyWorkService.updateState(list,UNDO,workingBillId, cardnumber);
+			
+			dailyWorkService.updateState(list,UNDO,workingBillId,ratio.toString(), cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -396,4 +414,14 @@ public class DailyWorkAction extends BaseAdminAction {
 	public List<Dict> getAllMoudle() {
 		return dictService.getList("dictname", "moudleType");
 	}
+
+	public Integer getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(Integer ratio) {
+		this.ratio = ratio;
+	}
+	
+	
 }

@@ -22,10 +22,10 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 	/**
 	 * jqgrid查询
 	 */
-	public Pager getCartonPager(Pager pager) {
+	public Pager getCartonPager(Pager pager,String teamid) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Carton.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		detachedCriteria.add(Restrictions.eq("state", "2"));//只查询未确认的
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("state", "2"),Restrictions.eq("teamid", teamid)));//只查询未确认的
 		return super.findByPager(pager, detachedCriteria);
 	}
 

@@ -111,7 +111,8 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		List<Bom>list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		//List<Bom>list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		List<Bom>list=bomDao.getBomList(aufnr, maxversion);
 		for(int i=0;i<list.size();i++)
 		{
 			Bom bom = list.get(i);

@@ -24,6 +24,7 @@ public class Carton extends BaseEntity {
 	private String E_MESSAGE;//付款信息
 	private String EX_MBLNR;//物料凭证
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
+	private String teamid;//本班组ID
 
 	//假字段
 	private String xcreateUser;//创建人的名字
@@ -140,6 +141,16 @@ public class Carton extends BaseEntity {
 	public void setEX_MBLNR(String eX_MBLNR)
 	{
 		EX_MBLNR = eX_MBLNR;
+	}
+
+	public String getTeamid()
+	{
+		return teamid;
+	}
+
+	public void setTeamid(String teamid)
+	{
+		this.teamid = teamid;
 	}
 	
 }

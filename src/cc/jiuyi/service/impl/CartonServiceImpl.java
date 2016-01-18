@@ -57,9 +57,11 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	/**
 	 * jqgrid查询
 	 */
-	public Pager getCartonPager(Pager pager)
+	public Pager getCartonPager(Pager pager,String loginid)
 	{
-		return cartonDao.getCartonPager(pager);
+		Admin admin=this.adminservice.get(loginid);
+		String teamid=admin.getDepartment().getTeam().getId();
+		return cartonDao.getCartonPager(pager,teamid);
 	}
 
 	@Override
@@ -216,14 +218,16 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	/**
 	 * 新增保存
 	 */
-	public void saveData(List<CartonSon> list_cs, String cardnumber)
+	public void saveData(List<CartonSon> list_cs, String cardnumber,String loginid)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
+		Admin login_admin=this.adminservice.get(loginid);
 		/**主表数据插入*/
 		Carton c=new Carton();
 		c.setCreateDate(new Date());//创建日期
 		c.setModifyDate(new Date());//修改日期
 		c.setCreateUser(admin);//创建人
+		c.setTeamid(login_admin.getDepartment().getTeam().getId());//当前班组ID
 		c.setState("2");//状态-未确认
 		String cid=this.save(c);//保存
 		/**子表数据插入*/

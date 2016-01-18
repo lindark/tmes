@@ -228,7 +228,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		}
 
 		try {
-			locationonsideList = rfc.findWarehouse(warehouse, materialCodeList);
+			locationonsideList = rfc.findWarehouse(warehouse);
 		} catch (IOException e) {
 			addActionError("IO操作失败");
 			e.printStackTrace();
@@ -335,11 +335,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
-		for (Bom material : materialList) {
-			materialCodeList.add(material.getMaterialCode());
-		}
+//		for (Bom material : materialList) {
+//			materialCodeList.add(material.getMaterialCode());
+//		}
 		try {
-			locationonsideList = rfc.findWarehouse(warehouse, materialCodeList);
+			locationonsideList = rfc.findWarehouse(warehouse);
 			for(int i=0;i<locationonsideList.size();i++){
 				HandOverProcess handoverprocess = new HandOverProcess();
 				Locationonside location = (Locationonside)locationonsideList.get(i);

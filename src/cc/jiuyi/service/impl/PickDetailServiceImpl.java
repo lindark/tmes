@@ -238,7 +238,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
 		   /**如果退料的情况**/
 		   if (pickDetail.getPickType().equals("262")) {
-				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加				
+				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
 			}
 		   /**如果是领料的情况**/
 		   else{					

@@ -18,7 +18,7 @@ import org.compass.annotations.Searchable;
 public class DailyWork extends BaseEntity {
 
 	private static final long serialVersionUID = 8446572478950753825L;
-	private double enterAmount;// 报工数量
+	private double enterAmount;// 报工箱数
 	private String State;// 状态
 	private String isDel;// 是否删除
 	private Admin confirmUser;// 确认人

@@ -23,9 +23,6 @@ public class CartonSon extends BaseEntity
 	private String LGORT;//库存地点
 	private String WERKS;//工厂
 	private String BUDAT;//过账日期
-	private String E_TYPE;//S/N
-	private String E_MESSAGE;//付款信息
-	private String EX_MBLNR;//物料凭证
 	private Carton carton;//纸箱收货-主表
 	private String wbid;//随工单ID
 	private String wbcode;//随工单编码
@@ -100,30 +97,6 @@ public class CartonSon extends BaseEntity
 	public void setBUDAT(String bUDAT)
 	{
 		BUDAT = bUDAT;
-	}
-	public String getE_TYPE()
-	{
-		return E_TYPE;
-	}
-	public void setE_TYPE(String e_TYPE)
-	{
-		E_TYPE = e_TYPE;
-	}
-	public String getE_MESSAGE()
-	{
-		return E_MESSAGE;
-	}
-	public void setE_MESSAGE(String e_MESSAGE)
-	{
-		E_MESSAGE = e_MESSAGE;
-	}
-	public String getEX_MBLNR()
-	{
-		return EX_MBLNR;
-	}
-	public void setEX_MBLNR(String eX_MBLNR)
-	{
-		EX_MBLNR = eX_MBLNR;
 	}
 	public String getWbid()
 	{

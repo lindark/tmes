@@ -20,6 +20,9 @@ public class Carton extends BaseEntity {
 	private Admin createUser;//创建人
 	private Admin confirmUser;// 确认人
 	private String state;// 状态
+	private String E_TYPE;//S/N
+	private String E_MESSAGE;//付款信息
+	private String EX_MBLNR;//物料凭证
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
 
 	//假字段
@@ -107,6 +110,36 @@ public class Carton extends BaseEntity {
 	public void setXstate(String xstate)
 	{
 		this.xstate = xstate;
+	}
+
+	public String getE_TYPE()
+	{
+		return E_TYPE;
+	}
+
+	public void setE_TYPE(String e_TYPE)
+	{
+		E_TYPE = e_TYPE;
+	}
+
+	public String getE_MESSAGE()
+	{
+		return E_MESSAGE;
+	}
+
+	public void setE_MESSAGE(String e_MESSAGE)
+	{
+		E_MESSAGE = e_MESSAGE;
+	}
+
+	public String getEX_MBLNR()
+	{
+		return EX_MBLNR;
+	}
+
+	public void setEX_MBLNR(String eX_MBLNR)
+	{
+		EX_MBLNR = eX_MBLNR;
 	}
 	
 }

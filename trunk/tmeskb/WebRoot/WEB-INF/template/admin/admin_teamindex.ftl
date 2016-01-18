@@ -231,7 +231,7 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="repair">
 														<i class="ace-icon fa fa-cog bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">返修</span>
+															class="bigger-110 no-text-shadow"> 返修</span>
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"

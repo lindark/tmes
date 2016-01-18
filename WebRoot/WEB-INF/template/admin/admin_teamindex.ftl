@@ -13,7 +13,7 @@
 <script src="${base}/template/admin/js/Main/teamindex.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
-
+<script src="${base}/template/admin/js/list.js"></script>
 
 </head>
 <body class="no-skin">
@@ -80,23 +80,42 @@
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
 												<div class="profile-user-info profile-user-info-striped">
-													<div class="profile-info-row">
-														<div class="profile-info-name">工厂：</div>
+												   <div class="profile-info-row">
+														<div class="profile-info-name">工厂/车间：</div>
 														<div class="profile-info-value">
 															${(admin.department.team.factoryUnit.workShop.factory.factoryName)!
+															} &nbsp;&nbsp;&nbsp;    ${(admin.department.team.factoryUnit.workShop.workShopName)!
 															}</div>
-													</div>
-													<div class="profile-info-row">
-														<div class="profile-info-name">车间：</div>
+													<!--  	<div class="profile-info-name">车间：</div>
 														<div class="profile-info-value">
 															${(admin.department.team.factoryUnit.workShop.workShopName)!
-															}</div>
+															}</div>-->
 													</div>
+
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>
+															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>										
 													</div>
+													
+													<div class="profile-info-row">
+													
+													    <div class="profile-info-name">生产日期/班次:</div>
+														<div class="profile-info-value">
+														      <form id="inputForm" class="validate" action="admin!productupdate.action" method="post">
+								                        <input type="hidden" name="id" value="${admin.id}" />
+														<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker formText {required: true}"/>
+														 
+														<select name="admin.shift" class="formText {required: true}">
+														<option></option>
+														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+														<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+													    </select>&nbsp;&nbsp;&nbsp; <button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>														   
+													    </form>
+														</div>
+													</div>
+													
 													<!-- 
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
@@ -384,6 +403,19 @@
 			layer.full(index);//弹出既全屏
 
 		});
+		
+		$("#submitButton").click(function(){
+			$.ajax({
+			url: "admin!productupdate.action",
+			data: $("#inputForm").serialize(),
+			dataType: "json",		
+			success: function(data) {
+				layer.alert(data.message, {icon: 6},function(){
+					window.location.href="admin!index.action";
+				}); 
+			}
+		});	
+		})
 	</script>
 
 </body>

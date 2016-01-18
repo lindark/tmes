@@ -139,7 +139,6 @@ public class DailyWorkAction extends BaseAdminAction {
 			ProcessRouteIdList.add(pr.getId());
 		}
 		String process = processRouteService.getProcess(ProcessRouteIdList,steus);
-		System.out.println(process);
 		dailyWork.setProcessCode(process);
 		if (dailyWork.getEnterAmount() == null
 				|| String.valueOf(dailyWork.getEnterAmount()).matches(

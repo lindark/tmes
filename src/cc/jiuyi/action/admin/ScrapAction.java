@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
@@ -34,6 +35,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
@@ -88,6 +90,8 @@ public class ScrapAction extends BaseAdminAction
 	private ScrapMessageService smService;//报废信息表
 	@Resource
 	private BomService bomservice;
+	@Resource
+	private MaterialService materialservice;
 	
 	/**========================end  variable,object,interface==========================*/
 	
@@ -157,10 +161,36 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String add()
 	{
+		list_material = new ArrayList<Bom>();
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		list_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate(),workingbill.getWorkingBillCode());
+		//list_material = bomservice.findBom(aufnr, workingbill.getProductDate());
+		//获取维护物料信息
+		List<Material> ml= materialservice.getAll();
+		List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+		if(ml!=null && ml.size()>0){
+			for(int y=0;y<bomList.size();y++){
+				Bom bom = bomList.get(y);
+				for(Material mt : ml){
+					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+						boolean f = true;
+						for(Bom b : list_material){
+							if(b.getMaterialCode().equals(bom.getMaterialCode())){
+								f=false;
+							}
+						}
+						if(f){
+							list_material.add(bom);	
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+		
+		
 		//this.list_material=new ArrayList<Bom>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
@@ -215,9 +245,52 @@ public class ScrapAction extends BaseAdminAction
 		this.list_material=new ArrayList<Bom>();
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
-		for(int i=0;i<l_material.size();i++)
+		//获取维护物料信息
+		List<Material> ml= materialservice.getAll();
+		if(ml!=null && ml.size()>0){
+			for(int y=0;y<l_material.size();y++){
+				Bom bom = l_material.get(y);
+				for(Material mt : ml){
+					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+						boolean f = true;
+						for(Bom b : list_material){
+							if(b.getMaterialCode().equals(bom.getMaterialCode())){
+								f=false;
+							}
+						}
+						if(f){
+							ScrapMessage sm=this.smService.getBySidAndMid(id,bom.getMaterialCode());//根据scrap表id和物料表id查询报废信息
+							if(sm!=null)
+							{
+								bom.setXsmreson(sm.getSmreson());//原因
+								bom.setXmenge(sm.getMenge());//数量
+								bom.setXsmduty(sm.getSmduty());//责任划分
+								bom.setXsmid(sm.getId());
+								List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
+								String sbids="",sbnums="";
+								for(int j=0;j<l_sbug.size();j++)
+								{
+									ScrapBug sb=l_sbug.get(j);
+									if(sb!=null)
+									{
+										sbids=sbids+sb.getCauseId()+",";
+										sbnums=sbnums+sb.getSbbugNum()+",";
+									}
+								}
+								bom.setXsbids(sbids);//缺陷ids
+								bom.setXsbnums(sbnums);//缺陷数量
+							}
+							list_material.add(bom);	
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+		/*for(int i=0;i<l_material.size();i++)
 		{
 			Bom m=l_material.get(i);
 			if(m!=null)
@@ -245,7 +318,7 @@ public class ScrapAction extends BaseAdminAction
 				}
 				list_material.add(m);
 			}
-		}
+		}*/
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
 		this.scrap=this.scrapService.get(id);

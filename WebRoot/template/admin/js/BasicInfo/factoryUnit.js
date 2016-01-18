@@ -71,6 +71,8 @@ jQuery(function($) {
 			{name:'workShopName',label:"车间名称",index:'workShop.workShopName', width:100,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryUnitCode',label:"单元编码",index:'factoryUnitCode', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryUnitName',label:"单元名称",index:'factoryUnitName', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'warehouse',label:"线边仓编码",index:'warehouse', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'warehouseName',label:"线边仓描述",index:'warehouseName', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'workCenter',label:"工作中心",index:'workCenter', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'costcenter',label:"成本中心",index:'costcenter', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xiscanrepair',label:"是否可以返修/返修收货",index:'iscanrepair', width:130, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitIscanrepair"}},

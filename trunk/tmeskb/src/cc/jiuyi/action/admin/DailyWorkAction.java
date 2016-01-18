@@ -48,7 +48,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private static final String CONFIRMED = "1";
 	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
-	private static final String steus="pp02";
+	private static final String steus="PP02";
 
 	private DailyWork dailyWork;
 	private String workingBillId;
@@ -139,7 +139,7 @@ public class DailyWorkAction extends BaseAdminAction {
 			ProcessRouteIdList.add(pr.getId());
 		}
 		String process = processRouteService.getProcess(ProcessRouteIdList,steus);
-		
+		System.out.println(process);
 		dailyWork.setProcessCode(process);
 		if (dailyWork.getEnterAmount() == null
 				|| String.valueOf(dailyWork.getEnterAmount()).matches(
@@ -188,6 +188,7 @@ public class DailyWorkAction extends BaseAdminAction {
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
 			dailyWorkService.updateState(list,CONFIRMED,workingBillId, cardnumber);
+			
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);

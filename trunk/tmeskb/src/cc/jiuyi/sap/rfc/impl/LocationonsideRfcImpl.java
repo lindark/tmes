@@ -22,7 +22,7 @@ import cc.jiuyi.util.TableModel;
 @Component
 public class LocationonsideRfcImpl extends BaserfcServiceImpl implements LocationonsideRfc {
 
-	public List<Locationonside> findWarehouse(String warehouse,List<String> materialCodeList) throws IOException, CustomerException {
+	public List<Locationonside> findWarehouse(String warehouse) throws IOException, CustomerException {
 		super.setProperty("warehouse");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -32,19 +32,19 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel tablemodel = new TableModel();
-		tablemodel.setData("IT_ITEM");//表名
-		for(String material : materialCodeList){
-			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("MATNR", material);
-			arrList.add(item);
-		}
-		tablemodel.setList(arrList);
-		tablemodelList.add(tablemodel);
+//		tablemodel.setData("IT_ITEM");//表名
+//		for(String material : materialCodeList){
+//			HashMap<String,Object> item = new HashMap<String,Object>();
+//			item.put("MATNR", material);
+//			arrList.add(item);
+//		}
+//		tablemodel.setList(arrList);
+//		tablemodelList.add(tablemodel);
 		/******输入表 end**/
 		
 		/*******执行******/
 		super.setParameter(parameter);//输入参数
-		super.setTable(tablemodelList);
+//		super.setTable(tablemodelList);
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/
 		

@@ -25,6 +25,7 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 	public Pager getCartonPager(Pager pager) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Carton.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
+		detachedCriteria.add(Restrictions.eq("state", "2"));//只查询未确认的
 		return super.findByPager(pager, detachedCriteria);
 	}
 

@@ -506,6 +506,8 @@ public class DeviceAction extends BaseAdminAction {
 			} catch (CustomerException e1) {
 				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 			
 			

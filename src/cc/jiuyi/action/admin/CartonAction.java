@@ -49,6 +49,7 @@ public class CartonAction extends BaseAdminAction {
 	private String edit;
 	private String show;
 	private String info;
+	private String loginid;//当前登录人
 
 	@Resource
 	private CartonService cartonService;
@@ -78,7 +79,7 @@ public class CartonAction extends BaseAdminAction {
 	// 新增保存
 	public String creditsave() throws Exception
 	{
-		this.cartonService.saveData(list_cs,cardnumber);
+		this.cartonService.saveData(list_cs,cardnumber,loginid);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -188,7 +189,7 @@ public class CartonAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		pager = cartonService.getCartonPager(pager);
+		pager = this.cartonService.getCartonPager(pager,loginid);
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();
 		for (int i = 0; i < cartonList.size(); i++)
@@ -311,6 +312,16 @@ public class CartonAction extends BaseAdminAction {
 	public void setInfo(String info)
 	{
 		this.info = info;
+	}
+
+	public String getLoginid()
+	{
+		return loginid;
+	}
+
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
 	}
 
 }

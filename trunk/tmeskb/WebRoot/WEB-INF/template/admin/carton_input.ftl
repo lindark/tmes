@@ -63,7 +63,7 @@ body {
 							<form id="inputForm" name="inputForm" class="validate" action="" method="post">
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
                             	<input type="hidden" id="id" name="id" value="${(edit)! }" />
-								
+								<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />"/>
 								<div id="inputtabs">
 								 	<ul>
 								    	<li><a href="#tabs-1">添加纸箱收货单</a></li>
@@ -76,7 +76,6 @@ body {
 														<th class="tabth">随工单编码</th>
 														<th class="tabth">产品编码</th>
 														<th class="tabth">产品名称</th>
-														<th class="tabth">物料凭证</th>
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料名称</th>
 														<th class="tabth">纸箱数量</th>
@@ -89,7 +88,6 @@ body {
 																	<td>${(cslist.wbcode)! }</td>
 																	<td>${(cslist.productcode)! }</td>
 																	<td>${(cslist.productname)! }</td>
-																	<td>${(cslist.EX_MBLNR)! }</td>
 																	<td>${(cslist.MATNR)! }</td>
 																	<td>${(cslist.MATNRDES)! }</td>
 																	<td>${(cslist.cscount)! }</td>
@@ -113,7 +111,6 @@ body {
 																	${(list.productname)! }
 																	<input type="hidden" name="list_cs[${num}].productname" value="${(list.productname)! }" />
 																</td>
-																<td></td>
 																<td>
 																	${(list.MATNR)! }
 																	<input type="hidden" name="list_cs[${num}].MATNR" value="${(list.MATNR)! }" />

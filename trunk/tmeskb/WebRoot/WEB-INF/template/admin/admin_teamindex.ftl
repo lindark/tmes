@@ -235,7 +235,7 @@
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+					 							<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="rework">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"

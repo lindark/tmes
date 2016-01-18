@@ -311,6 +311,8 @@ public class ModelAction extends BaseAdminAction {
 			} catch (CustomerException e1) {
 				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		
 			
@@ -498,6 +500,8 @@ public class ModelAction extends BaseAdminAction {
 		} catch (CustomerException e1) {
 			System.out.println(e1.getMsgDes());
 			e1.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		ModelLog log = new ModelLog();

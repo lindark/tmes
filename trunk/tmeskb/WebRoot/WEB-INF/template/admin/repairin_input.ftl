@@ -142,12 +142,15 @@ body {
 					                          				<small class="muted smaller-90">成品:</small>
 						                       				<input type="radio" id="repairintype_cp" class="ace" name="repairin.repairintype" value="CP"<#if (isAdd || repairin.repairintype == 'CP')!> checked</#if> />
 						                       				<span class="lbl middle"></span>
-					                        			</label>&nbsp;&nbsp;					
+					                        			</label>
+					                        			<!-- 
+					                        			&nbsp;&nbsp;			
 					                        			<label class="pull-left inline">
 					                            			<small class="muted smaller-90">组件:</small>
 						                        			<input type="radio" id="repairintype_zj" class="ace" name="repairin.repairintype" value="ZJ"<#if (repairin.repairintype == 'ZJ')!> checked</#if>  />
 						                         			<span class="lbl middle"></span>
 					                        			</label>
+					                        			 -->
 													</#if>
 												</div>	
 											</div>

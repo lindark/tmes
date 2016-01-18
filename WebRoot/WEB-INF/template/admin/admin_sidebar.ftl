@@ -807,7 +807,7 @@
 					<li class="">
 						<a href="department!list.action" >
 							<i class="menu-icon"></i>
-							部门设置
+							用户设置
 						</a>
 
 						<b class="arrow"></b>
@@ -998,7 +998,7 @@
 							<i class="menu-icon fa fa-caret-right"></i>
 							工序代码管理
 							<b class="arrow fa"></b>
-						</a>
+						</a>恩
 
 						<b class="arrow"></b>
 

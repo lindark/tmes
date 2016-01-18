@@ -13,7 +13,47 @@
 <script src="${base}/template/admin/js/Main/teamindex.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
-<script src="${base}/template/admin/js/list.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("input.datePicker").datepicker({
+			clearText: '清除',   
+		    clearStatus: '清除已选日期',   
+		    closeText: '关闭',   
+		    closeStatus: '不改变当前选择',   
+		    prevText: '<上月',   
+		    prevStatus: '显示上月',   
+		    prevBigText: '<<',   
+		    prevBigStatus: '显示上一年',   
+		    nextText: '下月>',   
+		    nextStatus: '显示下月',   
+		    nextBigText: '>>',   
+		    nextBigStatus: '显示下一年',   
+		    currentText: '今天',   
+		    currentStatus: '显示本月',   
+		    monthNames: ['一月','二月','三月','四月','五月','六月', '七月','八月','九月','十月','十一月','十二月'],   
+		    monthNamesShort: ['一','二','三','四','五','六', '七','八','九','十','十一','十二'],   
+		    monthStatus: '选择月份',   
+		    yearStatus: '选择年份',   
+		    weekHeader: '周',   
+		    weekStatus: '年内周次',   
+		    dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],   
+		    dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],   
+		    dayNamesMin: ['日','一','二','三','四','五','六'],   
+		    dayStatus: '设置 DD 为一周起始',   
+		    dateStatus: '选择 m月 d日, DD',   
+		    dateFormat: 'yy-mm-dd',   
+		    firstDay: 1,   
+		    initStatus: '请选择日期',   
+			changeMonth : true,// 设置允许通过下拉框列表选取月份。
+			changeYear : true,// 允许通过下拉框列表选取年份
+			showMonthAfterYear : true,//是否把月放在年的后面
+			showOtherMonths: true,
+			selectOtherMonths: true});
+		
+	})
+
+
+</script>
 
 </head>
 <body class="no-skin">
@@ -196,7 +236,7 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="sample">
 														<i class="ace-icon fa fa-flag bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">成品检验</span>
+															class="bigger-110 no-text-shadow">巡检</span>
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
@@ -205,7 +245,7 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="storage">
 														<i class="ace-icon fa fa-tasks bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">入库</span>
+															class="bigger-110 no-text-shadow">成品检验</span>
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
@@ -235,7 +275,7 @@
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
-					 							<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="rework">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"

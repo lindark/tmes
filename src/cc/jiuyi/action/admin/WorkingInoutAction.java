@@ -39,8 +39,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	private String jsondata;
 	
-	private String[] strlen = {"workingBillCode","materialCode"};
-	private String[] lavenlen={"随工单编号","子件编码"};
+	private String[] strlen = {"workingBillCode","materialCode","planCount"};
+	private String[] lavenlen={"随工单编号","子件编码","计划数量"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
@@ -48,19 +48,31 @@ public class WorkingInoutAction extends BaseAdminAction {
 		List<String> indexobj = new ArrayList<String>();
 		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);
 		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);
-		
-		/**处理接上班**/
+		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);
+		/**处理接上班(正常)**/
 		List<Process> processList00 = processservice.getAll();
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
-			String label = "接上班"+process.getProcessName();
-			String name ="GXJSB_"+process.getId();
-			String index="GXJSB_"+process.getId();
+			String label = "接上班"+process.getProcessName()+"(正常)";
+			String name ="GXJSBZC_"+process.getId();
+			String index="GXJSBZC_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理接上班 end**/
+		/**处理接上班 (正常)end**/
+		
+		/**处理接上班(返修)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "接上班"+process.getProcessName()+"(返修)";
+			String name ="GXJSBFX_"+process.getId();
+			String index="GXJSBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理接上班 (返修)end**/
 		
 		JSONArray jsonarray = new JSONArray();
 		for(int i=0;i<nameobj.size();i++){
@@ -68,7 +80,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 			jsonobject.put("name", nameobj.get(i));
 			jsonobject.put("index", indexobj.get(i));
 			jsonobject.put("label", labelobj.get(i));
-			jsonobject.put("width", 200);
+			jsonobject.put("width", 150);
+			jsonobject.put("fixed", true);
 			jsonarray.add(jsonobject);
 		}
 		jsondata = jsonarray.toString();
@@ -89,21 +102,25 @@ public class WorkingInoutAction extends BaseAdminAction {
 			//workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
 			map.put(strlen[0], workinginout.getWorkingbill().getWorkingBillCode());
 			map.put(strlen[1], workinginout.getMaterialCode());
-			
+			map.put(strlen[2], workinginout.getWorkingbill().getPlanCount());
 			for(int y=0;y<jsonarray.size();y++){
 				JSONObject json = (JSONObject) jsonarray.get(y);
 				String name = json.getString("name");
-				int firstls = StringUtils.indexOf(name, "GXJSB_");
+				int firstls = StringUtils.indexOf(name, "GXJSBZC_");
 				if(firstls >= 0){//如果找到，表示是接上班工序交接
-					String processid = StringUtils.substringAfter(name, "GXJSB_");//获取接上班ID
+					String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
 					String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
 					String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
 					HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
-					if(handoverprocess == null)
-						map.put("GXJSB_"+processid,"0" );//正常交接数量
-					else
-						map.put("GXJSB_"+processid,handoverprocess.getAmount() );//正常交接数量
+					if(handoverprocess == null){
+						map.put("GXJSBZC_"+processid,"0" );//正常交接数量
+						map.put("GXJSBFX_"+processid, "0");//返修交接数量
+					}else{
+						map.put("GXJSBZC_"+processid,handoverprocess.getAmount() );//正常交接数量
+						map.put("GXJSBFX_"+processid,handoverprocess.getRepairAmount());//返修交接数量
+					}
 				}
+				//int firstls1 = StringUtils
 				
 			}
 			jsonstr.add(map);

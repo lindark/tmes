@@ -1,10 +1,12 @@
 package cc.jiuyi.sap.rfc;
 
 import java.io.IOException;
+import java.util.List;
 
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.util.CustomerException;
 
 public interface CartonRfc extends BaserfcService{
-	public CartonSon CartonCrt(CartonSon cs) throws IOException,CustomerException;
+	public Carton CartonCrt(List<CartonSon>list_cs) throws IOException,CustomerException;
 }

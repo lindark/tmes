@@ -684,7 +684,11 @@ public class AdminAction extends BaseAdminAction {
 		persistent.setProductDate(admin.getProductDate());
 		persistent.setShift(admin.getShift());
 		adminService.update(persistent);
-		return SUCCESS;
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "操作成功");
+		return ajaxJson(jsonMap);
+	//	return SUCCESS;
 		
 	}
 	

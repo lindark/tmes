@@ -589,7 +589,7 @@ public class AdminAction extends BaseAdminAction {
 		requiredStrings = {
 			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
 			@RequiredStringValidator(fieldName = "admin.password", message = "密码不允许为空!"),
-			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
+//			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
 		},
 		requiredFields = {
 			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
@@ -599,7 +599,7 @@ public class AdminAction extends BaseAdminAction {
 			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!")
 		},
 		emails = {
-			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
+//			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
 		},
 		regexFields = {
 			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 

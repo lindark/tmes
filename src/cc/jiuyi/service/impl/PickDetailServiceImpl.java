@@ -167,6 +167,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
 			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
+			Double recipientsAmount = pickAmount;//领用数
 			
 			/**根据随工单号查询投入产出表中是否已经有数据**/			
 			boolean flag = workingInoutService.isExist(workingBillId, materialCode);
@@ -176,8 +177,11 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				/**如果退料的情况**/
 				if(pickDetail.getPickType().equals("262")){
 					workingInout.setMultiple(0-multiple);//投入产出减
-				}else{				
+				}
+				/**如果是领料的情况**/
+				else{				
 					workingInout.setMultiple(multiple);//投入产出加
+					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
 				}
 				workingInout.setMaterialCode(materialCode);//保存物料号
 				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
@@ -190,8 +194,11 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				/**如果退料的情况**/
 				if (pickDetail.getPickType().equals("262")) {
 					workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
-				}else{					
+				}
+				/**如果是领料的情况**/
+				else{					
 					workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
+					workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()+recipientsAmount);//领用数增加
 				}
 				workingInoutService.update(workingInout);
 			}
@@ -222,13 +229,17 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
 			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
+			Double recipientsAmount = pickAmount;//领用数
 			
 		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
 		   /**如果退料的情况**/
 		   if (pickDetail.getPickType().equals("262")) {
-				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
-			}else{					
+				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加				
+			}
+		   /**如果是领料的情况**/
+		   else{					
 				workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
+				workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()-recipientsAmount);//领用数减少
 			}
 				workingInoutService.update(workingInout);
 		}

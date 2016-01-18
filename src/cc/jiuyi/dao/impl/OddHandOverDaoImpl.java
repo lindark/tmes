@@ -12,4 +12,5 @@ import cc.jiuyi.entity.OddHandOver;
 public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> implements
 		OddHandOverDao {
 
+	
 }

@@ -351,31 +351,27 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				cs.setMOVE_TYPE("101");//移动类型
 				list.add(cs);
 				this.csService.update(cs);
+				//修改随工单中对应数量
+				Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
+				wb.setCartonTotalAmount(d.intValue());
+				this.workingbillService.update(wb);
 			}
 			if(list.size()>0)
 			{
-				for(int j=0;j<list.size();j++)
+				
+				Carton c_return=cartonRfc.CartonCrt(list);
+				if("E".equals(c_return.getE_TYPE()))
 				{
-					CartonSon cs=list.get(j);
-					CartonSon cs_return=cartonRfc.CartonCrt(cs);
-					if("E".equals(cs.getE_TYPE()))
-					{
-						return cs.getE_MESSAGE();
-					}
-					WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
-					Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
-					wb.setCartonTotalAmount(d.intValue());
-					this.workingbillService.update(wb);
-					cs.setE_TYPE(cs_return.getE_TYPE());//返回类型
-					cs.setEX_MBLNR(cs_return.getEX_MBLNR());//凭证号
-					cs.setE_MESSAGE(cs_return.getE_MESSAGE());//返回消息
-					this.csService.update(cs);
+					return c_return.getE_MESSAGE();
 				}
+				c.setE_TYPE(c_return.getE_TYPE());//返回类型
+				c.setEX_MBLNR(c_return.getEX_MBLNR());//凭证号
+				c.setE_MESSAGE(c_return.getE_MESSAGE());//返回消息
+				c.setModifyDate(new Date());
+				c.setConfirmUser(admin);//确认人
+				c.setState("1");
+				this.update(c);
 			}
-			c.setModifyDate(new Date());//确认时间
-			c.setConfirmUser(admin);//确认人
-			c.setState("1");
-			this.update(c);
 		}
 		return "S";
 	}

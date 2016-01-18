@@ -69,7 +69,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			/**  modify weitao
 			 * 处理 编号问题
 			 */
-			Calendar a=Calendar.getInstance();
+			Calendar a = ThinkWayUtil.getCalendar(e.getWorkingbill().getProductDate());
 			Integer year = a.get(Calendar.YEAR);
 			Integer mounth = a.get(Calendar.MONTH)+1;//获取月份
 			Integer day = a.get(Calendar.DATE);//获取日期

@@ -15,6 +15,7 @@ $(function() {
 	var $scrap=$("#scrap");//报废
 	var $ckbox = $(".ckbox");//checkbox
 	var $kaoqin=$("#kaoqin");//考勤
+	var $endProduct = $("#endProduct");//成品入库
 	var init = {
 			"isCheck":function(){//需要有选中来改变按钮的属性的
 				var cklength = $(".ckbox:checked").length;
@@ -251,6 +252,21 @@ $(function() {
 			window.location.href = "kaoqin!list.action?loginid="+loginid;
 		}
 	});
+	
+	/**
+	 * 成品入库
+	 */
+	$endProduct.click(function(){
+		var istrue = init.notCheck();
+		//var loginid=$("#loginid").val();//当前登录人的id
+			//alert(loginid);
+		if (istrue) 
+		{
+			window.location.href = "end_product!add.action";
+		}
+	});
+	
+	
 })
 
 /**

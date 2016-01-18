@@ -2,6 +2,8 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,12 +214,19 @@ public class DumpAction extends BaseAdminAction {
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
 			String productDate = admin.getProductDate();
+			Calendar cal=ThinkWayUtil.getCalendar(productDate);
+			cal.set(Calendar.DAY_OF_MONTH, -1);
+			String productDate1=ThinkWayUtil.getTimeString(cal);
+			Calendar cal1=ThinkWayUtil.getCalendar(productDate);
+			cal1.set(Calendar.DAY_OF_MONTH, 1);
+			String productDate2=ThinkWayUtil.getTimeString(cal1);
+		
 			/*
 			 * dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
 			 * "20151001");
 			 */
-			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate,
-					productDate);
+			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate1,
+					productDate2);
 			List<Dump> dpList = dumpService.getAll();
 			if (dpList.size() != 0) {
 				for (int i = 0; i < dumpList.size(); i++) {
@@ -232,10 +241,14 @@ public class DumpAction extends BaseAdminAction {
 					}
 				}
 			}
+			List<Dump> dumps = new ArrayList<Dump>();
 			for (int i = 0; i < dumpList.size(); i++) {
 				Dump dump = (Dump) dumpList.get(i);
 				if (dump.getState() == null) {
 					dump.setState(UNCONFIRMED);
+				}
+				if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
+					dumps.add(dump);
 				}
 				dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "dumpState", dump.getState()));
@@ -247,7 +260,7 @@ public class DumpAction extends BaseAdminAction {
 			jsonConfig
 					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
-			JSONArray jsonArray = JSONArray.fromObject(dumpList, jsonConfig);
+			JSONArray jsonArray = JSONArray.fromObject(dumps, jsonConfig);
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("list", jsonArray);
 			return ajaxJson(jsonobject.toString());

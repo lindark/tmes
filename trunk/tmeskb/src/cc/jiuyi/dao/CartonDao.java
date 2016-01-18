@@ -13,7 +13,7 @@ public interface CartonDao extends BaseDao<Carton, String>
 	/**
 	 * jqgrid查询
 	 */
-	public Pager getCartonPager(Pager pager);
+	public Pager getCartonPager(Pager pager,String teamid);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 

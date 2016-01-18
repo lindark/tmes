@@ -77,7 +77,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			String lsh =yearls+mounth+day;//流水号前8位
 			//ThinkWayUtil.getDictValueByDictKey(dictservice, "DOCBM", keyValue);
 			//TODO 用流水号 跟DICT查出来的流水号前6位进行比较，如果一致 +1，如果不一致，则 重置后面流水号，反响更新dict.此处配合 Quartz 一起工作。
-			item.put("CHARG", "");//批次
+			item.put("CHARG", lsh);//批次
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

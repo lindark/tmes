@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.util.CustomerException;
@@ -20,7 +21,7 @@ import cc.jiuyi.util.TableModel;
 public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 
 	@Override
-	public CartonSon CartonCrt(CartonSon cs) throws IOException, CustomerException {
+	public Carton CartonCrt(List<CartonSon>list_cs) throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
@@ -31,13 +32,16 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		
 		TableModel ET_HEADER = new TableModel();
 		ET_HEADER.setData("ET_HEADER");//表名
-		HashMap<String,Object> item = new HashMap<String,Object>();
-		item.put("BUDAT", cs.getBUDAT());//过账日期
-		item.put("WERKS", cs.getWERKS());//工厂
-		item.put("LGORT", cs.getLGORT());//库存地点
-		item.put("MOVE_TYPE", cs.getMOVE_TYPE());//移动类型
-		item.put("XUH", cs.getId());//序号
-		arrList.add(item);
+		for(CartonSon cs:list_cs)
+		{
+			HashMap<String,Object> item = new HashMap<String,Object>();
+			item.put("BUDAT", cs.getBUDAT());//过账日期
+			item.put("WERKS", cs.getWERKS());//工厂
+			item.put("LGORT", cs.getLGORT());//库存地点
+			item.put("MOVE_TYPE", cs.getMOVE_TYPE());//移动类型
+			item.put("XUH", cs.getCarton().getId());//序号
+			arrList.add(item);
+		}
 		//去重
 		List<HashMap<String,Object>> arr 
 		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
@@ -46,13 +50,15 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();
 		ET_ITEM.setData("ET_ITEM");
-		HashMap<String,Object> item2 = new HashMap<String,Object>();
-		item2.put("MATNR", cs.getMATNR());//物料编码
-		System.out.println(cs.getCscount());
-		item2.put("ZSFSL", cs.getCscount());//数量
-		item2.put("LIFNR", cs.getLIFNR());//供应商
-		item2.put("XUH", cs.getId());//序号
-		arrList2.add(item2);
+		for(CartonSon cs:list_cs)
+		{
+			HashMap<String,Object> item2 = new HashMap<String,Object>();
+			item2.put("MATNR", cs.getMATNR());//物料编码
+			item2.put("ZSFSL", cs.getCscount());//数量
+			item2.put("LIFNR", cs.getLIFNR());//供应商
+			item2.put("XUH", cs.getCarton().getId());//序号
+			arrList2.add(item2);
+		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);
 		super.setParameter(parameter);
@@ -61,13 +67,13 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表
-		CartonSon cs_return = new CartonSon();
+		Carton c_return = new Carton();
 		t_data.setRow(0);
-		cs_return.setId(t_data.getString("XUH"));
-		cs_return.setE_MESSAGE(t_data.getString("E_MESSAGE"));
-		cs_return.setE_TYPE(t_data.getString("E_TYPE"));
-		cs_return.setEX_MBLNR(t_data.getString("EX_MBLNR"));
-		return cs_return;
+		c_return.setId(t_data.getString("XUH"));
+		c_return.setE_MESSAGE(t_data.getString("E_MESSAGE"));
+		c_return.setE_TYPE(t_data.getString("E_TYPE"));
+		c_return.setEX_MBLNR(t_data.getString("EX_MBLNR"));
+		return c_return;
 	}
 
 }

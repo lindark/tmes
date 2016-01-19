@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -111,15 +112,34 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
-		//List<Bom>list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
-		List<Bom>list=bomDao.getBomList(aufnr, maxversion);
-		for(int i=0;i<list.size();i++)
+		List<Bom>list=new ArrayList<Bom>();
+		List<Bom>list2=new ArrayList<Bom>();
+		list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		if(list.size()>0)
 		{
-			Bom bom = list.get(i);
-			if(bom.getMaterialCode().startsWith("5"))
+			for(int i=0;i<list.size();i++)
 			{
-				return bom;
-			}	
+				Bom bom = list.get(i);
+				if(bom.getMaterialCode().startsWith("5"))
+				{
+					return bom;
+				}	
+			}
+		}
+		else
+		{
+			list2=bomDao.getBomList(aufnr, maxversion);
+			if(list2.size()>0)
+			{
+				for(int i=0;i<list2.size();i++)
+				{
+					Bom bom = list2.get(i);
+					if(bom.getMaterialCode().startsWith("5"))
+					{
+						return bom;
+					}	
+				}
+			}
 		}
 		return null;
 	}

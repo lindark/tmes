@@ -122,7 +122,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 获取物料表中包含list1中的数据
 	 */
-	public List<Bom> getIncludedByMaterial(List<Bom> list1)
+	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount)
 	{
 		List<Bom>listbom=new ArrayList<Bom>();
 		if(list1.size()>0)
@@ -134,6 +134,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				//根据物料id查询是否存在
 				if(this.mService.getByCode(b.getMaterialCode()))
 				{
+					b.setXplancount(plancount);//随工单计划数量
 					listbom.add(b);
 				}
 			}
@@ -167,7 +168,12 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		else if("CP".equals(repairin.getRepairintype()))
 		{
 			//成品--所有组件
-			saveInfo2(r,list_bom,workingBillCode);
+			double d=1d;
+			if(wb.getPlanCount()!=null&&wb.getPlanCount()!=0)
+			{
+				d=wb.getPlanCount();
+			}
+			saveInfo2(r,list_bom,workingBillCode,d);
 		}
 	}
 
@@ -205,7 +211,12 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		else if("CP".equals(repairin.getRepairintype()))
 		{
 			//成品--所有组件
-			saveInfo2(r,list_bom,workingBillCode);
+			double d=1d;
+			if(wb.getPlanCount()!=null&&wb.getPlanCount()!=0)
+			{
+				d=wb.getPlanCount();
+			}
+			saveInfo2(r,list_bom,workingBillCode,d);
 		}
 	}
 	
@@ -230,7 +241,10 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				}
 				else
 				{
-					rp.setRpcount(""+ArithUtil.mul(ArithUtil.div(r.getReceiveAmount(), rp.getProductnum()), rp.getPiecenum()));//组件总数量
+					double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
+					double d2=ArithUtil.mul(d1, r.getReceiveAmount());//乘法
+					double d3=ArithUtil.round(d2, 3);//四舍五入,保留3位
+					rp.setRpcount(""+d3);//组件总数量
 				}
 				rp.setRepairin(r);
 				this.rpService.save(rp);
@@ -241,7 +255,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 新增组件数据共用方法2
 	 */
-	public void saveInfo2(Repairin r,List<Bom>list_bom,String workingBillCode)
+	public void saveInfo2(Repairin r,List<Bom>list_bom,String workingBillCode,double plancount)
 	{
 		if(list_bom!=null)
 		{
@@ -254,7 +268,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				rp.setModifyDate(new Date());//修改日期
 				rp.setRpcode(b.getMaterialCode());//物料编码
 				rp.setRpname(b.getMaterialName());//组件名称
-				rp.setProductnum(b.getProductAmount());//产品数量
+				rp.setProductnum(plancount);//产品数量
 				rp.setPiecenum(b.getMaterialAmount());//组件数量
 				//组件总数量=返修数量/产品数量 *组件数量
 				if(rp.getProductnum()==null||rp.getProductnum()==0)
@@ -264,7 +278,10 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				}
 				else
 				{
-					rp.setRpcount(""+ArithUtil.mul(ArithUtil.div(r.getReceiveAmount(), rp.getProductnum()), rp.getPiecenum()));//组件总数量
+					double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
+					double d2=ArithUtil.mul(d1, r.getReceiveAmount());//乘法
+					double d3=ArithUtil.round(d2, 3);//四舍五入,保留x位
+					rp.setRpcount(""+d3);//组件总数量
 				}
 				rp.setRepairin(r);
 				this.rpService.save(rp);

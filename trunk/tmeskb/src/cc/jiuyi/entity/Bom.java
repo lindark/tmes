@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import cc.jiuyi.util.ThinkWayUtil;
@@ -31,8 +32,7 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	private String isDel;//是否删除
 	private String effectiveDate;//生效日期
 	
-	//假字段
-	private Integer xplancount;//随工单计划数量
+	
 	/**冗余**/
 	private Double xtestAmount;
 	private String xfailReason;
@@ -58,6 +58,13 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	private String productsName;
 	private String stockAmount;//库存数量
 	private String oerderCode;
+	
+	private String auart;//订单类型
+	private String factory;//工厂
+	private String gstrp;//开工日期
+	private String gltrp;//完工日期
+	private String mujuntext;//长文本
+	private Integer xplancount;//随工单计划数量
 	/**冗余 end**/
 	
 	
@@ -375,6 +382,57 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 		this.oerderCode = oerderCode;
 	}
 	
+	public int compareTo(Bom b){
+		Double id1 = Double.parseDouble(ThinkWayUtil.null2o(b.getStockAmount()));
+		Double id2 = Double.parseDouble( ThinkWayUtil.null2o(this.getStockAmount()));
+		return id2>id1 ?-1:1;
+	}
+
+	@Transient
+	public String getAuart() {
+		return auart;
+	}
+
+	public void setAuart(String auart) {
+		this.auart = auart;
+	}
+
+	@Transient
+	public String getFactory() {
+		return factory;
+	}
+
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+
+	@Transient
+	public String getGstrp() {
+		return gstrp;
+	}
+
+	public void setGstrp(String gstrp) {
+		this.gstrp = gstrp;
+	}
+
+	@Transient
+	public String getGltrp() {
+		return gltrp;
+	}
+
+	public void setGltrp(String gltrp) {
+		this.gltrp = gltrp;
+	}
+
+	@Transient
+	public String getMujuntext() {
+		return mujuntext;
+	}
+
+	public void setMujuntext(String mujuntext) {
+		this.mujuntext = mujuntext;
+	}
+	
 	@Transient
 	public Integer getXplancount()
 	{
@@ -385,10 +443,6 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	{
 		this.xplancount = xplancount;
 	}
-	public int compareTo(Bom b){
-		Double id1 = Double.parseDouble(ThinkWayUtil.null2o(b.getStockAmount()));
-		Double id2 = Double.parseDouble( ThinkWayUtil.null2o(this.getStockAmount()));
-		return id2>id1 ?-1:1;
-	}
+	
 	
 }

@@ -52,10 +52,10 @@ public class EnteringwareHouseServiceImpl extends
 
 	@Override
 	public synchronized void updateState(List<EnteringwareHouse> list,
-			String statu, String workingbillid, Integer ratio, String cardnumber) {
+			String state, String workingbillid, Integer ratio, String cardnumber) {
 		HashMap<String,Object> maps = new HashMap<String,Object>();
 		maps.put("id",workingbillid);
-		maps.put("state", statu);
+		maps.put("state", state);
 		maps.put("cardno", cardnumber);
 		maps.put("ratio", ratio.toString());
 		
@@ -79,12 +79,12 @@ public class EnteringwareHouseServiceImpl extends
 		Integer ratio1=Integer.parseInt(ratio);
 		WorkingBill workingbill = workingbillService.get(workid);
 		Integer totalamount = workingbill.getTotalSingleAmount();
-		
+
 		if(state.equalsIgnoreCase("1")){//刷卡确定
 		for (int i = 0; i < list.size(); i++) {
-			EnteringwareHouse enteringwareHouse = list.get(i);			
-			totalamount = enteringwareHouse.getStorageAmount() * ratio1
-						+ totalamount;						
+			EnteringwareHouse enteringwareHouse = list.get(i);	
+			totalamount = enteringwareHouse.getStorageAmount()+totalamount;
+												
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(state);
 			this.update(enteringwareHouse);
@@ -93,7 +93,7 @@ public class EnteringwareHouseServiceImpl extends
 		}else{//刷卡撤销
 			for (int i = 0; i < list.size(); i++) {
 				EnteringwareHouse enteringwareHouse = list.get(i);								
-				totalamount -= enteringwareHouse.getStorageAmount() * ratio1;				
+				totalamount -= enteringwareHouse.getStorageAmount();				
 				enteringwareHouse.setConfirmUser(admin);
 				enteringwareHouse.setState(state);
 				this.update(enteringwareHouse);

@@ -30,7 +30,9 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	 */
 	public void updateisdel(String[] ids,String oper);
 
-	public String save(List<PickDetail> pickDetailList,Pick pick);
+	public String saveSubmit(List<PickDetail> pickDetailList,Pick pick);
+	
+	public String saveApproval(List<PickDetail> pickDetailList,Pick pick);
 	
 	public List<PickDetail> getPickDetail(String id);
 	

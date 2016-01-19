@@ -14,18 +14,35 @@ public class EndProduct extends BaseEntity {
 	
 	private Double stockMout;//入库数量
 	private String repertorySite;//库存地点
+	private String repertorySiteDesp;// 库存地点描述
 	private String receiveRepertorySite;//接收库存地点
-	private Admin createUser;// 创建人
+	private String receiveRepertorySiteDesp;// 库存地点描述
+	private String createUser;// 创建人
 	private String createName;// 创建人的名字
-	private Admin confirmUser;// 确认人
+	private String confirmUser;// 确认人
 	private String confirmName;// 确认人的名字
 	private String state;// 状态描述
 	private String isDel;// 是否删除
 	private String materialCode;//物料编码
 	private String materialDesp;//物料描述
 	private String materialBatch;//批次
-	private Double ActualMaterialMount;//实际数量
+	private Double actualMaterialMount;//实际数量
+	private String type;//类型（成品、半成品）
+	private String mblnr;
 	
+	
+	
+	/**
+	 * 假字段
+	 * @return
+	 */
+	
+	private String budate;//过账日期
+	private String werks;//工厂
+	private String moveType;//移动类型 311
+	private String e_type;
+	private String e_message;
+	private String ex_mblnr;
 	
 	public Double getStockMout() {
 		return stockMout;
@@ -51,14 +68,7 @@ public class EndProduct extends BaseEntity {
 		this.receiveRepertorySite = receiveRepertorySite;
 	}
 
-	public Admin getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(Admin createUser) {
-		this.createUser = createUser;
-	}
-
+	
 	public String getCreateName() {
 		return createName;
 	}
@@ -67,13 +77,7 @@ public class EndProduct extends BaseEntity {
 		this.createName = createName;
 	}
 
-	public Admin getConfirmUser() {
-		return confirmUser;
-	}
 
-	public void setConfirmUser(Admin confirmUser) {
-		this.confirmUser = confirmUser;
-	}
 
 	public String getConfirmName() {
 		return confirmName;
@@ -96,6 +100,9 @@ public class EndProduct extends BaseEntity {
 	}
 
 	public void setIsDel(String isDel) {
+		if(isDel==null){
+			isDel = "0";
+		}
 		this.isDel = isDel;
 	}
 
@@ -123,12 +130,110 @@ public class EndProduct extends BaseEntity {
 		this.materialBatch = materialBatch;
 	}
 
+
+
+	public String getReceiveRepertorySiteDesp() {
+		return receiveRepertorySiteDesp;
+	}
+
+	public void setReceiveRepertorySiteDesp(String receiveRepertorySiteDesp) {
+		this.receiveRepertorySiteDesp = receiveRepertorySiteDesp;
+	}
+
+	public String getRepertorySiteDesp() {
+		return repertorySiteDesp;
+	}
+
+	public void setRepertorySiteDesp(String repertorySiteDesp) {
+		this.repertorySiteDesp = repertorySiteDesp;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(String confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getMblnr() {
+		return mblnr;
+	}
+
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
+	}
+
 	public Double getActualMaterialMount() {
-		return ActualMaterialMount;
+		return actualMaterialMount;
 	}
 
 	public void setActualMaterialMount(Double actualMaterialMount) {
-		ActualMaterialMount = actualMaterialMount;
+		this.actualMaterialMount = actualMaterialMount;
+	}
+
+	public String getBudate() {
+		return budate;
+	}
+
+	public void setBudate(String budate) {
+		this.budate = budate;
+	}
+
+	public String getWerks() {
+		return werks;
+	}
+
+	public void setWerks(String werks) {
+		this.werks = werks;
+	}
+
+	public String getMoveType() {
+		return moveType;
+	}
+
+	public void setMoveType(String moveType) {
+		this.moveType = moveType;
+	}
+
+	public String getE_type() {
+		return e_type;
+	}
+
+	public void setE_type(String e_type) {
+		this.e_type = e_type;
+	}
+
+	public String getE_message() {
+		return e_message;
+	}
+
+	public void setE_message(String e_message) {
+		this.e_message = e_message;
+	}
+
+	public String getEx_mblnr() {
+		return ex_mblnr;
+	}
+
+	public void setEx_mblnr(String ex_mblnr) {
+		this.ex_mblnr = ex_mblnr;
 	}
 
 

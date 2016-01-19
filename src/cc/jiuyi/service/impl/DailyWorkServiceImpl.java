@@ -205,10 +205,6 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				workingbill.setChecknum5("5");
 			}
              
-			String CONF_NO = dailyWork.getCONF_NO();// 确认号
-			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
-			dailyWork.setCONF_NO(CONF_NO);
-			dailyWork.setCONF_CNT(CONF_CNT);
 			dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
 			dailyWork.setConfirmUser(admin);
 			dailyWork.setState("1");			
@@ -243,7 +239,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				this.update(dailyWork);
 			}
 			workingbill.setDailyWorkTotalAmount(totalamount);
-			workingbillService.update(workingbill);
+			workingbillService.merge(workingbill);
 		}
 	}
 

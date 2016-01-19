@@ -2,6 +2,7 @@ package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * 实体类——成品入库
@@ -30,7 +31,7 @@ public class EndProduct extends BaseEntity {
 	private String type;//类型（成品、半成品）
 	private String mblnr;
 	
-	
+	private String xstate;
 	
 	/**
 	 * 假字段
@@ -187,7 +188,7 @@ public class EndProduct extends BaseEntity {
 	public void setActualMaterialMount(Double actualMaterialMount) {
 		this.actualMaterialMount = actualMaterialMount;
 	}
-
+	@Transient
 	public String getBudate() {
 		return budate;
 	}
@@ -195,7 +196,7 @@ public class EndProduct extends BaseEntity {
 	public void setBudate(String budate) {
 		this.budate = budate;
 	}
-
+	@Transient
 	public String getWerks() {
 		return werks;
 	}
@@ -203,7 +204,7 @@ public class EndProduct extends BaseEntity {
 	public void setWerks(String werks) {
 		this.werks = werks;
 	}
-
+	@Transient
 	public String getMoveType() {
 		return moveType;
 	}
@@ -211,7 +212,7 @@ public class EndProduct extends BaseEntity {
 	public void setMoveType(String moveType) {
 		this.moveType = moveType;
 	}
-
+	@Transient
 	public String getE_type() {
 		return e_type;
 	}
@@ -219,7 +220,7 @@ public class EndProduct extends BaseEntity {
 	public void setE_type(String e_type) {
 		this.e_type = e_type;
 	}
-
+	@Transient
 	public String getE_message() {
 		return e_message;
 	}
@@ -227,7 +228,7 @@ public class EndProduct extends BaseEntity {
 	public void setE_message(String e_message) {
 		this.e_message = e_message;
 	}
-
+	@Transient
 	public String getEx_mblnr() {
 		return ex_mblnr;
 	}
@@ -236,9 +237,15 @@ public class EndProduct extends BaseEntity {
 		this.ex_mblnr = ex_mblnr;
 	}
 
+	@Transient
+	public String getXstate() {
+		return xstate;
+	}
+
+	public void setXstate(String xstate) {
+		this.xstate = xstate;
+	}
 
 
-	
-	
 	
 }

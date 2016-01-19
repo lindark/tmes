@@ -45,9 +45,9 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private String jsondata;
 	
 	private String[] strlen = {"workingBillCode","materialCode","planCount","actualBomMount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
-								"afterFraction"};
+								"afterFraction","scrapNumber"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","包装零头数(接上班)","抽包异常零头数(接上班)","领用数","倍数","入库数",
-								"交下班零头数"};
+								"交下班零头数","报废数"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
@@ -62,7 +62,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);
 		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);
 		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);
-		
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);
 		List<Process> processList00 = processservice.getAll();
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
@@ -147,6 +147,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[6], workinginout.getMultiple());//倍数
 			map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 			map.put(strlen[8],workinginout.getBeforeFraction());//交下班零头数
+			map.put(strlen[9],workinginout.getScrapNumber());//报废数
 			//map.put(strlen[3], );
 			for(int y=0;y<jsonarray.size();y++){
 				JSONObject json = (JSONObject) jsonarray.get(y);
@@ -168,7 +169,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 				}
 				if(firstls00>=0){//交下班
 					String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
-					String[] propertyNames = {"processid","beforworkingbillCode.id","materialCode"};
+					String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
 					String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
 					HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
 					if(handoverprocess == null){

@@ -185,7 +185,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
-			if(bomList == null){
+			if(bomList == null || bomList.size()<=0){
 				addActionError("未找到一条BOM信息");
 				return ERROR;
 			}

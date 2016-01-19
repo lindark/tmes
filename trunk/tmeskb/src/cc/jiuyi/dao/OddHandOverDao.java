@@ -6,4 +6,10 @@ import cc.jiuyi.entity.OddHandOver;
  */
 public interface OddHandOverDao extends BaseDao<OddHandOver, String> {
 
+	/**
+	 * 根据随工单编号读取零头数交接
+	 * @param workingBillCode
+	 * @return
+	 */
+	public OddHandOver findHandOver(String workingBillCode);
 }

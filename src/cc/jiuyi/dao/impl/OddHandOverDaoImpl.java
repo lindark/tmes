@@ -12,5 +12,10 @@ import cc.jiuyi.entity.OddHandOver;
 public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> implements
 		OddHandOverDao {
 
+	public OddHandOver findHandOver(String workingBillCode){
+		String hql="from OddHandOver a where a.afterWorkingCode = ?";
+		return (OddHandOver) getSession().createQuery(hql).setParameter(0, workingBillCode).setMaxResults(1).uniqueResult();
+		
+	}
 	
 }

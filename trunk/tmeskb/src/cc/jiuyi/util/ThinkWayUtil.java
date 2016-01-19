@@ -319,7 +319,11 @@ public class ThinkWayUtil {
         }
         return request.getRemoteAddr();
     }
-
+    /**
+     * 判断未上班的不能进行操作
+     * @param admin
+     * @return
+     */
 	public static boolean isPass(Admin admin) {
 		if (!admin.getWorkstate().equals("2")) {
 			return true;

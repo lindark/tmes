@@ -33,6 +33,8 @@ public class WorkingBill extends BaseEntity {
 	private Double repairamount;//返修交接数量
 	private Double afteroddamount;//接上班正常零头数
 	private Double afterunoddamount;//接上班异常零头数
+	private Double beforeoddamount;//交下班正常
+	private Double beforeunoddamount;//交下班异常
 	private Integer bomversion;//BOM版本
 	private Integer processversion;//工艺路线版本
 	private String aufnr;//订单号
@@ -42,6 +44,7 @@ public class WorkingBill extends BaseEntity {
 	private String checknum3;//检验合格数3
 	private String checknum4;//检验合格数4
 	private String checknum5;//检验合格数5
+	private String isHand;//是否交接完成 Y为交接完成，N为未交接完成
 	
 	private Set<WorkingInout> workingInoutSet;//投入产出表
 
@@ -419,9 +422,25 @@ public class WorkingBill extends BaseEntity {
 	public void setAfterunoddamount(Double afterunoddamount) {
 		this.afterunoddamount = afterunoddamount;
 	}
+	public Double getBeforeoddamount() {
+		return beforeoddamount;
+	}
+	public void setBeforeoddamount(Double beforeoddamount) {
+		this.beforeoddamount = beforeoddamount;
+	}
+	public Double getBeforeunoddamount() {
+		return beforeunoddamount;
+	}
+	public void setBeforeunoddamount(Double beforeunoddamount) {
+		this.beforeunoddamount = beforeunoddamount;
+	}
+	public String getIsHand() {
+		return isHand;
+	}
+	public void setIsHand(String isHand) {
+		if(isHand == null)
+			isHand="N";
+		this.isHand = isHand;
+	}
 
-
-	
-
-	
 }

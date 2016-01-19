@@ -60,8 +60,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	public Pager getCartonPager(Pager pager,String loginid)
 	{
 		Admin admin=this.adminservice.get(loginid);
-		String teamid=admin.getDepartment().getTeam().getId();
-		return cartonDao.getCartonPager(pager,teamid);
+		String productDate=admin.getProductDate();//生产日期
+		String teamshift=admin.getShift();//当前班次
+		return cartonDao.getCartonPager(pager,productDate,teamshift);
 	}
 
 	@Override
@@ -227,7 +228,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		c.setCreateDate(new Date());//创建日期
 		c.setModifyDate(new Date());//修改日期
 		c.setCreateUser(admin);//创建人
-		c.setTeamid(login_admin.getDepartment().getTeam().getId());//当前班组ID
+		c.setProductDate(login_admin.getProductDate());//生产日期
+		c.setTeamshift(login_admin.getShift());//班次
 		c.setState("2");//状态-未确认
 		String cid=this.save(c);//保存
 		/**子表数据插入*/
@@ -363,7 +365,12 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			if(list.size()>0)
 			{
 				
-				Carton c_return=cartonRfc.CartonCrt(list);
+				Carton c_return1=cartonRfc.CartonCrt("X",list);
+				if("E".equals(c_return1.getE_TYPE()))
+				{
+					return c_return1.getE_MESSAGE();
+				}
+				Carton c_return=cartonRfc.CartonCrt("",list);
 				if("E".equals(c_return.getE_TYPE()))
 				{
 					return c_return.getE_MESSAGE();

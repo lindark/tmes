@@ -107,6 +107,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("入库数量必须为零或正整数!");
 		}
 		admin = adminService.getByCardnum(cardnumber);
+		
 		enteringwareHouse.setCreateUser(admin);
 		enteringwareHouseService.save(enteringwareHouse);
 		/*redirectionUrl = "enteringware_house!list.action?workingBillId="

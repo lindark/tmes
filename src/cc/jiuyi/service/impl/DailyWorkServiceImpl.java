@@ -86,6 +86,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				System.out.println("SAP同步失败");
 				throw new CustomerException(dailyWork.getE_message());
 			}
+			System.out.println(dailyWork.getCONF_NO());
 		}
 				
 		HashMap<String,Object> maps = new HashMap<String,Object>();
@@ -94,7 +95,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		maps.put("cardno", cardnumber);
 		maps.put("ratio", ratio);
 
-		updateWorkingInoutCalculate(list,maps);
+		updateWorkingInoutCalculate(dailyWorkList,maps);
 		/*//若成功则更新数据库
 		for (int i = 0; i < dailyWorkList.size(); i++) {
 			DailyWork dailyWork = dailyWorkList.get(i);
@@ -191,7 +192,10 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		if(state.equalsIgnoreCase("1")){//刷卡确定
 			
 		for (int i = 0; i < paramaterList.size(); i++) {
-			DailyWork dailyWork = paramaterList.get(i);
+			DailyWork dailyWork = paramaterList.get(i);	
+			String CONF_NO = dailyWork.getCONF_NO();// 确认号
+			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+			dailyWork = dailyWorkDao.get(dailyWork.getId());			
 			totalamount = dailyWork.getEnterAmount() + totalamount;
 			if(dailyWork.getMoudle().equalsIgnoreCase("1")){
 				workingbill.setChecknum1("1");
@@ -206,8 +210,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			}
              
 			dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
-			String CONF_NO = dailyWork.getCONF_NO();// 确认号
-			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+			
 			dailyWork.setCONF_NO(CONF_NO);
 			dailyWork.setCONF_CNT(CONF_CNT);
 			dailyWork.setConfirmUser(admin);
@@ -215,11 +218,14 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			this.update(dailyWork);
 		}
 		workingbill.setDailyWorkTotalAmount(totalamount);
-		workingbillService.update(workingbill);
+		workingbillService.merge(workingbill);
 		
 		}else{//刷卡撤销
 			for (int i = 0; i < paramaterList.size(); i++) {
 				DailyWork dailyWork = paramaterList.get(i);
+				String CONF_NO = dailyWork.getCONF_NO();// 确认号
+				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+				dailyWork = dailyWorkDao.get(dailyWork.getId());
 				totalamount -= dailyWork.getEnterAmount();
 				if(dailyWork.getMoudle().equalsIgnoreCase("1")){
 					workingbill.setChecknum1("1");
@@ -234,8 +240,6 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				}
 				
 				dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
-				String CONF_NO = dailyWork.getCONF_NO();// 确认号
-				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 				dailyWork.setCONF_NO(CONF_NO);
 				dailyWork.setCONF_CNT(CONF_CNT);
 				dailyWork.setConfirmUser(admin);

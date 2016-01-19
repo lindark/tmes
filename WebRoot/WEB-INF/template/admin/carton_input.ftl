@@ -79,7 +79,9 @@ body {
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料名称</th>
 														<th class="tabth">纸箱数量</th>
+														<!-- 
 														<th class="tabth">累计数量</th>
+														 -->
 													</tr>
 													<#if show>
 														<#if list_cs??>
@@ -91,7 +93,9 @@ body {
 																	<td>${(cslist.MATNR)! }</td>
 																	<td>${(cslist.MATNRDES)! }</td>
 																	<td>${(cslist.cscount)! }</td>
+																	<!-- 
 																	<td>${(cslist.xcstotal)! }</td>
+																	 -->
 																</tr>
 															</#list>
 														</#if>
@@ -124,9 +128,11 @@ body {
 																	<input type="text" name="list_cs[${num}].cscount" value="${(list.cscount)! }" id="input_cscount${(list.matnr)! }" class="notnull input input-sm"/>
 																	
 																</td>
+																<!-- 
 																<td>
 																	${(list.xcstotal)! }
-																</td>										
+																</td>
+																 -->									
 															</tr>
 															<#assign num=num+1/>
 														</#list>

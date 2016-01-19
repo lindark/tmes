@@ -364,7 +364,6 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			}
 			if(list.size()>0)
 			{
-				
 				Carton c_return1=cartonRfc.CartonCrt("X",list);
 				if("E".equals(c_return1.getE_TYPE()))
 				{

@@ -33,9 +33,9 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 		ET_HEADER.setData("ET_HEADER");//表名
 		for(EndProduct e:list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("BUDAT",e.getBudat());//过账日期
+			item.put("BUDAT",e.getBudate());//过账日期
 			item.put("WERKS",e.getWerks());//工厂
-			item.put("LGORT",e.getLgort());//库存地点
+			item.put("LGORT",e.getRepertorySite());//库存地点
 			
 			item.put("MOVE_TYPE",e.getMoveType());//移动类型
 			item.put("XUH",e.getId());//ID
@@ -51,10 +51,10 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 		ET_ITEM.setData("ET_ITEM");
 		for(EndProduct e:list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("MATNR", "");//物料编码
-			item.put("ZSFSL", "");//数量
+			item.put("MATNR", e.getMaterialCode());//物料编码
+			item.put("ZSFSL", e.getStockMout());//数量
 			item.put("XUH",e.getId());//ID
-			item.put("CHARG", "");//批次
+			item.put("CHARG", e.getMaterialBatch());//批次
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

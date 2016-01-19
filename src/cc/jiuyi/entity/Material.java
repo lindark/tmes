@@ -1,17 +1,9 @@
 package cc.jiuyi.entity;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.compass.annotations.Searchable;
-
 /**
  * 实体类 - 物料基本表
  * @param args
@@ -27,10 +19,13 @@ public class Material extends BaseEntity{
     private String orderUnit;//订单单位
     private String materialUnit;//基本单位
     private String materialType;//物料类型
-    private Factory factory;//工厂
     private String productmanager;//生产管理员
-    private String factoryName;//工厂名称
+    private FactoryUnit factoryunit;//单元
     
+    //假字段
+    private String xfactoryunit;//单元名称
+    private String xworkshop;//车间
+    private String xfactory;//工厂名称
     
 	public String getProductmanager() {
 		return productmanager;
@@ -69,21 +64,41 @@ public class Material extends BaseEntity{
 		this.materialType = materialType;
 	}
 	@ManyToOne(fetch=FetchType.LAZY)
-	public Factory getFactory() {
-		return factory;
+	public FactoryUnit getFactoryunit()
+	{
+		return factoryunit;
 	}
-	public void setFactory(Factory factory) {
-		this.factory = factory;
+	public void setFactoryunit(FactoryUnit factoryunit)
+	{
+		this.factoryunit = factoryunit;
 	}
 	@Transient
-	public String getFactoryName() {
-		return factoryName;
+	public String getXfactoryunit()
+	{
+		return xfactoryunit;
 	}
-	public void setFactoryName(String factoryName) {
-		this.factoryName = factoryName;
+	public void setXfactoryunit(String xfactoryunit)
+	{
+		this.xfactoryunit = xfactoryunit;
+	}
+	@Transient
+	public String getXworkshop()
+	{
+		return xworkshop;
+	}
+	public void setXworkshop(String xworkshop)
+	{
+		this.xworkshop = xworkshop;
+	}
+	@Transient
+	public String getXfactory()
+	{
+		return xfactory;
+	}
+	public void setXfactory(String xfactory)
+	{
+		this.xfactory = xfactory;
 	}
 	
-    
-    
-    
+	
 }

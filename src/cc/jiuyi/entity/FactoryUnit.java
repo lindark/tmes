@@ -38,7 +38,7 @@ public class FactoryUnit extends BaseEntity {
 	private String CXORJC;//成型/挤出
 
 	private Set<Products> productsSet;// 相关产品
-
+	private Set<Material>materialSet;//物料表
 	private String workCenter;// 工作中心
 	private String costcenter;//成本中心
 	private String iscanrepair;//是否可以返修/返修收获-编码
@@ -210,6 +210,17 @@ public class FactoryUnit extends BaseEntity {
 	public void setxCXORJC(String xCXORJC)
 	{
 		this.xCXORJC = xCXORJC;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factoryunit")
+	public Set<Material> getMaterialSet()
+	{
+		return materialSet;
+	}
+
+	public void setMaterialSet(Set<Material> materialSet)
+	{
+		this.materialSet = materialSet;
 	}
 	
 }

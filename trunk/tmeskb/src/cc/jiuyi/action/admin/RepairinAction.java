@@ -444,12 +444,11 @@ public class RepairinAction extends BaseAdminAction {
 	 */
 	public List<Bom>getbomlist()
 	{
-		HashMap<String ,String>map=new HashMap<String,String>();
 		workingbill = workingBillService.get(workingBillId);
-		pager = new Pager();
-		pager=this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
-		@SuppressWarnings("unchecked")
-		List<Bom>list1=pager.getList();
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		String productDate = workingbill.getProductDate();
+		String workingBillCode=workingbill.getWorkingBillCode();
+		List<Bom>list1=this.bomService.findBom(aufnr, productDate, workingBillCode);
 		List<Bom>list_bom=this.repairinService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		return list_bom;
 	}

@@ -82,7 +82,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			String yearls = StringUtils.substring(year.toString(), year.toString().length()-2);
 			String mounthls="";
 			String dayls="";
-			if(year <10)
+			if(Integer.parseInt(yearls) < 10)
 				yearls="0"+year;
 			if(mounth <10)
 				mounthls = "0"+mounth;

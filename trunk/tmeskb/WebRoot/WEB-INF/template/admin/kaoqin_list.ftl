@@ -155,14 +155,16 @@
 															<span class="editable editable-click" id="age">${(admin.department.team.factoryUnit.factoryUnitName)!}</span>
 														</div>
 													</div>
-	
-													<div class="profile-info-row">
-														<div class="profile-info-name"> 班组</div>
+	                                 
+	                                                <div class="profile-info-row">
+														<div class="profile-info-name">生产日期/班次:</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">${(admin.department.team.teamName)! }</span>
+															<span class="editable editable-click" id="age">${(admin.productDate)!}</span>
 														</div>
 													</div>
+	                                                
+														
 												</div>
 											</div>
 										</div>
@@ -210,8 +212,7 @@
 								<tr>
 									<th width="18%" class="tabtd">员工卡号</th>
 									<th width="18%" class="tabtd">姓名</th>
-									<th width="18%" class="tabtd">技能</th>
-									<th width="18%" class="tabtd">班组</th>
+									<th width="18%" class="tabtd">技能</th>								
 									<th width="18%" class="tabtd">员工状态</th>
 									<th width="10%" class="tabtd">操作</th>
 								</tr>
@@ -222,7 +223,6 @@
 											<td>${(list.cardNumber)!}</td>
 											<td>${(list.name)!}</td>
 											<td>${(list.xpost)!}</td>
-											<td>${(list.xteam)!}</td>
 											<td>
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
 												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />

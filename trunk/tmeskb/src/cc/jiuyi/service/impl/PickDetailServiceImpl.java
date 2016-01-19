@@ -91,8 +91,19 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		
 	}
 
+	/**刷卡提交保存主从表**/
+	public String saveSubmit(List<PickDetail> pickDetailList,Pick pick) {
+		String pk = pickService.save(pick);
+		pick.setId(pk);
+		for(PickDetail pickDetail: pickDetailList){
+			pickDetail.setPick(pick);//建关系
+			pickDetailDao.save(pickDetail);
+		}
+		return pk;
+	}
+	
 	/**刷卡确认保存主从表**/
-	public String save(List<PickDetail> pickDetailList,Pick pick) {
+	public String saveApproval(List<PickDetail> pickDetailList, Pick pick) {
 		String pk = pickService.save(pick);
 		pick.setId(pk);
 		for(PickDetail pickDetail: pickDetailList){
@@ -103,7 +114,6 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		this.updateWorkingInoutCalculate(pickDetailList,map);//向投入产出表更新数据
 		return pk;
 	}
-	
 
 	@Override
 	public List<PickDetail> getPickDetail(String id) {
@@ -254,4 +264,6 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		Double multiple = str.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();// 倍数=订单数量/领料数量 保留小数点后三位
 		return multiple;
 	}
+
+	
 }

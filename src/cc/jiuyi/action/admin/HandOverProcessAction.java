@@ -123,7 +123,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			
 			String aufnr = workingbill.getAufnr();//生产订单号
 			//TODO 根据传入进来的物料号
-			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),materialCode);
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),materialCode,workingbill.getWorkingBillCode());
 		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
 		    	continue;
 		    else{

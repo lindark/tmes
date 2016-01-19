@@ -99,7 +99,7 @@ jQuery(function($) {
 		},
 
 		editurl: "unit_conversion!delete.adction",//用它做标准删除动作
-		caption: "单位转换管理"
+		caption: "物料包装管理"
 
 		//,autowidth: true,
 //		,

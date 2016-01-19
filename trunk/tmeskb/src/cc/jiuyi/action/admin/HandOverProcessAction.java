@@ -132,15 +132,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 		    	if(bomList.size() <=0)
 		    		continue;
 		    }
-			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
-			if (handoverprocess != null) {
-				Double amount = handoverprocess.getAmount();
-				Double repairamount = handoverprocess.getRepairAmount();
+		    handOverProcess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
+			if (handOverProcess != null) {
+				Double amount = handOverProcess.getAmount();
+				Double repairamount = handOverProcess.getRepairAmount();
 				workingbill.setAmount(amount);
 				workingbill.setRepairamount(repairamount);
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
-			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);//下一随工单--此处有问题。根据什么条件获取下一随工单
+			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);
 			if(nextWorkingbill==null){
 				workingbill.setAfterworkingBillCode("");
 			}else{

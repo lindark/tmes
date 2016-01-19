@@ -166,7 +166,7 @@
 			 } 
 		});
 		
-		$("#repealPick").click(function(){
+		/* $("#repealPick").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -180,7 +180,7 @@
 					$("#grid-table").trigger("reloadGrid");
 				});
 			}
-		});
+		}); */
 
 		$("#editEndProduct").click(function(){
 			var id = "";
@@ -196,6 +196,7 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
+				alert(row_state);
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
@@ -206,17 +207,18 @@
 		});
 		
 		
-		$("#viewPick").click(function(){
+		$("#viewEndProduct").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			alert(id);
 			if(id.length>1){
-				alert("只能选择一条领退料记录！");
+				alert("只能选择一条成品入库记录！");
 				return false;
 			}if(id==""){
-				alert("至少选择一条领退料记录！");
+				alert("至少选择一条成品入库记录！");
 				return false;
 			}else{
-				window.location.href="pick_detail!view.action";				
+				window.location.href="end_product!view.action?id="+id;				
 			}			
 		});
 		

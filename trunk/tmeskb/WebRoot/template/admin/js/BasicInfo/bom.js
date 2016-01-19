@@ -66,12 +66,21 @@ jQuery(function($) {
 	    colModel:[	
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'productsCode',index:'productsCode',label:"产品编号",width:50, editable: false},
-			{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
+			{name:'productsName',index:'productsName',label:"产品名称",width:160, editable: false},
 			{name:'materialCode',index:'materialCode',label:"物料编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
-			{name:'materialName',index:'materialName',label:"物料名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'materialName',index:'materialName',label:"物料名称", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'oerderCode',index:'orders.aufnr',label:"生产订单号",width:100,search:false,editable:false},
-			{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
+			{name:'oerderCode',index:'orders.aufnr',label:"生产订单号",width:50,search:false,editable:false},
+			{name:'auart',index:'bom.orders.auart',label:"订单类型",width:50,search:false,editable:false},
+			{name:'factory',index:'bom.orders.factory',label:"工厂",width:80,search:false,editable:false},
+			{name:'gstrp',index:'bom.orders.gstrp',label:"开工日期", width:60,search:false,editable:false},
+			{name:'gltrp',index:'bom.orders.gltrp',label:"完工日期", width:60,search:false,editable:false},		
+			{name:'shift',index:'shift',label:"班次",width:40,search:false,editable:false},
+			{name:'productAmount',index:'productAmount',label:"生产数量",width:40,search:false,editable:false},
+			{name:'materialAmount',index:'materialAmount',label:"需求数量",width:40,search:false,editable:false},
+			{name:'rspos',index:'rspos',label:"虚拟项目",width:40,search:false,editable:false},
+			{name:'mujuntext',index:'bom.orders.mujuntext',label:"长文本",width:60,search:false,editable:false}
+			//{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
 		],
 		viewrecords : true,
 		rowNum:10,
@@ -136,7 +145,7 @@ jQuery(function($) {
 				window.location.href="bom!delete.action?id="+rowId;
 			},
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',

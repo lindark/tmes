@@ -79,5 +79,4 @@ public class RepairPiece extends BaseEntity
 	{
 		this.piecenum = piecenum;
 	}
-	
 }

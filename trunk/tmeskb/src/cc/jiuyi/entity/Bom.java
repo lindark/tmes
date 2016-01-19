@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import cc.jiuyi.util.ThinkWayUtil;
@@ -32,7 +31,8 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	private String isDel;//是否删除
 	private String effectiveDate;//生效日期
 	
-	
+	//假字段
+	private Integer xplancount;//随工单计划数量
 	/**冗余**/
 	private Double xtestAmount;
 	private String xfailReason;
@@ -375,6 +375,16 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 		this.oerderCode = oerderCode;
 	}
 	
+	@Transient
+	public Integer getXplancount()
+	{
+		return xplancount;
+	}
+
+	public void setXplancount(Integer xplancount)
+	{
+		this.xplancount = xplancount;
+	}
 	public int compareTo(Bom b){
 		Double id1 = Double.parseDouble(ThinkWayUtil.null2o(b.getStockAmount()));
 		Double id2 = Double.parseDouble( ThinkWayUtil.null2o(this.getStockAmount()));

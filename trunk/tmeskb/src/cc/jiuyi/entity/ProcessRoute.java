@@ -1,19 +1,10 @@
 package cc.jiuyi.entity;
 
 import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -39,7 +30,6 @@ public class ProcessRoute extends BaseEntity{
 	private String effectiveDate;//生效日期
 	private Orders orders;
 	private String isDel;
-	
 	
 	
 	/**
@@ -85,6 +75,8 @@ public class ProcessRoute extends BaseEntity{
 	public void setProductAmount(Double productAmount) {
 		this.productAmount = productAmount;
 	}
+
+	
 
 	public Integer getVersion() {
 		return version;
@@ -181,7 +173,6 @@ public class ProcessRoute extends BaseEntity{
 			isDel ="N";
 		this.isDel = isDel;
 	}
-
 	@Transient
 	public String getAufnr() {
 		return aufnr;

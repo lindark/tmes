@@ -186,12 +186,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				WorkingInout workingInout = new WorkingInout();				
 				/**如果退料的情况**/
 				if(pickDetail.getPickType().equals("262")){
-					workingInout.setMultiple(0-multiple);//投入产出减
+					//workingInout.setMultiple(0-multiple);//投入产出减
 					workingInout.setRecipientsAmount(0-recipientsAmount);//领用数减
 				}
 				/**如果是领料的情况**/
 				else{				
-					workingInout.setMultiple(multiple);//投入产出加
+					//workingInout.setMultiple(multiple);//投入产出加
 					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
 				}
 				workingInout.setMaterialCode(materialCode);//保存物料号
@@ -204,12 +204,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
 				/**如果退料的情况**/
 				if (pickDetail.getPickType().equals("262")) {
-					workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
+					//workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
 					workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()-recipientsAmount);//领用数减少
 				}
 				/**如果是领料的情况**/
 				else{					
-					workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
+					//workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
 					workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()+recipientsAmount);//领用数增加
 				}
 				workingInoutService.update(workingInout);
@@ -246,12 +246,12 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
 		   /**如果退料的情况**/
 		   if (pickDetail.getPickType().equals("262")) {
-				workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
+				//workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
 				workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()+recipientsAmount);//领用数增加
 			}
 		   /**如果是领料的情况**/
 		   else{					
-				workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
+				//workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
 				workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()-recipientsAmount);//领用数减少
 			}
 				workingInoutService.update(workingInout);

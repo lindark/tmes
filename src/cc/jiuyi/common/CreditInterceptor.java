@@ -51,6 +51,7 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 		Map<String,Object> parameters = actionContext.getParameters();//获取传入的参数
 		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST); // 获取request
 		HttpServletResponse response = (HttpServletResponse) actionContext.get(StrutsStatics.HTTP_RESPONSE);// 获取response
+		//request.getServletPath()
 		String path = request.getRequestURI();// 获取当前访问的路径
 		Object[] cardnumber = (Object[])parameters.get("cardnumber");//卡号
 		Admin admin = adminservice.get("cardNumber",cardnumber[0]);

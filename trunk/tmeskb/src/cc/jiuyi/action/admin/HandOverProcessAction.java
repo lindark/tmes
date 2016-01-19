@@ -102,6 +102,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private ProductsService productsservice;
 	@Resource
 	private ProcessRouteService processrouteservice;
+	@Resource 
+	private AdminService adminService;
 
 	// 添加 工序交接
 	public String add() {
@@ -160,6 +162,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String list() {
 		materialList = new ArrayList<Bom>();
 		Admin admin = adminservice.getLoginAdmin();
+		admin = adminService.getLoginAdmin();
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行领料操作!");
+			return ERROR;
+		}
 		admin = adminservice.get(admin.getId());
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);// 获取当前身份的所有随工单对象
 		if(workingbillList.size() <=0){

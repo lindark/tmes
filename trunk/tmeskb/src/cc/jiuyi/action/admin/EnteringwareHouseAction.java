@@ -79,7 +79,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		admin = adminService.getLoginAdmin();
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
-			addActionError("您当前未上班,不能进行领料操作!");
+			addActionError("您当前未上班,不能进行入库操作!");
 			return ERROR;
 		}
 		workingbill = workingBillService.get(workingBillId);

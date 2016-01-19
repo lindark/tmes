@@ -109,6 +109,10 @@
 	 */
 
 	$(function() {
+		//返回
+		$("#returnCarton").click(function(){
+			window.history.back();
+		});
 		var ishead = 0;
 		$("#ace-settings-btn").click(function() {
 			if (ishead == 0) {

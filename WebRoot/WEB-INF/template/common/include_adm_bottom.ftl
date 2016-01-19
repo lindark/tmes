@@ -164,7 +164,7 @@
 					
 				},
 				"everyTime":function(sysdate){
-					$('body').everyTime('2s','B',function(){//计划任务
+					$('body').everyTime('1s','B',function(){//计划任务
 						$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 							if(data.status == "no"){//未找到
 								//layer.close(index);

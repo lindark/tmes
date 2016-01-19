@@ -3,6 +3,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -137,9 +138,10 @@ public class PickDetailAction extends BaseAdminAction {
 					if(matnr.equals(bom.getMaterialCode())){
 						bom.setStockAmount(labst);
 					}
-					bomList.set(j, bom);
+					bomList.set(j, bom);					
 				}			
 			}
+			Collections.sort(bomList); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CustomerException e) {

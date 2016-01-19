@@ -132,8 +132,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 		    }
 			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
 			if (handoverprocess != null) {
-				Integer amount = handoverprocess.getAmount();
-				Integer repairamount = handoverprocess.getRepairAmount();
+				Double amount = handoverprocess.getAmount();
+				Double repairamount = handoverprocess.getRepairAmount();
 				workingbill.setAmount(amount);
 				workingbill.setRepairamount(repairamount);
 			}
@@ -305,8 +305,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 			handoverprocess.setBeforworkingbillCode(handoverprocess.getBeforworkingbill().getWorkingBillCode());
 			handoverprocess.setAfterworkingbillCode(handoverprocess.getAfterworkingbill().getWorkingBillCode());
 			handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "handOverProcessState", handoverprocess.getState()));
-			Integer amount = ThinkWayUtil.null2o(handoverprocess.getAmount());
-			Integer repairamount = ThinkWayUtil.null2o(handoverprocess.getRepairAmount());
+			Double amount = ThinkWayUtil.null2o(handoverprocess.getAmount());
+			Double repairamount = ThinkWayUtil.null2o(handoverprocess.getRepairAmount());
 			amount = amount + repairamount;
 			handoverprocess.setAmount(amount);
 			handoverprocessList.set(i, handoverprocess);
@@ -326,7 +326,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 						Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
 						Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
 						amount = amount + repairamount;
-						handoverprocess.setAmount(amount.intValue());
+						handoverprocess.setAmount(amount);
 						handoverprocessList.add(handoverprocess);
 					}
 				}
@@ -348,7 +348,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				handoverprocess.setProcessName("线边仓");
 				handoverprocess.setMaterialCode(location.getMaterialCode());
 				handoverprocess.setMaterialName(location.getMaterialName());
-				handoverprocess.setAmount(new Double(location.getAmount()).intValue());
+				handoverprocess.setAmount(new Double(location.getAmount()));
 				handoverprocessList.add(handoverprocess);
 			}
 		} catch (IOException e) {

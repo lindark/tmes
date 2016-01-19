@@ -1,7 +1,5 @@
 package cc.jiuyi.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -170,6 +168,5 @@ public class PickDetail extends BaseEntity{
 		this.xh = xh;
 	}
 
-	
 	
 }

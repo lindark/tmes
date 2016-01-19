@@ -19,6 +19,7 @@ public class Locationonside extends BaseEntity {
 	private String materialCode;//物料编码
 	private String materialName;//物料描述
 	private String amount;//数量
+	private String charg;//批次
 	private String isDel;//是否删除
 
 	public String getLocationCode() {
@@ -70,6 +71,14 @@ public class Locationonside extends BaseEntity {
 
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+
+	public String getCharg() {
+		return charg;
+	}
+
+	public void setCharg(String charg) {
+		this.charg = charg;
 	}
 	
 	

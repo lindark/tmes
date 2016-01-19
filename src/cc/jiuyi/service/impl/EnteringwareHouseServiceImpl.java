@@ -101,7 +101,7 @@ public class EnteringwareHouseServiceImpl extends
 		}
 		
 		workingbill.setTotalSingleAmount(totalamount);
-		workingbillService.update(workingbill);
+		workingbillService.merge(workingbill);
 	}
 
 }

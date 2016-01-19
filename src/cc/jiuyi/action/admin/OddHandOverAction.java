@@ -61,7 +61,7 @@ public class OddHandOverAction extends BaseAdminAction {
 		//获取当前登录人信息
 		//Admin admin = adminService.getLoginAdmin();
 		//admin = adminService.get(admin.getId());
-		
+		Set<OddHandOver> ohoSet = new HashSet<OddHandOver>();
 		//获取维护物料信息
 		List<Material> materialList = materialService.getAll();
 			if(materialList!=null && materialList.size()>0){
@@ -71,12 +71,18 @@ public class OddHandOverAction extends BaseAdminAction {
 								WorkingBill wb = workingBillService.get(workingBillIds[i]);
 								
 								//若存在先删除
-								Set<OddHandOver> ohoSet = wb.getOddHandOverSet();
-								if(ohoSet!=null && ohoSet.size()>0){
-									for(OddHandOver oho : ohoSet){
-										oddHandOverService.delete(oho);
+								try {
+									ohoSet = wb.getOddHandOverSet();
+									if(ohoSet!=null && ohoSet.size()>0){
+										for(OddHandOver oho : ohoSet){
+											oddHandOverService.delete(oho);
+										}
 									}
+								} catch (Exception e) {
+									e.printStackTrace();
+									return ajaxJsonErrorMessage("系统异常，重新进入");
 								}
+								
 								
 								//获取Bom
 								String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
@@ -152,28 +158,43 @@ public class OddHandOverAction extends BaseAdminAction {
 	
 	//刷卡确认
 	public String crediTapproval(){
+		Set<OddHandOver> ohoSet = new HashSet<OddHandOver>();
+		boolean f = false;
 		if(actualMounts!=null && actualMounts.length>0){
 			for(int i=0;i<actualMounts.length;i++){
 				if(actualMounts[i]!=null && !"".equals(actualMounts[i])){
 					//获取随工单 
 					WorkingBill wb = workingBillService.get(workingBillIds[i]);
-					
-					//获取零头数交接
-					Set<OddHandOver> ohoSet = wb.getOddHandOverSet();
-					if(ohoSet!=null && ohoSet.size()>0){
-						for(OddHandOver oho : ohoSet){
-							//获取确认人
-							admin = adminService.getByCardnum(cardnumber);
-							oho.setSureCode(admin.getCardNumber());
-							oho.setSureName(admin.getName());
-							oho.setState("2");
-							oddHandOverService.update(oho);
+					try {
+						//获取零头数交接
+						ohoSet  = wb.getOddHandOverSet();
+						if(ohoSet!=null && ohoSet.size()>0){
+							for(OddHandOver oho : ohoSet){
+								//获取确认人
+								admin = adminService.getByCardnum(cardnumber);
+								oho.setSureCode(admin.getCardNumber());
+								oho.setSureName(admin.getName());
+								oho.setState("2");
+								oddHandOverService.update(oho);
+							}
+							f = true;
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						return ajaxJsonErrorMessage("系统异常，重新进入");
 					}
+					
 				}
 			}
+			if(f){
+				return ajaxJsonSuccessMessage("您的操作已成功");
+			}else{
+				return ajaxJsonErrorMessage("无可交接数据,不可确认");
+			}
+		}else{
+			return ajaxJsonErrorMessage("无可交接数据,不可确认");
 		}
-		return ajaxJsonSuccessMessage("您的操作已成功");
+		
 	}
 	
 	

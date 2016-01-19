@@ -122,15 +122,15 @@ public class HandOverProcessAction extends BaseAdminAction {
 		    	if(bomList.size() <=0)
 		    		continue;
 		    }
-		    handOverProcess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
-			if (handOverProcess != null) {
-				Double amount = handOverProcess.getAmount();
-				Double repairamount = handOverProcess.getRepairAmount();
+			HandOverProcess handoverprocess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
+			if (handoverprocess != null) {
+				Double amount = handoverprocess.getAmount();
+				Double repairamount = handoverprocess.getRepairAmount();
 				workingbill.setAmount(amount);
 				workingbill.setRepairamount(repairamount);
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
-			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);
+			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);//下一随工单--此处有问题。根据什么条件获取下一随工单
 			if(nextWorkingbill==null){
 				workingbill.setAfterworkingBillCode("");
 			}else{
@@ -164,7 +164,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 			addActionError("未找到任何随工单数据");
 			return ERROR;
 		}
-		
+		for (int i = 0; i < workingbillList.size(); i++) {
+			if("Y".equals(workingbillList.get(i).getIsHand())){
+				addActionError("当日交接已完成，不可再次交接");
+				return ERROR;
+			}
+		}
 		for (int i = 0; i < workingbillList.size(); i++) {
 			WorkingBill workingbill = workingbillList.get(i);
 			Products products = productsservice.get("productsCode",workingbill.getMatnr());
@@ -414,15 +419,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 	// 刷卡提交 --员工
 	//@InputConfig(resultName = "error")
 	public String creditsubmit(){
-		//若存在先删除
-		/*for(HandOverProcess hopl  : handoverprocessList){
-			//若存在先删除
-			HandOverProcess hop = handOverProcessService.get(hopl.getId());
-			if(hop!=null){}
-			
-		}*/
-		
-		
+		boolean f = false;
+		for(HandOverProcess hopl  : handoverprocessList){
+			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
+			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
+			if(hopSet!=null){
+				for(HandOverProcess hop : hopSet){
+					if("approval".equals(hop.getState())){
+						f= true;
+					}
+				}
+			}
+		}
+		if(f){
+			return ajaxJsonErrorMessage("数据已确认不可再次提交");
+		}
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditsubmit",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){
@@ -449,6 +460,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
+		boolean f = false;
+		for(HandOverProcess hopl  : handoverprocessList){
+			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
+			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
+			if(hopSet!=null){
+				for(HandOverProcess hop : hopSet){
+					if("approval".equals(hop.getState())){
+						f= true;
+					}
+				}
+			}
+		}
+		if(f){
+			return ajaxJsonErrorMessage("数据已确认无需再次确认");
+		}
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditapproval",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){

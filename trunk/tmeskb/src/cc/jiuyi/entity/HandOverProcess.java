@@ -31,11 +31,11 @@ public class HandOverProcess extends BaseEntity{
 	private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
-    private Integer amount;//正常交接数量
+    private Double amount;//正常交接数量
     private String materialCode;//物料编码
     private String materialName;//物料名称
     private String processid;//工序id
-    private Integer repairAmount;//返修交接数量
+    private Double repairAmount;//返修交接数量
    
     /*冗余字段*/
     private String processName;//工序名称
@@ -86,12 +86,12 @@ public class HandOverProcess extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-	public Integer getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
-	public void setAmount(Integer amount) {
+	public void setAmount(Double amount) {
 		if(amount == null)
-			amount = 0;
+			amount = 0d;
 		this.amount = amount;
 	}
 
@@ -190,10 +190,10 @@ public class HandOverProcess extends BaseEntity{
 		this.processid = processid;
 	}
 	
-	public Integer getRepairAmount() {
+	public Double getRepairAmount() {
 		return repairAmount;
 	}
-	public void setRepairAmount(Integer repairAmount) {
+	public void setRepairAmount(Double repairAmount) {
 		this.repairAmount = repairAmount;
 	}
 	@Transient

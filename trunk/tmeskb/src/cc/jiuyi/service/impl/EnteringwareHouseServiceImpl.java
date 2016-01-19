@@ -83,19 +83,31 @@ public class EnteringwareHouseServiceImpl extends
 		if(state.equalsIgnoreCase("1")){//刷卡确定
 		for (int i = 0; i < list.size(); i++) {
 			EnteringwareHouse enteringwareHouse = list.get(i);	
+			String exmblnr=enteringwareHouse.getEx_mblnr();
+			//Integer store=enteringwareHouse.getStorageAmount();
+			enteringwareHouse=	enteringwareHouseDao.get(enteringwareHouse.getId());
 			totalamount = enteringwareHouse.getStorageAmount()+totalamount;
-												
+			enteringwareHouse.setEx_mblnr(exmblnr);
+			System.out.println(enteringwareHouse.getStorageAmount());
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(state);
+			enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
+			//enteringwareHouse.setStorageAmount(store/ratio1);
 			this.update(enteringwareHouse);
 		}
 		
 		}else{//刷卡撤销
 			for (int i = 0; i < list.size(); i++) {
-				EnteringwareHouse enteringwareHouse = list.get(i);								
-				totalamount -= enteringwareHouse.getStorageAmount();				
+				EnteringwareHouse enteringwareHouse = list.get(i);	
+				String exmblnr=enteringwareHouse.getEx_mblnr();
+				//Integer store=enteringwareHouse.getStorageAmount();
+				enteringwareHouse=	enteringwareHouseDao.get(enteringwareHouse.getId());
+				totalamount -= enteringwareHouse.getStorageAmount();					
+				enteringwareHouse.setEx_mblnr(exmblnr);
 				enteringwareHouse.setConfirmUser(admin);
+				enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 				enteringwareHouse.setState(state);
+				//enteringwareHouse.setStorageAmount(store/ratio1);
 				this.update(enteringwareHouse);
 			}
 		}

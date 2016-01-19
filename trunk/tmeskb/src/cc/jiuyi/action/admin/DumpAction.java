@@ -64,6 +64,11 @@ public class DumpAction extends BaseAdminAction {
 
 	public String list() {
 		admin = adminService.get(loginid);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行领料操作!");
+			return ERROR;
+		}
 		//admin = adminService.load(admin.getId());
 		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 				.getWarehouse();

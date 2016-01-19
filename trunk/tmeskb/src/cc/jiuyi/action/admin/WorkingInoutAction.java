@@ -18,9 +18,12 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.HandOverProcessService;
+import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -35,12 +38,14 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private HandOverProcessService handoverprocessservice;
 	@Resource
 	private WorkingInoutService workinginoutservice;
+	@Resource
+	private OddHandOverService oddhandoverservice;
 	private Pager pager;
 	
 	private String jsondata;
 	
-	private String[] strlen = {"workingBillCode","materialCode","planCount"};
-	private String[] lavenlen={"随工单编号","子件编码","计划数量"};
+	private String[] strlen = {"workingBillCode","materialCode","planCount","actualBomMount"};
+	private String[] lavenlen={"随工单编号","子件编码","计划数量","包装零头数(接上班)"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
@@ -49,6 +54,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);
 		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);
 		/**处理接上班(正常)**/
 		List<Process> processList00 = processservice.getAll();
 		for(int i=0;i<processList00.size();i++){
@@ -99,10 +105,18 @@ public class WorkingInoutAction extends BaseAdminAction {
 		for(int i=0;i<workingInoutList.size();i++){
 			JSONObject map = new JSONObject();
 			WorkingInout workinginout = workingInoutList.get(i);
+			WorkingBill workingbill = workinginout.getWorkingbill();
 			//workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
-			map.put(strlen[0], workinginout.getWorkingbill().getWorkingBillCode());
+			map.put(strlen[0], workingbill.getWorkingBillCode());
 			map.put(strlen[1], workinginout.getMaterialCode());
-			map.put(strlen[2], workinginout.getWorkingbill().getPlanCount());
+			map.put(strlen[2], workingbill.getPlanCount());
+			OddHandOver oddhandover = oddhandoverservice.findHandOver(workingbill.getWorkingBillCode());
+			if(oddhandover == null)
+				map.put(strlen[3], "0");
+			else
+				map.put(strlen[3], ThinkWayUtil.null2o(oddhandover.getActualBomMount()));
+			
+			//map.put(strlen[3], );
 			for(int y=0;y<jsonarray.size();y++){
 				JSONObject json = (JSONObject) jsonarray.get(y);
 				String name = json.getString("name");

@@ -29,8 +29,8 @@ public class WorkingBill extends BaseEntity {
 	private Integer totalRepairinAmount;// 累计返修收货数量
 	private Integer totalRepairAmount;// 累计返修数量
 	private String werks;//工厂
-	private Integer amount;//交接数量
-	private Integer repairamount;//返修交接数量
+	private Double amount;//交接数量
+	private Double repairamount;//返修交接数量
 	private Double afteroddamount;//接上班正常零头数
 	private Double afterunoddamount;//接上班异常零头数
 	private Integer bomversion;//BOM版本
@@ -282,11 +282,11 @@ public class WorkingBill extends BaseEntity {
 	}
 
 	@Transient
-	public Integer getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -345,11 +345,11 @@ public class WorkingBill extends BaseEntity {
 		this.processversion = processversion;
 	}
 
-	public Integer getRepairamount() {
+	public Double getRepairamount() {
 		return repairamount;
 	}
 
-	public void setRepairamount(Integer repairamount) {
+	public void setRepairamount(Double repairamount) {
 		this.repairamount = repairamount;
 	}
 

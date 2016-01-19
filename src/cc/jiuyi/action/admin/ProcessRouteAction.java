@@ -143,14 +143,21 @@ public class ProcessRouteAction extends BaseAdminAction {
 
 			pager = processrouteservice.findPagerByjqGrid(pager, map);
 			List<ProcessRoute> list = pager.getList();
-//			for (int i = 0; i < list.size(); i++) {
-//				ProcessRoute p = list.get(i);
+			for (int i = 0; i < list.size(); i++) {
+				ProcessRoute p = list.get(i);
+				p.setAufnr(p.getOrders().getAufnr());
+				p.setGstrp(p.getOrders().getGstrp());
+				p.setGltrp(p.getOrders().getGltrp());
+				p.setMatnr(p.getOrders().getMatnr());
+				p.setMaktx(p.getOrders().getMaktx());
+				p.setMujuntext(p.getOrders().getMujuntext());
+				
 //              p.setProductsCode(p.getProducts().getProductsCode());
 //              p.setProductsName(p.getProducts().getProductsName());
 //				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
 //				p.setProcessCode(process.getProcessCode());
 //				p.setProcessName(process.getProcessName());
-//			}
+			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含

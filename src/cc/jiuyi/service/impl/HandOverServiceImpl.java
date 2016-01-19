@@ -42,7 +42,7 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 		HandOver handover = new HandOver();
 		handover.setState("2");
 		handover.setSubmitadmin(admin);
-		String id = super.save(handover);
+		String id = this.save(handover);
 		for(HandOverProcess handoverprocess : handoverprocessList){
 			handover.setId(id);
 			handoverprocess.setHandover(handover);
@@ -92,11 +92,19 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 			for(OddHandOver oddhandover : list){
 				Double actualbommount = oddhandover.getActualBomMount();//正常零头数
 				Double unbommount = oddhandover.getUnBomMount();//异常零头数
-				String workingbillCode = oddhandover.getAfterWorkingCode();
+				String workingbillCode = oddhandover.getAfterWorkingCode();//接上班
 				WorkingBill workingbill = workingbillservice.get("workingBillCode",workingbillCode);
 				workingbill.setAfteroddamount(actualbommount);
 				workingbill.setAfterunoddamount(unbommount);
 				workingbillservice.update(workingbill);
+				/*******************/
+				String workingbillCode00 = oddhandover.getBeforeWokingCode();//找下班
+				WorkingBill workingbill00 = workingbillservice.get("workingBillCode",workingbillCode00);
+				Double actualbommount00 = oddhandover.getActualBomMount();
+				Double unbommount00 = oddhandover.getUnBomMount();
+				workingbill00.setBeforeoddamount(actualbommount00);
+				workingbill00.setBeforeunoddamount(unbommount00);
+				workingbillservice.update(workingbill00);
 			}
 		}
 		

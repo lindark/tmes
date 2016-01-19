@@ -228,8 +228,8 @@ public class WorkingBillServiceImpl extends
 		}
 		List<WorkingBill> workingbillList01 = workingbilldao.getList("aufnr", order.getAufnr());
 		if(workingbillList00.size() >= workingbillList01.size()){//如果SAP的比MES 多
-		 boolean flag = false;
 		 for(int x=0;x<workingbillList00.size();x++){
+			boolean flag = false;
 			WorkingBill WorkingBill00 = workingbillList00.get(x);
 			for(int z=0;z<workingbillList01.size();z++){
 				WorkingBill WorkingBill01 = workingbillList01.get(z);
@@ -246,8 +246,8 @@ public class WorkingBillServiceImpl extends
 			}
 		 }
 		}else if(workingbillList00.size() < workingbillList01.size()){//如果MES比SAP多
-			boolean flag = false;
 			 for(int x=0;x<workingbillList01.size();x++){
+				boolean flag = false;
 				WorkingBill WorkingBill01 = workingbillList01.get(x);
 				for(int z=0;z<workingbillList00.size();z++){
 					WorkingBill WorkingBill00 = workingbillList00.get(z);
@@ -421,7 +421,6 @@ public class WorkingBillServiceImpl extends
 	@Override
 	public void updateWorkingInoutCalculate(List<WorkingBill> paramaterList,
 			HashMap<String, Object> maps) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -98,14 +98,6 @@ public class PickDetailAction extends BaseAdminAction {
 	
 	
 
-//	public String addAmount() {
-//		pickDetail.setMaterialCode(material.getMaterialCode());
-//		pickDetail.setMaterialName(material.getMaterialName());
-//		pickDetailService.save(pickDetail);
-//		redirectionUrl = "pick!list.action";
-//		return SUCCESS;
-//	}
-
 	// 添加
 	public String add() {
 		return LIST;

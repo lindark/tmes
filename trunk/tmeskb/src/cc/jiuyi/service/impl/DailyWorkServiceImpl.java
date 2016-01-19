@@ -206,6 +206,10 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			}
              
 			dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
+			String CONF_NO = dailyWork.getCONF_NO();// 确认号
+			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+			dailyWork.setCONF_NO(CONF_NO);
+			dailyWork.setCONF_CNT(CONF_CNT);
 			dailyWork.setConfirmUser(admin);
 			dailyWork.setState("1");			
 			this.update(dailyWork);

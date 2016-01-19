@@ -323,8 +323,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 						handoverprocess.setBeforworkingbillCode(oho.getBeforeWokingCode());
 						handoverprocess.setAfterworkingbillCode(oho.getAfterWorkingCode());
 						handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStauts", oho.getState()));
-						Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
-						Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
+						Double amount = ThinkWayUtil.null2o(oho.getActualBomMount());
+						Double repairamount = ThinkWayUtil.null2o(oho.getUnBomMount());
 						amount = amount + repairamount;
 						handoverprocess.setAmount(amount.intValue());
 						handoverprocessList.add(handoverprocess);

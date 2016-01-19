@@ -24,6 +24,7 @@ public class UnitConversion extends BaseEntity{
     private Integer conversationRatio;//兑换比例
     private String convertUnit;//转换单位
     private String state;//状态
+    private String matnr;//物料编码
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
@@ -78,9 +79,11 @@ public class UnitConversion extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-
-   
-
-    
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
 	
 }

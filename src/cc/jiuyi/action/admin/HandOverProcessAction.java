@@ -228,7 +228,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 		}
 
 		try {
-			locationonsideList = rfc.findWarehouse(warehouse);
+			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+			locationonsideList = rfc.findWarehouse(warehouse,werks);
 		} catch (IOException e) {
 			addActionError("IO操作失败");
 			e.printStackTrace();
@@ -339,7 +340,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 //			materialCodeList.add(material.getMaterialCode());
 //		}
 		try {
-			locationonsideList = rfc.findWarehouse(warehouse);
+			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+			locationonsideList = rfc.findWarehouse(warehouse,werks);
 			for(int i=0;i<locationonsideList.size();i++){
 				HandOverProcess handoverprocess = new HandOverProcess();
 				Locationonside location = (Locationonside)locationonsideList.get(i);

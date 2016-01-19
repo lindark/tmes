@@ -412,6 +412,7 @@ public class RepairAction extends BaseAdminAction {
 	public String show()
 	{
 		repair = repairService.get(id);//根据id查询
+		repair.setXrepairtype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairtype", repair.getRepairtype()));
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);

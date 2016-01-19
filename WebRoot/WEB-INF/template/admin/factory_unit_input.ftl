@@ -85,18 +85,17 @@ body{background:#fff;}
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
 						            <div class="profile-info-row">
-											
-												<div class="profile-info-name">车间名称</div>
-												<div class="profile-info-value">
-												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>			
-				                                     <input type="text" name="factoryworkShopId" value="" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
-				                                     <input type="hidden" name="workShopId" id="workShopId2" value="" />
-										         	 <label class="requireField">*</label>	
-										         	 <#else>
-										         	 ${(factoryUnit.workShop.factory.factoryName)!}     ${(factoryUnit.workShop.workShopName)!}   
-										         	 </#if>	
-												</div>
-											</div>
+										<div class="profile-info-name">车间名称</div>
+										<div class="profile-info-value">
+											<#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>			
+				                            <input type="text" name="factoryworkShopId" value="" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
+				                            <input type="hidden" name="workShopId" id="workShopId2" value="" />
+										    <label class="requireField">*</label>	
+										    <#else>
+										        ${(factoryUnit.workShop.factory.factoryName)!}     ${(factoryUnit.workShop.workShopName)!}   
+										    </#if>
+										</div>
+									</div>
 						            
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 单元编码 </div>					
@@ -152,13 +151,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">是:</small>
-						                       <input type="radio" class="ace" name="factoryUnit.iscanrepair" value="Y"<#if (isAdd || factoryUnit.iscanrepair == 'Y')!> checked</#if> />
+						                       <input type="radio" id="input_y" class="ace" name="factoryUnit.iscanrepair" value="Y"<#if (factoryUnit.iscanrepair == 'Y')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">否:</small>
-						                        <input type="radio" class="ace" name="factoryUnit.iscanrepair" value="N"<#if (factoryUnit.iscanrepair == 'N')!> checked</#if>  />
+						                        <input type="radio" id="input_n" class="ace" name="factoryUnit.iscanrepair" value="N"<#if (isAdd ||factoryUnit.iscanrepair == 'N')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
@@ -166,9 +165,21 @@ body{background:#fff;}
 									<div class="profile-info-row">
 										<div class="profile-info-name">成型/挤压</div>					
 										<div class="profile-info-value">
+											<select id="cxorjc" name="factoryUnit.CXORJC" class="input input-sm form-control" style="width:150px;display: inline;">
+												<option value="">&nbsp;</option>
+												<#if list_cxorjc??>
+													<#list list_cxorjc as xlist>
+														<option value="${(xlist.dictkey)! }" <#if (xlist.dictkey==factoryUnit.CXORJC)!>selected</#if>>${(xlist.dictvalue)! }</option>
+													</#list>
+												</#if>
+											</select>
+											<span id="span_cxorjc" style="color: red;"></span>
+										</div>
+										<!-- 
+										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">成型:</small>
-						                       <input type="radio" class="ace" name="factoryUnit.CXORJC" value="CX"<#if (isAdd || factoryUnit.CXORJC == 'CX')!> checked</#if> />
+						                       <input type="radio" class="ace" name="factoryUnit.CXORJC" value="CX"<#if (factoryUnit.CXORJC == 'CX')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
@@ -177,7 +188,8 @@ body{background:#fff;}
 						                        <input type="radio" class="ace" name="factoryUnit.CXORJC" value="JC"<#if (factoryUnit.CXORJC == 'JC')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
-										</div>	
+										</div>
+										 -->
 									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
@@ -194,17 +206,16 @@ body{background:#fff;}
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
-									</div>							
+									</div>
+								</div>
+								<div class="buttonArea">
+									<input type="button" id="input_btn" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+								</div>
+							</div>							
 						</div>
-				
-			</table>
-			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
-			</div>
-		</form>
-	
-<!-- add by welson 0728 -->	
+					</form>
+					<!-- add by welson 0728 -->	
 				</div><!-- /.col -->
 				</div><!-- /.row -->
 
@@ -233,5 +244,19 @@ $(function() {
 			$(this).val("");
 		}
 	});
-})
+	$("#input_n").click(function(){
+		$("#span_cxorjc").text("");
+	});
+	$("#input_btn").click(function(){
+		var select_val=$("#cxorjc").val();
+		if($("#input_y").attr("checked")&&select_val=="")
+		{
+			$("#span_cxorjc").text("可以返修或返修收货时,此内容为必填项！");
+		}
+		else
+		{
+			$("#inputForm").submit();
+		}
+	});
+});
 </script>

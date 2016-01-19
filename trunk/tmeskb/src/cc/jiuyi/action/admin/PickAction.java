@@ -366,7 +366,7 @@ public class PickAction extends BaseAdminAction {
 						} else {
 							Pick pickReturn = pickService.get(pick2.getId());
 							pickReturn.setE_message(e_message);
-							pickReturn.setEx_mblnr(ex_mblnr);
+							pickReturn.setEx_mblnr(ex_mblnr+"/"+pickReturn.getEx_mblnr());
 							pickReturn.setE_type(e_type);
 							//pickReturn.setMove_type(move_type);
 							pickReturn.setState(REPEAL);

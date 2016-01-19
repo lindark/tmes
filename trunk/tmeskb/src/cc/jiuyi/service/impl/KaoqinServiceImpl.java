@@ -16,11 +16,13 @@ import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -45,6 +47,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	private KaoqinBrushCardRecordService kqBCRService;
 	@Resource
 	private HandOverService handOverService;
+	@Resource
+	private WorkingBillService workingbillservice;
 
 	/**
 	 * jqGrid查询
@@ -131,6 +135,15 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		handover.setState("3");
 		handover.setApprovaladmin(admin);
 		handOverService.update(handover);
+		
+		
+		/***随工单状态更新为交接完成***/
+		List<WorkingBill> workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份的所有随工单
+		for(WorkingBill workingbill : workingbillList){
+			workingbill.setIsHand("Y");
+			workingbillservice.update(workingbill);
+		}
+		
 		/**班组下班**/
 		Team team = admin.getDepartment().getTeam();//取得班组
 		team.setIsWork("N");

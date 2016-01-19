@@ -38,11 +38,11 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 		item.put("LGORT", repairin.getLGORT());// 库存地点
 		item.put("ZTEXT", repairin.getZTEXT());// 抬头文本，选填
 		item.put("XUH", repairin.getId());// 序号 必填
-		item.put("MOVE_TYPE", "261");// 移动类型
+		//item.put("MOVE_TYPE", "261");// 移动类型
 		item.put("KOSTL", repairin.getCostcenter());// 成本中心
 		arrList.add(item);
-		item.put("MOVE_TYPE", "906");// 移动类型
-		arrList.add(item);
+		//item.put("MOVE_TYPE", "906");// 移动类型
+		//arrList.add(item);
 
 		// 去重
 		List<HashMap<String, Object>> arr = new ArrayList<HashMap<String, Object>>(
@@ -60,6 +60,7 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 			item2.put("ZSFSL", rp.getRpcount());// 数量
 			item2.put("ITEM_TEXT", rp.getITEM_TEXT());// 项目文本 选填
 			item2.put("XUH", rp.getRepairin().getId());// 序号 必填
+			item2.put("ORDERID", rp.getRepairin().getWorkingbill().getAufnr());
 			arrList2.add(item2);
 		}
 		ET_ITEM.setList(arrList2);

@@ -150,7 +150,7 @@ public class ProcessRouteAction extends BaseAdminAction {
 				p.setGltrp(p.getOrders().getGltrp());
 				p.setMatnr(p.getOrders().getMatnr());
 				p.setMaktx(p.getOrders().getMaktx());
-				p.setMujuntext(p.getOrders().getMujuntext());
+				//p.setMujuntext(p.getOrders().getMujuntext());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();

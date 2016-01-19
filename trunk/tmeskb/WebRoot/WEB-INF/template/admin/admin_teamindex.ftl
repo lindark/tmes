@@ -435,6 +435,7 @@
 				});
 		</#if>
 		$(".matkx").click(function() {
+			/*
 			var previd = $(this).prev().val();
 			var index = layer.open({
 				type : 2,
@@ -449,7 +450,7 @@
 				content : "working_bill!inout.action?workingbill.id="+previd
 			});
 			layer.full(index);//弹出既全屏
-
+*/
 		});
 		
 		$("#submitButton").click(function(){

@@ -314,7 +314,7 @@ public class RepairinAction extends BaseAdminAction {
 		pager = this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<Bom>list1=pager.getList();
-		List<Bom>list2=this.repairinService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		List<Bom>list2=this.repairinService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		pager.setList(list2);
 		pager.setTotalCount(list2.size());//更新总数量
 		JsonConfig jsonConfig=new JsonConfig();
@@ -443,7 +443,7 @@ public class RepairinAction extends BaseAdminAction {
 		pager=this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<Bom>list1=pager.getList();
-		List<Bom>list_bom=this.repairinService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		List<Bom>list_bom=this.repairinService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		return list_bom;
 	}
 	

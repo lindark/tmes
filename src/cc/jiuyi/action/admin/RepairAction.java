@@ -93,7 +93,8 @@ public class RepairAction extends BaseAdminAction {
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
+		//根据订单号,生产日期查询工艺路线
+		processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
 		this.add="add";
 		return INPUT;
 	}
@@ -348,7 +349,7 @@ public class RepairAction extends BaseAdminAction {
 		pager = this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<Bom>list1=pager.getList();
-		List<Bom>list2=this.repairService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		List<Bom>list2=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		pager.setList(list2);
 		pager.setTotalCount(list2.size());//更新总数量
 		JsonConfig jsonConfig=new JsonConfig();
@@ -485,7 +486,7 @@ public class RepairAction extends BaseAdminAction {
 		pager=this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<Bom>list1=pager.getList();
-		List<Bom>list_bom=this.repairService.getIncludedByMaterial(list1);//获取物料表中包含list1中的数据
+		List<Bom>list_bom=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		return list_bom;
 	}
 	

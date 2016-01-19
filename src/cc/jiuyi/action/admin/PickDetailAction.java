@@ -194,10 +194,10 @@ public class PickDetailAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		pick = pickService.load(id);
-		WorkingBill workingBill = workingBillService.get(workingBillId);
+		WorkingBill workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		String aufnr = workingbill.getAufnr();
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		/** 调SAP接口取库存数量 **/
@@ -230,6 +230,7 @@ public class PickDetailAction extends BaseAdminAction {
 				bom.setPickDetailid(pickdetail.getId());
 				bomList.set(j, bom);
 			}
+			Collections.sort(bomList);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CustomerException e) {

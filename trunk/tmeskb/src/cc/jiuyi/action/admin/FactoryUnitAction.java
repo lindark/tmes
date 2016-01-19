@@ -52,7 +52,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 	private String workShopId;
 	private WorkShop workShop;
 	private List<Products> allProducts;
-	
+	private List<Dict>list_cxorjc;//成型/挤出
 	@Resource
 	private FactoryUnitService factoryUnitService;
 	@Resource
@@ -62,6 +62,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 	
 	//添加
 	public String add(){
+		list_cxorjc=this.dictService.getState("fucxorjc");//成型/挤压类型
 		return INPUT;
 	}
 
@@ -344,4 +345,15 @@ public class FactoryUnitAction extends BaseAdminAction {
 	public void setAllProducts(List<Products> allProducts) {
 		this.allProducts = allProducts;
 	}
+
+	public List<Dict> getList_cxorjc()
+	{
+		return list_cxorjc;
+	}
+
+	public void setList_cxorjc(List<Dict> list_cxorjc)
+	{
+		this.list_cxorjc = list_cxorjc;
+	}
+	
 }

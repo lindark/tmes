@@ -70,9 +70,18 @@ jQuery(function($) {
 			//{name:'productsName',index:'productsName',label:"产品名称",width:200, editable: false},
 			{name:'processCode',index:'processCode',label:"工序编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'gstrp',index:'processroute.orders.aufnr',label:"生产订单号", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'gstrp',index:'processroute.orders.gstrp',label:"工艺开始日期", width:40,search:false,editable:false},
+			{name:'gltrp',index:'processroute.orders.gltrp',label:"工艺结束日期", width:40,search:false,editable:false},
+			{name:'matnr',index:'processroute.orders.matnr',label:"物料编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'maktx',index:'processroute.orders.maktx',label:"物料描述", width:120,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'aufpl',index:'aufpl',label:"工序号", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'steus',index:'steus',label:"控制码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'workCenter',index:'workCenter',label:"工作中心", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'mujuntext',index:'processroute.orders.mujuntext',label:"工序短文本", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},			
 			//{name:'sortcode',index:'sortcode',label:"排序码",width:50, editable: false},
-			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt}
+			//{name:'version',index:'version', width:50,label:"版本号", sortable:false,editable: false,search:true}
 			//{name:"showproducts",label:"相关产品",width:100,search:false, sortable:false, resize:false}
 		],
 		viewrecords : true,

@@ -122,7 +122,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		String budat = util.SystemDate();// 过账日期
 		ids = id.split(",");
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		System.out.println(list.size());
 		for (int i = 0; i < list.size(); i++) {
 			enteringwareHouse = list.get(i);
 			if (CONFIRMED.equals(enteringwareHouse.getState())) {
@@ -152,6 +151,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				}
 				
 			}	
+
 			enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
 					ratio,cardnumber);
 		} catch (IOException e1) {

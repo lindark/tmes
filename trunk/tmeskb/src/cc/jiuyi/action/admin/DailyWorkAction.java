@@ -186,6 +186,12 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		WorkingBill workingbill = workingBillService.get(workingBillId);
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		//ratio = unitConversionService.getRatioByCode(UNITCODE);
+		if (ratio == null || ratio.equals("")) {
+           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
+		}
 		ratio = unitConversionService.getRatioByCode(UNITCODE);
 		if (ratio == null && ratio.equals("")) {
            return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
@@ -237,7 +243,12 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-
+		WorkingBill workingbill = workingBillService.get(workingBillId);
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		//ratio = unitConversionService.getRatioByCode(UNITCODE);
+		if (ratio == null || ratio.equals("")) {
+           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
+		}
 		try {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
@@ -251,7 +262,7 @@ public class DailyWorkAction extends BaseAdminAction {
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
 			
-			dailyWorkService.updateState(list,UNDO,workingBillId,ratio.toString(), cardnumber);
+			dailyWorkService.updateState2(list,UNDO,workingBillId,ratio.toString(), cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);

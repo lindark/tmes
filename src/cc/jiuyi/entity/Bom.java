@@ -14,7 +14,7 @@ import cc.jiuyi.util.ThinkWayUtil;
  * 实体类 - 产品Bom
  */
 @Entity
-public class Bom extends BaseEntity{
+public class Bom extends BaseEntity implements Comparable<Bom>{
 
 	private static final long serialVersionUID = -7300988835184296373L;
 
@@ -375,6 +375,10 @@ public class Bom extends BaseEntity{
 		this.oerderCode = oerderCode;
 	}
 	
-	
+	public int compareTo(Bom b){
+		Double id1 = Double.parseDouble(ThinkWayUtil.null2o(b.getStockAmount()));
+		Double id2 = Double.parseDouble( ThinkWayUtil.null2o(this.getStockAmount()));
+		return id2>id1 ?-1:1;
+	}
 	
 }

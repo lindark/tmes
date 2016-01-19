@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -106,8 +107,13 @@ public class DumpAction extends BaseAdminAction {
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
 			String productDate = admin.getProductDate();
-			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate,
-					productDate);
+			Date date=ThinkWayUtil.formatStringDate(productDate);
+			Date date1=DateUtils.addDays(date, -1);
+			Date date2=DateUtils.addDays(date, 1);
+			String productDate1=ThinkWayUtil.formatdateDateTime(date1);
+			String productDate2=ThinkWayUtil.formatdateDateTime(date2);
+			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate1,
+					productDate2);
 			//根据凭证号查找数据库是否已经存在
 			for (int i = 0; i < ids.length; i++) {
 				if (dumpService.isExist("voucherId", ids[i])) {
@@ -214,19 +220,18 @@ public class DumpAction extends BaseAdminAction {
 			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
 					.getWarehouse();
 			String productDate = admin.getProductDate();
-			Calendar cal=ThinkWayUtil.getCalendar(productDate);
-			cal.set(Calendar.DAY_OF_MONTH, -1);
-			String productDate1=ThinkWayUtil.getTimeString(cal);
-			Calendar cal1=ThinkWayUtil.getCalendar(productDate);
-			cal1.set(Calendar.DAY_OF_MONTH, 1);
-			String productDate2=ThinkWayUtil.getTimeString(cal1);
-		
+			Date date=ThinkWayUtil.formatStringDate(productDate);
+			Date date1=DateUtils.addDays(date, -1);
+			Date date2=DateUtils.addDays(date, 1);
+			String productDate1=ThinkWayUtil.formatdateDateTime(date1);
+			String productDate2=ThinkWayUtil.formatdateDateTime(date2);
 			/*
 			 * dumpList = dumpRfc.findMaterialDocument("1805", "20150901",
 			 * "20151001");
 			 */
 			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate1,
 					productDate2);
+			System.out.println(dumpList.size());
 			List<Dump> dpList = dumpService.getAll();
 			if (dpList.size() != 0) {
 				for (int i = 0; i < dumpList.size(); i++) {

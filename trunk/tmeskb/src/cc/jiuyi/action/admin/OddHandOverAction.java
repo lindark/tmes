@@ -90,7 +90,7 @@ public class OddHandOverAction extends BaseAdminAction {
 								List<Bom> bmls = new ArrayList<Bom>();
 								for(Bom bm : bomList){
 									for(Material mt : materialList){
-										if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactory().getFactoryCode())){
+										if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 											bmls.add(bm);
 											break;
 										}

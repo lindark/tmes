@@ -179,7 +179,7 @@ public class ScrapAction extends BaseAdminAction
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
 				for(Material mt : ml){
-					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 						boolean f = true;
 						for(Bom b : list_material){
 							if(b.getMaterialCode().equals(bom.getMaterialCode())){
@@ -259,7 +259,7 @@ public class ScrapAction extends BaseAdminAction
 			for(int y=0;y<l_material.size();y++){
 				Bom bom = l_material.get(y);
 				for(Material mt : ml){
-					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 						boolean f = true;
 						for(Bom b : list_material){
 							if(b.getMaterialCode().equals(bom.getMaterialCode())){

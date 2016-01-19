@@ -15,7 +15,6 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
@@ -25,7 +24,6 @@ import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
@@ -41,14 +39,6 @@ import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.oscache.util.StringUtil;
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-import com.sap.mw.jco.JCO;
-import com.sap.mw.jco.JCO.Table;
 
 /**
  * 后台Action类-交接管理
@@ -208,7 +198,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				for(int y=0;y<bomList.size();y++){
 					Bom bom = bomList.get(y);
 					for(Material mt : ml){
-						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 							boolean f = true;
 							for(Bom b : materialList){
 								if(b.getMaterialCode().equals(bom.getMaterialCode())){
@@ -284,7 +274,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				for(int y=0;y<bomList.size();y++){
 					Bom bom = bomList.get(y);
 					for(Material mt : ml){
-						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactory().getFactoryCode())){
+						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 							boolean f = true;
 							for(Bom b : materialList){
 								if(b.getMaterialCode().equals(bom.getMaterialCode())){

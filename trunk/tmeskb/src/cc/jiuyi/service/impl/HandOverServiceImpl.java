@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,9 +13,11 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.WorkingBillService;
 
 /**
  * Service实现类 - 品牌
@@ -26,6 +30,8 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 	private HandOverProcessService handoverprocessservice;
 	@Resource
 	private OddHandOverService oddHandOverService;
+	@Resource
+	private WorkingBillService workingbillservice;
 	@Resource
 	public void setBaseDao(HandOverDao handoverdao) {
 		super.setBaseDao(handoverdao);
@@ -66,6 +72,37 @@ public class HandOverServiceImpl extends BaseServiceImpl<HandOver, String> imple
 		}
 		
 	}
+	
+	@Override
+	public void update(HandOver entity) {
+		if(entity.getState().equals("3")){//刷卡确认,表示此处需要处理投入产出
+			List<HandOver> handoverlist = new ArrayList<HandOver>();
+			handoverlist.add(entity);
+			updateWorkingInoutCalculate(handoverlist, null);
+		}
+		super.update(entity);
+	}
+
+	@Override
+	public void updateWorkingInoutCalculate(List<HandOver> paramaterList,
+			HashMap<String, Object> maps) {
+		for(int i=0 ;i< paramaterList.size();i++){
+			HandOver handover = paramaterList.get(i);
+			List<OddHandOver> list = new ArrayList<OddHandOver>(handover.getOddHandOver());
+			for(OddHandOver oddhandover : list){
+				Double actualbommount = oddhandover.getActualBomMount();//正常零头数
+				Double unbommount = oddhandover.getUnBomMount();//异常零头数
+				String workingbillCode = oddhandover.getAfterWorkingCode();
+				WorkingBill workingbill = workingbillservice.get("workingBillCode",workingbillCode);
+				workingbill.setAfteroddamount(actualbommount);
+				workingbill.setAfterunoddamount(unbommount);
+				workingbillservice.update(workingbill);
+			}
+		}
+		
+		
+	}
+
 	
 
 

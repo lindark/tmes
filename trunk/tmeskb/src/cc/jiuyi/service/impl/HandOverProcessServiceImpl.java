@@ -54,6 +54,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			this.delete(id);
 		}
 	}
+	
 
 	@Override
 	public List<HandOverProcess> getHandOverProcessList() {		
@@ -159,7 +160,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		this.saveorupdate(handoverprocessList,state,cardNumber);
 		return flag+","+"操作成功";
 	}
-	
+
 
 	
 }

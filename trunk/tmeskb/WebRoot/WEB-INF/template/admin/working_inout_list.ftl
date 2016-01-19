@@ -52,7 +52,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">生产计划管理</li>
+			<li class="active">投入产出表</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 

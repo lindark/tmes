@@ -26,6 +26,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("GM_CODE", "01");//MB01
+		parameter.put("IS_COMMIT", testrun);//MB01
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();

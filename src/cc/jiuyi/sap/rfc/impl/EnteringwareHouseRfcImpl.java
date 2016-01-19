@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -53,7 +54,10 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			item.put("XUH",e.getId());//ID
 			arrList.add(item);
 		}
-		ET_HEADER.setList(arrList);
+		//去重
+		List<HashMap<String,Object>> arr 
+		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+		ET_HEADER.setList(arr);
 		tablemodelList.add(ET_HEADER);
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();
@@ -105,6 +109,7 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			e.setE_type(t_data.getString("E_TYPE"));
 			e.setE_message(t_data.getString("E_MESSAGE"));
 			e.setEx_mblnr(t_data.getString("EX_MBLNR"));
+			e.setId(t_data.getString("XUH"));
 			elist.add(e);
 		}
 		return elist;

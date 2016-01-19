@@ -46,7 +46,7 @@ public interface RepairService extends BaseService<Repair, String>{
 	 * @param list1
 	 * @return
 	 */
-	public List<Bom> getIncludedByMaterial(List<Bom> list1);
+	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount);
 
 	/**
 	 * 新增
@@ -60,4 +60,5 @@ public interface RepairService extends BaseService<Repair, String>{
 	 * @param id
 	 */
 	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom);
+
 }

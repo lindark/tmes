@@ -21,7 +21,7 @@ import cc.jiuyi.util.TableModel;
 public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 
 	@Override
-	public Carton CartonCrt(List<CartonSon>list_cs) throws IOException, CustomerException {
+	public Carton CartonCrt(String testrun,List<CartonSon>list_cs) throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();

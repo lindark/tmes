@@ -377,6 +377,7 @@ public class RepairinAction extends BaseAdminAction {
 	public String show()
 	{
 		repairin = repairinService.get(id);//根据id查询
+		repairin.setXrepairintype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairintype", repairin.getRepairintype()));
 		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
 		this.show="show";

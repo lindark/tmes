@@ -41,7 +41,7 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param list1
 	 * @return
 	 */
-	public List<Bom> getIncludedByMaterial(List<Bom> list1);
+	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount);
 
 	/**
 	 * 新增

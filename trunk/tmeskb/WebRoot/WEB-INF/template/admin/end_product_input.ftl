@@ -19,8 +19,6 @@
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
-		
-<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/carton_input.js"></script>
 <style>
 body {
 	background: #fff;
@@ -33,13 +31,10 @@ inupt.stockMout{
 	padding:2px;
 }
 .site{
-	text-align:center;
-	margin:auto;
-}
-.reSite{
-	margin-right:10px;
 	margin-left:10px;
+	margin-bottom:10px;
 }
+
 .tabth{text-align:center;}
 .sub_style{text-align: center;width:100%;}
 </style>
@@ -76,7 +71,7 @@ inupt.stockMout{
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form id="inputForm" name="inputForm" class="validate" action="" method="post">
-								<div class="site">
+								<!-- <div class="site">
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
 											<#list allSite as als>
@@ -92,12 +87,19 @@ inupt.stockMout{
 										</select>
 									</span>
 									<div style="clear:both"></div>
-								</div>
+								</div> -->
 								<div id="inputtabs">
 								 	<ul>
 								    	<li><a href="#tabs-1">添加成品入库</a></li>
 									</ul>
-									<div id="tabs-1" class="tab1">						
+									<div id="tabs-1" class="tab1">				
+									<div class="site">接收库存地点:
+										<select name="info">
+											<#list allSite as als>
+											<option value="${als.dictkey}" <#if als.dictkey=="2401">selected</#if>>${als.dictvalue}</option>
+											</#list>
+										</select>
+									</div>		
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
@@ -105,16 +107,45 @@ inupt.stockMout{
 														<th class="tabth">库存地点</th>
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
+														<th class="tabth">批次</th>
+														<th class="tabth">库存数量</th>
+														<th class="tabth">入库数量</th>
 													</tr>
-															<#list workingBillList as wl>
+													
+														<#if endProduct!=null>
+														<tr>
+															<td>${(endProduct.repertorySite)! }</td>
+																	<input type="hidden"  name="id" value="${(endProduct.id)! }">
+																	<input type="hidden"  name="endProduct.repertorySite" value="${(endProduct.repertorySite)! }">
+																	<input type="hidden"  name="endProduct.repertorySiteDesp" value="${(endProduct.repertorySiteDesp)!}">
+																	<td>${(endProduct.materialCode)! }</td>
+																	<td>${(endProduct.materialDesp)! }</td>
+																	<input type="hidden"  name="endProduct.materialCode" value="${(endProduct.materialCode)!}">
+																	<input type="hidden"  name="endProduct.materialDesp" value="${(endProduct.materialDesp)!}">
+																	<td>${(endProduct.materialBatch)! }</td>
+																	<input type="hidden"  name="endProduct.materialBatch" value="${(endProduct.materialBatch)!}">
+																	<td>${(endProduct.actualMaterialMount)! }</td>
+																	<input type="hidden"  name="endProduct.actualMaterialMount" value="${(endProduct.actualMaterialMount)!}">
+																	<td><input type="text"  name="endProduct.stockMout" value="${(endProduct.stockMout)!}"></td>
+															</tr>
+														<#else>
+															<#list locationonsideList as lns>
 																<tr>
-																	<input type="hidden"  name="endProducts.wokingBillCode" value="${(wl.workingBillCode)!}">
-																	<td>${(wl.workingBillCode)! }</td>
-																	<td>${(wl.matnr)! }</td>
-																	<td>${(wl.maktx)! }</td>
-																	<td><input type="text" name="endProducts.stockMout" value="${(list.stockMout)! }" class="stockMout"/></td>
+																	<td>${(lns.locationCode)! }</td>
+																	<input type="hidden"  name="endProducts[${lns_index}].repertorySite" value="${(lns.locationCode)!}">
+																	<input type="hidden"  name="endProducts[${lns_index}].repertorySiteDesp" value="${(lns.locationName)!}">
+																	<td>${(lns.materialCode)! }</td>
+																	<td>${(lns.materialName)! }</td>
+																	<input type="hidden"  name="endProducts[${lns_index}].materialCode" value="${(lns.materialCode)!}">
+																	<input type="hidden"  name="endProducts[${lns_index}].materialDesp" value="${(lns.materialName)!}">
+																	<td>${(lns.charg)! }</td>
+																	<input type="hidden"  name="endProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
+																	<td>${(lns.amount)! }</td>
+																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
+																	<td><input type="text"  name="endProducts[${lns_index}].stockMout" value=""></td>
 																</tr>
 															</#list>
+															</#if>
 												</table>
 							  				</div>
 						   				</div>
@@ -127,10 +158,10 @@ inupt.stockMout{
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_sure" type="button" />
+									<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="btn_sure" type="button" />
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡确认
-									</button>&nbsp;&nbsp;&nbsp;&nbsp;
+									</button>&nbsp;&nbsp;&nbsp;&nbsp; -->
 								<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button" />
 									<i class="ace-icon fa fa-home"></i>
 									返回
@@ -159,26 +190,35 @@ inupt.stockMout{
 $(function(){
 	var $subm = $("#btn_subm");
 	var $sure = $("#btn_subm");
+	var $ep = "${(endProduct)!''}";
 	//刷卡提交
 	$subm.click(function(){
 		var dt = $("#inputForm").serialize();
-		var url = "end_product!creditSubmit.action";
+		if($ep==""){
+			var url = "end_product!creditSubmit.action";
+		}else{
+			var url = "end_product!update.action";
+		}
 		credit.creditCard(url,function(data){
-			
+			if(data.status=="success"){
+				window.location.href="end_product!list.action";
+			}
 		},dt);
 	});
 	//刷卡确认
-	$sure.click(function(){
+	/* $sure.click(function(){
 		var dt = $("#inputForm").serialize();
 		var url = "end_product!creditApproval.action";
 		credit.creditCard(url,function(data){
 			/* if(data.status=="success"){
 				$subm.prop("display":true);
 				$sure.prop("display":true);
-			} */
+			} 
 		},dt);
+	}); */
+	$("#btn_back").click(function(){
+		window.history.back();
 	});
-	
 });
 
 

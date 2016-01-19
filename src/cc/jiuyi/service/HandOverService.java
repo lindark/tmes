@@ -15,7 +15,7 @@ import cc.jiuyi.util.CustomerException;
  * Service接口 - 交接主表
  */
 
-public interface HandOverService extends BaseService<HandOver, String> {
+public interface HandOverService extends BaseService<HandOver, String>,WorkingInoutCalculateBase<HandOver> {
 	
 	public void saveandgx(Admin admin,List<HandOverProcess> handoverprocess,List<OddHandOver> oddHandOverList);
 	

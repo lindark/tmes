@@ -11,7 +11,7 @@ import cc.jiuyi.entity.HandOverProcess;
  * Service接口 - 工序交接
  */
 
-public interface HandOverProcessService extends BaseService<HandOverProcess, String> {
+public interface HandOverProcessService extends BaseService<HandOverProcess, String>{
 
 	/**
 	 * 取出所有HandOverProcess对象

@@ -267,32 +267,28 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			{
 				RepairinPiece rp=new RepairinPiece();
 				Bom b=list_bom.get(i);
-				//根据物料id查询是否存在
-				if(this.mService.getByCode(b.getMaterialCode()))
+				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
+				rp.setCreateDate(new Date());//创建日期
+				rp.setModifyDate(new Date());//修改日期
+				rp.setRpcode(b.getMaterialCode());//物料编码
+				rp.setRpname(b.getMaterialName());//组件名称
+				rp.setProductnum(plancount);//产品数量
+				rp.setPiecenum(b.getMaterialAmount());//组件数量
+				//组件总数量=返修数量/产品数量 *组件数量
+				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
-					rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
-					rp.setCreateDate(new Date());//创建日期
-					rp.setModifyDate(new Date());//修改日期
-					rp.setRpcode(b.getMaterialCode());//物料编码
-					rp.setRpname(b.getMaterialName());//组件名称
-					rp.setProductnum(plancount);//产品数量
-					rp.setPiecenum(b.getMaterialAmount());//组件数量
-					//组件总数量=返修数量/产品数量 *组件数量
-					if(rp.getProductnum()==null||rp.getProductnum()==0)
-					{
-						rp.setProductnum(Double.parseDouble("1"));
-						rp.setRpcount(""+ArithUtil.mul(r.getReceiveAmount(), rp.getPiecenum()));
-					}
-					else
-					{
-						double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
-						double d2=ArithUtil.mul(d1, r.getReceiveAmount());//乘法
-						double d3=ArithUtil.round(d2, 3);//四舍五入,保留x位
-						rp.setRpcount(""+d3);//组件总数量
-					}
-					rp.setRepairin(r);
-					this.rpService.save(rp);
+					rp.setProductnum(Double.parseDouble("1"));
+					rp.setRpcount(""+ArithUtil.mul(r.getReceiveAmount(), rp.getPiecenum()));
 				}
+				else
+				{
+					Double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
+					Double d2=ArithUtil.mul(d1, r.getReceiveAmount());//乘法
+					Double d3=ArithUtil.round(d2, 3);//四舍五入,保留x位
+					rp.setRpcount(""+d3);//组件总数量
+				}
+				rp.setRepairin(r);
+				this.rpService.save(rp);
 			}
 		}
 	}

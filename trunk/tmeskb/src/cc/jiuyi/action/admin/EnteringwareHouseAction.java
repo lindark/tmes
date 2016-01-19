@@ -116,9 +116,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		ratio = unitConversionService.getRatioByCode(UNITCODE);
-		if (ratio == null && ratio.equals("")) {
-           return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
+		System.out.println(workingBillId);
+		WorkingBill workingbill = workingBillService.get(workingBillId);
+		System.out.println(workingbill);
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		System.out.println(ratio);
+		if (ratio == null || ratio.equals("")) {
+           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}
 		Admin admin = adminService.getByCardnum(cardnumber);
 
@@ -149,7 +153,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		try {
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
-			//List<EnteringwareHouse> enteringList=new ArrayList<EnteringwareHouse>();
 			for(EnteringwareHouse e:aufnr){
 				if("E".equalsIgnoreCase(e.getE_type()))
 				{
@@ -158,7 +161,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				
 			}	
 
-			enteringwareHouseService.updateState(list, CONFIRMED, workingBillId,
+			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingBillId,
 					ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -185,7 +188,17 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		ratio = unitConversionService.getRatioByCode(UNITCODE);
+		WorkingBill workingbill = workingBillService.get(workingBillId);
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		if (ratio == null || ratio.equals("")) {
+	           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
+			}
+		Admin admin = adminService.getByCardnum(cardnumber);
+		
+		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
+		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+		ThinkWayUtil util = new ThinkWayUtil();
+		String budat = util.SystemDate();// 过账日期
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			enteringwareHouse = enteringwareHouseService.load(ids[i]);
@@ -195,7 +208,35 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		
-		enteringwareHouseService.updateState(list, UNDO, workingBillId, ratio,cardnumber);
+		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
+		for(EnteringwareHouse e:list){
+			e.setBudat(budat);
+			e.setWerks(werks);
+			e.setLgort(warehouse);
+			e.setMoveType("102");
+			e.setStorageAmount(e.getStorageAmount()*ratio);
+			enterList.add(e);
+		}
+		try {
+			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
+			for(EnteringwareHouse e:aufnr){
+				if("E".equalsIgnoreCase(e.getE_type()))
+				{
+					return this.ajaxJsonErrorMessage(e.getE_message());
+				}
+				
+			}	
+
+			enteringwareHouseService.updateState(aufnr, UNDO, workingBillId, ratio,cardnumber);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (CustomerException e1) {
+			e1.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		workingbill = workingBillService.get(workingBillId);
 		List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);

@@ -67,6 +67,7 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 			locationonside.setMaterialName(table01.getString("MAKTX"));// 物料描述
 			locationonside.setLocationCode(table01.getString("LGORT"));// 库存地点
 			locationonside.setAmount(table01.getString("LABST"));// 非限制使用数量
+			locationonside.setCharg(table01.getString("CHARG"));//批次
 			locationonsideList.add(locationonside);
 		}
 		return locationonsideList;

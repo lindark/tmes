@@ -51,7 +51,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
 	private static final String steus="PP02";
-	private static final String UNITCODE = "1001";
+	private static final String UNITCODE = "CAR";
 
 	private DailyWork dailyWork;
 	private String workingBillId;
@@ -143,14 +143,18 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 保存
 	public String creditsave() throws Exception {
 		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
-		Products products = productsService.getByPcode(workingBill.getMatnr());
-		String time = ThinkWayUtil.formatdateDate(products.getCreateDate());
-		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),time);
+		//Products products = productsService.getByPcode(workingBill.getMatnr());
+		//String time = ThinkWayUtil.formatdateDate(workingBill.get);
+		System.out.println(workingBill.getProductDate());
+		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
 		List<String> ProcessRouteIdList = new ArrayList<String>();
 		for(ProcessRoute pr:processrouteList){
 			ProcessRouteIdList.add(pr.getId());
 		}
 		String process = processRouteService.getProcess(ProcessRouteIdList,steus);
+		if (process == null || process.equals("")) {
+	           return ajaxJsonErrorMessage("未找到所对应的工序!");
+			}
 		dailyWork.setProcessCode(process);
 		if (dailyWork.getEnterAmount() == null
 				|| String.valueOf(dailyWork.getEnterAmount()).matches(
@@ -187,7 +191,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		//ratio = unitConversionService.getRatioByCode(UNITCODE);
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
@@ -244,7 +248,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr());
+		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		//ratio = unitConversionService.getRatioByCode(UNITCODE);
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");

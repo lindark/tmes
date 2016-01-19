@@ -2,23 +2,18 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.dao.EndProductDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EndProduct;
@@ -117,7 +112,7 @@ public class EndProductAction extends BaseAdminAction {
 		List<EndProduct> lst = new ArrayList<EndProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {
 			EndProduct endProduct = (EndProduct) endProductList.get(i);
-			endProduct.setState(ThinkWayUtil.getDictValueByDictKey(dictService,
+			endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,
 					"endProState", endProduct.getState()));
 			if (endProduct.getConfirmName() != null) {
 				endProduct.setConfirmName(endProduct.getConfirmName());
@@ -207,6 +202,8 @@ public class EndProductAction extends BaseAdminAction {
 		
 	}
 	public String creditApproval(){
+		String message = "";
+		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			//endProductService.updateApprovalEndProduct(ids,admin);
@@ -217,17 +214,58 @@ public class EndProductAction extends BaseAdminAction {
 					ed.setConfirmUser(admin.getUsername());
 					ed.setConfirmName(admin.getName());
 					ed.setState("2");
+					ed.setBudate(ThinkWayUtil.SystemDate());
+					ed.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					ed.setMoveType("311");
 					endProductList.add(ed);
 				}
 			}
-			List<EndProduct> EndProductCrt = eprfc.EndProductCrt("", endProductList);
-			
+			endProductCrt = eprfc.EndProductCrt("X", endProductList);
+			boolean flag = true;
+			for(EndProduct epc : endProductCrt){
+				String e_type = epc.getE_type();
+				if (e_type.equals("E")) { // 如果有一行发生了错误
+					flag = false;
+					message += epc.getE_message();
+				}
+			}
+				if (!flag)
+					return ajaxJsonErrorMessage(message);
+				else {
+					flag = true;
+					endProductCrt = eprfc.EndProductCrt("", endProductList);
+					for(EndProduct epc : endProductCrt){
+						String e_type = epc.getE_type();
+						String e_message = epc.getE_message();
+						String ex_mblnr = epc.getEx_mblnr();
+						if (e_type.equals("E")) { // 如果有一行发生了错误
+							flag = false;
+							message += epc.getE_message();
+						}else{
+							EndProduct ep = endProductService.get(epc.getId());
+							ep.setMblnr(ex_mblnr);
+							endProductService.update(ep);
+						}
+					}
+					if (!flag)
+						return ajaxJsonErrorMessage(message);
+			}
 			return ajaxJsonSuccessMessage("保存成功!"); 
 		} catch (Exception e) {
 			return ajaxJsonErrorMessage("确认失败，请重试");
 		}
 		
 	}
+	public String view(){
+		if(endProduct==null){
+			endProduct = new EndProduct();
+		}
+		endProduct = endProductService.get(id);
+		return VIEW;
+	}
+	
+	
+	
 	
 	// 获取所有状态
 	public List<Dict> getAllSite(){

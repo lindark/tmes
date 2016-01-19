@@ -17,6 +17,7 @@ import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.util.CustomerException;
 
@@ -34,7 +35,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 	@Resource
 	private DumpRfcImpl dumpRfc;
 	@Resource
-	private DumpDetailDao dumpDetailDao;
+	private DumpDetailService dumpDetailService;
 
 	@Resource
 	public void setBaseDao(DumpDao dumpDao) {
@@ -64,7 +65,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 				if (ids[i].equals(dump.getVoucherId())) {
 					dump.setConfirmUser(admin);
 					dump.setState("1");
-					dumpDao.save(dump);
+					this.merge(dump);
 				}
 			}
 		}
@@ -78,7 +79,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 			for (int j = 0; j < dDList.size(); j++) {
 				DumpDetail dumpDetail = dDList.get(j);
 				dumpDetail.setDump(dump);
-				dumpDetailDao.save(dumpDetail);
+				dumpDetailService.merge(dumpDetail);
 			}
 		}
 

@@ -46,9 +46,9 @@ jQuery(function($) {
 			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'mblnr',index:'mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stockMout',index:'stockMout',search:false,label:"入库数量", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'state',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},		 
+			{name:'xstate',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=endProState"}},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
-		], 
+			], 
 
 		viewrecords : true,
 		rowNum:10,
@@ -81,6 +81,8 @@ jQuery(function($) {
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
+		alert(rawObject.state);
+		
 		//未确认
 		if(rawObject.state=="1")
 		{

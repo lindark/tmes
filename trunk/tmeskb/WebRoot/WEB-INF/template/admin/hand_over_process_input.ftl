@@ -49,6 +49,18 @@ body {
 							<form id="inputForm" class="validate"
 								action="#"
 								method="post">
+								<div class="operateBar">
+									<div class="profile-info-row">
+										 <div class="profile-info-name">提交人:</div>
+										 <div class="profile-info-value">
+										 	${(handOverProcess.submitadmin.name)! }
+										 </div>
+										 <div class="profile-info-name">确认人:</div>
+										 <div class="profile-info-value">
+										 	${(handOverProcess.approvaladmin.name)! }
+										 </div>
+									</div>
+								</div>
 								
 								<table class="table table-striped table-bordered">
 									<thead>

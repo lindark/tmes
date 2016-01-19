@@ -63,6 +63,9 @@ public class ThinkWayUtil {
 	public static Integer null2o(Integer s) {
 		return  (s != null ? s : 0);
 	}
+	public static String null2o(String s) {
+		return (s != null ? s : "0");
+	}
 
 	/**
 	 * @param datetime

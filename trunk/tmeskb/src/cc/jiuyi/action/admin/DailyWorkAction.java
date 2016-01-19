@@ -196,10 +196,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}
-		ratio = unitConversionService.getRatioByCode(UNITCODE);
-		if (ratio == null && ratio.equals("")) {
-           return ajaxJsonErrorMessage("请在基础汇率表中维护汇率编码为1001的换算数据!");
-		}
+		
 		try {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();

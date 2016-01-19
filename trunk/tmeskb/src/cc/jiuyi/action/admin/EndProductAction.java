@@ -66,12 +66,12 @@ public class EndProductAction extends BaseAdminAction {
 	
 	
 	public String list(){
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
-		}
 		admin = adminService.getLoginAdmin();
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行成本入库操作!");
+			return ERROR;
+		}
 		admin = adminService.get(admin.getId());
 		return LIST;
 	}

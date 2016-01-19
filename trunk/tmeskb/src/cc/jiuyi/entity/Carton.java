@@ -24,8 +24,8 @@ public class Carton extends BaseEntity {
 	private String E_MESSAGE;//付款信息
 	private String EX_MBLNR;//物料凭证
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
-	private String teamid;//本班组ID
-
+	private String teamshift;//班次
+	private String productDate;//生产日期
 	//假字段
 	private String xcreateUser;//创建人的名字
 	private String xconfirmUser;//确认人的名字
@@ -143,14 +143,24 @@ public class Carton extends BaseEntity {
 		EX_MBLNR = eX_MBLNR;
 	}
 
-	public String getTeamid()
+	public String getProductDate()
 	{
-		return teamid;
+		return productDate;
 	}
 
-	public void setTeamid(String teamid)
+	public void setProductDate(String productDate)
 	{
-		this.teamid = teamid;
+		this.productDate = productDate;
+	}
+
+	public String getTeamshift()
+	{
+		return teamshift;
+	}
+
+	public void setTeamshift(String teamshift)
+	{
+		this.teamshift = teamshift;
 	}
 	
 }

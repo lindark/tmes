@@ -46,7 +46,7 @@ function addpiece()
 			for(var i=0;i<info1.length;i++)
 			{
 				var info2=info1[i].split(",");//分列
-				//info2 --- 0主键ID 1组件编码 2组件名称 3产品数量  4组件数量
+				//info2 --- 0主键ID 1组件编码 2组件名称 3随工单(产品)数量  4组件数量
 				if(info2.length>1)
 				{
 					xhtml+="<tr>" +
@@ -179,10 +179,10 @@ function addcostcenter_event()
 function iscansave()
 {
 	var input_num=$("#input_num").val();//返修数量
-	var input_duty=$("#input_duty").val();//责任人/批次
+	//var input_duty=$("#input_duty").val();//责任人/批次
 	var input_part=$("#input_part").val();//返修部位
 	var input_costcenter=$("#input_costcenter").val();//成本中心
-	if(input_num==""||input_num==null||input_duty==""||input_duty==null||input_part==""||input_part==null||input_costcenter==""||input_costcenter==null)
+	if(input_num==""||input_num==null||input_part==""||input_part==null||input_costcenter==""||input_costcenter==null)
 	{
 		return false;
 	}

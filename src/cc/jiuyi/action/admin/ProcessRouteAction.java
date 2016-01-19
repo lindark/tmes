@@ -151,12 +151,6 @@ public class ProcessRouteAction extends BaseAdminAction {
 				p.setMatnr(p.getOrders().getMatnr());
 				p.setMaktx(p.getOrders().getMaktx());
 				p.setMujuntext(p.getOrders().getMujuntext());
-				
-//              p.setProductsCode(p.getProducts().getProductsCode());
-//              p.setProductsName(p.getProducts().getProductsName());
-//				cc.jiuyi.entity.Process process = processservice.get("processCode",p.getProcessCode());
-//				p.setProcessCode(process.getProcessCode());
-//				p.setProcessName(process.getProcessName());
 			}
 			pager.setList(list);
 			JsonConfig jsonConfig = new JsonConfig();

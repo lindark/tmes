@@ -125,8 +125,8 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 	}
 
 	@Override
-	public Integer getRatioByMatnr(String matnr) {
-		String hql = "select conversationRatio from UnitConversion where matnr=?";
-		return (Integer) getSession().createQuery(hql).setParameter(0, matnr).uniqueResult();
+	public Integer getRatioByMatnr(String matnr,String unitCode) {
+		String hql = "select conversationRatio from UnitConversion where matnr=? and unitCode=?";
+		return (Integer) getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, unitCode).uniqueResult();
 	}
 }

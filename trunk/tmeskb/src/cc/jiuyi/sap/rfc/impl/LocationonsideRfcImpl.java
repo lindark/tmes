@@ -22,11 +22,12 @@ import cc.jiuyi.util.TableModel;
 @Component
 public class LocationonsideRfcImpl extends BaserfcServiceImpl implements LocationonsideRfc {
 
-	public List<Locationonside> findWarehouse(String warehouse) throws IOException, CustomerException {
+	public List<Locationonside> findWarehouse(String warehouse,String werks) throws IOException, CustomerException {
 		super.setProperty("warehouse");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("LGORT", warehouse);//库存地点
+		parameter.put("WERKS", werks);
 		/******输入参数 end**/
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();

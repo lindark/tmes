@@ -21,6 +21,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.WorkingBillService;
@@ -57,6 +58,8 @@ public class CartonAction extends BaseAdminAction {
 	private WorkingBillService workingBillService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private AdminService adminService;
 
 	
 	/**
@@ -65,6 +68,12 @@ public class CartonAction extends BaseAdminAction {
 	 */
 	public String list() 
 	{
+		admin = adminService.getLoginAdmin();
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行领料操作!");
+			return ERROR;
+		}
 		return LIST;
 	}
 

@@ -66,7 +66,7 @@ public class DumpAction extends BaseAdminAction {
 		admin = adminService.get(loginid);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
-			addActionError("您当前未上班,不能进行领料操作!");
+			addActionError("您当前未上班,不能进行转储操作!");
 			return ERROR;
 		}
 		//admin = adminService.load(admin.getId());

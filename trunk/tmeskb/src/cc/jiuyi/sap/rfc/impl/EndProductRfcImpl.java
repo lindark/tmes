@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
@@ -16,6 +18,7 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 
+@Component
 public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProductRfc{
 
 	@Override
@@ -52,7 +55,7 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 		for(EndProduct e:list){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", e.getMaterialCode());//物料编码
-			item.put("ZSFSL", e.getStockMout());//数量
+			item.put("ZSFSL", e.getStockMout().toString());//数量
 			item.put("XUH",e.getId());//ID
 			item.put("CHARG", e.getMaterialBatch());//批次
 			arrList2.add(item);
@@ -62,6 +65,11 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 		super.setParameter(parameter);
 		super.setTable(tablemodelList);
 		/******执行 end******/
+		try {
+			SAPModel model = execBapi();//执行 并获取返回值
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表

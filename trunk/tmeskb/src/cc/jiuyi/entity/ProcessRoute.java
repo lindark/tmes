@@ -41,6 +41,18 @@ public class ProcessRoute extends BaseEntity{
 	private String isDel;
 	
 	
+	
+	/**
+	 * 冗余字段
+	 */
+	private String aufnr;//订单号
+	private String gstrp;//工艺开始日期
+	private String gltrp;//工艺结束日期
+	private String matnr;//物料编码
+	private String maktx;//物料描述
+	private String mujuntext;//长文本
+	
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Orders getOrders() {
 		return orders;
@@ -73,8 +85,6 @@ public class ProcessRoute extends BaseEntity{
 	public void setProductAmount(Double productAmount) {
 		this.productAmount = productAmount;
 	}
-
-	
 
 	public Integer getVersion() {
 		return version;
@@ -172,4 +182,59 @@ public class ProcessRoute extends BaseEntity{
 		this.isDel = isDel;
 	}
 
+	@Transient
+	public String getAufnr() {
+		return aufnr;
+	}
+	public void setAufnr(String aufnr) {
+		this.aufnr = aufnr;
+	}
+	
+	@Transient
+	public String getGstrp() {
+		return gstrp;
+	}
+
+	public void setGstrp(String gstrp) {
+		this.gstrp = gstrp;
+	}
+	
+	@Transient
+	public String getGltrp() {
+		return gltrp;
+	}
+
+	public void setGltrp(String gltrp) {
+		this.gltrp = gltrp;
+	}
+
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	@Transient
+	public String getMujuntext() {
+		return mujuntext;
+	}
+
+	public void setMujuntext(String mujuntext) {
+		this.mujuntext = mujuntext;
+	}
+
+	
+	
 }

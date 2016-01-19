@@ -125,8 +125,13 @@ body {
 														${(repairin.costcenter)!}
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
-														<span id="span_costcenter">${(repairin.costcenter)!}</span>
-														<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="${(repairin.costcenter)!}" />
+														<#if add??>
+															<span id="span_costcenter">10008431</span>
+															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="10008431" />
+														<#else>
+															<span id="span_costcenter">${(repairin.costcenter)!}</span>
+															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="${(repairin.costcenter)!}" />
+														</#if>
 														<label class="requireField">*</label>
 													</#if>
 												</div>
@@ -143,14 +148,14 @@ body {
 						                       				<input type="radio" id="repairintype_cp" class="ace" name="repairin.repairintype" value="CP"<#if (isAdd || repairin.repairintype == 'CP')!> checked</#if> />
 						                       				<span class="lbl middle"></span>
 					                        			</label>
-					                        			<!-- 
+					                        			<!-- -->
 					                        			&nbsp;&nbsp;			
 					                        			<label class="pull-left inline">
 					                            			<small class="muted smaller-90">组件:</small>
 						                        			<input type="radio" id="repairintype_zj" class="ace" name="repairin.repairintype" value="ZJ"<#if (repairin.repairintype == 'ZJ')!> checked</#if>  />
 						                         			<span class="lbl middle"></span>
 					                        			</label>
-					                        			 -->
+					                        			 
 													</#if>
 												</div>	
 											</div>

@@ -114,7 +114,7 @@ function getinfos(ids)
 	for(var i=0;i<ids.length;i++)
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-		var info=rowData.id+","+rowData.materialCode+","+rowData.materialName+","+rowData.productAmount+","+rowData.materialAmount;
+		var info=rowData.id+","+rowData.materialCode+","+rowData.materialName+","+rowData.xplancount+","+rowData.materialAmount;
 		infos+=info+"?";
 	}
 	return infos;

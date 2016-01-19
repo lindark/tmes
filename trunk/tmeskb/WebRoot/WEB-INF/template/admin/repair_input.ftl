@@ -145,7 +145,9 @@ body {
 														<input type="text" id="input_duty" name="repair.duty"
 															value="${(repair.duty)!}"
 															class=" input input-sm formText {required: true}" />
+														<!-- 
 														<label class="requireField">*</label>
+														 -->
 													</#if>
 												</div>
 												
@@ -175,14 +177,14 @@ body {
 						                       				<input type="radio" id="repairtype_cp" class="ace" name="repair.repairtype" value="CP"<#if (isAdd || repair.repairtype == 'CP')!> checked</#if> />
 						                       				<span class="lbl middle"></span>
 					                        			</label>
-					                        			<!-- 
+					                        			<!-- -->
 					                        			&nbsp;&nbsp;				
 					                        			<label class="pull-left inline">
 					                            			<small class="muted smaller-90">组件:</small>
 						                        			<input type="radio" id="repairtype_zj" class="ace" name="repair.repairtype" value="ZJ"<#if (repair.repairtype == 'ZJ')!> checked</#if>  />
 						                         			<span class="lbl middle"></span>
 					                        			</label>
-					                        			 -->
+					                        			 
 													</#if>
 												</div>	
 												
@@ -224,10 +226,11 @@ body {
 												<table id="tb_repairpiece" class="table table-striped table-bordered table-hover">
 													<#if show??>
 														<tr>
-															<th style="width:25%;">组件编码</th>
-															<th style="width:35%;">组件描述</th>
-															<th style="width:20%;">产品数量</th>
-															<th style="width:20%;">组件数量</th>
+															<th style="width:20%;">组件编码</th>
+															<th style="width:30%;">组件描述</th>
+															<th style="width:20%;">计划数量</th>
+															<th style="width:15%;">组件数量</th>
+															<th style="width:15%;">返修总数量</th>
 														</tr>
 														<#if list_rp??>
 															<#list list_rp as rplist>
@@ -236,6 +239,7 @@ body {
 																	<td>${(rplist.rpname)! }</td>
 																	<td>${(rplist.productnum)! }</td>
 																	<td>${(rplist.piecenum)! }</td>
+																	<td>${(rplist.rpcount)! }</td>
 																</tr>
 															</#list>
 														</#if>
@@ -243,7 +247,7 @@ body {
 														<tr>
 															<th style="width:20%;">组件编码</th>
 															<th style="width:35%;">组件描述</th>
-															<th style="width:15%;">产品数量</th>
+															<th style="width:15%;">计划数量</th>
 															<th style="width:15%;">组件数量</th>
 															<th style="width:15%;">操作</th>
 														</tr>

@@ -89,6 +89,12 @@ public class DailyWorkAction extends BaseAdminAction {
 	 */
 	public String list() {
 		admin = adminService.getLoginAdmin();
+		admin = adminService.getLoginAdmin();
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行领料操作!");
+			return ERROR;
+		}
 		workingbill = workingBillService.get(workingBillId);
 		return LIST;
 	}
@@ -220,6 +226,14 @@ public class DailyWorkAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}
 	}
+	
+	//input页面的刷卡确认
+	public String creditsubmit(){
+		
+		
+		return ajaxJsonSuccessMessage("您的操作已成功!");	
+	}
+	
 
 	// 刷卡撤销
 	public String creditundo() {

@@ -252,6 +252,7 @@ public class DumpAction extends BaseAdminAction {
 				if (dump.getState() == null) {
 					dump.setState(UNCONFIRMED);
 				}
+				
 				if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
 					dumps.add(dump);
 				}

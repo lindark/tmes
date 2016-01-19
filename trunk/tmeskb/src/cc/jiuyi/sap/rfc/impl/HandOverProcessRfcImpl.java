@@ -48,8 +48,8 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 				amounts = amounts + repairamounts;
 				item.put("ZSFSL", amounts.toString());//数量
 			}else{
-				Integer amount = ThinkWayUtil.null2o(p.getAmount());
-				Integer repairamount = ThinkWayUtil.null2o(p.getRepairAmount());
+				Double amount = ThinkWayUtil.null2o(p.getAmount());
+				Double repairamount = ThinkWayUtil.null2o(p.getRepairAmount());
 				amount = amount + repairamount;
 				item.put("ZSFSL", amount.toString());//数量
 			}

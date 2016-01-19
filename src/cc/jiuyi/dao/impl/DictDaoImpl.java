@@ -75,7 +75,7 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	@Override
 	public List<Dict> getSate(String dictname)
 	{
-		String hql="from Dict as a where a.dictname=?";
+		String hql="from Dict as a where a.dictname=? order by a.orderList asc";
 		return this.getSession().createQuery(hql).setParameter(0, dictname).list();
 	}
 	

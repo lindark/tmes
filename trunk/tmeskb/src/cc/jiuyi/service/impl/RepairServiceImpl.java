@@ -16,14 +16,12 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutCalculateBase;
-import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
 
 /**
@@ -47,8 +45,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	private MaterialService mService;//物料表
 	@Resource
 	private RepairPieceService rpService;//组件表
-	@Resource
-	private WorkingInoutService wiService;
+	//@Resource
+	//private WorkingInoutService wiService;
 
 	/**===========================================================*/
 	@Override
@@ -105,12 +103,15 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			r.setE_MESSAGE(repair.getE_MESSAGE());//返回消息
 			r.setEX_MBLNR(repair.getEX_MBLNR());//返回物料凭证
 			WorkingBill wb = workingbillService.get(wbid);
-			wb.setRepairamount(ArithUtil.sub(wb.getCartonTotalAmount(),repair.getRepairAmount()));
+			Double d1=ArithUtil.sub(wb.getRepairamount(),repair.getRepairAmount());//返修,返修收货共用数量
+			Double d2=ArithUtil.add(wb.getTotalRepairAmount(),repair.getRepairAmount());//投入产出数量
+			wb.setRepairamount(d1);//返修,返修收货共用数量
+			wb.setTotalRepairAmount(d2.intValue());//投入产出数量
 			this.workingbillService.update(wb);
-			List<RepairPiece>list_rp=new ArrayList<RepairPiece>(r.getRpieceSet());
+			/*List<RepairPiece>list_rp=new ArrayList<RepairPiece>(r.getRpieceSet());
 			HashMap<String,Object>map=new HashMap<String,Object>();
 			map.put("wbid", wbid);//随工单ID
-			updateWorkingInoutCalculate(list_rp,map);
+			updateWorkingInoutCalculate(list_rp,map);*/
 		}
 		this.update(r);
 	}
@@ -292,7 +293,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	 */
 	public void updateWorkingInoutCalculate(List<RepairPiece> list_rp,HashMap<String, Object> map)
 	{
-		for(int i=0;i<list_rp.size();i++)
+		/*for(int i=0;i<list_rp.size();i++)
 		{
 			RepairPiece rp=list_rp.get(i);
 			String wbid=map.get("wbid").toString();//随工单ID
@@ -312,7 +313,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			}
 			else
 			{
-				/**新增*/
+				*//**新增*//*
 				WorkingBill wb=this.workingbillService.get(wbid);//根据ID查询一条
 				WorkingInout w=new WorkingInout();
 				w.setWorkingbill(wb);//随工单
@@ -322,6 +323,6 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				w.setModifyDate(new Date());//初始化修改日期
 				this.wiService.save(w);
 			}
-		}
+		}*/
 	}
 }

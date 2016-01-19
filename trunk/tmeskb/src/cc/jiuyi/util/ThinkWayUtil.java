@@ -320,4 +320,10 @@ public class ThinkWayUtil {
         return request.getRemoteAddr();
     }
 
+	public static boolean isPass(Admin admin) {
+		if (!admin.getWorkstate().equals("2")) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -105,7 +105,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			r.setE_MESSAGE(repair.getE_MESSAGE());//返回消息
 			r.setEX_MBLNR(repair.getEX_MBLNR());//返回物料凭证
 			WorkingBill wb = workingbillService.get(wbid);
-			wb.setRepairamount(Integer.parseInt(ArithUtil.sub(wb.getCartonTotalAmount(),repair.getRepairAmount())+""));
+			wb.setRepairamount(ArithUtil.sub(wb.getCartonTotalAmount(),repair.getRepairAmount()));
 			this.workingbillService.update(wb);
 			List<RepairPiece>list_rp=new ArrayList<RepairPiece>(r.getRpieceSet());
 			HashMap<String,Object>map=new HashMap<String,Object>();

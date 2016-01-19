@@ -55,7 +55,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	 */
 	@Override
 	public synchronized void updateState(List<DailyWork> list,String state,
-			String workingbillid, String cardnumber) throws IOException,
+			String workingbillid,String ratio, String cardnumber) throws IOException,
 			CustomerException {
 		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
 		Admin admin = adminservice.getByCardnum(cardnumber);
@@ -92,6 +92,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		maps.put("id",workingbillid);
 		maps.put("state", state);
 		maps.put("cardno", cardnumber);
+		maps.put("ratio", ratio);
 
 		updateWorkingInoutCalculate(list,maps);
 		/*//若成功则更新数据库
@@ -117,7 +118,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 	 * 刷卡撤销
 	 */
 	@Override
-	public void updateState2(List<DailyWork> list,String state,String workingbillid,
+	public void updateState2(List<DailyWork> list,String state,String workingbillid,String ratio,
 			String cardnumber) throws IOException, CustomerException {
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		List<DailyWork> dailyWorkList = new ArrayList<DailyWork>();
@@ -151,6 +152,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			maps.put("id",workingbillid);
 			maps.put("state", state);
 			maps.put("cardno", cardnumber);
+			maps.put("ratio", ratio);
 			
 			updateWorkingInoutCalculate(list,maps);
 			/*WorkingBill workingbill = workingbillService.get(workingbillid);
@@ -180,6 +182,8 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		Admin admin = adminservice.getByCardnum(card);
 		String workid=(String)maps.get("id");
 		String state=(String)maps.get("state");
+		String ratio=(String)maps.get("ratio");
+		Integer ratio1=Integer.parseInt(ratio);
 		
 		WorkingBill workingbill = workingbillService.get(workid);
 		Double totalamount = workingbill.getDailyWorkTotalAmount();
@@ -200,7 +204,12 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			}else{
 				workingbill.setChecknum5("5");
 			}
-			
+             
+			String CONF_NO = dailyWork.getCONF_NO();// 确认号
+			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+			dailyWork.setCONF_NO(CONF_NO);
+			dailyWork.setCONF_CNT(CONF_CNT);
+			dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
 			dailyWork.setConfirmUser(admin);
 			dailyWork.setState("1");			
 			this.update(dailyWork);
@@ -224,6 +233,11 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 					workingbill.setChecknum5("5");
 				}
 				
+				dailyWork.setEnterAmount(dailyWork.getEnterAmount()/ratio1);
+				String CONF_NO = dailyWork.getCONF_NO();// 确认号
+				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
+				dailyWork.setCONF_NO(CONF_NO);
+				dailyWork.setCONF_CNT(CONF_CNT);
 				dailyWork.setConfirmUser(admin);
 				dailyWork.setState("3");				
 				this.update(dailyWork);

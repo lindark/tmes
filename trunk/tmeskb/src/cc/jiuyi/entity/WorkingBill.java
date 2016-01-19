@@ -31,6 +31,8 @@ public class WorkingBill extends BaseEntity {
 	private String werks;//工厂
 	private Integer amount;//交接数量
 	private Integer repairamount;//返修交接数量
+	private Double afteroddamount;//接上班正常零头数
+	private Double afterunoddamount;//接上班异常零头数
 	private Integer bomversion;//BOM版本
 	private Integer processversion;//工艺路线版本
 	private String aufnr;//订单号
@@ -404,6 +406,18 @@ public class WorkingBill extends BaseEntity {
 	}
 	public void setChecknum5(String checknum5) {
 		this.checknum5 = checknum5;
+	}
+	public Double getAfteroddamount() {
+		return afteroddamount;
+	}
+	public void setAfteroddamount(Double afteroddamount) {
+		this.afteroddamount = afteroddamount;
+	}
+	public Double getAfterunoddamount() {
+		return afterunoddamount;
+	}
+	public void setAfterunoddamount(Double afterunoddamount) {
+		this.afterunoddamount = afterunoddamount;
 	}
 
 

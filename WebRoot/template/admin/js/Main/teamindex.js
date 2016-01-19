@@ -262,7 +262,7 @@ $(function() {
 			//alert(loginid);
 		if (istrue) 
 		{
-			window.location.href = "end_product!add.action";
+			window.location.href = "end_product!list.action";
 		}
 	});
 	

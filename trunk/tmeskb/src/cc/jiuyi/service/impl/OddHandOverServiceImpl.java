@@ -21,4 +21,8 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 	public void setBaseDao(OddHandOverDao oddHandOverDao) {
 		super.setBaseDao(oddHandOverDao);
 	}
+
+	public OddHandOver findHandOver(String workingBillCode) {
+		return oddHandOverDao.findHandOver(workingBillCode);
+	}
 }

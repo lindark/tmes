@@ -131,7 +131,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		handover.setState("3");
 		handover.setApprovaladmin(admin);
 		handOverService.update(handover);
-		
 		/**班组下班**/
 		Team team = admin.getDepartment().getTeam();//取得班组
 		team.setIsWork("N");

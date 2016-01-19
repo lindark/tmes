@@ -19,25 +19,17 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.sap.rfc.MatnrRfc;
-import cc.jiuyi.sap.rfc.impl.MaterialRfcImpl;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
 
 /**
  * 后台Action类-产品Bom管理
@@ -109,12 +101,8 @@ public class MaterialAction extends BaseAdminAction {
 	}
 	
 	//列表
-	public String list(){
-		if(pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
-		}
+	public String list()
+	{
 		return LIST;
 	}
 	
@@ -126,10 +114,12 @@ public class MaterialAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+		if(pager==null)
+		{
+			pager=new Pager();
 		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
@@ -158,7 +148,19 @@ public class MaterialAction extends BaseAdminAction {
 			List<Material> lst = new ArrayList<Material>();
 			for (int i = 0; i < materialList.size(); i++) {
 				Material material  = (Material)materialList.get(i);
-				material.setFactoryName(material.getFactory().getFactoryName());
+				
+				if(material.getFactoryunit()!=null)
+				{
+					material.setXfactoryunit(material.getFactoryunit().getFactoryUnitName());//单元名称
+					if(material.getFactoryunit().getWorkShop()!=null)
+					{
+						material.setXworkshop(material.getFactoryunit().getWorkShop().getWorkShopName());//车间名称
+						if(material.getFactoryunit().getWorkShop().getFactory()!=null)
+						{
+							material.setXfactory(material.getFactoryunit().getWorkShop().getFactory().getFactoryName());//工厂名称
+						}
+					}
+				}
 				lst.add(material);
 			}
 		pager.setList(lst);
@@ -181,19 +183,18 @@ public class MaterialAction extends BaseAdminAction {
 
 	
 	//编辑
-		public String edit(){
-			material= materialService.load(id);
-			return INPUT;	
-		}
-		
-
-		public String update() {
-			Material persistent = materialService.load(id);
-			BeanUtils.copyProperties(material, persistent, new String[] { "id","createDate", "modifyDate"});
-			materialService.update(persistent);
-			redirectionUrl = "material!list.action";
-			return SUCCESS;
-		}
+	public String edit(){
+		material= materialService.load(id);
+		return INPUT;	
+	}
+	
+	public String update() {
+		Material persistent = materialService.load(id);
+		BeanUtils.copyProperties(material, persistent, new String[] { "id","createDate", "modifyDate"});
+		materialService.update(persistent);
+		redirectionUrl = "material!list.action";
+		return SUCCESS;
+	}
 		
 	//保存
 	

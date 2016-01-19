@@ -110,11 +110,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[0], workingbill.getWorkingBillCode());
 			map.put(strlen[1], workinginout.getMaterialCode());
 			map.put(strlen[2], workingbill.getPlanCount());
-			OddHandOver oddhandover = oddhandoverservice.findHandOver(workingbill.getWorkingBillCode());
-			if(oddhandover == null)
-				map.put(strlen[3], "0");
-			else
-				map.put(strlen[3], ThinkWayUtil.null2o(oddhandover.getActualBomMount()));
+			map.put(strlen[3], workingbill.getAfteroddamount());//接上班包装数
+			map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常包装数
 			
 			//map.put(strlen[3], );
 			for(int y=0;y<jsonarray.size();y++){

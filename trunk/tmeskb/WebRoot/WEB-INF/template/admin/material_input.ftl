@@ -9,6 +9,11 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/material_input.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -17,6 +22,7 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
 body{background:#fff;}
+.img_addfu{cursor:pointer;margin-left:1px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -93,17 +99,11 @@ body{background:#fff;}
 									
 						
 						             <div class="profile-info-row">
-										<div class="profile-info-name"> 工厂 </div>					
+										<div class="profile-info-name">单元 </div>			
 										<div class="profile-info-value">
-											<select class="chosen-select" name="material.factory.id" class="{required: true}"
-														style="width:200px;">
-														<option value="">请选择...</option> 
-														<#list factoryList as list>
-														<option value="${list.id}" <#if (list.id == material.factory.id)!> selected</#if>>${list.factoryCode} ${list.factoryName}</option>
-														</#list>
-											</select>
-											
-											
+											<img id="img_addfu" class="img_addfu" title="添加单元" alt="添加单元" src="${base}/template/shop/images/add_bug.gif" />
+											<span id="span_fu">${(material.factoryunit.id)!}</span>
+											<input type="hidden" id="input_fu" name="material.factoryunit.id" value="${(material.factoryunit.id)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>	
@@ -119,7 +119,7 @@ body{background:#fff;}
 						</div>
 				
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" id="btn_save" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>

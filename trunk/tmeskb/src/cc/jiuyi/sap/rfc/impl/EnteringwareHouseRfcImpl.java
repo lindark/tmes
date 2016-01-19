@@ -19,6 +19,7 @@ import com.sap.mw.jco.JCO.Table;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
@@ -30,6 +31,8 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 
 	@Resource
 	private DictService dictservice;
+	@Resource
+	private EnteringwareHouseService enteringwareHouseService;
 	@Override
 	public List<EnteringwareHouse> WarehousingCrt(String testrun,List<EnteringwareHouse> list)
 			throws IOException, CustomerException {
@@ -93,6 +96,8 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			//TODO 用流水号 跟DICT查出来的流水号前6位进行比较，如果一致 +1，如果不一致，则 重置后面流水号，反响更新dict.此处配合 Quartz 一起工作。
 			item.put("CHARG", lsh);//批次
 			arrList2.add(item);
+			e.setBatch(lsh);
+			enteringwareHouseService.update(e);			
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);

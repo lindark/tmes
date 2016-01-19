@@ -157,14 +157,19 @@
 													</div>
 	                                 
 	                                                <div class="profile-info-row">
-														<div class="profile-info-name">生产日期/班次:</div>
+														<div class="profile-info-name">班次</div>
+	
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${(admin.shift)!}</span>
+														</div>
+													</div>	
+	                                                <div class="profile-info-row">
+														<div class="profile-info-name">生产日期</div>
 	
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.productDate)!}</span>
 														</div>
-													</div>
-	                                                
-														
+													</div>													
 												</div>
 											</div>
 										</div>

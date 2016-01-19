@@ -44,6 +44,9 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 #ui-datepicker-div{
 	z-index:9999 !important;
 }
+.layui-layer-btn1{
+	display:none !important;
+}
 </style>
 
  
@@ -317,6 +320,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 												<th class="center">库存地点</th>
 												<th class="center">物料编码</th>
 												<th class="center">物料描述</th>
+												<th class="center">批次</th>
 												<th class="center">数量</th>
 											</tr>
 										</thead>
@@ -327,6 +331,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 													<td class="center">${list.locationCode }</td>
 													<td class="center">${list.materialCode }</td>
 													<td class="center">${list.materialName }</td>
+													<td class="center">${list.charg }</td>
 													<td class="center">${list.amount }	</td>
 												</tr>
 											</#list>

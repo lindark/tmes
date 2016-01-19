@@ -304,7 +304,7 @@ public class PickDetailAction extends BaseAdminAction {
 		}
 
 		/**同时保存主从表**/
-		pickDetailService.save(pickDetailList1, pick);
+		pickDetailService.saveSubmit(pickDetailList1, pick);
 		
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -361,7 +361,7 @@ public class PickDetailAction extends BaseAdminAction {
 		if(flag == false){
 			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 		}
-		String pk=pickDetailService.save(pickDetailList1, pick); 
+		String pk=pickDetailService.saveApproval(pickDetailList1, pick); 
 		Pick pick3=pickService.get(pk);
 		pickList.add(pick);
 		pkList=pickDetailService.getPickDetail(pick3.getId());

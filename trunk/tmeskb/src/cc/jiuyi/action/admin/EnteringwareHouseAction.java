@@ -20,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.EnteringwareHouse;
+import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
 import cc.jiuyi.service.AdminService;
@@ -116,12 +117,10 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String creditapproval() {
-		System.out.println(workingBillId);
+	public String creditapproval() {		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		System.out.println(workingbill);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
-		System.out.println(ratio);
+		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}
@@ -190,7 +189,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
 	           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 			}

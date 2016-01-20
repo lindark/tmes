@@ -145,7 +145,6 @@ public class DailyWorkAction extends BaseAdminAction {
 		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
 		//Products products = productsService.getByPcode(workingBill.getMatnr());
 		//String time = ThinkWayUtil.formatdateDate(workingBill.get);
-		System.out.println(workingBill.getProductDate());
 		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
 		List<String> ProcessRouteIdList = new ArrayList<String>();
 		for(ProcessRoute pr:processrouteList){

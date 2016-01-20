@@ -76,13 +76,14 @@ inupt.stockMout{
 								    	<li><a href="#tabs-1"><#if isAdd??>添加中转仓<#else>编辑中转仓</#if></a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
-									<#if isAdd??>				
+													
 									<div class="site">接收库存地点:
 										<select name="info" style="margin-right:30px;">
 											<#list allSite as als>
 											<option value="${als.dictkey}" <#if als.dictkey=="2801">selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
+										<#if isAdd??>
 											<label class="" style="text-align:right">物料编码:</label>
 											<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}" >&nbsp;&nbsp;&nbsp;
 											<label class="" style="text-align:right">物料描述:</label>
@@ -91,8 +92,9 @@ inupt.stockMout{
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											</#if>
 									</div>
-									</#if>
+									
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">

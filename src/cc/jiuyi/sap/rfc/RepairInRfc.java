@@ -16,7 +16,7 @@ import cc.jiuyi.util.CustomerException;
 public interface RepairInRfc extends BaserfcService
 {
 
-	public Repairin repairinCrt(Repairin repairin, List<RepairinPiece> list_rp)
+	public Repairin repairinCrt(String testrun,Repairin repairin, List<RepairinPiece> list_rp)
 			throws IOException, CustomerException;
 
 }

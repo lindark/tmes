@@ -61,7 +61,6 @@ public class OddHandOverAction extends BaseAdminAction {
 		//获取当前登录人信息
 		//Admin admin = adminService.getLoginAdmin();
 		//admin = adminService.get(admin.getId());
-		Set<OddHandOver> ohoSet = new HashSet<OddHandOver>();
 		//获取维护物料信息
 		List<Material> materialList = materialService.getAll();
 			if(materialList!=null && materialList.size()>0){
@@ -72,9 +71,9 @@ public class OddHandOverAction extends BaseAdminAction {
 								
 								//若存在先删除
 								try {
-									ohoSet = wb.getOddHandOverSet();
-									if(ohoSet!=null && ohoSet.size()>0){
-										for(OddHandOver oho : ohoSet){
+									List<OddHandOver> ohoSets = new ArrayList<OddHandOver>(wb.getOddHandOverSet());
+									if(ohoSets!=null && ohoSets.size()>0){
+										for(OddHandOver oho : ohoSets){
 											oddHandOverService.delete(oho);
 										}
 									}

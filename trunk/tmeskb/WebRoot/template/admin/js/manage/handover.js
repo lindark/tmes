@@ -7,7 +7,7 @@ $(function(){
 	$maclick.click(function(){
 		var shift = $("#sl_sh").val();
 		if(shift==""){
-			alert("请选择班次");
+			layer.alert("请选择班次");
 			return false;
 		}
 		var materialCode = $(this).find(".materialCode").text();

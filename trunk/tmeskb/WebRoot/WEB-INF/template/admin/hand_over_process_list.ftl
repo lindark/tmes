@@ -427,19 +427,19 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 		$("#creditapproval").click(function(){
 			var shift = $("#sl_sh").val();
 			if(shift==""){
-				alert("请选择班次");
+				layer.alert("请选择班次");
 				return false;
 			}
 			var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
-					alert("数据错误,无法查询到下一班随工单");
+					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
 			}
 			var productDate = $("#productDate").val();
 			if(productDate==""){
-				alert("生产日期不允许为空");
+				layer.alert("生产日期不允许为空");
 				return false;
 			}else{
 					// 统一日期格式
@@ -448,13 +448,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					if(beforelength==9){
 						var befores = productDate.charAt(beforelength-1);
 						if(befores=="0"){
-							alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+							layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
 							return false;
 						}
 					}
 					  //判断日期是否是预期的格式
 					  if (!strDate.test(productDate)) {
-					    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+						  layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
 					    return false;
 					  }
 			}
@@ -476,13 +476,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 		$("#creditsubmit").click(function(){
 			var shift = $("#sl_sh").val();
 			if(shift==""){
-				alert("请选择班次");
+				layer.alert("请选择班次");
 				return false;
 			}
 			var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
-					alert("数据错误,无法查询到下一班随工单");
+					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
 			}
@@ -528,13 +528,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 		$("#oddcreditsubmit").click(function(){
 			var shift = $("#sl_sh").val();
 			if(shift==""){
-				alert("请选择班次");
+				layer.alert("请选择班次");
 				return false;
 			}
 			var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
-					alert("数据错误,无法查询到下一班随工单");
+					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
 			}
@@ -549,15 +549,16 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 		
 		//零头交接确认
 		$("#oddcreditapproval").click(function(){
+			
 			var shift = $("#sl_sh").val();
 			if(shift==""){
-				alert("请选择班次");
+				layer.alert("请选择班次");
 				return false;
 			}
 			var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
-					alert("数据错误,无法查询到下一班随工单");
+					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
 			}
@@ -658,7 +659,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 						}
 					},
 					error:function(){
-						alert("操作失败");
+						layer.alert("操作失败");
 					}
 				});  
 			
@@ -675,14 +676,14 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					if(beforelength==9){
 						var befores = $(this).val().charAt(beforelength-1);
 						if(befores=="0"){
-							alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+							layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
 							$(this).val(productDates);
 							return false;
 						}
 					}
 					  //判断日期是否是预期的格式
 					  if (!strDate.test($(this).val())) {
-					    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+						  layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
 					    $(this).val(productDates);
 					    return false;
 					  }
@@ -714,7 +715,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 								}
 							},
 							error:function(){
-								alert("操作失败");
+								layer.alert("操作失败");
 							}
 						});  
 					  

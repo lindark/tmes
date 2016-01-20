@@ -42,7 +42,7 @@ public interface UnitConversionService extends BaseService<UnitConversion, Strin
 	public Integer getRatioByCode(String unitCode);
 	
 	/*根据物料编码查询对应比例*/
-	public Integer getRatioByMatnr(String matnr,String unitCode);
+	public UnitConversion getRatioByMatnr(String matnr,String unitCode);
 	
 	public void saveorupdate(List<UnitConversion> unitConversionList);
 

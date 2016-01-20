@@ -71,7 +71,7 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 	}
 
 	@Override
-	public Integer getRatioByMatnr(String matnr,String unitCode) {
+	public UnitConversion getRatioByMatnr(String matnr,String unitCode) {
 		return unitConversionDao.getRatioByMatnr(matnr,unitCode);
 	}
 

@@ -102,20 +102,20 @@ public class UnitConversionAction extends BaseAdminAction {
 				String unitConversionCode = obj.getString("unitCode").toString();
 				map.put("unitCode", unitConversionCode);
 			}
-			if (obj.get("unitDescription") != null) {
-				String unitConversionName = obj.getString("unitDescription").toString();
-				map.put("unitDescription", unitConversionName);
+			if (obj.get("matnr") != null) {
+				String matnr = obj.getString("matnr").toString();
+				map.put("matnr", matnr);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
 			}
-			if(obj.get("start")!=null&&obj.get("end")!=null){
+			/*if(obj.get("start")!=null&&obj.get("end")!=null){
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
-			}
+			}*/
 		}
 
 			pager = unitConversionService.getUnitConversionPager(pager, map);

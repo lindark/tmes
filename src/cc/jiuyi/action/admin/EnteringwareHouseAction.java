@@ -243,10 +243,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			enteringwareHouseService.updateState(aufnr, UNDO, workingbill, ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch (Exception e) {
 			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
 		

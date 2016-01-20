@@ -90,12 +90,12 @@ public class PickAction extends BaseAdminAction {
 			pager.setOrderBy("orderList");
 		}
 		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
-		}
-		admin = adminService.get(admin.getId());
+		}		
 		this.workingbill = workingBillService.get(workingBillId);
 		return LIST;
 	}

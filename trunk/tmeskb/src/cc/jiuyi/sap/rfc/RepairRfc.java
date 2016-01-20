@@ -11,5 +11,5 @@ public interface RepairRfc  extends BaserfcService{
 /**
  * 反修接口
  */
-public Repair repairCrt(Repair repair,List<RepairPiece> list_rp) throws IOException,CustomerException;
+public Repair repairCrt(String testrun,Repair repair,List<RepairPiece> list_rp) throws IOException,CustomerException;
 }

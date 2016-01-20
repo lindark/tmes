@@ -33,10 +33,10 @@ public interface HandOverProcessDao extends BaseDao<HandOverProcess,String> {
 	 * 根据组件编码，工序ID，产品编码获取对象
 	 * @param materialCode 组件编码
 	 * @param processid 工序ID
-	 * @param matnr 产品编码
+	 * @param 
 	 * @return
 	 */
-	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr,String workingBillId);
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String workingBillId);
 	
 	/**
 	 * 根据propertyName + objlist 的结果集 排序

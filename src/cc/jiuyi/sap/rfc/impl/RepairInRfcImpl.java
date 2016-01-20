@@ -21,12 +21,13 @@ import cc.jiuyi.util.TableModel;
 public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 {
 
-	public Repairin repairinCrt(Repairin repairin, List<RepairinPiece> list_rp)
+	public Repairin repairinCrt(String testrun,Repairin repairin, List<RepairinPiece> list_rp)
 			throws IOException, CustomerException
 	{
 		super.setProperty("repairin");// 根据配置文件读取到函数名称
 		/****** 输入参数 ******/
 		HashMap<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("IS_COMMIT", testrun);
 		/****** 输入表 ******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String, Object>> arrList = new ArrayList<HashMap<String, Object>>();

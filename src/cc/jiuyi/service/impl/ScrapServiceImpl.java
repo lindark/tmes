@@ -73,6 +73,10 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		Admin admin=this.adminService.getByCardnum(cardNumber);
 		WorkingBill wb = wbService.get(scrap.getWorkingBill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
+		String item_text=workingBillCode.substring(workingBillCode.length()-2);
+		String productdate=wb.getProductDate();
+		productdate=productdate.replace("-","").substring(2);
+		String charg=productdate+item_text;
 		//报废主表
 		scrap.setState("1");
 		scrap.setCreater(admin);//提交人
@@ -100,8 +104,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if(str!=null&&!"".equals(str)&&!"0".equals(str))
 				{
 					sl.setCreateDate(new Date());//初始化创建日期
-					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+					sl.setItem_text(item_text);//抬头文本 SAP测试数据随工单位最后两位
 					sl.setOrderid(wb.getAufnr());//订单号
+					sl.setCharg(charg);//批次
 					sl.setScrap(scp);
 					this.slaterService.save(sl);
 				}
@@ -118,6 +123,10 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		Scrap scp=this.get(scrap.getId());//当前报废(主表)对象
 		WorkingBill wb = wbService.get(scrap.getWorkingBill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
+		String item_text=workingBillCode.substring(workingBillCode.length()-2);
+		String productdate=wb.getProductDate();
+		productdate=productdate.replace("-","").substring(2);
+		String charg=productdate+item_text;
 		scp.setModifyDate(new Date());//修改日期
 		scp.setState("1");
 		this.update(scp);//执行修改
@@ -203,8 +212,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if(str!=null&&!"".equals(str)&&!"0".equals(str))
 				{
 					sl.setCreateDate(new Date());//初始化创建日期
-					sl.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+					sl.setItem_text(item_text);//抬头文本 SAP测试数据随工单位最后两位
 					sl.setOrderid(wb.getAufnr());//订单号
+					sl.setCharg(charg);//批次
 					sl.setScrap(scp);
 					this.slaterService.save(sl);
 				}

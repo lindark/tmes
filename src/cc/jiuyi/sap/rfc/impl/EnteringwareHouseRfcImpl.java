@@ -31,8 +31,6 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 
 	@Resource
 	private DictService dictservice;
-	@Resource
-	private EnteringwareHouseService enteringwareHouseService;
 	@Override
 	public List<EnteringwareHouse> WarehousingCrt(String testrun,List<EnteringwareHouse> list)
 			throws IOException, CustomerException {
@@ -75,29 +73,8 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			wb=wb.substring(wb.length()-2,wb.length());
 			item.put("ITEM_TEXT", wb);//
 			
-			/**  modify weitao
-			 * 处理 编号问题
-			 */
-			Calendar a = ThinkWayUtil.getCalendar(e.getWorkingbill().getProductDate());
-			Integer year = a.get(Calendar.YEAR);
-			Integer mounth = a.get(Calendar.MONTH)+1;//获取月份
-			Integer day = a.get(Calendar.DATE);//获取日期
-			String yearls = StringUtils.substring(year.toString(), year.toString().length()-2);
-			String mounthls=""+mounth;
-			String dayls=""+day;
-			if(Integer.parseInt(yearls) < 10)
-				yearls="0"+year;
-			if(mounth <10)
-				mounthls = "0"+mounth;
-			if(day<10)
-				dayls="0"+day;
-			String lsh =yearls+mounthls+dayls;//流水号前8位
-			//ThinkWayUtil.getDictValueByDictKey(dictservice, "DOCBM", keyValue);
-			//TODO 用流水号 跟DICT查出来的流水号前6位进行比较，如果一致 +1，如果不一致，则 重置后面流水号，反响更新dict.此处配合 Quartz 一起工作。
-			item.put("CHARG", lsh);//批次
+			item.put("CHARG", e.getBatch());//批次
 			arrList2.add(item);
-			e.setBatch(lsh);
-			enteringwareHouseService.update(e);			
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);

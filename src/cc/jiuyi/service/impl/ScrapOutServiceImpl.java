@@ -43,6 +43,19 @@ public class ScrapOutServiceImpl extends BaseServiceImpl<ScrapOut, String>implem
 	public void updateisdel(String[] ids, String oper) {
 		scrapOutDao.updateisdel(ids, oper);		
 	}
-	
 
-}
+	@Override
+	public void mergeScrapOutList(List<ScrapOut> outlList) {
+		for (int i = 0; i < outlList.size(); i++) {
+			ScrapOut scrapOut = outlList.get(i);
+			ScrapOut scrapOut1 = this.get("materialCode",scrapOut.getMaterialCode());
+			if(scrapOut1 == null){
+				this.save(scrapOut);
+			}else{
+				scrapOut.setId(scrapOut1.getId());
+				this.merge(scrapOut);
+			}
+		}
+		}
+	}
+	

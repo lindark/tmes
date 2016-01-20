@@ -28,6 +28,7 @@ import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
+import cc.jiuyi.entity.ScrapOut;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.ScrapRfc;
 import cc.jiuyi.service.AdminService;
@@ -36,6 +37,7 @@ import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ScrapMessageService;
+import cc.jiuyi.service.ScrapOutService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -72,6 +74,7 @@ public class ScrapAction extends BaseAdminAction
 	private String my_id;//1刷卡保存2刷卡确认
 	private String info;
 	private String cardnumber;
+	private List<ScrapOut>list_so;//
 	/**
 	 * service接口
 	 */
@@ -93,6 +96,8 @@ public class ScrapAction extends BaseAdminAction
 	private MaterialService materialservice;
 	@Resource
 	private ScrapRfc scrapRfc;
+	@Resource
+	private ScrapOutService soService;
 	
 	/**========================end  variable,object,interface==========================*/
 	
@@ -195,9 +200,20 @@ public class ScrapAction extends BaseAdminAction
 				}
 			}
 		}
-		
-		
-		
+		list_so=new ArrayList<ScrapOut>();
+		if(list_material.size()>0)
+		{
+			for(int i=0;i<list_material.size();i++)
+			{
+				Bom m=list_material.get(i);
+				//根据物料编码查询产品编码
+				ScrapOut so=this.soService.getByMaterialCode(m.getMaterialCode());
+				if(so!=null)
+				{
+					list_so.add(so);
+				}
+			}
+		}
 		//this.list_material=new ArrayList<Bom>( this.product.getMaterial());//产品对应的物料(/组件)
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
@@ -742,7 +758,14 @@ public class ScrapAction extends BaseAdminAction
 		this.cardnumber = cardnumber;
 	}
 
-	
-	
+	public List<ScrapOut> getList_so()
+	{
+		return list_so;
+	}
+
+	public void setList_so(List<ScrapOut> list_so)
+	{
+		this.list_so = list_so;
+	}
 	/**==========================end "get/set"=================================*/
 }

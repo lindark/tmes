@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.ScrapOut;
@@ -30,5 +31,14 @@ public interface ScrapOutService extends BaseService<ScrapOut, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	
+	/**
+	 * 更新清单
+	 * @param materialList
+	 */
+	public void mergeScrapOutList(List<ScrapOut> outlList);
+	
+	
 	
 }

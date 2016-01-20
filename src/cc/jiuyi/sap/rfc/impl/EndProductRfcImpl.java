@@ -57,7 +57,7 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 			item.put("ZSFSL", e.getStockMout().toString());//数量
 			item.put("XUH",e.getId());//ID
 			item.put("CHARG", e.getMaterialBatch());//批次
-			item.put("MOVE_STLOC", "");//收货库存地点
+			item.put("MOVE_STLOC", e.getReceiveRepertorySite());//收货库存地点
 			arrList2.add(item);
 		}
 		ET_ITEM.setList(arrList2);

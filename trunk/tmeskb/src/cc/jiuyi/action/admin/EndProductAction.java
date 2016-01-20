@@ -62,6 +62,7 @@ public class EndProductAction extends BaseAdminAction {
 	
 	public String list(){
 		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行成本入库操作!");

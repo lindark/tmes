@@ -7,6 +7,7 @@ import java.util.Map;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.EnteringwareHouse;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Service接口 - 入库
@@ -38,5 +39,7 @@ public interface EnteringwareHouseService extends
 	public List<EnteringwareHouse> getByBill(String workingBillId);
 
 	public void updateState(List<EnteringwareHouse> list, String statu,
-			String workingbillid, Integer ratio, String cardnumber);
+			WorkingBill workingbill, Integer ratio, String cardnumber);
+	
+	public String getCharg(WorkingBill workingbill);
 }

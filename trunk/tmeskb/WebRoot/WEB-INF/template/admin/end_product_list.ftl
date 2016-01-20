@@ -196,7 +196,6 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
-				alert(row_state);
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
@@ -210,7 +209,6 @@
 		$("#viewEndProduct").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			alert(id);
 			if(id.length>1){
 				alert("只能选择一条成品入库记录！");
 				return false;

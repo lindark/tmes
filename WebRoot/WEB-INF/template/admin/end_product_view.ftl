@@ -71,7 +71,7 @@ body {
 											<th style="text-align:center;">物料描述</th>
 											<th style="text-align:center;">批次</th>
 											<th style="text-align:center;">接收库存地点</th>
-											<th style="text-align:center;">入库数量</th>
+											<th style="text-align:center;">入库箱数</th>
 										</tr>
 									</thead>
 
@@ -82,7 +82,7 @@ body {
 												<td class="center" name="">${(endProduct.materialDesp)! }</td>
 												<td class="center" >${(endProduct.materialBatch)! }</td>
 										 		<td class="center">${(endProduct.receiveRepertorySite)! }</td>
-												<td class="center">${(endProduct.stockMout)!}</td>								
+												<td class="center">${(endProduct.stockBoxMout)!}</td>								
 											</tr>
 									</tbody>
 								</table>

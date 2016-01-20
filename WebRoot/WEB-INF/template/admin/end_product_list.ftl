@@ -157,7 +157,14 @@
 				return false;
 			}	
 				 else{
-					var url="end_product!creditApproval.action?id="+id;
+					 var rowData = $("#grid-table").jqGrid('getRowData',id);
+						var row_state = rowData.state;
+						if(row_state == "2" || row_state =="3"){
+							layer.msg("已经确认或已经撤销的领料单无法再次确认!",{icon:5});
+							return false;
+						}else{
+							var url="end_product!creditapproval.action?id="+id;
+						}	
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");

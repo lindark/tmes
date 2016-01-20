@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.ReturnProduct;
+import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EndProductRfc;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
@@ -25,6 +28,7 @@ import cc.jiuyi.sap.rfc.ReturnProductRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReturnProductService;
+import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -44,6 +48,7 @@ public class ReturnProductAction extends BaseAdminAction {
 	private String info;
 	private String cardnumber;
 	private ReturnProduct returnProduct;
+	private String desp;
 	
 	@Resource
 	private ReturnProductService returnProductService;
@@ -57,6 +62,8 @@ public class ReturnProductAction extends BaseAdminAction {
 	private LocationonsideRfc rfc;
 	@Resource
 	private ReturnProductRfc reprfc;
+	@Resource
+	private UnitConversionService unitConversionService;
 	
 	
 	public String list(){
@@ -109,6 +116,7 @@ public class ReturnProductAction extends BaseAdminAction {
 	public String add(){
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
 		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(locationonsideList==null){
@@ -116,8 +124,8 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		try {
 			locationonsideList = rfc.findWarehouse(wareHouse, werks);
-			List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
 			if(!"".equals(info) && info!=null){
+				locationonsideLists =new ArrayList<Locationonside>();
 				int i = info.length();
 				for(Locationonside los : locationonsideList){
 					if(los.getMaterialCode().length()>=i){
@@ -125,6 +133,15 @@ public class ReturnProductAction extends BaseAdminAction {
 						if(info.equals(s)){
 							locationonsideLists.add(los);
 						}
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
+			if(!"".equals(desp) && desp!=null){
+				locationonsideLists =new ArrayList<Locationonside>();
+				for(Locationonside los : locationonsideList){
+					if(los.getMaterialName().indexOf(desp)>-1){
+						locationonsideLists.add(los);
 					}
 				}
 				locationonsideList = locationonsideLists;
@@ -180,7 +197,7 @@ public class ReturnProductAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("修改失败，请重试");
 		}
 	}
-	public String creditSubmit(){
+	public String creditsubmit(){
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			returnProductService.saveReturnProduct(returnProducts,info,admin);
@@ -190,7 +207,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		
 	}
-	public String creditApproval(){
+	public String creditapproval(){
 		String message = "";
 		List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {
@@ -320,6 +337,12 @@ public class ReturnProductAction extends BaseAdminAction {
 	}
 	public void setReturnProduct(ReturnProduct returnProduct) {
 		this.returnProduct = returnProduct;
+	}
+	public String getDesp() {
+		return desp;
+	}
+	public void setDesp(String desp) {
+		this.desp = desp;
 	}
 	
 	

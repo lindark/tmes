@@ -325,7 +325,7 @@ public class ThinkWayUtil {
      * @return
      */
 	public static boolean isPass(Admin admin) {
-		if (!admin.getWorkstate().equals("2")) {
+		if (admin.getWorkstate().equals("2")) {
 			return true;
 		}
 		return false;

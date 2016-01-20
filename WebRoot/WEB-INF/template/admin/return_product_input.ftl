@@ -80,7 +80,7 @@ inupt.stockMout{
 									<div class="site">接收库存地点:
 										<select name="info" style="margin-right:30px;">
 											<#list allSite as als>
-											<option value="${als.dictkey}" <#if als.dictkey=="2801">selected</#if>>${als.dictvalue}</option>
+											<option value="${als.dictkey}" <#if als.dictkey=="2302">selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
 										<#if isAdd??>

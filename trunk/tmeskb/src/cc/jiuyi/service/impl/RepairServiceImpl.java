@@ -90,30 +90,30 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 与SAP交互没有问题,更新本地数据库
 	 */
-	public void updateMyData(Repair repair,String cardnumber,int my_id,String wbid)
+	public void updateMyData(Repair r_return,String cardnumber,int my_id,String wbid)
 	{
-		Repair r=this.get(repair.getId());//根据id查询
+		Repair r=this.get(r_return.getId());//根据id查询
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		r.setConfirmUser(admin);//确认人
 		r.setState("1");//状态改为已确认
 		r.setModifyDate(new Date());//更新日期
 		if(my_id==1)
 		{
-			r.setE_TYPE(repair.getE_TYPE());//返回类型：成功S/失败E
-			r.setE_MESSAGE(repair.getE_MESSAGE());//返回消息
-			r.setEX_MBLNR(repair.getEX_MBLNR());//返回物料凭证
+			r.setE_TYPE(r_return.getE_TYPE());//返回类型：成功S/失败E
+			r.setE_MESSAGE(r_return.getE_MESSAGE());//返回消息
+			r.setEX_MBLNR(r_return.getEX_MBLNR());//返回物料凭证
 			WorkingBill wb = workingbillService.get(wbid);
-			Double d1=ArithUtil.sub(wb.getRepairamount(),repair.getRepairAmount());//返修,返修收货共用数量
-			Double d2=ArithUtil.add(wb.getTotalRepairAmount(),repair.getRepairAmount());//投入产出数量
-			wb.setRepairamount(d1);//返修,返修收货共用数量
+			//Double d1=ArithUtil.sub(wb.getRepairamount(),r.getRepairAmount());//返修,返修收货共用数量
+			Double d2=ArithUtil.add(wb.getTotalRepairAmount(),r.getRepairAmount());//投入产出数量
+			//wb.setRepairamount(d1);//返修,返修收货共用数量
 			wb.setTotalRepairAmount(d2.intValue());//投入产出数量
-			this.workingbillService.update(wb);
+			this.workingbillService.merge(wb);
 			/*List<RepairPiece>list_rp=new ArrayList<RepairPiece>(r.getRpieceSet());
 			HashMap<String,Object>map=new HashMap<String,Object>();
 			map.put("wbid", wbid);//随工单ID
 			updateWorkingInoutCalculate(list_rp,map);*/
 		}
-		this.update(r);
+		this.merge(r);
 	}
 
 	/**

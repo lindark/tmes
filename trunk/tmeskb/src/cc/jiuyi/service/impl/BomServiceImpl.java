@@ -83,10 +83,16 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	{
 		String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
 		String productDate = wb.getProductDate();
+		String workingBillCode=wb.getWorkingBillCode();
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
 		Orders orders = orderservice.get("aufnr",aufnr);
 		Integer maxversion = bomDao.getMaxVersion(orders.getMatnr(), productDate);
 		if(maxversion!=null)
 		{
+			if(workingbilllast!=null)
+			{
+				return this.bomDao.getPieceByCondition(pager,map, aufnr, maxversion,workingbilllast);
+			}
 			return this.bomDao.getPieceByCondition(pager,map, aufnr, maxversion);
 		}
 		return null;

@@ -972,14 +972,6 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
-						<a href="mscrap!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							报废产出物料管理
-						</a>
-
-						<b class="arrow"></b>
-					</li>
 					<!-- 
 					<li class="">
 						<a href="products!list.action" >

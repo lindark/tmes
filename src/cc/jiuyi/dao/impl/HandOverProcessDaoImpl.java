@@ -91,9 +91,9 @@ public class HandOverProcessDaoImpl extends BaseDaoImpl<HandOverProcess, String>
 
 	}
 	
-	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr,String workingBillId){
-		String hql="select a from HandOverProcess a where a.materialCode = ? and a.processid=? and a.beforworkingbill.matnr=? and a.beforworkingbill.id=?";
-		return (HandOverProcess) getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, processid).setParameter(2, matnr).setParameter(3, workingBillId).uniqueResult();
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String workingBillId){
+		String hql="select a from HandOverProcess a where a.materialCode = ? and a.processid=?  and a.beforworkingbill.id=?";
+		return (HandOverProcess) getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, processid).setParameter(2, workingBillId).uniqueResult();
 	}
 	
 	

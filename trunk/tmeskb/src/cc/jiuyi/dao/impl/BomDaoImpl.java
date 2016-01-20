@@ -128,7 +128,38 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-
+	/**
+	 * jqGrid:(根据:子件编码/名称,凭证,版本号)查询
+	 */
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion,String shift)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		//产品
+		if(!super.existAlias(detachedCriteria, "orders", "orders"))
+		{
+			detachedCriteria.createAlias("orders", "orders");
+		}
+		if(map.size()>0)
+		{
+			//子件编码
+			if(map.get("piececode")!=null)
+			{
+			    detachedCriteria.add(Restrictions.like("materialCode","%"+ map.get("piececode")+"%"));
+			}
+			//子件名称
+			if(map.get("piecename")!=null)
+			{
+				detachedCriteria.add(Restrictions.eq("materialName", map.get("piecename")));
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("orders.aufnr", aufnr));
+		detachedCriteria.add(Restrictions.eq("version", maxversion));
+		detachedCriteria.add(Restrictions.eq("shift", shift));
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
+	
 	@Override
 	public String getMaterialName(String materialCode) {
 		String hql="select distinct(b.materialName) from Bom b where b.materialCode = ? ";

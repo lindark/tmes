@@ -267,7 +267,18 @@ $(function() {
 			window.location.href = "end_product!list.action";
 		}
 	});
-	
+	/**
+	 * 成品入库
+	 */
+	$returnProduct.click(function(){
+		var istrue = init.notCheck();
+		//var loginid=$("#loginid").val();//当前登录人的id
+			//alert(loginid);
+		if (istrue) 
+		{
+			window.location.href = "return_product!list.action";
+		}
+	});
 	
 })
 

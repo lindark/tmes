@@ -21,6 +21,7 @@ public class RepairinPiece extends BaseEntity
 	private String rpcount;//组件总数量
 	private String ITEM_TEXT;//项目文本
 	private Repairin repairin;//主表
+	private String CHARG;//批次
 	public String getRpcode()
 	{
 		return rpcode;
@@ -78,4 +79,13 @@ public class RepairinPiece extends BaseEntity
 	{
 		this.piecenum = piecenum;
 	}
+	public String getCHARG()
+	{
+		return CHARG;
+	}
+	public void setCHARG(String cHARG)
+	{
+		CHARG = cHARG;
+	}
+	
 }

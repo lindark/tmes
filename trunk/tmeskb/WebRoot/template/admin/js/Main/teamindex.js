@@ -16,6 +16,8 @@ $(function() {
 	var $ckbox = $(".ckbox");//checkbox
 	var $kaoqin=$("#kaoqin");//考勤
 	var $endProduct = $("#endProduct");//成品入库
+	var $returnProduct = $("#returnProduct");//退回中转仓
+	
 	var init = {
 			"isCheck":function(){//需要有选中来改变按钮的属性的
 				var cklength = $(".ckbox:checked").length;

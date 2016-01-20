@@ -26,7 +26,6 @@ import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.RepairInRfc;
-import cc.jiuyi.sap.rfc.impl.RepairInRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
@@ -71,6 +70,8 @@ public class RepairinAction extends BaseAdminAction {
 	private BomService bomService;
 	@Resource
 	private FactoryUnitService fuService;//单元
+	@Resource
+	private RepairInRfc repairinRfc;
 	/**
 	 * 跳转list 页面
 	 * 
@@ -394,7 +395,6 @@ public class RepairinAction extends BaseAdminAction {
 	{
 		try
 		{
-			RepairInRfc repairinRfc = new RepairInRfcImpl();
 			// 取出主表及组件数据
 			for (int i = 0; i < list.size(); i++)
 			{
@@ -407,14 +407,19 @@ public class RepairinAction extends BaseAdminAction {
 				{
 					/**有组件数据,进行SAP交互*/
 					// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
-					Repairin r_sapreturn = repairinRfc.repairinCrt(r, listrp);
+					Repairin r_sapreturn1 = repairinRfc.repairinCrt("X",r, listrp);
 					/** 出现问题 */
-					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
+					if ("E".equalsIgnoreCase(r_sapreturn1.getE_TYPE()))
 					{
-						return r_sapreturn.getE_MESSAGE();
+						return r_sapreturn1.getE_MESSAGE();
 					}
 					else
 					{
+						Repairin r_sapreturn = repairinRfc.repairinCrt("",r, listrp);
+						if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
+						{
+							return r_sapreturn.getE_MESSAGE();
+						}
 						/** 与SAP交互没有问题,更新本地数据库 */
 						this.repairinService.updateMyData(r_sapreturn, cardnumber,1,workingBillId);
 					}

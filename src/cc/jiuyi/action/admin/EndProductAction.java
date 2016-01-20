@@ -272,8 +272,7 @@ public class EndProductAction extends BaseAdminAction {
 				for(EndProduct ed : endProducts){
 					if(ed.getStockBoxMout()!=null && !"".equals(ed.getStockBoxMout())){
 						if(ed.getStockBoxMout().compareTo(ed.getActualMaterialBoxMount())>0){
-							addActionError("物料"+ed.getMaterialCode()+"库存不足或计量数据未维护");
-							return ERROR;
+							return ajaxJsonErrorMessage("物料"+ed.getMaterialCode()+"库存不足或计量数据未维护");
 						}
 					}
 				}

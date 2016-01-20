@@ -2,7 +2,7 @@ package cc.jiuyi.service.impl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.KaoqinBrushCardRecordDao;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
@@ -14,7 +14,7 @@ import cc.jiuyi.service.KaoqinBrushCardRecordService;
  * @author gaoyf
  *
  */
-@Repository
+@Service
 public class KaoqinBrushCardRecordServiceImpl extends BaseServiceImpl<KaoqinBrushCardRecord, String> implements KaoqinBrushCardRecordService
 {
 	@Resource

@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
@@ -29,7 +29,7 @@ import cc.jiuyi.util.ArithUtil;
 /**
  * Service实现类 返修收货
  */
-@Repository
+@Service
 public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		implements RepairinService,WorkingInoutCalculateBase<RepairinPiece> {
 	@Resource

@@ -3,7 +3,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.SampleRecordDao;
 import cc.jiuyi.entity.SampleRecord;
@@ -14,7 +14,7 @@ import cc.jiuyi.service.SampleRecordService;
  * @author gaoyf
  *
  */
-@Repository
+@Service
 public class SampleRecordServiceImpl extends BaseServiceImpl<SampleRecord, String> implements SampleRecordService
 {
 	@Resource

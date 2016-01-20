@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
@@ -30,7 +30,7 @@ import cc.jiuyi.util.ThinkWayUtil;
  * @author gaoyf
  *
  */
-@Repository
+@Service
 public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implements KaoqinService
 {
 	@Resource

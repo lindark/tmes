@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.ScrapLaterDao;
 import cc.jiuyi.entity.ScrapLater;
@@ -15,7 +15,7 @@ import cc.jiuyi.service.ScrapLaterService;
  * @author lenovo
  *
  */
-@Repository
+@Service
 public class ScrapLaterServiceImpl extends BaseServiceImpl<ScrapLater, String> implements ScrapLaterService
 {
 	@Resource

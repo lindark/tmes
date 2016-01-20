@@ -43,28 +43,29 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 	}
 
 	public Pager getUnitConversionPager(Pager pager, HashMap<String, String> map) {
-		String wheresql = unitConversionpagerSql(pager);
+	//	String wheresql = unitConversionpagerSql(pager);
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(UnitConversion.class);
-		if (!wheresql.equals("")) {
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		/*if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
 			detachedCriteria.add(Restrictions.sqlRestriction(wheresql));
-		}
+		}*/
 		// System.out.println(map.size());
 		if (map.size() > 0) {
 			if (map.get("unitCode") != null) {
 				detachedCriteria.add(Restrictions.like("unitCode",
 						"%" + map.get("unitCode") + "%"));
 			}
-			if (map.get("unitDescription") != null) {
-				detachedCriteria.add(Restrictions.like("unitDescription", "%"
-						+ map.get("unitDescription") + "%"));
+			if (map.get("matnr") != null) {
+				detachedCriteria.add(Restrictions.like("matnr", "%"
+						+ map.get("matnr") + "%"));
 			}
 			if (map.get("state") != null) {
 				detachedCriteria.add(Restrictions.like("state",
 						"%" + map.get("state") + "%"));
 			}
-			if (map.get("start") != null || map.get("end") != null) {
+			/*if (map.get("start") != null || map.get("end") != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					Date start = sdf.parse(map.get("start"));
@@ -74,13 +75,13 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
-	public String unitConversionpagerSql(Pager pager) {
+	/*public String unitConversionpagerSql(Pager pager) {
 		String wheresql = "";
 		Integer ishead = 0;
 		if (pager.is_search() == true && pager.getRules() != null) {
@@ -100,7 +101,7 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 		// System.out.println("wheresql:" + wheresql);
 		return wheresql;
 	}
-
+*/
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		for (String id : ids) {

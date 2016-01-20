@@ -1,25 +1,14 @@
 package cc.jiuyi.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.ProcessDao;
-import cc.jiuyi.dao.ProductsDao;
 import cc.jiuyi.dao.ScrapOutDao;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.ScrapOut;
 
 /**
@@ -76,10 +65,19 @@ public class ScrapOutDaoImpl extends BaseDaoImpl<ScrapOut, String> implements Sc
 	}
 
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<ScrapOut> getExistScrapOutList() {
 		String hql = "From ScrapOut scrapOut where isDel='N' order by scrapOut.id asc scrapOut.crateDate desc";
 		return getSession().createQuery(hql).list();
+	}
+
+	/**
+	 * 根据物料编码查询产品编码
+	 */
+	public ScrapOut getByMaterialCode(String materialCode)
+	{
+		String hql="from ScrapOut where materialCode=? and isDel='N'";
+		return (ScrapOut) this.getSession().createQuery(hql).setParameter(0, materialCode).uniqueResult();
 	}
 
 

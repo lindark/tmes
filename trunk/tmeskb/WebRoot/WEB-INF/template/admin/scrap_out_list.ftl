@@ -74,12 +74,12 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
-											<!-- 
-											<a id="searchButton" href="cause!sync.action" class="btn btn-white btn-default btn-sm btn-round">
+											
+											<a id="syncButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
-												SAP同步
+												同步
 											</a>
-											 -->
+									
 										</div>
 										
 									</div>
@@ -147,6 +147,19 @@
 			}
 			
 		})
+		
+		$(function(){
+			var $syncButton = $("#syncButton");
+			
+			//同步按钮
+			$syncButton.click(function(){			
+				loading=new ol.loading({id:"page-content"});
+				loading.show();
+				window.location.href="scrap_out!sync.action"
+				return false;
+			})
+		})
+		
 		
 		/*
 		var ishead3=0;

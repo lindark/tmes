@@ -1172,7 +1172,17 @@
 						
 					</li>
 					
-					
+					<li class="">
+						<a href="scrap_out!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报废后产出对照表
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
 					<!--
 					<li class="">
 						<a href="#">

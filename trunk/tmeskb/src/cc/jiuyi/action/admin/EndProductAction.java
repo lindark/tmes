@@ -141,6 +141,19 @@ public class EndProductAction extends BaseAdminAction {
 		}
 		try {
 			locationonsideList = rfc.findWarehouse(wareHouse, werks);
+			List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
+			if(!"".equals(info) && info!=null){
+				int i = info.length();
+				for(Locationonside los : locationonsideList){
+					if(los.getMaterialCode().length()>=i){
+						String s = los.getMaterialCode().substring(0, i);
+						if(info.equals(s)){
+							locationonsideLists.add(los);
+						}
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CustomerException e) {
@@ -209,8 +222,9 @@ public class EndProductAction extends BaseAdminAction {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			//endProductService.updateApprovalEndProduct(ids,admin);
 			List<EndProduct> endProductList = new ArrayList<EndProduct>();
-			for(String id : ids){
-				EndProduct ed = endProductService.get(id);
+			String[] ids = id.split(","); 
+			for(int i=0;i<ids.length;i++){
+				EndProduct ed = endProductService.get(ids[i]);
 				if( ed!=null){
 					ed.setConfirmUser(admin.getUsername());
 					ed.setConfirmName(admin.getName());

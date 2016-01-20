@@ -83,8 +83,8 @@ public class EnteringwareHouseRfcImpl extends BaserfcServiceImpl implements Ente
 			Integer mounth = a.get(Calendar.MONTH)+1;//获取月份
 			Integer day = a.get(Calendar.DATE);//获取日期
 			String yearls = StringUtils.substring(year.toString(), year.toString().length()-2);
-			String mounthls="";
-			String dayls="";
+			String mounthls=""+mounth;
+			String dayls=""+day;
 			if(Integer.parseInt(yearls) < 10)
 				yearls="0"+year;
 			if(mounth <10)

@@ -109,18 +109,17 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			r.setE_MESSAGE(repairin.getE_MESSAGE());//返回消息
 			r.setEX_MBLNR(repairin.getEX_MBLNR());//返回物料凭证
 			WorkingBill wb = workingbillService.get(wbid);
-			Double d1=ArithUtil.add(wb.getRepairamount(),repairin.getReceiveAmount());//返修,返修收货共用数量
-			Double d2=ArithUtil.add(wb.getTotalRepairinAmount(),repairin.getReceiveAmount());//投入产出
-			wb.setRepairamount(d1);//返修,返修收货共用数量
+			//Double d1=ArithUtil.add(wb.getRepairamount(),r.getReceiveAmount());//返修,返修收货共用数量
+			Double d2=ArithUtil.add(wb.getTotalRepairinAmount(),r.getReceiveAmount());//投入产出
+			//wb.setRepairamount(d1);//返修,返修收货共用数量
 			wb.setTotalRepairinAmount(d2.intValue());//投入产出
-			
-			this.workingbillService.update(wb);
+			this.workingbillService.merge(wb);
 			/*List<RepairinPiece>list_rp=new ArrayList<RepairinPiece>(r.getRpieceSet());
 			HashMap<String,Object>map=new HashMap<String,Object>();
 			map.put("wbid", wbid);//随工单ID
 			updateWorkingInoutCalculate(list_rp,map);*/
 		}
-		this.update(r);
+		this.merge(r);
 	}
 
 	/**

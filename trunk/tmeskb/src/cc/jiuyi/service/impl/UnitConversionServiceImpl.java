@@ -50,13 +50,11 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 
 	@Override
 	public Pager getUnitConversionPager(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return unitConversionDao.getUnitConversionPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		unitConversionDao.updateisdel(ids, oper);
 		
 	}
@@ -76,6 +74,15 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 	public Integer getRatioByMatnr(String matnr,String unitCode) {
 		return unitConversionDao.getRatioByMatnr(matnr,unitCode);
 	}
+
+	public void saveorupdate(List<UnitConversion> unitConversionList) {
+		for(int i=0;i<unitConversionList.size();i++){
+			UnitConversion unit = unitConversionList.get(i);
+			unitConversionDao.merge(unit);
+		}
+	}
+	
+	
 
 	
 }

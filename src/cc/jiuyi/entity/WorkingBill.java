@@ -24,7 +24,7 @@ public class WorkingBill extends BaseEntity {
 	private String maktx;// 物料 描述
 	private Integer cartonTotalAmount;// 纸箱累计收货数量
 	private Double dailyWorkTotalAmount;// 累计报工数量
-	private Integer totalSingleAmount;// 累计入库根量
+	private Double totalSingleAmount;// 累计入库根量
 	private Integer totalRepairinAmount;// 累计返修收货数量
 	private Integer totalRepairAmount;// 累计返修数量
 	private String werks;//工厂
@@ -230,13 +230,13 @@ public class WorkingBill extends BaseEntity {
 		this.dailyWorkTotalAmount = dailyWorkTotalAmount;
 	}
 
-	public Integer getTotalSingleAmount() {
+	public Double getTotalSingleAmount() {
 		return totalSingleAmount;
 	}
 
-	public void setTotalSingleAmount(Integer totalSingleAmount) {
+	public void setTotalSingleAmount(Double totalSingleAmount) {
 		if (totalSingleAmount == null) {
-			totalSingleAmount = 0;
+			totalSingleAmount = 0d;
 		}
 		this.totalSingleAmount = totalSingleAmount;
 	}

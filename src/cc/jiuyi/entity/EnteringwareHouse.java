@@ -26,7 +26,7 @@ public class EnteringwareHouse extends BaseEntity {
 
 	private static final long serialVersionUID = -3066164332463929036L;
 	private Integer totalSingleAmount;// 累计根量
-	private Integer storageAmount;// 入库数量
+	private Double storageAmount;// 入库数量
 	private Admin confirmUser;// 确认人
 	private Admin createUser;// 创建人
 	private String State;// 状态
@@ -77,11 +77,11 @@ public class EnteringwareHouse extends BaseEntity {
 		this.totalSingleAmount = totalSingleAmount;
 	}
 
-	public Integer getStorageAmount() {
+	public Double getStorageAmount() {
 		return storageAmount;
 	}
 
-	public void setStorageAmount(Integer storageAmount) {
+	public void setStorageAmount(Double storageAmount) {
 		this.storageAmount = storageAmount;
 	}
 

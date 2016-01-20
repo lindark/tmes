@@ -117,7 +117,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="returnProduct.materialBatch" value="${(returnProduct.materialBatch)!}">
 																	<td>${(returnProduct.actualMaterialMount)! }</td>
 																	<input type="hidden"  name="returnProduct.actualMaterialMount" value="${(returnProduct.actualMaterialMount)!}">
-																	<td><input type="text"  name="returnProduct.stockMout" value="${(returnProduct.stockMout)!}"></td>
+																	<td><input type="text"  name="returnProduct.stockMout" value="${(returnProduct.stockMout)!}"onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 															</tr>
 														<#else>
 															<#list locationonsideList as lns>
@@ -133,7 +133,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="returnProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
 																	<td>${(lns.amount)! }</td>
 																	<input type="hidden"  name="returnProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td><input type="text"  name="returnProducts[${lns_index}].stockMout" value=""></td>
+																	<td><input type="text"  name="returnProducts[${lns_index}].stockMout" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 																</tr>
 															</#list>
 															</#if>

@@ -94,12 +94,18 @@ inupt.stockMout{
 									</ul>
 									<div id="tabs-1" class="tab1">				
 									<div class="site">接收库存地点:
-										<select name="info">
+										<select name="info" style="margin-right:30px;">
 											<#list allSite as als>
 											<option value="${als.dictkey}" <#if als.dictkey=="2401">selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
-									</div>		
+											<label class="" style="text-align:right">物料编码:</label>
+											<input type="text" name="materialCode" id="in_seartch"class="input input-sm" value="${info}" id="form-field-icon-1">&nbsp;&nbsp;&nbsp;
+											<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>
+									</div>
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
@@ -219,7 +225,9 @@ $(function(){
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	$("#search_btn").click(function(){
+		var maco = $("#in_seartch").val();
+		window.location.href="end_product!add.action?info="+maco;
+	});
 });
-
-
 </script>

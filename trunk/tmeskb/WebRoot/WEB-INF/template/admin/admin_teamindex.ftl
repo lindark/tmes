@@ -329,6 +329,14 @@
 															class="bigger-110 no-text-shadow">成品入库</span>
 													</button>
 												</div>
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+													data-access-list="returnProduct">
+													<button                                               
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="returnProduct" type="button">
+														<i class="ace-icon fa fa-users bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">退回中转仓</span>
+													</button>
+												</div>
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												
 

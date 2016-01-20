@@ -10,7 +10,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/process_plist.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/workshopbrowser.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
@@ -46,23 +46,18 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form class="form-horizontal" id="searchform"
-								action="products!ajlist.action" role="form">
+								action="work_shop!ajlist.action" role="form">
 								<div class="operateBar">
-									<div class="form-group">
-										<label class="col-sm-2"
-											style="text-align:right;">产品编码:</label>
+									 <div class="form-group">
+										<label class="col-sm-2" style="text-align:right">车间:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsCode"
-												class="input input-sm form-control" value=""
-												id="form-field-icon-1">
+											<input type="text" name="workShop" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-
-
-										<label class="col-sm-2" style="text-align:right;">产品名称:</label>
+										
+										
+										<label class="col-sm-2" style="text-align:right">工厂:</label>
 										<div class="col-sm-4">
-											<input type="text" name="productsName"
-												class="input input-sm form-control" value=""
-												id="form-field-icon-1">
+											<input type="text" name="factory" class="input input-sm form-control" value="" id="form-field-icon-1">			
 										</div>
 									</div>
 
@@ -110,8 +105,9 @@ body {
 			return false;
 		}
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
-		var rowName=rowData.productsName;
-		var work=""+ids+""+","+rowName;
+		var workShopName = rowData.workShopName;
+		var factoryName = rowData.factoryName;
+		var work=""+workShopName+""+","+ids+""+","+factoryName;
 		return work;
 	}
 	

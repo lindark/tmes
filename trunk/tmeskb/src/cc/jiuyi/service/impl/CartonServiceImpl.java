@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.CartonDao;
@@ -31,7 +31,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 /**
  * Service实现类 纸箱
  */
-@Repository
+@Service
 public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implements CartonService {
 
 	@Resource

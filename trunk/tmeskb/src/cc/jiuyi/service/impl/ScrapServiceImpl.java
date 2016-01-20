@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ScrapDao;
@@ -34,7 +34,7 @@ import cc.jiuyi.util.ArithUtil;
  * @author gaoyf
  *
  */
-@Repository
+@Service
 public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements ScrapService,WorkingInoutCalculateBase<Scrap>
 {
 	@Resource

@@ -2,7 +2,7 @@ package cc.jiuyi.service.impl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.CartonsonDao;
 import cc.jiuyi.entity.CartonSon;
@@ -13,7 +13,7 @@ import cc.jiuyi.service.CartonsonService;
  * @author lenovo
  *
  */
-@Repository
+@Service
 public class CartonsonServiceImpl extends BaseServiceImpl<CartonSon, String> implements CartonsonService
 {
 	@Resource

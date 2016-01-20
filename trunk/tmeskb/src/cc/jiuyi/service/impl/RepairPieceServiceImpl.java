@@ -2,7 +2,7 @@ package cc.jiuyi.service.impl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.RepairPieceDao;
 import cc.jiuyi.entity.RepairPiece;
@@ -13,7 +13,7 @@ import cc.jiuyi.service.RepairPieceService;
  * @author lenovo
  *
  */
-@Repository
+@Service
 public class RepairPieceServiceImpl extends BaseServiceImpl<RepairPiece, String>implements RepairPieceService
 {
 

@@ -2,7 +2,7 @@ package cc.jiuyi.service.impl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.ScrapBugDao;
 import cc.jiuyi.entity.ScrapBug;
@@ -13,7 +13,7 @@ import cc.jiuyi.service.ScrapBugService;
  * @author lenovo
  *
  */
-@Repository
+@Service
 public class ScrapBugServiceImpl extends BaseServiceImpl<ScrapBug, String> implements ScrapBugService
 {
 	@Resource

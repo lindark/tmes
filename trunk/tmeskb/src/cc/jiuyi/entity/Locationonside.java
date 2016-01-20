@@ -1,5 +1,7 @@
 package cc.jiuyi.entity;
 
+import java.beans.Transient;
+
 import javax.persistence.Entity;
 
 import org.compass.annotations.Searchable;
@@ -21,7 +23,13 @@ public class Locationonside extends BaseEntity {
 	private String amount;//数量
 	private String charg;//批次
 	private String isDel;//是否删除
-
+	
+	
+	/**
+	 * 假字段
+	 */
+	private Double boxMount;//库存箱数
+	
 	public String getLocationCode() {
 		return locationCode;
 	}
@@ -79,6 +87,15 @@ public class Locationonside extends BaseEntity {
 
 	public void setCharg(String charg) {
 		this.charg = charg;
+	}
+
+	@Transient
+	public Double getBoxMount() {
+		return boxMount;
+	}
+
+	public void setBoxMount(Double boxMount) {
+		this.boxMount = boxMount;
 	}
 	
 	

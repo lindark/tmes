@@ -140,6 +140,7 @@
 						$.ajax({	
 							url: url+cardnumber,
 							data:data,
+							type:"POST",
 							dataType: "json",
 							async: false,
 							beforeSend: function(data) {

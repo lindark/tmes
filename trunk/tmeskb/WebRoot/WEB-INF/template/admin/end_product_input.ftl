@@ -100,7 +100,10 @@ inupt.stockMout{
 											</#list>
 										</select>
 											<label class="" style="text-align:right">物料编码:</label>
-											<input type="text" name="materialCode" id="in_seartch"class="input input-sm" value="${info}" id="form-field-icon-1">&nbsp;&nbsp;&nbsp;
+											<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">&nbsp;&nbsp;&nbsp;
+											<label class="" style="text-align:right">物料描述:</label>
+											<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >&nbsp;&nbsp;&nbsp;
+											
 											<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
@@ -114,8 +117,8 @@ inupt.stockMout{
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
-														<th class="tabth">库存数量</th>
-														<th class="tabth">入库数量</th>
+														<th class="tabth">库存箱数</th>
+														<th class="tabth">入库箱数</th>
 													</tr>
 													
 														<#if endProduct!=null>
@@ -130,9 +133,10 @@ inupt.stockMout{
 																	<input type="hidden"  name="endProduct.materialDesp" value="${(endProduct.materialDesp)!}">
 																	<td>${(endProduct.materialBatch)! }</td>
 																	<input type="hidden"  name="endProduct.materialBatch" value="${(endProduct.materialBatch)!}">
-																	<td>${(endProduct.actualMaterialMount)! }</td>
+																	<td>${(endProduct.actualMaterialBoxMount)! }</td>
+																	<input type="hidden"  name="endProduct.actualMaterialBoxMount" value="${(endProduct.actualMaterialBoxMount)!}">
 																	<input type="hidden"  name="endProduct.actualMaterialMount" value="${(endProduct.actualMaterialMount)!}">
-																	<td><input type="text"  name="endProduct.stockMout" value="${(endProduct.stockMout)!}"></td>
+																	<td><input type="text"  name="endProduct.stockBoxMout" value="${(endProduct.stockBoxMout)!}"></td>
 															</tr>
 														<#else>
 															<#list locationonsideList as lns>
@@ -146,9 +150,10 @@ inupt.stockMout{
 																	<input type="hidden"  name="endProducts[${lns_index}].materialDesp" value="${(lns.materialName)!}">
 																	<td>${(lns.charg)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
-																	<td>${(lns.amount)! }</td>
+																	<td>${(lns.boxMount)! }</td>
+																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialBoxMount" value="${(lns.boxMount)!}">
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td><input type="text"  name="endProducts[${lns_index}].stockMout" value=""></td>
+																	<td><input type="text"  name="endProducts[${lns_index}].stockBoxMout" value=""></td>
 																</tr>
 															</#list>
 															</#if>
@@ -201,7 +206,7 @@ $(function(){
 	$subm.click(function(){
 		var dt = $("#inputForm").serialize();
 		if($ep==""){
-			var url = "end_product!creditSubmit.action";
+			var url = "end_product!creditsubmit.action";
 		}else{
 			var url = "end_product!update.action";
 		}
@@ -227,7 +232,8 @@ $(function(){
 	});
 	$("#search_btn").click(function(){
 		var maco = $("#in_seartch").val();
-		window.location.href="end_product!add.action?info="+maco;
+		var macodesp = $("#in_seartch_2").val();
+		window.location.href="end_product!add.action?info="+maco+"&desp="+macodesp;
 	});
 });
 </script>

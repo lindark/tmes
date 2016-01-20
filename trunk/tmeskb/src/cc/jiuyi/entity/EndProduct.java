@@ -30,6 +30,8 @@ public class EndProduct extends BaseEntity {
 	private Double actualMaterialMount;//实际数量
 	private String type;//类型（成品、半成品）
 	private String mblnr;
+	private Double stockBoxMout;//入库箱数
+	private Double actualMaterialBoxMount;//实际库存箱数
 	
 	private String xstate;
 	
@@ -244,6 +246,22 @@ public class EndProduct extends BaseEntity {
 
 	public void setXstate(String xstate) {
 		this.xstate = xstate;
+	}
+
+	public Double getStockBoxMout() {
+		return stockBoxMout;
+	}
+
+	public void setStockBoxMout(Double stockBoxMout) {
+		this.stockBoxMout = stockBoxMout;
+	}
+
+	public Double getActualMaterialBoxMount() {
+		return actualMaterialBoxMount;
+	}
+
+	public void setActualMaterialBoxMount(Double actualMaterialBoxMount) {
+		this.actualMaterialBoxMount = actualMaterialBoxMount;
 	}
 
 

@@ -83,7 +83,9 @@ inupt.stockMout{
 											</#list>
 										</select>
 											<label class="" style="text-align:right">物料编码:</label>
-											<input type="text" name="materialCode" id="in_seartch"class="input input-sm" value="${info}" id="form-field-icon-1">&nbsp;&nbsp;&nbsp;
+											<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}" >&nbsp;&nbsp;&nbsp;
+											<label class="" style="text-align:right">物料描述:</label>
+											<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >&nbsp;&nbsp;&nbsp;
 											<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
@@ -184,7 +186,7 @@ $(function(){
 	$subm.click(function(){
 		var dt = $("#inputForm").serialize();
 		if($ep==""){
-			var url = "return_product!creditSubmit.action";
+			var url = "return_product!creditsubmit.action";
 		}else{
 			var url = "return_product!update.action";
 		}
@@ -209,8 +211,9 @@ $(function(){
 		window.history.back();
 	});
 	$("#search_btn").click(function(){
-		var maco = $("#in_seartch").val();
-		window.location.href="return_product!add.action?info="+maco;
+		var maco = $("#in_seartch_1").val();
+		var macodesp = $("#in_seartch_2").val();
+		window.location.href="return_product!add.action?info="+maco+"&desp="+macodesp;
 	});
 });
 </script>

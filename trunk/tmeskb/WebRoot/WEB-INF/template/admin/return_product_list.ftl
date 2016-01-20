@@ -157,7 +157,15 @@
 				return false;
 			}	
 				 else{
-					var url="return_product!creditApproval.action?id="+id;
+					 var rowData = $("#grid-table").jqGrid('getRowData',id);
+						var row_state = rowData.state;
+						if(row_state == "2" || row_state =="3"){
+							layer.msg("已经确认或已经撤销的领料单无法再确认!",{icon:5});
+							return false;
+						}else{
+							var url="return_product!creditapproval.action?id="+id;
+						}	
+					
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");
@@ -216,7 +224,7 @@
 				alert("至少选择一条成品入库记录！");
 				return false;
 			}else{
-				window.location.href="end_product!view.action?id="+id;				
+				window.location.href="return_product!view.action?id="+id;				
 			}			
 		});
 		

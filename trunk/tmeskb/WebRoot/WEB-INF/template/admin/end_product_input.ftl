@@ -99,6 +99,7 @@ inupt.stockMout{
 											<option value="${als.dictkey}" <#if als.dictkey=="2401">selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
+										<#if isAdd??>
 											<label class="" style="text-align:right">物料编码:</label>
 											<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">&nbsp;&nbsp;&nbsp;
 											<label class="" style="text-align:right">物料描述:</label>
@@ -108,6 +109,7 @@ inupt.stockMout{
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											</#if>
 									</div>
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">

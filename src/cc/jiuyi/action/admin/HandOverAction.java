@@ -73,11 +73,15 @@ public class HandOverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditsubmit(){
-		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
+		Admin admin = adminservice.get(loginid);
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
 		Object[] workingbillIdList = new Object[workingbillList.size()];
 		for(int i=0;i<workingbillList.size();i++){
 			WorkingBill workingbill = workingbillList.get(i);
+			String ishand = workingbill.getIsHand();
+			if("Y".equals(ishand)){
+				return ajaxJsonErrorMessage("工序交接已完成");
+			}
 			workingbillIdList[i] = workingbill.getId();
 		}
 		
@@ -115,11 +119,16 @@ public class HandOverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-		Admin admin = adminservice.getByCardnum(cardnumber);//获取当前登录身份
+		Admin admin = adminservice.get(loginid);
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
+		
 		Object[] workingbillIdList = new Object[workingbillList.size()];
 		for(int i=0;i<workingbillList.size();i++){
 			WorkingBill workingbill = workingbillList.get(i);
+			String ishand = workingbill.getIsHand();
+			if("Y".equals(ishand)){
+				return ajaxJsonErrorMessage("工序交接已完成");
+			}
 			workingbillIdList[i] = workingbill.getId();
 		}
 		List<HandOverProcess> handoverprocessList = handOverProcessService.getList("beforworkingbill.id", workingbillIdList);//根据随工单获取所有的工序交接记录

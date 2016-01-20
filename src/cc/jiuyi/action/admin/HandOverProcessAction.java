@@ -69,6 +69,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private String cardnumber;
 	private String nowDate;
 	private String shift;
+	private String submitadmin;
+	private String approvaladmin;
 
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -128,6 +130,18 @@ public class HandOverProcessAction extends BaseAdminAction {
 				Double repairamount = handOverProcess.getRepairAmount();
 				workingbill.setAmount(amount);
 				workingbill.setRepairamount(repairamount);
+				Admin submit = handOverProcess.getSubmitadmin();
+				Admin approval = handOverProcess.getApprovaladmin();
+				if(submit == null){
+					submitadmin = "";
+				}else{
+					submitadmin = submit.getName();
+				}
+				if(approval == null){
+					approvaladmin = "";
+				}else{
+					approvaladmin = approval.getName();
+				}
 			}
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
 			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);//下一随工单--此处有问题。根据什么条件获取下一随工单
@@ -266,7 +280,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 			
-			obj[i] = workingbill.getMatnr();
+			obj[i] = workingbill.getId();
 			/*for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
 				if(materialList.contains(bom))
@@ -297,7 +311,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 			
 		}		
 		handoverprocessList = handOverProcessService.getList(
-				"beforworkingbill.matnr", obj, orderBy, orderType);
+				"beforworkingbill.id", obj, orderBy, orderType);
 		
 		for (int i = 0; i < handoverprocessList.size(); i++) {
 			HandOverProcess handoverprocess = handoverprocessList.get(i);
@@ -646,6 +660,22 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setShift(String shift) {
 		this.shift = shift;
+	}
+
+	public String getSubmitadmin() {
+		return submitadmin;
+	}
+
+	public void setSubmitadmin(String submitadmin) {
+		this.submitadmin = submitadmin;
+	}
+
+	public String getApprovaladmin() {
+		return approvaladmin;
+	}
+
+	public void setApprovaladmin(String approvaladmin) {
+		this.approvaladmin = approvaladmin;
 	}
 
 

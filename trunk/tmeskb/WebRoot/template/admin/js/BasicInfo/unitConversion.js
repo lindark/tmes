@@ -66,13 +66,13 @@ jQuery(function($) {
 		colNames:['创建日期','单位编码','物料编码','单位描述','兑换比例','转换单位','状态', ],
 		colModel:[
 			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt,search:false},
 			{name:'unitCode',index:'unitConversionCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'matnr',index:'matnr', width:80,editable: true},
 			{name:'unitDescription',index:'unitConversionName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'conversationRatio',index:'conversationRatio', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'convertUnit',index:'convertUnit', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',index:'stateRemark', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"},search:false}
 			 
 		], 
 
@@ -218,10 +218,9 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
-			showQuery: true
-			*/
+			
+			multipleGroup:false,
+			showQuery: true			
 		},
 		{
 			//view record form

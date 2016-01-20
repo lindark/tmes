@@ -157,7 +157,7 @@ inupt.stockMout{
 																	<td>${(lns.amount)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialBoxMount" value="${(lns.boxMount)!}">
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td  style="width:150px"><input style="width:95%"type="text" name="endProducts[${lns_index}].stockBoxMout" value=""></td>
+																	<td  style="width:150px"><input style="width:95%"type="text" name="endProducts[${lns_index}].stockBoxMout" value=""onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 																</tr>
 															</#list>
 															</#if>

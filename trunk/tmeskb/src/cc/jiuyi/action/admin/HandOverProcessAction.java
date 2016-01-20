@@ -342,32 +342,32 @@ public class HandOverProcessAction extends BaseAdminAction {
 //		for (Bom material : materialList) {
 //			materialCodeList.add(material.getMaterialCode());
 //		}
-		try {
-			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-			locationonsideList = rfc.findWarehouse(warehouse,werks);
-			for(int i=0;i<locationonsideList.size();i++){
-				HandOverProcess handoverprocess = new HandOverProcess();
-				Locationonside location = (Locationonside)locationonsideList.get(i);
-				handoverprocess.setProcessName("线边仓");
-				handoverprocess.setMaterialCode(location.getMaterialCode());
-				handoverprocess.setMaterialName(location.getMaterialName());
-				handoverprocess.setAmount(new Double(location.getAmount()));
-				handoverprocessList.add(handoverprocess);
-			}
-		} catch (IOException e) {
-			addActionError("IO操作失败");
-			e.printStackTrace();
-			return ERROR;
-		} catch (CustomerException e) {
-			addActionError(e.getMsgDes());
-			e.printStackTrace();
-			return ERROR;
-		}catch(Exception e){
-			addActionError("系统出现问题，请联系系统管理员");
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return ERROR;
-		}
+//		try {
+//			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+//			locationonsideList = rfc.findWarehouse(warehouse,werks);
+//			for(int i=0;i<locationonsideList.size();i++){
+//				HandOverProcess handoverprocess = new HandOverProcess();
+//				Locationonside location = (Locationonside)locationonsideList.get(i);
+//				handoverprocess.setProcessName("线边仓");
+//				handoverprocess.setMaterialCode(location.getMaterialCode());
+//				handoverprocess.setMaterialName(location.getMaterialName());
+//				handoverprocess.setAmount(new Double(location.getAmount()));
+//				handoverprocessList.add(handoverprocess);
+//			}
+//		} catch (IOException e) {
+//			addActionError("IO操作失败");
+//			e.printStackTrace();
+//			return ERROR;
+//		} catch (CustomerException e) {
+//			addActionError(e.getMsgDes());
+//			e.printStackTrace();
+//			return ERROR;
+//		}catch(Exception e){
+//			addActionError("系统出现问题，请联系系统管理员");
+//			e.printStackTrace();
+//			System.out.println(e.getMessage());
+//			return ERROR;
+//		}
 
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含

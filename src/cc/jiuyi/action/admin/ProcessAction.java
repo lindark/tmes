@@ -25,6 +25,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -51,7 +52,15 @@ public class ProcessAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private ProductsService productsService;
+	@Resource
+	private WorkShopService workShopService;
+	
+	
 	private List<Products> productslist;
+
+	public String browser() {
+		return "browser";
+	}
 
 	// 是否已存在ajax验证
 	public String checkProcesssCode() {
@@ -135,6 +144,8 @@ public class ProcessAction extends BaseAdminAction {
 				Process p =processList.get(i);
 				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "processState", p.getState()));
+				p.setXfactory(workShopService.get(p.getWorkShopId()).getFactory().getFactoryName());
+                p.setXworkShop(workShopService.get(p.getWorkShopId()).getWorkShopName());
 				list2.add(p);
 			}
 			pager.setList(list2);

@@ -108,7 +108,7 @@ public class OddHandOverAction extends BaseAdminAction {
 									for(Bom bm : bmls){
 										OddHandOver oho = new OddHandOver();
 										if(actualMounts[i]!=null && !"".equals(actualMounts[i])){
-											Double mount = actualMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
+											Double mount = actualMounts[i] * (bm.getMaterialAmount() / wb.getPlanCount());
 											BigDecimal   b   =   new   BigDecimal(mount);  
 											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
 											oho.setActualHOMount(mount);

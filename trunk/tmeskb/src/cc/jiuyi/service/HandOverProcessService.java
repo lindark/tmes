@@ -43,7 +43,7 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @param matnr 产品编码
 	 * @return
 	 */
-	public HandOverProcess findhandoverBypro(String materialCode,String processid,String matnr,String workingBillId);
+	public HandOverProcess findhandoverBypro(String materialCode,String processid,String workingBillId);
 	
 	/**
 	 * 根据propertyName + objlist 的结果集 排序

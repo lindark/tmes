@@ -13,16 +13,15 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
 @Table(name = "UnitConversion")
 public class UnitConversion extends BaseEntity{
 
-	private static final long serialVersionUID = 1L;
-
-    private String unitCode;//单位编码
+	private static final long serialVersionUID = -8705934824062239739L;
+	private String unitCode;//单位编码
     private String unitDescription;//单位描述
-    private Integer conversationRatio;//兑换比例
+    private Double conversationRatio;//兑换比例
     private String convertUnit;//转换单位
+    private Double lastconversationRatio;//兑换后比例
     private String state;//状态
     private String matnr;//物料编码
     private String isDel;//是否删除
@@ -43,10 +42,10 @@ public class UnitConversion extends BaseEntity{
 		this.unitDescription = unitDescription;
 	}
 	
-	public Integer getConversationRatio() {
+	public Double getConversationRatio() {
 		return conversationRatio;
 	}
-	public void setConversationRatio(Integer conversationRatio) {
+	public void setConversationRatio(Double conversationRatio) {
 		this.conversationRatio = conversationRatio;
 	}
 	public String getConvertUnit() {
@@ -72,7 +71,7 @@ public class UnitConversion extends BaseEntity{
 		this.isDel = isDel;
 	}
 	
-	 @Transient
+	@Transient
 	public String getStateRemark() {
 		return stateRemark;
 	}
@@ -84,6 +83,12 @@ public class UnitConversion extends BaseEntity{
 	}
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+	public Double getLastconversationRatio() {
+		return lastconversationRatio;
+	}
+	public void setLastconversationRatio(Double lastconversationRatio) {
+		this.lastconversationRatio = lastconversationRatio;
 	}
 	
 }

@@ -139,7 +139,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="endProduct.actualMaterialBoxMount" value="${(endProduct.actualMaterialBoxMount)!}">
 																	<input type="hidden"  name="endProduct.actualMaterialMount" value="${(endProduct.actualMaterialMount)!}">
 																	
-																	<td><input type="text"  name="endProduct.stockBoxMout" value="${(endProduct.stockBoxMout)!}"></td>
+																	<td><input type="text"  name="endProduct.stockBoxMout" value="${(endProduct.stockBoxMout)!}" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 															</tr>
 														<#else>
 															<#list locationonsideList as lns>

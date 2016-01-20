@@ -152,10 +152,10 @@ public class HandOverProcessAction extends BaseAdminAction {
 	public String list() {
 		materialList = new ArrayList<Bom>();
 		Admin admin = adminservice.getLoginAdmin();
-		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
-			addActionError("您当前未上班,不能进行交接操作!");
+			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
 		}
 		admin = adminservice.get(admin.getId());

@@ -69,6 +69,7 @@ jQuery(function($) {
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'modifyDate',index:'modifyDate',label:"日期",width:150,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'mblnr',index:'mblnr',label:"物料凭证",width:150,editable: false,search:false},
 			{name:'xcreater',index:'creater.name',label:"提交人",width:150,editable: false,search:false},
 			{name:'xconfirmation',index:'confirmation.name',label:"确认人",width:150,editable: false,search:false},
 			{name:'xstate',index:'state',label:"状态",width:150,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}},

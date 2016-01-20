@@ -106,7 +106,7 @@ public class ScrapAction extends BaseAdminAction
 		admin = adminService.getLoginAdmin();
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
-			addActionError("您当前未上班,不能进行领料操作!");
+			addActionError("您当前未上班,不能进行报废操作!");
 			return ERROR;
 		}
 		this.workingbill=this.wbService.get(wbId);

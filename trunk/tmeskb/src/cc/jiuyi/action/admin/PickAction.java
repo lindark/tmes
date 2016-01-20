@@ -217,6 +217,9 @@ public class PickAction extends BaseAdminAction {
 			if (CONFIRMED.equals(pick.getState())) {
 				return ajaxJsonErrorMessage("已确认的不需要再次确认!");
 			}
+			if(pick.getEx_mblnr() != null && !"".equals(pick.getEx_mblnr())){
+				continue;
+			}
 			pkList = pickDetailService.getPickDetail(pickId);
 			for (int j = 0; j < pkList.size(); j++) {
 				PickDetail pickDetail = pkList.get(j);

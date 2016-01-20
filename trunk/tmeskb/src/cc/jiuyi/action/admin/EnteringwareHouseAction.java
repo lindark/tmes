@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -28,6 +30,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -54,7 +57,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private EnteringwareHouse enteringwareHouse;
 	private Admin admin;
 	private Integer ratio;// 箱与个的转换比率
-	private Integer totalAmount = 0;
+	private Double totalAmount = 0d;
 	private String cardnumber;//刷卡卡号
 
 	@Resource
@@ -141,34 +144,42 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
 			}
 		}	
+		String charg = enteringwareHouseService.getCharg(workingbill);
 		
 		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
 		for(EnteringwareHouse e:list){
+			String ex_mblnr = e.getEx_mblnr();
+			if(!"".equals(ex_mblnr) && ex_mblnr != null){//weitao modify
+				continue;
+			}
 			e.setBudat(budat);
 			e.setWerks(werks);
 			e.setLgort(warehouse);
 			e.setMoveType("101");
+			e.setBatch(charg);
 			e.setStorageAmount(e.getStorageAmount()*ratio);
 			enterList.add(e);
 		}
 		try {
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
 			for(EnteringwareHouse e:aufnr){
-				if("E".equalsIgnoreCase(e.getE_type()))
-				{
+				if("E".equalsIgnoreCase(e.getE_type())){
 					return this.ajaxJsonErrorMessage(e.getE_message());
 				}
 				
 			}	
 
-			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingBillId,
+			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingbill,
 					ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch (Exception e) {
 			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
 		workingbill = workingBillService.get(workingBillId);
@@ -208,14 +219,15 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		
+		String charg = enteringwareHouseService.getCharg(workingbill);
 		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
 		for(EnteringwareHouse e:list){
 			e.setBudat(budat);
 			e.setWerks(werks);
 			e.setLgort(warehouse);
 			e.setMoveType("102");
-			e.setStorageAmount(e.getStorageAmount()*ratio);
+			e.setBatch(charg);
+			e.setStorageAmount(ArithUtil.mul(e.getStorageAmount(),ratio));
 			enterList.add(e);
 		}
 		try {
@@ -228,7 +240,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				
 			}	
 
-			enteringwareHouseService.updateState(aufnr, UNDO, workingBillId, ratio,cardnumber);
+			enteringwareHouseService.updateState(aufnr, UNDO, workingbill, ratio,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (CustomerException e1) {
@@ -405,11 +417,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		this.ratio = ratio;
 	}
 
-	public Integer getTotalAmount() {
+	public Double getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(Integer totalAmount) {
+	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 

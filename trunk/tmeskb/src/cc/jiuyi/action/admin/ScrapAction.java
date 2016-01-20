@@ -103,7 +103,7 @@ public class ScrapAction extends BaseAdminAction
 	public String list()
 	{
 		this.admin=this.adminService.getLoginAdmin();
-		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报废操作!");

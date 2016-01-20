@@ -395,7 +395,7 @@
 
 										<div class="widget-body">
 											<div class="widget-main no-padding">
-												<table class="table table-bordered table-striped">
+												<table class="table table-bordered table-striped" id="table00">
 													<thead class="thin-border-bottom">
 														<tr>
 															<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称

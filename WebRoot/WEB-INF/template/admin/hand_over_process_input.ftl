@@ -53,11 +53,11 @@ body {
 									<div class="profile-info-row">
 										 <div class="profile-info-name">提交人:</div>
 										 <div class="profile-info-value">
-										 	${(handOverProcess.submitadmin.name)! }
+										 	${(submitadmin)! }
 										 </div>
 										 <div class="profile-info-name">确认人:</div>
 										 <div class="profile-info-value">
-										 	${(handOverProcess.approvaladmin.name)! }
+										 	${(approvaladmin)! }
 										 </div>
 									</div>
 								</div>

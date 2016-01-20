@@ -486,7 +486,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					return false;
 				}
 			}
-			var url="hand_over!creditsubmit.action";
+			var url="hand_over!creditsubmit.action?loginid="+$("#loginid").val();
 			credit.creditCard(url,function(data){
 				//alert("OK");
 			})

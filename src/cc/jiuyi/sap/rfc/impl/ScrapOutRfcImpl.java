@@ -42,8 +42,9 @@ public class ScrapOutRfcImpl extends BaserfcServiceImpl implements ScrapOutRfc{
 			s.setProductsCode(t_data.getString("GROUT"));
 			s.setProductsName(t_data.getString("GNAME"));
 			s.setProductsUnit(t_data.getString("GEWEI"));
+			list.add(s);
 		}
-		return null;
+		return list;
 	}
 
 }

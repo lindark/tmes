@@ -69,6 +69,8 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'processCode',index:'processCode',label:"工序编码", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
 			{name:'processName',index:'processName',label:"工序名称", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xfactory',index:'xfactory',label:"工厂", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xworkShop',index:'xworkShop',label:"单元", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:50,label:"状态", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processState"}}
 			//{name:"showproducts",label:"相关产品",width:100,search:false, sortable:false, resize:false}
 		],

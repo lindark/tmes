@@ -1,6 +1,6 @@
 package cc.jiuyi.action.admin;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,13 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.ScrapOut;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.service.ScrapOutService;
+import cc.jiuyi.sap.rfc.ScrapOutRfc;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ScrapOutService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -55,7 +56,33 @@ public class ScrapOutAction extends BaseAdminAction {
 	private ScrapOutService scrapOutService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private ScrapOutRfc scrapOutRfc;
 
+	public String sync(){
+		try {
+			List<ScrapOut> outList = scrapOutRfc.getScrapOut("", "", "", "");
+			scrapOutService.mergeScrapOutList(outList);
+		} catch (IOException e) {
+			addActionError("IO写入失败!");
+			e.printStackTrace();
+			return ERROR;
+		} catch (CustomerException e) {
+			addActionError(e.getMessage());
+			e.printStackTrace();
+			return ERROR;
+		} catch(Exception e){
+			addActionError("系统出现错误，请联系系统管理员");
+			e.printStackTrace();
+			return ERROR;
+		}
+		
+		
+		return SUCCESS;
+	}
+	
+	
+	
 	public String list() {
 		if(pager==null)
 		{

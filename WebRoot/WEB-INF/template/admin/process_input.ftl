@@ -109,21 +109,20 @@ body{background:#fff;}
 											<input id="processname" type="text" name="process.processName" value="${(process.processName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" /><label class="requireField">*</label>&nbsp;&nbsp;<span id="span_name" class="mymust"></span>
 										</div>
 									</div>
-									<!-- 
-									<#if isAdd??>
-									<div class="profile-info-row">	
-										
-										<div class="profile-info-name">产品名称 </div>	
-										<div class="profile-info-value">
-											<label id="product_name" class="p_name">&nbsp;</label>
-											 <label class="requireField">*</label>
-											 
-										</div>
-									</div>
-									<#else>
-										<span style="display: none;" id="product_name" >1</span>
-									</#if>
-									 -->
+									
+									<div class="profile-info-name">车间</div>
+												<div class="profile-info-value">
+													<input type="hidden" id="workShopId"
+														name="process.workShopId"
+														value="${(process.workShopId)!} }"
+														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
+														readonly="readonly" />
+													<button type="button" class="btn btn-xs btn-info"
+														id="workShopSeach" data-toggle="button">选择</button>														
+													<span id="workShopName"></span><span id="factoryName"></span> <label class="requireField">*</label>												
+												</div>
+									
+									
 									<div class="profile-info-row">
 										<div class="profile-info-name">状态</div>					
 										<div class="profile-info-value">
@@ -164,3 +163,33 @@ body{background:#fff;}
 	<!-- ./ add by welson 0728 -->
 </body>
 </html>
+<script type="text/javascript">
+$(function() {
+
+	//产品点击
+	$("#workShopSeach").click(function(){
+		showShop();	
+	});
+
+	//读取产品信息
+	function showShop(){
+		var title = "选择车间";
+		var width="800px";
+		var height="600px";
+		var content="process!browser.action";
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+			
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	//alert(iframeWin);
+        	 var work = iframeWin.getGridId();
+             var id=work.split(",");
+             $("#workShopId").val(id[1]);
+             $("#workShopName").text(id[0]);
+             $("#factoryName").text(id[2]);
+             layer.close(index); 
+             loadData(id[1]);//加载表单数据            
+	 });	
+	}
+	
+})
+</script>

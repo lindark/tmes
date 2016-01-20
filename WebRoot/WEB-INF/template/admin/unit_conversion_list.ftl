@@ -48,7 +48,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" id="searchform" action="unitConversion!ajlist.action" role="form">
+								<form class="form-horizontal" id="searchform" action="unit_conversion!ajlist.action" role="form">
 								   <div class="operateBar">
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单位编码:</label>
@@ -57,9 +57,9 @@
 										</div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">单位描述:</label>
+										<label class="col-sm-1" style="text-align:right">物料编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="unitDescription" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="matnr" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 								   
@@ -68,7 +68,7 @@
 								   	<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
-										<select name="unitConversion.state">
+										<select name="state">
 							                <#list AllState as list>
 								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && unitConversion.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 							                </#list>
@@ -76,7 +76,7 @@
 									  </div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">创建日期:</label>
+										<!-- <label class="col-sm-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker" name="start">
@@ -86,7 +86,7 @@
 
 												<input type="text" class="input-sm form-control datePicker" name="end">
 											</div>
-										</div>
+										</div> -->
 									</div>	
 										<div class="form-group" style="text-align:center">
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">

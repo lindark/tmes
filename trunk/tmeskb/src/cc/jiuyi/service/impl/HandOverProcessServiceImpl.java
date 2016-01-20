@@ -121,8 +121,8 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 
 	@Override
 	public HandOverProcess findhandoverBypro(String materialCode,
-			String processid, String matnr,String workingBillId) {
-		return handOverProcessDao.findhandoverBypro(materialCode, processid, matnr,workingBillId);
+			String processid,String workingBillId) {
+		return handOverProcessDao.findhandoverBypro(materialCode, processid,workingBillId);
 	}
 	
 	public List<HandOverProcess> getList(String propertyName, Object[] objlist,String orderBy,String ordertype) {

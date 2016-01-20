@@ -65,11 +65,6 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 		super.setParameter(parameter);
 		super.setTable(tablemodelList);
 		/******执行 end******/
-		try {
-			SAPModel model = execBapi();//执行 并获取返回值
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表

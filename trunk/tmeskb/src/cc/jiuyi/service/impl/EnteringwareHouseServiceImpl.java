@@ -1,11 +1,13 @@
 package cc.jiuyi.service.impl;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
@@ -16,6 +18,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 //import org.springmodules.cache.annotations.CacheFlush;
 
@@ -52,9 +55,9 @@ public class EnteringwareHouseServiceImpl extends
 
 	@Override
 	public synchronized void updateState(List<EnteringwareHouse> list,
-			String state, String workingbillid, Integer ratio, String cardnumber) {
+			String state, WorkingBill workingbill, Integer ratio, String cardnumber) {
 		HashMap<String,Object> maps = new HashMap<String,Object>();
-		maps.put("id",workingbillid);
+		maps.put("workingbill",workingbill);
 		maps.put("state", state);
 		maps.put("cardno", cardnumber);
 		maps.put("ratio", ratio.toString());
@@ -73,12 +76,11 @@ public class EnteringwareHouseServiceImpl extends
 		List<EnteringwareHouse> list,HashMap<String,Object> maps) {
 		String card=(String)maps.get("cardno");
 		Admin admin = adminservice.getByCardnum(card);
-		String workid=(String)maps.get("id");
+		WorkingBill workingbill=(WorkingBill)maps.get("workingbill");
 		String state=(String)maps.get("state");
 		String ratio=(String)maps.get("ratio");
 		Integer ratio1=Integer.parseInt(ratio);
-		WorkingBill workingbill = workingbillService.get(workid);
-		Integer totalamount = workingbill.getTotalSingleAmount();
+		Double totalamount = workingbill.getTotalSingleAmount();
 
 		if(state.equalsIgnoreCase("1")){//刷卡确定
 		for (int i = 0; i < list.size(); i++) {
@@ -91,8 +93,6 @@ public class EnteringwareHouseServiceImpl extends
 
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(state);
-			enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
-
 			this.update(enteringwareHouse);
 		}
 		
@@ -105,7 +105,6 @@ public class EnteringwareHouseServiceImpl extends
 				totalamount -= enteringwareHouse.getStorageAmount();					
 				enteringwareHouse.setEx_mblnr(exmblnr);
 				enteringwareHouse.setConfirmUser(admin);
-				enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 				enteringwareHouse.setState(state);
 
 				this.update(enteringwareHouse);
@@ -113,7 +112,37 @@ public class EnteringwareHouseServiceImpl extends
 		}
 		
 		workingbill.setTotalSingleAmount(totalamount);
+		try{
 		workingbillService.merge(workingbill);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 获取批次号
+	 * @return
+	 */
+	public String getCharg(WorkingBill workingbill){
+		/**  modify weitao
+		 * 处理 编号问题
+		 */
+		Calendar a = ThinkWayUtil.getCalendar(workingbill.getProductDate());
+		Integer year = a.get(Calendar.YEAR);
+		Integer mounth = a.get(Calendar.MONTH)+1;//获取月份
+		Integer day = a.get(Calendar.DATE);//获取日期
+		String yearls = StringUtils.substring(year.toString(), year.toString().length()-2);
+		String mounthls=""+mounth;
+		String dayls=""+day;
+		if(Integer.parseInt(yearls) < 10)
+			yearls="0"+year;
+		if(mounth <10)
+			mounthls = "0"+mounth;
+		if(day<10)
+			dayls="0"+day;
+		String charg =yearls+mounthls+dayls;//流水号前8位
+		
+		return charg;
 	}
 
 }

@@ -30,7 +30,6 @@ import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.ScrapRfc;
-import cc.jiuyi.sap.rfc.impl.ScrapRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
@@ -92,6 +91,8 @@ public class ScrapAction extends BaseAdminAction
 	private BomService bomservice;
 	@Resource
 	private MaterialService materialservice;
+	@Resource
+	private ScrapRfc scrapRfc;
 	
 	/**========================end  variable,object,interface==========================*/
 	
@@ -458,7 +459,6 @@ public class ScrapAction extends BaseAdminAction
 	{
 		try
 		{
-			ScrapRfc scrapRfc=new ScrapRfcImpl();
 			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
 				Scrap s=xlist_scrap.get(i);

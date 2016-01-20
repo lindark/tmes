@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ScrapOut;
 
 /**
@@ -30,6 +29,13 @@ public interface ScrapOutDao extends BaseDao<ScrapOut,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+
+	/**
+	 * 根据物料编码查询产品编码
+	 * @param materialCode
+	 * @return
+	 */
+	public ScrapOut getByMaterialCode(String materialCode);
 	
 	
 }

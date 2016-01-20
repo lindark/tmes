@@ -251,6 +251,14 @@
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+													data-access-list="endproduct">
+													<button                                               
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="endProduct" type="button">
+														<i class="ace-icon fa fa-users bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">成品入库</span>
+													</button>
+												</div>
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="quickresponse">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block"
@@ -284,9 +292,22 @@
 														<li>
 															<a href="#" id="rework">返工</a>
 														</li>
+														<li>
+															<a href="#" id="scrap">报废</a>
+														</li>
 														
 													</ul>
 												</div>
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+													data-access-list="repair">
+													<button
+														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
+														id="repair">
+														<i class="ace-icon fa fa-cog bigger-110"></i> <span
+															class="bigger-110 no-text-shadow"> 成品返修</span>
+													</button>
+												</div>
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="scrap">
 													<button
@@ -296,6 +317,7 @@
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
+												 -->
 												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="rework">
@@ -307,15 +329,7 @@
 													</button>
 												</div>
 												 -->
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="repair">
-													<button
-														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
-														id="repair">
-														<i class="ace-icon fa fa-cog bigger-110"></i> <span
-															class="bigger-110 no-text-shadow"> 返修</span>
-													</button>
-												</div>
+												
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="repairgoods">
 													<button
@@ -345,14 +359,7 @@
 															class="bigger-110 no-text-shadow">考勤</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
-													data-access-list="endproduct">
-													<button                                               
-														class="btn btn-green btn-success btn-bold btn-round btn-block" id="endProduct" type="button">
-														<i class="ace-icon fa fa-users bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">成品入库</span>
-													</button>
-												</div>
+												
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="returnProduct">
 													<button                                               

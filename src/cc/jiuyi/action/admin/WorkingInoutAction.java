@@ -17,15 +17,20 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
+import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingInoutService;
+import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 @ParentPackage("admin")
@@ -40,19 +45,28 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private WorkingInoutService workinginoutservice;
 	@Resource
 	private OddHandOverService oddhandoverservice;
+	@Resource
+	private BomService bomservice;
+	@Resource
+	private OrdersService ordersservice;
 	private Pager pager;
 	
 	private String jsondata;
 	
-	private String[] strlen = {"workingBillCode","materialCode","planCount","actualBomMount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
-								"afterFraction","scrapNumber","totalRepairAmount"};
-	private String[] lavenlen={"随工单编号","子件编码","计划数量","包装零头数(接上班)","抽包异常零头数(接上班)","领用数","倍数","入库数",
-								"交下班零头数","报废数","成型异常表面维修数"};
+	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
+								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs",""};
+	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
+								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
+		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);
+		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);
+		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);
+		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);
+		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);
 		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);
 		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);
@@ -64,6 +78,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);
 		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);
 		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);
+		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);
+		
 		List<Process> processList00 = processservice.getAll();
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
@@ -138,19 +154,33 @@ public class WorkingInoutAction extends BaseAdminAction {
 			JSONObject map = new JSONObject();
 			WorkingInout workinginout = workingInoutList.get(i);
 			WorkingBill workingbill = workinginout.getWorkingbill();
-			//workinginout.setWorkingBillCode(workinginout.getWorkingbill().getWorkingBillCode());
+			String aufnr = workingbill.getAufnr();
+			
 			map.put(strlen[0], workingbill.getWorkingBillCode());
 			map.put(strlen[1], workinginout.getMaterialCode());
 			map.put(strlen[2], workingbill.getPlanCount());
-			map.put(strlen[3], workingbill.getAfteroddamount());//接上班包装数
-			map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常包装数
+			map.put(strlen[3], workingbill.getAfteroddamount());//接上班零头数
+			map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常零头数
 			map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
 			map.put(strlen[6], workinginout.getMultiple());//倍数
 			map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
-			map.put(strlen[8],workinginout.getBeforeFraction());//交下班零头数
+			map.put(strlen[8],workingbill.getBeforeoddamount());//交下班零头数
 			map.put(strlen[9],workinginout.getScrapNumber());//报废数
 			map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
-			//map.put(strlen[3], );
+			map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+			map.put(strlen[12],workingbill.getProductDate());//生产日期
+			map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
+			map.put(strlen[14],workingbill.getAufnr());//生产订单号
+			
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
+			Double bomamount = 0.00d;
+			for(Bom bom :bomList){
+				bomamount +=bom.getMaterialAmount();
+			}
+			map.put(strlen[15],ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2));//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+			//ArithUtil.add(ArithUtil.add(ArithUtil.add(workingbill.getAfteroddamount(), workingbill.getAfterunoddamount()),workingbill.getTotalSingleAmount()),);
+			//map.put(strlen[14],);//当班检验合格数
+			
 			for(int y=0;y<jsonarray.size();y++){
 				JSONObject json = (JSONObject) jsonarray.get(y);
 				String name = json.getString("name");

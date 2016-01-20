@@ -32,6 +32,10 @@ public class Process extends BaseEntity {
 	private String xproductnum;// 产品编码
 	private String xproductname;// 产品名称
 	
+	private String workShopId;
+	private String xfactory;
+	private String xworkShop;
+	
 	//private Set<ProcessRoute> processrouteSet;//工艺路线
 
 	private String version;// 版本号
@@ -107,10 +111,6 @@ public class Process extends BaseEntity {
 		this.xproductname = xproductname;
 	}
 
-
-
-
-
 	public String getVersion() {
 		return version;
 	}
@@ -121,5 +121,35 @@ public class Process extends BaseEntity {
 		}
 		this.version = version;
 	}
+
+	public String getWorkShopId() {
+		return workShopId;
+	}
+
+	public void setWorkShopId(String workShopId) {
+		this.workShopId = workShopId;
+	}
+
+	@Transient
+	public String getXfactory() {
+		return xfactory;
+	}
+
+	public void setXfactory(String xfactory) {
+		this.xfactory = xfactory;
+	}
+
+	@Transient
+	public String getXworkShop() {
+		return xworkShop;
+	}
+
+	public void setXworkShop(String xworkShop) {
+		this.xworkShop = xworkShop;
+	}
+
+
+	
+	
 
 }

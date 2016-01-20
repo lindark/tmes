@@ -274,17 +274,17 @@ body {background: #fff;font-family: 微软雅黑;}
 										<div class="profile-info-row">
 											<div class="profile-info-name">条子名称</div>
 											<div class="profile-info-value div-value">
-											<#if list_so??>
 												<select id="sl_material" style="width:150px;">
 													<option value="baga">---请选择---</option>
-													<#assign num2=0 />
-													<#list list_so as list2>
-														<option id="opt_${(list2.productsCode)! }" value="${(list2.productsCode)! }">${(list2.productsName)! }</option>
-													<#assign num2=num2+1 />
-													</#list>
+													<#if list_so??>
+														<#assign num2=0 />
+														<#list list_so as list2>
+															<option id="opt_${(list2.productsCode)! }" value="${(list2.productsCode)! }">${(list2.productsName)! }</option>
+															<#assign num2=num2+1 />
+														</#list>
+													</#if>
 												</select>
 												<label class="requireField">*</label>
-											</#if>
 											</div>
 										</div>
 										<div class="profile-info-row">

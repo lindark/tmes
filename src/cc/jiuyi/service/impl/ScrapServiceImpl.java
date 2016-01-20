@@ -277,6 +277,11 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		{
 			s2.setE_type(s.getE_type());//类型S/E
 			s2.setE_message(s.getE_message());//反馈消息
+			String mblnr=s.getMblnr();
+			if("3".equals(newstate))
+			{
+				mblnr=s2.getMblnr()+"/"+mblnr;
+			}
 			s2.setMblnr(s.getMblnr());//物料凭证
 		}
 		List<ScrapMessage>list_sm=new ArrayList<ScrapMessage>(s2.getScrapMsgSet());//信息表

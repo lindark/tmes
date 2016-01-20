@@ -122,7 +122,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		    	if(bomList.size() <=0)
 		    		continue;
 		    }
-		    handOverProcess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getMatnr(),workingbill.getId());
+		    handOverProcess = handOverProcessService.findhandoverBypro(materialCode, processid,workingbill.getId());
 			if (handOverProcess != null) {
 				Double amount = handOverProcess.getAmount();
 				Double repairamount = handOverProcess.getRepairAmount();
@@ -325,7 +325,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 						handoverprocess.setMaterialName(oho.getMaterialDesp());
 						handoverprocess.setBeforworkingbillCode(oho.getBeforeWokingCode());
 						handoverprocess.setAfterworkingbillCode(oho.getAfterWorkingCode());
-						handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStauts", oho.getState()));
+						handoverprocess.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "oddStatus", oho.getState()));
 						Double amount = ThinkWayUtil.null2o(oho.getActualHOMount());
 						Double repairamount = ThinkWayUtil.null2o(oho.getUnHOMount());
 						amount = amount + repairamount;
@@ -419,21 +419,40 @@ public class HandOverProcessAction extends BaseAdminAction {
 	// 刷卡提交 --员工
 	//@InputConfig(resultName = "error")
 	public String creditsubmit(){
-		boolean f = false;
-		for(HandOverProcess hopl  : handoverprocessList){
-			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
-			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
-			if(hopSet!=null){
-				for(HandOverProcess hop : hopSet){
-					if("approval".equals(hop.getState())){
-						f= true;
-					}
-				}
+//		boolean f = false;
+//		for(HandOverProcess hopl  : handoverprocessList){
+//			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
+//			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
+//			if(hopSet!=null){
+//				for(HandOverProcess hop : hopSet){
+//					if("approval".equals(hop.getState())){
+//						f= true;
+//					}
+//				}
+//			}
+//		}
+//		if(f){
+//			return ajaxJsonErrorMessage("数据已确认不可再次提交");
+//		}
+		boolean flag = false;
+		for(int i=0;i<handoverprocessList.size();i++){
+			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			handOverProcess = handOverProcessService.findhandoverBypro(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(),handoverprocess.getBeforworkingbill().getId());
+			if(handOverProcess == null)
+				continue;
+			String state = handOverProcess.getState();
+			if(state == null)
+				continue;
+			if("approval".equals(state)){//如果有一条是非已确认状态
+				flag = true;
 			}
 		}
-		if(f){
-			return ajaxJsonErrorMessage("数据已确认不可再次提交");
+		if(flag){//如果找到是已刷卡确认了，报错，不能再次提交
+			return ajaxJsonErrorMessage("当前已刷卡确认!");
 		}
+		
+		
+		
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditsubmit",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){
@@ -460,21 +479,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-		boolean f = false;
-		for(HandOverProcess hopl  : handoverprocessList){
-			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
-			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
-			if(hopSet!=null){
-				for(HandOverProcess hop : hopSet){
-					if("approval".equals(hop.getState())){
-						f= true;
-					}
-				}
-			}
-		}
-		if(f){
-			return ajaxJsonErrorMessage("数据已确认无需再次确认");
-		}
+//		boolean f = false;
+//		for(HandOverProcess hopl  : handoverprocessList){
+//			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
+//			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
+//			if(hopSet!=null){
+//				for(HandOverProcess hop : hopSet){
+//					if("approval".equals(hop.getState())){
+//						f= true;
+//					}
+//				}
+//			}
+//		}
+//		if(f){
+//			return ajaxJsonErrorMessage("数据已确认无需再次确认");
+//		}
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditapproval",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){

@@ -210,30 +210,35 @@ public class WorkingInoutAction extends BaseAdminAction {
 					String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
 					String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
 					HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
-					if(handoverprocess == null){
+					Double zcjjsl = 0.00d;
+					Double fxjjsl = 0.00d;
+					if(handoverprocess != null){
+						zcjjsl = handoverprocess.getAmount();//正常交接数量
+						fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 						map.put("GXJSBZC_"+processid,"0" );//正常交接数量
 						map.put("GXJSBFX_"+processid, "0");//返修交接数量
-					}else{
-						map.put("GXJSBZC_"+processid,handoverprocess.getAmount() );//正常交接数量
-						map.put("GXJSBFX_"+processid,handoverprocess.getRepairAmount());//返修交接数量
 					}
-					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(handoverprocess.getAmount()));//投入:正常交接数量
-					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(handoverprocess.getRepairAmount()));//投入:返修交接数量
+					map.put("GXJSBZC_"+processid,zcjjsl);//正常交接数量
+					map.put("GXJSBFX_"+processid,fxjjsl);//返修交接数量
+					
+					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
 				}
 				if(firstls00>=0){//交下班
 					String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
 					String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
 					String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
 					HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
-					if(handoverprocess == null){
-						map.put("GXJXBZC_"+processid, "0");//正常交下班数量
-						map.put("GXJXBFX_"+processid, "0");//返修交接数量
-					}else{
-						map.put("GXJXBZC_"+processid,handoverprocess.getAmount() );//正常交接数量
-						map.put("GXJXBFX_"+processid,handoverprocess.getRepairAmount());//返修交接数量
+					Double zcjjsl = 0.00d;
+					Double fxjjsl = 0.00d;
+					if(handoverprocess != null){
+						zcjjsl = handoverprocess.getAmount();//正常交接数量
+						fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 					}
-					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(handoverprocess.getActualAmount()));//投入:正常交接数量
-					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(handoverprocess.getRepairAmount()));//投入:返修交接数量
+					map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
+					map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
+					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
 				}
 				//int firstls1 = StringUtils
 				

@@ -230,15 +230,17 @@
 															class="bigger-110 no-text-shadow">报工</span>
 													</button>
 												</div>
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="sample">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="sample">
 														<i class="ace-icon fa fa-flag bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">巡检</span>
+															class="bigger-110 no-text-shadow">抽检</span>
 													</button>
 												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="putstorage">
 													<button
@@ -259,12 +261,31 @@
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="inspection">
-													<button
-														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
-														id="pollingtest">
+													
+													<button data-toggle="dropdown" 
+														class="btn btn-green btn-success btn-bold btn-round dropdown-toggle btn-block">
 														<i class="ace-icon fa fa-leaf bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">现场检验</span>
+															<i class="ace-icon fa fa-angle-down icon-on-right"></i>
 													</button>
+													<ul class="dropdown-menu dropdown-success dropdown-menu-right">
+														<li>
+															<a href="#" id="pollingtest">成品巡检</a>
+														</li>
+	
+														<li>
+															<a href="#" id="sample">抽检</a>
+														</li>
+	
+														<li>
+															<a href="#" id="halfinspection">半成品巡检</a>
+														</li>
+														
+														<li>
+															<a href="#" id="rework">返工</a>
+														</li>
+														
+													</ul>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="scrap">
@@ -275,6 +296,7 @@
 															class="bigger-110 no-text-shadow">报废</span>
 													</button>
 												</div>
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="rework">
 													<button
@@ -284,6 +306,7 @@
 															class="bigger-110 no-text-shadow">返工</span>
 													</button>
 												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="repair">
 													<button
@@ -303,7 +326,7 @@
 													</button>
 												</div>
 												
-												
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="halfinspection">
 													<button
@@ -313,6 +336,7 @@
 															class="bigger-110 no-text-shadow">半成品巡检</span>
 													</button>
 												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="attendance">
 													<button

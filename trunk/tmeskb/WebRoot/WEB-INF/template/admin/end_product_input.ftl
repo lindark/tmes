@@ -235,7 +235,7 @@ $(function(){
 		window.history.back();
 	});
 	$("#search_btn").click(function(){
-		var maco = $("#in_seartch").val();
+		var maco = $("#in_seartch_1").val();
 		var macodesp = $("#in_seartch_2").val();
 		window.location.href="end_product!add.action?info="+maco+"&desp="+macodesp;
 	});

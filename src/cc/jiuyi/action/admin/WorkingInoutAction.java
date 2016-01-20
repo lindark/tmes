@@ -44,42 +44,44 @@ public class WorkingInoutAction extends BaseAdminAction {
 	@Resource
 	private WorkingInoutService workinginoutservice;
 	@Resource
-	private OddHandOverService oddhandoverservice;
-	@Resource
 	private BomService bomservice;
-	@Resource
-	private OrdersService ordersservice;
 	private Pager pager;
 	
 	private String jsondata;
 	
 	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
-								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs",""};
+								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
+								"trzsl","cczsl","slcy"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
-								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数"};
+								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数","交下班异常零头数","一次合格率",
+								"投入总数量","产出总数量","数量差异"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
-		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);
-		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);
-		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);
-		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);
-		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);
-		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);
-		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);
-		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);
-		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);
-		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);
-		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);
-		nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);
-		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);
-		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);
-		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);
-		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);
-		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);
-		
+		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
+		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
+		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
+		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
+		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
+		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
+		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
+		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
+		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
+		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
+		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
+		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
+		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
+		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
+		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修返回苏
+		nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
+		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
+		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
+		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
 		List<Process> processList00 = processservice.getAll();
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
@@ -165,6 +167,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[6], workinginout.getMultiple());//倍数
 			map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 			map.put(strlen[8],workingbill.getBeforeoddamount());//交下班零头数
+			map.put(strlen[17],workingbill.getBeforeunoddamount());//交下班异常零头数
 			map.put(strlen[9],workinginout.getScrapNumber());//报废数
 			map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
 			map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
@@ -177,9 +180,25 @@ public class WorkingInoutAction extends BaseAdminAction {
 			for(Bom bom :bomList){
 				bomamount +=bom.getMaterialAmount();
 			}
-			map.put(strlen[15],ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2));//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
-			//ArithUtil.add(ArithUtil.add(ArithUtil.add(workingbill.getAfteroddamount(), workingbill.getAfterunoddamount()),workingbill.getTotalSingleAmount()),);
-			//map.put(strlen[14],);//当班检验合格数
+			Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+			map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+			Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数
+			Double afterunoddamount = ThinkWayUtil.null2o(workingbill.getAfterunoddamount());//接上班异常零头数
+			Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
+			Double beforeoddamount = ThinkWayUtil.null2o(workingbill.getBeforeoddamount());//交下班零头数
+			Double beforeunoddamount = ThinkWayUtil.null2o(workingbill.getBeforeunoddamount());//交下班异常零头数
+			Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(afteroddamount, afterunoddamount),totalsingleamount),beforeoddamount),beforeunoddamount);//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+			map.put(strlen[16],dbjyhgs);//当班检验合格数
+			map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
+			
+			Double trzsl = 0.00d;
+			Double cczsl = 0.00d;
+			trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getRecipientsAmount()));//领用数
+			trzsl = ArithUtil.sub(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+			
+			cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+			cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量
+			cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
 			
 			for(int y=0;y<jsonarray.size();y++){
 				JSONObject json = (JSONObject) jsonarray.get(y);
@@ -198,6 +217,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 						map.put("GXJSBZC_"+processid,handoverprocess.getAmount() );//正常交接数量
 						map.put("GXJSBFX_"+processid,handoverprocess.getRepairAmount());//返修交接数量
 					}
+					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(handoverprocess.getAmount()));//投入:正常交接数量
+					trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(handoverprocess.getRepairAmount()));//投入:返修交接数量
 				}
 				if(firstls00>=0){//交下班
 					String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
@@ -211,10 +232,16 @@ public class WorkingInoutAction extends BaseAdminAction {
 						map.put("GXJXBZC_"+processid,handoverprocess.getAmount() );//正常交接数量
 						map.put("GXJXBFX_"+processid,handoverprocess.getRepairAmount());//返修交接数量
 					}
+					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(handoverprocess.getActualAmount()));//投入:正常交接数量
+					trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(handoverprocess.getRepairAmount()));//投入:返修交接数量
 				}
 				//int firstls1 = StringUtils
 				
 			}
+			
+			map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
+			map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数
+			map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 			jsonstr.add(map);
 		}
 		}catch(Exception e){

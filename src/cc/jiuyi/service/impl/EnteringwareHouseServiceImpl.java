@@ -91,6 +91,7 @@ public class EnteringwareHouseServiceImpl extends
 			totalamount = enteringwareHouse.getStorageAmount()+totalamount;
 			enteringwareHouse.setEx_mblnr(exmblnr);
 
+			enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(state);
 			this.update(enteringwareHouse);
@@ -106,7 +107,7 @@ public class EnteringwareHouseServiceImpl extends
 				enteringwareHouse.setEx_mblnr(exmblnr);
 				enteringwareHouse.setConfirmUser(admin);
 				enteringwareHouse.setState(state);
-
+				enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 				this.update(enteringwareHouse);
 			}
 		}

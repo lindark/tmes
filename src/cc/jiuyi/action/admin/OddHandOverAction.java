@@ -204,7 +204,7 @@ public class OddHandOverAction extends BaseAdminAction {
 				Map<String,String> map = new HashMap<String,String>();
 				WorkingBill nextWorkingbill = workingBillService.getCodeNext(workingCode[i],nowDate,shift);//下一随工单
 				if(nextWorkingbill == null){
-					return ajaxJsonErrorMessage("无下一班随工单");
+					continue;
 				}
 				map.put("afterCode", nextWorkingbill.getWorkingBillCode());
 				mapList.add(map);

@@ -4,12 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Material;
-import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.ScrapOut;
-import cc.jiuyi.entity.WorkingBill;
-
 /**
  * Service接口 - 报废产出对照表
  */
@@ -31,6 +26,13 @@ public interface ScrapOutService extends BaseService<ScrapOut, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+
+	/**
+	 * 根据物料编码查询产品编码
+	 * @param materialCode
+	 * @return
+	 */
+	public ScrapOut getByMaterialCode(String materialCode);
 	
 	
 	/**

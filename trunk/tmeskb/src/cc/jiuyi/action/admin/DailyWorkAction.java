@@ -89,7 +89,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	 */
 	public String list() {
 		admin = adminService.getLoginAdmin();
-		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报工操作!");

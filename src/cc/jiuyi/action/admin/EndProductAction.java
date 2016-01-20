@@ -226,6 +226,8 @@ public class EndProductAction extends BaseAdminAction {
 			for(int i=0;i<ids.length;i++){
 				EndProduct ed = endProductService.get(ids[i]);
 				if( ed!=null){
+					if(ed.getMblnr()!=null && !"".equals(ed.getMblnr()))
+						continue;
 					ed.setConfirmUser(admin.getUsername());
 					ed.setConfirmName(admin.getName());
 					ed.setState("2");

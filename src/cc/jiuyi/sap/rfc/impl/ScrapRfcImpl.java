@@ -95,6 +95,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 			item.put("ORDERID", s.getOrderid());//订单
 			item.put("ITEM_TEXT", s.getItem_text());//项目文本
 			item.put("XUH", s.getScrap().getId());//ID
+			item.put("CHARG", s.getCharg());//批次
 			arrList.add(item);
 		}
 		ET_ITEM.setList(arrList);

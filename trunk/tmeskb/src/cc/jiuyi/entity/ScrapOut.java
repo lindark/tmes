@@ -85,6 +85,9 @@ public class ScrapOut extends BaseEntity {
 		return isDel;
 	}
 	public void setIsDel(String isDel) {
+		if(isDel ==null){
+			isDel = "N";
+		}
 		this.isDel = isDel;
 	}
 	

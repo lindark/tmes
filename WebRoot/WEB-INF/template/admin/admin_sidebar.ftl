@@ -56,6 +56,7 @@
 
 				<b class="arrow"></b>
 			</li>
+			<!-- 
 			<li>
 			<a href="admin!index2.action" >
 					<i class="menu-icon fa fa-gavel"></i>
@@ -64,6 +65,7 @@
 
 				<b class="arrow"></b>
 			</li>
+			 -->
 		<!--<li>
 				<a href="#" >
 					<i class="menu-icon glyphicon glyphicon-user"></i>

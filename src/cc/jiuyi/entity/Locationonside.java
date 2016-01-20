@@ -1,8 +1,8 @@
 package cc.jiuyi.entity;
 
-import java.beans.Transient;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
 

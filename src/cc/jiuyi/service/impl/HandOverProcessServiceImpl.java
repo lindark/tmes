@@ -85,6 +85,14 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		//String hanoverId=handoverservice.save(handOver);//保存主表
 		//handOver.setId(hanoverId);
 		for(HandOverProcess handoverprocess : handoverprocessList){
+			
+			HandOverProcess handOverProcess = this.findhandoverBypro(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(),handoverprocess.getBeforworkingbill().getId());
+			if(handOverProcess != null){
+				handoverprocess.setSubmitadmin(handOverProcess.getSubmitadmin());
+				handoverprocess.setApprovaladmin(handOverProcess.getApprovaladmin());
+				handoverprocess.setSaveadmin(handOverProcess.getSaveadmin());
+			}
+			
 			//Admin admin = adminservice.get("cardNumber", cardNumber);
 			if(state.equals("creditsubmit")){//刷卡提交
 				handoverprocess.setSubmitadmin(admin);

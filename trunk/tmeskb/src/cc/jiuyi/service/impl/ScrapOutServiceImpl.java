@@ -56,6 +56,14 @@ public class ScrapOutServiceImpl extends BaseServiceImpl<ScrapOut, String>implem
 				this.merge(scrapOut);
 			}
 		}
-		}
 	}
+
+	/**
+	 * 根据物料编码查询产品编码
+	 */
+	public ScrapOut getByMaterialCode(String materialCode)
+	{
+		return this.scrapOutDao.getByMaterialCode(materialCode);
+	}
+}
 	

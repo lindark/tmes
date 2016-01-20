@@ -153,6 +153,10 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
+		String item_text=workingBillCode.substring(workingBillCode.length()-2);
+		String productdate=wb.getProductDate();
+		productdate=productdate.replace("-","").substring(2);
+		String charg=productdate+item_text;
 		/**保存主表数据*/
 		repairin.setCreateUser(admin);
 		repairin.setCreateDate(new Date());//创建日期
@@ -166,7 +170,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		if("ZJ".equals(repairin.getRepairintype()))
 		{
 			//组件--选择的组件
-			saveInfo(r,list_rp,workingBillCode);
+			saveInfo(r,list_rp,item_text,charg);
 		}
 		else if("CP".equals(repairin.getRepairintype()))
 		{
@@ -176,7 +180,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			{
 				d=wb.getPlanCount();
 			}
-			saveInfo2(r,list_bom,workingBillCode,d);
+			saveInfo2(r,list_bom,item_text,d,charg);
 		}
 	}
 
@@ -188,6 +192,10 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		//Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
 		String workingBillCode = wb.getWorkingBillCode();
+		String item_text=workingBillCode.substring(workingBillCode.length()-2);
+		String productdate=wb.getProductDate();
+		productdate=productdate.replace("-","").substring(2);
+		String charg=productdate+item_text;
 		/**修改主表数据*/
 		Repairin r = this.get(repairin.getId());
 		List<RepairinPiece>list=new ArrayList<RepairinPiece>(r.getRpieceSet());
@@ -209,7 +217,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		if("ZJ".equals(repairin.getRepairintype()))
 		{
 			//组件--选择的组件
-			saveInfo(r,list_rp,workingBillCode);
+			saveInfo(r,list_rp,item_text,charg);
 		}
 		else if("CP".equals(repairin.getRepairintype()))
 		{
@@ -219,14 +227,14 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			{
 				d=wb.getPlanCount();
 			}
-			saveInfo2(r,list_bom,workingBillCode,d);
+			saveInfo2(r,list_bom,item_text,d,charg);
 		}
 	}
 	
 	/**
 	 * 新增组件数据共用方法
 	 */
-	public void saveInfo(Repairin r,List<RepairinPiece>list_rp,String workingBillCode)
+	public void saveInfo(Repairin r,List<RepairinPiece>list_rp,String item_text,String charg)
 	{
 		if(list_rp!=null)
 		{
@@ -235,7 +243,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				RepairinPiece rp=list_rp.get(i);
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
-				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
+				rp.setITEM_TEXT(item_text);
+				rp.setCHARG(charg);//批次
 				//组件总数量=返修数量/产品数量 *组件数量
 				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
@@ -258,7 +267,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 新增组件数据共用方法2
 	 */
-	public void saveInfo2(Repairin r,List<Bom>list_bom,String workingBillCode,double plancount)
+	public void saveInfo2(Repairin r,List<Bom>list_bom,String item_text,double plancount,String charg)
 	{
 		if(list_bom!=null)
 		{
@@ -266,7 +275,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			{
 				RepairinPiece rp=new RepairinPiece();
 				Bom b=list_bom.get(i);
-				rp.setITEM_TEXT(workingBillCode.substring(workingBillCode.length()-2));
+				rp.setITEM_TEXT(item_text);
+				rp.setCHARG(charg);//批次
 				rp.setCreateDate(new Date());//创建日期
 				rp.setModifyDate(new Date());//修改日期
 				rp.setRpcode(b.getMaterialCode());//物料编码

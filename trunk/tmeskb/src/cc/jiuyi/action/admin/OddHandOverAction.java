@@ -130,7 +130,7 @@ public class OddHandOverAction extends BaseAdminAction {
 										oho.setMaterialCode(bm.getMaterialCode());
 										oho.setMaterialDesp(bm.getMaterialName());
 										if(unMounts[i]!=null && !"".equals(unMounts[i])){
-											Double mount = unMounts[i] * (bm.getMaterialAmount() / bm.getProductAmount());
+											Double mount = unMounts[i] * (bm.getMaterialAmount() / wb.getPlanCount());
 											BigDecimal   b   =   new   BigDecimal(mount);  
 											mount   =   b.setScale(3,   BigDecimal.ROUND_HALF_UP).doubleValue();  
 											oho.setUnHOMount(mount);

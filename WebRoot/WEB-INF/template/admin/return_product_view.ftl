@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>成品入库管理 - Powered By ${systemConfig.systemName}</title>
+<title>中转仓管理 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -42,7 +42,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> 
 					<a href="admin!index.action">管理中心</a></li>
-					<li class="active">成品入库详情</li>
+					<li class="active">中转仓详情</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -58,7 +58,7 @@ body {
 							 method="post">
 							<div id="inputtabs">
 								 <ul>
-								    <li><a href="#tabs-1">成品入库详情</a></li>
+								    <li><a href="#tabs-1">中转仓详情</a></li>
 								</ul>
 								<div id="tabs-1" class="tab1">
 								<div class="profile-user-info profile-user-info-striped">
@@ -77,12 +77,12 @@ body {
 
 									<tbody>
 											<tr id="tr_1">
-												<td class="center" name="">${(endProduct.repertorySite)! }</td>
-												<td class="center" name="">${(endProduct.materialCode)! }</td>
-												<td class="center" name="">${(endProduct.materialDesp)! }</td>
-												<td class="center" >${(endProduct.materialBatch)! }</td>
-										 		<td class="center">${(endProduct.receiveRepertorySite)! }</td>
-												<td class="center">${(endProduct.stockMout)!}</td>								
+												<td class="center" name="">${(returnProduct.repertorySite)! }</td>
+												<td class="center" name="">${(returnProduct.materialCode)! }</td>
+												<td class="center" name="">${(returnProduct.materialDesp)! }</td>
+												<td class="center" >${(returnProduct.materialBatch)! }</td>
+										 		<td class="center">${(returnProduct.receiveRepertorySite)! }</td>
+												<td class="center">${(returnProduct.stockMout)!}</td>								
 											</tr>
 									</tbody>
 								</table>

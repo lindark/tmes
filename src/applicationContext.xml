@@ -185,6 +185,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.PumPackHandOver</value>
 				<value>cc.jiuyi.entity.WorkingInout</value>
 				<value>cc.jiuyi.entity.EndProduct</value>
+				<value>cc.jiuyi.entity.ReturnProduct</value>
 				<value>cc.jiuyi.entity.ScrapOut</value>
 			</list>
 		</property>

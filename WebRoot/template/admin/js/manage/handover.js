@@ -33,7 +33,7 @@ $(function(){
 	        shadeClose: true,
 	        maxmin: true,
 	        scrollbar: false,
-	        btn:['刷卡提交','刷卡确认','取消'],
+	        btn:['刷卡提交',"测试",'刷卡确认','取消'],
 	        area: [width, height],//弹出框的高度，宽度
 	        content:content,
 //	        yes:function(index,layero){//刷卡保存
@@ -61,11 +61,14 @@ $(function(){
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
 	    			$.message(data.status,data.message);
-	    			
+	    			iframeWin.location.reload();
 	    		},dt)
 	        	return false;
 	        },
 	        btn2:function(index,layero){//刷卡确认
+	        	return false;
+	        },
+	        btn3:function(index,layero){
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
 	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");
@@ -79,11 +82,11 @@ $(function(){
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
 	    			$.message(data.status,data.message);
-	    			
+	    			iframeWin.location.reload();
 	    		},dt)
-	        	return false;
+	    		return false;
 	        }
-
+	        
 	    });
 		
 	});

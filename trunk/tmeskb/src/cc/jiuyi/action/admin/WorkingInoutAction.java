@@ -51,10 +51,10 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
-								"trzsl","cczsl","slcy"};
+								"trzsl","cczsl","slcy","jhdcl"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
 								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数","交下班异常零头数","一次合格率",
-								"投入总数量","产出总数量","数量差异"};
+								"投入总数量","产出总数量","数量差异","计划达成率"};
 	public String list(){
 		
 		List<String> nameobj = new ArrayList<String>();
@@ -82,6 +82,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
 		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
 		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
+		nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
 		List<Process> processList00 = processservice.getAll();
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
@@ -164,7 +165,6 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[3], workingbill.getAfteroddamount());//接上班零头数
 			map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常零头数
 			map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
-			map.put(strlen[6], workinginout.getMultiple());//倍数
 			map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 			map.put(strlen[8],workingbill.getBeforeoddamount());//交下班零头数
 			map.put(strlen[17],workingbill.getBeforeunoddamount());//交下班异常零头数
@@ -180,6 +180,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 			for(Bom bom :bomList){
 				bomamount +=bom.getMaterialAmount();
 			}
+			map.put(strlen[6], ArithUtil.div(workingbill.getPlanCount(),bomamount));//倍数 = 随工单计划数量 / bom数量
+			
 			Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
 			map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 			Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数
@@ -247,6 +249,8 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
 			map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数
 			map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
+			Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())/100,2);//计划达成率
+			map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 			jsonstr.add(map);
 		}
 		}catch(Exception e){

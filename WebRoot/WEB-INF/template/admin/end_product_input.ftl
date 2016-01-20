@@ -118,6 +118,7 @@ inupt.stockMout{
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
 														<th class="tabth">库存箱数</th>
+														<th class="tabth">库存数量</th>
 														<th class="tabth">入库箱数</th>
 													</tr>
 													
@@ -134,8 +135,10 @@ inupt.stockMout{
 																	<td>${(endProduct.materialBatch)! }</td>
 																	<input type="hidden"  name="endProduct.materialBatch" value="${(endProduct.materialBatch)!}">
 																	<td>${(endProduct.actualMaterialBoxMount)! }</td>
+																	<td>${(endProduct.actualMaterialMount)! }</td>
 																	<input type="hidden"  name="endProduct.actualMaterialBoxMount" value="${(endProduct.actualMaterialBoxMount)!}">
 																	<input type="hidden"  name="endProduct.actualMaterialMount" value="${(endProduct.actualMaterialMount)!}">
+																	
 																	<td><input type="text"  name="endProduct.stockBoxMout" value="${(endProduct.stockBoxMout)!}"></td>
 															</tr>
 														<#else>
@@ -151,9 +154,10 @@ inupt.stockMout{
 																	<td>${(lns.charg)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
 																	<td>${(lns.boxMount)! }</td>
+																	<td>${(lns.amount)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialBoxMount" value="${(lns.boxMount)!}">
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td><input type="text"  name="endProducts[${lns_index}].stockBoxMout" value=""></td>
+																	<td  style="width:150px"><input style="width:95%"type="text" name="endProducts[${lns_index}].stockBoxMout" value=""></td>
 																</tr>
 															</#list>
 															</#if>

@@ -104,7 +104,7 @@ public class EnteringwareHouseServiceImpl extends
 
 				enteringwareHouse=	enteringwareHouseDao.get(enteringwareHouse.getId());
 				totalamount -= enteringwareHouse.getStorageAmount();					
-				enteringwareHouse.setEx_mblnr(exmblnr);
+				enteringwareHouse.setEx_mblnr(enteringwareHouse.getEx_mblnr()+"/"+exmblnr);
 				enteringwareHouse.setConfirmUser(admin);
 				enteringwareHouse.setState(state);
 				enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);

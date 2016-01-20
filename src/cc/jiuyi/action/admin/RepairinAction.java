@@ -78,7 +78,7 @@ public class RepairinAction extends BaseAdminAction {
 	 */
 	public String list() {
 		admin = adminService.getLoginAdmin();
-		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修收货操作!");

@@ -57,7 +57,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	private OddHandOverService oddHandOverService;
 	
 	//刷卡提交
-	public String creditSubmit(){
+	public String creditsubmit(){
 		//获取当前登录人信息
 		//Admin admin = adminService.getLoginAdmin();
 		//admin = adminService.get(admin.getId());
@@ -156,7 +156,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	}
 	
 	//刷卡确认
-	public String crediTapproval(){
+	public String creditapproval(){
 		Set<OddHandOver> ohoSet = new HashSet<OddHandOver>();
 		boolean f = false;
 		if(actualMounts!=null && actualMounts.length>0){

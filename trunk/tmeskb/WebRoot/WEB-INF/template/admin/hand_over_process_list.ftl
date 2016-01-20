@@ -540,7 +540,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			}
 			
 			var productDate = $("#productDate").val();
-			var url = "odd_hand_over!creditSubmit.action?nowDate="+productDate+"&shift="+shift;
+			var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift;
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
 			},dt);
@@ -562,7 +562,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					return false;
 				}
 			}
-			var url = "odd_hand_over!crediTapproval.action";
+			var url = "odd_hand_over!creditapproval.action";
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
 				if(data.status=="success"){

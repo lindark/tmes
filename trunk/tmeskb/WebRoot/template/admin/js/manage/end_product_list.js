@@ -81,7 +81,6 @@ jQuery(function($) {
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
-		alert(rawObject.state);
 		
 		//未确认
 		if(rawObject.state=="1")

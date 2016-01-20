@@ -114,6 +114,10 @@ public class WorkingBillServiceImpl extends
 	public void update(WorkingBill workingbill) {
 		workingbilldao.update(workingbill);
 	}
+	@Cacheable(modelId = "flushing")
+	public WorkingBill merge(WorkingBill entity) {
+		return workingbilldao.merge(entity);
+	}
 
 	/**
 	 * 查询随工单表中的id 和 产品名称maktx

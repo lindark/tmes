@@ -78,11 +78,11 @@ jQuery(function($) {
 							{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 							{name:'productsCode',index:'productsCode',label:"产品编号",width:100, editable: false},
 							{name:'productsName',index:'productsName',label:"产品名称",width:160, editable: false},
-							{name:'productsUnit',index:'productsUnit',label:"产品单位",width:160, editable: false},
+							{name:'productsUnit',index:'productsUnit',label:"产品单位",width:50, editable: false},
 							{name:'materialCode',index:'materialCode',label:"物料编码", width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},
 							{name:'materialName',index:'materialName',label:"物料名称", width:160,editable: false,editoptions:{size:"20",maxlength:"30"}},
-							{name:'materialUnit',index:'materialUnit',label:"物料单位", width:160,editable: false,editoptions:{size:"20",maxlength:"30"}},	
-							{name:'createDate',index:'createDate',label:"创建日期",width:100,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt}
+							{name:'materialUnit',index:'materialUnit',label:"物料单位", width:50,editable: false,editoptions:{size:"20",maxlength:"30"}},	
+							{name:'createDate',index:'createDate',label:"创建日期",width:150,search:false,editable:false, sorttype:"date",unformat: pickDate,formatter:datefmt}
 						],
 				// sortable:true,
 				// sortname: "deliveryDate",

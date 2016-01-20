@@ -75,7 +75,8 @@ inupt.stockMout{
 								 	<ul>
 								    	<li><a href="#tabs-1"><#if isAdd??>添加中转仓<#else>编辑中转仓</#if></a></li>
 									</ul>
-									<div id="tabs-1" class="tab1">				
+									<div id="tabs-1" class="tab1">
+									<#if isAdd??>				
 									<div class="site">接收库存地点:
 										<select name="info" style="margin-right:30px;">
 											<#list allSite as als>
@@ -91,6 +92,7 @@ inupt.stockMout{
 												搜索
 											</a>
 									</div>
+									</#if>
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">

@@ -26,6 +26,7 @@ import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
@@ -190,8 +191,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
-		//ratio = unitConversionService.getRatioByCode(UNITCODE);
+		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}
@@ -244,8 +245,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		ratio = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
-		//ratio = unitConversionService.getRatioByCode(UNITCODE);
+		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		ratio = unitconversion.getConversationRatio().intValue();
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}

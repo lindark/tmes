@@ -1,13 +1,10 @@
 package cc.jiuyi.dao;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.WorkingBill;
-
 
 /**
  * Dao接口 - 产品Bom
@@ -56,6 +53,7 @@ public interface BomDao extends BaseDao<Bom, String> {
 	 * @return
 	 */
 	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion);
+	public Pager getPieceByCondition(Pager pager, HashMap<String, String> map,String aufnr, Integer maxversion,String shift);
 	
 	/*根据组件编码获取组件名称
 	 * */

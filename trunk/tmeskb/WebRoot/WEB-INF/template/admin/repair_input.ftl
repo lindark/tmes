@@ -177,14 +177,14 @@ body {
 						                       				<input type="radio" id="repairtype_cp" class="ace" name="repair.repairtype" value="CP"<#if (isAdd || repair.repairtype == 'CP')!> checked</#if> />
 						                       				<span class="lbl middle"></span>
 					                        			</label>
-					                        			<!---->
+					                        			<!--
 					                        			&nbsp;&nbsp;				
 					                        			<label class="pull-left inline">
 					                            			<small class="muted smaller-90">组件:</small>
 						                        			<input type="radio" id="repairtype_zj" class="ace" name="repair.repairtype" value="ZJ"<#if (repair.repairtype == 'ZJ')!> checked</#if>  />
 						                         			<span class="lbl middle"></span>
 					                        			</label>
-					                        			  
+					                        			  -->
 													</#if>
 												</div>	
 												

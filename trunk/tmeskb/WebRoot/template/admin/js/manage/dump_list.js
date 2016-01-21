@@ -76,11 +76,15 @@ jQuery(function($) {
 		//sortable:true,
 		//sortname: "deliveryDate",
 		//sortorder: "desc",
-
+        loadonce:true,
 		viewrecords : true,
-		/*rowNum:10,
-		rowList:[10,20,30],
+		scroll:true,
+		rowNum:999999,
+		/*rowList:[10,20,30],
 		pager : pager_selector,*/
+		pager:pager_selector,
+		pgbuttons:false,
+		pginput:false,
 		altRows: true,
 		//toppager: true,
 		
@@ -267,7 +271,8 @@ function btn_event()
 		var url = "dump!creditapproval.action?dumpId="+dumpId+"&loginid="+loginid;
 		credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
-			$("#grid-table").trigger("reloadGrid");
+			window.location.href = "dump!list.action?loginid="+loginid;
+			//$("#grid-table").trigger("reloadGrid");	
 		})
 		
 		

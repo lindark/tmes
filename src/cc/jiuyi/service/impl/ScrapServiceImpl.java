@@ -282,7 +282,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			{
 				mblnr=s2.getMblnr()+"/"+mblnr;
 			}
-			s2.setMblnr(s.getMblnr());//物料凭证
+			s2.setMblnr(mblnr);//物料凭证
 		}
 		List<ScrapMessage>list_sm=new ArrayList<ScrapMessage>(s2.getScrapMsgSet());//信息表
 		/**计算报废缺陷数量保存到主表中*/

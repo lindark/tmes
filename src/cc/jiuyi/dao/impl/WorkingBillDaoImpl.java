@@ -126,7 +126,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 
 	@SuppressWarnings("unchecked")
 	public List<WorkingBill> findWorkingBill(String workcenter,String productDate,String shift) {
-		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and workcenter = ?";
+		String hql="from WorkingBill where productDate = ? and workingBillCode like ? and workcenter = ? and isdel = Y";
 		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, "%"+shift).setParameter(2, workcenter).list();
 	}
 	

@@ -10,7 +10,6 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/scrap_input.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/layer/jquery.easydrag.handler.beta2.js"></script>
 <#if !id??> <#assign isAdd = true /> <#else> <#assign isEdit = true />
 </#if> <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style>
@@ -128,8 +127,8 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialCode)! }</td>
 																		<td>${(list.materialName)! }</td>
 																		<td>
-																			<select name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
-																				<option value="">&nbsp;</option>
+																			<select id="select_duty" name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
+																				<option value="baga">&nbsp;</option>
 																				<#list list_dict as dlist>
 																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.xsmduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
 																				</#list>
@@ -254,13 +253,15 @@ body {background: #fff;font-family: 微软雅黑;}
 											<#else>
 												<#assign num=0 />
 												<#if list_cause??>
+													<div id="div_allcause">
 													<#list list_cause as clist>
-														<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
+														<div id="div_${num}" class="col-md-2 col-xs-6 col-sm-3 div-value2">
 															<label>${(clist.causeName)! }</label>
 															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class=" input-value" />
 														</div>
 														<#assign num=num+1 />
 													</#list>
+													</div>
 												</#if>
 											</#if>
 										</div>
@@ -340,7 +341,7 @@ function cause_event()
 	<#list list_cause as list>
 		$("#mynum"+i).change(function(){
 			var idval=$(this).attr("id");
-			i=idval.substring(idval.length-1,idval.length);
+			i=idval.substring(5,idval.length);
 			write_bugnum_event(i);
 		});
 		i+=1;
@@ -464,5 +465,23 @@ function sub_event(my_id)
 		}
 		*/
 	}
+}
+
+//缺陷隐藏或显示
+function showorhide_event(obj)
+{
+	var i=0;
+	<#list list_cause as list>
+		var dutyval="${(list.causduty)!}";
+		if(obj==dutyval)
+		{
+			$("#div_"+i).show();
+		}
+		else
+		{
+			$("#div_"+i).hide();
+		}
+		i+=1;
+	</#list>
 }
 </script>

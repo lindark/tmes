@@ -22,10 +22,10 @@ public class Cause extends BaseEntity {
 	private String state;//状态
 	private String stateRemark;//状态描述
 	private String causeTypeRemark;//代码类型描述
-
+	private String causeduty;//责任类型
 	//假字段
 	private String causeNum;//缺陷数量
-	
+	private String xcauseduty;//责任类型描述
 	public String getCauseCode() {
 		return causeCode;
 	}
@@ -99,6 +99,27 @@ public class Cause extends BaseEntity {
 	public void setCauseNum(String causeNum)
 	{
 		this.causeNum = causeNum;
+	}
+
+	public String getCauseduty()
+	{
+		return causeduty;
+	}
+
+	public void setCauseduty(String causeduty)
+	{
+		this.causeduty = causeduty;
+	}
+
+	@Transient
+	public String getXcauseduty()
+	{
+		return xcauseduty;
+	}
+
+	public void setXcauseduty(String xcauseduty)
+	{
+		this.xcauseduty = xcauseduty;
 	}
 	
 }

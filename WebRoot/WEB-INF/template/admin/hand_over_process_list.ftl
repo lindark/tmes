@@ -419,7 +419,6 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			$("#grid-table").jqGrid('setGridParam',{
 				url:"hand_over_process!ajlist.action",
 				datatype:"json",
-				type:"POST",
 				page:1
 			}).trigger("reloadGrid");
 		})

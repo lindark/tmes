@@ -48,15 +48,17 @@ public class CreditCardAction extends BaseAdminAction {
 			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
 			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
 			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
-			String pcip = cardment.getPcIp();
-			if(ip.equals(pcip)){
-				map.put("status", "yes");
-				map.put("cardnumber", creditCard.getCardNumber());//卡号
-			}else{
+			if(cardment == null){
 				map.put("status", "no");
+			}else{
+				String pcip = cardment.getPcIp();
+				if(ip.equals(pcip)){
+					map.put("status", "yes");
+					map.put("cardnumber", creditCard.getCardNumber());//卡号
+				}else{
+					map.put("status", "no");
+				}
 			}
-			map.put("status", "yes");
-			map.put("cardnumber", creditCard.getCardNumber());//卡号
 		}
 		return ajaxJson(map);
 	}

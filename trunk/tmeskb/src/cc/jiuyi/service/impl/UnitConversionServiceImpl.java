@@ -78,7 +78,14 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 	public void saveorupdate(List<UnitConversion> unitConversionList) {
 		for(int i=0;i<unitConversionList.size();i++){
 			UnitConversion unit = unitConversionList.get(i);
+			String[] propertyNames = {"unitCode","matnr"};
+			Object[] propertyValues = {unit.getUnitCode(),unit.getMatnr()};
+			UnitConversion unitconversion = this.get(propertyNames,propertyValues);
+			if(unitconversion != null){
+				unit.setId(unitconversion.getId());
+			}
 			unitConversionDao.merge(unit);
+			
 		}
 	}
 	

@@ -17,6 +17,15 @@ $(function() {
 	var $kaoqin=$("#kaoqin");//考勤
 	var $endProduct = $("#endProduct");//成品入库
 	var $returnProduct = $("#returnProduct");//退回中转仓
+	var $table00 = $("#table00");//随工单table
+	
+	
+//	$table00.find("tbody tr").click(function(){
+//		alert("?");
+//		$(this).eq(0).find("input.ckbox").attr("checked",true);
+//		init.initCheckbox();
+//	});
+	
 	
 	var init = {
 			"isCheck":function(){//需要有选中来改变按钮的属性的

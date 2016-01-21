@@ -18,7 +18,6 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Dump;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -51,9 +50,13 @@ public class CauseAction extends BaseAdminAction {
 		// pager = causeService.findByPager(pager);
 		return "list";
 	}
+	
+	//责任类型
+	private List<Dict>list_duty;
 
 	// 添加
 	public String add() {
+		list_duty=this.dictService.getState("scrapMessageType");//责任类型
 		return INPUT;
 	}
 
@@ -152,6 +155,8 @@ public class CauseAction extends BaseAdminAction {
 					dictService, "causeState", cause.getState()));
 			cause.setCauseTypeRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "causeTypeRemark", cause.getCauseType()));
+			//责任类型
+			cause.setXcauseduty(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", cause.getCauseduty()));
 			lst.add(cause);
 		}
 		pager.setList(lst);
@@ -193,6 +198,16 @@ public class CauseAction extends BaseAdminAction {
 
 	public void setAllCauseType(List<Dict> allCauseType) {
 		this.allCauseType = allCauseType;
+	}
+
+	public List<Dict> getList_duty()
+	{
+		return list_duty;
+	}
+
+	public void setList_duty(List<Dict> list_duty)
+	{
+		this.list_duty = list_duty;
 	}
 
 }

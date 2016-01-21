@@ -127,7 +127,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.materialCode)! }</td>
 																		<td>${(list.materialName)! }</td>
 																		<td>
-																			<select id="select_duty" name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
+																			<select id="select_duty${num}" name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
 																				<option value="baga">&nbsp;</option>
 																				<#list list_dict as dlist>
 																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.xsmduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
@@ -328,8 +328,14 @@ function addbug_event()
 	<#list list_material as list>
 		$("#img_addbug"+i).live("click",function(){
 			var idval=$(this).attr("id");
-			i=idval.substring(idval.length-1,idval.length);
-			btn_addbug_event(i);
+			idval=idval.substring(10,idval.length);
+			btn_addbug_event(idval);
+		});
+		//责任类型变化事件
+		$("#select_duty"+i).change(function(){
+			var idval2=$(this).attr("id");
+			idval2=idval2.substring(11,idval2.length);
+			selectduty_event(idval2);
 		});
 		i+=1;
 	</#list>

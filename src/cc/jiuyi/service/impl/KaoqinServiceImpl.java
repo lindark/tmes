@@ -134,6 +134,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		HandOver handover = handOverService.get(handoverId);
 		handover.setState("3");
 		handover.setApprovaladmin(admin);
+		
 		handOverService.update(handover);
 		
 		
@@ -171,6 +172,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			kaoqin.setWorkState(workState);
 			this.save(kaoqin);
 			admin1.setWorkstate("1");//未上班
+			admin1.setProductDate(null);
+			admin1.setShift(null);
 			adminService.update(admin1);//人员下班
 		}
 		

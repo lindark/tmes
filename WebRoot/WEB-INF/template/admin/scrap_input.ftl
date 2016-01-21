@@ -472,7 +472,7 @@ function showorhide_event(obj)
 {
 	var i=0;
 	<#list list_cause as list>
-		var dutyval="${(list.causduty)!}";
+		var dutyval="${(list.causeduty)!}";
 		if(obj==dutyval)
 		{
 			$("#div_"+i).show();

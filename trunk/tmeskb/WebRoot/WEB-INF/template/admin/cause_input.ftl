@@ -9,6 +9,7 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/cause_input.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -94,14 +95,26 @@ body{background:#fff;}
 										<div class="profile-info-name"> 代码类型 </div>
 					
 										<div class="profile-info-value">
-											<select name="cause.causeType" id="form-field-icon-1"> 
+											<select name="cause.causeType" id="select_type" style="width: 163px;"> 
 										        <#list allCauseType as list>
 									            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && cause.causeType == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 								                </#list>   
 										      </select> 
 										</div>
 									</div>
-									
+									<div id="div_duty" class="profile-info-row">
+										<div class="profile-info-name">责任类型 </div>
+					
+										<div class="profile-info-value">
+											<select name="cause.causeduty" id="select_duty" style="width: 163px;">
+												<option id="baga"></option>
+										        <#list list_duty as dlist>
+									            	<option value="${dlist.dictkey}"<#if (isEdit && cause.causeduty == dlist.dictkey)!> selected</#if>>${dlist.dictvalue}</option>
+								                </#list>   
+										      </select>
+										      <span id="span_duty" style="color:red;"></span>
+										</div>
+									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态 </div>
 					
@@ -128,7 +141,7 @@ body{background:#fff;}
 			
 			</div>
 			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="formButton" id="btn_save" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>

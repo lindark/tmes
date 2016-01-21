@@ -45,13 +45,19 @@ jQuery(function($) {
 			{name:'modifyDate',index:'modifyDate',label:"修改日期", width:200,hidden:true},
 		], 
 
+		loadonce:true, //从服务器抓取数据,然后交给客户端处理
 		viewrecords : true,
-		//rowNum:[5],
+		scroll:true,
+		//rowNum:10,
 		//rowList:[10,20,30],
-		//pager : pager_selector,
+		pager : pager_selector,
+		pgbuttons:false,
+		pginput:false,
+		
 		altRows: true,
 		//toppager: true,
-		//multiselect: true,
+		
+		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
         sortname: 'modifyDate',
@@ -120,16 +126,16 @@ jQuery(function($) {
 //				//window.location.href = "products!edit.action?id=" + rowId;
 //			},
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(rowId){
-				window.location.href="working_bill!add.action";
-			},
+			add: false,
+//			addfunc:function(rowId){
+//				window.location.href="working_bill!add.action";
+//			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
+			refresh: false,
 			refreshicon : 'ace-icon fa fa-refresh green',
 			view: true,
 			viewicon : 'ace-icon fa fa-search-plus grey',

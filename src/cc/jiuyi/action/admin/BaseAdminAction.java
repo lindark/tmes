@@ -221,6 +221,12 @@ public class BaseAdminAction extends ActionSupport {
 		getResponse().setDateHeader("Expires", -10);
 	}
 	
+	public String accessdenied(){
+		accessdenied();//设置页面不缓存
+		
+		return "denied";
+	}
+	
 	/**
 	 * 获取服务器时间
 	 * @return 

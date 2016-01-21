@@ -36,7 +36,7 @@ $(function(){
 function btn_addbug_event(index)
 {
 	//选判断责任类型,如果未选择,则隐所有;如果选择了,显示对应的,隐藏其他的
-	var dutyval=$("#select_duty").val();//责任类型
+	var dutyval=$("#select_duty"+index).val();//责任类型
 	if(dutyval=="baga")
 	{
 		//未选择,则隐所有
@@ -258,7 +258,15 @@ function tosubmit(url)
 	},dt);
 }
 
-
+//责任类型变化事件,清空缺陷内容
+function selectduty_event(obj)
+{
+	$("#span_bug"+obj).text("");
+	$("#input_msgbug"+obj).val("");
+	$("#input_msgmenge"+obj).val("");
+	$("#input_bugnum"+obj).val("");
+	$("#input_bugid"+obj).val("");
+}
 
 
 

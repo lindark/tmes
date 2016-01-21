@@ -430,13 +430,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
-			var $afterwork = $(".afterWork");
+			/* var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
 					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
-			}
+			} */
 			var productDate = $("#productDate").val();
 			if(productDate==""){
 				layer.alert("生产日期不允许为空");
@@ -479,13 +479,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
-			var $afterwork = $(".afterWork");
-			for(var i=0;i<$afterwork.length;i++){
+			/*var $afterwork = $(".afterWork");
+			 for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
 					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
-			}
+			} */
 			var url="hand_over!creditsubmit.action?loginid="+$("#loginid").val();
 			credit.creditCard(url,function(data){
 				//alert("OK");
@@ -531,13 +531,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
-			var $afterwork = $(".afterWork");
-			for(var i=0;i<$afterwork.length;i++){
+			/*var $afterwork = $(".afterWork");
+			 for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
 					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
-			}
+			} */
 			
 			var productDate = $("#productDate").val();
 			var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift;
@@ -555,13 +555,13 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
-			var $afterwork = $(".afterWork");
+			/* var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
 					layer.alert("数据错误,无法查询到下一班随工单");
 					return false;
 				}
-			}
+			} */
 			var url = "odd_hand_over!creditapproval.action";
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){

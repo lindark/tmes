@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -44,15 +45,16 @@ public class CreditCardAction extends BaseAdminAction {
 		if(creditCard == null){//未找到
 			map.put("status", "no");
 		}else{
-//			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
-//			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
-//			String pcip = cardment.getPcIp();
-//			if(ip.equals(pcip)){
-//				map.put("status", "yes");
-//				map.put("cardnumber", creditCard.getCardNumber());//卡号
-//			}else{
-//				map.put("status", "no");
-//			}
+			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
+			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
+			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
+			String pcip = cardment.getPcIp();
+			if(ip.equals(pcip)){
+				map.put("status", "yes");
+				map.put("cardnumber", creditCard.getCardNumber());//卡号
+			}else{
+				map.put("status", "no");
+			}
 			map.put("status", "yes");
 			map.put("cardnumber", creditCard.getCardNumber());//卡号
 		}

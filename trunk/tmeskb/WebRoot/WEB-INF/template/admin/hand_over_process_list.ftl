@@ -622,9 +622,11 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			
 		} */
 		$("#sl_sh").change(function(){
+			alert(3333);
 			var shift = $("#sl_sh").val();
+			var $afterwork = $(".afterWork");
 			if(shift==""){
-				var $afterwork = $(".afterWork");
+				
 				for(var i=0;i<$afterwork.length;i++){
 					$afterwork.eq(i).val("");
 				}
@@ -639,8 +641,6 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				$(".workingCode").each(function(){
 					array.push($(this).text());
 				});
-				var $afterwork = $(".afterWork");
-				
 			  $.ajax({
 					url:"odd_hand_over!findAfterWorkingCode.action",
 					data:{"nowDate":productDate,"shift":shift,"workingCode":array},

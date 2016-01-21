@@ -35,6 +35,18 @@ $(function(){
 //添加报废原因按钮事件
 function btn_addbug_event(index)
 {
+	//选判断责任类型,如果未选择,则隐所有;如果选择了,显示对应的,隐藏其他的
+	var dutyval=$("#select_duty").val();//责任类型
+	if(dutyval=="baga")
+	{
+		//未选择,则隐所有
+		$("#div_allcause").hide();
+	}
+	else
+	{
+		$("#div_allcause").show();
+		showorhide_event(dutyval);
+	}
 	//选择当前行的事件
 	rowtobox_event(index);
 	layer.open({

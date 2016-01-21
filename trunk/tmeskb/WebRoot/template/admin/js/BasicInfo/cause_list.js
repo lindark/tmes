@@ -74,12 +74,13 @@ jQuery(function($) {
 					sort : "pager.orderBy",
 					order : "pager.orderType"
 				},
-				colNames:[ 'ID','代码编码','代码类型', '代码描述','状态'],
+				colNames:[ 'ID','代码编码','代码类型', '代码描述',"责任类型",'状态'],
 				colModel:[
 			        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-					{name:'causeCode',index:'causeCode', width:200},
-					{name:'causeTypeRemark',index:'causeType', width:200,sortable:"true",sorttype:"text"},
-					{name:'causeName',index:'causeName', width:200,sortable:"true",sorttype:"text"},
+					{name:'causeCode',index:'causeCode', width:150},
+					{name:'causeTypeRemark',index:'causeType', width:150,sortable:"true",sorttype:"text"},
+					{name:'causeName',index:'causeName', width:150,sortable:"true",sorttype:"text"},
+					{name:'xcauseduty',index:'causeduty', width:150,sortable:"true",sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='scrapMessageType'"}},
 					{name:'stateRemark',index:'state', width:100,sortable:"true",sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=causeState"}}
 				], 
 				// sortable:true,

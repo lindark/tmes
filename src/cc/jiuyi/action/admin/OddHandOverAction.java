@@ -204,15 +204,16 @@ public class OddHandOverAction extends BaseAdminAction {
 				Map<String,String> map = new HashMap<String,String>();
 				WorkingBill nextWorkingbill = workingBillService.getCodeNext(workingCode[i],nowDate,shift);//下一随工单
 				if(nextWorkingbill == null){
-					continue;
+					map.put("afterCode","");
+				}else{
+					map.put("afterCode", nextWorkingbill.getWorkingBillCode());
 				}
-				map.put("afterCode", nextWorkingbill.getWorkingBillCode());
 				mapList.add(map);
 			}
 			JSONArray jsonArray = JSONArray.fromObject(mapList);
 			return ajaxJson(jsonArray.toString());
 		}else{
-			return ajaxJsonSuccessMessage("操作成功");
+			return ajaxJsonErrorMessage("没有上班随工单");
 		}
 		
 	}

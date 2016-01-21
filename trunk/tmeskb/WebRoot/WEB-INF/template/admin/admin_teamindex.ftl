@@ -270,7 +270,7 @@
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="inspection">
 													
-													<button data-toggle="dropdown" 
+													<button data-toggle="dropdown" id="scenecheck"
 														class="btn btn-green btn-success btn-bold btn-round dropdown-toggle btn-block">
 														<i class="ace-icon fa fa-leaf bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">现场检验</span>

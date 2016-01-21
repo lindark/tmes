@@ -9,7 +9,7 @@
 	<!-- auto-config 自动配置常用的权限控制机制 -->
 	<!-- servlet-api-provision 禁止保存登录之前的请求 -->
 	<!-- access-denied-page 访问未授权时的显示页面 -->
-	<sec:http auto-config="true" access-decision-manager-ref="accessDecisionManager" servlet-api-provision="false" access-denied-page="/html/error_page_access_denied.html">
+	<sec:http auto-config="true" access-decision-manager-ref="accessDecisionManager" servlet-api-provision="false" access-denied-page="/admin/base_admin_denied.jsp">
 
 		<!-- 无需进行权限验证的路径 -->
 		<sec:intercept-url pattern="/admin/admin!login.action" filters="none" />

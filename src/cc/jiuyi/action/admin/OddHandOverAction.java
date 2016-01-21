@@ -66,8 +66,13 @@ public class OddHandOverAction extends BaseAdminAction {
 			if(materialList!=null && materialList.size()>0){
 						for(int i=0;i<actualMounts.length;i++){
 							if((actualMounts[i]!=null && !"".equals(actualMounts[i])) || (unMounts[i]!=null && !"".equals(unMounts[i]))){
+								
 								//获取随工单 
 								WorkingBill wb = workingBillService.get(workingBillIds[i]);
+								WorkingBill wbnext = workingBillService.getCodeNext(wb.getWorkingBillCode(),nowDate,shift);
+								if(wbnext==null){
+									return ajaxJsonErrorMessage("未找到下班随工单");
+								}
 								
 								//若存在先删除
 								try {
@@ -114,7 +119,7 @@ public class OddHandOverAction extends BaseAdminAction {
 											oho.setActualHOMount(mount);
 										}
 										oho.setBeforeWokingCode(wb.getWorkingBillCode());
-										WorkingBill wbnext = workingBillService.getCodeNext(wb.getWorkingBillCode(),nowDate,shift);
+										
 										oho.setAfterWorkingCode(wbnext.getWorkingBillCode());//下班随工单
 										//获取提交人
 										if(admin == null){

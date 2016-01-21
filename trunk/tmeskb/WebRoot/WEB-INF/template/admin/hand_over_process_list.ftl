@@ -622,7 +622,6 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			
 		} */
 		$("#sl_sh").change(function(){
-			alert(3333);
 			var shift = $("#sl_sh").val();
 			var $afterwork = $(".afterWork");
 			if(shift==""){

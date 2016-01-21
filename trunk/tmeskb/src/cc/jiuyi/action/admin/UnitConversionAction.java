@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.UnitConversion;
+import cc.jiuyi.sap.rfc.UnitConversionRfc;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -49,6 +51,10 @@ public class UnitConversionAction extends BaseAdminAction {
 	private UnitConversionService unitConversionService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private UnitConversionRfc unitconversionrfc;
+	@Resource
+	private UnitConversionService unitconversionservice;
 	
 	//添加
 	public String add(){
@@ -143,6 +149,20 @@ public class UnitConversionAction extends BaseAdminAction {
 //			UnitConversion unitConversion=unitConversionService.load(id);
 //		}
 		redirectionUrl = "unit_conversion!list.action";
+		return SUCCESS;
+	}
+	
+	//同步
+	public String sync(){
+		List<UnitConversion> unitList;
+		try {
+			unitList = unitconversionrfc.findUnitConeversion();
+			unitconversionservice.saveorupdate(unitList);
+		} catch (IOException e) {
+			addActionError("对不起,IO操作异常");
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 

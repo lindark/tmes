@@ -18,7 +18,7 @@ $(function() {
 	var $endProduct = $("#endProduct");//成品入库
 	var $returnProduct = $("#returnProduct");//退回中转仓
 	var $table00 = $("#table00");//随工单table
-	
+	var $scenecheck=$("#scenecheck");//现场检验
 	
 //	$table00.find("tbody tr").click(function(){
 //		alert("?");
@@ -65,6 +65,7 @@ $(function() {
 					$halfinspection.removeClass("disabled");
 					$pollingtest.removeClass("disabled");
 					$scrap.removeClass("disabled");
+					$scenecheck.removeClass("disabled");
 				}else{//未选中
 					$storage.addClass("disabled");
 					$repair.addClass("disabled");
@@ -77,6 +78,7 @@ $(function() {
 					$halfinspection.addClass("disabled");
 					$pollingtest.addClass("disabled");
 					$scrap.addClass("disabled");
+					$scenecheck.addClass("disabled");
 				}
 			}
 	}

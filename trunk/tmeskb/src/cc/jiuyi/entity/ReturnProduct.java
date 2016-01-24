@@ -12,7 +12,7 @@ public class ReturnProduct extends BaseEntity {
 	
 	private static final long serialVersionUID = -3682905813737033723L;
 	
-	private Double stockMout;//入库数量
+	private Double stockMout;//退回数量
 	private String repertorySite;//库存地点
 	private String repertorySiteDesp;// 库存地点描述
 	private String receiveRepertorySite;//接收库存地点

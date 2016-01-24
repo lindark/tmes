@@ -138,10 +138,33 @@ body {
 										</div>
 								</div>
 								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工位</label>
+										<div class="col-sm-9">
+										       <select style="width:290px;" name="admin.unitdistributeProduct.id">
+														<option value="">请选择...</option> 
+														<#list unitProductList as list>
+														<option value="${list.id}" <#if (list.id == admin.unitdistributeProduct.id)!> selected</#if>>${list.materialName}</option>
+														</#list>
+											</select>
+											  
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工作范围</label>
+										<div class="col-sm-9">
+											  <select style="width:290px;" name="admin.unitdistributeModel.id">
+														<option value="">请选择...</option> 
+														<#list unitProductList as list>
+														<option value="${list.id}" <#if (list.id == admin.unitdistributeModel.id)!> selected</#if>>${list.materialName}</option>
+														</#list>
+											</select>
+										</div>
+								</div>
+								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 联系电话</label>
 										<div class="col-sm-9">
 											<input type="text" name="admin.phoneNo"
-												class="col-xs-10 col-sm-5 formText {required: true, mobile: true}"
+												class="col-xs-10 col-sm-5"
 												value="${(admin.phoneNo)!}" /> <label class="requireField">*</label>
 										</div>
 								</div>

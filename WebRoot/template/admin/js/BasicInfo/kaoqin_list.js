@@ -106,14 +106,16 @@ function addemp()
 			for(var i=0;i<info1.length;i++)
 			{
 				var info2=info1[i].split(",");
-				//info2 --- 0卡号1姓名2技能3班组4班次5工作状态描述6工作状态key7主键ID
+				//info2 --- 0卡号1姓名2岗位3班组4班次5工作状态描述6工作状态key7主键ID8工位9工作范围
 				if(info2.length>1)
 				{
 					html+="<tr>" +
 					"<td>"+info2[0]+"</td>" +
 					"<td>"+info2[1]+"</td>" +
 					"<td>"+info2[2]+"</td>" +
-					"<td>"+info2[3]+"</td>" +
+					"<td>"+info2[8]+"</td>" +
+					"<td>"+info2[9]+"</td>" +
+					"<td>"+info2[4]+"</td>" +
 					"<td><span id='span_state"+info2[0]+"' style='color:#b22;font-weight:bold;'>未上班</span><input id='input_state"+info2[0]+"' type='hidden' value='1' /></td> " +
 					"<td><a id='a_edit"+info2[0]+"' onclick='edit_event("+info2[0]+")' style='cursor:pointer;'>编辑</a><input type='hidden' value='"+info2[7]+"' /></td>" +
 					"</tr>";

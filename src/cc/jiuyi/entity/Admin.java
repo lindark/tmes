@@ -117,16 +117,19 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String workstate;//状态1，考勤：添加代班员工时用到
 	private String isdaiban;//是否代班
 	
-	//假字段
-	private String xworkstate;//员工工作状态描述
-	private String xshift;//班次
-	private String xteam;//班组
-	
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
 	
 	private UnitdistributeProduct unitdistributeProduct;//工位
 	private UnitdistributeModel unitdistributeModel;//工作范围
+	
+	//假字段
+	private String xworkstate;//员工工作状态描述
+	private String xshift;//班次
+	private String xteam;//班组
+	private String xpost;//岗位
+	private String xstation;//工位
+	private String xworkscope;//工作范围
 	
 	@ManyToOne(fetch = FetchType.LAZY)	
 	public Admin getParentAdmin() {
@@ -973,6 +976,33 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setUnitdistributeModel(UnitdistributeModel unitdistributeModel) {
 		this.unitdistributeModel = unitdistributeModel;
+	}
+
+	@Transient
+	public String getXpost() {
+		return xpost;
+	}
+
+	public void setXpost(String xpost) {
+		this.xpost = xpost;
+	}
+
+	@Transient
+	public String getXstation() {
+		return xstation;
+	}
+
+	public void setXstation(String xstation) {
+		this.xstation = xstation;
+	}
+
+	@Transient
+	public String getXworkscope() {
+		return xworkscope;
+	}
+
+	public void setXworkscope(String xworkscope) {
+		this.xworkscope = xworkscope;
 	}
 	
 	

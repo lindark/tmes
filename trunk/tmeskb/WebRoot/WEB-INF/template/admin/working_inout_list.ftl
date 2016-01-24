@@ -14,7 +14,7 @@
 	
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+	 	<script type="text/javascript" src="${base}/template/admin/js/list.js"></script> 
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
@@ -64,7 +64,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- ./ add by weitao  -->
-									<form class="form-horizontal" id="searchform" action="working_bill!ajlist.action" role="form">
+									<form class="form-horizontal" id="searchform" action="working_inout!ajlist.action" role="form">
 								<!--    <input type="hidden" id="aufnr" name="aufnr" value="${(workingBill.aufnr)!}"/>	
 								   <input type="hidden" id="start" name="start" value=""/>	
 								   <input type="hidden" id="end" name="end" value=""/>	--> 				
@@ -78,26 +78,21 @@
 										<label class="col-sm-1" style="text-align:right">生产日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="start">
+												<input type="text" class="input-sm form-control datePicker" name="start" id="startDate">
 												<span class="input-group-addon">
 													<i class="fa fa-exchange"></i>
 												</span>
 
-												<input type="text" class="input-sm form-control datePicker" name="end">
+												<input type="text" class="input-sm form-control datePicker" name="end" id="endDate">
 											</div>
 										</div>
 									</div>
 									
 										<div class="form-group" style="text-align:center">
-											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+											<a  id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
-											<a id="syncButton"  class="btn btn-white btn-default btn-sm btn-round">
-												<i class="ace-icon fa fa-filter blue"></i>
-												SAP同步
-											</a>
-											
 										</div>
 										
 									</div>
@@ -122,56 +117,83 @@
 </body>
 
 </html>
-<script>
+<script  type="text/javascript">
 
 	$(function() {
-		var $syncButton = $("#syncButton");
-
-		//同步按钮
-		$syncButton.click(function() {
-			btn_addbug_event();
-			loading = new ol.loading({
-				id : "page-content"
-			});
-			loading.show();		
-			return false; 
-		})
-	})
-
-	function btn_addbug_event() {
-	/**	var $aufnr = $("#aufnr");
-		var $start = $("#start");
-		var $end = $("#end");  **/
-		var title = "选择手工同步同步随工单";
-		var width = "800px";
-		var height = "400px";
-		var content = "working_bill!browser.action";
-		var html = "";
-		jiuyi.admin.browser.dialog(title, width, height, content, function(
-				index, layero) {
-			var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe的对象
-			var choose = iframeWin.getGridId();
-			if (choose != "ERROR") {
-				var id = choose.split(",");
-				var aufnr =id[0];
-				var start = id[1];
-				var end = id[2];
-				layer.close(index);
-				window.location.href = "working_bill!sync.action?aufnr="+aufnr+"&start="+start+"&end="+end;
-			}		
+		var $searchbtn = $("#searchButton_1");
+		var $startdateinput = $("input[name='start']");
+		var $enddateinput = $("input[name='end']");
+			if($startdateinput.val()==""){
+				var nowtime = now_date();
+				$startdateinput.val(nowtime);
+			}
+			if($enddateinput.val()==""){
+				var nowtime = now_date();
+				$enddateinput.val(nowtime);
+			}
+		$("#startDate").blur(function(){
+			var date = check_date($(this).val());
+			if(date!=""){
+				$(this).val(date);
+			}
 		});
+		$("#endDate").blur(function(){
+			var date = check_date($(this).val());
+			if(date!=""){
+				$(this).val(date);
+			}
+		});
+		
+		
+		 $searchbtn.click(function(){
+			 $("#grid-table").jqGrid('setGridParam',{
+					//url:"admin!ajlist.action?departid="+nodes[0].id,
+					datatype:"json",
+					page:1
+				}).trigger("reloadGrid");
+		}); 
+		
+	}); 
+	function now_date(){
+		var nowDate = new Date();
+		var nowYear = nowDate.getFullYear();
+		var nowMonth = nowDate.getMonth()+1;
+		var nowDay = nowDate.getDate();
+		if(nowMonth.toString().length==1){
+			nowMonth = "0"+nowMonth;
+		}
+		if(nowDay.toString().length==1){
+			nowDay = "0"+nowDay;
+		}
+	    var nowtime = nowYear+"-"+nowMonth+"-"+nowDay;
+	    return nowtime;
 	}
-	/** layer.open({
-	   type: 1,
-	   shade:0.52,//遮罩透明度
-	   title: "手工同步选择同步随工单",
-	   area:["800px","200px"],//弹出层宽高
-	   closeBtn: 1,//0没有关闭按钮，1-3不同样式关闭按钮---右上角的位置
-	   shadeClose: false,//点击遮罩层(阴影部分)：true时点击遮罩就关闭，false时不会
-	   btn:["确定","取消"],
-	   yes:function(){layer.closeAll();},
-	   content: $("#divbox")//可以 引入一个页面如："a.jsp"  
-	}); **/
+	function check_date(datevalue){
+		if(datevalue==""){
+				alert("日期范围不允许为空");
+				var nowt = now_date()
+				return nowt;
+		}else{
+			// 统一日期格式
+			var strDate = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
+			var beforelength = datevalue.length;
+			if(beforelength==9){
+				var befores = datevalue.charAt(beforelength-1);
+				if(befores=="0"){
+					alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+					var nowt = now_date()
+					return nowt;
+				}
+			}
+			  //判断日期是否是预期的格式
+			  if (!strDate.test(datevalue)) {
+			    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+			    var nowt = now_date()
+				return nowt;
+			  }
+		}
+		return "";
+	}
 </script>
 
 <script type="text/javascript">

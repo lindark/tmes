@@ -116,10 +116,7 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 			unit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "unitdistributeProductState", unit.getState()));					
 			lst.add(unit);
 		}
-		System.out.println(lst.size());
-		System.out.println(unitList.size());
-	//	pager.setList(lst);
-		pager.setList(unitList);
+		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(UnitdistributeProduct.class));// 排除有关联关系的属性字段
@@ -178,8 +175,8 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")*/
-	public String save()throws Exception{		
-		unitdistributeProductService.save(unitdistributeProduct);
+	public String save()throws Exception{	
+		unitdistributeProductService.save(unitdistributeProduct);		
 		redirectionUrl="unitdistribute_product!list.action";
 		return SUCCESS;	
 	}

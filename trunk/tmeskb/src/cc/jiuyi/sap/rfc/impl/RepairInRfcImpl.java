@@ -63,7 +63,7 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 			item2.put("ZSFSL", rp.getRpcount());// 数量
 			item2.put("ITEM_TEXT", rp.getITEM_TEXT());// 项目文本 选填
 			item2.put("XUH", rp.getRepairin().getId());// 序号 必填
-			item.put("CHARG", rp.getCHARG());//批次
+			item2.put("CHARG", rp.getCHARG());//批次
 			item2.put("ORDERID", rp.getRepairin().getWorkingbill().getAufnr());
 			arrList2.add(item2);
 		}

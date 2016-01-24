@@ -36,6 +36,9 @@ public class UnitdistributeModel extends BaseEntity{
 	}
 
 	public void setIsDel(String isDel) {
+		if(isDel==null){
+			isDel="N";
+		}
 		this.isDel = isDel;
 	}
 

@@ -280,7 +280,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 			map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
 			map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数
 			map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
-			Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())/100,2);//计划达成率
+			Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 			map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 			jsonstr.add(map);
 		}

@@ -155,7 +155,10 @@ public class CauseAction extends BaseAdminAction {
 			cause.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "causeState", cause.getState()));
 			cause.setCauseTypeRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "causeTypeRemark", cause.getCauseType()));
 			//责任类型
-			cause.setXcauseduty(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", cause.getCauseduty()));
+			if(cause.getCauseduty()!=null)
+			{
+				cause.setXcauseduty(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", cause.getCauseduty()));
+			}
 			lst.add(cause);
 		}
 		pager.setList(lst);

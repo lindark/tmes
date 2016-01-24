@@ -40,6 +40,8 @@ import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
@@ -54,6 +56,8 @@ import cc.jiuyi.service.RoleService;
 import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -134,6 +138,10 @@ public class AdminAction extends BaseAdminAction {
 	private PostService postService;
 	@Resource
 	private FactoryService factoryService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
 	
 	// 登录页面
 	public String login() {
@@ -900,6 +908,16 @@ public class AdminAction extends BaseAdminAction {
 	public List<Admin> getAdminList(){
 		List<Admin> adminList = adminService.getAll();
 		return adminList;
+	}
+	
+	public List<UnitdistributeProduct> getUnitProductList(){
+		List<UnitdistributeProduct> unitdistributeProductList = unitdistributeProductService.getAll();
+		return unitdistributeProductList;
+	}
+	
+	public List<UnitdistributeModel> getUnitModelList(){
+		List<UnitdistributeModel> unitdistributeModelList = unitdistributeModelService.getAll();
+		return unitdistributeModelList;
 	}
 
 

@@ -180,14 +180,14 @@
 			if(beforelength==9){
 				var befores = datevalue.charAt(beforelength-1);
 				if(befores=="0"){
-					alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+					//alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
 					var nowt = now_date()
 					return nowt;
 				}
 			}
 			  //判断日期是否是预期的格式
 			  if (!strDate.test(datevalue)) {
-			    alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
+			    //alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)")
 			    var nowt = now_date()
 				return nowt;
 			  }

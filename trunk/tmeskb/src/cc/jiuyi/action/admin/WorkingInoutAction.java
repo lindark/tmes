@@ -184,7 +184,6 @@ public class WorkingInoutAction extends BaseAdminAction {
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
 		try{	
 			List<WorkingInout> workingInoutList = workinginoutservice.findPagerByWorkingBillInout(mapcheck);
-			System.out.println(workingInoutList.size()); 
 		for(int i=0;i<workingInoutList.size();i++){
 			JSONObject map = new JSONObject();
 			WorkingInout workinginout = workingInoutList.get(i);

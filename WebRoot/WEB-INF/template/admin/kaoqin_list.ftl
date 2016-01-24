@@ -215,10 +215,13 @@
 								</div>
 							<table id="tab1" class="table table-striped table-bordered table-hover tab1">
 								<tr>
-									<th width="18%" class="tabtd">员工卡号</th>
-									<th width="18%" class="tabtd">姓名</th>
-									<th width="18%" class="tabtd">技能</th>								
-									<th width="18%" class="tabtd">员工状态</th>
+									<th width="13%" class="tabtd">员工卡号</th>
+									<th width="13%" class="tabtd">姓名</th>
+									<th width="13%" class="tabtd">岗位</th>
+									<th width="13%" class="tabtd">工位</th>
+									<th width="13%" class="tabtd">工作范围</th>
+									<th width="13%" class="tabtd">班次</th>						
+									<th width="12%" class="tabtd">员工状态</th>
 									<th width="10%" class="tabtd">操作</th>
 								</tr>
 								<#if list_emp??>
@@ -227,7 +230,10 @@
 										<tr>
 											<td>${(list.cardNumber)!}</td>
 											<td>${(list.name)!}</td>
+											<td>${(list.getPost().getPostName())!}</td>
+											<td>${(list.getUnitdistributeProduct().getMaterialCode())!}/${(list.getUnitdistributeProduct().getMaterialCode()list.getUnitdistributeProduct().getMaterialName())!}</td>
 											<td>${(list.xpost)!}</td>
+											<td>${(list.xshift)!}</td>
 											<td>
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
 												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />

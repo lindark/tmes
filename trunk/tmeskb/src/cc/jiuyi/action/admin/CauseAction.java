@@ -113,10 +113,11 @@ public class CauseAction extends BaseAdminAction {
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+		if (pager==null) {
+			pager=new Pager();
 		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
@@ -151,10 +152,8 @@ public class CauseAction extends BaseAdminAction {
 		List<Cause> lst = new ArrayList<Cause>();
 		for (int i = 0; i < causeList.size(); i++) {
 			Cause cause = (Cause) causeList.get(i);
-			cause.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "causeState", cause.getState()));
-			cause.setCauseTypeRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "causeTypeRemark", cause.getCauseType()));
+			cause.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "causeState", cause.getState()));
+			cause.setCauseTypeRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "causeTypeRemark", cause.getCauseType()));
 			//责任类型
 			cause.setXcauseduty(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", cause.getCauseduty()));
 			lst.add(cause);

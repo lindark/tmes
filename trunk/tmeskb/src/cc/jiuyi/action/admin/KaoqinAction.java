@@ -315,10 +315,27 @@ public class KaoqinAction extends BaseAdminAction
 			{
 				a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
 			}
+			//班组
+			a.setXteam( a.getDepartment().getTeam().getTeamName());
 			//工作状态
 			if(a.getWorkstate()!=null&&!"".equals(a.getWorkstate()))
 			{
 				a.setXworkstate(ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", a.getWorkstate()));
+			}
+			//岗位
+			if(a.getPost()!=null)
+			{
+				a.setXpost(a.getPost().getPostName());
+			}
+			//工位
+			if(a.getUnitdistributeProduct()!=null)
+			{
+				a.setXstation(a.getUnitdistributeProduct().getMaterialCode()+"/"+a.getUnitdistributeProduct().getMaterialName());
+			}
+			//工作范围
+			if(a.getUnitdistributeModel()!=null)
+			{
+				a.setXworkscope(a.getUnitdistributeModel().getMaterialCode()+"/"+a.getUnitdistributeModel().getMaterialName());
 			}
 			list2.add(a);
 		}

@@ -257,10 +257,10 @@ public class DumpAction extends BaseAdminAction {
 				if (dump.getState() == null) {
 					dump.setState(UNCONFIRMED);
 				}
-				
-				if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
+				dumps.add(dump);
+				/*if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
 					dumps.add(dump);
-				}
+				}*/
 				dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "dumpState", dump.getState()));
 				if (dump.getConfirmUser() != null) {

@@ -231,8 +231,8 @@
 											<td>${(list.cardNumber)!}</td>
 											<td>${(list.name)!}</td>
 											<td>${(list.getPost().getPostName())!}</td>
-											<td>${(list.getUnitdistributeProduct().getMaterialCode())!}/${(list.getUnitdistributeProduct().getMaterialCode()list.getUnitdistributeProduct().getMaterialName())!}</td>
-											<td>${(list.xpost)!}</td>
+											<td>${(list.getUnitdistributeProduct().getMaterialCode())!}/${(list.getUnitdistributeProduct().getMaterialName())!}</td>
+											<td>${(list.getUnitdistributeModel().getMaterialCode())!}/${(list.getUnitdistributeModel().getMaterialName())!}</td>
 											<td>${(list.xshift)!}</td>
 											<td>
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>

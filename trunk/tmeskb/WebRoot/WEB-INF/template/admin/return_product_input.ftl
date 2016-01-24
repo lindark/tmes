@@ -104,7 +104,7 @@ inupt.stockMout{
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
 														<th class="tabth">库存数量</th>
-														<th class="tabth">入库数量</th>
+														<th class="tabth">退回数量</th>
 													</tr>
 													
 														<#if returnProduct!=null>

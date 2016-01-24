@@ -63,6 +63,7 @@ public class CauseAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		cause = causeService.load(id);
+		list_duty=this.dictService.getState("scrapMessageType");//责任类型
 		return INPUT;
 	}
 

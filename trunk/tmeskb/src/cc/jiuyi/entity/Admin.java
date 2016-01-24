@@ -121,7 +121,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xworkstate;//员工工作状态描述
 	private String xshift;//班次
 	private String xteam;//班组
-	private String xpost;//技能
 	
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
@@ -894,17 +893,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setXworkstate(String xworkstate)
 	{
 		this.xworkstate = xworkstate;
-	}
-
-	@Transient
-	public String getXpost()
-	{
-		return xpost;
-	}
-
-	public void setXpost(String xpost)
-	{
-		this.xpost = xpost;
 	}
 
 	@Column

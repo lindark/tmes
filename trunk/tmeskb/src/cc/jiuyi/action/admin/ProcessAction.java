@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -145,11 +144,15 @@ public class ProcessAction extends BaseAdminAction {
 				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "processState", p.getState()));
 				if(p.getWorkShopId()!=null)
 				{
-					if(workShopService.get(p.getWorkShopId()).getFactory()!=null)
+					
+					if(workShopService.get(p.getWorkShopId())!=null)
 					{
-						p.setXfactory(workShopService.get(p.getWorkShopId()).getFactory().getFactoryName());
+						p.setXworkShop(workShopService.get(p.getWorkShopId()).getWorkShopName());
+						if(workShopService.get(p.getWorkShopId()).getFactory()!=null)
+						{
+							p.setXfactory(workShopService.get(p.getWorkShopId()).getFactory().getFactoryName());
+						}
 					}
-					p.setXworkShop(workShopService.get(p.getWorkShopId()).getWorkShopName());
 				}
 				list2.add(p);
 			}

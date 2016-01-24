@@ -136,7 +136,7 @@ function getinfos(ids)
 	for(var i=0;i<ids.length;i++)
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-		var info=rowData.cardNumber+","+rowData.name+","+rowData.xpost+","+rowData.xteam+","+rowData.xshift+","+rowData.xworkstate+","+rowData.workstate+","+rowData.id+","+rowData.xstation+","+rowData.xworkscopw;
+		var info=rowData.cardNumber+","+rowData.name+","+rowData.xpost+","+rowData.xteam+","+rowData.xshift+","+rowData.xworkstate+","+rowData.workstate+","+rowData.id+","+rowData.xstation+","+rowData.xworkscope;
 		infos+=info+"?";
 	}
 	return infos;

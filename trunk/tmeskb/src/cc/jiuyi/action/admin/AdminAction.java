@@ -585,27 +585,27 @@ public class AdminAction extends BaseAdminAction {
 	
 	
 	// 保存
-	@Validations(
-		requiredStrings = {
-			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
-			@RequiredStringValidator(fieldName = "admin.password", message = "密码不允许为空!"),
-//			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
-		},
-		requiredFields = {
-			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
-		},
-		stringLengthFields = {
-			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
-			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!")
-		},
-		emails = {
-//			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
-		},
-		regexFields = {
-			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
-		}
-	)
-	@InputConfig(resultName = "error")
+//	@Validations(
+//		requiredStrings = {
+//			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
+//			@RequiredStringValidator(fieldName = "admin.password", message = "密码不允许为空!"),
+////			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
+//		},
+//		requiredFields = {
+//			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
+//		},
+//		stringLengthFields = {
+//			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
+//			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!")
+//		},
+//		emails = {
+////			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
+//		},
+//		regexFields = {
+//			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
+//		}
+//	)
+//	@InputConfig(resultName = "error")
 	public String save() {
 		if (roleList == null || roleList.size() == 0) {
 			return ERROR;
@@ -632,25 +632,25 @@ public class AdminAction extends BaseAdminAction {
 	}
 
 	// 更新
-	@Validations(
-		requiredStrings = {
-			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
-			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
-		},
-		requiredFields = {
-			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
-		},
-		stringLengthFields = {
-			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
-			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!") },
-		emails = {
-			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
-		},
-		regexFields = {
-			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
-		}
-	)
-	@InputConfig(resultName = "error")
+//	@Validations(
+//		requiredStrings = {
+//			@RequiredStringValidator(fieldName = "admin.username", message = "登录名不允许为空!"),
+//			@RequiredStringValidator(fieldName = "admin.email", message = "E-mail不允许为空!")
+//		},
+//		requiredFields = {
+//			@RequiredFieldValidator(fieldName = "admin.isAccountEnabled", message = "是否启用不允许为空!")
+//		},
+//		stringLengthFields = {
+//			@StringLengthFieldValidator(fieldName = "admin.username", minLength = "2", maxLength = "20", message = "登录名长度必须在${minLength}到${maxLength}之间!"),
+//			@StringLengthFieldValidator(fieldName = "admin.password", minLength = "4", maxLength = "20", message = "密码长度必须在${minLength}到${maxLength}之间!") },
+//		emails = {
+//			@EmailValidator(fieldName = "admin.email", message = "E-mail格式错误!")
+//		},
+//		regexFields = {
+//			@RegexFieldValidator(fieldName = "admin.username", expression = "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", message = "登录名只允许包含中文、英文、数字和下划线!") 
+//		}
+//	)
+//	@InputConfig(resultName = "error")
 	public String update() {
 		Admin persistent = adminService.load(id);
 		if (roleList == null && roleList.size() == 0) {

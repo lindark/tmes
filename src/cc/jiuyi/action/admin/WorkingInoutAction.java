@@ -1,6 +1,8 @@
 package cc.jiuyi.action.admin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
@@ -46,6 +50,9 @@ public class WorkingInoutAction extends BaseAdminAction {
 	@Resource
 	private BomService bomservice;
 	private Pager pager;
+	private String start;
+	private String end;
+	private String workingBillCode;
 	
 	private String jsondata;
 	
@@ -148,11 +155,36 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	public String ajlist(){//投入产出逻辑处理
 		
+		HashMap<String,String> mapcheck = new HashMap<String,String>();
+		if(Param != null){//普通搜索功能
+			if(!Param.equals("")){
+			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject param = JSONObject.fromObject(Param);
+				String start = ThinkWayUtil.null2String(param.get("start"));
+				String end = ThinkWayUtil.null2String(param.get("end"));
+				String workingBillCode = ThinkWayUtil.null2String(param.get("workingBillCode"));//随工单
+				mapcheck.put("start", start);
+				mapcheck.put("end", end);
+				mapcheck.put("workingBillCode", workingBillCode);
+			}
+		}else{
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String d = sdf.format(date);
+				start = d;
+				end = d;
+			String startDate = ThinkWayUtil.null2String(start);
+			String endDate = ThinkWayUtil.null2String(end);
+			String wbc = ThinkWayUtil.null2String(workingBillCode);//随工单
+			mapcheck.put("start", startDate);
+			mapcheck.put("end", endDate);
+			mapcheck.put("workingBillCode", wbc);
+		}
 		JSONArray jsonstr = new JSONArray();
-		
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
-		List<WorkingInout> workingInoutList = workinginoutservice.getAll();
-		try{
+		try{	
+			List<WorkingInout> workingInoutList = workinginoutservice.findPagerByWorkingBillInout(mapcheck);
+			System.out.println(workingInoutList.size()); 
 		for(int i=0;i<workingInoutList.size();i++){
 			JSONObject map = new JSONObject();
 			WorkingInout workinginout = workingInoutList.get(i);
@@ -275,6 +307,30 @@ public class WorkingInoutAction extends BaseAdminAction {
 
 	public void setPager(Pager pager) {
 		this.pager = pager;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
 	}
 	
 	

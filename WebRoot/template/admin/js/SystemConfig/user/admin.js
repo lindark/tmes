@@ -32,7 +32,7 @@ $(function(){
         	//$(docu).find("#inputForm").submit(); //有问题，没解决
 			var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 			var nodes =zTree.getSelectedNodes();
-			$("#grid-").jqGrid('setGridParam',{
+			$("#grid-table").jqGrid('setGridParam',{
 				url:"admin!ajlist.action?departid="+nodes[0].id,
 				datatype:"json",
 				page:1

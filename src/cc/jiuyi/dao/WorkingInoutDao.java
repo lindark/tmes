@@ -1,6 +1,9 @@
 package cc.jiuyi.dao;
 
 
+import java.util.HashMap;
+import java.util.List;
+
 import cc.jiuyi.entity.WorkingInout;
 
 /**
@@ -20,4 +23,9 @@ public interface WorkingInoutDao extends BaseDao<WorkingInout,String> {
 	 * 根据随工单ID和物料编码查询投入产出表
 	 */
 	public WorkingInout findWorkingInout(String workingBillId,String materialCode);
+	
+	/**
+	 * 根据搜索条件查询投入产出表
+	 */
+	public List<WorkingInout> findPagerByWorkingBillInout(HashMap<String,String> map);
 }

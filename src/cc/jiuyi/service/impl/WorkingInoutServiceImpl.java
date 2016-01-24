@@ -1,5 +1,8 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -36,5 +39,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	@Override
 	public WorkingInout findWorkingInout(String workingBillId,String materialCode) {
 		return workingInoutDao.findWorkingInout(workingBillId, materialCode);
+	}
+
+	@Override
+	public List<WorkingInout> findPagerByWorkingBillInout(
+			HashMap<String, String> map) {
+		
+		return workingInoutDao.findPagerByWorkingBillInout(map);
 	}
 }

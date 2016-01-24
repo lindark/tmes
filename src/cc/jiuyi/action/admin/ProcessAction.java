@@ -142,10 +142,15 @@ public class ProcessAction extends BaseAdminAction {
 			for (int i = 0; i < processList.size(); i++) 
 			{
 				Process p =processList.get(i);
-				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "processState", p.getState()));
-				p.setXfactory(workShopService.get(p.getWorkShopId()).getFactory().getFactoryName());
-                p.setXworkShop(workShopService.get(p.getWorkShopId()).getWorkShopName());
+				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "processState", p.getState()));
+				if(p.getWorkShopId()!=null)
+				{
+					if(workShopService.get(p.getWorkShopId()).getFactory()!=null)
+					{
+						p.setXfactory(workShopService.get(p.getWorkShopId()).getFactory().getFactoryName());
+					}
+					p.setXworkShop(workShopService.get(p.getWorkShopId()).getWorkShopName());
+				}
 				list2.add(p);
 			}
 			pager.setList(list2);

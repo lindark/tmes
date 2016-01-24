@@ -290,14 +290,17 @@ public class WorkingBillServiceImpl extends
 					for(int z=0;z<bomList01.size();z++){
 						Bom bom01 = bomList01.get(z);
 						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						//log.info("bom00str:"+bom00str);
-						//log.info("bom01str:"+bom01str);
+						
 						if(bom00str.equals(bom01str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
 						}
+						if(z==bomList01.size() -1 && flag1 == false){
+							log.info("bom01str:"+bom01str);
+						}
 					}
 					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
+						log.info("bom00str:"+bom00str);
 						flag = false;
 						break;
 					}
@@ -310,14 +313,17 @@ public class WorkingBillServiceImpl extends
 					for(int z=0;z<bomList00.size();z++){
 						Bom bom00 = bomList00.get(z);
 						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						//log.info("bom00str:"+bom00str);
-						//log.info("bom01str:"+bom01str);
+						
 						if(bom01str.equals(bom00str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
 						}
+						if(z==bomList00.size() -1 && flag1 == false){
+							log.info("bom00str:"+bom00str);
+						}
 					}
 					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
+						log.info("bom01str:"+bom01str);
 						flag = false;
 						break;
 					}

@@ -65,12 +65,14 @@ jQuery(function($) {
 		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:120, editable: false},
-			{name:'name',index:'name',label:"员工姓名",width:120, editable: false},
-			{name:'xpost',index:'post',label:"技能",width:120, editable: false},
-			{name:'xteam',index:'team.teamName',label:"班组",width:120, editable: false},
-			{name:'xshift',index:'shift',label:"班次",width:120, editable: false},
-			{name:'xworkstate',index:'workstate',label:"工作状态",cellattr:addstyle,width:120, editable: false},
+			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100, editable: false},
+			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
+			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
+			{name:'xstation',index:'xxx',label:"工位",width:100, editable: false},
+			{name:'xworkscope',index:'xxx',label:"工作范围",width:100, editable: false},
+			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
+			{name:'xshift',index:'shift',label:"班次",width:100, editable: false},
+			{name:'xworkstate',index:'workstate',label:"工作状态",cellattr:addstyle,width:100, editable: false},
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 			//{name:'shift',index:'shift',label:"shift",editable: false,hidden:true}
 		], 

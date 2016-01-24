@@ -1060,6 +1060,22 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="">
+								<a href="unitdistribute_product!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									单元分配产品
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="unitdistribute_model!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									单元分配模具
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							<!-- 
 							<li class="">
 								<a href="locationonside!list.action" >

@@ -154,7 +154,7 @@ body {
 										<div class="col-sm-9">
 											  <select style="width:290px;" name="admin.unitdistributeModel.id">
 														<option value="">请选择...</option> 
-														<#list unitProductList as list>
+														<#list unitModelList as list>
 														<option value="${list.id}" <#if (list.id == admin.unitdistributeModel.id)!> selected</#if>>${list.materialName}</option>
 														</#list>
 											</select>

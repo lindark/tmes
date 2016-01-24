@@ -126,6 +126,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
 	
+	private UnitdistributeProduct unitdistributeProduct;//工位
+	private UnitdistributeModel unitdistributeModel;//工作范围
+	
 	@ManyToOne(fetch = FetchType.LAZY)	
 	public Admin getParentAdmin() {
 		return parentAdmin;
@@ -965,4 +968,25 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setTeamSet(Set<Team> teamSet) {
 		this.teamSet = teamSet;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public UnitdistributeProduct getUnitdistributeProduct() {
+		return unitdistributeProduct;
+	}
+
+	public void setUnitdistributeProduct(UnitdistributeProduct unitdistributeProduct) {
+		this.unitdistributeProduct = unitdistributeProduct;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public UnitdistributeModel getUnitdistributeModel() {
+		return unitdistributeModel;
+	}
+
+	public void setUnitdistributeModel(UnitdistributeModel unitdistributeModel) {
+		this.unitdistributeModel = unitdistributeModel;
+	}
+	
+	
+	
 }

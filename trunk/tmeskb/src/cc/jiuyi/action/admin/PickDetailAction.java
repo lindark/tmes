@@ -194,7 +194,7 @@ public class PickDetailAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		pick = pickService.load(id);
-		WorkingBill workingbill = workingBillService.get(workingBillId);
+		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		String aufnr = workingbill.getAufnr();

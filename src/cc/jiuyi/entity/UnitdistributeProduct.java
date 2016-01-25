@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -91,7 +92,7 @@ public class UnitdistributeProduct extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "unitdistributeProduct")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "unitdistributeProductSet")
 	public Set<Admin> getAdminSet() {
 		return adminSet;
 	}

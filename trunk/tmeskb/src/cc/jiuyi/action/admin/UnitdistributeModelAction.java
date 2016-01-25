@@ -102,10 +102,10 @@ public class UnitdistributeModelAction extends BaseAdminAction {
 				String unitName = obj.getString("unitName").toString();
 				map.put("unitName", unitName);
 			}
-			if (obj.get("materialName") != null)
+			if (obj.get("station") != null)
 			{
-				String materialName = obj.getString("materialName").toString();
-				map.put("materialName", materialName);
+				String station = obj.getString("station").toString();
+				map.put("station", station);
 			}
 		}
 

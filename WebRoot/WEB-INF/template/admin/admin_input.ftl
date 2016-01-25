@@ -143,7 +143,7 @@ body {
 										       <select style="width:290px;" name="admin.unitdistributeProduct.id">
 														<option value="">请选择...</option> 
 														<#list unitProductList as list>
-														<option value="${list.id}" <#if (list.id == admin.unitdistributeProduct.id)!> selected</#if>>${list.materialName}</option>
+														<option value="${list.id}" <#if (list.id == admin.unitdistributeProduct.id)!> selected</#if>>${list.materialName}${list.materialCode}</option>
 														</#list>
 											</select>
 											  
@@ -155,7 +155,7 @@ body {
 											  <select style="width:290px;" name="admin.unitdistributeModel.id">
 														<option value="">请选择...</option> 
 														<#list unitModelList as list>
-														<option value="${list.id}" <#if (list.id == admin.unitdistributeModel.id)!> selected</#if>>${list.materialName}</option>
+														<option value="${list.id}" <#if (list.id == admin.unitdistributeModel.id)!> selected</#if>>${list.materialName}${list.materialCode}</option>
 														</#list>
 											</select>
 										</div>

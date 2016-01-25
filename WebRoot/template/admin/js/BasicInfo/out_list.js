@@ -111,7 +111,7 @@ jQuery(function($) {
 				},
 
 				editurl: "scrap_out!delete.action",//用它做标准删除动作
-				caption : "投入产出对照表"
+				caption : "报废后产出对照表"
 
 			// ,autowidth: true,
 			// ,

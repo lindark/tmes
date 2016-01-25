@@ -29,6 +29,11 @@ body {
 	background: #fff;
 }
 </style>
+
+
+<script src="${base }/template/admin/assets/js/chosen.jquery.min.js"></script>
+
+
 </head>
 <body class="no-skin input">
 
@@ -99,7 +104,7 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">直接上级</label>
 										<div class="col-sm-9">
-										    <select style="width:290px;" name="admin.parentAdmin.id">
+										    <select class="chosen-select" multiple="" style="width:290px;" name="admin.parentAdmin.id">
 														<option value="">请选择...</option> 
 														<#list adminList as list>
 														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
@@ -274,6 +279,29 @@ body {
 
 </body>
 <script type="text/javascript">
+$(".chosen-select").chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true}); 
+//resize the chosen on window resize
+
+$(window)
+.off('resize.chosen')
+.on('resize.chosen', function() {
+	$('.chosen-select').each(function() {
+		 var $this = $(this);
+		 $this.next().css({'width': "400px"});
+	})
+}).trigger('resize.chosen');
+
+
+$('#chosen-multiple-style').on('click', function(e){
+	var target = $(e.target).find('input[type=radio]');
+	var which = parseInt(target.val());
+	if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+	 else $('#form-field-select-4').removeClass('tag-input-style');
+});
+
+
+
+
 	$(function(){
 		$("ceshi").focus(function(){
 			layer.open({

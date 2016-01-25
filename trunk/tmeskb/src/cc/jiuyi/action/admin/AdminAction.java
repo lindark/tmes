@@ -106,9 +106,11 @@ public class AdminAction extends BaseAdminAction {
 	private Team team;
 	private List<Post> postList;//岗位List
 	private String cardnumber;//卡号
-	private List<Factory> factoryList;
+	private List<Factory> factoryList; 
 	private String productDate;
 	private String shift;
+	private List<UnitdistributeModel> unitModelList=new ArrayList<UnitdistributeModel>();
+	private List<UnitdistributeProduct> unitProductList=new ArrayList<UnitdistributeProduct>();
 	
 	@Resource
 	private AdminService adminService;
@@ -459,6 +461,13 @@ public class AdminAction extends BaseAdminAction {
 		Department depart = departmentservice.get(departid);
 		postList = postService.getAll();
 		departName = depart.getDeptName();
+		if(depart.getTeam()!=null){
+			System.out.println("in");
+			String unitCode=depart.getTeam().getFactoryUnit().getFactoryUnitCode();
+			unitModelList=unitdistributeModelService.getModelList(unitCode);
+			unitProductList=unitdistributeProductService.getProductList(unitCode);
+		}
+		System.out.println("to");
 		return INPUT;
 	}
 
@@ -644,7 +653,6 @@ public class AdminAction extends BaseAdminAction {
 		}else{
 			admin.setUnitdistributeModelSet(null);
 		}
-		System.out.println("in");
 		
 		if (roleList == null || roleList.size() == 0) {
 			return ERROR;
@@ -663,6 +671,9 @@ public class AdminAction extends BaseAdminAction {
 		//redirectionUrl = "admin!list.action";
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
+	
+	
+	
 
 	// 更新
 //	@Validations(
@@ -933,18 +944,7 @@ public class AdminAction extends BaseAdminAction {
 	public List<Admin> getAdminList(){
 		List<Admin> adminList = adminService.getAll();
 		return adminList;
-	}
-	
-	public List<UnitdistributeProduct> getUnitProductList(){
-		List<UnitdistributeProduct> unitdistributeProductList = unitdistributeProductService.getAll();
-		return unitdistributeProductList;
-	}
-	
-	public List<UnitdistributeModel> getUnitModelList(){
-		List<UnitdistributeModel> unitdistributeModelList = unitdistributeModelService.getAll();
-		return unitdistributeModelList;
-	}
-
+	}	
 
 	public String getProductDate() {
 		return productDate;
@@ -983,6 +983,26 @@ public class AdminAction extends BaseAdminAction {
 
 	public void setUnitdistributeProducts(String unitdistributeProducts) {
 		this.unitdistributeProducts = unitdistributeProducts;
+	}
+
+
+	public List<UnitdistributeModel> getUnitModelList() {
+		return unitModelList;
+	}
+
+
+	public void setUnitModelList(List<UnitdistributeModel> unitModelList) {
+		this.unitModelList = unitModelList;
+	}
+
+
+	public List<UnitdistributeProduct> getUnitProductList() {
+		return unitProductList;
+	}
+
+
+	public void setUnitProductList(List<UnitdistributeProduct> unitProductList) {
+		this.unitProductList = unitProductList;
 	}
 	
 	

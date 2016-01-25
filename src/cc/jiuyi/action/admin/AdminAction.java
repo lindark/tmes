@@ -628,7 +628,7 @@ public class AdminAction extends BaseAdminAction {
 
 		//工作范围添加
 		List<UnitdistributeProduct> productList = new ArrayList<UnitdistributeProduct>();
-		if(unitdistributeProducts!=null || !unitdistributeProducts.equals("")){
+		if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
 			ids=unitdistributeProducts.split(",");
 			for(int i=0;i<ids.length;i++){
 				UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i]);
@@ -641,7 +641,7 @@ public class AdminAction extends BaseAdminAction {
 		
 		//工位添加
 		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
-		if(unitdistributeModels!=null || !unitdistributeModels.equals("")){
+		if(unitdistributeModels!=null && !("").equals(unitdistributeModels)){
 			ids=unitdistributeModels.split(",");
 			for(int i=0;i<ids.length;i++){
 				UnitdistributeModel unitMod=unitdistributeModelService.get(ids[i]);

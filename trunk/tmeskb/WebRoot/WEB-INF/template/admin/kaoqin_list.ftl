@@ -160,7 +160,7 @@
 														<div class="profile-info-name">班次</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${(admin.shift)!}</span>
+															<span class="editable editable-click" id="age">${(admin.xshift)!}</span>
 														</div>
 													</div>	
 	                                                <div class="profile-info-row">

@@ -9,22 +9,23 @@
 		<meta charset="utf-8" />
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		
+		<!-- 
 		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/style.css"/>
 		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/setstyle.css"/>
 		<link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/ztree/css/zTreeStyle/zTreeStyle.css"/>
 		<link rel="stylesheet" href="${base}/template/admin/assets/css/jquery-ui.min.css" />
-		
+		 -->
 		
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+		<!-- 
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
 		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
-		
+		 -->
 		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/kaoqin_list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 		
@@ -215,13 +216,15 @@
 								</div>
 							<table id="tab1" class="table table-striped table-bordered table-hover tab1">
 								<tr>
-									<th width="13%" class="tabtd">员工卡号</th>
-									<th width="13%" class="tabtd">姓名</th>
-									<th width="13%" class="tabtd">岗位</th>
-									<th width="13%" class="tabtd">工位</th>
-									<th width="13%" class="tabtd">工作范围</th>
-									<th width="13%" class="tabtd">班次</th>						
-									<th width="12%" class="tabtd">员工状态</th>
+									<th width="15%" class="tabtd">员工卡号</th>
+									<th width="15%" class="tabtd">姓名</th>
+									<th width="15%" class="tabtd">岗位</th>
+									<th width="15%" class="tabtd">工位</th>
+									<th width="15%" class="tabtd">工作范围</th>
+									<!-- 
+									<th width="13%" class="tabtd">班次</th>
+									 -->						
+									<th width="15%" class="tabtd">员工状态</th>
 									<th width="10%" class="tabtd">操作</th>
 								</tr>
 								<#if list_emp??>
@@ -233,7 +236,9 @@
 											<td>${(list.xpost)!}</td>
 											<td>${(list.xstation())!}</td>
 											<td>${(list.xworkscope())!}</td>
+											<!-- 
 											<td>${(list.xshift)!}</td>
+											 -->
 											<td>
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
 												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />

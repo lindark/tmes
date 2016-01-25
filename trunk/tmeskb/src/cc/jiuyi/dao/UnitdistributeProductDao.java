@@ -21,4 +21,6 @@ public interface UnitdistributeProductDao extends BaseDao<UnitdistributeProduct,
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
+	//根据单元编码查询
+	public List<UnitdistributeProduct> getProductList(String unitCode);
 }

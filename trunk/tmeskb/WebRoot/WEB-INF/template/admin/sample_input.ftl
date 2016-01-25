@@ -229,7 +229,7 @@ function cause_event()
 			i=idval.substring(idval.length-1,idval.length);
 			var samplenum=$("#sample_num").val();//抽检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
-			var num_qx=$(this).val().replace(" ","");//缺陷
+			var num_qx=$(this).val().replace(/\s+/g,"");//缺陷
 			if(num_qx!=null&&num_qx!="")
 			{
 				var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数

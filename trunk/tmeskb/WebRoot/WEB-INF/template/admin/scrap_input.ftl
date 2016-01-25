@@ -28,7 +28,7 @@ body {background: #fff;font-family: 微软雅黑;}
 #test1{width:800px;height:400px;}
 .div-value{padding-right:30px;min-width:200px; }
 .div-value2{text-align:right;padding-right:0px;min-width:200px;}
-.input-value{width:80px;height:30px;line-height:30px;}
+.input-value{width:80px;height:30px;line-height:30px;display:inline;}
 #tb_scraplater a{cursor: pointer;}
 .divbox{margin-top: 20px;}
 </style>
@@ -255,9 +255,10 @@ body {background: #fff;font-family: 微软雅黑;}
 												<#if list_cause??>
 													<div id="div_allcause">
 													<#list list_cause as clist>
-														<div id="div_${num}" class="col-md-2 col-xs-6 col-sm-3 div-value2">
-															<label>${(clist.causeName)! }</label>
-															<input id="mynum${num}" type="text" value="${(clist.causeNum)! }" class=" input-value" />
+														<div id="div_${num}" class="col-md-6 col-xs-6 col-sm-6 div-value2">
+															<label>${(clist.causeName)! }/责任人</label>
+															<input id="mynum${num}" type="text" class=" input-value" />
+															<input id="mypeople${num}" type="text" class=" input-value" />
 														</div>
 														<#assign num=num+1 />
 													</#list>
@@ -364,6 +365,7 @@ function rowtobox_event(index)
 	var i=0;
 	<#list list_cause as list>
 		$("#mynum"+i).val("");//先清空
+		$("#mypeople"+i).val("");
 		for(var j=0;j<rowids_array.length;j++)
 		{
 			if(rowids_array[j]!=null&&rowids_array[j]!="")
@@ -394,10 +396,11 @@ function boxtorow_event(index)
 		{
 			var id="${(list.id)!}";
 			var des="${(list.causeName)!}";
+			var mypeople=$("#mypeople"+i).val().replace(/\s+/g,"");
 			rowids=rowids+id+",";
 			rownums=rownums+boxnum+",";
 			count=floatAdd(count,boxnum);			
-			spanbug=spanbug+des+""+"/"+boxnum+",";
+			spanbug=spanbug+des+""+"/"+boxnum+"/"+mypeople+";";
 		}
 		i+=1;
 	</#list>

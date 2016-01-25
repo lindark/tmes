@@ -12,6 +12,7 @@ import cc.jiuyi.dao.FaultReasonDao;
 import cc.jiuyi.dao.UnitdistributeProductDao;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FaultReason;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 
 
@@ -50,5 +51,12 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 			super.update(unitdistributeProduct);
 		}
    }
+
+	@Override
+	public List<UnitdistributeProduct> getProductList(String unitCode) {
+		String hql = "from UnitdistributeProduct unitproduct where unitproduct.unitCode = ?";
+		List<UnitdistributeProduct> productList=getSession().createQuery(hql).setParameter(0,unitCode).list();
+		return productList;
+	}
 	
 }

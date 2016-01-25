@@ -35,7 +35,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">基础信息</a>
 			</li>
-			<li class="active">投入产出对照表&nbsp;<span class="pageInfo"></li>
+			<li class="active">报废后产出对照表&nbsp;<span class="pageInfo"></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	

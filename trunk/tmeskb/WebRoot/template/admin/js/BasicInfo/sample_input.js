@@ -20,7 +20,7 @@ $(function(){
 function sample_event()
 {
 	$("#sample_num").change(function(){
-		var samplenum=$(this).val().replace(" ","");
+		var samplenum=$(this).val().replace(/\s+/g,"");
 		if(samplenum!=null&&samplenum!="")
 		{
 			var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数

@@ -42,4 +42,10 @@ public class UnitdistributeProductServiceImpl extends BaseServiceImpl<Unitdistri
 		
 	}
 
+	@Override
+	public List<UnitdistributeProduct> getProductList(String unitCode) {
+		// TODO Auto-generated method stub
+		return unitdistributeProductDao.getProductList(unitCode);
+	}
+
 }

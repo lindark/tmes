@@ -462,12 +462,10 @@ public class AdminAction extends BaseAdminAction {
 		postList = postService.getAll();
 		departName = depart.getDeptName();
 		if(depart.getTeam()!=null){
-			System.out.println("in");
 			String unitCode=depart.getTeam().getFactoryUnit().getFactoryUnitCode();
 			unitModelList=unitdistributeModelService.getModelList(unitCode);
 			unitProductList=unitdistributeProductService.getProductList(unitCode);
 		}
-		System.out.println("to");
 		return INPUT;
 	}
 

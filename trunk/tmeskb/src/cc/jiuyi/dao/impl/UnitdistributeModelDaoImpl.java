@@ -35,8 +35,8 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 			    detachedCriteria.add(Restrictions.like("unitName", "%"+map.get("unitName")+"%"));
 			}		
 		
-			if(map.get("materialName")!=null){
-				detachedCriteria.add(Restrictions.like("materialName", "%"+map.get("materialName")+"%"));
+			if(map.get("station")!=null){
+				detachedCriteria.add(Restrictions.like("station", "%"+map.get("station")+"%"));
 			}			
 		}
 		

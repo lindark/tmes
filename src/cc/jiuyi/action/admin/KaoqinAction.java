@@ -23,6 +23,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
@@ -350,18 +352,41 @@ public class KaoqinAction extends BaseAdminAction
 			{
 				a.setXpost(a.getPost().getPostName());
 			}
-			a.setXstation(null);
-			//工位
-			/*if(a.getUnitdistributeProduct()!=null)
-			{
-				a.setXstation(a.getUnitdistributeProduct().getMaterialCode()+"/"+a.getUnitdistributeProduct().getMaterialName());
-			}*/
 			//工作范围
-			a.setXworkscope(null);
-			/*if(a.getUnitdistributeModel()!=null)
+			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
+			if(list_up.size()>0)
 			{
-				a.setXworkscope(a.getUnitdistributeModel().getMaterialCode()+"/"+a.getUnitdistributeModel().getMaterialName());
-			}*/
+				String str="";
+				for(int j=0;j<list_up.size();j++)
+				{
+					UnitdistributeProduct up=list_up.get(j);
+					str+=up.getMaterialCode()+"/"+up.getMaterialName()+",";
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXworkscope(str);
+			}
+			//工位
+			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
+			if(list_um.size()>0)
+			{
+				String str="";
+				for(int j=0;j<list_um.size();j++)
+				{
+					UnitdistributeModel um=list_um.get(j);
+					if(um.getStation()!=null)
+					{
+						str+=um.getStation()+",";
+					}
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXworkscope(str);
+			}
 			list2.add(a);
 		}
 		return list2;

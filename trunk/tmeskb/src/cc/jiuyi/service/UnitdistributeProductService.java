@@ -6,6 +6,7 @@ import java.util.List;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FaultReason;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 
 /**
@@ -21,5 +22,8 @@ public interface UnitdistributeProductService extends BaseService<Unitdistribute
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	//根据单元编码查询
+	public List<UnitdistributeProduct> getProductList(String unitCode);
 	
 }

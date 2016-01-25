@@ -51,6 +51,7 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 			can.setTime(startdate);
 			can.set(Calendar.SECOND,0);
 			can2.setTime(enddate);
+			int miao=can2.get(Calendar.SECOND);
 			can2.set(Calendar.SECOND,0);
 			enddate=can2.getTime();
 			int n=0;
@@ -68,9 +69,8 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 			}
 
 			int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
-			System.out.println(differ+"======================"+n+"======================startdate="+startdate+"=========enddate="+enddate);
-			if(differ>=n)
-			{
+			System.out.println(differ+"===="+miao+"====="+n+"====startdate="+startdate+"=========enddate="+enddate);
+			if(differ>=n){
 				teamService=(TeamService) SpringUtil.getBean("teamServiceImpl");
 				Team t=teamService.get(teamid);
 				t.setIscancreditcard("Y");

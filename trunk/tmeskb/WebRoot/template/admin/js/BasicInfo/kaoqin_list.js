@@ -84,7 +84,7 @@ function upd_event(url,val,txt,index2)
 			layer.closeAll();
 			//$.message(data.status,data.message);
 		},error:function(data){
-			layer.alert("您当前权限不足,请联系系统管理员", {
+			layer.alert("您当前无权限!", {
 		        icon:5,
 		        skin:'error'
 		    },function(){layer.closeAll();});
@@ -119,7 +119,6 @@ function addemp()
 					"<td>"+info2[2]+"</td>" +
 					"<td>"+info2[8]+"</td>" +
 					"<td>"+info2[9]+"</td>" +
-					"<td>"+info2[4]+"</td>" +
 					"<td><span id='span_state"+info2[0]+"' style='color:#b22;font-weight:bold;'>未上班</span><input id='input_state"+info2[0]+"' type='hidden' value='1' /></td> " +
 					"<td><a id='a_edit"+info2[0]+"' onclick='edit_event("+info2[0]+")' style='cursor:pointer;'>编辑</a><input type='hidden' value='"+info2[7]+"' /></td>" +
 					"</tr>";

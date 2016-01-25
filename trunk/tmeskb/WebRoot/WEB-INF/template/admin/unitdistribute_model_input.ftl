@@ -107,20 +107,17 @@ body {
 											</div> 
 											
 											<div class="profile-info-row">
-												<div class="profile-info-name">物料编码</div>
+												<div class="profile-info-name">工位</div>
 												<div class="profile-info-value">
-													<#if isAdd??> <input type="text" name="unitdistributeModel.materialCode"
-														value="${(unitdistributeModel.materialCode)!}"
+													<input type="text" name="unitdistributeModel.station"
+														value="${(unitdistributeModel.station)!}"
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
-												    <#else>
-													${(unitdistributeModel.materialCode)!} <input type="hidden"
-														name="unitdistributeModel.materialCode"
-														value="${(unitdistributeModel.materialCode)!}" /> </#if> 											
+												    											
 												</div>
 											</div>
 
-											<div class="profile-info-row">
+											<!--  <div class="profile-info-row">
 												<div class="profile-info-name">物料名称</div>
 												<div class="profile-info-value">
 													<input type="text" name="unitdistributeModel.materialName"
@@ -128,7 +125,7 @@ body {
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												</div>
-											</div>
+											</div>-->
 
 
 											<div class="profile-info-row">

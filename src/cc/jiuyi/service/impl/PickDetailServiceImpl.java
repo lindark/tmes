@@ -136,7 +136,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				PickDetail pickDetailNow = this.pickDetailDao.get(pickDetailOld.getId());
 				if (pickDetailOld.getPickAmount() != null && !"".equals(pickDetailOld.getPickAmount())) {
 					pickDetailNow.setPickAmount(pickDetailOld.getPickAmount());
-					pickDetailNow.setPickType(pickDetailOld.getPickType());
+					pickDetailNow.setPickType(info);
 					pickDetailNow.setModifyDate(new Date());
 					this.update(pickDetailNow);
 				} else {

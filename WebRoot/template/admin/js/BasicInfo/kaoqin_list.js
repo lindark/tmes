@@ -58,7 +58,7 @@ function edit_event(index)
 }
 
 //确认修改
-function upd_event(url,val,txt,index)
+function upd_event(url,val,txt,index2)
 {
 	$.ajax({	
 		url: url,
@@ -70,21 +70,25 @@ function upd_event(url,val,txt,index)
 			index = layer.load();
 		},
 		success: function(data) {
-			$("#span_state"+index).text(txt);
-			$("#input_state"+index).val(val);
+			$("#span_state"+index2).text(txt);
+			$("#input_state"+index2).val(val);
 			if(val=="2"||val=="5"||val=="6")
 			{
 				//2已上班5出差6代班
-				sapn_stype1("span_state"+index);
+				sapn_stype1("span_state"+index2);
 			}
 			else
 			{
-				sapn_stype2("span_state"+index);
+				sapn_stype2("span_state"+index2);
 			}
-			layer.close(index);
+			layer.closeAll();
 			//$.message(data.status,data.message);
 		},error:function(data){
-			$.message("error","系统出现问题，请联系系统管理员");
+			layer.alert("您当前权限不足,请联系系统管理员", {
+		        icon:5,
+		        skin:'error'
+		    },function(){layer.closeAll();});
+			//$.message("error","您当前权限不足,请联系系统管理员");
 		}
 	});
 }

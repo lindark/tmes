@@ -56,6 +56,7 @@ function btn_addbug_event(index)
 	    area:["500px","300px"],//弹出层宽高
 	    closeBtn: 1,//0没有关闭按钮，1-3不同样式关闭按钮---右上角的位置
 	    shadeClose: false,//点击遮罩层(阴影部分)：true时点击遮罩就关闭，false时不会
+	    move:false,//禁止拖拽
 	    btn:["确定","取消"],
 	    yes:function(){boxtorow_event(index);layer.closeAll();},
 	    content: $("#divbox")//可以 引入一个页面如："a.jsp"  
@@ -96,6 +97,7 @@ function sladd_event()
 		area:["500px","300px"],
 		closeBtn:1,
 		shadeClose:false,
+		move:false,//禁止拖拽
 		content:$("#divbox2"),
 		btn:["确定","取消"],
 		yes:function(){box2torow_event();}

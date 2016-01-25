@@ -120,8 +120,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
 	
-	private UnitdistributeProduct unitdistributeProduct;//工位
-	private UnitdistributeModel unitdistributeModel;//工作范围
+	private Set<UnitdistributeProduct> unitdistributeProductSet;//工位
+	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
 	
 	//假字段
 	private String xworkstate;//员工工作状态描述
@@ -960,22 +960,25 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.teamSet = teamSet;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	public UnitdistributeProduct getUnitdistributeProduct() {
-		return unitdistributeProduct;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<UnitdistributeProduct> getUnitdistributeProductSet() {
+		return unitdistributeProductSet;
 	}
 
-	public void setUnitdistributeProduct(UnitdistributeProduct unitdistributeProduct) {
-		this.unitdistributeProduct = unitdistributeProduct;
+	public void setUnitdistributeProductSet(
+			Set<UnitdistributeProduct> unitdistributeProductSet) {
+		this.unitdistributeProductSet = unitdistributeProductSet;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	public UnitdistributeModel getUnitdistributeModel() {
-		return unitdistributeModel;
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<UnitdistributeModel> getUnitdistributeModelSet() {
+		return unitdistributeModelSet;
 	}
 
-	public void setUnitdistributeModel(UnitdistributeModel unitdistributeModel) {
-		this.unitdistributeModel = unitdistributeModel;
+	public void setUnitdistributeModelSet(
+			Set<UnitdistributeModel> unitdistributeModelSet) {
+		this.unitdistributeModelSet = unitdistributeModelSet;
 	}
 
 	@Transient

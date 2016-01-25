@@ -149,6 +149,20 @@ public class EndProductAction extends BaseAdminAction {
 		}
 		try {
 			locationonsideList = rfc.findWarehouse(wareHouse, werks);
+			if(info==null){
+				locationonsideLists =new ArrayList<Locationonside>();
+				info = "401";
+				int i = info.length();
+				for(Locationonside los : locationonsideList){
+					if(los.getMaterialCode().length()>=i){
+						String s = los.getMaterialCode().substring(0, i);
+						if(info.equals(s)){
+							locationonsideLists.add(los);
+						}
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
 			if(!"".equals(info) && info!=null){
 				locationonsideLists =new ArrayList<Locationonside>();
 				int i = info.length();

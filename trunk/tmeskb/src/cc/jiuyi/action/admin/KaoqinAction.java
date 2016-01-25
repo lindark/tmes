@@ -78,10 +78,10 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		this.admin=this.adminService.get(loginid);
 		//班次
-		if(admin.getShift()!=null&&!"".equals(admin.getShift()))
+		/*if(admin.getShift()!=null&&!"".equals(admin.getShift()))
 		{
 			admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
-		}
+		}*/
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
@@ -255,9 +255,10 @@ public class KaoqinAction extends BaseAdminAction
 		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
 		//当前时间
 		Calendar can=Calendar.getInstance();
+		can.set(Calendar.SECOND,0);
 		//this.kqService.updateState(can.getTime());
 		int fen=can.get(Calendar.MINUTE);//分
-		int miao=can.get(Calendar.SECOND);//秒
+		//int miao=can.get(Calendar.SECOND);//秒
 		
 		//当前时间的后1整点
 		Calendar can2=Calendar.getInstance();
@@ -275,8 +276,12 @@ public class KaoqinAction extends BaseAdminAction
 		if(n<=0)
 		{
 			/**不跨时*/
-			String xquartz=miao+" "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
-			map1.put("kaoqintime", xquartz);
+			//String xquartz="0/5 "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
+			//map1.put("kaoqintime", xquartz);
+			String xquartz="0/5 "+fen+"-"+(fen+40)+" "+sdf.format(can.getTime());
+			String kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
+			kaoqintime=kaoqintime.replace("?", "");
+			map1.put("kaoqintime", kaoqintime);
 			map1.put("teamid", job_name);
 			//添加定时任务
 			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);
@@ -284,13 +289,20 @@ public class KaoqinAction extends BaseAdminAction
 		else
 		{
 			/**跨时*/
-			String xquartz=miao+" "+fen+"-59/1 "+sdf.format(can.getTime());
-			String x2quartz="0 0-"+n+"/1 "+sdf.format(can2.getTime());
+			//String xquartz="0/5 "+fen+"-59/1 "+sdf.format(can.getTime());
+			//String x2quartz="0/5 0-"+n+"/1 "+sdf.format(can2.getTime());
+			String xquartz="0/5 "+fen+"-59 "+sdf.format(can.getTime());
+			String x2quartz="0/5 0-"+n+" "+sdf.format(can2.getTime());
+			
+			String x1kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
+			String x2kaoqintime="0 0 "+sdf.format(can2.getTime());
+			x1kaoqintime=x1kaoqintime.replace("?", "");
+			x2kaoqintime=x2kaoqintime.replace("?", "");
 			//添加定时任务
-			map1.put("kaoqintime", xquartz);
+			map1.put("kaoqintime", x1kaoqintime);
 			map1.put("teamid", job_name);
 			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);			
-			map2.put("kaoqintime", x2quartz);
+			map2.put("kaoqintime", x2kaoqintime);
 			map2.put("teamid", "xxx"+job_name);
 			map2.put("d_value", n+"");
 			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz,map2);
@@ -338,16 +350,18 @@ public class KaoqinAction extends BaseAdminAction
 			{
 				a.setXpost(a.getPost().getPostName());
 			}
+			a.setXstation(null);
 			//工位
-			if(a.getUnitdistributeProduct()!=null)
+			/*if(a.getUnitdistributeProduct()!=null)
 			{
 				a.setXstation(a.getUnitdistributeProduct().getMaterialCode()+"/"+a.getUnitdistributeProduct().getMaterialName());
-			}
+			}*/
 			//工作范围
-			if(a.getUnitdistributeModel()!=null)
+			a.setXworkscope(null);
+			/*if(a.getUnitdistributeModel()!=null)
 			{
 				a.setXworkscope(a.getUnitdistributeModel().getMaterialCode()+"/"+a.getUnitdistributeModel().getMaterialName());
-			}
+			}*/
 			list2.add(a);
 		}
 		return list2;

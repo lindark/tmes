@@ -172,7 +172,7 @@
 	</error-page>
 	<error-page>
 		<error-code>403</error-code>
-		<location>/html/error_page_403.html</location>
+		<location>/html/error_page_access_denied.html</location>
 	</error-page>
 
 </web-app>

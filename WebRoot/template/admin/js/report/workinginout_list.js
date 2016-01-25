@@ -58,7 +58,7 @@ jQuery(function($) {
 		},
 
 		editurl: "working_bill!delete.action",//用它做标准删除动作
-		caption: "随工单"
+		caption: "投入产出表"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

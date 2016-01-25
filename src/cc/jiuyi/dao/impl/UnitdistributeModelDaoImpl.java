@@ -52,5 +52,12 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 			super.update(unitdistributeModel);
 		}
    }
+
+	@Override
+	public List<UnitdistributeModel> getModelList(String unitCode) {
+		String hql = "from UnitdistributeModel unitmodel where unitmodel.unitCode = ?";
+		List<UnitdistributeModel> modelList=getSession().createQuery(hql).setParameter(0,unitCode).list();
+		return modelList;
+	}
 	
 }

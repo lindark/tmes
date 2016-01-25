@@ -141,4 +141,10 @@ public class ProcessServiceImpl extends BaseServiceImpl<Process, String>implemen
 		// TODO Auto-generated method stub
 		return processDao.getExistProcessList();
 	}
+
+	@Override
+	public List<Process> getExistAndStateProcessList() {
+		// TODO Auto-generated method stub
+		return  processDao.getExistAndStateProcessList();
+	}
 }

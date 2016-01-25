@@ -197,4 +197,10 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		return getSession().createQuery(hql).list();
 	}
 
+	@Override
+	public List<Process> getExistAndStateProcessList() {
+		String hql = "From Process process where isDel='N' and state='1' order by process.id asc process.crateDate desc";
+		return getSession().createQuery(hql).list();
+	}
+
 }

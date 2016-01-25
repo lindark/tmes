@@ -199,7 +199,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				return ERROR;
 			}
 			
-			processList = processservice.getExistProcessList();//取出工序表中所有未删除的工序
+			processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
 			if(processList.isEmpty()){
 				addActionError("未找到一条工序记录");
 				return ERROR;

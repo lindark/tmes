@@ -22,4 +22,6 @@ public interface UnitdistributeModelDao extends BaseDao<UnitdistributeModel, Str
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
+	//根据单元编码查询
+	public List<UnitdistributeModel> getModelList(String unitCode);
 }

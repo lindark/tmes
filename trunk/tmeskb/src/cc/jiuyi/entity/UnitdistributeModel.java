@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -25,9 +26,11 @@ public class UnitdistributeModel extends BaseEntity{
      
     private String unitName;//单元名称 
     
-    private String materialCode;//物料编码
+  /*  private String materialCode;//物料编码
     
     private String materialName;//物料名称
+*/  
+    private String station;//工位
     
     private Set<Admin> adminSet;
 
@@ -66,7 +69,7 @@ public class UnitdistributeModel extends BaseEntity{
 		this.unitName = unitName;
 	}
 
-	public String getMaterialCode() {
+	/*public String getMaterialCode() {
 		return materialCode;
 	}
 
@@ -80,6 +83,14 @@ public class UnitdistributeModel extends BaseEntity{
 
 	public void setMaterialName(String materialName) {
 		this.materialName = materialName;
+	}*/
+	
+	public String getStation() {
+		return station;
+	}
+
+	public void setStation(String station) {
+		this.station = station;
 	}
 
 	@Transient
@@ -91,7 +102,7 @@ public class UnitdistributeModel extends BaseEntity{
 		this.stateRemark = stateRemark;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "unitdistributeModel")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "unitdistributeModelSet")
 	public Set<Admin> getAdminSet() {
 		return adminSet;
 	}

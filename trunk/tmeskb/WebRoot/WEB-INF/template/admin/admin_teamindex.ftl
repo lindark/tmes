@@ -254,7 +254,7 @@
 													data-access-list="endproduct">
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="endProduct" type="button">
-														<i class="ace-icon fa fa-users bigger-110"></i> <span
+														<i class="ace-icon fa fa-archive bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">成品入库</span>
 													</button>
 												</div>
@@ -364,7 +364,7 @@
 													data-access-list="returnProduct">
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="returnProduct" type="button">
-														<i class="ace-icon fa fa-users bigger-110"></i> <span
+														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">退回中转仓</span>
 													</button>
 												</div>

@@ -40,6 +40,7 @@ function edit_event(index)
 		title:"修改员工状态",
 		shade:0.52,
 		shadeClose:false,
+		move:false,
 		area:["500px","333px"],
 		content:$("#divbox"),
 		closeBtn:1,

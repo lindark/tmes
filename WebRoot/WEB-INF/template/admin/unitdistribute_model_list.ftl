@@ -57,9 +57,9 @@
 										</div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">物料名称:</label>
+										<label class="col-sm-1" style="text-align:right">工位:</label>
 										<div class="col-sm-4">
-											<input type="text" name="materialName" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="station" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 									</div>
 								   						

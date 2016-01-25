@@ -33,21 +33,26 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 		{
 			// 获取 JobDataMap , 并从中取出参数   
 	        JobDataMap data = context.getJobDetail().getJobDataMap();  
-	        String xquartz = data.getString("kaoqintime");//quartz表达式
+	        //String xquartz = data.getString("kaoqintime");//quartz表达式
+	        String kaoqintime = data.getString("kaoqintime");
 	        String teamid=data.getString("teamid");//班组ID
-	        xquartz=xquartz.replace(xquartz.substring(xquartz.indexOf("-"), xquartz.indexOf("/")+2), "");
+	        //xquartz=xquartz.replace(xquartz.substring(xquartz.indexOf("-"), xquartz.indexOf("/")+2), "");
 	        //10 56-59/1 19 18 12 ? 2015
-	        xquartz=xquartz.replace("?","");
+	        //0/5 56-59/1 19 18 12 ? 2015
+	        //xquartz=xquartz.replace("?","");
 	        
 	        SimpleDateFormat sdf=new SimpleDateFormat("ss mm HH dd MM yyyy");
-	        Date startdate=sdf.parse(xquartz);//从quartz中解析出开始时间
+	        Date startdate=sdf.parse(kaoqintime);//从quartz中解析出开始时间---改为直接传入
 			Date enddate = new Date();// 现在时间
 			
 			 //两个时间的相差分钟
 			Calendar can=Calendar.getInstance();//开启考勤的时间
 			Calendar can2=Calendar.getInstance();//现在的时间
 			can.setTime(startdate);
+			can.set(Calendar.SECOND,0);
 			can2.setTime(enddate);
+			can2.set(Calendar.SECOND,0);
+			enddate=can2.getTime();
 			int n=0;
 			if (data.getString("d_value")!=null)
 			{
@@ -63,7 +68,7 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 			}
 
 			int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
-			System.out.println(differ+"================================="+n+"=================================="+startdate);
+			System.out.println(differ+"======================"+n+"======================startdate="+startdate+"=========enddate="+enddate);
 			if(differ>=n)
 			{
 				teamService=(TeamService) SpringUtil.getBean("teamServiceImpl");

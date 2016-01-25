@@ -119,8 +119,8 @@ inupt.stockMout{
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
-														<th class="tabth">库存箱数</th>
 														<th class="tabth">库存数量</th>
+														<th class="tabth">库存箱数</th>
 														<th class="tabth">入库箱数</th>
 													</tr>
 													
@@ -136,8 +136,8 @@ inupt.stockMout{
 																	<input type="hidden"  name="endProduct.materialDesp" value="${(endProduct.materialDesp)!}">
 																	<td>${(endProduct.materialBatch)! }</td>
 																	<input type="hidden"  name="endProduct.materialBatch" value="${(endProduct.materialBatch)!}">
-																	<td>${(endProduct.actualMaterialBoxMount)! }</td>
 																	<td>${(endProduct.actualMaterialMount)! }</td>
+																	<td>${(endProduct.actualMaterialBoxMount)! }</td>
 																	<input type="hidden"  name="endProduct.actualMaterialBoxMount" value="${(endProduct.actualMaterialBoxMount)!}">
 																	<input type="hidden"  name="endProduct.actualMaterialMount" value="${(endProduct.actualMaterialMount)!}">
 																	
@@ -155,8 +155,8 @@ inupt.stockMout{
 																	<input type="hidden"  name="endProducts[${lns_index}].materialDesp" value="${(lns.materialName)!}">
 																	<td>${(lns.charg)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
-																	<td>${(lns.boxMount)! }</td>
 																	<td>${(lns.amount)! }</td>
+																	<td>${(lns.boxMount)! }</td>
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialBoxMount" value="${(lns.boxMount)!}">
 																	<input type="hidden"  name="endProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
 																	<td  style="width:150px"><input style="width:95%"type="text" name="endProducts[${lns_index}].stockBoxMout" value=""onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>

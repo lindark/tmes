@@ -33,6 +33,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Products;
@@ -85,7 +86,9 @@ public class AdminAction extends BaseAdminAction {
 	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring security 最后登录异常Session名称
 
 	private String loginUsername;
-	private String parentId;
+	private String parentId; 
+	private String unitdistributeModels;//工位
+	private String unitdistributeProducts;//工作范围
 	
 	private Admin admin;
 	private String adminDeptName;
@@ -615,16 +618,38 @@ public class AdminAction extends BaseAdminAction {
 //	)
 //	@InputConfig(resultName = "error")
 	public String save() {
+
+		//工作范围添加
+		List<UnitdistributeProduct> productList = new ArrayList<UnitdistributeProduct>();
+		if(unitdistributeProducts!=null || !unitdistributeProducts.equals("")){
+			ids=unitdistributeProducts.split(",");
+			for(int i=0;i<ids.length;i++){
+				UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i]);
+				productList.add(unitpro);
+			}
+			admin.setUnitdistributeProductSet(new HashSet<UnitdistributeProduct>(productList));
+		}else{
+			admin.setUnitdistributeProductSet(null);
+		}
+		
+		//工位添加
+		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
+		if(unitdistributeModels!=null || !unitdistributeModels.equals("")){
+			ids=unitdistributeModels.split(",");
+			for(int i=0;i<ids.length;i++){
+				UnitdistributeModel unitMod=unitdistributeModelService.get(ids[i]);
+				modelList.add(unitMod);
+			}
+			admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
+		}else{
+			admin.setUnitdistributeModelSet(null);
+		}
+		System.out.println("in");
+		
 		if (roleList == null || roleList.size() == 0) {
 			return ERROR;
 		}
-		
-		/*if(parentId!=null && !parentId.equalsIgnoreCase("")){
-			Admin admin1 = adminService.get(parentId);
-			admin.setParentAdmin(admin1);
-		}else{
-			admin.setParentAdmin(null);
-		}*/
+				
 		admin.setUsername(admin.getUsername().toLowerCase());
 		admin.setLoginFailureCount(0);
 		admin.setIsAccountLocked(false);
@@ -673,7 +698,7 @@ public class AdminAction extends BaseAdminAction {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 			persistent.setPassword(passwordMd5);
 		}
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift","isDel"});
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift","isDel","unitdistributeProductSet","unitdistributeModelSet"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
@@ -939,5 +964,26 @@ public class AdminAction extends BaseAdminAction {
 	public void setShift(String shift) {
 		this.shift = shift;
 	}
+
+
+	public String getUnitdistributeModels() {
+		return unitdistributeModels;
+	}
+
+
+	public void setUnitdistributeModels(String unitdistributeModels) {
+		this.unitdistributeModels = unitdistributeModels;
+	}
+
+
+	public String getUnitdistributeProducts() {
+		return unitdistributeProducts;
+	}
+
+
+	public void setUnitdistributeProducts(String unitdistributeProducts) {
+		this.unitdistributeProducts = unitdistributeProducts;
+	}
+	
 	
 }

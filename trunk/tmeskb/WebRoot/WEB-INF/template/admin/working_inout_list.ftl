@@ -23,6 +23,9 @@
 			.operateBar{
 				padding:3px 0px;
 			}
+			.changeDate{
+				cursor:pointer;
+			}
 		</style>
 		<script type="text/javascript">
 			var jsondata = ${(jsondata)!};
@@ -79,10 +82,9 @@
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker" name="start" id="startDate">
-												<span class="input-group-addon">
+												<span class="input-group-addon changeDate">
 													<i class="fa fa-exchange"></i>
 												</span>
-
 												<input type="text" class="input-sm form-control datePicker" name="end" id="endDate">
 											</div>
 										</div>
@@ -153,6 +155,13 @@
 				}).trigger("reloadGrid");
 		}); 
 		
+		 $(".changeDate").click(function(){
+			 var sd = $("#startDate").val();
+			 var ed = $("#endDate").val();
+			 $("#startDate").val(ed);
+			 $("#endDate").val(sd);
+		 });
+		 
 	}); 
 	function now_date(){
 		var nowDate = new Date();

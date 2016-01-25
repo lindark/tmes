@@ -56,7 +56,7 @@ body {
 						<form id="inputForm" name="inputForm" class="validate" action="<#if isAdd??>pick_detail!creditsubmit.action<#else>pick_detail!creditupdate.action</#if>"
 							 method="post">
 							 <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
-                            <input type="hidden" class="input input-sm" id="workingBillId" name="workingBillId" value="${(workingbill.id)!} ">
+                            <input type="hidden"  id="workingBillId" name="workingBillId" value="${(workingbill.id)!} "/>
                             <input type="hidden" id="pickId" name="pickId" value="${(pick.id)! }" />
 							<div id="inputtabs">
 								 <ul>
@@ -116,6 +116,7 @@ body {
 													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true}"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].pickType" value="${(list.pickType)! }"/>
 													<input type="hidden" id="stockAmount${(num)}" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }" class="stockAmount"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 												</td>											

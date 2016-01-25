@@ -77,6 +77,11 @@ public class KaoqinAction extends BaseAdminAction
 	public String list()
 	{
 		this.admin=this.adminService.get(loginid);
+		//班次
+		if(admin.getShift()!=null&&!"".equals(admin.getShift()))
+		{
+			admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
+		}
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
@@ -316,7 +321,13 @@ public class KaoqinAction extends BaseAdminAction
 				a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
 			}
 			//班组
-			a.setXteam( a.getDepartment().getTeam().getTeamName());
+			if(a.getDepartment()!=null)
+			{
+				if(a.getDepartment().getTeam()!=null)
+				{
+					a.setXteam( a.getDepartment().getTeam().getTeamName());
+				}
+			}
 			//工作状态
 			if(a.getWorkstate()!=null&&!"".equals(a.getWorkstate()))
 			{

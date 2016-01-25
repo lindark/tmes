@@ -148,8 +148,8 @@
 														 
 														<select name="admin.shift" class="formText {required: true}">
 														<option></option>
-														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
-														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+														<!--<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>-->
+														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option> 
 														<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
 													    </select>&nbsp;&nbsp;&nbsp; <button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>														   
 													    </form>

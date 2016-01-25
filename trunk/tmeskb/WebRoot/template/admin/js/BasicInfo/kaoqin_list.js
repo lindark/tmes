@@ -50,24 +50,15 @@ function edit_event(index)
 			var txt=$("#select_state option:selected").text();
 			if(val!=state)
 			{
-				if(val=="2"||val=="5"||val=="6")
-				{
-					//2已上班5出差6代班
-					sapn_stype1("span_state"+index);
-				}
-				else
-				{
-					sapn_stype2("span_state"+index);
-				}
 				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.cardNumber="+index;
-				upd_event(url,val,txt);
+				upd_event(url,val,txt,index);
 			}
 		}
 	});
 }
 
 //确认修改
-function upd_event(url,val,txt)
+function upd_event(url,val,txt,index)
 {
 	$.ajax({	
 		url: url,
@@ -81,6 +72,15 @@ function upd_event(url,val,txt)
 		success: function(data) {
 			$("#span_state"+index).text(txt);
 			$("#input_state"+index).val(val);
+			if(val=="2"||val=="5"||val=="6")
+			{
+				//2已上班5出差6代班
+				sapn_stype1("span_state"+index);
+			}
+			else
+			{
+				sapn_stype2("span_state"+index);
+			}
 			layer.close(index);
 			//$.message(data.status,data.message);
 		},error:function(data){

@@ -140,7 +140,7 @@ body {
 												            </#list> 
 												       
 											<#else>											    
-											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeModels">
+											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
 														<#list unitModelList as list>
 														<option value="${list.id}">${list.station}</option>
 														</#list>
@@ -158,7 +158,7 @@ body {
 												            </#list> 
 												       
 											<#else>											    
-											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeProducts">
+											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeProducts" data-placeholder="请选择...">
 														<#list unitProductList as list>
 														<option value="${list.id}">${list.materialName}</option>
 														</#list>
@@ -289,7 +289,7 @@ $(window)
 .on('resize.chosen', function() {
 	$('.chosen-select').each(function() {
 		 var $this = $(this);
-		 $this.next().css({'width': "400px"});
+		 $this.next().css({'width': "290px"});
 	})
 }).trigger('resize.chosen');
 

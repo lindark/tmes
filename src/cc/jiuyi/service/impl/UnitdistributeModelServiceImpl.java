@@ -45,4 +45,10 @@ public class UnitdistributeModelServiceImpl extends BaseServiceImpl<Unitdistribu
 		
 	}
 
+	@Override
+	public List<UnitdistributeModel> getModelList(String unitCode) {
+		// TODO Auto-generated method stub
+		return unitdistributeModelDao.getModelList(unitCode);
+	}
+
 }

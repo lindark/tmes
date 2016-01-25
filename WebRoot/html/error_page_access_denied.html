@@ -120,6 +120,7 @@
 	</script>
 	
 
+	
 	<!-- #section:basics/sidebar -->
 	<div id="sidebar" class="sidebar                  responsive">
 		<script type="text/javascript">
@@ -161,15 +162,42 @@
 		</div><!-- /.sidebar-shortcuts -->
 
 		<ul class="nav nav-list">
-			<li class="active">
+		<!-- <li>
 				<a href="admin!index.action" >
 					<i class="menu-icon fa fa-tachometer"></i>
 					<span class="menu-text"> 首页 </span>
 				</a>
 
 				<b class="arrow"></b>
-			</li>
+			</li> -->	
+			<li>
+				<a href="admin!index.action" >
+					<i class="menu-icon fa fa-tachometer"></i>
+					<span class="menu-text"> 生产首页 </span>
+				</a>
 
+				<b class="arrow"></b>
+			</li>
+			<!-- 
+			<li>
+			<a href="admin!index2.action" >
+					<i class="menu-icon fa fa-gavel"></i>
+					<span class="menu-text"> 质检首页 </span>
+				</a>
+
+				<b class="arrow"></b>
+			</li>
+			 -->
+		<!--<li>
+				<a href="#" >
+					<i class="menu-icon glyphicon glyphicon-user"></i>
+					<span class="menu-text"> 管理首页 </span>
+				</a>  -->	
+
+				<b class="arrow"></b>
+			</li>
+			
+			<!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-desktop"></i>
@@ -292,7 +320,8 @@
 					</li>
 				</ul>
 			</li>
-
+ -->
+ 	<!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-users"></i>
@@ -334,7 +363,8 @@
 					
 				</ul>
 			</li>
-
+ -->
+ <!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-book"></i>
@@ -482,27 +512,27 @@
 					</li>
 				</ul>
 			</li>
-			
-			
+		 -->	
+		
+		<!-- 
 		    <li class="">
 
 				<a href="build_html!allInput.action" >
 							<i class="menu-icon fa fa-gavel"></i>
 							<span class="menu-text">
 						一键内容更新
-						<!-- #section:basics/sidebar.layout.badge -->
 						<span class="badge badge-transparent tooltip-error" title="" data-original-title="更新后会立即呈现给用户">
 							<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
 						</span>
 
-						<!-- /section:basics/sidebar.layout.badge -->
 					</span>
 					
 						</a>
 
 						<b class="arrow"></b>
 		    </li>
-
+		 -->
+		 <!-- 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
 					<i class="menu-icon fa fa-user"></i>
@@ -514,51 +544,7 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
-					<li class="">
-						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-caret-right"></i>
-							操作员
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						<ul class="submenu">
-							<li class="">
-								<a href="admin!list.action" >
-									<i class="menu-icon fa fa-caret-right"></i>
-									操作员列表
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="role!list.action" >
-									<i class="menu-icon fa fa-caret-right"></i>
-									角色管理
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="resource!list.action" >
-									<i class="menu-icon fa fa-caret-right"></i>
-									访问路径授权
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							
-
-						</ul>
-					</li>
-
 					
-
-
 
 					<li class="">
 						<a href="#" class="dropdown-toggle">
@@ -604,8 +590,8 @@
 					
 				</ul>
 			</li>
-			
-			
+			 -->
+			<!-- 
 			<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-envelope-o"></i>
@@ -650,9 +636,268 @@
 						</ul>
 					</li>
 			
+			 -->
 
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-flag "></i>
+						生产管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
 
+				<b class="arrow"></b>
 
+				<ul class="submenu">
+					<li class="">
+						<a href="admin!product.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							生产日期/班次绑定
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>	
+					</li>
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"></i>
+							生产记录
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									工序交接记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									领退料记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									报工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返修记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返修收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									报废记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									入库记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									转储确认记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									纸箱收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+					
+					
+				 </ul>
+		     </li>
+
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-key "></i>
+						质检管理
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+				
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"></i>
+							质检记录
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品抽检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									半成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+					
+			</ul>
+		</li>
+		
+		<li class="#">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text"> 异常管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<!--  <li class="">
+						<a href="abnormal!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							异常
+						</a>
+
+						<b class="arrow"></b>
+					</li>-->
+
+					<li class="">
+						<a href="quality!list.action" >
+							<i class="menu-icon"></i>
+							质量问题单记录
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					<li class="">
+						<a href="model!list.action" >
+							<i class="menu-icon"></i>
+							工模维修单记录
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+                    
+					<li class="">
+						<a href="craft!list.action" >
+							<i class="menu-icon"></i>
+							工艺维修单记录
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+                    
+					<li class="">
+						<a href="device!list.action" >
+							<i class="menu-icon"></i>
+							设备维修单记录
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+
+				</ul>
+			</li>
+
+			<li class="#">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-bar-chart-o"></i>
+					<span class="menu-text"> 报表管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="working_inout!list.action" >
+							<i class="menu-icon"></i>
+							投入产出报表
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
@@ -683,8 +928,78 @@
 						<b class="arrow"></b>
 					</li>
 					
-					
-					
+					<li class="">
+						<a href="department!list.action" >
+							<i class="menu-icon"></i>
+							用户设置
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="post!list.action" >
+							<i class="menu-icon"></i>
+							岗位管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"></i>
+							权限管理
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="role!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									角色管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="resource!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									访问路径授权
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<!-- 
+							<li class="">
+								<a href="credit_access!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									刷卡权限管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							 -->
+							<li class="">
+								<a href="access_object!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									权限对象
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="access_resource!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									权限资源设置
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+						</ul>
+					</li>
 
 
 					
@@ -722,7 +1037,7 @@
 
 						
 					</li>
-
+					<!--
 					<li class="">
 						<a href="#">
 							<i class="menu-icon fa fa-caret-right"></i>
@@ -740,6 +1055,276 @@
 
 						<b class="arrow"></b>
 					</li>
+					
+					-->
+
+				</ul>
+			</li>
+			
+			
+			
+		
+		     
+		     
+			<li class="">
+				<a href="#" class="dropdown-toggle">
+					<i class="menu-icon fa fa-coffee "></i>
+						基础信息
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<b class="arrow"></b>
+
+				<ul class="submenu">
+					<li class="">
+						<a href="working_bill!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							随工单同步管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+				
+					<li class="">
+						<a href="material!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							物料管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<!-- 
+					<li class="">
+						<a href="products!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							产品管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					 -->
+					<li class="">
+						<a href="bom!show.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							订单Bom管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					<li class="">
+						<a href="process!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							工序代码管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					<li class="">
+						<a href="process_route!show.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							订单工艺管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"></i>
+							组织管理
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="factory!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									 工厂管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="work_shop!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									车间管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="factory_unit!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									单元管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="team!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									班组管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<!-- 
+							<li class="">
+								<a href="locationonside!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									库存地点管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							 -->
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-caret-right"></i>
+							代码管理
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="callreason!list.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									 呼叫原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="cause!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									缺陷代码管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="fault_reason!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									故障原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="handlemeans_results!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									处理结果代码
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="longtime_preventstep!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									预防措施
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="receipt_reason!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									单据原因管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						
+						</ul>
+					</li>
+					
+					
+					<li class="">
+						<a href="unit_conversion!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							计量单位转换
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="card_management!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							刷卡设备管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+						<li class="">
+						<a href="equipments!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							设备管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					
+					<li class="">
+						<a href="scrap_out!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							报废后产出对照表
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
+					<!--
+					<li class="">
+						<a href="#">
+							<i class="menu-icon fa fa-caret-right"></i>
+							定时同步管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="#l">
+							<i class="menu-icon fa fa-caret-right"></i>
+							SAP RFC函数配置
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
+					-->
 
 				</ul>
 			</li>
@@ -756,7 +1341,9 @@
 		</script>
 	</div>
 
-	<!-- /section:basics/sidebar -->	
+	<!-- /section:basics/sidebar -->
+	
+
 	<div class="main-content">
 
 <!-- #section:settings.box -->

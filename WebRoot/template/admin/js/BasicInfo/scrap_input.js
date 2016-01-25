@@ -53,7 +53,7 @@ function btn_addbug_event(index)
 	    type: 1,
 	    shade:0.52,//遮罩透明度
 	    title: "添加报废原因",
-	    area:["500px","300px"],//弹出层宽高
+	    area:["700px","400px"],//弹出层宽高
 	    closeBtn: 1,//0没有关闭按钮，1-3不同样式关闭按钮---右上角的位置
 	    shadeClose: false,//点击遮罩层(阴影部分)：true时点击遮罩就关闭，false时不会
 	    move:false,//禁止拖拽
@@ -66,7 +66,7 @@ function btn_addbug_event(index)
 //报废数量输入框change事件
 function write_bugnum_event(index)
 {
-	var bugnum=$("#mynum"+index).val().replace(" ","");
+	var bugnum=$("#mynum"+index).val().replace(/\s+/g,"");
 	if(bugnum!=null&&bugnum!="")
 	{
 		var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
@@ -107,7 +107,7 @@ function sladd_event()
 //报废后产出添加弹框中的输入数量事件
 function slnum_event()
 {
-	var slnum=$("#sl_num").val().replace(" ","");
+	var slnum=$("#sl_num").val().replace(/\s+/g,"");
 	var reg=/^[0-9]+(\.[0-9]+)?$/;
 	if(reg.test(slnum))
 	{
@@ -183,7 +183,7 @@ function edit_click(obj)
 //1.2编辑时输入框失去焦点事件
 function inputcount_blur(obj)
 {
-	var inputcountval=$("#input_count"+obj).val().replace(" ","");
+	var inputcountval=$("#input_count"+obj).val().replace(/\s+/g,"");
 	var reg=/^[0-9]+(\.[0-9]+)?$/;
 	if(reg.test(inputcountval))
 	{

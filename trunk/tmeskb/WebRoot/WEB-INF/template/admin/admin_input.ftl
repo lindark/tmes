@@ -104,22 +104,11 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">直接上级</label>
 										<div class="col-sm-9">
-										    <select class="chosen-select" multiple="" style="width:290px;" name="admin.parentAdmin.id" data-placeholder="请选择...">
-														<option value="">请选择...</option> 
+										    <select class="chosen-select" name="admin.parentAdmin.id" data-placeholder="请选择...">
 														<#list adminList as list>
 														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
 														</#list>
 											</select>
-										   <!--   <#if isAdd??>
-										    <select style="width:290px;" name="parentId">
-														<option value="">请选择...</option> 
-														<#list adminList as list>
-														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
-														</#list>
-											</select>
-											<#else>
-										       ${(admin.parentAdmin.name)!}
-										    </#if>--> 
 										</div>
 								</div>
 								<div class="form-group">
@@ -144,25 +133,38 @@ body {
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工位</label>
-										<div class="col-sm-9">
-										       <select style="width:290px;" name="admin.unitdistributeProduct.id">
-														<option value="">请选择...</option> 
-														<#list unitProductList as list>
-														<option value="${list.id}" <#if (list.id == admin.unitdistributeProduct.id)!> selected</#if>>${list.materialName}${list.materialCode}</option>
+										<div class="col-sm-9">									    
+											 <#if ((admin.unitdistributeModelSet)!?size>0)>
+						                                    <#list admin.unitdistributeModelSet as list> 
+												            <span> ${list.station}</span>&nbsp;&nbsp;&nbsp; 
+												            </#list> 
+												       
+											<#else>											    
+											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeModels">
+														<#list unitModelList as list>
+														<option value="${list.id}">${list.station}</option>
 														</#list>
-											</select>
-											  
+											    </select>
+																					
+											</#if>	 
 										</div>
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工作范围</label>
 										<div class="col-sm-9">
-											  <select style="width:290px;" name="admin.unitdistributeModel.id">
-														<option value="">请选择...</option> 
-														<#list unitModelList as list>
-														<option value="${list.id}" <#if (list.id == admin.unitdistributeModel.id)!> selected</#if>>${list.materialName}${list.materialCode}</option>
+										     <#if ((admin.unitdistributeProductSet)!?size>0)>
+						                                    <#list admin.unitdistributeProductSet as list> 
+												            <span> ${list.materialName}</span>&nbsp;&nbsp;&nbsp; 
+												            </#list> 
+												       
+											<#else>											    
+											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeProducts">
+														<#list unitProductList as list>
+														<option value="${list.id}">${list.materialName}</option>
 														</#list>
-											</select>
+											    </select>
+																					
+											</#if>	 									  
 										</div>
 								</div>
 								<div class="form-group">

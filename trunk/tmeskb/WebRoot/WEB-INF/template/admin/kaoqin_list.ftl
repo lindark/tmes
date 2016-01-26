@@ -35,7 +35,7 @@
 {
 	cursor:pointer;
 	height:50px;
-	width:150px;
+	width:145px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -50,7 +50,7 @@
 {
 	cursor:pointer;
 	height:50px;
-	width:150px;
+	width:145px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -65,7 +65,7 @@
 {
 	cursor:pointer;
 	height:50px;
-	width:155px;
+	width:145px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -79,7 +79,7 @@
 .div-height{height:194px;}
 .div-btn{margin-left:10px;display: inline;}
 .div-btn2{margin-left:10px;display: inline;}
-.div-btn3{margin-left:160px;display: inline;}
+.div-btn3{margin-left:10px;display: inline;}
 .tabtd{text-align:center;}
 .btn_tab{text-align:left;}
 .a_edit{cursor: pointer;}
@@ -196,6 +196,7 @@
 														<span id="span_startkaoqin"></span>
 													</button>
 												</div>
+												<br/>
 												<div class="div-btn3">
 													<button id="btn_clickandcredit" class="btn_clickandcredit">
 														<img style="" src="${base}/template/admin/images/btn_card3.gif"></img>

@@ -222,6 +222,7 @@ public class DumpAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
+		System.out.println(type);
 		try {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.load(admin.getId());

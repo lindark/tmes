@@ -128,7 +128,7 @@ public class DumpAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
 			}
-			dumpService.saveDump(ids, dumpList, cardnumber,loginid);
+			dumpService.saveDump(ids, dumpList, cardnumber,warehouse);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -222,7 +222,6 @@ public class DumpAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
-		System.out.println(type);
 		try {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.load(admin.getId());

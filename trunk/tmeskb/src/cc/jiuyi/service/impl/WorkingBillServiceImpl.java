@@ -184,10 +184,7 @@ public class WorkingBillServiceImpl extends
 			mergebomdeal(order,bomList);
 			/***处理工艺路线***/
 			mergeprocessroutedeal(order,processrouteList);
-			
-	}
-
-	
+		}
 
 }
 	

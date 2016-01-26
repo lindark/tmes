@@ -171,7 +171,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 							a.setWorkstate("6");
 						}
 						a.setModifyDate(new Date());
-						this.adminDao.update(a);
+						this.update(a);
 					}
 				}
 			}

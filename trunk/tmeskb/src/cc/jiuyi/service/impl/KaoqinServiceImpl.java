@@ -188,5 +188,31 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		handOverService.update(handover);
 		this.mergeAdminafterWork(admin,handoverid);
 	}
-	
+
+	/**
+	 * 点击后刷卡
+	 */
+	public int updateWorkStateByCreidt(String cardnumber,String teamid)
+	{
+		//根据卡号 班组ID查询
+		Admin a=this.adminService.getByCardnumAndTeamid(cardnumber,teamid);
+		if(a!=null)
+		{
+			//过滤已上班的或者代班的
+			if(!"2".equals(a.getWorkstate())&&!"6".equals(a.getWorkstate()))
+			{
+				a.setWorkstate("2");
+				//是否是代班的
+				if(a.getIsdaiban().equals(teamid))
+				{
+					a.setWorkstate("6");
+				}
+				a.setModifyDate(new Date());
+				this.adminService.update(a);
+				return 1;
+			}
+			return 2;
+		}
+		return 3;
+	}
 }

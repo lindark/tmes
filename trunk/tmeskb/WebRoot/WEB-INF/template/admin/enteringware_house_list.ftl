@@ -24,6 +24,7 @@
 			} catch (e) {
 			}
 		</script>
+		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 		<div class="main-content">
 			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">

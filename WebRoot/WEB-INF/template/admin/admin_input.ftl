@@ -132,6 +132,16 @@ body {
 										      </select> 
 										</div>
 								</div>
+								
+								<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">离职</label>
+										<div class="col-sm-9">
+											<select name="admin.isDel" id="form-field-icon-1" class="col-xs-10 col-sm-5 formText {required: true}"> 
+											    <option value="N" <#if (admin.isDel == "N")!> selected</#if>>-请选择-</option>											
+										        <option value="Y" <#if (admin.isDel == "Y")!> selected</#if>>离职</option>
+										      </select> 
+										</div>
+								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工位</label>
 										<div class="col-sm-9">									    

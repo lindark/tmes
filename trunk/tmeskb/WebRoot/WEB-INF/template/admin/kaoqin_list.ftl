@@ -234,8 +234,8 @@
 											<td>${(list.cardNumber)!}</td>
 											<td>${(list.name)!}</td>
 											<td>${(list.xpost)!}</td>
-											<td>${(list.xstation())!}</td>
-											<td>${(list.xworkscope())!}</td>
+											<td>${(list.xstation)!}</td>
+											<td>${(list.xworkscope)!}</td>
 											<!-- 
 											<td>${(list.xshift)!}</td>
 											 -->

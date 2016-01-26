@@ -672,7 +672,7 @@ public class AdminAction extends BaseAdminAction {
 		admin.setRoleSet(new HashSet<Role>(roleList));
 		String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 		admin.setPassword(passwordMd5);
-		admin.setIsDel("N");
+		//admin.setIsDel("N");
 		adminService.save(admin);
 		
 		return ajaxJsonSuccessMessage("保存成功！");
@@ -748,7 +748,7 @@ public class AdminAction extends BaseAdminAction {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 			persistent.setPassword(passwordMd5);
 		}
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift","isDel"});
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
 	}

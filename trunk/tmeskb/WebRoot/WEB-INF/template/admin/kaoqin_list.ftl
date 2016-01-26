@@ -61,11 +61,11 @@
 	margin-top:8px;
 	position: absolute;
 }
-.btn_viewhistory
+.btn_clickandcredit
 {
 	cursor:pointer;
 	height:50px;
-	width:150px;
+	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -77,9 +77,9 @@
 	position: absolute;
 }
 .div-height{height:194px;}
-.div-btn{margin-left:50px;display: inline;}
-.div-btn2{margin-left:50px;display: inline;}
-.div-btn3{margin-left:165px;display: inline;}
+.div-btn{margin-left:10px;display: inline;}
+.div-btn2{margin-left:10px;display: inline;}
+.div-btn3{margin-left:160px;display: inline;}
 .tabtd{text-align:center;}
 .btn_tab{text-align:left;}
 .a_edit{cursor: pointer;}
@@ -196,20 +196,27 @@
 														<span id="span_startkaoqin"></span>
 													</button>
 												</div>
-												<!-- 
 												<div class="div-btn3">
-													<button id="btn_viewhistory" class="btn_viewhistory">
-														<img style="" src="${base}/template/admin/images/viewhistory.gif"></img>
-														查看历史
+													<button id="btn_clickandcredit" class="btn_clickandcredit">
+														<img style="" src="${base}/template/admin/images/btn_card3.gif"></img>
+														点击刷卡上班
 													</button>
 												</div>
-												 -->
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<input type="hidden" id="sameteamid" value="${(admin.department.team.id)!}" />
+							<input type="hidden" id="sameteamid" value="${sameTeamId}" />
+							<div class="row">
+								<div class="col-xs-12">
+									<table id="grid-table"></table>
+
+									<div id="grid-pager"></div>
+								</div>
+							</div>
+							<a onclick=""></a>
+							<!--  --
 							<div class="row">
 								<div class="widget-header">
 									<h4 class="widget-title">员工信息</h4>
@@ -221,9 +228,9 @@
 									<th width="15%" class="tabtd">岗位</th>
 									<th width="15%" class="tabtd">工位</th>
 									<th width="15%" class="tabtd">工作范围</th>
-									<!-- 
+									!-- 
 									<th width="13%" class="tabtd">班次</th>
-									 -->						
+									 --						
 									<th width="15%" class="tabtd">员工状态</th>
 									<th width="10%" class="tabtd">操作</th>
 								</tr>
@@ -236,9 +243,9 @@
 											<td>${(list.xpost)!}</td>
 											<td>${(list.xstation)!}</td>
 											<td>${(list.xworkscope)!}</td>
-											<!-- 
+											
 											<td>${(list.xshift)!}</td>
-											 -->
+											 
 											<td>
 												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
 												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />
@@ -257,6 +264,7 @@
 								</a>
 							</div>
 							</div>
+							 -->
 							<script type="text/javascript">
 								var $path_base = "${base}/template/admin";
 							</script>

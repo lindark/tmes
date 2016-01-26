@@ -125,22 +125,9 @@ function getGridId()
 		return "";
 	}
 	$.post("kaoqin!addnewemp.action?ids="+ids+"&sameTeamId="+$("#sameteamid").val(),function(data){},"json");
-	infos=getinfos(ids);
-	return infos;
+	return "success";
 }
 
-//返回数据
-function getinfos(ids)
-{
-	var infos="";
-	for(var i=0;i<ids.length;i++)
-	{
-		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-		var info=rowData.cardNumber+","+rowData.name+","+rowData.xpost+","+rowData.xteam+","+rowData.xshift+","+rowData.xworkstate+","+rowData.workstate+","+rowData.id+","+rowData.xstation+","+rowData.xworkscope;
-		infos+=info+"?";
-	}
-	return infos;
-}
 $(document).keydown(function(event){
 	if(event.keyCode==13)
 	{

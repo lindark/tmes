@@ -111,11 +111,11 @@
 									返回 
 								</a>
 								<a id="btn_nSure" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-home"></i>
+									<i class="ace-icon fa fa-pencil-square-o"></i>
 									未确认 
 								</a>
 								<a id="btn_ySure" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-home"></i>
+									<i class="ace-icon fa fa-check-square-o"></i>
 									已确认
 								</a>
 							</div>

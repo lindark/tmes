@@ -1,8 +1,6 @@
 package cc.jiuyi.action.admin;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +14,6 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import cc.jiuyi.action.cron.KaoqinMonitor;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
@@ -29,7 +26,6 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.TeamService;
-import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -58,6 +54,9 @@ public class KaoqinAction extends BaseAdminAction
 	private String isstartteam;//是否开启班组
 	private String iscancreditcard;//是否可以刷卡
 	private String loginid;//当前登录人的ID
+	private String cardnumber;//刷卡人
+	private int my_id;
+	
 	/**
 	 * service接口
 	 */
@@ -80,10 +79,10 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		this.admin=this.adminService.get(loginid);
 		//班次
-		/*if(admin.getShift()!=null&&!"".equals(admin.getShift()))
+		if(admin.getShift()!=null&&!"".equals(admin.getShift()))
 		{
 			admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
-		}*/
+		}
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		if(this.admin.getDepartment()==null)
 		{
@@ -98,14 +97,14 @@ public class KaoqinAction extends BaseAdminAction
 				return ERROR;
 			}
 		}
-		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
+		this.sameTeamId=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
-		List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工
+		/*List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工
 		if(l_emp!=null)
 		{
 			this.list_emp=getNewAdminList(l_emp);
-		}
-		Team t=this.teamService.get(tid);
+		}*/
+		Team t=this.teamService.get(sameTeamId);
 		//this.isstartteam=t.getIsWork();//班组是否开启
 		this.iscancreditcard=t.getIscancreditcard();//是否可以开启考勤
 		return LIST;
@@ -126,6 +125,29 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		this.sameTeamId=this.info;
 		return "alert";
+	}
+	
+	/**
+	 * 进入页面后查询本班组的员工
+	 */
+	public String empajlist()
+	{
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);//倒序
+		pager.setOrderBy("modifyDate");//以创建日期排序
+		pager = this.adminService.getEmpAjlist(pager,sameTeamId);//查询本班组的员工及在本班代班的员工
+		@SuppressWarnings("unchecked")
+		List<Admin>list1=pager.getList();
+		List<Admin>list2=getNewAdminList(list1);
+		pager.setList(list2);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.getString(0).toString());
 	}
 	
 	/**
@@ -266,71 +288,45 @@ public class KaoqinAction extends BaseAdminAction
 	public String creditreply()
 	{
 		this.admin=this.adminService.get(loginid);//当前登录人
-		String job_name = "startWorking"+this.sameTeamId;
-		SimpleDateFormat sdf=new SimpleDateFormat("HH dd MM ? yyyy");
-		//当前时间
-		Calendar can=Calendar.getInstance();
-		can.set(Calendar.SECOND,0);
-		//this.kqService.updateState(can.getTime());
-		int fen=can.get(Calendar.MINUTE);//分
-		//int miao=can.get(Calendar.SECOND);//秒
-		
-		//当前时间的后1整点
-		Calendar can2=Calendar.getInstance();
-		can2.add(Calendar.HOUR_OF_DAY, 1);
-		can2.set(Calendar.MINUTE, 0);
-		can2.set(Calendar.SECOND,0);
-		
-		//两个时间的相差分钟
-		int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
-		int n=40-differ;
-		QuartzManagerUtil.removeJob(job_name);
-		QuartzManagerUtil.removeJob("xxx"+job_name);
-		HashMap<String,Object> map1=new HashMap<String,Object>();
-		HashMap<String,Object> map2=new HashMap<String,Object>();
-		if(n<=0)
-		{
-			/**不跨时*/
-			//String xquartz="0/5 "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
-			//map1.put("kaoqintime", xquartz);
-			String xquartz="*/1 "+fen+"-"+(fen+40)+" "+sdf.format(can.getTime());
-			String kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
-			kaoqintime=kaoqintime.replace("?", "");
-			map1.put("kaoqintime", kaoqintime);
-			map1.put("teamid", job_name);
-			//添加定时任务
-			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);
-		}
-		else
-		{
-			/**跨时*/
-			//String xquartz="0/5 "+fen+"-59/1 "+sdf.format(can.getTime());
-			//String x2quartz="0/5 0-"+n+"/1 "+sdf.format(can2.getTime());
-			String xquartz="*/1 "+fen+"-59 "+sdf.format(can.getTime());
-			String x2quartz="*/1 0-"+n+" "+sdf.format(can2.getTime());
-			
-			String x1kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
-			String x2kaoqintime="0 0 "+sdf.format(can2.getTime());
-			x1kaoqintime=x1kaoqintime.replace("?", "");
-			x2kaoqintime=x2kaoqintime.replace("?", "");
-			//添加定时任务
-			map1.put("kaoqintime", x1kaoqintime);
-			map1.put("teamid", job_name);
-			QuartzManagerUtil.addJob(job_name, KaoqinMonitor.class, xquartz,map1);			
-			map2.put("kaoqintime", x2kaoqintime);
-			map2.put("teamid", "xxx"+job_name);
-			map2.put("d_value", n+"");
-			QuartzManagerUtil.addJob("xxx"+job_name, KaoqinMonitor.class, x2quartz,map2);
-		}
 		//保存开启考勤(刷卡)记录
 		this.kqService.saveBrushCardEmp(admin);
 		/**获取班组状态*/
 		Team t=admin.getDepartment().getTeam();
-		t.setIscancreditcard("N");
+		if(my_id==1)
+		{
+			t.setIscancreditcard("N");
+		}
+		else
+		{
+			t.setIscancreditcard("Y");
+		}
 		t.setIsWork("Y");//班组状态改为开启状态
 		t.setModifyDate(new Date());
 		this.teamService.update(t);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	/**
+	 * 点击后刷卡
+	 * creditapproval
+	 */
+	public String creditapproval()
+	{
+		Admin a=this.adminService.getByCardnum(cardnumber);
+		//修改刷卡 人的状态,返回：1修改成功 2已经刷卡成功无需重复刷卡  3不是本班员工或本班代班员工
+		int n=this.kqService.updateWorkStateByCreidt(cardnumber,sameTeamId);
+		if(n==1)
+		{
+			return this.ajaxJsonSuccessMessage(a.getName()+"刷卡成功!");
+		}
+		else if(n==2)
+		{
+			return this.ajaxJsonErrorMessage(a.getName()+"已经刷卡成功,无需重复刷卡!");
+		}
+		else
+		{
+			return this.ajaxJsonErrorMessage(a.getName()+"非本班或本班代班员工刷卡无效!");
+		}
 	}
 	
 	/**
@@ -365,7 +361,7 @@ public class KaoqinAction extends BaseAdminAction
 			{
 				a.setXpost(a.getPost().getPostName());
 			}
-			//工作范围
+			//工位
 			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
 			if(list_up.size()>0)
 			{
@@ -373,7 +369,7 @@ public class KaoqinAction extends BaseAdminAction
 				for(int j=0;j<list_up.size();j++)
 				{
 					UnitdistributeProduct up=list_up.get(j);
-					str+=up.getMaterialCode()+"/"+up.getMaterialName()+",";
+					str+=up.getMaterialName()+",";
 				}
 				if(str.endsWith(","))
 				{
@@ -381,7 +377,7 @@ public class KaoqinAction extends BaseAdminAction
 				}
 				a.setXworkscope(str);
 			}
-			//工位
+			//工作范围
 			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
 			if(list_um.size()>0)
 			{
@@ -398,7 +394,7 @@ public class KaoqinAction extends BaseAdminAction
 				{
 					str=str.substring(0,str.length()-1);
 				}
-				a.setXworkscope(str);
+				a.setXstation(str);
 			}
 			list2.add(a);
 		}
@@ -507,7 +503,26 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		this.loginid = loginid;
 	}
-	
-	
+
+	public String getCardnumber()
+	{
+		return cardnumber;
+	}
+
+	public void setCardnumber(String cardnumber)
+	{
+		this.cardnumber = cardnumber;
+	}
+
+	public int getMy_id()
+	{
+		return my_id;
+	}
+
+	public void setMy_id(int my_id)
+	{
+		this.my_id = my_id;
+	}
+
 	/**===========================end get/set===============================*/
 }

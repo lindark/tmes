@@ -1,5 +1,7 @@
 package cc.jiuyi.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -24,6 +26,12 @@ public class DumpDetail extends BaseEntity {
 	private String meins;// 基本单位
 	private String menge;// 数量
 	private Dump dump;// 转储单
+	
+	private Date deliveryDate;// 过账日期
+	private String state;// 状态
+	private String stateRemark;// 状态描述
+	private Admin confirmUser;// 确认人
+	private String adminName;// 确认人的名字
 
 	public String getMenge() {
 		return menge;
@@ -112,6 +120,46 @@ public class DumpDetail extends BaseEntity {
 
 	public void setDump(Dump dump) {
 		this.dump = dump;
+	}
+
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStateRemark() {
+		return stateRemark;
+	}
+
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+
+	public Admin getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Admin confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 
 }

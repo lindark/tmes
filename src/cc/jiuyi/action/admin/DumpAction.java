@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -24,6 +25,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -52,6 +54,7 @@ public class DumpAction extends BaseAdminAction {
 	private List<Dump> dumpList;
 	private String cardnumber;// 刷卡卡号
 	private String loginid;//当前登录人id
+	private String type;
 
 	@Resource
 	private DumpRfc dumpRfc;
@@ -236,7 +239,7 @@ public class DumpAction extends BaseAdminAction {
 			 */
 			dumpList = dumpRfc.findMaterialDocument(warehouse, productDate1,
 					productDate2);
-			System.out.println(dumpList.size());
+			//System.out.println(dumpList.size());
 			List<Dump> dpList = dumpService.getAll();
 			if (dpList.size() != 0) {
 				for (int i = 0; i < dumpList.size(); i++) {
@@ -251,27 +254,60 @@ public class DumpAction extends BaseAdminAction {
 					}
 				}
 			}
-			List<Dump> dumps = new ArrayList<Dump>();
+			List<DumpDetail> dumpsList = new ArrayList<DumpDetail>();
+			int num = 0;
 			for (int i = 0; i < dumpList.size(); i++) {
 				Dump dump = (Dump) dumpList.get(i);
 				if (dump.getState() == null) {
 					dump.setState(UNCONFIRMED);
 				}
-				//dumps.add(dump);
-				if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
-					dumps.add(dump);
-				}
-				dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "dumpState", dump.getState()));
-				if (dump.getConfirmUser() != null) {
-					dump.setAdminName(dump.getConfirmUser().getName());
+				if("1".equals(type)){
+					if(!dump.getState().equalsIgnoreCase("1")){//排除状态为已确认的
+						dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+								dictService, "dumpState", dump.getState()));
+						if (dump.getConfirmUser() != null) {
+							dump.setAdminName(dump.getConfirmUser().getName());
+						}
+						List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(dump.getVoucherId(),warehouse);
+						
+						for(DumpDetail dumps : dDList){
+							String str = "0"+num;
+							dumps.setId(str);
+							num++;
+							dumps.setState(dump.getState());
+							dumps.setStateRemark(dump.getStateRemark());
+							dumps.setDeliveryDate(dump.getDeliveryDate());
+							dumps.setAdminName(dump.getAdminName());
+							dumpsList.add(dumps);
+						}
+					}
+				}else{
+					if(!dump.getState().equalsIgnoreCase("2")){//排除状态为已确认的
+						dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+								dictService, "dumpState", dump.getState()));
+						if (dump.getConfirmUser() != null) {
+							dump.setAdminName(dump.getConfirmUser().getName());
+						}
+						List<DumpDetail> dDList = dumpRfc.findMaterialDocumentByMblnr(dump.getVoucherId(),warehouse);
+						
+						for(DumpDetail dumps : dDList){
+							String str = "0"+num;
+							dumps.setId(str);
+							num++;
+							dumps.setState(dump.getState());
+							dumps.setStateRemark(dump.getStateRemark());
+							dumps.setDeliveryDate(dump.getDeliveryDate());
+							dumps.setAdminName(dump.getAdminName());
+							dumpsList.add(dumps);
+						}
+					}
 				}
 			}
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig
 					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
-			JSONArray jsonArray = JSONArray.fromObject(dumps, jsonConfig);
+			JSONArray jsonArray = JSONArray.fromObject(dumpsList, jsonConfig);
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("list", jsonArray);
 			return ajaxJson(jsonobject.toString());
@@ -365,6 +401,14 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setLoginid(String loginid) {
 		this.loginid = loginid;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	

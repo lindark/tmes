@@ -63,14 +63,18 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '物料凭证号','过账日期','凭证年度', '确认人','状态'],
+		//colNames:[ '物料凭证号','组件编码','组件名称','批次','组件数量','单位','来源库存地点','去向库存地点','过账日期','凭证年度', '确认人','状态'],
 		colModel:[
-			
-			{name:'voucherId',index:'voucherId',key:true, width:200,sortable:"true",sorttype:"text"},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
-			{name:'mjahr',index:'mjahr',width:200,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dumpState"}}
+		    {name:'id',index:'id',label:"ID",width:200,sortable:"true",sorttype:"text"},
+			{name:'voucherId',index:'voucherId',label:"物料凭证号",width:200,sortable:"true",sorttype:"text"},
+			{name:'matnr',index:'matnr',label:"组件编码",width:200,sortable:"true",sorttype:"text"},
+			{name:'maktx',index:'maktx',label:"组件名称",width:200,sortable:"true",sorttype:"text"},
+			{name:'menge',index:'menge',label:"组件数量",width:200,sortable:"true",sorttype:"text"},
+			{name:'charg',index:'charg',label:"批次",width:200,sortable:"true",sorttype:"text"},
+			{name:'deliveryDate',index:'deliveryDate',label:"过账日期",width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
+			{name:'mjahr',index:'mjahr',label:"凭证年度",width:200,sortable:"true",sorttype:"text"},
+			{name:'adminName',index:'adminName',label:"确认人",width:100,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',index:'state',label:"状态", width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dumpState"}}
 
 		], 
 		//sortable:true,
@@ -101,6 +105,7 @@ jQuery(function($) {
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
+				checkTr(table);
 			}, 0);
 		},
 
@@ -110,6 +115,21 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
+	function checkTr(table){
+		$(table).find("tr").bind("click",function(){
+			var voucherId = $(this).find("td[aria-describedby='grid-table_voucherId']").attr("title");
+			var $voucherIds = $(table).find("td[aria-describedby='grid-table_voucherId']");
+			$voucherIds.each(function(){
+				if($(this).attr("title")==voucherId){
+					var id = $(this).parent().attr("id");
+					alert(id);
+					$("#grid-table").jqGrid('setSelection',id);
+				}
+			});
+		})
+		
+	}
+	
 	function aceSwitch( cellvalue, options, cell ) {
 		setTimeout(function(){
 			$(cell) .find('input[type=checkbox]')
@@ -244,9 +264,11 @@ function btn_event()
 		window.history.back();
 	});
 	//查看
-	$("#btn_show").click(function(){
+/*	$("#btn_show").click(function(){
 		var loginid=$("#loginid").val();//当前登录人的id
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
+		var dumpId=rawObject.voucherId;
+		alert(dumpId);
 		if(dumpId.length <1){
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
@@ -259,7 +281,7 @@ function btn_event()
 //		alert(url);
 		window.location.href="dump_detail!list.action?loginid="+loginid+"&dumpId="+dumpId;
 		
-	});
+	});*/
 	//刷卡确认
 	$("#btn_confirm").click(function(){
 		var loginid=$("#loginid").val();//当前登录人的id
@@ -274,7 +296,26 @@ function btn_event()
 			window.location.href = "dump!list.action?loginid="+loginid;
 			//$("#grid-table").trigger("reloadGrid");	
 		})
-		
+		/*$(".cbox").click(function(){
+			var thistdValue = $(this).val();
+			var $parentTable = $(this).parent().parent().parent();
+			var $classTd = $parentTable.find(".cbox");
+			if($(this).attr("checked")==true){
+				$classTd.each(function(){
+					var tdValue = $(this).val();
+					if(thistdValue==tdValue){
+						$(this).attr("checked",true);
+					}
+				});
+			}else{
+				$classTd.each(function(){
+					var tdValue = $(this).val();
+					if(thistdValue==tdValue){
+						$(this).attr("checked",false);
+					}
+				});
+			}
+		});*/
 		
 //		var index = "";
 //		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');

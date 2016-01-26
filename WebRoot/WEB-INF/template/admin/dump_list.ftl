@@ -58,6 +58,7 @@
 								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
+										<input id="type" name="type"value="${type}">
 											<h4 class="widget-title lighter">线边仓信息</h4>
 
 											<div class="widget-toolbar no-border">
@@ -96,10 +97,10 @@
 								</div>
 							</div>
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+								<!-- <a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看
-								</a>
+								</a> -->
 								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
@@ -108,6 +109,14 @@
 								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-home"></i>
 									返回 
+								</a>
+								<a id="btn_nSure" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-home"></i>
+									未确认 
+								</a>
+								<a id="btn_ySure" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-home"></i>
+									已确认
 								</a>
 							</div>
 							<div class="row">
@@ -186,6 +195,20 @@
 			
 		})
 		*/
+		/**
+		 * 未确认按钮点击
+		 */
+		$("#btn_nSure").click(function() {
+			var loginid=$("#loginid").val();//当前登录人的id
+				window.location.href = "dump!list.action?loginid="+loginid+"&type=1";
+		});
+		/**
+		 * 已确认按钮点击
+		 */
+		$("#btn_ySure").click(function() {
+			var loginid=$("#loginid").val();//当前登录人的id
+				window.location.href = "dump!list.action?loginid="+loginid+"&type=2";
+		});
 	})
 	
 	

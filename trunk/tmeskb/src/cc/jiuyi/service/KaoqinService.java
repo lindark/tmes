@@ -6,7 +6,6 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.Kaoqin;
 
 
@@ -59,4 +58,10 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	public void mergeAdminafterWork(Admin admin,String handoverId);
 
 	public void updateHandOver(String handoverid,String mblnr,Admin admin);
+
+	/**
+	 * 点击后刷卡
+	 * @param cardnumber
+	 */
+	public int updateWorkStateByCreidt(String cardnumber,String teamid);
 }

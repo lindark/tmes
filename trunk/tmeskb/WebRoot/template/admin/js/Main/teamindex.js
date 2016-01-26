@@ -162,7 +162,7 @@ $(function() {
 		var loginid=$("#loginid").val();//当前登录人的id
 		//alert(loginid);
 		if (istrue) {
-			window.location.href = "dump!list.action?loginid="+loginid;
+			window.location.href = "dump!list.action?loginid="+loginid+"&type=1";
 		}
 	});
 	/**

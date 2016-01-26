@@ -63,15 +63,13 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	}
 
 	@Override
-	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr,String loginid)
+	public List<DumpDetail> findMaterialDocumentByMblnr(String mblnr,String warehouse)
 			throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
-		Admin admin = adminservice.get(loginid);
-		admin = adminservice.get(admin.getId());
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("IM_MBLNR", mblnr);//库存地点
-		parameter.put("IM_LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());
+		parameter.put("IM_MBLNR", mblnr);//物料凭证号
+		parameter.put("IM_LGORT", warehouse);
 		super.setParameter(parameter);//输入参数
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/

@@ -9,12 +9,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
-import cc.jiuyi.entity.Kaoqin;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.util.ThinkWayUtil;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -26,7 +21,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao {
 	
-	@SuppressWarnings("unchecked")
 	public boolean isExistByUsername(String username) {
 		String hql = "from Admin admin where lower(admin.username) = lower(?)";
 		Admin admin = (Admin) getSession().createQuery(hql).setParameter(0, username).uniqueResult();
@@ -37,7 +31,6 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Admin getAdminByUsername(String username) {
 		String hql = "from Admin admin where lower(admin.username) = lower(?)";
 		return (Admin) getSession().createQuery(hql).setParameter(0, username).uniqueResult();
@@ -263,6 +256,28 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		
 		String hql="select b from Admin a join a.parentAdmin b where a.id=?";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
+	}
+
+	/**
+	 * 查询本班组的员工及在本班代班的员工
+	 */
+	public Pager getEmpAjlist(Pager pager, String tid)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		//部门
+		if(!super.existAlias(detachedCriteria, "department", "department"))
+		{
+			detachedCriteria.createAlias("department", "department");
+		}
+		//班组
+		if(!super.existAlias(detachedCriteria, "department.team", "team"))
+		{
+			detachedCriteria.createAlias("department.team", "team");
+		}
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("team.id", tid),Restrictions.eq("isdaiban", tid)));
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
 	}
 	
 }

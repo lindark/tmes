@@ -59,6 +59,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private Integer ratio;// 箱与个的转换比率
 	private Double totalAmount = 0d;
 	private String cardnumber;//刷卡卡号
+	private String loginid;//当前登录人的ID
 
 	@Resource
 	private WorkingBillService workingBillService;
@@ -127,8 +128,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}
-		Admin admin = adminService.getByCardnum(cardnumber);
-
+		//Admin admin = adminService.getByCardnum(cardnumber);
+		admin=adminService.get(loginid);
+		
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
 		ThinkWayUtil util = new ThinkWayUtil();
@@ -436,4 +438,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		this.cardnumber = cardnumber;
 	}
 
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+
+	
 }

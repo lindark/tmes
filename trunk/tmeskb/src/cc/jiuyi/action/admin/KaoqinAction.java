@@ -85,6 +85,19 @@ public class KaoqinAction extends BaseAdminAction
 			admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
 		}*/
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
+		if(this.admin.getDepartment()==null)
+		{
+			addActionError("部门为空!");
+			return ERROR;
+		}
+		else
+		{
+			if(this.admin.getDepartment().getTeam()==null)
+			{
+				addActionError("班组为空!");
+				return ERROR;
+			}
+		}
 		String tid=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
 		List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工

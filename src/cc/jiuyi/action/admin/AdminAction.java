@@ -713,36 +713,31 @@ public class AdminAction extends BaseAdminAction {
 		
 		//工作范围添加
 		List<UnitdistributeProduct> productList = new ArrayList<UnitdistributeProduct>();		
-		if(persistent.getUnitdistributeProductSet().size()==0){
-			if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
-				ids=unitdistributeProducts.split(",");
-				for(int i=0;i<ids.length;i++){
-					UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i].trim());
-					productList.add(unitpro);
-				}
-				admin.setUnitdistributeProductSet(new HashSet<UnitdistributeProduct>(productList));
+		
+		if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
+			ids=unitdistributeProducts.split(",");
+			for(int i=0;i<ids.length;i++){
+				UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i].trim());
+				productList.add(unitpro);
 			}
-			
+			admin.setUnitdistributeProductSet(new HashSet<UnitdistributeProduct>(productList));
 		}else{
-			admin.setUnitdistributeProductSet(persistent.getUnitdistributeProductSet());
+			admin.setUnitdistributeProductSet(null);
 		}
-				
+						
 		//工位添加
 		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
-		if(persistent.getUnitdistributeModelSet().size()==0){
-			if(unitdistributeModels!=null && !("").equals(unitdistributeModels)){
-				String[] idss=unitdistributeModels.split(",");
-				for(int i=0;i<idss.length;i++){
-					UnitdistributeModel unitMod=unitdistributeModelService.get(idss[i].trim());
-					modelList.add(unitMod);
-				}
-				admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
-			}			
-
+		if(unitdistributeModels!=null && !("").equals(unitdistributeModels)){
+			String[] idss=unitdistributeModels.split(",");
+			for(int i=0;i<idss.length;i++){
+				UnitdistributeModel unitMod=unitdistributeModelService.get(idss[i].trim());
+				modelList.add(unitMod);
+			}
+			admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
 		}else{
-			admin.setUnitdistributeModelSet(persistent.getUnitdistributeModelSet());
+			admin.setUnitdistributeModelSet(null);
 		}
-		
+						
 		admin.setRoleSet(new HashSet<Role>(roleList));
 		if (StringUtils.isNotEmpty(admin.getPassword())) {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());

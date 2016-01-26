@@ -177,6 +177,22 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			}
 		}
 	}
+
+	/**
+	 * 查询本班组的员工及在本班代班的员工
+	 */
+	public Pager getEmpAjlist(Pager pager, String tid)
+	{
+		return this.adminDao.getEmpAjlist(pager,tid);
+	}
+
+	/**
+	 * 根据卡号 班组ID查询
+	 */
+	public Admin getByCardnumAndTeamid(String cardnumber, String teamid)
+	{
+		return this.adminDao.getByCardnumAndTeamid(cardnumber,teamid);
+	}
 	
 	
 }

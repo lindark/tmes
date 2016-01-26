@@ -119,8 +119,22 @@ jQuery(function($) {
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
 	function checkTr(table){
-	
-		
+	/*	$(table).find("tr").bind("click",function(){
+				var id = $(this).text();
+				var rowData = $(grid_selector).jqGrid('getRowData',id);
+				//rowData.voucherId
+				$this = $(this);
+				$trrow = $this.parent().find("tr");
+				$this.parent().siblings().each(function(){
+					var sattr = $(this).attr("id");
+					var rowData1= $(grid_selector).jqGrid('getRowData',sattr);
+					if(rowData1.voucherId == rowData.voucherId){
+						
+						$(this).find(".cbox").attr("checked","checked");
+					}
+					
+				})
+		});*/
 	}
 	function checkbox(table){
 //		$(table).find(".cbox").bind("click",function(){

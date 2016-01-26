@@ -80,14 +80,14 @@
 														<div class="profile-info-name">线边仓编号</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click">${warehouse}</span>
+															<span class="editable ">${warehouse}</span>
 														</div>
 														
 														
 														<div class="profile-info-name">线边仓名称</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click">${warehouseName}</span>
+															<span class="editable ">${warehouseName}</span>
 														</div>
 													</div>
 												</div>

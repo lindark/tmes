@@ -144,38 +144,23 @@ body {
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工位</label>
-										<div class="col-sm-9">									    
-											 <#if ((admin.unitdistributeModelSet)!?size>0)>
-						                                    <#list admin.unitdistributeModelSet as list> 
-												            <span> ${list.station}</span>&nbsp;&nbsp;&nbsp; 
-												            </#list> 
-												       
-											<#else>											    
-											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
+										<div class="col-sm-9">									    									    
+											    <select class="chosen-select" id="modelchoose" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
 														<#list unitModelList as list>
-														<option value="${list.id}">${list.station}</option>
+														      <option value="${list.id}">${list.station}</option>
 														</#list>
-											    </select>
-																					
-											</#if>	 
+											    </select>									    
 										</div>
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工作范围</label>
-										<div class="col-sm-9">
-										     <#if ((admin.unitdistributeProductSet)!?size>0)>
-						                                    <#list admin.unitdistributeProductSet as list> 
-												            <span> ${list.materialName}</span>&nbsp;&nbsp;&nbsp; 
-												            </#list> 
-												       
-											<#else>											    
+										<div class="col-sm-9">										    										    
 											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeProducts" data-placeholder="请选择...">
 														<#list unitProductList as list>
-														<option value="${list.id}">${list.materialName}</option>
+														      <option value="${list.id}">${list.materialName}</option>
 														</#list>
-											    </select>
-																					
-											</#if>	 									  
+											    </select>																					
+																				  
 										</div>
 								</div>
 								<div class="form-group">
@@ -335,7 +320,8 @@ $('#chosen-multiple-style').on('click', function(e){
 				}
 			});
 			
-		})
+		})	
+		
 		
 	})
 

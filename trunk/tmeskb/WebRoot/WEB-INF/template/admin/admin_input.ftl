@@ -105,6 +105,7 @@ body {
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">直接上级</label>
 										<div class="col-sm-9">
 										    <select class="chosen-select" name="admin.parentAdmin.id" data-placeholder="请选择...">
+										                <option value="">请选择...</option>
 														<#list adminList as list>
 														<option value="${list.id}" <#if (list.id == admin.parentAdmin.id)!> selected</#if>>${list.name}</option>
 														</#list>

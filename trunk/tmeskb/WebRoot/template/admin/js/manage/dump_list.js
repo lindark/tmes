@@ -16,6 +16,8 @@ jQuery(function($) {
 		}
     })
 
+     
+    var type = $("#type").val();
 	jQuery(grid_selector).jqGrid({
 		
 		
@@ -45,7 +47,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"dump!ajlist.action",
+		url:"dump!ajlist.action?type="+type,
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -120,10 +122,14 @@ jQuery(function($) {
 			var voucherId = $(this).find("td[aria-describedby='grid-table_voucherId']").attr("title");
 			var $voucherIds = $(table).find("td[aria-describedby='grid-table_voucherId']");
 			$voucherIds.each(function(){
-				if($(this).attr("title")==voucherId){
+				if($(this).attr("title") == voucherId){
 					var id = $(this).parent().attr("id");
 					alert(id);
 					$("#grid-table").jqGrid('setSelection',id);
+					
+					
+					
+					
 				}
 			});
 		})

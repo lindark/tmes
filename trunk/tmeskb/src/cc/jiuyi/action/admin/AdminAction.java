@@ -473,6 +473,12 @@ public class AdminAction extends BaseAdminAction {
 	public String edit() {
 		admin = adminService.load(id);
 		postList = postService.getAll();
+		Department depart = admin.getDepartment();
+		if(depart.getTeam()!=null){
+			String unitCode=depart.getTeam().getFactoryUnit().getFactoryUnitCode();
+			unitModelList=unitdistributeModelService.getModelList(unitCode);
+			unitProductList=unitdistributeProductService.getProductList(unitCode);
+		}
 		return INPUT;
 	}
 	
@@ -631,10 +637,11 @@ public class AdminAction extends BaseAdminAction {
 		if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
 			ids=unitdistributeProducts.split(",");
 			for(int i=0;i<ids.length;i++){
-				UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i]);
+				UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i].trim());
 				productList.add(unitpro);
 			}
 			admin.setUnitdistributeProductSet(new HashSet<UnitdistributeProduct>(productList));
+
 		}else{
 			admin.setUnitdistributeProductSet(null);
 		}
@@ -642,20 +649,21 @@ public class AdminAction extends BaseAdminAction {
 		//工位添加
 		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
 		if(unitdistributeModels!=null && !("").equals(unitdistributeModels)){
-			ids=unitdistributeModels.split(",");
-			for(int i=0;i<ids.length;i++){
-				UnitdistributeModel unitMod=unitdistributeModelService.get(ids[i]);
+			String[] id=unitdistributeModels.split(",");
+			for(int i=0;i<id.length;i++){
+				UnitdistributeModel unitMod=unitdistributeModelService.get(id[i].trim());
 				modelList.add(unitMod);
 			}
 			admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
+
 		}else{
 			admin.setUnitdistributeModelSet(null);
 		}
-		
+
 		if (roleList == null || roleList.size() == 0) {
 			return ERROR;
 		}
-				
+		
 		admin.setUsername(admin.getUsername().toLowerCase());
 		admin.setLoginFailureCount(0);
 		admin.setIsAccountLocked(false);
@@ -666,7 +674,7 @@ public class AdminAction extends BaseAdminAction {
 		admin.setPassword(passwordMd5);
 		admin.setIsDel("N");
 		adminService.save(admin);
-		//redirectionUrl = "admin!list.action";
+		
 		return ajaxJsonSuccessMessage("保存成功！");
 	}
 	
@@ -702,12 +710,45 @@ public class AdminAction extends BaseAdminAction {
 		Department depart = new Department();
 		depart.setId(departid);
 		admin.setDepartment(depart);
+		
+		//工作范围添加
+		List<UnitdistributeProduct> productList = new ArrayList<UnitdistributeProduct>();		
+		if(persistent.getUnitdistributeProductSet().size()==0){
+			if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
+				ids=unitdistributeProducts.split(",");
+				for(int i=0;i<ids.length;i++){
+					UnitdistributeProduct unitpro=unitdistributeProductService.get(ids[i].trim());
+					productList.add(unitpro);
+				}
+				admin.setUnitdistributeProductSet(new HashSet<UnitdistributeProduct>(productList));
+			}
+			
+		}else{
+			admin.setUnitdistributeProductSet(persistent.getUnitdistributeProductSet());
+		}
+				
+		//工位添加
+		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
+		if(persistent.getUnitdistributeModelSet().size()==0){
+			if(unitdistributeModels!=null && !("").equals(unitdistributeModels)){
+				String[] idss=unitdistributeModels.split(",");
+				for(int i=0;i<idss.length;i++){
+					UnitdistributeModel unitMod=unitdistributeModelService.get(idss[i].trim());
+					modelList.add(unitMod);
+				}
+				admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
+			}			
+
+		}else{
+			admin.setUnitdistributeModelSet(persistent.getUnitdistributeModelSet());
+		}
+		
 		admin.setRoleSet(new HashSet<Role>(roleList));
 		if (StringUtils.isNotEmpty(admin.getPassword())) {
 			String passwordMd5 = DigestUtils.md5Hex(admin.getPassword());
 			persistent.setPassword(passwordMd5);
 		}
-		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift","isDel","unitdistributeProductSet","unitdistributeModelSet"});
+		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift","isDel"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
 	}

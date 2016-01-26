@@ -54,8 +54,8 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 
 	@Override
 	public List<UnitdistributeProduct> getProductList(String unitCode) {
-		String hql = "from UnitdistributeProduct unitproduct where unitproduct.unitCode = ?";
-		List<UnitdistributeProduct> productList=getSession().createQuery(hql).setParameter(0,unitCode).list();
+		String hql = "from UnitdistributeProduct unitproduct where unitproduct.unitCode = ? and unitproduct.isDel= ?";
+		List<UnitdistributeProduct> productList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return productList;
 	}
 	

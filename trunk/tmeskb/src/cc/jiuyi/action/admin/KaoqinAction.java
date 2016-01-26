@@ -293,7 +293,7 @@ public class KaoqinAction extends BaseAdminAction
 			/**不跨时*/
 			//String xquartz="0/5 "+fen+"-"+(fen+40)+"/1 "+sdf.format(can.getTime());
 			//map1.put("kaoqintime", xquartz);
-			String xquartz="0/5 "+fen+"-"+(fen+40)+" "+sdf.format(can.getTime());
+			String xquartz="*/1 "+fen+"-"+(fen+40)+" "+sdf.format(can.getTime());
 			String kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
 			kaoqintime=kaoqintime.replace("?", "");
 			map1.put("kaoqintime", kaoqintime);
@@ -306,8 +306,8 @@ public class KaoqinAction extends BaseAdminAction
 			/**跨时*/
 			//String xquartz="0/5 "+fen+"-59/1 "+sdf.format(can.getTime());
 			//String x2quartz="0/5 0-"+n+"/1 "+sdf.format(can2.getTime());
-			String xquartz="0/5 "+fen+"-59 "+sdf.format(can.getTime());
-			String x2quartz="0/5 0-"+n+" "+sdf.format(can2.getTime());
+			String xquartz="*/1 "+fen+"-59 "+sdf.format(can.getTime());
+			String x2quartz="*/1 0-"+n+" "+sdf.format(can2.getTime());
 			
 			String x1kaoqintime="0 "+fen+" "+sdf.format(can.getTime());
 			String x2kaoqintime="0 0 "+sdf.format(can2.getTime());

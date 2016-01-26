@@ -183,7 +183,7 @@ body {
 										<div class="col-sm-9">
 											<input type="text" name="admin.phoneNo"
 												class="col-xs-10 col-sm-5"
-												value="${(admin.phoneNo)!}" /> <label class="requireField">*</label>
+												value="${(admin.phoneNo)!}" />
 										</div>
 								</div>
 								<div class="form-group">

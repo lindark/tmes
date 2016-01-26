@@ -88,4 +88,12 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 */
 	public Admin getAdminById(String id);
 
+	/**
+	 * 查询本班组的员工及在本班代班的员工
+	 * @param pager
+	 * @param tid
+	 * @return
+	 */
+	public Pager getEmpAjlist(Pager pager, String tid);
+
 }

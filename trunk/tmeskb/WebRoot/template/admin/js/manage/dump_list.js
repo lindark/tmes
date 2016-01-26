@@ -68,7 +68,7 @@ jQuery(function($) {
 		//colNames:[ '物料凭证号','组件编码','组件名称','批次','组件数量','单位','来源库存地点','去向库存地点','过账日期','凭证年度', '确认人','状态'],
 		colModel:[
 		    {name:'id',index:'id',label:"ID",width:200,sortable:"true",sorttype:"text",hidden:true},
-			{name:'voucherId',index:'voucherId',key:true,label:"物料凭证号",width:200,sortable:"true",sorttype:"text"},
+			{name:'voucherId',index:'voucherId1',label:"物料凭证号",width:200,sortable:"true",sorttype:"text"},
 			{name:'matnr',index:'matnr',label:"组件编码",width:200,sortable:"true",sorttype:"text"},
 			{name:'maktx',index:'maktx',label:"组件名称",width:200,sortable:"true",sorttype:"text"},
 			{name:'menge',index:'menge',label:"组件数量",width:200,sortable:"true",sorttype:"text"},
@@ -108,7 +108,8 @@ jQuery(function($) {
 				updatePagerIcons(table);
 				enableTooltips(table);
 				checkTr(table);
-				checkbox(table)
+				checkbox(table);
+				sureBtn(table);
 			}, 0);
 		},
 
@@ -117,44 +118,76 @@ jQuery(function($) {
 		
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-
+	function sureBtn(table){
+		//刷卡确认
+		$("#btn_confirm").bind("click",function(){
+			var loginid=$("#loginid").val();//当前登录人的id
+			var $ckoxs = $(grid_selector).find(".cbox");
+			var dumpId="";
+			$ckoxs.each(function(){
+				if($(this).prop("checked")){
+					var id= $(this).parent().parent().attr("id");
+					var rowData = $(grid_selector).jqGrid('getRowData',id);
+					var voucherId = rowData.voucherId;
+					if(dumpId==""){
+						dumpId = voucherId;
+					}else{
+						dumpId = dumpId +"," +voucherId;
+					}
+				}
+			});
+			if(dumpId==""){
+				layer.msg("请选择一条记录!", {icon: 5});
+				return false;
+			}
+			var url = "dump!creditapproval.action?dumpId="+dumpId+"&loginid="+loginid;
+		credit.creditCard(url,function(data){
+				$.message(data.status,data.message);
+				window.location.href = "dump!list.action?loginid="+loginid+"&type=1";
+			})
+		});
+	}
 	function checkTr(table){
-	/*	$(table).find("tr").bind("click",function(){
-				var id = $(this).text();
+		$(table).find("td").bind("click",function(){
+			if($(this).children().length==0){
+				var id = $(this).parent().children().eq(1).text();
 				var rowData = $(grid_selector).jqGrid('getRowData',id);
 				//rowData.voucherId
 				$this = $(this);
-				$trrow = $this.parent().find("tr");
-				$this.parent().siblings().each(function(){
-					var sattr = $(this).attr("id");
+				var $alltrs = $this.parent().siblings();
+				for(var i=1;i< $alltrs.length;i++){
+					var sattr = $alltrs.eq(i).attr("id");
 					var rowData1= $(grid_selector).jqGrid('getRowData',sattr);
+					//alert(sattr+"----"+rowData1.voucherId +"--"+rowData.voucherId);
 					if(rowData1.voucherId == rowData.voucherId){
-						
-						$(this).find(".cbox").attr("checked","checked");
+						$(grid_selector).jqGrid('setSelection',sattr);
+						//$alltr.eq(i).find(".cbox").attr("checked","checked");
 					}
-					
-				})
-		});*/
+				}
+			}
+				
+		});
 	}
 	function checkbox(table){
-//		$(table).find(".cbox").bind("click",function(){
-//			var id = $(this).parent().next().text();
-//			var rowData = $(grid_selector).jqGrid('getRowData',id);
-//			//rowData.voucherId
-//			$this = $(this);
-//			$this.parent().parent().siblings().each(function(){
-//				var sattr = $(this).attr("id");
-//				var rowData1= $(grid_selector).jqGrid('getRowData',sattr);
-//				if(rowData1.voucherId == rowData.voucherId){
-//					
-//					$(this).find(".cbox").attr("checked","checked");
-//				}
-//				
-//			})
-//			
-//			
-//		//	alert(rowData.matnr);
-//		})
+		$(table).find(".cbox").bind("click",function(){
+			var id = $(this).parent().next().text();
+			var rowData = $(grid_selector).jqGrid('getRowData',id);
+			//rowData.voucherId
+			$this = $(this);
+			var $alltrs = $this.parent().parent().siblings();
+			for(var i=1;i< $alltrs.length;i++){
+				var sattr = $alltrs.eq(i).attr("id");
+				var rowData1= $(grid_selector).jqGrid('getRowData',sattr);
+				//alert(sattr+"----"+rowData1.voucherId +"--"+rowData.voucherId);
+				if(rowData1.voucherId == rowData.voucherId){
+					$(grid_selector).jqGrid('setSelection',sattr);
+					//$alltr.eq(i).find(".cbox").attr("checked","checked");
+				}
+			}
+			
+			
+		//	alert(rowData.matnr);
+		})
 		/*$(table).find(".cbox").bind("click",function(){
 			if($(this).prop("checked")==true){
 				var thistdValue = $(this).parent().parent().find("td[aria-describedby='grid-table_voucherId']").attr("title");
@@ -334,11 +367,11 @@ function btn_event()
 		
 		
 	});*/	
-	//刷卡确认
+	/*//刷卡确认
 	$("#btn_confirm").click(function(){
 		var loginid=$("#loginid").val();//当前登录人的id
 		var dumpId=$("#grid-table").jqGrid('getGridParam','selarrrow');
-		/*var $checked = $("#grid-table").find(".cbox");
+		var $checked = $("#grid-table").find(".cbox");
 		var dumpId="";
 		for(var i=0;i<$checked.length;i++){
 			if($checked.eq(i).prop("checked")==true){
@@ -349,14 +382,13 @@ function btn_event()
 					dumpId = dumpId + id;
 				}
 			}
-		}		*/
-		alert(dumpId);
+		}		
 		if(dumpId==""){
 			layer.msg("请选择一条记录!", {icon: 5});
 			return false;
 		}
 		var url = "dump!creditapproval.action?dumpId="+dumpId+"&loginid="+loginid;
-	/*	credit.creditCard(url,function(data){
+	credit.creditCard(url,function(data){
 			$.message(data.status,data.message);
 			window.location.href = "dump!list.action?loginid="+loginid;
 			//$("#grid-table").trigger("reloadGrid");	
@@ -388,5 +420,6 @@ function btn_event()
 //			}
 //		});
 		//window.location.href="dump!confirm.action?dumpId="+dumpId;
-	});
+	//});
+	
 }

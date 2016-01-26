@@ -120,16 +120,16 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
 	
-	private Set<UnitdistributeProduct> unitdistributeProductSet;//工位
-	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
+	private Set<UnitdistributeProduct> unitdistributeProductSet;//工作范围
+	private Set<UnitdistributeModel> unitdistributeModelSet;//工位
 	
 	//假字段
 	private String xworkstate;//员工工作状态描述
 	private String xshift;//班次
 	private String xteam;//班组
 	private String xpost;//岗位
-	private String xstation;//工位
-	private String xworkscope;//工作范围
+	private String xstation;//工作范围
+	private String xworkscope;//工位
 	
 	@ManyToOne(fetch = FetchType.LAZY)	
 	public Admin getParentAdmin() {

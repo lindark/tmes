@@ -408,7 +408,6 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.password = password;
 	}
 
-	@Column(nullable = false)
 	public String getEmail() {
 		return email;
 	}

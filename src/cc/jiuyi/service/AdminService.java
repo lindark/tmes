@@ -107,4 +107,20 @@ public interface AdminService extends BaseService<Admin, String> {
 	 */
 	public Admin getAdminById(String id);
 
+	/**
+	 * 查询本班组的员工及在本班代班的员工
+	 * @param pager
+	 * @param tid
+	 * @return
+	 */
+	public Pager getEmpAjlist(Pager pager, String tid);
+
+	/**
+	 * 根据卡号 班组ID查询
+	 * @param cardnumber
+	 * @param teamid
+	 * @return
+	 */
+	public Admin getByCardnumAndTeamid(String cardnumber, String teamid);
+
 }

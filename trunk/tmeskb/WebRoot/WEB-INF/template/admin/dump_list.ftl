@@ -58,7 +58,7 @@
 								<div class="col-xs-12 col-sm-12 widget-container-col">
 									<div class="widget-box transparent">
 										<div class="widget-header">
-										<input id="type" name="type"value="${type}">
+										<input type="hidden" id="type" name="type"value="${type}">
 											<h4 class="widget-title lighter">线边仓信息</h4>
 
 											<div class="widget-toolbar no-border">

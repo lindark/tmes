@@ -64,13 +64,13 @@ jQuery(function($) {
 	    },
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100,editable: false,search:false},
+			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100,editable: true,search:false},
 			{name:'name',index:'name',label:"姓名",width:100,editable: false,search:false},
 			{name:'workNumber',index:'workNumber',label:"工号",width:100,editable: false,search:false},
 			{name:'phoneNo',index:'phoneNo',label:"手机号",width:100,editable: false,search:false},
-			{name:'xpost',index:'',label:"岗位",width:100,editable: false,search:false},
-			{name:'xstation',index:'',label:"工位",width:150,editable: false,search:false},
-			{name:'xworkscope',index:'',label:"工作范围",width:150,editable: false,search:false},
+			{name:'xpost',label:"岗位",width:100,editable: false,search:false},
+			{name:'xstation',label:"工位",width:150,editable: false,search:false},
+			{name:'xworkscope',label:"工作范围",width:150,editable: false,search:false},
 			{name:'xworkstate',index:'workstate',label:"员工状态",width:80,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false},
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}

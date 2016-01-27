@@ -135,6 +135,10 @@
 									<i class="ace-icon fa fa-folder-open-o"></i>
 									创建入库单
 								</a>
+								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon glyphicon glyphicon-edit"></i>
+									编辑
+								</a>
 								<a id="confirmCarton" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
@@ -200,6 +204,24 @@
 		$("#addCarton").click(function(){
 			var workingBillId = $("#workingBillId").val();
 			window.location.href="enteringware_house!add.action?workingBillId="+workingBillId;
+			
+		});
+		
+		$("#btn_edit").click(function(){
+			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id.length > 1||id.length < 1){
+				layer.msg("请选择一条记录!", {icon: 5});
+				return false;
+			}
+			var workingBillId = $("#workingBillId").val();
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
+			if(row_state=="1"||row_state=="3"){
+				layer.msg("已确认或已撤销的报工单无法再编辑!", {icon: 5});
+				return false;
+			}else{
+				window.location.href="enteringware_house!edit.action?workingBillId="+workingBillId+"&id="+id;				
+			}
 			
 		});
 		$("#confirmCarton").click(function(){

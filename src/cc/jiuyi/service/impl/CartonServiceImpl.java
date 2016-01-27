@@ -335,12 +335,13 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	/**
 	 * 与SAP交互
 	 */
-	public String updateToSAP(String[] ids,String cardnumber)throws IOException,CustomerException
+	public String updateToSAP(String[] ids,String cardnumber,String loginid)throws IOException,CustomerException
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
+		Admin a=this.adminservice.get(loginid);
+		String warehouse = a.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
 		String lifnr= ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1");//供应商
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
+		String werks = a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
 		for (int i = 0; i < ids.length; i++)
 		{
 			Carton c = this.get(ids[i]);

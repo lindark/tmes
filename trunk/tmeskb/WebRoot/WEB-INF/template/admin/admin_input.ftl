@@ -237,13 +237,9 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 卡号</label>
 										<div class="col-sm-9">
-										    <#if isAdd??>
 											<input type="text" name="admin.cardNumber"
-												class=" input input-sm  formText {required: true, cardNumber: true,remote: 'admin!checkCardNumber.action', minlength: 2, maxlength: 20, messages: {remote: '卡号已存在,请重新输入!'}}"
-												value="${(admin.cardNumber)!}" />
-											<#else> ${(admin.cardNumber)!} <input type="hidden"
-												name="admin.cardNumber" value="${(admin.cardNumber)!}" />
-											</#if>
+												class=" input input-sm  formText {required: true}"
+												value="${(admin.cardNumber)!}" />											
 										</div>
 								</div>
 								<!--  <div class="form-group">

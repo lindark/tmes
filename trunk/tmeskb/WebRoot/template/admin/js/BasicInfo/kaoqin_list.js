@@ -291,16 +291,18 @@ function addemp()
 		{
 			//layer.close(index);
 			layer.closeAll();
-			$.message("success","您的操作已成功!");
-			$("#grid-table").trigger("reloadGrid");
+			setTimeout(function(){
+				$.message("success","您的操作已成功!");
+				$("#grid-table").trigger("reloadGrid");
+			}, 1000);
 		}
-		else
+		/*else if(info=="error")
 		{
 			layer.alert("添加失败!", {
 		        icon:5,
 		        skin:'error'
 		    },function(){layer.closeAll();});
-		}
+		}*/
 	});
 }
 

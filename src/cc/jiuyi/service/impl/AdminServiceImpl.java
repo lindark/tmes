@@ -65,6 +65,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		return adminDao.isExistByUsername(username);
 	}
 	
+	@Override
+	public boolean isExistByCardNumber(String cardNumber) {
+		// TODO Auto-generated method stub
+		return adminDao.isExistByCardNumber(cardNumber);
+	}
+	
 	public Admin getAdminByUsername(String username) {
 		return adminDao.getAdminByUsername(username);
 	}

@@ -75,6 +75,8 @@ public class ScrapAction extends BaseAdminAction
 	private String info;
 	private String cardnumber;
 	private List<ScrapOut>list_so;//
+	private String loginid;//当前登录人
+	
 	/**
 	 * service接口
 	 */
@@ -478,7 +480,7 @@ public class ScrapAction extends BaseAdminAction
 			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
 				Scrap s=xlist_scrap.get(i);
-				Admin a=this.adminService.getByCardnum(cardnumber);
+				Admin a=this.adminService.get(loginid);
 				s.setLgort(a.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
 				s.setWerks(a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				/**确认操作*/
@@ -767,5 +769,16 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.list_so = list_so;
 	}
+
+	public String getLoginid()
+	{
+		return loginid;
+	}
+
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
+	}
+	
 	/**==========================end "get/set"=================================*/
 }

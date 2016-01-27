@@ -16,11 +16,13 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
@@ -95,6 +97,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		return LIST;
 	}
+	
+	// 编辑
+	public String edit() {
+		enteringwareHouse = enteringwareHouseService.load(id);
+		workingbill = workingBillService.get(workingBillId);
+		return INPUT;
+	}	
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
@@ -119,6 +128,24 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				+ enteringwareHouse.getWorkingbill().getId();*/
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
+	
+	// 更新
+	public String creditupdate() throws Exception {
+		if(enteringwareHouse.getStorageAmount()==null||
+				String.valueOf(enteringwareHouse.getStorageAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("入库数量必须为零或正整数!");
+		}
+		EnteringwareHouse persistent = enteringwareHouseService.load(id);
+
+		BeanUtils.copyProperties(enteringwareHouse, persistent, new String[] { "id","createUser" });
+		enteringwareHouseService.update(persistent);
+		/*
+		 * redirectionUrl = "daily_work!list.action?workingBillId=" +
+		 * dailyWork.getWorkingbill().getId();
+		 */
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}	
+	
 
 	// 刷卡确认
 	public String creditapproval() {		
@@ -222,6 +249,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			if (UNDO.equals(enteringwareHouse.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
+			if(UNCONFIRM.equals(enteringwareHouse.getState())){//未确认的直接撤销
+				enteringwareHouse.setState(UNDO);
+				enteringwareHouseService.update(enteringwareHouse);
+				
+			}
 		}
 		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
 		String charg = enteringwareHouseService.getCharg(workingbill);
@@ -233,8 +265,12 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			e.setMoveType("102");
 			e.setBatch(charg);
 			e.setStorageAmount(ArithUtil.mul(e.getStorageAmount(),ratio));
-			enterList.add(e);
+			if(CONFIRMED.equals(e.getState())){//将已确认的放进去
+				enterList.add(e);
+			}		
 		}
+		if(enterList.size()>0){//已确认的数据调sap接口
+			
 		try {
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
 			for(EnteringwareHouse e:aufnr){
@@ -257,6 +293,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
+		}
 		
 		workingbill = workingBillService.get(workingBillId);
 		List<EnteringwareHouse> enteringwares = enteringwareHouseService

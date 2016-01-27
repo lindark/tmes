@@ -132,7 +132,7 @@ public class CartonAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}*/
 			}
-			String str = this.cartonService.updateToSAP(ids,cardnumber);
+			String str = this.cartonService.updateToSAP(ids,cardnumber,loginid);
 			String issuccess=ERROR;
 			if("S".equals(str))
 			{

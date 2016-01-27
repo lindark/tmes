@@ -70,7 +70,7 @@ public interface CartonService extends BaseService<Carton, String> {
 	 * @param ids
 	 * @return
 	 */
-	public String updateToSAP(String[] ids,String cardnumber)throws IOException,CustomerException;
+	public String updateToSAP(String[] ids,String cardnumber,String loginid)throws IOException,CustomerException;
 
 	/**
 	 * 查看

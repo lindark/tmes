@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.StrutsStatics;
 
+import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.entity.AccessFunction;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
@@ -38,6 +40,7 @@ import freemarker.template.utility.StringUtil;
 public class CreditInterceptor extends MethodFilterInterceptor {
 
 	private static final long serialVersionUID = -6469337425520111325L;
+	public static Logger log = Logger.getLogger(CreditInterceptor.class);
 	@Resource
 	private AdminService adminservice;
 	@Resource
@@ -51,17 +54,63 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 		Map<String,Object> parameters = actionContext.getParameters();//获取传入的参数
 		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST); // 获取request
 		HttpServletResponse response = (HttpServletResponse) actionContext.get(StrutsStatics.HTTP_RESPONSE);// 获取response
-		//request.getServletPath()
-		String path = request.getRequestURI();// 获取当前访问的路径
-		Object[] cardnumber = (Object[])parameters.get("cardnumber");//卡号
-		Admin admin = adminservice.get("cardNumber",cardnumber[0]);
-		List<Role> roleList = new ArrayList<Role>(admin.getRoleSet());
-		List<String> roleid = new ArrayList<String>();
-		for (Role role : roleList) {
-			roleid.add(role.getId());
-		}
-		Integer count = resourceService.getListByadmin(roleid, path);
-		if(count <=0){
+		try{
+			//request.getServletPath()
+			String path = request.getRequestURI();// 获取当前访问的路径
+			Object[] cardnumber = (Object[])parameters.get("cardnumber");//卡号
+			List<Admin> admin = adminservice.getList("cardNumber",cardnumber[0]);
+			if(admin == null || admin.size()<=0){
+				HashMap<String, String> jsonmap = new HashMap<String, String>();
+				jsonmap.put("status", "error");
+				jsonmap.put("message", "对不起,当前人员不存在");
+	
+				JSONObject jsonObject = JSONObject.fromObject(jsonmap);
+				response.setContentType("text/html" + ";charset=UTF-8");
+				response.setHeader("Pragma", "No-cache");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setDateHeader("Expires", 0);
+				response.getWriter().write(jsonObject.toString());
+				response.getWriter().flush();
+				return null;
+				
+			}
+			
+			if(admin.size() > 1){
+				HashMap<String, String> jsonmap = new HashMap<String, String>();
+				jsonmap.put("status", "error");
+				jsonmap.put("message", "对不起,当前卡号维护了多个人员");
+				JSONObject jsonObject = JSONObject.fromObject(jsonmap);
+				response.setContentType("text/html" + ";charset=UTF-8");
+				response.setHeader("Pragma", "No-cache");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setDateHeader("Expires", 0);
+				response.getWriter().write(jsonObject.toString());
+				response.getWriter().flush();
+				return null;
+			}
+			
+			List<Role> roleList = new ArrayList<Role>(admin.get(0).getRoleSet());
+			List<String> roleid = new ArrayList<String>();
+			for (Role role : roleList) {
+				roleid.add(role.getId());
+			}
+			Integer count = resourceService.getListByadmin(roleid, path);
+			if(count <=0){
+				HashMap<String, String> jsonmap = new HashMap<String, String>();
+				jsonmap.put("status", "error");
+				jsonmap.put("message", "对不起,您无权限访问");
+	
+				JSONObject jsonObject = JSONObject.fromObject(jsonmap);
+				response.setContentType("text/html" + ";charset=UTF-8");
+				response.setHeader("Pragma", "No-cache");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setDateHeader("Expires", 0);
+				response.getWriter().write(jsonObject.toString());
+				response.getWriter().flush();
+				return null;
+			}
+		}catch(Exception e){
+			log.error(e);
 			HashMap<String, String> jsonmap = new HashMap<String, String>();
 			jsonmap.put("status", "error");
 			jsonmap.put("message", "对不起,您无权限访问");

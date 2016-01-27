@@ -15,6 +15,7 @@
 		
 	</head>
 	<body class="no-skin list">
+	<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -163,7 +164,8 @@
 							layer.msg("已经确认或已经撤销的领料单无法再次确认!",{icon:5});
 							return false;
 						}else{
-							var url="end_product!creditapproval.action?id="+id;
+							var loginid = $("#loginid").val();
+							var url="end_product!creditapproval.action?id="+id+"&loginid="+loginid;
 						}	
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);

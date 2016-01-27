@@ -25,7 +25,7 @@ public class PickDetail extends BaseEntity{
 	private static final long serialVersionUID = 5863643257488788810L;
 
 	private String pickType;//领料类型
-    private String pickAmount;//领料数量
+    private String pickAmount;//实际领料数量
     private String stockAmount;//库存数量
    // private String state;//状态
     private String isDel;//是否删除
@@ -40,7 +40,13 @@ public class PickDetail extends BaseEntity{
 	private Pick pick;//领料主表
 	private String meins;//单位
 	private String xh;//序号
-
+	
+	private String cqPickAmount;//裁切领退数
+	private String cqmultiple;//裁切倍数
+	private String cqhStockAmount;//裁切后库存
+	
+	
+	
 	private String xpickType;//领料类型描述
 
 	private String xuh;
@@ -166,6 +172,24 @@ public class PickDetail extends BaseEntity{
 	}
 	public void setXh(String xh) {
 		this.xh = xh;
+	}
+	public String getCqPickAmount() {
+		return cqPickAmount;
+	}
+	public void setCqPickAmount(String cqPickAmount) {
+		this.cqPickAmount = cqPickAmount;
+	}
+	public String getCqmultiple() {
+		return cqmultiple;
+	}
+	public void setCqmultiple(String cqmultiple) {
+		this.cqmultiple = cqmultiple;
+	}
+	public String getCqhStockAmount() {
+		return cqhStockAmount;
+	}
+	public void setCqhStockAmount(String cqhStockAmount) {
+		this.cqhStockAmount = cqhStockAmount;
 	}
 
 	

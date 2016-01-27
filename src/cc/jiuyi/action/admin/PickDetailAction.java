@@ -2,6 +2,7 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -130,9 +131,26 @@ public class PickDetailAction extends BaseAdminAction {
 					if(matnr.equals(bom.getMaterialCode())){
 						bom.setStockAmount(labst);
 					}
+					Material mt = materialService.get("materialCode", bom.getMaterialCode());
+					if(mt==null){
+						bom.setCqmultiple("1");
+						bom.setCqhStockAmount(bom.getStockAmount());
+					}else{
+						if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+							bom.setCqmultiple("1");
+							bom.setCqhStockAmount(bom.getStockAmount());
+						}else{
+							bom.setCqmultiple(mt.getCqmultiple());
+							BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+							BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
+							BigDecimal total = multiple.multiply(stockAmount);
+							bom.setCqhStockAmount(total.toString());
+						}
+					}
 					bomList.set(j, bom);					
 				}			
 			}
+			
 			Collections.sort(bomList); 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -228,6 +246,9 @@ public class PickDetailAction extends BaseAdminAction {
 					continue;
 				bom.setPickAmount(pickdetail.getPickAmount());
 				bom.setPickDetailid(pickdetail.getId());
+				bom.setCqhStockAmount(pickdetail.getCqhStockAmount());
+				bom.setCqmultiple(pickdetail.getCqmultiple());
+				bom.setCqPickAmount(pickdetail.getCqPickAmount());
 				bomList.set(j, bom);
 			}
 			Collections.sort(bomList);
@@ -280,6 +301,12 @@ public class PickDetailAction extends BaseAdminAction {
 		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
+			if(p!=null){
+				if(p.getCqPickAmount()!=null && !"".equals(p.getCqPickAmount())){
+					String[] s = p.getCqPickAmount().split(",");
+					p.setCqPickAmount(s[0]);
+				}
+			}
 			if (!"".equals(info) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
 				flag = true;
 				p.setConfirmUser(admin);

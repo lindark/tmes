@@ -97,6 +97,12 @@ body{background:#fff;}
 										</div>
 									</div>
 									
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 裁切倍数 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="material.cqmultiple" value="${(material.cqmultiple)!}" class=" input input-sm formText" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+										</div>
+									</div>
 						
 						             <div class="profile-info-row">
 										<div class="profile-info-name">单元 </div>			

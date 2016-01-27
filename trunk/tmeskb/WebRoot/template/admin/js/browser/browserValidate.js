@@ -28,6 +28,11 @@ $(function(){
 				},
 				success: function(data) {
 					var index = parent.layer.getFrameIndex(window.name);
+					if(data.status=="error"){
+						parent.layer.msg(data.message);
+						return false;
+					}
+					
 					parent.layer.msg('保存成功');
 					parent.layer.close(index);
 //					var zTree = $.fn.zTree.getZTreeObj("ingageTree");

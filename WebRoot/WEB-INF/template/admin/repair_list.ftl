@@ -181,7 +181,7 @@
 	<div style="display:none">
 		<input type="hidden" id="workingBillId" value="${workingbill.id}"/>
 	</div>
-
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 </body>
 
 </html>
@@ -236,7 +236,7 @@
 			}
 			else
 			{
-				var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+$("#loginid").val();
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);

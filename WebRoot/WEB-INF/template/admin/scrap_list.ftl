@@ -153,6 +153,7 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
 	<input type="hidden" id="wbId" value="${(workingbill.id)!}"/>
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 </body>
 </html>
 <script type="text/javascript">

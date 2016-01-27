@@ -102,7 +102,7 @@ body {
 
 												<div class="profile-info-value">
 													<input type="text" name="enteringwareHouse.storageAmount"
-														value=""
+														value="${(enteringwareHouse.storageAmount)!}"
 														class=" input input-sm formText {required: true,min: 1}" />
 													<label class="requireField">*</label>
 												</div>

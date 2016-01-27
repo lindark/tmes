@@ -76,7 +76,7 @@ jQuery(function($) {
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 		], 
 		viewrecords : true,
-		rowNum:200,
+		rowNum:500,
 		//rowList:[30],
 		pager : pager_selector,
 		altRows: true,

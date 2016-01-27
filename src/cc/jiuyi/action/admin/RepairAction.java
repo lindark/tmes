@@ -61,6 +61,7 @@ public class RepairAction extends BaseAdminAction {
 	private List<ProcessRoute> processRouteList;//工艺路线
 	private String info;
 	private List<RepairPiece>list_rp;//子件
+	private String loginid;//当前登录人
 
 	@Resource
 	private RepairService repairService;
@@ -442,7 +443,7 @@ public class RepairAction extends BaseAdminAction {
 			for (int i = 0; i < list.size(); i++)
 			{
 				Repair r = list.get(i);
-				Admin a= adminService.getByCardnum(cardnumber);
+				Admin a= adminService.get(loginid);
 				r.setLGORT(a.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
 				r.setWERKS(a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				List<RepairPiece> listrp =new ArrayList<RepairPiece>(r.getRpieceSet());// 取出对应的组件
@@ -608,4 +609,15 @@ public class RepairAction extends BaseAdminAction {
 	{
 		this.list_rp = list_rp;
 	}
+
+	public String getLoginid()
+	{
+		return loginid;
+	}
+
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
+	}
+	
 }

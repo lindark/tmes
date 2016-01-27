@@ -455,6 +455,16 @@ public class AdminAction extends BaseAdminAction {
 			return ajaxText("true");
 		}
 	}
+	
+	// 是否已存在 ajax验证
+	public String checkCardNumber() {
+		String cardNumber = admin.getCardNumber();
+		if (adminService.isExistByCardNumber(cardNumber)) {
+			return ajaxText("false");
+		} else {
+			return ajaxText("true");
+		}
+	}	
 
 	// 添加
 	public String add() {

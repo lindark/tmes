@@ -111,7 +111,7 @@ body {
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-<input type="hidden" id="sameteamid" value="${(sameTeamId)! }" />
+<input type="hidden" id="sameteamid" value="${sameTeamId }" />
 </body>
 </html>
 <script type="text/javascript">

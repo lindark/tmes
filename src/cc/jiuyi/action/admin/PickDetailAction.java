@@ -301,12 +301,12 @@ public class PickDetailAction extends BaseAdminAction {
 		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 		for (int i = 0; i < pickDetailList.size(); i++) {
 			PickDetail p = pickDetailList.get(i);
-			if(p!=null){
+			/*if(p!=null){
 				if(p.getCqPickAmount()!=null && !"".equals(p.getCqPickAmount())){
 					String[] s = p.getCqPickAmount().split(",");
 					p.setCqPickAmount(s[0]);
 				}
-			}
+			}*/
 			if (!"".equals(info) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
 				flag = true;
 				p.setConfirmUser(admin);

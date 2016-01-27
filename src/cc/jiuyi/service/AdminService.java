@@ -33,6 +33,11 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * 
 	 */
 	public boolean isExistByUsername(String username);
+	/**
+	 * 根据卡号判断此用户是否存在（不区分大小写）
+	 * 
+	 */
+	public boolean isExistByCardNumber(String cardNumber);
 	
 	/**
 	 * 根据登录名获取管理员对象，若管理员不存在，则返回null（不区分大小写）

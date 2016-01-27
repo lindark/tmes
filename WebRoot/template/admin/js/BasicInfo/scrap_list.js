@@ -218,7 +218,7 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var url="scrap!creditapproval.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			var url="scrap!creditapproval.action?info="+info+"&wbId="+wbId+"&my_id=1&loginid="+$("#loginid").val();
 			sub_event(url);
 		}
 	});
@@ -226,7 +226,7 @@ function btn_event()
 	$("#btn_revoke").click(function(){
 		if(getId())
 		{
-			var url="scrap!creditundo.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			var url="scrap!creditundo.action?info="+info+"&wbId="+wbId+"&my_id=2&loginid="+$("#loginid").val();
 			sub_event(url);
 		}
 	});

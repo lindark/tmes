@@ -641,7 +641,11 @@ public class AdminAction extends BaseAdminAction {
 //	)
 //	@InputConfig(resultName = "error")
 	public String save() {
-
+		String cardNumber = admin.getCardNumber();
+		boolean b = adminService.isExistByCardNumber(cardNumber);
+		if (b) {
+			return ajaxJsonErrorMessage("该卡号已存在，请重新输入！");
+		}
 		//工作范围添加
 		List<UnitdistributeProduct> productList = new ArrayList<UnitdistributeProduct>();
 		if(unitdistributeProducts!=null && !("").equals(unitdistributeProducts)){
@@ -712,7 +716,17 @@ public class AdminAction extends BaseAdminAction {
 //	)
 //	@InputConfig(resultName = "error")
 	public String update() {
-		Admin persistent = adminService.load(id);
+		Admin persistent = adminService.load(id);	
+		
+		String cardNumber = persistent.getCardNumber();//对卡号进行校验
+		if(!cardNumber.equals(admin.getCardNumber())){
+			boolean b = adminService.isExistByCardNumber(admin.getCardNumber());
+			if (b) {
+				return ajaxJsonErrorMessage("该卡号已存在，请重新输入！");
+			}
+			
+		}
+				
 		if (roleList == null && roleList.size() == 0) {
 			addActionError("请至少选择一个角色!");
 			return ERROR;

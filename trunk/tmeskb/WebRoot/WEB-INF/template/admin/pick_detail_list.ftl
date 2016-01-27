@@ -127,7 +127,6 @@ body {
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].cqmultiple" value="${(list.cqmultiple)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].cqhStockAmount" value="${(list.cqhStockAmount)! }"/>
-													<input type="hidden" name="pickDetailList[${(num)}].cqPickAmount" value="${(list.cqPickAmount)! }"/>
 												</td>											
 											</tr>
 											<#assign num=num+1/>

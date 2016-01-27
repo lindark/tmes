@@ -101,7 +101,10 @@ body {
 											<th style="text-align:center;">组件编号</th>
 											<th style="text-align:center;">组件名称</th>
 											<th style="text-align:center;">库存数量</th>
-											<th style="text-align:center;">领/退料数量</th>	
+											<th style="text-align:center;">裁切倍数</th>
+											<th style="text-align:center;">裁切后库存数量</th>	
+											<th style="text-align:center;">裁切后领退料</th>
+											<th style="text-align:center;">实际领退料</th>
 										</tr>
 									</thead>
 
@@ -112,13 +115,19 @@ body {
 												<td class="center" name="">${(list.materialCode)! }</td>
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" name="">${(list.stockAmount)!  }</td>
+												<td class="center" name="">${(list.cqmultiple)!  }</td>
+												<td class="center" name="">${(list.cqhStockAmount)!  }</td>
+												<td class="center" name=""><input type="text" name="pickDetailList[${(num)}].cqPickAmount" value="${(list.cqPickAmount)!}" class="notnull input input-sm formText {digits:true} cqPickAmount" /></td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true}"/>
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true}"readonly/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].pickType" value="${(list.pickType)! }"/>
 													<input type="hidden" id="stockAmount${(num)}" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }" class="stockAmount"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].cqmultiple" value="${(list.cqmultiple)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].cqhStockAmount" value="${(list.cqhStockAmount)! }"/>
+													<input type="hidden" name="pickDetailList[${(num)}].cqPickAmount" value="${(list.cqPickAmount)! }"/>
 												</td>											
 											</tr>
 											<#assign num=num+1/>
@@ -181,8 +190,8 @@ body {
 			}
 			if(pickType =='261') {
 			$("#mytable tr").each(function(){
-				var stockAmount = ($(this).children("td:eq(2)").text());
-				var pickAmount = ($(this).children("td:eq(3)").children("input:first").val());
+				var stockAmount = ($(this).children("td:eq(4)").text());
+				var pickAmount = ($(this).children("td:eq(5)").children("input:first").val());
 				if(pickAmount != null){
 					i=floatSub(pickAmount,stockAmount);//减法
 					if(i>0)
@@ -225,8 +234,8 @@ body {
 			}
 			if(pickType =='261') {
 			$("#mytable tr").each(function(){
-				var stockAmount = ($(this).children("td:eq(2)").text());
-				var pickAmount = ($(this).children("td:eq(3)").children("input:first").val());
+				var stockAmount = ($(this).children("td:eq(4)").text());
+				var pickAmount = ($(this).children("td:eq(5)").children("input:first").val());
 				if(pickAmount != null){
 					i=floatSub(pickAmount,stockAmount);//减法
 					if(i>0)
@@ -302,6 +311,15 @@ body {
 			}
 			
 		})
+		
+		$(".cqPickAmount").change(function(){
+			var mount = $(this).val()*1;
+			var cqmultiple = $(this).parent().prev().prev().text()*1;
+			var total  = mount * cqmultiple;
+			$(this).parent().next().children().eq(0).val(total);
+			//var id = $(this).parent().children().eq(1).text();
+		});
+		
 	})
 	
 	

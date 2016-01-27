@@ -21,6 +21,7 @@ public class Material extends BaseEntity{
     private String materialType;//物料类型
     private String productmanager;//生产管理员
     private FactoryUnit factoryunit;//单元
+    private String cqmultiple;//裁切倍数
     
     //假字段
     private String xfactoryunit;//单元名称
@@ -98,6 +99,12 @@ public class Material extends BaseEntity{
 	public void setXfactory(String xfactory)
 	{
 		this.xfactory = xfactory;
+	}
+	public String getCqmultiple() {
+		return cqmultiple;
+	}
+	public void setCqmultiple(String cqmultiple) {
+		this.cqmultiple = cqmultiple;
 	}
 	
 	

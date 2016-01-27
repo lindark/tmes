@@ -12,8 +12,10 @@ import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
@@ -42,6 +44,8 @@ public class EndProductAction extends BaseAdminAction {
 
 	
 	private static final long serialVersionUID = -8081201099604396846L;
+	
+	public static Logger log = Logger.getLogger(EndProductAction.class);
 	private Admin admin;
 	private List<WorkingBill> workingBillList;
 	private List<EndProduct> endProducts;
@@ -50,6 +54,7 @@ public class EndProductAction extends BaseAdminAction {
 	private String cardnumber;
 	private EndProduct endProduct;
 	private String desp;
+	private String loginid;
 	
 	@Resource
 	private EndProductService endProductService;
@@ -307,6 +312,7 @@ public class EndProductAction extends BaseAdminAction {
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			//endProductService.updateApprovalEndProduct(ids,admin);
+			Admin admin1=adminService.get(loginid);
 			List<EndProduct> endProductList = new ArrayList<EndProduct>();
 			String[] ids = id.split(","); 
 			for(int i=0;i<ids.length;i++){
@@ -318,7 +324,7 @@ public class EndProductAction extends BaseAdminAction {
 					ed.setConfirmName(admin.getName());
 					ed.setState("2");
 					ed.setBudate(ThinkWayUtil.SystemDate());
-					ed.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					ed.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
 					ed.setMoveType("311");
 					endProductList.add(ed);
 				}
@@ -355,6 +361,7 @@ public class EndProductAction extends BaseAdminAction {
 			}
 			return ajaxJsonSuccessMessage("保存成功!"); 
 		} catch (Exception e) {
+			log.error(e);
 			return ajaxJsonErrorMessage("确认失败，请重试");
 		}
 		
@@ -438,6 +445,12 @@ public class EndProductAction extends BaseAdminAction {
 	}
 	public void setDesp(String desp) {
 		this.desp = desp;
+	}
+	public String getLoginid() {
+		return loginid;
+	}
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 	
 

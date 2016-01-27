@@ -216,7 +216,7 @@
 				}else if(row_state=="3"){
 					layer.msg("已撤销的无法再确认！", {icon: 5});
 				}else{
-				var url = "enteringware_house!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "enteringware_house!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+$("#loginid").val();
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalSingleAmount").text(data.totalSingleAmount);
@@ -262,7 +262,7 @@
 				if(row_state=="3"){
 					layer.msg("已撤销的无法再撤销！", {icon: 5});
 				}else{
-				var url = "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "enteringware_house!creditundo.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+$("#loginid").val();
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalSingleAmount").text(data.totalSingleAmount);

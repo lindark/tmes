@@ -276,7 +276,7 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var url="carton!creditapproval.action?info="+info+"&my_id=1";
+			var url="carton!creditapproval.action?info="+info+"&my_id=1&loginid="+$("#loginid").val();
 			sub_event(url);
 		}
 	});

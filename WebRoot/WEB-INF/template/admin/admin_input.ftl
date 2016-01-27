@@ -145,17 +145,17 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工位</label>
 										<div class="col-sm-9">									    									    
-											    <select class="chosen-select" id="modelchoose" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
+											    <select class="chosen-select work" id="model" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
 														<#list unitModelList as list>
 														      <option value="${list.id}">${list.station}</option>
 														</#list>
-											    </select>									    
+											    </select>				    								    
 										</div>
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">工作范围</label>
 										<div class="col-sm-9">										    										    
-											    <select class="chosen-select" multiple="" style="width:290px;" name="unitdistributeProducts" data-placeholder="请选择...">
+											    <select class="chosen-select work" multiple="" id="product" style="width:290px;" name="unitdistributeProducts" data-placeholder="请选择...">
 														<#list unitProductList as list>
 														      <option value="${list.id}">${list.materialName}</option>
 														</#list>
@@ -237,9 +237,13 @@ body {
 								<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 卡号</label>
 										<div class="col-sm-9">
+										    <#if isAdd??>
 											<input type="text" name="admin.cardNumber"
-												class=" input input-sm  formText {required: true}"
+												class=" input input-sm  formText {required: true, cardNumber: true,remote: 'admin!checkCardNumber.action', minlength: 2, maxlength: 20, messages: {remote: '卡号已存在,请重新输入!'}}"
 												value="${(admin.cardNumber)!}" />
+											<#else> ${(admin.cardNumber)!} <input type="hidden"
+												name="admin.cardNumber" value="${(admin.cardNumber)!}" />
+											</#if>
 										</div>
 								</div>
 								<!--  <div class="form-group">
@@ -322,7 +326,19 @@ $('#chosen-multiple-style').on('click', function(e){
 			
 		})	
 		
+		<#if isAdd??>
+		<#else>		 
+		 <#list admin.unitdistributeModelSet as list>
+		 $("#model option[value='${(list.id)!}']").attr("selected","selected"); 		  
+		 </#list>
+		 		 
+		 <#list admin.unitdistributeProductSet as list>
+		 $("#product option[value='${(list.id)!}']").attr("selected","selected"); 		
+		 </#list>
 		
+		 $(".work").chosen();
+		 $(".work").trigger("chosen:updated");
+		</#if>
 	})
 
 	

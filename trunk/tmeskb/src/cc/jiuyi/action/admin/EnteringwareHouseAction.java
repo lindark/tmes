@@ -124,6 +124,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String creditapproval() {		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		if(unitconversion==null){
+			return ajaxJsonErrorMessage("未找到该物料对应的单位!");
+		}
 		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");

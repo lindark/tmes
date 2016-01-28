@@ -72,7 +72,7 @@ body {background: #fff;font-family: 微软雅黑;}
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">报废信息编辑</a></li>
+										<li><a href="#tabs-1">报废信息</a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
 										<!-- msg start -->
@@ -97,15 +97,37 @@ body {background: #fff;font-family: 微软雅黑;}
 													</div>
 												</div>
 											</div>
+											<br/>
 											<div class="profile-user-info profile-user-info-striped">
+												<#if show??>
+												<#else>
 												<div class="profile-info-row">
-													<table class="table table-striped table-bordered table-hover">
+													<div class="row buttons col-md-8 col-sm-4">
+														<a id="btn_addmsg" class="btn btn-white btn-default btn-sm btn-round">
+															<i class="ace-icon glyphicon glyphicon-plus"></i>
+															添加报废信息
+														</a>
+													</div>
+												</div>					
+												</#if>
+												<div class="profile-info-row">
+													<table id="tab_scrapmsg" class="table table-striped table-bordered table-hover">
+														<#if show??>
 														<tr>
 															<th style="width: 15%;">物料编码</th>
-															<th style="width: 33%;">物料描述</th>
-															<th style="width: 22%;">责任划分</th>
-															<th style="width: 30%;min-width:105px;">报废原因/数量</th>
+															<th style="width: 30%;">物料描述</th>
+															<th style="width: 20%;">责任划分</th>
+															<th style="width: 35%;min-width:105px;">报废原因/数量</th>
 														</tr>
+														<#else>
+														<tr>
+															<th style="width: 15%;">物料编码</th>
+															<th style="width: 20%;">物料描述</th>
+															<th style="width: 20%;">责任划分</th>
+															<th style="width: 35%;min-width:105px;">报废原因/数量</th>
+															<th style="width: 10%;">操作</th>
+														</tr>
+														</#if>
 														<#if show??>
 															<#if list_scrapmsg??>
 																<#assign num=0 />
@@ -120,33 +142,32 @@ body {background: #fff;font-family: 微软雅黑;}
 																</#list>
 															</#if>
 														<#else>
-															<#if list_material??>
+															<#if list_scrapmsg??>
 																<#assign num=0 />
-																<#list list_material as list>
+																<#list list_scrapmsg as list>
 																	<tr>
-																		<td>${(list.materialCode)! }</td>
-																		<td>${(list.materialName)! }</td>
+																		<td>${(list.smmatterNum)! }</td>
+																		<td>${(list.smmatterDes)! }</td>
 																		<td>
-																			<select id="select_duty${num}" name="list_scrapmsg[${num}].smduty" class="input input-sm form-control chosen-select">
+																			<select id="select_duty${num}" name="list_scrapmsg[${num}].smduty" style="width:150px;">
 																				<option value="baga">&nbsp;</option>
 																				<#list list_dict as dlist>
-																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.xsmduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
+																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.smduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
 																				</#list>
 																			</select>
 																		</td>
 																		<td>
-																			<img id="img_addbug${num}" class="img_addbug" title="添加报废信息" alt="添加报废信息" src="${base}/template/shop/images/add_bug.gif" />
-																			<span id="span_bug${num}">${(list.xsmreson)!}</span>
-																			<input type="hidden"  id="input_msgbug${num}" name="list_scrapmsg[${num}].smreson" value="${(list.xsmreson)!}" />
-																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="${(list.xmenge)! }" />
-																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.materialCode)! }" />
-																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.materialName)! }" />
-																			<!-- <input type="hidden" name="list_scrapmsg[${num}].materialId" value="${(list.id)! }" /> -->
-																			<input type="hidden" name="list_scrapmsg[${num}].id" value="${(list.xsmid)! }" />
+																			<img id="img_addbug${num}" onclick="btn_addbug_event('${num}')" class="img_addbug" title="添加报废数量" alt="添加报废数量" src="${base}/template/shop/images/add_bug.gif" />
+																			<span id="span_bug${num}">${(list.smreson)!}</span>
+																			<input type="hidden"  id="input_msgbug${num}" name="list_scrapmsg[${num}].smreson" value="${(list.smreson)!}" />
+																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="${(list.menge)! }" />
+																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.smmatterNum)! }" />
+																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.smmatterDes)! }" />
 																			
 																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden" value="${(list.xsbnums)! }" />
 																			<input id="input_bugid${num}" name="list_scrapbug[${num}].xbugids" type="hidden" value="${(list.xsbids)! }" />
 																		</td>
+																		<td><a id="a_delsm${num}" onclick="delsm_click('${num}')" href="javascript:void(0);">删除</a></td>
 																	</tr>
 																	<#assign num=num+1 />
 																</#list>
@@ -207,9 +228,9 @@ body {background: #fff;font-family: 微软雅黑;}
 																			<input id="input_count${(sllist.slmatterNum)!}" type="text" name="list_scraplater[${slnum}].slmatterCount" value="${(sllist.slmatterCount)! }" onblur="inputcount_blur(${(sllist.slmatterNum)! })" style="display: none;" />
 																		</td>
 																		<td>
-																			<a onclick="edit_click(${(sllist.slmatterNum)! })">编辑</a>
+																			<a onclick="edit_click('${(sllist.slmatterNum)! }')">编辑</a>
 																			&nbsp;&nbsp;
-																			<a onclick="del_click(${(sllist.slmatterNum)! })">删除</a>
+																			<a onclick="del_click('${(sllist.slmatterNum)! }')">删除</a>
 																		</td>
 																	</tr>
 																	<#assign slnum=slnum+1 />
@@ -300,6 +321,28 @@ body {background: #fff;font-family: 微软雅黑;}
 								</div>
 							</div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+							<div id="divbox3" style="display: none;">
+								<div class="profile-user-info profile-user-info-striped divbox">
+									<div class="profile-info-row ceshi">
+										<div class="profile-info-row">
+											<div class="profile-info-name">物料描述</div>
+											<div class="profile-info-value div-value">
+												<select id="sl_bom" style="width:150px;">
+													<option value="baga">---请选择---</option>
+													<#if list_material??>
+														<#assign num2=0 />
+														<#list list_material as list2>
+															<option id="optsm_${(list2.materialCode)! }" value="${(list2.materialCode)! }">${(list2.materialName)! }</option>
+															<#assign num2=num2+1 />
+														</#list>
+													</#if>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->
@@ -327,11 +370,13 @@ function addbug_event()
 {
 	var i=0;
 	<#list list_material as list>
+		/*
 		$("#img_addbug"+i).live("click",function(){
 			var idval=$(this).attr("id");
 			idval=idval.substring(10,idval.length);
 			btn_addbug_event(idval);
 		});
+		*/
 		//责任类型变化事件
 		$("#select_duty"+i).change(function(){
 			var idval2=$(this).attr("id");
@@ -492,5 +537,37 @@ function showorhide_event(obj)
 		}
 		i+=1;
 	</#list>
+}
+
+//添加报废信息
+function fuzhi_box3torow(val,txt)
+{
+	//获取表的行数，确定新增的行值
+	var row=$("#tab_scrapmsg tr").length;
+	row=floatSub(row,1);//减法
+	var xhtml="<tr>" +
+			"<td>"+val+"</td>" +
+			"<td>"+txt+"</td>" +
+			"<td><select id='select_duty"+row+"' name='list_scrapmsg["+row+"].smduty' style='width:150px;'>" +
+			"<option value='baga'>&nbsp;</option>"+
+			<#list list_dict as dlist2>
+			"<option value='${(dlist2.dictkey)! }'>${(dlist2.dictvalue)! }</option>"+
+			</#list>
+			"</select></td>" +
+			"<td>"+
+			"<img id='img_addbug"+row+"' onclick=btn_addbug_event('"+row+"') class='img_addbug' title='添加报废数量' alt='添加报废数量' src='${base}/template/shop/images/add_bug.gif' />"+
+			"<span id='span_bug"+row+"'></span>"+
+			"<input type='hidden'  id='input_msgbug"+row+"' name='list_scrapmsg["+row+"].smreson' />"+
+			"<input type='hidden'  id='input_msgmenge"+row+"' name='list_scrapmsg["+row+"].menge' />"+
+			"<input type='hidden' name='list_scrapmsg["+row+"].smmatterNum' value='"+val+"' />"+
+			"<input type='hidden' name='list_scrapmsg["+row+"].smmatterDes' value='"+txt+"' />"+
+			"<input id='input_bugnum"+row+"' name='list_scrapbug["+row+"].xbugnums' type='hidden' />"+
+			"<input id='input_bugid"+row+"' name='list_scrapbug["+row+"].xbugids' type='hidden' />"+
+			"</td>"+
+			"<td>" +
+			"<a id='a_delsm"+row+"' onclick='delsm_click("+row+")' href='javascript:void(0);'>删除</a>" +
+			"</td>" +
+			"</tr>";
+	$("#tab_scrapmsg").append(xhtml);
 }
 </script>

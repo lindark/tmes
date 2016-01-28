@@ -14,6 +14,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -51,6 +52,7 @@ public class CartonAction extends BaseAdminAction {
 	private String show;
 	private String info;
 	private String loginid;//当前登录人
+	private String isRecord;//纸箱收货记录
 
 	@Resource
 	private CartonService cartonService;
@@ -180,7 +182,6 @@ public class CartonAction extends BaseAdminAction {
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String ajlist() {
 		if(pager==null)
 		{
@@ -188,18 +189,45 @@ public class CartonAction extends BaseAdminAction {
 		}
 		pager.setOrderType(OrderType.desc);
 		pager.setOrderBy("modifyDate");
-		if (pager.is_search() == true && filters != null) 
-		{
-			// 需要查询条件
-			JSONObject filt = JSONObject.fromObject(filters);
-			Pager pager1 = new Pager();
-			Map m = new HashMap();
-			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-			pager.setRules(pager1.getRules());
-			pager.setGroupOp(pager1.getGroupOp());
+		if(isRecord==null){
+			isRecord="";
 		}
-		pager = this.cartonService.getCartonPager(pager,loginid);
+		if("Y".equals(isRecord)){
+			if (pager.is_search() == true) 
+			{
+				HashMap<String,String> mapcheck = new HashMap<String,String>();
+				if(Param != null){//普通搜索功能
+					if(!Param.equals("")){
+					//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+						JSONObject param = JSONObject.fromObject(Param);
+						String start = ThinkWayUtil.null2String(param.get("start"));
+						String end = ThinkWayUtil.null2String(param.get("end"));
+						String state = ThinkWayUtil.null2String(param.get("state"));//
+						String mntr = ThinkWayUtil.null2String(param.get("mntr"));//
+						mapcheck.put("start", start);
+						mapcheck.put("end", end);
+						mapcheck.put("state", state);
+						mapcheck.put("mntr", mntr);
+						pager = cartonService.findCartonByPager(pager,mapcheck);
+						System.out.println(pager.getList().size());
+					}
+				}
+				// 需要查询条件
+//				JSONObject filt = JSONObject.fromObject(filters);
+//				Pager pager1 = new Pager();
+//				Map m = new HashMap();
+//				m.put("rules", jqGridSearchDetailTo.class);
+//				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+//				pager.setRules(pager1.getRules());
+//				pager.setGroupOp(pager1.getGroupOp());
+			}else{
+				pager = this.cartonService.findByPager(pager);
+			}
+		}else if("".equals(isRecord)){
+			pager = this.cartonService.getCartonPager(pager,loginid);
+		}
+		
+		
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();
 		for (int i = 0; i < cartonList.size(); i++)
@@ -224,6 +252,13 @@ public class CartonAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
+	
+	public String recordList(){
+		return "record_list";
+	}
+	
+	
+	
 	
 	/**===========================================*/
 	public Carton getCarton() {
@@ -332,6 +367,14 @@ public class CartonAction extends BaseAdminAction {
 	public void setLoginid(String loginid)
 	{
 		this.loginid = loginid;
+	}
+
+	public String getIsRecord() {
+		return isRecord;
+	}
+
+	public void setIsRecord(String isRecord) {
+		this.isRecord = isRecord;
 	}
 
 }

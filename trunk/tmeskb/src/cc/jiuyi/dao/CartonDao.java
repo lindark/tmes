@@ -25,4 +25,8 @@ public interface CartonDao extends BaseDao<Carton, String>
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
+	/**
+	 * 根据条件查询
+	 */
+	public Pager findCartonByPager(Pager pager,HashMap<String,String> mapcheck);
 }

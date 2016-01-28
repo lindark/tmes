@@ -1,3 +1,4 @@
+
 package cc.jiuyi.service;
 
 import java.util.HashMap;
@@ -39,4 +40,7 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	public JSONArray showInoutJsonData(String[] strlen,String[] lavenlen);
 	
 	public JSONArray findInoutByJsonData(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen);
+
+
+	public List<WorkingInout> findWbinoutput(String wbid);
 }

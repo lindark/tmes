@@ -147,8 +147,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		
 		/**班组下班**/
 		Team team = admin.getDepartment().getTeam();//取得班组
-		team.setIsWork("N");
-		
 		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
 		for(int i=0;i<adminList.size();i++){
 			Admin admin1 = adminList.get(i);
@@ -174,10 +172,16 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			admin1.setWorkstate("1");//未上班
 			admin1.setProductDate(null);
 			admin1.setShift(null);
+			admin1.setIsdaiban("N");
+			admin1.setModifyDate(new Date());
 			adminService.update(admin1);//人员下班
 		}
 		
-		
+		/**班组下班*/
+		team.setIsWork("N");
+		team.setIscancreditcard("Y");
+		team.setModifyDate(new Date());
+		this.teamService.update(team);
 	}
 	
 	public void updateHandOver(String handoverid,String mblnr,Admin admin){
@@ -214,5 +218,52 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			return 2;
 		}
 		return 3;
+	}
+
+
+	/**
+	 * 下班
+	 */
+	public void mergeGoOffWork(String sameTeamId)
+	{
+		List<Admin>list=this.adminService.getByTeamId(sameTeamId);
+		Team t=this.teamService.get(sameTeamId);
+		/**添加考勤记录*/
+		for(int i=0;i<list.size();i++)
+		{
+			Admin a=list.get(i);
+			Post p=a.getPost();
+			Kaoqin kq=new Kaoqin();
+			kq.setCardNumber(a.getCardNumber());//卡号
+			kq.setClasstime(a.getShift());//班次
+			kq.setEmpname(a.getName());//名字
+			kq.setWorkState(a.getWorkstate());//工作状态
+			//技能名称
+			if(p!=null)
+			{
+				kq.setPostname(p.getPostName());
+			}
+			else
+			{
+				kq.setPostname("");
+			}
+			kq.setTeam(t.getTeamName());//班组名称
+			kq.setCreateDate(new Date());
+			kq.setModifyDate(new Date());
+			this.save(kq);
+			
+			/**员工下班*/
+			a.setWorkstate("1");//状态-默认为未上班
+			a.setIsdaiban("N");//是否代班默认为N
+			a.setModifyDate(new Date());//修改日期
+			a.setProductDate(null);//生产日期
+			a.setShift(null);//班次
+			this.adminService.update(a);
+		}
+		/**班组下班*/
+		t.setIsWork("N");
+		t.setIscancreditcard("Y");
+		t.setModifyDate(new Date());
+		this.teamService.update(t);
 	}
 }

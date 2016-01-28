@@ -1,5 +1,6 @@
 //var isstartteam="";
-var iscancreditcard=""
+var iscancreditcard="";
+var iswork="";
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -195,6 +196,7 @@ jQuery(function($) {
 	/***=================================================================***/
 	//isstartteam=$("#isstartteam").val();
 	iscancreditcard=$("#iscancreditcard").val();
+	iswork=$("#iswork").val();
 	//初始化操作事件
 	//按钮事件
 	btn_style();
@@ -220,6 +222,11 @@ function btn_event()
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	//下班
+	$("#btn_gooffwork").click(function(){
+		gooffwork_event();
+	});
+	
 }
 
 //编辑事件
@@ -334,6 +341,7 @@ function startWorking()
 			{
 				$.message(data.status,data.message);
 				iscancreditcard="N";
+				iswork="Y";
 				$("#span_startkaoqin").text("考勤已开启");
 				$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
 			}
@@ -367,6 +375,38 @@ function clickandcredit()
 	{
 		//考勤未开启,不可以点击及刷卡
 		layer.alert("考勤未开启!",{icon:5,skin:'error'});
+	}
+}
+
+//下班
+function gooffwork_event()
+{
+	var $img_startkaoqi=$("#img_startkaoqin");
+	if(iswork=="N")
+	{
+		layer.alert("班组未上班,无需下班!",{icon:5,skin:'error'});
+	}
+	else if(iswork=="Y")
+	{
+		var url="kaoqin!creditundo.action?sameTeamId="+$("#sameteamid").val();
+		credit.creditCard(url,function(data){
+			if(data.status=="success")
+			{
+				$.message(data.status,data.message);
+				iswork="N";
+				iscancreditcard="Y";
+				$("#span_startkaoqin").text("考勤未开启");
+				$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+				$("#grid-table").trigger("reloadGrid");
+			}
+			else
+			{
+				layer.alert(data.message, {
+			        icon:5,
+			        skin:'error'
+			    },function(){layer.closeAll();});
+			}
+		});
 	}
 }
 
@@ -409,11 +449,11 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$btnadd.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:1px 3px 3px #CD8162;margin-top:8px;");
 	});
 	//鼠标按下之后抬起事件
 	$btnadd.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 	
 	//开启考勤
@@ -429,30 +469,49 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$btnopen.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
 	});
 	//鼠标按下之后抬起事件
 	$btnopen.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 
 	//点击后刷卡
-	var $btnopen=$("#btn_clickandcredit");
+	var $clickandcredit=$("#btn_clickandcredit");
 	//鼠标移到按钮上时事件
-	$btnopen.mouseover(function(){
+	$clickandcredit.mouseover(function(){
 		$(this).attr("style","background-color:#FF8C69;");
 	});
 	//鼠标移开按钮时事件
-	$btnopen.mouseout(function(){
+	$clickandcredit.mouseout(function(){
 		$(this).attr("style","background-color:#FFD39B;");
 	});
 	//鼠标按下按钮事件
-	$btnopen.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+	$clickandcredit.mousedown(function(){
+		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
 	});
 	//鼠标按下之后抬起事件
-	$btnopen.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+	$clickandcredit.mouseup(function(){
+		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+	});
+	
+	//刷卡下班
+	var $gooffwork=$("#btn_gooffwork");
+	//鼠标移到按钮上时事件
+	$gooffwork.mouseover(function(){
+		$(this).attr("style","background-color:#FF8C69;");
+	});
+	//鼠标移开按钮时事件
+	$gooffwork.mouseout(function(){
+		$(this).attr("style","background-color:#FFD39B;");
+	});
+	//鼠标按下按钮事件
+	$gooffwork.mousedown(function(){
+		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+	});
+	//鼠标按下之后抬起事件
+	$gooffwork.mouseup(function(){
+		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 }
 

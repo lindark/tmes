@@ -36,7 +36,6 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
-import cc.jiuyi.service.ScrapMessageService;
 import cc.jiuyi.service.ScrapOutService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.WorkingBillService;
@@ -90,8 +89,6 @@ public class ScrapAction extends BaseAdminAction
 	private DictService dictService;//字典表
 	@Resource
 	private CauseService causeService;//缺陷
-	@Resource
-	private ScrapMessageService smService;//报废信息表
 	@Resource
 	private BomService bomservice;
 	@Resource
@@ -272,7 +269,7 @@ public class ScrapAction extends BaseAdminAction
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
-		//获取维护物料信息
+		/**获取维护物料信息*/
 		List<Material> ml= materialservice.getAll();
 		if(ml!=null && ml.size()>0){
 			for(int y=0;y<l_material.size();y++){
@@ -286,27 +283,6 @@ public class ScrapAction extends BaseAdminAction
 							}
 						}
 						if(f){
-							ScrapMessage sm=this.smService.getBySidAndMid(id,bom.getMaterialCode());//根据scrap表id和物料表id查询报废信息
-							if(sm!=null)
-							{
-								bom.setXsmreson(sm.getSmreson());//原因
-								bom.setXmenge(sm.getMenge());//数量
-								bom.setXsmduty(sm.getSmduty());//责任划分
-								bom.setXsmid(sm.getId());
-								List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
-								String sbids="",sbnums="";
-								for(int j=0;j<l_sbug.size();j++)
-								{
-									ScrapBug sb=l_sbug.get(j);
-									if(sb!=null)
-									{
-										sbids=sbids+sb.getCauseId()+",";
-										sbnums=sbnums+sb.getSbbugNum()+",";
-									}
-								}
-								bom.setXsbids(sbids);//缺陷ids
-								bom.setXsbnums(sbnums);//缺陷数量
-							}
 							list_material.add(bom);	
 						}
 						break;
@@ -314,36 +290,47 @@ public class ScrapAction extends BaseAdminAction
 				}
 			}
 		}
-		
-		/*for(int i=0;i<l_material.size();i++)
+		list_so=new ArrayList<ScrapOut>();
+		if(list_material.size()>0)
 		{
-			Bom m=l_material.get(i);
-			if(m!=null)
+			for(int i=0;i<list_material.size();i++)
 			{
-				ScrapMessage sm=this.smService.getBySidAndMid(id,m.getMaterialCode());//根据scrap表id和物料表id查询报废信息
-				if(sm!=null)
+				Bom m=list_material.get(i);
+				//根据物料编码查询产品编码
+				ScrapOut so=this.soService.getByMaterialCode(m.getMaterialCode());
+				if(so!=null)
 				{
-					m.setXsmreson(sm.getSmreson());//原因
-					m.setXmenge(sm.getMenge());//数量
-					m.setXsmduty(sm.getSmduty());//责任划分
-					m.setXsmid(sm.getId());
-					List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
-					String sbids="",sbnums="";
-					for(int j=0;j<l_sbug.size();j++)
-					{
-						ScrapBug sb=l_sbug.get(j);
-						if(sb!=null)
-						{
-							sbids=sbids+sb.getCauseId()+",";
-							sbnums=sbnums+sb.getSbbugNum()+",";
-						}
-					}
-					m.setXsbids(sbids);//缺陷ids
-					m.setXsbnums(sbnums);//缺陷数量
+					list_so.add(so);
 				}
-				list_material.add(m);
 			}
-		}*/
+		}
+		
+		/**查询已有的报废信息*/
+		Scrap s=this.scrapService.get(id);
+		list_scrapmsg=new ArrayList<ScrapMessage>();
+		List<ScrapMessage>smlist=new ArrayList<ScrapMessage>(s.getScrapMsgSet());
+		if(smlist.size()>0)
+		{
+			for(int i=0;i<smlist.size();i++)
+			{
+				ScrapMessage sm=smlist.get(i);
+				List<ScrapBug> l_sbug=new ArrayList<ScrapBug>(sm.getScrapBug());//获取一个物料对应的报废原因
+				String sbids="",sbnums="";
+				for(int j=0;j<l_sbug.size();j++)
+				{
+					ScrapBug sb=l_sbug.get(j);
+					if(sb!=null)
+					{
+						sbids=sbids+sb.getCauseId()+",";
+						sbnums=sbnums+sb.getSbbugNum()+",";
+					}
+				}
+				sm.setXsbids(sbids);
+				sm.setXsbnums(sbnums);
+				sm.setXsmduty(this.dictService.getByState("scrapMessageType",sm.getSmduty()));
+				this.list_scrapmsg.add(sm);
+			}
+		}
 		this.list_dict=this.dictService.getState("scrapMessageType");//责任类型
 		this.list_cause=this.causeService.getBySample("4");//报废原因内容
 		this.scrap=this.scrapService.get(id);

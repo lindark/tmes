@@ -209,17 +209,6 @@ public class WorkingBillAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
-	/**
-	 * 获取数据前
-	 * 首页中点击其中一个随工单后显示其投入产出数据
-	 * @return
-	 */
-	public String beforegetwbinoutput()
-	{
-		wbid=id;
-		return "inoutput";
-	}
-	
 	public WorkingBill getWorkingbill() {
 		return workingbill;
 	}

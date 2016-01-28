@@ -261,6 +261,44 @@ jQuery(function($) {
 			}
 		}
 	)
+	
+	
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			location.href="daily_work!view.action?id="+id;
+		}
+	});
 
 
 });
+
+
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id==null||id=="")
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+}

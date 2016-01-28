@@ -43,7 +43,7 @@ jQuery(function($) {
 			
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',label:"入库时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'storageAmount',label:"入库箱数",width:80,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
+			{name:'storageAmount',label:"入库数",width:80,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
 			{name:'ex_mblnr',label:"凭证号",index:'ex_mblnr', width:120,sortable:"true",sorttype:"text"},
 			{name:'batch',label:"批次",index:'batch', width:80,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},

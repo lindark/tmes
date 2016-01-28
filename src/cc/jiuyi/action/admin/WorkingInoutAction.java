@@ -103,6 +103,19 @@ public class WorkingInoutAction extends BaseAdminAction {
 	}
 	
 	/**
+	 * 获取数据前
+	 * 首页中点击其中一个随工单后显示其投入产出数据
+	 * @return
+	 */
+	public String beforegetwbinoutput()
+	{
+		wbid=id;
+		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+		jsondata = jsonarray.toString();
+		return "ioput";
+	}
+	
+	/**
 	 * 获取数据
 	 * 首页中点击其中一个随工单后显示其投入产出数据
 	 * @return

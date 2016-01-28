@@ -24,6 +24,7 @@ public class UnitConversion extends BaseEntity{
     private Double lastconversationRatio;//兑换后比例
     private String state;//状态
     private String matnr;//物料编码
+    private String maktx;//物料描述
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     
@@ -89,6 +90,12 @@ public class UnitConversion extends BaseEntity{
 	}
 	public void setLastconversationRatio(Double lastconversationRatio) {
 		this.lastconversationRatio = lastconversationRatio;
+	}
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 	
 }

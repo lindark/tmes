@@ -1,9 +1,7 @@
 package cc.jiuyi.action.admin;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,22 +10,18 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.AccessObject;
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
-import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import net.sf.json.JSONArray;
@@ -35,19 +29,13 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.compass.core.json.JsonObject;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.UrlValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
@@ -64,6 +52,7 @@ public class WorkingBillAction extends BaseAdminAction {
 	private String aufnr;
 	private String start;
 	private String end;
+	private String wbid;
 
 	@Resource
 	private WorkingBillService workingbillService;
@@ -219,7 +208,18 @@ public class WorkingBillAction extends BaseAdminAction {
 		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}
-
+	
+	/**
+	 * 获取数据前
+	 * 首页中点击其中一个随工单后显示其投入产出数据
+	 * @return
+	 */
+	public String beforegetwbinoutput()
+	{
+		wbid=id;
+		return "inoutput";
+	}
+	
 	public WorkingBill getWorkingbill() {
 		return workingbill;
 	}
@@ -260,5 +260,13 @@ public class WorkingBillAction extends BaseAdminAction {
 		this.end = end;
 	}
 
+	public String getWbid()
+	{
+		return wbid;
+	}
 
+	public void setWbid(String wbid)
+	{
+		this.wbid = wbid;
+	}
 }

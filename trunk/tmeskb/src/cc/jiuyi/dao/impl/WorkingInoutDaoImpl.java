@@ -40,7 +40,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 				.uniqueResult();
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<WorkingInout> findPagerByWorkingBillInout(
 			HashMap<String, String> map) {
 		if (!map.get("workingBillCode").equals("")) {
@@ -52,6 +52,17 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		}
 		
 		
+	}
+
+	/**
+	 * 获取数据
+	 * 首页中点击其中一个随工单后显示其投入产出数据
+	 */
+	@SuppressWarnings("unchecked")
+	public List<WorkingInout> findWbinoutput(String wbid)
+	{
+		String hql = "from WorkingInout where workingbill.id=?";
+		return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0,wbid).list();
 	}
 
 }

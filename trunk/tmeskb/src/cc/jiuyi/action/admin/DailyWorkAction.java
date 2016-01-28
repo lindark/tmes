@@ -61,6 +61,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private List<Process> allProcess;
 	private String cardnumber;// 刷卡卡号
 	private Integer ratio;// 箱与个的转换比率
+	private String module;//模具
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -103,6 +104,15 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String history() {
 		return "history";
 	}
+	
+	// 查看
+	public String view() {
+		dailyWork = dailyWorkService.load(id);
+		workingbill = dailyWork.getWorkingbill();	
+		module = ThinkWayUtil.getDictValueByDictKey(dictService,
+				"moudleType", dailyWork.getMoudle());
+		return VIEW;
+	}	
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
@@ -447,6 +457,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setRatio(Integer ratio) {
 		this.ratio = ratio;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 	
 	

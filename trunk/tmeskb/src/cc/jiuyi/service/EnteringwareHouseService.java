@@ -39,7 +39,7 @@ public interface EnteringwareHouseService extends
 	public List<EnteringwareHouse> getByBill(String workingBillId);
 
 	public void updateState(List<EnteringwareHouse> list, String statu,
-			WorkingBill workingbill, Integer ratio, String cardnumber);
+			WorkingBill workingbill,String cardnumber);
 	
 	public String getCharg(WorkingBill workingbill);
 }

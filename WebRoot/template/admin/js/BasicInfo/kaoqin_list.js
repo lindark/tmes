@@ -344,6 +344,7 @@ function startWorking()
 				iswork="Y";
 				$("#span_startkaoqin").text("考勤已开启");
 				$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
+				$("#grid-table").trigger("reloadGrid");
 			}
 		});
 	}
@@ -355,7 +356,7 @@ function clickandcredit()
 	//考勤已开启,可以点击并刷卡
 	if(iscancreditcard=="N")
 	{
-		var url="kaoqin!creditapproval.action?sameTeamId="+$("#sameteamid").val();
+		var url="kaoqin!creditapproval.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val();
 		credit.creditCard(url,function(data){
 			if(data.status=="success")
 			{

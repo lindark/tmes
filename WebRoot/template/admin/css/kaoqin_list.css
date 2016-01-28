@@ -4,7 +4,7 @@
 {
 	cursor:pointer;
 	height:40px;
-	width:145px;
+	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -19,7 +19,7 @@
 {
 	cursor:pointer;
 	height:40px;
-	width:145px;
+	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -34,7 +34,7 @@
 {
 	cursor:pointer;
 	height:40px;
-	width:145px;
+	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -49,7 +49,7 @@
 {
 	cursor:pointer;
 	height:40px;
-	width:145px;
+	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
 	font-size: 16px;
@@ -61,10 +61,10 @@
 	position: absolute;
 }
 .div-height{height:226px;}
-.div-btn{margin-left:20px;display: inline;}
-.div-btn2{margin-left:20px;display: inline;}
-.div-btn3{margin-left:20px;display: inline;}
-.div-btn4{margin-left:20px;display: inline;}
+.div-btn{margin-left:10px;display: inline;}
+.div-btn2{margin-left:10px;display: inline;}
+.div-btn3{margin-left:10px;display: inline;}
+.div-btn4{margin-left:10px;display: inline;}
 .tabtd{text-align:center;}
 .btn_tab{text-align:left;}
 .a_edit{cursor: pointer;}

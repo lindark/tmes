@@ -29,6 +29,7 @@ import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -55,11 +56,14 @@ public class DumpAction extends BaseAdminAction {
 	private String cardnumber;// 刷卡卡号
 	private String loginid;//当前登录人id
 	private String type;
+	private String isRecord;
 
 	@Resource
 	private DumpRfc dumpRfc;
 	@Resource
 	private DumpService dumpService;
+	@Resource
+	private DumpDetailService dumpDetailService;
 	@Resource
 	private DictService dictService;
 	@Resource
@@ -79,7 +83,7 @@ public class DumpAction extends BaseAdminAction {
 				.getWarehouseName();
 		return "list";
 	}
-
+	
 	// 历史转储记录
 	public String history() {
 		return "history";
@@ -323,6 +327,85 @@ public class DumpAction extends BaseAdminAction {
 		}
 	}
 
+	
+	public String recordList(){
+		return "record_list";
+	}
+	public String recordAjlist(){
+		if(pager==null){
+			pager = new Pager();
+		}
+		List<DumpDetail> dumpsList = new ArrayList<DumpDetail>();
+		try {
+			if (pager.is_search() == true) 
+			{
+				HashMap<String,String> mapcheck = new HashMap<String,String>();
+				if(Param != null){//普通搜索功能
+					if(!Param.equals("")){
+					//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+						JSONObject param = JSONObject.fromObject(Param);
+						String materialCode = ThinkWayUtil.null2String(param.get("materialCode"));
+						String materialName = ThinkWayUtil.null2String(param.get("materialName"));
+						String voucherId = ThinkWayUtil.null2String(param.get("voucherId"));//
+						String start = ThinkWayUtil.null2String(param.get("start"));//
+						String end = ThinkWayUtil.null2String(param.get("end"));//
+						mapcheck.put("start", start);
+						mapcheck.put("end", end);
+						mapcheck.put("materialCode", materialCode);
+						mapcheck.put("materialName", materialName);
+						mapcheck.put("voucherId", voucherId);
+						pager = dumpDetailService.findDumpDetailByPager(pager,mapcheck);
+					}
+				}
+				for(int i = 0; i < pager.getList().size(); i++){
+					DumpDetail dd = (DumpDetail)pager.getList().get(i);
+					if (dd.getState() != null && !"".equals(dd.getState())) {
+						dd.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+								dictService, "dumpState", dd.getState()));
+					}
+					if (dd.getDump().getConfirmUser() != null) {
+						dd.setAdminName(dd.getDump().getConfirmUser().getName());
+					}
+					dumpsList.add(dd);
+				}
+			}else{
+				List<Dump> dpList = dumpService.getAll();
+				for (int i = 0; i < dpList.size(); i++) {
+					Dump dump = (Dump) dpList.get(i);
+					Set<DumpDetail> dds = dump.getDumpDetail();
+					if(dds!=null){
+						for(DumpDetail dd : dds){
+							if (dd.getState() != null && !"".equals(dd.getState())) {
+								dd.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+										dictService, "dumpState", dd.getState()));
+							}
+							if (dump.getConfirmUser() != null) {
+								dd.setAdminName(dump.getConfirmUser().getName());
+							}
+							dumpsList.add(dd);
+						}
+					}
+				}
+			}
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(dumpsList, jsonConfig);
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("list", jsonArray);
+			return ajaxJson(jsonobject.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+		}
+	
+	}
+	
+	
+	
+	
+	
+	
 	public Dump getDump() {
 		return dump;
 	}
@@ -409,6 +492,14 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getIsRecord() {
+		return isRecord;
+	}
+
+	public void setIsRecord(String isRecord) {
+		this.isRecord = isRecord;
 	}
 
 	

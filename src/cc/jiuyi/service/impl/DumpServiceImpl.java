@@ -79,6 +79,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 			for (int j = 0; j < dDList.size(); j++) {
 				DumpDetail dumpDetail = dDList.get(j);
 				dumpDetail.setDump(dump);
+				dumpDetail.setState(dump.getState());
+				dumpDetail.setDeliveryDate(dump.getDeliveryDate());
 				dumpDetailService.merge(dumpDetail);
 			}
 		}

@@ -67,4 +67,54 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 		return super.findByPager(pager, detachedCriteria);
 	}
 
+	@Override
+	public Pager findCartonByPager(Pager pager, HashMap<String, String> mapcheck) {
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Carton.class);
+		//pagerSqlByjqGrid(pager, detachedCriteria);
+		if (mapcheck.size() > 0) {
+			if (mapcheck.get("state") != null && !"".equals(mapcheck.get("state"))) {
+				detachedCriteria.add(Restrictions.eq(
+						"state",
+						mapcheck.get("state")));
+			}	
+			if(mapcheck.get("start")!=null && !"".equals(mapcheck.get("start")) && mapcheck.get("end")!=null && !"".equals(mapcheck.get("end"))){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				try{
+					String d1 = mapcheck.get("start")+" 00:00:00";
+					Date start=sdf.parse(d1);
+					String d = mapcheck.get("end")+" 23:59:59";
+					Date end=sdf.parse(d);
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}else if((mapcheck.get("start")==null || "".equals(mapcheck.get("start"))) && (mapcheck.get("end")!=null && !"".equals(mapcheck.get("end")))){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				try{
+					String d = mapcheck.get("end")+" 23:59:59";
+					Date end=sdf.parse(d);
+					detachedCriteria.add(Restrictions.le("createDate", end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}else if((mapcheck.get("start")!=null && !"".equals(mapcheck.get("start"))) && (mapcheck.get("end")==null || "".equals(mapcheck.get("end")))){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(mapcheck.get("start"));
+					detachedCriteria.add(Restrictions.ge("createDate", start));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			if (mapcheck.get("mntr") != null && !"".equals(mapcheck.get("mntr"))) {
+				detachedCriteria.add(Restrictions.eq(
+						"EX_MBLNR",
+						mapcheck.get("mntr")));
+			}
+		}
+		return super.findByPager(pager, detachedCriteria);
+		
+	}
+
 }

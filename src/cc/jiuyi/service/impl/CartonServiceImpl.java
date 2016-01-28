@@ -408,4 +408,10 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		}
 		return list_cs;
 	}
+
+	@Override
+	public Pager findCartonByPager(Pager pager, HashMap<String, String> mapcheck) {
+		
+		return cartonDao.findCartonByPager(pager, mapcheck);
+	}
 }

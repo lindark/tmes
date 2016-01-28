@@ -29,4 +29,11 @@ public class DumpDetailServiceImpl extends BaseServiceImpl<DumpDetail, String>
 		return dumpDetailDao.findPagerByjqGrid(pager, map,dumpId);
 	}
 
+	@Override
+	public Pager findDumpDetailByPager(Pager pager,
+			HashMap<String, String> mapcheck) {
+		// TODO Auto-generated method stub
+		return dumpDetailDao.findDumpDetailByPager(pager, mapcheck);
+	}
+
 }

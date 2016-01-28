@@ -8,13 +8,14 @@
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
-		<script type="text/javascript" src="${base}/template/admin/js/manage/carton_list.js"></script>
+		<script type="text/javascript" src="${base}/template/admin/js/manage/carton_recordList.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
 	<body class="no-skin list">
 	<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />"/>
+		<input type="hidden" id="isRecord" value="${(isRecord)!''}">
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -53,20 +54,42 @@
 
 					<div class="row">
 						<div class="col-xs-12">
+						<form class="form-horizontal" id="searchform" action="carton!ajlist.action?isRecord=${(isRecord)!''}" role="form">
+						<div class="operateBar">
+								   	<div class="form-group">
+										<label class="col-sm-2" style="text-align:right">物料凭证号:</label>
+										<div class="col-sm-2">
+											<input type="text" name="mntr" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-2" style="text-align:right">生产日期:</label>
+										<div class="col-sm-3">
+											<div class="input-daterange input-group">
+												<input type="text" class="input-sm form-control datePicker" name="start" id="startDate">
+												<span class="input-group-addon changeDate">
+													<i class="fa fa-exchange"></i>
+												</span>
+												<input type="text" class="input-sm form-control datePicker" name="end" id="endDate">
+											</div>
+										</div>
+										<label class="col-sm-1" style="text-align:right">状态:</label>
+										<div class="col-sm-2">
+											<select name="state" class="form-control">
+												<option value="">所有</option>
+												<option value="2">未确认</option>
+												<option value="1">已确认</option>
+											</select>
+										</div>
+									</div>
+										<div class="form-group" style="text-align:center">
+											<a  id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>
+										</div>
+							</form>			
+									</div>
 							<!-- ./ add by weitao  -->
 							<div class="row buttons col-md-8 col-sm-4">
-								<a id="btn_creat" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-folder-open-o"></i>
-									创建纸箱收货单
-								</a>
-								<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-cloud-upload"></i>
-									刷卡确认
-								</a>
-								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon glyphicon glyphicon-edit"></i>
-									编辑
-								</a>
 								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看

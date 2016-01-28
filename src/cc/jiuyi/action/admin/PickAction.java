@@ -150,6 +150,10 @@ public class PickAction extends BaseAdminAction {
 			if (pick.getCreateUser() != null) {
 				pick.setXcreateUser(pick.getCreateUser().getName());
 			}
+			if (pick.getMove_type() != null) {
+				pick.setMove_type(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "pickType", pick.getMove_type()));
+			}
 			lst.add(pick);
 		}
 		pager.setList(lst);

@@ -612,7 +612,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" >
+								<a href="dump!recordList.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
 									转储确认记录
 								</a>
@@ -620,7 +620,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" >
+								<a href="carton!recordList.action?isRecord=Y" >
 									<i class="menu-icon fa fa-caret-right"></i>
 									纸箱收货记录
 								</a>

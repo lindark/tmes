@@ -27,10 +27,10 @@ public interface DailyWorkService extends BaseService<DailyWork, String>,Working
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 
 	// 刷卡确认
-	public void updateState(List<DailyWork> list, String state,String workingbillid,String ratio,
+	public void updateState(List<DailyWork> list, String state,String workingbillid,
 			String cardnumber) throws IOException, CustomerException;
 
 	// 刷卡撤销
-	public void updateState2(List<DailyWork> list,String state,String workingbillid,String ratio,
+	public void updateState2(List<DailyWork> list,String state,String workingbillid,
 			String cardnumber) throws IOException, CustomerException;
 }

@@ -63,11 +63,11 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * 点击后刷卡
 	 * @param cardnumber
 	 */
-	public int updateWorkStateByCreidt(String cardnumber,String teamid);
+	public int updateWorkStateByCreidt(String cardnumber,String teamid,String loginid);
 
 	/**
 	 * 下班
 	 * @param sameTeamId
 	 */
-	public void mergeGoOffWork(String sameTeamId);
+	public String mergeGoOffWork(String sameTeamId);
 }

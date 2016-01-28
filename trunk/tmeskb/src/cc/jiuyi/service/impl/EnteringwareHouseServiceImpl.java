@@ -55,12 +55,11 @@ public class EnteringwareHouseServiceImpl extends
 
 	@Override
 	public synchronized void updateState(List<EnteringwareHouse> list,
-			String state, WorkingBill workingbill, Integer ratio, String cardnumber) {
+			String state, WorkingBill workingbill,String cardnumber) {
 		HashMap<String,Object> maps = new HashMap<String,Object>();
 		maps.put("workingbill",workingbill);
 		maps.put("state", state);
 		maps.put("cardno", cardnumber);
-		maps.put("ratio", ratio.toString());
 		
 		updateWorkingInoutCalculate(list,maps);
 
@@ -78,8 +77,6 @@ public class EnteringwareHouseServiceImpl extends
 		Admin admin = adminservice.getByCardnum(card);
 		WorkingBill workingbill=(WorkingBill)maps.get("workingbill");
 		String state=(String)maps.get("state");
-		String ratio=(String)maps.get("ratio");
-		Integer ratio1=Integer.parseInt(ratio);
 		Double totalamount = workingbill.getTotalSingleAmount();
 
 		if(state.equalsIgnoreCase("1")){//刷卡确定
@@ -91,7 +88,7 @@ public class EnteringwareHouseServiceImpl extends
 			totalamount = enteringwareHouse.getStorageAmount()+totalamount;
 			enteringwareHouse.setEx_mblnr(exmblnr);
 
-			enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
+			//enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 			enteringwareHouse.setConfirmUser(admin);
 			enteringwareHouse.setState(state);
 			this.update(enteringwareHouse);
@@ -107,7 +104,7 @@ public class EnteringwareHouseServiceImpl extends
 				enteringwareHouse.setEx_mblnr(enteringwareHouse.getEx_mblnr()+"/"+exmblnr);
 				enteringwareHouse.setConfirmUser(admin);
 				enteringwareHouse.setState(state);
-				enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
+				//enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 				this.update(enteringwareHouse);
 			}
 		}

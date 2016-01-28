@@ -147,41 +147,46 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		
 		/**班组下班**/
 		Team team = admin.getDepartment().getTeam();//取得班组
-		List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
-		for(int i=0;i<adminList.size();i++){
-			Admin admin1 = adminList.get(i);
-			Kaoqin kaoqin = new Kaoqin();
-			Post post = admin1.getPost();
-			String postname="";
-			if(post == null)
-				postname = "";//技能名称
-			else
-				postname = ThinkWayUtil.null2String(post.getPostName());
-			String cardNumber= admin1.getCardNumber();//卡号
-			String classtime = admin1.getShift();//班次
-			String empname = admin1.getName(); //名字
+		if("Y".equals(team.getIsWork()))
+		{
+			List<Admin> adminList = adminService.getByTeamId(admin.getDepartment().getTeam().getId());
+			for(int i=0;i<adminList.size();i++){
+				Admin admin1 = adminList.get(i);
+				Kaoqin kaoqin = new Kaoqin();
+				Post post = admin1.getPost();
+				String postname="";
+				if(post == null)
+					postname = "";//技能名称
+				else
+					postname = ThinkWayUtil.null2String(post.getPostName());
+				String cardNumber= admin1.getCardNumber();//卡号
+				String classtime = admin1.getShift();//班次
+				String empname = admin1.getName(); //名字
+				
+				String workState = admin1.getWorkstate();//工作状态
+				kaoqin.setCardNumber(cardNumber);
+				kaoqin.setClasstime(classtime);
+				kaoqin.setEmpname(empname);
+				kaoqin.setPostname(postname);
+				kaoqin.setTeam(team.getTeamName());
+				kaoqin.setWorkState(workState);
+				kaoqin.setProductdate(admin1.getProductDate());//生产日期
+				kaoqin.setEmpid(admin1.getId());//员工主键ID
+				this.save(kaoqin);
+				admin1.setWorkstate("1");//未上班
+				admin1.setProductDate(null);
+				admin1.setShift(null);
+				admin1.setIsdaiban("N");
+				admin1.setModifyDate(new Date());
+				adminService.update(admin1);//人员下班
+			}
 			
-			String workState = admin1.getWorkstate();//工作状态
-			kaoqin.setCardNumber(cardNumber);
-			kaoqin.setClasstime(classtime);
-			kaoqin.setEmpname(empname);
-			kaoqin.setPostname(postname);
-			kaoqin.setTeam(team.getTeamName());
-			kaoqin.setWorkState(workState);
-			this.save(kaoqin);
-			admin1.setWorkstate("1");//未上班
-			admin1.setProductDate(null);
-			admin1.setShift(null);
-			admin1.setIsdaiban("N");
-			admin1.setModifyDate(new Date());
-			adminService.update(admin1);//人员下班
+			/**班组下班*/
+			team.setIsWork("N");
+			team.setIscancreditcard("Y");
+			team.setModifyDate(new Date());
+			this.teamService.update(team);
 		}
-		
-		/**班组下班*/
-		team.setIsWork("N");
-		team.setIscancreditcard("Y");
-		team.setModifyDate(new Date());
-		this.teamService.update(team);
 	}
 	
 	public void updateHandOver(String handoverid,String mblnr,Admin admin){
@@ -196,7 +201,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 点击后刷卡
 	 */
-	public int updateWorkStateByCreidt(String cardnumber,String teamid)
+	public int updateWorkStateByCreidt(String cardnumber,String teamid,String loginid)
 	{
 		//根据卡号 班组ID查询
 		Admin a=this.adminService.getByCardnumAndTeamid(cardnumber,teamid);
@@ -205,6 +210,9 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			//过滤已上班的或者代班的
 			if(!"2".equals(a.getWorkstate())&&!"6".equals(a.getWorkstate()))
 			{
+				Admin a_login=this.adminService.get(loginid);
+				a.setShift(a_login.getShift());//班次
+				a.setProductDate(a_login.getProductDate());//生产日期
 				a.setWorkstate("2");
 				//是否是代班的
 				if(a.getIsdaiban().equals(teamid))
@@ -224,46 +232,53 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 下班
 	 */
-	public void mergeGoOffWork(String sameTeamId)
+	public String mergeGoOffWork(String sameTeamId)
 	{
 		List<Admin>list=this.adminService.getByTeamId(sameTeamId);
 		Team t=this.teamService.get(sameTeamId);
-		/**添加考勤记录*/
-		for(int i=0;i<list.size();i++)
+		if("Y".equals(t.getIsWork()))
 		{
-			Admin a=list.get(i);
-			Post p=a.getPost();
-			Kaoqin kq=new Kaoqin();
-			kq.setCardNumber(a.getCardNumber());//卡号
-			kq.setClasstime(a.getShift());//班次
-			kq.setEmpname(a.getName());//名字
-			kq.setWorkState(a.getWorkstate());//工作状态
-			//技能名称
-			if(p!=null)
+			/**添加考勤记录*/
+			for(int i=0;i<list.size();i++)
 			{
-				kq.setPostname(p.getPostName());
+				Admin a=list.get(i);
+				Post p=a.getPost();
+				Kaoqin kq=new Kaoqin();
+				kq.setCardNumber(a.getCardNumber());//卡号
+				kq.setClasstime(a.getShift());//班次
+				kq.setEmpname(a.getName());//名字
+				kq.setWorkState(a.getWorkstate());//工作状态
+				kq.setProductdate(a.getProductDate());//生产日期
+				kq.setEmpid(a.getId());//员工主键ID
+				//技能名称
+				if(p!=null)
+				{
+					kq.setPostname(p.getPostName());
+				}
+				else
+				{
+					kq.setPostname("");
+				}
+				kq.setTeam(t.getTeamName());//班组名称
+				kq.setCreateDate(new Date());
+				kq.setModifyDate(new Date());
+				this.save(kq);
+				
+				/**员工下班*/
+				a.setWorkstate("1");//状态-默认为未上班
+				a.setIsdaiban("N");//是否代班默认为N
+				a.setModifyDate(new Date());//修改日期
+				a.setProductDate(null);//生产日期
+				a.setShift(null);//班次
+				this.adminService.update(a);
 			}
-			else
-			{
-				kq.setPostname("");
-			}
-			kq.setTeam(t.getTeamName());//班组名称
-			kq.setCreateDate(new Date());
-			kq.setModifyDate(new Date());
-			this.save(kq);
-			
-			/**员工下班*/
-			a.setWorkstate("1");//状态-默认为未上班
-			a.setIsdaiban("N");//是否代班默认为N
-			a.setModifyDate(new Date());//修改日期
-			a.setProductDate(null);//生产日期
-			a.setShift(null);//班次
-			this.adminService.update(a);
+			/**班组下班*/
+			t.setIsWork("N");
+			t.setIscancreditcard("Y");
+			t.setModifyDate(new Date());
+			this.teamService.update(t);
+			return "s";
 		}
-		/**班组下班*/
-		t.setIsWork("N");
-		t.setIscancreditcard("Y");
-		t.setModifyDate(new Date());
-		this.teamService.update(t);
+		return "e";
 	}
 }

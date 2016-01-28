@@ -3,6 +3,8 @@ package cc.jiuyi.service;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+
 import cc.jiuyi.entity.WorkingInout;
 
 /**
@@ -26,4 +28,15 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	 * 根据搜索条件查询投入产出表
 	 */
 	public List<WorkingInout> findPagerByWorkingBillInout(HashMap<String,String> map);
+	
+	
+	/**
+	 * 根据 strlen 和 lavenlend 生成 TH 列
+	 * @param strlen
+	 * @param lavenlen
+	 * @return
+	 */
+	public JSONArray showInoutJsonData(String[] strlen,String[] lavenlen);
+	
+	public JSONArray findInoutByJsonData(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen);
 }

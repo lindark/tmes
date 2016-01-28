@@ -32,9 +32,10 @@ public class ScrapMessage extends BaseEntity
 	private String meins;//单位
 	private Set<ScrapBug>scrapBug;//报废原因表
 	
-	
 	//假字段
 	private String xsmduty;//责任划分描述
+	private String xsbnums;//缺陷数量
+	private String xsbids;//缺陷ID
 
 	/**get/set*/
 	@Column
@@ -150,6 +151,24 @@ public class ScrapMessage extends BaseEntity
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
 	}
-
 	
+	@Transient
+	public String getXsbnums()
+	{
+		return xsbnums;
+	}
+	public void setXsbnums(String xsbnums)
+	{
+		this.xsbnums = xsbnums;
+	}
+	
+	@Transient
+	public String getXsbids()
+	{
+		return xsbids;
+	}
+	public void setXsbids(String xsbids)
+	{
+		this.xsbids = xsbids;
+	}
 }

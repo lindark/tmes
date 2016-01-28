@@ -131,7 +131,13 @@
 						data = "";
 					var bool = url.indexOf("?");
 					var cardnubmer="";
-					credit.index= layer.msg('请刷卡', {icon: 16,time:0,shade:0.3},function(){
+					credit.index= layer.msg('请刷卡', {icon: 16,time:30000,shade:0.3,shadeClose:true},function(){
+						
+						if(typeof(credit.cardnumber) == "undefined"){
+							$('body').stopTime ();
+							return false;
+						}
+						
 						var index1;
 						if(bool >0)
 							cardnumber = "&cardnumber="+credit.cardnumber;
@@ -165,9 +171,16 @@
 					
 				},
 				"everyTime":function(sysdate){
+					var codenumber=0;
 					$('body').everyTime('1s','B',function(){//计划任务
 						$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 							if(data.status == "no"){//未找到
+								/*
+								codenumber++;
+								if(codenumber >=30){//执行30次，如果还无响应，报错
+									
+								}
+								*/
 								//layer.close(index);
 							}else if(data.status == "yes"){//已找到
 								$('body').stopTime ();

@@ -161,7 +161,7 @@ public class WorkingBillAction extends BaseAdminAction {
 	public String sync() {
 		System.out.println(aufnr+","+start+","+end);
 		try {
-			workingbillrfc.syncRepairorderAll("2016-01-09", "2016-01-09", "", "");
+			workingbillrfc.syncRepairorderAll(start, end, "", "",aufnr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

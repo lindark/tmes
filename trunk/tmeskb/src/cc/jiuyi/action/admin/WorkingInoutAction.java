@@ -3,8 +3,6 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,21 +12,10 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.HandOverProcess;
-import cc.jiuyi.entity.Process;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.entity.WorkingInout;
-import cc.jiuyi.service.BomService;
-import cc.jiuyi.service.HandOverProcessService;
-import cc.jiuyi.service.ProcessService;
-import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutService;
-import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -37,15 +24,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 4881226445354414940L;
 	@Resource
-	private ProcessService processservice;
-	@Resource
-	private HandOverProcessService handoverprocessservice;
-	@Resource
 	private WorkingInoutService workinginoutservice;
-	@Resource
-	private BomService bomservice;
-	@Resource
-	private WorkingBillService wbService;
 	private Pager pager;
 	private String start;
 	private String end;
@@ -96,7 +75,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		}
 		JSONArray jsonstr = new JSONArray();
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
-		jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen);
+		jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
 		
 		return ajaxJson(jsonstr.toString());
 	}
@@ -132,111 +111,9 @@ public class WorkingInoutAction extends BaseAdminAction {
 	{
 		JSONArray jsonstr = new JSONArray();
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
-		try{	
-			List<WorkingInout> workingInoutList = workinginoutservice.findWbinoutput(wbid);
-			for(int i=0;i<workingInoutList.size();i++){
-				JSONObject map = new JSONObject();
-				WorkingInout workinginout = workingInoutList.get(i);
-				WorkingBill workingbill = workinginout.getWorkingbill();
-				String aufnr = workingbill.getAufnr();
-				map.put(strlen[0], workingbill.getWorkingBillCode());
-				map.put(strlen[1], workinginout.getMaterialCode());
-				map.put(strlen[2], workingbill.getPlanCount());
-				map.put(strlen[3], workingbill.getAfteroddamount());//接上班零头数
-				map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常零头数
-				map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
-				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
-				map.put(strlen[8],workingbill.getBeforeoddamount());//交下班零头数
-				map.put(strlen[17],workingbill.getBeforeunoddamount());//交下班异常零头数
-				map.put(strlen[9],workinginout.getScrapNumber());//报废数
-				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
-				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
-				map.put(strlen[12],workingbill.getProductDate());//生产日期
-				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
-				map.put(strlen[14],workingbill.getAufnr());//生产订单号
-				
-				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
-				Double bomamount = 0.00d;
-				for(Bom bom :bomList){
-					bomamount +=bom.getMaterialAmount();
-				}
-				map.put(strlen[6],ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2));//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				
-				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
-				Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数
-				Double afterunoddamount = ThinkWayUtil.null2o(workingbill.getAfterunoddamount());//接上班异常零头数
-				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
-				Double beforeoddamount = ThinkWayUtil.null2o(workingbill.getBeforeoddamount());//交下班零头数
-				Double beforeunoddamount = ThinkWayUtil.null2o(workingbill.getBeforeunoddamount());//交下班异常零头数
-				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(afteroddamount, afterunoddamount),totalsingleamount),beforeoddamount),beforeunoddamount);//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
-				map.put(strlen[16],dbjyhgs);//当班检验合格数
-				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
-				
-				Double trzsl = 0.00d;
-				Double cczsl = 0.00d;
-				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getRecipientsAmount()));//领用数
-				trzsl = ArithUtil.sub(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
-				
-				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
-				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量
-				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
-				
-				for(int y=0;y<jsonarray.size();y++){
-					JSONObject json = (JSONObject) jsonarray.get(y);
-					String name = json.getString("name");
-					int firstls = StringUtils.indexOf(name, "GXJSBZC_");
-					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
-					if(firstls >= 0){//如果找到，表示是接上班工序交接
-						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
-						String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
-						Double zcjjsl = 0.00d;
-						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
-							map.put("GXJSBZC_"+processid,"0" );//正常交接数量
-							map.put("GXJSBFX_"+processid, "0");//返修交接数量
-						}
-						map.put("GXJSBZC_"+processid,zcjjsl);//正常交接数量
-						map.put("GXJSBFX_"+processid,fxjjsl);//返修交接数量
-						
-						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
-						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
-					}
-					if(firstls00>=0){//交下班
-						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
-						String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
-						Double zcjjsl = 0.00d;
-						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
-						}
-						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
-						map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
-						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
-						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
-					}
-					//int firstls1 = StringUtils
-					
-				}
-				
-				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
-				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数
-				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
-				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
-				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
-				jsonstr.add(map);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
+		HashMap<String,String> mapcheck = new HashMap<String,String>();
+		mapcheck.put("wbid", wbid);
+		jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,2);
 		return ajaxJson(jsonstr.toString());
 	}
 

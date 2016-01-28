@@ -114,6 +114,15 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String history() {
 		return "history";
 	}
+	
+	// 查看
+	public String view() {
+		enteringwareHouse = enteringwareHouseService.load(id);
+		workingbill = enteringwareHouse.getWorkingbill();	
+		/*module = ThinkWayUtil.getDictValueByDictKey(dictService,
+				"moudleType", dailyWork.getMoudle());*/
+		return VIEW;
+	}		
 
 	// 保存
 	public String creditsave() {

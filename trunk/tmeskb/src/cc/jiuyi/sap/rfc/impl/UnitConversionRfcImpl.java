@@ -30,6 +30,7 @@ public class UnitConversionRfcImpl extends BaserfcServiceImpl implements UnitCon
 			unit.setConversationRatio(t_data.getDouble("UMREZ"));//转换比例
 			unit.setConvertUnit("PC");//转换后的单位
 			unit.setLastconversationRatio(t_data.getDouble("UMREN"));//转换后比例
+			unit.setUnitDescription(t_data.getString("MSEHL"));
 			unit.setState("1");
 			unitConversionList.add(unit);
 		}

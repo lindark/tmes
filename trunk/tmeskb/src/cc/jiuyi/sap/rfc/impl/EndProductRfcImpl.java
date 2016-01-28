@@ -38,7 +38,7 @@ public class EndProductRfcImpl  extends BaserfcServiceImpl implements EndProduct
 			item.put("BUDAT",e.getBudate());//过账日期
 			item.put("WERKS",e.getWerks());//工厂
 			item.put("LGORT",e.getRepertorySite());//库存地点
-			
+			item.put("ZTEXT",e.getConfirmName());//确认人
 			item.put("MOVE_TYPE",e.getMoveType());//移动类型
 			item.put("XUH",e.getId());//ID
 			arrList.add(item);

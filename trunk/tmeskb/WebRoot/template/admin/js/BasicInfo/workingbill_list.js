@@ -70,6 +70,9 @@ jQuery(function($) {
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
+				
+				ceshi(table);
+				
 			}, 0);
 		},
 
@@ -78,6 +81,19 @@ jQuery(function($) {
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+	
+	function ceshi(table){
+		$(table).find("tr").bind("click",function(){
+			//alert("?");
+			
+		})
+		
+		$(table).find(".cbox").bind("click",function(){
+			var id=$(grid_selector).jqGrid('getGridParam','selrow');
+			var rowData = $(grid_selector).jqGrid('getRowData',id);
+			alert(rowData.matnr);
+		})
+	}
 	
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,

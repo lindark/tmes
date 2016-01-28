@@ -278,22 +278,22 @@
 													</button>
 													<ul class="dropdown-menu dropdown-success dropdown-menu-right">
 														<li>
-															<a href="#" id="pollingtest">成品巡检</a>
+															<a href="javascript:void(0);" id="pollingtest">成品巡检</a>
 														</li>
 	
 														<li>
-															<a href="#" id="sample">抽检</a>
+															<a href="javascript:void(0);" id="sample">抽检</a>
 														</li>
 	
 														<li>
-															<a href="#" id="halfinspection">半成品巡检</a>
+															<a href="javascript:void(0);" id="halfinspection">半成品巡检</a>
 														</li>
 														
 														<li>
-															<a href="#" id="rework">返工</a>
+															<a href="javascript:void(0);" id="rework">返工</a>
 														</li>
 														<li>
-															<a href="#" id="scrap">报废</a>
+															<a href="javascript:void(0);" id="scrap">报废</a>
 														</li>
 														
 													</ul>

@@ -130,66 +130,34 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scp.setModifyDate(new Date());//修改日期
 		scp.setState("1");
 		this.update(scp);//执行修改
-		/**修改报废信息表，及对应bug表*/
-		if(list_scrapmsg!=null)
+		/**删除报废信息表,及对应bug表*/
+		List<ScrapMessage>old_listsm=new ArrayList<ScrapMessage>(scp.getScrapMsgSet());
+		if(old_listsm.size()>0)
 		{
-			for(int i=0;i<list_scrapmsg.size();i++)
+			for(int i=0;i<old_listsm.size();i++)
 			{
-				ScrapMessage newsm=list_scrapmsg.get(i);
-				if(newsm.getId()!=null&&!"".equals(newsm.getId()))
+				ScrapMessage oldsm=old_listsm.get(i);
+				/**先删除bug表*/
+				List<ScrapBug>old_sbug=new ArrayList<ScrapBug>(oldsm.getScrapBug());
+				for(int i2=0;i2<old_sbug.size();i2++)
 				{
-					ScrapMessage sm1=this.smsgService.get(newsm.getId());
-					List<ScrapBug>l_sbug=new ArrayList<ScrapBug>(sm1.getScrapBug());
-					for(int i2=0;i2<l_sbug.size();i2++)
+					ScrapBug s=old_sbug.get(i2);
+					if(s!=null)
 					{
-						ScrapBug s=l_sbug.get(i2);
-						if(s!=null)
-						{
-							this.sbugService.delete(s.getId());
-						}
-					}
-					if(newsm.getSmreson()!=null&&!"".equals(newsm.getSmreson()))
-					{
-						//1.1修改报废信息
-						sm1.setSmduty(newsm.getSmduty());
-						sm1.setSmreson(newsm.getSmreson());
-						sm1.setMenge(newsm.getMenge());
-						sm1.setSmmatterNum(newsm.getSmmatterNum());
-						sm1.setSmmatterDes(newsm.getSmmatterDes());
-						sm1.setModifyDate(new Date());
-						this.smsgService.update(sm1);
-						
-						/**报废原因表*/
-						ScrapBug newsb=list_scrapbug.get(i);
-						String[] newsbids=newsb.getXbugids().split(",");//缺陷id
-						String[] newsbnums=newsb.getXbugnums().split(",");//缺陷描述
-						for(int j=0;j<newsbids.length;j++)
-						{
-							if(newsbids[j]!=null&&!"".equals(newsbids[j]))
-							{
-								Cause cause=this.causeService.get(newsbids[j]);
-								//2.2新增报废原因
-								ScrapBug sb2=new ScrapBug();
-								sb2.setCreateDate(new Date());//初始化创建日期
-								sb2.setCauseId(newsbids[j]);//缺陷ID
-								sb2.setSbbugNum(newsbnums[j]);//缺陷数量
-								sb2.setSbbugContent(cause.getCauseName());//缺陷描述
-								sb2.setScrapMessage(sm1);//报废信息表对象
-								this.sbugService.save(sb2);
-							}
-						}
-					}
-					else
-					{
-						//1.2删除报废信息
-						this.smsgService.delete(sm1.getId());
+						this.sbugService.delete(s.getId());
 					}
 				}
-				else
-				{
-					//1.3新增报废信息
-					myadd(list_scrapmsg,list_scrapbug,scp,i);
-				}
+				/**再删除报废信息表*/
+				this.smsgService.delete(oldsm.getId());
+			}
+		}
+		
+		/**添加报废信息及bug*/
+		if (list_scrapmsg != null)
+		{
+			for (int i = 0; i < list_scrapmsg.size(); i++)
+			{
+				myadd(list_scrapmsg,list_scrapbug,scp,i);
 			}
 		}
 			

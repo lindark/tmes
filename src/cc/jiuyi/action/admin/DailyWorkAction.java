@@ -60,7 +60,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private Admin admin;
 	private List<Process> allProcess;
 	private String cardnumber;// 刷卡卡号
-	private Integer ratio;// 箱与个的转换比率
+	//private Integer ratio;// 箱与个的转换比率
 	private String module;//模具
 
 	@Resource
@@ -201,11 +201,11 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-		}
+		}*/
 		
 		try {
 			ids = id.split(",");
@@ -218,12 +218,12 @@ public class DailyWorkAction extends BaseAdminAction {
 				if (UNDO.equals(dailyWork.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}
-				dailyWork.setEnterAmount(dailyWork.getEnterAmount()*ratio);
+			//	dailyWork.setEnterAmount(dailyWork.getEnterAmount());
 				dailyList.add(dailyWork);
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
 			
-			dailyWorkService.updateState(dailyList,CONFIRMED,workingBillId,ratio.toString(),cardnumber);
+			dailyWorkService.updateState(dailyList,CONFIRMED,workingBillId,cardnumber);
 			
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
@@ -255,11 +255,11 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-		}
+		}*/
 		try {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
@@ -268,12 +268,12 @@ public class DailyWorkAction extends BaseAdminAction {
 				if (UNDO.equals(dailyWork.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 				}
-				dailyWork.setEnterAmount(dailyWork.getEnterAmount()*ratio);
+				//dailyWork.setEnterAmount(dailyWork.getEnterAmount());
 				dailyList.add(dailyWork);
 			}
 			List<DailyWork> list = dailyWorkService.get(ids);
 			
-			dailyWorkService.updateState2(list,UNDO,workingBillId,ratio.toString(), cardnumber);
+			dailyWorkService.updateState2(list,UNDO,workingBillId,cardnumber);
 			workingbill = workingBillService.get(workingBillId);
 			HashMap<String, String> hashmap = new HashMap<String, String>();
 			hashmap.put(STATUS, SUCCESS);
@@ -449,14 +449,6 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public List<Dict> getAllMoudle() {
 		return dictService.getList("dictname", "moudleType");
-	}
-
-	public Integer getRatio() {
-		return ratio;
-	}
-
-	public void setRatio(Integer ratio) {
-		this.ratio = ratio;
 	}
 
 	public String getModule() {

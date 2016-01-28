@@ -52,6 +52,7 @@ public class KaoqinAction extends BaseAdminAction
 	private String info;
 	private String sameTeamId;//当前班组ID
 	private String isstartteam;//是否开启班组
+	private String iswork;//班组是否在上班
 	private String iscancreditcard;//是否可以刷卡
 	private String loginid;//当前登录人的ID
 	private String cardnumber;//刷卡人
@@ -107,6 +108,7 @@ public class KaoqinAction extends BaseAdminAction
 		Team t=this.teamService.get(sameTeamId);
 		//this.isstartteam=t.getIsWork();//班组是否开启
 		this.iscancreditcard=t.getIscancreditcard();//是否可以开启考勤
+		this.iswork=t.getIsWork();//班组是否在上班
 		return LIST;
 	}
 	
@@ -330,6 +332,23 @@ public class KaoqinAction extends BaseAdminAction
 	}
 	
 	/**
+	 * 下班
+	 */
+	public String creditundo()
+	{
+		try
+		{
+			this.kqService.mergeGoOffWork(this.sameTeamId);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("操作失败!");
+		}
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	/**
 	 * Admin表假字段
 	 */
 	public List<Admin>getNewAdminList(List<Admin>list1)
@@ -522,6 +541,16 @@ public class KaoqinAction extends BaseAdminAction
 	public void setMy_id(int my_id)
 	{
 		this.my_id = my_id;
+	}
+
+	public String getIswork()
+	{
+		return iswork;
+	}
+
+	public void setIswork(String iswork)
+	{
+		this.iswork = iswork;
 	}
 
 	/**===========================end get/set===============================*/

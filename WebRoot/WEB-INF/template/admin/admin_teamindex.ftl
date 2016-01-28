@@ -415,7 +415,7 @@
 														<tr>
 															<td><input type="checkbox" class="ckbox"
 																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
-																<a href="javascript:void(0);" class="a matkx">${list.maktx}</a>
+																<a onclick="wbout_event('${list.id}')" href="javascript:void(0);" class="a matkx">${list.maktx}</a>
 															</td>
 
 															<td><b class="green">${list.planCount}</b>

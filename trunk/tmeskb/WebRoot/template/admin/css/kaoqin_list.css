@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+.btn_add
+{
+	cursor:pointer;
+	height:40px;
+	width:145px;
+	border-radius:5px 5px 5px 5px;
+	font-weight:bold;
+	font-size: 16px;
+	box-shadow:3px 5px 5px #CD8162;
+	border-width:0px;
+	background-color: #FFD39B;
+	color: #a0522d;
+	margin-top:8px;
+	position: relative;
+}
+.btn_open
+{
+	cursor:pointer;
+	height:40px;
+	width:145px;
+	border-radius:5px 5px 5px 5px;
+	font-weight:bold;
+	font-size: 16px;
+	box-shadow:3px 5px 5px #CD8162;
+	border-width:0px;
+	background-color: #FFD39B;
+	color: #a0522d;
+	margin-top:8px;
+	position: absolute;
+}
+.btn_clickandcredit
+{
+	cursor:pointer;
+	height:40px;
+	width:145px;
+	border-radius:5px 5px 5px 5px;
+	font-weight:bold;
+	font-size: 16px;
+	box-shadow:3px 5px 5px #CD8162;
+	border-width:0px;
+	background-color: #FFD39B;
+	color: #a0522d;
+	margin-top:8px;
+	position: relative;
+}
+.btn_gooffwork
+{
+	cursor:pointer;
+	height:40px;
+	width:145px;
+	border-radius:5px 5px 5px 5px;
+	font-weight:bold;
+	font-size: 16px;
+	box-shadow:3px 5px 5px #CD8162;
+	border-width:0px;
+	background-color: #FFD39B;
+	color: #a0522d;
+	margin-top:8px;
+	position: absolute;
+}
+.div-height{height:194px;}
+.div-btn{margin-left:20px;display: inline;}
+.div-btn2{margin-left:20px;display: inline;}
+.div-btn3{margin-left:20px;display: inline;}
+.div-btn4{margin-left:20px;display: inline;}
+.tabtd{text-align:center;}
+.btn_tab{text-align:left;}
+.a_edit{cursor: pointer;}
+.select_state{width:150px;}
+.xtxt{font-family: 微软雅黑}

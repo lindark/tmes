@@ -263,7 +263,7 @@ function tosubmit(url)
 		        icon:5,
 		        skin:'error'
 		    },function(){
-				window.location.href="scrap!list.action?wbId="+xwbid;
+		    	layer.closeAll();
 			});
 		}					
 	},dt);

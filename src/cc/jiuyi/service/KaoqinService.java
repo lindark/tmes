@@ -64,4 +64,10 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @param cardnumber
 	 */
 	public int updateWorkStateByCreidt(String cardnumber,String teamid);
+
+	/**
+	 * 下班
+	 * @param sameTeamId
+	 */
+	public void mergeGoOffWork(String sameTeamId);
 }

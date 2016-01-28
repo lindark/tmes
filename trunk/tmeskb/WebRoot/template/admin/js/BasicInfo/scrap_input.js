@@ -31,6 +31,11 @@ $(function(){
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	
+	//添加报废信息
+	$("#btn_addmsg").click(function(){
+		addmsg_event();
+	});
 });
 //添加报废原因按钮事件
 function btn_addbug_event(index)
@@ -132,7 +137,11 @@ function box2torow_event()
 	//判断下拉框是否为空//判断输入框是否为空
 	if(select_val=="baga"||slnum_val==""||slnum_val==null)
 	{
-		layer.alert("条子名称或数量不能为空!",false);
+		layer.alert("条子名称或数量不能为空!",{
+	        closeBtn: 0,
+	        icon:5,
+	        skin:'error'
+	    });
 	}
 	else
 	{
@@ -162,9 +171,9 @@ function fuzhi_box2totable(val,txt,num)
 			"<td>"+txt+"<input type='hidden' name='list_scraplater["+row+"].slmatterDes' value='"+txt+"' /></td>" +
 			"<td><span id='span_count"+val+"'>"+num+"</span><input id='input_count"+val+"' type='text' name='list_scraplater["+row+"].slmatterCount' value='"+num+"' onblur='inputcount_blur("+val+")' style='display:none;' /></td>" +
 			"<td>" +
-			"	<a onclick='edit_click("+val+")'>编辑</a>" +
-			"	&nbsp;&nbsp;" +
-			"	<a onclick='del_click("+val+")'>删除</a>" +
+			"<a onclick='edit_click("+val+")' href='javascript:void(0);'>编辑</a>" +
+			"&nbsp;&nbsp;" +
+			"<a onclick='del_click("+val+")' href='javascript:void(0);'>删除</a>" +
 			"</td>" +
 			"</tr>";
 	$("#tb_scraplater").append(xhtml);
@@ -270,6 +279,48 @@ function selectduty_event(obj)
 	$("#input_bugid"+obj).val("");
 }
 
+//添加报废信息
+function addmsg_event()
+{
+	//给下拉框默认选项
+	$("#sl_bom").val("baga");
+	layer.open({
+		type:1,
+		shade:0.52,
+		title:"添加报废信息",
+		area:["500px","300px"],
+		closeBtn:1,
+		shadeClose:false,
+		move:false,//禁止拖拽
+		content:$("#divbox3"),
+		btn:["确定","取消"],
+		yes:function(){box3torow_event();}
+	});
+}
 
+//
+function box3torow_event()
+{
+	//下拉框值
+	var select_val=$("#sl_bom").val();
+	var select_text=$("#optsm_"+select_val).text();
+	if(select_val=="baga")
+	{
+		layer.alert("物料不能为空!",{
+	        closeBtn: 0,
+	        icon:5,
+	        skin:'error'
+	    });
+	}
+	else
+	{
+		fuzhi_box3torow(select_val,select_text);
+		layer.closeAll();
+	}
+}
 
-
+//报废信息删除操作
+function delsm_click(num)
+{
+	$("#a_delsm"+num).parent().parent().remove();
+}

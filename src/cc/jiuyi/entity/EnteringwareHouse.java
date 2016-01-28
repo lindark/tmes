@@ -37,6 +37,7 @@ public class EnteringwareHouse extends BaseEntity {
 	private String workingbillCode;
 	private String maktx;//产品描述
 	private String batch;//批次
+	private String moudle;//模具
 
 	private WorkingBill workingbill;// 随工单
 	
@@ -237,8 +238,13 @@ public class EnteringwareHouse extends BaseEntity {
 	public void setBatch(String batch) {
 		this.batch = batch;
 	}
-	
-	
-	
+
+	public String getMoudle() {
+		return moudle;
+	}
+
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
+	}
 	
 }

@@ -3,7 +3,7 @@
 .btn_add
 {
 	cursor:pointer;
-	height:40px;
+	height:50px;
 	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
@@ -18,7 +18,7 @@
 .btn_open
 {
 	cursor:pointer;
-	height:40px;
+	height:50px;
 	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
@@ -33,7 +33,7 @@
 .btn_clickandcredit
 {
 	cursor:pointer;
-	height:40px;
+	height:50px;
 	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;
@@ -48,7 +48,7 @@
 .btn_gooffwork
 {
 	cursor:pointer;
-	height:40px;
+	height:50px;
 	width:155px;
 	border-radius:5px 5px 5px 5px;
 	font-weight:bold;

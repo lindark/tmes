@@ -23,6 +23,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
@@ -58,7 +59,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private WorkingBill workingbill;
 	private EnteringwareHouse enteringwareHouse;
 	private Admin admin;
-	private Integer ratio;// 箱与个的转换比率
+	//private Integer ratio;// 箱与个的转换比率
 	private Double totalAmount = 0d;
 	private String cardnumber;//刷卡卡号
 	private String loginid;//当前登录人的ID
@@ -90,11 +91,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			return ERROR;
 		}
 		workingbill = workingBillService.get(workingBillId);
-		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
 		for (int i = 0; i < enteringwares.size(); i++) {
 			totalAmount += enteringwares.get(i).getStorageAmount();
-		}
+		}*/
 		return LIST;
 	}
 	
@@ -159,14 +160,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		if(unitconversion==null){
 			return ajaxJsonErrorMessage("未找到该物料对应的单位!");
 		}
 		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-		}
+		}*/
 		//Admin admin = adminService.getByCardnum(cardnumber);
 		admin=adminService.get(loginid);
 		
@@ -198,7 +199,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			e.setLgort(warehouse);
 			e.setMoveType("101");
 			e.setBatch(charg);
-			e.setStorageAmount(e.getStorageAmount()*ratio);
+			//e.setStorageAmount(e.getStorageAmount());
 			enterList.add(e);
 		}
 		try {
@@ -211,7 +212,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}	
 
 			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingbill,
-					ratio,cardnumber);
+					cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常");
@@ -224,28 +225,28 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		
 		workingbill = workingBillService.get(workingBillId);
-		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
 		for (int i = 0; i < enteringwares.size(); i++) {
 			totalAmount += enteringwares.get(i).getStorageAmount();
-		}
+		}*/
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount()
 				.toString());
-		hashmap.put("total", totalAmount.toString());
+		//hashmap.put("total", totalAmount.toString());
 		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
 	public String creditundo() {
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
+		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
 	           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-			}
+			}*/
 		Admin admin = adminService.getByCardnum(cardnumber);
 		
 		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
@@ -273,7 +274,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			e.setLgort(warehouse);
 			e.setMoveType("102");
 			e.setBatch(charg);
-			e.setStorageAmount(ArithUtil.mul(e.getStorageAmount(),ratio));
 			if(CONFIRMED.equals(e.getState())){//将已确认的放进去
 				enterList.add(e);
 			}		
@@ -290,7 +290,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 				
 			}	
 
-			enteringwareHouseService.updateState(aufnr, UNDO, workingbill, ratio,cardnumber);
+			enteringwareHouseService.updateState(aufnr, UNDO, workingbill,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常");
@@ -305,17 +305,17 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}
 		
 		workingbill = workingBillService.get(workingBillId);
-		List<EnteringwareHouse> enteringwares = enteringwareHouseService
+		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
 		for (int i = 0; i < enteringwares.size(); i++) {
 			totalAmount += enteringwares.get(i).getStorageAmount();
-		}
+		}*/
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount()
 				.toString());
-		hashmap.put("total", totalAmount.toString());
+		//hashmap.put("total", totalAmount.toString());
 		return ajaxJson(hashmap);
 	}
 
@@ -463,14 +463,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		this.admin = admin;
 	}
 
-	public Integer getRatio() {
-		return ratio;
-	}
-
-	public void setRatio(Integer ratio) {
-		this.ratio = ratio;
-	}
-
 	public Double getTotalAmount() {
 		return totalAmount;
 	}
@@ -495,5 +487,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		this.loginid = loginid;
 	}
 
-	
+	public List<Dict> getAllMoudle() {
+		return dictService.getList("dictname", "moudleType");
+	}
 }

@@ -315,7 +315,7 @@ function getCKboxById() {
  */
 function wbout_event(wbid)
 {
-	var url="working_bill!beforegetwbinoutput.action?id="+wbid;
+	var url="working_inout!beforegetwbinoutput.action?id="+wbid;
 	layer.open({
 		type:2,
 		title:"当前随工单的投入产出信息",

@@ -79,12 +79,11 @@ public class KaoqinAction extends BaseAdminAction
 	public String list()
 	{
 		this.admin=this.adminService.get(loginid);
-		//班次
-		if(admin.getShift()!=null&&!"".equals(admin.getShift()))
+		if(admin.getShift()==null||"".equals(admin.getShift())||admin.getProductDate()==null||"".equals(admin.getProductDate()))
 		{
-			admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
+			addActionError("请选择生产日期及班次!");
+			return ERROR;
 		}
-		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		if(this.admin.getDepartment()==null)
 		{
 			addActionError("部门为空!");
@@ -98,6 +97,9 @@ public class KaoqinAction extends BaseAdminAction
 				return ERROR;
 			}
 		}
+		//班次
+		admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
+		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
 		this.sameTeamId=this.admin.getDepartment().getTeam().getId();//班组ID
 		//读取员工到记录表中
 		/*List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工
@@ -305,6 +307,9 @@ public class KaoqinAction extends BaseAdminAction
 		t.setIsWork("Y");//班组状态改为开启状态
 		t.setModifyDate(new Date());
 		this.teamService.update(t);
+		admin.setWorkstate("2");//开启考勤后,开启人改为上班
+		admin.setModifyDate(new Date());
+		this.adminService.update(admin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -316,7 +321,7 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		Admin a=this.adminService.getByCardnum(cardnumber);
 		//修改刷卡 人的状态,返回：1修改成功 2已经刷卡成功无需重复刷卡  3不是本班员工或本班代班员工
-		int n=this.kqService.updateWorkStateByCreidt(cardnumber,sameTeamId);
+		int n=this.kqService.updateWorkStateByCreidt(cardnumber,sameTeamId,loginid);
 		if(n==1)
 		{
 			return this.ajaxJsonSuccessMessage(a.getName()+"刷卡成功!");
@@ -338,14 +343,21 @@ public class KaoqinAction extends BaseAdminAction
 	{
 		try
 		{
-			this.kqService.mergeGoOffWork(this.sameTeamId);
+			String str=this.kqService.mergeGoOffWork(this.sameTeamId);
+			if("s".equals(str))
+			{
+				return this.ajaxJsonSuccessMessage("您的操作已成功!");
+			}
+			else
+			{
+				return this.ajaxJsonErrorMessage("该班组已经下班,请刷新页面查看!");
+			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			return this.ajaxJsonErrorMessage("操作失败!");
 		}
-		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	/**

@@ -309,3 +309,49 @@ function getCKboxById() {
 	});
 	return id;
 }
+
+/**
+ * 获取当前随工单的投放产出
+ */
+function wbout_event(wbid)
+{
+	var url="working_bill!beforegetwbinoutput.action?id="+wbid;
+	layer.open({
+		type:2,
+		title:"当前随工单的投入产出信息",
+		//skin: 'layui-layer-lan',
+		area: ["1000px", "500px"],
+		shade:0.52,
+		shadeClose:false,
+		move:false,
+		content:url,
+		closeBtn:1,
+		btn:["关闭"]
+	});
+	
+	/*var title = "当前随工单的投入产出信息";
+	var width="900px";
+	var height="600px";
+	var content="working_bill!beforegetwbinoutput.action?id="+wbid;
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
+		
+	});*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/working_bill_inoutput.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/working_inout_ioput.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
@@ -25,6 +25,7 @@ body {
 
 </head>
 <body class="no-skin input">
+<input type="hidden" id="jsondata" value='${(jsondata)!}'/>
 	<!-- add by welson 0728 -->
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">

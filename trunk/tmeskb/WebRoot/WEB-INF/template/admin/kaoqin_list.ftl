@@ -5,6 +5,7 @@
 	<head>
 		<#include "/WEB-INF/template/common/include.ftl">
 		<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="${base}/template/admin/css/kaoqin_list.css" type="text/css"></link>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
@@ -28,64 +29,6 @@
 		 -->
 		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/kaoqin_list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
-		
-
-<style type="text/css">
-.btn_add
-{
-	cursor:pointer;
-	height:50px;
-	width:145px;
-	border-radius:5px 5px 5px 5px;
-	font-weight:bold;
-	font-size: 16px;
-	box-shadow:3px 5px 5px #CD8162;
-	border-width:0px;
-	background-color: #FFD39B;
-	color: #a0522d;
-	margin-top:8px;
-	position: relative;
-}
-.btn_open
-{
-	cursor:pointer;
-	height:50px;
-	width:145px;
-	border-radius:5px 5px 5px 5px;
-	font-weight:bold;
-	font-size: 16px;
-	box-shadow:3px 5px 5px #CD8162;
-	border-width:0px;
-	background-color: #FFD39B;
-	color: #a0522d;
-	margin-top:8px;
-	position: absolute;
-}
-.btn_clickandcredit
-{
-	cursor:pointer;
-	height:50px;
-	width:145px;
-	border-radius:5px 5px 5px 5px;
-	font-weight:bold;
-	font-size: 16px;
-	box-shadow:3px 5px 5px #CD8162;
-	border-width:0px;
-	background-color: #FFD39B;
-	color: #a0522d;
-	margin-top:8px;
-	position: absolute;
-}
-.div-height{height:194px;}
-.div-btn{margin-left:10px;display: inline;}
-.div-btn2{margin-left:10px;display: inline;}
-.div-btn3{margin-left:10px;display: inline;}
-.tabtd{text-align:center;}
-.btn_tab{text-align:left;}
-.a_edit{cursor: pointer;}
-.select_state{width:150px;}
-.xtxt{font-family: 微软雅黑}
-</style>
 </head>
 <body class="no-skin list xtxt">
 
@@ -196,11 +139,18 @@
 														<span id="span_startkaoqin"></span>
 													</button>
 												</div>
-												<br/>
+											</div>
+											<div class="widget-main">
 												<div class="div-btn3">
 													<button id="btn_clickandcredit" class="btn_clickandcredit">
 														<img style="" src="${base}/template/admin/images/btn_card3.gif"></img>
 														点击刷卡上班
+													</button>
+												</div>
+												<div class="div-btn4">
+													<button id="btn_gooffwork" class="btn_gooffwork">
+														<img style="" src="${base}/template/admin/images/gooffwork3.gif"></img>
+														班组下班
 													</button>
 												</div>
 											</div>
@@ -303,7 +253,8 @@
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- <input type="hidden" id="isstartteam" value="${isstartteam!}"> -->
-<input type="hidden" id="iscancreditcard" value="${iscancreditcard!}">
+<input type="hidden" id="iscancreditcard" value="${iscancreditcard}">
+<input type="hidden" id="iswork" value="${iswork}">
 </body>
 </html>
 <script type="text/javascript">

@@ -112,11 +112,11 @@
 														
 													</div>
 													<div class="profile-info-row">
-														<div class="profile-info-name">累计入库箱数</div>
+														<!-- <div class="profile-info-name">累计入库箱数</div>
 
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="total">${totalAmount}</span>
-														</div>
+														</div> -->
 														<div class="profile-info-name">累计入库根数</div>
 
 														<div class="profile-info-value">
@@ -242,7 +242,7 @@
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalSingleAmount").text(data.totalSingleAmount);
-					$("#total").text(data.total);
+					//$("#total").text(data.total);
 					$("#grid-table").trigger("reloadGrid");
 				})
 				}
@@ -288,7 +288,7 @@
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalSingleAmount").text(data.totalSingleAmount);
-					$("#total").text(data.total);
+					//$("#total").text(data.total);
 					$("#grid-table").trigger("reloadGrid");
 				})
 				}

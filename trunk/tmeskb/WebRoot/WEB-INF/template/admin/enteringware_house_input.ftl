@@ -98,13 +98,28 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">本次入库箱数</div>
+												<div class="profile-info-name">本次入库数</div>
 
 												<div class="profile-info-value">
 													<input type="text" name="enteringwareHouse.storageAmount"
 														value="${(enteringwareHouse.storageAmount)!}"
 														class=" input input-sm formText {required: true,min: 1}" />
 													<label class="requireField">*</label>
+												</div>
+											</div>
+											
+											<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+
+												<div class="profile-info-value">
+												    <select name="enteringwareHouse.moudle"> <#list
+														allMoudle as list>
+														<option value="${list.dictkey}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && enteringwareHouse.moudle ==
+															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+														</#list>
+													</select>
+													
 												</div>
 											</div>
 										</div>

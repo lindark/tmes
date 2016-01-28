@@ -19,6 +19,8 @@ public class Kaoqin extends BaseEntity{
 	private String postname;//技能名称
 	private String team;// 班组
 	private String workState;//工作状态
+	private String productdate;//生产日期
+	private String empid;//员工ID--admin表主键
 	
 	@Column
 	public String getCardNumber() {
@@ -62,4 +64,21 @@ public class Kaoqin extends BaseEntity{
 	public void setWorkState(String workState) {
 		this.workState = workState;
 	}
+	public String getProductdate()
+	{
+		return productdate;
+	}
+	public void setProductdate(String productdate)
+	{
+		this.productdate = productdate;
+	}
+	public String getEmpid()
+	{
+		return empid;
+	}
+	public void setEmpid(String empid)
+	{
+		this.empid = empid;
+	}
+	
 }

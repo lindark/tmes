@@ -45,7 +45,7 @@ public class ExportExcel {
         style.setBorderRight(HSSFCellStyle.BORDER_THIN);  
         style.setBorderTop(HSSFCellStyle.BORDER_THIN);  
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        //生成一个字体
+        //生成一个字体 
         HSSFFont font = workbook.createFont();
         font.setColor(HSSFColor.VIOLET.index);
         font.setFontHeightInPoints((short)12);

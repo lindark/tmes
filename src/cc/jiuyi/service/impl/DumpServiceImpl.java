@@ -81,6 +81,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 				dumpDetail.setDump(dump);
 				dumpDetail.setState(dump.getState());
 				dumpDetail.setDeliveryDate(dump.getDeliveryDate());
+				dumpDetail.setDeliveryTime(dump.getDeliveryTime());
 				dumpDetailService.merge(dumpDetail);
 			}
 		}

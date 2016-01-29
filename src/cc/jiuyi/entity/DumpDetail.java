@@ -28,6 +28,8 @@ public class DumpDetail extends BaseEntity {
 	private Dump dump;// 转储单
 	
 	private Date deliveryDate;// 过账日期
+	private String deliveryTime;// 过账时间
+	
 	private String state;// 状态
 	private String stateRemark;// 状态描述
 	private Admin confirmUser;// 确认人
@@ -160,6 +162,14 @@ public class DumpDetail extends BaseEntity {
 
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
+	}
+
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
 	}
 
 }

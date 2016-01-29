@@ -74,6 +74,7 @@ jQuery(function($) {
 			{name:'menge',index:'menge',label:"组件数量",width:200,sortable:"true",sorttype:"text"},
 			{name:'charg',index:'charg',label:"批次",width:200,sortable:"true",sorttype:"text"},
 			{name:'deliveryDate',index:'deliveryDate',label:"过账日期",width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
+			{name:'deliveryTime',index:'deliveryTime',label:"过账时间",width:200,sortable:"true",sorttype:"text"},
 			{name:'mjahr',index:'mjahr',label:"凭证年度",width:200,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName',label:"确认人",width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state',label:"状态", width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dumpState"}}

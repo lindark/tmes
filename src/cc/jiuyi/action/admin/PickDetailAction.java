@@ -96,6 +96,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private String cardnumber;//卡号
 	private String pickId;//页面传过来主表id
 	private String labst;//库存地点
+	private String loginId;
 	
 	
 
@@ -282,7 +283,7 @@ public class PickDetailAction extends BaseAdminAction {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		String workingBillCode = workingBill.getWorkingBillCode();
 		Admin admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
+		Admin admin1 = adminService.get(loginId);
 		Pick pick = new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 //		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
@@ -292,7 +293,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setBudat(workingBill.getProductDate());//随工单日期
 		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
 		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
-	    pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+	    pick.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 		pick.setCreateDate(new Date());
 		pick.setCreateUser(admin);
 		pick.setWorkingbill(workingBill);
@@ -339,7 +340,7 @@ public class PickDetailAction extends BaseAdminAction {
 		WorkingBill workingBill = workingBillService.get(workingBillId);
 		String workingBillCode = workingBill.getWorkingBillCode();
 		Admin admin = adminService.getByCardnum(cardnumber);
-		admin = adminService.get(admin.getId());
+		Admin admin1 = adminService.get(loginId);
 		Pick pick=new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 //		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
@@ -349,7 +350,7 @@ public class PickDetailAction extends BaseAdminAction {
 		pick.setBudat(workingBill.getProductDate());//随工单日期
 		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
 		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 随工单位最后两位
-		pick.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
+		pick.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
 		// SAP测试数据 工厂编码
 		pick.setMove_type(info);
 		// 移动类型 SAP测试数据
@@ -638,6 +639,14 @@ public class PickDetailAction extends BaseAdminAction {
 
 	public void setLabst(String labst) {
 		this.labst = labst;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 

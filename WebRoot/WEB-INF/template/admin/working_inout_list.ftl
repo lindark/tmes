@@ -95,6 +95,10 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
 											</a>
+											<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												Excel导出
+											</a>
 										</div>
 										
 									</div>
@@ -125,6 +129,8 @@
 		var $searchbtn = $("#searchButton_1");
 		var $startdateinput = $("input[name='start']");
 		var $enddateinput = $("input[name='end']");
+		var $excelReport = $("#excelReport");
+		var $searchform = $("#searchform");//表单
 			if($startdateinput.val()==""){
 				var nowtime = now_date();
 				$startdateinput.val(nowtime);
@@ -154,6 +160,12 @@
 					page:1
 				}).trigger("reloadGrid");
 		}); 
+		 
+		 $excelReport.click(function(){
+			 $searchform.attr("action","working_inout!excelexport.action");
+			 $searchform.submit();
+			 
+		 });
 		
 		 $(".changeDate").click(function(){
 			 var sd = $("#startDate").val();

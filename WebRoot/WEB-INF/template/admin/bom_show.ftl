@@ -75,6 +75,19 @@
 										</div>
 										
 									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">订单号:</label>
+										<div class="col-sm-4">
+											<input type="text" name="oerderCode" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+										<label class="col-sm-1" style="text-align:right">班次:</label>
+										<div class="col-sm-4">
+											<input type="text" name="shift" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										
+									</div>
 								   
 								   	<div class="form-group">
 

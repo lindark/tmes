@@ -59,7 +59,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 				mapcheck.put("start", start);
 				mapcheck.put("end", end);
 				mapcheck.put("workingBillCode", workingBillCode);
-			}
+			} 
 		}else{
 				Date date = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -221,6 +221,14 @@ public class BaseAdminAction extends ActionSupport {
 		getResponse().setDateHeader("Expires", -10);
 	}
 	
+	//Excel导出，设置页面为Excel文件
+	public void setResponseExcel(String excelname){
+		getResponse().setContentType("application/vnd.ms-excel");
+		getResponse().setHeader("Content-disposition","attachment; filename="+excelname+".xls");
+		
+		
+	}
+	
 	public String accessdenied(){
 		accessdenied();//设置页面不缓存
 		

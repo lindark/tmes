@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -240,6 +241,7 @@ public class AdminAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		if(admin.getProductDate() != null && admin.getShift() != null){
 			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			Collections.sort(workingbillList);
 		}
 		return "teamindex";
 	}

@@ -142,7 +142,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		/**处理交下班 (返修)end**/
 		
 		JSONArray jsonarray = new JSONArray();
-		for(int i=0;i<nameobj.size();i++){
+		for(int i=0;i<nameobj.size();i++){ 
 			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("name", nameobj.get(i));
 			jsonobject.put("index", indexobj.get(i));

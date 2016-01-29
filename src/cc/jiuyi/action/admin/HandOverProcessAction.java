@@ -205,11 +205,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				return ERROR;
 			}
 			
-			Collections.sort(processList, new Comparator<Process>() {
-	            public int compare(Process arg0, Process arg1) {
-	                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
-	            }
-	        });
+			
 			
 			//获取维护物料信息
 			List<Material> ml= materialservice.getAll();
@@ -243,7 +239,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 		for (Bom material : materialList) {
 			materialCodeList.add(material.getMaterialCode());
 		}
-
+		Collections.sort(materialList, new Comparator<Bom>() {
+            public int compare(Bom arg0, Bom arg1) {
+                return arg0.getMaterialCode().compareTo(arg1.getMaterialCode());
+            }
+        });
 		try {
 			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 			locationonsideList = rfc.findWarehouse(warehouse,werks);

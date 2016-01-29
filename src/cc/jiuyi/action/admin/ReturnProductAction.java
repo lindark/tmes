@@ -49,6 +49,7 @@ public class ReturnProductAction extends BaseAdminAction {
 	private String cardnumber;
 	private ReturnProduct returnProduct;
 	private String desp;
+	private String loginId;
 	
 	@Resource
 	private ReturnProductService returnProductService;
@@ -175,9 +176,9 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		returnProduct = returnProductService.get(id);
 		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin1 = adminService.get(loginId);
 		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String werks = admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(returnProduct.getMaterialBatch()==null){
 			returnProduct.setMaterialBatch("");
 		}
@@ -227,6 +228,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			//endProductService.updateApprovalEndProduct(ids,admin);
+			Admin admin1 = adminService.get(loginId);
 			List<ReturnProduct> returnProductList = new ArrayList<ReturnProduct>();
 			String[] ids = id.split(","); 
 			for(int i=0;i<ids.length;i++){
@@ -238,7 +240,7 @@ public class ReturnProductAction extends BaseAdminAction {
 					rp.setConfirmName(admin.getName());
 					rp.setState("2");
 					rp.setBudate(ThinkWayUtil.SystemDate());
-					rp.setWerks(admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					rp.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
 					rp.setMoveType("311");
 					returnProductList.add(rp);
 				}

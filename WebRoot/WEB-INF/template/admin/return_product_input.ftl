@@ -40,6 +40,7 @@ inupt.stockMout{
 </style>
 </head>
 <body class="no-skin input">
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -189,10 +190,11 @@ $(function(){
 	//刷卡提交
 	$subm.click(function(){
 		var dt = $("#inputForm").serialize();
+		var loginId = $("#loginid").val();//当前登录人的id
 		if($ep==""){
-			var url = "return_product!creditsubmit.action";
+			var url = "return_product!creditsubmit.action?loginId="+loginId;
 		}else{
-			var url = "return_product!update.action";
+			var url = "return_product!update.action?loginId="+loginId;
 		}
 		credit.creditCard(url,function(data){
 			if(data.status=="success"){

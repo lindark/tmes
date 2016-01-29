@@ -100,6 +100,16 @@ public class BomAction extends BaseAdminAction {
 							.toString();
 					map.put("productsName", productsName);
 				}
+				if (obj.get("oerderCode") != null) {
+					String oerderCode = obj.getString("oerderCode")
+							.toString();
+					map.put("oerderCode", oerderCode);
+				}
+				if (obj.get("shift") != null) {
+					String shift = obj.getString("shift")
+							.toString();
+					map.put("shift", shift);
+				}
 			}
 
 			pager = bomService.findPagerByjqGrid(pager, map);

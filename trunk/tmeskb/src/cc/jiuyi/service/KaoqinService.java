@@ -1,6 +1,5 @@
 package cc.jiuyi.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,11 +33,6 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * 添加新代班员工
 	 */
 	public void saveNewEmp(String[] ids,String sameteamid);
-
-	/**
-	 * 修改班组的状态
-	 */
-	public void updateState(Date date);
 
 	/**
 	 * 修改Admin表员工状态

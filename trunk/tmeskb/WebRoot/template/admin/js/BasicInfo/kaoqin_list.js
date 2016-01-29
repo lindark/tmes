@@ -90,8 +90,8 @@ jQuery(function($) {
         	 for ( var i = 0; i < ids.length; i++) {
         		 var cl = ids[i];
         		 var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-        		 var xcardnum=rowData.cardNumber;
-        		 be = "<a onclick=edit_event('"+xcardnum+"') href='javascript:void(0)'>[编辑]</a>";
+        		 var xid=rowData.id;
+        		 be = "<a onclick=edit_event('"+xid+"') href='javascript:void(0)'>[编辑]</a>";
         		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
         	 }
         },
@@ -226,7 +226,6 @@ function btn_event()
 	$("#btn_gooffwork").click(function(){
 		gooffwork_event();
 	});
-	
 }
 
 //编辑事件
@@ -250,15 +249,15 @@ function edit_event(index)
 			var txt=$("#select_state option:selected").text();
 			if(val!=state)
 			{
-				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.cardNumber="+index;
-				upd_event(url,val,txt,index);
+				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+index;
+				upd_event(url,val,txt);
 			}
 		}
 	});
 }
 
 //确认修改
-function upd_event(url,val,txt,index2)
+function upd_event(url,val,txt)
 {
 	$.ajax({	
 		url: url,
@@ -450,11 +449,11 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$btnadd.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:1px 3px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:1px 3px 3px #CD8162;margin-top:8px;");
 	});
 	//鼠标按下之后抬起事件
 	$btnadd.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 	
 	//开启考勤
@@ -470,11 +469,11 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$btnopen.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
 	});
 	//鼠标按下之后抬起事件
 	$btnopen.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 
 	//点击后刷卡
@@ -489,11 +488,11 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$clickandcredit.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
 	});
 	//鼠标按下之后抬起事件
 	$clickandcredit.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 	
 	//刷卡下班
@@ -508,11 +507,11 @@ function btn_style()
 	});
 	//鼠标按下按钮事件
 	$gooffwork.mousedown(function(){
-		$(this).attr("style","background-color:#FF8C69;height:42px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
 	});
 	//鼠标按下之后抬起事件
 	$gooffwork.mouseup(function(){
-		$(this).attr("style","background-color:#FF8C69;height:40px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
 }
 

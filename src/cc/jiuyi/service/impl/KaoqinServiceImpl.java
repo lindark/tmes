@@ -62,7 +62,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	 */
 	public void updateEmpWorkState(Admin admin)
 	{
-		Admin a = this.adminService.getByCardnum(admin.getCardNumber());//根据卡号查询员工
+		Admin a = this.adminService.get(admin.getId());//根据ID查询员工
 		a.setWorkstate(admin.getWorkstate());
 		a.setModifyDate(new Date());
 		this.adminService.update(a);
@@ -95,24 +95,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		}
 	}
 	
-	/**
-	 * 修改班组的状态
-	 */
-	public void updateState(Date date)
-	{
-		Admin b=this.adminService.getLoginAdmin();
-		Admin a=this.adminService.get(b.getId());
-		String teamstate=a.getDepartment().getTeam().getState();
-		Team team=a.getDepartment().getTeam();
-		team=this.teamService.get(team.getId());
-		if(!"1".equals(teamstate))
-		{
-			team.setModifyDate(date);
-			team.setState("1");
-			this.teamService.update(team);
-		}
-	}
-
 	/**
 	 * 保存开启考勤(刷卡)记录
 	 */

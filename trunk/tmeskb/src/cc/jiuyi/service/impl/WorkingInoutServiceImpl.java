@@ -200,7 +200,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				for(Bom bom :bomList){
 					bomamount +=bom.getMaterialAmount();
 				}
-				map.put(strlen[6],ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2));//倍数 = 随工单计划数量 / bom数量  保留2位小数
+				Double mount = 0.0d;
+				if(bomamount<=0){
+					mount = 0d;
+				}else{
+					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
+				}
+				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
 				
 				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
 				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数

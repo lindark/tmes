@@ -12,7 +12,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
-public class WorkingBill extends BaseEntity {
+public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 
 	private static final long serialVersionUID = 2547319998033961001L;
 
@@ -440,6 +440,10 @@ public class WorkingBill extends BaseEntity {
 		if(isHand == null)
 			isHand="N";
 		this.isHand = isHand;
+	}
+	@Override
+	public int compareTo(WorkingBill o) {
+		return this.getMaktx().compareTo(o.getMaktx());
 	}
 
 }

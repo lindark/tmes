@@ -282,6 +282,7 @@ public class DumpAction extends BaseAdminAction {
 							dumps.setStateRemark(dump.getStateRemark());
 							dumps.setDeliveryDate(dump.getDeliveryDate());
 							dumps.setAdminName(dump.getAdminName());
+							dumps.setDeliveryTime(dump.getDeliveryTime());
 							dumpsList.add(dumps);
 						}
 					}

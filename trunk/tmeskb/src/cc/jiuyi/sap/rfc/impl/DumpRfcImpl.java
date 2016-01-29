@@ -52,6 +52,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			dump.setVoucherId(ET_HEADER.getString("MBLNR"));//物料凭证编号
 			dump.setMjahr(ET_HEADER.getString("MJAHR"));//凭证年度
 			dump.setDeliveryDate(ET_HEADER.getDate("BUDAT"));//过账日期
+			dump.setDeliveryTime(ET_HEADER.getString("CPUTM"));//过账时间
 			materialheader.add(dump);
 		}
 		/**

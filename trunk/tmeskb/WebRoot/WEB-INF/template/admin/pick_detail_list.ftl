@@ -23,6 +23,7 @@ body {
 </style>
 </head>
 <body class="no-skin input">
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -203,10 +204,11 @@ body {
 		}
 		 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
+				var loginId = $("#loginid").val();
 				<#if isAdd??>
-				var url="pick_detail!creditsubmit.action";
+				var url="pick_detail!creditsubmit.action?loginId="+loginId;
 				<#else>
-				var url="pick_detail!creditupdate.action";
+				var url="pick_detail!creditupdate.action?loginId="+loginId;
 				</#if>
 				credit.creditCard(url,function(data){
 					if(data.status=="success"){
@@ -261,7 +263,8 @@ body {
 			
 			 var dt=$("#inputForm").serialize();
 				var workingBillId = $("#workingBillId").val();
-				var url="pick_detail!creditapproval.action";	
+				var loginId = $("#loginid").val();
+				var url="pick_detail!creditapproval.action?loginId="+loginId;
 				credit.creditCard(url,function(data){
 					if(data.status=="success"){
 						layer.alert(data.message, {icon: 6},function(){
@@ -312,11 +315,17 @@ body {
 		})
 		
 		$(".cqPickAmount").change(function(){
-			var mount = $(this).val()*1;
-			var cqmultiple = $(this).parent().prev().prev().text()*1;
-			var total  = mount * cqmultiple;
-			$(this).parent().next().children().eq(0).val(total);
-			//var id = $(this).parent().children().eq(1).text();
+			var mount = $(this).val();
+			if(mount!=""){
+				mount = mount*1;
+				var cqmultiple = $(this).parent().prev().prev().text()*1;
+				var total  = mount / cqmultiple;
+				$(this).parent().next().children().eq(0).val(total);
+				//var id = $(this).parent().children().eq(1).text();
+			}else{
+				$(this).parent().next().children().eq(0).val("");
+			}
+		
 		});
 		
 	})

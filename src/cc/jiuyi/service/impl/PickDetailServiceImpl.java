@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -208,12 +209,21 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				/**如果退料的情况**/
 				if (pickDetail.getPickType().equals("262")) {
 					//workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
-					workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()-recipientsAmount);//领用数减少
+					Double reAmount = 0.0d;//领用数
+					if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+						reAmount = workingInout.getRecipientsAmount();//领用数
+					}
+					workingInout.setRecipientsAmount(reAmount-recipientsAmount);//领用数减少
 				}
 				/**如果是领料的情况**/
 				else{					
 					//workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
-					workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()+recipientsAmount);//领用数增加
+					Double reAmount = 0.0d;//领用数
+					if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+						reAmount = workingInout.getRecipientsAmount();//领用数
+					}
+					
+					workingInout.setRecipientsAmount(reAmount+recipientsAmount);//领用数增加
 				}
 				workingInoutService.update(workingInout);
 			}
@@ -245,17 +255,24 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
 			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
 			Double recipientsAmount = pickAmount;//领用数
-			
 		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
 		   /**如果退料的情况**/
 		   if (pickDetail.getPickType().equals("262")) {
 				//workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
-				workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()+recipientsAmount);//领用数增加
+			   Double reAmount = 0.0d;//领用数
+				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+					reAmount = workingInout.getRecipientsAmount();//领用数
+				}
+				workingInout.setRecipientsAmount(reAmount+recipientsAmount);//领用数增加
 			}
 		   /**如果是领料的情况**/
-		   else{					
+		   else{			
+			   Double reAmount = 0.0d;//领用数
+				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+					reAmount = workingInout.getRecipientsAmount();//领用数
+				}
 				//workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
-				workingInout.setRecipientsAmount(workingInout.getRecipientsAmount()-recipientsAmount);//领用数减少
+				workingInout.setRecipientsAmount(reAmount-recipientsAmount);//领用数减少
 			}
 				workingInoutService.update(workingInout);
 		}
@@ -268,5 +285,24 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		return multiple;
 	}
 
-	
+	//刷卡撤销
+		@Override
+		public void updatePIckAndWork(Pick pick) {
+			pickService.update(pick);
+			List<PickDetail> pickDetailList = new ArrayList<PickDetail>(pick.getPickDetail());
+			updateWorkingInoutCalculateBack(pickDetailList);//往投入产出表中写数据
+			
+		}
+		//刷卡确认
+		@Override
+		public void updatePIckAndWork(Pick pick, HashMap<String, Object> map) {
+			pickService.update(pick);	
+			
+			List<PickDetail> pickDetailList = new ArrayList<PickDetail>(pick.getPickDetail());						
+			if(map==null){
+				map = new HashMap<String, Object>();
+			}
+			updateWorkingInoutCalculate(pickDetailList , map);//往投入产出表中写数据
+			
+		}
 }

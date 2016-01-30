@@ -51,5 +51,8 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	 * 计算倍数
 	 */
 	public Double Calculate(Double planCount,Double pickAmount);
+	
+	public void updatePIckAndWork(Pick pick);
+	public void updatePIckAndWork(Pick pick,HashMap<String, Object> map);
 
 }

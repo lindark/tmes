@@ -204,7 +204,11 @@ public class HandOverProcessAction extends BaseAdminAction {
 				addActionError("未找到一条工序记录");
 				return ERROR;
 			}
-			
+			Collections.sort(processList, new Comparator<Process>() {
+	            public int compare(Process arg0, Process arg1) {
+	                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+	            }
+	        });
 			
 			
 			//获取维护物料信息

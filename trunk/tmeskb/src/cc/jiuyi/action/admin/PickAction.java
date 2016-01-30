@@ -264,11 +264,8 @@ public class PickAction extends BaseAdminAction {
 						// pickReturn.setMove_type(move_type);
 						pickReturn.setState(CONFIRMED);
 						pickReturn.setConfirmUser(admin);
-						pickService.update(pickReturn);	
-						
-						List<PickDetail> pickDetailList = new ArrayList<PickDetail>(pickReturn.getPickDetail());						
 						HashMap<String, Object> map = new HashMap<String, Object>();
-						pickDetailService.updateWorkingInoutCalculate(pickDetailList , map);//往投入产出表中写数据
+						pickDetailService.updatePIckAndWork(pickReturn, map);
 					}
 				}
 				if (!flag)
@@ -383,10 +380,7 @@ public class PickAction extends BaseAdminAction {
 							//pickReturn.setMove_type(move_type);
 							pickReturn.setState(REPEAL);
 							pickReturn.setConfirmUser(admin);
-							pickService.update(pickReturn);
-							
-							List<PickDetail> pickDetailList = new ArrayList<PickDetail>(pickReturn.getPickDetail());
-							pickDetailService.updateWorkingInoutCalculateBack(pickDetailList);//往投入产出表中写数据
+							pickDetailService.updatePIckAndWork(pickReturn);
 						}
 					}
 					if (!flag)

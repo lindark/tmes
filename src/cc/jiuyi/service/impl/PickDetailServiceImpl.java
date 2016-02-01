@@ -115,6 +115,31 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		this.updateWorkingInoutCalculate(pickDetailList,map);//向投入产出表更新数据
 		return pk;
 	}
+	
+	/**
+	 * 已经有主表，先删除从表，然后重新保存从表明细
+	 * @param pickDetailList
+	 * @param pick
+	 */
+	public  Pick  saveApproval1(List<PickDetail> pickDetailList, Pick pick) {
+		//Set<PickDetail> pickDetailset = pick.getPickDetail();
+		List<PickDetail> pickDetailLists = new ArrayList<PickDetail>();
+		for(PickDetail pickDetail: pickDetailList){
+			for( PickDetail pds : pick.getPickDetail()){
+				if(pds.getMaterialCode().equals(pickDetail.getMaterialCode()) && (pickDetail.getCqPickAmount()==null ||  "".equals(pickDetail.getCqPickAmount()))){
+					this.delete(pds);
+					break;
+				}else if((pickDetail.getCqPickAmount()!=null &&  !"".equals(pickDetail.getCqPickAmount()))){
+					pds.setXh(pick.getId());
+					pickDetail.setPick(pick);//建关系
+					this.save(pds);
+					pickDetailLists.add(pickDetail);
+					break;
+				}
+			}
+		}		
+		return pick;
+	}
 
 	@Override
 	public List<PickDetail> getPickDetail(String id) {
@@ -130,7 +155,6 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		pickNew.setModifyUser(admin);
 		this.pickService.update(pickNew);
 		
-
 		for (int i = 0; i < pickDetail.size(); i++) {
 			PickDetail pickDetailOld = pickDetail.get(i);
 			if (pickDetailOld.getId() != null && !"".equals(pickDetailOld.getId())) {

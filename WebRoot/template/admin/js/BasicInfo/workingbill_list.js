@@ -93,7 +93,7 @@ jQuery(function($) {
 		$(table).find(".cbox").bind("click",function(){
 			var id=$(grid_selector).jqGrid('getGridParam','selrow');
 			var rowData = $(grid_selector).jqGrid('getRowData',id);
-			alert(rowData.matnr);
+			//alert(rowData.matnr);
 		})
 	}
 	

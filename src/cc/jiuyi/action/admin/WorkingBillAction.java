@@ -122,10 +122,19 @@ public class WorkingBillAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
 			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
-			Orders order = ordersservice.get(workingbill.getAufnr());
-			workingbill.setModule(order.getMujuntext());
+			Orders order = ordersservice.get("aufnr",workingbill.getAufnr());
+			if(order!=null){
+				try {
+					if(order.getMujuntext()!=null){
+						workingbill.setModule(order.getMujuntext());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				pagerlist.set(i, workingbill);
+			}
 			//workingbill.setDailyWork(null);
-			pagerlist.set(i, workingbill);
+			
 		}
 		pager.setList(pagerlist);
 		

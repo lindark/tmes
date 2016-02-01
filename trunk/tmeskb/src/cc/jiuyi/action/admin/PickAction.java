@@ -206,6 +206,7 @@ public class PickAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		try {
 		ids = id.split(",");
 		String message = "";
 		String pickId = "";
@@ -231,7 +232,7 @@ public class PickAction extends BaseAdminAction {
 				pickdetailList.add(pickDetail);
 			}
 		}
-		try {
+		
 			Boolean flag = true;
 			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
 					pickdetailList);
@@ -272,9 +273,11 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 			}
 		} catch (IOException e) {
+			LOG.equals(e);
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
 		} catch (Exception e) {
+			LOG.equals(e);
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}

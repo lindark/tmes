@@ -54,5 +54,5 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	
 	public void updatePIckAndWork(Pick pick);
 	public void updatePIckAndWork(Pick pick,HashMap<String, Object> map);
-
+	public Pick saveApproval1(List<PickDetail> pickDetailList, Pick pick);
 }

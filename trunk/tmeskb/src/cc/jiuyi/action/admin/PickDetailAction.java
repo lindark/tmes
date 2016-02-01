@@ -243,13 +243,31 @@ public class PickDetailAction extends BaseAdminAction {
 						bom.setStockAmount(labst);
 					}
 				}
-				if(pickdetail == null)
-					continue;
-				bom.setPickAmount(pickdetail.getPickAmount());
-				bom.setPickDetailid(pickdetail.getId());
-				bom.setCqhStockAmount(pickdetail.getCqhStockAmount());
-				bom.setCqmultiple(pickdetail.getCqmultiple());
-				bom.setCqPickAmount(pickdetail.getCqPickAmount());
+				if(pickdetail == null){
+					Material mt = materialService.get("materialCode", bom.getMaterialCode());
+					if(mt==null){
+						bom.setCqmultiple("1");
+						bom.setCqhStockAmount(bom.getStockAmount());
+					}else{
+						if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+							bom.setCqmultiple("1");
+							bom.setCqhStockAmount(bom.getStockAmount());
+						}else{
+							bom.setCqmultiple(mt.getCqmultiple());
+							BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+							BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
+							BigDecimal total = multiple.multiply(stockAmount);
+							bom.setCqhStockAmount(total.toString());
+						}
+					}
+				}else{
+					bom.setPickAmount(pickdetail.getPickAmount());
+					bom.setPickDetailid(pickdetail.getId());
+					bom.setCqhStockAmount(pickdetail.getCqhStockAmount());
+					bom.setCqmultiple(pickdetail.getCqmultiple());
+					bom.setCqPickAmount(pickdetail.getCqPickAmount());
+				}
+				
 				bomList.set(j, bom);
 			}
 			Collections.sort(bomList);
@@ -336,108 +354,171 @@ public class PickDetailAction extends BaseAdminAction {
 	
 	//刷卡确认
 	public String creditapproval(){
-		String message="";
-		WorkingBill workingBill = workingBillService.get(workingBillId);
-		String workingBillCode = workingBill.getWorkingBillCode();
-		Admin admin = adminService.getByCardnum(cardnumber);
-		Admin admin1 = adminService.get(loginId);
-		Pick pick=new Pick();
-//		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
-//		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
-//		pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
-//		pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
-//		pick.setMove_type(info);// 移动类型 SAP测试数据
-		pick.setBudat(workingBill.getProductDate());//随工单日期
-		pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
-		pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 随工单位最后两位
-		pick.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
-		// SAP测试数据 工厂编码
-		pick.setMove_type(info);
-		// 移动类型 SAP测试数据
-		pick.setCreateDate(new Date());
-		pick.setCreateUser(admin);
-		pick.setWorkingbill(workingBill);
-		pick.setConfirmUser(admin);
-		pick.setState("1");
-		boolean flag = false;
-		List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
-		for (int i = 0; i < pickDetailList.size(); i++) {
-			PickDetail p = pickDetailList.get(i);
-			if (!"".equals(info) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
-				flag = true;
-				String s = "";
-//				String str = workingBill.getId();
-				p.setConfirmUser(admin);
-//				p.setMaterialCode("10490284");
-//				p.setCharg("15091901");
-//				p.setItem_text("文本");
-//				p.setOrderid("100116549");
-				p.setPickType(info);
-				p.setMaterialCode(p.getMaterialCode());//物料编码
-				p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
-				//System.out.println("项目文本:"+p.getItem_text());
-				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
-				//System.out.println("工单号:"+p.getOrderid());
-				pickDetailList1.add(p);
-			}
-		}	
-		if(flag == false){
-			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
-		}
-		String pk=pickDetailService.saveApproval(pickDetailList1, pick); 
-		Pick pick3=pickService.get(pk);
-		pickList.add(pick);
-		pkList=pickDetailService.getPickDetail(pick3.getId());
-		for (int i = 0; i < pkList.size(); i++) {
-			PickDetail pickDetail=pkList.get(i);
-			pickDetail.setXh(pk);
-		}
-		
-		try {
-			Boolean flag1 = true;
-			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList, pkList);
-			for(Pick pick2 : pickRfc){
-				String e_type = pick2.getE_type();
-				if(e_type.equals("E")){ //如果有一行发生了错误
-					flag1 = false;
-					message +=pick2.getE_message();
+		if(!"".equals(pickId)&&pickId!=null){
+			try {
+				ids = pickId.split(",");
+				Pick p  = pickService.get(pickId);
+				String message = "";
+				List<Pick> list = new ArrayList<Pick>();
+				list.add(p);
+				admin = adminService.getByCardnum(cardnumber);
+				pkList = pickDetailService.getPickDetail(pickId);
+				pick = pickDetailService.saveApproval1(pickDetailList,p);
+				List<PickDetail> pickdetailList =new ArrayList<PickDetail>(pick.getPickDetail());
+					Boolean flag = true;
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+							pickdetailList);
+					for (Pick pick2 : pickRfc) {
+						String e_type = pick2.getE_type();
+						if (e_type.equals("E")) { // 如果有一行发生了错误
+							flag = false;
+							message += pick2.getE_message();
+						}
+					}
+					if (!flag)
+						return ajaxJsonErrorMessage(message);
+					else {
+						flag = true;
+						pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
+								pickdetailList);
+						for (Pick pick2 : pickRfc) {
+							String e_type = pick2.getE_type();
+							String e_message = pick2.getE_message();
+							String ex_mblnr = pick2.getEx_mblnr();
+							// String move_type = pick2.getMove_type();
+							if (e_type.equals("E")) { // 如果有一行发生了错误
+								flag = false;
+								message += pick2.getE_message();
+							} else {
+								Pick pickReturn = pickService.get(pick2.getId());
+								pickReturn.setE_message(e_message);
+								pickReturn.setEx_mblnr(ex_mblnr);
+								pickReturn.setE_type(e_type);
+								// pickReturn.setMove_type(move_type);
+								pickReturn.setState("2");
+								pickReturn.setConfirmUser(admin);
+								HashMap<String, Object> map = new HashMap<String, Object>();
+								pickDetailService.updatePIckAndWork(pickReturn, map);
+							}
+						}
+						if (!flag)
+							return ajaxJsonErrorMessage(message);
+					}
+				} catch (IOException e) {
+					LOG.equals(e);
+					e.printStackTrace();
+					return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+				} catch (Exception e) {
+					LOG.equals(e);
+					e.printStackTrace();
+					return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 				}
+
+				return ajaxJsonSuccessMessage("您的操作已成功!");
+		}else{
+			String message="";
+			WorkingBill workingBill = workingBillService.get(workingBillId);
+			String workingBillCode = workingBill.getWorkingBillCode();
+			Admin admin = adminService.getByCardnum(cardnumber);
+			Admin admin1 = adminService.get(loginId);
+			Pick pick=new Pick();
+//			pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
+//			pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
+//			pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
+//			pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
+//			pick.setMove_type(info);// 移动类型 SAP测试数据
+			pick.setBudat(workingBill.getProductDate());//随工单日期
+			pick.setLgort(admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
+			pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 随工单位最后两位
+			pick.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂
+			// SAP测试数据 工厂编码
+			pick.setMove_type(info);
+			// 移动类型 SAP测试数据
+			pick.setCreateDate(new Date());
+			pick.setCreateUser(admin);
+			pick.setWorkingbill(workingBill);
+			pick.setConfirmUser(admin);
+			pick.setState("1");
+			boolean flag = false;
+			List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
+			for (int i = 0; i < pickDetailList.size(); i++) {
+				PickDetail p = pickDetailList.get(i);
+				if (!"".equals(info) && !"".equals(p.getPickAmount()) &&!"0".equals(p.getPickAmount())) {
+					flag = true;
+					String s = "";
+//					String str = workingBill.getId();
+					p.setConfirmUser(admin);
+//					p.setMaterialCode("10490284");
+//					p.setCharg("15091901");
+//					p.setItem_text("文本");
+//					p.setOrderid("100116549");
+					p.setPickType(info);
+					p.setMaterialCode(p.getMaterialCode());//物料编码
+					p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
+					//System.out.println("项目文本:"+p.getItem_text());
+					p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
+					//System.out.println("工单号:"+p.getOrderid());
+					pickDetailList1.add(p);
+				}
+			}	
+			if(flag == false){
+				return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 			}
-			if(!flag1)
-				return ajaxJsonErrorMessage(message);
-			else{
-				flag1 = true;
-				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
+			String pk=pickDetailService.saveApproval(pickDetailList1, pick); 
+			Pick pick3=pickService.get(pk);
+			pickList.add(pick);
+			pkList=pickDetailService.getPickDetail(pick3.getId());
+			for (int i = 0; i < pkList.size(); i++) {
+				PickDetail pickDetail=pkList.get(i);
+				pickDetail.setXh(pk);
+			}
+			
+			try {
+				Boolean flag1 = true;
+				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList, pkList);
 				for(Pick pick2 : pickRfc){
 					String e_type = pick2.getE_type();
-					String e_message=pick2.getE_message();
-					String ex_mblnr=pick2.getEx_mblnr();
 					if(e_type.equals("E")){ //如果有一行发生了错误
 						flag1 = false;
 						message +=pick2.getE_message();
-					}else{
-						Pick pickReturn=pickService.get(pk);
-						pickReturn.setE_message(e_message);
-						pickReturn.setEx_mblnr(ex_mblnr);
-						pickReturn.setE_type(e_type);
-						pickReturn.setMove_type(info);
-						pickReturn.setState("2");
-						pickService.update(pickReturn);
 					}
 				}
 				if(!flag1)
 					return ajaxJsonErrorMessage(message);
+				else{
+					flag1 = true;
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
+					for(Pick pick2 : pickRfc){
+						String e_type = pick2.getE_type();
+						String e_message=pick2.getE_message();
+						String ex_mblnr=pick2.getEx_mblnr();
+						if(e_type.equals("E")){ //如果有一行发生了错误
+							flag1 = false;
+							message +=pick2.getE_message();
+						}else{
+							Pick pickReturn=pickService.get(pk);
+							pickReturn.setE_message(e_message);
+							pickReturn.setEx_mblnr(ex_mblnr);
+							pickReturn.setE_type(e_type);
+							pickReturn.setMove_type(info);
+							pickReturn.setState("2");
+							pickService.update(pickReturn);
+						}
+					}
+					if(!flag1)
+						return ajaxJsonErrorMessage(message);
+				}
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+			}catch(Exception e){
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 			}
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
-		}catch(Exception e){
-			e.printStackTrace();
-			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
+			
+			return ajaxJsonSuccessMessage("您的操作已成功");
 		}
-		
-		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 	
 	public PickDetail getPickDetail() {

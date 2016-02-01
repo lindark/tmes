@@ -65,6 +65,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     
     /*冗余*/
     private String afterworkingBillCode;//下一随工单
+    private String module;//模具
     /*冗余end*/
     
     
@@ -445,5 +446,15 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public int compareTo(WorkingBill o) {
 		return this.getMaktx().compareTo(o.getMaktx());
 	}
+	
+	@Transient
+	public String getModule() {
+		return module;
+	}
+	public void setModule(String module) {
+		this.module = module;
+	}
+	
+	
 
 }

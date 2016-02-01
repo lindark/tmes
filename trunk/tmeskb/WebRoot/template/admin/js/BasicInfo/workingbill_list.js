@@ -47,6 +47,8 @@ jQuery(function($) {
 			{name:'maktx',label:"产品描述",width:200,index:'maktx',editable:false},
 			{name:'productDate',label:"生产日期",width:200,index:'productDate', editable: false},
 			{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
+			{name:'workcenter',label:"工作中心",width:200,index:'workcenter', editable: false},
+			{name:'module',label:"模具",width:200,index:'module', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 

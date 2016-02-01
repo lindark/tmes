@@ -101,10 +101,11 @@ body {
 		var aufnr = $("#aufnr").val();
 		var start = $("#start").val();
 		var end = $("#end").val();
-		if(aufnr == null || aufnr == "" || aufnr.length> 10){
+		/*if(aufnr == null || aufnr == "" || aufnr.length> 10){
 			layer.alert("订单号不能为空且长度不能大于10位!");
 		}
-		else if(start == null || start == "" ||end ==null || end ==""){
+		else*/ 
+		if(start == null || start == "" ||end ==null || end ==""){
 			layer.alert("生产日期不能为空!");
 		}
 		else{			

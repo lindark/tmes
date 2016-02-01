@@ -15,10 +15,12 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
@@ -60,6 +62,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	private WorkingBillRfc workingbillrfc;
 	@Resource
 	private MaterialService materialservice;
+	@Resource
+	private OrdersService ordersservice;
 	
 	
 	
@@ -118,6 +122,8 @@ public class WorkingBillAction extends BaseAdminAction {
 		List pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
 			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
+			Orders order = ordersservice.get(workingbill.getAufnr());
+			workingbill.setModule(order.getMujuntext());
 			//workingbill.setDailyWork(null);
 			pagerlist.set(i, workingbill);
 		}

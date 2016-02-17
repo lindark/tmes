@@ -27,7 +27,7 @@ public class ExportExcel {
 	 * @param path  路径
 	 * @throws IOException
 	 */
-	public static void exportExcel(String title,List<String> header,List<String []> body,String path) throws IOException{
+	public static void exportExcel(String title,List<String> header,List<Object []> body,String path) throws IOException{
 		
 		//声明一个工作簿
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -79,16 +79,18 @@ public class ExportExcel {
         
         for(int i=0;i<body.size();i++){
         	HSSFRow row1 = sheet.createRow(i+1);
-        	String[] objs = body.get(i);
+        	Object[] objs = body.get(i);
         	for(int y=0;y<objs.length;y++){
         		HSSFCell cell = row1.createCell(y);
-        		cell.setCellValue(ThinkWayUtil.null2String(objs[y]));
+        		String cellvalue="";
+        		if(objs[y]!=null){
+        			cellvalue = ""+objs[y];
+        		}
+        		cell.setCellValue(cellvalue);
                 cell.setCellStyle(style2);
         	}
         }
-        
-       
-        FileOutputStream fout = new FileOutputStream("f:/ceshi.xls");
+        FileOutputStream fout = new FileOutputStream(path);
         workbook.write(fout);
         fout.close();
 	}

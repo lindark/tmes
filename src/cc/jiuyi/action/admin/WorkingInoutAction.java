@@ -47,7 +47,6 @@ public class WorkingInoutAction extends BaseAdminAction {
 	}
 	
 	public String ajlist(){//投入产出逻辑处理
-		
 		HashMap<String,String> mapcheck = new HashMap<String,String>();
 		if(Param != null){//普通搜索功能
 			if(!Param.equals("")){
@@ -85,22 +84,43 @@ public class WorkingInoutAction extends BaseAdminAction {
 		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
 		
 		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
 		for(int i=0;i<jsonarray.size();i++){
 			JSONObject jsonobject = (JSONObject)jsonarray.get(i);
 			String label = jsonobject.get("label").toString();
 			header.add(label);
 		}
-		List<String[]> body = new ArrayList<String[]>();
-		String[] str = {"1","2","3"};
-		body.add(str);
+		
+		HashMap<String,String> mapcheck = new HashMap<String,String>();
+		mapcheck.put("start", start);
+		mapcheck.put("end", end);
+		mapcheck.put("workingBillCode", workingBillCode);
+		
+		JSONArray jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
+		for(int i=0;i<jsonstr.size();i++){
+			JSONObject jsonobject = (JSONObject) jsonstr.get(i);
+			Object[] str = new Object[header.size()];
+			for(int y=0;y<jsonarray.size();y++){
+				JSONObject jsonobj = (JSONObject) jsonarray.get(y);
+				String index = jsonobj.get("index").toString();
+				Object obj = jsonobject.get(index);//根据header 获取 内容
+				str[y] = obj;
+			}
+			body.add(str);
+		}
+		
+		
 		try {
-			ExportExcel.exportExcel("ceshi", header, body, "");
+			String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
+			path+="/excel/投入产出.xls";
+			ExportExcel.exportExcel("投入产出表导出", header, body, path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		//setResponseExcel("ceshi");//设置页面为 Excel
 		return null;
 	}
+
 	
 	/**
 	 * 获取数据前

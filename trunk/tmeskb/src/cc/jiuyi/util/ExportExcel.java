@@ -2,6 +2,7 @@ package cc.jiuyi.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -24,10 +25,10 @@ public class ExportExcel {
 	 * @param title  标题
 	 * @param header  表头
 	 * @param body  表体
-	 * @param path  路径
+	 * @param os 输出流
 	 * @throws IOException
 	 */
-	public static void exportExcel(String title,List<String> header,List<Object []> body,String path) throws IOException{
+	public static void exportExcel(String title,List<String> header,List<Object []> body,OutputStream os) throws IOException{
 		
 		//声明一个工作簿
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -90,9 +91,7 @@ public class ExportExcel {
                 cell.setCellStyle(style2);
         	}
         }
-        FileOutputStream fout = new FileOutputStream(path);
-        workbook.write(fout);
-        fout.close();
+        workbook.write(os);
 	}
 	
 	//public 

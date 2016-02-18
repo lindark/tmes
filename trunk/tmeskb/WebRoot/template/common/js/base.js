@@ -427,6 +427,9 @@ jQuery(function() {
 	$("form.validate").validate({
 		errorClass: "validateError",
 		ignore: ".ignoreValidate",
+		onfocusout: function(element){
+	        $(element).valid();
+	    },
 		onkeyup:false,
 		errorPlacement: function(error, element) {
 			var messagePosition = element.metadata().messagePosition;

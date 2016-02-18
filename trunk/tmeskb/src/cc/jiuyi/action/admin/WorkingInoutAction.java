@@ -109,15 +109,18 @@ public class WorkingInoutAction extends BaseAdminAction {
 			body.add(str);
 		}
 		
-		
+		/***Excel 下载****/
 		try {
-			String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
-			path+="/excel/投入产出.xls";
-			ExportExcel.exportExcel("投入产出表导出", header, body, path);
+			//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
+			//path+="/excel/投入产出.xls";
+			String fileName="投入产出表"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("投入产出表", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//setResponseExcel("ceshi");//设置页面为 Excel
 		return null;
 	}
 

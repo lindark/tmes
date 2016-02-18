@@ -19,6 +19,7 @@ import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ArithUtil;
 
 /**
  * Service实现类 -工序交接
@@ -97,6 +98,14 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			if(state.equals("creditsubmit")){//刷卡提交
 				handoverprocess.setSubmitadmin(admin);
 				handoverprocess.setState("notapproval");
+				
+				Double cqsl = handoverprocess.getCqsl();//裁切倍数
+				Double cqamount = handoverprocess.getCqamount();//裁切后正常交接数量
+				Double cqrepairamount = handoverprocess.getCqrepairAmount();//裁切后返修交接数量
+				Double amount = ArithUtil.round(ArithUtil.div(cqamount, cqsl),2);
+				Double repairamount = ArithUtil.round(ArithUtil.div(cqrepairamount, cqsl), 2);
+				handoverprocess.setAmount(amount);
+				handoverprocess.setRepairAmount(repairamount);
 				//handoverprocess.setHandover(handOver);
 			}
 			if(state.equals("creditapproval")){//刷卡确认
@@ -107,6 +116,15 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			if(state.equals("creditsave")){//刷卡保存
 				handoverprocess.setSaveadmin(admin);
 				handoverprocess.setState("notsubmit");
+				
+				Double cqsl = handoverprocess.getCqsl();//裁切倍数
+				Double cqamount = handoverprocess.getCqamount();//裁切后正常交接数量
+				Double cqrepairamount = handoverprocess.getCqrepairAmount();//裁切后返修交接数量
+				Double amount = ArithUtil.round(ArithUtil.div(cqamount, cqsl),2);
+				Double repairamount = ArithUtil.round(ArithUtil.div(cqrepairamount, cqsl), 2);
+				handoverprocess.setAmount(amount);
+				handoverprocess.setRepairAmount(repairamount);
+				
 			}
 			HandOverProcess handover = this.findhandover(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(), handoverprocess.getBeforworkingbill().getId());
 			if(handover != null){

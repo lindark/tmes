@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -222,11 +223,12 @@ public class BaseAdminAction extends ActionSupport {
 	}
 	
 	//Excel导出，设置页面为Excel文件
-	public void setResponseExcel(String excelname){
-		getResponse().setContentType("application/vnd.ms-excel");
-		getResponse().setHeader("Content-disposition","attachment; filename="+excelname+".xls");
-		
-		
+	public void setResponseExcel(String excelname) throws UnsupportedEncodingException{
+		getResponse().setContentType("application/octet-stream;charset=iso-8859-1");
+		getResponse().setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode(excelname, "UTF-8"));
+		// 客户端不缓存
+		getResponse().addHeader("Pargam", "no-cache");
+		getResponse().addHeader("Cache-Control", "no-cache");
 	}
 	
 	public String accessdenied(){

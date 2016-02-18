@@ -49,17 +49,17 @@ body {
 							<form id="inputForm" class="validate"
 								action="#"
 								method="post">
-								<div class="operateBar">
-									<div class="profile-info-row">
-										 <div class="profile-info-name">提交人:</div>
-										 <div class="profile-info-value">
-										 	${(submitadmin)! }
-										 </div>
-										 <div class="profile-info-name">确认人:</div>
-										 <div class="profile-info-value">
-										 	${(approvaladmin)! }
-										 </div>
-									</div>
+								<div class="operateBar" >
+										<div class="profile-info-row">
+											 <div class="profile-info-name">提交人:</div>
+											 <div class="profile-info-value">
+											 	${(submitadmin)! }
+											 </div>
+											 <div class="profile-info-name">确认人:</div>
+											 <div class="profile-info-value">
+											 	${(approvaladmin)! }
+											 </div>
+										</div>
 								</div>
 								
 								<table class="table table-striped table-bordered">
@@ -69,8 +69,11 @@ body {
 											<th class="center">产品编号</th>
 											<th class="center">产品名称</th>
 											<th class="center">下班随工单</th>
-											<th class="center">正常交接数量</th>
-											<th class="center">返修交接数量</th>
+											<th class="center">裁切倍数</th>
+											<th class="center">裁切后正常交接数量</th>
+											<th class="center">裁切后返修交接数量</th>
+											<th class="center">实际正常交接数量</th>
+											<th class="center">实际返修交接数量</th>
 										</tr>
 									</thead>
 
@@ -78,22 +81,33 @@ body {
 										<#assign  num=0/>
 										<#list workingbillList as list>
 											<tr>
-												<td class="center">${list.workingBillCode }</td>
-												<td class="center">${list.matnr }</td>
-												<td class="center">${list.maktx }</td>
-												<td class="center">
+												<td class="left">${list.workingBillCode }</td>
+												<td class="left">${list.matnr }</td>
+												<td class="left">${list.maktx }</td>
+												<td class="left">
 													<input type="text" name="handoverprocessList[${num }].afterworkingbill.workingBillCode" class="form-control afterworkingBillCode" value="${list.afterworkingBillCode }"/>
 												</td>
-												<td class="center">
+												<td class="left">
+													${list.cqsl }
+													<input type="hidden" class="form-control cqsl" name="handoverprocessList[${num }].cqsl" value="${list.cqsl }"/>
+												</td>
+												<td class="left">
+													<input type="text" class="form-control cqamount formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].cqamount" value="${(list.cqamount)! }"/>
+												</td>
+												<td class="left">
+													<input type="text" class="form-control cqrepairamount formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].cqrepairamount" value="${(list.cqrepairamount)! }"/>
+												</td>
+												<td class="left">
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialCode" value="${materialCode }"/> <!-- 物料组件 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialName" value="${materialName }"/> <!-- 物料描述 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].processid" value="${processid }"/><!-- 工序-->
-													<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 正常交接数量 -->							
-													
+													<input type="hidden" class="form-control formText{digits:true,messagePosition: '#MessagePosition'} amountinp" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 实际正常交接数量 -->							
+													<span class="amount"></span>
 												</td>
-							 					<td class="center">
-							 						<input type="text" class="form-control formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].repairAmount" value="${(list.repairamount)! }"/><!-- 返修交接数量 -->
+							 					<td class="left">
+							 						<input type="hidden" class="form-control formText{digits:true,messagePosition: '#MessagePosition'} repairamountinp" name="handoverprocessList[${num }].repairAmount" value="${(list.repairamount)! }"/><!-- 实际返修交接数量 -->
+							 						<span class="repairamount"></span>
 							 					</td>		       
 											</tr>
 											<#assign  num=num+1/>
@@ -127,5 +141,31 @@ body {
 	<!-- ./ add by welson 0728 -->
 
 </body>
+<script type="text/javascript">
+	$(function(){
+		var $cqamount = $(".cqamount");//裁切后正常交接数量
+		var $cqrepairamount = $(".cqrepairamount");//裁切后返修交接数量
+		
+		$cqamount.change(function(){//裁切后正常交接数量改变事件
+			var sVal = $(this).val();//裁切后正常数量
+			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
+			var sv = floatDiv(sVal,sCqsl);
+			if(isNaN(sv)) sv = 0;
+			var sv = setScale(sv,2,"");//保留两位小数
+			$(this).parent().parent().find(".amountinp").val(sv);
+			$(this).parent().parent().find(".amount").text(sv);
+		});
+		
+		$cqrepairamount.change(function(){//裁切后返修交接数量改变事件
+			var sVal = $(this).val();//裁切后返修交接数量
+			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
+			var sv = floatDiv(sVal,sCqsl);
+			if(isNaN(sv)) sv = 0;
+			var sv = setScale(sv,2,"");//保留两位小数
+			$(this).parent().parent().find(".repairamountinp").val(sv);
+			$(this).parent().parent().find(".repairamount").text(sv);
+		});
+	})
 
+</script>
 </html>

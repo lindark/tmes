@@ -66,6 +66,9 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     /*冗余*/
     private String afterworkingBillCode;//下一随工单
     private String module;//模具
+    private Double cqsl;//裁切数量
+    private Double cqamount;//裁切后正常交接数量
+    private Double cqrepairamount;//裁切后返修交接数量
     /*冗余end*/
     
     
@@ -453,6 +456,27 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	}
 	public void setModule(String module) {
 		this.module = module;
+	}
+	@Transient
+	public Double getCqsl() {
+		return cqsl;
+	}
+	public void setCqsl(Double cqsl) {
+		this.cqsl = cqsl;
+	}
+	@Transient
+	public Double getCqamount() {
+		return cqamount;
+	}
+	public void setCqamount(Double cqamount) {
+		this.cqamount = cqamount;
+	}
+	@Transient
+	public Double getCqrepairamount() {
+		return cqrepairamount;
+	}
+	public void setCqrepairamount(Double cqrepairamount) {
+		this.cqrepairamount = cqrepairamount;
 	}
 	
 	

@@ -36,6 +36,10 @@ public class HandOverProcess extends BaseEntity{
     private String materialName;//物料名称
     private String processid;//工序id
     private Double repairAmount;//返修交接数量
+    
+    private Double cqamount;//裁切后正常交接数量
+    private Double cqrepairAmount;//裁切后返修交接数量
+    private Double cqsl;//裁切倍数
    
     /*冗余字段*/
     private String processName;//工序名称
@@ -208,6 +212,24 @@ public class HandOverProcess extends BaseEntity{
 	}
 	public void setUnAmount(Double unAmount) {
 		this.unAmount = unAmount;
+	}
+	public Double getCqamount() {
+		return cqamount;
+	}
+	public void setCqamount(Double cqamount) {
+		this.cqamount = cqamount;
+	}
+	public Double getCqrepairAmount() {
+		return cqrepairAmount;
+	}
+	public void setCqrepairAmount(Double cqrepairAmount) {
+		this.cqrepairAmount = cqrepairAmount;
+	}
+	public Double getCqsl() {
+		return cqsl;
+	}
+	public void setCqsl(Double cqsl) {
+		this.cqsl = cqsl;
 	}
 
 	

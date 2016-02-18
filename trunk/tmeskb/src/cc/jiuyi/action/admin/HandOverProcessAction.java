@@ -128,8 +128,12 @@ public class HandOverProcessAction extends BaseAdminAction {
 			if (handOverProcess != null) {
 				Double amount = handOverProcess.getAmount();
 				Double repairamount = handOverProcess.getRepairAmount();
+				Double cqamount = handOverProcess.getCqamount();
+				Double cqrepairamount = handOverProcess.getCqrepairAmount();
 				workingbill.setAmount(amount);
 				workingbill.setRepairamount(repairamount);
+				workingbill.setCqamount(cqamount);
+				workingbill.setCqrepairamount(cqrepairamount);
 				Admin submit = handOverProcess.getSubmitadmin();
 				Admin approval = handOverProcess.getApprovaladmin();
 				if(submit == null){
@@ -143,6 +147,20 @@ public class HandOverProcessAction extends BaseAdminAction {
 					approvaladmin = approval.getName();
 				}
 			}
+			
+			/***weitao modify***/
+			//此处处理 裁切倍数,裁切后正常交接数量,裁切后返修交接数量
+			Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+			if(mt == null){
+				workingbill.setCqsl(1d);
+			}else{
+				if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+					workingbill.setCqsl(1d);
+				}else{
+					workingbill.setCqsl(Double.valueOf(mt.getCqmultiple()));
+				}
+			}
+			/***weitao modify end***/
 			//admin.getDepartment().getTeam().getFactoryUnit();//单元
 			WorkingBill nextWorkingbill = workingbillservice.getCodeNext(workingbill.getWorkingBillCode(),nowDate,shift);//下一随工单--此处有问题。根据什么条件获取下一随工单
 			if(nextWorkingbill==null){

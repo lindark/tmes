@@ -31,4 +31,9 @@ public interface FactoryService extends BaseService<Factory, String> {
 	 * 获取有的工厂
 	 */
 	public List<Factory> getFactoryListByY();
+	
+	/**
+	 * 根据工厂编码找工厂描述
+	 */
+	public Factory getFactoryByCode(String factoryCode);
 }

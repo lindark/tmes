@@ -76,6 +76,7 @@ public class PickAction extends BaseAdminAction {
 	private List<PickDetail> pkList;
 	private List<Pick> pickRfc;
 	private String cardnumber;//卡号
+	private String str;//当前状态
 
 	// 添加
 	public String add() {
@@ -96,7 +97,45 @@ public class PickAction extends BaseAdminAction {
 			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
 		}		
-		this.workingbill = workingBillService.get(workingBillId);
+		this.workingbill = workingBillService.get(workingBillId);	
+		
+        List<PickDetail> pickDetailList = new ArrayList<PickDetail>();
+		//根据随工单找出所有的除了未确认的领料主表对象
+		List<Pick> pickList = pickService.getPickByWorkingbillId(workingBillId);
+		for (int i = 0; i < pickList.size(); i++) {
+			Pick pick = pickList.get(i);
+			if(pick.getEx_mblnr().equals("") && pick.getState()=="3"){
+				//撤销且与SAP交互的和已经确认的全部取出来
+				pickList.remove(pick);			
+			}	
+		}
+		
+		//取出所有的主表的从表
+		for (int i = 0; i < pickList.size(); i++) {
+			Pick pick = pickList.get(i);
+			List<PickDetail> pkdList = new ArrayList<PickDetail>(
+					pick.getPickDetail());
+			for (int j = 0; j < pkdList.size(); j++) {
+				PickDetail pickDetail = pkdList.get(j);
+				pickDetailList.add(pickDetail);
+			}
+		}
+
+		String stamp = "";
+		Double sum = 0d;
+		
+		for (int i = 0; i < pickDetailList.size(); i++) {
+			PickDetail pickDetail = pickDetailList.get(i);
+			stamp = pickDetail.getMaterialCode();
+			Double amount = Double.parseDouble(pickDetail.getPickAmount());
+			if(pickDetail.getMaterialCode().equals(stamp) && pickDetail.getPickType() =="261"){			
+				sum = sum + amount;		
+			}else{
+				sum = sum - amount;
+			}
+			str = pickDetail.getMaterialName()+":"+ sum +"/n";
+		}
+
 		return LIST;
 	}
 
@@ -502,6 +541,14 @@ public class PickAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str;
 	}
 
 	

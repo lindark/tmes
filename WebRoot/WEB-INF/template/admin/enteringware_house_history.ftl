@@ -12,7 +12,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <!--modify weitao-->
 <script type="text/javascript"
-	src="${base}/template/admin/js/manage/enteringware_house_record.js"></script>
+	src="${base}/template/admin/js/manage/enteringware_house_history.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>

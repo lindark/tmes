@@ -171,7 +171,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			}
 			else if(my_id==2)
 			{
-				workingInoutList = this.findWbinoutput(mapcheck.get("wbid"));
+				workingInoutList = this.workingInoutDao.findWbinoutput(mapcheck.get("wbid"));
 			}
 			for(int i=0;i<workingInoutList.size();i++){
 				JSONObject map = new JSONObject();
@@ -286,13 +286,5 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		
 		
 		return jsonstr;
-	}
-
-	/**
-	 * 
-	 */
-	public List<WorkingInout> findWbinoutput(String wbid)
-	{
-		return null;
 	}
 }

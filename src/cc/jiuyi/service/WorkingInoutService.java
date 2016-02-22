@@ -41,5 +41,5 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	
 	public JSONArray findInoutByJsonData(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen,int my_id);
 
-	public List<WorkingInout> findWbinoutput(String wbid);
+	//public List<WorkingInout> findWbinoutput(String wbid);
 }

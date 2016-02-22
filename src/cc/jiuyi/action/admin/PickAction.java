@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +105,7 @@ public class PickAction extends BaseAdminAction {
 		List<Pick> pickList = pickService.getPickByWorkingbillId(workingBillId);
 		for (int i = 0; i < pickList.size(); i++) {
 			Pick pick = pickList.get(i);
-			if(pick.getEx_mblnr().equals("") && pick.getState()=="3"){
+			if(pick.getState()=="3"){
 				//撤销且与SAP交互的和已经确认的全部取出来
 				pickList.remove(pick);			
 			}	
@@ -122,20 +123,45 @@ public class PickAction extends BaseAdminAction {
 		}
 
 		String stamp = "";
+		String temp="";
 		Double sum = 0d;
-		
-		for (int i = 0; i < pickDetailList.size(); i++) {
-			PickDetail pickDetail = pickDetailList.get(i);
-			stamp = pickDetail.getMaterialCode();
-			Double amount = Double.parseDouble(pickDetail.getPickAmount());
-			if(pickDetail.getMaterialCode().equals(stamp) && pickDetail.getPickType() =="261"){			
-				sum = sum + amount;		
-			}else{
-				sum = sum - amount;
-			}
-			str = pickDetail.getMaterialName()+":"+ sum +"/n";
-		}
+		/**modify weitao **/
+		Integer ishead = 0;
+		str = "";
+		Collections.sort(pickDetailList);// 对 pickDetailList进行排序
 
+		//List<String> matercodeList = new ArrayList<String>();
+		HashMap map = new HashMap();
+		
+		for(int i=0; i <pickDetailList.size();i++){
+			PickDetail pickdetail = pickDetailList.get(i);
+			
+			if(!temp.equals(pickdetail.getMaterialCode())){
+				temp = pickdetail.getMaterialCode();
+			}else{
+				continue;
+			}
+					
+			for(int y=0;y<pickDetailList.size();y++){
+				PickDetail pickdetail1 = pickDetailList.get(y);
+				if(pickdetail1.getMaterialCode().equals(pickdetail.getMaterialCode())){
+					if("261".equals(pickdetail1.getPickType())){//领料
+						sum += Double.parseDouble(pickdetail1.getPickAmount());
+					}else{//退料
+						sum -= Double.parseDouble(pickdetail1.getPickAmount());
+					}
+				}
+			}
+			
+			if(!stamp.equals(pickdetail.getMaterialCode())){
+				stamp = pickdetail.getMaterialCode();
+				str+=pickdetail.getMaterialName()+":";
+				str+=sum;
+			}
+			
+			sum=0d;
+		}
+	
 		return LIST;
 	}
 
@@ -550,6 +576,7 @@ public class PickAction extends BaseAdminAction {
 	public void setStr(String str) {
 		this.str = str;
 	}
+
 
 	
 	

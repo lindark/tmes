@@ -143,8 +143,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 	 * 首页中点击其中一个随工单后显示其投入产出数据
 	 * @return
 	 */
-	public String getwbinoutput()
-	{
+	public String getwbinoutput(){
 		JSONArray jsonstr = new JSONArray();
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
 		HashMap<String,String> mapcheck = new HashMap<String,String>();
@@ -193,8 +192,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		this.workingBillCode = workingBillCode;
 	}
 
-	public String getWbid()
-	{
+	public String getWbid(){
 		return wbid;
 	}
 

@@ -12,7 +12,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <!--modify weitao-->
 <script type="text/javascript"
-	src="${base}/template/admin/js/manage/enteringware_house_history.js"></script>
+	src="${base}/template/admin/js/manage/enteringware_house_record.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
@@ -46,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史入库单</li>
+					<li class="active">入库记录</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>

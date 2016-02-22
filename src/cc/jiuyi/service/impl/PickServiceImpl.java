@@ -105,4 +105,10 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 		
 	}
 
+	@Override
+	public List<Pick> getPickByWorkingbillId(String WorkingBillId) {
+		// TODO Auto-generated method stub
+		return pickDao.getPickByWorkingbillId(WorkingBillId);
+	}
+
 }

@@ -2,7 +2,6 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -22,24 +20,19 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
-import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EnteringwareHouseService;
+import cc.jiuyi.service.FactoryService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
  * 后台Action类 - 入库
@@ -76,6 +69,10 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private UnitConversionService unitConversionService;
 	@Resource
 	private EnteringwareHouseRfc enteringwareHouseRfc;
+	@Resource
+	private FactoryService factoryService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 
 	/**
 	 * 跳转list 页面
@@ -493,6 +490,17 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			enteringwareHouse.setMaktx(workingBillService.get(
 					enteringwareHouse.getWorkingbill().getId()).getMaktx());
 			lst.add(enteringwareHouse);
+			enteringwareHouse.setFactory(factoryService.getFactoryByCode(
+					enteringwareHouse.getWorkingbill().getWerks())
+					.getFactoryName());// 工厂
+			enteringwareHouse.setWorkshop(factoryUnitService
+					.getUnitByWorkCenter(
+							enteringwareHouse.getWorkingbill().getWorkcenter())
+					.getWorkShop().getWorkShopName());// 车间
+			enteringwareHouse.setLocation(factoryUnitService
+					.getUnitByWorkCenter(
+							enteringwareHouse.getWorkingbill().getWorkcenter())
+					.getWarehouseName());// 库存地点
 		}
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();

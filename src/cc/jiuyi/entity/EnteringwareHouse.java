@@ -49,7 +49,41 @@ public class EnteringwareHouse extends BaseEntity {
 	private String ex_mblnr;//凭证号
 	private String e_message; 
 	private String e_type;
+	
+	private String factory;
+	private String workshop;
+	private String location;
 
+	
+	@Transient
+	public String getFactory() {
+		return factory;
+	}
+
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+
+	@Transient
+	public String getWorkshop() {
+		return workshop;
+	}
+
+	public void setWorkshop(String workshop) {
+		this.workshop = workshop;
+	}
+
+	@Transient
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;

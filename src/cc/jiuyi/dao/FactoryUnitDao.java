@@ -45,4 +45,9 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	 * @return
 	 */
 	public Pager getCostCenter(Pager pager,String type);
+	
+	/**
+	 * 根据工作中心取单元对象
+	 */
+	public FactoryUnit getUnitByWorkCenter(String workCenter);
 }

@@ -167,4 +167,11 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+
+	@Override
+	public FactoryUnit getUnitByWorkCenter(String workCenter) {
+		// TODO Auto-generated method stub
+		String hql = "from FactoryUnit where workCenter =?";		
+		return (FactoryUnit) getSession().createQuery(hql).setParameter(0, workCenter).uniqueResult();
+	}
 }

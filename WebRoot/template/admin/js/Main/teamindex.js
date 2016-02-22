@@ -320,7 +320,7 @@ function wbout_event(wbid)
 		type:2,
 		title:"当前随工单的投入产出信息",
 		//skin: 'layui-layer-lan',
-		area: ["1000px", "500px"],
+		area: ["90%", "90%"],
 		shade:0.52,
 		shadeClose:false,
 		move:false,

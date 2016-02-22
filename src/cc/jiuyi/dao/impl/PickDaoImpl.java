@@ -70,4 +70,11 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 		
 	}
 
+	@Override
+	public List<Pick> getPickByWorkingbillId(String WorkingBillId) {
+		// TODO Auto-generated method stub
+		String hql = "From Pick pick where pick.workingbill.id = ? and (state = 1 or state = 2) and (ex_mblnr !=null or ex_mblnr !='' ) order by pick.matericalCode";
+		return getSession().createQuery(hql).setParameter(0, WorkingBillId).list();
+	}
+
 }

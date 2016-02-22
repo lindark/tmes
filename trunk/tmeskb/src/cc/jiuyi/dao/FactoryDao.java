@@ -36,4 +36,9 @@ public interface FactoryDao extends BaseDao<Factory,String> {
 	 * 获取有的工厂
 	 */
 	public List<Factory> getFactoryListByY();
+	
+	/**
+	 * 根据工厂编码找工厂
+	 */
+	public Factory getFactoryByCode(String factoryCode);
 }

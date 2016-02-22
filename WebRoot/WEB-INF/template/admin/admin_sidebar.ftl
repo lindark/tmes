@@ -773,9 +773,20 @@
 						</a>
 
 						<b class="arrow"></b>
+						
+						<li class="">
+						<a href="enteringware_house!record.action" >
+							<i class="menu-icon"></i>
+							入库报表
+						</a>
+
+						<b class="arrow"></b>
+					</li>
 					</li>
 				</ul>
 			</li>
+			
+			
 
 			<li class="">
 				<a href="#" class="dropdown-toggle">

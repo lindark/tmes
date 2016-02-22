@@ -71,6 +71,12 @@ public class FactoryServiceImpl extends BaseServiceImpl<Factory, String>implemen
 		return factoryDao.getFactoryListByY();
 	}
 
+	@Override
+	public Factory getFactoryByCode(String factoryCode) {
+		// TODO Auto-generated method stub
+		return factoryDao.getFactoryByCode(factoryCode);
+	}
+
 
 	
 }

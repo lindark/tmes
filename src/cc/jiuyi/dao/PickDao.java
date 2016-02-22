@@ -32,4 +32,11 @@ public interface PickDao extends BaseDao<Pick,String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	
+	/**
+	 * 根据随工单号找出所有的Pick对象
+	 * @param WorkingBillId
+	 * @return
+	 */
+	public List<Pick> getPickByWorkingbillId(String WorkingBillId);
+	
 }

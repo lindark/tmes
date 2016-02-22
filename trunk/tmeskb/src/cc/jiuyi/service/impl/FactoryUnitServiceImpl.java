@@ -80,4 +80,9 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 	{
 		return this.factoryUnitDao.getCostCenter(pager,type);
 	}
+
+	@Override
+	public FactoryUnit getUnitByWorkCenter(String workCenter) {
+		return factoryUnitDao.getUnitByWorkCenter(workCenter);
+	}
 }

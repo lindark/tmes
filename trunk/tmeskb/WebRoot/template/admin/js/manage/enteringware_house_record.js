@@ -20,7 +20,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"enteringware_house!historylist.action",
+		url:"enteringware_house!recordAjlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -42,12 +42,17 @@ jQuery(function($) {
 			
 	        {name:'workingbillCode',index:'workingbillCode', label:"随工单编号", width:150,sortable:"true",sorttype:"text"},
 	        {name:'maktx',index:'maktx',label:"产品名称", width:400,sortable:"true",sorttype:"text"},
-			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
+	        {name:'factory',index:'factory',label:"工厂", width:400,sortable:"true",sorttype:"text"},
+	        {name:'workshop',index:'workshop',label:"车间", width:400,sortable:"true",sorttype:"text"},
+	        {name:'location',index:'location',label:"库存地点", width:400,sortable:"true",sorttype:"text"},
+			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true}
+			/**
 			{name:'createDate',label:"入库时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
+		    **/
 		], 
 
 		viewrecords : true,

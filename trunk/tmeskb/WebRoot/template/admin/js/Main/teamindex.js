@@ -92,8 +92,9 @@ $(function() {
 	/**
 	 * checkbox 选中
 	 */
-	$ckbox.click(function(){
+	$ckbox.click(function(event){
 		init.initCheckbox();
+		event.stopPropagation();
 	});
 	
 

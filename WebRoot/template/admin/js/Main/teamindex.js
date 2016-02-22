@@ -20,11 +20,17 @@ $(function() {
 	var $table00 = $("#table00");//随工单table
 	var $scenecheck=$("#scenecheck");//现场检验
 	
-//	$table00.find("tbody tr").click(function(){
-//		alert("?");
-//		$(this).eq(0).find("input.ckbox").attr("checked",true);
-//		init.initCheckbox();
-//	});
+	$table00.find("tbody tr").click(function(){
+		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
+		if(battr == false){
+			alert("false");
+			$(this).eq(0).find("input.ckbox").prop("checked",true);
+		}else if(battr == true){
+			alert("true");
+			$(this).eq(0).find("input.ckbox").removeAttr("checked");
+		}
+		init.initCheckbox();
+	});
 	
 	
 	var init = {

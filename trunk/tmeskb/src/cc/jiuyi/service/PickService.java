@@ -34,4 +34,12 @@ public interface PickService extends BaseService<Pick, String>,WorkingInoutCalcu
 	public void saveRepeal(List<Pick> list,Admin admin,String stu);
 	
 	public void updateSap(String pk,String ex_mblnr);
+	
+	
+	/**
+	 * 根据随工单号找出所有的Pick对象
+	 * @param WorkingBillId
+	 * @return
+	 */
+	public List<Pick> getPickByWorkingbillId(String WorkingBillId);
 }

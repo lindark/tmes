@@ -108,6 +108,13 @@
 														</div>
 														
 													</div>
+													
+													<div class="profile-info-row">												
+														<div class="profile-info-name">当前状态</div>
+														<div class="profile-info-value">
+															${str}
+														</div>			
+													</div>
 												</div>
 											</div>
 										</div>

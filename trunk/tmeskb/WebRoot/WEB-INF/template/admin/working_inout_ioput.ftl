@@ -11,11 +11,13 @@
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/working_inout_ioput.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
-
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/list.js"></script> 
+<script type="text/javascript">
+	var jsondata = ${(jsondata)!};
+</script>
 <style>
 body {
 	background: #fff;

@@ -22,6 +22,23 @@ body {
 .operateBar{
 	padding:3px 0px;
 }
+
+.operateName{
+	text-align: right;
+    padding: 6px 10px 6px 4px;
+    font-weight: 400;
+    color: #667E99;
+    background-color: transparent;
+    /* border-top: 1px dotted #D5E4F1; */
+    display: table-cell;
+    width: 110px;
+    vertical-align: middle;
+}
+.operateValue{
+    display: table-cell;
+    padding: 6px 4px 6px 6px;
+    /* border-top: 1px dotted #D5E4F1; */
+}
 </style>
 </head>
 <body class="no-skin input">
@@ -50,16 +67,35 @@ body {
 								action="#"
 								method="post">
 								<div class="operateBar" >
-										<div class="profile-info-row">
-											 <div class="profile-info-name">提交人:</div>
-											 <div class="profile-info-value">
-											 	${(submitadmin)! }
-											 </div>
-											 <div class="profile-info-name">确认人:</div>
-											 <div class="profile-info-value">
-											 	${(approvaladmin)! }
-											 </div>
-										</div>
+									<div style="float:left">
+										<div class="operateName">子件名称:</div>
+									    <div class="operateValue">
+												 ${(materialCode)! } &nbsp;
+												 ${(materialName)! }
+									    </div>
+									</div>
+									<div style="float:right">
+									   <div class="operateName">提交人:</div>
+									   <div class="operateValue">
+												 	${(submitadmin)! }
+									   </div>
+									   <div class="operateName">确认人:</div>
+									   <div class="operateValue">
+									 	  ${(approvaladmin)! }
+									   </div>
+									</div>
+										<!-- 
+											<div class="profile-info-row">
+												 <div class="profile-info-name">提交人:</div>
+												 <div class="profile-info-value">
+												 	${(submitadmin)! }
+												 </div>
+												 <div class="profile-info-name">确认人:</div>
+												 <div class="profile-info-value">
+												 	${(approvaladmin)! }
+												 </div>
+											</div>
+									 -->
 								</div>
 								
 								<table class="table table-striped table-bordered">
@@ -95,7 +131,7 @@ body {
 													<input type="text" class="form-control cqamount formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].cqamount" value="${(list.cqamount)! }"/>
 												</td>
 												<td class="left">
-													<input type="text" class="form-control cqrepairamount formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].cqrepairamount" value="${(list.cqrepairamount)! }"/>
+													<input type="text" class="form-control cqrepairamount formText{digits:true,messagePosition: '#MessagePosition'}" name="handoverprocessList[${num }].cqrepairAmount" value="${(list.cqrepairamount)! }"/>
 												</td>
 												<td class="left">
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].materialCode" value="${materialCode }"/> <!-- 物料组件 -->
@@ -103,11 +139,11 @@ body {
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].beforworkingbill.id" value="${list.id }"/><!-- 上班随工单 -->
 													<input type="hidden" class="form-control" name="handoverprocessList[${num }].processid" value="${processid }"/><!-- 工序-->
 													<input type="hidden" class="form-control formText{digits:true,messagePosition: '#MessagePosition'} amountinp" name="handoverprocessList[${num }].amount" value="${(list.amount)! }"/><!-- 实际正常交接数量 -->							
-													<span class="amount"></span>
+													<span class="amount">${(list.amount)! }</span>
 												</td>
 							 					<td class="left">
 							 						<input type="hidden" class="form-control formText{digits:true,messagePosition: '#MessagePosition'} repairamountinp" name="handoverprocessList[${num }].repairAmount" value="${(list.repairamount)! }"/><!-- 实际返修交接数量 -->
-							 						<span class="repairamount"></span>
+							 						<span class="repairamount">${(list.repairamount)! }</span>
 							 					</td>		       
 											</tr>
 											<#assign  num=num+1/>

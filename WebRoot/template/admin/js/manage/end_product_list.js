@@ -44,6 +44,7 @@ jQuery(function($) {
 			{name:'createName',index:'createName',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'confirmName',index:'confirmName',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialBatch',index:'materialBatch',search:false,label:"批次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'mblnr',index:'mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stockBoxMout',index:'stockBoxMout',search:false,label:"入库箱数", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xstate',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=endProState"}},

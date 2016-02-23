@@ -17,7 +17,7 @@ import org.compass.annotations.Searchable;
 @Entity
 @Searchable
 @Table(name = "PickDetail")
-public class PickDetail extends BaseEntity{
+public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 
     /**
 	 * 
@@ -190,6 +190,10 @@ public class PickDetail extends BaseEntity{
 	}
 	public void setCqhStockAmount(String cqhStockAmount) {
 		this.cqhStockAmount = cqhStockAmount;
+	}
+	@Override
+	public int compareTo(PickDetail o) {
+		return this.materialCode.compareTo(o.getMaterialCode());
 	}
 
 	

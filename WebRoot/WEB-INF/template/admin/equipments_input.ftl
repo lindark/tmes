@@ -94,7 +94,52 @@ body{background:#fff;}
 											<label class="requireField">*</label>	
 										</div>
 									</div>
-									 	
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 公司 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.company" value="${(equipments.company)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 工厂 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.factory" value="${(equipments.factory)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
+									 <div class="profile-info-row">	
+										<div class="profile-info-name"> 成本中心 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.costCenter" value="${(equipments.costCenter)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>	
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 工作中心 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.workCenter" value="${(equipments.workCenter)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
+									 <div class="profile-info-row">	
+										<div class="profile-info-name"> 功能位置 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.functionPosition" value="${(equipments.functionPosition)!}" class=" input input-sm" />	
+										</div>
+									</div>	
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 位置 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.position" value="${(equipments.position)!}" class=" input input-sm" />								
+										</div>
+									</div>
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> ABC标识 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.identify" value="${(equipments.identify)!}" class=" input input-sm" />
+										</div>
+									</div>
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 设备类型</div>					
 										<div class="profile-info-value">

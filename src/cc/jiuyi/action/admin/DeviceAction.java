@@ -276,7 +276,6 @@ public class DeviceAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Device.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
@@ -311,9 +310,7 @@ public class DeviceAction extends BaseAdminAction {
 		device.setState("0");
 		device.setIsDel("N");
 		device.setWorkshopLinkman(admin);
-
-		
-		
+				
 		List<DeviceStep> step=new ArrayList<DeviceStep>();
 		DeviceStep s=new DeviceStep();
 		s.setVornr("0010");
@@ -331,24 +328,22 @@ public class DeviceAction extends BaseAdminAction {
 		device.setDndTime(new Date());
 		device.setTotalDownTime(5.0);
 		device.setSHORT_TEXT("设备维修单");
-		System.out.println("into");
+
 		try {				
 			String aufnr=devicerfc.DeviceCrt("0",device,step,module);
-			System.out.println("in");
-			System.out.println("订单号为："+aufnr);
 			device.setOrderNo(aufnr);
 			deviceService.save(device);
 				
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
-			System.out.println(e1.getMsgDes());
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch(Exception e){
 			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
-		
-		System.out.println("to");
 		
 		DeviceLog log = new DeviceLog();
 		log.setOperator(admin);
@@ -498,16 +493,16 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			
 			try {
-				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);
-				System.out.println("订单号为："+aufnr);
-				
+				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);				
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常");
 			} catch (CustomerException e1) {
-				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
+				return ajaxJsonErrorMessage(e1.getMsgDes());
 			}catch(Exception e){
 				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 			}
 			
 			
@@ -683,14 +678,6 @@ public class DeviceAction extends BaseAdminAction {
 	public void setAbnorId(String abnorId) {
 		this.abnorId = abnorId;
 	}
-
-	/*public List<DeviceProcess> getDeviceProcessSet() {
-		return deviceProcessSet;
-	}
-
-	public void setDeviceProcessSet(List<DeviceProcess> deviceProcessSet) {
-		this.deviceProcessSet = deviceProcessSet;
-	}*/
 
 	public String getEquipNo() {
 		return equipNo;

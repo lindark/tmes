@@ -30,5 +30,14 @@ public interface DumpRfc extends BaserfcService{
 	 * @return HashMap 的 List 集合
 	 * @throws IOException  IO异常信息,请捕获并抛到页面
 	 */
-	public List<HashMap<String,String>> findMaterial(String werks,String lgort,String matnr,String lgpla) throws IOException ;
+	public List<HashMap<String,String>> findMaterial(String werks,String lgort,String matnr,String lgpla) throws IOException,CustomerException ;
+	
+	/**
+	 * 库位下架
+	 * @param arrList
+	 * @return 返回 S 表示成功，其他均为失败
+	 * @throws IOException
+	 * @throws CustomerException
+	 */
+	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException;
 }

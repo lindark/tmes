@@ -170,7 +170,6 @@ public class EquipmentsAction extends BaseAdminAction {
 			@RequiredStringValidator(fieldName = "equipments.equipmentNo", message = "设备编号不允许为空!") })
 	@InputConfig(resultName = "error")	
 	public String update() {
-		System.out.println("into");
 		Equipments persistent = equipmentService.load(id);
 		BeanUtils.copyProperties(equipments, persistent, new String[] { "id","createDate", "modifyDate","isDel","state",});		
 		equipmentService.update(persistent);

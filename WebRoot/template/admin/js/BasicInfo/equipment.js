@@ -63,10 +63,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['设备编码','设备名称','设备型号','状态', ],
+		colNames:['公司','工厂','成本中心','工作中心','设备编码','设备名称','设备型号','状态', ],
 		colModel:[		
-			//{name:'id',index:'id', width:60, sorttype:"int", editable: true,summaryType:'sum'},
-			//{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+            {name:'company',index:'company', width:100,editable: true,sortable:true},
+            {name:'factory',index:'factory', width:100,editable: true,sortable:true},
+            {name:'costCenter',index:'costCenter', width:100,editable: true,sortable:true},
+            {name:'workCenter',index:'workCenter', width:100,editable: true,sortable:true},
 			{name:'equipmentNo',index:'equipmentNo', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'equipmentName',index:'equipmentName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'versionReamrk',index:'version', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
@@ -96,7 +98,7 @@ jQuery(function($) {
 		},
 
 		editurl: "equipments!delete.action",//用它做标准删除动作
-		caption: "工厂管理"
+		caption: "设备管理"
 
 		//,autowidth: true,
 //		,

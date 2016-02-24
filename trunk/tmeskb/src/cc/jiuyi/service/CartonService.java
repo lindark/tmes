@@ -44,7 +44,7 @@ public interface CartonService extends BaseService<Carton, String> {
 	 * @param list_cs
 	 * @param cardnumber
 	 */
-	public void saveData(List<CartonSon> list_cs, String cardnumber,String loginid);
+	public void saveData(List<CartonSon> list_cs, String cardnumber,String loginid,String bktxt);
 
 	/**
 	 * 获取bom中随工单对应的以5开头的各个物料--新增前
@@ -63,7 +63,7 @@ public interface CartonService extends BaseService<Carton, String> {
 	 * @param list_cs
 	 * @param cardnumber
 	 */
-	public void updateData(List<CartonSon> list_cs, String id);
+	public void updateData(List<CartonSon> list_cs, String id,String bktxt);
 
 	/**
 	 * 与SAP交互

@@ -20,6 +20,13 @@ public class Equipments extends BaseEntity{
 	private String equipmentNo;//编号
 	
 	private String version;//型号
+	private String company;//公司
+	private String factory;//工厂
+	private String costCenter;//成本中心
+	private String workCenter;//工作中心
+	private String functionPosition;//功能位置
+	private String position;//位置
+	private String identify;//标识
 	
     private String state;//状态
     private String isDel;//是否删除
@@ -95,6 +102,48 @@ public class Equipments extends BaseEntity{
 	}
 	public void setModelSet(Set<Model> modelSet) {
 		this.modelSet = modelSet;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getFactory() {
+		return factory;
+	}
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+	public String getCostCenter() {
+		return costCenter;
+	}
+	public void setCostCenter(String costCenter) {
+		this.costCenter = costCenter;
+	}
+	public String getWorkCenter() {
+		return workCenter;
+	}
+	public void setWorkCenter(String workCenter) {
+		this.workCenter = workCenter;
+	}
+	public String getFunctionPosition() {
+		return functionPosition;
+	}
+	public void setFunctionPosition(String functionPosition) {
+		this.functionPosition = functionPosition;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
+	public String getIdentify() {
+		return identify;
+	}
+	public void setIdentify(String identify) {
+		this.identify = identify;
 	}
     
     

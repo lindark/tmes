@@ -68,7 +68,23 @@ body {
 								 	<ul>
 								    	<li><a href="#tabs-1">添加纸箱收货单</a></li>
 									</ul>
-									<div id="tabs-1" class="tab1">						
+									
+									<div id="tabs-1" class="tab1">	
+									  <div class="profile-user-info profile-user-info-striped">
+												<div class="profile-info-row">
+													<div class="profile-info-name">单据编号</div>
+													<div class="profile-info-value">
+											            <#if show>													
+																${(carton.bktxt)!}
+														<#else>
+														<input type="text" name="bktxt" value="${(carton.bktxt)!}" class=" input input-sm  formText {required: true,minlength:1,maxlength: 5}" />
+											            <label class="requireField">*</label>
+														</#if>	
+													</div>
+												</div>							
+							        	</div>
+								
+												
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
@@ -202,4 +218,6 @@ function num_event()
 		});
 	</#list>
 }
+
+
 </script>

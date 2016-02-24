@@ -145,7 +145,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException{
 		super.setProperty("materiallqua1");//根据配置文件读取到函数名称
 		/******输入参数******/
-		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		//HashMap<String,Object> parameter = new HashMap<String,Object>();
 		//parameter.put("GM_CODE", "03");//移动类型
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
@@ -165,7 +165,6 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		if(type.equals("E")){//如果是E，抛出自定义异常
 			throw new CustomerException("1400001", message);
 		}
-		
 		return type;
 	}
 	

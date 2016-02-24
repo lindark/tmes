@@ -293,6 +293,7 @@ public class ModelAction extends BaseAdminAction {
 			s.setWork_activity("10");
 			s.setDuration("10");			
 			step.add(s);
+			
 			List<DeviceModlue> module=new ArrayList<DeviceModlue>();
 			DeviceModlue dm=new DeviceModlue();
 			dm.setMaterial("60000167");//物料编码
@@ -303,16 +304,16 @@ public class ModelAction extends BaseAdminAction {
 			
 			try {
 				String aufnr=moderfc.ModelCrt("1",persistent, step, module);
-				System.out.println("订单号为："+aufnr);
-				//persistent.setOrderNo(aufnr);
 				modelService.update(persistent);
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常");
 			} catch (CustomerException e1) {
-				System.out.println(e1.getMsgDes());
 				e1.printStackTrace();
+				return ajaxJsonErrorMessage(e1.getMsgDes());
 			}catch(Exception e){
 				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 			}
 		
 			
@@ -435,7 +436,6 @@ public class ModelAction extends BaseAdminAction {
 	// 刷卡提交
 	public String creditsave() {
 		admin = adminService.getByCardnum(cardnumber);
-
 		abnormal = abnormalService.load(abnormalId);
 		model.setAbnormal(abnormal);
 		
@@ -469,7 +469,7 @@ public class ModelAction extends BaseAdminAction {
 		model.setIsDel("N");
 		model.setState("0");
 		model.setInitiator(admin);
-				
+		
 		model.setSHORT_TEXT("工模维修单");
 		model.setCOST("2");
 		model.setCreateDate(new Date());
@@ -489,19 +489,19 @@ public class ModelAction extends BaseAdminAction {
 		s.setDuration("10");			
 		step.add(s);
 		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
-		
 		try {
 			String aufnr=moderfc.ModelCrt("0",model, step, module);
-			System.out.println("订单号为："+aufnr);
 			model.setOrderNo(aufnr);
 			modelService.save(model);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
-			System.out.println(e1.getMsgDes());
 			e1.printStackTrace();
+			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch(Exception e){
 			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
 		ModelLog log = new ModelLog();
@@ -509,7 +509,7 @@ public class ModelAction extends BaseAdminAction {
 		log.setOperator(admin);
 		log.setModel(model);
 		modelLogService.save(log);
-		
+
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
 		abnormalLog.setType("1");

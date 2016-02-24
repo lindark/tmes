@@ -161,14 +161,14 @@ body {
 												<div class="profile-info-name">通知时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.noticeTime"
-														value="${(model.noticeTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														value="${(abnormal.callDate)!}"
+														readonly="readonly"/>
 												</div>
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.arriveTime"
-														value="${(model.arriveTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														value="${(abnormal.replyDate)!}"
+														readonly="readonly"/>
 												</div>
 											</div>
 											<div class="profile-info-row">

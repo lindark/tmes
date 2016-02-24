@@ -1,3 +1,4 @@
+
 package cc.jiuyi.sap.rfc.impl;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 			item.put("LGORT", cs.getLGORT());//库存地点
 			item.put("MOVE_TYPE", cs.getMOVE_TYPE());//移动类型
 			item.put("XUH", cs.getCarton().getId());//序号
-			//item.put("ZTEXT", value);
+			item.put("ZTEXT", cs.getCarton().getBktxt());
 			arrList.add(item);
 		}
 		//去重

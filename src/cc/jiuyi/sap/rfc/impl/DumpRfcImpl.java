@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.swing.event.TableModelListener;
 
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
+import cc.jiuyi.util.TableModel;
 @Component
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	
@@ -111,6 +113,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		parameter.put("S_WERKS", werks);//工厂
 		parameter.put("S_LGORT", lgort);//库存地点
 		parameter.put("S_MATNR", matnr);//物料
+		parameter.put("S_LGPLA", lgpla);//物料
 		super.setParameter(parameter);//输入参数
 		SAPModel model = execBapi();//执行 并获取返回值
 		ParameterList out = model.getOuts();//返回参数
@@ -137,6 +140,33 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			arrList.add(map);
 		}
 		return arrList;
+	}
+	
+	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException{
+		super.setProperty("materiallqua1");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		//parameter.put("GM_CODE", "03");//移动类型
+		/******输入表******/
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		TableModel GT_LQUA = new TableModel();
+		GT_LQUA.setData("GT_LQUA");
+		GT_LQUA.setList(arrList);
+		tablemodelList.add(GT_LQUA);
+		//super.setParameter(parameter);
+		super.setTable(tablemodelList);
+		/******执行 end******/
+		SAPModel model = execBapi();//执行 并获取返回值
+		ParameterList out = model.getOuts();//返回参数
+		ParameterList outs = model.getOuttab();//返回表
+		//Table t_data = outs.getTable("");//列表
+		String type = out.getString("E_TYPE");
+		String message = out.getString("E_MESSAGE");
+		if(type.equals("E")){//如果是E，抛出自定义异常
+			throw new CustomerException("1400001", message);
+		}
+		
+		return type;
 	}
 	
 	

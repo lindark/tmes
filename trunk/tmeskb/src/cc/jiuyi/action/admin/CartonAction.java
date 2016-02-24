@@ -53,6 +53,7 @@ public class CartonAction extends BaseAdminAction {
 	private String info;
 	private String loginid;//当前登录人
 	private String isRecord;//纸箱收货记录
+	private String bktxt;//单据编号
 
 	@Resource
 	private CartonService cartonService;
@@ -91,7 +92,7 @@ public class CartonAction extends BaseAdminAction {
 	// 新增保存
 	public String creditsave() throws Exception
 	{
-		this.cartonService.saveData(list_cs,cardnumber,loginid);
+		this.cartonService.saveData(list_cs,cardnumber,loginid,bktxt);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -99,6 +100,7 @@ public class CartonAction extends BaseAdminAction {
 	public String edit()
 	{
 		this.edit=id;
+		carton = cartonService.get(id);
 		list_cs=this.cartonService.getBomByConditions_edit(id);//获取bom中随工单对应的以5开头的各个物料
 		return INPUT;
 	}
@@ -106,13 +108,14 @@ public class CartonAction extends BaseAdminAction {
 	// 修改
 	public String creditupdate()
 	{
-		this.cartonService.updateData(list_cs,id);
+		this.cartonService.updateData(list_cs,id,bktxt);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//查看
 	public String show()
 	{
+		carton = cartonService.get(id);
 		this.list_cs=this.cartonService.getToShow(id);
 		this.show="show";
 		return INPUT;
@@ -377,4 +380,13 @@ public class CartonAction extends BaseAdminAction {
 		this.isRecord = isRecord;
 	}
 
+	public String getBktxt() {
+		return bktxt;
+	}
+
+	public void setBktxt(String bktxt) {
+		this.bktxt = bktxt;
+	}
+
+	
 }

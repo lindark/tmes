@@ -219,7 +219,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	/**
 	 * 新增保存
 	 */
-	public void saveData(List<CartonSon> list_cs, String cardnumber,String loginid)
+	public void saveData(List<CartonSon> list_cs, String cardnumber,String loginid,String bktxt)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		Admin login_admin=this.adminservice.get(loginid);
@@ -231,6 +231,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		c.setProductDate(login_admin.getProductDate());//生产日期
 		c.setTeamshift(login_admin.getShift());//班次
 		c.setState("2");//状态-未确认
+		c.setBktxt(bktxt);
 		String cid=this.save(c);//保存
 		/**子表数据插入*/
 		saveinfo(cid,list_cs);
@@ -249,7 +250,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				CartonSon cs=list_cs.get(i);
 				if(cs.getCscount()!=null&&!"".equals(cs.getCscount()))
 				{
-					cs.setCarton(c);
+					cs.setCarton(c);				
 					this.csService.save(cs);
 				}
 			}
@@ -313,12 +314,10 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	/**
 	 * 修改
 	 */
-	public void updateData(List<CartonSon> list_cs, String id)
+	public void updateData(List<CartonSon> list_cs, String id,String bktxt)
 	{
 		Carton c=this.get(id);
 		List<CartonSon>list=new ArrayList<CartonSon>(c.getCartonsonSet());//获取对应子表数据
-		c.setModifyDate(new Date());//修改日期
-		this.update(c);
 		if(list.size()>0)
 		{
 			for(int i=0;i<list.size();i++)
@@ -328,8 +327,18 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			}
 			
 		}
-		/**子表数据插入*/
+		if (list_cs != null) {
+			for (int i = 0; i < list_cs.size(); i++) {
+				CartonSon cs = list.get(i);
+			}
+			c.setModifyDate(new Date());// 修改日期
+			c.setBktxt(bktxt);// 修改单据编号
+			this.update(c);
+		}
+
+		/** 子表数据插入 */
 		saveinfo(id,list_cs);
+		
 	}
 
 	/**

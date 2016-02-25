@@ -61,6 +61,7 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.OneBarcodeUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -243,6 +244,12 @@ public class AdminAction extends BaseAdminAction {
 			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 			Collections.sort(workingbillList);
 		}
+		
+		/**weitao 此处处理条形码 begin**/
+		//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
+		//OneBarcodeUtil.createCode("我就测试一下", path);
+		
+		/**weitao end**/
 		return "teamindex";
 	}
 	// 后台质检首页弹出层
@@ -506,7 +513,6 @@ public class AdminAction extends BaseAdminAction {
 		//pager = adminService.findByPager(pager);
 		return LIST;
 	}
-	
 	
 	/**
 	 * ajax 列表

@@ -116,7 +116,6 @@ public class HandOverProcessAction extends BaseAdminAction {
 			WorkingBill workingbill = workingbillAll.get(i);
 			
 			String aufnr = workingbill.getAufnr();//生产订单号
-			//TODO 根据传入进来的物料号
 			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),materialCode,workingbill.getWorkingBillCode());
 		    if(bomList == null)//如果没有找到一行数据，表示随工单+组件编码没有数据
 		    	continue;
@@ -515,21 +514,21 @@ public class HandOverProcessAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-//		boolean f = false;
-//		for(HandOverProcess hopl  : handoverprocessList){
-//			WorkingBill workingBill = workingbillservice.get(hopl.getBeforworkingbill().getId());
-//			Set <HandOverProcess>  hopSet = workingBill.getBeforhandoverprocessSet();
-//			if(hopSet!=null){
-//				for(HandOverProcess hop : hopSet){
-//					if("approval".equals(hop.getState())){
-//						f= true;
-//					}
-//				}
-//			}
-//		}
-//		if(f){
-//			return ajaxJsonErrorMessage("数据已确认无需再次确认");
-//		}
+		
+		boolean flag = true;
+		for(int i=0;i<handoverprocessList.size();i++){
+			HandOverProcess handoverprocess = handoverprocessList.get(i);
+			handOverProcess = handOverProcessService.findhandoverBypro(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(),handoverprocess.getBeforworkingbill().getId());
+			if(handOverProcess == null)
+				continue;
+			String state = handOverProcess.getState();
+			if(state != null)
+				flag = false;
+		}
+		if(flag){//如果找到是已刷卡确认了，报错，不能再次提交
+			return ajaxJsonErrorMessage("当前未提交!");
+		}
+		
 		String message = handOverProcessService.savehandover(handoverprocessList,"creditapproval",cardnumber);
 		String [] msg = message.split(",");
 		if(msg[0].equals("false")){

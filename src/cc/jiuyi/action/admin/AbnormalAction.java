@@ -486,6 +486,8 @@ public class AbnormalAction extends BaseAdminAction {
 		maps.put("name",admin.getId());
 		maps.put("date", ThinkWayUtil.getCron(date1));
 		maps.put("time", ThinkWayUtil.getCron(date2));
+		maps.put("hour", ThinkWayUtil.formatdateDateTime(date2));
+		
 		maps.put("jobname", job_name);
 		maps.put("count","1");
 		maps.put("message", message);

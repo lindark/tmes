@@ -454,6 +454,7 @@ public class AbnormalAction extends BaseAdminAction {
         	 }
 			}catch(Exception e){
 				e.printStackTrace();
+				return ajaxJsonErrorMessage("系统出现错误,请联系系统管理员");
 			}
 		}
 				

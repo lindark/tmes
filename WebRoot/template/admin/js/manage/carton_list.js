@@ -72,6 +72,7 @@ jQuery(function($) {
 			{name:'xcreateUser',label:"创建人",index:'createUser', width:120,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'confirmUser', width:120,sortable:"true",sorttype:"text"},
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:120,sortable:"true",sorttype:"text"},
+			{name:'bktxt',label:"单据编号",index:'bktxt', width:120,sortable:"true",sorttype:"text"},
 			{name:'xstate',label:"状态",index:'state', width:120,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 

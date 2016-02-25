@@ -141,6 +141,17 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<!-- xfire配置 -->
+	<servlet>  
+	    <servlet-name>xfireServlet</servlet-name>  
+	    <servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class>  
+	</servlet>  
+	<servlet-mapping>  
+		    <servlet-name>xfireServlet</servlet-name>  
+		    <url-pattern>/service/*</url-pattern>  
+	</servlet-mapping>
+
+	
 	<!-- Spring刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>

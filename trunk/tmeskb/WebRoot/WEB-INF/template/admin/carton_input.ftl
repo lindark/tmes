@@ -77,7 +77,7 @@ body {
 											            <#if show>													
 																${(carton.bktxt)!}
 														<#else>
-														<input type="text" name="bktxt" value="${(carton.bktxt)!}" class=" input input-sm  formText {required: true,minlength:1,maxlength: 5}" />
+														<input type="text" name="bktxt" id="bktxt" value="${(carton.bktxt)!}" class=" input input-sm  formText {required: true,minlength:1,maxlength: 5}" />
 											            <label class="requireField">*</label>
 														</#if>	
 													</div>
@@ -163,7 +163,7 @@ body {
 							<div class="row buttons col-md-8 col-sm-4 sub_style">
                             	<#if show??>
                             	<#else>
-                            		<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type="button" />
+                            		<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type="button"/>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡保存
 									</button>
@@ -198,6 +198,12 @@ $(function(){
 	$("#btn_save").click(function(){
 		//提交
 		//$("#inputForm").submit();
+		
+		var str = $("#bktxt").val();
+		if(str ==""){
+			layer.alert("单据编号必须填写",{icon: 7});
+			return false;
+		}
 		var url="";
 		<#if add??>
 			url = "carton!creditsave.action";		

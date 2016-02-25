@@ -141,7 +141,7 @@ public class WorkingBillServiceImpl extends
 	/**
 	 * 根据随工单编号 获取 下一条记录
 	 */
-	@Cacheable(modelId = "caching")
+	//@Cacheable(modelId = "caching")
 	public WorkingBill getCodeNext(String workingbillCode,String productDate,String shift){
 		Admin admin = adminservice.getLoginAdmin();//获取当前登录身份
 		admin = adminservice.get(admin.getId());

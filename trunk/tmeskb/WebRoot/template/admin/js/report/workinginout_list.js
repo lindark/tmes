@@ -33,7 +33,7 @@ jQuery(function($) {
 		loadonce:true, //从服务器抓取数据,然后交给客户端处理
 		viewrecords : true,
 		scroll:true,
-		//rowNum:10,
+		rowNum:9999999999,
 		//rowList:[10,20,30],
 		pager : pager_selector,
 		pgbuttons:false,

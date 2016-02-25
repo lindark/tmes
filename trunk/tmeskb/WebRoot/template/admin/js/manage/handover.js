@@ -20,8 +20,8 @@ $(function(){
 		//var heights = $(window).height();
 		//var width=widths-189+"px";
 		//var height=heights-86+"px";
-		var width="800px";
-		var height="400px";
+		var width="950px";
+		var height="500px";
 		var content="hand_over_process!add.action?materialCode="+materialCode+"&materialName="+materialName+"&processid="+active+"&nowDate="+nowdate+"&shift="+shift;
 		layer.open({
 	        type: 2,

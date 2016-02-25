@@ -20,6 +20,7 @@ import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 -工序交接
@@ -102,6 +103,9 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 				Double cqsl = handoverprocess.getCqsl();//裁切倍数
 				Double cqamount = handoverprocess.getCqamount();//裁切后正常交接数量
 				Double cqrepairamount = handoverprocess.getCqrepairAmount();//裁切后返修交接数量
+				cqsl = ThinkWayUtil.null2o(cqsl);
+				cqamount = ThinkWayUtil.null2o(cqamount);
+				cqrepairamount = ThinkWayUtil.null2o(cqrepairamount);
 				Double amount = ArithUtil.round(ArithUtil.div(cqamount, cqsl),2);
 				Double repairamount = ArithUtil.round(ArithUtil.div(cqrepairamount, cqsl), 2);
 				handoverprocess.setAmount(amount);

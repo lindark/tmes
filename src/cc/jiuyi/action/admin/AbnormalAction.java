@@ -450,7 +450,7 @@ public class AbnormalAction extends BaseAdminAction {
              doc = DocumentHelper.parseText(str); 
              Node stateNode = doc.selectSingleNode("/infos/info/state");
         	 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
-        		 ajaxJsonErrorMessage("短信发送失败!");
+        		 return ajaxJsonErrorMessage("短信发送失败!");
         	 }
 			}catch(Exception e){
 				e.printStackTrace();

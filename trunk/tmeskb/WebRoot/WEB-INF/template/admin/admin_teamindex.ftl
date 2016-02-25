@@ -54,7 +54,24 @@
 
 
 </script>
-
+<!-- 
+<script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
+ -->
+ <script src='http://localhost:8000/CLodopfuncs.js'></script>
+<script type="text/javascript">
+	
+	$(function(){
+		LODOP.PRINT_INIT("打印任务名");
+		LODOP.SET_PRINT_PAGESIZE(1,"50mm","80mm","箱标签");//宽度 49mm 高度 74mm 
+		LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p>&nbsp;建新赵氏集团</p>");
+		LODOP.ADD_PRINT_TEXT("6mm","0mm","49mm","6mm","桑塔纳NF/前门");
+		LODOP.ADD_PRINT_TEXT("12mm","0mm","49mm","6mm","34D839431A5AP");
+		LODOP.ADD_PRINT_BARCODE("18mm","1mm","49mm","10mm","128Auto","123231231");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.PREVIEW();
+	})
+	
+</script>
 </head>
 <body class="no-skin">
 
@@ -155,7 +172,7 @@
 													    </form>
 														</div>
 													</div>
-													
+													<!-- <img src="${base }/template/admin/barcode/barcode.png"></img> -->
 													<!-- 
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
@@ -407,6 +424,8 @@
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>条码打印</th>
 														</tr>
 													</thead>
 
@@ -423,6 +442,9 @@
 
 															<td class="hidden-480">${list.matnr}</td>
 															<td class="hidden-480">${list.workingBillCode}</td>
+															<td class="hidden-480"><input type="text" class="input-sm col-sm-2"/>&nbsp; 
+																<a href="javascript:void(0);">打印</a>
+															</td>
 														</tr>
 														</#list>
 

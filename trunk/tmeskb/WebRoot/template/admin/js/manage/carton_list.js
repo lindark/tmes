@@ -160,7 +160,7 @@ jQuery(function($) {
 		//已撤销
 		if(rawObject.state=="3")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:purple;font-weight:bold;'";
 		}
 	}
 	//navButtons
@@ -282,7 +282,7 @@ function btn_event()
 		}
 	});
 	//刷卡撤销
-	$("#btn_revoke").click(function(){
+	$("#btn_cancel").click(function(){
 		if(getId())
 		{
 			var url="carton!creditundo.action?info="+info+"&my_id=2";

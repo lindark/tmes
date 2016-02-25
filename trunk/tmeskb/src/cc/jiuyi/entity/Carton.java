@@ -26,6 +26,7 @@ public class Carton extends BaseEntity {
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
 	private String teamshift;//班次
 	private String productDate;//生产日期
+	private String bktxt;//单据编号
 	//假字段
 	private String xcreateUser;//创建人的名字
 	private String xconfirmUser;//确认人的名字
@@ -161,6 +162,14 @@ public class Carton extends BaseEntity {
 	public void setTeamshift(String teamshift)
 	{
 		this.teamshift = teamshift;
+	}
+
+	public String getBktxt() {
+		return bktxt;
+	}
+
+	public void setBktxt(String bktxt) {
+		this.bktxt = bktxt;
 	}
 	
 }

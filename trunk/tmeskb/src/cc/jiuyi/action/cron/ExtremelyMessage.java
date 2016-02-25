@@ -1,6 +1,8 @@
 package cc.jiuyi.action.cron;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.quartz.JobDataMap;
@@ -20,14 +21,12 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Component;
 
-import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.TeamService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
@@ -61,6 +60,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String adminId = data.getString("name");//人员id
 		     String time1 = data.getString("date");//时间1
 		     String time2 = data.getString("time");//时间2
+		     String hour=data.getString("hour");//时间3
 		     String jobname = data.getString("jobname");//任务名称
 		     String count = data.getString("count");//次数
 			 String message=data.getString("message");//信息
@@ -107,7 +107,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 	    			} 		    		
 
 	    	 }
-	    	 if(hashmapList.size()==0){
+	    	 if(hashmapList.size()==0){//判断是否存在直接上级，不存在就结束任务
 	    		 QuartzManagerUtil.removeJob(jobname);
 	    	 }
 	    	 JSONArray jsonArray = JSONArray.fromObject(hashmapList);
@@ -121,10 +121,12 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 			 abnormalLogService.save(abnormalLog);
 			 			 
 			 HashMap<String,Object> maps = new HashMap<String,Object>();
+			 Integer second=1800;//30分钟向直属上级发送
 			 maps.put("id",abnorId);
 			 maps.put("name",adminId);
 			 maps.put("date", time1);
 			 maps.put("time",time2);
+			 maps.put("hour",hour);
 			 maps.put("jobname",jobname);					
 			 maps.put("message", message);	
 			 maps.put("list", jsonArray.toString());
@@ -135,8 +137,13 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 				 maps.put("count", "3");
 				 QuartzManagerUtil.modifyJobTime(jobname,time2,maps);//修改任务30分钟向直属上司发送短信	
 			 }else{
-				 maps.put("count", "3");
-				 QuartzManagerUtil.modifyJobTime(jobname,time2,maps);//修改任务30分钟向直属上司发送短信	
+				 maps.put("count", "3");//30分钟递归向上级发送	
+				 String time3=ThinkWayUtil.timeAdd(hour, second);
+				 maps.put("hour", time3);
+				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+				 Date date = sdf.parse(time3);
+				 String time=ThinkWayUtil.getCron(date);
+				 QuartzManagerUtil.modifyJobTime(jobname,time,maps);//修改任务30分钟向直属上司发送短信	
 			 }
 			
 			 

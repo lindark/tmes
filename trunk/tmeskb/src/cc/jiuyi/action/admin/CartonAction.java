@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -133,9 +134,9 @@ public class CartonAction extends BaseAdminAction {
 				if (CONFIRMED.equals(c.getState())) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
-				/*if (UNDO.equals(c.getState())) {
+				if (UNDO.equals(c.getState())) {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
-				}*/
+				}
 			}
 			String str = this.cartonService.updateToSAP(ids,cardnumber,loginid);
 			String issuccess=ERROR;
@@ -163,20 +164,31 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		ids = id.split(",");
+		ids = info.split(",");
+		String str = "";
+		List<Carton> list = cartonService.get(ids);
+		for (int i = 0; i < list.size(); i++) {
+			Carton carton = list.get(i);
+			if (str.equals("")) {
+				str = carton.getState();
+			} else if (!carton.getState().equals(str)) {
+				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
+			}
+		}
+		
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			if (UNDO.equals(carton.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
+			if (CONFIRMED.equals(carton.getState())){
+				return ajaxJsonErrorMessage("已确认的无法撤销！");
+			}
 		}
-		List<Carton> list = cartonService.get(ids);
-		cartonService.updateState2(list, workingBillId, cardnumber);
-		workingbill = workingBillService.get(workingBillId);
+		cartonService.updateCancel(list, cardnumber);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getCartonTotalAmount().toString());
 		return ajaxJson(hashmap);
 	}
 

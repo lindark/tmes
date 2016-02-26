@@ -58,6 +58,7 @@
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
  -->
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
+ <!-- 
 <script type="text/javascript">
 	
 	$(function(){
@@ -71,7 +72,7 @@
 		LODOP.PREVIEW();
 	})
 	
-</script>
+</script> -->
 </head>
 <body class="no-skin">
 

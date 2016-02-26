@@ -332,6 +332,8 @@ public class DumpAction extends BaseAdminAction {
 	public String recordList(){
 		return "record_list";
 	}
+	
+	
 	public String recordAjlist(){
 		if(pager==null){
 			pager = new Pager();
@@ -401,11 +403,6 @@ public class DumpAction extends BaseAdminAction {
 		}
 	
 	}
-	
-	
-	
-	
-	
 	
 	public Dump getDump() {
 		return dump;

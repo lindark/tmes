@@ -1,5 +1,6 @@
  package cc.jiuyi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
@@ -22,4 +23,10 @@ public interface ScrapDao extends BaseDao<Scrap, String>
     * 取出所有未确认的报废单
     */
 	public List<Scrap> getUnCheckList();
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	
 }
+
+
+

@@ -19,42 +19,15 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
-		//direction: "rtl",
-
-		//subgrid options
-		subGrid : false,
-		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-		//datatype: "xml",
-		subGridOptions : {
-			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-			openicon : "ace-icon fa fa-chevron-right center orange"
-		},
-		//for this example we are using local data
-		subGridRowExpanded: function (subgridDivId, rowId) {
-			var subgridTableId = subgridDivId + "_t";
-			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-			$("#" + subgridTableId).jqGrid({
-				datatype: 'local',
-				data: subgrid_data,
-				colNames: ['No','Item Name','Qty'],
-				colModel: [
-					{ name: 'id', width: 50 },
-					{ name: 'name', width: 150 },
-					{ name: 'qty', width: 50 }
-				]
-			});
-		},
+		
 		url:"repairin!historylist.action",
 		datatype: "json",
-		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount",
-	          id:"id"
+	          records:"totalCount"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -62,22 +35,20 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
+	    	
 	    },
-		colNames:[ '随工单编号','产品名称','返修收货数量','收货日期','创建人', '确认人','状态'],
-		colModel:[
-			
-	        {name:'workingbillCode',index:'workingbillCode', width:150,sortable:"true",sorttype:"text"},
-	        {name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
-			{name:'receiveAmount',index:'receiveAmount', width:100},
-			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}
+		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
+	    colModel:[
+	  	        {name:'workingbillCode',index:'workingbillCode',label:"随工单编号", width:150,sortable:"true",sorttype:"text"},
+	  	        {name:'maktx',index:'maktx', width:400,label:"产品名称",sortable:"true",sorttype:"text"},
+	  	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
+	  	        {name:'receiveAmount',index:'receiveAmount',label:"收货数量", width:100},
+	  			{name:'createDate',index:'createDate',label:"创建时间",width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+	  			{name:'createName',index:'createName',label:"创建人", width:100,sortable:"true",sorttype:"text"},
+	  			{name:'adminName',index:'adminName', label:"确认人",width:100,sortable:"true",sorttype:"text"},
+	  			{name:'stateRemark',index:'state',label:"状态", width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}
 
-		], 
-		//sortable:true,
-		//sortname: "deliveryDate",
-		//sortorder: "desc",
+	  		], 
 
 		viewrecords : true,
 		rowNum:10,
@@ -89,8 +60,7 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-        //footerrow: true,
-        
+
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
@@ -101,46 +71,13 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-		editurl: "repairin!delete.action",//用它做标准删除动作
-		caption: "历史返修收货记录"
 
-		//,autowidth: true,
-//		,
-//		grouping:true, 
-//		groupingView : { 
-//			 groupField : ['name'],
-//			 groupDataSorted : true,
-//			 plusicon : 'fa fa-chevron-down bigger-110',
-//			 minusicon : 'fa fa-chevron-up bigger-110'
-//		},
-//		caption: "Grouping"
-		
+		editurl: "repairin!delete.action",//用它做标准删除动作
+		caption: "历史报废单"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	
-
-	//enable search/filter toolbar
-	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-	//jQuery(grid_selector).filterToolbar({});
-
-
-	//switch element when editing inline
-	function aceSwitch( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=checkbox]')
-				.addClass('ace ace-switch ace-switch-5')
-				.after('<span class="lbl"></span>');
-		}, 0);
-	}
-	//enable datepicker
-	function pickDate( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=text]')
-					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
-		}, 0);
-	}
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
@@ -160,32 +97,12 @@ jQuery(function($) {
 			return "style='color:red;font-weight:bold;'";
 		}
 	}
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: false,
-			/*editfunc:function(rowId){
-				var ids = $("#grid-table").jqGrid('getGridParam','selarrrow');
-				if(ids.length>1){
-					alert("请选择一条记录");
-					return false;
-				}
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="carton!edit.action?id="+rowId+"&workingBillId="+workingBillId;
-			},
-			editicon : 'ace-icon fa fa-pencil blue',*/
 			add: false,
-			/*addfunc:function(){
-				var workingBillId = $("#workingBillId").val();
-				window.location.href="carton!add.action?workingBillId="+workingBillId;
-			},
-			addicon : 'ace-icon fa fa-plus-circle purple',*/
 			del: false,
-			/*delfunc:function(rowId){
-				window.location.href="carton!delete.action?id="+rowId;
-			},*/
-			//delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
@@ -249,6 +166,7 @@ jQuery(function($) {
 			
 			multipleGroup:false,
 			showQuery: true
+			
 		},
 		{
 			//view record form
@@ -259,6 +177,44 @@ jQuery(function($) {
 			}
 		}
 	)
+	
+	
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			location.href="repairin!showHistory.action?id="+id;
+		}
+	});
+
 
 
 });
+
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id==null||id=="")
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+}

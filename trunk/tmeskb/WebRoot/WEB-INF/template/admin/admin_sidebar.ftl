@@ -546,8 +546,8 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
-								<a href="#" >
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									工序交接记录
 								</a>
@@ -556,7 +556,7 @@
 							</li>
 							
 							<li class="">
-								<a href="#" >
+								<a href="pick!history.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
 									领退料记录
 								</a>
@@ -572,7 +572,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" >
+								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									返工记录
 								</a>
@@ -580,23 +580,23 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" >
+								<a href="repair!history.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
-									返修记录
+									成品返修记录
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" >
+								<a href="repairin!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									返修收货记录
 								</a>
 
 								<b class="arrow"></b>
 							</li>
-							<li class="">
-								<a href="#" >
+							<li class="#" ">
+								<a href="scrap!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废记录
 								</a>
@@ -606,7 +606,15 @@
 							<li class="">
 								<a href="enteringware_house!history.action" >
 									<i class="menu-icon fa fa-caret-right"></i>
-									入库记录
+									成品检验记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="end_product!history.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品入库记录
 								</a>
 
 								<b class="arrow"></b>

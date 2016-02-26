@@ -363,4 +363,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			this.wiService.save(w);
 		}
 	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return scrapDao.historyjqGrid(pager, map);
+	}
 }

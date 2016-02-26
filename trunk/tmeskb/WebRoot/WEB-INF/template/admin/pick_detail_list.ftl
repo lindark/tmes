@@ -93,7 +93,7 @@ body {
 													</select>
 													</div>
 												</div>								
-											</div>
+								</div>
 								<div class="profile-user-info profile-user-info-striped">
 								  <div class="profile-info-row">
 								    <table class="table table-striped table-bordered table-hover" id="mytable">

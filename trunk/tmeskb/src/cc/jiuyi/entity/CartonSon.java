@@ -28,6 +28,7 @@ public class CartonSon extends BaseEntity
 	private String wbcode;//随工单编码
 	private String productcode;//产品编码
 	private String productname;//产品名称
+	
 	//假字段
 	private String MOVE_TYPE;//移动类型
 	private String xcstotal;//累计数量
@@ -147,6 +148,6 @@ public class CartonSon extends BaseEntity
 	{
 		this.cscount = cscount;
 	}
-	
+
 	
 }

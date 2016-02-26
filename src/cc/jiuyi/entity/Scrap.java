@@ -41,6 +41,8 @@ public class Scrap extends BaseEntity
 	private String xstate;//状态描述
 	private String xcreater;//提交人
 	private String xconfirmation;//确认人
+	private String maktx;//产品描述
+	private String workingbillCode;//随工单编号
 	
 	//表字段
 	@Column
@@ -190,4 +192,22 @@ public class Scrap extends BaseEntity
 	public void setMblnr(String mblnr) {
 		this.mblnr = mblnr;
 	}
+	
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+	@Transient
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
+	}
+	
+	
+	
 }

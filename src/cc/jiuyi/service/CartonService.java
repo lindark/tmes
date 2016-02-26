@@ -38,6 +38,10 @@ public interface CartonService extends BaseService<Carton, String> {
 	// 刷卡撤销
 	public void updateState2(List<Carton> list, String workingbillid,
 			String cardnumber);
+	
+	
+	// 刷卡撤销 by Reece
+	public void updateCancel(List<Carton> list,String cardnumber);
 
 	/**
 	 * 新增保存

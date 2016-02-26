@@ -24,6 +24,7 @@ import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutService;
+import cc.jiuyi.util.ArithUtil;
 
 /**
  * Service实现类 -领/退料
@@ -98,6 +99,15 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		pick.setId(pk);
 		for(PickDetail pickDetail: pickDetailList){
 			pickDetail.setPick(pick);//建关系
+			/**
+			 * if (pickDetail.getPickType() == "262") {
+				Double d = ArithUtil.mul(Double.parseDouble(pickDetail.getPickAmount()), -1);
+				int i = d.intValue();
+				pickDetail.setXpickAmount(i + "");
+			}else{
+				pickDetail.setXpickAmount(pickDetail.getPickAmount());
+			}
+			 */		
 			pickDetailDao.save(pickDetail);
 		}
 		return pk;
@@ -109,6 +119,15 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		pick.setId(pk);
 		for(PickDetail pickDetail: pickDetailList){
 			pickDetail.setPick(pick);//建关系
+			/**
+			 * if (pickDetail.getPickType() == "262") {
+				Double d = ArithUtil.mul(Double.parseDouble(pickDetail.getPickAmount()), -1);
+				int i = d.intValue();
+				pickDetail.setXpickAmount(i + "");
+			}else{
+				pickDetail.setXpickAmount(pickDetail.getPickAmount());
+			}
+			 */		
 			pickDetailDao.save(pickDetail);
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -166,6 +185,16 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 					pickDetailNow.setCqPickAmount(pickDetailOld.getCqPickAmount());
 					pickDetailNow.setCqhStockAmount(pickDetailOld.getCqhStockAmount());
 					pickDetailNow.setModifyDate(new Date());
+					
+					/**
+					 * if (pickDetailOld.getPickType() == "262") {
+						Double d = ArithUtil.mul(Double.parseDouble(pickDetailOld.getPickAmount()), -1);
+						int str = d.intValue();
+						pickDetailNow.setXpickAmount(str + "");
+					}else{
+						pickDetailNow.setXpickAmount(pickDetailOld.getPickAmount());
+					}
+					 */		
 					this.update(pickDetailNow);
 				} else {
 					this.delete(pickDetailNow.getId());
@@ -174,6 +203,16 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				if (pickDetailOld.getPickAmount() != null && !"".equals(pickDetailOld.getPickAmount())) {
 					pickDetailOld.setPickType(info);
 					pickDetailOld.setPick(pickNew);
+					
+					/**
+					 * if (pickDetailOld.getPickType() == "262") {
+						Double d = ArithUtil.mul(Double.parseDouble(pickDetailOld.getPickAmount()), -1);
+						int str = d.intValue();
+						pickDetailOld.setXpickAmount(str + "");
+					}else{
+						pickDetailOld.setXpickAmount(pickDetailOld.getPickAmount());
+					}
+					 */					
 					this.save(pickDetailOld);
 				}				
 			}

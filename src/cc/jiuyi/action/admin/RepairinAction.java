@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
@@ -233,13 +234,13 @@ public class RepairinAction extends BaseAdminAction {
 					repairin.getWorkingbill().getId()).getWorkingBillCode());
 			repairin.setMaktx(workingBillService.get(
 					repairin.getWorkingbill().getId()).getMaktx());
-			repairin.setWorkingbill(null);
-			repairin.setConfirmUser(null);
-			repairin.setCreateUser(null);
 			lst.add(repairin);
 		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repairin.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
@@ -396,7 +397,22 @@ public class RepairinAction extends BaseAdminAction {
 		return INPUT;
 	}
 
+
 	/**
+	 * 历史查看
+	 */
+	public String showHistory()
+	{
+		repairin = repairinService.get(id);//根据id查询
+		repairin.setXrepairintype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairintype", repairin.getRepairintype()));
+		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
+		workingbill = repairin.getWorkingbill();//当前随工单
+		this.show="show";
+		return INPUT;
+	}
+	
+	/**
+	 * 
 	 * 与SAP交互   退料262  905
 	 * list 主表数据   wbid随工单对象
 	 * @return

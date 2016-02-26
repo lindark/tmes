@@ -52,6 +52,11 @@ public class Pick extends BaseEntity{
 	private String e_message;
 	private String ex_mblnr;
 	private String mblnr;
+	
+	private String maktx;//产品描述
+	private String workingbillCode;//随工单编号
+
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -202,9 +207,22 @@ public class Pick extends BaseEntity{
 	public void setPickType(String pickType) {
 		this.pickType = pickType;
 	}
-
-   
-
-    
 	
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+	
+	@Transient
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
+	}
+	
+
 }

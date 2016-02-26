@@ -13,6 +13,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 
 /**
@@ -89,6 +90,34 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 	public List<PickDetail> getPickDetail(String id) {
 		String hql="from PickDetail where pick.id=?";
 		return getSession().createQuery(hql).setParameter(0, id).list();
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PickDetail.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if (map.size() > 0) {
+			if (!existAlias(detachedCriteria, "workingbill", "workingbill")) {
+				detachedCriteria.createAlias("workingbill", "workingbill");
+			}
+			if (map.get("maktx") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"workingbill.maktx",
+						"%" + map.get("maktx") + "%"));
+			}	
+			if(map.get("start")!=null||map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager,detachedCriteria);
 	}
 
 	

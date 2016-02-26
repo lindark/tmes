@@ -12,14 +12,13 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <!--modify weitao-->
 <script type="text/javascript"
-	src="${base}/template/admin/js/manage/repair_history.js"></script>
+	src="${base}/template/admin/js/manage/enter_history.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin list">
-
 
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
@@ -47,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史返修单</li>
+					<li class="active">成品入库记录</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -61,18 +60,18 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal" id="searchform"
-								action="repair!historylist.action" role="form">
+								action="end_product!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
+											style="text-align:right">物料编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="maktx"
+											<input type="text" name="materialCode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
-										<label class="col-sm-1" style="text-align:right">返修日期:</label>
+										<label class="col-sm-1" style="text-align:right">日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
@@ -123,7 +122,6 @@
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
-
 </body>
 </html>
 <script type="text/javascript">

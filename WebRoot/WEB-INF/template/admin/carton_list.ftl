@@ -63,6 +63,10 @@
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									刷卡确认
 								</a>
+								<a id="btn_cancel" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-cloud-upload"></i>
+									刷卡撤销
+								</a>
 								<a id="btn_edit" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon glyphicon glyphicon-edit"></i>
 									编辑

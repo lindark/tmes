@@ -176,8 +176,24 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		}
 		workingbill.setCartonTotalAmount(totalamount);
 		workingbillService.update(workingbill);
-
 	}
+	
+	
+	/**
+	 * 刷卡撤销 by Reece
+	 */
+	@Override
+	public synchronized void updateCancel(List<Carton> list,String cardnumber) {
+		Admin admin = adminservice.getByCardnum(cardnumber);
+		for (int i = 0; i < list.size(); i++) {
+			Carton carton = list.get(i);	
+			carton.setConfirmUser(admin);
+			carton.setState("3");
+			this.update(carton);
+		}
+	}
+	
+	
 
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {

@@ -39,4 +39,6 @@ public interface PickDao extends BaseDao<Pick,String> {
 	 */
 	public List<Pick> getPickByWorkingbillId(String WorkingBillId);
 	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	
 }

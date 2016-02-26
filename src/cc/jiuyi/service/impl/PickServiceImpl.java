@@ -111,4 +111,10 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 		return pickDao.getPickByWorkingbillId(WorkingBillId);
 	}
 
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return pickDao.historyjqGrid(pager, map);
+	}
+
 }

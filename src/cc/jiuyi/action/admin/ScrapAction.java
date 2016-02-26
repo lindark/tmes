@@ -22,6 +22,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Scrap;
@@ -398,7 +399,32 @@ public class ScrapAction extends BaseAdminAction
 		this.show="show";
 		return INPUT;
 	}
-	
+
+	/**
+	 * 历史查看
+	 */
+	public String showHistory() {
+		this.list_scrapmsg = new ArrayList<ScrapMessage>();// 初始化
+		this.scrap = this.scrapService.get(id);
+		this.workingbill = scrap.getWorkingBill();
+		List<ScrapMessage> l_scrapmsg = new ArrayList<ScrapMessage>(
+				this.scrap.getScrapMsgSet());// 报废信息
+		if (l_scrapmsg.size() > 0) {
+			for (int i = 0; i < l_scrapmsg.size(); i++) {
+				ScrapMessage sm = l_scrapmsg.get(i);
+				if (sm.getSmduty() != null) {
+					sm.setXsmduty(this.dictService.getByState(
+							"scrapMessageType", sm.getSmduty()));
+				}
+				this.list_scrapmsg.add(sm);
+			}
+		}
+		this.list_scraplater = new ArrayList<ScrapLater>(
+				this.scrap.getScrapLaterSet());// 报废后产出
+		this.show = "show";
+		return INPUT;
+	}
+
 	/**
 	 * list页面
 	 * 刷卡确认
@@ -564,6 +590,86 @@ public class ScrapAction extends BaseAdminAction
 		}
 		return "S";
 	}
+	
+	// 报废记录
+	public String history() {
+		return "history";
+	}
+
+	// 查看
+	public String view() {
+		scrap = scrapService.load(id);
+		workingbill = scrap.getWorkingBill();
+		return VIEW;
+	}	
+	
+	/**
+	 * 报废记录表 
+	 * @return
+	 */
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx")
+						.toString();
+				map.put("maktx", maktx);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+		pager = scrapService.historyjqGrid(pager, map);
+		List<Scrap> scraplist=pager.getList();
+		List<Scrap> scraplist2=new ArrayList<Scrap>();
+		for(int i=0;i<scraplist.size();i++)
+		{
+			Scrap s1=scraplist.get(i);
+			s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", s1.getState()));//状态
+			if(s1.getCreater()!=null)
+			{
+				s1.setXcreater(s1.getCreater().getName());//提单人
+			}
+			if(s1.getConfirmation()!=null)
+			{
+				s1.setXconfirmation(s1.getConfirmation().getName());//确认人
+			}
+			s1.setMaktx(wbService.get(
+					s1.getWorkingBill().getId()).getMaktx());
+			s1.setWorkingbillCode(wbService.get(
+					s1.getWorkingBill().getId()).getWorkingBillCode());
+			scraplist2.add(s1);
+		}
+		pager.setList(scraplist2);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(Scrap.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+
+
 	/**========================end  method======================================*/
 	
 	/**=========================="get/set"  start==============================*/

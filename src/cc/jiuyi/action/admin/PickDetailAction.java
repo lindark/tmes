@@ -177,6 +177,23 @@ public class PickDetailAction extends BaseAdminAction {
 		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		return VIEW;
 	}
+	
+	//历史查看
+	public String historyView() {
+		pick = pickService.load(id);
+		workingbill = pick.getWorkingbill();
+		pkList = pickDetailService.getPickDetail(id);
+		for (int i = 0; i < pkList.size(); i++) {
+			PickDetail pickDetail = pkList.get(i);
+			pickDetail.setXpickType(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "pickType", pickDetail.getPickType()));	
+		}
+		pkList.add(pickDetail);
+		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+		return VIEW;
+	}
 
 	/**
 	 * ajax 列表

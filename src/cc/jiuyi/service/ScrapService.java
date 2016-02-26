@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
@@ -71,4 +72,6 @@ public interface ScrapService extends BaseService<Scrap, String>
 	 */
 	public void updateState(String scrapid,String cardnumber,List<ScrapMessage>list_sm);
 
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 }

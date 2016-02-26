@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.ManyToMany;
@@ -330,4 +332,17 @@ public class ThinkWayUtil {
 		}
 		return false;
 	}
+	
+	
+	//去除数组中重复的记录  
+	public static String[] array_unique(String[] a) {  
+	    // array_unique  
+	    List<String> list = new LinkedList<String>();  
+	    for(int i = 0; i < a.length; i++) {  
+	        if(!list.contains(a[i])) {  
+	            list.add(a[i]);  
+	        }  
+	    }  
+	    return (String[])list.toArray(new String[list.size()]);  
+	}  
 }

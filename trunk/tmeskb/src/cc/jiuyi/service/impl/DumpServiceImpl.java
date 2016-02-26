@@ -20,6 +20,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 转储管理
@@ -57,6 +58,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 	 */
 	@Override
 	public void saveDump(String[] ids, List<Dump> dumpList,String cardnumber,String loginid) throws IOException, CustomerException {
+		ids = ThinkWayUtil.array_unique(ids);
 		//先将转储单保存到数据库
 		Admin admin = adminService.getByCardnum(cardnumber);
 		for (int i = 0; i < ids.length; i++) {

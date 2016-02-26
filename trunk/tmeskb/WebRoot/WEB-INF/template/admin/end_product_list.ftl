@@ -66,10 +66,10 @@
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
 									</button>
-									<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="repealEndProduct" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="repealEndProduct" type=button>
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</button> -->
+									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnEndProduct">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -174,7 +174,7 @@
 			 } 
 		});
 		
-		/* $("#repealPick").click(function(){
+		$("#repealEndProduct").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -182,13 +182,13 @@
 				return false;
 			}
 			else{
-				var url="pick!creditundo.action";
+				var url="end_product!creditundo.action?id="+id;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
 				});
 			}
-		}); */
+		});
 
 		$("#editEndProduct").click(function(){
 			var id = "";

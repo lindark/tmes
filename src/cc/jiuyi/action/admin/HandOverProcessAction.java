@@ -267,7 +267,7 @@ public class HandOverProcessAction extends BaseAdminAction {
         });
 		try {
 			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-			locationonsideList = rfc.findWarehouse(warehouse,werks);
+			locationonsideList = rfc.findWarehouse1(warehouse,werks);
 		} catch (IOException e) {
 			addActionError("IO操作失败");
 			e.printStackTrace();

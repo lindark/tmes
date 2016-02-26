@@ -66,6 +66,12 @@ public class WorkingBillAction extends BaseAdminAction {
 	private OrdersService ordersservice;
 	
 	
+	//条码打印
+	public String barcodePrint(){
+		WorkingBill workingbill = workingbillService.get(wbid);
+		
+		return null;
+	}
 	
 	// 添加
 	public String add() {

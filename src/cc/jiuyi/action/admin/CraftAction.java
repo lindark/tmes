@@ -306,7 +306,7 @@ public class CraftAction extends BaseAdminAction {
 		
 		abnormal=abnormalService.load(abnormalId);
 		craft.setAbnormal(abnormal);
-		System.out.println("3");
+
 		if(craft.getRepairName()==null){
 			return ajaxJsonErrorMessage("维修员不允许为空!");
 		}
@@ -323,32 +323,33 @@ public class CraftAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("产品名称不允许为空!");
 		}
 		
-		System.out.println("1");
 		if (reasonIds != null && reasonIds.length > 0) {
 			Set<ReceiptReason> reasonSet = new HashSet<ReceiptReason>(receiptReasonService.get(reasonIds));
 			craft.setReceiptReasonSet(reasonSet);
 		} else {
 			return ajaxJsonErrorMessage("异常描述不允许为空!");
 		}
-		System.out.println("2");
+		
 		craft.setState("0");
 		craft.setIsDel("N");
-		craft.setCreater(admin);
-		System.out.println("7");
+		craft.setCreater(admin);		
+		
+		Products products = productsService.getByPcode(craft.getProducts().getProductsCode());
+		craft.setProducts(products);
 		craftService.save(craft);	
-		System.out.println("4");
+		
 		CraftLog log = new CraftLog();
 		log.setOperator(admin);
 		log.setInfo("已提交");
 		log.setCraft(craft);
 		craftLogService.save(log);
-		System.out.println("5");		
+				
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
 		abnormalLog.setType("2");
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
-		System.out.println("6");
+		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	

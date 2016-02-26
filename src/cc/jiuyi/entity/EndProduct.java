@@ -35,17 +35,18 @@ public class EndProduct extends BaseEntity {
 	
 	private String xstate;
 	
+	
 	/**
 	 * 假字段
 	 * @return
 	 */
-	
 	private String budate;//过账日期
 	private String werks;//工厂
 	private String moveType;//移动类型 311
 	private String e_type;
 	private String e_message;
 	private String ex_mblnr;
+
 	
 	public Double getStockMout() {
 		return stockMout;
@@ -263,7 +264,6 @@ public class EndProduct extends BaseEntity {
 	public void setActualMaterialBoxMount(Double actualMaterialBoxMount) {
 		this.actualMaterialBoxMount = actualMaterialBoxMount;
 	}
-
 
 	
 }

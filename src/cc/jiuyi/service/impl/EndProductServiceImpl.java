@@ -3,6 +3,7 @@ package cc.jiuyi.service.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,13 +11,16 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.EndProductDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.sap.rfc.EndProductRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.EndProductService;
 import cc.jiuyi.service.UnitConversionService;
 
@@ -26,10 +30,14 @@ import cc.jiuyi.service.UnitConversionService;
 
 @Service
 public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> implements EndProductService {
+	
+	
 	@Resource
 	 EndProductDao  endProductDao;
 	@Resource
 	private UnitConversionService unitConversionService;
+	@Resource
+	private AdminService adminservice;
 	@Resource
 	public void setBaseDao(EndProductDao endProductDao) {
 		super.setBaseDao(endProductDao);
@@ -84,5 +92,32 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 		update(ep);
 		
 	}
+
+	@Override
+	public Pager getProductsPager(Pager pager) {
+		// TODO Auto-generated method stub
+		return endProductDao.getProductsPager(pager);
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return endProductDao.historyjqGrid(pager, map);
+	}
 	
+	
+	/**
+	 * 刷卡撤销 by Reece
+	 */
+	@Override
+	public synchronized void updateCancel(List<EndProduct> list,String cardnumber) {
+		Admin admin = adminservice.getByCardnum(cardnumber);
+		for (int i = 0; i < list.size(); i++) {
+			EndProduct endProduct = list.get(i);	
+			endProduct.setConfirmUser(admin.getUsername());
+			endProduct.setConfirmName(admin.getName());
+			endProduct.setState("3");
+			this.update(endProduct);
+		}
+	}
 }

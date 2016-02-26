@@ -4,21 +4,25 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.Locationonside;
@@ -42,9 +46,8 @@ import cc.jiuyi.util.ThinkWayUtil;
 @ParentPackage("admin")
 public class EndProductAction extends BaseAdminAction {
 
-	
 	private static final long serialVersionUID = -8081201099604396846L;
-	
+
 	public static Logger log = Logger.getLogger(EndProductAction.class);
 	private Admin admin;
 	private List<WorkingBill> workingBillList;
@@ -55,7 +58,7 @@ public class EndProductAction extends BaseAdminAction {
 	private EndProduct endProduct;
 	private String desp;
 	private String loginid;
-	
+
 	@Resource
 	private EndProductService endProductService;
 	@Resource
@@ -70,19 +73,19 @@ public class EndProductAction extends BaseAdminAction {
 	private EndProductRfc eprfc;
 	@Resource
 	private UnitConversionService unitConversionService;
-	
-	
-	public String list(){
+
+	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
-		if(!flag){
+		if (!flag) {
 			addActionError("您当前未上班,不能进行成本入库操作!");
 			return ERROR;
 		}
 		admin = adminService.get(admin.getId());
 		return LIST;
 	}
+
 	/**
 	 * ajax 列表
 	 * 
@@ -90,12 +93,349 @@ public class EndProductAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 
-	
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+		if (pager == null) {
+			pager = new Pager();
 		}
-		/*HashMap<String, String> map = new HashMap<String, String>();
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+
+		pager = endProductService.getProductsPager(pager);
+		List<EndProduct> endProductList = pager.getList();
+		List<EndProduct> lst = new ArrayList<EndProduct>();
+		for (int i = 0; i < endProductList.size(); i++) {
+			EndProduct endProduct = (EndProduct) endProductList.get(i);
+			endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "endProState", endProduct.getState()));
+			if (endProduct.getConfirmName() != null) {
+				endProduct.setConfirmName(endProduct.getConfirmName());
+			}
+			if (endProduct.getCreateName() != null) {
+				endProduct.setCreateName(endProduct.getCreateName());
+			}
+			lst.add(endProduct);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Pick.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+
+	public String add() {
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
+		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouse();
+		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWorkShop().getFactory().getFactoryCode();
+		if (locationonsideList == null) {
+			locationonsideList = new ArrayList<Locationonside>();
+		}
+		try {
+			locationonsideList = rfc.findWarehouse(wareHouse, werks);
+			if (info == null) {
+				locationonsideLists = new ArrayList<Locationonside>();
+				info = "401";
+				int i = info.length();
+				for (Locationonside los : locationonsideList) {
+					if (los.getMaterialCode().length() >= i) {
+						String s = los.getMaterialCode().substring(0, i);
+						if (info.equals(s)) {
+							locationonsideLists.add(los);
+						}
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
+			if (!"".equals(info) && info != null) {
+				locationonsideLists = new ArrayList<Locationonside>();
+				int i = info.length();
+				for (Locationonside los : locationonsideList) {
+					if (los.getMaterialCode().length() >= i) {
+						String s = los.getMaterialCode().substring(0, i);
+						if (info.equals(s)) {
+							locationonsideLists.add(los);
+						}
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
+			if (!"".equals(desp) && desp != null) {
+				locationonsideLists = new ArrayList<Locationonside>();
+				for (Locationonside los : locationonsideList) {
+					if (los.getMaterialName().indexOf(desp) > -1) {
+						locationonsideLists.add(los);
+					}
+				}
+				locationonsideList = locationonsideLists;
+			}
+			for (Locationonside los : locationonsideList) {
+				UnitConversion ucs = unitConversionService.get("matnr",
+						los.getMaterialCode());
+				if (ucs != null) {
+					if (los.getAmount() == null || "".equals(los.getAmount())) {
+						los.setAmount("0");
+					}
+					if (ucs.getConversationRatio() == null
+							|| "".equals(ucs.getConversationRatio())) {
+						ucs.setConversationRatio(0.0);
+					}
+					BigDecimal dcl = new BigDecimal(los.getAmount());
+					BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
+					try {
+						BigDecimal dc = dcl.divide(dcu).setScale(2,
+								RoundingMode.HALF_UP);
+						los.setBoxMount(dc.doubleValue());
+					} catch (Exception e) {
+						e.printStackTrace();
+						addActionError("物料" + los.getMaterialCode()
+								+ " 计量单位数据异常");
+						return ERROR;
+					}
+				} else {
+					los.setBoxMount(0.00);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
+
+		return INPUT;
+	}
+
+	public String edit() {
+		if (endProduct == null) {
+			endProduct = new EndProduct();
+		}
+		endProduct = endProductService.get(id);
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWarehouse();
+		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+				.getWorkShop().getFactory().getFactoryCode();
+		if (endProduct.getMaterialBatch() == null) {
+			endProduct.setMaterialBatch("");
+		}
+		if (locationonsideList == null) {
+			locationonsideList = new ArrayList<Locationonside>();
+		}
+		try {
+			locationonsideList = rfc.findWarehouse(wareHouse, werks);
+			for (Locationonside ls : locationonsideList) {
+				if (ls.getCharg() == null) {
+					ls.setCharg("");
+				}
+				if (ls.getLocationCode().equals(endProduct.getRepertorySite())
+						&& ls.getMaterialCode().equals(
+								endProduct.getMaterialCode())
+						&& ls.getCharg().equals(endProduct.getMaterialBatch())) {
+					endProduct
+							.setActualMaterialMount(new Double(ls.getAmount()));
+					UnitConversion ucs = unitConversionService.get("matnr",
+							ls.getMaterialCode());
+					if (ucs != null) {
+						if (ls.getAmount() == null || "".equals(ls.getAmount())) {
+							ls.setAmount("0");
+						}
+						if (ucs.getConversationRatio() == null
+								|| "".equals(ucs.getConversationRatio())) {
+							ucs.setConversationRatio(0.0);
+						}
+						BigDecimal dcl = new BigDecimal(ls.getAmount());
+						BigDecimal dcu = new BigDecimal(
+								ucs.getConversationRatio());
+						try {
+							BigDecimal dc = dcl.divide(dcu).setScale(2,
+									RoundingMode.HALF_UP);
+							endProduct.setActualMaterialBoxMount(dc
+									.doubleValue());
+						} catch (Exception e) {
+							e.printStackTrace();
+							addActionError("物料" + ls.getMaterialCode()
+									+ " 计量单位数据异常");
+							return ERROR;
+						}
+					} else {
+						endProduct.setActualMaterialBoxMount(0.00);
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CustomerException e) {
+			e.printStackTrace();
+		}
+
+		return INPUT;
+	}
+
+	public String update() {
+		try {
+			Admin admin = adminService.getByCardnum(cardnumber);
+			endProductService.updateEidtEndProduct(id, admin, endProduct, info);
+			return ajaxJsonSuccessMessage("修改成功");
+		} catch (Exception e) {
+			return ajaxJsonErrorMessage("修改失败，请重试");
+		}
+	}
+
+	public String creditsubmit() {
+		try {
+			if (endProducts != null) {
+				for (EndProduct ed : endProducts) {
+					if (ed.getStockBoxMout() != null
+							&& !"".equals(ed.getStockBoxMout())) {
+						if (ed.getStockBoxMout().compareTo(
+								ed.getActualMaterialBoxMount()) > 0) {
+							return ajaxJsonErrorMessage("物料"
+									+ ed.getMaterialCode() + "库存不足或计量数据未维护");
+						}
+					}
+				}
+			}
+			Admin admin = adminService.getByCardnum(cardnumber);
+			endProductService.saveEndProduct(endProducts, info, admin);
+			return ajaxJsonSuccessMessage("保存成功!");
+
+		} catch (Exception e) {
+			return ajaxJsonErrorMessage("保存失败，请重试");
+		}
+
+	}
+
+	public String creditapproval() {
+		String message = "";
+		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
+		try {
+			Admin admin = adminService.getByCardnum(cardnumber);
+			// endProductService.updateApprovalEndProduct(ids,admin);
+			Admin admin1 = adminService.get(loginid);
+			List<EndProduct> endProductList = new ArrayList<EndProduct>();
+			String[] ids = id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				EndProduct ed = endProductService.get(ids[i]);
+				if (ed != null) {
+					if (ed.getMblnr() != null && !"".equals(ed.getMblnr()))
+						continue;
+					ed.setConfirmUser(admin.getUsername());
+					ed.setConfirmName(admin.getName());
+					ed.setState("2");
+					ed.setBudate(ThinkWayUtil.SystemDate());
+					ed.setWerks(admin1.getDepartment().getTeam()
+							.getFactoryUnit().getWorkShop().getFactory()
+							.getFactoryCode());
+					ed.setMoveType("311");
+					endProductList.add(ed);
+				}
+			}
+			endProductCrt = eprfc.EndProductCrt("X", endProductList);
+			boolean flag = true;
+			for (EndProduct epc : endProductCrt) {
+				String e_type = epc.getE_type();
+				if (e_type.equals("E")) { // 如果有一行发生了错误
+					flag = false;
+					message += epc.getE_message();
+				}
+			}
+			if (!flag)
+				return ajaxJsonErrorMessage(message);
+			else {
+				flag = true;
+				endProductCrt = eprfc.EndProductCrt("", endProductList);
+				for (EndProduct epc : endProductCrt) {
+					String e_type = epc.getE_type();
+					String e_message = epc.getE_message();
+					String ex_mblnr = epc.getEx_mblnr();
+					if (e_type.equals("E")) { // 如果有一行发生了错误
+						flag = false;
+						message += epc.getE_message();
+					} else {
+						EndProduct ep = endProductService.get(epc.getId());
+						ep.setMblnr(ex_mblnr);
+						endProductService.update(ep);
+					}
+				}
+				if (!flag)
+					return ajaxJsonErrorMessage(message);
+			}
+			return ajaxJsonSuccessMessage("保存成功!");
+		} catch (Exception e) {
+			log.error(e);
+			return ajaxJsonErrorMessage("确认失败，请重试");
+		}
+
+	}
+	
+	
+	// 刷卡撤销
+		public String creditundo() {
+			ids = id.split(",");
+			String str = "";
+			List<EndProduct> list = endProductService.get(ids);
+			for (int i = 0; i < list.size(); i++) {
+				EndProduct endProduct = list.get(i);
+				if (str.equals("")) {
+					str = endProduct.getState();
+				} else if (!endProduct.getState().equals(str)) {
+					return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
+				}
+			}
+			
+			for (int i = 0; i < ids.length; i++) {
+				endProduct = endProductService.load(ids[i]);
+				if ("3".equals(endProduct.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+				}
+				if ("2".equals(endProduct.getState())){
+					return ajaxJsonErrorMessage("已确认的无法撤销！");
+				}
+			}
+			endProductService.updateCancel(list, cardnumber);
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put(STATUS, SUCCESS);
+			hashmap.put(MESSAGE, "您的操作已成功");
+			return ajaxJson(hashmap);
+		}
+	
+
+	public String view() {
+		if (endProduct == null) {
+			endProduct = new EndProduct();
+		}
+		endProduct = endProductService.get(id);
+		return VIEW;
+	}
+	
+	// 成品入库历史
+	public String history() {
+		return "history";
+	}
+	
+	// 成品入库历史
+	public String historylist(){
+		if (pager == null) {
+			pager = new Pager();
+		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+
+		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
@@ -109,9 +449,9 @@ public class EndProductAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("state") != null) {
-				String state = obj.getString("state").toString();
-				map.put("state", state);
+			if (obj.get("materialCode") != null) {
+				String materialCode = obj.getString("materialCode").toString();
+				map.put("materialCode", materialCode);
 			}
 			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
@@ -119,14 +459,14 @@ public class EndProductAction extends BaseAdminAction {
 				map.put("start", start);
 				map.put("end", end);
 			}
-		}*/
-		pager = endProductService.findByPager(pager);
+		}
+		pager = endProductService.historyjqGrid(pager, map);
 		List<EndProduct> endProductList = pager.getList();
 		List<EndProduct> lst = new ArrayList<EndProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {
 			EndProduct endProduct = (EndProduct) endProductList.get(i);
-			endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"endProState", endProduct.getState()));
+			endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "endProState", endProduct.getState()));
 			if (endProduct.getConfirmName() != null) {
 				endProduct.setConfirmName(endProduct.getConfirmName());
 			}
@@ -143,248 +483,17 @@ public class EndProductAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
-	public String add(){
-		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-		if(locationonsideList==null){
-			locationonsideList = new ArrayList<Locationonside>();
-		}
-		try {
-			locationonsideList = rfc.findWarehouse(wareHouse, werks);
-			if(info==null){
-				locationonsideLists =new ArrayList<Locationonside>();
-				info = "401";
-				int i = info.length();
-				for(Locationonside los : locationonsideList){
-					if(los.getMaterialCode().length()>=i){
-						String s = los.getMaterialCode().substring(0, i);
-						if(info.equals(s)){
-							locationonsideLists.add(los);
-						}
-					}
-				}
-				locationonsideList = locationonsideLists;
-			}
-			if(!"".equals(info) && info!=null){
-				locationonsideLists =new ArrayList<Locationonside>();
-				int i = info.length();
-				for(Locationonside los : locationonsideList){
-					if(los.getMaterialCode().length()>=i){
-						String s = los.getMaterialCode().substring(0, i);
-						if(info.equals(s)){
-							locationonsideLists.add(los);
-						}
-					}
-				}
-				locationonsideList = locationonsideLists;
-			}
-			if(!"".equals(desp) && desp!=null){
-				locationonsideLists =new ArrayList<Locationonside>();
-				for(Locationonside los : locationonsideList){
-					if(los.getMaterialName().indexOf(desp)>-1){
-						locationonsideLists.add(los);
-					}
-				}
-				locationonsideList = locationonsideLists;
-			}
-			for(Locationonside los : locationonsideList){
-				UnitConversion ucs = unitConversionService.get("matnr", los.getMaterialCode());
-				if(ucs!=null){
-					if(los.getAmount()==null || "".equals(los.getAmount())){
-						los.setAmount("0");
-					}
-					if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
-						ucs.setConversationRatio(0.0);
-					}
-					BigDecimal dcl = new BigDecimal(los.getAmount());
-					BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
-					try {
-						BigDecimal dc = dcl.divide(dcu).setScale(2, RoundingMode.HALF_UP);
-						los.setBoxMount(dc.doubleValue());
-					} catch (Exception e) {
-						e.printStackTrace();
-						addActionError("物料"+los.getMaterialCode()+" 计量单位数据异常");
-						return ERROR;
-					}
-				}else{
-					los.setBoxMount(0.00);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return INPUT;
-	}
-	public String edit(){
-		if(endProduct==null){
-			endProduct = new EndProduct();
-		}
-		endProduct = endProductService.get(id);
-		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-		if(endProduct.getMaterialBatch()==null){
-			endProduct.setMaterialBatch("");
-		}
-		if(locationonsideList==null){
-			locationonsideList = new ArrayList<Locationonside>();
-		}
-		try {
-			locationonsideList = rfc.findWarehouse(wareHouse, werks);
-			for(Locationonside ls : locationonsideList){
-				if(ls.getCharg()==null){
-					ls.setCharg("");
-				}
-				if(ls.getLocationCode().equals(endProduct.getRepertorySite()) && ls.getMaterialCode().equals(endProduct.getMaterialCode()) && ls.getCharg().equals(endProduct.getMaterialBatch())){
-					endProduct.setActualMaterialMount(new Double(ls.getAmount()));
-					UnitConversion ucs = unitConversionService.get("matnr", ls.getMaterialCode());
-					if(ucs!=null){
-						if(ls.getAmount()==null || "".equals(ls.getAmount())){
-							ls.setAmount("0");
-						}
-						if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
-							ucs.setConversationRatio(0.0);
-						}
-						BigDecimal dcl = new BigDecimal(ls.getAmount());
-						BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
-						try {
-							BigDecimal dc = dcl.divide(dcu).setScale(2, RoundingMode.HALF_UP);
-							endProduct.setActualMaterialBoxMount(dc.doubleValue());
-						} catch (Exception e) {
-							e.printStackTrace();
-							addActionError("物料"+ls.getMaterialCode()+" 计量单位数据异常");
-							return ERROR;
-						}
-					}else{
-						endProduct.setActualMaterialBoxMount(0.00);
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			e.printStackTrace();
-		}
-		
-		return INPUT;
-	}
-	public String update(){
-		try {
-			Admin admin =  adminService.getByCardnum(cardnumber);
-			endProductService.updateEidtEndProduct(id, admin,endProduct,info);
-			return ajaxJsonSuccessMessage("修改成功");
-		} catch (Exception e) {
-			return ajaxJsonErrorMessage("修改失败，请重试");
-		}
-	}
-	public String creditsubmit(){
-			try{
-			if(endProducts!=null){
-				for(EndProduct ed : endProducts){
-					if(ed.getStockBoxMout()!=null && !"".equals(ed.getStockBoxMout())){
-						if(ed.getStockBoxMout().compareTo(ed.getActualMaterialBoxMount())>0){
-							return ajaxJsonErrorMessage("物料"+ed.getMaterialCode()+"库存不足或计量数据未维护");
-						}
-					}
-				}
-			}
-			Admin admin =  adminService.getByCardnum(cardnumber);
-			endProductService.saveEndProduct(endProducts,info,admin);
-			return ajaxJsonSuccessMessage("保存成功!"); 
-		
-				
-		} catch (Exception e) {
-			return ajaxJsonErrorMessage("保存失败，请重试");
-		}
-		
-	}
-	public String creditapproval(){
-		String message = "";
-		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
-		try {
-			Admin admin =  adminService.getByCardnum(cardnumber);
-			//endProductService.updateApprovalEndProduct(ids,admin);
-			Admin admin1=adminService.get(loginid);
-			List<EndProduct> endProductList = new ArrayList<EndProduct>();
-			String[] ids = id.split(","); 
-			for(int i=0;i<ids.length;i++){
-				EndProduct ed = endProductService.get(ids[i]);
-				if( ed!=null){
-					if(ed.getMblnr()!=null && !"".equals(ed.getMblnr()))
-						continue;
-					ed.setConfirmUser(admin.getUsername());
-					ed.setConfirmName(admin.getName());
-					ed.setState("2");
-					ed.setBudate(ThinkWayUtil.SystemDate());
-					ed.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
-					ed.setMoveType("311");
-					endProductList.add(ed);
-				}
-			}
-			endProductCrt = eprfc.EndProductCrt("X", endProductList);
-			boolean flag = true;
-			for(EndProduct epc : endProductCrt){
-				String e_type = epc.getE_type();
-				if (e_type.equals("E")) { // 如果有一行发生了错误
-					flag = false;
-					message += epc.getE_message();
-				}
-			}
-				if (!flag)
-					return ajaxJsonErrorMessage(message);
-				else {
-					flag = true;
-					endProductCrt = eprfc.EndProductCrt("", endProductList);
-					for(EndProduct epc : endProductCrt){
-						String e_type = epc.getE_type();
-						String e_message = epc.getE_message();
-						String ex_mblnr = epc.getEx_mblnr();
-						if (e_type.equals("E")) { // 如果有一行发生了错误
-							flag = false;
-							message += epc.getE_message();
-						}else{
-							EndProduct ep = endProductService.get(epc.getId());
-							ep.setMblnr(ex_mblnr);
-							endProductService.update(ep);
-						}
-					}
-					if (!flag)
-						return ajaxJsonErrorMessage(message);
-			}
-			return ajaxJsonSuccessMessage("保存成功!"); 
-		} catch (Exception e) {
-			log.error(e);
-			return ajaxJsonErrorMessage("确认失败，请重试");
-		}
-		
-	}
-	public String view(){
-		if(endProduct==null){
-			endProduct = new EndProduct();
-		}
-		endProduct = endProductService.get(id);
-		return VIEW;
-	}
-	
-	
-	
-	
+
 	// 获取所有状态
-	public List<Dict> getAllSite(){
+	public List<Dict> getAllSite() {
 		return dictService.getList("dictname", "reporterSite");
 	}
+
 	// 获取所有类型
-	public List<Dict> getAllType(){
+	public List<Dict> getAllType() {
 		return dictService.getList("dictname", "endProductType");
 	}
+
 	public Admin getAdmin() {
 		return admin;
 	}
@@ -409,49 +518,52 @@ public class EndProductAction extends BaseAdminAction {
 		this.endProducts = endProducts;
 	}
 
-
-
-
 	public String getInfo() {
 		return info;
 	}
 
-
-
-
 	public void setInfo(String info) {
 		this.info = info;
 	}
+
 	public List<Locationonside> getLocationonsideList() {
 		return locationonsideList;
 	}
+
 	public void setLocationonsideList(List<Locationonside> locationonsideList) {
 		this.locationonsideList = locationonsideList;
 	}
+
 	public String getCardnumber() {
 		return cardnumber;
 	}
+
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
 	}
+
 	public EndProduct getEndProduct() {
 		return endProduct;
 	}
+
 	public void setEndProduct(EndProduct endProduct) {
 		this.endProduct = endProduct;
 	}
+
 	public String getDesp() {
 		return desp;
 	}
+
 	public void setDesp(String desp) {
 		this.desp = desp;
 	}
+
 	public String getLoginid() {
 		return loginid;
 	}
+
 	public void setLoginid(String loginid) {
 		this.loginid = loginid;
 	}
-	
 
 }

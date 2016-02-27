@@ -3,8 +3,11 @@ package cc.jiuyi.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DepartmentDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
@@ -48,6 +51,16 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 			getChildrenById(dept.getId(),temp);
 		}
 		return temp;
+	}
+
+	/**
+	 * ajlist查询所有
+	 */
+	public Pager getAllDept(Pager pager)
+	{
+		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Department.class);
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));
+		return super.findByPager(pager,detachedCriteria);
 	}
 
 	

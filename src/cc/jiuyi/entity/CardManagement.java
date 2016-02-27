@@ -1,6 +1,8 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,8 +26,10 @@ public class CardManagement extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private FactoryUnit factoryunit;//单元
     
-    
+    //假字段
+    private String xfuname;//单元名称
 	
 	public String getPosCode() {
 		return posCode;
@@ -63,9 +67,23 @@ public class CardManagement extends BaseEntity{
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
 	}
-
-   
-
-    
+	@ManyToOne(fetch=FetchType.LAZY)
+	public FactoryUnit getFactoryunit()
+	{
+		return factoryunit;
+	}
+	public void setFactoryunit(FactoryUnit factoryunit)
+	{
+		this.factoryunit = factoryunit;
+	}
 	
+	@Transient
+	public String getXfuname()
+	{
+		return xfuname;
+	}
+	public void setXfuname(String xfuname)
+	{
+		this.xfuname = xfuname;
+	}
 }

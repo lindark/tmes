@@ -54,6 +54,12 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, String> i
 		return departmentdao.getAllByHql();
 	}
 
-
+	/**
+	 * ajlist查询所有
+	 */
+	public Pager getAllDept(Pager pager)
+	{
+		return this.departmentdao.getAllDept(pager);
+	}
 
 }

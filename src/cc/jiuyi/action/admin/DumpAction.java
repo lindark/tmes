@@ -623,7 +623,21 @@ public class DumpAction extends BaseAdminAction {
 		String str="";
 		try
 		{
-			str = this.dumpService.updateToSAP(dumpid,cardnumber);
+			List<DumpDetail>ddlist=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
+			for(int i=0;i<ddlist.size();i++)
+			{
+				DumpDetail dd=ddlist.get(i);
+				String isdone=dd.getIsDone();
+				List<HashMap<String,String>>mlist=getMapList(dd);
+				if(!"Y".equals(isdone))
+				{
+					this.dumpRfc.saveMaterial(mlist);
+					dd.setIsDone("Y");//是否已经从中转仓计算过
+					dd.setModifyDate(new Date());
+					this.dumpDetailService.update(dd);
+				}
+			}
+			str = this.dumpService.updateToSAP(d,ddlist,cardnumber);
 		}
 		catch (IOException e)
 		{
@@ -661,6 +675,27 @@ public class DumpAction extends BaseAdminAction {
 		String lgpla=factoryunit.getPsPositionAddress();//配送库存地点仓位
 		list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla);
 		return "S";
+	}
+	
+	public List<HashMap<String,String>>getMapList(DumpDetail dd)
+	{
+		List<HashMap<String,String>>mlist=new ArrayList<HashMap<String,String>>();
+		HashMap<String,String>map=new HashMap<String,String>();
+		map.put("MANTD",dd.getMantd());//客户端编号
+		map.put("ROWNO", dd.getRowno());//存放ID
+		map.put("MATNR", dd.getMatnr());//物料编码
+		map.put("CHARG", dd.getCharg());//批号
+		map.put("VERME", dd.getVerme());//可用库存
+		map.put("DWNUM", dd.getMenge());//数量
+		map.put("MEINS", dd.getMeins());//基本单位
+		map.put("LGTYP", dd.getLgtyp());//仓储类型
+		map.put("LGPLA", dd.getLgpla());//仓位
+		map.put("LQNUM", dd.getLqnum());//Quantity in Parallel Unit of Entry
+		map.put("LENUM", dd.getLenum());//仓储单位编号
+		map.put("SEQU", dd.getSequ());//整数
+		map.put("NLPLA", dd.getNlpla());//目的地仓位
+		mlist.add(map);
+		return mlist;
 	}
 	
 	/**============================================*/

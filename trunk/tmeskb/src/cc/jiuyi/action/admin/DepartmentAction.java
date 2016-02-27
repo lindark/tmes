@@ -1,36 +1,24 @@
 package cc.jiuyi.action.admin;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
-import cc.jiuyi.entity.Admin;
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.WorkShop;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.service.AdminService;
-import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
-import cc.jiuyi.service.MemberService;
-import cc.jiuyi.service.MessageService;
-import cc.jiuyi.service.ProductService;
-import cc.jiuyi.service.RoleService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.WorkShopService;
-import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.service.impl.AdminServiceImpl;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import net.sf.json.JSONArray;
@@ -38,26 +26,8 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.AccountExpiredException;
-import org.springframework.security.BadCredentialsException;
-import org.springframework.security.DisabledException;
-import org.springframework.security.LockedException;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.EmailValidator;
-import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.TemplateHashModel;
 
 /**
  * 后台Action类 - 部门管理 
@@ -269,6 +239,83 @@ public class DepartmentAction extends BaseAdminAction {
 		//暂时不需要使用
 		return ajaxText("true");
 	}
+	
+	/**
+	 * 部门管理:跳转到list列表页面
+	 */
+	public String alllist()
+	{
+		return "alllist";
+	}
+	
+	/**
+	 * 部门管理:查询所有部门
+	 */
+	public String ajlist()
+	{
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+		pager=this.deptservice.getAllDept(pager);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Department.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
+	 * 添加
+	 */
+	public String adddept()
+	{
+		list = deptservice.getAllByHql();
+		return "inputdept";
+	}
+	
+	/**
+	 * 编辑
+	 */
+	public String editdept()
+	{
+		list = deptservice.getAllByHql();
+		this.department=this.deptservice.get(id);
+		return "inputdept";
+	}
+	
+	/**
+	 * 添加保存
+	 */
+	public String savedept()
+	{
+		this.deptservice.save(department);
+		redirectionUrl = "department!alllist.action";
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改保存
+	 */
+	public String updatedept()
+	{
+		Department d=this.deptservice.get(department.getId());
+		d.setModifyDate(new Date());
+		BeanUtils.copyProperties(department, d, new String[] { "id","isDel" });
+		this.deptservice.update(d);
+		redirectionUrl = "department!alllist.action";
+		return SUCCESS;
+	}
+	// 删除
+	public String deletedept() {
+		ids = id.split(",");
+		this.deptservice.updateisdel(ids, "Y");
+		redirectionUrl = "department!alllist.action";
+		return SUCCESS;
+		}
+	/**===========================================================*/
 
 	public List<Department> getList() {
 		return list;

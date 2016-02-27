@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
@@ -23,8 +25,6 @@ import cc.jiuyi.service.CardManagementService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -118,19 +118,25 @@ public class CardManagementAction extends BaseAdminAction {
 			}*/
 		}
 
-			pager = cardManagementService.getCardManagementPager(pager, map);
-			List<CardManagement> cardManagementList = pager.getList();
-			List<CardManagement> lst = new ArrayList<CardManagement>();
-			for (int i = 0; i < cardManagementList.size(); i++) {
-				CardManagement cardManagement = (CardManagement) cardManagementList.get(i);
-				cardManagement.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "cardManagementState", cardManagement.getState()));
-				lst.add(cardManagement);
+		pager = cardManagementService.getCardManagementPager(pager, map);
+		List<CardManagement> cardManagementList = pager.getList();
+		List<CardManagement> lst = new ArrayList<CardManagement>();
+		for (int i = 0; i < cardManagementList.size(); i++) {
+			CardManagement cardManagement = (CardManagement) cardManagementList.get(i);
+			cardManagement.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "cardManagementState", cardManagement.getState()));
+			//单元
+			if(cardManagement.getFactoryunit()!=null)
+			{
+				cardManagement.setXfuname(cardManagement.getFactoryunit().getFactoryUnitName());
 			}
+			lst.add(cardManagement);
+		}
 		pager.setList(lst);
-		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
-		 return ajaxJson(jsonArray.get(0).toString());
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(CardManagement.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
 		
 	}
 	
@@ -148,10 +154,10 @@ public class CardManagementAction extends BaseAdminAction {
 
 	
 	//编辑
-		public String edit(){
-			cardManagement= cardManagementService.load(id);
-			return INPUT;	
-		}
+	public String edit(){
+		cardManagement= cardManagementService.load(id);
+		return INPUT;	
+	}
 		
 	//更新
 		@InputConfig(resultName = "error")

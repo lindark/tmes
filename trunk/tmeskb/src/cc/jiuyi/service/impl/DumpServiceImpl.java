@@ -1,6 +1,9 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
-import cc.jiuyi.dao.DumpDetailDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
@@ -19,16 +21,15 @@ import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Service实现类 转储管理
  */
 @Service
 @Transactional
-public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
-		DumpService {
+public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements DumpService {
 	@Resource
 	private DumpDao dumpDao;
 	@Resource
@@ -42,7 +43,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 	public void setBaseDao(DumpDao dumpDao) {
 		super.setBaseDao(dumpDao);
 	}
-
+	
+	/**=======================================*/
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		dumpDao.updateisdel(ids, oper);
@@ -58,7 +60,6 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 	 */
 	@Override
 	public void saveDump(String[] ids, List<Dump> dumpList,String cardnumber,String loginid) throws IOException, CustomerException {
-		ids = ThinkWayUtil.array_unique(ids);
 		//先将转储单保存到数据库
 		Admin admin = adminService.getByCardnum(cardnumber);
 		for (int i = 0; i < ids.length; i++) {
@@ -89,5 +90,176 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements
 		}
 
 	}
+	
+	/**==================================================================*/
+	/**
+	 * jqgrad查询
+	 */
+	public Pager getAlllist(Pager pager)
+	{
+		return this.dumpDao.getAlllist(pager);
+	}
+	
+	/**
+	 * 新增保存
+	 */
+	public String saveInfo(List<DumpDetail>list_dd,String fuid,String cardnumber,String materialcode)
+	{
+		Admin admin=this.adminService.getByCardnum(cardnumber);
+		//新增主表信息
+		Dump d=new Dump();
+		d.setCreateDate(new Date());
+		d.setCreateUser(admin);//创建人
+		d.setModifyDate(new Date());
+		d.setMaterialCode(materialcode);//物料编码
+		d.setFactoryUnitId(fuid);//单元ID
+		String dumpid=this.save(d);
+		Dump dump=this.get(dumpid);
+		myadd(list_dd,dump);
+		return dumpid; 
+	}
 
+	/**
+	 * 修改保存
+	 */
+	public void updateInfo(List<DumpDetail> list_dd, String fuid,String dumpid)
+	{
+		Dump dump=this.get(dumpid);
+		List<DumpDetail>ddlist=new ArrayList<DumpDetail>(dump.getDumpDetail());
+		//修改主表
+		dump.setModifyDate(new Date());//修改日期
+		this.update(dump);
+		for(int i=0;i<ddlist.size();i++)
+		{
+			DumpDetail dd=ddlist.get(i);
+			this.dumpDetailService.delete(dd.getId());
+		}
+		myadd(list_dd,dump);
+	}
+	
+	/**
+	 * dumpdetail表新增数据
+	 */
+	public void myadd(List<DumpDetail> list_dd,Dump dump)
+	{
+		Double d=0d;
+		if(list_dd!=null)
+		{
+			for(int i=0;i<list_dd.size();i++)
+			{
+				DumpDetail dd=list_dd.get(i);
+				if(dd.getMenge()!=null&&!"".equals(dd.getMenge()))
+				{
+					dd.setModifyDate(new Date());//修改日期
+					dd.setCreateDate(new Date());//创建日期
+					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+					dd.setDeliveryTime(sdf.format(new Date()));//过帐日期
+					dd.setDump(dump);
+					d=ArithUtil.add(d,Double.parseDouble(dd.getMenge()));
+					this.dumpDetailService.save(dd);
+				}
+			}
+			int num=d.intValue();
+			dump.setAllcount(num+"");
+			this.update(dump);
+		}
+	}
+	
+	/**
+	 * 与SAP交互及修改本地状态
+	 * @throws CustomerException 
+	 * @throws IOException 
+	 */
+	public String updateToSAP(String dumpid,String cardnumber) throws IOException, CustomerException
+	{
+		Admin admin=this.adminService.getByCardnum(cardnumber);//确认人
+		Dump dump=this.get(dumpid);//主表
+		List<DumpDetail>ddlist=new ArrayList<DumpDetail>(dump.getDumpDetail());//子表
+		String ex_mblnr="";
+		String isdone="";
+		isdone=dump.getIsDone();
+		if(ddlist.size()>0)
+		{
+			List<HashMap<String,String>>mlist=getMapList(ddlist,admin,1);
+			List<HashMap<String,String>>mlist2=getMapList(ddlist,admin,2);
+			if(!"Y".equals(isdone))
+			{
+				this.dumpRfc.saveMaterial(mlist);
+				dump.setIsDone("Y");//是否已经从中转仓计算过
+				this.update(dump);
+			}
+			List<HashMap<String,String>>list_return=this.dumpRfc.updateMaterial("X", mlist2);
+			for(int i=0;i<list_return.size();i++)
+			{
+				HashMap<String,String>m=list_return.get(i);
+				if("E".equals(m.get("e_type")))
+				{
+					return m.get("e_message");
+				}
+			}
+			list_return=new ArrayList<HashMap<String,String>>();
+			list_return=this.dumpRfc.updateMaterial("", mlist2);
+			for(int i=0;i<list_return.size();i++)
+			{
+				HashMap<String,String>m=list_return.get(i);
+				if("E".equals(m.get("e_type")))
+				{
+					return m.get("e_message");
+				}
+				else
+				{
+					ex_mblnr=m.get("ex_mblnr");//凭证号
+				}
+			}
+		}
+		dump.setVoucherId(ex_mblnr);//凭证号
+		dump.setModifyDate(new Date());//修改日期
+		dump.setState("1");//状态改为已确认
+		dump.setConfirmUser(admin);
+		this.update(dump);
+		return "S";
+	}
+	
+	public List<HashMap<String,String>> getMapList(List<DumpDetail>ddlist,Admin admin,int my_id)
+	{
+		List<HashMap<String,String>>mlist=new ArrayList<HashMap<String,String>>();
+		for(int i=0;i<ddlist.size();i++)
+		{
+			HashMap<String,String>map=new HashMap<String,String>();
+			DumpDetail dd=ddlist.get(i);
+			/**第一个接口*/
+			if(my_id==1)
+			{
+				map.put("MANTD",dd.getMantd());//客户端编号
+				map.put("ROWNO", dd.getRowno());//存放ID
+				map.put("MATNR", dd.getMatnr());//物料编码
+				map.put("CHARG", dd.getCharg());//批号
+				map.put("VERME", dd.getVerme());//可用库存
+				map.put("DWNUM", dd.getMenge());//数量
+				map.put("MEINS", dd.getMeins());//基本单位
+				map.put("LGTYP", dd.getLgtyp());//仓储类型
+				map.put("LGPLA", dd.getLgpla());//仓位
+				map.put("LQNUM", dd.getLqnum());//Quantity in Parallel Unit of Entry
+				map.put("LENUM", dd.getLenum());//仓储单位编号
+				map.put("SEQU", dd.getSequ());//整数
+				map.put("NLPLA", dd.getNlpla());//目的地仓位
+				mlist.add(map);
+			}
+			else
+			{
+				map.put("BUDAT", dd.getDeliveryTime());//过账日期
+				map.put("WERKS", dd.getWerks());//工厂
+				map.put("LGORT", dd.getPsaddress());//库存地点
+				map.put("ZTEXT", admin.getName());//确认人
+				map.put("MOVE_TYPE", "311");//移动类型
+				map.put("XUH", dd.getId());//ID
+				map.put("MATNR", dd.getMatnr());//物料编码
+				map.put("ZSFSL", dd.getMenge());//数量
+				map.put("CHARG", dd.getCharg());//批次
+				map.put("MOVE_STLOC", dd.getJsaddress());//收货库存地点
+				mlist.add(map);
+			}
+		}
+		return mlist;
+	}
 }

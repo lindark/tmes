@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.dao.CardManagementDao;
 import cc.jiuyi.dao.FactoryUnitDao;
+import cc.jiuyi.entity.CardManagement;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.FactoryUnitService;
@@ -31,6 +33,9 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 		super.setBaseDao(factoryUnitDao);
 	}
 	
+	@Resource
+	private CardManagementDao cmdao;
+	
 	@Override
 	public void delete(String id) {
 		FactoryUnit factoryUnit = factoryUnitDao.load(id);
@@ -51,20 +56,17 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 
 	@Override
 	public Pager getFactoryUnitPager(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return factoryUnitDao.getFactoryUnitPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		factoryUnitDao.updateisdel(ids, oper);
 		
 	}
 
 	@Override
 	public boolean isExistByFactoryUnitCode(String factoryUnitCode) {
-		// TODO Auto-generated method stub
 		return factoryUnitDao.isExistByFactoryUnitCode(factoryUnitCode);
 	}
 
@@ -84,5 +86,18 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 	@Override
 	public FactoryUnit getUnitByWorkCenter(String workCenter) {
 		return factoryUnitDao.getUnitByWorkCenter(workCenter);
+	}
+
+	/**
+	 * 根据ip获取单元
+	 */
+	public FactoryUnit getById(String ip)
+	{
+		CardManagement cm=this.cmdao.getByIp(ip);
+		if(cm!=null&&cm.getFactoryunit()!=null)
+		{
+			return cm.getFactoryunit();
+		}
+		return null;
 	}
 }

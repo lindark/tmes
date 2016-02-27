@@ -25,4 +25,9 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	/**
+	 * jqgrad查询
+	 */
+	public Pager getAlllist(Pager pager);
 }

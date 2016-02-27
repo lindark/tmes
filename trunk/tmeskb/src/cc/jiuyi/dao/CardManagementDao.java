@@ -29,4 +29,11 @@ public interface CardManagementDao extends BaseDao<CardManagement,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+
+	/**
+	 * 根据ip查询
+	 * @param ip
+	 * @return
+	 */
+	public CardManagement getByIp(String ip);
 }

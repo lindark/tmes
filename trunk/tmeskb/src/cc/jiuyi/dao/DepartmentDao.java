@@ -2,6 +2,7 @@ package cc.jiuyi.dao;
 
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
 
@@ -25,6 +26,13 @@ public interface DepartmentDao extends BaseDao<Department, String> {
 	public List getAllByHql();
 	
 	public List<Department> getChildrenById(String id,List<Department> temp);
+
+	/**
+	 * ajlist查询所有
+	 * @param pager
+	 * @return
+	 */
+	public Pager getAllDept(Pager pager);
 	
 	
 }

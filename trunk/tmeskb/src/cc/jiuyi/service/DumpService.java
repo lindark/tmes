@@ -6,6 +6,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.util.CustomerException;
 
 /**
@@ -29,5 +30,33 @@ public interface DumpService extends BaseService<Dump, String>{
 	public void updateisdel(String[] ids,String oper);
 	
 	public void saveDump(String[] ids,List<Dump> dumpList,String cardnumber,String loginid)throws IOException, CustomerException;
+	
+	/**
+	 * jqgrad查询
+	 */
+	public Pager getAlllist(Pager pager);
+	
+	/**
+	 * 新增保存
+	 * @param list_dd
+	 * @param fuid
+	 */
+	public String saveInfo(List<DumpDetail> list_dd, String fuid,String cardnumber,String materialcode);
+	
+	/**
+	 * 修改保存
+	 * @param list_dd
+	 * @param fuid
+	 * @param dumpid
+	 * @return
+	 */
+	public void updateInfo(List<DumpDetail> list_dd, String fuid,String dumpid);
+	
+	/**
+	 * 与SAP交互及修改本地状态
+	 * @param dumpid
+	 * @return
+	 */
+	public String updateToSAP(String dumpid,String cardnumber)throws IOException, CustomerException;
 	
 }

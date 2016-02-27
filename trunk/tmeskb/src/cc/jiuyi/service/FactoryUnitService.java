@@ -45,4 +45,7 @@ public interface FactoryUnitService extends BaseService<FactoryUnit, String> {
 	 */
 	public FactoryUnit getUnitByWorkCenter(String workCenter);
 
+	//根据ip获取单元
+	public FactoryUnit getById(String ip);
+
 }

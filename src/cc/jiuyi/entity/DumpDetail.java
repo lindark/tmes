@@ -45,6 +45,7 @@ public class DumpDetail extends BaseEntity {
 	private String lenum;//仓储单位编号
 	private String sequ;//整数
 	private String nlpla;//目的地仓位
+	private String isDone;//是否已经从中转仓计算过
 
 	public String getMenge() {
 		return menge;
@@ -293,6 +294,16 @@ public class DumpDetail extends BaseEntity {
 	public void setLqnum(String lqnum)
 	{
 		this.lqnum = lqnum;
+	}
+
+	public String getIsDone()
+	{
+		return isDone;
+	}
+
+	public void setIsDone(String isDone)
+	{
+		this.isDone = isDone;
 	}
 
 }

@@ -34,7 +34,6 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Products;
@@ -64,13 +63,8 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.OneBarcodeUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.EmailValidator;
-import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 import freemarker.ext.beans.BeansWrapper;
@@ -514,6 +508,7 @@ public class AdminAction extends BaseAdminAction {
 		return LIST;
 	}
 	
+	
 	/**
 	 * ajax 列表
 	 * @return
@@ -802,6 +797,70 @@ public class AdminAction extends BaseAdminAction {
 		
 	}
 	
+	/**===================================================================*/
+	
+	/**
+	 * 员工管理：进入list页面
+	 */
+	public String alllist()
+	{
+		
+		return "alllist";
+	}
+	
+	/**
+	 * ajlist查询
+	 */
+	public String ajlistemp()
+	{
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+		//pager=this.adminService.getAllemp(pager);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
+	 * 添加前
+	 */
+	public String addemp()
+	{
+		return "inputemp";
+	}
+	/**
+	 * 修改前
+	 */
+	public String editemp()
+	{
+		return "inputemp";
+	}
+	/**
+	 * 新增保存
+	 */
+	public String saveemp()
+	{
+		
+		this.redirectionUrl="admin!alllist.action";
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改保存
+	 */
+	public String updateemp()
+	{
+		
+		this.redirectionUrl="admin!alllist.action";
+		return SUCCESS;
+	}
+	/**===================================================================*/
 	/*
 	// 获取未批准订单数
 	public Long getUnprocessedOrderCount() {

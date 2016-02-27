@@ -6,29 +6,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.swing.event.TableModelListener;
-
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
-import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.sap.rfc.DumpRfc;
-import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 @Component
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	
-	@Resource
-	private AdminService adminservice;
-	@Override
 	public List<Dump> findMaterialDocument(String lgort, String bgdat,
 			String eddat) throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
@@ -108,122 +99,157 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	@Override
 	public List<HashMap<String, String>> findMaterial(String werks,
 			String lgort, String matnr,String lgpla) throws IOException {
-		List<HashMap<String,String>> arrList = new ArrayList<HashMap<String,String>>();
-		super.setProperty("materiallqua");//根据配置文件读取到函数名称
-		/******输入参数******/
-		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("S_WERKS", werks);//工厂
-		parameter.put("S_LGORT", lgort);//库存地点
-		parameter.put("S_MATNR", matnr);//物料
-		parameter.put("S_LGPLA", lgpla);//物料
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
-		ParameterList out = model.getOuts();//返回参数
-		ParameterList outs = model.getOuttab();//返回表
-		/******执行 end******/
-		Table ET_ITEM = outs.getTable("GT_LQUA");//仓位库存信息
-		for(int i=0;i<ET_ITEM.getNumRows();i++){
-			ET_ITEM.setRow(i);
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("mantd",ET_ITEM.getString("MANTD"));//客户端编号
-			map.put("rowno", ET_ITEM.getString("ROWNO"));//存放ID
-			map.put("matnr", ET_ITEM.getString("MATNR"));//物料编码
-			map.put("charg", ET_ITEM.getString("CHARG"));//批号
-			map.put("verme", ET_ITEM.getString("VERME"));//可用库存
-			map.put("lqnum", ET_ITEM.getString("LQNUM"));//数量
-			map.put("meins", ET_ITEM.getString("MEINS"));//基本单位
-			map.put("lgtyp", ET_ITEM.getString("LGTYP"));//仓储类型
-			map.put("lgpla", ET_ITEM.getString("LGPLA"));//仓位
-			map.put("dwnum", ET_ITEM.getString("DWNUM"));//Quantity in Parallel Unit of Entry
-			map.put("lenum", ET_ITEM.getString("LENUM"));//仓储单位编号
-			map.put("sequ", ET_ITEM.getString("SEQU"));//整数
-			map.put("nlpla", ET_ITEM.getString("NLPLA"));//目的地仓位
-			
-			arrList.add(map);
+		try
+		{
+			List<HashMap<String,String>> arrList = new ArrayList<HashMap<String,String>>();
+			super.setProperty("materiallqua");//根据配置文件读取到函数名称
+			/******输入参数******/
+			HashMap<String,Object> parameter = new HashMap<String,Object>();
+			parameter.put("S_WERKS", werks);//工厂
+			parameter.put("S_LGORT", lgort);//库存地点
+			parameter.put("S_MATNR", matnr);//物料
+			parameter.put("S_LGPLA", lgpla);//库位
+			super.setParameter(parameter);//输入参数
+			super.setTable(null);
+			SAPModel model = execBapi();//执行 并获取返回值
+			ParameterList out = model.getOuts();//返回参数
+			ParameterList outs = model.getOuttab();//返回表
+			/******执行 end******/
+			Table ET_ITEM = outs.getTable("GT_LQUA");//仓位库存信息
+			for(int i=0;i<ET_ITEM.getNumRows();i++){
+				ET_ITEM.setRow(i);
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("mantd",ET_ITEM.getString("MANTD"));//客户端编号
+				map.put("rowno", ET_ITEM.getString("ROWNO"));//存放ID
+				map.put("matnr", ET_ITEM.getString("MATNR"));//物料编码
+				map.put("charg", ET_ITEM.getString("CHARG"));//批号
+				map.put("verme", ET_ITEM.getString("VERME"));//可用库存
+				map.put("lqnum", ET_ITEM.getString("LQNUM"));//数量
+				map.put("meins", ET_ITEM.getString("MEINS"));//基本单位
+				map.put("lgtyp", ET_ITEM.getString("LGTYP"));//仓储类型
+				map.put("lgpla", ET_ITEM.getString("LGPLA"));//仓位
+				map.put("dwnum", ET_ITEM.getString("DWNUM"));//Quantity in Parallel Unit of Entry
+				map.put("lenum", ET_ITEM.getString("LENUM"));//仓储单位编号
+				map.put("sequ", ET_ITEM.getString("SEQU"));//整数
+				map.put("nlpla", ET_ITEM.getString("NLPLA"));//目的地仓位
+				
+				arrList.add(map);
+			}
+			return arrList;
 		}
-		return arrList;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+		
+		
 	}
 	
 	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException{
-		super.setProperty("materiallqua1");//根据配置文件读取到函数名称
-		/******输入参数******/
-		//HashMap<String,Object> parameter = new HashMap<String,Object>();
-		//parameter.put("GM_CODE", "03");//移动类型
-		/******输入表******/
-		List<TableModel> tablemodelList = new ArrayList<TableModel>();
-		TableModel GT_LQUA = new TableModel();
-		GT_LQUA.setData("GT_LQUA");
-		GT_LQUA.setList(arrList);
-		tablemodelList.add(GT_LQUA);
-		//super.setParameter(parameter);
-		super.setTable(tablemodelList);
-		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
-		ParameterList out = model.getOuts();//返回参数
-		ParameterList outs = model.getOuttab();//返回表
-		//Table t_data = outs.getTable("");//列表
-		String type = out.getString("E_TYPE");
-		String message = out.getString("E_MESSAGE");
-		if(type.equals("E")){//如果是E，抛出自定义异常
-			throw new CustomerException("1400001", message);
+		String type="";
+		try
+		{
+			super.setProperty("materiallqua1");//根据配置文件读取到函数名称
+			/******输入参数******/
+			//HashMap<String,Object> parameter = new HashMap<String,Object>();
+			//parameter.put("GM_CODE", "03");//移动类型
+			/******输入表******/
+			super.setParameter(null);
+			super.setStructure(null);
+			List<TableModel> tablemodelList = new ArrayList<TableModel>();
+			TableModel GT_LQUA = new TableModel();
+			GT_LQUA.setData("GT_LQUA");
+			GT_LQUA.setList(arrList);
+			tablemodelList.add(GT_LQUA);
+			//super.setParameter(parameter);
+			super.setTable(tablemodelList);
+			/******执行 end******/
+			SAPModel model = execBapi();//执行 并获取返回值
+			ParameterList out = model.getOuts();//返回参数
+			ParameterList outs = model.getOuttab();//返回表
+			//Table t_data = outs.getTable("");//列表
+			type = out.getString("E_TYPE");
+			String message = out.getString("E_MESSAGE");
+			if(type.equals("E")){//如果是E，抛出自定义异常
+				throw new CustomerException("1400001", message);
+			}
 		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		return type;
 	}
-	/*
-	public void dumpTransfers(List<DumpDetail> list){
-		super.setProperty("pickbatch");//根据配置文件读取到函数名称
-		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("GM_CODE", "04");//MB1B
-		parameter.put("IS_COMMIT", testrun);//testrun
-		List<TableModel> tablemodelList = new ArrayList<TableModel>();
-		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
-		TableModel ET_HEADER = new TableModel();
-		ET_HEADER.setData("ET_HEADER");//表名
-		for(DumpDetail dumpdetail:list){
-			HashMap<String,Object> item = new HashMap<String,Object>();
-//			item.put("BUDAT",dumpdetail.getCreateDate());//过账日期 -已创建日期过去
-//			item.put("WERKS",dumpdetail.getWerks());//工厂
-//			item.put("LGORT",dumpdetail.getLgort());//库存地点
-//			item.put("ZTEXT",);//确认人
-//			item.put("MOVE_TYPE",e.getMoveType());//移动类型
-//			item.put("XUH",e.getId());//ID
-			arrList.add(item);
+
+	public List<HashMap<String,String>> updateMaterial(String testrun,List<HashMap<String,String>> maplist)
+			throws IOException, CustomerException {
+		try
+		{
+			super.setProperty("pickbatch");//根据配置文件读取到函数名称
+			super.setParameter(null);
+			super.setStructure(null);
+			/******输入参数******/
+			HashMap<String,Object> parameter = new HashMap<String,Object>();
+			parameter.put("GM_CODE", "04");//MB1B
+			parameter.put("IS_COMMIT", testrun);//testrun
+			/******输入表******/
+			List<TableModel> tablemodelList = new ArrayList<TableModel>();
+			List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+			TableModel ET_HEADER = new TableModel();
+			ET_HEADER.setData("ET_HEADER");//表名
+			for(HashMap<String,String> m:maplist){
+				HashMap<String,Object> item = new HashMap<String,Object>();
+				item.put("BUDAT",m.get("BUDAT"));//过账日期
+				item.put("WERKS",m.get("WERKS"));//工厂
+				item.put("LGORT",m.get("LGORT"));//库存地点
+				item.put("ZTEXT",m.get("ZTEXT"));//确认人
+				item.put("MOVE_TYPE",m.get("MOVE_TYPE"));//移动类型
+				item.put("XUH",m.get("XUH"));//ID
+				arrList.add(item);
+			}
+			//去重
+			List<HashMap<String,Object>> arr 
+			= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+			ET_HEADER.setList(arr);
+			tablemodelList.add(ET_HEADER);
+			List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
+			TableModel ET_ITEM = new TableModel();
+			ET_ITEM.setData("ET_ITEM");
+			for(HashMap<String,String> m:maplist){
+				HashMap<String,Object> item = new HashMap<String,Object>();
+				item.put("MATNR", m.get("MATNR"));//物料编码
+				item.put("ZSFSL", m.get("ZSFSL"));//数量
+				item.put("XUH",m.get("XUH"));//ID
+				item.put("CHARG", m.get("CHARG"));//批次
+				item.put("MOVE_STLOC", m.get("MOVE_STLOC"));//收货库存地点
+				arrList2.add(item);
+			}
+			ET_ITEM.setList(arrList2);
+			tablemodelList.add(ET_ITEM);
+			super.setParameter(parameter);
+			super.setTable(tablemodelList);
+			/******执行 end******/
+			SAPModel model = execBapi();//执行 并获取返回值
+			ParameterList outs = model.getOuttab();//返回表
+			Table t_data = outs.getTable("ET_HEADER");//列表
+			List<HashMap<String,String>> mlist = new ArrayList<HashMap<String,String>>();
+			for (int i = 0; i < t_data.getNumRows(); i++) {
+				t_data.setRow(i);
+				HashMap<String,String>map=new HashMap<String,String>();
+				map.put("e_type", t_data.getString("E_TYPE"));
+				map.put("e_message", t_data.getString("E_MESSAGE"));
+				map.put("ex_mblnr", t_data.getString("EX_MBLNR"));
+				map.put("xuh", t_data.getString("XUH"));
+				mlist.add(map);
+			}
+			return mlist;
 		}
-		//去重
-		List<HashMap<String,Object>> arr 
-		= new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
-		ET_HEADER.setList(arr);
-		tablemodelList.add(ET_HEADER);
-		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
-		TableModel ET_ITEM = new TableModel();
-		ET_ITEM.setData("ET_ITEM");
-		for(EndProduct e:list){
-			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("MATNR", e.getMaterialCode());//物料编码
-			item.put("ZSFSL", e.getStockMout().toString());//数量
-			item.put("XUH",e.getId());//ID
-			item.put("CHARG", e.getMaterialBatch());//批次
-			item.put("MOVE_STLOC", e.getReceiveRepertorySite());//收货库存地点
-			arrList2.add(item);
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
 		}
-		ET_ITEM.setList(arrList2);
-		tablemodelList.add(ET_ITEM);
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
-		ParameterList outs = model.getOuttab();//返回表
-		Table t_data = outs.getTable("ET_HEADER");//列表
-		List<EndProduct> elist = new ArrayList<EndProduct>();
-		for (int i = 0; i < t_data.getNumRows(); i++) {
-			t_data.setRow(i);
-			EndProduct e = new EndProduct();
-			e.setE_type(t_data.getString("E_TYPE"));
-			e.setE_message(t_data.getString("E_MESSAGE"));
-			e.setEx_mblnr(t_data.getString("EX_MBLNR"));
-			e.setId(t_data.getString("XUH"));
-			elist.add(e);
-		}
-		return elist;
 	}
-	*/
 }

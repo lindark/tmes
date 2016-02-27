@@ -170,24 +170,13 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	 * @throws CustomerException 
 	 * @throws IOException 
 	 */
-	public String updateToSAP(String dumpid,String cardnumber) throws IOException, CustomerException
+	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,String cardnumber) throws IOException, CustomerException
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);//确认人
-		Dump dump=this.get(dumpid);//主表
-		List<DumpDetail>ddlist=new ArrayList<DumpDetail>(dump.getDumpDetail());//子表
 		String ex_mblnr="";
-		String isdone="";
-		isdone=dump.getIsDone();
 		if(ddlist.size()>0)
 		{
-			List<HashMap<String,String>>mlist=getMapList(ddlist,admin,1);
-			List<HashMap<String,String>>mlist2=getMapList(ddlist,admin,2);
-			if(!"Y".equals(isdone))
-			{
-				this.dumpRfc.saveMaterial(mlist);
-				dump.setIsDone("Y");//是否已经从中转仓计算过
-				this.update(dump);
-			}
+			List<HashMap<String,String>>mlist2=getMapList(ddlist,admin);
 			List<HashMap<String,String>>list_return=this.dumpRfc.updateMaterial("X", mlist2);
 			for(int i=0;i<list_return.size();i++)
 			{
@@ -220,45 +209,24 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		return "S";
 	}
 	
-	public List<HashMap<String,String>> getMapList(List<DumpDetail>ddlist,Admin admin,int my_id)
+	public List<HashMap<String,String>> getMapList(List<DumpDetail>ddlist,Admin admin)
 	{
 		List<HashMap<String,String>>mlist=new ArrayList<HashMap<String,String>>();
 		for(int i=0;i<ddlist.size();i++)
 		{
 			HashMap<String,String>map=new HashMap<String,String>();
 			DumpDetail dd=ddlist.get(i);
-			/**第一个接口*/
-			if(my_id==1)
-			{
-				map.put("MANTD",dd.getMantd());//客户端编号
-				map.put("ROWNO", dd.getRowno());//存放ID
-				map.put("MATNR", dd.getMatnr());//物料编码
-				map.put("CHARG", dd.getCharg());//批号
-				map.put("VERME", dd.getVerme());//可用库存
-				map.put("DWNUM", dd.getMenge());//数量
-				map.put("MEINS", dd.getMeins());//基本单位
-				map.put("LGTYP", dd.getLgtyp());//仓储类型
-				map.put("LGPLA", dd.getLgpla());//仓位
-				map.put("LQNUM", dd.getLqnum());//Quantity in Parallel Unit of Entry
-				map.put("LENUM", dd.getLenum());//仓储单位编号
-				map.put("SEQU", dd.getSequ());//整数
-				map.put("NLPLA", dd.getNlpla());//目的地仓位
-				mlist.add(map);
-			}
-			else
-			{
-				map.put("BUDAT", dd.getDeliveryTime());//过账日期
-				map.put("WERKS", dd.getWerks());//工厂
-				map.put("LGORT", dd.getPsaddress());//库存地点
-				map.put("ZTEXT", admin.getName());//确认人
-				map.put("MOVE_TYPE", "311");//移动类型
-				map.put("XUH", dd.getId());//ID
-				map.put("MATNR", dd.getMatnr());//物料编码
-				map.put("ZSFSL", dd.getMenge());//数量
-				map.put("CHARG", dd.getCharg());//批次
-				map.put("MOVE_STLOC", dd.getJsaddress());//收货库存地点
-				mlist.add(map);
-			}
+			map.put("BUDAT", dd.getDeliveryTime());//过账日期
+			map.put("WERKS", dd.getWerks());//工厂
+			map.put("LGORT", dd.getPsaddress());//库存地点
+			map.put("ZTEXT", admin.getName());//确认人
+			map.put("MOVE_TYPE", "311");//移动类型
+			map.put("XUH", dd.getId());//ID
+			map.put("MATNR", dd.getMatnr());//物料编码
+			map.put("ZSFSL", dd.getMenge());//数量
+			map.put("CHARG", dd.getCharg());//批次
+			map.put("MOVE_STLOC", dd.getJsaddress());//收货库存地点
+			mlist.add(map);
 		}
 		return mlist;
 	}

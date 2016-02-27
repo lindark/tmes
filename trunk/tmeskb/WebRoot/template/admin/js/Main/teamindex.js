@@ -333,7 +333,7 @@ function wbout_event(wbid)
 		closeBtn:1,
 		btn:["关闭"]
 	});
-	
+	event.stopPropagation();
 	/*var title = "当前随工单的投入产出信息";
 	var width="900px";
 	var height="600px";

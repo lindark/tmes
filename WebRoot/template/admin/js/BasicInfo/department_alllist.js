@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"card_management!ajlist.action",
+		url:"department!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -63,16 +63,10 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['刷卡机编码','电脑IP',"单元",'状态', ],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},			
-			{name:'posCode',index:'posCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'pcIp',index:'pcIp', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'xfuname',index:'factoryunit.factoryUnitName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:false,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=creditdevice"}}
-			 
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'deptName',index:'deptName',label:"部门名称",width:100,editable: true}
 		], 
-
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -83,20 +77,26 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        gridComplete : function() {
+         	/* var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+         	 for ( var i = 0; i < ids.length; i++) {
+         		 var cl = ids[i];
+         		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
+         		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
+         	 }*/
+         },
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
-				styleCheckbox(table);
-				
+				styleCheckbox(table);				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
 		},
 
-		editurl: "card_management!delete.action",//用它做标准删除动作
-		caption: "刷卡设备管理"
+		editurl: "department!deletedept.action",//用它做标准删除动作
+		caption: "部门管理"
 
 		//,autowidth: true,
 //		,
@@ -140,25 +140,19 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
+			edit: true,
 		    editfunc:function(rowId){
-		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
-				if(ids.length >1){
-					alert("请选择一条记录");
-					return false;
-				}
-			   // window.location.href="fault_reason!edit.action?id="+rowId;
-			    window.location.href="card_management!edit.action?id="+rowId;
+			    window.location.href="department!editdept.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			add: true,
 			addfunc:function(){
-				window.location.href="card_management!add.action";
+				window.location.href="department!adddept.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
 			/*delfunc:function(rowId){
-				window.location.href="card_management!delete.action?id="+rowId;
+				window.location.href="department!delete.action?id="+rowId;
 			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
@@ -221,10 +215,8 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			
 			multipleGroup:false,
 			showQuery: true
-			
 		},
 		{
 			//view record form

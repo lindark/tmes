@@ -1,9 +1,10 @@
+
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
-		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+		$(grid_selector).jqGrid( 'setGridWidth', $(".list_area").width() );
     })
 	//resize on sidebar collapse/expand
 	var parent_column = $(grid_selector).closest('[class*="col-"]');
@@ -19,42 +20,15 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
-		//direction: "rtl",
-
-		//subgrid options
-		subGrid : false,
-		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-		//datatype: "xml",
-		subGridOptions : {
-			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-			openicon : "ace-icon fa fa-chevron-right center orange"
-		},
-		//for this example we are using local data
-		subGridRowExpanded: function (subgridDivId, rowId) {
-			var subgridTableId = subgridDivId + "_t";
-			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-			$("#" + subgridTableId).jqGrid({
-				datatype: 'local',
-				data: subgrid_data,
-				colNames: ['No','Item Name','Qty'],
-				colModel: [
-					{ name: 'id', width: 50 },
-					{ name: 'name', width: 150 },
-					{ name: 'qty', width: 50 }
-				]
-			});
-		},
 		
-		url:"card_management!ajlist.action",
-		datatype: "json",
-		height: "250",//weitao 修改此参数可以修改表格的高度
+		url:"admin!ajlist.action",
+		datatype: "local",
+		height: "100%",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount",
-	          id:"id"
+	          records:"totalCount"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -62,15 +36,20 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
+	    	
 	    },
-		colNames:['刷卡机编码','电脑IP',"单元",'状态', ],
+		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			//{name:'id',index:'id', lable:"ID", sorttype:"int", editable: true,summaryType:'sum'},			
-			{name:'posCode',index:'posCode', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'pcIp',index:'pcIp', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'xfuname',index:'factoryunit.factoryUnitName', width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:false,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=creditdevice"}}
-			 
+			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
+			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
+			{name:'workNumber',label:"工号",width:200,index:'workNumber',editable:true,editrules : {required : true}},
+			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
+			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}},
+			{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
+			{name:'xpost',label:"岗位",width:200,index:'xpost.postName', editable: true},
+			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
+			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 
 
 		viewrecords : true,
@@ -95,71 +74,26 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "card_management!delete.action",//用它做标准删除动作
-		caption: "刷卡设备管理"
-
-		//,autowidth: true,
-//		,
-//		grouping:true, 
-//		groupingView : { 
-//			 groupField : ['name'],
-//			 groupDataSorted : true,
-//			 plusicon : 'fa fa-chevron-down bigger-110',
-//			 minusicon : 'fa fa-chevron-up bigger-110'
-//		},
-//		caption: "Grouping"
-		
+		//editurl: "working_bill!delete.action",//用它做标准删除动作
+		caption: "员工列表"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	
-
-	//enable search/filter toolbar
-	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-	//jQuery(grid_selector).filterToolbar({});
-
-
-	//switch element when editing inline
-	function aceSwitch( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=checkbox]')
-				.addClass('ace ace-switch ace-switch-5')
-				.after('<span class="lbl"></span>');
-		}, 0);
-	}
-	//enable datepicker
-	function pickDate( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=text]')
-					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
-		}, 0);
-	}
-
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc:function(rowId){
-		    	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
-				if(ids.length >1){
-					alert("请选择一条记录");
-					return false;
-				}
-			   // window.location.href="fault_reason!edit.action?id="+rowId;
-			    window.location.href="card_management!edit.action?id="+rowId;
+			edit: true,
+			editfunc:function(rowId){
+			    window.location.href="department!editdept.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			add: true,
 			addfunc:function(){
-				window.location.href="card_management!add.action";
+				window.location.href="department!adddept.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: true,
-			/*delfunc:function(rowId){
-				window.location.href="card_management!delete.action?id="+rowId;
-			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

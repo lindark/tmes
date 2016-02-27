@@ -1,18 +1,13 @@
 package cc.jiuyi.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.mail.internet.ParseException;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.CardManagementDao;
 import cc.jiuyi.entity.CardManagement;
 
@@ -108,5 +103,20 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 			super.update(cardManagement);
 		}
 		
+	}
+	
+	/**
+	 * 根据ip查询
+	 */
+	@SuppressWarnings("unchecked")
+	public CardManagement getByIp(String ip)
+	{
+		String hql="from CardManagement where pcIp=? and isDel='N' and state='1'";
+		List<CardManagement>list=this.getSession().createQuery(hql).setParameter(0, ip).list();
+		if(list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
 	}
 }

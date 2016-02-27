@@ -51,4 +51,15 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		}
 	}
 
+	/**
+	 * jqgrid查询
+	 */
+	public Pager getAlllist(Pager pager)
+	{
+		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Dump.class);
+		pagerSqlByjqGrid(pager, detachedCriteria);
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));
+		return super.findByPager(pager, detachedCriteria);
+	}
+
 }

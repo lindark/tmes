@@ -33,6 +33,10 @@ public class Dump extends BaseEntity {
 	private String adminName;// 确认人的名字
 	private String createName;// 创建人的名字
 	private Set<DumpDetail> dumpDetail;// 转储明细
+	private String materialCode;//物料编码
+	private String allcount;//物料数量
+	private String factoryUnitId;//单元ID
+	private String isDone;//是否已经从中转仓计算过
 
 	public String getVoucherId() {
 		return voucherId;
@@ -140,6 +144,46 @@ public class Dump extends BaseEntity {
 
 	public void setDeliveryTime(String deliveryTime) {
 		this.deliveryTime = deliveryTime;
+	}
+
+	public String getMaterialCode()
+	{
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode)
+	{
+		this.materialCode = materialCode;
+	}
+
+	public String getAllcount()
+	{
+		return allcount;
+	}
+
+	public void setAllcount(String allcount)
+	{
+		this.allcount = allcount;
+	}
+
+	public String getFactoryUnitId()
+	{
+		return factoryUnitId;
+	}
+
+	public void setFactoryUnitId(String factoryUnitId)
+	{
+		this.factoryUnitId = factoryUnitId;
+	}
+
+	public String getIsDone()
+	{
+		return isDone;
+	}
+
+	public void setIsDone(String isDone)
+	{
+		this.isDone = isDone;
 	}
 
 }

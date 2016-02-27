@@ -42,6 +42,10 @@ public class FactoryUnit extends BaseEntity {
 	private String workCenter;// 工作中心
 	private String costcenter;//成本中心
 	private String iscanrepair;//是否可以返修/返修收获-编码
+	private String psaddress;//配送库存地点
+	private String psaddressdes;//配送库存地点描述
+	private Set<CardManagement>cardmanagement;//IP
+	private String psPositionAddress;//配送库存地点仓位
 	
 	//假字段
 	private String xiscanrepair;//是否可以返修/返修收获-描述
@@ -221,6 +225,47 @@ public class FactoryUnit extends BaseEntity {
 	public void setMaterialSet(Set<Material> materialSet)
 	{
 		this.materialSet = materialSet;
+	}
+
+	public String getPsaddress()
+	{
+		return psaddress;
+	}
+
+	public void setPsaddress(String psaddress)
+	{
+		this.psaddress = psaddress;
+	}
+
+	public String getPsaddressdes()
+	{
+		return psaddressdes;
+	}
+
+	public void setPsaddressdes(String psaddressdes)
+	{
+		this.psaddressdes = psaddressdes;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factoryunit")
+	public Set<CardManagement> getCardmanagement()
+	{
+		return cardmanagement;
+	}
+
+	public void setCardmanagement(Set<CardManagement> cardmanagement)
+	{
+		this.cardmanagement = cardmanagement;
+	}
+
+	public String getPsPositionAddress()
+	{
+		return psPositionAddress;
+	}
+
+	public void setPsPositionAddress(String psPositionAddress)
+	{
+		this.psPositionAddress = psPositionAddress;
 	}
 	
 }

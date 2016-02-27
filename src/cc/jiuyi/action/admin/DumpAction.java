@@ -2,7 +2,6 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,11 +26,14 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -57,6 +60,16 @@ public class DumpAction extends BaseAdminAction {
 	private String loginid;//当前登录人id
 	private String type;
 	private String isRecord;
+	private List<Material>list_material;
+	private FactoryUnit factoryunit;//单元
+	private String materialcode;//物料编码
+	private List<HashMap<String,String>>list_map;//SAP返回的数据
+	private List<HashMap<String,String>>list_ddmap;
+	private List<DumpDetail>list_dd;
+	private String xshow;
+	private String fuid;//单元主键ID
+	private String dumpid;//主键
+	private String xedit;
 
 	@Resource
 	private DumpRfc dumpRfc;
@@ -68,6 +81,8 @@ public class DumpAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private FactoryUnitService fuservice;
 
 	public String list() {
 		admin = adminService.get(loginid);
@@ -332,8 +347,6 @@ public class DumpAction extends BaseAdminAction {
 	public String recordList(){
 		return "record_list";
 	}
-	
-	
 	public String recordAjlist(){
 		if(pager==null){
 			pager = new Pager();
@@ -403,6 +416,254 @@ public class DumpAction extends BaseAdminAction {
 		}
 	
 	}
+	
+	/**============================================*/
+	
+	/**
+	 * 进入list页面
+	 * @return
+	 */
+	public String all()
+	{
+		
+		return "all";
+	}
+	
+	/**
+	 * ajax 列表
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public String alllist()
+	{
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
+		if(pager.is_search()==true&&filters!=null)
+		{
+			JSONObject filt=JSONObject.fromObject(filters);
+			Pager pg1=new Pager();
+			Map<Object,Object> map=new HashMap<Object, Object>();
+			map.put("rules", jqGridSearchDetailTo.class);
+			pg1=(Pager) JSONObject.toBean(filt,Pager.class,map);
+			pager.setRules(pg1.getRules());
+			pager.setGroupOp(pg1.getGroupOp());
+		}
+		pager=this.dumpService.getAlllist(pager);
+		
+		List<Dump>list=pager.getList();
+		List<Dump>list2=new ArrayList<Dump>();
+		for(int i=0;i<list.size();i++)
+		{
+			Dump d=list.get(i);
+			//创建人
+			if(d.getCreateUser()!=null)
+			{
+				d.setCreateName(d.getCreateUser().getName());
+			}
+			//确认人
+			if(d.getConfirmUser()!=null)
+			{
+				d.setAdminName(d.getConfirmUser().getName());
+			}
+			//状态
+			if (d.getState() != null && !"".equals(d.getState()))
+			{
+				d.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "dumpState", d.getState()));
+			}
+			list2.add(d);
+		}
+		pager.setList(list2);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		return this.ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
+	 * 添加前
+	 */
+	public String beforetoadd()
+	{
+		HttpServletRequest request = getRequest();
+		//String ip = ThinkWayUtil.getIp2(request);
+		//根据ip获取单元
+		factoryunit=this.fuservice.getById("192.168.29.85");//TODO 此ip测试用,转入正试机时需要改为上面获取的ip
+		//根据单元获取物料
+		if(factoryunit!=null)
+		{
+			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
+		}
+		return "entry";
+	}
+	
+	/**
+	 * 添加物料前
+	 */
+	public String beforeaddbatch()
+	{
+		try
+		{
+			addoredit();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			addActionError("系统出现异常!");
+			return ERROR;
+		}
+		catch (CustomerException e)
+		{
+			e.printStackTrace();
+			addActionError(e.getMsgDes());
+			return ERROR;
+		}
+		list_map=list_ddmap;
+		return "alert";
+	}
+	
+	/**
+	 * 添加保存
+	 */
+	public String creditsave()
+	{
+		dumpid=this.dumpService.saveInfo(list_dd,fuid,cardnumber,materialcode);
+		return this.ajaxJsonSuccessMessage(dumpid);
+	}
+	
+	/**
+	 * 修改物料前
+	 */
+	public String beforeeditbatch()
+	{
+		this.dump=this.dumpService.get(id);
+		this.materialcode=dump.getMaterialCode();//物料编码
+		fuid=dump.getFactoryUnitId();//单元ID
+		//获取批次
+		try
+		{
+			addoredit();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			addActionError("系统出现异常!");
+			return ERROR;
+		}
+		catch (CustomerException e)
+		{
+			e.printStackTrace();
+			addActionError(e.getMsgDes());
+			return ERROR;
+		}
+		list_dd=new ArrayList<DumpDetail>(dump.getDumpDetail());
+		list_map=new ArrayList<HashMap<String,String>>();
+		for(int i=0;i<list_ddmap.size();i++)
+		{
+			HashMap<String,String>m=list_ddmap.get(i);
+			for(int j=0;j<list_dd.size();j++)
+			{
+				DumpDetail dd=list_dd.get(j);
+				if(m.get("charg").equals(dd.getCharg()))
+				{
+					m.put("menge", dd.getMenge());//已填写的数量
+				}
+			}
+			list_map.add(m);
+		}
+		xedit="xedit";
+		return "alert";
+	}
+	
+	/**
+	 * 修改保存
+	 */
+	public String creditupdate()
+	{
+		this.dumpService.updateInfo(list_dd,fuid,dumpid);
+		return this.ajaxJsonSuccessMessage(dumpid);
+	}
+	
+	/**
+	 * 显示
+	 */
+	public String toshow()
+	{
+		this.dump=this.dumpService.get(id);
+		list_dd=new ArrayList<DumpDetail>(dump.getDumpDetail());
+		this.xshow="xshow";
+		return "alert";
+	}
+	
+	/**
+	 * 刷卡确认
+	 */
+	public String creditreply()
+	{
+		/*ids=id.split(",");
+		for(int i=0;i<ids.length;i++)
+		{
+			Dump d=this.dumpService.get(ids[i]);
+			String s=d.getState();
+			if("1".equals(s))
+			{
+				return this.ajaxJsonErrorMessage("已确认的不能再确认!");
+			}
+		}*/
+		Dump d=this.dumpService.get(dumpid);
+		String s=d.getState();
+		if("1".equals(s))
+		{
+			return this.ajaxJsonErrorMessage("已确认的不能再确认!");
+		}
+		String str="";
+		try
+		{
+			str = this.dumpService.updateToSAP(dumpid,cardnumber);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("系统出现错误!");
+		}
+		catch (CustomerException e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage(e.getMsgDes());
+		}
+		//与SAP交互及修改本地状态
+		if("S".equals(str))
+		{
+			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		}
+		return this.ajaxJsonErrorMessage(str);
+	}
+	
+	/**
+	 * 第一页面新增/编辑共用方法
+	 * @throws CustomerException 
+	 * @throws IOException 
+	 */
+	public String addoredit() throws IOException, CustomerException
+	{
+		String werks="";//工厂
+		factoryunit=this.fuservice.get(fuid);//根据单元id查询单元
+		if(factoryunit.getWorkShop()!=null&&factoryunit.getWorkShop().getFactory()!=null)
+		{
+			werks=factoryunit.getWorkShop().getFactory().getFactoryCode();//工厂
+		}
+		String lgort=factoryunit.getPsaddress();//配送地点编码
+		String matnr=this.materialcode;//物料编码
+		String lgpla=factoryunit.getPsPositionAddress();//配送库存地点仓位
+		list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla);
+		return "S";
+	}
+	
+	/**============================================*/
 	
 	public Dump getDump() {
 		return dump;
@@ -500,6 +761,104 @@ public class DumpAction extends BaseAdminAction {
 		this.isRecord = isRecord;
 	}
 
-	
+	public List<Material> getList_material()
+	{
+		return list_material;
+	}
+
+	public void setList_material(List<Material> list_material)
+	{
+		this.list_material = list_material;
+	}
+
+	public FactoryUnit getFactoryunit()
+	{
+		return factoryunit;
+	}
+
+	public void setFactoryunit(FactoryUnit factoryunit)
+	{
+		this.factoryunit = factoryunit;
+	}
+
+	public String getMaterialcode()
+	{
+		return materialcode;
+	}
+
+	public void setMaterialcode(String materialcode)
+	{
+		this.materialcode = materialcode;
+	}
+
+	public List<HashMap<String, String>> getList_map()
+	{
+		return list_map;
+	}
+
+	public void setList_map(List<HashMap<String, String>> list_map)
+	{
+		this.list_map = list_map;
+	}
+
+	public List<DumpDetail> getList_dd()
+	{
+		return list_dd;
+	}
+
+	public void setList_dd(List<DumpDetail> list_dd)
+	{
+		this.list_dd = list_dd;
+	}
+
+	public String getXshow()
+	{
+		return xshow;
+	}
+
+	public void setXshow(String xshow)
+	{
+		this.xshow = xshow;
+	}
+
+	public String getFuid()
+	{
+		return fuid;
+	}
+
+	public void setFuid(String fuid)
+	{
+		this.fuid = fuid;
+	}
+
+	public String getDumpid()
+	{
+		return dumpid;
+	}
+
+	public void setDumpid(String dumpid)
+	{
+		this.dumpid = dumpid;
+	}
+
+	public String getXedit()
+	{
+		return xedit;
+	}
+
+	public void setXedit(String xedit)
+	{
+		this.xedit = xedit;
+	}
+
+	public List<HashMap<String, String>> getList_ddmap()
+	{
+		return list_ddmap;
+	}
+
+	public void setList_ddmap(List<HashMap<String, String>> list_ddmap)
+	{
+		this.list_ddmap = list_ddmap;
+	}
 	
 }

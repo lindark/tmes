@@ -36,7 +36,6 @@ public class Dump extends BaseEntity {
 	private String materialCode;//物料编码
 	private String allcount;//物料数量
 	private String factoryUnitId;//单元ID
-	private String isDone;//是否已经从中转仓计算过
 
 	public String getVoucherId() {
 		return voucherId;
@@ -175,15 +174,4 @@ public class Dump extends BaseEntity {
 	{
 		this.factoryUnitId = factoryUnitId;
 	}
-
-	public String getIsDone()
-	{
-		return isDone;
-	}
-
-	public void setIsDone(String isDone)
-	{
-		this.isDone = isDone;
-	}
-
 }

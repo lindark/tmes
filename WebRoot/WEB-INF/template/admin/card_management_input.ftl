@@ -9,6 +9,14 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.class_label_xfuname{width:200px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
+</style>
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/card_management_input.js"></script>
 <script type="text/javascript">
 $().ready( function() {
 
@@ -95,7 +103,15 @@ body{background:#fff;}
 											<label class="requireField">*</label>	
 										</div>
 									</div>
-										
+									
+									<div class="profile-info-row">
+										<div class="profile-info-name"> 单元名称 </div>					
+										<div class="profile-info-value">
+											<label id="label_xfuname" class="class_label_xfuname">${(cardManagement.factoryunit.factoryUnitName)!}&nbsp;</label>
+											<input id="xfuid" type="hidden" name="cardManagement.factoryunit.id" class="formText {required: true}" value="${(cardManagement.factoryunit.id)! }">
+											<label class="requireField">*</label>
+										</div>
+									</div>
 									
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					

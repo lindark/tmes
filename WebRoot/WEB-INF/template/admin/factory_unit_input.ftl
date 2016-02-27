@@ -108,12 +108,23 @@ body{background:#fff;}
 										         <input type="hidden" name="factoryUnit.factoryUnitCode" value="${(factoryUnit.factoryUnitCode)!}"/>
 										    </#if>										
 										</div>
-									</div>	
-									
-									<div class="profile-info-row">	
+										
 										<div class="profile-info-name"> 单元名称 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.factoryUnitName" value="${(factoryUnit.factoryUnitName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>	
+									
+									<div class="profile-info-row">	
+										<div class="profile-info-name">配送地点编码 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.psaddress" value="${(factoryUnit.psaddress)!}" class=" input input-sm  formText {required: true,digits:true}" />
+											<label class="requireField">*</label>	
+										</div>
+										<div class="profile-info-name"> 配送地点描述</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.psaddressdes" value="${(factoryUnit.psaddressdes)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
@@ -123,22 +134,18 @@ body{background:#fff;}
 											<input type="text" name="factoryUnit.warehouse" value="${(factoryUnit.warehouse)!}" class=" input input-sm  formText {required: true,digits:true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
-									<div class="profile-info-row">	
 										<div class="profile-info-name"> 线边仓描述</div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.warehouseName" value="${(factoryUnit.warehouseName)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>	
-									<div class="profile-info-row">	
+									</div>
+									<div class="profile-info-row">
 										<div class="profile-info-name"> 工作中心</div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.workCenter" value="${(factoryUnit.workCenter)!}" id="workCenter" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
-									<div class="profile-info-row">	
 										<div class="profile-info-name">成本中心</div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.costcenter" value="${(factoryUnit.costcenter)!}" id="costcenter" class=" input input-sm  formText {required: true}" />
@@ -160,7 +167,12 @@ body{background:#fff;}
 						                        <input type="radio" id="input_n" class="ace" name="factoryUnit.iscanrepair" value="N"<#if (isAdd ||factoryUnit.iscanrepair == 'N')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
-										</div>	
+										</div>
+										<div class="profile-info-name">配送库存地点仓位</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.psPositionAddress" value="${(factoryUnit.psPositionAddress)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
 									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name">成型/挤压</div>					

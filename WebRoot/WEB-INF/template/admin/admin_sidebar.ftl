@@ -641,6 +641,25 @@
 					
 				 </ul>
 		     </li>
+		     
+		     <li class="">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text"> 物流管理 </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+				<b class="arrow"></b>
+				<ul class="submenu">
+					<li class="">
+						<a href="dump!all.action" >
+							<i class="menu-icon"></i>
+							中转仓
+						</a>
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
 
 			<li class="">
 				<a href="#" class="dropdown-toggle">
@@ -1105,6 +1124,22 @@
 								<b class="arrow"></b>
 							</li>
 							 -->
+							 <li class="">
+								<a href="department!alllist.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									部门管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="admin!alllist.action" >
+									<i class="menu-icon fa fa-caret-right"></i>
+									员工管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 

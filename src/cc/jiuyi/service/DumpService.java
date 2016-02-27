@@ -57,6 +57,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 * @param dumpid
 	 * @return
 	 */
-	public String updateToSAP(String dumpid,String cardnumber)throws IOException, CustomerException;
+	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,String cardnumber)throws IOException, CustomerException;
 	
 }

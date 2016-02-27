@@ -155,8 +155,8 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			//HashMap<String,Object> parameter = new HashMap<String,Object>();
 			//parameter.put("GM_CODE", "03");//移动类型
 			/******输入表******/
-			super.setParameter(null);
-			super.setStructure(null);
+			//super.setParameter(null);
+			//super.setStructure(null);
 			List<TableModel> tablemodelList = new ArrayList<TableModel>();
 			TableModel GT_LQUA = new TableModel();
 			GT_LQUA.setData("GT_LQUA");

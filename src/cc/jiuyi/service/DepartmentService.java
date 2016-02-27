@@ -26,6 +26,13 @@ public interface DepartmentService extends BaseService<Department, String> {
 	 * @return
 	 */
 	public List getAllByHql();
+
+	/**
+	 * ajlist查询所有
+	 * @param pager
+	 * @return
+	 */
+	public Pager getAllDept(Pager pager);
 	
 
 }

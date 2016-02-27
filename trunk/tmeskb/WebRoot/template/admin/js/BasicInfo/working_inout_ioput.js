@@ -22,7 +22,7 @@ jQuery(function($) {
 		datatype: "json",
 		mtype:"POST",
 		postData:{jsondata:$("#jsondata").val()},
-		height: "100%",//weitao 修改此参数可以修改表格的高度
+		height: "360",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list"
@@ -32,7 +32,7 @@ jQuery(function($) {
 		loadonce:true, //从服务器抓取数据,然后交给客户端处理
 		viewrecords : true,
 		scroll:true,
-		rowNum:500,
+		rowNum:50000000,
 		//rowList:[10,20,30],
 		pager : pager_selector,
 		pgbuttons:false,

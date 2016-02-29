@@ -36,6 +36,11 @@ public class Dump extends BaseEntity {
 	private String materialCode;//物料编码
 	private String allcount;//物料数量
 	private String factoryUnitId;//单元ID
+	private String productionDate;//生产日期
+	private String shift;//班次
+	
+	//假字段
+	private String xshift;//班次描述
 
 	public String getVoucherId() {
 		return voucherId;
@@ -173,5 +178,36 @@ public class Dump extends BaseEntity {
 	public void setFactoryUnitId(String factoryUnitId)
 	{
 		this.factoryUnitId = factoryUnitId;
+	}
+
+	public String getProductionDate()
+	{
+		return productionDate;
+	}
+
+	public void setProductionDate(String productionDate)
+	{
+		this.productionDate = productionDate;
+	}
+
+	public String getShift()
+	{
+		return shift;
+	}
+
+	public void setShift(String shift)
+	{
+		this.shift = shift;
+	}
+
+	@Transient
+	public String getXshift()
+	{
+		return xshift;
+	}
+
+	public void setXshift(String xshift)
+	{
+		this.xshift = xshift;
 	}
 }

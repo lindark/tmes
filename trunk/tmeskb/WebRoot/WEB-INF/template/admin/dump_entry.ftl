@@ -70,18 +70,6 @@ body {
 								    	<li><a href="#tabs-1"><#if isAdd??>添加配送单<#else>编辑配送单</#if></a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
-										<div class="row buttons col-md-8 col-sm-4 sub-style">
-                          					<!-- 
-                          					<button class="btn btn-white btn-default btn-sm btn-round" id="btn_add" type="button">
-												<i class="ace-icon fa fa-folder-open-o"></i>
-												添加物料
-											</button>
-											-->
-											<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button">
-												<i class="ace-icon fa fa-home"></i>
-												返回
-											</button>
-										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">发出库存地点</div>
@@ -137,6 +125,19 @@ body {
 												</#list>
 											</div>
 						   				</div>
+									</div>
+									<br/>
+									<div class="row buttons col-md-8 col-sm-4 sub-style">
+                         					<!-- 
+                         					<button class="btn btn-white btn-default btn-sm btn-round" id="btn_add" type="button">
+											<i class="ace-icon fa fa-folder-open-o"></i>
+											添加物料
+										</button>
+										-->
+										<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button">
+											<i class="ace-icon fa fa-home"></i>
+											返回
+										</button>
 									</div>
                      			</div>
 							</form>

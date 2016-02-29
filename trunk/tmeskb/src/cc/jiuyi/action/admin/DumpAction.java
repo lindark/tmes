@@ -436,12 +436,16 @@ public class DumpAction extends BaseAdminAction {
 	@SuppressWarnings("unchecked")
 	public String alllist()
 	{
+		Admin emp=this.adminService.get(loginid);
 		if(pager==null)
 		{
 			pager=new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		if(pager.is_search()==true&&filters!=null)
 		{
 			JSONObject filt=JSONObject.fromObject(filters);
@@ -452,8 +456,7 @@ public class DumpAction extends BaseAdminAction {
 			pager.setRules(pg1.getRules());
 			pager.setGroupOp(pg1.getGroupOp());
 		}
-		pager=this.dumpService.getAlllist(pager);
-		
+		pager=this.dumpService.getAlllist(pager,emp);
 		List<Dump>list=pager.getList();
 		List<Dump>list2=new ArrayList<Dump>();
 		for(int i=0;i<list.size();i++)
@@ -473,6 +476,11 @@ public class DumpAction extends BaseAdminAction {
 			if (d.getState() != null && !"".equals(d.getState()))
 			{
 				d.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "dumpState", d.getState()));
+			}
+			//班次
+			if(d.getShift()!=null&&!"".equals(d.getShift()))
+			{
+				d.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", d.getShift()));
 			}
 			list2.add(d);
 		}
@@ -614,6 +622,13 @@ public class DumpAction extends BaseAdminAction {
 				return this.ajaxJsonErrorMessage("已确认的不能再确认!");
 			}
 		}*/
+		Admin emp=this.adminService.getByCardnum(cardnumber);//确认人
+		String productionDate=emp.getProductDate();//生产日期
+		String shift=emp.getShift();//班次
+		if(productionDate==null||"".equals(productionDate)||shift==null||"".equals(shift))
+		{
+			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
+		}
 		Dump d=this.dumpService.get(dumpid);
 		String s=d.getState();
 		if("1".equals(s))
@@ -637,7 +652,7 @@ public class DumpAction extends BaseAdminAction {
 					this.dumpDetailService.update(dd);
 				}
 			}
-			str = this.dumpService.updateToSAP(d,ddlist,cardnumber);
+			str = this.dumpService.updateToSAP(d,ddlist,emp);
 		}
 		catch (IOException e)
 		{

@@ -20,7 +20,7 @@ jQuery(function($) {
     
 	jQuery(grid_selector).jqGrid({
 		
-		url:"dump!alllist.action",
+		url:"dump!alllist.action?loginid="+$("#loginid").val(),
 		datatype: "json",
 		height: "100%",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -41,6 +41,8 @@ jQuery(function($) {
 		colModel:[
 		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 		    {name:'createDate',index:'createDate',label:"创建日期",width:150,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+		    {name:'productionDate',index:'productionDate',label:"生产日期",width:150,editable:true,editoptions:{size:"20",maxlength:"30"}},
+		    {name:'xshift',index:'shift',search:false,label:"班次", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		    {name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'voucherId',index:'voucherId',search:false,label:"物料凭证号", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'createName',index:'createUser.name',label:"创建人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},	

@@ -58,9 +58,15 @@ function sub_event(i)
 		}
 		else if(xedit=="saved")
 		{
-			layer.alert("该数据已保存,是否确认再次新增一条该数据?", {icon: 6},function(){
+			/*layer.alert("该数据已保存,是否确认再次新增一条该数据?", {icon: 6},function(){
 				url="dump!creditsave.action";
 				tosubmit(url,"tosave");
+			});*/
+			layer.confirm("该数据已保存,是否确认再次新增一条该数据?", {icon: 3,btn:["确定","取消"]},function(){
+				url="dump!creditsave.action";
+				tosubmit(url,"tosave");
+			},function(){
+				layer.closeAll();
 			});
 		}
 		else
@@ -71,9 +77,15 @@ function sub_event(i)
 	}
 	else if(xedit=="xedit")
 	{
-		layer.alert("修改数据未保存,是否确认提交修改前的数据?", {icon: 3},function(){
+		/*layer.alert("修改数据未保存,是否确认提交修改前的数据?", {icon: 3},function(){
 			url="dump!creditreply.action";
 			tosubmit(url,"toconfrim");
+		});*/
+		layer.confirm("修改数据未保存,是否确认提交修改前的数据?", {icon: 3,btn:["确定","取消"]},function(){
+			url="dump!creditreply.action";
+			tosubmit(url,"toconfrim");
+		},function(){
+			
 		});
 	}
 	else
@@ -98,7 +110,7 @@ function tosubmit(url,info)
 	credit.creditCard(url,function(data){
 		if(data.status=="success")
 		{
-			layer.alert("您的操作已成功!", {icon: 6},function(){
+			layer.alert("您的操作已成功!", {icon: 6,closeBtn: 0},function(){
 				if(xedit=="xedit")
 				{
 					xedit="updated";

@@ -60,4 +60,10 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,Admin admin)throws IOException, CustomerException;
 	
+	/**
+	 * 刷卡撤销
+	 * @param list
+	 */
+	public void updateData(List<Dump> list);
+	
 }

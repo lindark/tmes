@@ -1,7 +1,9 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ScrapLater;
 
 /**
@@ -18,5 +20,7 @@ public interface ScrapLaterService extends BaseService<ScrapLater, String>
 	 * @return
 	 */
 	List<ScrapLater> getSlBySid(String sid);
+	
+	public Pager getLaterPager(Pager pager,HashMap<String,String>map);
 
 }

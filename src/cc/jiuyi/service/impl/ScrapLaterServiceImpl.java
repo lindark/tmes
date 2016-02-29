@@ -1,11 +1,13 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ScrapLaterDao;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.service.ScrapLaterService;
@@ -30,6 +32,10 @@ public class ScrapLaterServiceImpl extends BaseServiceImpl<ScrapLater, String> i
 	public List<ScrapLater> getSlBySid(String sid)
 	{
 		return this.slDao.getSlBySid(sid);
+	}
+	
+	public Pager getLaterPager(Pager pager, HashMap<String, String> map) {		
+		return slDao.getLaterPager(pager, map);
 	}
 
 }

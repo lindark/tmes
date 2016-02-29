@@ -68,12 +68,10 @@
 										刷卡确认
 									</button>
 									 -->
-									 <!-- 
 									 <button class="btn btn-white btn-default btn-sm btn-round" id="undozzc" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡撤销
 									</button>
-									 -->
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnzzc">
 										<i class="ace-icon fa fa-home"></i>
 										返回

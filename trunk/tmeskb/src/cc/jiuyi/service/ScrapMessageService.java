@@ -1,5 +1,8 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ScrapMessage;
 
 /**
@@ -17,4 +20,6 @@ public interface ScrapMessageService extends BaseService<ScrapMessage, String>
 	 * @return
 	 */
 	ScrapMessage getBySidAndMid(String sid, String mid);
+	
+	public Pager getMessagePager(Pager pager,HashMap<String,String>map);
 }

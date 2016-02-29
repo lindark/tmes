@@ -1,9 +1,12 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ScrapMessageDao;
 import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.service.ScrapMessageService;
@@ -28,6 +31,10 @@ public class ScrapMessageServiceImpl extends BaseServiceImpl<ScrapMessage, Strin
 	public ScrapMessage getBySidAndMid(String sid, String mid)
 	{
 		return this.smDao.getBySidAndMid(sid,mid);
+	}
+	@Override
+	public Pager getMessagePager(Pager pager, HashMap<String, String> map) {		
+		return smDao.getMessagePager(pager, map);
 	}
 
 }

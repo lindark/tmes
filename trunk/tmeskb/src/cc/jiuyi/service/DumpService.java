@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.util.CustomerException;
@@ -34,7 +35,7 @@ public interface DumpService extends BaseService<Dump, String>{
 	/**
 	 * jqgrad查询
 	 */
-	public Pager getAlllist(Pager pager);
+	public Pager getAlllist(Pager pager,Admin admin);
 	
 	/**
 	 * 新增保存
@@ -57,6 +58,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 * @param dumpid
 	 * @return
 	 */
-	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,String cardnumber)throws IOException, CustomerException;
+	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,Admin admin)throws IOException, CustomerException;
 	
 }

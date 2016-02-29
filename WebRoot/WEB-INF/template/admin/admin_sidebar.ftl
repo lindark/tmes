@@ -596,9 +596,17 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="#" ">
-								<a href="scrap!history.action">
+								<a href="scrap_message!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="#" ">
+								<a href="scrap_later!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									报废产出记录
 								</a>
 
 								<b class="arrow"></b>

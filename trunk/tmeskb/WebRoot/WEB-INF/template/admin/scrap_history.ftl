@@ -82,6 +82,18 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="form-group">			   	   
+										<label class="col-sm-1" style="text-align:right">状态:</label>
+									  <div class="col-sm-4">
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+							                <option value="">全选</option> 
+							                <#list allState as list>
+								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && workShop.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+							                </#list>
+						               </select>
+									  </div>									
+									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i

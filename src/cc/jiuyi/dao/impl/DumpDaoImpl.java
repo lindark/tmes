@@ -63,7 +63,7 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
 		{
-			detachedCriteria.add(Restrictions.or(Restrictions.eq("state", "2"),Restrictions.and(Restrictions.eq("productionDate", productionDate), Restrictions.eq("shift", shift))));
+			detachedCriteria.add(Restrictions.or(Restrictions.or(Restrictions.eq("state", "2"),Restrictions.eq("state", "3")),Restrictions.and(Restrictions.eq("productionDate", productionDate), Restrictions.eq("shift", shift))));
 		}
 		Restrictions.eq("isDel", "N");//未删除
 		return super.findByPager(pager, detachedCriteria);

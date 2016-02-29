@@ -196,9 +196,10 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 				}
 				else
 				{
-					ex_mblnr=m.get("ex_mblnr");//凭证号
+					ex_mblnr+=m.get("ex_mblnr")+"/";//凭证号
 				}
 			}
+			ex_mblnr=ex_mblnr.substring(0, ex_mblnr.length()-1);
 		}
 		dump.setVoucherId(ex_mblnr);//凭证号
 		dump.setModifyDate(new Date());//修改日期
@@ -230,5 +231,19 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 			mlist.add(map);
 		}
 		return mlist;
+	}
+
+	/**
+	 * 刷卡撤销
+	 */
+	public void updateData(List<Dump> list)
+	{
+		for(int i=0;i<list.size();i++)
+		{
+			Dump d=list.get(i);
+			d.setModifyDate(new Date());
+			d.setState("3");
+			this.update(d);
+		}
 	}
 }

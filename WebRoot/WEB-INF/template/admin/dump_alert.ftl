@@ -8,8 +8,7 @@
 <title></title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
-<link href="${base}/template/admin/css/input.css" rel="stylesheet"
-	type="text/css" />
+<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/template/admin/js/BasicInfo/dump_alert.js"></script>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 
@@ -22,7 +21,7 @@ body {
 
 </head>
 <body class="no-skin input">
-
+<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<!-- add by welson 0728 -->
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
@@ -31,7 +30,9 @@ body {
 			} catch (e) {
 			}
 		</script>
+		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 		<div class="main-content">
+		<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
 			<!-- add by welson 0728 -->
 			<div class="page-content">
 				<div class="page-content-area">

@@ -117,12 +117,12 @@ body{background:#fff;}
 									</div>	
 									
 									<div class="profile-info-row">	
-										<div class="profile-info-name">配送地点编码 </div>					
+										<div class="profile-info-name">配送仓库编码 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.psaddress" value="${(factoryUnit.psaddress)!}" class=" input input-sm  formText {required: true,digits:true}" />
 											<label class="requireField">*</label>	
 										</div>
-										<div class="profile-info-name"> 配送地点描述</div>					
+										<div class="profile-info-name"> 配送仓库描述</div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.psaddressdes" value="${(factoryUnit.psaddressdes)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
@@ -168,7 +168,7 @@ body{background:#fff;}
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>
-										<div class="profile-info-name">配送库存地点仓位</div>					
+										<div class="profile-info-name">配送仓位编码</div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnit.psPositionAddress" value="${(factoryUnit.psPositionAddress)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	

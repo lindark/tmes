@@ -52,15 +52,15 @@
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addzzc" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建中转仓
+										创建配送单
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="editzzc" type=button>
 									    <i class="ace-icon glyphicon glyphicon-edit"></i>
-									      编辑中转仓单
+									      编辑配送单
 								    </button>  							
 									<button class="btn btn-white btn-default btn-sm btn-round" id="showzzc" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
-										查看中转仓单
+										查看配送单
 									</button>
 									<!-- 
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmzzc" type=button>

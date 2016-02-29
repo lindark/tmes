@@ -673,6 +673,31 @@ public class DumpAction extends BaseAdminAction {
 	}
 	
 	/**
+	 * 刷卡撤销
+	 */
+	public String creditundo()
+	{
+		ids=id.split(",");
+		List<Dump>list=new ArrayList<Dump>();
+		for(int i=0;i<ids.length;i++)
+		{
+			Dump d=this.dumpService.get(ids[i]);
+			String s=d.getState();
+			if("1".equals(s))
+			{
+				return this.ajaxJsonErrorMessage("已确认的不能撤销!");
+			}
+			if("3".equals(s))
+			{
+				return this.ajaxJsonErrorMessage("已撤销的无需再撤销!");
+			}
+			list.add(d);
+		}
+		this.dumpService.updateData(list);//撤销
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	
+	/**
 	 * 第一页面新增/编辑共用方法
 	 * @throws CustomerException 
 	 * @throws IOException 

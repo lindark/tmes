@@ -95,10 +95,10 @@ jQuery(function($) {
 			return "style='color:#b22;font-weight:bold;'";
 		}
 		//已撤销
-		/*if(rawObject.state=="3")
+		if(rawObject.state=="3")
 		{
 			return "style='color:#d2b48c;font-weight:bold;'";
-		}*/
+		}
 	}
 	
 	
@@ -214,7 +214,7 @@ function btn_event()
 	//确认中转仓
 	//confirm_event();
 	//刷卡撤销
-	//undo_event();
+	undo_event();
 	//返回
 	return_event();
 }
@@ -248,6 +248,10 @@ function edit_event()
 			if(row_state == "1")
 			{
 				layer.msg("已经确认的无法再编辑!",{icon:5});
+			}
+			else if(row_state=="3")
+			{
+				layer.msg("已经撤销的无法再编辑!",{icon:5});
 			}
 			else
 			{
@@ -305,7 +309,8 @@ function show_event()
 function return_event()
 {
 	$("#returnzzc").click(function(){
-		window.history.back();
+		//window.history.back();
+		window.location.href="admin!index.action";
 	});
 }
 

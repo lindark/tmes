@@ -24,8 +24,12 @@ body {
 	background: #fff;
 	font-family: 微软雅黑;
 }
+.layui-layer-btn1{
+	display:none !important;
+}
 .sub-style{float: left;margin-left:8px;}
 .ckbox{margin-left:1px;}
+.div_size{font-size: 14px;font-family: 微软雅黑;}
 </style>
 </head>
 <body class="no-skin input">
@@ -48,7 +52,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> 
 					<a href="admin!index.action">管理中心</a></li>
-					<li class="active"><#if isAdd??>添加中转仓<#else>编辑中转仓</#if></li>
+					<li class="active"><#if isAdd??>添加配送单<#else>编辑配送单</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -63,14 +67,16 @@ body {
 								<input type="hidden" id="dumpid" value="${dumpid!}" />
 								<div id="inputtabs">
 								 	<ul>
-								    	<li><a href="#tabs-1"><#if isAdd??>添加中转仓<#else>编辑中转仓</#if></a></li>
+								    	<li><a href="#tabs-1"><#if isAdd??>添加配送单<#else>编辑配送单</#if></a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
 										<div class="row buttons col-md-8 col-sm-4 sub-style">
-                          						<button class="btn btn-white btn-default btn-sm btn-round" id="btn_add" type="button">
+                          					<!-- 
+                          					<button class="btn btn-white btn-default btn-sm btn-round" id="btn_add" type="button">
 												<i class="ace-icon fa fa-folder-open-o"></i>
 												添加物料
 											</button>
+											-->
 											<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button">
 												<i class="ace-icon fa fa-home"></i>
 												返回
@@ -83,6 +89,11 @@ body {
 													<span>${(factoryunit.psaddress)!}</span>
 													<input id="input_psaddress" type="hidden" value="${(factoryunit.psaddress)!}">
 												</div>
+												<div class="profile-info-name">配送仓位</div>
+												<div class="profile-info-value">
+													<span>${(factoryunit.psPositionAddress)!}</span>
+													<input id="input_psPositionAddress" type="hidden" value="${(factoryunit.psPositionAddress)!}">
+												</div>
 												<div class="profile-info-name">接收库存地点</div>
 												<div class="profile-info-value">
 													<span>${(factoryunit.warehouse)!}</span>
@@ -91,12 +102,12 @@ body {
 											</div>
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
+								  			<!-- 
 								  			<div class="profile-info-row">
 								    			<table id="tb_material" class="table table-striped table-bordered table-hover">
 													<tr>
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
-														<th class="tabth">物料类型</th>
 													</tr>
 													<#if list_material??>
 													<#list list_material as list>
@@ -106,12 +117,25 @@ body {
 																<span>${(list.materialCode)! }</span>
 															</td>
 															<td>${(list.materialName)! }</td>
-															<td>${(list.materialType)! }</td>
 														</tr>
 													</#list>
 													</#if>
 												</table>
 							  				</div>
+							  				-->
+							  				<br/>
+							  				<div class="step-content pos-rel div_size" id="div_mydata">
+												<#list list_material as list>
+													<div class="col-md-4 div_click">
+														<!-- <input type="checkbox" class="ckbox" value="${(list.factoryunit.id)!}" /> -->
+														<a href="javascript:void(0)" class="a_click">
+															<input type="hidden" value="${(list.factoryunit.id)!}" />
+															<span>${(list.materialCode)! } </span>
+															<span>${(list.materialName)! } </span>
+														</a>
+													</div>
+												</#list>
+											</div>
 						   				</div>
 									</div>
                      			</div>

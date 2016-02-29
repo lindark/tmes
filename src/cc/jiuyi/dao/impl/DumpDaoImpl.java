@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 
 /**
@@ -54,12 +55,17 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 	/**
 	 * jqgrid查询
 	 */
-	public Pager getAlllist(Pager pager)
+	public Pager getAlllist(Pager pager,Admin admin)
 	{
+		String productionDate=admin.getProductDate();//生产日期
+		String shift=admin.getShift();//班次
 		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Dump.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));
+		if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
+		{
+			detachedCriteria.add(Restrictions.or(Restrictions.eq("state", "2"),Restrictions.and(Restrictions.eq("productionDate", productionDate), Restrictions.eq("shift", shift))));
+		}
+		Restrictions.eq("isDel", "N");//未删除
 		return super.findByPager(pager, detachedCriteria);
 	}
-
 }

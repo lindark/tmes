@@ -276,11 +276,18 @@ $(function() {
 	 */
 	$endProduct.click(function(){
 		var istrue = init.notCheck();
-		//var loginid=$("#loginid").val();//当前登录人的id
-			//alert(loginid);
+		/**var loginid=$("#loginid").val();//当前登录人的id
+			alert(loginid);**/
+		var productDate = $("#productDate").val();//生产日期
+		var shift = $("#shift").val();//班次
+		//alert("生产日期:"+productDate+"班次:"+shift);
+		if(productDate == "" || shift == ""){
+			layer.alert("生产日期和班次必须填写",{icon: 7});
+			return false;
+		}
 		if (istrue) 
 		{
-			window.location.href = "end_product!list.action";
+			window.location.href = "end_product!list.action?productDate="+productDate+"&shift="+shift;
 		}
 	});
 	/**

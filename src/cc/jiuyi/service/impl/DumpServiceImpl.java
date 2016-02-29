@@ -95,9 +95,9 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	/**
 	 * jqgrad查询
 	 */
-	public Pager getAlllist(Pager pager)
+	public Pager getAlllist(Pager pager,Admin admin)
 	{
-		return this.dumpDao.getAlllist(pager);
+		return this.dumpDao.getAlllist(pager,admin);
 	}
 	
 	/**
@@ -170,9 +170,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	 * @throws CustomerException 
 	 * @throws IOException 
 	 */
-	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,String cardnumber) throws IOException, CustomerException
+	public String updateToSAP(Dump dump,List<DumpDetail>ddlist,Admin admin) throws IOException, CustomerException
 	{
-		Admin admin=this.adminService.getByCardnum(cardnumber);//确认人
 		String ex_mblnr="";
 		if(ddlist.size()>0)
 		{
@@ -205,6 +204,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		dump.setModifyDate(new Date());//修改日期
 		dump.setState("1");//状态改为已确认
 		dump.setConfirmUser(admin);
+		dump.setProductionDate(admin.getProductDate());//生产日期
+		dump.setShift(admin.getShift());//班次
 		this.update(dump);
 		return "S";
 	}

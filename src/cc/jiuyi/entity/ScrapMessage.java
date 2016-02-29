@@ -36,6 +36,8 @@ public class ScrapMessage extends BaseEntity
 	private String xsmduty;//责任划分描述
 	private String xsbnums;//缺陷数量
 	private String xsbids;//缺陷ID
+	private String workingbill;//随工单
+	private String productName;//产品名称
 
 	/**get/set*/
 	@Column
@@ -171,4 +173,22 @@ public class ScrapMessage extends BaseEntity
 	{
 		this.xsbids = xsbids;
 	}
+	
+	@Transient
+	public String getWorkingbill() {
+		return workingbill;
+	}
+	public void setWorkingbill(String workingbill) {
+		this.workingbill = workingbill;
+	}
+	
+	@Transient
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
+	
 }

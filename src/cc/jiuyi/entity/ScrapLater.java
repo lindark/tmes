@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * 报废之后产出添加的记录
@@ -23,6 +24,11 @@ public class ScrapLater extends BaseEntity
 	private String charg;//批号
 	private String item_text;//项目文本
 	private String orderid;//订单号
+	
+	private String workingbill;//随工单
+	private String productName;//产品名称
+	
+	
 	
 	/**get/set*/
 	@Column
@@ -98,5 +104,23 @@ public class ScrapLater extends BaseEntity
 	{
 		this.orderid = orderid;
 	}
+	
+	@Transient
+	public String getWorkingbill() {
+		return workingbill;
+	}
+	public void setWorkingbill(String workingbill) {
+		this.workingbill = workingbill;
+	}
+	
+	@Transient
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
+	
 	
 }

@@ -1,9 +1,9 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
-import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 
 /**
@@ -29,5 +29,5 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	/**
 	 * jqgrad查询
 	 */
-	public Pager getAlllist(Pager pager);
+	public Pager getAlllist(Pager pager,Admin admin);
 }

@@ -152,8 +152,6 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 				{
 					dd.setModifyDate(new Date());//修改日期
 					dd.setCreateDate(new Date());//创建日期
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-					dd.setDeliveryTime(sdf.format(new Date()));//过帐日期
 					dd.setDump(dump);
 					d=ArithUtil.add(d,Double.parseDouble(dd.getMenge()));
 					this.dumpDetailService.save(dd);
@@ -218,7 +216,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		{
 			HashMap<String,String>map=new HashMap<String,String>();
 			DumpDetail dd=ddlist.get(i);
-			map.put("BUDAT", dd.getDeliveryTime());//过账日期
+			map.put("BUDAT", admin.getProductDate());//过账日期
 			map.put("WERKS", dd.getWerks());//工厂
 			map.put("LGORT", dd.getPsaddress());//库存地点
 			map.put("ZTEXT", admin.getName());//确认人

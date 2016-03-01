@@ -229,8 +229,9 @@ $(function() {
 	 */
 	$qResponse.click(function() {
 		var istrue = init.notCheck();
+		var loginid=$("#loginid").val();//当前登录人的id
 		if (istrue) {
-			window.location.href = "abnormal!list.action";
+			window.location.href = "abnormal!list.action?loginid="+loginid;
 		}
 	});
 

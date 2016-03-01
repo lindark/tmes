@@ -328,8 +328,8 @@ public class DeviceAction extends BaseAdminAction {
 		device.setDndTime(new Date());
 		device.setTotalDownTime(5.0);
 		device.setSHORT_TEXT("设备维修单");
-
-		try {				
+		deviceService.save(device);
+		/*try {				
 			String aufnr=devicerfc.DeviceCrt("0",device,step,module);
 			device.setOrderNo(aufnr);
 			deviceService.save(device);
@@ -343,7 +343,7 @@ public class DeviceAction extends BaseAdminAction {
 		}catch(Exception e){
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
-		}
+		}*/
 		
 		DeviceLog log = new DeviceLog();
 		log.setOperator(admin);
@@ -492,7 +492,7 @@ public class DeviceAction extends BaseAdminAction {
 				persistent.setIsDown("X");
 			}
 			
-			try {
+			/*try {
 				String aufnr=devicerfc.DeviceCrt("1",persistent, step, module);				
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -503,7 +503,7 @@ public class DeviceAction extends BaseAdminAction {
 			}catch(Exception e){
 				e.printStackTrace();
 				return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
-			}
+			}*/
 			
 			
 		    

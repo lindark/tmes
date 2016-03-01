@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
@@ -30,4 +31,11 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	 * jqgrad查询
 	 */
 	public Pager getAlllist(Pager pager,Admin admin);
+	
+	/**
+	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+	 * @param emp
+	 * @return
+	 */
+	public List<Object[]> getMengeByConditions(Admin emp);
 }

@@ -85,12 +85,12 @@ jQuery(function($) {
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
 		
-		//未确认
+		//已确认
 		if(rawObject.state=="1")
 		{
 			return "style='color:#008B00;font-weight:bold;'";
 		}
-		//已确认
+		//未确认
 		if(rawObject.state=="2")
 		{
 			return "style='color:#b22;font-weight:bold;'";

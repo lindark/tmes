@@ -3,7 +3,6 @@ package cc.jiuyi.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Material;
@@ -64,5 +63,10 @@ public interface MaterialDao extends BaseDao<Material,String> {
      * @return
      */
 	public boolean getByCode(String code);
+
+	/**
+	 * 根据物料编码查询
+	 */
+	public Material getByNum(String materialCode);
 
 }

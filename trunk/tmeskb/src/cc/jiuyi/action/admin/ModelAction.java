@@ -301,7 +301,8 @@ public class ModelAction extends BaseAdminAction {
 			dm.setVornr("0010");
 			dm.setPostp("L");
 			module.add(dm);
-			
+			modelService.update(persistent);
+			/*
 			try {
 				String aufnr=moderfc.ModelCrt("1",persistent, step, module);
 				modelService.update(persistent);
@@ -314,7 +315,7 @@ public class ModelAction extends BaseAdminAction {
 			}catch(Exception e){
 				e.printStackTrace();
 				return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
-			}
+			}*/
 		
 			
 		}else{
@@ -489,7 +490,8 @@ public class ModelAction extends BaseAdminAction {
 		s.setDuration("10");			
 		step.add(s);
 		List<DeviceModlue> module=new ArrayList<DeviceModlue>();
-		try {
+		modelService.save(model);
+		/*try {
 			String aufnr=moderfc.ModelCrt("0",model, step, module);
 			model.setOrderNo(aufnr);
 			modelService.save(model);
@@ -502,7 +504,7 @@ public class ModelAction extends BaseAdminAction {
 		}catch(Exception e){
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
-		}
+		}*/
 		
 		ModelLog log = new ModelLog();
 		log.setInfo("已提交");

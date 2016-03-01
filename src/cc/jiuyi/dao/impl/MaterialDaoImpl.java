@@ -1,19 +1,13 @@
 package cc.jiuyi.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.mail.internet.ParseException;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.MaterialDao;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
@@ -74,7 +68,6 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean isExistByMaterialCode(String materialCode) {
 		String hql="from Material material where lower(material.materialCode)=lower(?)";
 		Material material=(Material) getSession().createQuery(hql).setCacheable(true).setParameter(0, materialCode).uniqueResult();
@@ -102,7 +95,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<Material> getMantrBom(Object[] matnrs) {
 		String hql="select distinct a from Material a join a.products b where b.productsCode in (:list)";
 		return getSession().createQuery(hql).setParameterList("list", matnrs).list();
@@ -111,6 +104,7 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	/**
 	 * 根据物料id查询是否存在
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean getByCode(String code)
 	{
 		String hql="from Material where materialCode=?";
@@ -120,5 +114,20 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 根据物料编码查询
+	 */
+	@SuppressWarnings("unchecked")
+	public Material getByNum(String materialCode)
+	{
+		String hql="from Material where materialCode=?";
+		List<Material>list=this.getSession().createQuery(hql).setParameter(0, materialCode).list();
+		if(list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
 	}
 }

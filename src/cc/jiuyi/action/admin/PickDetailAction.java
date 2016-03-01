@@ -454,7 +454,7 @@ public class PickDetailAction extends BaseAdminAction {
 			pick.setCreateDate(new Date());
 			pick.setCreateUser(admin);
 			pick.setWorkingbill(workingBill);
-			pick.setConfirmUser(admin);
+			//pick.setConfirmUser(admin);
 			pick.setState("1");
 			boolean flag = false;
 			List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
@@ -519,6 +519,7 @@ public class PickDetailAction extends BaseAdminAction {
 							pickReturn.setE_type(e_type);
 							pickReturn.setMove_type(info);
 							pickReturn.setState("2");
+							pickReturn.setConfirmUser(admin);
 							pickService.update(pickReturn);
 						}
 					}

@@ -45,9 +45,12 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	private String cqmultiple;//裁切倍数
 	private String cqhStockAmount;//裁切后库存
 	
-	
-	
+	/**假字段**/
+	private String workingbillCode;//随工单编号
 	private String xpickType;//领料类型描述
+	private String maktx;//产品描述
+	private String xconfirmUser;//确认人
+	private String xcreateUser;//创建人
 
 	private String xuh;
 
@@ -194,6 +197,38 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	@Override
 	public int compareTo(PickDetail o) {
 		return this.materialCode.compareTo(o.getMaterialCode());
+	}
+	
+	@Transient
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
+	}
+	
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+	
+	@Transient
+	public String getXconfirmUser() {
+		return xconfirmUser;
+	}
+	public void setXconfirmUser(String xconfirmUser) {
+		this.xconfirmUser = xconfirmUser;
+	}
+	
+	@Transient
+	public String getXcreateUser() {
+		return xcreateUser;
+	}
+	public void setXcreateUser(String xcreateUser) {
+		this.xcreateUser = xcreateUser;
 	}
 
 	

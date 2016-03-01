@@ -9,7 +9,7 @@ import javax.persistence.Transient;
  * 
  */
 @Entity
-public class EndProduct extends BaseEntity {
+public class EndProduct extends BaseEntity implements Comparable<EndProduct>{
 
 	private static final long serialVersionUID = 3182546927519079192L;
 	
@@ -34,6 +34,8 @@ public class EndProduct extends BaseEntity {
 	private Double actualMaterialBoxMount;//实际库存箱数
 	
 	private String xstate;
+	private String productDate;//生产日期
+	private String shift;//班次
 	
 	
 	/**
@@ -263,6 +265,27 @@ public class EndProduct extends BaseEntity {
 
 	public void setActualMaterialBoxMount(Double actualMaterialBoxMount) {
 		this.actualMaterialBoxMount = actualMaterialBoxMount;
+	}
+
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	@Override
+	public int compareTo(EndProduct o) {
+		return this.materialCode.compareTo(o.getMaterialCode());
 	}
 
 	

@@ -368,4 +368,9 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			updateWorkingInoutCalculate(pickDetailList , map);//往投入产出表中写数据
 			
 		}
+
+		@Override
+		public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+			return pickDetailDao.historyjqGrid(pager, map);
+		}
 }

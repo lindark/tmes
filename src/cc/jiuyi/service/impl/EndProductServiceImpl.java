@@ -44,7 +44,7 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	}
 
 	@Override
-	public void saveEndProduct(List<EndProduct> endProductList,String info,Admin admin) {
+	public void saveEndProduct(List<EndProduct> endProductList,String info,Admin admin,String productDate,String shift) {
 		if(endProductList!=null){
 			for(EndProduct ed : endProductList){
 				if(ed.getStockBoxMout()!=null && !"".equals(ed.getStockBoxMout())){
@@ -52,6 +52,11 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 					ed.setCreateName(admin.getName());
 					ed.setReceiveRepertorySite(info);
 					ed.setState("1");
+					
+					/**modify by Reece**/
+					ed.setProductDate(productDate);
+					ed.setShift(shift);
+					
 					UnitConversion ucs = unitConversionService.get("matnr", ed.getMaterialCode());
 					if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
 							ucs.setConversationRatio(0.0);
@@ -75,12 +80,14 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	}
 
 	@Override
-	public void updateEidtEndProduct(String id, Admin admin,EndProduct endProduct,String info) {
+	public void updateEidtEndProduct(String id, Admin admin,EndProduct endProduct,String info,String productDate,String shift) {
 		EndProduct ep = get(id);
 		BeanUtils.copyProperties(endProduct, ep, new String[] {"id","state"});
 		ep.setCreateUser(admin.getUsername());
 		ep.setCreateName(admin.getName());
 		ep.setReceiveRepertorySite(info);
+		ep.setProductDate(productDate);
+		ep.setShift(shift);
 		UnitConversion ucs = unitConversionService.get("matnr", ep.getMaterialCode());
 		if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
 				ucs.setConversationRatio(0.0);
@@ -94,9 +101,9 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	}
 
 	@Override
-	public Pager getProductsPager(Pager pager) {
+	public Pager getProductsPager(Pager pager,String productDate,String shift) {
 		// TODO Auto-generated method stub
-		return endProductDao.getProductsPager(pager);
+		return endProductDao.getProductsPager(pager,productDate,shift);
 	}
 
 	@Override
@@ -107,7 +114,8 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	
 	
 	/**
-	 * 刷卡撤销 by Reece
+	 * 刷卡撤销 
+	 * @author Reece
 	 */
 	@Override
 	public synchronized void updateCancel(List<EndProduct> list,String cardnumber) {
@@ -119,5 +127,14 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 			endProduct.setState("3");
 			this.update(endProduct);
 		}
+	}
+
+	@Override
+	/**
+	 * @author Reece
+	 */
+	public List<EndProduct> getListChecked(String productDate, String shift) {
+		// TODO Auto-generated method stub
+		return endProductDao.getListChecked(productDate, shift);
 	}
 }

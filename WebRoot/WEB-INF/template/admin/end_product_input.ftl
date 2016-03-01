@@ -71,6 +71,8 @@ inupt.stockMout{
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form id="inputForm" name="inputForm" class="validate" action="" method="post">
+							<input type="hidden" id="productDate" value="${productDate}"/>
+							<input type="hidden" id="shift" value="${shift}"/>
 								<!-- <div class="site">
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
@@ -114,6 +116,7 @@ inupt.stockMout{
 										<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
+								    			
 													<tr>
 														<th class="tabth">库存地点</th>
 														<th class="tabth">物料编码</th>
@@ -210,15 +213,19 @@ $(function(){
 	var $ep = "${(endProduct)!''}";
 	//刷卡提交
 	$subm.click(function(){
+		var productDate = $("#productDate").val();
+		var shift = $("#shift").val();
+		//alert(shift);
+		//return false;
 		var dt = $("#inputForm").serialize();
 		if($ep==""){
-			var url = "end_product!creditsubmit.action";
+			var url = "end_product!creditsubmit.action?productDate="+productDate+"&shift="+shift;
 		}else{
-			var url = "end_product!update.action";
+			var url = "end_product!update.action?productDate="+productDate+"&shift="+shift;
 		}
 		credit.creditCard(url,function(data){
 			if(data.status=="success"){
-				window.location.href="end_product!list.action";
+				window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
 			}
 		},dt);
 	});

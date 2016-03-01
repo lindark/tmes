@@ -25,11 +25,12 @@ public class EndProductDaoImpl extends BaseDaoImpl<EndProduct, String> implement
 
 
 	@Override
-	public Pager getProductsPager(Pager pager) {
+	public Pager getProductsPager(Pager pager,String productDate, String shift) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(EndProduct.class);	
 		pagerSqlByjqGrid(pager,detachedCriteria);	
-		
+		detachedCriteria.add(Restrictions.eq("productDate",productDate));
+		detachedCriteria.add(Restrictions.eq("shift",shift));		
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -57,7 +58,12 @@ public class EndProductDaoImpl extends BaseDaoImpl<EndProduct, String> implement
 		return super.findByPager(pager,detachedCriteria);
 	}
 
-
+	@Override
+	public List<EndProduct> getListChecked(String productDate, String shift) {
+		// TODO Auto-generated method stub
+		String hql = "From EndProduct where state = '2' and  productDate = ? and shift = ?";
+		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+	}
 
 	
 }

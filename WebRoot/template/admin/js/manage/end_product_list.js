@@ -1,6 +1,8 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var productDate = $("#productDate").val();
+	var shift = $("#shift").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -20,7 +22,7 @@ jQuery(function($) {
     
 	jQuery(grid_selector).jqGrid({
 		
-		url:"end_product!ajlist.action",
+		url:"end_product!ajlist.action?productDate=" + productDate + "&shift= " + shift,
 		datatype: "json",
 		height: "100%",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

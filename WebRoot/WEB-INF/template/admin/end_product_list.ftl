@@ -43,7 +43,17 @@
 	
 	
 	<!-- add by welson 0728 -->
-				<!-- /section:basics/content.breadcrumbs -->
+			<div class="widget-body">
+				<div class="widget-main padding-6 no-padding-left no-padding-right">
+					<div class="profile-user-info profile-user-info-striped">
+						<div class="profile-info-row">
+							<div class="profile-info-name">当前状态</div>
+							<div class="profile-info-value">${str}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content" id="page-content">					
 					<div class="page-content-area">
 							<div class="row">
@@ -75,7 +85,9 @@
 										返回
 									</button>
 								   </div>
-							
+								   
+							<input type="hidden" id="productDate" value="${admin.productDate}"/>
+							<input type="hidden" id="shift" value="${admin.shift}"/>
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">	
 									<div class="col-xs-12">					
@@ -147,11 +159,15 @@
 		})
 		
 		$("#addEndProduct").click(function(){
-			window.location.href="end_product!add.action";
+			var productDate = $("#productDate").val();
+			var shift = $("#shift").val();
+			window.location.href="end_product!add.action?productDate="+productDate+"&shift="+shift;
 		});
 		
 		
 		$("#confirmEndProduct").click(function(){
+			var productDate = $("#productDate").val();
+			var shift = $("#shift").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			 if(id.length==0){
 				layer.msg("请选择一条记录!", {icon: 5});
@@ -168,8 +184,11 @@
 							var url="end_product!creditapproval.action?id="+id+"&loginid="+loginid;
 						}	
 					credit.creditCard(url,function(data){
-						$.message(data.status,data.message);
-						$("#grid-table").trigger("reloadGrid");
+						if(data.status=="success"){
+							window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
+						}
+						//$.message(data.status,data.message);
+						//$("#grid-table").trigger("reloadGrid");
 				})
 			 } 
 		});
@@ -192,6 +211,8 @@
 
 		$("#editEndProduct").click(function(){
 			var id = "";
+			var productDate = $("#productDate").val();
+			var shift = $("#shift").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				alert("请选择至少一条记录");
@@ -208,7 +229,7 @@
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="end_product!edit.action?id="+id;
+					window.location.href="end_product!edit.action?id="+id+"&productDate="+productDate+"&shift="+shift;
 				}				
 			}		
 		});
@@ -216,6 +237,8 @@
 		
 		$("#viewEndProduct").click(function(){
 			var id = "";
+			var productDate = $("#productDate").val();
+			var shift = $("#shift").val();
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length>1){
 				alert("只能选择一条成品入库记录！");
@@ -224,7 +247,7 @@
 				alert("至少选择一条成品入库记录！");
 				return false;
 			}else{
-				window.location.href="end_product!view.action?id="+id;				
+				window.location.href="end_product!view.action?id="+id+"&productDate="+productDate+"&shift="+shift;				
 			}			
 		});
 		

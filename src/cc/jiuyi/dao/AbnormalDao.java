@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 
 
 /**
@@ -11,7 +12,7 @@ import cc.jiuyi.entity.Abnormal;
  */
 public interface AbnormalDao extends BaseDao<Abnormal, String> {
 
-	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map,String id);
+	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map,Admin admin2);
 	
 	/**
 	 * 标记删除

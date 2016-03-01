@@ -10,6 +10,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AbnormalService;
 
 /**
@@ -28,9 +29,9 @@ public class AbnormalServiceImpl extends BaseServiceImpl<Abnormal, String> imple
 	}
 
 	@Override
-	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map,String id) {
+	public Pager getAbnormalPager(Pager pager, HashMap<String, String> map,Admin admin2) {
 	
-		return abnormalDao.getAbnormalPager(pager, map,id);
+		return abnormalDao.getAbnormalPager(pager, map,admin2);
 	}
 	
 	@Override

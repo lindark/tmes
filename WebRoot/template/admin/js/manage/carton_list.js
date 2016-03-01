@@ -152,17 +152,17 @@ jQuery(function($) {
 		//未确认
 		if(rawObject.state=="2")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:#b22;font-weight:bold;'";
 		}
 		//已确认
 		if(rawObject.state=="1")
 		{
-			return "style='color:green;font-weight:bold;'";
+			return "style='color:#008B00;font-weight:bold;'";
 		}
 		//已撤销
 		if(rawObject.state=="3")
 		{
-			return "style='color:purple;font-weight:bold;'";
+			return "style='color:#d2b48c;font-weight:bold;'";
 		}
 	}
 	//navButtons

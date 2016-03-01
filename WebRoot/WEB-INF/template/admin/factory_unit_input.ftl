@@ -124,8 +124,8 @@ body{background:#fff;}
 										</div>
 										<div class="profile-info-name"> 配送仓库描述</div>					
 										<div class="profile-info-value">
-											<input type="text" name="factoryUnit.psaddressdes" value="${(factoryUnit.psaddressdes)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="factoryUnit.psaddressdes" value="${(factoryUnit.psaddressdes)!}" class=" input input-sm" />
+											<!-- <label class="requireField">*</label>	 -->
 										</div>
 									</div>
 									<div class="profile-info-row">	
@@ -136,8 +136,7 @@ body{background:#fff;}
 										</div>
 										<div class="profile-info-name"> 线边仓描述</div>					
 										<div class="profile-info-value">
-											<input type="text" name="factoryUnit.warehouseName" value="${(factoryUnit.warehouseName)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="factoryUnit.warehouseName" value="${(factoryUnit.warehouseName)!}" class=" input input-sm" />
 										</div>
 									</div>
 									<div class="profile-info-row">

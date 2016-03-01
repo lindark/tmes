@@ -32,6 +32,8 @@ public class Abnormal extends BaseEntity{
 	private String isDel;//是否删除
 	private String stateRemark;//状态描述
 	private String jobname;//任务名称
+	private String classtime;//班次
+	private String productdate;//生产日期
 	
 	private Admin iniitiator;//发起人
 	private Set<Admin> responsorSet;//应答人
@@ -215,6 +217,18 @@ public class Abnormal extends BaseEntity{
 	}
 	public void setJobname(String jobname) {
 		this.jobname = jobname;
+	}
+	public String getClasstime() {
+		return classtime;
+	}
+	public void setClasstime(String classtime) {
+		this.classtime = classtime;
+	}
+	public String getProductdate() {
+		return productdate;
+	}
+	public void setProductdate(String productdate) {
+		this.productdate = productdate;
 	}
 	
 		

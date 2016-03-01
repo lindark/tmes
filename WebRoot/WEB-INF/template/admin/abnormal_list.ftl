@@ -135,12 +135,12 @@ padding-top:2px;
 													</div>
 	
 													<div class="profile-info-row">
-														<div class="profile-info-name"> 班组</div>
+														<div class="profile-info-name"> 生产日期/班次</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="signup">${(admin.department.team.teamName)!}</span>
+															<span class="editable editable-click" id="signup">${(admin.productDate)!}     ${(admin.xshift)!}</span>
 														</div>
-													</div>
+													</div>																				
     
 												</div>
 											</div>

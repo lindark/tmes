@@ -70,7 +70,7 @@ function btn_event()
 	//返回
 	$("#btn_back").click(function(){
 		//window.history.back();
-		window.location.href="dump!all.action";
+		window.location.href="dump!all.action?loginid="+$("#loginid").val();
 	});
 }
 

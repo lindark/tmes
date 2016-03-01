@@ -249,6 +249,10 @@ public class CartonAction extends BaseAdminAction {
 			{
 				c.setXconfirmUser(c.getConfirmUser().getName());//确认人
 			}
+			if(c.getTeamshift()!=null)
+			{
+				c.setXteamshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", c.getTeamshift()));
+			}
 			lst.add(c);
 		}
 		pager.setList(lst);

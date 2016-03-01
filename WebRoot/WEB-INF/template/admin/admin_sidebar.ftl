@@ -660,7 +660,7 @@
 				<b class="arrow"></b>
 				<ul class="submenu">
 					<li class="">
-						<a href="dump!all.action" >
+						<a href="javascript:void(0)" id="a_zzc">
 							<i class="menu-icon"></i>
 							中转仓
 						</a>
@@ -1285,7 +1285,7 @@
 				</ul>
 			</li>
 		</ul><!-- /.nav-list -->
-
+		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 		<!-- #section:basics/sidebar.layout.minimize -->
 		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
 			<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
@@ -1293,6 +1293,11 @@
 
 		<!-- /section:basics/sidebar.layout.minimize -->
 		<script type="text/javascript">
+			$(function(){
+				$("#a_zzc").click(function(){
+					window.location.href="dump!all.action?loginid="+$("#loginid").val();//中转仓
+				});
+			});
 			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 		</script>
 	</div>

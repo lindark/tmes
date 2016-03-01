@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -18,7 +16,6 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
@@ -26,7 +23,6 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -58,8 +54,6 @@ public class CartonAction extends BaseAdminAction {
 
 	@Resource
 	private CartonService cartonService;
-	@Resource
-	private WorkingBillService workingBillService;
 	@Resource
 	private DictService dictService;
 	@Resource
@@ -238,11 +232,9 @@ public class CartonAction extends BaseAdminAction {
 			}else{
 				pager = this.cartonService.findByPager(pager);
 			}
-		}else if("".equals(isRecord)){
+		}else{
 			pager = this.cartonService.getCartonPager(pager,loginid);
 		}
-		
-		
 		List<Carton> cartonList = pager.getList();
 		List<Carton> lst = new ArrayList<Carton>();
 		for (int i = 0; i < cartonList.size(); i++)

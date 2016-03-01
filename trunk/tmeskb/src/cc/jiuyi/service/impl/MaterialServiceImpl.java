@@ -1,18 +1,15 @@
 package cc.jiuyi.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springmodules.cache.annotations.CacheFlush;
 import org.springmodules.cache.annotations.Cacheable;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.MaterialDao;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
@@ -54,25 +51,21 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 
 	@Override
 	public boolean isExistByMaterialCode(String materialCode) {
-		// TODO Auto-generated method stub
 		return materialDao.isExistByMaterialCode(materialCode);
 	}
 
 	@Override
 	public List<Products> getProductsList() {
-		// TODO Auto-generated method stub
 		return materialDao.getProductsList();
 	}
 	
 	@Override
 	public List<Material> getMantrBom(String matnr) {
-		// TODO Auto-generated method stub
 		return materialDao.getMantrBom(matnr);
 	}
 
 	@Override
 	public List<Material> getMantrBom(Object[] matnrs) {
-		// TODO Auto-generated method stub
 		return materialDao.getMantrBom(matnrs);
 	}
 	
@@ -96,7 +89,6 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	@Override
 	@CacheFlush(modelId="flushing")
 	public Material merge(Material entity) {
-		// TODO Auto-generated method stub
 		return super.merge(entity);
 	}
 	
@@ -121,5 +113,14 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	public boolean getByCode(String code)
 	{
 		return this.materialDao.getByCode(code);
+	}
+
+
+	/**
+	 * 根据物料编码查询
+	 */
+	public Material getByNum(String materialCode)
+	{
+		return this.materialDao.getByNum(materialCode);
 	}
 }

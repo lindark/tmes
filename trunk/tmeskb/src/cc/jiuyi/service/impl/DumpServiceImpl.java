@@ -1,7 +1,6 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,10 +16,12 @@ import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
 
@@ -38,7 +39,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	private DumpRfcImpl dumpRfc;
 	@Resource
 	private DumpDetailService dumpDetailService;
-
+	@Resource
+	private MaterialService materialService;
 	@Resource
 	public void setBaseDao(DumpDao dumpDao) {
 		super.setBaseDao(dumpDao);
@@ -106,12 +108,17 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	public String saveInfo(List<DumpDetail>list_dd,String fuid,String cardnumber,String materialcode)
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
+		Material m=this.materialService.getByNum(materialcode);//根据物料编码查询
 		//新增主表信息
 		Dump d=new Dump();
 		d.setCreateDate(new Date());
 		d.setCreateUser(admin);//创建人
 		d.setModifyDate(new Date());
 		d.setMaterialCode(materialcode);//物料编码
+		if(m!=null)
+		{
+			d.setMaterialdes(m.getMaterialName());//物料描述
+		}
 		d.setFactoryUnitId(fuid);//单元ID
 		String dumpid=this.save(d);
 		Dump dump=this.get(dumpid);

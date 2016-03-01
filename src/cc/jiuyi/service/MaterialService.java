@@ -67,5 +67,10 @@ public interface MaterialService extends BaseService<Material, String> {
 	 * @return
 	 */
 	public boolean getByCode(String materialCode);
+	
+	/**
+	 * 根据物料编码查询
+	 */
+	public Material getByNum(String materialCode);
 
 }

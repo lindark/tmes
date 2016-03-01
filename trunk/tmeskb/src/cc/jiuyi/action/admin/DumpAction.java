@@ -63,7 +63,7 @@ public class DumpAction extends BaseAdminAction {
 	private List<Material>list_material;
 	private FactoryUnit factoryunit;//单元
 	private String materialcode;//物料编码
-	private List<HashMap<String,String>>list_map;//SAP返回的数据
+	private List<HashMap<String,String>>list_map;
 	private List<HashMap<String,String>>list_ddmap;
 	private List<DumpDetail>list_dd;
 	private String xshow;
@@ -425,7 +425,10 @@ public class DumpAction extends BaseAdminAction {
 	 */
 	public String all()
 	{
-		
+		Admin emp=this.adminService.get(loginid);
+		//查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+		list_map=new ArrayList<HashMap<String,String>>();
+		list_map=this.dumpService.getMengeByConditions(emp);
 		return "all";
 	}
 	
@@ -489,6 +492,7 @@ public class DumpAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));//排除有关联关系的属性字段 
 		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+		
 		return this.ajaxJson(jsonArray.get(0).toString());
 	}
 	
@@ -500,8 +504,8 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		//factoryunit=this.fuservice.getById("192.168.29.85");//TODO 此ip测试用,转入正试机时需要改为上面获取的ip
-		factoryunit=this.fuservice.getById(ip);
+		factoryunit=this.fuservice.getById("192.168.29.85");//TODO 此ip测试用,转入正试机时需要改为上面获取的ip
+		//factoryunit=this.fuservice.getById(ip);
 		//根据单元获取物料
 		if(factoryunit!=null)
 		{
@@ -531,6 +535,7 @@ public class DumpAction extends BaseAdminAction {
 			addActionError(e.getMsgDes());
 			return ERROR;
 		}
+		list_map=new ArrayList<HashMap<String,String>>();
 		list_map=list_ddmap;
 		return "alert";
 	}

@@ -218,6 +218,7 @@
 										<div class="widget-body">
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="dumpconfirm">
 													<button
@@ -227,6 +228,7 @@
 															class="bigger-110 no-text-shadow">转储确认</span>
 													</button>
 												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="cartonreceiving">
 													<button

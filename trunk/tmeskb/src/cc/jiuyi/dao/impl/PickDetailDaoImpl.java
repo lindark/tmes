@@ -97,12 +97,12 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PickDetail.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		if (map.size() > 0) {
-			if (!existAlias(detachedCriteria, "workingbill", "workingbill")) {
-				detachedCriteria.createAlias("workingbill", "workingbill");
+			if (!existAlias(detachedCriteria, "pick", "pick")) {
+				detachedCriteria.createAlias("pick", "pick");
 			}
 			if (map.get("maktx") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"workingbill.maktx",
+						"pick.workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
 			}	
 			if(map.get("start")!=null||map.get("end")!=null){

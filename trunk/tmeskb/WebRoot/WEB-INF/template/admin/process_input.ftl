@@ -115,11 +115,17 @@ body{background:#fff;}
 													<input type="hidden" id="workShopId"
 														name="process.workShopId"
 														value="${(process.workShopId)!} }"
-														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"
-														readonly="readonly" />
+														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"/>
 													<button type="button" class="btn btn-xs btn-info"
-														id="workShopSeach" data-toggle="button">选择</button>														
-													<span id="workShopName"></span><span id="factoryName"></span> <label class="requireField">*</label>												
+														id="workShopSeach" data-toggle="button">选择</button>
+													<#if isAdd??>														
+													<span id="workShopName"></span><span id="factoryName"></span>
+													<label class="requireField">*</label>	
+													<#else>	
+													  <span id="workShopName">${workShopName}</span>
+													  <span id="factoryName">${factoryName}</span>
+													<label class="requireField">*</label>	
+													</#if>											
 												</div>
 									
 									

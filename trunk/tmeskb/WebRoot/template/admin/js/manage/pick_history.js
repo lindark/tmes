@@ -40,16 +40,18 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[		
 	        {name:'workingbillCode',index:'workingbillCode', label:"随工单编号", width:150,sortable:"true",sorttype:"text"},
-	        {name:'maktx',index:'maktx',label:"产品名称", width:400,sortable:"true",sorttype:"text"},
-	        {name:'xpickType',index:'xpickType',label:"领/退类型", width:400,sortable:"true",sorttype:"text"},
-	        {name:'xpickAmount',index:'xpickAmount',label:"领/退数量", width:400,sortable:"true",sorttype:"text"},
-	        {name:'xcqPickAmount',index:'xcqPickAmount',label:"裁切领退数", width:400,sortable:"true",sorttype:"text"},
-	        {name:'mblnr',index:'mblnr',label:"物料编码", width:400,sortable:"true",sorttype:"text"},
+	        {name:'maktx',index:'maktx',label:"产品名称", width:300,sortable:"true",sorttype:"text"},
+	        {name:'xpickType',index:'xpickType',label:"领/退类型", width:70,sortable:"true",sorttype:"text"},
+	        {name:'pickAmount',index:'pickAmount',label:"领/退数量", width:70,sortable:"true",sorttype:"text"},
+	        {name:'cqPickAmount',index:'cqPickAmount',label:"裁切领退数", width:70,sortable:"true",sorttype:"text"},
+	        {name:'materialCode',index:'materialCode',label:"物料编码", width:100,sortable:"true",sorttype:"text"},
+	        {name:'materialName',index:'materialName',label:"物料描述", width:150,sortable:"true",sorttype:"text"},
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',label:"创建时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
+			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
 		viewrecords : true,
@@ -84,17 +86,17 @@ jQuery(function($) {
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
 		//已确认
-		if(rawObject.state=="2")
+		if(rawObject.stateRemark=="已确认")
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
 		//未确认
-		if(rawObject.state=="1")
+		if(rawObject.stateRemark=="未确认")
 		{
 			return "style='color:red;font-weight:bold;'";
 		}
 		//已撤销
-		if(rawObject.state=="3")
+		if(rawObject.stateRemark=="已撤销")
 		{
 			return "style='color:purple;font-weight:bold;'";
 		}

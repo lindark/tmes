@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EndProductRfc;
@@ -58,6 +60,9 @@ public class EndProductAction extends BaseAdminAction {
 	private EndProduct endProduct;
 	private String desp;
 	private String loginid;
+	private String productDate;
+	private String shift;
+	private String str;
 
 	@Resource
 	private EndProductService endProductService;
@@ -83,6 +88,41 @@ public class EndProductAction extends BaseAdminAction {
 			return ERROR;
 		}
 		admin = adminService.get(admin.getId());
+		/**根据生产日期/班次/已确认查出所有对象**/
+		List<EndProduct> list = new ArrayList<EndProduct>(endProductService.getListChecked(productDate, shift));
+
+		String stamp = "";
+		String temp = "";
+		Double sum = 0d;
+		str = "";
+		Collections.sort(list);// 对 pickDetailList进行排序
+
+		// List<String> matercodeList = new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			EndProduct endProduct = list.get(i);
+
+			if (!temp.equals(endProduct.getMaterialCode())) {
+				temp = endProduct.getMaterialCode();
+			} else {
+				continue;
+			}
+
+			for (int y = 0; y < list.size(); y++) {
+				EndProduct endProduct1 = list.get(y);
+				if (endProduct1.getMaterialCode().equals(
+						endProduct.getMaterialCode())) {
+					sum += (endProduct1.getStockBoxMout());
+				}
+			}
+
+			if (!stamp.equals(endProduct.getMaterialCode())) {
+				stamp = endProduct.getMaterialCode();
+				str += endProduct.getMaterialDesp() + ":";
+				str += sum + "/箱"+"</br>";
+			}
+			sum = 0d;
+		}
+
 		return LIST;
 	}
 
@@ -96,9 +136,10 @@ public class EndProductAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
-
+		if(pager.getOrderBy().equals("")){
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
@@ -110,7 +151,7 @@ public class EndProductAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 
-		pager = endProductService.getProductsPager(pager);
+		pager = endProductService.getProductsPager(pager,productDate,shift);
 		List<EndProduct> endProductList = pager.getList();
 		List<EndProduct> lst = new ArrayList<EndProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {
@@ -288,7 +329,7 @@ public class EndProductAction extends BaseAdminAction {
 	public String update() {
 		try {
 			Admin admin = adminService.getByCardnum(cardnumber);
-			endProductService.updateEidtEndProduct(id, admin, endProduct, info);
+			endProductService.updateEidtEndProduct(id, admin, endProduct, info,productDate,shift);
 			return ajaxJsonSuccessMessage("修改成功");
 		} catch (Exception e) {
 			return ajaxJsonErrorMessage("修改失败，请重试");
@@ -299,7 +340,7 @@ public class EndProductAction extends BaseAdminAction {
 		try {
 			if (endProducts != null) {
 				for (EndProduct ed : endProducts) {
-					if (ed.getStockBoxMout() != null
+					if (ed. getStockBoxMout() != null
 							&& !"".equals(ed.getStockBoxMout())) {
 						if (ed.getStockBoxMout().compareTo(
 								ed.getActualMaterialBoxMount()) > 0) {
@@ -310,7 +351,7 @@ public class EndProductAction extends BaseAdminAction {
 				}
 			}
 			Admin admin = adminService.getByCardnum(cardnumber);
-			endProductService.saveEndProduct(endProducts, info, admin);
+			endProductService.saveEndProduct(endProducts, info, admin,productDate,shift);
 			return ajaxJsonSuccessMessage("保存成功!");
 
 		} catch (Exception e) {
@@ -429,58 +470,65 @@ public class EndProductAction extends BaseAdminAction {
 	
 	// 成品入库历史
 	public String historylist(){
-		if (pager == null) {
-			pager = new Pager();
-		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		try {
+			if (pager == null) {
+				pager = new Pager();
+			}
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
 
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager.is_search() == true && filters != null) {// 需要查询条件
-			JSONObject filt = JSONObject.fromObject(filters);
-			Pager pager1 = new Pager();
-			Map m = new HashMap();
-			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-			pager.setRules(pager1.getRules());
-			pager.setGroupOp(pager1.getGroupOp());
-		}
+			HashMap<String, String> map = new HashMap<String, String>();
+			if (pager.is_search() == true && filters != null) {// 需要查询条件
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
 
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("materialCode") != null) {
-				String materialCode = obj.getString("materialCode").toString();
-				map.put("materialCode", materialCode);
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("materialCode") != null) {
+					String materialCode = obj.getString("materialCode").toString();
+					map.put("materialCode", materialCode);
+				}
+				if (obj.get("start") != null && obj.get("end") != null) {
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
 			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
+			pager = endProductService.historyjqGrid(pager, map);
+			List<EndProduct> endProductList = pager.getList();
+			List<EndProduct> lst = new ArrayList<EndProduct>();
+			for (int i = 0; i < endProductList.size(); i++) {
+				EndProduct endProduct = (EndProduct) endProductList.get(i);
+				endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "endProState", endProduct.getState()));
+				if (endProduct.getConfirmName() != null) {
+					endProduct.setConfirmName(endProduct.getConfirmName());
+				}
+				if (endProduct.getCreateName() != null) {
+					endProduct.setCreateName(endProduct.getCreateName());
+				}
+				lst.add(endProduct);
 			}
+			pager.setList(lst);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(EndProduct.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
 		}
-		pager = endProductService.historyjqGrid(pager, map);
-		List<EndProduct> endProductList = pager.getList();
-		List<EndProduct> lst = new ArrayList<EndProduct>();
-		for (int i = 0; i < endProductList.size(); i++) {
-			EndProduct endProduct = (EndProduct) endProductList.get(i);
-			endProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "endProState", endProduct.getState()));
-			if (endProduct.getConfirmName() != null) {
-				endProduct.setConfirmName(endProduct.getConfirmName());
-			}
-			if (endProduct.getCreateName() != null) {
-				endProduct.setCreateName(endProduct.getCreateName());
-			}
-			lst.add(endProduct);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Pick.class));// 排除有关联关系的属性字段
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
+		return null;
+		
 	}
 	
 
@@ -566,4 +614,30 @@ public class EndProductAction extends BaseAdminAction {
 		this.loginid = loginid;
 	}
 
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str;
+	}
+
+	
+	
 }

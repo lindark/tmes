@@ -117,28 +117,32 @@ public class PickAction extends BaseAdminAction {
 				map.put("end", end);
 			}
 		}
-		pager = pickService.historyjqGrid(pager, map);
-		List<Pick> pickList = pager.getList();
-		List<Pick> lst = new ArrayList<Pick>();
-		for (int i = 0; i < pickList.size(); i++) {
-			Pick pick = (Pick) pickList.get(i);	
-			pick.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"pickState", pick.getState()));
-			if (pick.getConfirmUser() != null) {
-				pick.setXconfirmUser(pick.getConfirmUser().getName());
+		pager = pickDetailService.historyjqGrid(pager, map);
+		List<PickDetail> detailList = pager.getList();
+		List<PickDetail> lst = new ArrayList<PickDetail>();
+		try {
+			for (int i = 0; i < detailList.size(); i++) {
+				PickDetail pickDetail = detailList.get(i);
+				pickDetail.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"pickState", pickDetail.getPick().getState()));
+				if (pickDetail.getPick().getConfirmUser() != null) {
+					pickDetail.setXconfirmUser(pickDetail.getPick().getConfirmUser().getName());
+				}
+				if (pickDetail.getPick().getCreateUser() != null) {
+					pickDetail.setXcreateUser(pickDetail.getPick().getCreateUser().getName());
+				}
+				if (pickDetail.getPick().getMove_type() != null) {
+					pickDetail.setXpickType((ThinkWayUtil.getDictValueByDictKey(
+							dictService, "pickType", pickDetail.getPick().getMove_type())));
+				}
+				pickDetail.setMaktx(workingBillService.get(
+						 pickDetail.getPick().getWorkingbill().getId()).getMaktx());
+				pickDetail.setWorkingbillCode(workingBillService.get(
+						 pickDetail.getPick().getWorkingbill().getId()).getWorkingBillCode());
+				lst.add(pickDetail);
 			}
-			if (pick.getCreateUser() != null) {
-				pick.setXcreateUser(pick.getCreateUser().getName());
-			}
-			if (pick.getMove_type() != null) {
-				pick.setMove_type(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "pickType", pick.getMove_type()));
-			}
-			pick.setMaktx(workingBillService.get(
-					pick.getWorkingbill().getId()).getMaktx());
-			pick.setWorkingbillCode(workingBillService.get(
-					pick.getWorkingbill().getId()).getWorkingBillCode());
-			lst.add(pick);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();

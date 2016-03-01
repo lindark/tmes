@@ -121,6 +121,9 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		
+		//班次
+		admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
 		return LIST;
 	}
 

@@ -56,7 +56,7 @@
 </script>
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
- 
+
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
  <!-- 
 <script type="text/javascript">
@@ -73,7 +73,6 @@
 	})
 	
 </script> -->
-
 </head>
 <body class="no-skin">
 
@@ -163,6 +162,10 @@
 														<div class="profile-info-value">
 														      <form id="inputForm" class="validate" action="admin!productupdate.action" method="post">
 								                        <input type="hidden" name="id" value="${admin.id}" />
+								                        <input type="hidden" id="productDate" value="${admin.productDate}"/>
+								                        <input type="hidden" id="shift" value="${admin.shift}"/>
+								                        
+								                        
 														<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker formText {required: true}"/>
 														 
 														<select name="admin.shift" class="formText {required: true}">
@@ -228,7 +231,7 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="pick">
 														<i class="ace-icon fa fa-credit-card bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">领退料</span>
+															class="bigger-110 no-text-shadow">裁切配送</span>
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
@@ -323,7 +326,7 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block disabled"
 														id="repair">
 														<i class="ace-icon fa fa-cog bigger-110"></i> <span
-															class="bigger-110 no-text-shadow"> 成品返修</span>
+															class="bigger-110 no-text-shadow"> 返修发货</span>
 													</button>
 												</div>
 												<!-- 

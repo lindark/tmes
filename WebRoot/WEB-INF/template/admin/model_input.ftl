@@ -80,6 +80,7 @@ body {
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> <input
 									type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
+									
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">基本信息</a></li>
@@ -161,13 +162,13 @@ body {
 												<div class="profile-info-name">通知时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.noticeTime"
-														value="${(abnormal.callDate)!}"
+														value="${(abnormal.callDate)!?string("yyyy-MM-dd HH:mm:ss")}"
 														readonly="readonly"/>
 												</div>
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.arriveTime"
-														value="${(abnormal.replyDate)!}"
+														value="${(abnormal.replyDate)!?string("yyyy-MM-dd HH:mm:ss")}"
 														readonly="readonly"/>
 												</div>
 											</div>
@@ -452,7 +453,6 @@ body {
 </body>
 <script type="text/javascript">
 $(function() {	
-
 $("form.validatecredit").validate({
 		
 		errorClass: "validateError",

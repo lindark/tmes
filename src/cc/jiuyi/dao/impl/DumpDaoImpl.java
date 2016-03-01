@@ -3,6 +3,7 @@ package cc.jiuyi.dao.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -67,5 +68,25 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		}
 		Restrictions.eq("isDel", "N");//未删除
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	/**
+	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getMengeByConditions(Admin emp)
+	{
+		String productionDate=emp.getProductDate();//生产日期
+		String shift=emp.getShift();//班次
+		String hql="";
+		if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
+		{
+			hql="select matnr,sum(menge) from DumpDetail where dump.state='1' and dump.productionDate='"+productionDate+"' and dump.shift='"+shift+"' group by matnr";
+		}
+		else
+		{
+			hql="select matnr,sum(menge) from DumpDetail where dump.state='1' group by matnr";
+		}
+		return this.getSession().createQuery(hql).list();
 	}
 }

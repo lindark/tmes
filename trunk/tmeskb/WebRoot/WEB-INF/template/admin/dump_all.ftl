@@ -12,7 +12,9 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
-		
+		<style type="text/css">
+			.txttype{font-weight: 400;}
+		</style>
 	</head>
 	<body class="no-skin list">
 	<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
@@ -48,6 +50,26 @@
 					<div class="page-content-area">
 							<div class="row">
 						<div class="col-xs-12">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 widget-container-col">
+									<div class="widget-box transparent">
+										<div class="widget-body">
+											<div class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">												
+														<div class="profile-info-name">当前状态</div>
+														<div class="profile-info-value">
+															<#list list_map as mlist>
+																<span class="txttype">${(mlist.materialdes)! }：<span>${(mlist.allcount)! }</span></span><br/>
+															</#list>
+														</div>			
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<!-- ./ add by weitao  -->
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addzzc" type=button>

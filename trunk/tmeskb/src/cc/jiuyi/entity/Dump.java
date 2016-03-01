@@ -38,6 +38,7 @@ public class Dump extends BaseEntity {
 	private String factoryUnitId;//单元ID
 	private String productionDate;//生产日期
 	private String shift;//班次
+	private String materialdes;//物料描述
 	
 	//假字段
 	private String xshift;//班次描述
@@ -210,4 +211,15 @@ public class Dump extends BaseEntity {
 	{
 		this.xshift = xshift;
 	}
+
+	public String getMaterialdes()
+	{
+		return materialdes;
+	}
+
+	public void setMaterialdes(String materialdes)
+	{
+		this.materialdes = materialdes;
+	}
+	
 }

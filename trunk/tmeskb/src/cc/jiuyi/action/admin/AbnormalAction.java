@@ -69,6 +69,7 @@ public class AbnormalAction extends BaseAdminAction {
 	private String loginUsername;
 	private String callId;
 	private String nameId;
+	private String loginid;//当前登录人的ID
 
 	private String callReasonId;
 	private String closeIds;
@@ -109,6 +110,15 @@ public class AbnormalAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		if(loginid!=null && !"".equals(loginid)){
+			admin=adminService.get(loginid);
+			if(admin.getShift()==null||"".equals(admin.getShift())||admin.getProductDate()==null||"".equals(admin.getProductDate()))
+			{
+				addActionError("请选择生产日期及班次!");
+				return ERROR;
+			}
+		}
+		
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		return LIST;
@@ -123,7 +133,8 @@ public class AbnormalAction extends BaseAdminAction {
 	// ajax列表
 	public String ajlist() {
 
-		Admin admin1 = adminService.getLoginAdmin();
+		Admin admin2 = adminService.getLoginAdmin();
+		admin2 = adminService.get(admin2.getId());
 	
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
@@ -142,10 +153,9 @@ public class AbnormalAction extends BaseAdminAction {
 		}
 
 
-		pager = abnormalService.getAbnormalPager(pager, map, admin1.getId());
+		pager = abnormalService.getAbnormalPager(pager, map, admin2);
 
-		List pagerlist = pager.getList();
-   
+		List pagerlist = pager.getList();  
         
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
@@ -435,7 +445,6 @@ public class AbnormalAction extends BaseAdminAction {
 		job_name=job_name+jobname;
 		
 		abnormal.setJobname(job_name);
-		abnormalService.save(abnormal);
 		
 		//短信内容
 		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
@@ -457,6 +466,13 @@ public class AbnormalAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("系统出现错误,请联系系统管理员");
 			}
 		}
+		
+		Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
+		admin2 = adminService.get(admin.getId());
+		
+		abnormal.setProductdate(admin2.getProductDate());
+		abnormal.setClasstime(admin2.getShift());
+		abnormalService.save(abnormal);
 				
 		AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
 		abnormalLog.setAbnormal(abnormal);
@@ -625,6 +641,14 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 
 	

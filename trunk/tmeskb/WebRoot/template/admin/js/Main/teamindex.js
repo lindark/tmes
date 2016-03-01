@@ -19,6 +19,8 @@ $(function() {
 	var $returnProduct = $("#returnProduct");//退回中转仓
 	var $table00 = $("#table00");//随工单table
 	var $scenecheck=$("#scenecheck");//现场检验
+	var $barcode = $(".barcode");//条码打印
+	var $deptpk = $("#deptpk");//部门领料
 	
 	$table00.find("tbody tr").click(function(){
 		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
@@ -304,6 +306,22 @@ $(function() {
 		}
 	});
 	
+	/**
+	 * 部门领料
+	 */
+	$deptpk.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			window.location.href="deptpick!list.action";
+		}
+	});
+	
+	$barcode.click(function(){
+		var part = $(this).prev().val();//打印的份数
+		var workingbillid = $(this).parent().siblings().eq(0).find(".ckbox").val();//随工单ID
+		//alert(part+","+workingbillid);
+	});
+	
 })
 
 /**
@@ -322,6 +340,9 @@ function getCKboxById() {
 	});
 	return id;
 }
+
+
+
 
 /**
  * 获取当前随工单的投放产出

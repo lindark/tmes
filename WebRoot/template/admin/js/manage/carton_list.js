@@ -69,6 +69,8 @@ jQuery(function($) {
 		colModel:[
 		    {name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
 			{name:'createDate',label:"创建日期",index:'createDate',width:120,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'productDate',label:"生产日期",index:'productDate', width:120,sortable:"true",sorttype:"text"},
+			{name:'teamshift',label:"班次",index:'teamshift', width:120,sortable:"true",sorttype:"text"},
 			{name:'xcreateUser',label:"创建人",index:'createUser', width:120,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'confirmUser', width:120,sortable:"true",sorttype:"text"},
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:120,sortable:"true",sorttype:"text"},

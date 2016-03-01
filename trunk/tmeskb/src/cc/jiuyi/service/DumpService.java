@@ -66,4 +66,11 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public void updateData(List<Dump> list);
 	
+	/**
+	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+	 * @param emp
+	 * @return
+	 */
+	public List<HashMap<String,String>> getMengeByConditions(Admin emp);
+	
 }

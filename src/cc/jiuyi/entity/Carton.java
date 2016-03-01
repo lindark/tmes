@@ -31,6 +31,7 @@ public class Carton extends BaseEntity {
 	private String xcreateUser;//创建人的名字
 	private String xconfirmUser;//确认人的名字
 	private String xstate;//状态描述
+	private String xteamshift;//班次
 	
 	public Integer getCartonAmount() {
 		return cartonAmount;
@@ -170,6 +171,17 @@ public class Carton extends BaseEntity {
 
 	public void setBktxt(String bktxt) {
 		this.bktxt = bktxt;
+	}
+
+	@Transient
+	public String getXteamshift()
+	{
+		return xteamshift;
+	}
+
+	public void setXteamshift(String xteamshift)
+	{
+		this.xteamshift = xteamshift;
 	}
 	
 }

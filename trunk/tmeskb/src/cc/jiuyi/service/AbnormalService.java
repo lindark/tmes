@@ -4,13 +4,14 @@ import java.util.HashMap;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Admin;
 
 /**
  * Service接口 - 异常
  */
 public interface AbnormalService extends BaseService<Abnormal, String> {
 
-	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map,String id);
+	public Pager getAbnormalPager(Pager pager,HashMap<String,String>map,Admin admin2);
 	
 	/**
 	 * 标记删除

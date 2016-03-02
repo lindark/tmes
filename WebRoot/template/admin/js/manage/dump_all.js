@@ -46,8 +46,8 @@ jQuery(function($) {
 		    {name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		    {name:'materialdes',index:'materialdes',search:false,label:"物料描述", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'voucherId',index:'voucherId',search:false,label:"物料凭证号", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'createName',index:'createUser.name',label:"创建人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},	
-			{name:'adminName',index:'confirmUser.name',label:"确认人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'createName',index:'dump.createUser',label:"创建人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'adminName',index:'dump.confirmUser',label:"确认人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'allcount',index:'allcount',search:false,label:"物料总数量", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stateRemark',index:'state', width:100,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=returnProState"}},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}

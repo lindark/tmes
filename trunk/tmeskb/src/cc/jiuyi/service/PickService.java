@@ -44,4 +44,5 @@ public interface PickService extends BaseService<Pick, String>,WorkingInoutCalcu
 	public List<Pick> getPickByWorkingbillId(String WorkingBillId);
 
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
+	
 }

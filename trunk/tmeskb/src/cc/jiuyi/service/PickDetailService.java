@@ -59,4 +59,6 @@ public interface PickDetailService extends BaseService<PickDetail, String>,Worki
 	public Pick saveApproval1(List<PickDetail> pickDetailList, Pick pick);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

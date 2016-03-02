@@ -122,6 +122,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private Set<UnitdistributeProduct> unitdistributeProductSet;//工作范围
 	private Set<UnitdistributeModel> unitdistributeModelSet;//工位
+	private Set<Deptpick> createUserSet;//部门领料提交人
+	private Set<Deptpick> comfirmUserSet;//部门领料审批人
 	
 	//假字段
 	private String xworkstate;//员工工作状态描述
@@ -131,6 +133,24 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xstation;//工作范围
 	private String xworkscope;//工位
 	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
+	public Set<Deptpick> getCreateUserSet() {
+		return createUserSet;
+	}
+
+	public void setCreateUserSet(Set<Deptpick> createUserSet) {
+		this.createUserSet = createUserSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="comfirmUser")
+	public Set<Deptpick> getComfirmUserSet() {
+		return comfirmUserSet;
+	}
+
+	public void setComfirmUserSet(Set<Deptpick> comfirmUserSet) {
+		this.comfirmUserSet = comfirmUserSet;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)	
 	public Admin getParentAdmin() {
 		return parentAdmin;

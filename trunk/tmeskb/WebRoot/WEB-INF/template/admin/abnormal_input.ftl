@@ -149,9 +149,8 @@ $(function(){
         	}
         	var html ="<tr>";
 	        	html+="<td>";
-	        	html+="<input type='hidden' name='adminSet["+size+"].id' value='"+arrayObj[i].id+"'/>";
-	        	html+="<input type='text' name='adminSet["+size+"].name' value='"+arrayObj[i].name+"'/>";
-	        	html+="<input type='hidden' name='adminSet["+size+"].phoneNo' value='"+arrayObj[i].phoneNo+"'/>";
+	        	html+="<input type='hidden' name='callReasonSet["+size+"].adminid' value='"+arrayObj[i].id+"'/>";
+	        	html+="<input type='text' value='"+arrayObj[i].name+"'/>";
 	        	html+="</td>";
 	        	html+="<td>";
 	        	html+="<select name='callReasonSet["+size+"].id' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";

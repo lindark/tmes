@@ -39,7 +39,7 @@ var setting = {
 
 var zNodes =[
 <#list list as department>
-	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}"},
+	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}",costcenter:"${department.costcenter}",movetype:"${department.movetype}"},
 </#list>
 
 ];
@@ -115,7 +115,16 @@ function onClick(event, treeId, treeNode, clickFlag) {
 function getName(){
 	var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 	var nodes = zTree.getSelectedNodes();
+	var departid = nodes[0].id;
 	var departName = nodes[0].name;
-	return departName;
+	var costcenter = nodes[0].costcenter;
+	var movetype = nodes[0].movetype;
+	var depart = {
+		"departid":departid,
+		"departName":departName,
+		"costcenter":costcenter,
+		"movetype":movetype
+	}
+	return depart;
 }
 </script>

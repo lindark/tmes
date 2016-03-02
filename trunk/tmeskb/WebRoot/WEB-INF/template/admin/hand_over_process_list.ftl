@@ -314,6 +314,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 									</div>
 								</div> -->
 								<div id="tabs-2">
+									显示批次库存
 									<table class="table table-striped table-bordered">
 										<thead>
 											<tr>

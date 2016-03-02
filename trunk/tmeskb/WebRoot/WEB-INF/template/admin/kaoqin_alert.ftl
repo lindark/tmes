@@ -117,15 +117,16 @@ body {
 <script type="text/javascript">
 function getGridId()
 {
-	var infos="";
 	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 	if(ids.length <1)
 	{
 		layer.alert("请选择至少一个员工",false);
-		return "";
+		return "baga";
 	}
-	$.post("kaoqin!addnewemp.action?ids="+ids+"&sameTeamId="+$("#sameteamid").val(),function(data){},"json");
-	return "success";
+	else
+	{
+		return ids;
+	}
 }
 
 $(document).keydown(function(event){

@@ -31,7 +31,6 @@
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin list xtxt">
-
 <input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">

@@ -461,16 +461,51 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 			}
 			var shift = $("#sl_sh").val();
 			var loginid = $("#loginid").val();//当前登录人的id
-			var url="hand_over!creditapproval.action?loginid="+loginid+"&shift="+shift+"&nowDate="+productDate;
-			credit.creditCard(url,function(data){
-				if(data.status=="success"){
-					$("#creditapproval").prop("disabled",true);
-					$("#creditsubmit").prop("disabled",true);
-					$("#sl_sh").prop("disabled",true);
-					$("#productDate").prop("disabled",true);	
+			$.ajax({
+				url:"kaoqin!getDateAndShift.action?loginid="+loginid,
+				dataType:"json",
+				type:"post",
+				data:{},
+				success:function(data)
+				{
+					//提示
+					if(data.status=="success")
+					{
+						layer.confirm(data.message, {icon: 3,btn:["确定","取消"]},function(){
+							var url="hand_over!creditapproval.action?loginid="+loginid+"&shift="+shift+"&nowDate="+productDate;
+							credit.creditCard(url,function(data){
+								if(data.status=="success"){
+									$("#creditapproval").prop("disabled",true);
+									$("#creditsubmit").prop("disabled",true);
+									$("#sl_sh").prop("disabled",true);
+									$("#productDate").prop("disabled",true);	
+								}
+							});
+						},function(){
+							
+						});
+					}
+					else
+					{
+						//1生产日期或班次为空
+						if(data.message=="1")
+						{
+							layer.alert("生产日期或班次为空,添加失败!", {
+						        icon:5,
+						        skin:'error'
+						    });
+						}
+						else if(data.message=="2")
+						{
+							//3系统出现异常!
+							layer.alert("系统出现异常!", {
+						        icon:5,
+						        skin:'error'
+						    });
+						}
+					}
 				}
 			})
-			
 		});
 		
 		/*刷卡提交*/

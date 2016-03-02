@@ -5,10 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -115,7 +117,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 						"pick.state",
 						"%" + map.get("state") + "%"));
 			}	
-			if(map.get("start")!=null||map.get("end")!=null){
+			if(map.get("start")!=null && map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					Date start=sdf.parse(map.get("start"));
@@ -128,6 +130,46 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
+	}
+	
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		String hql="from PickDetail model join model.pick model1 join model1.workingbill model2";
+		Integer ishead=0;
+		if (map.size() > 0) {
+			if (map.get("maktx") != null) {
+				if(ishead==0){
+					hql+=" where model2.maktx like '%"+map.get("maktx")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model2.maktx like '%"+map.get("maktx")+"%'";
+				}
+			}	
+			if (map.get("state") != null) {
+				if(ishead==0){
+					hql+=" where model1.state like '%"+map.get("state")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.state like '%"+map.get("state")+"%'";
+				}
+			}	
+			if(map.get("start")!=null && map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					if(ishead==0){
+						hql+=" where model.createDate between "+start+" and "+end;
+						ishead=1;
+					}else{
+						hql+=" and model.createDate between "+start+" and "+end;
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return getSession().createQuery(hql).list();
 	}
 
 

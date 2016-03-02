@@ -21,6 +21,7 @@ body {
 
 </head>
 <body class="no-skin input">
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<!-- add by welson 0728 -->
 	<div class="main-container" id="main-container">

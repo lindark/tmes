@@ -61,7 +61,8 @@ $(function(){
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
 	    			$.message(data.status,data.message);
-	    			iframeWin.location.reload();
+	    			iframeWin.reloadwin();
+	    			//iframeWin.location.reload();
 	    		},dt)
 	        	return false;
 	        },

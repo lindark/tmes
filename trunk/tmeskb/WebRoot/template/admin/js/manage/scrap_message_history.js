@@ -44,7 +44,8 @@ jQuery(function($) {
 	        {name:'smmatterNum',index:'smmatterNum', label:"物料编码", width:150,sortable:"true",sorttype:"text"},
 	        {name:'smmatterDes',index:'smmatterDes',label:"物料描述", width:400,sortable:"true",sorttype:"text"},
 			{name:'smduty',index:'smduty', label:"责任划分", editable: false,hidden:true},
-			{name:'smreson',label:"报废原因",width:200,index:'smreson', editable: false,sortable:"true"}
+			{name:'smreson',label:"报废原因",width:200,index:'smreson', editable: false,sortable:"true"},
+			{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
 			
 		], 
 

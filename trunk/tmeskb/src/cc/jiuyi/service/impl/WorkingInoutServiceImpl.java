@@ -93,7 +93,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
 		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
 		nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
-		List<Process> processList00 = processservice.getAll();
+		String[] propertyNames = {"isDel","state"};
+		String[] propertyValues={"N","1"};
+		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);

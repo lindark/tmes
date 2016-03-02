@@ -62,6 +62,7 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
+	
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
@@ -148,6 +149,5 @@ jQuery(function($) {
 			}
 		}
 	)
-
 
 });

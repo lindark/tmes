@@ -122,7 +122,7 @@ function tosubmit(url,info)
 				}
 				if(info=="toconfrim")
 				{
-					window.location.href="dump!all.action";
+					window.location.href="dump!all.action?loginid="+$("#loginid").val();
 				}
 				else
 				{

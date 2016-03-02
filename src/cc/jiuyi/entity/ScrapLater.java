@@ -27,7 +27,7 @@ public class ScrapLater extends BaseEntity
 	
 	private String workingbill;//随工单
 	private String productName;//产品名称
-	
+	private String state;//状态
 	
 	
 	/**get/set*/
@@ -119,6 +119,14 @@ public class ScrapLater extends BaseEntity
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	
+	@Transient
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

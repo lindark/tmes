@@ -293,14 +293,44 @@ function addemp()
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var info=iframeWin.getGridId();
-		if(info=="success")
+		if(info!="baga")
 		{
-			//layer.close(index);
 			layer.closeAll();
-			setTimeout(function(){
+			$.ajax({
+				url:"kaoqin!addnewemp.action?ids="+info+"&sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val(),
+				dataType:"json",
+				type:"post",
+				data:{},
+				success:function(data)
+				{
+					//1添加成功
+					if(data.message=="1")
+					{
+						$.message("success","您的操作已成功!");
+						$("#grid-table").trigger("reloadGrid");
+					}
+					else if(data.message=="2")
+					{
+						//2生产日期或班次为空,添加失败!
+						layer.alert("生产日期或班次为空,添加失败!", {
+					        icon:5,
+					        skin:'error'
+					    });
+					}
+					else if(data.message=="3")
+					{
+						//3系统出现异常!
+						layer.alert("系统出现异常!", {
+					        icon:5,
+					        skin:'error'
+					    });
+					}
+				}
+			});
+			/*setTimeout(function(){
 				$.message("success","您的操作已成功!");
 				$("#grid-table").trigger("reloadGrid");
-			}, 1000);
+			}, 1000);*/
 		}
 		/*else if(info=="error")
 		{
@@ -319,7 +349,7 @@ function startWorking()
 	var loginid=$("#loginid").val();//当前登录人的id
 	if(iscancreditcard=="N")
 	{
-		layer.alert("考勤已经开启,确定要关闭考勤吗?",{icon:7},function(){
+		layer.confirm("考勤已经开启,确定要关闭考勤吗?",{icon:3,btn:["确定","取消"]},function(){
 			var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+loginid+"&my_id=2";
 			credit.creditCard(url,function(data){
 				if(data.status=="success")
@@ -330,6 +360,8 @@ function startWorking()
 					$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
 				}
 			});
+		},function(){
+			
 		});
 	}
 	else if(iscancreditcard=="Y")
@@ -344,6 +376,14 @@ function startWorking()
 				$("#span_startkaoqin").text("考勤已开启");
 				$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
 				$("#grid-table").trigger("reloadGrid");
+			}
+			else
+			{
+				layer.alert(data.message, {
+			        icon:5,
+			        skin:'error',
+			        closeBtn:0
+			    },function(){layer.closeAll();});
 			}
 		});
 	}
@@ -388,23 +428,60 @@ function gooffwork_event()
 	}
 	else if(iswork=="Y")
 	{
-		var url="kaoqin!creditundo.action?sameTeamId="+$("#sameteamid").val();
-		credit.creditCard(url,function(data){
-			if(data.status=="success")
+		
+		$.ajax({
+			url:"kaoqin!getDateAndShift.action?loginid="+$("#loginid").val(),
+			dataType:"json",
+			type:"post",
+			data:{},
+			success:function(data)
 			{
-				$.message(data.status,data.message);
-				iswork="N";
-				iscancreditcard="Y";
-				$("#span_startkaoqin").text("考勤未开启");
-				$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
-				$("#grid-table").trigger("reloadGrid");
-			}
-			else
-			{
-				layer.alert(data.message, {
-			        icon:5,
-			        skin:'error'
-			    },function(){layer.closeAll();});
+				//提示
+				if(data.status=="success")
+				{
+					layer.confirm(data.message, {icon: 3,btn:["确定","取消"]},function(){
+						var url="kaoqin!creditundo.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val();
+						credit.creditCard(url,function(data){
+							if(data.status=="success")
+							{
+								$.message(data.status,data.message);
+								iswork="N";
+								iscancreditcard="Y";
+								$("#span_startkaoqin").text("考勤未开启");
+								$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+								$("#grid-table").trigger("reloadGrid");
+							}
+							else
+							{
+								layer.alert(data.message, {
+							        icon:5,
+							        skin:'error'
+							    },function(){layer.closeAll();});
+							}
+						});
+					},function(){
+						
+					});
+				}
+				else
+				{
+					//1生产日期或班次为空
+					if(data.message=="1")
+					{
+						layer.alert("生产日期或班次为空,添加失败!", {
+					        icon:5,
+					        skin:'error'
+					    });
+					}
+					else if(data.message=="2")
+					{
+						//3系统出现异常!
+						layer.alert("系统出现异常!", {
+					        icon:5,
+					        skin:'error'
+					    });
+					}
+				}
 			}
 		});
 	}

@@ -1249,7 +1249,19 @@
 
 						
 					</li>
+					</li>
 					
+						<li class="">
+						<a href="mouldmaterial!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							模具物料管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
 					<li class="">
 						<a href="scrap_out!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

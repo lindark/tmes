@@ -24,9 +24,12 @@ import org.springframework.stereotype.Component;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Callreason;
+import cc.jiuyi.entity.SwiptCard;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.CallreasonService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
@@ -46,6 +49,8 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 	private AbnormalService abnormalService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private CallreasonService callReasonService;
 	
 	public void setTimeout(int timeout){
 		  this.timeout = timeout;
@@ -63,8 +68,9 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     String hour=data.getString("hour");//时间3
 		     String jobname = data.getString("jobname");//任务名称
 		     String count = data.getString("count");//次数
-			 String message=data.getString("message");//信息
 		     String json = data.getString("list");
+		     String workshop= data.getString("workshop");
+		     String unit= data.getString("unit");
 		     
 		     JSONArray jsonarray = JSONArray.fromObject(json);		     
 		     
@@ -72,44 +78,53 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     Abnormal abnormal = abnormalService.get(abnorId);
 		     adminService=(AdminService) SpringUtil.getBean("adminServiceImpl");
 		     Admin admin = adminService.get(adminId);
+		     callReasonService=(CallreasonService) SpringUtil.getBean("callreasonServiceImpl");
 		     abnormalLogService=(AbnormalLogService) SpringUtil.getBean("abnormalLogServiceImpl");
-		     
-		     //定时发送短信
-		     String mes=message+"未响应";
+		    		     
+		     //定时发送短信		
+		 
+			 String adminName =admin.getName();	
 	    	 List<String> strList= new ArrayList<String>();
 	    	 List<HashMap<String,Object>> hashmapList = new ArrayList<HashMap<String,Object>>();		
 	    	 for(int i=0;i<jsonarray.size();i++){
 	    		 JSONObject jsonObj= JSONObject.fromObject(jsonarray.get(i));
 	    		 HashMap<String,Object> maps1 = new HashMap<String,Object>();
-	    		 Admin admin1 = adminService.get(jsonObj.getString("id"));
+	    		 Admin admin1 = adminService.get(jsonObj.getString("adminid"));
 	    		 Admin admin2 = adminService.getAdminById(admin1.getId());
-	    		 if(admin2!=null){
-	    			maps1.put("id", admin2.getId());
-		 			maps1.put("phoneNo",admin2.getPhoneNo());
+
+	    		 if(admin2!=null){//存在直接上级
+	    			maps1.put("adminid", admin2.getId());
+		 			maps1.put("reasonid",jsonObj.getString("reasonid"));
 		 			hashmapList.add(maps1);
+		 			
+		 			Callreason call1 = callReasonService.get(jsonObj.getString("reasonid"));//短信
+		 			String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+admin.getName();
+		 			
+		 			 String phoneNo = admin2.getPhoneNo();
+		 			
+		    		 try{
+		    			 String str1 = SendMsgUtil.SendMsg(phoneNo,message);
+		    			 SAXReader reader = new SAXReader();  //解析返回xml文件
+		                 Document doc;   
+		                 doc = DocumentHelper.parseText(str1); 
+		                 Node stateNode = doc.selectSingleNode("/infos/info/state");
+		                 
+		                 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送不成功	
+		                	log.error("向"+phoneNo+"手机发送短信失败");		             	
+		                 }
+		                 
+		    			}catch(Exception e){
+		    				e.printStackTrace();
+		    			} 	
 	    		 }
 	    		
 	    		 strList.add(admin1.getName());
-	    		 String phoneNo = jsonObj.getString("phoneNo");
-	    		 try{
-	    			 String str1 = SendMsgUtil.SendMsg(phoneNo,message);			
-	    			 SAXReader reader = new SAXReader();  //解析返回xml文件
-	                 Document doc;   
-	                 doc = DocumentHelper.parseText(str1); 
-	                 Node stateNode = doc.selectSingleNode("/infos/info/state");
-	                 
-	                 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送不成功	
-	                	log.error("向"+phoneNo+"手机发送短信失败");		             	
-	                 }
-	                 
-	    			}catch(Exception e){
-	    				e.printStackTrace();
-	    			} 		    		
 
 	    	 }
 	    	 if(hashmapList.size()==0){//判断是否存在直接上级，不存在就结束任务
 	    		 QuartzManagerUtil.removeJob(jobname);
 	    	 }
+
 	    	 JSONArray jsonArray = JSONArray.fromObject(hashmapList);
 	    	 
 	    	 String comlist = CommonUtil.toString(strList, ",");// 获取问题的字符串
@@ -119,18 +134,19 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 			 abnormalLog.setOperator(admin);
 			 abnormalLog.setInfo(comlist);
 			 abnormalLogService.save(abnormalLog);
-			 			 
+		 
 			 HashMap<String,Object> maps = new HashMap<String,Object>();
-			 Integer second=1800;//30分钟向直属上级发送
-			 //Integer second=60;//30分钟向直属上级发送
+			 //Integer second=1800;//30分钟向直属上级发送
+			 Integer second=60;//30分钟向直属上级发送
 			 maps.put("id",abnorId);
 			 maps.put("name",adminId);
 			 maps.put("date", time1);
 			 maps.put("time",time2);
 			 maps.put("hour",hour);
-			 maps.put("jobname",jobname);					
-			 maps.put("message", message);	
+			 maps.put("jobname",jobname);						
 			 maps.put("list", jsonArray.toString());
+			 maps.put("workshop", workshop);
+			 maps.put("unit", unit);
 			 if(Integer.parseInt(count)==1){
 				 maps.put("count","2");			 
 				 QuartzManagerUtil.modifyJobTime(jobname,time1,maps);//修改任务30分钟向直属上司发送短信	

@@ -33,6 +33,9 @@ public class Department extends BaseEntity {
 	private String parentDeptLeader;//部门上级负责人
 	private String State;//状态
 	private String isDel;//是否删除
+	private String costcenter;//成本中心
+	private String movetype;//发料移动类型
+	private String movetype1;//退料移动类型
 	
 	private Department parentDept;//上级部门
 	private Set<Department> childDept;//下级部门
@@ -104,6 +107,24 @@ public class Department extends BaseEntity {
 			this.isDel = "N";
 		else
 			this.isDel = isDel;
+	}
+	public String getCostcenter() {
+		return costcenter;
+	}
+	public void setCostcenter(String costcenter) {
+		this.costcenter = costcenter;
+	}
+	public String getMovetype() {
+		return movetype;
+	}
+	public void setMovetype(String movetype) {
+		this.movetype = movetype;
+	}
+	public String getMovetype1() {
+		return movetype1;
+	}
+	public void setMovetype1(String movetype1) {
+		this.movetype1 = movetype1;
 	}
 	
 	

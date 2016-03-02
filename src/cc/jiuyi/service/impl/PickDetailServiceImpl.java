@@ -373,4 +373,8 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 			return pickDetailDao.historyjqGrid(pager, map);
 		}
+		
+		public List<Object[]> historyExcelExport(HashMap<String,String> map){
+			return pickDetailDao.historyExcelExport(map);
+		}
 }

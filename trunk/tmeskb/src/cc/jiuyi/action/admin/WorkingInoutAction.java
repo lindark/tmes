@@ -40,8 +40,14 @@ public class WorkingInoutAction extends BaseAdminAction {
 								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数","交下班异常零头数","一次合格率",
 								"投入总数量","产出总数量","数量差异","计划达成率"};
 	public String list(){
-		
 		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+		for(int i=0;i<jsonarray.size();i++){
+			JSONObject jsonobject = (JSONObject) jsonarray.get(i);
+			
+			
+			
+		}
+		
 		jsondata = jsonarray.toString();
 		return LIST;
 	}

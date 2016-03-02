@@ -188,7 +188,8 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ReturnProduct</value>
 				<value>cc.jiuyi.entity.ScrapOut</value>
 				<value>cc.jiuyi.entity.UnitdistributeProduct</value>
-					<value>cc.jiuyi.entity.UnitdistributeModel</value>
+				<value>cc.jiuyi.entity.UnitdistributeModel</value>
+				<value>cc.jiuyi.entity.Deptpick</value>
 			</list>
 		</property>
 	</bean>

@@ -81,11 +81,11 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		String hql="";
 		if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
 		{
-			hql="select matnr,sum(menge) from DumpDetail where dump.state='1' and dump.productionDate='"+productionDate+"' and dump.shift='"+shift+"' group by matnr";
+			hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' and productionDate='"+productionDate+"' and shift='"+shift+"' group by materialCode";
 		}
 		else
 		{
-			hql="select matnr,sum(menge) from DumpDetail where dump.state='1' group by matnr";
+			hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' group by materialCode";
 		}
 		return this.getSession().createQuery(hql).list();
 	}

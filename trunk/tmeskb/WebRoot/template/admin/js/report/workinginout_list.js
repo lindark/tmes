@@ -150,5 +150,4 @@ jQuery(function($) {
 		}
 	)
 
-
 });

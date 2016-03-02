@@ -564,7 +564,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="daily_work!history.action" >
+								<a href="daily_work!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报工记录
 								</a>
@@ -580,7 +580,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="repair!history.action" >
+								<a href="repair!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品返修记录
 								</a>
@@ -588,7 +588,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="repairin!history.action">
+								<a href="repairin!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									返修收货记录
 								</a>
@@ -596,7 +596,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="#" ">
-								<a href="scrap_message!history.action">
+								<a href="scrap_message!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废记录
 								</a>
@@ -604,7 +604,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="#" ">
-								<a href="scrap_later!history.action">
+								<a href="scrap_later!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废产出记录
 								</a>
@@ -612,7 +612,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="enteringware_house!history.action" >
+								<a href="enteringware_house!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品检验记录
 								</a>
@@ -620,7 +620,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="end_product!history.action" >
+								<a href="end_product!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品入库记录
 								</a>
@@ -628,7 +628,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="dump!recordList.action" >
+								<a href="dump!recordList.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									转储确认记录
 								</a>
@@ -636,7 +636,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="carton!recordList.action?isRecord=Y" >
+								<a href="carton!recordList.action?isRecord=Y" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									纸箱收货记录
 								</a>
@@ -660,7 +660,7 @@
 				<b class="arrow"></b>
 				<ul class="submenu">
 					<li class="">
-						<a href="javascript:void(0)" id="a_zzc">
+						<a href="dump!all.action" >
 							<i class="menu-icon"></i>
 							中转仓
 						</a>
@@ -1249,19 +1249,7 @@
 
 						
 					</li>
-					</li>
 					
-						<li class="">
-						<a href="mouldmaterial!list.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							模具物料管理
-							<b class="arrow fa"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						
-					</li>
 					<li class="">
 						<a href="scrap_out!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
@@ -1297,7 +1285,7 @@
 				</ul>
 			</li>
 		</ul><!-- /.nav-list -->
-		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
+
 		<!-- #section:basics/sidebar.layout.minimize -->
 		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
 			<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
@@ -1305,11 +1293,6 @@
 
 		<!-- /section:basics/sidebar.layout.minimize -->
 		<script type="text/javascript">
-			$(function(){
-				$("#a_zzc").click(function(){
-					window.location.href="dump!all.action?loginid="+$("#loginid").val();//中转仓
-				});
-			});
 			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 		</script>
 	</div>

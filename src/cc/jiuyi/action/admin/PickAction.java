@@ -33,12 +33,14 @@ import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
+ * @author Reece
  * 后台Action类-领/退料主表
  */
 
@@ -106,6 +108,10 @@ public class PickAction extends BaseAdminAction {
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx").toString();
+				map.put("maktx", maktx);
+			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
@@ -152,6 +158,37 @@ public class PickAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
+	//Excel导出 
+	public String excelexport(){
+		
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+        header.add("随工单号");
+        header.add("产品名称");
+        header.add("领退料类型");
+        header.add("领退数量");
+        header.add("裁切领退数");
+        header.add("物料编码");
+        header.add("物料描述");
+        header.add("创建日期");
+        header.add("创建人");
+        header.add("确认人");
+        header.add("状态");
+        
+        
+        
+		
+		try {
+			String fileName = "领退料记录表"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("领退料记录表", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+		    getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 	// 添加
@@ -200,7 +237,6 @@ public class PickAction extends BaseAdminAction {
 		String stamp = "";
 		String temp="";
 		Double sum = 0d;
-		/**modify weitao **/
 		str = "";
 		Collections.sort(pickDetailList);// 对 pickDetailList进行排序
 

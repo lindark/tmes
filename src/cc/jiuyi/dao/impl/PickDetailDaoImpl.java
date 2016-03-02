@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,7 @@ import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Dao实现类 - PickDetail
@@ -95,15 +97,23 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PickDetail.class);
-		pagerSqlByjqGrid(pager,detachedCriteria);
+		if (!existAlias(detachedCriteria, "pick", "pick")) {
+			detachedCriteria.createAlias("pick", "pick");
+		}
+		if (!existAlias(detachedCriteria, "pick.workingbill", "workingbill")) {
+			detachedCriteria.createAlias("pick.workingbill", "workingbill");
+		}
+		//detachedCriteria.add(Restrictions.eq("workingbill.id", "4028c781532c74d701532ca1986e0014"));//测试
 		if (map.size() > 0) {
-			if (!existAlias(detachedCriteria, "pick", "pick")) {
-				detachedCriteria.createAlias("pick", "pick");
-			}
 			if (map.get("maktx") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"pick.workingbill.maktx",
+						"workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
+			}	
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"pick.state",
+						"%" + map.get("state") + "%"));
 			}	
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -120,6 +130,5 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		return super.findByPager(pager,detachedCriteria);
 	}
 
-	
 
 }

@@ -40,4 +40,6 @@ public interface PickDetailDao extends BaseDao<PickDetail,String> {
 	public List<PickDetail> getPickDetail(String id);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

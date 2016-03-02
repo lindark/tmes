@@ -1,7 +1,6 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,12 +73,27 @@ public class KaoqinAction extends BaseAdminAction
 	/**========================method  start======================================*/
 	
 	/**
+	 * 生产日期或班次是否为空
+	 */
+	public boolean isnull()
+	{
+		this.admin=this.adminService.get(loginid);//当前登录人
+		String productionDate=admin.getProductDate();//生产日期
+		String shift=admin.getShift();//班次
+		if(productionDate==null||"".equals(productionDate)||shift==null||"".equals(shift))
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * 进入list页面
 	 */
 	public String list()
 	{
 		this.admin=this.adminService.get(loginid);
-		if(admin.getShift()==null||"".equals(admin.getShift())||admin.getProductDate()==null||"".equals(admin.getProductDate()))
+		if(!isnull())
 		{
 			addActionError("请选择生产日期及班次!");
 			return ERROR;
@@ -277,13 +291,24 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String addnewemp()
 	{
-		
-		if(ids!=null)
+		try
 		{
-			ids=ids[0].split(",");
-			this.kqService.saveNewEmp(ids,sameTeamId);
+			if(!isnull())
+			{
+				return this.ajaxJsonErrorMessage("2");//生产日期或班次不能为空!
+			}
+			if(ids!=null)
+			{
+				ids=ids[0].split(",");
+				this.kqService.saveNewEmp(ids,sameTeamId,admin);
+			}
+			return this.ajaxJsonSuccessMessage("1");//添加成功
 		}
-		return ajaxJsonSuccessMessage("s");
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("3");//系统出现异常
+		}
 	}
 	
 	/**
@@ -291,25 +316,12 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String creditreply()
 	{
-		this.admin=this.adminService.get(loginid);//当前登录人
+		if(!isnull())
+		{
+			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
+		}
 		//保存开启考勤(刷卡)记录
-		this.kqService.saveBrushCardEmp(admin);
-		/**获取班组状态*/
-		Team t=admin.getDepartment().getTeam();
-		if(my_id==1)
-		{
-			t.setIscancreditcard("N");
-		}
-		else
-		{
-			t.setIscancreditcard("Y");
-		}
-		t.setIsWork("Y");//班组状态改为开启状态
-		t.setModifyDate(new Date());
-		this.teamService.update(t);
-		admin.setWorkstate("2");//开启考勤后,开启人改为上班
-		admin.setModifyDate(new Date());
-		this.adminService.update(admin);
+		this.kqService.updateBrushCardEmp(loginid,my_id);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -337,26 +349,46 @@ public class KaoqinAction extends BaseAdminAction
 	}
 	
 	/**
+	 * 下班前获取生产日期和班次
+	 */
+	public String getDateAndShift()
+	{
+		try
+		{
+			this.admin=this.adminService.get(loginid);//当前登录人
+			String productionDate=admin.getProductDate();//生产日期
+			String shift=admin.getShift();//班次
+			if(productionDate==null||"".equals(productionDate)||shift==null||"".equals(shift))
+			{
+				return this.ajaxJsonErrorMessage("1");
+			}
+			String xshift=ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses",shift);
+			return this.ajaxJsonSuccessMessage("生产日期："+productionDate+",班次："+xshift+",将记录于本次员工考勤,确定下班吗?");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("2");
+		}
+	}
+	
+	/**
 	 * 下班
 	 */
 	public String creditundo()
 	{
-		try
+		if(!isnull())
 		{
-			String str=this.kqService.mergeGoOffWork(this.sameTeamId);
-			if("s".equals(str))
-			{
-				return this.ajaxJsonSuccessMessage("您的操作已成功!");
-			}
-			else
-			{
-				return this.ajaxJsonErrorMessage("该班组已经下班,请刷新页面查看!");
-			}
+			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
 		}
-		catch(Exception e)
+		String str=this.kqService.mergeGoOffWork(this.sameTeamId,admin);
+		if("s".equals(str))
 		{
-			e.printStackTrace();
-			return this.ajaxJsonErrorMessage("操作失败!");
+			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+		}
+		else
+		{
+			return this.ajaxJsonErrorMessage("该班组已经下班,请刷新页面查看!");
 		}
 	}
 	

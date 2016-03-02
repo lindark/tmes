@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
 
@@ -23,7 +24,9 @@ public class Callreason extends BaseEntity {
 	private String callReason;//呼叫原因
 	private String state;//状态
 	private String isDel;//是否删除
-	private Set<Abnormal> abnormalSet;//异常
+	
+	private Set<Abnormal> abnormalSet;//异常 
+	private String adminid;
 	
 	public String getCallType() {
 		return callType;
@@ -59,6 +62,14 @@ public class Callreason extends BaseEntity {
 	}
 	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
 		this.abnormalSet = abnormalSet;
+	}
+	
+	@Transient
+	public String getAdminid() {
+		return adminid;
+	}
+	public void setAdminid(String adminid) {
+		this.adminid = adminid;
 	}
 
 	

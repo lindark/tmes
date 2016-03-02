@@ -3,6 +3,7 @@ package cc.jiuyi.dao.impl;
 import java.util.HashMap;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,16 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", admin2.getId()), Restrictions.eq("admin1.id", admin2.getId())));
 		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
-		detachedCriteria.add(Restrictions.eq("classtime", admin2.getShift()));//班次
+		/*detachedCriteria.add(Restrictions.eq("classtime", admin2.getShift()));//班次
 		detachedCriteria.add(Restrictions.eq("productdate", admin2.getProductDate()));//生产日期
+*/		
+		detachedCriteria.add(Restrictions.or(Restrictions.or(Restrictions.eq("state", "0"),Restrictions.eq("state", "2")),Restrictions.and(Restrictions.eq("classtime", admin2.getShift()), Restrictions.eq("productdate", admin2.getProductDate()))));
+		/*Disjunction disjunction = Restrictions.disjunction();  
+		disjunction.add(Restrictions.eq("state", "0"));
+		disjunction.add(Restrictions.eq("state", "1"));
+		disjunction.add(Restrictions.eq("state", "2"));
+		detachedCriteria.add(disjunction);*/
+		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		
 		return super.findByPager(pager, detachedCriteria);

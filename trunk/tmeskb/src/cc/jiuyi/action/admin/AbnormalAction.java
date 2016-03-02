@@ -278,6 +278,15 @@ public class AbnormalAction extends BaseAdminAction {
 			
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
+			
+			//班次
+			if(abnormal.getClasstime()!=null && !"".equals(abnormal.getClasstime())){
+				abnormal.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", abnormal.getClasstime()));
+			}else{
+				abnormal.setClasstime("");
+			}
+			
+			
 			pagerlist.set(i, abnormal);
 		}
 
@@ -404,7 +413,120 @@ public class AbnormalAction extends BaseAdminAction {
 
 	//刷卡提交
 	public String creditsave(){
-		admin = adminService.getByCardnum(cardnumber);
+		
+		String errormes="";
+		try{
+			admin = adminService.getByCardnum(cardnumber);
+			for(int i=0;i<callReasonSet.size();i++){
+				Callreason call = callReasonSet.get(i);
+				if(call.getId()==null){
+					return ajaxJsonErrorMessage("短信不能为空");
+				}
+				if(call.getAdminid() == null)
+					return ajaxJsonErrorMessage("人员不能为空");
+			}
+			List<Admin> responsorSet = new ArrayList<Admin>();
+			List<Callreason> callreasonSet = new ArrayList<Callreason>();
+			List<String> strLen = new ArrayList<String>();
+			List<HashMap<String, String>> mapList = new ArrayList<HashMap<String,String>>();
+			
+			String workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
+			String unit=admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitName();
+			String adminName =admin.getName();
+			
+			for(int i=0;i<callReasonSet.size();i++){
+				HashMap<String,String> map = new HashMap<String,String>();
+				//String message="";//这里显示需要的格式?										
+				
+				Callreason call = callReasonSet.get(i);
+				Admin admin = adminService.get(call.getAdminid());//人员
+				Callreason call1 = callReasonService.get(call.getId());//短信
+				String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+adminName;
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);
+	            Document doc;   
+	            doc = DocumentHelper.parseText(str); 
+	            Node stateNode = doc.selectSingleNode("/infos/info/state");
+		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
+		      		errormes += admin.getName()+":短信发生失败!";
+		      	}
+		      	responsorSet.add(admin);//将短信人加进去
+		      	callreasonSet.add(call1);//将短信内容加进去
+		      	strLen.add(admin.getName());		   
+		      	map.put("adminid", call.getAdminid());
+		      	map.put("reasonid", call.getId());
+		      	mapList.add(map);
+			}
+			/*******定时任务**********/
+			Date dates = new Date();
+			String jobname=ThinkWayUtil.formatdateDateTime(dates);
+			job_name=job_name+jobname;
+			Abnormal abnormal = new Abnormal();
+			abnormal.setJobname(job_name);
+			abnormal.setCallDate(new Date());
+			abnormal.setIniitiator(admin);
+			abnormal.setIsDel("N");
+			abnormal.setState("0");
+			
+			abnormal.setResponsorSet(new HashSet<Admin>(responsorSet));			
+			abnormal.setCallreasonSet(new HashSet<Callreason>(callreasonSet));
+			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
+			
+			Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
+			admin2 = adminService.get(admin.getId());
+			
+			abnormal.setProductdate(admin2.getProductDate());
+			abnormal.setClasstime(admin2.getShift());
+			abnormalService.save(abnormal);
+
+			AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
+			abnormalLog.setAbnormal(abnormal);
+			abnormalLog.setType("5");
+			abnormalLog.setOperator(admin);
+			abnormalLog.setInfo(comlist);
+			abnormalLogService.save(abnormalLog);	
+	
+			Calendar can = Calendar.getInstance();	//定时任务时间1
+			can.setTime(abnormal.getCreateDate());
+			can.add(Calendar.MINUTE, 1);
+			Date date=can.getTime();	
+			
+			Calendar can1 = Calendar.getInstance();//定时任务时间2
+			can1.setTime(abnormal.getCreateDate());
+			can1.add(Calendar.MINUTE, 2);
+			Date date1=can1.getTime();
+			
+			Calendar can2 = Calendar.getInstance();//定时任务时间3
+			can2.setTime(abnormal.getCreateDate());
+			can2.add(Calendar.MINUTE, 3);
+			Date date2=can2.getTime();
+	
+			JSONArray jsonArray = JSONArray.fromObject(mapList);
+			
+			HashMap<String,Object> maps = new HashMap<String,Object>();
+			maps.put("id",abnormal.getId());
+			maps.put("name",admin.getId());
+			maps.put("date", ThinkWayUtil.getCron(date1));
+			maps.put("time", ThinkWayUtil.getCron(date2));
+			maps.put("hour", ThinkWayUtil.formatdateDateTime(date2));
+			
+			maps.put("workshop", workshop);
+			maps.put("unit", unit);
+			maps.put("jobname", job_name);
+			maps.put("count","1");
+			maps.put("list", jsonArray.toString());
+			quartzMessage(ThinkWayUtil.getCron(date),maps);	
+			
+			
+		}catch(DocumentException e){
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("短信发送失败");
+		}
+		
+		if(!errormes.equals("")){//有没有发送成功的抛出到页面上
+			return ajaxJsonWarnMessage(errormes);
+		}
+		
+		/*admin = adminService.getByCardnum(cardnumber);
 		
 		Abnormal abnormal = new Abnormal();
 		abnormal.setCallDate(new Date());
@@ -429,6 +551,7 @@ public class AbnormalAction extends BaseAdminAction {
 			adminSets.add(adminSet.get(i));
 			maps1.put("id", adminSet.get(i).getId());
 			maps1.put("phoneNo",adminSet.get(i).getPhoneNo());
+			//maps1.put("callreason", adminSet.get(i).getCallreason());
 			hashmapList.add(maps1);
 			strList.add(adminSet.get(i).getName());
 		}
@@ -440,7 +563,7 @@ public class AbnormalAction extends BaseAdminAction {
 			callReasonSets.add(callReasonSet.get(i));
 		}
 		abnormal.setResponsorSet(new HashSet<Admin>(adminSets));
-		abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
+	//	abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
 		
 		//定时任务名称
 		Date dates = new Date();
@@ -450,10 +573,20 @@ public class AbnormalAction extends BaseAdminAction {
 		abnormal.setJobname(job_name);
 		
 		//短信内容
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
-		String adminName =admin.getName();
-		String message=werks+"工厂"+adminName+"所在车间出现异常";
+	//	String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
+		
+		String workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
+		String unit=admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitName();
+		String adminName =admin.getName();	
+		
+		//String message=werks+"工厂"+adminName+"所在车间出现异常";		
+		
 		for(Admin admin:adminSets){//向应答人发送短信
+			Callreason call = callReasonService.get(admin.getCallreason());
+			String message=workshop+unit+"单元出现"+call.getCallReason()+"。   "+"呼叫人:"+adminName;
+			Admin admin1 = adminService.get(admin.getId());//更新admin,增加短信字段
+			admin1.setCallreason(call.getCallReason());
+			adminService.update(admin1);
 			try{
 			 
 			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);			
@@ -510,9 +643,9 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		maps.put("jobname", job_name);
 		maps.put("count","1");
-		maps.put("message", message);
+		//maps.put("message", message);
 		maps.put("list", jsonArray.toString());
-		quartzMessage(ThinkWayUtil.getCron(date),maps);	
+		quartzMessage(ThinkWayUtil.getCron(date),maps);	*/
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

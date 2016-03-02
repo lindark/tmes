@@ -43,7 +43,8 @@ jQuery(function($) {
 		    {name:'productName',label:"产品名称",index:'productName', width:100,sortable:"true",sorttype:"text"},			           
 			{name:'slmatterNum',index:'slmatterNum', label:"物料编码", editable: false},
 			{name:'slmatterDes',label:"物料描述",width:200,index:'slmatterDes', editable: false,sortable:"true"},
-			{name:'slmatterCount',label:"物料数量",index:'slmatterCount', width:100,sortable:"true",sorttype:"text"}			
+			{name:'slmatterCount',label:"物料数量",index:'slmatterCount', width:100,sortable:"true",sorttype:"text"},
+			{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
 		], 
 
 		viewrecords : true,

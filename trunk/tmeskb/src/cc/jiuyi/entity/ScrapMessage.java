@@ -38,6 +38,7 @@ public class ScrapMessage extends BaseEntity
 	private String xsbids;//缺陷ID
 	private String workingbill;//随工单
 	private String productName;//产品名称
+	private String state;//状态
 
 	/**get/set*/
 	@Column
@@ -188,6 +189,14 @@ public class ScrapMessage extends BaseEntity
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	
+	@Transient
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

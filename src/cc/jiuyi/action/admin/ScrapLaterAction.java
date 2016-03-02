@@ -18,9 +18,11 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ScrapLaterService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -42,6 +44,8 @@ public class ScrapLaterAction extends BaseAdminAction
 	private AdminService adminService;
 	@Resource
 	private WorkingBillService wbService;//随工单
+	@Resource
+	private DictService dictService;//字典表
 	
 	private Admin admin;
 	private WorkingBill workingbill;//随工单
@@ -115,7 +119,8 @@ public class ScrapLaterAction extends BaseAdminAction
 					.get(i);	
 			scrapLater.setWorkingbill(scrapLater.getScrap().getWorkingBill().getWorkingBillCode());
 			scrapLater.setProductName(wbService.get(
-					scrapLater.getScrap().getWorkingBill().getId()).getMaktx());		
+					scrapLater.getScrap().getWorkingBill().getId()).getMaktx());
+			scrapLater.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrapLater.getScrap().getState()));
 			lst.add(scrapLater);
 		}
 		pager.setList(lst);
@@ -147,6 +152,9 @@ public class ScrapLaterAction extends BaseAdminAction
 		this.wbId = wbId;
 	}
 	
-	
+	//获取所有状态
+	public List<Dict> getAllState() {
+		return dictService.getList("dictname", "scrapState");
+	}
 
 }

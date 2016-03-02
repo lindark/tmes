@@ -106,4 +106,6 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 		return super.findByPager(pager,detachedCriteria);
 	}
 	
+	
+	
 }

@@ -81,6 +81,7 @@ public class PickAction extends BaseAdminAction {
 	private List<Pick> pickRfc;
 	private String cardnumber;//卡号
 	private String str;//当前状态
+	private String maktx;
 
 	//领退料记录
 	public String history(){
@@ -160,6 +161,8 @@ public class PickAction extends BaseAdminAction {
 	
 	//Excel导出 
 	public String excelexport(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("maktx", maktx);
 		
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
@@ -175,8 +178,19 @@ public class PickAction extends BaseAdminAction {
         header.add("确认人");
         header.add("状态");
         
-        
-        
+        List<Object[]> pickdetailList = pickDetailService.historyExcelExport(map);
+        for(int i=0;i<pickdetailList.size();i++){
+        	Object[] obj = pickdetailList.get(i);
+        	PickDetail pickdetail = (PickDetail) obj[0];//pickdetail
+        	Pick pick = (Pick)obj[1];//pick
+        	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
+        	
+        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr(),pick.getMove_type()
+        						,pickdetail.getPickAmount(),pickdetail.getCqPickAmount(),pickdetail.getMaterialCode()
+        						,pickdetail.getMaterialName(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()
+        						,pick.getConfirmUser()==null?"":pick.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "pickState", pick.getState())};
+        	body.add(bodyval);
+        }
 		
 		try {
 			String fileName = "领退料记录表"+".xls";
@@ -683,6 +697,14 @@ public class PickAction extends BaseAdminAction {
 
 	public void setStr(String str) {
 		this.str = str;
+	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
 	}
 
 

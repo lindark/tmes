@@ -27,8 +27,12 @@ public class Equipments extends BaseEntity{
 	private String functionPosition;//功能位置
 	private String position;//位置
 	private String identify;//标识
+	private String type;//设备种类
+	private String condition;//状态
+	private String startday;//有效起始日
+	private String endday;//有效截止日
 	
-    private String state;//状态
+    private String state;//是否启用
     private String isDel;//是否删除
     private Set<Device> deviceSet;//设备维修单
     private Set<Model> modelSet;//工模维修单
@@ -144,6 +148,30 @@ public class Equipments extends BaseEntity{
 	}
 	public void setIdentify(String identify) {
 		this.identify = identify;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+	public String getStartday() {
+		return startday;
+	}
+	public void setStartday(String startday) {
+		this.startday = startday;
+	}
+	public String getEndday() {
+		return endday;
+	}
+	public void setEndday(String endday) {
+		this.endday = endday;
 	}
     
     

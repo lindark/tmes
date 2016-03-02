@@ -88,6 +88,30 @@ body {
 										</div>
 
 									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">成本中心</div>
+
+										<div class="profile-info-value">
+											<input type="text" name="department.costcenter" value="${(department.costcenter)! }"/>
+										</div>
+
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">发料移动类型</div>
+
+										<div class="profile-info-value">
+											<input type="text" name="department.movetype" value="${(department.movetype)! }"/>
+										</div>
+
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-name">退料移动类型</div>
+
+										<div class="profile-info-value">
+											<input type="text" name="department.movetype1" value="${(department.movetype1)! }"/>
+										</div>
+
+									</div>
 
 								</div>
 								<div class="buttonArea" style="display:none">

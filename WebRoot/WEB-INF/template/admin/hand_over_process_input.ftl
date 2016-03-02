@@ -203,5 +203,10 @@ body {
 		});
 	})
 
+	
+	function reloadwin(){
+		location.reload();
+		
+	}
 </script>
 </html>

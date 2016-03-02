@@ -60,12 +60,14 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间','日志', '消息', '发起人','应答人','状态',"zt","id"],
+		colNames:[ '呼叫时间','应答时间','处理时间','生产日期','班次','日志', '消息', '发起人','应答人','状态',"zt","id"],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",search:false,formatter:datefmt},
-			{name:'disposeTime',index:'disposeTime', width:60,search:false,editable: true},
+			{name:'disposeTime',index:'disposeTime', width:80,search:false,editable: true},
+			{name:'productdate',index:'productdate', width:60,search:false,editable: true},
+			{name:'classtime',index:'classtime', width:25,search:false,editable: true},
 			{name:'log',index:'log', width:160,search:false,editable: true},
 			{name:'callReason',index:'callReason',search:false, width:100, editable: true},
 			{name:'originator',index:'iniitiator.name', width:60, editable: true,search:false},

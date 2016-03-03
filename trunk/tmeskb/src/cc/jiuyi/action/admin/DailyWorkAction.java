@@ -23,6 +23,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
@@ -37,9 +39,11 @@ import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
+ * @author Reece 2013/3/3
  * 后台Action类 - 报工
  */
 
@@ -62,6 +66,10 @@ public class DailyWorkAction extends BaseAdminAction {
 	private String cardnumber;// 刷卡卡号
 	//private Integer ratio;// 箱与个的转换比率
 	private String module;//模具
+	private String maktx;
+	private String state;
+	private String start;
+	private String end;
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -84,6 +92,123 @@ public class DailyWorkAction extends BaseAdminAction {
 	@Resource
 	private UnitConversionService unitConversionService;
 
+	public String history() {
+		return "history";
+	}
+	
+	//报工记录表
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		try {
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("maktx") != null) {
+					String maktx = obj.getString("maktx")
+							.toString();
+					map.put("maktx", maktx);
+				}
+				if (obj.get("start") != null && obj.get("end") != null) {
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
+				if (obj.get("state") != null) {
+					String state = obj.getString("state").toString();
+					map.put("state", state);
+				}
+			}
+			pager = dailyWorkService.historyjqGrid(pager, map);
+			List<DailyWork> dailyWorkList = pager.getList();
+			List<DailyWork> lst = new ArrayList<DailyWork>();
+			for (int i = 0; i < dailyWorkList.size(); i++) {
+				DailyWork dailyWork = (DailyWork) dailyWorkList.get(i);
+				dailyWork.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "dailyWorkState", dailyWork.getState()));
+				if (dailyWork.getConfirmUser() != null) {
+					dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
+				}
+				/*dailyWork.setResponseName(processService.get("processCode",
+						dailyWork.getProcessCode()).getProcessName());*/
+				dailyWork.setCreateName(dailyWork.getCreateUser().getName());
+				dailyWork.setMaktx(workingBillService.get(
+						dailyWork.getWorkingbill().getId()).getMaktx());
+				dailyWork.setWorkingbillCode(dailyWork.getWorkingbill()
+						.getWorkingBillCode());
+				lst.add(dailyWork);
+			}
+			pager.setList(lst);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(DailyWork.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+
+	//Excel导出 
+		public String excelexport(){
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("maktx", maktx);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+			
+			
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+	        header.add("随工单号");
+	        header.add("产品名称");
+	        header.add("报工数量");
+	        header.add("报工日期");
+	        header.add("创建人");
+	        header.add("确认人");
+	        header.add("状态");
+	        
+	        List<Object[]> workList = dailyWorkService.historyExcelExport(map);
+	        for(int i=0;i<workList.size();i++){
+	        	Object[] obj = workList.get(i);
+	        	DailyWork dailywork = (DailyWork) obj[0];
+	        	WorkingBill workingbill = (WorkingBill)obj[1];
+	        	
+	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),dailywork.getEnterAmount()
+	        						,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
+	        						,dailywork.getConfirmUser()==null?"":dailywork.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "dailyWorkState", dailywork.getState())};
+	        	body.add(bodyval);
+	        }
+			
+			try {
+				String fileName = "领退料记录表"+".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("领退料记录表", header, body, getResponse().getOutputStream());
+				getResponse().getOutputStream().flush();
+			    getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		
 	/**
 	 * 跳转list 页面
 	 * 
@@ -101,9 +226,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		return LIST;
 	}
 
-	public String history() {
-		return "history";
-	}
+	
 	
 	// 查看
 	public String view() {
@@ -293,66 +416,9 @@ public class DailyWorkAction extends BaseAdminAction {
 		}
 
 	}
-
-	public String historylist() {
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
-		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
-			if (!filters.equals("")) {
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
-		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
-						.toString();
-				map.put("maktx", maktx);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
-		pager = dailyWorkService.historyjqGrid(pager, map);
-		List<DailyWork> dailyWorkList = pager.getList();
-		List<DailyWork> lst = new ArrayList<DailyWork>();
-		for (int i = 0; i < dailyWorkList.size(); i++) {
-			DailyWork dailyWork = (DailyWork) dailyWorkList.get(i);
-			dailyWork.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "dailyWorkState", dailyWork.getState()));
-			if (dailyWork.getConfirmUser() != null) {
-				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
-			}
-			/*dailyWork.setResponseName(processService.get("processCode",
-					dailyWork.getProcessCode()).getProcessName());*/
-			dailyWork.setCreateName(dailyWork.getCreateUser().getName());
-			dailyWork.setMaktx(workingBillService.get(
-					dailyWork.getWorkingbill().getId()).getMaktx());
-			dailyWork.setWorkingbillCode(dailyWork.getWorkingbill()
-					.getWorkingBillCode());
-			lst.add(dailyWork);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(DailyWork.class));// 排除有关联关系的属性字段
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
-	}
-
+   
+	
+	
 	/**
 	 * ajax 列表
 	 * 
@@ -457,6 +523,38 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setModule(String module) {
 		this.module = module;
+	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 	
 	

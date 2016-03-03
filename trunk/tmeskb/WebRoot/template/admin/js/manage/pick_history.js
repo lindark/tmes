@@ -50,7 +50,7 @@ jQuery(function($) {
 			{name:'createDate',label:"创建时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',label:"创建人",index:'pick.createUser', width:100,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'pick.confirmUser', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'pick.state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},	
+			{name:'stateRemark',index:'pick.state', width:80,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},	
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 

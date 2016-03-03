@@ -33,4 +33,6 @@ public interface DailyWorkService extends BaseService<DailyWork, String>,Working
 	// 刷卡撤销
 	public void updateState2(List<DailyWork> list,String state,String workingbillid,
 			String cardnumber) throws IOException, CustomerException;
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

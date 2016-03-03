@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
- * @author Reece
+ * @author Reece 2013/3/2
  * 后台Action类-领/退料主表
  */
 
@@ -81,7 +81,11 @@ public class PickAction extends BaseAdminAction {
 	private List<Pick> pickRfc;
 	private String cardnumber;//卡号
 	private String str;//当前状态
-	private String maktx;
+	private String maktx;//物料编码
+	private String start;//日期起始点
+	private String end;//日期结束点
+	private String state;//状态
+	
 
 	//领退料记录
 	public String history(){
@@ -163,6 +167,10 @@ public class PickAction extends BaseAdminAction {
 	public String excelexport(){
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("maktx", maktx);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+		
 		
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
@@ -185,7 +193,7 @@ public class PickAction extends BaseAdminAction {
         	Pick pick = (Pick)obj[1];//pick
         	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
         	
-        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr(),pick.getMove_type()
+        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),pick.getMove_type()
         						,pickdetail.getPickAmount(),pickdetail.getCqPickAmount(),pickdetail.getMaterialCode()
         						,pickdetail.getMaterialName(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()
         						,pick.getConfirmUser()==null?"":pick.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "pickState", pick.getState())};
@@ -705,6 +713,30 @@ public class PickAction extends BaseAdminAction {
 
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 

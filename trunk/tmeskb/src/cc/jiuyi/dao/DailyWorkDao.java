@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.DailyWork;
@@ -30,5 +31,7 @@ public interface DailyWorkDao extends BaseDao<DailyWork, String> {
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
 }

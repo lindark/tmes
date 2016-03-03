@@ -432,7 +432,10 @@ public class KaoqinAction extends BaseAdminAction
 				for(int j=0;j<list_up.size();j++)
 				{
 					UnitdistributeProduct up=list_up.get(j);
-					str+=up.getMaterialName()+",";
+					if(up.getMaterialName()!=null)
+					{
+						str+=up.getMaterialName()+",";
+					}
 				}
 				if(str.endsWith(","))
 				{

@@ -13,17 +13,20 @@ $(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
-			alert("请选择一个异常");
+			//alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
 			return false;
 		}else if(i.length>1){
-			alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
+			//alert("请选择一个异常");
 			return false;
 		}else{
 			
 		    if(rowData.state!=3 & rowData.state!=4){
 			  window.location.href = "model!add.action?aid="+i;
 			}else{
-				alert("当前状态不能开单");
+				//alert("当前状态不能开单");
+				layer.msg("当前状态不能开单!", {icon: 5});
 			}
 		}
 		
@@ -36,16 +39,19 @@ $(function() {
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		
 		if(i.length<=0){
-			alert("请选择一个异常");
+			//alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
 			return false;
 		}else if(i.length>1){
-			alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
+			//alert("请选择一个异常");
 			return false;
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 				window.location.href = "quality!add.action?aid="+i;
 			}else{
-				alert("当前状态不能开单");
+				layer.msg("当前状态不能开单!", {icon: 5});
+				//alert("当前状态不能开单");
 			}			
 		}
 		
@@ -56,16 +62,19 @@ $(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
-			alert("请选择一个异常");
+			//alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
 			return false;
 		}else if(i.length>1){
-			alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
+			//alert("请选择一个异常");
 			return false;
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "craft!add.action?aid="+i;
 			}else{
-				alert("当前状态不能开单");
+				layer.msg("当前状态不能开单!", {icon: 5});
+				//alert("当前状态不能开单");
 			}
 		}
 		
@@ -77,16 +86,19 @@ $(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');		
 		var rowData = $("#grid-table1").jqGrid('getRowData',i);
 		if(i.length<=0){
-			alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
+		//	alert("请选择一个异常");
 			return false;
 		}else if(i.length>1){
-			alert("请选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
+			//alert("请选择一个异常");
 			return false;
 		}else{
 			if(rowData.state!=3 & rowData.state!=4){
 			window.location.href = "device!add.action?aid="+i;
 			}else{
-				alert("当前状态不能开单");
+				layer.msg("当前状态不能开单!", {icon: 5});
+				//alert("当前状态不能开单");
 			}
 		}
 		
@@ -96,13 +108,15 @@ $(function() {
 	$responsecar.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
 		if(i.length<=0){
-			alert("请至少选择一个异常");
+			//alert("请至少选择一个异常");
+			layer.msg("请至少选择一条异常!", {icon: 5});
 			return false;
 		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
 				if(rowData.state!=0 & rowData.state!=1){				
-					alert("异常不能响应");
+					//alert("异常不能响应");
+					layer.msg("异常不能响应!", {icon: 5});
 					return false;
 				}
 			}
@@ -136,13 +150,15 @@ $(function() {
 	$cancelcal.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
 		if(i.length<=0){
-			alert("请至少选择一个异常");
+			//alert("请至少选择一个异常");
+			layer.msg("请选择一条异常!", {icon: 5});
 			return false;
 		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
 				if(rowData.state==3 || rowData.state==4 || rowData.state==2){				
-					alert("异常已关闭/撤销/正处理");
+					//alert("异常已关闭/撤销/正处理");
+					layer.msg("异常已关闭/撤销/正处理!", {icon: 5});
 					return false;
 				}
 			}
@@ -177,13 +193,15 @@ $(function() {
 	$closeAbn.click(function() {
 		var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
 		if(i.length<=0){
-			alert("请至少选择一个异常");
+			//alert("请至少选择一个异常");
+			layer.msg("请至少选择一个异常!", {icon: 5});
 			return false;
 		}else{
 			for (var a=0;a<i.length;a++){
 				var rowData = $("#grid-table1").jqGrid('getRowData',i[a]);
 				if(rowData.state==3 || rowData.state==4){				
-					alert("异常已关闭/撤销");
+					//alert("异常已关闭/撤销");
+					layer.msg("异常已关闭/撤销!", {icon: 5});
 					return false;
 				}
 			}

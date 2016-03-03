@@ -213,9 +213,9 @@ public class DailyWorkAction extends BaseAdminAction {
 	        }
 			
 			try {
-				String fileName = "领退料记录表"+".xls";
+				String fileName = "报工记录表"+".xls";
 				setResponseExcel(fileName);
-				ExportExcel.exportExcel("领退料记录表", header, body, getResponse().getOutputStream());
+				ExportExcel.exportExcel("报工记录表", header, body, getResponse().getOutputStream());
 				getResponse().getOutputStream().flush();
 			    getResponse().getOutputStream().close();
 			} catch (Exception e) {

@@ -87,7 +87,7 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 		Integer ishead=0;
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		if (map.size() > 0) {
-			if (map.get("matnr").equals("")) {
+			if (!map.get("matnr").equals("")) {
 				if(ishead==0){
 					hql+=" where model1.matnr like '%"+map.get("matnr")+"%'";
 					ishead=1;
@@ -95,7 +95,7 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 					hql+=" and model1.matnr like '%"+map.get("matnr")+"%'";
 				}
 			}	
-			if (map.get("maktx").equals("")) {
+			if (!map.get("maktx").equals("")) {
 				if(ishead==0){
 					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
 					ishead=1;
@@ -103,7 +103,7 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
 				}
 			}	
-			if (map.get("state").equals("")) {
+			if (!map.get("state").equals("")) {
 				if(ishead==0){
 					hql+=" where model.state like '%"+map.get("state")+"%'";
 					ishead=1;

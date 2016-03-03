@@ -136,8 +136,8 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 			 abnormalLogService.save(abnormalLog);
 		 
 			 HashMap<String,Object> maps = new HashMap<String,Object>();
-			 //Integer second=1800;//30分钟向直属上级发送
-			 Integer second=60;//30分钟向直属上级发送
+			 Integer second=1800;//30分钟向直属上级发送
+			 //Integer second=60;//30分钟向直属上级发送
 			 maps.put("id",abnorId);
 			 maps.put("name",adminId);
 			 maps.put("date", time1);

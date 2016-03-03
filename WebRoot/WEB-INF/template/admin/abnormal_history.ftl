@@ -111,9 +111,9 @@
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
-									<table id="grid-table1"></table>
+									<table id="grid-table"></table>
 
-									<div id="grid-pager1"></div>
+									<div id="grid-pager"></div>
 								</div>
 							</div>
 							<!-- add by weitao -->
@@ -169,7 +169,7 @@
 		})
 		
 		$("#btn_quality").click(function(){
-			var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+			var i=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(i.length<=0){
 				layer.msg("请选择一条异常!", {icon: 5});
 				return false;
@@ -183,7 +183,7 @@
 		
 		
 		$("#btn_model").click(function(){
-			var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+			var i=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(i.length<=0){
 				layer.msg("请选择一条异常!", {icon: 5});
 				return false;
@@ -197,7 +197,7 @@
 		
 		
 		$("#btn_craft").click(function(){
-			var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+			var i=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(i.length<=0){
 				layer.msg("请选择一条异常!", {icon: 5});
 				return false;
@@ -210,7 +210,7 @@
 		});
 		
 		$("#btn_device").click(function(){
-			var i=$("#grid-table1").jqGrid('getGridParam','selarrrow');
+			var i=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(i.length<=0){
 				layer.msg("请选择一条异常!", {icon: 5});
 				return false;

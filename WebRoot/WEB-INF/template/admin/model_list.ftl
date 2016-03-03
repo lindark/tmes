@@ -67,6 +67,7 @@
 
 						<div class="row">
 							<div class="col-xs-12">
+							    <input type="hidden" name="abnormalId" id="unusualId" value="${(abnormalId)!}" />
 								<form class="form-horizontal" id="searchform" action="model!ajlist.action" role="form">
 								   <div class="operateBar">
 								   	<div class="form-group">

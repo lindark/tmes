@@ -85,65 +85,82 @@ body{background:#fff;}
 										<div class="profile-info-value">
 										        <input type="text" name="equipments.equipmentNo" value="${(equipments.equipmentNo)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />											   											
 										</div>
-									</div>	
-								
-									<div class="profile-info-row">	
 										<div class="profile-info-name"> 设备名称 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.equipmentName" value="${(equipments.equipmentName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
+									</div>	
+								
+									
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 公司 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.company" value="${(equipments.company)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
-									<div class="profile-info-row">	
 										<div class="profile-info-name"> 工厂 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.factory" value="${(equipments.factory)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
+									
 									 <div class="profile-info-row">	
 										<div class="profile-info-name"> 成本中心 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.costCenter" value="${(equipments.costCenter)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>	
-									<div class="profile-info-row">	
 										<div class="profile-info-name"> 工作中心 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.workCenter" value="${(equipments.workCenter)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
-									</div>
+									</div>	
+									
 									 <div class="profile-info-row">	
 										<div class="profile-info-name"> 功能位置 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.functionPosition" value="${(equipments.functionPosition)!}" class=" input input-sm" />	
 										</div>
-									</div>	
-									<div class="profile-info-row">	
 										<div class="profile-info-name"> 位置 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.position" value="${(equipments.position)!}" class=" input input-sm" />								
 										</div>
-									</div>
+									</div>	
+									
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> ABC标识 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="equipments.identify" value="${(equipments.identify)!}" class=" input input-sm" />
 										</div>
+										<div class="profile-info-name"> 设备种类 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.type" value="${(equipments.type)!}" class=" input input-sm" />
+										</div>
 									</div>
+									
 									<div class="profile-info-row">	
+										<div class="profile-info-name"> 状态 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.condition" value="${(equipments.condition)!}" class=" input input-sm" />
+										</div>
+										<div class="profile-info-name"> 有效起始日 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.startday" value="${(equipments.startday)!}" class=" input input-sm" />
+										</div>
+									</div>
+									
+									
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 有效截至日</div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.endday" value="${(equipments.endday)!}" class=" input input-sm" />
+										</div>
 										<div class="profile-info-name"> 设备类型</div>					
 										<div class="profile-info-value">
-										    <select name="equipments.version" style="width:200px;" class="formText {required: true}">
+										    <select name="equipments.version" style="width:163px;" class="formText {required: true}">
 							                <option value="">全选</option> 
 							                <#list allVersion as list>
 								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && equipments.version == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
@@ -154,8 +171,12 @@ body{background:#fff;}
 										</div>
 									</div>
 									
+									<div class="profile-info-row">	
+										
+									</div>
+									
 									<div class="profile-info-row">
-										<div class="profile-info-name"> 状态</div>					
+										<div class="profile-info-name"> 是否启用</div>					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>

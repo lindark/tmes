@@ -47,7 +47,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"model!ajlist.action",
+		url:"model!ajlist.action?abnormalId="+$("#unusualId").val(),
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

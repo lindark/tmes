@@ -63,12 +63,15 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '随工单编号','产品名称','报工数量','报工日期','创建人', '确认人','状态','状态-隐藏'],
+		colNames:[ '随工单编号','产品编码','产品名称','生产日期','报工数量','模具','报工日期','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
 			
-          	{name:'workingbillCode',index:'workingbill.workingBillCode', width:150,sortable:"true",sorttype:"text"},
-          	{name:'maktx',index:'workingbill.maktx', width:400,sortable:"true",sorttype:"text"},
-			{name:'enterAmount',index:'enterAmount', width:100},			
+          	{name:'workingbillCode',index:'workingbill.workingBillCode', width:130,sortable:"true",sorttype:"text"},
+          	{name:'matnr',index:'workingbill.matnr', width:130,sortable:"true",sorttype:"text"},
+          	{name:'maktx',index:'workingbill.maktx', width:300,sortable:"true",sorttype:"text"},
+          	{name:'productDate',index:'workingbill.productDate', width:100,sortable:"true",sorttype:"text"},
+			{name:'enterAmount',index:'enterAmount', width:100},	
+			{name:'xmoudle',index:'moudle', width:100},	
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',index:'createUser', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},

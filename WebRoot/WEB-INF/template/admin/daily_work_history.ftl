@@ -63,15 +63,35 @@
 								action="daily_work!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
-										<div class="col-sm-4">
+									   <label class="col-sm-1 col-md-offset-1" style="text-align:right">产品编码:</label>
+										 <div class="col-sm-4">
+											<input type="text" name="matnr"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+									   <label class="col-sm-1 col-md-offset-1" style="text-align:right">产品名称:</label>
+										 <div class="col-sm-4">
 											<input type="text" name="maktx"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-
-										<label class="col-sm-1" style="text-align:right">报工日期:</label>
+									</div>
+								<div class="form-group">
+								  <label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
+									  <div class="col-sm-4">
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+											<!-- 
+							                <#list AllState as list>
+								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
+							                </#list>
+							                 -->
+							                <option value=""></option>
+							                <option value="2">未确认</option>
+							                <option value="1">已确认</option>
+							                <option value="3">已撤销</option>
+						               </select>
+									  </div>
+									<label class="col-sm-1 col-md-offset-1" style="text-align:right">报工日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
@@ -81,22 +101,7 @@
 													name="end">
 											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
-									  <div class="col-sm-4">
-										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
-											<!-- 
-							                <#list AllState as list>
-								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
-							                </#list>
-							                 -->
-							                <option value=""></option>
-							                <option value="1">未确认</option>
-							                <option value="2">已确认</option>
-							                <option value="3">已撤销</option>
-						               </select>
-									  </div>
+										
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"

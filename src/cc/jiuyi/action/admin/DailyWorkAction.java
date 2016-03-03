@@ -70,6 +70,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private String state;
 	private String start;
 	private String end;
+	private String matnr;
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -118,6 +119,11 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (pager.is_search() == true && Param != null) {// 普通搜索功能
 				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("matnr") != null) {
+					String matnr = obj.getString("matnr")
+							.toString();
+					map.put("matnr", matnr);
+				}
 				if (obj.get("maktx") != null) {
 					String maktx = obj.getString("maktx")
 							.toString();
@@ -151,7 +157,11 @@ public class DailyWorkAction extends BaseAdminAction {
 						dailyWork.getWorkingbill().getId()).getMaktx());
 				dailyWork.setWorkingbillCode(dailyWork.getWorkingbill()
 						.getWorkingBillCode());
+				dailyWork.setProductDate(dailyWork.getWorkingbill().getProductDate());
+				dailyWork.setMatnr(dailyWork.getWorkingbill().getMatnr());
 				lst.add(dailyWork);
+				dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"moudleType", dailyWork.getMoudle()));
 			}
 			pager.setList(lst);
 		} catch (Exception e) {
@@ -168,6 +178,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	//Excel导出 
 		public String excelexport(){
 			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("matnr", matnr);
 			map.put("maktx", maktx);
 			map.put("state", state);
 			map.put("start", start);
@@ -177,8 +188,11 @@ public class DailyWorkAction extends BaseAdminAction {
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();
 	        header.add("随工单号");
+	        header.add("产品编码");
 	        header.add("产品名称");
+	        header.add("生产日期");
 	        header.add("报工数量");
+	        header.add("模具");
 	        header.add("报工日期");
 	        header.add("创建人");
 	        header.add("确认人");
@@ -190,7 +204,9 @@ public class DailyWorkAction extends BaseAdminAction {
 	        	DailyWork dailywork = (DailyWork) obj[0];
 	        	WorkingBill workingbill = (WorkingBill)obj[1];
 	        	
-	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),dailywork.getEnterAmount()
+	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr(),workingbill.getMaktx()
+	        			            ,workingbill.getProductDate(),dailywork.getEnterAmount()
+	        						,ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", dailywork.getMoudle())
 	        						,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
 	        						,dailywork.getConfirmUser()==null?"":dailywork.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "dailyWorkState", dailywork.getState())};
 	        	body.add(bodyval);
@@ -555,6 +571,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setEnd(String end) {
 		this.end = end;
+	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
 	}
 	
 	

@@ -675,7 +675,6 @@ public class AbnormalAction extends BaseAdminAction {
 	}
 	
 	public String historylist() {
-		System.out.println("in");
 		Admin admin2 = adminService.getLoginAdmin();
 		admin2 = adminService.get(admin2.getId());
 	
@@ -706,17 +705,6 @@ public class AbnormalAction extends BaseAdminAction {
 				map.put("originator", originator);
 			}
 		}
-		/*if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("originator") != null) {
-				String originator = obj.getString("originator").toString();
-				map.put("originator", originator);
-			}
-			
-			
-
-		}*/
 
 		pager = abnormalService.getAbnormalAllPager(pager, map, admin2.getId());
 

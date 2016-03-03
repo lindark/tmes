@@ -660,7 +660,7 @@
 				<b class="arrow"></b>
 				<ul class="submenu">
 					<li class="">
-						<a href="dump!all.action" >
+						<a href="dump!all.action?loginid="+<@sec.authentication property='principal.id' /> >
 							<i class="menu-icon"></i>
 							中转仓
 						</a>
@@ -1304,6 +1304,7 @@
 		</div>
 
 		<!-- /section:basics/sidebar.layout.minimize -->
+		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 		<script type="text/javascript">
 			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 		</script>

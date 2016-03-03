@@ -20,6 +20,7 @@ import cc.jiuyi.service.AdminService;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springmodules.cache.annotations.Cacheable;
 
 /**
  * Service实现类 - 管理员
@@ -51,7 +52,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			return (Admin) principal;
 		}
 	}
-
+	
 	public Admin loadLoginAdmin() {
 		Admin admin = getLoginAdmin();
 		if (admin == null) {

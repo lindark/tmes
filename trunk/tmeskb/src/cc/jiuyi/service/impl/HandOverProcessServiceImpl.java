@@ -14,11 +14,13 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -38,7 +40,13 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	@Resource
 	private AdminService adminservice;
 	
+	private WorkingInoutService workinginoutservice;
 	
+	@Resource
+	public void setWorkinginoutservice(WorkingInoutService workinginoutservice) {
+		this.workinginoutservice = workinginoutservice;
+	}
+
 	@Resource
 	public void setBaseDao(HandOverProcessDao handOverProcessDao){
 		super.setBaseDao(handOverProcessDao);
@@ -99,7 +107,6 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			if(state.equals("creditsubmit")){//刷卡提交
 				handoverprocess.setSubmitadmin(admin);
 				handoverprocess.setState("notapproval");
-				
 				Double cqsl = handoverprocess.getCqsl();//裁切倍数
 				Double cqamount = handoverprocess.getCqamount();//裁切后正常交接数量
 				Double cqrepairamount = handoverprocess.getCqrepairAmount();//裁切后返修交接数量
@@ -116,6 +123,24 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 				handoverprocess.setApprovaladmin(admin);
 				handoverprocess.setState("approval");
 				//handoverprocess.setHandover(handOver);
+				boolean flag = workinginoutservice.isExist(handoverprocess.getBeforworkingbill().getWorkingBillCode(), handoverprocess.getMaterialCode());
+				if(!flag){//如果不存在，新增  --- 上一随工单信息
+					WorkingInout workinginout = new WorkingInout();
+					workinginout.setWorkingbill(handoverprocess.getBeforworkingbill());
+					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
+					workinginout.setMaterialName(handoverprocess.getMaterialName());
+					workinginoutservice.save(workinginout);
+				}
+				
+				boolean flag1 = workinginoutservice.isExist(handoverprocess.getAfterworkingbill().getWorkingBillCode(),handoverprocess.getMaterialCode() );
+				if(!flag1){//如果不存在,新增 --- 下一随工单信息
+					WorkingInout workinginout = new WorkingInout();
+					workinginout.setWorkingbill(handoverprocess.getAfterworkingbill());
+					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
+					workinginout.setMaterialName(handoverprocess.getMaterialName());
+					workinginoutservice.save(workinginout);
+				}
+				
 			}
 			if(state.equals("creditsave")){//刷卡保存
 				handoverprocess.setSaveadmin(admin);

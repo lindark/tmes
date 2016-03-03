@@ -414,6 +414,7 @@ public class WorkingBillServiceImpl extends
 		
 		
 	}
+
 	
 	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr){
 		return workingbilldao.getListWorkingBillByDate(productDate,shift,workcenter,matnr);

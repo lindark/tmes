@@ -669,6 +669,195 @@ public class AbnormalAction extends BaseAdminAction {
 		redirectionUrl = "abnormal!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
+	
+	public String history() {
+		return "history";
+	}
+	
+	public String historylist() {
+		System.out.println("in");
+		Admin admin2 = adminService.getLoginAdmin();
+		admin2 = adminService.get(admin2.getId());
+	
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		if(pager.is_search()==true && Param != null){//普通搜索功能
+			if(!Param.equals("")){
+			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject param = JSONObject.fromObject(Param);
+				String start = ThinkWayUtil.null2String(param.get("start"));
+				String end = ThinkWayUtil.null2String(param.get("end"));
+				String originator = ThinkWayUtil.null2String(param.get("originator"));//随工单
+				map.put("start", start);
+				map.put("end", end);
+				map.put("originator", originator);
+			}
+		}
+		/*if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("originator") != null) {
+				String originator = obj.getString("originator").toString();
+				map.put("originator", originator);
+			}
+			
+			
+
+		}*/
+
+		pager = abnormalService.getAbnormalAllPager(pager, map, admin2.getId());
+
+		List pagerlist = pager.getList();  
+        
+		for (int i = 0; i < pagerlist.size(); i++) {
+			Abnormal abnormal = (Abnormal) pagerlist.get(i);
+			List<Admin> adminList = null;
+			
+			//消息处理
+			List<Callreason> callreasonList = new ArrayList<Callreason>(
+					abnormal.getCallreasonSet());// 消息
+			List<String> strlist = new ArrayList<String>();
+			for (Callreason callreason : callreasonList) {
+				String str = callreason.getCallReason();
+				strlist.add(str);
+			}
+			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+
+			//应答人处理
+			List<Admin> respon = new ArrayList<Admin>(
+					abnormal.getResponsorSet());
+			
+			adminList = new ArrayList<Admin>();
+			for (SwiptCard s : abnormal.getSwiptCardSet()) {
+				if (s.getType().equals("0")) {
+					adminList.add(s.getAdmin());
+				}
+			}
+			
+			List<String> anslist = new ArrayList<String>();
+			
+			for (Admin admin : respon) {
+				String str;
+				if(!adminList.contains(admin)){
+					str = "<span style='color:red'>"+admin.getName()+"</span>";
+				}else{
+					str = admin.getName();							
+				}
+				anslist.add(str);
+			}
+			
+			String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
+		
+			//日志处理
+			String ablists="";			
+			
+			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
+			List<String> ablist = new ArrayList<String>();	
+			List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
+			List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());
+			List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());
+	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
+	 
+			if(abLog.size()>0){	
+				if(qualityList.size()>1){					
+					String str1="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='quality'  style='color:#428bca;cursor:pointer'>质量问题单</a>"+"("+qualityList.size()+")";
+					ablist.add(str1);
+				}
+				if(modelList.size()>1){					
+					String str2="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='model'  style='color:#428bca;cursor:pointer'>工模维修单</a>"+"("+modelList.size()+")";
+           		    ablist.add(str2);
+           	    }
+				
+				 if(craftList.size()>1){            		
+					 String str3="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='craft'  style='color:#428bca;cursor:pointer'>工艺维修单</a>"+"("+craftList.size()+")";
+					 ablist.add(str3);
+            	 }
+				 if(deviceList.size()>1){    
+					 String str4="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='device'  style='color:#428bca;cursor:pointer'>设备维修单</a>"+"("+deviceList.size()+")";
+					 ablist.add(str4);
+            	 }
+				String str;
+		
+				for(AbnormalLog ab:abLog){
+					
+					String type = ab.getType();
+					String info= ab.getInfo();
+                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
+                    		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
+					 }
+                     else  if(type.equalsIgnoreCase("1") && modelList.size()==1){						
+                    		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
+					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
+                    		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
+					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
+                    		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
+					 }else if(type.equalsIgnoreCase("5") && StringUtils.isNotEmpty(info)){
+						 str="已向"+info+"发送短信";
+					 }else{
+						 str="";
+					 }
+                     if(StringUtils.isNotEmpty(str) && !str.equalsIgnoreCase("")){
+                    	 ablist.add(str);
+                     }
+
+				}
+			}else{
+				ablist.add("");
+			}
+
+			if(ablist.size()==0){
+				ablists="";
+			}else{
+				ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
+			}
+			//ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
+			abnormal.setCallReason(comlist);
+			abnormal.setAnswer(anslist1);
+			abnormal.setLog(ablists);
+			abnormal.setOriginator(abnormal.getIniitiator().getName());
+			
+			//处理时间设置
+			if(abnormal.getState().equalsIgnoreCase("3") || abnormal.getState().equalsIgnoreCase("4")){
+				abnormal.setDisposeTime(String.valueOf(abnormal.getHandlingTime()));
+			}else{
+				Date date = new Date();
+				int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 1000);
+				abnormal.setDisposeTime(String.valueOf(time));
+			}
+			
+			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "abnormalState", abnormal.getState()));
+			
+			//班次
+			if(abnormal.getClasstime()!=null && !"".equals(abnormal.getClasstime())){
+				abnormal.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", abnormal.getClasstime()));
+			}else{
+				abnormal.setClasstime("");
+			}
+			
+			
+			pagerlist.set(i, abnormal);
+		}
+
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Abnormal.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
 
 	public Abnormal getAbnormal() {
 		return abnormal;

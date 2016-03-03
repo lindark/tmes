@@ -127,6 +127,9 @@ public class CraftAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		if(abnorId!=null && !"".equals(abnorId)){
+			abnormalId=abnorId;
+		}
 		return LIST;
 	}
 	
@@ -272,6 +275,22 @@ public class CraftAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 
+		}else if(StringUtils.isNotEmpty(abnormalId) && !abnormalId.equalsIgnoreCase("")){//异常清单链接页面
+			pager = craftService.findByPager(pager, map,abnormalId);	
+			List pagerlist = pager.getList();
+			for(int i =0; i < pagerlist.size();i++){
+				Craft craft  = (Craft)pagerlist.get(i);
+				craft.setAbnormal(null);
+				craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", craft.getState()));
+				craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "machineNo", craft.getCabinetCode()));
+				craft.setCraftLogSet(null);
+				craft.setProductsName(craft.getProducts().getProductsName());
+				craft.setTeamName(craft.getRepairName().getName());
+				pagerlist.set(i, craft);
+			}
+			pager.setList(pagerlist);
 		}else{//正常清单页面
 			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 			List pagerlist = pager.getList();

@@ -3,6 +3,11 @@
 	<div id="sidebar" class="sidebar                  responsive">
 		<script type="text/javascript">
 			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+			$(function(){
+				$("#a_zzc").click(function(){
+					window.location.href="dump!all.action?loginid="+$("#loginid").val();
+				});
+			});
 		</script>
 
 		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -660,7 +665,7 @@
 				<b class="arrow"></b>
 				<ul class="submenu">
 					<li class="">
-						<a href="dump!all.action?loginid="+<@sec.authentication property='principal.id' /> >
+						<a href="javascript:void(0)" id="a_zzc">
 							<i class="menu-icon"></i>
 							中转仓
 						</a>
@@ -1309,5 +1314,6 @@
 			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 		</script>
 	</div>
+	
 
 	<!-- /section:basics/sidebar -->

@@ -168,7 +168,7 @@ body {
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.arriveTime"
-														value="${(abnormal.replyDate)!?string("yyyy-MM-dd HH:mm:ss")}"
+														value=""
 														readonly="readonly"/>
 												</div>
 											</div>

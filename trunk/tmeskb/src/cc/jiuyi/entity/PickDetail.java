@@ -46,6 +46,7 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	private String cqhStockAmount;//裁切后库存
 	
 	/**假字段**/
+	private String productDate;//生产日期
 	private String workingbillCode;//随工单编号
 	private String xpickType;//领料类型描述
 	private String maktx;//产品描述
@@ -229,6 +230,14 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	}
 	public void setXcreateUser(String xcreateUser) {
 		this.xcreateUser = xcreateUser;
+	}
+	
+	@Transient
+	public String getProductDate() {
+		return productDate;
+	}
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
 	}
 
 	

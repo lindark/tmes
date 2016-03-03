@@ -59,31 +59,30 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal" id="searchform"
+							<form class="form-horizontal" id="searchform" method="post"
 								action="pick!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
+										<label class="col-sm-1 col-md-offset-1"style="text-align:right">产品名称:</label>
 										<div class="col-sm-4">
 											<input type="text" name="maktx"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
 
-										<label class="col-sm-1" style="text-align:right">日期:</label>
+                                    <label class="col-sm-1 col-md-offset-1"style="text-align:right">物料编码:</label>
 										<div class="col-sm-4">
-											<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker"
-													name="start"> <span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span> <input type="text" class="input-sm form-control datePicker"
-													name="end">
-											</div>
+											<input type="text" name="materialCode"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
 										</div>
+										
 									</div>
-									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
+									
+									
+									
+								<div class="form-group">
+								    <label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
 									  <div class="col-sm-4">
 										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
 											<!-- 
@@ -97,6 +96,18 @@
 							                <option value="3">已撤销</option>
 						               </select>
 									  </div>
+									  
+									  
+									<label class="col-sm-1 col-md-offset-1" style="text-align:right">日期:</label>
+										<div class="col-sm-4">
+											<div class="input-daterange input-group">
+												<input type="text" class="input-sm form-control datePicker"
+													name="start"> <span class="input-group-addon">
+													<i class="fa fa-exchange"></i>
+												</span> <input type="text" class="input-sm form-control datePicker"
+													name="end">
+											</div>
+										</div>
 									</div>
 									
 									

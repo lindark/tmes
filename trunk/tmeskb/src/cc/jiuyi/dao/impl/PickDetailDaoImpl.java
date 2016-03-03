@@ -114,6 +114,11 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 						"workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
 			}	
+			if (map.get("materialCode") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"materialCode",
+						"%" + map.get("materialCode") + "%"));
+			}	
 			if (map.get("state") != null) {
 				detachedCriteria.add(Restrictions.like(
 						"pick.state",
@@ -145,6 +150,14 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					ishead=1;
 				}else{
 					hql+=" and model2.maktx like '%"+map.get("maktx")+"%'";
+				}
+			}	
+			if (!map.get("materialCode").equals("")) {
+				if(ishead==0){
+					hql+=" where model.materialCode like '%"+map.get("materialCode")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.materialCode like '%"+map.get("materialCode")+"%'";
 				}
 			}	
 			if (!map.get("state").equals("")) {

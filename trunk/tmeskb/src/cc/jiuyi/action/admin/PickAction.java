@@ -85,6 +85,7 @@ public class PickAction extends BaseAdminAction {
 	private String start;//日期起始点
 	private String end;//日期结束点
 	private String state;//状态
+	private String materialCode;//物料编码
 	
 
 	//领退料记录
@@ -117,6 +118,10 @@ public class PickAction extends BaseAdminAction {
 				String maktx = obj.getString("maktx").toString();
 				map.put("maktx", maktx);
 			}
+			if (obj.get("materialCode") != null) {
+				String materialCode = obj.getString("materialCode").toString();
+				map.put("materialCode", materialCode);
+			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
@@ -146,6 +151,8 @@ public class PickAction extends BaseAdminAction {
 					pickDetail.setXpickType((ThinkWayUtil.getDictValueByDictKey(
 							dictService, "pickType", pickDetail.getPick().getMove_type())));
 				}
+				pickDetail.setProductDate(workingBillService.get(
+						 pickDetail.getPick().getWorkingbill().getId()).getProductDate());
 				pickDetail.setMaktx(workingBillService.get(
 						 pickDetail.getPick().getWorkingbill().getId()).getMaktx());
 				pickDetail.setWorkingbillCode(workingBillService.get(
@@ -165,8 +172,8 @@ public class PickAction extends BaseAdminAction {
 	
 	//Excel导出 
 	public String excelexport(){
-		try{
 		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("materialCode", materialCode);
 		map.put("maktx", maktx);
 		map.put("state", state);
 		map.put("start", start);
@@ -177,6 +184,7 @@ public class PickAction extends BaseAdminAction {
 		List<Object[]> body = new ArrayList<Object[]>();
         header.add("随工单号");
         header.add("产品名称");
+        header.add("生产日期");
         header.add("领退料类型");
         header.add("领退数量");
         header.add("裁切领退数");
@@ -194,7 +202,8 @@ public class PickAction extends BaseAdminAction {
         	Pick pick = (Pick)obj[1];//pick
         	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
         	
-        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),pick.getMove_type()
+        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),workingbill.getProductDate()
+        			            ,ThinkWayUtil.getDictValueByDictKey(dictService, "pickType", pick.getMove_type())
         						,pickdetail.getPickAmount(),pickdetail.getCqPickAmount(),pickdetail.getMaterialCode()
         						,pickdetail.getMaterialName(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()
         						,pick.getConfirmUser()==null?"":pick.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "pickState", pick.getState())};
@@ -210,11 +219,6 @@ public class PickAction extends BaseAdminAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
-		
 		return null;
 	}
 	
@@ -743,6 +747,14 @@ public class PickAction extends BaseAdminAction {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
 	}
 
 

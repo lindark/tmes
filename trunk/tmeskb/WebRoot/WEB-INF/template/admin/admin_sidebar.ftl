@@ -739,14 +739,14 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
-					<!--  <li class="">
-						<a href="abnormal!list.action" >
+				    <li class="">
+						<a href="abnormal!history.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
-							异常
+							异常清单
 						</a>
 
 						<b class="arrow"></b>
-					</li>-->
+					</li>
 
 					<li class="">
 						<a href="quality!list.action" >

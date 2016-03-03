@@ -139,8 +139,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		String hql="from PickDetail model join model.pick model1 join model1.workingbill model2";
 		Integer ishead=0;
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		if (map.size() > 0) {
-			if (map.get("maktx") != null) {
+			if (!map.get("maktx").equals("")) {
 				if(ishead==0){
 					hql+=" where model2.maktx like '%"+map.get("maktx")+"%'";
 					ishead=1;
@@ -148,7 +147,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					hql+=" and model2.maktx like '%"+map.get("maktx")+"%'";
 				}
 			}	
-			if (map.get("state") != null) {
+			if (!map.get("state").equals("")) {
 				if(ishead==0){
 					hql+=" where model1.state like '%"+map.get("state")+"%'";
 					ishead=1;
@@ -156,7 +155,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					hql+=" and model1.state like '%"+map.get("state")+"%'";
 				}
 			}	
-			if(map.get("start")!=null && map.get("end")!=null && !map.get("start").equals("") &&!map.get("end").equals("")){
+			if(!map.get("start").equals("") && !map.get("end").equals("")){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					
@@ -175,7 +174,6 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					e.printStackTrace();
 				}
 			}
-		}
 		
 		Query query = getSession().createQuery(hql);
 		

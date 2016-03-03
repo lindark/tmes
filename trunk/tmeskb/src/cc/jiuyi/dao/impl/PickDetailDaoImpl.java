@@ -156,7 +156,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					hql+=" and model1.state like '%"+map.get("state")+"%'";
 				}
 			}	
-			if(map.get("start")!=null && map.get("end")!=null){
+			if(map.get("start")!=null && map.get("end")!=null && !map.get("start").equals("") &&!map.get("end").equals("")){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					

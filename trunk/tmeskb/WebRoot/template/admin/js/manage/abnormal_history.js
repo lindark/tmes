@@ -66,7 +66,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
 			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",search:false,formatter:datefmt},
 			{name:'disposeTime',index:'disposeTime', width:80,search:false,editable: true},
-			{name:'productdate',index:'productdate', width:60,search:true,editable: true},
+			{name:'productdate',index:'productdate', width:60,search:false,editable: true},
 			{name:'classtime',index:'classtime', width:25,search:false,editable: true},
 			{name:'log',index:'log', width:160,search:false,editable: true},
 			{name:'callReason',index:'callReason',search:false, width:100, editable: true},

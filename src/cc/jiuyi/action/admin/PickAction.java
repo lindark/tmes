@@ -165,6 +165,7 @@ public class PickAction extends BaseAdminAction {
 	
 	//Excel导出 
 	public String excelexport(){
+		try{
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("maktx", maktx);
 		map.put("state", state);
@@ -209,6 +210,11 @@ public class PickAction extends BaseAdminAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+		
 		return null;
 	}
 	

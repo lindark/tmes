@@ -35,19 +35,19 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
-								"trzsl","cczsl","slcy","jhdcl"};
+								"trzsl","cczsl","slcy","jhdcl","matnr","maktx","materialName","totalAmount","isHand"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
 								"交下班零头数","报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","组件单位用量","当班检验合格数","交下班异常零头数","一次合格率",
-								"投入总数量","产出总数量","数量差异","计划达成率"};
+								"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态"};
 	public String list(){
-		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
-		for(int i=0;i<jsonarray.size();i++){
-			JSONObject jsonobject = (JSONObject) jsonarray.get(i);
-			
-			
-			
-		}
 		
+		Integer[] sunxulen={};
+		
+		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+//		for(int i=0;i<jsonarray.size();i++){
+//			JSONObject jo = jsonarray.getJSONObject(i);
+//			jo.getString("name");
+//		}
 		jsondata = jsonarray.toString();
 		return LIST;
 	}
@@ -139,7 +139,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 	public String beforegetwbinoutput()
 	{
 		wbid=id;
-		JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+		JSONArray jsonarray = workinginoutservice.showInoutJsonData1(strlen,lavenlen);
 		jsondata = jsonarray.toString();
 		return "ioput";
 	}

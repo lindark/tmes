@@ -124,7 +124,7 @@ body {background: #fff;font-family: 微软雅黑;}
 															<th style="width: 15%;">物料编码</th>
 															<th style="width: 20%;">物料描述</th>
 															<th style="width: 20%;">责任划分</th>
-															<th style="width: 35%;min-width:105px;">报废原因/数量</th>
+															<th style="width: 35%;min-width:105px;">报废原因(数量,批次/责任人)</th>
 															<th style="width: 10%;">操作</th>
 														</tr>
 														</#if>
@@ -269,9 +269,10 @@ body {background: #fff;font-family: 微软雅黑;}
 							<div id="divbox" style="display: none;">
 								<div class="profile-user-info profile-user-info-striped divbox">
 									<div class="profile-info-row ceshi">
-										<div class="profile-info-value div-value">
-											<#if show??>
-											<#else>
+										<#if show??>
+										<#else>
+											<div class="profile-info-value div-value">
+												<span style="color: red;font-size: 14px;">提示：第一个空格填写报废数量&nbsp;&nbsp;第二个空格填写批次/责任人</span>
 												<#assign num=0 />
 												<#if list_cause??>
 													<div id="div_allcause">
@@ -285,8 +286,8 @@ body {background: #fff;font-family: 微软雅黑;}
 													</#list>
 													</div>
 												</#if>
-											</#if>
-										</div>
+											</div>
+										</#if>
 									</div>
 								</div>
 							</div>

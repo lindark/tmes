@@ -88,7 +88,7 @@
 										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
 							                <option value="">全选</option> 
 							                <#list allState as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && workShop.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && scrapLater.scrap.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 							                </#list>
 						               </select>
 									  </div>									

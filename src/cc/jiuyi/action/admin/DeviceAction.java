@@ -139,6 +139,9 @@ public class DeviceAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		if(abnorId!=null && !"".equals(abnorId)){
+			abnormalId=abnorId;
+		}
 		return LIST;
 	}
 	
@@ -234,6 +237,28 @@ public class DeviceAction extends BaseAdminAction {
 						dictService, "receiptState", device.getState()));	
 				str="<a href='device!hview.action?id="+device.getId()+"'>"+device.getEquipments().getEquipmentName()+"</a>"; 
 				device.setDeviceName(str);
+				device.setContactName(device.getWorkshopLinkman().getName());
+				device.setWorkShopName(device.getWorkShop().getWorkShopName());
+				device.setRepairName(device.getDisposalWorkers().getName());
+				device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "deviceType", device.getMaintenanceType()));
+
+				ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+					String name = faultReason.getReasonName();
+					device.setFaultReason(name);
+				
+				pagerlist.set(i,device);
+			}
+			pager.setList(pagerlist);
+		}else if(StringUtils.isNotEmpty(abnormalId) && !abnormalId.equalsIgnoreCase("")){//异常清单链接页面
+			pager = deviceService.findByPager(pager, map,abnormalId);
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+
+				Device device = (Device) pagerlist.get(i);
+				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", device.getState()));	
+				device.setDeviceName(device.getEquipments().getEquipmentName());
 				device.setContactName(device.getWorkshopLinkman().getName());
 				device.setWorkShopName(device.getWorkShop().getWorkShopName());
 				device.setRepairName(device.getDisposalWorkers().getName());

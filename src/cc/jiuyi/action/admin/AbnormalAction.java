@@ -487,17 +487,17 @@ public class AbnormalAction extends BaseAdminAction {
 	
 			Calendar can = Calendar.getInstance();	//定时任务时间1
 			can.setTime(abnormal.getCreateDate());
-			can.add(Calendar.MINUTE, 1);
+			can.add(Calendar.MINUTE, 10);
 			Date date=can.getTime();	
 			
 			Calendar can1 = Calendar.getInstance();//定时任务时间2
 			can1.setTime(abnormal.getCreateDate());
-			can1.add(Calendar.MINUTE, 2);
+			can1.add(Calendar.MINUTE, 30);
 			Date date1=can1.getTime();
 			
 			Calendar can2 = Calendar.getInstance();//定时任务时间3
 			can2.setTime(abnormal.getCreateDate());
-			can2.add(Calendar.MINUTE, 3);
+			can2.add(Calendar.MINUTE, 60);
 			Date date2=can2.getTime();
 	
 			JSONArray jsonArray = JSONArray.fromObject(mapList);

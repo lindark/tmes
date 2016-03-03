@@ -39,4 +39,10 @@ public class AbnormalServiceImpl extends BaseServiceImpl<Abnormal, String> imple
 		// TODO Auto-generated method stub
 		abnormalDao.updateisdel(ids, oper);
 	}
+
+	@Override
+	public Pager getAbnormalAllPager(Pager pager, HashMap<String, String> map,
+			String id) {
+		return abnormalDao.getAbnormalAllPager(pager, map,id);
+	}
 }

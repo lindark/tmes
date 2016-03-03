@@ -127,6 +127,9 @@ public class ModelAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		if(abnorId!=null && !"".equals(abnorId)){
+			abnormalId=abnorId;
+		}
 		return LIST;
 	}
 	
@@ -393,6 +396,35 @@ public class ModelAction extends BaseAdminAction {
 			}
 
 			pager.setList(pagerlist);
+		}else if(StringUtils.isNotEmpty(abnormalId) && !abnormalId.equalsIgnoreCase("")){
+			pager = modelService.findByPager(pager, map,abnormalId);	
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Model model = (Model) pagerlist.get(i);
+	            model.setTeamName(model.getTeamId().getTeamName());
+				model.setProductName(model.getEquipments().getEquipmentName());
+				model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", model.getState()));
+				model.setRepairName(model.getFixer().getName());
+							
+				List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
+						model.getFaultReasonSet());
+				List<String> strlist = new ArrayList<String>();	
+	            if(model.getFaultReasonSet()==null){
+	            	model.setFaultName("");
+				}else{
+					for (FaultReason faultReason : faultReasonList) {
+						String str = faultReason.getReasonName();
+						strlist.add(str);
+						String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+						model.setFaultName(comlist);}
+				}
+				
+				pagerlist.set(i, model);
+			}
+
+			pager.setList(pagerlist);
+		
 		}else{//普通清单页面
 			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
 			List pagerlist = pager.getList();

@@ -564,7 +564,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="daily_work!history.action" style="font-size:12px;color:red">
+								<a href="daily_work!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报工记录
 								</a>

@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
@@ -43,7 +44,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	@Resource
 	private BomService bomservice;
 	@Resource
-	private HandOverProcessService handoverprocessservice;
+	private HandOverProcessDao handoverprocessdao;
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -66,36 +67,25 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		return workingInoutDao.findPagerByWorkingBillInout(map);
 	}
 
-	public JSONArray showInoutJsonData(String[] strlen,String[] lavenlen) {
+	public JSONArray showInoutJsonData(String[] strlen,String[] lavenlen){
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
-		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
-		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
-		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
-		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
-		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
-		nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
-		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
-		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
-		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
-		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
-		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
-		nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
-		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
-		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
-		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
-		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
-		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
-		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修返回苏
-		nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
-		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
-		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
-		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
-		nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
+		
 		String[] propertyNames = {"isDel","state"};
 		String[] propertyValues={"N","1"};
 		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
+		
+		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
+		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
+		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
+		nameobj.add(strlen[23]);labelobj.add(lavenlen[23]);indexobj.add(strlen[23]);//物料编码
+		nameobj.add(strlen[24]);labelobj.add(lavenlen[24]);indexobj.add(strlen[24]);//物料描述
+		nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
+		nameobj.add(strlen[25]);labelobj.add(lavenlen[25]);indexobj.add(strlen[25]);//组件描述
+		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
+		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
+		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -107,6 +97,19 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			labelobj.add(label);
 		}
 		/**处理接上班 (正常)end**/
+		/**处理接上班(返修)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "接上班"+process.getProcessName()+"(返修)";
+			String name ="GXJSBFX_"+process.getId();
+			String index="GXJSBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理接上班 (返修)end**/
+		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		
 		/**处理交下班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -119,18 +122,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		}
 		/**处理交下班(正常)end**/
 		
-		
-		/**处理接上班(返修)**/
-		for(int i=0;i<processList00.size();i++){
-			Process process = processList00.get(i);
-			String label = "接上班"+process.getProcessName()+"(返修)";
-			String name ="GXJSBFX_"+process.getId();
-			String index="GXJSBFX_"+process.getId();
-			indexobj.add(index);
-			nameobj.add(name);
-			labelobj.add(label);
-		}
-		/**处理接上班 (返修)end**/
 		/**处理交下班(返修)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -142,6 +133,26 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			labelobj.add(label);
 		}
 		/**处理交下班 (返修)end**/
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
+		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
+		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
+		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
+		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
+		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
+		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
+		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
+		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
+		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+		nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
+		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
+		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
+		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
+		nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
+		nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
+		
+		
+		
 		
 		JSONArray jsonarray = new JSONArray();
 		for(int i=0;i<nameobj.size();i++){ 
@@ -160,7 +171,115 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		return jsonarray;
 	}
 
-	@Override
+	public JSONArray showInoutJsonData1(String[] strlen,String[] lavenlen){
+		List<String> nameobj = new ArrayList<String>();
+		List<String> labelobj = new ArrayList<String>();
+		List<String> indexobj = new ArrayList<String>();
+		
+		String[] propertyNames = {"isDel","state"};
+		String[] propertyValues={"N","1"};
+		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
+		
+		//nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
+		//nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
+		//nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
+		//nameobj.add(strlen[23]);labelobj.add(lavenlen[23]);indexobj.add(strlen[23]);//物料编码
+		//nameobj.add(strlen[24]);labelobj.add(lavenlen[24]);indexobj.add(strlen[24]);//物料描述
+		//nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
+		nameobj.add(strlen[25]);labelobj.add(lavenlen[25]);indexobj.add(strlen[25]);//组件描述
+		//nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
+		//nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
+		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
+		/**处理接上班(正常)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "接上班"+process.getProcessName()+"(正常)";
+			String name ="GXJSBZC_"+process.getId();
+			String index="GXJSBZC_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理接上班 (正常)end**/
+		/**处理接上班(返修)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "接上班"+process.getProcessName()+"(返修)";
+			String name ="GXJSBFX_"+process.getId();
+			String index="GXJSBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理接上班 (返修)end**/
+		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		
+		/**处理交下班(正常)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "交下班"+process.getProcessName()+"(正常)";
+			String name ="GXJXBZC_"+process.getId();
+			String index="GXJXBZC_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理交下班(正常)end**/
+		
+		/**处理交下班(返修)**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "交下班"+process.getProcessName()+"(返修)";
+			String name ="GXJXBFX_"+process.getId();
+			String index="GXJXBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理交下班 (返修)end**/
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
+		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
+		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
+		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
+		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
+		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
+		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
+		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
+		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
+		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
+		//nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
+		//nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+		//nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
+		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
+		//nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
+		//nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
+		
+		
+		
+		
+		JSONArray jsonarray = new JSONArray();
+		for(int i=0;i<nameobj.size();i++){ 
+			JSONObject jsonobject = new JSONObject();
+			jsonobject.put("name", nameobj.get(i));
+			jsonobject.put("index", indexobj.get(i));
+			jsonobject.put("label", labelobj.get(i));
+			jsonobject.put("width", 150);
+			jsonobject.put("fixed", true);
+			jsonarray.add(jsonobject);
+		}
+		
+		
+		
+		
+		return jsonarray;
+	}
+	
+	
+	
+	/**
+	 * 投入产出报表
+	 */
 	public JSONArray findInoutByJsonData(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen,int my_id) {
 		
 		
@@ -184,6 +303,11 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[0], workingbill.getWorkingBillCode());
 				map.put(strlen[1], workinginout.getMaterialCode());
 				map.put(strlen[2], workingbill.getPlanCount());
+				map.put(strlen[23], workingbill.getMatnr());//产品编码
+				map.put(strlen[24], workingbill.getMaktx());//产品描述
+				map.put(strlen[25],workinginout.getMaterialName());//组件描述
+				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
+				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
 				map.put(strlen[3], workingbill.getAfteroddamount());//接上班零头数
 				map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常零头数
 				map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
@@ -239,7 +363,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
 						String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
+						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
 						if(handoverprocess != null){
@@ -258,7 +382,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
 						String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessservice.get(propertyNames, propertyValues);
+						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
 						if(handoverprocess != null){

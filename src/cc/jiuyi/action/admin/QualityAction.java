@@ -144,6 +144,9 @@ public class QualityAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		if(abnorId!=null && !"".equals(abnorId)){
+			abnormalId=abnorId;
+		}		
 		return LIST;
 	}		
 
@@ -212,6 +215,27 @@ public class QualityAction extends BaseAdminAction {
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
+		}else if(StringUtils.isNotEmpty(abnormalId) && !abnormalId.equalsIgnoreCase("")){
+			pager = qualityService.findByPager(pager, map,abnormalId);		
+			List pagerlist = pager.getList();
+			for (int i = 0; i < pagerlist.size(); i++) {
+				Quality quality = (Quality) pagerlist.get(i);
+				if(quality.getProducts()==null){
+					String product=bomService.getMaterialName(quality.getBom());
+					quality.setProductsName(product);
+				}else{
+					Products products=productsService.get("productsCode",quality.getProducts());
+					String product = products.getProductsName();
+					quality.setProductsName(product);
+				}
+				
+				quality.setFounder(quality.getCreater().getName());				
+				quality.setTeamName(quality.getTeam().getTeamName());
+				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "receiptState", quality.getState()));		
+				pagerlist.set(i,quality);
+			}
+			pager.setList(pagerlist);
 		}else{//普通清单页面
 			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
 			List pagerlist = pager.getList();
@@ -226,9 +250,7 @@ public class QualityAction extends BaseAdminAction {
 					quality.setProductsName(product);
 				}
 				
-				quality.setFounder(quality.getCreater().getName());
-				/*Process process = processService.get(quality.getProcess());
-				quality.setProcessName(process.getProcessName());*/
+				quality.setFounder(quality.getCreater().getName());				
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));		
@@ -294,7 +316,7 @@ public class QualityAction extends BaseAdminAction {
 		
 		AbnormalLog abnormalLog = new AbnormalLog();
 		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setType("0");
+		abnormalLog.setType("0");//质量问题单"0"
 		abnormalLog.setOperator(admin);
 		abnormalLogService.save(abnormalLog);
 

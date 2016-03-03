@@ -17,11 +17,9 @@ jQuery(function($) {
 		}
     })
 
-
-
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
-
+		
 		//subgrid options
 		subGrid : false,
 		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
@@ -47,7 +45,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"quality!ajlist.action",
+		url:"quality!ajlist.action?abnormalId="+$("#unusualId").val(),
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {

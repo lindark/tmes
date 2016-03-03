@@ -59,7 +59,7 @@
  -->
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
 <script type="text/javascript">
-	/*
+	
 	$(function(){
 		LODOP.PRINT_INIT("打印任务名");
 		LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 49mm 高度 74mm 
@@ -81,7 +81,7 @@
 		//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
 		LODOP.PREVIEW();
 	})
-	*/
+	
 </script>
 </head>
 <body class="no-skin">

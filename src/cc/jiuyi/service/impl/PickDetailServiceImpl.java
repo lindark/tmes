@@ -229,6 +229,8 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
 			String workingBillId = pickDetail.getPick().getWorkingbill().getId();// 随工单号			
 			String materialCode = pickDetail.getMaterialCode();// 物料号
+			String materialName = pickDetail.getMaterialName();//物料描述
+					
 						
 			List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
 			Double d = 0.0;
@@ -262,6 +264,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
 				}
 				workingInout.setMaterialCode(materialCode);//保存物料号
+				workingInout.setMaterialName(materialName);//保存物料描述
 				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
 				workingInoutService.save(workingInout);//投入产出表保存
 							

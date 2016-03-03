@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -136,6 +138,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 	public List<Object[]> historyExcelExport(HashMap<String,String> map){
 		String hql="from PickDetail model join model.pick model1 join model1.workingbill model2";
 		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
 		if (map.size() > 0) {
 			if (map.get("maktx") != null) {
 				if(ishead==0){
@@ -156,20 +159,34 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 			if(map.get("start")!=null && map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
+					
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
+					System.out.println(map.get("start")); 
 					if(ishead==0){
-						hql+=" where model.createDate between "+start+" and "+end;
+						hql+=" where model.createDate between :start and :end";
 						ishead=1;
 					}else{
-						hql+=" and model.createDate between "+start+" and "+end;
+						hql+=" and model.createDate between :start and :end";
 					}
+					parameters.put("start", start);
+					parameters.put("end", end);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 		}
-		return getSession().createQuery(hql).list();
+		
+		Query query = getSession().createQuery(hql);
+		
+		if(parameters.get("start") != null){
+			query.setParameter("start", parameters.get("start"));
+		}
+		if(parameters.get("end") != null){
+			query.setParameter("end", parameters.get("end"));
+		}
+		
+		return query.list();
 	}
 
 

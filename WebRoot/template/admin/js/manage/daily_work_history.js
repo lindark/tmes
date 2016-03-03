@@ -66,12 +66,12 @@ jQuery(function($) {
 		colNames:[ '随工单编号','产品名称','报工数量','报工日期','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
 			
-          	{name:'workingbillCode',index:'workingbillCode', width:150,sortable:"true",sorttype:"text"},
-          	{name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
+          	{name:'workingbillCode',index:'workingbill.workingBillCode', width:150,sortable:"true",sorttype:"text"},
+          	{name:'maktx',index:'workingbill.maktx', width:400,sortable:"true",sorttype:"text"},
 			{name:'enterAmount',index:'enterAmount', width:100},			
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'createName',index:'createUser', width:100,sortable:"true",sorttype:"text"},
+			{name:'adminName',index:'confirmUser', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dailyWorkState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 

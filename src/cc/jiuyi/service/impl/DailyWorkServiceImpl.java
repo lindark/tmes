@@ -217,4 +217,10 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		}
 	}
 
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return dailyWorkDao.historyExcelExport(map);
+	}
+
 }

@@ -12,6 +12,7 @@ import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Dao实现类 - 异常
@@ -57,4 +58,38 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 			super.update(abnormal);
 		}
    }
+	
+	public Pager getAbnormalAllPager(Pager pager, HashMap<String, String> map,String id) {
+
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(Abnormal.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);		
+		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
+			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
+		}
+		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
+			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
+		}
+		
+		if (map != null && map.size() > 0) {
+			if (!map.get("start").equals("") || !map.get("end").equals("")) {// 生产日期范围
+				String start = map.get("start").equals("") ? ThinkWayUtil
+						.SystemDate() : map.get("start").toString();
+				String end = map.get("end").equals("") ? ThinkWayUtil
+						.SystemDate() : map.get("end").toString();
+				detachedCriteria.add(Restrictions.between("productdate", start,
+						end));
+			}
+			if (!map.get("originator").equals("")) {
+				detachedCriteria.add(Restrictions.like("admin.name", "%"
+						+ map.get("originator").toString() + "%"));
+			}
+		}
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id), Restrictions.eq("admin1.id", id)));
+		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
+		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		
+		return super.findByPager(pager, detachedCriteria);
+	} 
 }

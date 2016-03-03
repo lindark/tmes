@@ -19,4 +19,6 @@ public interface AbnormalService extends BaseService<Abnormal, String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public Pager getAbnormalAllPager(Pager pager,HashMap<String,String>map,String id);
 }

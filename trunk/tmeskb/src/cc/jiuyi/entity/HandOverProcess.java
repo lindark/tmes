@@ -21,7 +21,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
-@Searchable
 @Table(name = "HandOverProcess")
 public class HandOverProcess extends BaseEntity{
 	

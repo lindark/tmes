@@ -278,7 +278,7 @@ body {background: #fff;font-family: 微软雅黑;}
 													<div id="div_allcause">
 													<#list list_cause as clist>
 														<div id="div_${num}" class="col-md-6 col-xs-6 col-sm-6 div-value2">
-															<label>${(clist.causeName)! }/责任人</label>
+															<label>${(clist.causeName)! }</label>
 															<input id="mynum${num}" type="text" class=" input-value" />
 															<input id="mypeople${num}" type="text" class=" input-value" />
 														</div>

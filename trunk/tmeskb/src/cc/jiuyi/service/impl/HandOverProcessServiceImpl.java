@@ -95,8 +95,12 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		//String hanoverId=handoverservice.save(handOver);//保存主表
 		//handOver.setId(hanoverId);
 		for(HandOverProcess handoverprocess : handoverprocessList){
-			
-			HandOverProcess handOverProcess = this.findhandoverBypro(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(),handoverprocess.getBeforworkingbill().getId());
+			HandOverProcess handOverProcess = null;
+			try{
+			 handOverProcess = this.findhandoverBypro(handoverprocess.getMaterialCode(), handoverprocess.getProcessid(),handoverprocess.getBeforworkingbill().getId());
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			if(handOverProcess != null){
 				handoverprocess.setSubmitadmin(handOverProcess.getSubmitadmin());
 				handoverprocess.setApprovaladmin(handOverProcess.getApprovaladmin());
@@ -123,7 +127,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 				handoverprocess.setApprovaladmin(admin);
 				handoverprocess.setState("approval");
 				//handoverprocess.setHandover(handOver);
-				boolean flag = workinginoutservice.isExist(handoverprocess.getBeforworkingbill().getWorkingBillCode(), handoverprocess.getMaterialCode());
+				boolean flag = workinginoutservice.isExist(handoverprocess.getBeforworkingbill().getId(), handoverprocess.getMaterialCode());
 				if(!flag){//如果不存在，新增  --- 上一随工单信息
 					WorkingInout workinginout = new WorkingInout();
 					workinginout.setWorkingbill(handoverprocess.getBeforworkingbill());
@@ -131,8 +135,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 					workinginout.setMaterialName(handoverprocess.getMaterialName());
 					workinginoutservice.save(workinginout);
 				}
-				
-				boolean flag1 = workinginoutservice.isExist(handoverprocess.getAfterworkingbill().getWorkingBillCode(),handoverprocess.getMaterialCode() );
+				boolean flag1 = workinginoutservice.isExist(handoverprocess.getAfterworkingbill().getId(),handoverprocess.getMaterialCode() );
 				if(!flag1){//如果不存在,新增 --- 下一随工单信息
 					WorkingInout workinginout = new WorkingInout();
 					workinginout.setWorkingbill(handoverprocess.getAfterworkingbill());

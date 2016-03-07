@@ -351,8 +351,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				trzsl = ArithUtil.sub(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				
 				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
-				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量
-				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
+//				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量  modify 
+//				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
 				
 				for(int y=0;y<jsonarray.size();y++){
 					JSONObject json = (JSONObject) jsonarray.get(y);
@@ -399,7 +399,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				
 				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
-				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数
+				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
 				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  

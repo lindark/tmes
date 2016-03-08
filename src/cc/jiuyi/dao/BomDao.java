@@ -22,7 +22,7 @@ public interface BomDao extends BaseDao<Bom, String> {
 	
 	public Pager findPagerByjqGrid(Pager pager,HashMap<String,String>map);
 
-	
+	public Pager findPagerByOrders(Pager pager,HashMap<String,String>map,List<String> idList);
 	public Integer getMaxVersion(String matnr,String productDate);
 	public List<Bom> getBomList(String aufnr,Integer version);
 	public List<Bom> getBomList1(String aufnr,Integer version,String materialCode);

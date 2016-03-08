@@ -143,13 +143,19 @@ body {
 											<div class="profile-info-row">
                                            <div class="profile-info-name">使用车间</div>
 											<div class="profile-info-value">
-
-													<#if isAdd??>
+											    <#if isAdd??>
+											    <input type="hidden"
+														name="device.workShop.id"  value="${(workshop.id)!}"
+														class="formText {required: true}" />${(workshop.workShopName)!}
+												<#else>
+												    ${(device.workShop.workShopName)!}
+                                                </#if>
+												<!-- 	<#if isAdd??>
 													<img id="workShopId" class="img_addbug" title="添加车间信息" alt="添加车间信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 													<span id="workShopName1"></span> <input type="hidden"
 														name="device.workShop.id" id="workShopNa" value=""
 														class="formText {required: true}" /> <#else>
-													${(device.workShop.workShopName)!} </#if>
+													${(device.workShop.workShopName)!} </#if> -->
 
 												</div>
 												</div>

@@ -43,7 +43,7 @@ import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
- * @author Reece 2013/3/3
+ * @author Reece 2016/3/3
  * 后台Action类 - 报工
  */
 
@@ -97,7 +97,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		return "history";
 	}
 	
-	//报工记录表
+	//报工记录表 @author Reece 2016/3/8
 	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
@@ -175,7 +175,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
-	//Excel导出 
+	//Excel导出 @author Reece 2016/3/8
 		public String excelexport(){
 			HashMap<String,String> map = new HashMap<String,String>();
 			map.put("matnr", matnr);
@@ -193,6 +193,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	        header.add("生产日期");
 	        header.add("报工数量");
 	        header.add("模具");
+	        header.add("确认号");
+	        header.add("计数器");
 	        header.add("报工日期");
 	        header.add("创建人");
 	        header.add("确认人");
@@ -207,6 +209,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr(),workingbill.getMaktx()
 	        			            ,workingbill.getProductDate(),dailywork.getEnterAmount()
 	        						,ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", dailywork.getMoudle())
+	        						,dailywork.getCONF_NO(),dailywork.getCONF_CNT()
 	        						,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
 	        						,dailywork.getConfirmUser()==null?"":dailywork.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "dailyWorkState", dailywork.getState())};
 	        	body.add(bodyval);

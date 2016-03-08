@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
- * @author Reece 2013/3/2
+ * @author Reece 2016/3/2
  * 后台Action类-领/退料主表
  */
 
@@ -88,12 +88,12 @@ public class PickAction extends BaseAdminAction {
 	private String materialCode;//物料编码
 	
 
-	//领退料记录
+	//领退料记录 @author Reece 2016/3/3
 	public String history(){
 		return "history";
 	}
 	
-	//领退料记录列表
+	//领退料记录列表 @author Reece 2016/3/3
 	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 
@@ -151,6 +151,9 @@ public class PickAction extends BaseAdminAction {
 					pickDetail.setXpickType((ThinkWayUtil.getDictValueByDictKey(
 							dictService, "pickType", pickDetail.getPick().getMove_type())));
 				}
+				if (pickDetail.getPick().getEx_mblnr() != null) {
+					pickDetail.setXmblnr(pickDetail.getPick().getEx_mblnr());
+				}
 				pickDetail.setProductDate(workingBillService.get(
 						 pickDetail.getPick().getWorkingbill().getId()).getProductDate());
 				pickDetail.setMaktx(workingBillService.get(
@@ -170,7 +173,7 @@ public class PickAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
-	//Excel导出 
+	//Excel导出 @author Reece 2016/3/3
 	public String excelexport(){
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("materialCode", materialCode);
@@ -190,6 +193,7 @@ public class PickAction extends BaseAdminAction {
         header.add("裁切领退数");
         header.add("物料编码");
         header.add("物料描述");
+        header.add("物料凭证号");
         header.add("创建日期");
         header.add("创建人");
         header.add("确认人");
@@ -205,7 +209,7 @@ public class PickAction extends BaseAdminAction {
         	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),workingbill.getProductDate()
         			            ,ThinkWayUtil.getDictValueByDictKey(dictService, "pickType", pick.getMove_type())
         						,pickdetail.getPickAmount(),pickdetail.getCqPickAmount(),pickdetail.getMaterialCode()
-        						,pickdetail.getMaterialName(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()
+        						,pickdetail.getMaterialName(),pickdetail.getPick().getEx_mblnr(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()
         						,pick.getConfirmUser()==null?"":pick.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "pickState", pick.getState())};
         	body.add(bodyval);
         }

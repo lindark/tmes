@@ -40,7 +40,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
-/**
+/**@author Reece 2016/3/5
  * 后台Action类-领/退料从表
  */
 

@@ -15,7 +15,7 @@ public interface BomService extends BaseService<Bom, String> {
 
 	public Pager findPagerByjqGrid(Pager pager, HashMap<String, String> map);
 
-	
+	public Pager findPagerByOrders(Pager pager,HashMap<String, String> map,List<String> idList);
 	
 	/**
 	 * 根据订单编码 + 随工单生产日期 获取BOM集合

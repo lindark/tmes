@@ -131,7 +131,23 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	}
 	
 	
-
+	@SuppressWarnings("unchecked")
+	public List<WorkingBill> findListWorkingBill(String productDate, String shift) {
+		if(productDate!=null && !"".equals(productDate)){
+			if(shift==null || "".equals(shift)){
+				String hql = "from WorkingBill where productDate = ? ";
+				return getSession().createQuery(hql)
+						.setParameter(0, productDate).list();
+			}else{
+				String hql = "from WorkingBill where productDate = ? and workingBillCode like ? ";
+				return getSession().createQuery(hql)
+						.setParameter(0, productDate).setParameter(1, "%" + shift).list();
+			}
+		}else{
+			return null;
+		}
+	
+	}
 	
 
 }

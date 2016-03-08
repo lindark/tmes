@@ -6,7 +6,7 @@ import javax.jws.WebService;
 import cc.jiuyi.entity.Dict;
 
 @WebService
-public interface DictWebService {
+public interface PieceworkWebService {
 
 	@WebMethod
 	public Dict getDict();

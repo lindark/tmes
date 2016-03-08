@@ -33,6 +33,7 @@ public class Team extends BaseEntity {
 	private String isWork;//是否正在工作
 	private String iscancreditcard;//是否可以刷卡
 	private Set<Admin> adminSet;//用户-质检首页
+	private Set<WorkingBill> workingBillSet;//随工单
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -232,6 +233,14 @@ public class Team extends BaseEntity {
 
 	public void setAdminSet(Set<Admin> adminSet) {
 		this.adminSet = adminSet;
+	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
+	public Set<WorkingBill> getWorkingBillSet() {
+		return workingBillSet;
+	}
+
+	public void setWorkingBillSet(Set<WorkingBill> workingBillSet) {
+		this.workingBillSet = workingBillSet;
 	}
 	
 	

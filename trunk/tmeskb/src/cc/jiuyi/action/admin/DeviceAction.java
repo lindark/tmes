@@ -36,6 +36,7 @@ import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
+import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.MatnrRfc;
 import cc.jiuyi.service.AbnormalLogService;
@@ -75,7 +76,8 @@ public class DeviceAction extends BaseAdminAction {
 	private String faultCharactor;
 	private String serviceAttitude;
 	private String cardnumber;//刷卡卡号
-	private String reasonName;//故障原因	
+	private String reasonName;//故障原因
+	private WorkShop workshop;//车间
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -123,6 +125,7 @@ public class DeviceAction extends BaseAdminAction {
 		}	
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop();
 		return INPUT;
 	}
 
@@ -790,6 +793,14 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setReasonName(String reasonName) {
 		this.reasonName = reasonName;
+	}
+
+	public WorkShop getWorkshop() {
+		return workshop;
+	}
+
+	public void setWorkshop(WorkShop workshop) {
+		this.workshop = workshop;
 	}
 	
 	

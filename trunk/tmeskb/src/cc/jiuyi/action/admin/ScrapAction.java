@@ -496,7 +496,6 @@ public class ScrapAction extends BaseAdminAction
 			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
 				Scrap s=xlist_scrap.get(i);
-				
 				s.setLgort(warehouse);//库存地点
 				s.setWerks(factorycode);//工厂SAP测试数据 工厂编码
 				/**确认操作*/

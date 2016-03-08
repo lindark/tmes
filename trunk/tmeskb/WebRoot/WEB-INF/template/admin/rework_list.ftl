@@ -302,7 +302,8 @@
 	
 	
 		$("#returnRework").click(function(){
-			window.history.back();
+			//window.history.back();
+			window.location.href = "admin!index.action";
 		});
 		
 		

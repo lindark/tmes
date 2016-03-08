@@ -671,6 +671,13 @@
 						</a>
 						<b class="arrow"></b>
 					</li>
+					<li class="">
+						<a href="locationonside!getStockList.action">
+							<i class="menu-icon fa fa-caret-right""></i>
+							线边仓库存
+						</a>
+						<b class="arrow"></b>
+					</li>
 				</ul>
 			</li>
 

@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,17 +12,24 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.OrdersService;
+import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -39,10 +47,17 @@ public class BomAction extends BaseAdminAction {
 	private MaterialService materialService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private WorkingBillService workingBillService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private OrdersService ordersService;
 	
 	private List<Bom> bomList;
 	private List<Dict> allType;
 	private String productid;//产品ID
+	private String bomId;
 	//private List<cc.jiuyi.entity.Material> materialAll;
 	
 	
@@ -111,23 +126,44 @@ public class BomAction extends BaseAdminAction {
 					map.put("shift", shift);
 				}
 			}
-
-			pager = bomService.findPagerByjqGrid(pager, map);
-			List<Bom> list = pager.getList();
-			for (int i = 0; i < list.size(); i++) {
-				Bom bom = list.get(i);
-//				bom.setMaterialCode(bom.getMaterialCode());
-//				bom.setMaterialName(bom.getMaterialName());
-				bom.setProductsCode(bom.getOrders().getMatnr());
-				bom.setProductsName(bom.getOrders().getMaktx());
-				bom.setOerderCode(bom.getOrders().getAufnr());
-				bom.setAuart(bom.getOrders().getAuart());
-				bom.setFactory(bom.getOrders().getFactory());
-				bom.setGltrp(bom.getOrders().getGltrp());
-				bom.setGstrp(bom.getOrders().getGstrp());
-				bom.setMujuntext(bom.getOrders().getMujuntext());
+						
+			if(StringUtils.isNotEmpty(bomId) && !bomId.equalsIgnoreCase("")){//取出当前随工单下的所有产品bom
+				List<String> orderList = getorderList();
+				pager = bomService.findPagerByOrders(pager, map,orderList);
+				List<Bom> bomList = pager.getList();
+				for (int i = 0; i < bomList.size(); i++) {
+					Bom bom = bomList.get(i);
+//					bom.setMaterialCode(bom.getMaterialCode());
+//					bom.setMaterialName(bom.getMaterialName());
+					bom.setProductsCode(bom.getOrders().getMatnr());
+					bom.setProductsName(bom.getOrders().getMaktx());
+					bom.setOerderCode(bom.getOrders().getAufnr());
+					bom.setAuart(bom.getOrders().getAuart());
+					bom.setFactory(bom.getOrders().getFactory());
+					bom.setGltrp(bom.getOrders().getGltrp());
+					bom.setGstrp(bom.getOrders().getGstrp());
+					bom.setMujuntext(bom.getOrders().getMujuntext());
+				}
+				pager.setList(bomList);
+			}else{
+				pager = bomService.findPagerByjqGrid(pager, map);
+				List<Bom> list = pager.getList();
+				for (int i = 0; i < list.size(); i++) {
+					Bom bom = list.get(i);
+//					bom.setMaterialCode(bom.getMaterialCode());
+//					bom.setMaterialName(bom.getMaterialName());
+					bom.setProductsCode(bom.getOrders().getMatnr());
+					bom.setProductsName(bom.getOrders().getMaktx());
+					bom.setOerderCode(bom.getOrders().getAufnr());
+					bom.setAuart(bom.getOrders().getAuart());
+					bom.setFactory(bom.getOrders().getFactory());
+					bom.setGltrp(bom.getOrders().getGltrp());
+					bom.setGstrp(bom.getOrders().getGstrp());
+					bom.setMujuntext(bom.getOrders().getMujuntext());
+				}
+				pager.setList(list);
 			}
-			pager.setList(list);
+			
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig
 					.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
@@ -189,6 +225,23 @@ public class BomAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
+	public List<WorkingBill> getWorkList(){
+		Admin admin1 = adminService.getLoginAdmin();
+		admin1 = adminService.get(admin1.getId());
+		List list=workingBillService.getListWorkingBillByDate(admin1);
+		return list;
+	}
+	
+	public List<String> getorderList(){
+		List<WorkingBill> workList=getWorkList();
+		List<String> orderList = new ArrayList<String>();
+		for(WorkingBill work:workList){
+			Orders order = ordersService.get("aufnr",work.getAufnr());
+			orderList.add(order.getId());
+		}
+		return orderList;
+	}
+	
 	public String update(){
 		
 		return null;
@@ -225,6 +278,14 @@ public class BomAction extends BaseAdminAction {
 
 	public void setAllType(List<Dict> allType) {
 		this.allType = allType;
+	}
+
+	public String getBomId() {
+		return bomId;
+	}
+
+	public void setBomId(String bomId) {
+		this.bomId = bomId;
 	}
 
 	

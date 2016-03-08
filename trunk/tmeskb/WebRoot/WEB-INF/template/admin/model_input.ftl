@@ -168,7 +168,7 @@ body {
 												<div class="profile-info-name">到场时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="model.arriveTime"
-														value=""
+														value="${(replydate)!}"
 														readonly="readonly"/>
 												</div>
 											</div>
@@ -219,7 +219,7 @@ body {
 												<div class="profile-info-value">
 												    
 													<input type="text" name="model.confirmTime"
-														value="${(model.confirmTime)!}"
+														value="${(model.confirmTime)!?string("yyyy-MM-dd HH:mm:ss")}"
 														class="datePicker" />											
 												</div>
 												</div>

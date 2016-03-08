@@ -69,7 +69,8 @@ public class QualityAction extends BaseAdminAction {
 	private String cardnumber;//刷卡卡号
 	private String process;//工序
 	private String product;
-	private String bomproduct;
+	private String bomproduct; 
+	private String bomId;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -400,6 +401,7 @@ public class QualityAction extends BaseAdminAction {
 	}			
 	
 	public String browser(){
+		bomId=bomId;
 		return "browser";
 	}
 	
@@ -606,6 +608,14 @@ public class QualityAction extends BaseAdminAction {
 		this.bomproduct = bomproduct;
 	}
 
+	public String getBomId() {
+		return bomId;
+	}
 
+	public void setBomId(String bomId) {
+		this.bomId = bomId;
+	}
+
+    
 	
 }

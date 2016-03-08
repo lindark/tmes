@@ -22,7 +22,7 @@ public class TestWebService extends BaseTestCase {
 	
 	@Test
 	public void webserviceTest() throws Exception{
-		Client client = new Client(new URL("http://127.0.0.1/service/DictWebService?wsdl"));
+		Client client = new Client(new URL("http://127.0.0.1/service/PieceworkWebService?wsdl"));
 		Object[] results = client.invoke("getDict", new Object[]{});
 		System.out.println(results[0]);
 	}

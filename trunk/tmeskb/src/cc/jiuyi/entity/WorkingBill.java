@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -44,6 +46,8 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String checknum4;//检验合格数4
 	private String checknum5;//检验合格数5
 	private String isHand;//是否交接完成 Y为交接完成，N为未交接完成
+	
+	private Team team;//班组
 	
 	private Set<WorkingInout> workingInoutSet;//投入产出表
 
@@ -477,6 +481,13 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	}
 	public void setCqrepairamount(Double cqrepairamount) {
 		this.cqrepairamount = cqrepairamount;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 	
 	

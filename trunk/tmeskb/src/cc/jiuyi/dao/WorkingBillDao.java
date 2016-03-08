@@ -69,5 +69,8 @@ public interface WorkingBillDao extends BaseDao<WorkingBill, String> {
 	public List<WorkingBill> findWorkingBill(String workcenter,String productDate,String shift);
 	
 	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr);
-
+	/**
+	 * 根据生产日期、班次查询随工单
+	 */
+	public List<WorkingBill> findListWorkingBill(String productDate,String shift);
 }

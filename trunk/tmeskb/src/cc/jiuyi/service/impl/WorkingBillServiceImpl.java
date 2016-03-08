@@ -435,5 +435,9 @@ public class WorkingBillServiceImpl extends
 		
 	}
 
-
+	@Override
+	public List<WorkingBill> findListWorkingBill(
+			String productDate, String shift) {
+		return workingbilldao.findListWorkingBill(productDate, shift);
+	}
 }

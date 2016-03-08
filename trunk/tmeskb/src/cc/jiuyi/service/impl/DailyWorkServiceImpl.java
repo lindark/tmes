@@ -1,6 +1,8 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,8 +155,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		String state=(String)maps.get("state");
 		
 		WorkingBill workingbill = workingbillService.get(workid);
-		Double totalamount = workingbill.getDailyWorkTotalAmount();
-		
+		BigDecimal totalamount = new BigDecimal(workingbill.getDailyWorkTotalAmount());
 		if(state.equalsIgnoreCase("1")){//刷卡确定
 			
 		for (int i = 0; i < paramaterList.size(); i++) {
@@ -162,7 +163,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			String CONF_NO = dailyWork.getCONF_NO();// 确认号
 			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 			dailyWork = dailyWorkDao.get(dailyWork.getId());			
-			totalamount = dailyWork.getEnterAmount() + totalamount;
+			totalamount =  new BigDecimal(workingbill.getDailyWorkTotalAmount()).add(totalamount).setScale(2, RoundingMode.HALF_UP);
 			if(dailyWork.getMoudle().equalsIgnoreCase("1")){
 				workingbill.setChecknum1("1");
 			}else if(dailyWork.getMoudle().equalsIgnoreCase("2")){
@@ -183,7 +184,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			dailyWork.setState("1");			
 			this.update(dailyWork);
 		}
-		workingbill.setDailyWorkTotalAmount(totalamount);
+		workingbill.setDailyWorkTotalAmount(totalamount.doubleValue());
 		workingbillService.merge(workingbill);
 		
 		}else{//刷卡撤销
@@ -192,7 +193,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				String CONF_NO = dailyWork.getCONF_NO();// 确认号
 				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 				dailyWork = dailyWorkDao.get(dailyWork.getId());
-				totalamount -= dailyWork.getEnterAmount();
+				totalamount = totalamount.subtract(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
 				if(dailyWork.getMoudle().equalsIgnoreCase("1")){
 					workingbill.setChecknum1("1");
 				}else if(dailyWork.getMoudle().equalsIgnoreCase("2")){
@@ -212,7 +213,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				dailyWork.setState("3");				
 				this.update(dailyWork);
 			}
-			workingbill.setDailyWorkTotalAmount(totalamount);
+			workingbill.setDailyWorkTotalAmount(totalamount.doubleValue());
 			workingbillService.merge(workingbill);
 		}
 	}

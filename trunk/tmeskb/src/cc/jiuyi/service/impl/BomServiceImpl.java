@@ -151,5 +151,13 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		}
 		return null;
 	}
+
+
+	@Override
+	public Pager findPagerByOrders(Pager pager, HashMap<String, String> map,
+			List<String> idList) {
+		// TODO Auto-generated method stub
+		return bomDao.findPagerByOrders(pager, map,idList);
+	}
 	
 }

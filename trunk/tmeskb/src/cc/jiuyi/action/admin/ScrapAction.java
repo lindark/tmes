@@ -538,7 +538,7 @@ public class ScrapAction extends BaseAdminAction
 					/**撤销未确认的*/
 					if("1".equals(s.getState()))
 					{
-						this.scrapService.updateMyData(s, "3",cardnumber,2);
+						this.scrapService.updateMyData(s, newstate,cardnumber,2);
 					}
 					/**撤销已确认的*/
 					if("2".equals(s.getState()))

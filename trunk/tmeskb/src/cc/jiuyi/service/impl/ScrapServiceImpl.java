@@ -266,7 +266,8 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				if((count>0&&"2".equals(oldstate)&&"3".equals(newstate))||(count>0&&"2".equals(newstate)))
 				{
 					HashMap<String,Object>map=new HashMap<String,Object>();
-					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
+					map.put("smmatterNum", sm.getSmmatterNum().toString());//物料编码
+					map.put("smmatterDes", sm.getSmmatterDes().toString());
 					map.put("wbid", s2.getWorkingBill().getId());//随工单ID
 					map.put("count", count+"");//数量
 					map.put("newstate", newstate);//2确认3撤销
@@ -308,6 +309,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					count=d.intValue();
 					HashMap<String,Object>map=new HashMap<String,Object>();
 					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
+					map.put("smmatterDes", sm.getSmmatterDes());//物料描述
 					map.put("wbid", scrap.getWorkingBill().getId());//随工单ID
 					map.put("count", count+"");//数量
 					map.put("newstate", "2");//2确认3撤销
@@ -325,6 +327,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		//根据随工单ID和物料号查询一个是否存在,存在就更新报废数量,不存在就新插入一条
 		String wbid=map.get("wbid").toString();//随工单ID
 		String code=map.get("smmatterNum").toString();//物料号
+		String smmatterDes=map.get("smmatterDes").toString();//物料描述
 		Double count=Double.parseDouble(map.get("count").toString());//数量
 		String newstate=map.get("newstate").toString();//2确认3撤销
 		WorkingInout wi = this.wiService.findWorkingInout(wbid, code);
@@ -346,6 +349,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				count=ArithUtil.sub(wicount, count);//减法
 			}
 			/**修改*/
+			wi.setMaterialName(smmatterDes);//物料描述
 			wi.setScrapNumber(count);
 			wi.setModifyDate(new Date());//修改日期
 			this.wiService.update(wi);

@@ -73,6 +73,7 @@ public class ModelAction extends BaseAdminAction {
 	private String abnorId;
 	private String modelType;
 	private String cardnumber;//刷卡卡号
+	private Date replydate; 
 	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
@@ -104,6 +105,9 @@ public class ModelAction extends BaseAdminAction {
 	public String add() {
 		if (aid != null) {
 			abnormal = abnormalService.load(aid);
+			if(abnormal.getReplyDate()!=null && !"".equals(abnormal.getReplyDate())){
+				replydate=abnormal.getReplyDate();
+			}
 			qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 			modelList=new ArrayList<Model>(abnormal.getModelSet());
 			craftList=new ArrayList<Craft>(abnormal.getCraftSet());
@@ -117,7 +121,11 @@ public class ModelAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		model = modelService.load(id);
+		System.out.println(model.getConfirmTime());
 		abnormal=model.getAbnormal();
+		if(abnormal.getReplyDate()!=null && !"".equals(abnormal.getReplyDate())){
+			replydate=abnormal.getReplyDate();
+		}
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
 		craftList=new ArrayList<Craft>(abnormal.getCraftSet());
 		modelList=new ArrayList<Model>(abnormal.getModelSet());
@@ -270,7 +278,7 @@ public class ModelAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("您不是单据创建人,无法关闭该单据!");
 		}
 		if(persistent.getState().equals("2")){
-			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","confirmTime","orderNo"});
+			BeanUtils.copyProperties(model, persistent, new String[] { "id","createDate", "modifyDate","abnormal","createUser","isDel","initiator","equipments","teamId","insepector","fixer","faultReasonSet","handleSet","longSet","confirmTime","failDescript","noticeTime","arriveTime","orderNo"});
 			persistent.setState("3");
 			modelService.update(persistent);
 			
@@ -714,6 +722,14 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public Date getReplydate() {
+		return replydate;
+	}
+
+	public void setReplydate(Date replydate) {
+		this.replydate = replydate;
 	}
 
 	

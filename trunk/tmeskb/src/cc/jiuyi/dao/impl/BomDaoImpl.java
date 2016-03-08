@@ -173,4 +173,31 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		String hql="select distinct(b.materialName) from Bom b where b.materialCode = ? ";
 		return (String)getSession().createQuery(hql).setParameter(0,materialCode).uniqueResult();
 	}
+
+	@Override
+	public Pager findPagerByOrders(Pager pager, HashMap<String, String> map,
+			List<String> idList) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Bom.class);
+		pagerSqlByjqGrid(pager, detachedCriteria);
+		if(!existAlias(detachedCriteria, "orders", "orders")){
+			detachedCriteria.createAlias("orders", "orders");
+		}
+		
+        if (map.size() > 0) {
+			
+			if (map.get("materialCode") != null) {
+				detachedCriteria.add(Restrictions.like("materialCode",
+						"%" + map.get("materialCode") + "%"));
+			}
+			if (map.get("materialName") != null) {
+				detachedCriteria.add(Restrictions.like("materialName",
+						"%" + map.get("materialName") + "%"));
+			}
+			
+		}
+        
+        detachedCriteria.add(Restrictions.in("orders.id", idList));
+        detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
 }

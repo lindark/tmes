@@ -27,6 +27,7 @@ import cc.jiuyi.webservice.PieceworkWebService;
 @Component
 @WebService(serviceName="PieceworkWebService",endpointInterface="cc.jiuyi.webservice.PieceworkWebService")
 public class PieceworkWebServiceImpl implements PieceworkWebService {
+	 
 
 	@Resource
 	private WorkingBillService  workingBillService;

@@ -24,6 +24,7 @@ public class Mouldmaterial extends BaseEntity{
 	private String feature;//特征
     private String totalAmount;//总数量
 	private String yearAmount;//年数量
+	private String text;//文本
 	
     private String state;//是否启用
     private String isDel;//是否删除
@@ -117,6 +118,14 @@ public class Mouldmaterial extends BaseEntity{
 
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
    
     

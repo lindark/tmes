@@ -172,7 +172,7 @@ padding-top:2px;
 							</div>																												
 
 							<div class="row buttons">	
-							   <!--  <button class="btn btn-white btn-default btn-lg btn-round access" id="qualityque" data-access-list="qualityReceipt" type=button>
+							   <button class="btn btn-white btn-default btn-lg btn-round access" id="qualityque" data-access-list="qualityReceipt" type=button>
 										创建质量问题单
 								</button>&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-white btn-default btn-lg btn-round access" id="modelrep" data-access-list="modelReceipt" type=button>
@@ -183,7 +183,7 @@ padding-top:2px;
 								</button>&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-white btn-default btn-lg btn-round access" id="devicerep" data-access-list="deviceReceipt" type=button>
 										创建设备维修单
-								</button>&nbsp;&nbsp;&nbsp;&nbsp; -->
+								</button>&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-white btn-default btn-lg btn-round access" id="responsecar" data-access-list="responseCredit" type=button>
 										响应刷卡
 								</button>&nbsp;&nbsp;&nbsp;&nbsp;

@@ -74,7 +74,12 @@
 										
 									</div>
 								</form>
-								
+								<div class="row buttons col-md-8 col-sm-4">
+							    <a id="return_device" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									返回
+								</a>
+								</div>
 								<!--  
 								<div class="row">
 								<div class="col-xs-12">
@@ -164,7 +169,9 @@
 			
 		})
 
-
+		$("#return_device").click(function(){
+			window.history.back();
+		});
 	})
 	
 	

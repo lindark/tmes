@@ -87,8 +87,7 @@ body{background:#fff;}
 										</div>
 										<div class="profile-info-name"> 计量点 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="mouldmaterial.point" value="${(mouldmaterial.point)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="mouldmaterial.point" value="${(mouldmaterial.point)!}" class=" input input-sm  formText {required: true}" />	
 										</div>
 									</div>	
 								
@@ -96,26 +95,22 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="mouldmaterial.code" value="${(mouldmaterial.code)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="mouldmaterial.code" value="${(mouldmaterial.code)!}" class=" input input-sm  formText {required: true}" />	
 										</div>
 										<div class="profile-info-name"> 描述 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="mouldmaterial.describe" value="${(mouldmaterial.describe)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="mouldmaterial.describe" value="${(mouldmaterial.describe)!}" class=" input input-sm  formText {required: true}" />								
 										</div>
 									</div>
 									
 									 <div class="profile-info-row">	
 										<div class="profile-info-name"> 物料编码</div>					
 										<div class="profile-info-value">
-											<input type="text" name="mouldmaterial.materialCode" value="${(mouldmaterial.materialCode)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="mouldmaterial.materialCode" value="${(mouldmaterial.materialCode)!}" class=" input input-sm  formText {required: true}" />	
 										</div>
 										<div class="profile-info-name"> 特征</div>					
 										<div class="profile-info-value">
-											<input type="text" name="mouldmaterial.feature" value="${(mouldmaterial.feature)!}" class=" input input-sm  formText {required: true}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="mouldmaterial.feature" value="${(mouldmaterial.feature)!}" class=" input input-sm  formText {required: true}" />	
 										</div>
 									</div>	
 									
@@ -130,6 +125,13 @@ body{background:#fff;}
 										</div>
 									</div>										
 									
+									 <div class="profile-info-row">	
+									     <div class="profile-info-name"> 文本</div>					
+										<div class="profile-info-value">
+											<input type="text" name="mouldmaterial.text" value="${(mouldmaterial.text)!}" class=" input input-sm" />	
+										</div>
+									 </div>
+									 
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 是否启用</div>					
 										<div class="profile-info-value">

@@ -98,8 +98,9 @@ $(function() {
 {
 	var title = "选择产品";
 	var width="800px";
-	var height="632px";
-	var content="quality!browser.action";
+	var height="560px";
+	var bomId="bomId";
+	var content="quality!browser.action?bomId="+bomId;
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();

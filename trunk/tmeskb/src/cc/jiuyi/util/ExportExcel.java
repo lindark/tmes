@@ -91,6 +91,31 @@ public class ExportExcel {
                 cell.setCellStyle(style2);
         	}
         }
+        
+      //让列宽随着导出的列长自动适应  modify by Reece 2016/3/8
+        for (int colNum = 0; colNum < header.size(); colNum++) {  
+            int columnWidth = sheet.getColumnWidth(colNum) / 256;  
+            for (int rowNum = 0; rowNum <= sheet.getLastRowNum(); rowNum++) {  
+                HSSFRow currentRow;  
+                //当前行未被使用过  
+                if (sheet.getRow(rowNum) == null) {  
+                    currentRow = sheet.createRow(rowNum);  
+                } else {  
+                    currentRow = sheet.getRow(rowNum);  
+                }  
+                if (currentRow.getCell(colNum) != null) {  
+                    HSSFCell currentCell = currentRow.getCell(colNum);  
+                    if (currentCell.getCellType() == HSSFCell.CELL_TYPE_STRING) {  
+                        int length = currentCell.getStringCellValue().getBytes().length;  
+                        if (columnWidth < length) {  
+                            columnWidth = length;  
+                        }  
+                    }  
+                }  
+            }  
+            sheet.setColumnWidth(colNum, (columnWidth+4) * 256);  
+        }
+        
         workbook.write(os);
 	}
 	

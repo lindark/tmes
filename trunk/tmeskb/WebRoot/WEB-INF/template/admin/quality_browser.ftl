@@ -37,7 +37,7 @@ body {
 		</script>
 		<div class="main-content">
 
-
+           <input type="hidden" name="bomId" id="bomId" value="${(bomId)!}" />
 
 
 			<!-- add by welson 0728 -->

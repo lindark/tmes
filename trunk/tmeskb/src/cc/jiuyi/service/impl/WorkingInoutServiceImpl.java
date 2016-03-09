@@ -326,9 +326,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
 				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
-				System.out.println(workingbill.getProductDate());
-				System.out.println(workinginout.getMaterialCode());
-				System.out.println(workingbill.getWorkingBillCode());
 				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
 				Double bomamount = 0.00d;
 				for(Bom bom :bomList){
@@ -341,8 +338,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				System.out.println(workingbill.getWorkingBillCode());
-				System.out.println(workingbill.getPlanCount());
 				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
 				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数

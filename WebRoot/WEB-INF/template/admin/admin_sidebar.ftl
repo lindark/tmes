@@ -1,5 +1,6 @@
 
 	<!-- #section:basics/sidebar -->
+	<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<div id="sidebar" class="sidebar                  responsive">
 		<script type="text/javascript">
 			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
@@ -1324,7 +1325,6 @@
 		</div>
 
 		<!-- /section:basics/sidebar.layout.minimize -->
-		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 		<script type="text/javascript">
 			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 		</script>

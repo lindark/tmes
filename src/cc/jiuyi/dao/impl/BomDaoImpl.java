@@ -200,4 +200,11 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
         detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+
+	@Override
+	public Integer getMaxversion(String shif, String orderId,
+			String materialCode) {
+		String hql="select max(a.version) from Bom a where a.shift = ? and a.orders.id =? and a.materialCode=?";
+		return (Integer)getSession().createQuery(hql).setParameter(0, shif).setParameter(1, orderId).setParameter(2, materialCode).uniqueResult();
+	}
 }

@@ -237,6 +237,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			labelobj.add(label);
 		}
 		/**处理交下班 (返修)end**/
+		//double 
+		//产出总数量=(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
+		//cczsl = (cczsl+beforeoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+trzsl;
+		
 		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
 		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
 		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
@@ -320,7 +324,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
 				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
-				
+				System.out.println(workingbill.getProductDate());
+				System.out.println(workinginout.getMaterialCode());
+				System.out.println(workingbill.getWorkingBillCode());
 				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
 				Double bomamount = 0.00d;
 				for(Bom bom :bomList){
@@ -333,7 +339,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				
+				System.out.println(workingbill.getWorkingBillCode());
+				System.out.println(workingbill.getPlanCount());
 				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
 				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数
@@ -350,13 +357,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getRecipientsAmount()));//领用数
 				trzsl = ArithUtil.sub(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				
-				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
-				Double repairAmount = 0.00d;
-				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
-				Double repairinAmount = 0.00d;
-				repairinAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
-				//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
-				cczsl = (cczsl+beforeoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+trzsl;
+			//	cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
 //				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量  modify 
 //				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
 				
@@ -405,6 +406,17 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				
 				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
+				
+				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+				Double repairAmount = 0.00d;
+				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				Double repairinAmount = 0.00d;
+				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				Double zjbfs = 0.00d;
+				zjbfs = ArithUtil.sub(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
+				cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
+				
 				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
 				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率

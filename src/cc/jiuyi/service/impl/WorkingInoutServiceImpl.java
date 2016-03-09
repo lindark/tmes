@@ -187,9 +187,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		//nameobj.add(strlen[24]);labelobj.add(lavenlen[24]);indexobj.add(strlen[24]);//物料描述
 		//nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
 		nameobj.add(strlen[25]);labelobj.add(lavenlen[25]);indexobj.add(strlen[25]);//组件描述
-		//nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
+		
 		//nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
 		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
+		/**处理接上班 (返修)end**/
+		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
+		
 		/**处理接上班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -211,9 +215,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理接上班 (返修)end**/
-		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
-		
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
+		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
+		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
 		/**处理交下班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -240,18 +244,16 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		//double 
 		//产出总数量=(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
 		//cczsl = (cczsl+beforeoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+trzsl;
-		
-		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
-		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
-		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
-		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
-		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
-		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
 		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
 		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
-		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
 		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
 		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
+		
+		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
+		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
+		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
+		
 		//nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
 		//nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
 		//nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率

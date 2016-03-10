@@ -32,6 +32,7 @@ public class Team extends BaseEntity {
 	private String iscancreditcard;//是否可以刷卡
 	private Set<Admin> adminSet;//用户-质检首页
 	private Set<WorkingBill> workingBillSet;//随工单
+	private Set<Kaoqin>kaoqinSet;//考勤
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -249,5 +250,15 @@ public class Team extends BaseEntity {
 	public void setEmpSet(Set<Admin> empSet)
 	{
 		this.empSet = empSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
+	public Set<Kaoqin> getKaoqinSet()
+	{
+		return kaoqinSet;
+	}
+
+	public void setKaoqinSet(Set<Kaoqin> kaoqinSet)
+	{
+		this.kaoqinSet = kaoqinSet;
 	}
 }

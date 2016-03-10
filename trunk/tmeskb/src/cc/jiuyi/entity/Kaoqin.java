@@ -2,6 +2,8 @@ package cc.jiuyi.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 /**
  * 考勤
@@ -17,7 +19,7 @@ public class Kaoqin extends BaseEntity{
 	private String classtime;//班次
 	private String empname;//名字
 	private String postname;//技能名称
-	private String team;// 班组
+	private Team team;// 班组
 	private String workState;//工作状态
 	private String productdate;//生产日期
 	private String empid;//员工ID--admin表主键
@@ -52,13 +54,6 @@ public class Kaoqin extends BaseEntity{
 		this.postname = postname;
 	}
 	@Column
-	public String getTeam() {
-		return team;
-	}
-	public void setTeam(String team) {
-		this.team = team;
-	}
-	@Column
 	public String getWorkState() {
 		return workState;
 	}
@@ -88,5 +83,14 @@ public class Kaoqin extends BaseEntity{
 	public void setTardyHours(String tardyHours)
 	{
 		this.tardyHours = tardyHours;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Team getTeam()
+	{
+		return team;
+	}
+	public void setTeam(Team team)
+	{
+		this.team = team;
 	}
 }

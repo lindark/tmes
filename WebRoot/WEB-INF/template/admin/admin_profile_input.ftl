@@ -76,7 +76,7 @@ body{background:#fff;}
 						部&nbsp;&nbsp;&nbsp;门:
 					</th>
 					<td>
-						${(admin.department)!}
+						${(admin.department.deptName)!}
 					</td>
 				</tr>
 				<tr>

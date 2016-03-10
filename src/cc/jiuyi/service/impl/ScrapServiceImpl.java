@@ -361,6 +361,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			WorkingInout w=new WorkingInout();
 			w.setWorkingbill(wb);//随工单
 			w.setMaterialCode(code);//物料号
+			w.setMaterialName(smmatterDes);//物料描述
 			w.setScrapNumber(count);//数量
 			w.setCreateDate(new Date());//初始化创建日期
 			w.setModifyDate(new Date());//初始化修改日期

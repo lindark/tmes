@@ -14,8 +14,8 @@ public interface PieceworkWebService {
 	@WebMethod
 	public Dict getDict();
 	@WebMethod
-	public List<Map<String,Object>> getPieceworkListOne(String factory,String workShop,String factoryUnit,String productDate,String shift);
+	public String getPieceworkListOne(String xmlString);
 	@WebMethod
-	public List<Map<String,Object>> getPieceworkListTwo(String factory,String workShop,String factoryUnit,String productDate,String shift);
+	public String getPieceworkListTwo(String xmlString);
 	
 }

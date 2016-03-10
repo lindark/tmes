@@ -22,4 +22,6 @@ public interface EndProductDao extends BaseDao<EndProduct, String> {
 	 * @return
 	 */
 	public List<EndProduct> getListChecked(String productDate, String shift);
+	
+	public List<EndProduct> historyExcelExport(HashMap<String,String>map);
 }

@@ -137,4 +137,10 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 		// TODO Auto-generated method stub
 		return endProductDao.getListChecked(productDate, shift);
 	}
+
+	@Override
+	public List<EndProduct> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return endProductDao.historyExcelExport(map);
+	}
 }

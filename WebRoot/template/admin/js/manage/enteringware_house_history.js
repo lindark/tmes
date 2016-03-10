@@ -40,14 +40,19 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			
-	        {name:'workingbillCode',index:'workingbillCode', label:"随工单编号", width:150,sortable:"true",sorttype:"text"},
-	        {name:'maktx',index:'maktx',label:"产品名称", width:400,sortable:"true",sorttype:"text"},
+	        {name:'workingbillCode',index:'workingbillCode', label:"随工单编号", width:60,sortable:"true",sorttype:"text"},
+	        {name:'productDate',index:'productDate',label:"生产日期", width:60,sortable:"true",sorttype:"text"},
+	        {name:'matnr',index:'matnr',label:"产品编码", width:60,sortable:"true",sorttype:"text"},
+	        {name:'maktx',index:'maktx',label:"产品名称", width:180,sortable:"true",sorttype:"text"},
+	        {name:'batch',index:'batch',label:"批次", width:60,sortable:"true",sorttype:"text"},
+	        {name:'xmoudle',index:'xmoudle',label:"模具", width:70,sortable:"true",sorttype:"text"},
+	        {name:'ex_mblnr',index:'ex_mblnr',label:"物料凭证号", width:60,sortable:"true",sorttype:"text"},        
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',label:"入库时间",width:200,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'storageAmount',label:"入库箱数",width:200,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
-			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
+			{name:'createDate',label:"检验时间",width:70,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'storageAmount',label:"入库箱数",width:50,index:'storageAmount', editable: false,sortable:"true",sorttype:"text"},
+			{name:'createName',label:"创建人",index:'createName', width:50,sortable:"true",sorttype:"text"},
+			{name:'adminName',label:"确认人",index:'adminName', width:50,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',label:"状态",width:60,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
 		], 
 
 		viewrecords : true,
@@ -94,7 +99,7 @@ jQuery(function($) {
 		//已撤销
 		if(rawObject.state=="3")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:purple;font-weight:bold;'";
 		}
 	}
 	//navButtons

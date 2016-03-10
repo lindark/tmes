@@ -44,4 +44,15 @@ public interface EnteringwareHouseDao extends
 	 * @return
 	 */
 	public List<EnteringwareHouse> getByBill(String workingBillId);
+	
+	
+	/**
+	 * Excel导出
+	 * @author Reece
+	 * @param map
+	 * @return
+	 */
+	public List<Object[]> historyExcelExport(HashMap<String, String> map);
+	
+	
 }

@@ -36,4 +36,6 @@ public interface EndProductService extends BaseService<EndProduct, String> {
 	 * @return
 	 */
 	public List<EndProduct> getListChecked(String productDate, String shift);
+	
+	public List<EndProduct> historyExcelExport(HashMap<String,String>map);
 }

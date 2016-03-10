@@ -42,4 +42,13 @@ public interface EnteringwareHouseService extends
 			WorkingBill workingbill,String cardnumber);
 	
 	public String getCharg(WorkingBill workingbill);
+	
+	
+	/**
+	 * Excel导出
+	 * @author Reece
+	 * @param map
+	 * @return
+	 */
+	public List<Object[]> historyExcelExport(HashMap<String, String> map);
 }

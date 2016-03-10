@@ -53,6 +53,10 @@ public class EnteringwareHouse extends BaseEntity {
 	private String factory;
 	private String workshop;
 	private String location;
+	
+	private String matnr;
+	private String xmoudle;
+	private String productDate;
 
 	
 	@Transient
@@ -195,6 +199,15 @@ public class EnteringwareHouse extends BaseEntity {
 	}
 
 	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	@Transient
 	public String getBudat() {
 		return budat;
 	}
@@ -280,5 +293,25 @@ public class EnteringwareHouse extends BaseEntity {
 	public void setMoudle(String moudle) {
 		this.moudle = moudle;
 	}
+
+	@Transient
+	public String getXmoudle() {
+		return xmoudle;
+	}
+
+	public void setXmoudle(String xmoudle) {
+		this.xmoudle = xmoudle;
+	}
+
+	@Transient
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+	
+	
 	
 }

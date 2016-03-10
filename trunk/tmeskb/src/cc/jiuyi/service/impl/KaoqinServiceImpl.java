@@ -302,4 +302,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		}
 		return "e";
 	}
+	@Override
+	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
+		return this.kqDao.getKaoqinList(productDate, shift);
+	}
 }

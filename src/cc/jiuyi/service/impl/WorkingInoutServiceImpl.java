@@ -270,8 +270,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			jsonobject.put("name", nameobj.get(i));
 			jsonobject.put("index", indexobj.get(i));
 			jsonobject.put("label", labelobj.get(i));
-			jsonobject.put("width", 150);
-			jsonobject.put("fixed", true);
+			//jsonobject.put("width", 150);
+			//jsonobject.put("fixed", true);
 			jsonarray.add(jsonobject);
 		}
 		

@@ -136,8 +136,13 @@ public class EquipmentsAction extends BaseAdminAction {
 		
 			equipment.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "equipmentState", equipment.getState()));
-			equipment.setVersionReamrk(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "equipmentVersion", equipment.getVersion()));
+			if(equipment.getVersion()!=null && !"".equals(equipment.getVersion())){
+				equipment.setVersionReamrk(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "equipmentVersion", equipment.getVersion()));
+			}else{
+				equipment.setVersionReamrk("");
+			}
+			
 			
 			pagerlist.set(i,equipment);
 		}

@@ -31,6 +31,7 @@ public class Equipments extends BaseEntity{
 	private String condition;//状态
 	private String startday;//有效起始日
 	private String endday;//有效截止日
+	private String functionPositiondecribe;//功能位置描述
 	
     private String state;//是否启用
     private String isDel;//是否删除
@@ -172,6 +173,12 @@ public class Equipments extends BaseEntity{
 	}
 	public void setEndday(String endday) {
 		this.endday = endday;
+	}
+	public String getFunctionPositiondecribe() {
+		return functionPositiondecribe;
+	}
+	public void setFunctionPositiondecribe(String functionPositiondecribe) {
+		this.functionPositiondecribe = functionPositiondecribe;
 	}
     
     

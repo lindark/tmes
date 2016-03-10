@@ -29,6 +29,7 @@ public class Post extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Set<Admin> adminSet;
+    private String station;//工位
     
 	public String getPostCode() {
 		return postCode;
@@ -75,6 +76,12 @@ public class Post extends BaseEntity{
 	public void setAdminSet(Set<Admin> adminSet)
 	{
 		this.adminSet = adminSet;
+	}
+	public String getStation() {
+		return station;
+	}
+	public void setStation(String station) {
+		this.station = station;
 	}
 
    

@@ -31,12 +31,6 @@ public class TestWebService extends BaseTestCase {
 		System.out.println(results[0]);
 	}
 	
-	@Test
-	public void webserviceTestOne(){
-		List<Map<String,Object>> mapList = pieceworkWebService.getPieceworkListOne("1000","DY01","1001","2016-01-20","");
-		
-		System.out.println(mapList);
-	}
 	
 	@Test
 	public void webserviceTestTwo(){

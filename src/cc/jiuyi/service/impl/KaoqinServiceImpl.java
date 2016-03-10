@@ -189,7 +189,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 				kaoqin.setClasstime(classtime);
 				kaoqin.setEmpname(empname);
 				kaoqin.setPostname(postname);
-				kaoqin.setTeam(team.getTeamName());
+				kaoqin.setTeam(team);
 				kaoqin.setWorkState(workState);
 				kaoqin.setProductdate(admin.getProductDate());//生产日期
 				kaoqin.setEmpid(admin1.getId());//员工主键ID
@@ -280,7 +280,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 				{
 					kq.setPostname("");
 				}
-				kq.setTeam(t.getTeamName());//班组名称
+				kq.setTeam(t);//班组
 				kq.setCreateDate(new Date());
 				kq.setModifyDate(new Date());
 				this.save(kq);

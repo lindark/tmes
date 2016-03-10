@@ -37,8 +37,10 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Date lockedDate;// 账号锁定日期
 	private Date loginDate;// 最后登录日期
 	private String loginIp;// 最后登录IP
+	private String sex;//性别
+	private Date startWorkDate;//入职日期
+	private String tardyHours;//误工小时数
 
-	private String departName;// 部门名称
 	private String isDel;// 是否删除
 	private String shift;// 班次
 	private String productDate;// 生产日期
@@ -119,20 +121,31 @@ public class Admin extends BaseEntity implements UserDetails {
 	
 	private Admin parentAdmin;//上级
 	private Set<Admin> adminSet;//下级
+	private Admin empCreater;//人员创建人
+	private Set<Admin>empCreaterSet;
 	
-	private Set<UnitdistributeProduct> unitdistributeProductSet;//工作范围
-	private Set<UnitdistributeModel> unitdistributeModelSet;//工位
+	private Set<UnitdistributeProduct> unitdistributeProductSet;//工位
+	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
 	private Set<Deptpick> createUserSet;//部门领料提交人
 	private Set<Deptpick> comfirmUserSet;//部门领料审批人
+	private Set<Department>deptLeader;//部门负责人
+	private Set<Department>creater;//部门创建人
+	private Team team;//班组
 	
 	//假字段
+	private String xdeptcode;//部门编码
+	private String departName;// 部门名称
 	private String xworkstate;//员工工作状态描述
 	private String xshift;//班次
 	private String xteam;//班组
 	private String xpost;//岗位
 	private String xstation;//工作范围
 	private String xworkscope;//工位
-	
+	private String xparentAdmin;//直接上级
+	private String xisJob;//是否离职
+	private String xisenable;//是否启用
+	private String xempCreater;//创建人
+	private String xsex;//性别
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
 	public Set<Deptpick> getCreateUserSet() {
@@ -1026,7 +1039,150 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setXworkscope(String xworkscope) {
 		this.xworkscope = xworkscope;
 	}
+
+	@Transient
+	public String getXparentAdmin()
+	{
+		return xparentAdmin;
+	}
+
+	public void setXparentAdmin(String xparentAdmin)
+	{
+		this.xparentAdmin = xparentAdmin;
+	}
+
+	@Transient
+	public String getXisJob()
+	{
+		return xisJob;
+	}
+
+	public void setXisJob(String xisJob)
+	{
+		this.xisJob = xisJob;
+	}
+
+	@Transient
+	public String getXisenable()
+	{
+		return xisenable;
+	}
+
+	public void setXisenable(String xisenable)
+	{
+		this.xisenable = xisenable;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="deptLeader")
+	public Set<Department> getDeptLeader()
+	{
+		return deptLeader;
+	}
+
+	public void setDeptLeader(Set<Department> deptLeader)
+	{
+		this.deptLeader = deptLeader;
+	}
 	
-	
-	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="creater")
+	public Set<Department> getCreater()
+	{
+		return creater;
+	}
+
+	public void setCreater(Set<Department> creater)
+	{
+		this.creater = creater;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Team getTeam()
+	{
+		return team;
+	}
+
+	public void setTeam(Team team)
+	{
+		this.team = team;
+	}
+	@Transient
+	public String getXdeptcode()
+	{
+		return xdeptcode;
+	}
+
+	public void setXdeptcode(String xdeptcode)
+	{
+		this.xdeptcode = xdeptcode;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getEmpCreater()
+	{
+		return empCreater;
+	}
+
+	public void setEmpCreater(Admin empCreater)
+	{
+		this.empCreater = empCreater;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="empCreater")
+	public Set<Admin> getEmpCreaterSet()
+	{
+		return empCreaterSet;
+	}
+
+	public void setEmpCreaterSet(Set<Admin> empCreaterSet)
+	{
+		this.empCreaterSet = empCreaterSet;
+	}
+	@Transient
+	public String getXempCreater()
+	{
+		return xempCreater;
+	}
+
+	public void setXempCreater(String xempCreater)
+	{
+		this.xempCreater = xempCreater;
+	}
+
+	public String getSex()
+	{
+		return sex;
+	}
+
+	public void setSex(String sex)
+	{
+		this.sex = sex;
+	}
+	@Transient
+	public String getXsex()
+	{
+		return xsex;
+	}
+
+	public void setXsex(String xsex)
+	{
+		this.xsex = xsex;
+	}
+
+	public Date getStartWorkDate()
+	{
+		return startWorkDate;
+	}
+
+	public void setStartWorkDate(Date startWorkDate)
+	{
+		this.startWorkDate = startWorkDate;
+	}
+
+	public String getTardyHours()
+	{
+		return tardyHours;
+	}
+
+	public void setTardyHours(String tardyHours)
+	{
+		this.tardyHours = tardyHours;
+	}
 }

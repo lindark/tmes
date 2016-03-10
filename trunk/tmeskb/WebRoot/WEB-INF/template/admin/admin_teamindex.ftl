@@ -56,33 +56,9 @@
 </script>
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
- 
+ -->
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
-<script type="text/javascript">
-	
-	$(function(){
-		LODOP.PRINT_INIT("打印任务名");
-		LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 49mm 高度 74mm 
-		LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p>&nbsp;建新赵氏集团</p>");
-		LODOP.ADD_PRINT_TEXT("6mm","0mm","49mm","6mm","桑塔纳NF/前门");
-		LODOP.ADD_PRINT_TEXT("12mm","0mm","49mm","6mm","34D839431A5AP");
-		LODOP.ADD_PRINT_BARCODE("18mm","2mm","27mm","6mm","128Auto","123231231");
-		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
-		LODOP.ADD_PRINT_TEXT("28mm","0mm","49mm","6mm","物料号:40100971");
-		LODOP.ADD_PRINT_BARCODE("34mm","2mm","22mm","6mm","128Auto","160224");
-		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
-		LODOP.ADD_PRINT_TEXT("42mm","0mm","49mm","5mm","包装批次:160224");
-		LODOP.ADD_PRINT_TEXT("47mm","0mm","49mm","5mm","数量:20");
-		LODOP.ADD_PRINT_TEXT("52mm","0mm","49mm","5mm","喷码批次:");
-		LODOP.ADD_PRINT_BARCODE("57mm","2mm","37mm","6mm","128Auto","987654321");
-		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
-		LODOP.ADD_PRINT_TEXT("65mm","0mm","49mm","5mm","随工单:10015167532");
-		LODOP.SET_PRINT_COPIES(1);//控制打印份数
-		//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
-		LODOP.PREVIEW();
-	})
-	-->
-</script>
+
 </head>
 <body class="no-skin">
 

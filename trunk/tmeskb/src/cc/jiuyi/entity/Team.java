@@ -11,8 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.compass.annotations.Searchable;
-
 /**
  * 实体类 - 班组
  * 
@@ -49,7 +47,7 @@ public class Team extends BaseEntity {
 	private Set<Model> modelSet;
 	private Set<Craft> craftSet;
 	private Set<Device> deviceSet;
-	
+	private Set<Admin>empSet;//人员
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
 	public Set<Device> getDeviceSet() {
@@ -242,8 +240,14 @@ public class Team extends BaseEntity {
 	public void setWorkingBillSet(Set<WorkingBill> workingBillSet) {
 		this.workingBillSet = workingBillSet;
 	}
-	
-	
-	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "team")
+	public Set<Admin> getEmpSet()
+	{
+		return empSet;
+	}
 
+	public void setEmpSet(Set<Admin> empSet)
+	{
+		this.empSet = empSet;
+	}
 }

@@ -115,7 +115,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Carton> cartonCreateUser;// 纸箱收货主表创建人
 	private Set<Carton> cartonConfirmUser;// 纸箱收货主表确认人
 
-	private Post post;//技能
+	private Post post;//技能/岗位  工位是岗位里面的一个字段
 	private String workstate;//状态1，考勤：添加代班员工时用到
 	private String isdaiban;//是否代班
 	
@@ -124,7 +124,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Admin empCreater;//人员创建人
 	private Set<Admin>empCreaterSet;
 	
-	private Set<UnitdistributeProduct> unitdistributeProductSet;//工位
+	private Set<UnitdistributeProduct> unitdistributeProductSet;///模具组号
 	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
 	private Set<Deptpick> createUserSet;//部门领料提交人
 	private Set<Deptpick> comfirmUserSet;//部门领料审批人

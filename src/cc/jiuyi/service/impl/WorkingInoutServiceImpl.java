@@ -1,5 +1,7 @@
 package cc.jiuyi.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -215,9 +217,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
-		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
-		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
+		
 		/**处理交下班(正常)**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -241,12 +241,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			labelobj.add(label);
 		}
 		/**处理交下班 (返修)end**/
-		//double 
-		//产出总数量=(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
-		//cczsl = (cczsl+beforeoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+trzsl;
+		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
 		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
 		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
 		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
+		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
+		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
 		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
 		
 		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
@@ -352,7 +352,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				Double trzsl = 0.00d;
 				Double cczsl = 0.00d;
 				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getRecipientsAmount()));//领用数
-				trzsl = ArithUtil.sub(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				//trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				
 			//	cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
 //				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量  modify 
@@ -410,10 +410,17 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				Double repairinAmount = 0.00d;
 				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
-				zjbfs = ArithUtil.sub(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
-				//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
-				cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
-				
+				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				String s = workinginout.getMaterialCode().substring(0, 1);
+				if(!"5".equals(s)){
+					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
+					cczsl = (new BigDecimal(cczsl).add(new BigDecimal(beforeoddamount)).add(new BigDecimal(beforeunoddamount)).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(new BigDecimal(afteroddamount)).subtract(new BigDecimal(afterunoddamount))).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+				}else{
+					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+				}
+					
+				//cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
 				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
 				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率

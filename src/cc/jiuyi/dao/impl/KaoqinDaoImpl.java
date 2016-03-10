@@ -91,4 +91,12 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		String hql="from Kaoqin where cardNum=? and kqdate=?";
 		return (Kaoqin) this.getSession().createQuery(hql).setParameter(0, cardNum).setParameter(1, strdate).uniqueResult();
 	}
+
+	@Override
+	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
+		String hql = "from kaoqin where productdate=? and classtime=? order by createDate desc";
+		return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift);
+	}
+	
+	
 }

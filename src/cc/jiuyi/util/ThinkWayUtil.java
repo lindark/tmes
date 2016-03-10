@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.opensymphony.oscache.util.StringUtil;
-
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AdminService;
@@ -345,4 +343,27 @@ public class ThinkWayUtil {
 	    }  
 	    return (String[])list.toArray(new String[list.size()]);  
 	}  
+	
+	/**
+	 * 获取批次
+	 * 批次规则: 年后两位 + 月+ 日
+	 * @return
+	 */
+	public static String getCharg(){
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int mounth = calendar.get(Calendar.MONTH) + 1;
+		int day = calendar.get(Calendar.DATE);
+		String ye = ""+year;
+		String mo = ""+mounth;
+		String da = ""+day;
+		ye = ye.substring(ye.length()-2, ye.length());
+		if(mounth < 10)
+			mo = "0"+mounth;
+		if(day < 10)
+			da = "0"+da;
+		
+		return ye+mo+da;
+	}
+
 }

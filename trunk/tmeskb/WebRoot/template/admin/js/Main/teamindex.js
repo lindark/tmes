@@ -86,6 +86,28 @@ $(function() {
 					$scrap.addClass("disabled");
 					$scenecheck.addClass("disabled");
 				}
+			},
+			"barcode":function(workingbill){
+				LODOP.PRINT_INIT("条码打印");
+				LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 50mm 高度 80mm 
+				LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p style='text-align:center'>建新赵氏集团</p>");
+				LODOP.ADD_PRINT_TEXT("6mm","2mm","49mm","6mm",workingbill.maktx);
+				//LODOP.ADD_PRINT_TEXT("12mm","0mm","49mm","6mm","34D839431A5AP");
+				LODOP.ADD_PRINT_BARCODE("18mm","4mm","27mm","6mm","128Auto",workingbill.matnr);
+				LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+				LODOP.ADD_PRINT_TEXT("28mm","2mm","49mm","6mm","物料号:"+workingbill.matnr);
+				LODOP.ADD_PRINT_BARCODE("34mm","4mm","22mm","6mm","128Auto",workingbill.charg);
+				LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+				LODOP.ADD_PRINT_TEXT("42mm","2mm","49mm","5mm","包装批次:"+workingbill.charg);
+				LODOP.ADD_PRINT_TEXT("47mm","2mm","49mm","5mm","数量:"+workingbill.amount);
+				LODOP.ADD_PRINT_TEXT("52mm","2mm","49mm","5mm","喷码批次:");
+				LODOP.ADD_PRINT_BARCODE("57mm","4mm","37mm","6mm","128Auto",workingbill.workingbillCode);
+				LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+				LODOP.ADD_PRINT_TEXT("65mm","2mm","49mm","5mm","随工单:"+workingbill.workingbillCode);
+				LODOP.SET_PRINT_COPIES(workingbill.pagenumber);//控制打印份数
+				//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
+				LODOP.PREVIEW();
+				
 			}
 	}
 	
@@ -319,7 +341,25 @@ $(function() {
 	$barcode.click(function(){
 		var part = $(this).prev().val();//打印的份数
 		var workingbillid = $(this).parent().siblings().eq(0).find(".ckbox").val();//随工单ID
-		//alert(part+","+workingbillid);
+		if(part == ""){
+			layer.alert("打印数量必须填写");
+			return false;
+		}
+		
+		var workingbill = new Array();
+		
+		
+		
+		$.post("working_bill!barcodePrint.action", { wbid: workingbillid},function(data){
+			workingbill.workingbillCode = data.workingbillCode;//随工单号
+			workingbill.matnr=data.matnr;//物料号1
+			workingbill.maktx=data.maktx;//物料描述
+			workingbill.charg=data.charg;//批次
+			workingbill.amount=data.amount;//数量
+			workingbill.pagenumber=part;
+			init.barcode(workingbill);
+		},"json" );
+		
 	});
 	
 })

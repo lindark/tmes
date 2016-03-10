@@ -29,5 +29,12 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @return
 	 */
 	public Kaoqin getByCardnumAndSameday(String cardNum,String strdate);
-
+	/**
+	 * 根据生产日期和班次查询数据
+	 * @author Lk
+	 * @param productDate
+	 * @param shift
+	 * @return
+	 */
+	public List<Kaoqin> getKaoqinList(String productDate, String shift);
 }

@@ -93,6 +93,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	@Resource
 	private UnitConversionService unitConversionService;
 
+	//报工记录表 @author Reece 2016/3/8
 	public String history() {
 		return "history";
 	}
@@ -159,9 +160,9 @@ public class DailyWorkAction extends BaseAdminAction {
 						.getWorkingBillCode());
 				dailyWork.setProductDate(dailyWork.getWorkingbill().getProductDate());
 				dailyWork.setMatnr(dailyWork.getWorkingbill().getMatnr());
-				lst.add(dailyWork);
 				dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
 						"moudleType", dailyWork.getMoudle()));
+				lst.add(dailyWork);
 			}
 			pager.setList(lst);
 		} catch (Exception e) {

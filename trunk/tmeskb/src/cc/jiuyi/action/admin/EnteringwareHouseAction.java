@@ -20,6 +20,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.WorkingBill;
@@ -32,9 +33,11 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
+ * @author Reece 2016/3/10
  * 后台Action类 - 入库
  */
 
@@ -56,6 +59,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private Double totalAmount = 0d;
 	private String cardnumber;//刷卡卡号
 	private String loginid;//当前登录人的ID
+	private String matnr;
+	private String maktx;
+	private String start;
+	private String state;
+	private String end;
 
 	@Resource
 	private WorkingBillService workingBillService;
@@ -74,6 +82,143 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	@Resource
 	private FactoryUnitService factoryUnitService;
 
+	
+	// 历史入库记录 @author Reece 2016/3/10
+	public String history() {
+		return "history";
+	}
+
+	// 历史入库记录 @author Reece 2016/3/10
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("matnr") != null) {
+				String matnr = obj.getString("matnr").toString();
+				map.put("matnr", matnr);
+			}
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx").toString();
+				map.put("maktx", maktx);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+		}
+		pager = enteringwareHouseService.historyjqGrid(pager, map);
+		List<EnteringwareHouse> enteringwareHouseList = pager.getList();
+		List<EnteringwareHouse> lst = new ArrayList<EnteringwareHouse>();
+		for (int i = 0; i < enteringwareHouseList.size(); i++) {
+			EnteringwareHouse enteringwareHouse = (EnteringwareHouse) enteringwareHouseList
+					.get(i);
+			enteringwareHouse.setStateRemark(ThinkWayUtil
+					.getDictValueByDictKey(dictService, "enteringwareState",
+							enteringwareHouse.getState()));
+			if (enteringwareHouse.getConfirmUser() != null) {
+				enteringwareHouse.setAdminName(enteringwareHouse
+						.getConfirmUser().getName());
+			}
+			enteringwareHouse.setCreateName(enteringwareHouse.getCreateUser()
+					.getName());
+			enteringwareHouse.setWorkingbillCode(workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId())
+					.getWorkingBillCode());
+			enteringwareHouse.setMaktx(workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId()).getMaktx());
+			enteringwareHouse.setMatnr((workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId()).getMatnr()));
+			enteringwareHouse.setProductDate((workingBillService.get(
+					enteringwareHouse.getWorkingbill().getId()).getProductDate()));
+			enteringwareHouse.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"moudleType", enteringwareHouse.getMoudle()));
+			lst.add(enteringwareHouse);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(EnteringwareHouse.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	//Excel导出 @author Reece 2016/3/10
+	public String excelexport(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("matnr", matnr);
+		map.put("maktx", maktx);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+		
+		
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+        header.add("随工单号");
+        header.add("生产日期");
+        header.add("产品编码");
+        header.add("产品名称");
+        header.add("批次");
+        header.add("物料凭证号");
+        header.add("入库箱数");
+        header.add("模具");
+        header.add("入库日期");
+        header.add("创建人");
+        header.add("确认人");
+        header.add("状态");
+        
+        List<Object[]> workList = enteringwareHouseService.historyExcelExport(map);
+        for(int i=0;i<workList.size();i++){
+        	Object[] obj = workList.get(i);
+        	EnteringwareHouse enteringwareHouse = (EnteringwareHouse) obj[0];
+        	WorkingBill workingbill = (WorkingBill)obj[1];
+        	
+        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getProductDate()
+        			            ,workingbill.getMatnr(),workingbill.getMaktx()
+        			            ,enteringwareHouse.getBatch(),enteringwareHouse.getEx_mblnr()
+        			            ,enteringwareHouse.getStorageAmount()
+        						,ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", enteringwareHouse.getMoudle())
+        						,enteringwareHouse.getCreateDate(),enteringwareHouse.getCreateUser()==null?"":enteringwareHouse.getCreateUser().getName()
+        						,enteringwareHouse.getConfirmUser()==null?"":enteringwareHouse.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "enteringwareState", enteringwareHouse.getState())};
+        	body.add(bodyval);
+        }
+		
+		try {
+			String fileName = "成品检验记录表"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("成品检验记录表", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+		    getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * 跳转list 页面
 	 * 
@@ -108,10 +253,6 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		return INPUT;
 	}
 
-	// 历史入库记录
-	public String history() {
-		return "history";
-	}
 	
 	// 查看
 	public String view() {
@@ -316,67 +457,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		return ajaxJson(hashmap);
 	}
 
-	public String historylist() {
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
-		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
-			if (!filters.equals("")) {
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
-		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
-						.toString();
-				map.put("maktx", maktx);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
-		pager = enteringwareHouseService.historyjqGrid(pager, map);
-		List<EnteringwareHouse> enteringwareHouseList = pager.getList();
-		List<EnteringwareHouse> lst = new ArrayList<EnteringwareHouse>();
-		for (int i = 0; i < enteringwareHouseList.size(); i++) {
-			EnteringwareHouse enteringwareHouse = (EnteringwareHouse) enteringwareHouseList
-					.get(i);
-			enteringwareHouse.setStateRemark(ThinkWayUtil
-					.getDictValueByDictKey(dictService, "enteringwareState",
-							enteringwareHouse.getState()));
-			if (enteringwareHouse.getConfirmUser() != null) {
-				enteringwareHouse.setAdminName(enteringwareHouse
-						.getConfirmUser().getName());
-			}
-			enteringwareHouse.setCreateName(enteringwareHouse.getCreateUser()
-					.getName());
-			enteringwareHouse.setWorkingbillCode(workingBillService.get(
-					enteringwareHouse.getWorkingbill().getId()).getWorkingBillCode());
-			enteringwareHouse.setMaktx(workingBillService.get(
-					enteringwareHouse.getWorkingbill().getId()).getMaktx());
-			lst.add(enteringwareHouse);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil
-				.getExcludeFields(EnteringwareHouse.class));// 排除有关联关系的属性字段
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
-	}
+	
 
 	/**
 	 * ajax 列表
@@ -570,4 +651,47 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public List<Dict> getAllMoudle() {
 		return dictService.getList("dictname", "moudleType");
 	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	
+	
+	
 }

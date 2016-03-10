@@ -56,7 +56,7 @@
 </script>
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
- -->
+ 
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
 <script type="text/javascript">
 	
@@ -81,7 +81,7 @@
 		//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
 		LODOP.PREVIEW();
 	})
-	
+	-->
 </script>
 </head>
 <body class="no-skin">

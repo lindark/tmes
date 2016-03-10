@@ -24,6 +24,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
+import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.Locationonside;
@@ -39,9 +40,11 @@ import cc.jiuyi.service.EndProductService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
+ * @author Reece 2016/3/8
  * 后台Action类 - 成品入库
  */
 
@@ -63,6 +66,11 @@ public class EndProductAction extends BaseAdminAction {
 	private String productDate;
 	private String shift;
 	private String str;
+	private String materialCode;
+	private String materialDesp;
+	private String state;
+	private String start;
+	private String end;
 
 	@Resource
 	private EndProductService endProductService;
@@ -495,11 +503,19 @@ public class EndProductAction extends BaseAdminAction {
 					String materialCode = obj.getString("materialCode").toString();
 					map.put("materialCode", materialCode);
 				}
+				if (obj.get("materialDesp") != null) {
+					String materialDesp = obj.getString("materialDesp").toString();
+					map.put("materialDesp", materialDesp);
+				}
 				if (obj.get("start") != null && obj.get("end") != null) {
 					String start = obj.get("start").toString();
 					String end = obj.get("end").toString();
 					map.put("start", start);
 					map.put("end", end);
+				}
+				if (obj.get("state") != null) {
+					String state = obj.getString("state").toString();
+					map.put("state", state);
 				}
 			}
 			pager = endProductService.historyjqGrid(pager, map);
@@ -515,6 +531,8 @@ public class EndProductAction extends BaseAdminAction {
 				if (endProduct.getCreateName() != null) {
 					endProduct.setCreateName(endProduct.getCreateName());
 				}
+				endProduct.setReceiveRepertorySiteDesp(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "reporterSite", endProduct.getReceiveRepertorySite()));
 				lst.add(endProduct);
 			}
 			pager.setList(lst);
@@ -531,6 +549,51 @@ public class EndProductAction extends BaseAdminAction {
 		
 	}
 	
+	//Excel导出
+	public String excelexport(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("materialCode", materialCode);
+		map.put("materialDesp", materialDesp);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+		
+		
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+        header.add("物料编码");
+        header.add("物料描述");
+        header.add("批次");
+        header.add("物料凭证号");
+        header.add("接收库存地点");
+        header.add("入库箱数");
+        header.add("创建时间");
+        header.add("创建人");
+        header.add("确认人");
+        header.add("状态");
+        
+        List<EndProduct> workList = endProductService.historyExcelExport(map);
+        for(int i=0;i<workList.size();i++){
+        	EndProduct endProduct = workList.get(i);
+        	
+        	Object[] bodyval = {endProduct.getMaterialCode(),endProduct.getMaterialDesp(),endProduct.getMaterialBatch()
+        			            ,endProduct.getMblnr(),ThinkWayUtil.getDictValueByDictKey(dictService, "reporterSite", endProduct.getReceiveRepertorySite())
+        						,endProduct.getStockMout()
+        			            ,endProduct.getCreateDate(),endProduct.getCreateUser()==null?"":endProduct.getCreateName()
+        						,endProduct.getConfirmUser()==null?"":endProduct.getConfirmName(),ThinkWayUtil.getDictValueByDictKey(dictService, "endProState", endProduct.getState())};
+        	body.add(bodyval);
+        }
+		try {
+			String fileName = "成品入库记录表"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("成品入库记录表", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+		    getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	// 获取所有状态
 	public List<Dict> getAllSite() {
@@ -636,6 +699,46 @@ public class EndProductAction extends BaseAdminAction {
 
 	public void setStr(String str) {
 		this.str = str;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getMaterialDesp() {
+		return materialDesp;
+	}
+
+	public void setMaterialDesp(String materialDesp) {
+		this.materialDesp = materialDesp;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 	

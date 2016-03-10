@@ -143,4 +143,10 @@ public class EnteringwareHouseServiceImpl extends
 		return charg;
 	}
 
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return enteringwareHouseDao.historyExcelExport(map);
+	}
+
 }

@@ -21,6 +21,7 @@ public class Kaoqin extends BaseEntity{
 	private String workState;//工作状态
 	private String productdate;//生产日期
 	private String empid;//员工ID--admin表主键
+	private String tardyHours;//误工小时数
 	
 	@Column
 	public String getCardNumber() {
@@ -80,5 +81,12 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.empid = empid;
 	}
-	
+	public String getTardyHours()
+	{
+		return tardyHours;
+	}
+	public void setTardyHours(String tardyHours)
+	{
+		this.tardyHours = tardyHours;
+	}
 }

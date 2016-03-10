@@ -176,6 +176,13 @@ body{background:#fff;}
 									</div>
 									
 									<div class="profile-info-row">
+									    <div class="profile-info-name"> 功能位置描述</div>					
+										<div class="profile-info-value">
+											<input type="text" name="equipments.functionPositiondecribe" value="${(equipments.functionPositiondecribe)!}" class=" input input-sm" />
+										</div>
+										
+								    </div>
+								    <div class="profile-info-row">
 										<div class="profile-info-name"> 是否启用</div>					
 										<div class="profile-info-value">
 											<label class="pull-left inline">

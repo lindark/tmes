@@ -64,4 +64,13 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @param sameTeamId
 	 */
 	public String mergeGoOffWork(String sameTeamId,Admin admin);
+	
+	/**
+	 * 根据生产日期和班次查询数据
+	 * @author Lk
+	 * @param productDate
+	 * @param shift
+	 * @return
+	 */
+	public List<Kaoqin> getKaoqinList(String productDate, String shift);
 }

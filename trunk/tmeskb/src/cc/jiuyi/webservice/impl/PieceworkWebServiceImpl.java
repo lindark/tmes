@@ -88,10 +88,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	public String getPieceworkListOne(String xmlString){
 		xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
 				+ "<factory>1000</factory>"
-				+ "<workShop>Dy01</workShop>"
-				+ "<factoryUnit>Dy01</factoryUnit>"
-				+ "<productDate>Dy01</productDate>"
-				+ "<shift>Dy01</shift></title></ROOT>";  
+				+ "<workShop>1001</workShop>"
+				+ "<factoryUnit></factoryUnit>"
+				+ "<productDate>2016-01-20</productDate>"
+				+ "<shift></shift></title></ROOT>";  
         Document doc = null;
         String factory="";
         String workShop="";
@@ -129,8 +129,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 			for(WorkingBill wb : WorkingBillList){
 				if(wb.getTeam()!=null){
 					if(wb.getTeam().getFactoryUnit()!=null){
-						if(factory.equals(wb.getWerks()) && workShop.equals(wb.getTeam().getFactoryUnit().getWorkShop())){
-							if(!"".equals(factoryUnit) && factoryUnit.equals(workShop.equals(wb.getTeam().getFactoryUnit()))){
+						if(factory.equals(wb.getWerks()) && workShop.equals(wb.getTeam().getFactoryUnit().getWorkShop().getWorkShopCode())){
+							if(!"".equals(factoryUnit) && factoryUnit.equals(workShop.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode()))){
 								Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 								PieceworkMap.put("factory", factory);//工厂
 								PieceworkMap.put("workShop",workShop);//车间
@@ -223,9 +223,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	    //title元素增加属性
 	    titleElmt.addAttribute("name", "计件系统第一个功能");
 	    //3. 递归构造子元素
-	    Element pieceworklistElmt  = titleElmt.addElement("pieceworklist"); 
+	    
 	    if(PieceworkLists.size()>0){
 	    	 for(Map<String,Object> map : PieceworkLists){
+	    		 Element pieceworklistElmt  = titleElmt.addElement("pieceworklist"); 
 	   	      //pieceworklist元素设置数据
 	   	      Element factoryElmt = pieceworklistElmt.addElement("factory");
 	   	      factoryElmt.setText((String)map.get("factory"));
@@ -259,6 +260,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	   	      qualifiedRatioElmt.setText((String)map.get("qualifiedRatio"));
 	   	    }
 	    }else{
+	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
 	   	      //pieceworklist元素设置数据
 	   	      Element factoryElmt = pieceworklistElmt.addElement("factory");
 	   	      factoryElmt.setText("");
@@ -470,9 +472,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	    //title元素增加属性
 	    titleElmt.addAttribute("name", "计件系统第二个功能");
 	    //3. 递归构造子元素
-	    Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
+	    
 	    if(PieceworkLists.size()>0){
 	    	for(Map<String,Object> map : PieceworkLists){
+	    		Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
 	  	      //pieceworklist元素增加子元素
 	  	      Element productDateElmt = pieceworklistElmt.addElement("productDate");
 	  	      productDateElmt.setText((String)map.get("productDate"));
@@ -522,6 +525,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	  	      kuanggongElmt.setText((String)map.get("kuanggong"));
 	  	    }
 	    }else{
+	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
 	    	Element productDateElmt = pieceworklistElmt.addElement("productDate");
 		      productDateElmt.setText("");
 		      Element shiftElmt = pieceworklistElmt.addElement("shift");

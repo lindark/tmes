@@ -179,7 +179,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								PieceworkMap.put("wokingBillCode",wb.getWorkingBillCode());//随工单号
 								PieceworkMap.put("materialCode",wb.getMatnr());//物料编码
 								PieceworkMap.put("materialDesp",wb.getMaktx());//物料描述
-								Orders orders = ordersService.get("aufnr", wb.getWorkingBillCode());
+								Orders orders = ordersService.get("aufnr", wb.getAufnr());
 								PieceworkMap.put("mouldNumber",orders==null?"":orders.getMujuntext());//模具组号
 								
 								List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", wb.getWorkingBillCode());

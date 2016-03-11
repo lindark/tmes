@@ -16,9 +16,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.HandOverProcessDao;
+import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
@@ -47,6 +49,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	private BomService bomservice;
 	@Resource
 	private HandOverProcessDao handoverprocessdao;
+	@Resource
+	private OddHandOverDao oddHandOverDao;
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -306,6 +310,21 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				WorkingBill workingbill = workinginout.getWorkingbill();
 				String aufnr = workingbill.getAufnr();
 				
+				List<OddHandOver> oddHandOverListBefore = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				Double afteroddamount =0.0d;
+				Double afterunoddamount=0.0d;
+				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
+					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
+					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
+				}
+				List<OddHandOver> oddHandOverListAfter = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				Double beforeoddamount = 0.0d;
+				Double beforeunoddamount = 0.0d;
+				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
+					beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
+					beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
+				}
+				
 				map.put(strlen[0], workingbill.getWorkingBillCode());
 				map.put(strlen[1], workinginout.getMaterialCode());
 				map.put(strlen[2], workingbill.getPlanCount());
@@ -314,12 +333,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[25],workinginout.getMaterialName());//组件描述
 				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
-				map.put(strlen[3], workingbill.getAfteroddamount());//接上班零头数
-				map.put(strlen[4], workingbill.getAfterunoddamount());//接上班异常零头数
+				map.put(strlen[3], afteroddamount);//接上班零头数
+				map.put(strlen[4], afterunoddamount);//接上班异常零头数
 				map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
 				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
-				map.put(strlen[8],workingbill.getBeforeoddamount());//交下班零头数
-				map.put(strlen[17],workingbill.getBeforeunoddamount());//交下班异常零头数
+				map.put(strlen[8],beforeoddamount);//交下班零头数
+				map.put(strlen[17],beforeunoddamount);//交下班异常零头数
 				map.put(strlen[9],workinginout.getScrapNumber());//报废数
 				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
 				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
@@ -340,11 +359,11 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
 				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
 				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
-				Double afteroddamount = ThinkWayUtil.null2o(workingbill.getAfteroddamount());//接上班零头数
-				Double afterunoddamount = ThinkWayUtil.null2o(workingbill.getAfterunoddamount());//接上班异常零头数
+			
 				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
-				Double beforeoddamount = ThinkWayUtil.null2o(workingbill.getBeforeoddamount());//交下班零头数
-				Double beforeunoddamount = ThinkWayUtil.null2o(workingbill.getBeforeunoddamount());//交下班异常零头数
+				
+				
+				
 				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(afteroddamount, afterunoddamount),totalsingleamount),beforeoddamount),beforeunoddamount);//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
 				map.put(strlen[16],dbjyhgs);//当班检验合格数
 				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算

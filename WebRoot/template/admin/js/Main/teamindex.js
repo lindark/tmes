@@ -88,6 +88,7 @@ $(function() {
 				}
 			},
 			"barcode":function(workingbill){
+				//var LODOP=getLodop();
 				LODOP.PRINT_INIT("条码打印");
 				LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 50mm 高度 80mm 
 				LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p style='text-align:center'>建新赵氏集团</p>");
@@ -106,7 +107,8 @@ $(function() {
 				LODOP.ADD_PRINT_TEXT("65mm","2mm","49mm","5mm","随工单:"+workingbill.workingbillCode);
 				LODOP.SET_PRINT_COPIES(workingbill.pagenumber);//控制打印份数
 				//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
-				LODOP.PREVIEW();
+				//LODOP.PREVIEW();
+				LODOP.PRINT();
 				
 			}
 	}

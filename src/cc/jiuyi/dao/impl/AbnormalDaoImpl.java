@@ -65,11 +65,11 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
 		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
-			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
+			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名							
 		}
-		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
-			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
-		}
+		/*if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
+			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名			
+		}*/
 		
 		if (map != null && map.size() > 0) {
 			if (!map.get("start").equals("") || !map.get("end").equals("")) {// 生产日期范围
@@ -85,9 +85,9 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 						+ map.get("originator").toString() + "%"));
 			}
 		}
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id), Restrictions.eq("admin1.id", id)));
+		/*detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id), Restrictions.eq("admin1.id", id)));
 		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
-		
+*/		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		
 		return super.findByPager(pager, detachedCriteria);

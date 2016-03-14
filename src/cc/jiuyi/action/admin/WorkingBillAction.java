@@ -16,11 +16,13 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
+import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
+import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
@@ -64,13 +66,27 @@ public class WorkingBillAction extends BaseAdminAction {
 	private MaterialService materialservice;
 	@Resource
 	private OrdersService ordersservice;
+	@Resource
+	private UnitConversionService unitconversionservice;
 	
 	
 	//条码打印
 	public String barcodePrint(){
-		WorkingBill workingbill = workingbillService.get(wbid);
-		
-		return null;
+		JSONObject json = new JSONObject();
+		try{
+			WorkingBill workingbill = workingbillService.get(wbid);
+			UnitConversion unitconversion = unitconversionservice.getRatioByMatnr(workingbill.getMatnr(), "CAR");
+			
+			json.put("workingbillCode", workingbill.getWorkingBillCode());//随工单号
+			json.put("matnr", workingbill.getMatnr());//物料号
+			json.put("maktx", workingbill.getMaktx());//物料描述
+			json.put("charg", ThinkWayUtil.getCharg());//批次
+			json.put("amount", unitconversion.getConversationRatio());//数量
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println(json.toString());
+		return ajaxJson(json.toString());
 	}
 	
 	// 添加
@@ -173,10 +189,8 @@ public class WorkingBillAction extends BaseAdminAction {
 		try {
 			workingbillrfc.syncRepairorderAll(start, end, "", "",aufnr);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CustomerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return SUCCESS;

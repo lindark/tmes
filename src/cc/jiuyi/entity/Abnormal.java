@@ -35,6 +35,13 @@ public class Abnormal extends BaseEntity{
 	private String classtime;//班次
 	private String productdate;//生产日期
 	
+	private Date closeTime;//关闭时间
+	private Date cancelTime;//撤销时间
+	private String cancelPerson;//撤销人
+	private String closePerson;//关闭人
+	private Double responseTime;//响应时间
+	private Double dealTime;//处理时间
+	
 	private Admin iniitiator;//发起人
 	private Set<Admin> responsorSet;//应答人
 	private Set<Quality> qualitySet;//质量问题单
@@ -50,6 +57,8 @@ public class Abnormal extends BaseEntity{
 	private String answer;
 	private String log;
 	private String disposeTime;
+	private String closeOrcancel;
+    private String closeOrcancelTime;
 	
 	@Column
 	public Date getCallDate() {
@@ -230,6 +239,60 @@ public class Abnormal extends BaseEntity{
 	public void setProductdate(String productdate) {
 		this.productdate = productdate;
 	}
+	public Date getCloseTime() {
+		return closeTime;
+	}
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+	public Date getCancelTime() {
+		return cancelTime;
+	}
+	public void setCancelTime(Date cancelTime) {
+		this.cancelTime = cancelTime;
+	}
+	public String getCancelPerson() {
+		return cancelPerson;
+	}
+	public void setCancelPerson(String cancelPerson) {
+		this.cancelPerson = cancelPerson;
+	}
+	public String getClosePerson() {
+		return closePerson;
+	}
+	public void setClosePerson(String closePerson) {
+		this.closePerson = closePerson;
+	}
+	public Double getResponseTime() {
+		return responseTime;
+	}
+	public void setResponseTime(Double responseTime) {
+		this.responseTime = responseTime;
+	}
+	public Double getDealTime() {
+		return dealTime;
+	}
+	public void setDealTime(Double dealTime) {
+		this.dealTime = dealTime;
+	}
+	
+	@Transient
+	public String getCloseOrcancel() {
+		return closeOrcancel;
+	}
+	public void setCloseOrcancel(String closeOrcancel) {
+		this.closeOrcancel = closeOrcancel;
+	}
+	
+	@Transient
+	public String getCloseOrcancelTime() {
+		return closeOrcancelTime;
+	}
+	public void setCloseOrcancelTime(String closeOrcancelTime) {
+		this.closeOrcancelTime = closeOrcancelTime;
+	}
+	
+    
 	
 		
 }

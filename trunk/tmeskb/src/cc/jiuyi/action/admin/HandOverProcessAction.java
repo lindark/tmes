@@ -217,16 +217,13 @@ public class HandOverProcessAction extends BaseAdminAction {
 			}
 			
 			processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
-			if(processList.isEmpty()){
-				addActionError("未找到一条工序记录");
-				return ERROR;
+			if(!processList.isEmpty()){
+				Collections.sort(processList, new Comparator<Process>() {
+		            public int compare(Process arg0, Process arg1) {
+		                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+		            }
+		        });
 			}
-			Collections.sort(processList, new Comparator<Process>() {
-	            public int compare(Process arg0, Process arg1) {
-	                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
-	            }
-	        });
-			
 			
 			//获取维护物料信息
 			List<Material> ml= materialservice.getAll();

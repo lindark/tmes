@@ -339,7 +339,7 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setState("2");
 					Date date = new Date();
 					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
-					persistent.setDealTime(time1);
+					persistent.setResponseTime(time1);
 					removeQuartz(persistent.getJobname());			//删除定时发短信任务		
 				} else {
 					persistent.setState("1");
@@ -609,15 +609,17 @@ public class AbnormalAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 		if(pager.is_search()==true && Param != null){//普通搜索功能
-			if(!Param.equals("")){
-			//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-				JSONObject param = JSONObject.fromObject(Param);
-				String start = ThinkWayUtil.null2String(param.get("start"));
-				String end = ThinkWayUtil.null2String(param.get("end"));
-				String originator = ThinkWayUtil.null2String(param.get("originator"));//随工单
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("originator") != null) {
+				String originator = obj.getString("originator").toString();
+				map.put("originator", originator);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
-				map.put("originator", originator);
 			}
 		}
 

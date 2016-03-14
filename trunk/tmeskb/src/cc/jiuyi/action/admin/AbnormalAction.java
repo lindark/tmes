@@ -286,6 +286,25 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormal.setClasstime("");
 			}
 			
+			//关闭人或撤销人
+			if(abnormal.getCancelPerson()!=null && !"".equals(abnormal.getCancelPerson())){
+				Admin admin = adminService.get(abnormal.getCancelPerson());
+				abnormal.setCloseOrcancel(admin.getName());
+			}else if(abnormal.getClosePerson()!=null && !"".equals(abnormal.getClosePerson())){
+				Admin admin = adminService.get(abnormal.getClosePerson());
+				abnormal.setCloseOrcancel(admin.getName());
+			}else{
+				abnormal.setCloseOrcancel("");
+			}
+			
+			//关闭人或撤销时间
+			if(abnormal.getCancelTime()!=null){
+				abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCancelTime()));
+			}else if(abnormal.getCloseTime()!=null){
+				abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCloseTime()));
+			}else{
+				abnormal.setCloseOrcancelTime("");
+			}
 			
 			pagerlist.set(i, abnormal);
 		}
@@ -318,6 +337,9 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				if (responsorSet.size() == (adminList.size() + 1)) {
 					persistent.setState("2");
+					Date date = new Date();
+					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
+					persistent.setDealTime(time1);
 					removeQuartz(persistent.getJobname());			//删除定时发短信任务		
 				} else {
 					persistent.setState("1");
@@ -352,27 +374,33 @@ public class AbnormalAction extends BaseAdminAction {
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
+			//if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
 				if (persistent.getState() != "3" & persistent.getState() != "4") {//"3"异常关闭 "4"异常撤销
 					persistent.setState("3");
+					persistent.setCloseTime(new Date());
+					persistent.setClosePerson(admin.getId());
 					removeQuartz(persistent.getJobname());	
 					if (persistent.getReplyDate() == null) {
 						persistent.setReplyDate(new Date());
 						Date date = new Date();
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
+						double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
 						persistent.setHandlingTime(time);
+						persistent.setDealTime(time1);
 					}else{
 						Date date = new Date();
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
+						double time1=(double) ((date.getTime()-persistent.getReplyDate().getTime())/60000);
 						persistent.setHandlingTime(time);
+						persistent.setDealTime(time1);
 					}
 					abnormalService.update(persistent);
 				} else {
 					return ajaxJsonErrorMessage("异常已撤销/关闭!");
 				}
-			} else {
+			/*} else {
 				return ajaxJsonErrorMessage("您没有关闭的权限!");
-			}
+			}*/
 		}
 
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -388,11 +416,15 @@ public class AbnormalAction extends BaseAdminAction {
 				if (persistent.getState().equals("0")
 						|| persistent.getState().equals("1")) {//"0"未响应  "1"未完全响应
 					persistent.setState("4");
+					persistent.setCancelPerson(admin.getId());
+					persistent.setCancelTime(new Date());
 					removeQuartz(persistent.getJobname());	
 					persistent.setReplyDate(new Date());
 					Date date = new Date();
 					int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
+					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
 					persistent.setHandlingTime(time);
+					persistent.setDealTime(time1);
 					abnormalService.update(persistent);
 				} else {
 					return ajaxJsonErrorMessage("该异常不能撤销!");
@@ -433,7 +465,6 @@ public class AbnormalAction extends BaseAdminAction {
 			String workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
 			String unit=admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitName();
 			String adminName =admin.getName();
-			
 			for(int i=0;i<callReasonSet.size();i++){
 				HashMap<String,String> map = new HashMap<String,String>();
 				//String message="";//这里显示需要的格式?										
@@ -442,13 +473,15 @@ public class AbnormalAction extends BaseAdminAction {
 				Admin admin = adminService.get(call.getAdminid());//人员
 				Callreason call1 = callReasonService.get(call.getId());//短信
 				String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+adminName;
-				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);
+								
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);												
 	            Document doc;   
 	            doc = DocumentHelper.parseText(str); 
 	            Node stateNode = doc.selectSingleNode("/infos/info/state");
 		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
 		      		errormes += admin.getName()+":短信发生失败!";
-		      	}
+		      	}								
+				
 		      	responsorSet.add(admin);//将短信人加进去
 		      	callreasonSet.add(call1);//将短信内容加进去
 		      	strLen.add(admin.getName());		   
@@ -456,6 +489,7 @@ public class AbnormalAction extends BaseAdminAction {
 		      	map.put("reasonid", call.getId());
 		      	mapList.add(map);
 			}
+			
 			/*******定时任务**********/
 			Date dates = new Date();
 			String jobname=ThinkWayUtil.formatdateDateTime(dates);
@@ -515,137 +549,18 @@ public class AbnormalAction extends BaseAdminAction {
 			maps.put("count","1");
 			maps.put("list", jsonArray.toString());
 			quartzMessage(ThinkWayUtil.getCron(date),maps);	
-			
-			
+								
 		}catch(DocumentException e){
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("短信发送失败");
+		}catch(Exception e){
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现错误,请联系系统管理员");
 		}
 		
 		if(!errormes.equals("")){//有没有发送成功的抛出到页面上
 			return ajaxJsonWarnMessage(errormes);
 		}
-		
-		/*admin = adminService.getByCardnum(cardnumber);
-		
-		Abnormal abnormal = new Abnormal();
-		abnormal.setCallDate(new Date());
-		abnormal.setIniitiator(admin);
-		abnormal.setIsDel("N");
-		abnormal.setState("0");
-
-		if(adminSet==null){
-			return ajaxJsonErrorMessage("人员不允许为空!");
-		} 
-		
-		if(callReasonSet==null){
-			return ajaxJsonErrorMessage("短信不允许为空!");
-		} 
-		
-		List<Admin> adminSets= new ArrayList<Admin>();
-		List<String> strList= new ArrayList<String>();
-		List<HashMap<String,Object>> hashmapList = new ArrayList<HashMap<String,Object>>();		
-		for(int i=0;i<adminSet.size();i++){
-			HashMap<String,Object> maps1 = new HashMap<String,Object>();
-			if(adminSet.get(i)==null)continue;
-			adminSets.add(adminSet.get(i));
-			maps1.put("id", adminSet.get(i).getId());
-			maps1.put("phoneNo",adminSet.get(i).getPhoneNo());
-			//maps1.put("callreason", adminSet.get(i).getCallreason());
-			hashmapList.add(maps1);
-			strList.add(adminSet.get(i).getName());
-		}
-		
-		String comlist = CommonUtil.toString(strList, ",");// 获取问题的字符串
-		List<Callreason> callReasonSets= new ArrayList<Callreason>();
-		for(int i=0;i<callReasonSet.size();i++){
-			if(callReasonSet.get(i)==null)continue;
-			callReasonSets.add(callReasonSet.get(i));
-		}
-		abnormal.setResponsorSet(new HashSet<Admin>(adminSets));
-	//	abnormal.setCallreasonSet(new HashSet<Callreason>(callReasonSets));
-		
-		//定时任务名称
-		Date dates = new Date();
-		String jobname=ThinkWayUtil.formatdateDateTime(dates);
-		job_name=job_name+jobname;
-		
-		abnormal.setJobname(job_name);
-		
-		//短信内容
-	//	String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
-		
-		String workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
-		String unit=admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitName();
-		String adminName =admin.getName();	
-		
-		//String message=werks+"工厂"+adminName+"所在车间出现异常";		
-		
-		for(Admin admin:adminSets){//向应答人发送短信
-			Callreason call = callReasonService.get(admin.getCallreason());
-			String message=workshop+unit+"单元出现"+call.getCallReason()+"。   "+"呼叫人:"+adminName;
-			Admin admin1 = adminService.get(admin.getId());//更新admin,增加短信字段
-			admin1.setCallreason(call.getCallReason());
-			adminService.update(admin1);
-			try{
-			 
-			 String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);			
-			 SAXReader reader = new SAXReader();  //解析返回xml文件
-             Document doc;   
-             doc = DocumentHelper.parseText(str); 
-             Node stateNode = doc.selectSingleNode("/infos/info/state");
-        	 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
-        		 return ajaxJsonErrorMessage("短信发送失败!");
-        	 }
-			}catch(Exception e){
-				e.printStackTrace();
-				return ajaxJsonErrorMessage("系统出现错误,请联系系统管理员");
-			}
-		}
-		
-		Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
-		admin2 = adminService.get(admin.getId());
-		
-		abnormal.setProductdate(admin2.getProductDate());
-		abnormal.setClasstime(admin2.getShift());
-		abnormalService.save(abnormal);
-				
-		AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
-		abnormalLog.setAbnormal(abnormal);
-		abnormalLog.setType("5");
-		abnormalLog.setOperator(admin);
-		abnormalLog.setInfo(comlist);
-		abnormalLogService.save(abnormalLog);	
-				
-		Calendar can = Calendar.getInstance();	//定时任务时间1
-		can.setTime(abnormal.getCreateDate());
-		can.add(Calendar.MINUTE, 1);
-		Date date=can.getTime();	
-		
-		Calendar can1 = Calendar.getInstance();//定时任务时间2
-		can1.setTime(abnormal.getCreateDate());
-		can1.add(Calendar.MINUTE, 2);
-		Date date1=can1.getTime();
-		
-		Calendar can2 = Calendar.getInstance();//定时任务时间3
-		can2.setTime(abnormal.getCreateDate());
-		can2.add(Calendar.MINUTE, 3);
-		Date date2=can2.getTime();
-
-		JSONArray jsonArray = JSONArray.fromObject(hashmapList);
-		
-		HashMap<String,Object> maps = new HashMap<String,Object>();
-		maps.put("id",abnormal.getId());
-		maps.put("name",admin.getId());
-		maps.put("date", ThinkWayUtil.getCron(date1));
-		maps.put("time", ThinkWayUtil.getCron(date2));
-		maps.put("hour", ThinkWayUtil.formatdateDateTime(date2));
-		
-		maps.put("jobname", job_name);
-		maps.put("count","1");
-		//maps.put("message", message);
-		maps.put("list", jsonArray.toString());
-		quartzMessage(ThinkWayUtil.getCron(date),maps);	*/
 		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -836,7 +751,25 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormal.setClasstime("");
 			}
 			
+			//关闭人或撤销人
+			if(abnormal.getCancelPerson()!=null && !"".equals(abnormal.getCancelPerson())){
+				Admin admin = adminService.get(abnormal.getCancelPerson());
+				abnormal.setCloseOrcancel(admin.getName());
+			}else if(abnormal.getClosePerson()!=null && !"".equals(abnormal.getClosePerson())){
+				Admin admin = adminService.get(abnormal.getClosePerson());
+				abnormal.setCloseOrcancel(admin.getName());
+			}else{
+				abnormal.setCloseOrcancel("");
+			}
 			
+			//关闭人或撤销时间
+			if(abnormal.getCancelTime()!=null){
+				abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCancelTime()));
+			}else if(abnormal.getCloseTime()!=null){
+				abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCloseTime()));
+			}else{
+				abnormal.setCloseOrcancelTime("");
+			}
 			pagerlist.set(i, abnormal);
 		}
 

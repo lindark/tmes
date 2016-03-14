@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -72,14 +74,18 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		}*/
 		
 		if (map != null && map.size() > 0) {
-			if (!map.get("start").equals("") || !map.get("end").equals("")) {// 生产日期范围
-				String start = map.get("start").equals("") ? ThinkWayUtil
-						.SystemDate() : map.get("start").toString();
-				String end = map.get("end").equals("") ? ThinkWayUtil
-						.SystemDate() : map.get("end").toString();
-				detachedCriteria.add(Restrictions.between("productdate", start,
-						end));
+			
+			if(map.get("start")!=null||map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("productdate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
+			
 			if (!map.get("originator").equals("")) {
 				detachedCriteria.add(Restrictions.like("admin.name", "%"
 						+ map.get("originator").toString() + "%"));

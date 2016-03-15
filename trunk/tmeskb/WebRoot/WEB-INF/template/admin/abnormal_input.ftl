@@ -171,7 +171,7 @@ $(function(){
 	});
 	
 	
-	$(".deleteImage").livequery("click", function() {
+	$(".deleteImage").live("click", function() {
 		$(this).parent().parent().remove();
 	})
 	
@@ -217,6 +217,9 @@ $(function(){
 	$("#sure").click(function(){
 		var test=$("#sample-table-1 tbody tr").length;
 		if(test>1){
+			layer.msg("请选择一个人员!", {icon: 5});
+			return false;
+		}else if(test<1){
 			layer.msg("请选择一个人员!", {icon: 5});
 			return false;
 		}else{

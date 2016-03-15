@@ -59,7 +59,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal" id="searchform"
+							<form class="form-horizontal" id="searchform" method="post"
 								action="abnormal!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
@@ -71,7 +71,7 @@
 												id="form-field-icon-1">
 										</div>
 
-										<label class="col-sm-1" style="text-align:right">生产日期:</label>
+										<label class="col-sm-1" style="text-align:right">呼叫日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"

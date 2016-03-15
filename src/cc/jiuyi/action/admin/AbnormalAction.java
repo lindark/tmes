@@ -624,7 +624,7 @@ public class AbnormalAction extends BaseAdminAction {
 		}
 
 		pager = abnormalService.getAbnormalAllPager(pager, map, admin2.getId());
-
+		
 		List pagerlist = pager.getList();  
         
 		for (int i = 0; i < pagerlist.size(); i++) {

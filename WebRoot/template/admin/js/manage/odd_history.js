@@ -45,7 +45,7 @@ jQuery(function($) {
 				]
 			});
 		},
-		url:"carton!historylist.action",
+		url:"odd_hand_over!historylist.action",
 		datatype: "json",
 		//mtype:"POST",//提交方式
 		height: "250",//weitao 修改此参数可以修改表格的高度
@@ -63,19 +63,32 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ /*'纸箱编码','纸箱描述',*/'随工单编号','产品名称','物料凭证号','数量','收货日期','创建人', '确认人','状态'],
+		colNames:[ '交接随工单号','产品名称','下班随工单号','生产日期','物料编码','物料名称',
+		           '实际零头数交接数量','实际异常交接数量','实际物料数量','实际异常物料数量',
+		           '物料凭证号','交接日期','提交人', '确认人','状态','状态-隐藏'],
 		colModel:[
-			
-			/*{name:'cartonCode',index:'cartonCode', width:200},
-			{name:'cartonDescribe',index:'cartonDescribe', width:200},*/
-			{name:'workingbillCode',index:'workingbillCode', width:150,sortable:"true",sorttype:"text"},
-			{name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
-			{name:'ex_mblnr',index:'ex_mblnr', width:150,sortable:"true",sorttype:"text"},
-			{name:'cartonAmount',index:'cartonAmount', width:100,sorttype:"int"},
-			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}}
+            {name:'workingBillCode',index:'workingBill.workingBillCode', width:80,sortable:"true",sorttype:"text"},
+            {name:'maktx',index:'workingBill.maktx', width:240,sortable:"true",sorttype:"text"},
+            {name:'afterWorkingCode',index:'afterWorkingCode', width:80,sortable:"true",sorttype:"text"},
+            {name:'productDate',index:'workingBill.productDate', width:60,sortable:"true",sorttype:"text"},
+            {name:'materialCode',index:'materialCode', width:60,sortable:"true",sorttype:"text"},
+          	{name:'materialDesp',index:'materialDesp', width:80,sortable:"true",sorttype:"text"},
+          	
+          	
+          	
+          	{name:'actualHOMount',index:'actualHOMount', width:100,sortable:"true",sorttype:"text"},
+          	{name:'unHOMount',index:'unHOMount', width:90,sortable:"true",sorttype:"text"},
+          	{name:'actualBomMount',index:'actualBomMount', width:70,sortable:"true",sorttype:"text"},
+          	{name:'unBomMount',index:'unBomMount', width:70,sortable:"true",sorttype:"text"},
+          	
+          	
+          	
+        	{name:'mblnr',index:'mblnr', width:80,sortable:"true",sorttype:"text"},
+			{name:'createDate',index:'createDate',width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'submitName',index:'submitName', width:40,sortable:"true",sorttype:"text"},
+			{name:'sureName',index:'sureName', width:40,sortable:"true",sorttype:"text"},
+			{name:'stateRemark',index:'state', width:40,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},
+			{name:'state',index:'state', editable: false,hidden:true}
 
 		], 
 		//sortable:true,
@@ -104,22 +117,8 @@ jQuery(function($) {
 				enableTooltips(table);
 			}, 0);
 		},
-		gridComplete: function () {
-            var rowNum = parseInt($(this).getGridParam("records"), 10);
-            if (rowNum > 0) {
-                $(".ui-jqgrid-sdiv").show();
-                var cartonAmount = jQuery(this).getCol("cartonAmount", false, "sum");
-                var materialCode = jQuery(this).getCol("materialCode");
-                $(this).footerData("set", {
-                	materialCode: "累计纸箱数："+cartonAmount+"个"
-	            });
-	        }else {
-	            $(".ui-jqgrid-sdiv").hide();
-	        }
-	    }, //底部合计
-
-		editurl: "carton!delete.action",//用它做标准删除动作
-		caption: "历史纸箱收货记录"
+		editurl: "odd_hand_over!delete.action",//用它做标准删除动作
+		caption: "历史零头数交接记录"
 
 		//,autowidth: true,
 //		,
@@ -158,25 +157,20 @@ jQuery(function($) {
 					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
 		}, 0);
 	}
-	
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
-		//未确认
-		if(rawObject.state=="2")
+		//已提交
+		if(rawObject.state=="1")
 		{
 			return "style='color:red;font-weight:bold;'";
 		}
 		//已确认
-		if(rawObject.state=="1")
+		if(rawObject.state=="2")
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
-		//已撤销
-		if(rawObject.state=="3")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
+		
 	}
 
 
@@ -278,6 +272,44 @@ jQuery(function($) {
 			}
 		}
 	)
+	
+	
+	//查看
+	$("#btn_show").click(function(){
+		if(getId2())
+		{
+			location.href="daily_work!view.action?id="+id;
+		}
+	});
 
 
 });
+
+
+
+//获取jqGrid表中选择的条数--即数据的ids
+function getId()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id==null||id=="")
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+	return true;
+}
+
+//得到1条id
+function getId2()
+{
+	id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(id.length==1)
+	{
+		return true;
+	}
+	else
+	{
+		layer.msg("请选择一条记录!", {icon: 5});
+		return false;
+	}
+}

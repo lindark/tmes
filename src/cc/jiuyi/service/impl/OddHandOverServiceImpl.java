@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.WorkingBill;
@@ -32,6 +33,16 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 
 	public OddHandOver findHandOver(String workingBillCode) {
 		return oddHandOverDao.findHandOver(workingBillCode);
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return oddHandOverDao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		return oddHandOverDao.historyExcelExport(map);
 	}
 
 }

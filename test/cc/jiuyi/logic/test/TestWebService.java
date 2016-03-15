@@ -33,7 +33,10 @@ public class TestWebService extends BaseTestCase {
 	
 	
 	@Test
-	public void webserviceTestTwo(){
-		
+	public void getPieceworkListOne(){
+		String str = pieceworkWebService.getPieceworkListOne("");
+		System.out.println(str);
 	}
+	
+	
 }

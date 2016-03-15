@@ -58,7 +58,7 @@ public class CartonAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
-
+	
 	
 	/**
 	 * list页面

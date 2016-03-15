@@ -86,4 +86,7 @@ public interface CartonService extends BaseService<Carton, String> {
 	 * 根据条件查询
 	 */
 	public Pager findCartonByPager(Pager pager,HashMap<String,String> mapcheck);
+	
+	
+
 }

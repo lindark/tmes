@@ -195,11 +195,6 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	
 	
 
-	@Override
-	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
-		return cartonDao.historyjqGrid(pager, map);
-	}
-
 	/**
 	 * 获取bom中随工单对应的以5开头的各个物料--新增前
 	 */
@@ -434,9 +429,17 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		return list_cs;
 	}
 
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return cartonDao.historyjqGrid(pager, map);
+	}
+
 	@Override
 	public Pager findCartonByPager(Pager pager, HashMap<String, String> mapcheck) {
-		
+		// TODO Auto-generated method stub
 		return cartonDao.findCartonByPager(pager, mapcheck);
 	}
+
+
 }

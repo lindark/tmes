@@ -11,19 +11,31 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 后台管理、管理员 
@@ -45,6 +57,12 @@ public class OddHandOverAction extends BaseAdminAction {
 	private String nowDate;
 	private String shift;
 	
+	private String workingBillCode;
+	private String materialCode;
+	private String end;
+	private String start;
+	private String state;
+	
 	@Resource
 	private WorkingBillService workingBillService;
 	@Resource
@@ -55,6 +73,160 @@ public class OddHandOverAction extends BaseAdminAction {
 	private MaterialService materialService;
 	@Resource
 	private OddHandOverService oddHandOverService;
+	@Resource
+	private DictService dictService;
+
+	// 零头数记录表 @author Reece 2016/3/15
+	public String history() {
+		return "history";
+	}
+		
+	// 零头数记录表 @author Reece 2016/3/15
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		try {
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("materialCode") != null) {
+					String materialCode = obj.getString("materialCode").toString();
+					map.put("materialCode", materialCode);
+				}
+				if (obj.get("workingBillCode") != null) {
+					String workingBillCode = obj.getString("workingBillCode")
+							.toString();
+					map.put("workingBillCode", workingBillCode);
+				}
+				if (obj.get("start") != null && obj.get("end") != null) {
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
+				if (obj.get("state") != null) {
+					String state = obj.getString("state").toString();
+					map.put("state", state);
+				}
+			}
+			pager = oddHandOverService.historyjqGrid(pager, map);
+			List<OddHandOver> oddList = pager.getList();
+			List<OddHandOver> lst = new ArrayList<OddHandOver>();
+			for (int i = 0; i < oddList.size(); i++) {
+				OddHandOver oddHandOver = oddList.get(i);
+				oddHandOver.setWorkingBillCode(oddHandOver.getWorkingBill().getWorkingBillCode());
+				oddHandOver.setMaktx(oddHandOver.getWorkingBill().getMaktx());
+				oddHandOver.setProductDate(oddHandOver.getWorkingBill().getProductDate());
+				oddHandOver.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "oddStatus", oddHandOver.getState()));
+				lst.add(oddHandOver);
+			}
+			pager.setList(lst);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(OddHandOver.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+
+	// Excel导出 @author Reece 2016/3/15
+	public String excelexport() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("workingBillCode", workingBillCode);
+		map.put("materialCode", materialCode);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+		header.add("交接随工单号");
+		header.add("产品名称");
+		header.add("下班随工单号");
+		header.add("生产日期");
+		header.add("物料编码");
+		header.add("物料名称");
+		
+		header.add("实际零头数交接数量");
+		header.add("实际异常交接数量");
+		header.add("实际物料数量");
+		header.add("实际异常物料数量");
+		
+		header.add("物料凭证号");
+		header.add("交接日期");
+		header.add("提交人");
+		header.add("确认人");
+		header.add("状态");
+
+		List<Object[]> workList = oddHandOverService.historyExcelExport(map);
+		for (int i = 0; i < workList.size(); i++) {
+			Object[] obj = workList.get(i);
+			OddHandOver oddHandOver = (OddHandOver) obj[0];//oddHandOver
+        	WorkingBill workingbill = (WorkingBill)obj[1];//workingbill
+        	
+        	
+			Object[] bodyval = {
+					workingbill.getWorkingBillCode(),
+					workingbill.getMaktx(),
+					oddHandOver.getAfterWorkingCode(),
+					workingbill.getProductDate(),
+					oddHandOver.getMaterialCode(),
+					oddHandOver.getMaterialDesp(),
+				
+					oddHandOver.getActualHOMount()==null?0:oddHandOver.getActualHOMount(),
+					oddHandOver.getUnHOMount()==null?0:oddHandOver.getUnHOMount(),
+					oddHandOver.getActualBomMount()==null?0:oddHandOver.getActualBomMount(),
+					oddHandOver.getUnBomMount()==null?0:oddHandOver.getUnBomMount(),
+					
+					
+					oddHandOver.getMblnr(),
+					oddHandOver.getCreateDate(),
+					oddHandOver.getSubmitName(),
+					oddHandOver.getSureName(),
+					ThinkWayUtil.getDictValueByDictKey(dictService,
+							"oddStatus", oddHandOver.getState())};
+			body.add(bodyval);
+		}
+
+		try {
+			String fileName = "零头交接记录表" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("零头交接记录表", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+		
+		
+		
+		/**=====================end  method================================*/
+		
+		/**=====================get/set  start==============================*/
+		
+	
+	
 	
 	//刷卡提交
 	public String creditsubmit(){
@@ -294,6 +466,46 @@ public class OddHandOverAction extends BaseAdminAction {
 
 	public void setNowDate(String nowDate) {
 		this.nowDate = nowDate;
+	}
+
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 

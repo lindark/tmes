@@ -1,5 +1,9 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.CartonSon;
 
 /**
@@ -9,5 +13,11 @@ import cc.jiuyi.entity.CartonSon;
  */
 public interface CartonsonDao extends BaseDao<CartonSon, String>
 {
+
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	
+	
+	public List<CartonSon> historyExcelExport(HashMap<String,String> map);
 
 }

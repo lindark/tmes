@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  * 实体类 -零头数交接
@@ -14,12 +15,12 @@ import javax.persistence.OneToMany;
 public class OddHandOver extends BaseEntity {
 	private static final long serialVersionUID = -5222443445114313847L;
 	
-	private String materialCode;//生产订单编码
-	private String materialDesp;//生产订单描述
+	private String materialCode;//物料编码
+	private String materialDesp;//物料描述
 	private Double actualHOMount;//实际零头数交接数量
 	private Double unHOMount;//实际异常交接数量
 	private Double actualBomMount;//实际物料数量
-	private Double unBomMount;//实际物料数量
+	private Double unBomMount;//实际异常物料数量
 	private String submitCode;//提交人编号
 	private String submitName;//提交人姓名
 	private String sureCode;//确认编号
@@ -32,6 +33,11 @@ public class OddHandOver extends BaseEntity {
 	
 	private WorkingBill workingBill;//随工单 
 	private HandOver handOver;//主表
+	
+	private String workingBillCode;
+	private String maktx;
+	private String productDate;
+	private String stateRemark;
 	
 	
 	
@@ -134,6 +140,40 @@ public class OddHandOver extends BaseEntity {
 	public void setMaterialDesp(String materialDesp) {
 		this.materialDesp = materialDesp;
 	}
+	
+	@Transient
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
+	}
+	
+	@Transient
+	public String getMaktx() {
+		return maktx;
+	}
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+	
+	@Transient
+	public String getProductDate() {
+		return productDate;
+	}
+	
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
 
 	
 	

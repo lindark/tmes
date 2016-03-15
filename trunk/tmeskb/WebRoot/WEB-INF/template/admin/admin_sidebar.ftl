@@ -595,7 +595,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="repair!history.action" style="font-size:12px;color:red">
+								<a href="repair!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品返修记录
 								</a>
@@ -603,9 +603,9 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="repairin!history.action" style="font-size:12px;color:red">
+								<a href="repairin!history.action" style="font-size:12px;color:green">
 									<i class="menu-icon fa fa-caret-right"></i>
-									返修收货记录
+									返修收货记录 ing
 								</a>
 
 								<b class="arrow"></b>

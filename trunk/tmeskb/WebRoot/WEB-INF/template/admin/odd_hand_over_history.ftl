@@ -12,7 +12,7 @@
 <#include "/WEB-INF/template/common/includelist.ftl">
 <!--modify weitao-->
 <script type="text/javascript"
-	src="${base}/template/admin/js/manage/carton_history.js"></script>
+	src="${base}/template/admin/js/manage/odd_history.js"></script>
 <script type="text/javascript"
 	src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
@@ -46,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史纸箱收货单</li>
+					<li class="active">历史零头数交接</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -60,18 +60,37 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal" id="searchform"
-								action="repair!historylist.action" role="form">
+								action="daily_work!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
-										<div class="col-sm-4">
-											<input type="text" name="maktx"
+									   <label class="col-sm-1 col-md-offset-1" style="text-align:right">随工单号:</label>
+										 <div class="col-sm-4">
+											<input type="text" name="workingBillCode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-
-										<label class="col-sm-1" style="text-align:right">收货日期:</label>
+									   <label class="col-sm-1 col-md-offset-1" style="text-align:right">物料编码:</label>
+										 <div class="col-sm-4">
+											<input type="text" name="materialCode"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+									</div>
+								<div class="form-group">
+								  <label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
+									  <div class="col-sm-4">
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+											<!-- 
+							                <#list AllState as list>
+								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
+							                </#list>
+							                 -->
+							                <option value=""></option>
+							                <option value="1">已提交</option>
+							                <option value="2">已确认</option>
+						               </select>
+									  </div>
+									<label class="col-sm-1 col-md-offset-1" style="text-align:right">交接日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
@@ -81,16 +100,27 @@
 													name="end">
 											</div>
 										</div>
+										
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
+										<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>Excel导出
+										</a>
 									</div>
 
 								</div>
 							</form>
+							
+							<!--<div class="row buttons col-md-8 col-sm-4">
+							    <a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-book"></i>
+									查看
+								</a>
+							</div> -->
 							<div class="row">
 								<div class="col-xs-12">
 									<table id="grid-table"></table>
@@ -118,6 +148,20 @@
 	<!-- ./ add by welson 0728 -->
 </body>
 </html>
+<script type ="text/javascript">
+   $(function(){
+	   var $excelReport = $("#excelReport");
+	   var $searchform = $("#searchform");
+       
+	   $excelReport.click(function(){
+		   $searchform.attr("action","odd_hand_over!excelexport.action");
+		   $searchform.submit();
+	   });	   
+	   
+   })
+
+
+</script>
 <script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生

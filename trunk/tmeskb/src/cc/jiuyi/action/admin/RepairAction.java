@@ -21,6 +21,8 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
@@ -33,8 +35,10 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -62,6 +66,11 @@ public class RepairAction extends BaseAdminAction {
 	private String info;
 	private List<RepairPiece>list_rp;//子件
 	private String loginid;//当前登录人
+	private String maktx;
+	private String rpcode;
+	private String end;
+	private String start;
+	private String state;
 
 	@Resource
 	private RepairService repairService;
@@ -81,6 +90,147 @@ public class RepairAction extends BaseAdminAction {
 	private FactoryUnitService fuService;//单元
 	@Resource
 	private RepairRfc repairrfc;
+	@Resource
+	private RepairPieceService repairPieceService;
+	
+	
+	//返修记录列表 @author Reece 2016/03/15
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("createDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx")
+						.toString();
+				map.put("maktx", maktx);
+			}
+			if (obj.get("rpcode") != null) {
+				String rpcode = obj.getString("rpcode")
+						.toString();
+				map.put("rpcode", rpcode);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state")
+						.toString();
+				map.put("state", state);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+
+		pager = repairPieceService.historyjqGrid(pager, map);
+		List<RepairPiece> rpList = pager.getList();
+		List<RepairPiece> lst = new ArrayList<RepairPiece>();
+		for (int i = 0; i < rpList.size(); i++) 
+		{
+			RepairPiece repairPiece = rpList.get(i);
+			repairPiece.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "repairState", repairPiece.getRepair().getState()));
+			if (repairPiece.getRepair().getConfirmUser() != null) {
+				repairPiece.setConfirmUser((repairPiece.getRepair().getConfirmUser().getName()));
+			}
+			repairPiece.setCreateName(repairPiece.getRepair().getCreateUser().getName());	
+			repairPiece.setWorkingbillCode(workingBillService.get(
+					repairPiece.getRepair().getWorkingbill().getId()).getWorkingBillCode());
+			repairPiece.setMaktx(workingBillService.get(
+					repairPiece.getRepair().getWorkingbill().getId()).getMaktx());
+			repairPiece.setState(repairPiece.getRepair().getState());
+			repairPiece.setRepairPart(repairPiece.getRepair().getRepairPart());
+			repairPiece.setRepairAmount(repairPiece.getRepair().getRepairAmount());
+			repairPiece.setDuty(repairPiece.getRepair().getDuty());
+			repairPiece.setProductDate(repairPiece.getRepair().getWorkingbill().getProductDate());
+			repairPiece.setMblnr(repairPiece.getRepair().getEX_MBLNR());
+			lst.add(repairPiece);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(RepairPiece.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+
+	}
+	
+	//Excel导出 @author Reece 2016/3/15
+		public String excelexport(){
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("rpcode", rpcode);
+			map.put("maktx", maktx);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+			
+			
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+	        header.add("随工单号");
+	        header.add("生产日期");
+	        header.add("产品名称");
+	        header.add("产品数量");
+	        
+	        header.add("组件编码");
+	        header.add("组件名称");
+	        header.add("组件数量");
+	        header.add("组件总数量");
+	        
+	        header.add("返修部位");
+	        header.add("返修数量");
+	        header.add("责任人/批次");
+	        header.add("物料凭证号");
+	        
+	        header.add("返修日期");
+	        header.add("创建人");
+	        header.add("确认人");
+	        header.add("状态");
+	        
+	        List<Object[]> repairList = repairPieceService.historyExcelExport(map);
+	        for(int i=0;i<repairList.size();i++){
+	        	Object[] obj = repairList.get(i);
+	        	RepairPiece repairPiece = (RepairPiece) obj[0];
+	        	Repair repair = (Repair)obj[1];
+	        	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
+	        	
+	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getProductDate(),workingbill.getMaktx(),repairPiece.getProductnum()
+	        			            ,repairPiece.getRpcode(),repairPiece.getRpname(),repairPiece.getPiecenum(),repairPiece.getRpcount()
+	        			            ,repair.getRepairPart(),repair.getRepairAmount(),repair.getDuty(),repair.getEX_MBLNR()
+	        			            ,repairPiece.getCreateDate(),repair.getCreateUser()==null?"":repair.getCreateUser().getName()
+	        			            ,repair.getConfirmUser()==null?"":repair.getConfirmUser().getName()
+	        			            ,ThinkWayUtil.getDictValueByDictKey(dictService, "repairState", repair.getState())};
+	        	body.add(bodyval);
+	        }
+			
+			try {
+				String fileName = "成品返修记录表"+".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("成品返修记录表", header, body, getResponse().getOutputStream());
+				getResponse().getOutputStream().flush();
+			    getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	
 
 	public String list() {
 		admin = adminService.getLoginAdmin();
@@ -197,70 +347,6 @@ public class RepairAction extends BaseAdminAction {
 		return "browser";
 	}
 
-	/**
-	 * 返修历史
-	 * @return
-	 */
-	public String historylist() {
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("createDate");
-		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
-			if (!filters.equals("")) {
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
-		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
-						.toString();
-				map.put("maktx", maktx);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
-
-		pager = repairService.historyjqGrid(pager, map);
-		List<Repair> repairList = pager.getList();
-		List<Repair> lst = new ArrayList<Repair>();
-		for (int i = 0; i < repairList.size(); i++) 
-		{
-			Repair repair = (Repair) repairList.get(i);
-			repair.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "repairState", repair.getState()));
-			if (repair.getConfirmUser() != null) {
-				repair.setAdminName(repair.getConfirmUser().getName());
-			}
-			repair.setCreateName(repair.getCreateUser().getName());	
-			repair.setWorkingbillCode(workingBillService.get(
-					repair.getWorkingbill().getId()).getWorkingBillCode());
-			repair.setMaktx(workingBillService.get(
-					repair.getWorkingbill().getId()).getMaktx());
-			lst.add(repair);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Repair.class));// 排除有关联关系的属性字段
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
-
-	}
-	
 	
 	/**
 	 * ajax 列表
@@ -646,5 +732,47 @@ public class RepairAction extends BaseAdminAction {
 	{
 		this.loginid = loginid;
 	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getRpcode() {
+		return rpcode;
+	}
+
+	public void setRpcode(String rpcode) {
+		this.rpcode = rpcode;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	
 	
 }

@@ -89,7 +89,7 @@
 							</form>			
 									</div>
 							<!-- ./ add by weitao  -->
-							<div class="row buttons col-md-8 col-sm-4">
+							<!-- <div class="row buttons col-md-8 col-sm-4">
 								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看
@@ -98,7 +98,7 @@
 									<i class="ace-icon fa fa-home"></i>
 									返回
 								</a>
-							</div>
+							</div> -->
 							<div class="row">
 								<div class="col-xs-12">
 									<table id="grid-table"></table>

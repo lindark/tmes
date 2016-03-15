@@ -29,9 +29,18 @@ public class CartonSon extends BaseEntity
 	private String productcode;//产品编码
 	private String productname;//产品名称
 	
+	
 	//假字段
 	private String MOVE_TYPE;//移动类型
 	private String xcstotal;//累计数量
+	private String state;//状态
+	private String stateRemark;//状态描述
+	private String confirmUser;//确认人
+	private String createUser;//创建人
+	private String mblnr;//物料凭证号
+	private String bktxt;//单据编号
+	private String xteamshift;//班次
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Carton getCarton()
 	{
@@ -147,6 +156,64 @@ public class CartonSon extends BaseEntity
 	public void setCscount(String cscount)
 	{
 		this.cscount = cscount;
+	}
+	
+	@Transient
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	@Transient
+	public String getConfirmUser() {
+		return confirmUser;
+	}
+	public void setConfirmUser(String confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+	
+	
+	@Transient
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	
+	@Transient
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
+	@Transient
+	public String getMblnr() {
+		return mblnr;
+	}
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
+	}
+	
+	@Transient
+	public String getBktxt() {
+		return bktxt;
+	}
+	public void setBktxt(String bktxt) {
+		this.bktxt = bktxt;
+	}
+	
+	
+	@Transient
+	public String getXteamshift() {
+		return xteamshift;
+	}
+	public void setXteamshift(String xteamshift) {
+		this.xteamshift = xteamshift;
 	}
 
 	

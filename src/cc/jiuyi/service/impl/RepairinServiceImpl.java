@@ -310,6 +310,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			RepairinPiece rp=list_rp.get(i);
 			String wbid=map.get("wbid").toString();//随工单ID
 			String code=rp.getRpcode();//物料编码
+			String des=rp.getRpname();//物料描述
 			Double count=Double.parseDouble(rp.getRpcount());//数量
 			WorkingInout wi = this.wiService.findWorkingInout(wbid, code);
 			if(wi!=null)
@@ -330,6 +331,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 				WorkingInout w=new WorkingInout();
 				w.setWorkingbill(wb);//随工单
 				w.setMaterialCode(code);//物料号
+				w.setMaterialName(des);//物料描述
 				w.setRepairinAmount((count));//数量
 				w.setCreateDate(new Date());//初始化创建日期
 				w.setModifyDate(new Date());//初始化修改日期

@@ -70,7 +70,7 @@
 												id="form-field-icon-1">
 										</div>
 
-                                    <label class="col-sm-1 col-md-offset-1"style="text-align:right">物料编码:</label>
+                                    <label class="col-sm-1 col-md-offset-1"style="text-align:right">组件编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="materialCode"
 												class="input input-sm form-control" value=""

@@ -562,7 +562,7 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="odd_hand_over!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									零头交接记录
 								</a>
@@ -653,9 +653,81 @@
 							
 							
 							<li class="">
-								<a href="cartonson!history.action" style="font-size:12px;color:red">
+								<a href="cartonson!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									纸箱收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									部门领用记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									退回中转仓记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									考勤记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									物料调拨记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									超市领用记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									抽检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									半成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品巡检记录
 								</a>
 
 								<b class="arrow"></b>

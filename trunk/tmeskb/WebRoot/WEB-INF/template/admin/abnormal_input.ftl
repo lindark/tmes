@@ -215,22 +215,13 @@ $(function(){
 		});
 	
 	$("#sure").click(function(){
-		$("#inputForm").submit(); 
-		/*var dt = $("#inputForm").serialize();
-		var url = "abnormal!creditsave.action";		
-		credit.creditCard(url,function(data){
-			if(data.status=="success"){
-				layer.alert(data.message, {icon: 6},function(){
-					window.location.href="abnormal!list.action";
-				}); 
-			}else if(data.status=="error"){
-				layer.alert(data.message, {
-			        closeBtn: 0,
-			        icon:5,
-			        skin:'error'
-			   });
-			}		
-		},dt)*/
+		var test=$("#sample-table-1 tbody tr").length;
+		if(test>1){
+			layer.msg("请选择一个人员!", {icon: 5});
+			return false;
+		}else{
+			$("#inputForm").submit(); 
+		}
 	})
 	
 	

@@ -69,33 +69,27 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
 			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名							
 		}
-		/*if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
-			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名			
-		}*/
 		
-		if (map != null && map.size() > 0) {
+		if (map.size() > 0) {
+			if (map.get("originator")!=null) {
+				detachedCriteria.add(Restrictions.like("admin.name", "%"
+						+ map.get("originator").toString() + "%"));
+			}
 			
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("productdate", start, end));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 			
-			if (!map.get("originator").equals("")) {
-				detachedCriteria.add(Restrictions.like("admin.name", "%"
-						+ map.get("originator").toString() + "%"));
-			}
-		}
-		/*detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", id), Restrictions.eq("admin1.id", id)));
-		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
-*/		
+			
+		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
-		
 		return super.findByPager(pager, detachedCriteria);
 	} 
 }

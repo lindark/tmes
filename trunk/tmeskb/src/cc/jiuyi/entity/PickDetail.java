@@ -53,6 +53,7 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	private String xconfirmUser;//确认人
 	private String xcreateUser;//创建人
 	private String xmblnr;//物料凭证号
+	private String matnr;//物料编码
 
 	private String xuh;
 
@@ -247,6 +248,14 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	}
 	public void setXmblnr(String xmblnr) {
 		this.xmblnr = xmblnr;
+	}
+	
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
 	}
 
 	

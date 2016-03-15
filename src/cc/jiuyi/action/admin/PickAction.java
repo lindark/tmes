@@ -160,6 +160,8 @@ public class PickAction extends BaseAdminAction {
 						 pickDetail.getPick().getWorkingbill().getId()).getMaktx());
 				pickDetail.setWorkingbillCode(workingBillService.get(
 						 pickDetail.getPick().getWorkingbill().getId()).getWorkingBillCode());
+				pickDetail.setMatnr(workingBillService.get(
+						pickDetail.getPick().getWorkingbill().getId()).getMatnr());
 				lst.add(pickDetail);
 			}
 		} catch (Exception e) {
@@ -186,13 +188,14 @@ public class PickAction extends BaseAdminAction {
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
         header.add("随工单号");
+        header.add("产品编码");
         header.add("产品名称");
         header.add("生产日期");
         header.add("领退料类型");
         header.add("领退数量");
         header.add("裁切领退数");
-        header.add("物料编码");
-        header.add("物料描述");
+        header.add("组件编码");
+        header.add("组件描述");
         header.add("物料凭证号");
         header.add("创建日期");
         header.add("创建人");
@@ -206,7 +209,8 @@ public class PickAction extends BaseAdminAction {
         	Pick pick = (Pick)obj[1];//pick
         	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
         	
-        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMaktx(),workingbill.getProductDate()
+        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr()
+        			            ,workingbill.getMaktx(),workingbill.getProductDate()
         			            ,ThinkWayUtil.getDictValueByDictKey(dictService, "pickType", pick.getMove_type())
         						,pickdetail.getPickAmount(),pickdetail.getCqPickAmount(),pickdetail.getMaterialCode()
         						,pickdetail.getMaterialName(),pickdetail.getPick().getEx_mblnr(),pickdetail.getCreateDate(),pick.getCreateUser()==null?"":pick.getCreateUser().getName()

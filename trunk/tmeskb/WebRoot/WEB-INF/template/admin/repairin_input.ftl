@@ -114,7 +114,7 @@ body {
 													<#else>
 														<input type="text" id="input_num" name="repairin.receiveAmount"
 															value="${(repairin.receiveAmount)!}"
-															class=" input input-sm" />
+															class=" input input-sm formText {required: true}" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>

@@ -151,12 +151,7 @@ body {
 													<#else> ${(model.initiator.name)!} </#if>
 
 												</div> -->
-											</div>
-
-							
-										
-										
-							
+											</div>																													
 
 											<div class="profile-info-row">
 												<div class="profile-info-name">通知时间</div>

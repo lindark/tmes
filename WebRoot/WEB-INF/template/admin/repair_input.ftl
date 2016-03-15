@@ -119,7 +119,7 @@ body {
 													<#else>
 														<input type="text" id="input_num" name="repair.repairAmount"
 															value="${(repair.repairAmount)!}"
-															class=" input input-sm" />
+															class=" input input-sm formText {required: true}" />
 														<label class="requireField">*</label>
 													</#if>
 												</div>
@@ -144,7 +144,7 @@ body {
 													<#else>
 														<input type="text" id="input_duty" name="repair.duty"
 															value="${(repair.duty)!}"
-															class=" input input-sm formText {required: true}" />
+															class=" input input-sm" />
 														<!-- 
 														<label class="requireField">*</label>
 														 -->

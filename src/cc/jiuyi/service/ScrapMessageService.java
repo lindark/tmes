@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ScrapMessage;
@@ -22,4 +23,6 @@ public interface ScrapMessageService extends BaseService<ScrapMessage, String>
 	ScrapMessage getBySidAndMid(String sid, String mid);
 	
 	public Pager getMessagePager(Pager pager,HashMap<String,String>map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

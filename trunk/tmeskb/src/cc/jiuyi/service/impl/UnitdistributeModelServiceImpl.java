@@ -8,15 +8,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.FaultReasonDao;
 import cc.jiuyi.dao.UnitdistributeModelDao;
-import cc.jiuyi.dao.UnitdistributeProductDao;
-import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
-import cc.jiuyi.service.FaultReasonService;
 import cc.jiuyi.service.UnitdistributeModelService;
-import cc.jiuyi.service.UnitdistributeProductService;
 
 /**
  * Service实现类 -单元分配模具
@@ -47,8 +41,15 @@ public class UnitdistributeModelServiceImpl extends BaseServiceImpl<Unitdistribu
 
 	@Override
 	public List<UnitdistributeModel> getModelList(String unitCode) {
-		// TODO Auto-generated method stub
 		return unitdistributeModelDao.getModelList(unitCode);
+	}
+
+	/**
+	 * 查询所有工作范围
+	 */
+	public List<UnitdistributeModel> getAllList()
+	{
+		return this.unitdistributeModelDao.getAllList();
 	}
 
 }

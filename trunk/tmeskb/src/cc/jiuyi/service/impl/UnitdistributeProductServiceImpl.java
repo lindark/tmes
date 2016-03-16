@@ -48,4 +48,12 @@ public class UnitdistributeProductServiceImpl extends BaseServiceImpl<Unitdistri
 		return unitdistributeProductDao.getProductList(unitCode);
 	}
 
+	/**
+	 * 查询所有工位
+	 */
+	public List<UnitdistributeProduct> getAllList()
+	{
+		return this.unitdistributeProductDao.getAllList();
+	}
+
 }

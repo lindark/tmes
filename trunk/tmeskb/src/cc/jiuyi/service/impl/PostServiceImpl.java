@@ -1,19 +1,15 @@
 package cc.jiuyi.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.dao.PostDao;
 import cc.jiuyi.entity.Post;
-import cc.jiuyi.entity.Product;
 import cc.jiuyi.service.PostService;
 
 /**
@@ -62,6 +58,22 @@ public class PostServiceImpl extends BaseServiceImpl<Post, String>implements Pos
 		// TODO Auto-generated method stub
 		postDao.updateisdel(ids, oper);
 		
+	}
+
+	/**
+	 * 查询所有岗位
+	 */
+	public List<Post> getAllList()
+	{
+		return this.postDao.getAllList();
+	}
+
+	/**
+	 * 查询岗位数据
+	 */
+	public Pager getAllPost(Pager pager)
+	{
+		return this.postDao.getAllPost(pager);
 	}
 
 	

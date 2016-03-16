@@ -71,6 +71,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private String shift;
 	private String submitadmin;
 	private String approvaladmin;
+	private String state;
+	
 
 	@Resource
 	private HandOverProcessService handOverProcessService;
@@ -224,7 +226,23 @@ public class HandOverProcessAction extends BaseAdminAction {
 		            }
 		        });
 			}
-			
+			if(state==null){
+				state = "0";
+			}
+			wb:for (int k = 0; k < workingbillList.size(); k++) {
+				List<OddHandOver> ohoSets = new ArrayList<OddHandOver>(workingbillList.get(k).getOddHandOverSet());
+				if(ohoSets!=null && ohoSets.size()>0){
+					for(OddHandOver oho : ohoSets){
+						if("1".equals(oho.getState())){
+							state="1";
+						}else if("2".equals(oho.getState())){
+							state="2";
+						}
+						break wb;
+					}
+				}
+			}
+	
 			//获取维护物料信息
 			List<Material> ml= materialservice.getAll();
 			if(ml!=null && ml.size()>0){
@@ -694,6 +712,14 @@ public class HandOverProcessAction extends BaseAdminAction {
 
 	public void setApprovaladmin(String approvaladmin) {
 		this.approvaladmin = approvaladmin;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 

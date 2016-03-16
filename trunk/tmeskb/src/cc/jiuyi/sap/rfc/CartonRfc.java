@@ -8,4 +8,6 @@ import cc.jiuyi.util.CustomerException;
 
 public interface CartonRfc extends BaserfcService{
 	public Carton CartonCrt(String testrun,List<CartonSon>list_cs) throws IOException,CustomerException;
+	
+	public Object[] CartonCrtNew(String testrun,List<CartonSon>list_cs) throws IOException,CustomerException;
 }

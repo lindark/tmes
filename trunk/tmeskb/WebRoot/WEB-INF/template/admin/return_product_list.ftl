@@ -66,10 +66,10 @@
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
 									</button>
-									<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="repealEndProduct" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="repealEndProduct" type=button>
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</button> -->
+									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnReturnProduct">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -175,7 +175,7 @@
 			 } 
 		});
 		
-		/* $("#repealPick").click(function(){
+		 $("#repealEndProduct").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -183,13 +183,21 @@
 				return false;
 			}
 			else{
-				var url="pick!creditundo.action";
+				 var rowData = $("#grid-table").jqGrid('getRowData',id);
+					var row_state = rowData.state;
+					if(row_state == "2" || row_state =="3"){
+						layer.msg("已经确认或已经撤销无法再撤销!",{icon:5});
+						return false;
+					}else{
+						var loginId = $("#loginid").val();//当前登录人的id
+						var url="return_product!creditundo.action?id="+id+"&loginId="+loginId;
+					}
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
 				});
 			}
-		}); */
+		}); 
 
 		$("#editReturnProduct").click(function(){
 			var id = "";
@@ -209,7 +217,8 @@
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="return_product!edit.action?id="+id;
+					var loginId = $("#loginid").val();//当前登录人的id
+					window.location.href="return_product!edit.action?id="+id+"&loginId="+loginId;
 				}				
 			}		
 		});
@@ -226,7 +235,8 @@
 				alert("至少选择一条成品入库记录！");
 				return false;
 			}else{
-				window.location.href="return_product!view.action?id="+id;				
+				var loginId = $("#loginid").val();//当前登录人的id
+				window.location.href="return_product!view.action?id="+id+"&loginId="+loginId;				
 			}			
 		});
 		

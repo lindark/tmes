@@ -78,7 +78,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @param materialDesp 物料描述
 	 * @param mouldNumber 模具组号
 	 * @param befWorkOddAmount上班零头    - oddHandOver : actualBomMount
-	 * @param StorageAmount   入库数   - WorkingBill :   totalSingleAmount
+	 * @param storageAmount   入库数   - WorkingBill :   totalSingleAmount
 	 * @param aftWorkOddAmount  下班零头     - oddHandOver : actualBomMount
 	 * @param unRepairAmount 表面异常维修数   - WorkingBill :   totalRepairAmount
 	 * @param qualifiedAmount 合格数-报工数 
@@ -86,12 +86,12 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @return PieceworkList 返回需要的数据
 	 */
 	public String getPieceworkListOne(String xmlString){
-		xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
+		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
 				+ "<factory>1000</factory>"
 				+ "<workShop>1001</workShop>"
 				+ "<factoryUnit></factoryUnit>"
 				+ "<productDate>2016-01-20</productDate>"
-				+ "<shift></shift></title></ROOT>";  
+				+ "<shift></shift></title></ROOT>";  */
         Document doc = null;
         String factory="";
         String workShop="";
@@ -149,7 +149,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								}else{
 									PieceworkMap.put("befWorkOddAmount","0");//上班零头
 								}
-								PieceworkMap.put("StorageAmount",wb.getTotalSingleAmount().toString());//入库数 
+								PieceworkMap.put("storageAmount",wb.getTotalSingleAmount().toString());//入库数 
 								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", wb.getWorkingBillCode());
 								if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
 									PieceworkMap.put("aftWorkOddAmount",oddHandOverListAfter.get(0).getActualBomMount().toString());//下班零头
@@ -188,7 +188,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								}else{
 									PieceworkMap.put("befWorkOddAmount","0");//上班零头
 								}
-								PieceworkMap.put("StorageAmount",wb.getTotalSingleAmount().toString());//入库数 
+								PieceworkMap.put("storageAmount",wb.getTotalSingleAmount().toString());//入库数 
 								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", wb.getWorkingBillCode());
 								if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
 									PieceworkMap.put("aftWorkOddAmount",oddHandOverListAfter.get(0).getActualBomMount().toString());//下班零头
@@ -248,8 +248,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	   	      mouldNumberElmt.setText((String)map.get("mouldNumber"));
 	   	      Element befWorkOddAmountElmt = pieceworklistElmt.addElement("befWorkOddAmount");
 	   	      befWorkOddAmountElmt.setText((String)map.get("befWorkOddAmount"));
-	   	      Element StorageAmountElmt = pieceworklistElmt.addElement("StorageAmount");
-	   	      StorageAmountElmt.setText((String)map.get("StorageAmount"));
+	   	      Element storageAmountElmt = pieceworklistElmt.addElement("storageAmount");
+	   	      storageAmountElmt.setText((String)map.get("storageAmount"));
 	   	      Element aftWorkOddAmountElmt = pieceworklistElmt.addElement("aftWorkOddAmount");
 	   	      aftWorkOddAmountElmt.setText((String)map.get("aftWorkOddAmount"));
 	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
@@ -282,8 +282,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	   	      mouldNumberElmt.setText("");
 	   	      Element befWorkOddAmountElmt = pieceworklistElmt.addElement("befWorkOddAmount");
 	   	      befWorkOddAmountElmt.setText("");
-	   	      Element StorageAmountElmt = pieceworklistElmt.addElement("StorageAmount");
-	   	      StorageAmountElmt.setText("");
+	   	      Element storageAmountElmt = pieceworklistElmt.addElement("storageAmount");
+	   	      storageAmountElmt.setText("");
 	   	      Element aftWorkOddAmountElmt = pieceworklistElmt.addElement("aftWorkOddAmount");
 	   	      aftWorkOddAmountElmt.setText("");
 	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
@@ -326,9 +326,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @return kuanggong 旷工
 	 */
 	public String getPieceworkListTwo(String xmlString){
-		xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
 				+ "<productDate>Dy01</productDate>"
-				+ "<shift>Dy01</shift></title></ROOT>";  
+				+ "<shift>Dy01</shift></title></ROOT>";  */
         String productDate="";
         String shift="";
         Document doc = null;

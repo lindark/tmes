@@ -23,10 +23,13 @@ public class Carton extends BaseEntity {
 	private String E_TYPE;//S/N
 	private String E_MESSAGE;//付款信息
 	private String EX_MBLNR;//物料凭证
+	//private String EX_EBELN;//采购订单号
+	//private String ET_EBELP;//采购订单行项目号
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
 	private String teamshift;//班次
 	private String productDate;//生产日期
 	private String bktxt;//单据编号
+	
 	//假字段
 	private String xcreateUser;//创建人的名字
 	private String xconfirmUser;//确认人的名字
@@ -183,5 +186,22 @@ public class Carton extends BaseEntity {
 	{
 		this.xteamshift = xteamshift;
 	}
+
+
+	/*public String getEX_EBELN() {
+		return EX_EBELN;
+	}
+
+	public void setEX_EBELN(String eX_EBELN) {
+		EX_EBELN = eX_EBELN;
+	}
+
+	public String getET_EBELP() {
+		return ET_EBELP;
+	}
+
+	public void setET_EBELP(String eT_EBELP) {
+		ET_EBELP = eT_EBELP;
+	}*/
 	
 }

@@ -28,7 +28,8 @@ public class CartonSon extends BaseEntity
 	private String wbcode;//随工单编码
 	private String productcode;//产品编码
 	private String productname;//产品名称
-	
+	private String EBELN;//采购订单号
+	private String EBELP;//采购订单行项目号
 	
 	//假字段
 	private String MOVE_TYPE;//移动类型
@@ -214,6 +215,18 @@ public class CartonSon extends BaseEntity
 	}
 	public void setXteamshift(String xteamshift) {
 		this.xteamshift = xteamshift;
+	}
+	public String getEBELN() {
+		return EBELN;
+	}
+	public void setEBELN(String eBELN) {
+		EBELN = eBELN;
+	}
+	public String getEBELP() {
+		return EBELP;
+	}
+	public void setEBELP(String eBELP) {
+		EBELP = eBELP;
 	}
 
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
@@ -113,7 +115,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
-	
+	//添加
 	public String add(){
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
@@ -170,14 +172,15 @@ public class ReturnProductAction extends BaseAdminAction {
 		
 		return INPUT;
 	}
+	//编辑
 	public String edit(){
 		if(returnProduct==null){
 			returnProduct = new ReturnProduct();
 		}
 		returnProduct = returnProductService.get(id);
-		Admin admin = adminService.getLoginAdmin();
+		//Admin admin = adminService.getLoginAdmin();
 		Admin admin1 = adminService.get(loginId);
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
+		String wareHouse = admin1.getDepartment().getTeam().getFactoryUnit().getWarehouse();
 		String werks = admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(returnProduct.getMaterialBatch()==null){
 			returnProduct.setMaterialBatch("");
@@ -212,6 +215,7 @@ public class ReturnProductAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("修改失败，请重试");
 		}
 	}
+	//刷卡提交
 	public String creditsubmit(){
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
@@ -222,6 +226,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		
 	}
+	//刷卡确认
 	public String creditapproval(){
 		String message = "";
 		List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
@@ -281,6 +286,73 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		
 	}
+	//刷卡撤销
+	public String creditundo(){
+		String message = "";
+		//List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
+		try {
+			//Admin admin =  adminService.getByCardnum(cardnumber);
+			//endProductService.updateApprovalEndProduct(ids,admin);
+			Admin admin1 = adminService.get(loginId);
+			//List<ReturnProduct> returnProductList = new ArrayList<ReturnProduct>();
+			String[] ids = id.split(","); 
+			for(int i=0;i<ids.length;i++){
+				ReturnProduct rp = returnProductService.get(ids[i]);
+				if( rp!=null){
+					if("3".equals(rp.getState()) || "2".equals(rp.getState())){
+						return ajaxJsonErrorMessage("已经确认或已经撤销无法再撤销!"); 
+					}
+				}
+			}
+			for(int i=0;i<ids.length;i++){
+				ReturnProduct rp = returnProductService.get(ids[i]);
+				if( rp!=null){
+					rp.setConfirmUser(admin1.getUsername());
+					rp.setConfirmName(admin1.getName());
+					rp.setState("3");
+					rp.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					returnProductService.update(rp);
+				}
+			}
+			message = "撤销成功";
+			return ajaxJsonSuccessMessage(message); 
+			//return ajaxJsonSuccessMessage(message);
+			/*returnProductCrt = reprfc.returnProductCrt("X", returnProductList);
+			boolean flag = true;
+			for(ReturnProduct epc : returnProductCrt){
+				String e_type = epc.getE_type();
+				if (e_type.equals("E")) { // 如果有一行发生了错误
+					flag = false;
+					message += epc.getE_message();
+				}
+			}
+				if (!flag)
+					return ajaxJsonErrorMessage(message);
+				else {
+					flag = true;
+					returnProductCrt = reprfc.returnProductCrt("", returnProductList);
+					for(ReturnProduct epc : returnProductCrt){
+						String e_type = epc.getE_type();
+						String e_message = epc.getE_message();
+						String ex_mblnr = epc.getEx_mblnr();
+						if (e_type.equals("E")) { // 如果有一行发生了错误
+							flag = false;
+							message += epc.getE_message();
+						}else{
+							ReturnProduct ep = returnProductService.get(epc.getId());
+							ep.setMblnr(ex_mblnr);
+							returnProductService.update(ep);
+						}
+					}
+					if (!flag)
+						return ajaxJsonErrorMessage(message);*/
+		} catch (Exception e) {
+			return ajaxJsonErrorMessage("撤销失败，请重试");
+		}
+		
+	}
+	
+	
 	public String view(){
 		if(returnProduct==null){
 			returnProduct = new ReturnProduct();
@@ -359,6 +431,12 @@ public class ReturnProductAction extends BaseAdminAction {
 	}
 	public void setDesp(String desp) {
 		this.desp = desp;
+	}
+	public String getLoginId() {
+		return loginId;
+	}
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 	
 	

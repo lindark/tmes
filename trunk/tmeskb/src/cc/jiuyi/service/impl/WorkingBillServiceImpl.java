@@ -161,7 +161,25 @@ public class WorkingBillServiceImpl extends
 		}
 		return null;
 	}
-
+	@Override
+	public WorkingBill getCodeNext(Admin admin, String workingbillCode,
+			String productDate, String shift) {
+		WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
+		Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
+		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();
+		if(workcenter == null)return null;
+		List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
+		for(int i=0;i<workingbillList.size();i++){
+			WorkingBill workingbill = workingbillList.get(i);
+			String aufnr = workingbill.getAufnr();
+			Orders order = orderservice.get("aufnr",aufnr);
+			order.getMujuntext();
+			if(ThinkWayUtil.null2String(order00.getMujuntext()).equals(ThinkWayUtil.null2String(order.getMujuntext()))){
+				return workingbill;
+			}
+		}
+		return null;
+	}
 	@Override
 	public List<WorkingBill> getWorkingBillByProductsCode(String matnr) {
 		return workingbilldao.getWorkingBillByProductsCode(matnr);
@@ -440,4 +458,6 @@ public class WorkingBillServiceImpl extends
 			String productDate, String shift) {
 		return workingbilldao.findListWorkingBill(productDate, shift);
 	}
+
+
 }

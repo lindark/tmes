@@ -71,6 +71,18 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 		LODOP.PREVIEW();
 	})
 	*/
+	$(function(){
+		var state = "${state}";
+		if(state=="1"){
+			$(".OddHstate").text("已提交");
+			
+		}else if(state=="2"){
+			$(".OddHstate").text("已确认");
+			$(".state_input").attr("readonly","readonly");
+		}else{
+			$(".OddHstate").text("未提交");
+		}
+	});
 </script>
 </head>
 
@@ -221,13 +233,14 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 									<table class="table table-striped table-bordered">
 										<thead>
 											<tr>
-												<th class="center">产品名称</th>
-												<th class="center">计划数量</th>
-												<th class="center">产品编号</th>
-												<th class="center">随工单编号</th>
-												<th class="center">下一班随工单编号</th>
-												<th class="center">零头数交接数量</th>
-												<th class="center">异常交接数量</th>
+												<th class="center" style="width:25%">产品名称</th>
+												<th class="center" style="width:10%">计划数量</th>
+												<th class="center" style="width:15%">产品编号</th>
+												<th class="center"style="width:15%">随工单编号</th>
+												<th class="center"style="width:15%">下一班随工单编号</th>
+												<th class="center"style="width:5%">零头数交接数量</th>
+												<th class="center"style="width:5%">异常交接数量</th>
+												<th class="center" style="width:10%">状态</th>
 											</tr>
 										</thead>
 	
@@ -242,15 +255,17 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 													<td class="center workingCode" name="workingCode">${list.workingBillCode}</td>
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
 															<#list list.oddHandOverSet as loh>
-																<td class="center"><input type="text" class="afterWork" value="${loh.afterWorkingCode}"/>	</td>
-																<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value="${loh.actualBomMount }"/></td>
-																<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value="${loh.unBomMount }"/></td>
+																<td class="center"><input type="text" class="afterWork state_input" value="${loh.afterWorkingCode}"/>	</td>
+																<td class="center"><input type="text" class="oddhandOverMount state_input" name="actualMounts" value="${loh.actualBomMount }"/></td>
+																<td class="center"><input type="text" class="unhandOverMount state_input" name="unMounts" value="${loh.unBomMount }"/></td>
+																<td class="center OddHstate"></td>
 															<#break>
 															</#list>
 														<#else>
-														<td class="center"><input type="text" class="afterWork" value=""/>	</td>
-														<td class="center"><input type="text" class="oddhandOverMount" name="actualMounts" value=""/></td>
-														<td class="center"><input type="text" class="unhandOverMount" name="unMounts" value=""/></td>
+														<td class="center"><input type="text" class="afterWork state_input" value=""/>	</td>
+														<td class="center"><input type="text" class="oddhandOverMount state_input" name="actualMounts" value=""/></td>
+														<td class="center"><input type="text" class="unhandOverMount state_input" name="unMounts" value=""/></td>
+														<td class="center OddHstate"></td>
 														</#if>
 												</tr>
 											</#list>
@@ -258,11 +273,11 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 										</tbody>
 									</table>
 									<div class="buttonArea" >
-										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="oddcreditsubmit" type=button>
+										<button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="oddcreditsubmit" type=button <#if state=="2">disabled</#if>>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 										</button>&nbsp;&nbsp;
-										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" id="oddcreditapproval" type=button>
+										<button class="btn btn-white btn-default btn-sm btn-round btnapproval" id="oddcreditapproval" type=button <#if state=="2">disabled</#if>>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡确认
 										</button>
@@ -574,9 +589,9 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					return false;
 				}
 			} */
-			
+			var loginid = $("#loginid").val();
 			var productDate = $("#productDate").val();
-			var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift;
+			var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift+"&loginid="+loginid;
 			var dt = $("#oddlist").serialize();
 			credit.creditCard(url,function(data){
 			},dt);
@@ -676,8 +691,9 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				$(".workingCode").each(function(){
 					array.push($(this).text());
 				});
+				var loginid = $("#loginid").val();
 			  $.ajax({
-					url:"odd_hand_over!findAfterWorkingCode.action",
+					url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
 					data:{"nowDate":productDate,"shift":shift,"workingCode":array},
 					traditional: true,  
 					dataType: "json",
@@ -732,8 +748,9 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 							array.push($(this).text());
 						});
 						var $afterwork = $(".afterWork");
+						var loginid = $("#loginid").val();
 					  $.ajax({
-							url:"odd_hand_over!findAfterWorkingCode.action",
+							url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
 							data:{"nowDate":productDate,"shift":shift,"workingCode":array},
 							traditional: true,  
 							dataType: "json",

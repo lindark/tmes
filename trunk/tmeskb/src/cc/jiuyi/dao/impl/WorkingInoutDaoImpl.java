@@ -44,8 +44,8 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 	public List<WorkingInout> findPagerByWorkingBillInout(
 			HashMap<String, String> map) {
 		if (!map.get("workingBillCode").equals("")) {
-			String hql = "from WorkingInout a where workingbill.workingBillCode=? and ( workingbill.productDate between ? and ? )";
-			return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("workingBillCode")).setParameter(1, map.get("start")).setParameter(2, map.get("end")).list();
+			String hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and workingbill.aufnr=?";
+			return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("workingBillCode")).list();
 		}else{
 			String hql = "from WorkingInout a where workingbill.productDate between ? and ? ";
 			return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).list();

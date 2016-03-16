@@ -301,9 +301,9 @@ function btn_event()
 		{
 			var rowData = $("#grid-table").jqGrid('getRowData',info);
 			var row_state=rowData.state;
-			if(row_state=="1")
+			if(row_state=="1" || row_state=="3")
 			{
-				layer.alert("已确认的纸箱收货单无法再编辑!",false);
+				layer.alert("已确认或已撤销的纸箱收货单无法再编辑!",false);
 			}
 			else
 			{

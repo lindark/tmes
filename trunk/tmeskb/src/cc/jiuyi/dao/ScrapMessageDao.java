@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.ScrapMessage;
@@ -19,4 +20,6 @@ public interface ScrapMessageDao extends BaseDao<ScrapMessage, String>
 	public ScrapMessage getBySidAndMid(String sid, String mid);
 	
 	public Pager getMessagePager(Pager pager, HashMap<String, String> map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

@@ -1,7 +1,5 @@
 package cc.jiuyi.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,7 +9,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.TeamDao;
 import cc.jiuyi.entity.Team;
 
@@ -134,5 +131,52 @@ public class TeamDaoImpl extends BaseDaoImpl<Team, String> implements
 	public List<Team> getTeamListByWorkAndDel() {
 		String hql="from Team where isWork='Y' and isDel='N' and state='1'";
 		return this.getSession().createQuery(hql).list();
+	}
+
+	/**
+	 * 获取team数据,已启用的
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Team.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!existAlias(detachedCriteria, "factoryUnit", "factoryUnit"))
+		{
+			detachedCriteria.createAlias("factoryUnit", "factoryUnit");
+		}
+		if(!existAlias(detachedCriteria, "factoryUnit.workShop", "workShop"))
+		{
+			detachedCriteria.createAlias("factoryUnit.workShop", "workShop");
+		}
+		if(!existAlias(detachedCriteria, "factoryUnit.workShop.factory", "factory"))
+		{
+			detachedCriteria.createAlias("factoryUnit.workShop.factory", "factory");
+		}
+		if (map.size() > 0)
+		{
+			//班组名称
+			if(map.get("teamName")!=null&&!"".equals(map.get("teamName")))
+			{
+				detachedCriteria.add(Restrictions.like("teamName", "%"+map.get("teamName")+"%"));
+			}
+			//单元名称
+			if(map.get("xfactoryUnitName")!=null&&!"".equals(map.get("xfactoryUnitName")))
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnit.factoryUnitName", "%"+map.get("xfactoryUnitName")+"%"));
+			}
+			//车间名称
+			if(map.get("xworkShopName")!=null&&!"".equals(map.get("xworkShopName")))
+			{
+				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("xworkShopName")+"%"));
+			}
+			//工厂名称
+			if(map.get("xfactoryName")!=null&&!"".equals(map.get("xfactoryName")))
+			{
+				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("xfactoryName")+"%"));
+			}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用的
+		return super.findByPager(pager, detachedCriteria);
 	}
 }

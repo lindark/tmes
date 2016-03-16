@@ -56,4 +56,12 @@ public interface TeamService extends BaseService<Team, String> {
 	 */
 	public List<Team> getTeamListByWorkAndDel();
 
+	/**
+	 * 获取team数据,已启用的
+	 * @param pager
+	 * @param map查询条件
+	 * @return
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map);
+
 }

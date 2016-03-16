@@ -28,6 +28,7 @@ public class Post extends BaseEntity{
     private String state;//状态
     private String isDel;//是否删除
     private String stateRemark;//状态描述
+    private String workStation;//工位
     private Set<Admin> adminSet;
     private String station;//工位
     
@@ -83,9 +84,12 @@ public class Post extends BaseEntity{
 	public void setStation(String station) {
 		this.station = station;
 	}
-
-   
-
-    
-	
+	public String getWorkStation()
+	{
+		return workStation;
+	}
+	public void setWorkStation(String workStation)
+	{
+		this.workStation = workStation;
+	}
 }

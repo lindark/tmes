@@ -31,7 +31,6 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public boolean isExistByCardNumber(String cardNumber) {
 		String hql = "from Admin admin where lower(admin.cardNumber) = lower(?)";
 		Admin admin = (Admin) getSession().createQuery(hql).setParameter(0, cardNumber).uniqueResult();
@@ -48,14 +47,15 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	}
 	
 	
-	public Pager findPagerByjqGrid(Pager pager,Map map,List list){
+	public Pager findPagerByjqGrid(Pager pager,List<String> list){
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(!super.existAlias(detachedCriteria, "department", "department"))
-			detachedCriteria.createAlias("department", "department");
-		detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
-		
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		if(list.size()>0)
+		{
+			if(!super.existAlias(detachedCriteria, "department", "department"))
+				detachedCriteria.createAlias("department", "department");
+			detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
+		}
 		return super.findByPager(pager,detachedCriteria);
 	}
 	
@@ -290,6 +290,122 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("team.id", tid),Restrictions.eq("isdaiban", tid)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	/**
+	 * 查询所有在职员工
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getAllList()
+	{
+		String hql="from Admin where isDel='N' and isAccountEnabled=?";
+		return this.getSession().createQuery(hql).setParameter(0, true).list();
+	}
+
+	/**
+	 * 查询所有员工
+	 * my_id 1:查询所有  2:查询已维护过登录等权限的人员  3:查询未维护过的人员
+	 */
+	public Pager getAllEmp(Pager pager,List<String>list_str,int my_id)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(list_str.size()>0)
+		{
+			if(!super.existAlias(detachedCriteria, "department", "department"))
+			{
+				detachedCriteria.createAlias("department", "department");
+			}
+			detachedCriteria.add(Restrictions.in("department.id", list_str));
+		}
+		if(my_id==2)
+		{
+			detachedCriteria.add(Restrictions.isNotNull("username"));
+		}
+		else if(my_id==3)
+		{
+			detachedCriteria.add(Restrictions.isNull("username"));
+		}
+		return super.findByPager(pager,detachedCriteria);
+	}
+
+	/**
+	 * 查询所有未离职的,已启用的员工
+	 */
+	public Pager getAllWorkEmp(Pager pager, HashMap<String, String> map)
+	{
+		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Admin.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(map.size()>0)
+		{
+			//部门
+			if(!super.existAlias(detachedCriteria, "department", "department"))
+			{
+				detachedCriteria.createAlias("department", "department");
+			}
+			//班组
+			if(!super.existAlias(detachedCriteria, "department.team", "team"))
+			{
+				detachedCriteria.createAlias("department.team", "team");
+			}
+			//岗位
+			if(!super.existAlias(detachedCriteria, "post", "post"))
+			{
+				detachedCriteria.createAlias("post", "post");
+			}
+			//班组
+			if(map.get("team")!=null)
+			{
+			    detachedCriteria.add(Restrictions.like("team.teamName","%"+ map.get("team")+"%"));
+			}
+			//姓名
+			if(map.get("name")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("name", "%"+map.get("name")+"%"));
+			}
+			//岗位
+			if(map.get("skill")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("post.postName", "%"+map.get("skill")+"%"));
+			}
+		}
+		detachedCriteria.add(Restrictions.eq("isAccountEnabled", true));//已启用的
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未离职的
+		return super.findByPager(pager, detachedCriteria);
+	}
+
+	/**
+	 * 根据工/卡号查询数据
+	 * my_id  1:工号2:卡号
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getByNumber(String number,String id, int my_id)
+	{
+		String hql="";
+		if(id==null)
+		{
+			if(my_id==1)
+			{
+				hql="from Admin where workNumber=?";
+			}
+			else
+			{
+				hql="from Admin where cardNumber=?";
+			}
+			return this.getSession().createQuery(hql).setParameter(0, number).list();
+		}
+		else
+		{
+			if(my_id==1)
+			{
+				hql="from Admin where workNumber=? and id<>?";
+			}
+			else
+			{
+				hql="from Admin where cardNumber=? and id<>?";
+			}
+			return this.getSession().createQuery(hql).setParameter(0, number).setParameter(1, id).list();
+		}
 	}
 	
 }

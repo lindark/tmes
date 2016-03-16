@@ -1,9 +1,5 @@
 package cc.jiuyi.action.admin;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,30 +7,21 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.SystemConfig;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.util.CommonUtil;
-import cc.jiuyi.util.SpringUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.compass.core.json.JsonObject;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.UrlValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
@@ -64,7 +51,7 @@ public class DictAction extends BaseAdminAction {
 				for(int i=0;i<list.size();i++)
 				{
 					Dict d=list.get(i);
-					str+="<option value="+d.getDictkey()+">"+d.getDictvalue()+"</option>";
+					str+="<option value='"+d.getDictkey()+"'>"+d.getDictvalue()+"</option>";
 				}
 				str+="</select>";
 				return ajaxHtml(str);
@@ -75,7 +62,7 @@ public class DictAction extends BaseAdminAction {
 			e.printStackTrace();
 			return ajaxHtml("<select><option></option></select>");
 		}
-		return null;
+		return ajaxHtml("<select><option></option></select>");
 	}
 	
 	public String getDictByAcess(){

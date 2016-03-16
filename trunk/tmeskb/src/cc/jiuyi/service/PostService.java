@@ -28,4 +28,17 @@ public interface PostService extends BaseService<Post, String> {
 	 */
 	public void updateisdel(String[] ids,String oper);
 
+	/**
+	 * 查询所有岗位
+	 * @return
+	 */
+	public List<Post> getAllList();
+
+	/**
+	 * 查询岗位数据
+	 * @param pager
+	 * @return
+	 */
+	public Pager getAllPost(Pager pager);
+
 }

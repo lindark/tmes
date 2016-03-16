@@ -29,4 +29,14 @@ public interface PostDao extends BaseDao<Post,String> {
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+
+	/**
+	 * 查询所有岗位
+	 */
+	public List<Post> getAllList();
+
+	/**
+	 * 查询岗位数据
+	 */
+	public Pager getAllPost(Pager pager);
 }

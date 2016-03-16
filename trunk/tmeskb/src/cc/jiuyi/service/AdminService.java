@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Role;
 
 /**
  * Service接口 - 管理员
@@ -51,7 +52,7 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager,Map map,String departid);
+	public Pager findPagerByjqGrid(Pager pager,String departid);
 
 	public Pager getAdminPager(Pager pager,Map map);
 
@@ -127,5 +128,70 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @return
 	 */
 	public Admin getByCardnumAndTeamid(String cardnumber, String teamid);
+
+	/**
+	 * 查询所有在职员工
+	 */
+	public List<Admin> getAllList();
+
+	/**
+	 * 添加员工
+	 * @param admin
+	 * @param unitdistributeProducts
+	 * @param unitdistributeModels
+	 * @param roleList 
+	 */
+	public void saveInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels, List<Role> roleList,String loginid);
+
+	/**
+	 * 修改员工信息
+	 * @param admin
+	 * @param unitdistributeProducts
+	 * @param unitdistributeModels
+	 * @param roleList
+	 */
+	public void updateInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels, List<Role> roleList);
+
+	/**
+	 * 
+	 * @param pager
+	 * @param deptid 
+	 * @param map
+	 * @param my_id 1:查询所有  2:查询已维护过登录等权限的人员  3:查询未维护过的人员
+	 * @return
+	 */
+	public Pager getAllEmp(Pager pager, String deptid,int my_id);
+
+	/**
+	 * 查询所有未离职的,已启用的员工
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager getAllWorkEmp(Pager pager, HashMap<String, String> map);
+
+	/**
+	 * 人员信息维护:修改
+	 * @param admin
+	 * @param roleList 
+	 * @param unitdistributeModels 
+	 * @param unitdistributeProducts 
+	 */
+	public void updateEmpRy(Admin admin, String unitdistributeProducts, String unitdistributeModels);
+
+	/**
+	 * 检验工号和卡号是否重复
+	 * @param worknumber工号
+	 * @param cardnumber卡号
+	 * @return
+	 */
+	public String getChecknum(String worknumber, String cardnumber,String id);
+
+	/**
+	 * 人员权限维护
+	 * @param admin
+	 * @param roleList 管理角色
+	 */
+	public void updateEmpQx(Admin admin, List<Role> roleList,String loginid);
 
 }

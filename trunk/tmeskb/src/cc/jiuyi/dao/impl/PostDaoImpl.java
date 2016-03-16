@@ -11,7 +11,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.PostDao;
 import cc.jiuyi.entity.Post;
 
@@ -81,5 +80,27 @@ public class PostDaoImpl extends BaseDaoImpl<Post, String> implements PostDao {
 			super.update(post);
 		}
 		
+	}
+
+	/**
+	 * 查询所有岗位
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Post> getAllList()
+	{
+		String hql="from Post where isDel='N' and state='1'";
+		return this.getSession().createQuery(hql).list();
+	}
+
+	/**
+	 * 查询岗位数据
+	 */
+	public Pager getAllPost(Pager pager)
+	{
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Post.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用
+		return super.findByPager(pager, detachedCriteria);
 	}
 }

@@ -18,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.service.DictService;
@@ -26,8 +25,6 @@ import cc.jiuyi.service.PostService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -183,7 +180,53 @@ public class PostAction extends BaseAdminAction {
 		redirectionUrl="post!list.action";
 		return SUCCESS;	
 	}
+	
+	/**========================================*/
+	/**
+	 * 弹框:进入岗位页面
+	 */
+	public String beforegetpost()
+	{
 		
+		return "alert";
+	}
+	
+	/**
+	 * 获取岗位数据
+	 */
+	public String getpost()
+	{
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		pager =this.postService.getAllPost(pager);//查询岗位数据
+		@SuppressWarnings("unchecked")
+		List<Post> pagerlist = pager.getList();
+		List<Post>newlist=new ArrayList<Post>();
+		for(int i=0;i<pagerlist.size();i++)
+		{
+			Post p=pagerlist.get(i);
+			if(p.getState()!=null&&!"".equals(p.getState()))
+			{
+				p.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "postState", p.getState()));
+			}
+			newlist.add(p);
+		}
+		pager.setList(newlist);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Post.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+
+	/**========================================*/
 
 
 	public Post getPost() {

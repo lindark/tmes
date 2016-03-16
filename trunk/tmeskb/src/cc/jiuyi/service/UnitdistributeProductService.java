@@ -25,5 +25,11 @@ public interface UnitdistributeProductService extends BaseService<Unitdistribute
 	
 	//根据单元编码查询
 	public List<UnitdistributeProduct> getProductList(String unitCode);
+
+	/**
+	 * 查询所有工位
+	 * @return
+	 */
+	public List<UnitdistributeProduct> getAllList();
 	
 }

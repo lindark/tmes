@@ -8,14 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.FaultReasonDao;
 import cc.jiuyi.dao.UnitdistributeModelDao;
-import cc.jiuyi.dao.UnitdistributeProductDao;
-import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
-
 
 /**
  * Dao实现类 - 单元分配产品
@@ -58,6 +52,16 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 		String hql = "from UnitdistributeModel unitmodel where unitmodel.unitCode = ? and unitmodel.isDel= ? ";
 		List<UnitdistributeModel> modelList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return modelList;
+	}
+
+	/**
+	 * 查询所有工作范围
+	 */
+	@SuppressWarnings("unchecked")
+	public List<UnitdistributeModel> getAllList()
+	{
+		String hql="from UnitdistributeModel where isDel='N'";
+		return this.getSession().createQuery(hql).list();
 	}
 	
 }

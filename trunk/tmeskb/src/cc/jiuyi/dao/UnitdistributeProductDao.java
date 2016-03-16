@@ -23,4 +23,9 @@ public interface UnitdistributeProductDao extends BaseDao<UnitdistributeProduct,
 	
 	//根据单元编码查询
 	public List<UnitdistributeProduct> getProductList(String unitCode);
+
+	/**
+	 * 查询所有工位
+	 */
+	public List<UnitdistributeProduct> getAllList();
 }

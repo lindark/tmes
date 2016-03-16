@@ -69,8 +69,8 @@ jiuyi.admin.depart.addHandle = function(treeNode){
 ////			});
 //		});
 	var title = "新增部门";
-	var width="1000px";
-	var height="500px";
+	var width="70%";
+	var height="70%";
 	var content="department!add.action?pid="+treeNode.id;
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
     	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
@@ -108,8 +108,8 @@ jiuyi.admin.depart.editHandle = function(treeId, treeNode){
 //			});
 //		});
 	var title = "修改部门";
-	var width="1000px";
-	var height="500px";
+	var width="70%";
+	var height="70%";
 	var content="department!edit.action?id="+treeNode.id;
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){
     	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象

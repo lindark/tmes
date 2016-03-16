@@ -26,7 +26,6 @@ import cc.jiuyi.entity.Team;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.TeamService;
-import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 
@@ -70,11 +69,6 @@ public class TeamAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		if (pager == null) {
-			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
-		}
 		return LIST;
 	}
 
@@ -95,6 +89,9 @@ public class TeamAction extends BaseAdminAction {
 			HashMap<String, String> map = new HashMap<String, String>();
 			if (pager == null) {
 				pager = new Pager();
+			}
+			if(pager.getOrderBy()!=null&&!"".equals(pager.getOrderBy()))
+			{
 				pager.setOrderType(OrderType.asc);
 				pager.setOrderBy("orderList");
 			}
@@ -153,18 +150,29 @@ public class TeamAction extends BaseAdminAction {
 			pager = teamService.getTeamPager(pager, map);
 			List<Team> teamList = pager.getList();
 			List<Team> lst = new ArrayList<Team>();
-			for (int i = 0; i < teamList.size(); i++) {
+			for (int i = 0; i < teamList.size(); i++)
+			{
 				Team team = (Team) teamList.get(i);
-				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "teamState", team.getState()));
-				team.setXfactoryUnitName(team.getFactoryUnit()
-						.getFactoryUnitName());// 单元名称
-				team.setXworkShopName(team.getFactoryUnit().getWorkShop()
-						.getWorkShopName());// 车间名称
-				team.setXfactoryName(team.getFactoryUnit().getWorkShop()
-						.getFactory().getFactoryName());// 工厂名称
-				team.setXisWork(ThinkWayUtil.getDictValueByDictKey(dictService,
-						"isWork", team.getIsWork()));//是否工作状态
+				if(team.getState()!=null)
+				{
+					team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "teamState", team.getState()));
+				}
+				if(team.getFactoryUnit()!=null)
+				{
+					team.setXfactoryUnitName(team.getFactoryUnit().getFactoryUnitName());// 单元名称
+					if(team.getFactoryUnit().getWorkShop()!=null)
+					{
+						team.setXworkShopName(team.getFactoryUnit().getWorkShop().getWorkShopName());// 车间名称
+						if(team.getFactoryUnit().getWorkShop().getFactory()!=null)
+						{
+							team.setXfactoryName(team.getFactoryUnit().getWorkShop().getFactory().getFactoryName());// 工厂名称
+						}
+					}
+				}
+				if(team.getIsWork()!=null)
+				{
+					team.setXisWork(ThinkWayUtil.getDictValueByDictKey(dictService,"isWork", team.getIsWork()));//是否工作状态
+				}
 				lst.add(team);
 			}
 			pager.setList(lst);
@@ -186,6 +194,9 @@ public class TeamAction extends BaseAdminAction {
 			HashMap<String, String> map = new HashMap<String, String>();
 			if (pager == null) {
 				pager = new Pager();
+			}
+			if(pager.getOrderBy()!=null&&!"".equals(pager.getOrderBy()))
+			{
 				pager.setOrderType(OrderType.asc);
 				pager.setOrderBy("orderList");
 			}
@@ -226,9 +237,14 @@ public class TeamAction extends BaseAdminAction {
 			List<FactoryUnit> lst = new ArrayList<FactoryUnit>();
 			for (int i = 0; i < fuList.size(); i++) {
 				FactoryUnit fu = fuList.get(i);
-				fu.setWorkShopName(fu.getWorkShop().getWorkShopName());// 车间名称
-				fu.setFactoryName(fu.getWorkShop().getFactory()
-						.getFactoryName());// 工厂名称
+				if(fu.getWorkShop()!=null)
+				{
+					fu.setWorkShopName(fu.getWorkShop().getWorkShopName());// 车间名称
+					if(fu.getWorkShop().getFactory()!=null)
+					{
+						fu.setFactoryName(fu.getWorkShop().getFactory().getFactoryName());// 工厂名称
+					}
+				}
 				lst.add(fu);
 			}
 			pager.setList(lst);
@@ -266,11 +282,11 @@ public class TeamAction extends BaseAdminAction {
 	// 更新
 	public String update() {
 		Team t1 = teamService.get(id);
-		String job_name = "startWorking"+t1.getId();		
+		//String job_name = "startWorking"+t1.getId();		
 		BeanUtils.copyProperties(team, t1, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
 		teamService.update(t1);
-		QuartzManagerUtil.removeJob(job_name);
-		QuartzManagerUtil.removeJob("xxx"+job_name);
+		//QuartzManagerUtil.removeJob(job_name);
+		//QuartzManagerUtil.removeJob("xxx"+job_name);
 		redirectionUrl = "team!list.action";
 		return SUCCESS;
 	}
@@ -339,8 +355,95 @@ public class TeamAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.toString());
 	}
 	
+	/**=============弹框==================== */
 	/**
+	 * 进入弹框页面
 	 */
+	public String beforegetalllist()
+	{
+		return "alllist";
+	}
+	
+	/**
+	 * 获取班组数据:已启用的
+	 */
+	public String getalllist()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		//查询条件
+		if (pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			// 班级名称
+			if (obj.get("teamName") != null)
+			{
+				String teamName = obj.getString("teamName").toString();
+				map.put("teamName", teamName);
+			}
+			// 单元名称
+			if (obj.get("xfactoryUnitName") != null)
+			{
+				String xfactoryUnitName = obj.getString("xfactoryUnitName").toString();
+				map.put("xfactoryUnitName", xfactoryUnitName);
+			}
+			// 车间名称
+			if (obj.get("xworkShopName") != null) {
+				String xworkShopName = obj.getString("xworkShopName").toString();
+				map.put("xworkShopName", xworkShopName);
+			}
+			// 工厂名称
+			if (obj.get("xfactoryName") != null) {
+				String xfactoryName = obj.getString("xfactoryName").toString();
+				map.put("xfactoryName", xfactoryName);
+			}
+		}
+		pager = teamService.getAllList(pager, map);
+		@SuppressWarnings("unchecked")
+		List<Team> teamList = pager.getList();
+		List<Team> newlist = new ArrayList<Team>();
+		for (int i = 0; i < teamList.size(); i++)
+		{
+			Team team = (Team) teamList.get(i);
+			if(team.getState()!=null)
+			{
+				team.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "teamState", team.getState()));
+			}
+			if(team.getFactoryUnit()!=null)
+			{
+				team.setXfactoryUnitName(team.getFactoryUnit().getFactoryUnitName());// 单元名称
+				if(team.getFactoryUnit().getWorkShop()!=null)
+				{
+					team.setXworkShopName(team.getFactoryUnit().getWorkShop().getWorkShopName());// 车间名称
+					if(team.getFactoryUnit().getWorkShop().getFactory()!=null)
+					{
+						team.setXfactoryName(team.getFactoryUnit().getWorkShop().getFactory().getFactoryName());// 工厂名称
+					}
+				}
+			}
+			if(team.getIsWork()!=null)
+			{
+				team.setXisWork(ThinkWayUtil.getDictValueByDictKey(dictService,"isWork", team.getIsWork()));//是否工作状态
+			}
+			newlist.add(team);
+		}
+		pager.setList(newlist);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Team.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**==================================== */
 	public Team getTeam() {
 		return team;
 	}

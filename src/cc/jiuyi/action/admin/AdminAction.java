@@ -18,11 +18,9 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.AccountExpiredException;
 import org.springframework.security.BadCredentialsException;
 import org.springframework.security.DisabledException;
@@ -47,6 +45,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ArticleService;
 import cc.jiuyi.service.DepartmentService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
@@ -60,7 +59,6 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.OneBarcodeUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -102,11 +100,16 @@ public class AdminAction extends BaseAdminAction {
 	private Team team;
 	private List<Post> postList;//岗位List
 	private String cardnumber;//卡号
+	private String worknumber;//工号
 	private List<Factory> factoryList; 
 	private String productDate;
 	private String shift;
 	private List<UnitdistributeModel> unitModelList=new ArrayList<UnitdistributeModel>();
 	private List<UnitdistributeProduct> unitProductList=new ArrayList<UnitdistributeProduct>();
+	private List<Department>list_department;//部门
+	private List<Admin>list_emp;
+	private String deptid;//部门ID
+	private String loginid;//登录人id
 	
 	@Resource
 	private AdminService adminService;
@@ -143,6 +146,8 @@ public class AdminAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private DictService dictService;
 	
 	// 登录页面
 	public String login() {
@@ -459,6 +464,22 @@ public class AdminAction extends BaseAdminAction {
 		}
 	}
 	
+	/**
+	 * 修改时：验证是否存在
+	 * @return
+	 */
+	public String checkUsername2() {
+		Admin a=this.adminService.get(id);
+		String username = admin.getUsername();
+		if(!a.getUsername().equalsIgnoreCase(username))
+		{
+			if (adminService.isExistByUsername(username)) {
+				return ajaxText("false");
+			}
+		}
+		return ajaxText("true");
+	}
+	
 	// 是否已存在 ajax验证
 	public String checkCardNumber() {
 		String cardNumber = admin.getCardNumber();
@@ -470,7 +491,7 @@ public class AdminAction extends BaseAdminAction {
 	}	
 
 	// 添加
-	public String add() {
+	/*public String add() {
 		Department depart = departmentservice.get(departid);
 		postList = postService.getAll();
 		departName = depart.getDeptName();
@@ -480,20 +501,48 @@ public class AdminAction extends BaseAdminAction {
 			unitProductList=unitdistributeProductService.getProductList(unitCode);
 		}
 		return INPUT;
+	}*/
+	/**
+	 * 添加
+	 * @return
+	 */
+	public String add()
+	{
+		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
+		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
+		//this.postList=postService.getAllList();//查询所有岗位
+		//this.list_emp=this.adminService.getAllList();//查询所有在职员工
+		return "input";
+	}
+	
+	/**
+	 * 编辑前
+	 * @return
+	 */
+	public String edit()
+	{
+		this.admin=this.adminService.get(id);
+		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
+		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
+		//this.postList=postService.getAllList();//查询所有岗位
+		//this.list_emp=this.adminService.getAllList();//查询所有在职员工
+		return "input";
 	}
 
 	// 编辑
-	public String edit() {
+	/*public String edit() {
 		admin = adminService.load(id);
 		postList = postService.getAll();
 		Department depart = admin.getDepartment();
-		if(depart.getTeam()!=null){
+		if(depart.getTeam()!=null&&depart.getTeam().getFactoryUnit()!=null){
 			String unitCode=depart.getTeam().getFactoryUnit().getFactoryUnitCode();
 			unitModelList=unitdistributeModelService.getModelList(unitCode);
 			unitProductList=unitdistributeProductService.getProductList(unitCode);
 		}
 		return INPUT;
-	}
+	}*/
 	
 	// 绑定生产日期和班次
 	public String product() {
@@ -513,36 +562,30 @@ public class AdminAction extends BaseAdminAction {
 	 * ajax 列表
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public String ajlist(){
-		HashMap<String,String> map = new HashMap<String,String>();
 		if(pager == null) {
 			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("department.deptName");
 		}
-		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
-			if(!filters.equals("")){
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if(pager.is_search()==true && filters != null&&!"".equals(filters)){//需要查询条件,复杂查询
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
 		}
 		
-		pager = adminService.findPagerByjqGrid(pager,map,departid);
-		List pagerlist = pager.getList();
-		for(int i =0; i < pagerlist.size();i++){
-			Admin admin  = (Admin)pagerlist.get(i);
-			admin.setDepartName(admin.getDepartment().getDeptName());
-			if(admin.getPost()!=null){
-			  admin.setXpost(admin.getPost().getPostName());
-			}		
-			pagerlist.set(i, admin);
-		}
-		pager.setList(pagerlist);
+		pager = adminService.findPagerByjqGrid(pager,departid);
+		List<Admin> pagerlist = pager.getList();
+		List<Admin>newlist=getNewAdminList(pagerlist);
+		pager.setList(newlist);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段  
@@ -551,7 +594,246 @@ public class AdminAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
-
+	/**
+	 * 加入假字段
+	 * @return
+	 */
+	public List<Admin>getNewAdminList(List<Admin>oldlist)
+	{
+		List<Admin>newlist=new ArrayList<Admin>();
+		for(int i =0; i < oldlist.size();i++)
+		{
+			Admin a  =oldlist.get(i);
+			//部门编码,部门名称
+			if(a.getDepartment()!=null)
+			{
+				a.setXdeptcode(a.getDepartment().getDeptCode());
+				a.setDepartName(a.getDepartment().getDeptName());
+			}
+			//班组
+			if(a.getTeam()!=null)
+			{
+				a.setXteam(a.getTeam().getTeamName());
+			}
+			//岗位
+			if(a.getPost()!=null)
+			{
+				a.setXpost(a.getPost().getPostName());
+			}
+			//直接上级
+			if(a.getParentAdmin()!=null)
+			{
+				a.setXparentAdmin(a.getParentAdmin().getName());
+			}
+			//是否离职
+			if(a.getIsDel()!=null)
+			{
+				a.setXisJob(ThinkWayUtil.getDictValueByDictKey(dictService, "adminIsJob", a.getIsDel()));
+			}
+			//模具组号
+			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
+			if(list_up.size()>0)
+			{
+				String str="";
+				for(int j=0;j<list_up.size();j++)
+				{
+					UnitdistributeProduct up=list_up.get(j);
+					if(up.getMaterialName()!=null)
+					{
+						str+=up.getMaterialName()+",";
+					}
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXworkscope(str);
+			}
+			//工作范围
+			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
+			if(list_um.size()>0)
+			{
+				String str="";
+				for(int j=0;j<list_um.size();j++)
+				{
+					UnitdistributeModel um=list_um.get(j);
+					if(um.getStation()!=null)
+					{
+						str+=um.getStation()+",";
+					}
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXstation(str);
+			}
+			//是否启用
+			if(a.getIsAccountEnabled()!=null)
+			{
+				if(a.getIsAccountEnabled())
+				{
+					a.setXisenable("已启用");
+				}
+				else
+				{
+					a.setXisenable("未启用");
+				}
+				//a.setXisenable(ThinkWayUtil.getDictValueByDictKey(dictService, "isEnable", a.getIsAccountEnabled()));
+			}
+			//创建人
+			if(a.getEmpCreater()!=null)
+			{
+				a.setXempCreater(a.getEmpCreater().getName());
+			}
+			//性别
+			if("nan".equals(a.getSex()))
+			{
+				a.setXsex("男");
+			}
+			if("nv".equals(a.getSex()))
+			{
+				a.setXsex("女");
+			}
+			newlist.add(a);
+		}
+		return newlist;
+	}
+	/**
+	 * 加入假字段2,比1少
+	 * @return
+	 */
+	public List<Admin>getNewAdminList2(List<Admin>oldlist)
+	{
+		List<Admin>newlist=new ArrayList<Admin>();
+		for(int i =0; i < oldlist.size();i++)
+		{
+			Admin a  =oldlist.get(i);
+			//部门名称
+			if(a.getDepartment()!=null)
+			{
+				a.setDepartName(a.getDepartment().getDeptName());
+			}
+			//岗位
+			if(a.getPost()!=null)
+			{
+			  a.setXpost(a.getPost().getPostName());
+			}
+			//直接上级
+			if(a.getParentAdmin()!=null)
+			{
+				a.setXparentAdmin(a.getParentAdmin().getName());
+			}
+			//是否离职
+			if(a.getIsDel()!=null)
+			{
+				a.setXisJob(ThinkWayUtil.getDictValueByDictKey(dictService, "adminIsJob", a.getIsDel()));
+			}
+			//是否启用
+			if(a.getIsAccountEnabled()!=null)
+			{
+				if(a.getIsAccountEnabled())
+				{
+					a.setXisenable("已启用");
+				}
+				else
+				{
+					a.setXisenable("未启用");
+				}
+			}
+			//班组
+			if(a.getTeam()!=null)
+			{
+				a.setXteam(a.getTeam().getTeamName());
+			}
+			newlist.add(a);
+		}
+		return newlist;
+	}
+	/**
+	 * 加入假字段3
+	 * @return
+	 */
+	public List<Admin>getNewAdminList3(List<Admin>oldlist)
+	{
+		List<Admin>newlist=new ArrayList<Admin>();
+		for(int i =0; i < oldlist.size();i++)
+		{
+			Admin a  =oldlist.get(i);
+			//部门名称
+			if(a.getDepartment()!=null)
+			{
+				a.setDepartName(a.getDepartment().getDeptName());
+			}
+			//班组
+			if(a.getTeam()!=null)
+			{
+				a.setXteam(a.getTeam().getTeamName());
+			}
+			//是否离职
+			if(a.getIsDel()!=null)
+			{
+				a.setXisJob(ThinkWayUtil.getDictValueByDictKey(dictService, "adminIsJob", a.getIsDel()));
+			}
+			//是否启用
+			if(a.getIsAccountEnabled()!=null)
+			{
+				if(a.getIsAccountEnabled())
+				{
+					a.setXisenable("已启用");
+				}
+				else
+				{
+					a.setXisenable("未启用");
+				}
+			}
+			//创建人
+			if(a.getEmpCreater()!=null)
+			{
+				a.setXempCreater(a.getEmpCreater().getName());
+			}
+			//管理角色
+			List<Role>list_role=new ArrayList<Role>(a.getRoleSet());
+			if(list_role.size()>0)
+			{
+				String str="";
+				for(int j=0;j<list_role.size();j++)
+				{
+					Role r=list_role.get(j);
+					str+=r.getName()+",";
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0, str.length()-1);
+				}
+				a.setXrole(str);
+			}
+			newlist.add(a);
+		}
+		return newlist;
+	}
+	
+	/**
+	 * 是否启用
+	 * @return
+	 */
+	public String isenable()
+	{
+		try
+		{
+			String str="<select>";
+			str+="<option value=''>---请选择---</option>";
+			str+="<option value='true'>已启用</option>";
+			str+="<option value='false'>未启用</option>";
+			str+="</select>";
+			return ajaxHtml(str);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return ajaxHtml("<select><option></option></select>");
+		}
+	}
 	// 删除
 	public String delete() {
 		ids = id.split(",");
@@ -643,7 +925,7 @@ public class AdminAction extends BaseAdminAction {
 //		}
 //	)
 //	@InputConfig(resultName = "error")
-	public String save() {
+	/*public String save() {
 		String cardNumber = admin.getCardNumber();
 		boolean b = adminService.isExistByCardNumber(cardNumber);
 		if (b) {
@@ -693,10 +975,58 @@ public class AdminAction extends BaseAdminAction {
 		adminService.save(admin);
 		
 		return ajaxJsonSuccessMessage("保存成功！");
+	}*/
+	public String save()
+	{
+		String cardNumber = admin.getCardNumber();
+		boolean b = adminService.isExistByCardNumber(cardNumber);
+		if (b) {
+			return ajaxJsonErrorMessage("该卡号已存在,请重新输入!");
+		}
+		if (roleList == null || roleList.size() == 0) {
+			return ajaxJsonErrorMessage("管理角色不能为空!");
+		}
+		try
+		{
+			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,roleList,loginid);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题!");
+		}
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
-	
-	
+	/**
+	 * 修改保存
+	 * @return
+	 */
+	public String update()
+	{
+		try
+		{
+			Admin persistent = adminService.load(id);	
+			
+			String cardNumber = persistent.getCardNumber();//对卡号进行校验
+			if(!cardNumber.equals(admin.getCardNumber())){
+				boolean b = adminService.isExistByCardNumber(admin.getCardNumber());
+				if (b) {
+					return ajaxJsonErrorMessage("该卡号已存在,请重新输入！");
+				}
+			}
+			if (roleList == null && roleList.size() == 0) {
+				return ajaxJsonErrorMessage("管理角色不能为空!");
+			}
+			this.adminService.updateInfo(admin,unitdistributeProducts,unitdistributeModels,roleList);//修改员工信息
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return ajaxJsonErrorMessage("系统出现问题!");
+		}
+		return this.ajaxJsonSuccessMessage("您的操作已成功!");
+	}
 
 	// 更新
 //	@Validations(
@@ -718,7 +1048,7 @@ public class AdminAction extends BaseAdminAction {
 //		}
 //	)
 //	@InputConfig(resultName = "error")
-	public String update() {
+	/*public String update() {
 		Admin persistent = adminService.load(id);	
 		
 		String cardNumber = persistent.getCardNumber();//对卡号进行校验
@@ -773,8 +1103,7 @@ public class AdminAction extends BaseAdminAction {
 		BeanUtils.copyProperties(admin, persistent, new String[] {"id", "createDate", "modifyDate", "username", "password", "isAccountLocked", "isAccountExpired", "isCredentialsExpired", "loginFailureCount", "lockedDate", "loginDate", "loginIp", "authorities","productDate","shift"});
 		adminService.update(persistent);
 		return ajaxJsonSuccessMessage("保存成功！");
-	}
-	
+	}*/
 	
 	@Validations(
 			requiredFields = {
@@ -797,69 +1126,344 @@ public class AdminAction extends BaseAdminAction {
 		
 	}
 	
-	/**===================================================================*/
-	
+	/**=======================员工单独维护================================*/
+	/**===========statr 用户信息管理=========*/
 	/**
-	 * 员工管理：进入list页面
+	 * 人员管理：进入list页面
 	 */
-	public String alllist()
+	public String alllistry()
 	{
-		
-		return "alllist";
+		list_department=this.departmentservice.getAllDept();
+		return "alllistry";
 	}
 	
 	/**
-	 * ajlist查询
+	 * 查询所有员工
+	 * @return
 	 */
 	public String ajlistemp()
 	{
-		if(pager==null)
+		if(pager == null)
 		{
-			pager=new Pager();
+			pager = new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
-		//pager=this.adminService.getAllemp(pager);
-		JsonConfig jsonConfig=new JsonConfig();
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		//需要查询条件,复杂查询
+		if(pager.is_search()==true && filters != null&&!"".equals(filters))
+		{
+			if(!filters.equals(""))
+			{
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		pager = adminService.getAllEmp(pager,deptid,1);
+		@SuppressWarnings("unchecked")
+		List<Admin> pagerlist = pager.getList();
+		List<Admin> newlist=getNewAdminList(pagerlist);
+		pager.setList(newlist);
+		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段 
-		JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
-		return this.ajaxJson(jsonArray.get(0).toString());
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
 	/**
 	 * 添加前
 	 */
-	public String addemp()
+	public String addry()
 	{
-		return "inputemp";
+		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
+		return "inputry";
 	}
-	/**
-	 * 修改前
-	 */
-	public String editemp()
-	{
-		return "inputemp";
-	}
+	
 	/**
 	 * 新增保存
 	 */
-	public String saveemp()
+	public String saveempry()
 	{
-		
-		this.redirectionUrl="admin!alllist.action";
+		try
+		{
+			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,null,loginid);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			addActionError("保存失败!");
+			return ERROR;
+		}
+		this.redirectionUrl="admin!alllistry.action";
 		return SUCCESS;
+	}
+	
+	/**
+	 * 修改前
+	 */
+	public String editry()
+	{
+		this.admin=this.adminService.get(id);
+		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
+		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
+		//this.postList=postService.getAllList();//查询所有岗位
+		//this.list_emp=this.adminService.getAllList();//查询所有在职员工
+		return "inputry";
 	}
 	
 	/**
 	 * 修改保存
 	 */
-	public String updateemp()
+	public String updateempry()
 	{
-		
-		this.redirectionUrl="admin!alllist.action";
+		try
+		{
+			this.adminService.updateEmpRy(admin,unitdistributeProducts,unitdistributeModels);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			addActionError("保存失败!");
+			return ERROR;
+		}
+		this.redirectionUrl="admin!alllistry.action";
 		return SUCCESS;
 	}
+	
+	public String beforegetemp()
+	{
+		return "alert";
+	}
+	
+	/**
+	 * 获取未离职的,已启用的员工
+	 * 1.部门添加时获取部门负责人
+	 */
+	public String getemp()
+	{
+		try
+		{
+			HashMap<String ,String>map=new HashMap<String,String>();
+			if(pager==null)
+			{
+				pager=new Pager();
+			}
+			if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+			{
+				pager.setOrderType(OrderType.desc);//倒序
+				pager.setOrderBy("createDate");//以创建日期排序
+			}
+			if(pager.is_search()==true&&Param!=null)
+			{
+				JSONObject obj=JSONObject.fromObject(Param);
+				//班组
+				if (obj.get("team") != null)
+				{
+					String team = obj.getString("team").toString();
+					map.put("team", team);
+				}
+				//员工姓名
+				if (obj.get("name") != null)
+				{
+					String name = obj.getString("name").toString();
+					map.put("name", name);
+				}
+				//岗位
+				if (obj.get("skill") != null)
+				{
+					String skill = obj.getString("skill").toString();
+					map.put("skill", skill);
+				}
+			}
+			pager = this.adminService.getAllWorkEmp(pager, map);//查询所有未离职的员工
+			@SuppressWarnings("unchecked")
+			List<Admin>list1=pager.getList();
+			List<Admin>list2=getNewAdminList2(list1);
+			pager.setList(list2);
+			JsonConfig jsonConfig=new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段 
+			JSONArray jsonArray=JSONArray.fromObject(pager,jsonConfig);
+			return this.ajaxJson(jsonArray.getString(0).toString());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 检验工号和卡号是否重复
+	 */
+	public String checknum()
+	{
+		String str="";
+		try
+		{
+			str=this.adminService.getChecknum(worknumber,cardnumber,id);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("error");
+		}
+		return this.ajaxJsonSuccessMessage(str);
+	}
+	
+	
+	/**===========end 用户信息管理===========*/
+	/**===========statr 用户权限管理=========*/
+	/**
+	 * 进入list页面
+	 */
+	public String alllistqx()
+	{
+		list_department=this.departmentservice.getAllDept();
+		return "alllistqx";
+	}
+	
+	/**
+	 * 查询所有员工,已维护过的
+	 * @return
+	 */
+	public String ajlistempqx()
+	{
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		//需要查询条件,复杂查询
+		if(pager.is_search()==true && filters != null&&!"".equals(filters))
+		{
+			if(!filters.equals(""))
+			{
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		pager = adminService.getAllEmp(pager,deptid,2);
+		@SuppressWarnings("unchecked")
+		List<Admin> pagerlist = pager.getList();
+		List<Admin>newlist=this.getNewAdminList3(pagerlist);
+		pager.setList(newlist);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
+	 * 人员权限维护:进入页面
+	 */
+	public String addqx()
+	{
+		return "inputqx";
+	}
+	
+	/**
+	 * 人员权限维护:保存
+	 */
+	public String saveqx()
+	{
+		try
+		{
+			this.adminService.updateEmpQx(admin,roleList,loginid);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			addActionError("保存失败!");
+			return ERROR;
+		}
+		this.redirectionUrl="admin!alllistqx.action";
+		return SUCCESS;
+	}
+	
+	/**
+	 * 人员权限维护:进入编辑页面
+	 * @return
+	 */
+	public String editqx()
+	{
+		this.admin=this.adminService.get(id);
+		return "inputqx";
+	}
+	
+	/**
+	 * 进入未维护过的员工的页面
+	 */
+	public String beforegetempqxn()
+	{
+		return "alertqxn";
+	}
+	
+	/**
+	 * 查询所有员工,未维护过的
+	 * @return
+	 */
+	public String ajlistempqxn()
+	{
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		//需要查询条件,复杂查询
+		if(pager.is_search()==true && filters != null&&!"".equals(filters))
+		{
+			if(!filters.equals(""))
+			{
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		pager = adminService.getAllEmp(pager,deptid,3);
+		@SuppressWarnings("unchecked")
+		List<Admin> pagerlist = pager.getList();
+		List<Admin>newlist=this.getNewAdminList3(pagerlist);
+		pager.setList(newlist);
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Admin.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	
+	
+	/**===========end 用户权限管理===========*/
+	
 	/**===================================================================*/
 	/*
 	// 获取未批准订单数
@@ -999,136 +1603,129 @@ public class AdminAction extends BaseAdminAction {
 	public List<Scrap> getScrapList() {
 		return scrapList;
 	}
-
 	public void setScrapList(List<Scrap> scrapList) {
 		this.scrapList = scrapList;
 	}
-
 	public String getTeamid() {
 		return teamid;
 	}
-
 	public void setTeamid(String teamid) {
 		this.teamid = teamid;
 	}
-
 	public List<Role> getAllRole() {
 		return roleService.getList("isSystem", false);
 	}
-
 	public void setAllRole(List<Role> allRole) {
 		this.allRole = allRole;
 	}
-
 	public Team getTeam() {
 		return team;
 	}
-
 	public void setTeam(Team team) {
 		this.team = team;
 	}
-
 	public List<Post> getPostList() {
 		return postList;
 	}
-
 	public void setPostList(List<Post> postList) {
 		this.postList = postList;
 	}
-
-
 	public String getCardnumber() {
 		return cardnumber;
 	}
-
-
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
 	}
-
-
 	public String getParentId() {
 		return parentId;
 	}
-
-
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-
-
 	public List<Factory> getFactoryList() {
 		return factoryList;
 	}
-
-
 	public void setFactoryList(List<Factory> factoryList) {
 		this.factoryList = factoryList;
 	}
-
-	public List<Admin> getAdminList(){
+	/*public List<Admin> getAdminList(){
 		List<Admin> adminList = adminService.getAll();
 		return adminList;
-	}	
-
+	}*/
 	public String getProductDate() {
 		return productDate;
 	}
-
-
 	public void setProductDate(String productDate) {
 		this.productDate = productDate;
 	}
-
-
 	public String getShift() {
 		return shift;
 	}
-
-
 	public void setShift(String shift) {
 		this.shift = shift;
 	}
-
-
 	public String getUnitdistributeModels() {
 		return unitdistributeModels;
 	}
-
-
 	public void setUnitdistributeModels(String unitdistributeModels) {
 		this.unitdistributeModels = unitdistributeModels;
 	}
-
-
 	public String getUnitdistributeProducts() {
 		return unitdistributeProducts;
 	}
-
-
 	public void setUnitdistributeProducts(String unitdistributeProducts) {
 		this.unitdistributeProducts = unitdistributeProducts;
 	}
-
-
 	public List<UnitdistributeModel> getUnitModelList() {
 		return unitModelList;
 	}
-
-
 	public void setUnitModelList(List<UnitdistributeModel> unitModelList) {
 		this.unitModelList = unitModelList;
 	}
-
-
 	public List<UnitdistributeProduct> getUnitProductList() {
 		return unitProductList;
 	}
-
-
 	public void setUnitProductList(List<UnitdistributeProduct> unitProductList) {
 		this.unitProductList = unitProductList;
 	}
-	
-	
+	public List<Department> getList_department()
+	{
+		return list_department;
+	}
+	public void setList_department(List<Department> list_department)
+	{
+		this.list_department = list_department;
+	}
+	public List<Admin> getList_emp()
+	{
+		return list_emp;
+	}
+	public void setList_emp(List<Admin> list_emp)
+	{
+		this.list_emp = list_emp;
+	}
+	public String getDeptid()
+	{
+		return deptid;
+	}
+	public void setDeptid(String deptid)
+	{
+		this.deptid = deptid;
+	}
+	public String getLoginid()
+	{
+		return loginid;
+	}
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
+	}
+	public String getWorknumber()
+	{
+		return worknumber;
+	}
+	public void setWorknumber(String worknumber)
+	{
+		this.worknumber = worknumber;
+	}
 }

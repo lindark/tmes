@@ -58,5 +58,15 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 		List<UnitdistributeProduct> productList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return productList;
 	}
+
+	/**
+	 * 查询所有工位
+	 */
+	@SuppressWarnings("unchecked")
+	public List<UnitdistributeProduct> getAllList()
+	{
+		String hql="from UnitdistributeProduct where isDel='N'";
+		return this.getSession().createQuery(hql).list();
+	}
 	
 }

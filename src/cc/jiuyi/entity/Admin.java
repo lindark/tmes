@@ -123,6 +123,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Admin> adminSet;//下级
 	private Admin empCreater;//人员创建人
 	private Set<Admin>empCreaterSet;
+	private Admin empCreaterqx;//权限维护创建人
+	private Set<Admin>empCreaterqxSet;
 	
 	private Set<UnitdistributeProduct> unitdistributeProductSet;///模具组号
 	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
@@ -146,6 +148,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xisenable;//是否启用
 	private String xempCreater;//创建人
 	private String xsex;//性别
+	private String xrole;//管理角色
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
 	public Set<Deptpick> getCreateUserSet() {
@@ -423,7 +426,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.department = department;
 	}
 
-	@Column(updatable = false, nullable = false, unique = true)
+	//@Column(updatable = false, nullable = false, unique = true)
 	public String getUsername() {
 		return username;
 	}
@@ -432,7 +435,7 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.username = username;
 	}
 
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	public String getPassword() {
 		return password;
 	}
@@ -463,6 +466,10 @@ public class Admin extends BaseEntity implements UserDetails {
 	}
 
 	public void setIsAccountEnabled(Boolean isAccountEnabled) {
+		if(isAccountEnabled==null)
+		{
+			isAccountEnabled=false;
+		}
 		this.isAccountEnabled = isAccountEnabled;
 	}
 
@@ -1184,5 +1191,38 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setTardyHours(String tardyHours)
 	{
 		this.tardyHours = tardyHours;
+	}
+
+	@Transient
+	public String getXrole()
+	{
+		return xrole;
+	}
+
+	public void setXrole(String xrole)
+	{
+		this.xrole = xrole;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getEmpCreaterqx()
+	{
+		return empCreaterqx;
+	}
+
+	public void setEmpCreaterqx(Admin empCreaterqx)
+	{
+		this.empCreaterqx = empCreaterqx;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="empCreaterqx")
+	public Set<Admin> getEmpCreaterqxSet()
+	{
+		return empCreaterqxSet;
+	}
+
+	public void setEmpCreaterqxSet(Set<Admin> empCreaterqxSet)
+	{
+		this.empCreaterqxSet = empCreaterqxSet;
 	}
 }

@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.FaultReason;
 import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
 
 /**
  * Dao接口 - 单元分配产品
@@ -24,4 +22,9 @@ public interface UnitdistributeModelDao extends BaseDao<UnitdistributeModel, Str
 	
 	//根据单元编码查询
 	public List<UnitdistributeModel> getModelList(String unitCode);
+
+	/**
+	 * 查询所有工作范围
+	 */
+	public List<UnitdistributeModel> getAllList();
 }

@@ -1,6 +1,5 @@
 package cc.jiuyi.action.admin;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DepartmentService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.TeamService;
@@ -47,6 +47,9 @@ public class DepartmentAction extends BaseAdminAction {
 	private FactoryUnitService factoryunitservice;
 	@Resource
 	private TeamService teamservice;
+	@Resource
+	private DictService dictService;
+	
 	private List<Department> list;
 	private Department department;
 	private String pid;//父节点id
@@ -54,24 +57,27 @@ public class DepartmentAction extends BaseAdminAction {
 	private String factoryid;
 	private String workshopid;
 	private String factoryunitid;
-	
+	private List<Department> list_dept;
+	private String deptid;//部门主键
+	private String isadd;
+	private String deptcode;//部门编码
+	private String loginid;//登录人的ID
 	/**
 	 * 跳转List 页面
 	 * @return
 	 */
 	public String list(){
-		list = deptservice.getAllByHql();
+		list = deptservice.getAllDept();
 		return "list";
 	}
 	
 	public String browser(){
-		list = deptservice.getAllByHql();
+		list = deptservice.getAllByHql(id);
 		return "browser";
 	}
 	
 	public String listajax(){
-		list = deptservice.getAllByHql();
-		
+		list = deptservice.getAllByHql(id);
 		for(int i =0; i < list.size();i++){
 			Department department  = (Department)list.get(i);
 			department.setAdmin(null);
@@ -79,8 +85,7 @@ public class DepartmentAction extends BaseAdminAction {
 			department.setParentDept(null);
 			list.set(i, department);
 		}
-		
-		JsonConfig jsonConfig=new JsonConfig();   
+		JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		JSONArray jsonArray = JSONArray.fromObject(list,jsonConfig);
 		System.out.println(jsonArray.toString());
@@ -240,11 +245,13 @@ public class DepartmentAction extends BaseAdminAction {
 		return ajaxText("true");
 	}
 	
+	/**=================================================*/
 	/**
 	 * 部门管理:跳转到list列表页面
 	 */
 	public String alllist()
 	{
+		this.list_dept=this.deptservice.getAllDept();//查询所有未删除的部门
 		return "alllist";
 	}
 	
@@ -257,9 +264,38 @@ public class DepartmentAction extends BaseAdminAction {
 		{
 			pager=new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
-		pager=this.deptservice.getAllDept(pager);
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		pager=this.deptservice.getAllDept(pager,deptid);
+		@SuppressWarnings("unchecked")
+		List<Department>list1=pager.getList();
+		for(int i=0;i<list1.size();i++)
+		{
+			Department d=list1.get(i);
+			//创建人
+			if(d.getCreater()!=null)
+			{
+				d.setXcreater(d.getCreater().getName());
+			}
+			//部门负责人
+			if(d.getDeptLeader()!=null)
+			{
+				d.setXdeptLeader(d.getDeptLeader().getName());
+			}
+			//上级部门
+			if(d.getParentDept()!=null)
+			{
+				d.setXparentDept(d.getParentDept().getDeptName());
+			}
+			//是否启用
+			if(d.getIsWork()!=null)
+			{
+				d.setXisWork(ThinkWayUtil.getDictValueByDictKey(dictService, "departmentIsWork", d.getIsWork()));
+			}
+		}
 		JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Department.class));//排除有关联关系的属性字段 
@@ -272,7 +308,7 @@ public class DepartmentAction extends BaseAdminAction {
 	 */
 	public String adddept()
 	{
-		list = deptservice.getAllByHql();
+		isadd="toadd";
 		return "inputdept";
 	}
 	
@@ -281,7 +317,6 @@ public class DepartmentAction extends BaseAdminAction {
 	 */
 	public String editdept()
 	{
-		list = deptservice.getAllByHql();
 		this.department=this.deptservice.get(id);
 		return "inputdept";
 	}
@@ -291,7 +326,7 @@ public class DepartmentAction extends BaseAdminAction {
 	 */
 	public String savedept()
 	{
-		this.deptservice.save(department);
+		this.deptservice.saveInfo(department,loginid);
 		redirectionUrl = "department!alllist.action";
 		return SUCCESS;
 	}
@@ -301,26 +336,39 @@ public class DepartmentAction extends BaseAdminAction {
 	 */
 	public String updatedept()
 	{
-		Department d=this.deptservice.get(department.getId());
-		d.setModifyDate(new Date());
-		BeanUtils.copyProperties(department, d, new String[] { "id","isDel" });
-		this.deptservice.update(d);
+		this.deptservice.updateInfo(department);
 		redirectionUrl = "department!alllist.action";
 		return SUCCESS;
 	}
-	// 删除
-	public String deletedept() {
+	/**
+	 *  删除
+	 */
+	public String deletedept()
+	{
 		ids = id.split(",");
 		this.deptservice.updateisdel(ids, "Y");
 		redirectionUrl = "department!alllist.action";
 		return SUCCESS;
+	}
+	
+	/**
+	 * 检查部门编码是否重复
+	 */
+	public String checkcode()
+	{
+		Department d=this.deptservice.getByCode(deptcode);
+		if(d!=null)
+		{
+			return this.ajaxJsonErrorMessage("E");
 		}
+		return this.ajaxJsonSuccessMessage("S");
+	}
+	
 	/**===========================================================*/
 
 	public List<Department> getList() {
 		return list;
 	}
-
 	public void setList(List<Department> list) {
 		this.list = list;
 	}
@@ -342,32 +390,70 @@ public class DepartmentAction extends BaseAdminAction {
 	public void setPname(String pname) {
 		this.pname = pname;
 	}
-
 	public String getFactoryid() {
 		return factoryid;
 	}
-
 	public void setFactoryid(String factoryid) {
 		this.factoryid = factoryid;
 	}
-
 	public String getWorkshopid() {
 		return workshopid;
 	}
-
 	public void setWorkshopid(String workshopid) {
 		this.workshopid = workshopid;
 	}
-
 	public String getFactoryunitid() {
 		return factoryunitid;
 	}
-
 	public void setFactoryunitid(String factoryunitid) {
 		this.factoryunitid = factoryunitid;
 	}
-	
-	
-	
-	
+	public List<Department> getList_dept()
+	{
+		return list_dept;
+	}
+	public void setList_dept(List<Department> list_dept)
+	{
+		this.list_dept = list_dept;
+	}
+
+	public String getDeptid()
+	{
+		return deptid;
+	}
+
+	public void setDeptid(String deptid)
+	{
+		this.deptid = deptid;
+	}
+
+	public String getIsadd()
+	{
+		return isadd;
+	}
+
+	public void setIsadd(String isadd)
+	{
+		this.isadd = isadd;
+	}
+
+	public String getDeptcode()
+	{
+		return deptcode;
+	}
+
+	public void setDeptcode(String deptcode)
+	{
+		this.deptcode = deptcode;
+	}
+
+	public String getLoginid()
+	{
+		return loginid;
+	}
+
+	public void setLoginid(String loginid)
+	{
+		this.loginid = loginid;
+	}
 }

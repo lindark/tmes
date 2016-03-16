@@ -36,7 +36,7 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @param map
 	 * @return
 	 */
-	public Pager findPagerByjqGrid(Pager pager,Map map,List list);
+	public Pager findPagerByjqGrid(Pager pager,List<String> list);
 	
 	public Pager getAdminPager(Pager pager,Map map);
 
@@ -100,5 +100,28 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @return
 	 */
 	public Pager getEmpAjlist(Pager pager, String tid);
+	
+	/**
+	 * 查询所有在职员工
+	 */
+	public List<Admin> getAllList();
+	
+	/**
+	 * 查询所有员工
+	 */
+	public Pager getAllEmp(Pager pager,List<String>list_str,int my_id);
+	
+	/**
+	 * 查询所有未离职的,已启用的员工
+	 */
+	public Pager getAllWorkEmp(Pager pager, HashMap<String, String> map);
+	
+	/**
+	 * 根据工/卡号查询数据
+	 * @param worknumber
+	 * @param my_id  1:工号2:卡号
+	 * @return
+	 */
+	public List<Admin> getByNumber(String number,String id, int my_id);
 
 }

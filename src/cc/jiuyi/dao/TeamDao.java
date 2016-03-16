@@ -52,4 +52,9 @@ public interface TeamDao extends BaseDao<Team,String> {
 	 * @return
 	 */
 	public List<Team> getTeamListByWorkAndDel();
+
+	/**
+	 * 获取team数据,已启用的
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map);
 }

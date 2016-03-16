@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -35,6 +36,10 @@ public class ScrapMessageServiceImpl extends BaseServiceImpl<ScrapMessage, Strin
 	@Override
 	public Pager getMessagePager(Pager pager, HashMap<String, String> map) {		
 		return smDao.getMessagePager(pager, map);
+	}
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		return smDao.historyExcelExport(map);
 	}
 
 }

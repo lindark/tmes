@@ -389,12 +389,12 @@ function getCKboxById() {
 /**
  * 获取当前随工单的投放产出
  */
-function wbout_event(wbid)
+function wbout_event(wbid,maktx,productDate,shift)
 {
 	var url="working_inout!beforegetwbinoutput.action?id="+wbid;
 	layer.open({
 		type:2,
-		title:"当前随工单的投入产出信息",
+		title:"当前随工单的投入产出信息&nbsp;&nbsp;&nbsp;&nbsp;产品名称:"+maktx+";&nbsp;&nbsp;&nbsp;&nbsp;生产日期:"+productDate+";&nbsp;&nbsp;&nbsp;&nbsp;班次:"+shift,
 		//skin: 'layui-layer-lan',
 		area: ["90%", "90%"],
 		shade:0.52,

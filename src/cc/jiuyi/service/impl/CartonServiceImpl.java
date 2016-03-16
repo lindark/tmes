@@ -407,6 +407,116 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		return "S";
 	}
 
+	@Override
+	public String updateToSAPNew(String[] ids, String cardnumber, String loginid)
+			throws IOException, CustomerException {
+		Admin admin = adminservice.getByCardnum(cardnumber);
+		Admin a=this.adminservice.get(loginid);
+		String warehouse = a.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
+		String lifnr= ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1");//供应商
+		String werks = a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
+		for (int i = 0; i < ids.length; i++)
+		{
+			Carton c = this.get(ids[i]);
+			List<CartonSon>list=new ArrayList<CartonSon>();
+			List<CartonSon>listcs=new ArrayList<CartonSon>(c.getCartonsonSet());
+			for(int j=0;j<listcs.size();j++)
+			{
+				CartonSon cs=listcs.get(j);
+				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
+				cs.setLIFNR(lifnr);//供应商
+				cs.setWERKS(werks);//工厂
+				cs.setBUDAT(wb.getProductDate());//过账日期
+				cs.setLGORT(warehouse);//库存地点
+				cs.setMOVE_TYPE("101");//移动类型
+				list.add(cs);
+				this.csService.update(cs);
+				//修改随工单中对应数量
+				Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
+				wb.setCartonTotalAmount(d.intValue());
+				this.workingbillService.update(wb);
+			}
+			if(list.size()>0)
+			{
+				Object[] c_returnobj = cartonRfc.CartonCrtNew("X",list);
+				Carton c_return1=(Carton) c_returnobj[0];
+				if("E".equals(c_return1.getE_TYPE()))
+				{
+					return c_return1.getE_MESSAGE();
+				}
+				Object[] c_returnobj1=cartonRfc.CartonCrtNew("",list);
+				Carton c_return=(Carton) c_returnobj1[0];
+				if("E".equals(c_return.getE_TYPE()))
+				{
+					return c_return.getE_MESSAGE();
+				}
+				c.setE_TYPE(c_return.getE_TYPE());//返回类型
+				c.setEX_MBLNR(c_return.getEX_MBLNR());//凭证号
+				c.setE_MESSAGE(c_return.getE_MESSAGE());//返回消息
+				c.setModifyDate(new Date());
+				c.setConfirmUser(admin);//确认人
+				c.setState("1");
+				this.update(c);
+				List<CartonSon> cslist=  (List<CartonSon>) c_returnobj1[1];
+				for(CartonSon cs : cslist){
+					this.csService.update(cs);
+				}
+			}
+		}
+		return "S";
+	}
+	@Override
+	public String updateToSAPReturn(String[] ids, String cardnumber,
+			String loginid) throws IOException, CustomerException {
+		Admin admin = adminservice.getByCardnum(cardnumber);
+		Admin a=this.adminservice.get(loginid);
+		String warehouse = a.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
+		String lifnr= ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1");//供应商
+		String werks = a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
+		for (int i = 0; i < ids.length; i++)
+		{
+			Carton c = this.get(ids[i]);
+			List<CartonSon>list=new ArrayList<CartonSon>();
+			List<CartonSon>listcs=new ArrayList<CartonSon>(c.getCartonsonSet());
+			for(int j=0;j<listcs.size();j++)
+			{
+				CartonSon cs=listcs.get(j);
+				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
+				cs.setLIFNR(lifnr);//供应商
+				cs.setWERKS(werks);//工厂
+				cs.setBUDAT(wb.getProductDate());//过账日期
+				cs.setLGORT(warehouse);//库存地点
+				cs.setMOVE_TYPE("102");//移动类型
+				list.add(cs);
+				this.csService.update(cs);
+				//修改随工单中对应数量
+				Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
+				wb.setCartonTotalAmount(d.intValue());
+				this.workingbillService.update(wb);
+			}
+			if(list.size()>0)
+			{
+				Carton c_return1=cartonRfc.CartonCrt("X",list);
+				if("E".equals(c_return1.getE_TYPE()))
+				{
+					return c_return1.getE_MESSAGE();
+				}
+				Carton c_return=cartonRfc.CartonCrt("",list);
+				if("E".equals(c_return.getE_TYPE()))
+				{
+					return c_return.getE_MESSAGE();
+				}
+				c.setE_TYPE(c_return.getE_TYPE());//返回类型
+				c.setEX_MBLNR(c_return.getEX_MBLNR());//凭证号
+				c.setE_MESSAGE(c_return.getE_MESSAGE());//返回消息
+				c.setModifyDate(new Date());
+				c.setConfirmUser(admin);//确认人
+				c.setState("3");
+				this.update(c);
+			}
+		}
+		return "S";
+	}
 	/**
 	 * 查看
 	 */
@@ -440,6 +550,9 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		// TODO Auto-generated method stub
 		return cartonDao.findCartonByPager(pager, mapcheck);
 	}
+
+
+
 
 
 }

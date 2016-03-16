@@ -64,7 +64,7 @@ public interface WorkingBillService extends BaseService<WorkingBill, String>,Wor
 	 * 根据随工单编号 获取 下一条记录
 	 */
 	public WorkingBill getCodeNext(String workingbillCode,String productCode,String shift);
-	
+	public WorkingBill getCodeNext(Admin admin ,String workingbillCode,String productCode,String shift);
 	
 	 /**
      * 根据产品Code查询随工单

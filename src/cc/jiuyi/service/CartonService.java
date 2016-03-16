@@ -75,6 +75,18 @@ public interface CartonService extends BaseService<Carton, String> {
 	 * @return
 	 */
 	public String updateToSAP(String[] ids,String cardnumber,String loginid)throws IOException,CustomerException;
+	/**
+	 * 与SAP交互  刷卡确认 -- link 
+	 * @param ids
+	 * @return
+	 */
+	public String updateToSAPNew(String[] ids,String cardnumber,String loginid)throws IOException,CustomerException;
+	/**
+	 * 与SAP交互    刷卡撤销 -- link
+	 * @param ids
+	 * @return
+	 */
+	public String updateToSAPReturn(String[] ids,String cardnumber,String loginid)throws IOException,CustomerException;
 
 	/**
 	 * 查看

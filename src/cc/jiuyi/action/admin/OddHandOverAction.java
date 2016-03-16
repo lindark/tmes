@@ -56,6 +56,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	private String[] workingCode;
 	private String nowDate;
 	private String shift;
+	private String loginid;
 	
 	private String workingBillCode;
 	private String materialCode;
@@ -233,6 +234,22 @@ public class OddHandOverAction extends BaseAdminAction {
 		//获取当前登录人信息
 		//Admin admin = adminService.getLoginAdmin();
 		//admin = adminService.get(admin.getId());
+	/*	if(workingBillIds!=null && workingBillIds.length>0){
+			for(int i=0;i<workingBillIds.length;i++){
+				//获取随工单 
+				WorkingBill wb = workingBillService.get(workingBillIds[i]);
+				List<OddHandOver> ohoSets = new ArrayList<OddHandOver>(wb.getOddHandOverSet());
+				if(ohoSets!=null && ohoSets.size()>0){
+					for(OddHandOver oho : ohoSets){
+						if("2".equals(oho.getState())){
+							return ajaxJsonErrorMessage("当前班次已确认交接，无法再次交接");
+						}
+					}
+				}
+			}
+		}*/
+		Admin admin = adminService.get(loginid);
+		
 		//获取维护物料信息
 		List<Material> materialList = materialService.getAll();
 			if(materialList!=null && materialList.size()>0){
@@ -241,7 +258,8 @@ public class OddHandOverAction extends BaseAdminAction {
 								
 								//获取随工单 
 								WorkingBill wb = workingBillService.get(workingBillIds[i]);
-								WorkingBill wbnext = workingBillService.getCodeNext(wb.getWorkingBillCode(),nowDate,shift);
+								//WorkingBill wbnext = workingBillService.getCodeNext(wb.getWorkingBillCode(),nowDate,shift);
+								WorkingBill wbnext = workingBillService.getCodeNext(admin,wb.getWorkingBillCode(),nowDate,shift);
 								if(wbnext==null){
 									return ajaxJsonErrorMessage("未找到下班随工单");
 								}
@@ -375,11 +393,12 @@ public class OddHandOverAction extends BaseAdminAction {
 	
 	
 	public String findAfterWorkingCode(){
+		Admin admin = adminService.get(loginid);
 		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
 		if(workingCode!=null && workingCode.length>0){
 			for(int i=0;i<workingCode.length;i++){
 				Map<String,String> map = new HashMap<String,String>();
-				WorkingBill nextWorkingbill = workingBillService.getCodeNext(workingCode[i],nowDate,shift);//下一随工单
+				WorkingBill nextWorkingbill = workingBillService.getCodeNext(admin,workingCode[i],nowDate,shift);//下一随工单
 				if(nextWorkingbill == null){
 					map.put("afterCode","");
 				}else{
@@ -468,6 +487,14 @@ public class OddHandOverAction extends BaseAdminAction {
 		this.nowDate = nowDate;
 	}
 
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+
 	public String getWorkingBillCode() {
 		return workingBillCode;
 	}
@@ -507,7 +534,6 @@ public class OddHandOverAction extends BaseAdminAction {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
 
 
 }

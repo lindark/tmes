@@ -132,7 +132,7 @@ public class CartonAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}
 			}
-			String str = this.cartonService.updateToSAP(ids,cardnumber,loginid);
+			String str = this.cartonService.updateToSAPNew(ids,cardnumber,loginid);
 			String issuccess=ERROR;
 			if("S".equals(str))
 			{
@@ -158,6 +158,8 @@ public class CartonAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		//Admin admin = adminService.get(loginid);
+		try{
 		ids = info.split(",");
 		String str = "";
 		List<Carton> list = cartonService.get(ids);
@@ -169,21 +171,41 @@ public class CartonAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
 			}
 		}
-		
+	
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			if (UNDO.equals(carton.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 			if (CONFIRMED.equals(carton.getState())){
-				return ajaxJsonErrorMessage("已确认的无法撤销！");
+				if(!carton.getCreateUser().getId().equals(loginid)){
+					return ajaxJsonErrorMessage("无法撤销非自己创建并已确认收货单!");//已确认的无法撤销！
+				}
 			}
 		}
-		cartonService.updateCancel(list, cardnumber);
+		String s = this.cartonService.updateToSAPReturn(ids,cardnumber,loginid);
+		String issuccess=ERROR;
+		if("S".equals(s))
+		{
+			issuccess=SUCCESS;
+			s="您的操作已成功!";
+		}
+		//cartonService.updateCancel(list, cardnumber);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
-		hashmap.put(STATUS, SUCCESS);
-		hashmap.put(MESSAGE, "您的操作已成功");
+		hashmap.put(STATUS, issuccess);
+		hashmap.put(MESSAGE, s);
 		return ajaxJson(hashmap);
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+		return "IO出现异常，请联系系统管理员";
+	}
+	catch (Exception e)
+	{
+		e.printStackTrace();
+		return "系统出现问题，请联系系统管理员";
+	}
 	}
 
 	/**

@@ -64,11 +64,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '报工数量','报工日期','创建人', '确认人','确认号','计数器','状态','状态-隐藏'],
+		colNames:[ '报工数量','报工日期','模具','创建人', '确认人','确认号','计数器','状态','状态-隐藏'],
 		colModel:[
 			
 			{name:'enterAmount',index:'enterAmount', width:100},
-			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'createDate',index:'createDate',width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xmoudle',index:'xmoudle', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'CONF_NO',index:'CONF_NO', width:100,sortable:"true",sorttype:"text"},

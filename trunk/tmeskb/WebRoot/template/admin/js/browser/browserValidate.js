@@ -38,7 +38,7 @@ $(function(){
 //					var zTree = $.fn.zTree.getZTreeObj("ingageTree");
 //					zTree.cancelEditName(data.deptName);
 				},error:function(data){
-					layer.alert("新增失败",{
+					layer.alert("保存失败",{
 						shade: 0
 					});
 				}

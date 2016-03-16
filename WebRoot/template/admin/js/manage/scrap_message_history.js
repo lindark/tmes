@@ -40,13 +40,16 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[	
             {name:'workingbill',label:"随工单",index:'workingbill', width:100,sortable:"true",sorttype:"text"},
-            {name:'productName',label:"产品名称",index:'productName', width:100,sortable:"true",sorttype:"text"},			     
-	        {name:'smmatterNum',index:'smmatterNum', label:"物料编码", width:150,sortable:"true",sorttype:"text"},
-	        {name:'smmatterDes',index:'smmatterDes',label:"物料描述", width:400,sortable:"true",sorttype:"text"},
-			{name:'smduty',index:'smduty', label:"责任划分", editable: false,hidden:true},
+            {name:'productName',label:"产品名称",index:'productName', width:160,sortable:"true",sorttype:"text"},	
+            {name:'productNo',label:"产品编号",index:'productNo', width:100,sortable:"true",sorttype:"text"},
+	        {name:'smmatterNum',index:'smmatterNum', label:"物料编码", width:120,sortable:"true",sorttype:"text"},
+	        {name:'smmatterDes',index:'smmatterDes',label:"物料描述", width:120,sortable:"true",sorttype:"text"},
+	        {name:'createDate',index:'createDate',label:"报废日期", width:120,sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xsmduty',index:'smduty', label:"责任划分",width:60, editable: false,hidden:false},
 			{name:'smreson',label:"报废原因",width:200,index:'smreson', editable: false,sortable:"true"},
-			{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
-			
+			//{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}}
+			{name:'xstate',index:'scrap.state',label:"状态",width:100,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
 		viewrecords : true,

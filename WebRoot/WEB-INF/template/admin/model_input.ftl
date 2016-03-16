@@ -182,7 +182,7 @@ body {
 											</div>
 												 <#if isAdd??>												
 												 <#else>
-												<div class="profile-info-row access" data-access-list="fixTime">
+												<div class="profile-info-row">
 												<div class="profile-info-name">维修时间</div>
 												<div class="profile-info-value">
 												   

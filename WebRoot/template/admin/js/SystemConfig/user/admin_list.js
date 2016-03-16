@@ -22,8 +22,8 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid({
 		
 		url:"admin!ajlist.action",
-		datatype: "local",
-		height: "100%",//weitao 修改此参数可以修改表格的高度
+		datatype: "json",
+		height: "280",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -41,12 +41,19 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
-			{name:'username',label:"登陆名",width:200,index:'username',editable:true,editrules : {required : true}},
-			{name:'workNumber',label:"工号",width:200,index:'workNumber',editable:true,editrules : {required : true}},
-			{name:'email',label:"E-mail",width:200,index:'email',editable:true,editrules : {email : true}},
-			{name:'name',label:"名称",width:200,index:'name', editable: true,editrules : {required : true}},
-			{name:'departName',label:"部门",width:200,index:'department.deptName', editable: true},
-			{name:'xpost',label:"岗位",width:200,index:'xpost.postName', editable: true},
+			{name:'username',label:"登陆名",width:100,index:'username',editable:true,editrules : {required : true}},
+			{name:'workNumber',label:"工号",width:100,index:'workNumber',editable:true,editrules : {required : true}},
+			{name:'name',label:"名称",width:100,index:'name', editable: true,editrules : {required : true}},
+			{name:'departName',label:"部门",width:100,index:'department.deptName', editable: true},
+			{name:'xpost',label:"岗位",width:100,index:'post', editable: true},
+			
+			{name:'xparentAdmin',label:"直接上级",width:100,index:'parentAdmin', editable: true},
+			{name:'xisJob',label:"是否离职",width:100,index:'isJob', editable: true},
+			{name:'xworkscope',label:"模具组号",width:100,index:'', editable: true},
+			{name:'xstation',label:"工作范围",width:100,index:'', editable: true},
+			{name:'phoneNo',label:"联系电话",width:100,index:'phoneNo', editable: true},
+			{name:'xisenable',index:'isenable', width:100,label:"是否启用",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"admin!isenable.action"}}
+			
 			//{name:'planCount',label:"生产数量",width:200,index:'planCount', editable: false},
 			//{name:'ship',index:'ship',  editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
 			//{name:'note',index:'note',  sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 

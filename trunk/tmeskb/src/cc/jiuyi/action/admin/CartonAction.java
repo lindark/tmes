@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class CartonAction extends BaseAdminAction {
 	private static final long serialVersionUID = 5682952528834965226L;
 
 	private static final String CONFIRMED = "1";
+	private static final String UNCONFIRM="2";
 	private static final String UNDO = "3";
 
 	private Carton carton;
@@ -171,7 +173,23 @@ public class CartonAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
 			}
 		}
-	
+		boolean flag = false;
+		for (int i = 0; i < ids.length; i++) {
+			carton = cartonService.load(ids[i]);
+			if (UNCONFIRM.equals(carton.getState())) {
+				carton.setState("3");
+				carton.setModifyDate(new Date());
+				carton.setConfirmUser(admin);//确认人
+				cartonService.update(carton);
+				flag = true;
+			}
+		}
+		if(flag){
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put(STATUS, "SUCCESS");
+			hashmap.put(MESSAGE, "您的操作已成功!");
+			return ajaxJson(hashmap);
+		}
 		for (int i = 0; i < ids.length; i++) {
 			carton = cartonService.load(ids[i]);
 			if (UNDO.equals(carton.getState())) {

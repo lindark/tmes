@@ -58,8 +58,35 @@
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
  
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
+ 
 
--->
+<script type="text/javascript">
+	/*
+	$(function(){
+		LODOP.PRINT_INIT("打印任务名");
+		LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 49mm 高度 74mm 
+		LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p>&nbsp;建新赵氏集团</p>");
+		LODOP.ADD_PRINT_TEXT("6mm","0mm","49mm","6mm","桑塔纳NF/前门");
+		LODOP.ADD_PRINT_TEXT("12mm","0mm","49mm","6mm","34D839431A5AP");
+		LODOP.ADD_PRINT_BARCODE("18mm","2mm","27mm","6mm","128Auto","123231231");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("28mm","0mm","49mm","6mm","物料号:40100971");
+		LODOP.ADD_PRINT_BARCODE("34mm","2mm","22mm","6mm","128Auto","160224");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("42mm","0mm","49mm","5mm","包装批次:160224");
+		LODOP.ADD_PRINT_TEXT("47mm","0mm","49mm","5mm","数量:20");
+		LODOP.ADD_PRINT_TEXT("52mm","0mm","49mm","5mm","喷码批次:");
+		LODOP.ADD_PRINT_BARCODE("57mm","2mm","37mm","6mm","128Auto","987654321");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("65mm","0mm","49mm","5mm","随工单:10015167532");
+		LODOP.SET_PRINT_COPIES(1);//控制打印份数
+		//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
+		LODOP.PREVIEW();
+	})
+	*/
+</script>
+
+  -->
 </head>
 <body class="no-skin">
 
@@ -444,7 +471,7 @@
 														<tr>
 															<td><input type="checkbox" class="ckbox"
 																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
-																<a onclick="wbout_event('${list.id}')" href="javascript:void(0);" class="a matkx">${list.maktx}</a>
+																<a href="javascript:void(0);" class="a matkx">${list.maktx}</a>
 															</td>
 
 															<td><b class="green">${list.planCount}</b>
@@ -495,6 +522,22 @@
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 	<script type="text/javascript">
+	$(function(){
+		$(".matkx").bind("click",function(){
+			var id = $(this).prev().val();
+			var matkx = $(this).text();
+			var productDate = $("input[name='admin.productDate']").val();
+			var shift =$("select[name='admin.shift']").val();
+			if(shift=="1"){
+				shift = "早";
+			}else if(shift=="2"){
+				shift = "白";
+			}else if(shift=="3"){
+				shift = "晚";
+			}
+			wbout_event(id,matkx,productDate,shift);
+		});
+		
 		<#if workingbillList==null || workingbillList?size <=0>
 		$.gritter
 				.add({
@@ -505,8 +548,8 @@
 					class_name : 'gritter-success'
 				});
 		</#if>
-		$(".matkx").click(function() {
-			/*
+		/*$(".matkx").click(function() {
+		
 			var previd = $(this).prev().val();
 			var index = layer.open({
 				type : 2,
@@ -521,8 +564,8 @@
 				content : "working_bill!inout.action?workingbill.id="+previd
 			});
 			layer.full(index);//弹出既全屏
-*/
-		});
+
+		});*/
 		
 		$("#submitButton").click(function(){
 			$.ajax({
@@ -536,6 +579,10 @@
 			}
 		});	
 		})
+		
+		
+		
+	});
 	</script>
 
 </body>

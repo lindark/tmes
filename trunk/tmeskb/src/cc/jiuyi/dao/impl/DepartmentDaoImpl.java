@@ -53,7 +53,10 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 		detachedCriteria.add(Restrictions.eq("isWork", "Y"));
 		return super.findByPager(pager,detachedCriteria).getList();
 	}
-	
+	public List getAllByHql() {
+		String hql ="from Department where isDel = 'N'";
+		return getSession().createQuery(hql).list();
+	}
 	/**
 	 * 递归获得所有下机部门
 	 */

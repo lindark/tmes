@@ -61,7 +61,9 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, String> i
 			return departmentdao.getAllByHql(list_str);
 		}
 	}
-
+	public List<Department> getAllByHql() {
+		return departmentdao.getAllByHql();
+	}
 	/**
 	 * ajlist查询所有
 	 */

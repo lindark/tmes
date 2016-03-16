@@ -22,7 +22,7 @@ public interface DepartmentService extends BaseService<Department, String> {
 	 * @return
 	 */
 	public List<Department> getAllByHql(String id);
-
+	public List<Department> getAllByHql();
 	/**
 	 * ajlist查询所有
 	 * @param pager

@@ -60,14 +60,15 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','处理时间','响应时间','解决时间','生产日期','班次','日志', '消息', '发起人','应答人','关闭/撤销人','关闭/撤销时间','状态',"zt","id"],
+		colNames:[ '呼叫时间','应答时间','结束时间','响应时长','处理时长','生产日期','班次','日志', '消息', '发起人','应答人','结束人','状态',"zt","id"],
 		colModel:[
 			
-			{name:'createDate',index:'createDate', width:100,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
-			{name:'replyDate',index:'replyDate',width:100,sorttype:"date",search:false,formatter:datefmt},
-			{name:'disposeTime',index:'disposeTime', width:80,search:false,editable: true},
-			{name:'responseTime',index:'responseTime', width:30,search:false,editable: true},
-			{name:'dealTime',index:'dealTime', width:30,search:false,editable: true},
+			{name:'createDate',index:'createDate', width:60,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},
+			{name:'replyDate',index:'replyDate',width:60,sorttype:"date",search:false,formatter:datefmt},
+			{name:'closeOrcancelTime',index:'closeOrcancelTime', width:60,search:false,editable: true},
+			//{name:'disposeTime',index:'disposeTime', width:80,search:false,editable: true},
+			{name:'responseTime',index:'responseTime', width:40,search:false,editable: true},
+			{name:'dealTime',index:'dealTime', width:40,search:false,editable: true},
 			{name:'productdate',index:'productdate', width:60,search:false,editable: true},
 			{name:'classtime',index:'classtime', width:25,search:false,editable: true},
 			{name:'log',index:'log', width:160,search:false,editable: true},
@@ -75,7 +76,7 @@ jQuery(function($) {
 			{name:'originator',index:'iniitiator.name', width:60, editable: true,search:false},
 			{name:'answer',index:'answer', width:60,search:false,editable: true},
 			{name:'closeOrcancel',index:'closeOrcancel', width:40,search:false,editable: true},
-			{name:'closeOrcancelTime',index:'closeOrcancelTime', width:40,search:false,editable: true},
+			
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=abnormalState"}},
 			{name:'state',index:'state', width:60,editable: true,hidden:true},
 			{name:'id',index:'id', width:60,editable: true,hidden:true}

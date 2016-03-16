@@ -1,4 +1,5 @@
 jQuery(function($) {
+	start_event();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -46,7 +47,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"post!ajlist.action",
+		url:"team!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -63,16 +64,16 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:['创建日期','岗位编码','岗位名称','状态', ],
 		colModel:[
-		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'postCode',label:"岗位编码",index:'postCode', width:200,editable: true},
-			{name:'postName',label:"岗位名称",index:'postName', width:200,editable: true},
-			{name:'station',label:"工位",index:'station', width:200,editable: true},
-			{name:'stateRemark',label:"状态",index:'state', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'teamCode',index:'teamCode',label:"班组编码",width:100,editable: true},
+			{name:'teamName',index:'teamName',label:"班组名称", width:100,search:true,editable: true},
+			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
+			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
+			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},
+			{name:'stateRemark',index:'state',label:"状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
+			{name:'xisWork',index:'isWork',label:"上班状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=isWork'}}
 		], 
-
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -83,20 +84,26 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        gridComplete : function() {
+         	/* var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+         	 for ( var i = 0; i < ids.length; i++) {
+         		 var cl = ids[i];
+         		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
+         		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
+         	 }*/
+         },
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
-				styleCheckbox(table);
-				
+				styleCheckbox(table);				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
 		},
 
-		editurl: "post!delete.adction",//用它做标准删除动作
-		caption: "岗位管理"
+		editurl: "",//用它做标准删除动作
+		caption: "班组管理"
 
 		//,autowidth: true,
 //		,
@@ -140,22 +147,22 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
+			edit: false,
 		    editfunc:function(rowId){
-			    window.location.href="post!edit.action?id="+rowId;
+			    window.location.href="team!edit.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			add: false,
 			addfunc:function(){
-				window.location.href="post!add.action";
+				window.location.href="team!add.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
-			delfunc:function(rowId){
-				window.location.href="post!delete.action?id="+rowId;
-			},
+			del: false,
+			/*delfunc:function(rowId){
+				window.location.href="team!delete.action?id="+rowId;
+			},*/
 			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
+			search: false,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
@@ -215,10 +222,8 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			multipleGroup:false,
 			showQuery: true
-			*/
 		},
 		{
 			//view record form
@@ -232,3 +237,51 @@ jQuery(function($) {
 
 
 });
+
+//右上角点击登录人事件
+function start_event()
+{
+	var ishead=0;
+	$("#ace-settings-btn").click(function(){
+		if(ishead==0){
+			ishead=1;
+			$("#ace-settings-box").addClass("open");
+		}else{
+			ishead=0;
+			$("#ace-settings-box").removeClass("open");
+		}
+	});
+	$(".btn-colorpicker").click(function(){
+			$(".dropdown-colorpicker").addClass("open");
+	});
+	
+	var ishead2=0;
+	$(".light-blue").click(function(){
+		if(ishead2==0){
+			ishead2=1;
+			$(this).addClass("open");
+		}else{
+			ishead2=0;
+			$(this).removeClass("open");
+		}
+		
+	});
+	
+	/*
+	var ishead3=0;
+	$(".hsub").click(function(){
+		if(ishead3==0){
+			alert("OK");
+			ishead3=1;
+			$(".hsub").addClass("open");
+			//$(this).find(".submenu").removeClass("nav-hide");
+		}else{
+			ishead3=0;
+			//$(this).removeClass("open");
+			//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
+		}
+		
+	})
+	*/
+});
+}

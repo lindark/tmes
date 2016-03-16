@@ -1,6 +1,6 @@
 $register("jiuyi.admin.depart");
 jQuery(function($) {
-	myevent();
+	myevents();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -18,45 +18,16 @@ jQuery(function($) {
 		}
     })
 
-
-
 	jQuery(grid_selector).jqGrid({
-		//direction: "rtl",
-
-		//subgrid options
-		subGrid : false,
-		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-		//datatype: "xml",
-		subGridOptions : {
-			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-			openicon : "ace-icon fa fa-chevron-right center orange"
-		},
-		//for this example we are using local data
-		subGridRowExpanded: function (subgridDivId, rowId) {
-			var subgridTableId = subgridDivId + "_t";
-			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-			$("#" + subgridTableId).jqGrid({
-				datatype: 'local',
-				data: subgrid_data,
-				colNames: ['No','Item Name','Qty'],
-				colModel: [
-					{ name: 'id', width: 50 },
-					{ name: 'name', width: 150 },
-					{ name: 'qty', width: 50 }
-				]
-			});
-		},
 		
-		url:"department!ajlist.action",
+		url:"admin!ajlistempqx.action",
 		datatype: "json",
 		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
 	          total:"pageCount",
-	          records:"totalCount",
-	          id:"id"
+	          records:"totalCount"
 	        },
 	    prmNames : {
 	    	rows:"pager.pageSize",
@@ -64,107 +35,67 @@ jQuery(function($) {
 	    	search:"pager._search",
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
+	    	
 	    },
+		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'deptCode',index:'deptCode',label:"部门编码",width:100,editable: true},
-			{name:'deptName',index:'deptName',label:"部门名称",width:100,editable: true},
-			{name:'xparentDept',index:'parentDept',label:"上级部门",width:100,editable: true},
-			{name:'costcenter',index:'costcenter',label:"成本中心",width:100,editable: true},
-			{name:'movetype',index:'movetype',label:"发料移动类型",width:100,editable: true},
-			{name:'movetype1',index:'movetype1',label:"退料移动类型",width:100,editable: true},
-			{name:'xdeptLeader',index:'deptLeader',label:"部门负责人",width:100,editable: true},
-			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",formatter:datefmt},
-			{name:'xcreater',index:'creater',label:"创建人",width:100,editable: true},
-			{name:'xisWork',index:'isWork',label:"是否启用",width:100,editable: true}
+			{name:'id',index:'id', label:"ID", sorttype:"int",editable: false,hidden:true},
+			{name:'departName',label:"部门名称",width:100,fixed:true,index:'department.deptName', editable: true},
+			{name:'xteam',label:"班组",width:100,fixed:true,index:'team.teamName', editable: true},
+			{name:'name',label:"姓名",width:80,fixed:true,index:'name', editable: true},
+			{name:'username',label:"登陆名",width:100,fixed:true,index:'username',editable:true},
+			{name:'xrole',label:"管理角色",width:100,fixed:true,index:'',editable:true},
+			{name:'phoneNo',label:"联系电话",width:100,fixed:true,index:'phoneNo', editable: true},
+			{name:'xisJob',label:"是否离职",width:80,fixed:true,index:'isJob', editable: true},
+			{name:'createDate',index:'createDate',label:"创建日期",width:150,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
+			{name:'xempCreater',index:'empCreater.name',label:"创建人",width:80,fixed:true,editable: true},
+			{name:'xisenable',index:'isenable', width:80,fixed:true,label:"是否启用",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"admin!isenable.action"}}
 		], 
+
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
 		pager : pager_selector,
+		pgbuttons:true,
+		pginput:true,
 		altRows: true,
 		//toppager: true,
 		
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-        gridComplete : function() {
-        	/*var ids = jQuery(grid_selector).jqGrid('getDataIDs');
-         	 for ( var i = 0; i < ids.length; i++) {
-         		 var cl = ids[i];
-         		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
-         		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
-         	 }*/
-         },
+
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
-				styleCheckbox(table);				
+				styleCheckbox(table);
+				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
 		},
 
-		editurl: "department!deletedept.action",//用它做标准删除动作
-		caption: "部门管理"
-
-		//,autowidth: true,
-//		,
-//		grouping:true, 
-//		groupingView : { 
-//			 groupField : ['name'],
-//			 groupDataSorted : true,
-//			 plusicon : 'fa fa-chevron-down bigger-110',
-//			 minusicon : 'fa fa-chevron-up bigger-110'
-//		},
-//		caption: "Grouping"
-		
+		//editurl: "working_bill!delete.action",//用它做标准删除动作
+		caption: "员工列表"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	
-
-	//enable search/filter toolbar
-	//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-	//jQuery(grid_selector).filterToolbar({});
-
-
-	//switch element when editing inline
-	function aceSwitch( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=checkbox]')
-				.addClass('ace ace-switch ace-switch-5')
-				.after('<span class="lbl"></span>');
-		}, 0);
-	}
-	//enable datepicker
-	function pickDate( cellvalue, options, cell ) {
-		setTimeout(function(){
-			$(cell) .find('input[type=text]')
-					.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
-		}, 0);
-	}
-
-
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: true,
-		    editfunc:function(rowId){
-			    window.location.href="department!editdept.action?id="+rowId;
+			editfunc:function(rowId){
+			    window.location.href="admin!editqx.action?id="+rowId;
 		    },
 			editicon : 'ace-icon fa fa-pencil blue',
 			add: true,
-			addfunc:function(){
-				window.location.href="department!adddept.action";
-			},
+			addfunc:function(rowId){
+			    window.location.href="admin!addqx.action";
+		    },
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
-			/*delfunc:function(rowId){
-				window.location.href="department!delete.action?id="+rowId;
-			},*/
+			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
@@ -226,8 +157,10 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
+			
 			multipleGroup:false,
 			showQuery: true
+			
 		},
 		{
 			//view record form
@@ -239,9 +172,7 @@ jQuery(function($) {
 		}
 	)
 });
-
-//初始化事件
-function myevent()
+function myevents()
 {
 	jiuyi.admin.depart.MenuBarToggle();
 	$(window).resize(function(){
@@ -251,12 +182,6 @@ function myevent()
 		}
 	});
 	$(window).triggerHandler('resize');
-	
-	//添加部门
-	
-	//修改部门
-	
-	//删除部门
 }
 
 /**
@@ -289,21 +214,11 @@ jiuyi.admin.depart.initTree = function(nodes){
 };
 
 /**
- * 添加部门
- */
-/**
- * 修改部门
- */
-/**
- * 删除部门
- */
-
-/**
  * 点击部门
  */
 jiuyi.admin.depart.clickHandle = function(treeNode){
 	$("#grid-table").jqGrid('setGridParam',{
-		url:"department!ajlist.action?deptid="+treeNode.id,
+		url:"admin!ajlistempqx.action?deptid="+treeNode.id,
 		datatype:"json",
 		page:1
 	}).trigger("reloadGrid");

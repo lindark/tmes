@@ -1,6 +1,7 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
+	var loginid=$("#loginid").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -14,9 +15,7 @@ jQuery(function($) {
 				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
 			}, 0);
 		}
-    })
-
-
+    });
 
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
@@ -46,7 +45,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"post!ajlist.action",
+		url:"post!getpost.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -63,14 +62,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:['创建日期','岗位编码','岗位名称','状态', ],
+		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
-		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'postCode',label:"岗位编码",index:'postCode', width:200,editable: true},
 			{name:'postName',label:"岗位名称",index:'postName', width:200,editable: true},
 			{name:'station',label:"工位",index:'station', width:200,editable: true},
-			{name:'stateRemark',label:"状态",index:'state', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
+			{name:'stateRemark',label:"状态",index:'state', width:200, sortable:false,editable: true,edittype:"textarea"}
 		], 
 
 		viewrecords : true,
@@ -95,8 +93,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "post!delete.adction",//用它做标准删除动作
-		caption: "岗位管理"
+		//editurl: "work_shop!delete.adction"//用它做标准删除动作
+		//caption: "员工信息"
 
 		//,autowidth: true,
 //		,
@@ -140,27 +138,27 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
+			edit: false,
 		    editfunc:function(rowId){
-			    window.location.href="post!edit.action?id="+rowId;
+			   // window.location.href="work_shop!edit.action?id="+rowId;
 		    },
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
+			//editicon : 'ace-icon fa fa-pencil blue',
+			add: false,
 			addfunc:function(){
-				window.location.href="post!add.action";
+				//window.location.href="work_shop!add.action";
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			//del: true,
+			//addicon : 'ace-icon fa fa-plus-circle purple',
+			del: false,
 			delfunc:function(rowId){
-				window.location.href="post!delete.action?id="+rowId;
+				//window.location.href="work_shop!delete.action?id="+rowId;
 			},
-			delicon : 'ace-icon fa fa-trash-o red',
-			search: true,
-			searchicon : 'ace-icon fa fa-search orange',
-			refresh: true,
-			refreshicon : 'ace-icon fa fa-refresh green',
-			view: true,
-			viewicon : 'ace-icon fa fa-search-plus grey',
+			//delicon : 'ace-icon fa fa-trash-o red',
+			search: false,
+			//searchicon : 'ace-icon fa fa-search orange',
+			refresh: false,
+			//refreshicon : 'ace-icon fa fa-refresh green',
+			view: false,
+			//viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
 			//edit record form
@@ -229,6 +227,4 @@ jQuery(function($) {
 			}
 		}
 	)
-
-
 });

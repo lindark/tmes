@@ -35,6 +35,7 @@ public class RepairPiece extends BaseEntity
     private Integer repairAmount;
     private String duty;
     private String mblnr;
+    private String matnr;
     
 	
 	
@@ -175,6 +176,14 @@ public class RepairPiece extends BaseEntity
 	}
 	public void setMblnr(String mblnr) {
 		this.mblnr = mblnr;
+	}
+	
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
 	}
 	
 	

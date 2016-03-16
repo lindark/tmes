@@ -67,7 +67,7 @@ public class RepairAction extends BaseAdminAction {
 	private List<RepairPiece>list_rp;//子件
 	private String loginid;//当前登录人
 	private String maktx;
-	private String rpcode;
+	private String mblnr;
 	private String end;
 	private String start;
 	private String state;
@@ -120,10 +120,10 @@ public class RepairAction extends BaseAdminAction {
 						.toString();
 				map.put("maktx", maktx);
 			}
-			if (obj.get("rpcode") != null) {
-				String rpcode = obj.getString("rpcode")
+			if (obj.get("mblnr") != null) {
+				String mblnr = obj.getString("mblnr")
 						.toString();
-				map.put("rpcode", rpcode);
+				map.put("mblnr", mblnr);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state")
@@ -160,6 +160,7 @@ public class RepairAction extends BaseAdminAction {
 			repairPiece.setDuty(repairPiece.getRepair().getDuty());
 			repairPiece.setProductDate(repairPiece.getRepair().getWorkingbill().getProductDate());
 			repairPiece.setMblnr(repairPiece.getRepair().getEX_MBLNR());
+			repairPiece.setMatnr(repairPiece.getRepair().getWorkingbill().getMatnr());
 			lst.add(repairPiece);
 		}
 		pager.setList(lst);
@@ -174,7 +175,7 @@ public class RepairAction extends BaseAdminAction {
 	//Excel导出 @author Reece 2016/3/15
 		public String excelexport(){
 			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("rpcode", rpcode);
+			map.put("mblnr", mblnr);
 			map.put("maktx", maktx);
 			map.put("state", state);
 			map.put("start", start);
@@ -185,13 +186,14 @@ public class RepairAction extends BaseAdminAction {
 			List<Object[]> body = new ArrayList<Object[]>();
 	        header.add("随工单号");
 	        header.add("生产日期");
+	        header.add("产品编码");
 	        header.add("产品名称");
 	        header.add("产品数量");
 	        
-	        header.add("组件编码");
+/*	        header.add("组件编码");
 	        header.add("组件名称");
 	        header.add("组件数量");
-	        header.add("组件总数量");
+	        header.add("组件总数量");*/
 	        
 	        header.add("返修部位");
 	        header.add("返修数量");
@@ -203,22 +205,40 @@ public class RepairAction extends BaseAdminAction {
 	        header.add("确认人");
 	        header.add("状态");
 	        
-	        List<Object[]> repairList = repairPieceService.historyExcelExport(map);
-	        for(int i=0;i<repairList.size();i++){
-	        	Object[] obj = repairList.get(i);
-	        	RepairPiece repairPiece = (RepairPiece) obj[0];
-	        	Repair repair = (Repair)obj[1];
-	        	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
-	        	
-	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getProductDate(),workingbill.getMaktx(),repairPiece.getProductnum()
-	        			            ,repairPiece.getRpcode(),repairPiece.getRpname(),repairPiece.getPiecenum(),repairPiece.getRpcount()
-	        			            ,repair.getRepairPart(),repair.getRepairAmount(),repair.getDuty(),repair.getEX_MBLNR()
-	        			            ,repairPiece.getCreateDate(),repair.getCreateUser()==null?"":repair.getCreateUser().getName()
-	        			            ,repair.getConfirmUser()==null?"":repair.getConfirmUser().getName()
-	        			            ,ThinkWayUtil.getDictValueByDictKey(dictService, "repairState", repair.getState())};
-	        	body.add(bodyval);
-	        }
-			
+		List<Object[]> repairList = repairPieceService.historyExcelExport(map);
+		for (int i = 0; i < repairList.size(); i++) {
+			Object[] obj = repairList.get(i);
+			RepairPiece repairPiece = (RepairPiece) obj[0];
+			Repair repair = (Repair) obj[1];
+			WorkingBill workingbill = (WorkingBill) obj[2];// workingbill
+
+			Object[] bodyval = {
+					workingbill.getWorkingBillCode(),
+					workingbill.getProductDate(),
+					workingbill.getMatnr(),
+					workingbill.getMaktx(),
+					repairPiece.getProductnum()
+					/*
+					 * ,repairPiece.getRpcode(),
+					 * repairPiece.getRpname(),
+					 * repairPiece.getPiecenum(),
+					 * repairPiece.getRpcount()
+					 */
+					,
+					repair.getRepairPart(),
+					repair.getRepairAmount(),
+					repair.getDuty(),
+					repair.getEX_MBLNR(),
+					repairPiece.getCreateDate(),
+					repair.getCreateUser() == null ? "" : repair
+							.getCreateUser().getName(),
+					repair.getConfirmUser() == null ? "" : repair
+							.getConfirmUser().getName(),
+					ThinkWayUtil.getDictValueByDictKey(dictService,
+							"repairState", repair.getState()) };
+			body.add(bodyval);
+		}
+
 			try {
 				String fileName = "成品返修记录表"+".xls";
 				setResponseExcel(fileName);
@@ -740,13 +760,13 @@ public class RepairAction extends BaseAdminAction {
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
 	}
-
-	public String getRpcode() {
-		return rpcode;
+	
+	public String getMblnr() {
+		return mblnr;
 	}
 
-	public void setRpcode(String rpcode) {
-		this.rpcode = rpcode;
+	public void setMblnr(String mblnr) {
+		this.mblnr = mblnr;
 	}
 
 	public String getEnd() {

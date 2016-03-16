@@ -39,14 +39,18 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 	    colModel:[
-	  	        {name:'workingbillCode',index:'workingbillCode',label:"随工单编号", width:150,sortable:"true",sorttype:"text"},
-	  	        {name:'maktx',index:'maktx', width:400,label:"产品名称",sortable:"true",sorttype:"text"},
+	  	        {name:'workingbillCode',index:'workingbill.workingbillCode',label:"随工单编号", width:80,sortable:"true",sorttype:"text"},
+	  	        {name:'productDate',index:'workingbill.productDate', width:80,label:"生产日期",sortable:"true",sorttype:"text"},
+	  	        {name:'matnr',index:'workingbill.matnr', width:80,label:"产品编号",sortable:"true",sorttype:"text"},
+	  	        {name:'maktx',index:'workingbill.maktx', width:300,label:"产品名称",sortable:"true",sorttype:"text"},
+	  	        
 	  	        {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-	  	        {name:'receiveAmount',index:'receiveAmount',label:"收货数量", width:100},
-	  			{name:'createDate',index:'createDate',label:"创建时间",width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-	  			{name:'createName',index:'createName',label:"创建人", width:100,sortable:"true",sorttype:"text"},
-	  			{name:'adminName',index:'adminName', label:"确认人",width:100,sortable:"true",sorttype:"text"},
-	  			{name:'stateRemark',index:'state',label:"状态", width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}
+	  	        {name:'receiveAmount',index:'receiveAmount',label:"收货数量", width:70},
+	  	        {name:'EX_MBLNR',index:'EX_MBLNR',label:"物料凭证号", width:100},
+	  			{name:'createDate',index:'createDate',label:"收货时间",width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
+	  			{name:'createName',index:'createName',label:"创建人", width:80,sortable:"true",sorttype:"text"},
+	  			{name:'adminName',index:'adminName', label:"确认人",width:80,sortable:"true",sorttype:"text"},
+	  			{name:'stateRemark',index:'state',label:"状态", width:80,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}}
 
 	  		], 
 

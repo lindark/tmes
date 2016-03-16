@@ -18,9 +18,9 @@ jQuery(function($) {
 
 
 
-	jQuery(grid_selector).jqGrid({
+jQuery(grid_selector).jqGrid({
 		
-		url:"repair!historylist.action",
+		url:"deptpick!historylist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -37,31 +37,22 @@ jQuery(function($) {
 	    	order:"pager.orderType"
 	    	
 	    },
-	    colNames:[ '随工单编号','生产日期','产品编码','产品名称','产品数量',
-	               '返修部位','返修数量','返修日期','责任人/批次','物料凭证号','创建人', '确认人','状态','状态-隐藏'],
+		//colNames:['创建日期','创建人','确认人','物料凭证号','状态'],
 		colModel:[
-			
-	        {name:'workingbillCode',index:'workingbill.workingbillCode', width:90,sortable:"true",sorttype:"text"},
-	        {name:'productDate',index:'workingbill.productDate', width:80,sortable:"true",sorttype:"text"},
-	        {name:'matnr',index:'workingbill.matnr', width:60,sortable:"true",sorttype:"text"},
-	        {name:'maktx',index:'workingbill.maktx', width:280,sortable:"true",sorttype:"text"},
-	        {name:'productnum',index:'productnum', width:60,sortable:"true",sorttype:"text"},
-//	        {name:'rpcode',index:'rpcode', width:80,sortable:"true",sorttype:"text"},
-//	        {name:'rpname',index:'rpname', width:100,sortable:"true",sorttype:"text"},
-//	        {name:'piecenum',index:'piecenum', width:60,sortable:"true",sorttype:"text"},
-//	        {name:'rpcount',index:'rpcount', width:80,sortable:"true",sorttype:"text"},
-	        
-	        {name:'repairPart',index:'repair.repairPart', width:80,sortable:"true",sorttype:"text"},
-			{name:'repairAmount',index:'repair.repairAmount', width:70},
-			{name:'createDate',index:'createDate',width:120,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'duty',index:'repair.duty', width:90,sortable:"true",sorttype:"text"},
-			{name:'mblnr',index:'repair.EX_MBLNR', width:90,sortable:"true",sorttype:"text"},
-			{name:'createName',index:'repair.createUser', width:60,sortable:"true",sorttype:"text"},
-			{name:'confirmUser',index:'repair.confirmUser', width:60,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'repair.state', width:60,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairState"}},
-			{name:'state',index:'state', editable: false,hidden:true}
+		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
+			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialName',index:'materialName',search:false,label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'materialBatch',index:'materialBatch',search:false,label:"批次", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'repertorySite',index:'repertorySite',search:false,label:"库存地点", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'ex_mblnr',index:'ex_mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'stockMount',index:'stockMount',search:false,label:"领用数量", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'xcomfirmUser',index:'comfirmUser.name',label:"确认人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xstate',index:'state', width:100,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=returnProState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
+			], 
 
-		], 
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -84,8 +75,8 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "repair!delete.action",//用它做标准删除动作
-		caption: "历史返修单"
+		editurl: "return_product!delete.action",//用它做标准删除动作
+		caption: "部门领料历史"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -93,20 +84,21 @@ jQuery(function($) {
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
+		
 		//未确认
-		if(rawObject.state=="2")
+		if(rawObject.state=="notapproval")
 		{
 			return "style='color:red;font-weight:bold;'";
 		}
 		//已确认
-		if(rawObject.state=="1")
+		if(rawObject.state=="approval")
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
 		//已撤销
-		if(rawObject.state=="3")
+		if(rawObject.state=="undone")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:purple;font-weight:bold;'";
 		}
 	}
 	//navButtons
@@ -195,7 +187,7 @@ jQuery(function($) {
 	$("#btn_show").click(function(){
 		if(getId2())
 		{
-			location.href="repair!showHistory.action?id="+id;
+			location.href="repairin!showHistory.action?id="+id;
 		}
 	});
 

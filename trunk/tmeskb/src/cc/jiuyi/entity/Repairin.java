@@ -45,6 +45,11 @@ public class Repairin extends BaseEntity {
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
 	
+	/**冗余字段**/
+	private String productDate;
+	private String matnr;
+	
+	
 	private String xrepairintype;//成品/子件-描述
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
@@ -269,5 +274,25 @@ public class Repairin extends BaseEntity {
 	{
 		CXORJC = cXORJC;
 	}
+
+	@Transient
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+	
+	
 	
 }

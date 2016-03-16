@@ -43,7 +43,7 @@ jQuery(grid_selector).jqGrid({
 			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName',search:false,label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialBatch',index:'materialBatch',search:false,label:"批次", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'repertorySite',index:'repertorySite',search:false,label:"库存地点", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'repertorySite',index:'repertorySite',search:false,label:"库存地点", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'ex_mblnr',index:'ex_mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stockMount',index:'stockMount',search:false,label:"领用数量", width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},

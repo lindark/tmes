@@ -53,13 +53,11 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 
 	@Override
 	public Pager getTeamPager(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return teamDao.getTeamPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		teamDao.updateisdel(ids, oper);
 		
 	}
@@ -99,6 +97,14 @@ public class TeamServiceImpl extends BaseServiceImpl<Team, String>implements Tea
 	public List<Team> getTeamListByWorkAndDel() {
 		
 		return this.teamDao.getTeamListByWorkAndDel();
+	}
+
+	/**
+	 * 获取team数据,已启用的
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map)
+	{
+		return this.teamDao.getAllList(pager,map);
 	}
 
 	

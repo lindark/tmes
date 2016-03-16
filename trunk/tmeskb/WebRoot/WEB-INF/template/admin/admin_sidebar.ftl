@@ -885,6 +885,41 @@
 
 				</ul>
 			</li>
+			<li class="">
+				<a href="" class="dropdown-toggle">
+					<i class="menu-icon fa fa-video-camera"></i>
+					<span class="menu-text">人事管理</span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+				<b class="arrow"></b>
+				<ul class="submenu">
+					<li class="">
+						<a href="department!alllist.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							部门管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="post!list.action" >
+							<i class="menu-icon"></i>
+							岗位管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="admin!alllistry.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							人员管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+				</ul>
+			</li>
 
 			<li class="#">
 				<a href="" class="dropdown-toggle">
@@ -957,22 +992,6 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
-						<a href="department!alllist.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							部门管理
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="admin!alllistry.action" >
-							<i class="menu-icon fa fa-caret-right"></i>
-							人员管理
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
 						<a href="admin!alllistqx.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							用户权限管理
@@ -980,14 +999,7 @@
 
 						<b class="arrow"></b>
 					</li>
-					<li class="">
-						<a href="post!list.action" >
-							<i class="menu-icon"></i>
-							岗位管理
-						</a>
-
-						<b class="arrow"></b>
-					</li>
+					
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-caret-right"></i>

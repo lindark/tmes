@@ -39,7 +39,7 @@ var setting = {
 
 var zNodes =[
 <#list list as department>
-	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}",costcenter:"${department.costcenter}",movetype:"${department.movetype}"},
+	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}",costcenter:"${department.costcenter}",movetype:"${department.movetype}",deptcode:"${department.deptCode}"},
 </#list>
 
 ];
@@ -119,11 +119,13 @@ function getName(){
 	var departName = nodes[0].name;
 	var costcenter = nodes[0].costcenter;
 	var movetype = nodes[0].movetype;
+	var deptcode=nodes[0].deptcode;
 	var depart = {
 		"departid":departid,
 		"departName":departName,
 		"costcenter":costcenter,
-		"movetype":movetype
+		"movetype":movetype,
+		"deptcode":deptcode
 	}
 	return depart;
 }

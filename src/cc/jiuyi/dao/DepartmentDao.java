@@ -22,6 +22,7 @@ public interface DepartmentDao extends BaseDao<Department, String> {
 	 * 查询所有，查询标记未删除的数据,已启用的
 	 */
 	public List<Department> getAllByHql(List<String>list_str);
+	public List<Department> getAllByHql();
 	
 	public List<Department> getChildrenById(String id,List<Department> temp);
 

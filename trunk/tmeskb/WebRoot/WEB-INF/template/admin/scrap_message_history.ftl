@@ -64,14 +64,33 @@
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
+											style="text-align:right">物料编码:</label>
 										<div class="col-sm-4">
-											<input type="text" name="maktx"
+											<input type="text" name="smmatterNum"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-
-										<label class="col-sm-1" style="text-align:right">日期:</label>
+                                        <label class="col-sm-1 col-md-offset-1"
+											style="text-align:right">物料描述:</label>
+										<div class="col-sm-4">
+											<input type="text" name="smmatterDes"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+										
+									</div>
+									<div class="form-group">			   	   
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
+									  <div class="col-sm-4">
+										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
+							                <option value="">全选</option> 
+							                <option value="2">未确认</option>
+							                <option value="1">已确认</option>
+							                <option value="3">已撤销</option>
+						               </select>
+									  </div>	
+									  
+									  <label class="col-sm-1 col-md-offset-1" style="text-align:right">报废日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
@@ -80,23 +99,15 @@
 												</span> <input type="text" class="input-sm form-control datePicker"
 													name="end">
 											</div>
-										</div>
-									</div>
-									<div class="form-group">			   	   
-										<label class="col-sm-1 col-md-offset-1" style="text-align:right">状态:</label>
-									  <div class="col-sm-4">
-										<select name="state" id="form-field-icon-1" class="input input-sm form-control">
-							                <option value="">全选</option> 
-							                <#list allState as list>
-								            <option value="${list.dictkey}"<#if ((isAdd && list.isDefault) || (isEdit && scrapLater.scrap.state == list.dictkey))!> selected</#if>>${list.dictvalue}</option>
-							                </#list>
-						               </select>
-									  </div>									
+										</div>								
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
+										</a>
+										<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>Excel导出
 										</a>
 									</div>
 
@@ -136,6 +147,20 @@
 	<!-- ./ add by welson 0728 -->
 </body>
 </html>
+<script type ="text/javascript">
+   $(function(){
+	   var $excelReport = $("#excelReport");
+	   var $searchform = $("#searchform");
+       
+	   $excelReport.click(function(){
+		   $searchform.attr("action","scrap_message!excelexport.action");
+		   $searchform.submit();
+	   });	   
+	   
+   })
+
+
+</script>
 <script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生

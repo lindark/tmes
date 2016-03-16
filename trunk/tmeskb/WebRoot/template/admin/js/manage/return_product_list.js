@@ -93,10 +93,10 @@ jQuery(function($) {
 			return "style='color:green;font-weight:bold;'";
 		}
 		//已撤销
-		/*if(rawObject.state=="3")
+		if(rawObject.state=="3")
 		{
 			return "style='color:purple;font-weight:bold;'";
-		}*/
+		}
 	}
 	
 	

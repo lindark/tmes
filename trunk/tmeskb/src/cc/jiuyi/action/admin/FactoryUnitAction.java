@@ -208,10 +208,11 @@ public class FactoryUnitAction extends BaseAdminAction {
 
 	
 	//编辑
-		public String edit(){
-			factoryUnit= factoryUnitService.load(id);
-			return INPUT;	
-		}
+	public String edit(){
+		list_cxorjc=this.dictService.getState("fucxorjc");//成型/挤压类型
+		factoryUnit= factoryUnitService.load(id);
+		return INPUT;	
+	}
 		
 	//更新
 		@Validations(

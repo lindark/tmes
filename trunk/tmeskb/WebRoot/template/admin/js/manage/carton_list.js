@@ -287,7 +287,7 @@ function btn_event()
 	$("#btn_cancel").click(function(){
 		if(getId())
 		{
-			var url="carton!creditundo.action?info="+info+"&my_id=2";
+			var url="carton!creditundo.action?info="+info+"&my_id=2&loginid="+$("#loginid").val();
 			sub_event(url);
 		}
 	});

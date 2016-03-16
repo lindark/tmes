@@ -63,11 +63,12 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '交接随工单号','产品名称','下班随工单号','生产日期','物料编码','物料名称',
+		colNames:[ '交接随工单号','产品编码','产品名称','下班随工单号','生产日期','组件编码','组件名称',
 		           '实际零头数交接数量','实际异常交接数量','实际物料数量','实际异常物料数量',
 		           '物料凭证号','交接日期','提交人', '确认人','状态','状态-隐藏'],
 		colModel:[
             {name:'workingBillCode',index:'workingBill.workingBillCode', width:80,sortable:"true",sorttype:"text"},
+            {name:'matnr',index:'workingBill.matnr', width:60,sortable:"true",sorttype:"text"},
             {name:'maktx',index:'workingBill.maktx', width:240,sortable:"true",sorttype:"text"},
             {name:'afterWorkingCode',index:'afterWorkingCode', width:80,sortable:"true",sorttype:"text"},
             {name:'productDate',index:'workingBill.productDate', width:60,sortable:"true",sorttype:"text"},

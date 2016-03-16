@@ -41,10 +41,10 @@ public class RepairPieceDaoImpl extends BaseDaoImpl<RepairPiece, String> impleme
 						"workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
 			}	
-			if (map.get("rpcode") != null) {
+			if (map.get("mblnr") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"rpcode",
-						"%" + map.get("rpcode") + "%"));
+						"repair.EX_MBLNR",
+						"%" + map.get("mblnr") + "%"));
 			}	
 			if (map.get("state") != null) {
 				detachedCriteria.add(Restrictions.like(
@@ -78,12 +78,12 @@ public class RepairPieceDaoImpl extends BaseDaoImpl<RepairPiece, String> impleme
 					hql+=" and model2.maktx like '%"+map.get("maktx")+"%'";
 				}
 			}	
-			if (!map.get("rpcode").equals("")) {
+			if (!map.get("mblnr").equals("")) {
 				if(ishead==0){
-					hql+=" where model.rpcode like '%"+map.get("rpcode")+"%'";
+					hql+=" where model1.EX_MBLNR like '%"+map.get("mblnr")+"%'";
 					ishead=1;
 				}else{
-					hql+=" and model.rpcode like '%"+map.get("rpcode")+"%'";
+					hql+=" and model1.EX_MBLNR like '%"+map.get("mblnr")+"%'";
 				}
 			}	
 			if (!map.get("state").equals("")) {

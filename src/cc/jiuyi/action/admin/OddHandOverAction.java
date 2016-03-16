@@ -134,6 +134,7 @@ public class OddHandOverAction extends BaseAdminAction {
 				oddHandOver.setProductDate(oddHandOver.getWorkingBill().getProductDate());
 				oddHandOver.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "oddStatus", oddHandOver.getState()));
+				oddHandOver.setMatnr(oddHandOver.getWorkingBill().getMatnr());
 				lst.add(oddHandOver);
 			}
 			pager.setList(lst);
@@ -160,11 +161,12 @@ public class OddHandOverAction extends BaseAdminAction {
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
 		header.add("交接随工单号");
+		header.add("产品编码");
 		header.add("产品名称");
 		header.add("下班随工单号");
 		header.add("生产日期");
-		header.add("物料编码");
-		header.add("物料名称");
+		header.add("组件编码");
+		header.add("组件名称");
 		
 		header.add("实际零头数交接数量");
 		header.add("实际异常交接数量");
@@ -186,6 +188,7 @@ public class OddHandOverAction extends BaseAdminAction {
         	
 			Object[] bodyval = {
 					workingbill.getWorkingBillCode(),
+					workingbill.getMatnr(),
 					workingbill.getMaktx(),
 					oddHandOver.getAfterWorkingCode(),
 					workingbill.getProductDate(),
@@ -534,6 +537,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
 
 
 }

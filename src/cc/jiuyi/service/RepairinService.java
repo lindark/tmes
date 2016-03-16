@@ -55,4 +55,7 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param id
 	 */
 	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom);
+	
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

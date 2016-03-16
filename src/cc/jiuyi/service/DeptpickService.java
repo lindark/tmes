@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
@@ -17,4 +18,8 @@ public interface DeptpickService extends BaseService<Deptpick, String> {
 	public void updateDeptpickList(List<Deptpick> deptpickList,Admin admin);
 	
 	public Pager findByPager(Pager pager,Admin admin);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+		
+	public List<Deptpick> historyExcelExport(HashMap<String,String> map);
 }

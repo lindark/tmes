@@ -72,9 +72,9 @@
 												id="form-field-icon-1">
 										</div>
 										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">组件编码:</label>
+											style="text-align:right">物料凭证号:</label>
 										<div class="col-sm-4">
-											<input type="text" name="rpcode"
+											<input type="text" name="mblnr"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>

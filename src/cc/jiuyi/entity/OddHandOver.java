@@ -38,6 +38,7 @@ public class OddHandOver extends BaseEntity {
 	private String maktx;
 	private String productDate;
 	private String stateRemark;
+	private String matnr;
 	
 	
 	
@@ -172,6 +173,14 @@ public class OddHandOver extends BaseEntity {
 	}
 	public void setStateRemark(String stateRemark) {
 		this.stateRemark = stateRemark;
+	}
+	
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
 	}
 	
 

@@ -6,10 +6,12 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
@@ -17,12 +19,15 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.action.cron.WorkingBillJob;
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.ReturnProduct;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
@@ -37,6 +42,7 @@ import cc.jiuyi.service.ReturnProductService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -60,6 +66,11 @@ public class DeptpickAction extends BaseAdminAction {
 	private String costcenter;
 	private String movetype;
 	private String departmentName;//部门描述
+	private String ex_mblnr;
+	private String materialCode;
+	private String state;
+	private String start;
+	private String end;
 	
 	@Resource
 	private DeptpickService deptpickservice;
@@ -71,6 +82,134 @@ public class DeptpickAction extends BaseAdminAction {
 	private LocationonsideRfc rfc;
 	@Resource
 	private DeptpickRfc deptpickrfc;
+	
+	//部门领料记录
+	public String history() {
+		return "history";
+	}
+
+	//部门领料记录列表 @author Reece 2016/3/18
+		public String historylist() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			if (pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
+			}
+			if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+				if (!filters.equals("")) {
+					JSONObject filt = JSONObject.fromObject(filters);
+					Pager pager1 = new Pager();
+					Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+					m.put("rules", jqGridSearchDetailTo.class);
+					pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+					pager.setRules(pager1.getRules());
+					pager.setGroupOp(pager1.getGroupOp());
+				}
+			}
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("materialCode") != null) {
+					String materialCode = obj.getString("materialCode")
+							.toString();
+					map.put("materialCode", materialCode);
+				}
+				if (obj.get("ex_mblnr") != null) {
+					String ex_mblnr = obj.getString("ex_mblnr")
+							.toString();
+					map.put("ex_mblnr", ex_mblnr);
+				}
+				if (obj.get("state") != null) {
+					String state = obj.getString("state")
+							.toString();
+					map.put("state", state);
+				}
+				if (obj.get("start") != null && obj.get("end") != null) {
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
+			}
+			pager = deptpickservice.historyjqGrid(pager, map);
+			List<Deptpick> deptpickList = pager.getList();
+			List<Deptpick> lst = new ArrayList<Deptpick>();
+			for (int i = 0; i < deptpickList.size(); i++) {
+				Deptpick deptpick = (Deptpick) deptpickList.get(i);
+				deptpick.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,"deptPickState", deptpick.getState()));
+				if(deptpick.getComfirmUser() != null)
+					deptpick.setXcomfirmUser(deptpick.getComfirmUser().getName());
+				if(deptpick.getCreateUser() != null)
+					deptpick.setXcreateUser(deptpick.getCreateUser().getName());
+				lst.add(deptpick);
+			}
+			pager.setList(lst);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Deptpick.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		}
+		
+		// Excel导出 @author Reece 2016/3/17
+		public String excelexport() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("ex_mblnr", ex_mblnr);
+			map.put("materialCode", materialCode);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+			header.add("组件编码");
+			header.add("组件名称");
+			header.add("批次");
+			header.add("库存地点");
+
+			header.add("物料凭证号");
+			header.add("领用数量");
+			header.add("创建日期");
+			header.add("创建人");
+			header.add("确认人");
+			header.add("状态");
+
+			List<Deptpick> deptpickList = deptpickservice.historyExcelExport(map);
+			for (int i = 0; i < deptpickList.size(); i++) {
+				Deptpick deptpick = deptpickList.get(i);
+
+				Object[] bodyval = {
+						deptpick.getMaterialCode(),
+						deptpick.getMaterialName(),
+						deptpick.getMaterialBatch(),
+						deptpick.getRepertorySite(),
+						
+					
+						deptpick.getEx_mblnr(),
+						deptpick.getStockMount(),
+						deptpick.getCreateDate(),
+						deptpick.getCreateUser() == null ? "" : deptpick
+								.getCreateUser().getName(),
+						deptpick.getComfirmUser() == null ? "" : deptpick
+								.getComfirmUser().getName(),
+						ThinkWayUtil.getDictValueByDictKey(dictService,
+								"deptPickState", deptpick.getState()) };
+				body.add(bodyval);
+			}
+
+			try {
+				String fileName = "部门领用记录表" + ".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("部门领用记录表", header, body, getResponse()
+						.getOutputStream());
+				getResponse().getOutputStream().flush();
+				getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	
 	
 	
 	public String list(){
@@ -411,6 +550,46 @@ public class DeptpickAction extends BaseAdminAction {
 	}
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
+	}
+
+	public String getEx_mblnr() {
+		return ex_mblnr;
+	}
+
+	public void setEx_mblnr(String ex_mblnr) {
+		this.ex_mblnr = ex_mblnr;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 	

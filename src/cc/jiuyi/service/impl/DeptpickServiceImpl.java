@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -63,6 +64,18 @@ public class DeptpickServiceImpl extends BaseServiceImpl<Deptpick, String> imple
 	@Override
 	public Pager findByPager(Pager pager, Admin admin) {
 		return deptpickdao.findByPager(pager, admin);
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return deptpickdao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public List<Deptpick> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return deptpickdao.historyExcelExport(map);
 	}
 	
 	

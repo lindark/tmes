@@ -3,7 +3,10 @@ package cc.jiuyi.dao.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -54,6 +57,16 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 						"workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
 			}		
+			if (map.get("EX_MBLNR") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"EX_MBLNR",
+						"%" + map.get("EX_MBLNR") + "%"));
+			}	
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"state",
+						"%" + map.get("state") + "%"));
+			}
 			if(map.get("start")!=null||map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
@@ -65,7 +78,67 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 				}
 			}
 		}
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+	
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		String hql="from Repairin model join model.workingbill model1";
+		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
+			if (!map.get("maktx").equals("")) {
+				if(ishead==0){
+					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
+				}
+			}	
+			if (!map.get("EX_MBLNR").equals("")) {
+				if(ishead==0){
+					hql+=" where model.EX_MBLNR like '%"+map.get("EX_MBLNR")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.EX_MBLNR like '%"+map.get("EX_MBLNR")+"%'";
+				}
+			}	
+			if (!map.get("state").equals("")) {
+				if(ishead==0){
+					hql+=" where model.state like '%"+map.get("state")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.state like '%"+map.get("state")+"%'";
+				}
+			}	
+			if(!map.get("start").equals("") && !map.get("end").equals("")){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					System.out.println(map.get("start")); 
+					if(ishead==0){
+						hql+=" where model.createDate between :start and :end";
+						ishead=1;
+					}else{
+						hql+=" and model.createDate between :start and :end";
+					}
+					parameters.put("start", start);
+					parameters.put("end", end);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		
+		Query query = getSession().createQuery(hql);
+		
+		if(parameters.get("start") != null){
+			query.setParameter("start", parameters.get("start"));
+		}
+		if(parameters.get("end") != null){
+			query.setParameter("end", parameters.get("end"));
+		}
+		
+		return query.list();
 	}
 }

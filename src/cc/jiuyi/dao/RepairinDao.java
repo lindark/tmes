@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
@@ -31,4 +32,6 @@ public interface RepairinDao extends BaseDao<Repairin, String> {
 	 *            Y/N
 	 */
 	public void updateisdel(String[] ids, String oper);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

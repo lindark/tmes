@@ -472,6 +472,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
+			dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"moudleType", dailyWork.getMoudle()));
 			/*dailyWork.setResponseName(processService.get("processCode",
 					dailyWork.getProcessCode()).getProcessName());*/
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());

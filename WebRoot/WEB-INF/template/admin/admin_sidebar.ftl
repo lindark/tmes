@@ -587,14 +587,6 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									返工记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							<li class="">
 								<a href="repair!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品返修记录
@@ -603,15 +595,15 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="repairin!history.action" style="font-size:12px;color:green">
+								<a href="repairin!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
-									返修收货记录 ing
+									返修收货记录
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 							<li class="#" ">
-								<a href="scrap_message!history.action" style="font-size:12px;color:red">
+								<a href="scrap_message!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废记录
 								</a>
@@ -661,10 +653,11 @@
 								<b class="arrow"></b>
 							</li>
 							
+							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="deptpick!history.action" style="font-size:12px;color:purple">
 									<i class="menu-icon fa fa-caret-right"></i>
-									部门领用记录
+									部门领用记录 ing
 								</a>
 
 								<b class="arrow"></b>
@@ -674,6 +667,15 @@
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									退回中转仓记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
 								</a>
 
 								<b class="arrow"></b>

@@ -10,12 +10,21 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 
+<script type="text/javascript" src="${base}/template/common/js/jquery.form.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.methods.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.cn.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browserValidate.js"></script>
+
+
+
 <script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 <script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
-
-<script type="text/javascript" src="${base }/template/admin/js/jquery.cxselect-1.3.7/js/jquery.cxselect.min.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/department_inputdept.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jquery.cxselect-1.3.7/js/jquery.cxselect.min.js"></script>
 <style type="text/css">
 	.mymust{color: red;font-size: 10px;}
 	.class_label_xfuname{width:200px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
@@ -66,80 +75,92 @@ body{background:#fff;}
 			<li class="active"><#if isAdd??>添加部门<#else>修改部门</#if></li>
 		</ul><!-- /.breadcrumb -->
 	</div>
-	
-
 	<!-- add by welson 0728 -->
 	<div class="page-content">
-					<div class="page-content-area">					
-
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- ./ add by welson 0728 -->
-								<form type="post"
-								action="<#if isAdd??>department!savedept.action<#else>department!updatedept.action</#if>"
-								id="departform" class="validateajax">
-								<div class="profile-user-info profile-user-info-striped">
-									<div class="profile-info-row">
-										<input type="hidden" name="department.id"
-											value="${(department.id)!}" />
-										<!--id-->
-										<div class="profile-info-name">部门名称</div>
-
-										<div class="profile-info-value">
-											<input id="deptname" type="text" name="department.deptName" class=" input input-sm formText {required: true}" value="${(department.deptName)!}" />
+		<div class="page-content-area">					
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- ./ add by welson 0728 -->
+					<form id="inputForm" class="validate" action="<#if isadd??>department!savedept.action<#else>department!updatedept.action</#if>" method="post">
+						<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
+						<input id="deptid" type="hidden" name="department.id" value="${(department.id)!}" />
+						<div class="profile-user-info profile-user-info-striped">
+							<div class="profile-info-row">
+								<div class="profile-info-name">部门编码</div>
+								<div class="profile-info-value">
+									<#if isadd??>
+										<input id="input_deptcode" type="text" name="department.deptCode" class=" input input-sm formText {required: true}" value="${(department.deptCode)!}" />
+										<span id="span_code" style="color:red;font-family: 微软雅黑;font-size:10px;"></span>
 										<label class="requireField">*</label>
-										</div>
-									</div>
-									<div class="profile-info-row">
-										<div class="profile-info-name">上级部门</div>
-
-										<div class="profile-info-value">
-											<select name="department.parentDept.id" id="r_select" class="chosen-select">
-												<#if list??>
-												    <#list list as list>
-											            <option value="${(list.id)!}"<#if (department.parentDept.id==list.id)!> selected</#if>>${(list.deptName)!}</option>
-										               </#list>  
-										         </#if>
-											</select>
-											<label class="requireField">*</label>
-											<!-- 
-											<#if isAdd??> <input type="hidden"
-												name="department.parentDept.id" value="${(pid)!}" /> <span>${(pname)!}</span>
-											<#else> <input type="hidden" name="department.parentDept.id"
-												value="${(department.parentDept.id)!}" /> <span>${(department.parentDept.deptName)!}</span>
-											</#if>
-											 -->
-										</div>
-
-									</div>
-									<div class="profile-info-row">
-										<div class="profile-info-name">所属班组</div>
-
-										<div class="profile-info-value">
-											<div class="example">
-												<fieldset id="self-data">
-													<div class="form">
-														<select name="factoryid" class="factory select"  data-first-title="请选择..." data-value="${(department.team.factoryUnit.workShop.factory.id)! }" data-url="department!getFactory.action" data-json-space="factory"></select>
-														<select name="workshopid"	class="workshop select"  data-first-title="请选择..." data-value="${(department.team.factoryUnit.workShop.id)! }" data-url="department!getWorkshop.action" data-json-space="workshop"></select>
-														<select name="factoryunitid"	class="factoryunit select"  data-first-title="请选择..." data-value="${(department.team.factoryUnit.id)! }" data-url="department!getFactoryunit.action" data-json-space="factoryunit"></select>
-														<select name="department.team.id" class="team select" data-first-title="请选择..." data-value="${(department.team.id)! }" data-url="department!getTeam.action" data-json-space="team" id="teamselect"></select>
-											<input id="input_teamsel" type="hidden" class="formText {required: true}"/>
-											<label class="requireField">*</label>
-													</div>
-												</fieldset>
-											</div>
-										</div>
-
-									</div>
-
+									<#else>
+										${(department.deptCode)! }
+									</#if>
 								</div>
-								<div class="buttonArea">
-									<input type="button" class="formButton" id="submit_btn" value="确  定" hidefocus="true" />
-									<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">部门名称</div>
+								<div class="profile-info-value">
+									<input type="text" name="department.deptName" class=" input input-sm formText {required: true}" value="${(department.deptName)!}" />
+									<label class="requireField">*</label>
 								</div>
-							</form>
-			
-<!-- add by welson 0728 -->	
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">上级部门</div>
+								<div class="profile-info-value">
+									<img id="img_adddept" title="上级部门" alt="上级部门" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
+									<span id="span_dept">${(department.parentDept.deptName)! }</span>
+									<input type="hidden" id="input_dept" name="department.parentDept.id" value="${(department.parentDept.id)! }" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">成本中心</div>
+								<div class="profile-info-value">
+									<input type="text" name="department.costcenter" class=" input input-sm" value="${(department.costcenter)!}" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">发料移动类型</div>
+								<div class="profile-info-value">
+									<input type="text" name="department.movetype" class=" input input-sm" value="${(department.movetype)!}" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">退料移动类型</div>
+								<div class="profile-info-value">
+									<input type="text" name="department.movetype1" class=" input input-sm" value="${(department.movetype1)!}" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">部门负责人</div>
+								<div class="profile-info-value">
+									<img id="img_addleader" title="添加负责人" alt="添加负责人" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
+									<span id="span_leader">${(department.deptLeader.name)! }</span>
+									<input type="hidden" id="input_leader" name="department.deptLeader.id" value="${(department.deptLeader.id)! }" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">是否启用</div>
+								<div class="profile-info-value">
+									<label class="pull-left inline"> <small
+										class="muted smaller-90">已启用:</small> <input type="radio"
+										name="department.isWork" class="ace" value="Y" <#if
+										(department.isWork == "Y")!> checked</#if> /> <span
+										class="lbl middle"></span> </label> <label class="pull-left inline">
+
+										<small class="muted smaller-90">未启用:</small> <input
+										type="radio" name="department.isWork" class="ace"
+										value="N" <#if (isAdd || department.isWork
+										== "N")!> checked</#if> /> <span class="lbl middle"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="buttonArea">
+							<input type="button" class="formButton" id="btn_submit" value="确  定" hidefocus="true" />
+							<input type="button" class="formButton" id="btn_return" value="返  回" />
+						</div>
+					</form>
+				<!-- add by welson 0728 -->	
 				</div><!-- /.col -->
 				</div><!-- /.row -->
 
@@ -155,37 +176,3 @@ body{background:#fff;}
 
 </body>
 </html>
-<script type="text/javascript">
-
-$(function() {
-	$("#self-data").cxSelect({
-			selects: ['factory', 'workshop', 'factoryunit','team'],
-			jsonName: 'name',
-			jsonValue: 'value'
-		},function(select){//回调
-			$(select).trigger("chosen:updated"); 
-			$(select).chosen({allow_single_deselect:true,no_results_text:"没有找到",search_contains: true});
-	});	
-		
-	/**
-	* 提交
-	*/
-	$("#submit_btn").click(function(){
-		//部门去空
-		var deptname=$("#deptname").val().replace(/\s+/g,"");
-		$("#deptname").val(deptname);
-		//所属班组不能为空
-		var teamval=$("#teamselect").val();
-		if(teamval!=null&&teamval!="")
-		{
-			$("#input_teamsel").val(teamval);
-		}
-		else
-		{
-			$("#input_teamsel").val("");
-		}
-		$("#departform").submit();
-	});
-});
-
-</script>

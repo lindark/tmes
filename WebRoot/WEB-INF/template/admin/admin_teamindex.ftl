@@ -56,9 +56,10 @@
 </script>
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
- -->
+ 
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
 
+-->
 </head>
 <body class="no-skin">
 
@@ -376,6 +377,14 @@
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="returnProduct" type="button">
 														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">退回中转仓</span>
+													</button>
+												</div>
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+													data-access-list="cartonreceiving">
+													<button
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="btn_market">
+														<i class="ace-icon fa fa-file-archive-o bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">超市领料</span>
 													</button>
 												</div>
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"

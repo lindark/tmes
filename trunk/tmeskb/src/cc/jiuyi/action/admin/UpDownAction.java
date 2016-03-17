@@ -68,6 +68,8 @@ public class UpDownAction extends BaseAdminAction {
 			this.lgpla = "R-00";
 		}else if("down".equals(type)){//下架
 			this.lgplaun="R-00";
+		}else if("updown".equals(type)){
+			
 		}else{
 			addActionError("请输入正确的类型!");
 			return ERROR;
@@ -142,7 +144,9 @@ public class UpDownAction extends BaseAdminAction {
 			flag = "0";
 		else if(type.equals("down"))
 			flag = "2";
-		else
+		else if(type.equals("updown")){
+			flag = "3";
+		}else
 			return ajaxJsonErrorMessage("请正确填写类型!");
 		
 		hash.put("werks", werks);
@@ -223,6 +227,7 @@ public class UpDownAction extends BaseAdminAction {
 		for(int i=0;i<updownList.size();i++){
 			UpDown updown = updownList.get(i);
 			updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
+			updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
 			updown.setAdminname(updown.getAppvaladmin().getName());
 			updownList1.add(updown);
 		}

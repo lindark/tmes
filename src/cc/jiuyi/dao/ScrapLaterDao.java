@@ -20,5 +20,7 @@ public interface ScrapLaterDao extends BaseDao<ScrapLater, String>
 	public List<ScrapLater> getSlBySid(String sid);
 	
 	public Pager getLaterPager(Pager pager, HashMap<String, String> map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
 }

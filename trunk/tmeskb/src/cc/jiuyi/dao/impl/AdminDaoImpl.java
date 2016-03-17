@@ -306,7 +306,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 * 查询所有员工
 	 * my_id 1:查询所有  2:查询已维护过登录等权限的人员  3:查询未维护过的人员
 	 */
-	public Pager getAllEmp(Pager pager,List<String>list_str,int my_id)
+	public Pager getAllEmp(Pager pager,HashMap<String, String> map,List<String>list_str,int my_id)
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
@@ -324,6 +324,37 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		else if(my_id==3)
 		{
+			if (map!=null&&map.size() > 0)
+			{
+				if(!super.existAlias(detachedCriteria, "department", "department"))
+				{
+					detachedCriteria.createAlias("department", "department");
+				}
+				if(!super.existAlias(detachedCriteria, "team", "team"))
+				{
+					detachedCriteria.createAlias("team", "team");
+				}
+				//工号
+				if(map.get("workNumber")!=null&&!"".equals(map.get("workNumber")))
+				{
+					detachedCriteria.add(Restrictions.like("workNumber", "%"+map.get("workNumber")+"%"));
+				}
+				//姓名
+				if(map.get("name")!=null&&!"".equals(map.get("name")))
+				{
+					detachedCriteria.add(Restrictions.like("name", "%"+map.get("name")+"%"));
+				}
+				//班组名称
+				if(map.get("dept")!=null&&!"".equals(map.get("dept")))
+				{
+					detachedCriteria.add(Restrictions.like("department.deptName", "%"+map.get("dept")+"%"));
+				}
+				//班组编码
+				if(map.get("team")!=null&&!"".equals(map.get("team")))
+				{
+				    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+				}
+			}
 			detachedCriteria.add(Restrictions.isNull("username"));
 		}
 		return super.findByPager(pager,detachedCriteria);

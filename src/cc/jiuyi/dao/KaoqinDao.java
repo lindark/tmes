@@ -24,12 +24,6 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	public Pager getKaoqinPager(Pager pager, HashMap<String, String> map);
 
 	/**
-	 * 根据员工卡号和当前日期查询员工
-	 * @param id
-	 * @return
-	 */
-	public Kaoqin getByCardnumAndSameday(String cardNum,String strdate);
-	/**
 	 * 根据生产日期和班次查询数据
 	 * @author Lk
 	 * @param productDate
@@ -37,4 +31,13 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getKaoqinList(String productDate, String shift);
+
+	/**
+	 * 根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示
+	 * @param sameTeamId 登录人班组id
+	 * @param productDate 生产日期
+	 * @param shift 班次
+	 * @return
+	 */
+	public List<Kaoqin> getByTPS(String sameTeamId, String productDate,String shift);
 }

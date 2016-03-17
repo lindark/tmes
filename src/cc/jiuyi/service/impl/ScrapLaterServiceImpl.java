@@ -37,5 +37,9 @@ public class ScrapLaterServiceImpl extends BaseServiceImpl<ScrapLater, String> i
 	public Pager getLaterPager(Pager pager, HashMap<String, String> map) {		
 		return slDao.getLaterPager(pager, map);
 	}
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		return slDao.historyExcelExport(map);
+	}
 
 }

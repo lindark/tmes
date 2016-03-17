@@ -60,15 +60,12 @@ body{background:#fff;}
 
 	<!-- add by welson 0728 -->
 	<div class="page-content">
-					<div class="page-content-area">					
+		<div class="page-content-area">					
 
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- ./ add by welson 0728 -->
-								
-		<form id="inputForm" class="validate" action="<#if isAdd??>post!save.action<#else>post!update.action</#if>" method="post">
-			<input type="hidden" name="id" value="${id}" />
-			<div id="inputtabs">
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- ./ add by welson 0728 -->
+		<div id="inputtabs">
 			<ul>
 				<li>
 					<a href="#tabs-1">岗位信息</a>
@@ -76,125 +73,57 @@ body{background:#fff;}
 				
 			</ul>
 			
-			<div id="tabs-1">
-			
+			<div id="tabs-1">			
+		<form id="inputForm" class="validate" action="<#if isAdd??>post!save.action<#else>post!update.action</#if>" method="post">
+			<input type="hidden" name="xpost.id" value="${(xpost.id)!}" />
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 岗位编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="post.postCode" value="${(post.postCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="xpost.postCode" value="${(xpost.postCode)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>	
 									
 									<div class="profile-info-row">	
-										<div class="profile-info-name"> 岗位名称 </div>					
+										<div class="profile-info-name">岗位名称</div>					
 										<div class="profile-info-value">
-											<input type="text" name="post.postName" value="${(post.postName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="xpost.postName" value="${(xpost.postName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
-										
+									<div class="profile-info-row">	
+										<div class="profile-info-name">工位</div>					
+										<div class="profile-info-value">
+											<input type="text" name="xpost.station" value="${(xpost.station)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div>
+									</div>
 									
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="post.state" value="1"<#if (post.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="xpost.state" value="1"<#if (xpost.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="post.state" value="2"<#if (isAdd || post.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="xpost.state" value="2"<#if (isAdd || xpost.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
 									</div>							
 						</div>
-				
-				<#list enabledpostAttributeList as list>
-					<tr>
-						<th>
-							${list.name}:
-						</th>
-						<td>
-							<#if list.attributeType == "text">
-								<input type="text" name="el_${list.id}" class="formText<#if list.isRequired> {required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "number">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>number: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "alphaint">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>lettersonly: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "email">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>email: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "select">
-								<select name="el_${list.id}"<#if list.isRequired> class="{required: true}"</#if>>
-									<option value="">请选择...</option>
-									<#list list.attributeOptionList as attributeOptionList>
-										<option value="${attributeOptionList}"<#if (post.postAttributeMap.get(list)[0] == attributeOptionList)!> selected</#if>>${attributeOptionList}</option>
-									</#list>
-								</select>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "checkbox">
-								<#list list.attributeOptionList as attributeOptionList>
-									<label><input type="checkbox" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="${attributeOptionList}"<#if (post.postAttributeMap.get(list).contains(attributeOptionList))!> checked</#if>  />${attributeOptionList}</label>
-								</#list>
-								<span id="${list.id}MessagePosition"></span>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "name">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "gender">
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="male" <#if (post.postAttributeMap.get(list)[0] == "male")!> checked</#if> />${action.getText("Gender.male")}</label>
-								<label><input type="radio" name="el_${list.id}"<#if list.isRequired> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"</#if> value="female" <#if (post.postAttributeMap.get(list)[0] == "female")!> checked</#if> />${action.getText("Gender.female")}</label>
-								<span id="${list.id}MessagePosition"></span>
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "date">
-								<input type="text" name="el_${list.id}" class="formText datePicker {<#if list.isRequired>required: true, </#if>dateISO: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "area">
-								<input type="text" name="el_${list.id}" class="formText areaSelect<#if list.isRequired> {required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "address">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "zipCode">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>zipCode: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "mobile">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>mobile: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "phone">
-								<input type="text" name="el_${list.id}" class="formText {<#if list.isRequired>required: true, </#if>phone: true}" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "qq">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "msn">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "wangwang">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							<#elseif list.attributeType == "skype">
-								<input type="text" name="el_${list.id}" class="formText <#if list.isRequired>{required: true}</#if>" value="${(post.postAttributeMap.get(list)[0])!}" />
-								<#if list.isRequired><label class="requireField">*</label></#if>
-							</#if>
-						</td>
-					</tr>
-				</#list>
-			</table>
 			<div class="buttonArea">
 				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
 			</div>
 		</form>
+		</div></div>
 	
 <!-- add by welson 0728 -->	
 				</div><!-- /.col -->

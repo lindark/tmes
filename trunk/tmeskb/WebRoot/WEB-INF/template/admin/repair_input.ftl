@@ -205,6 +205,20 @@ body {
 													</#if>
 												</div>
 											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+												<div class="profile-info-value">
+													<#if show??>
+														${(repair.xmould)! }
+													<#else>
+													    <select name="repair.mould">
+													    	<#list list_dict as list>
+																<option value="${list.dictkey}"<#if (list.dictkey==repair.mould)!> selected</#if>>${list.dictvalue}</option>
+															</#list>
+														</select>
+													</#if>
+												</div>
+											</div>
 										</div>
 										<!--weitao end modify , gyf modify-->
 										<br/>

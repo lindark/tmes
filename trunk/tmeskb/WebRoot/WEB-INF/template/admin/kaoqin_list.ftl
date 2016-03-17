@@ -104,6 +104,10 @@
 	
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.xshift)!}</span>
+															&nbsp;&nbsp;
+															<span class="editable editable-click" id="age">${(admin.department.team.classSys)!}</span>
+															&nbsp;&nbsp;
+															<span class="editable editable-click" id="age">${(admin.department.team.basic)!}</span>
 														</div>
 													</div>	
 	                                                <div class="profile-info-row">
@@ -247,6 +251,13 @@
 					</#if>
 				</div>
 			</div>
+			<div class="profile-info-row">
+				<div class="profile-info-name">误工小时数：</div>
+				<div class="profile-info-value div-value">
+					<input type="text" id="input_hours" class=" input input-sm" />
+					<span id="span_hours" style="font-family: 微软雅黑;font-size: 10px;color: red;"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -260,10 +271,11 @@
 $(function(){
 	zhazha();
 	//员工状态编辑事件
-	emp_state();
+	//emp_state();
 });
 
 //员工状态编辑事件
+/*
 function emp_state()
 {
 	var i=0;
@@ -285,10 +297,11 @@ function emp_state()
 			index=index.substring(6,index.length);
 			edit_event(index);
 		});
-		*/
+		*//*
 		i+=1;
 	</#list>
 }
+*/
 /**
  * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
  */

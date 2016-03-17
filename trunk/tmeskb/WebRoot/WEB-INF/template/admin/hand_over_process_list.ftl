@@ -490,10 +490,33 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 							var url="hand_over!creditapproval.action?loginid="+loginid+"&shift="+shift+"&nowDate="+productDate;
 							credit.creditCard(url,function(data){
 								if(data.status=="success"){
+									if(data.info=="s")
+									{
+										$.message(data.status,data.message);
+									}
+									else if(data.info=="e")
+									{
+										layer.alert(data.message,{icon:7,closeBtn:0,title:"提示"},function(){
+											layer.closeAll();
+										});
+									}
+									else
+									{
+										layer.alert(data.message,{icon:7,closeBtn:0,title:"提示"},function(){
+											layer.closeAll();
+										});
+									}
 									$("#creditapproval").prop("disabled",true);
 									$("#creditsubmit").prop("disabled",true);
 									$("#sl_sh").prop("disabled",true);
-									$("#productDate").prop("disabled",true);	
+									$("#productDate").prop("disabled",true);
+								}
+								else
+								{
+									layer.alert(data.message, {
+								        icon:5,
+								        skin:'error'
+								    },function(){layer.closeAll();});
 								}
 							});
 						},function(){

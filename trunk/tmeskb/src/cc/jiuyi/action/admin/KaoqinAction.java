@@ -237,11 +237,11 @@ public class KaoqinAction extends BaseAdminAction
 		{
 			JSONObject obj=JSONObject.fromObject(Param);
 			//班组
-			if (obj.get("teams") != null)
+			/*if (obj.get("teams") != null)
 			{
 				String teams = obj.getString("teams").toString();
 				map.put("teams", teams);
-			}
+			}*/
 			//班次
 			if (obj.get("classtime") != null)
 			{
@@ -377,18 +377,38 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String creditundo()
 	{
+		HashMap<String, String> hashmap = new HashMap<String, String>();
 		if(!isnull())
 		{
 			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
 		}
+		String productdate=admin.getProductDate();//生产日期
+		String shift=admin.getShift();//班次
 		String str=this.kqService.mergeGoOffWork(this.sameTeamId,admin);
 		if("s".equals(str))
 		{
-			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+			//操作成功
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "您的操作已成功!");
+			return this.ajaxJson(hashmap);
+		}
+		else if("e".equals(str))
+		{
+			//操作错误
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "error");
+			hashmap.put(MESSAGE, "该班组已经下班,请刷新页面查看!");
+			return this.ajaxJson(hashmap);
 		}
 		else
 		{
-			return this.ajaxJsonErrorMessage("该班组已经下班,请刷新页面查看!");
+			//操作成功,考勤已保存过,提示本次不在保存
+			String xshift=ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses",shift);
+			hashmap.put("info", "t");
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "班组下班成功!班组:"+str+",生产日期:"+productdate+",班次:"+xshift+",已经记录到考勤,本次不再重复记录!");
+			return this.ajaxJson(hashmap);
 		}
 	}
 	

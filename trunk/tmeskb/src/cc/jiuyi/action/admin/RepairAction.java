@@ -20,9 +20,8 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
@@ -34,7 +33,6 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ProcessRouteService;
-import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.WorkingBillService;
@@ -71,6 +69,7 @@ public class RepairAction extends BaseAdminAction {
 	private String end;
 	private String start;
 	private String state;
+	private List<Dict>list_dict;
 
 	@Resource
 	private RepairService repairService;
@@ -80,8 +79,6 @@ public class RepairAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
-	@Resource
-	private ProcessService processService;
 	@Resource
 	private ProcessRouteService processRouteService;
 	@Resource
@@ -267,6 +264,7 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() 
 	{
+		this.list_dict=dictService.getList("dictname", "moudleType");
 		workingbill = workingBillService.get(workingBillId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		String productDate = workingbill.getProductDate();
@@ -285,6 +283,7 @@ public class RepairAction extends BaseAdminAction {
 	// 编辑
 	public String edit() 
 	{
+		this.list_dict=dictService.getList("dictname", "moudleType");
 		repair = repairService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
@@ -417,6 +416,10 @@ public class RepairAction extends BaseAdminAction {
 				}
 				repair.setXrepairtype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairtype",repair.getRepairtype()));//成品/子件
 			}
+			if(repair.getMould()!=null)
+			{
+				repair.setXmould(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType",repair.getMould()));//模具
+			}
 			lst.add(repair);
 		}
 		pager.setList(lst);
@@ -536,6 +539,10 @@ public class RepairAction extends BaseAdminAction {
 		{
 			repair.setResponseName(pr.getProcessName());
 		}
+		if(repair.getMould()!=null)
+		{
+			repair.setXmould(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType",repair.getMould()));//模具
+		}
 		this.show="show";
 		return INPUT;
 	}
@@ -556,6 +563,10 @@ public class RepairAction extends BaseAdminAction {
 		if(pr!=null)
 		{
 			repair.setResponseName(pr.getProcessName());
+		}
+		if(repair.getMould()!=null)
+		{
+			repair.setXmould(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType",repair.getMould()));//模具
 		}
 		this.show="show";
 		return INPUT;
@@ -792,7 +803,14 @@ public class RepairAction extends BaseAdminAction {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-	
-	
+
+	public List<Dict> getList_dict()
+	{
+		return list_dict;
+	}
+
+	public void setList_dict(List<Dict> list_dict)
+	{
+		this.list_dict = list_dict;
+	}
 }

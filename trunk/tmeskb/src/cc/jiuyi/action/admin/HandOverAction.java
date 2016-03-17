@@ -2,40 +2,27 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-
 import javax.annotation.Resource;
 
-
-
-
-
-
-
 import org.apache.struts2.convention.annotation.ParentPackage;
-
-
-
-
-
-
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.PumPackHandOver;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
-import cc.jiuyi.service.PumPackHandOverService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * 后台Action类 - 交接主表
@@ -43,6 +30,10 @@ import cc.jiuyi.util.CustomerException;
 @ParentPackage("admin")
 public class HandOverAction extends BaseAdminAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5686968301673723243L;
 	private List<WorkingBill> workingbillList;
 	private String cardnumber;
 	private String loginid;//当前登录人的ID
@@ -66,7 +57,7 @@ public class HandOverAction extends BaseAdminAction {
 	@Resource
 	private OddHandOverService oddHandOverService;
 	@Resource
-	private PumPackHandOverService pumPackHandOverService;
+	private DictService dictService;
 	
 	/**
 	 * 刷卡提交
@@ -121,7 +112,8 @@ public class HandOverAction extends BaseAdminAction {
 	public String creditapproval(){
 		Admin admin = adminservice.get(loginid);
 		workingbillList = workingbillservice.getListWorkingBillByDate(admin);//获取登录身份当班的所有随工单
-		
+		String productdate=admin.getProductDate();//生产日期
+		String shift=admin.getShift();//班次
 		Object[] workingbillIdList = new Object[workingbillList.size()];
 		for(int i=0;i<workingbillList.size();i++){
 			WorkingBill workingbill = workingbillList.get(i);
@@ -224,12 +216,33 @@ public class HandOverAction extends BaseAdminAction {
 			}
 			//以上跟SAP接口完全没有问题，成功后
 			
-			kaoqinservice.updateHandOver(handoverId, mblnr, admin);
-			
-			
-			
-			
-			
+			String str=kaoqinservice.updateHandOver(handoverId, mblnr, admin);
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			if("s".equals(str))
+			{
+				//操作成功
+				hashmap.put("info", str);
+				hashmap.put(STATUS, "success");
+				hashmap.put(MESSAGE, "您的操作已成功!");
+				return this.ajaxJson(hashmap);
+			}
+			else if("e".equals(str))
+			{
+				//操作错误
+				hashmap.put("info", str);
+				hashmap.put(STATUS, "success");
+				hashmap.put(MESSAGE, "该班组已经下班,无需再下班!");
+				return this.ajaxJson(hashmap);
+			}
+			else
+			{
+				//操作成功,考勤已保存过,提示本次不在保存
+				String xshift=ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses",shift);
+				hashmap.put("info", "t");
+				hashmap.put(STATUS, "success");
+				hashmap.put(MESSAGE, "班组下班成功!班组:"+str+",生产日期:"+productdate+",班次:"+xshift+",已经记录到考勤,本次不再重复记录!");
+				return this.ajaxJson(hashmap);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
@@ -240,10 +253,6 @@ public class HandOverAction extends BaseAdminAction {
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题");
 		}
-		
-		
-		
-		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 
 	public List<WorkingBill> getWorkingbillList() {

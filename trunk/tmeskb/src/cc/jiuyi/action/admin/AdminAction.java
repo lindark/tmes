@@ -1,7 +1,9 @@
 package cc.jiuyi.action.admin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -112,6 +114,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Admin>list_emp;
 	private String deptid;//部门ID
 	private String loginid;//登录人id
+	private String strDate;
 	
 	@Resource
 	private AdminService adminService;
@@ -1174,7 +1177,7 @@ public class AdminAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		pager = adminService.getAllEmp(pager,deptid,1);
+		pager = adminService.getAllEmp(pager,null,deptid,1);
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin> newlist=getNewAdminList(pagerlist);
@@ -1191,6 +1194,8 @@ public class AdminAction extends BaseAdminAction {
 	 */
 	public String addry()
 	{
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		this.strDate=sdf.format(new Date());
 		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
 		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
 		return "inputry";
@@ -1370,7 +1375,7 @@ public class AdminAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		pager = adminService.getAllEmp(pager,deptid,2);
+		pager = adminService.getAllEmp(pager,null,deptid,2);
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin>newlist=this.getNewAdminList3(pagerlist);
@@ -1443,7 +1448,7 @@ public class AdminAction extends BaseAdminAction {
 			pager.setOrderBy("modifyDate");
 		}
 		//需要查询条件,复杂查询
-		if(pager.is_search()==true && filters != null&&!"".equals(filters))
+		/*if(pager.is_search()==true && filters != null&&!"".equals(filters))
 		{
 			if(!filters.equals(""))
 			{
@@ -1455,8 +1460,36 @@ public class AdminAction extends BaseAdminAction {
 				pager.setRules(pager1.getRules());
 				pager.setGroupOp(pager1.getGroupOp());
 			}
+		}*/
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			//工号
+			if (obj.get("workNumber") != null)
+			{
+				String workNumber = obj.getString("workNumber").toString();
+				map.put("workNumber", workNumber);
+			}
+			//姓名
+			if (obj.get("name") != null)
+			{
+				String name = obj.getString("name").toString();
+				map.put("name", name);
+			}
+			//部门
+			if (obj.get("dept") != null)
+			{
+				String dept = obj.getString("dept").toString();
+				map.put("dept", dept);
+			}
+			if (obj.get("team") != null)
+			{
+				String team = obj.getString("team").toString();
+				map.put("team", team);
+			}
 		}
-		pager = adminService.getAllEmp(pager,deptid,3);
+		pager = adminService.getAllEmp(pager,map,deptid,3);
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin>newlist=this.getNewAdminList3(pagerlist);
@@ -1735,5 +1768,17 @@ public class AdminAction extends BaseAdminAction {
 	public void setWorknumber(String worknumber)
 	{
 		this.worknumber = worknumber;
+	}
+
+
+	public String getStrDate()
+	{
+		return strDate;
+	}
+
+
+	public void setStrDate(String strDate)
+	{
+		this.strDate = strDate;
 	}
 }

@@ -19,6 +19,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.security.AccountExpiredException;
@@ -76,6 +77,7 @@ import freemarker.template.TemplateHashModel;
 public class AdminAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5383463207248344967L;
+	private static Logger log = Logger.getLogger(AdminAction.class);  
 	
 	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring security 最后登录异常Session名称
 
@@ -236,20 +238,26 @@ public class AdminAction extends BaseAdminAction {
 	}
 	
 	// 后台首页
+	@SuppressWarnings("finally")
 	public String index() {
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		if(admin.getProductDate() != null && admin.getShift() != null){
-			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-			Collections.sort(workingbillList);
+		try{
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			if(admin.getProductDate() != null && admin.getShift() != null){
+				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				Collections.sort(workingbillList);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error(e);
+		}finally{
+			return "teamindex";
 		}
 		
 		/**weitao 此处处理条形码 begin**/
 		//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
 		//OneBarcodeUtil.createCode("我就测试一下", path);
-		
 		/**weitao end**/
-		return "teamindex";
 	}
 	// 后台质检首页弹出层
 	public String teamWorkingBill() {

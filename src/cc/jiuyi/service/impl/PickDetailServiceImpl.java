@@ -357,7 +357,6 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			pickService.update(pick);
 			List<PickDetail> pickDetailList = new ArrayList<PickDetail>(pick.getPickDetail());
 			updateWorkingInoutCalculateBack(pickDetailList);//往投入产出表中写数据
-			
 		}
 		//刷卡确认
 		@Override

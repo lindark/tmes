@@ -70,9 +70,10 @@ jQuery(function($) {
 			{name:'workNumber',index:'workNumber',label:"工号",width:100,editable: false,search:false,sortable:false},
 			{name:'phoneNo',index:'phoneNo',label:"手机号",width:100,editable: false,search:false,sortable:false},
 			{name:'xpost',label:"岗位",width:100,editable: false,search:false,sortable:false},
-			{name:'xstation',label:"工位",width:150,editable: false,search:false,sortable:false},
+			{name:'xstation',label:"模具组号",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkscope',label:"工作范围",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkstate',index:'workstate',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
+			{name:'tardyHours',label:"误工小时数",width:100,editable: false,search:false,sortable:false},
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 		], 
@@ -88,11 +89,10 @@ jQuery(function($) {
         gridComplete : function() {
         	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
         	 for ( var i = 0; i < ids.length; i++) {
-        		 var cl = ids[i];
-        		 var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-        		 var xid=rowData.id;
-        		 be = "<a onclick=edit_event('"+xid+"') href='javascript:void(0)'>[编辑]</a>";
-        		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
+        		var cl = ids[i];
+        		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
+        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workstate+"','"+rowData.tardyHours+"') href='javascript:void(0)'>[编辑]</a>";
+        		jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
         	 }
         },
 		loadComplete : function() {
@@ -201,6 +201,10 @@ jQuery(function($) {
 	//按钮事件
 	btn_style();
 	btn_event();
+	//输入小时数是否合法--change事件
+	$("#input_hours").change(function(){
+		hours_event();
+	});
 });
 
 //按钮事件
@@ -228,11 +232,31 @@ function btn_event()
 	});
 }
 
-//编辑事件
-function edit_event(index)
+//输入误工小时数是否合法--change事件
+function hours_event()
 {
-	var state=$("#input_state"+index).val();
-	$("#select_state").val(state);
+	var hours=$("#input_hours").val();
+	if(hours!=null&&hours!="")
+	{
+		var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
+		if(!reg.test(hours))
+		{
+			layer.alert("输入不合法!",false);
+			$("#input_hours").val("");
+		}
+		else
+		{
+			hours=setScale(hours,0,"");//精度
+			$("#input_hours").val(hours);
+		}
+	}
+}
+
+//编辑事件
+function edit_event(xid,workstate,tardyhours)
+{
+	$("#select_state").val(workstate);
+	$("#input_hours").val(tardyhours);
 	layer.open({
 		type:1,
 		title:"修改员工状态",
@@ -246,18 +270,19 @@ function edit_event(index)
 		yes:function(i){
 			layer.close(i);
 			var val=$("#select_state").val();
-			var txt=$("#select_state option:selected").text();
+			//var txt=$("#select_state option:selected").text();
+			var hours=$("#input_hours").val();
 			if(val!=state)
 			{
-				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+index;
-				upd_event(url,val,txt);
+				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+xid+"&admin.tardyHours="+hours;
+				upd_event(url);
 			}
 		}
 	});
 }
 
 //确认修改
-function upd_event(url,val,txt)
+function upd_event(url)
 {
 	$.ajax({	
 		url: url,
@@ -444,12 +469,26 @@ function gooffwork_event()
 						credit.creditCard(url,function(data){
 							if(data.status=="success")
 							{
-								$.message(data.status,data.message);
-								iswork="N";
-								iscancreditcard="Y";
-								$("#span_startkaoqin").text("考勤未开启");
-								$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
-								$("#grid-table").trigger("reloadGrid");
+								if(data.info=="s")
+								{
+									$.message(data.status,data.message);
+									iswork="N";
+									iscancreditcard="Y";
+									$("#span_startkaoqin").text("考勤未开启");
+									$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+									$("#grid-table").trigger("reloadGrid");
+								}
+								else
+								{
+									layer.alert(data.message,{icon:7,closeBtn:0,title:"提示"},function(){
+										layer.closeAll();
+										iswork="N";
+										iscancreditcard="Y";
+										$("#span_startkaoqin").text("考勤未开启");
+										$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+										$("#grid-table").trigger("reloadGrid");
+									});
+								}
 							}
 							else
 							{

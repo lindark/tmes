@@ -63,7 +63,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['单元编码','单元名称','工位','状态'],
+		colNames:['单元编码','单元名称','模具组号','状态'],
 		colModel:[
 			{name:'unitCode',index:'unitCode',sortable:true,editable: true},
 			{name:'unitName',index:'unitName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},

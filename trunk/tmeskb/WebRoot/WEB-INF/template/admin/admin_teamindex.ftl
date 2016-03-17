@@ -406,6 +406,7 @@
 															class="bigger-110 no-text-shadow">退回中转仓</span>
 													</button>
 												</div>
+												<!-- 
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="cartonreceiving">
 													<button
@@ -414,6 +415,7 @@
 															class="bigger-110 no-text-shadow">超市领料</span>
 													</button>
 												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="returnProduct">
 													<button                                               
@@ -422,6 +424,15 @@
 															class="bigger-110 no-text-shadow">部门领用</span>
 													</button>
 												</div>
+												
+												<div class="col-md-3 col-sm-4" style="padding:2px;">
+													<button                                               
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="updown" type="button">
+														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">上架/下架</span>
+													</button>
+												</div>
+												
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												
 

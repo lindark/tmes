@@ -23,7 +23,7 @@ public class Locationonside extends BaseEntity {
 	private String amount;//数量
 	private String charg;//批次
 	private String isDel;//是否删除
-	
+	private String lgpla;//仓位
 	
 	/**
 	 * 假字段
@@ -96,6 +96,14 @@ public class Locationonside extends BaseEntity {
 
 	public void setBoxMount(Double boxMount) {
 		this.boxMount = boxMount;
+	}
+
+	public String getLgpla() {
+		return lgpla;
+	}
+
+	public void setLgpla(String lgpla) {
+		this.lgpla = lgpla;
 	}
 	
 	

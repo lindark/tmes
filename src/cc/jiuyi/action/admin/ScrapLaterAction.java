@@ -19,12 +19,15 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapLater;
+import cc.jiuyi.entity.ScrapMessage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ScrapLaterService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -49,6 +52,11 @@ public class ScrapLaterAction extends BaseAdminAction
 	
 	private Admin admin;
 	private WorkingBill workingbill;//随工单
+	private String slmatterNum;
+	private String state;
+	private String start;
+	private String end;
+	private String slmatterDes;
 	
 	private String wbId;//随工单id	
 	
@@ -94,10 +102,15 @@ public class ScrapLaterAction extends BaseAdminAction
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
+			if (obj.get("slmatterNum") != null) {
+				String slmatterNum = obj.getString("slmatterNum")
 						.toString();
-				map.put("maktx", maktx);
+				map.put("slmatterNum", slmatterNum);
+			}
+			if (obj.get("slmatterDes") != null) {
+				String slmatterDes = obj.getString("slmatterDes")
+						.toString();
+				map.put("slmatterDes", slmatterDes);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state")
@@ -109,7 +122,7 @@ public class ScrapLaterAction extends BaseAdminAction
 				String end = obj.get("end").toString();
 				map.put("start", start);
 				map.put("end", end);
-			}
+			}			
 		}
 		pager = scrapLaterService.getLaterPager(pager, map);
 		List<ScrapLater> scrapLaterList = pager.getList();
@@ -120,7 +133,10 @@ public class ScrapLaterAction extends BaseAdminAction
 			scrapLater.setWorkingbill(scrapLater.getScrap().getWorkingBill().getWorkingBillCode());
 			scrapLater.setProductName(wbService.get(
 					scrapLater.getScrap().getWorkingBill().getId()).getMaktx());
-			scrapLater.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrapLater.getScrap().getState()));
+			scrapLater.setProductNo(wbService.get(
+					scrapLater.getScrap().getWorkingBill().getId()).getMatnr());
+			scrapLater.setState(scrapLater.getScrap().getState());
+			scrapLater.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrapLater.getScrap().getState()));
 			lst.add(scrapLater);
 		}
 		pager.setList(lst);
@@ -132,6 +148,54 @@ public class ScrapLaterAction extends BaseAdminAction
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
+	
+	//Excel导出 @author Reece 2016/3/8
+		public String excelexport(){
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("slmatterNum", slmatterNum);
+			map.put("slmatterDes", slmatterDes);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+			
+			
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+	        header.add("随工单号");
+	        header.add("产品名称");
+	        header.add("产品编码");
+	        header.add("物料编码");
+	        header.add("物料描述");
+	        header.add("报废产出日期");
+	        header.add("物料数量");
+	        header.add("状态");
+	        
+	        List<Object[]> workList = scrapLaterService.historyExcelExport(map);
+	        for(int i=0;i<workList.size();i++){
+	        	Object[] obj = workList.get(i);
+	        	ScrapLater scrapLater = (ScrapLater) obj[0];
+	        	Scrap scrap = (Scrap)obj[1];
+	        	
+	        	Object[] bodyval = {scrap.getWorkingBill().getWorkingBillCode(),scrap.getWorkingBill().getMaktx(),scrap.getWorkingBill().getMatnr()
+	        			            ,scrapLater.getSlmatterNum(),scrapLater.getSlmatterDes()
+	        						,scrapLater.getCreateDate()
+	        						,scrapLater.getSlmatterCount()
+	        						//,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
+	        						,ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrap.getState())};
+	        	body.add(bodyval);
+	        }
+			
+			try {
+				String fileName = "报废产出记录表"+".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("报废产出记录表", header, body, getResponse().getOutputStream());
+				getResponse().getOutputStream().flush();
+			    getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}		
 
 	public Admin getAdmin() {
 		return admin;
@@ -157,4 +221,45 @@ public class ScrapLaterAction extends BaseAdminAction
 		return dictService.getList("dictname", "scrapState");
 	}
 
+	public String getSlmatterNum() {
+		return slmatterNum;
+	}
+
+	public void setSlmatterNum(String slmatterNum) {
+		this.slmatterNum = slmatterNum;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getSlmatterDes() {
+		return slmatterDes;
+	}
+
+	public void setSlmatterDes(String slmatterDes) {
+		this.slmatterDes = slmatterDes;
+	}
+
+	
 }

@@ -45,7 +45,7 @@ jQuery(function($) {
 			{name:'xteam',label:"班组",width:100,fixed:true,index:'team.teamName', editable: true},
 			{name:'workNumber',label:"工号",width:80,fixed:true,index:'workNumber',editable:true},
 			{name:'name',label:"姓名",width:80,fixed:true,index:'name', editable: true},
-			{name:'xparentAdmin',label:"直接上级",width:50,fixed:true,index:'parentAdmin', editable: true},
+			{name:'xparentAdmin',label:"直接上级",width:50,fixed:true,index:'parentAdmin.name', editable: true},
 			{name:'cardNumber',label:"卡号",width:100,fixed:true,index:'cardNumber', editable: true},
 			{name:'xpost',label:"岗位",width:100,fixed:true,index:'post.postName', editable: true},
 			{name:'xworkscope',label:"模具组号",width:100,fixed:true,index:'', editable: true},
@@ -58,7 +58,7 @@ jQuery(function($) {
 			{name:'xsex',label:"性别",width:50,fixed:true,index:'sex', editable: true},
 			{name:'xisJob',label:"是否离职",width:50,fixed:true,index:'isJob', editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
-			{name:'xempCreater',index:'empCreater',label:"创建人",width:80,fixed:true,editable: true}
+			{name:'xempCreater',index:'empCreater.name',label:"创建人",width:80,fixed:true,editable: true}
 		], 
 
 		viewrecords : true,

@@ -65,11 +65,12 @@ jQuery(function($) {
 		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
+			{name:'workNumber',index:'workNumber',label:"工号",width:100, editable: false},
 			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
 			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
 			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
-			{name:'departName',index:'department',label:"所在部门",width:100, editable: false},
-			{name:'xparentAdmin',index:'parentAdmin',label:"直接上级",width:100, editable: false},
+			{name:'departName',index:'department.departName',label:"所在部门",width:100, editable: false},
+			{name:'xparentAdmin',index:'parentAdmin.name',label:"直接上级",width:100, editable: false},
 			{name:'xisJob',index:'isJob',label:"是否离职",width:100, editable: false}
 		], 
 

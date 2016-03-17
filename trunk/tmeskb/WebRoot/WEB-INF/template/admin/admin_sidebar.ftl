@@ -655,16 +655,16 @@
 							
 							
 							<li class="" >
-								<a href="deptpick!history.action" style="font-size:12px;color:purple">
+								<a href="deptpick!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
-									部门领用记录 ing
+									部门领用记录
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 							
 							<li class="" >
-								<a href="return_product!history.action" style="font-size:12px;">
+								<a href="return_product!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									退回中转仓记录
 								</a>
@@ -730,6 +730,15 @@
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品巡检记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									上/下架记录
 								</a>
 
 								<b class="arrow"></b>

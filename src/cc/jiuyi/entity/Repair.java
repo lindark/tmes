@@ -8,8 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.compass.annotations.Searchable;
-
 /**
  * 实体类——返修
  * 
@@ -40,6 +38,7 @@ public class Repair extends BaseEntity {
 	private String EX_MBLNR;//物料凭证
 	private String costcenter;//成本中心
 	private String CXORJC;//成型/挤出
+	private String mould;//模具
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -50,6 +49,7 @@ public class Repair extends BaseEntity {
 	
 	//假字段
 	private String xrepairtype;//成品/子件
+	private String xmould;//模具
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -314,6 +314,27 @@ public class Repair extends BaseEntity {
 	public void setCXORJC(String cXORJC)
 	{
 		CXORJC = cXORJC;
+	}
+
+	public String getMould()
+	{
+		return mould;
+	}
+
+	public void setMould(String mould)
+	{
+		this.mould = mould;
+	}
+
+	@Transient
+	public String getXmould()
+	{
+		return xmould;
+	}
+
+	public void setXmould(String xmould)
+	{
+		this.xmould = xmould;
 	}
 	
 }

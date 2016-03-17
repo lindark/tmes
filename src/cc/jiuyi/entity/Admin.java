@@ -134,6 +134,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Department>creater;//部门创建人
 	private Set<UpDown> updownSet;//上架/下架
 	private Team team;//班组
+	private Set<Kaoqin>empSet;//考勤员工
 	
 	//假字段
 	private String xdeptcode;//部门编码
@@ -477,10 +478,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	}
 
 	public void setIsAccountEnabled(Boolean isAccountEnabled) {
-		if(isAccountEnabled==null)
-		{
-			isAccountEnabled=false;
-		}
 		this.isAccountEnabled = isAccountEnabled;
 	}
 
@@ -1235,5 +1232,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setEmpCreaterqxSet(Set<Admin> empCreaterqxSet)
 	{
 		this.empCreaterqxSet = empCreaterqxSet;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="emp")
+	public Set<Kaoqin> getEmpSet()
+	{
+		return empSet;
+	}
+
+	public void setEmpSet(Set<Kaoqin> empSet)
+	{
+		this.empSet = empSet;
 	}
 }

@@ -73,7 +73,7 @@ jQuery(function($) {
 				updatePagerIcons(table);
 				enableTooltips(table);
 				
-				ceshi(table);
+				//ceshi(table);
 				
 			}, 0);
 		},
@@ -84,18 +84,23 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	function ceshi(table){
-		$(table).find("tr").bind("click",function(){
-			//alert("?");
-			
-		})
-		
-		$(table).find(".cbox").bind("click",function(){
-			var id=$(grid_selector).jqGrid('getGridParam','selrow');
-			var rowData = $(grid_selector).jqGrid('getRowData',id);
-			//alert(rowData.matnr);
-		})
-	}
+	/*
+	jQuery(grid_selector).jqGrid('columnChooser', {
+		   done : function (perm) {
+		      if (perm) {
+		          // "OK" button are clicked
+		          this.jqGrid("remapColumns", perm, true);
+		          // the grid width is probably changed co we can get new width
+		          // and adjust the width of other elements on the page
+		          //var gwdth = this.jqGrid("getGridParam","width");
+		          //this.jqGrid("setGridWidth",gwdth);
+		          $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+		      } else {
+		          // we can do some action in case of "Cancel" button clicked
+		      }
+		   }
+		});
+	*/
 	
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,

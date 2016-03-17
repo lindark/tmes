@@ -96,9 +96,9 @@ inupt.stockMout{
 									<div>
 										<#if isAdd??>
 											<label class="" style="text-align:right">发出仓位:</label>
-											<input type="text" name="lgpla" value="${(lgpla)! }">&nbsp;&nbsp;&nbsp;
+											<input type="text" name="lgpla" <#if type='up'> readonly </#if> value="${(lgpla)! }">&nbsp;&nbsp;&nbsp;
 											<label class="" style="text-align:right">接收仓位:</label>
-											<input type="text" name="lgplaun" value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp;
+											<input type="text" name="lgplaun" <#if type="down"> readonly </#if> value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp;
 											<input type="hidden" name="type" value="${(type)! }"/>
 											<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
 											<!-- 

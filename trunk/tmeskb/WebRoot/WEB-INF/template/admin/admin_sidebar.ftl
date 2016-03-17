@@ -898,7 +898,7 @@
 			</li>
 			<li class="">
 				<a href="" class="dropdown-toggle">
-					<i class="menu-icon fa fa-video-camera"></i>
+					<i class="menu-icon fa fa-users"></i>
 					<span class="menu-text">人事管理</span>
 
 					<b class="arrow fa fa-angle-down"></b>

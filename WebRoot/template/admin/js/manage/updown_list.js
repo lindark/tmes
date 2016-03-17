@@ -43,6 +43,9 @@ jQuery(function($) {
 			
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',label:"创建日期",width:150,index:'createDate',editable:false,formatter:datefmt},
+			{name:'productDate',label:"生产日期",width:150,index:'productDate',editable:false},
+			{name:'shiftx',label:"班次",width:50,index:'shift',editable:false},
+			{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},
 			{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},
 			{name:'maktx',label:"物料描述",width:150,index:'maktx',editable:false},
 			{name:'charg',label:"批次",width:100,index:'charg', editable: false},

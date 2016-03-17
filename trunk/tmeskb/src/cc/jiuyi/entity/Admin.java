@@ -132,6 +132,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Deptpick> comfirmUserSet;//部门领料审批人
 	private Set<Department>deptLeader;//部门负责人
 	private Set<Department>creater;//部门创建人
+	private Set<UpDown> updownSet;//上架/下架
 	private Team team;//班组
 	
 	//假字段
@@ -150,6 +151,16 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xsex;//性别
 	private String xrole;//管理角色
 	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="appvaladmin")
+	public Set<UpDown> getUpdownSet() {
+		return updownSet;
+	}
+
+	public void setUpdownSet(Set<UpDown> updownSet) {
+		this.updownSet = updownSet;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
 	public Set<Deptpick> getCreateUserSet() {
 		return createUserSet;

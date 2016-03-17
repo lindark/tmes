@@ -65,6 +65,10 @@
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									下架管理
 								</a>
+								<a id="btn_updown" class="btn btn-white btn-default btn-sm btn-round">
+									<i class="ace-icon fa fa-cloud-upload"></i>
+									仓位移动
+								</a>
 								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看
@@ -164,6 +168,11 @@
 			window.location.href="up_down!add.action?type=down"
 		})
 		
+		$("#btn_updown").click(function(){
+			window.location.href="up_down!add.action?type=updown";
+			
+		})
+		
 		/**
 		查看
 		**/
@@ -180,6 +189,10 @@
 			}else{
 				window.location.href="up_down!view.action?id="+id;				
 			}	
+		})
+		
+		$("#btn_back").click(function(){
+			window.location.href="admin!index.action";			
 		})
 		
 	})

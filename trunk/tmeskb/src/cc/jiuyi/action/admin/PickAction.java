@@ -538,7 +538,8 @@ public class PickAction extends BaseAdminAction {
 				Pick pick = list.get(i);
 				pick.setState(REPEAL);
 				pick.setConfirmUser(admin);
-				pickService.update(pick);				
+				pickService.update(pick);
+				//pickDetailService.updatePIckAndWork(pick);//往投入产出表
 			}
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}

@@ -40,11 +40,15 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[	
 		    {name:'workingbill',label:"随工单",index:'workingbill', width:100,sortable:"true",sorttype:"text"},
-		    {name:'productName',label:"产品名称",index:'productName', width:100,sortable:"true",sorttype:"text"},			           
-			{name:'slmatterNum',index:'slmatterNum', label:"物料编码", editable: false},
-			{name:'slmatterDes',label:"物料描述",width:200,index:'slmatterDes', editable: false,sortable:"true"},
+		    {name:'productName',label:"产品名称",index:'productName', width:160,sortable:"true",sorttype:"text"},			           
+		    {name:'productNo',label:"产品编号",index:'productNo', width:100,sortable:"true",sorttype:"text"},
+		    {name:'slmatterNum',index:'slmatterNum', label:"物料编码",width:60, editable: false},
+			{name:'slmatterDes',label:"物料描述",width:120,index:'slmatterDes', editable: false,sortable:"true"},
+			{name:'createDate',index:'createDate',label:"报废日期", width:120,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'slmatterCount',label:"物料数量",index:'slmatterCount', width:100,sortable:"true",sorttype:"text"},
-			{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
+			{name:'xstate',index:'scrap.state',label:"状态",width:100,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
+		//	{name:'state',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}}
 		], 
 
 		viewrecords : true,
@@ -70,7 +74,7 @@ jQuery(function($) {
 		},
 
 		editurl: "scrap!delete.action",//用它做标准删除动作
-		caption: "历史报废单"
+		caption: "历史报废产出单"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

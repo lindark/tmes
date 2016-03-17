@@ -565,12 +565,12 @@ body {
 
 			});
 
-			$(".edit").livequery("click", function() {
+			$(".edit").live("click", function() {
 				$(this).prev().prev().attr("disabled", false);
 
 			})
 
-			$(".deleteButton").livequery("click", function() {
+			$(".deleteButton").live("click", function() {
 				if ($(".zg").length > 1) {
 					$(this).parent().parent().remove();
 				} else {

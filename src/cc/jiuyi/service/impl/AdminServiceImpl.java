@@ -263,6 +263,10 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		admin.setIsAccountLocked(false);
 		admin.setIsAccountExpired(false);
 		admin.setIsCredentialsExpired(false);
+		if(admin.getIsAccountEnabled()==null)
+		{
+			admin.setIsAccountEnabled(false);
+		}
 		if(roleList!=null)
 		{
 			admin.setRoleSet(new HashSet<Role>(roleList));//管理角色
@@ -339,7 +343,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	/**
 	 * 查询所有员工
 	 */
-	public Pager getAllEmp(Pager pager,String deptid,int my_id)
+	public Pager getAllEmp(Pager pager,HashMap<String, String> map,String deptid,int my_id)
 	{
 		List<String> list_str = new ArrayList<String>();
 		if(deptid!=null&&!"".equals(deptid))
@@ -352,7 +356,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 				list_str.add(dt.getId());
 			}
 		}
-		return this.adminDao.getAllEmp(pager,list_str,my_id);
+		return this.adminDao.getAllEmp(pager,map,list_str,my_id);
 	}
 
 	/**
@@ -404,7 +408,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			a.setUnitdistributeModelSet(null);
 		}
 		//姓名 性别  身份证号 联系电话 工号 卡号 E-mail 直接上级 部门 岗位 模具组号 工作范围 班组 是否离职 入职日期
-		// 入职日期
+		// 
 		a.setName(admin.getName());//姓名
 		a.setSex(admin.getSex());//性别
 		a.setIdentityCard(admin.getIdentityCard());//身份证号
@@ -417,6 +421,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		a.setPost(admin.getPost());//岗位
 		a.setTeam(admin.getTeam());//班组
 		a.setIsDel(admin.getIsDel());//是否离职
+		a.setStartWorkDate(admin.getStartWorkDate());//入职日期
 		a.setModifyDate(new Date());//修改日期
 		this.update(a);
 	}

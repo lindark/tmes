@@ -27,7 +27,16 @@ public interface LocationonsideRfc extends BaserfcService {
 	 * @return 
 	 */
 	public List<Locationonside> findWarehouse1(String warehouse,String werks) throws IOException, CustomerException;
-	
+	/**
+	 * 
+	 * @param werks 工厂
+	 * @param lgort  库存地点
+	 * @param matnr 物料号
+	 * @param lgpla 库位
+	 * @param maktx 物料描述
+	 * @return
+	 * @throws IOException
+	 */
 	public List<HashMap<String, String>> findMaterial(String werks,
 			String lgort, String matnr,String lgpla,String maktx) throws IOException;
 }

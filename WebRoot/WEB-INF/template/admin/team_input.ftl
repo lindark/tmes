@@ -100,11 +100,22 @@ body{background:#fff;}
 							<div class="profile-info-row">
 								<div class="profile-info-name"> 班组名称 </div>					
 								<div class="profile-info-value">
-									<input id="team_name" type="text" name="team.teamName" value="${(team.teamName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+									<input id="team_name" type="text" name="team.teamName" value="${(team.teamName)!}" class=" input input-sm  formText {required: true}" />
 									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_tname" class="mymust"></span>
 								</div>
 							</div>
-							
+							<div class="profile-info-row">
+								<div class="profile-info-name">班制 </div>					
+								<div class="profile-info-value">
+									<input type="text" name="team.classSys" value="${(team.classSys)!}" class=" input input-sm" />
+								</div>
+							</div>
+							<div class="profile-info-row">
+								<div class="profile-info-name">基本</div>					
+								<div class="profile-info-value">
+									<input type="text" name="team.basic" value="${(team.basic)!}" class=" input input-sm" />
+								</div>
+							</div>
 							<div class="profile-info-row">
 								<div class="profile-info-name"> 单元名称 </div>					
 								<div class="profile-info-value">

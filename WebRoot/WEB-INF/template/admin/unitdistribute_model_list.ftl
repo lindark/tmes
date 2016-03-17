@@ -57,7 +57,7 @@
 										</div>
 										
 										
-										<label class="col-sm-1" style="text-align:right">工位:</label>
+										<label class="col-sm-1" style="text-align:right">模具组号:</label>
 										<div class="col-sm-4">
 											<input type="text" name="station" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>

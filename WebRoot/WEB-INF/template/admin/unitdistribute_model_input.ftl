@@ -107,7 +107,7 @@ body {
 											</div> 
 											
 											<div class="profile-info-row">
-												<div class="profile-info-name">工位</div>
+												<div class="profile-info-name">模具组号</div>
 												<div class="profile-info-value">
 													<input type="text" name="unitdistributeModel.station"
 														value="${(unitdistributeModel.station)!}"

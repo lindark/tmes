@@ -17,6 +17,7 @@ public class Kaoqin extends BaseEntity{
 	
 	private String cardNumber;//卡号
 	private String classtime;//班次
+	private Admin emp;//员工
 	private String empname;//名字
 	private String postname;//技能名称
 	private Team team;// 班组
@@ -92,5 +93,14 @@ public class Kaoqin extends BaseEntity{
 	public void setTeam(Team team)
 	{
 		this.team = team;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public Admin getEmp()
+	{
+		return emp;
+	}
+	public void setEmp(Admin emp)
+	{
+		this.emp = emp;
 	}
 }

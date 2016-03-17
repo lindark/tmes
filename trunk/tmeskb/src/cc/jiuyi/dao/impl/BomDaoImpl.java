@@ -204,7 +204,7 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	@Override
 	public Integer getMaxversion(String shif, String orderId,
 			String materialCode) {
-		String hql="select max(a.version) from Bom a where a.shift = ? and a.orders.id =? and a.materialCode=?";
-		return (Integer)getSession().createQuery(hql).setParameter(0, shif).setParameter(1, orderId).setParameter(2, materialCode).uniqueResult();
+		String hql="select max(a.version) from Bom a where a.orders.id =? and a.materialCode=?";
+		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, materialCode).uniqueResult();
 	}
 }

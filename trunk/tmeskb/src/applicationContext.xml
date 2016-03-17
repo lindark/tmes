@@ -191,6 +191,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.UnitdistributeModel</value>
 				<value>cc.jiuyi.entity.Deptpick</value>
 				<value>cc.jiuyi.entity.Mouldmaterial</value>
+				<value>cc.jiuyi.entity.UpDown</value>
 			</list>
 		</property>
 	</bean>

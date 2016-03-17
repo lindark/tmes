@@ -17,13 +17,13 @@
 					<i class="ace-icon fa fa-signal"></i>
 				</a>
 
-				<a href="product!add.action"  class="btn btn-info">
+				<a href="working_inout!list.action"  class="btn btn-info">
 					<i class="ace-icon fa fa-pencil"></i>
 					
 				</a>
 
 				<!-- #section:basics/sidebar.layout.shortcuts -->
-				<a href="member!list.action"  class="btn btn-warning">
+				<a href="admin!alllistry.action"  class="btn btn-warning">
 					<i class="ace-icon fa fa-users"></i>
 				</a>
 
@@ -984,16 +984,16 @@
 
 						<b class="arrow"></b>
 					</li>
-
-					<li class="">
-						<a href="payment_config!list.action" >
-							<i class="menu-icon"></i>
-							支付设置
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					
+					<!-- 
+						<li class="">
+							<a href="payment_config!list.action" >
+								<i class="menu-icon"></i>
+								支付设置
+							</a>
+	
+							<b class="arrow"></b>
+						</li>
+					 -->
 					<li class="">
 						<a href="department!list.action" >
 							<i class="menu-icon"></i>

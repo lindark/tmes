@@ -21,6 +21,7 @@ $(function() {
 	var $scenecheck=$("#scenecheck");//现场检验
 	var $barcode = $(".barcode");//条码打印
 	var $deptpk = $("#deptpk");//部门领料
+	var $updown = $("#updown");//上架/下架
 	
 	$table00.find("tbody tr").click(function(){
 		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
@@ -337,6 +338,13 @@ $(function() {
 		var istrue = init.notCheck();
 		if(istrue){
 			window.location.href="deptpick!list.action";
+		}
+	});
+	
+	$updown.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			window.location.href="up_down!list.action";
 		}
 	});
 	

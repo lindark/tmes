@@ -188,6 +188,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		r.setRepairPart(repair.getRepairPart());//返修部位
 		r.setDuty(repair.getDuty());//责任人/批次
 		r.setProcessCode(repair.getProcessCode());//责任工序
+		r.setMould(repair.getMould());//模具
 		r.setModifyDate(new Date());//修改日期
 		//r.setCreateUser(admin);
 		this.update(r);

@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -51,6 +52,7 @@ public class PickAction extends BaseAdminAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 6045295823911487260L;
+	public static Logger log = Logger.getLogger(PickAction.class);
 
 	private static final String UNCHECK="1";//未确认
 	private static final String CONFIRMED = "2";//已确认
@@ -480,6 +482,12 @@ public class PickAction extends BaseAdminAction {
 						pickReturn.setConfirmUser(admin);
 						HashMap<String, Object> map = new HashMap<String, Object>();
 						pickDetailService.updatePIckAndWork(pickReturn, map);
+						/**监听日志**/
+						List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
+						for (int j = 0; j < lst.size(); j++) {
+							PickDetail pld = lst.get(j);
+							log.info("更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+						}
 					}
 				}
 				if (!flag)
@@ -598,6 +606,12 @@ public class PickAction extends BaseAdminAction {
 							pickReturn.setState(REPEAL);
 							pickReturn.setConfirmUser(admin);
 							pickDetailService.updatePIckAndWork(pickReturn);
+							/**监听日志**/
+							List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
+							for (int j = 0; j < lst.size(); j++) {
+								PickDetail pld = lst.get(j);
+								log.info("撤销!!!!更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+							}
 						}
 					}
 					if (!flag)

@@ -41,13 +41,23 @@ body {
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-							<form class="form-horizontal" id="searchform" action="kaoqin!getemp.action" role="form">
+							<form class="form-horizontal" id="searchform" action="admin!ajlistempqxn.action" role="form">
 								<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-2" style="text-align:right;">员工姓名:</label>
+										<label class="col-sm-2" style="text-align:right;">工号</label>
+										<div class="col-sm-4">
+											<input type="text" name="workNumber" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+										<label class="col-sm-2" style="text-align:right;">员工姓名</label>
 										<div class="col-sm-4">
 											<input type="text" name="name" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2" style="text-align:right;">部门</label>
+										<div class="col-sm-4">
+											<input type="text" name="dept" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										<label class="col-sm-2" style="text-align:right;">班组:</label>
 										<div class="col-sm-4">

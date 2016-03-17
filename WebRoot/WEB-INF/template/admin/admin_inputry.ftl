@@ -189,8 +189,7 @@ body{background:#fff;}
 					<div class="profile-info-value">
 						<img id="img_team" title="班组" alt="班组" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
 						<span id="span_teamname">${(admin.team.teamName)! }</span>
-						<input type="hidden" id="input_team" name="admin.team.id" value="${(admin.team.id)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
-						<label class="requireField">*</label>
+						<input type="hidden" id="input_team" name="admin.team.id" value="${(admin.team.id)! }" class="col-xs-10 col-sm-5" />
 					</div>
 					<div class="profile-info-name">是否离职</div>
 					<div class="profile-info-value">
@@ -211,7 +210,11 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">入职日期</div>
 					<div class="profile-info-value">
-						<input type="text" name="admin.startWorkDate" class="datePicker" value="${(admin.startWorkDate)!}" />
+						<#if isAdd??>
+							<input type="text" name="admin.startWorkDate" class="datePicker" value="${(strDate)! }" />
+						<#else>
+							<input type="text" name="admin.startWorkDate" class="datePicker" value="${(admin.startWorkDate)!}" />
+						</#if>
 					</div>
 				</div>
 			</div>

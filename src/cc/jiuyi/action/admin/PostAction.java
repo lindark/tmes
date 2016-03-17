@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,6 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PostService;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
-
 /**
  * 后台Action类-工序管理
  */
@@ -41,7 +37,7 @@ public class PostAction extends BaseAdminAction {
 	 */
 	private static final long serialVersionUID = -433964280757192334L;
 
-	private Post post;
+	private Post xpost;
 	//获取所有状态
 	private List<Dict> allState;
 	
@@ -152,31 +148,23 @@ public class PostAction extends BaseAdminAction {
 	
 	//编辑
 		public String edit(){
-			post= postService.load(id);
+			xpost= postService.load(id);
 			return INPUT;	
 		}
 		
 	//更新
-		@InputConfig(resultName = "error")
 		public String update() {
-			Post persistent = postService.load(id);
-			BeanUtils.copyProperties(post, persistent, new String[] { "id","createDate", "modifyDate"});
+			Post persistent = postService.get(id);
+			BeanUtils.copyProperties(xpost, persistent, new String[] { "id","createDate", "modifyDate"});
+			persistent.setModifyDate(new Date());
 			postService.update(persistent);
 			redirectionUrl = "post!list.action";
 			return SUCCESS;
 		}
 		
 	//保存
-	@Validations(
-			requiredStrings = {
-					@RequiredStringValidator(fieldName = "post.postCode", message = "岗位编号不允许为空!"),
-					@RequiredStringValidator(fieldName = "post.postName", message = "岗位名称不允许为空!")
-			  }
-			  
-	)
-	@InputConfig(resultName = "error")
-	public String save()throws Exception{
-		postService.save(post);
+	public String save(){
+		postService.save(xpost);
 		redirectionUrl="post!list.action";
 		return SUCCESS;	
 	}
@@ -228,46 +216,33 @@ public class PostAction extends BaseAdminAction {
 
 	/**========================================*/
 
-
-	public Post getPost() {
-		return post;
-	}
-
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
-
-
 	public PostService getPostService() {
 		return postService;
 	}
-
-
 	public void setPostService(PostService postService) {
 		this.postService = postService;
 	}
-
 
 	//获取所有状态
 	public List<Dict> getAllState() {
 		return dictService.getList("dictname", "StateRemark");
 	}
 
-
 	public void setAllState(List<Dict> allState) {
 		this.allState = allState;
 	}
-
-
 	public DictService getDictService() {
 		return dictService;
 	}
-
-
 	public void setDictService(DictService dictService) {
 		this.dictService = dictService;
 	}
-	
-	
+	public Post getXpost()
+	{
+		return xpost;
+	}
+	public void setXpost(Post xpost)
+	{
+		this.xpost = xpost;
+	}
 }

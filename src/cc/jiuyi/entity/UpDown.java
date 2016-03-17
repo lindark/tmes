@@ -31,10 +31,11 @@ public class UpDown extends BaseEntity {
 	private String tanum;//转储单号
 	private String tapos;//转出单行项目号
 	private String adminname;//确认人名称
-	private String typex;//类型描述
 	private String productDate;//生产日期
 	private String shift;//班次
 	
+	private String typex;//类型描述
+	private String shiftx;//班次描述
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Admin getAppvaladmin() {
@@ -148,6 +149,12 @@ public class UpDown extends BaseEntity {
 	}
 	public void setShift(String shift) {
 		this.shift = shift;
+	}
+	public String getShiftx() {
+		return shiftx;
+	}
+	public void setShiftx(String shiftx) {
+		this.shiftx = shiftx;
 	}
 	
 	

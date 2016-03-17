@@ -99,8 +99,6 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 	@Override
 	public List<HashMap<String, String>> findMaterial(String werks,
 			String lgort, String matnr,String lgpla) throws IOException {
-		try
-		{
 			List<HashMap<String,String>> arrList = new ArrayList<HashMap<String,String>>();
 			super.setProperty("materiallqua");//根据配置文件读取到函数名称
 			/******输入参数******/
@@ -132,16 +130,10 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 				map.put("lenum", ET_ITEM.getString("LENUM"));//仓储单位编号
 				map.put("sequ", ET_ITEM.getString("SEQU"));//整数
 				map.put("nlpla", ET_ITEM.getString("NLPLA"));//目的地仓位
-				
+				map.put("maktx", ET_ITEM.getString("MAKTX"));//物料描述
 				arrList.add(map);
 			}
 			return arrList;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return null;
 		
 		
 	}

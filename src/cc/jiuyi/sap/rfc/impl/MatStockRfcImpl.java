@@ -14,12 +14,16 @@ import cc.jiuyi.sap.rfc.MatStockRfc;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
+import cc.jiuyi.util.ThinkWayUtil;
 @Component
 public class MatStockRfcImpl extends BaserfcServiceImpl implements MatStockRfc{
 
 	@Override
 	public List<HashMap<String, String>> getMatStockList(List<HashMap<String, String>> list) throws IOException,CustomerException {
 		super.setProperty("matstock");//获取函数名称
+		/*****输入参数*****/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("IM_TYPE","" );//是否查看仓位库存
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
@@ -28,13 +32,16 @@ public class MatStockRfcImpl extends BaserfcServiceImpl implements MatStockRfc{
 		for(int i=0;i<list.size();i++){
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			if(!list.get(i).get("matnr").equals("")&&!list.get(i).get("lgort").equals("")){
-				item.put("MATNR", list.get(i).get("matnr"));//物料编码
-				item.put("LGORT", list.get(i).get("lgort"));//库存地点
+				item.put("MATNR", ThinkWayUtil.null2String(list.get(i).get("matnr")));//物料编码
+				item.put("LGORT", ThinkWayUtil.null2String(list.get(i).get("lgort")));//库存地点
+				item.put("LGPLA", ThinkWayUtil.null2String(list.get(i).get("lgpla")));//仓位
+				item.put("WERKS", ThinkWayUtil.null2String(list.get(i).get("werks")));//工厂
 				arrList.add(item);
 			}
 		}
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);
+		super.setParameter(parameter);//输入参数
 		super.setTable(tablemodelList);
 		SAPModel model = execBapi();//执行 并获取返回值
 		/******执行 end******/
@@ -45,8 +52,10 @@ public class MatStockRfcImpl extends BaserfcServiceImpl implements MatStockRfc{
 			t_data.setRow(i);
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("matnr", t_data.getString("MATNR"));
+			map.put("maktx", t_data.getString("MAKTX"));
 			map.put("lgort", t_data.getString("LGORT"));
 			map.put("labst", t_data.getString("LABST"));//非限制使用库存
+			map.put("charg", t_data.getString("CHARG"));
 			stock.add(map);
 		}
 		return stock;

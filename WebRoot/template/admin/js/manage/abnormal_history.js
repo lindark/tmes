@@ -60,7 +60,7 @@ jQuery(function($) {
 		    sort:"pager.orderBy",
 		    order:"pager.orderType"
 	    },
-		colNames:[ '呼叫时间','应答时间','结束时间','响应时长','处理时长','生产日期','班次','日志', '消息', '发起人','应答人','结束人','状态',"zt","id"],
+		colNames:[ '呼叫时间','应答时间','结束时间','响应/分钟','处理/分钟','生产日期','班次','日志', '短信消息', '发起人','应答人','结束人','状态',"zt","id"],
 		colModel:[
 			
 			{name:'createDate',index:'createDate', width:60,sorttype:"date",unformat: pickDate,search:false,formatter:datefmt},

@@ -73,6 +73,7 @@ jQuery(function($) {
 			{name:'factoryUnitName',label:"单元名称",index:'factoryUnitName', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'psaddress',label:"配送仓库",index:'psaddress', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'psaddressdes',label:"配送仓库描述",index:'psaddressdes', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'delivery',label:"待发货仓位",index:'delivery', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'warehouse',label:"线边仓编码",index:'warehouse', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'warehouseName',label:"线边仓描述",index:'warehouseName', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'psPositionAddress',label:"配送仓位",index:'psPositionAddress', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},

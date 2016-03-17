@@ -664,7 +664,7 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="return_product!history.action" style="font-size:12px;">
 									<i class="menu-icon fa fa-caret-right"></i>
 									退回中转仓记录
 								</a>

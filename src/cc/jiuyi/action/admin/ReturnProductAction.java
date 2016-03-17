@@ -3,22 +3,29 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.ReturnProduct;
@@ -33,16 +40,17 @@ import cc.jiuyi.service.ReturnProductService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
- * 后台Action类 - 成品入库
+ * 后台Action类 - 中转仓入库
  */
 @ParentPackage("admin")
 public class ReturnProductAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 5106762543110231271L;
-	
+	public static Logger log = Logger.getLogger(ReturnProductAction.class);
 	private Admin admin;
 	private List<WorkingBill> workingBillList;
 	private List<ReturnProduct> returnProducts;
@@ -52,6 +60,11 @@ public class ReturnProductAction extends BaseAdminAction {
 	private ReturnProduct returnProduct;
 	private String desp;
 	private String loginId;
+	private String materialCode;
+	private String materialDesp;
+	private String state;
+	private String start;
+	private String end;
 	
 	@Resource
 	private ReturnProductService returnProductService;
@@ -351,8 +364,130 @@ public class ReturnProductAction extends BaseAdminAction {
 		}
 		
 	}
-	
-	
+	// 退中转仓入库历史
+		public String history() {
+			return "history";
+		}
+		// 成品入库历史
+		public String historylist(){
+			try {
+				if (pager == null) {
+					pager = new Pager();
+				}
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
+
+				HashMap<String, String> map = new HashMap<String, String>();
+				if (pager.is_search() == true && filters != null) {// 需要查询条件
+					JSONObject filt = JSONObject.fromObject(filters);
+					Pager pager1 = new Pager();
+					Map m = new HashMap();
+					m.put("rules", jqGridSearchDetailTo.class);
+					pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+					pager.setRules(pager1.getRules());
+					pager.setGroupOp(pager1.getGroupOp());
+				}
+
+				if (pager.is_search() == true && Param != null) {// 普通搜索功能
+					// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+					JSONObject obj = JSONObject.fromObject(Param);
+					if (obj.get("materialCode") != null) {
+						String materialCode = obj.getString("materialCode").toString();
+						map.put("materialCode", materialCode);
+					}
+					if (obj.get("materialDesp") != null) {
+						String materialDesp = obj.getString("materialDesp").toString();
+						map.put("materialDesp", materialDesp);
+					}
+					if (obj.get("start") != null && obj.get("end") != null) {
+						String start = obj.get("start").toString();
+						String end = obj.get("end").toString();
+						map.put("start", start);
+						map.put("end", end);
+					}
+					if (obj.get("state") != null) {
+						String state = obj.getString("state").toString();
+						map.put("state", state);
+					}
+				}
+				pager = returnProductService.historyjqGrid(pager, map);
+				List<ReturnProduct> returnProductList = pager.getList();
+				List<ReturnProduct> lst = new ArrayList<ReturnProduct>();
+				for (int i = 0; i < returnProductList.size(); i++) {
+					ReturnProduct returnProduct = (ReturnProduct) returnProductList.get(i);
+					returnProduct.setXstate(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "returnProState", returnProduct.getState()));
+					if (returnProduct.getConfirmName() != null) {
+						returnProduct.setConfirmName(returnProduct.getConfirmName());
+					}
+					if (returnProduct.getCreateName() != null) {
+						returnProduct.setCreateName(returnProduct.getCreateName());
+					}
+					returnProduct.setReceiveRepertorySiteDesp(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "reporterSite", returnProduct.getReceiveRepertorySite()));
+					lst.add(returnProduct);
+				}
+				pager.setList(lst);
+				JsonConfig jsonConfig = new JsonConfig();
+				jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+				jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(EndProduct.class));// 排除有关联关系的属性字段
+				JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+				return ajaxJson(jsonArray.get(0).toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
+			}
+			return null;
+			
+		}
+		
+		//Excel导出
+		public String excelexport(){
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("materialCode", materialCode);
+			map.put("materialDesp", materialDesp);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+			
+			
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+	        header.add("物料编码");
+	        header.add("物料描述");
+	        header.add("批次");
+	        header.add("物料凭证号");
+	        header.add("接收库存地点");
+	        header.add("入库箱数");
+	        header.add("创建时间");
+	        header.add("创建人");
+	        header.add("确认人");
+	        header.add("状态");
+	        
+	        List<ReturnProduct> workList = returnProductService.historyExcelExport(map);
+	        for(int i=0;i<workList.size();i++){
+	        	ReturnProduct returnProduct = workList.get(i);
+	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        	Object[] bodyval = {returnProduct.getMaterialCode(),returnProduct.getMaterialDesp(),returnProduct.getMaterialBatch()
+	        			            ,returnProduct.getMblnr(),ThinkWayUtil.getDictValueByDictKey(dictService, "reporterSite", returnProduct.getReceiveRepertorySite())
+	        						,returnProduct.getStockMout()
+	        			            ,sdf.format(returnProduct.getCreateDate()),returnProduct.getCreateUser()==null?"":returnProduct.getCreateName()
+	        						,returnProduct.getConfirmUser()==null?"":returnProduct.getConfirmName(),ThinkWayUtil.getDictValueByDictKey(dictService, "returnProState", returnProduct.getState())};
+	        	body.add(bodyval);
+	        }
+			try {
+				String fileName = "退中转仓记录表"+".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("退中转仓记录表", header, body, getResponse().getOutputStream());
+				getResponse().getOutputStream().flush();
+			    getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		
 	public String view(){
 		if(returnProduct==null){
 			returnProduct = new ReturnProduct();
@@ -437,6 +572,36 @@ public class ReturnProductAction extends BaseAdminAction {
 	}
 	public void setLoginId(String loginId) {
 		this.loginId = loginId;
+	}
+	public String getMaterialCode() {
+		return materialCode;
+	}
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+	public String getMaterialDesp() {
+		return materialDesp;
+	}
+	public void setMaterialDesp(String materialDesp) {
+		this.materialDesp = materialDesp;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getStart() {
+		return start;
+	}
+	public void setStart(String start) {
+		this.start = start;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
 	}
 	
 	

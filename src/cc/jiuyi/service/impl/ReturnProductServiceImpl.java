@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ReturnProductDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.EndProduct;
@@ -60,6 +62,17 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 		rp.setReceiveRepertorySite(info);
 		update(rp);
 		
+	}
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return returnProductDao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public List<ReturnProduct> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return returnProductDao.historyExcelExport(map);
 	}
 
 

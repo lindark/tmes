@@ -507,7 +507,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 					return c_return.getE_MESSAGE();
 				}
 				c.setE_TYPE(c_return.getE_TYPE());//返回类型
-				c.setEX_MBLNR(c_return.getEX_MBLNR());//凭证号
+				String str = c.getEX_MBLNR();
+				c.setEX_MBLNR(str==null?"":str+"/"+c_return.getEX_MBLNR());//凭证号
 				c.setE_MESSAGE(c_return.getE_MESSAGE());//返回消息
 				c.setModifyDate(new Date());
 				c.setConfirmUser(admin);//确认人

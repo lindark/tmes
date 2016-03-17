@@ -20,7 +20,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"end_product!historylist.action",
+		url:"return_product!historylist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -49,7 +49,7 @@ jQuery(function($) {
 			{name:'createDate',label:"入库时间",width:80,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createName',label:"创建人",index:'createName', width:40,sortable:"true",sorttype:"text"},
 			{name:'confirmName',label:"确认人",index:'confirmName', width:60,sortable:"true",sorttype:"text"},
-			{name:'xstate',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=endProState"}}
+			{name:'xstate',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=returnProState"}}
 		], 
 
 		viewrecords : true,
@@ -74,7 +74,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "end_product!delete.action",//用它做标准删除动作
+		editurl: "return_product!delete.action",//用它做标准删除动作
 		caption: "历史成品入库单"
 
 	});

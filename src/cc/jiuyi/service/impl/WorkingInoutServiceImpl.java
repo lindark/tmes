@@ -444,7 +444,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
-				jsonstr.add(map);
+				BigDecimal cost = new BigDecimal(0);
+				if(cost.compareTo(new BigDecimal(workingbill.getTotalSingleAmount()))!=0 && cost.compareTo(new BigDecimal(workinginout.getRecipientsAmount()))!=0 && cost.compareTo(new BigDecimal(trzsl))!=0){
+					jsonstr.add(map);
+				}
 		}
 		}catch(Exception e){
 			log.error(e);

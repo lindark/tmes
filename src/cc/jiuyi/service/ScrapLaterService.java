@@ -22,5 +22,7 @@ public interface ScrapLaterService extends BaseService<ScrapLater, String>
 	List<ScrapLater> getSlBySid(String sid);
 	
 	public Pager getLaterPager(Pager pager,HashMap<String,String>map);
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
 }

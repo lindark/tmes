@@ -65,9 +65,19 @@ public class UpDownAction extends BaseAdminAction {
 		}
 		
 		if("up".equals(type)){//上架
-			this.lgpla = "R-00";
+			String delivery = admin.getTeam().getFactoryUnit().getDelivery();
+			if(ThinkWayUtil.null2String(delivery).equals("")){
+				addActionError("当前单元未维护代发货仓位!");
+				return ERROR;
+			}
+			this.lgpla = delivery;
 		}else if("down".equals(type)){//下架
-			this.lgplaun="R-00";
+			String delivery = admin.getTeam().getFactoryUnit().getDelivery();
+			if(ThinkWayUtil.null2String(delivery).equals("")){
+				addActionError("当前单元未维护代发货仓位!");
+				return ERROR;
+			}
+			this.lgplaun=delivery;
 		}else if("updown".equals(type)){
 			
 		}else{
@@ -79,8 +89,8 @@ public class UpDownAction extends BaseAdminAction {
 			return INPUT;
 		}
 		//业务处理
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
-		String lgort = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();//库存地点
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
+		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 		String matnr = "";
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
@@ -137,8 +147,8 @@ public class UpDownAction extends BaseAdminAction {
 		HashMap<String,String> hash = new HashMap<String,String>();
 		List<HashMap<String,String>> hashList = new ArrayList<HashMap<String,String>>();
 		//业务处理
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-		String lgort = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();
 		String flag = "";
 		if(type.equals("up"))
 			flag = "0";

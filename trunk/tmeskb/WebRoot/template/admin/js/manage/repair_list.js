@@ -74,6 +74,7 @@ jQuery(function($) {
 			{name:'responseName',label:"责任工序",index:'responseName', width:100,sortable:"true",sorttype:"text"},
 			{name:'duty',label:"责任人/批次",index:'duty', width:100,sortable:"true",sorttype:"text"},
 			{name:'xrepairtype',label:"成品/组件",index:'repairtype', width:100,sortable:"true",sorttype:"text"},
+			{name:'xmould',label:"模具",index:'mould', width:100,sortable:"true",sorttype:"text"},
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},

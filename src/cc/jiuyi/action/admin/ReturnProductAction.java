@@ -304,7 +304,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		String message = "";
 		//List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {
-			//Admin admin =  adminService.getByCardnum(cardnumber);
+			Admin admin =  adminService.getByCardnum(cardnumber);
 			//endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginId);
 			//List<ReturnProduct> returnProductList = new ArrayList<ReturnProduct>();
@@ -320,8 +320,8 @@ public class ReturnProductAction extends BaseAdminAction {
 			for(int i=0;i<ids.length;i++){
 				ReturnProduct rp = returnProductService.get(ids[i]);
 				if( rp!=null){
-					rp.setConfirmUser(admin1.getUsername());
-					rp.setConfirmName(admin1.getName());
+					rp.setConfirmUser(admin.getUsername());
+					rp.setConfirmName(admin.getName());
 					rp.setState("3");
 					rp.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
 					returnProductService.update(rp);

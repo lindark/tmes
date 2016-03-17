@@ -201,6 +201,11 @@ body{background:#fff;}
 					                        </label>		
 										</div>
 										 -->
+										 <div class="profile-info-name">待发货仓位</div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnit.delivery" value="${(factoryUnit.delivery)!}" class=" input input-sm  formText {required: true}" />
+											<label class="requireField">*</label>	
+										</div>
 									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> 状态</div>					

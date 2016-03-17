@@ -46,6 +46,7 @@ public class FactoryUnit extends BaseEntity {
 	private String psaddressdes;//配送仓库描述
 	private Set<CardManagement>cardmanagement;//IP
 	private String psPositionAddress;//配送仓位
+	private String delivery;//待发货仓位
 	
 	//假字段
 	private String xiscanrepair;//是否可以返修/返修收获-描述
@@ -266,6 +267,14 @@ public class FactoryUnit extends BaseEntity {
 	public void setPsPositionAddress(String psPositionAddress)
 	{
 		this.psPositionAddress = psPositionAddress;
+	}
+
+	public String getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 	
 }

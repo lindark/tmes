@@ -109,7 +109,7 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	/**
 	 * 查询所有员工
 	 */
-	public Pager getAllEmp(Pager pager,List<String>list_str,int my_id);
+	public Pager getAllEmp(Pager pager,HashMap<String, String> map,List<String>list_str,int my_id);
 	
 	/**
 	 * 查询所有未离职的,已启用的员工

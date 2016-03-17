@@ -69,8 +69,8 @@ jQuery(function($) {
 			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
 			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
 			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
-			{name:'departName',index:'department',label:"所在部门",width:100, editable: false},
-			{name:'xparentAdmin',index:'parentAdmin',label:"直接上级",width:100, editable: false},
+			{name:'departName',index:'department.departName',label:"所在部门",width:100, editable: false},
+			{name:'xparentAdmin',index:'parentAdmin.name',label:"直接上级",width:100, editable: false},
 			{name:'xisJob',index:'isJob',label:"是否离职",width:100, editable: false},
 			{name:'xisenable',index:'isenable',label:"是否启用",width:100, editable: false}
 		], 

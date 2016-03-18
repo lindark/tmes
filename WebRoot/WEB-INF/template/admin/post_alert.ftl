@@ -76,7 +76,7 @@ function getName()
 	else
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
-		var info={"postid":ids,"postname":rowData.postName};
+		var info={"postid":ids,"postname":rowData.postName,"station":rowData.station};
 		return info;
 	}
 }

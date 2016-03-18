@@ -155,19 +155,19 @@
 												   <div class="profile-info-row">
 														<div class="profile-info-name">工厂/车间：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.workShop.factory.factoryName)!
-															} &nbsp;&nbsp;&nbsp;    ${(admin.department.team.factoryUnit.workShop.workShopName)!
+															${(admin.team.factoryUnit.workShop.factory.factoryName)!
+															} &nbsp;&nbsp;&nbsp;    ${(admin.team.factoryUnit.workShop.workShopName)!
 															}</div>
 													<!--  	<div class="profile-info-name">车间：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.workShop.workShopName)!
+															${(admin.team.factoryUnit.workShop.workShopName)!
 															}</div>-->
 													</div>
 
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.factoryUnit.factoryUnitName)! }</div>										
+															${(admin.team.factoryUnit.factoryUnitName)! }</div>										
 													</div>
 													
 													<div class="profile-info-row">
@@ -196,7 +196,7 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">
-															${(admin.department.team.teamName)! }</div>
+															${(admin.team.teamName)! }</div>
 													</div>
 													 -->
 												</div>
@@ -241,6 +241,15 @@
 															class="bigger-110 no-text-shadow">纸箱收货</span>
 													</button>
 												</div>
+												
+												<div class="col-md-3 col-sm-4" style="padding:2px;">
+													<button                                               
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="csll" type="button">
+														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">超市领料</span>
+													</button>
+												</div>
+												
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="getmaterial">
 													<button
@@ -432,6 +441,8 @@
 															class="bigger-110 no-text-shadow">上架/下架</span>
 													</button>
 												</div>
+												
+												
 												
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												

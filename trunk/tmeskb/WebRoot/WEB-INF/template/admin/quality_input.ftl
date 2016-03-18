@@ -153,11 +153,11 @@ body {
 												<div class="profile-info-value">
 													<#if isAdd??>
 													<!--  <input type="text" name="quality.team.teamName"
-														value="${(admin.department.team.teamName)!}"
+														value="${(admin.team.teamName)!}"
 														class=" input input-sm  formText {required: true}" readonly="readonly"/> -->
-													<span>${(admin.department.team.teamName)!}</span> <input
+													<span>${(admin.team.teamName)!}</span> <input
 														type="hidden" name="quality.team.id"
-														value="${(admin.department.team.id)!}"
+														value="${(admin.team.id)!}"
 														class="formText {required: true}" /> <#else>
 													${(quality.team.teamName)!} </#if>
 												</div>

@@ -78,7 +78,7 @@ body {
 								method="post">
 								<input type="hidden" name="id" value="${id}" /> 
 								<input type="hidden" name="abnormalId" value="${(abnormal.id)!}" />
-								<input type="hidden" name="device.team.id" value="${(admin.department.team.id)!}"/>
+								<input type="hidden" name="device.team.id" value="${(admin.team.id)!}"/>
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1">基本信息</a></li>

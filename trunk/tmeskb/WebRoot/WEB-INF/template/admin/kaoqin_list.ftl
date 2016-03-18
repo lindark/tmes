@@ -79,7 +79,7 @@
 														<div class="profile-info-name"> 工厂</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">${(admin.department.team.factoryUnit.workShop.factory.factoryName)!}</span>
+															<span class="editable editable-click" id="username">${(admin.team.factoryUnit.workShop.factory.factoryName)!}</span>
 														</div>
 													</div>
 	
@@ -87,7 +87,7 @@
 														<div class="profile-info-name">车间</div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="username">${(admin.department.team.factoryUnit.workShop.workShopName)!}</span>			
+															<span class="editable editable-click" id="username">${(admin.team.factoryUnit.workShop.workShopName)!}</span>			
 														</div>
 													</div>
 	
@@ -95,7 +95,7 @@
 														<div class="profile-info-name"> 单元 </div>
 	
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="age">${(admin.department.team.factoryUnit.factoryUnitName)!}</span>
+															<span class="editable editable-click" id="age">${(admin.team.factoryUnit.factoryUnitName)!}</span>
 														</div>
 													</div>
 	                                 
@@ -105,9 +105,9 @@
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.xshift)!}</span>
 															&nbsp;&nbsp;
-															<span class="editable editable-click" id="age">${(admin.department.team.classSys)!}</span>
+															<span class="editable editable-click" id="age">${(admin.team.classSys)!}</span>
 															&nbsp;&nbsp;
-															<span class="editable editable-click" id="age">${(admin.department.team.basic)!}</span>
+															<span class="editable editable-click" id="age">${(admin.team.basic)!}</span>
 														</div>
 													</div>	
 	                                                <div class="profile-info-row">

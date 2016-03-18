@@ -38,14 +38,14 @@
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
 						
-
+						<!-- 
 						<li class="green">
 							<a class="dropdown-toggle" href="message!inbox.action" target="mainFrame">
 								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
 								<span class="badge badge-success">${unreadMessageCount}</span>
 							</a>
 						</li>
-
+						 -->
 						
 
 

@@ -259,8 +259,8 @@ public class DeptpickAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String wareHouse = admin.getTeam().getFactoryUnit().getWarehouse();
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(locationonsideList==null){
 			locationonsideList = new ArrayList<Locationonside>();
 		}
@@ -386,9 +386,9 @@ public class DeptpickAction extends BaseAdminAction {
 					continue;
 				}
 				Admin createuser = deptpick.getCreateUser();//创建人
-				String werks = createuser.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
+				String werks = createuser.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
 				String budat = deptpick.getProductDate();
-				String lgort = createuser.getDepartment().getTeam().getFactoryUnit().getWarehouse();//库存地点
+				String lgort = createuser.getTeam().getFactoryUnit().getWarehouse();//库存地点
 				String xuh = deptpick.getId();
 				String costcenter = deptpick.getCostcenter();
 				map.put("WERKS", werks);

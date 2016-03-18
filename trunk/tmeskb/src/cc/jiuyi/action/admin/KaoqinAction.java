@@ -105,7 +105,7 @@ public class KaoqinAction extends BaseAdminAction
 		}
 		else
 		{
-			if(this.admin.getDepartment().getTeam()==null)
+			if(this.admin.getTeam()==null)
 			{
 				addActionError("班组为空!");
 				return ERROR;
@@ -114,7 +114,7 @@ public class KaoqinAction extends BaseAdminAction
 		//班次
 		admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
 		this.list_dict=this.dictService.getState("adminworkstate");//list中员工的状态
-		this.sameTeamId=this.admin.getDepartment().getTeam().getId();//班组ID
+		this.sameTeamId=this.admin.getTeam().getId();//班组ID
 		//读取员工到记录表中
 		/*List<Admin>l_emp=this.adminService.getByTeamId(tid);//根据班组ID获得班组下的所有员工
 		if(l_emp!=null)
@@ -429,9 +429,9 @@ public class KaoqinAction extends BaseAdminAction
 			//班组
 			if(a.getDepartment()!=null)
 			{
-				if(a.getDepartment().getTeam()!=null)
+				if(a.getTeam()!=null)
 				{
-					a.setXteam( a.getDepartment().getTeam().getTeamName());
+					a.setXteam( a.getTeam().getTeamName());
 				}
 			}
 			//工作状态

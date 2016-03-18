@@ -238,7 +238,7 @@ public class QualityAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 		}else{//普通清单页面
-			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getDepartment().getTeam().getId());		
+			pager = qualityService.getQualityPager(pager, map,admin1.getId(),admin1.getTeam().getId());		
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Quality quality = (Quality) pagerlist.get(i);

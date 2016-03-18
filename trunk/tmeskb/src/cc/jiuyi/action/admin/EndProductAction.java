@@ -186,9 +186,9 @@ public class EndProductAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+		String werks = admin.getTeam().getFactoryUnit()
 				.getWorkShop().getFactory().getFactoryCode();
 		if (locationonsideList == null) {
 			locationonsideList = new ArrayList<Locationonside>();
@@ -274,9 +274,9 @@ public class EndProductAction extends BaseAdminAction {
 		endProduct = endProductService.get(id);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+		String werks = admin.getTeam().getFactoryUnit()
 				.getWorkShop().getFactory().getFactoryCode();
 		if (endProduct.getMaterialBatch() == null) {
 			endProduct.setMaterialBatch("");
@@ -386,7 +386,7 @@ public class EndProductAction extends BaseAdminAction {
 					ed.setConfirmName(admin.getName());
 					ed.setState("2");
 					ed.setBudate(ThinkWayUtil.SystemDate());
-					ed.setWerks(admin1.getDepartment().getTeam()
+					ed.setWerks(admin1.getTeam()
 							.getFactoryUnit().getWorkShop().getFactory()
 							.getFactoryCode());
 					ed.setMoveType("311");

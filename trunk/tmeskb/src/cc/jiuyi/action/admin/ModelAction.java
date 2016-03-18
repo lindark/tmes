@@ -434,7 +434,7 @@ public class ModelAction extends BaseAdminAction {
 			pager.setList(pagerlist);
 		
 		}else{//普通清单页面
-			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
+			pager = modelService.getModelPager(pager, map,admin.getId(),admin.getTeam().getId());	
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 				Model model = (Model) pagerlist.get(i);

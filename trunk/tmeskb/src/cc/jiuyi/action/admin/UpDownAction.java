@@ -222,6 +222,11 @@ public class UpDownAction extends BaseAdminAction {
 		return LIST;
 	}
 	
+	public String cslist(){
+		
+		return "cslist";
+	}
+	
 	public String ajlist(){
 		
 		if (pager.getOrderBy().equals("")) {
@@ -230,7 +235,45 @@ public class UpDownAction extends BaseAdminAction {
 		}
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		pager = updownservice.findByPager(pager,admin);
+		
+		//此处固定查询
+		List<String> list = new ArrayList<String>();
+		list.add("up");
+		list.add("down");
+		
+		pager = updownservice.findByPager(pager,admin,list);
+		
+		List<UpDown> updownList = pager.getList();
+		List<UpDown> updownList1 = new ArrayList<UpDown>();
+		for(int i=0;i<updownList.size();i++){
+			UpDown updown = updownList.get(i);
+			updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
+			updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
+			updown.setAdminname(updown.getAppvaladmin().getName());
+			updownList1.add(updown);
+		}
+		pager.setList(updownList1);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(UpDown.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		System.out.println(jsonArray.get(0).toString());
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	//超市领料
+	public String csajlist(){
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		
+		//此处固定查询
+		List<String> list = new ArrayList<String>();
+		list.add("updown");//超市领料
+		pager = updownservice.findByPager(pager,admin,list);
 		
 		List<UpDown> updownList = pager.getList();
 		List<UpDown> updownList1 = new ArrayList<UpDown>();

@@ -299,9 +299,9 @@ public class LocationonsideAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit()
+		String werks = admin.getTeam().getFactoryUnit()
 				.getWorkShop().getFactory().getFactoryCode();
 		if (locationonsideList == null) {
 			locationonsideList = new ArrayList<Locationonside>();

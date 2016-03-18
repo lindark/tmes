@@ -491,8 +491,8 @@ public class ScrapAction extends BaseAdminAction
 		try
 		{
 			Admin a=this.adminService.get(loginid);
-			String warehouse=a.getDepartment().getTeam().getFactoryUnit().getWarehouse();//库存地点
-			String factorycode=a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂SAP测试数据 工厂编码
+			String warehouse=a.getTeam().getFactoryUnit().getWarehouse();//库存地点
+			String factorycode=a.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂SAP测试数据 工厂编码
 			for (int i = 0; i < xlist_scrap.size(); i++)
 			{
 				Scrap s=xlist_scrap.get(i);

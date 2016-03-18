@@ -240,6 +240,7 @@ public class PickAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
@@ -253,6 +254,12 @@ public class PickAction extends BaseAdminAction {
 			return ERROR;
 		}		
 		this.workingbill = workingBillService.get(workingBillId);	
+		
+		if(this.workingbill.getIsHand().equals("Y")){
+			addActionError("当日交接已完成，领退料不能使用");
+			return ERROR;
+		}
+		
 		
         List<PickDetail> pickDetailList = new ArrayList<PickDetail>();
 		//根据随工单找出所有的除了未确认的领料主表对象

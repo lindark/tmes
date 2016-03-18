@@ -269,7 +269,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
 		
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+		String warehouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
 		for (Bom material : materialList) {
@@ -281,7 +281,7 @@ public class HandOverProcessAction extends BaseAdminAction {
             }
         });
 		try {
-			String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 			locationonsideList = rfc.findWarehouse1(warehouse,werks);
 		} catch (IOException e) {
 			addActionError("IO操作失败");
@@ -386,7 +386,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 				
 			}
 		}
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+		String warehouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();// 获取人员对应单元对应的线边仓数据
 		List<String> materialCodeList = new ArrayList<String>();
 //		for (Bom material : materialList) {

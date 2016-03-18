@@ -292,7 +292,7 @@ public class CraftAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 		}else{//正常清单页面
-			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());	
+			pager = craftService.getCraftPager(pager, map,admin.getId(),admin.getTeam().getId());	
 			List pagerlist = pager.getList();
 			for(int i =0; i < pagerlist.size();i++){
 				Craft craft  = (Craft)pagerlist.get(i);

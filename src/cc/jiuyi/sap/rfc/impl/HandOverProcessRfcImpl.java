@@ -57,7 +57,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			item.put("ORDERID2", p.getAfterworkingbill().getWorkingBillCode());//下班随工单
 			item.put("XUH", p.getId());
 			item.put("WERKS", p.getBeforworkingbill().getWerks());//工厂
-			item.put("LGORT", admin.getDepartment().getTeam().getFactoryUnit().getWarehouse());
+			item.put("LGORT", admin.getTeam().getFactoryUnit().getWarehouse());
 			arrList.add(item);
 		}
 		tablemodel.setList(arrList);

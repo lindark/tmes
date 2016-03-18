@@ -611,7 +611,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="#" ">
-								<a href="scrap_later!history.action" style="font-size:12px;color:red">
+								<a href="scrap_later!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									报废产出记录
 								</a>

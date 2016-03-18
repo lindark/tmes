@@ -1,6 +1,8 @@
 package cc.jiuyi.dao;
 
 
+import java.util.List;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.UpDown;
@@ -10,5 +12,5 @@ import cc.jiuyi.entity.UpDown;
  */
 
 public interface UpDownDao extends BaseDao<UpDown, String> {
-	public Pager findByPager(Pager pager,Admin admin);
+	public Pager findByPager(Pager pager,Admin admin,List<String> list);
 }

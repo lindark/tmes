@@ -373,9 +373,9 @@ public class ReturnProductAction extends BaseAdminAction {
 			try {
 				if (pager == null) {
 					pager = new Pager();
+					pager.setOrderType(OrderType.desc);
+					pager.setOrderBy("modifyDate");
 				}
-				pager.setOrderType(OrderType.desc);
-				pager.setOrderBy("modifyDate");
 
 				HashMap<String, String> map = new HashMap<String, String>();
 				if (pager.is_search() == true && filters != null) {// 需要查询条件

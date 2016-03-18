@@ -163,7 +163,7 @@ body{background:#fff;}
 					</div>
 					<div class="profile-info-name">工位</div>
 					<div class="profile-info-value">
-						<span id="span_workstation"></span>
+						<span id="span_workstation">${(admin.post.station)! }</span>
 					</div>
 				</div>
 				<div class="profile-info-row">

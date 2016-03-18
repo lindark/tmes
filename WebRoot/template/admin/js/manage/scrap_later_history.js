@@ -39,9 +39,9 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[	
-		    {name:'workingbill',label:"随工单",index:'scrap.workingBill.workingBillCode', width:100,sortable:"true",sorttype:"text"},
-		    {name:'productName',label:"产品名称",index:'scrap.workingBill.maktx', width:160,sortable:"true",sorttype:"text"},			           
-		    {name:'productNo',label:"产品编号",index:'scrap.workingBill.matnr', width:100,sortable:"true",sorttype:"text"},
+		    {name:'workingbill',label:"随工单",index:'workingBill.workingBillCode', width:100,sortable:"true"},
+		    {name:'productName',label:"产品名称",index:'workingBill.maktx', width:160,sortable:"true"},			           
+		    {name:'productNo',label:"产品编号",index:'workingBill.matnr', width:100,sortable:"true"},
 		    {name:'slmatterNum',index:'slmatterNum', label:"物料编码",width:60, editable: false},
 			{name:'slmatterDes',label:"物料描述",width:120,index:'slmatterDes', editable: false,sortable:"true"},
 			{name:'createDate',index:'createDate',label:"报废日期", width:120,sorttype:"date",unformat: pickDate,formatter:datefmt},

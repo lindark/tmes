@@ -272,7 +272,7 @@ function edit_event(xid,workstate,tardyhours)
 			var val=$("#select_state").val();
 			//var txt=$("#select_state option:selected").text();
 			var hours=$("#input_hours").val();
-			if(val!=state)
+			if(val!=workstate||hours!=tardyhours)
 			{
 				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+xid+"&admin.tardyHours="+hours;
 				upd_event(url);

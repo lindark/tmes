@@ -143,15 +143,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xshift;//班次
 	private String xteam;//班组
 	private String xpost;//岗位
-	private String xstation;//工作范围
-	private String xworkscope;//工位
+	private String xstation;//模具组号
+	private String xworkscope;//工作范围
 	private String xparentAdmin;//直接上级
 	private String xisJob;//是否离职
 	private String xisenable;//是否启用
 	private String xempCreater;//创建人
 	private String xsex;//性别
 	private String xrole;//管理角色
-	
+	private String xgongwei;//工位
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="appvaladmin")
 	public Set<UpDown> getUpdownSet() {
@@ -1242,5 +1242,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setEmpSet(Set<Kaoqin> empSet)
 	{
 		this.empSet = empSet;
+	}
+
+	public String getXgongwei()
+	{
+		return xgongwei;
+	}
+
+	public void setXgongwei(String xgongwei)
+	{
+		this.xgongwei = xgongwei;
 	}
 }

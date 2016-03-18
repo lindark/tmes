@@ -22,5 +22,5 @@ public interface UpDownServcie extends BaseService<UpDown, String>{
 	
 	public void save(List<UpDown> updownList);
 	
-	public Pager findByPager(Pager pager,Admin admin);
+	public Pager findByPager(Pager pager,Admin admin,List<String> list);
 }

@@ -66,7 +66,6 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		if(bomList ==null || bomList.size() <=0)
 			bomList = bomDao.getBomList1(aufnr, maxversion, materialCode);
 		return bomList;
-		
 	}
 
 

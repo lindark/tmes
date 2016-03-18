@@ -97,7 +97,7 @@ public class WorkingBillServiceImpl extends
 		try{
 		String productDate = admin.getProductDate();//生产日期
 		String shift = admin.getShift();//班次
-		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
+		String workcenter = admin.getTeam().getFactoryUnit().getWorkCenter();//获取当前登录身份的工作中心
 		
 		
 		workingbillList = workingbilldao.findWorkingBill(workcenter,productDate,shift);
@@ -147,7 +147,7 @@ public class WorkingBillServiceImpl extends
 		admin = adminservice.get(admin.getId());
 		WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
 		Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
-		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();
+		String workcenter = admin.getTeam().getFactoryUnit().getWorkCenter();
 		if(workcenter == null)return null;
 		List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
 		for(int i=0;i<workingbillList.size();i++){
@@ -166,7 +166,7 @@ public class WorkingBillServiceImpl extends
 			String productDate, String shift) {
 		WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
 		Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
-		String workcenter = admin.getDepartment().getTeam().getFactoryUnit().getWorkCenter();
+		String workcenter = admin.getTeam().getFactoryUnit().getWorkCenter();
 		if(workcenter == null)return null;
 		List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
 		for(int i=0;i<workingbillList.size();i++){

@@ -330,6 +330,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[2], workingbill.getPlanCount());
 				map.put(strlen[23], workingbill.getMatnr());//产品编码
 				map.put(strlen[24], workingbill.getMaktx());//产品描述
+				
+				String materialname = workinginout.getMaterialName();
+				if(ThinkWayUtil.null2String(materialname).equals("")){//处理不知道什么问题导致物料描述没有的问题
+					materialname = bomservice.getMaterialName(materialname);
+				}
+				
 				map.put(strlen[25],workinginout.getMaterialName());//组件描述
 				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
@@ -445,7 +451,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 				BigDecimal cost = new BigDecimal(0);
-				if(cost.compareTo(new BigDecimal(workingbill.getTotalSingleAmount()))!=0 && cost.compareTo(new BigDecimal(workinginout.getRecipientsAmount()))!=0 && cost.compareTo(new BigDecimal(trzsl))!=0){
+				if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workinginout.getRecipientsAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
 					jsonstr.add(map);
 				}
 		}

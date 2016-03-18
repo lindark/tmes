@@ -110,7 +110,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		kqbcr.setCreateDate(new Date());//刷卡时间
 		this.kqBCRService.save(kqbcr);
 		/**2.获取班组状态,开启考勤/关闭考勤*/
-		Team t=admin.getDepartment().getTeam();
+		Team t=admin.getTeam();
 		if(my_id==1)
 		{
 			//开启考勤
@@ -162,7 +162,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			workingbillservice.update(workingbill);
 		}
 		/**班组下班**/
-		Team team = admin.getDepartment().getTeam();//取得班组
+		Team team = admin.getTeam();//取得班组
 		if("Y".equals(team.getIsWork()))
 		{
 			String str="s";

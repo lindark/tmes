@@ -53,8 +53,8 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 		}
 	}
 	
-	public Pager findByPager(Pager pager,Admin admin){
-		return updowndao.findByPager(pager, admin);
+	public Pager findByPager(Pager pager,Admin admin,List<String> list){
+		return updowndao.findByPager(pager, admin,list);
 	}
 	
 }

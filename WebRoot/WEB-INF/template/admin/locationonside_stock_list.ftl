@@ -5,17 +5,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
 <title>管理中心</title>
-<meta name="description"
-	content="Dynamic tables and grids using jqGrid plugin" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<#include "/WEB-INF/template/common/includelist.ftl">
-<!--modify weitao-->
-<!-- <script type="text/javascript"
-	src="${base}/template/admin/js/manage/locationonside_stock_list.js"></script> -->
-<script type="text/javascript"
-	src="${base}/template/admin/js/jqgrid_common.js"></script>
-<!-- <script type="text/javascript" src="${base}/template/admin/js/list.js"></script> -->
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<#include "/WEB-INF/template/common/include.ftl">
+<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/template/common/js/jquery.form.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.methods.js"></script>
+<script type="text/javascript" src="${base}/template/common/js/jquery.validate.cn.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browserValidate.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/BasicInfo/admin_inputry.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jquery.cxselect-1.3.7/js/jquery.cxselect.min.js"></script>
+<style type="text/css">
+	.mymust{color: red;font-size: 10px;}
+	.class_label_xfuname{width:200px;line-height: 30px;border:1px solid;border-color: #d5d5d5;}
+	.xspan{font-family: 微软雅黑;font-size: 10px;color:red;}
+</style>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin list">
@@ -59,7 +68,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal" id="searchform" method="post"
+							<form class="form-horizontal validate" id="searchform1" method="post"
 								action="locationonside!getStockList.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
@@ -76,8 +85,24 @@
 												id="desp">
 										</div>
 									</div>
+									<div class="form-group">
+									<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>单元:</label>
+										<div class="col-sm-3">
+										<img id="img_faunit" title="单元" alt="单元" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+										<span id="infoName" name="infoName">${(infoName)! }</span>
+										<input type="hidden" id="infoId" name="infoId" value="${(infoId)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
+										
+										</div>
+										<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>库位:</label>
+										<div class="col-sm-3">
+											<input type="text" name="position"
+												class="input input-sm form-control formText {required: true}" value="${(position)! }"
+												id="position"/>
+												
+										</div>
+									</div>
 									<div class="form-group" style="text-align:center">
-										<a id="searchButton"
+										<a id="searchButton1"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
@@ -96,13 +121,13 @@
 														<th class="tabth">批次</th>
 														<th class="tabth">库存数量</th>
 													</tr>
-													<#list (locationonsideList)! as lns>
+													<#list (locasideListMap)! as lns>
 																<tr>
-																	<td>${(lns.locationCode)! }</td>
-																	<td>${(lns.materialCode)! }</td>
-																	<td>${(lns.materialName)! }</td>
+																	<td>${(lns.lgort)! }</td>
+																	<td>${(lns.matnr)! }</td>
+																	<td>${(lns.maktx)! }</td>
 																	<td>${(lns.charg)! }</td>
-																	<td>${(lns.amount)! }</td>
+																	<td>${(lns.bmt)! }</td>
 																</tr>
 															</#list>
 										</table>
@@ -139,16 +164,18 @@
 </html>
 <script type ="text/javascript">
    $(function(){
-	   var $excelReport = $("#excelReport");
+	  // var $excelReport = $("#excelReport");
 	   var $searchform = $("#searchButton");
-	   $excelReport.click(function(){
+	   /* $excelReport.click(function(){
 		   $searchform.attr("action","pick!excelexport.action");
 		   $searchform.submit();
-	   });	  
+	   });	  */ 
 	   $searchform.click(function(){
 		   var info = $("#info").val();
 		    var desp = $("#desp").val();
-		   window.self.location="locationonside!getStockList.action?info="+info+"&desp="+desp
+		    var infoId = $("#infoId").val();
+		    var position = $("#position").val();
+		   window.self.location="locationonside!getStockList.action?info="+info+"&desp="+desp+"&infoId="+infoId+"&position="+position;
 	   });
 	   
 	   
@@ -203,6 +230,9 @@
 			
 		})
 		*/
+		$("#searchButton1").click(function(){
+			$("#searchform1").submit();
+		});
 	})
 	
 	

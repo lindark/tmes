@@ -47,5 +47,13 @@ public interface FactoryUnitService extends BaseService<FactoryUnit, String> {
 
 	//根据ip获取单元
 	public FactoryUnit getById(String ip);
+	
+	/**
+	 * 获取team数据,已启用的
+	 * @param pager
+	 * @param map查询条件
+	 * @return
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map);
 
 }

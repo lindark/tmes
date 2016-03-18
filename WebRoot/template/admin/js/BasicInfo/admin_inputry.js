@@ -21,7 +21,10 @@ $(function(){
 	$("#img_team").click(function(){
 		team_event();
 	});
-	
+	//单元img_faunit
+	$("#img_faunit").click(function(){
+		faunit_event();
+	});
 	//提交
 	$("#btn_submit").click(function(){
 		sub_event();
@@ -173,7 +176,38 @@ function team_event()
     });
 	return false;
 }
-
+//单元
+function faunit_event()
+{
+	layer.open({
+        type: 2,
+        skin: 'layui-layer-lan',
+        shift:2,
+        title: "选择单元",
+        fix: false,
+        shade: 0.5,
+        shadeClose: true,
+        maxmin: true,
+        scrollbar: false,
+        btn:['确认','取消'],
+        area: ["80%", "80%"],//弹出框的高度，宽度
+        content:"factory_unit!factoryunitlist.action",
+        yes:function(index,layero){//确定
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var info = iframeWin.getName();
+        	$("#infoId").val(info.faunid);
+        	$("#infoName").text(info.faunname);
+        	layer.close(index);
+        	return false;
+        },
+        no:function(index)
+        {
+        	layer.close(index);
+        	return false;
+        }
+    });
+	return false;
+}
 //页面右上角点击登录人事件
 function login_event()
 {

@@ -25,7 +25,6 @@ $().ready( function() {
 		var postData = $("#grid-table").jqGrid("getGridParam", "postData");
         $.extend(postData, { Param: ParamJson });
         $("#grid-table").jqGrid("setGridParam", { search: true,datatype:"json" }).trigger("reloadGrid", [{ page: 1}]);  //重载JQGrid
-	
 		return false;
 	});
 	/**

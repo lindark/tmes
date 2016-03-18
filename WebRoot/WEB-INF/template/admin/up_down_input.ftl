@@ -57,7 +57,7 @@ inupt.stockMout{
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> 
 					<a href="admin!index.action">管理中心</a></li>
-					<li class="active">上架/下架管理</li>
+					<li class="active"><#if type='up' || type='down'>上架/下架管理  <#else> 超市领料</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -90,7 +90,7 @@ inupt.stockMout{
 								</div> -->
 								<div id="inputtabs">
 								 	<ul>
-								    	<li><a href="#tabs-1">上架管理</a></li>
+								    	<li><a href="#tabs-1"><#if type='up' || type='down'>上架/下架管理  <#else> 超市领料</#if></a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">				
 									<div>

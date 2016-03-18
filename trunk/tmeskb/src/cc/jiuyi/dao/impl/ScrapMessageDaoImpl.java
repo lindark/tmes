@@ -64,6 +64,9 @@ public class ScrapMessageDaoImpl extends BaseDaoImpl<ScrapMessage, String> imple
 			}
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		if(!super.existAlias(detachedCriteria, "scrap.workingBill", "workingBill")){
+			detachedCriteria.createAlias("scrap.workingBill", "workingBill");//表名，别名*/							
+		}
 		return super.findByPager(pager, detachedCriteria);
 	}
 	

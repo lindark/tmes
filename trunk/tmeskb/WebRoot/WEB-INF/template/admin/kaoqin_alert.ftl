@@ -58,9 +58,9 @@ body {
 										<div class="col-sm-4">
 											<select name="shift" id="form-field-icon-1" class="input input-sm form-control">
 							                <option value="">&nbsp;</option>
-							                <option value="1">早班</option>
-							                <option value="2">中班</option>
-							                <option value="3">晚班</option>
+							                <option value="1">早</option>
+							                <option value="2">中</option>
+							                <option value="3">晚</option>
 						               </select>
 										</div>
 									</div>
@@ -73,7 +73,7 @@ body {
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										<label class="col-sm-2" style="text-align:right;">技能:</label>
+										<label class="col-sm-2" style="text-align:right;">岗位:</label>
 										<div class="col-sm-4">
 											<input type="text" name="skill"
 												class="input input-sm form-control" value=""

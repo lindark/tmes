@@ -75,7 +75,7 @@ inupt.stockMout{
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
 											<#list allSite as als>
-											<option value="${als.dictkey}" <#if (admin.department.team.factoryUnit.warehouse)! == als.dictkey>selected</#if>>${als.dictvalue}</option>
+											<option value="${als.dictkey}" <#if (admin.team.factoryUnit.warehouse)! == als.dictkey>selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
 									</span>
@@ -177,8 +177,7 @@ $(function(){
 		},dt);
 	}); */
 	$("#btn_back").click(function(){
-		//window.history.back();
-		window.location.href="up_down!list.action";
+		window.history.back();
 	});
 	$("#search_btn").click(function(){
 		$("#inputForm").attr("action","up_down!add.action");

@@ -118,8 +118,8 @@ body {
 
 												<div class="profile-info-value">
 												   <#if isAdd??> 
-														<span>${(admin.department.team.teamName)!}</span>
-													   <input type="hidden" name="model.teamId.id" value="${(admin.department.team.id)!}"/>
+														<span>${(admin.team.teamName)!}</span>
+													   <input type="hidden" name="model.teamId.id" value="${(admin.team.id)!}"/>
 												    <#else>
 												       ${(model.teamId.teamName)!}												       
 												    </#if>									

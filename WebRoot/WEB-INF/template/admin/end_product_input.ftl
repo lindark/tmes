@@ -78,7 +78,7 @@ inupt.stockMout{
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
 											<#list allSite as als>
-											<option value="${als.dictkey}" <#if (admin.department.team.factoryUnit.warehouse)! == als.dictkey>selected</#if>>${als.dictvalue}</option>
+											<option value="${als.dictkey}" <#if (admin.team.factoryUnit.warehouse)! == als.dictkey>selected</#if>>${als.dictvalue}</option>
 											</#list>
 										</select>
 									</span>

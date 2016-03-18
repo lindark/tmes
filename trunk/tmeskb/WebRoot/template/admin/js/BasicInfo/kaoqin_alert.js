@@ -68,7 +68,7 @@ jQuery(function($) {
 			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100, editable: false},
 			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
 			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
-			{name:'xstation',index:'xxx',label:"工位",width:100, editable: false},
+			{name:'xstation',index:'xxx',label:"模具组号",width:100, editable: false},
 			{name:'xworkscope',index:'xxx',label:"工作范围",width:100, editable: false},
 			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
 			{name:'xshift',index:'shift',label:"班次",width:100, editable: false},

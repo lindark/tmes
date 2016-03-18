@@ -125,7 +125,7 @@ public class DeviceAction extends BaseAdminAction {
 		}	
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop();
+		workshop=admin.getTeam().getFactoryUnit().getWorkShop();
 		return INPUT;
 	}
 
@@ -276,7 +276,7 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 		}else{//普通清单页面
-			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getDepartment().getTeam().getId());
+			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getTeam().getId());
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 

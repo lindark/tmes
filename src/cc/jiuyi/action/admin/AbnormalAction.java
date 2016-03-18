@@ -462,8 +462,8 @@ public class AbnormalAction extends BaseAdminAction {
 			List<String> strLen = new ArrayList<String>();
 			List<HashMap<String, String>> mapList = new ArrayList<HashMap<String,String>>();
 			
-			String workshop=admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
-			String unit=admin.getDepartment().getTeam().getFactoryUnit().getFactoryUnitName();
+			String workshop=admin.getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
+			String unit=admin.getTeam().getFactoryUnit().getFactoryUnitName();
 			String adminName =admin.getName();
 			for(int i=0;i<callReasonSet.size();i++){
 				HashMap<String,String> map = new HashMap<String,String>();

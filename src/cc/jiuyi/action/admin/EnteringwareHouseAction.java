@@ -309,8 +309,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		//Admin admin = adminService.getByCardnum(cardnumber);
 		admin=adminService.get(loginid);
 		
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+		String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
 		ThinkWayUtil util = new ThinkWayUtil();
 		String budat = util.SystemDate();// 过账日期
 		ids = id.split(",");
@@ -387,8 +387,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}*/
 		Admin admin = adminService.getByCardnum(cardnumber);
 		
-		String warehouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();// 线边仓
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+		String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
 		ThinkWayUtil util = new ThinkWayUtil();
 		String budat = util.SystemDate();// 过账日期
 		ids = id.split(",");

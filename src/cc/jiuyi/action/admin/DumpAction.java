@@ -92,9 +92,9 @@ public class DumpAction extends BaseAdminAction {
 			return ERROR;
 		}
 		//admin = adminService.load(admin.getId());
-		warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+		warehouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
-		warehouseName = admin.getDepartment().getTeam().getFactoryUnit()
+		warehouseName = admin.getTeam().getFactoryUnit()
 				.getWarehouseName();
 		return "list";
 	}
@@ -131,7 +131,7 @@ public class DumpAction extends BaseAdminAction {
 			String[] ids = dumpId.split(",");
 			admin = adminService.getByCardnum(cardnumber);
 			admin = adminService.load(admin.getId());
-			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+			warehouse = admin.getTeam().getFactoryUnit()
 					.getWarehouse();
 			String productDate = admin.getProductDate();
 			Date date=ThinkWayUtil.formatStringDate(productDate);
@@ -244,7 +244,7 @@ public class DumpAction extends BaseAdminAction {
 		try {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.load(admin.getId());
-			warehouse = admin.getDepartment().getTeam().getFactoryUnit()
+			warehouse = admin.getTeam().getFactoryUnit()
 					.getWarehouse();
 			String productDate = admin.getProductDate();
 			Date date=ThinkWayUtil.formatStringDate(productDate);

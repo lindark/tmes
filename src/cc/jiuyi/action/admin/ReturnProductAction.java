@@ -133,8 +133,8 @@ public class ReturnProductAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String wareHouse = admin.getTeam().getFactoryUnit().getWarehouse();
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(locationonsideList==null){
 			locationonsideList = new ArrayList<Locationonside>();
 		}
@@ -193,8 +193,8 @@ public class ReturnProductAction extends BaseAdminAction {
 		returnProduct = returnProductService.get(id);
 		//Admin admin = adminService.getLoginAdmin();
 		Admin admin1 = adminService.get(loginId);
-		String wareHouse = admin1.getDepartment().getTeam().getFactoryUnit().getWarehouse();
-		String werks = admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String wareHouse = admin1.getTeam().getFactoryUnit().getWarehouse();
+		String werks = admin1.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		if(returnProduct.getMaterialBatch()==null){
 			returnProduct.setMaterialBatch("");
 		}
@@ -258,7 +258,7 @@ public class ReturnProductAction extends BaseAdminAction {
 					rp.setConfirmName(admin.getName());
 					rp.setState("2");
 					rp.setBudate(ThinkWayUtil.SystemDate());
-					rp.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					rp.setWerks(admin1.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
 					rp.setMoveType("311");
 					returnProductList.add(rp);
 				}
@@ -323,7 +323,7 @@ public class ReturnProductAction extends BaseAdminAction {
 					rp.setConfirmUser(admin.getUsername());
 					rp.setConfirmName(admin.getName());
 					rp.setState("3");
-					rp.setWerks(admin1.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
+					rp.setWerks(admin1.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());
 					returnProductService.update(rp);
 				}
 			}

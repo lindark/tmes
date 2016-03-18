@@ -588,8 +588,8 @@ public class RepairAction extends BaseAdminAction {
 			{
 				Repair r = list.get(i);
 				Admin a= adminService.get(loginid);
-				r.setLGORT(a.getDepartment().getTeam().getFactoryUnit().getWarehouse());//库存地点
-				r.setWERKS(a.getDepartment().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+				r.setLGORT(a.getTeam().getFactoryUnit().getWarehouse());//库存地点
+				r.setWERKS(a.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				List<RepairPiece> listrp =new ArrayList<RepairPiece>(r.getRpieceSet());// 取出对应的组件
 				if (listrp.size() > 0)
 				{

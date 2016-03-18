@@ -100,4 +100,9 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 		}
 		return null;
 	}
+
+	@Override
+	public Pager getAllList(Pager pager, HashMap<String, String> map) {
+		return this.factoryUnitDao.getAllList(pager,map);
+	}
 }

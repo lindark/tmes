@@ -23,6 +23,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
@@ -278,6 +279,57 @@ public class FactoryUnitAction extends BaseAdminAction {
 		
 	}
 
+	
+	
+	/**=============弹框==================== */
+	/**
+	 * 进入弹框页面
+	 */
+	public String factoryunitlist()
+	{
+		return "faunlist";
+	}
+
+	/**
+	 * 获取班组数据:已启用的
+	 */
+	public String getfaunlist(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		//查询条件
+		if (pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			// 单元编码
+			if (obj.get("factoryUnitCode") != null)
+			{
+				String factoryUnitCode = obj.getString("factoryUnitCode").toString();
+				map.put("factoryUnitCode", factoryUnitCode);
+			}
+			// 单元名称
+			if (obj.get("factoryUnitName") != null)
+			{
+				String factoryUnitName = obj.getString("factoryUnitName").toString();
+				map.put("factoryUnitName", factoryUnitName);
+			}
+		}
+		pager = factoryUnitService.getAllList(pager, map);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Team.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	
 	public FactoryUnit getFactoryUnit() {
 		return factoryUnit;
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 
 
 
+
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.FactoryUnitDao;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.Team;
 
 /**
  * Dao实现类 - factoryUnit
@@ -173,5 +176,27 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		// TODO Auto-generated method stub
 		String hql = "from FactoryUnit where workCenter =?";		
 		return (FactoryUnit) getSession().createQuery(hql).setParameter(0, workCenter).uniqueResult();
+	}
+
+	@Override
+	public Pager getAllList(Pager pager, HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(FactoryUnit.class);
+		//pagerSqlByjqGrid(pager,detachedCriteria);
+		if (map.size() > 0)
+		{
+			//单元编码
+			if(map.get("factoryUnitCode")!=null&&!"".equals(map.get("factoryUnitCode")))
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnitCode", "%"+map.get("teamName")+"%"));
+			}
+			//单元名称
+			if(map.get("factoryUnitName")!=null&&!"".equals(map.get("factoryUnitName")))
+			{
+				detachedCriteria.add(Restrictions.like("factoryUnitName", "%"+map.get("factoryUnitName")+"%"));
+			}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用的
+		return super.findByPager(pager, detachedCriteria);
 	}
 }

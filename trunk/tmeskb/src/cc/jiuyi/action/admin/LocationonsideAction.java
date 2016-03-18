@@ -25,16 +25,19 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.CardManagement;
 import cc.jiuyi.entity.EndProduct;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CardManagementService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.LocationonsideService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
+import cc.jiuyi.webservice.PieceworkWebService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -49,8 +52,12 @@ public class LocationonsideAction extends BaseAdminAction {
 
 	private Locationonside locationonside;
 	private List<Locationonside> locationonsideList;
+	private List<HashMap<String, String>> locasideListMap;
 	private String info;
 	private String desp;
+	private String infoId;
+	private String position;
+	private String infoName;
 	
 	@Resource
 	private LocationonsideService locationonsideService;
@@ -62,6 +69,10 @@ public class LocationonsideAction extends BaseAdminAction {
 	private UnitConversionService unitConversionService;
 	@Resource
 	private CardManagementService cardManagementService;
+	@Resource
+	private PieceworkWebService pieceworkWebService;
+	@Resource
+	FactoryUnitService factoryUniteService;
 
 	public String list() {
 		// pager = dumpService.findByPager(pager);
@@ -147,25 +158,23 @@ public class LocationonsideAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
-	public String getStockList(){
+	/*public String getStockList(){
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		
-		//ip ="192.168.29.85";
+		ip ="192.168.29.85";
 		
-		CardManagement cardManagement = cardManagementService.get("pcIp", ip);
-	/*	if(true){
-		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
-					.getWarehouse();
-			String werks = admin.getDepartment().getTeam().getFactoryUnit()
-					.getWorkShop().getFactory().getFactoryCode();
-		*/
+	CardManagement cardManagement = cardManagementService.get("pcIp", ip);
+//		Admin admin = adminService.getLoginAdmin();
+//		admin = adminService.get(admin.getId());
+//		String wareHouse = admin.getDepartment().getTeam().getFactoryUnit()
+//					.getWarehouse();
+//			String werks = admin.getDepartment().getTeam().getFactoryUnit()
+//					.getWorkShop().getFactory().getFactoryCode();
+		
 		if(cardManagement!=null){
 			String wareHouse = cardManagement.getFactoryunit().getWarehouse();
 			String werks = cardManagement.getFactoryunit().getWorkShop().getFactory().getFactoryCode();
-			
 			
 			List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
 			
@@ -174,7 +183,7 @@ public class LocationonsideAction extends BaseAdminAction {
 			}
 			try {
 				locationonsideList = rfc.findWarehouse(wareHouse, werks);
-				/*if (info == null) {
+				if (info == null) {
 					locationonsideLists = new ArrayList<Locationonside>();
 					info = "401";
 					int i = info.length();
@@ -187,7 +196,7 @@ public class LocationonsideAction extends BaseAdminAction {
 						}
 					}
 					locationonsideList = locationonsideLists;
-				}*/
+				}
 
 					if (!"".equals(info) && info != null) {
 						locationonsideLists = new ArrayList<Locationonside>();
@@ -250,6 +259,51 @@ public class LocationonsideAction extends BaseAdminAction {
 			return ERROR;
 		}
 		
+		return "stock_list";
+	}*/
+	public String getStockList(){
+		if(infoId!=null && !"".equals(infoId) && position!=null && !"".equals(position)){
+			FactoryUnit factoryUnit = factoryUniteService.get(infoId);
+			String werks = factoryUnit.getWorkShop().getFactory().getFactoryCode();
+			String lgort = factoryUnit.getWarehouse();
+			if (locasideListMap == null) {
+				locasideListMap = new ArrayList<HashMap<String, String>>();
+			}
+			try {
+				locasideListMap = rfc.findMaterial(werks, lgort, info, position, desp);
+				for (HashMap<String, String> los : locasideListMap) {
+					UnitConversion ucs = unitConversionService.get("matnr",
+							los.get("matnr"));
+					if (ucs != null) {
+						String amount = los.get("verme");
+						if (los.get("verme") == null || "".equals(los.get("verme"))) {
+							amount = "0";
+						}
+						if (ucs.getConversationRatio() == null
+								|| "".equals(ucs.getConversationRatio())) {
+							ucs.setConversationRatio(0.0);
+						}
+						BigDecimal dcl = new BigDecimal(amount);
+						BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
+						try {
+							BigDecimal dc = dcl.divide(dcu).setScale(2,
+									RoundingMode.HALF_UP);
+							los.put("bmt", dc.toString());
+						} catch (Exception e) {
+							e.printStackTrace();
+							addActionError("物料" + los.get("matnr")
+									+ " 计量单位数据异常");
+							return ERROR;
+						}
+					} else {
+						los.put("bmt", "0.00");
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return "stock_list";
 	}
 	public String stockAjaxlist(){
@@ -415,7 +469,14 @@ public class LocationonsideAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
-	
+	public String jianxin(){
+		String s = pieceworkWebService.getPieceworkListOne("");
+		
+		System.out.println(s);
+		
+		
+		return null;
+	}
 	
 	public Locationonside getLocationonside() {
 		return locationonside;
@@ -447,6 +508,38 @@ public class LocationonsideAction extends BaseAdminAction {
 
 	public void setDesp(String desp) {
 		this.desp = desp;
+	}
+
+	public String getInfoId() {
+		return infoId;
+	}
+
+	public void setInfoId(String infoId) {
+		this.infoId = infoId;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public List<HashMap<String, String>> getLocasideListMap() {
+		return locasideListMap;
+	}
+
+	public void setLocasideListMap(List<HashMap<String, String>> locasideListMap) {
+		this.locasideListMap = locasideListMap;
+	}
+
+	public String getInfoName() {
+		return infoName;
+	}
+
+	public void setInfoName(String infoName) {
+		this.infoName = infoName;
 	}
 
 }

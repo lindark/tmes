@@ -159,6 +159,7 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 				map.put("sequ", ET_ITEM.getString("SEQU"));//整数
 				map.put("nlpla", ET_ITEM.getString("NLPLA"));//目的地仓位
 				map.put("maktx", ET_ITEM.getString("MAKTX"));//物料描述
+				map.put("lgort", ET_ITEM.getString("LGORT"));//库存地点
 				arrList.add(map);
 			}
 			return arrList;

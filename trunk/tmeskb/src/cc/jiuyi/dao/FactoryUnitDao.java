@@ -50,4 +50,8 @@ public interface FactoryUnitDao extends BaseDao<FactoryUnit,String> {
 	 * 根据工作中心取单元对象
 	 */
 	public FactoryUnit getUnitByWorkCenter(String workCenter);
+	/**
+	 * 获取team数据,已启用的
+	 */
+	public Pager getAllList(Pager pager, HashMap<String, String> map);
 }

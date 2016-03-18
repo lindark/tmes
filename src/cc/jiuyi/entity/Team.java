@@ -45,7 +45,7 @@ public class Team extends BaseEntity {
 	private String stateRemark;// 状态描述
 	private String xisWork;//是否正在工作描述
 
-	private Set<Department> departmentSet; 
+	//private Set<Department> departmentSet; 
 	private Set<Quality> qualitySet;
 	private Set<Model> modelSet;
 	private Set<Craft> craftSet;
@@ -88,14 +88,14 @@ public class Team extends BaseEntity {
 		this.qualitySet = qualitySet;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
-	public Set<Department> getDepartmentSet() {
-		return departmentSet;
-	}
-
-	public void setDepartmentSet(Set<Department> departmentSet) {
-		this.departmentSet = departmentSet;
-	}
+//	@OneToMany(fetch=FetchType.LAZY,mappedBy="team")
+//	public Set<Department> getDepartmentSet() {
+//		return departmentSet;
+//	}
+//
+//	public void setDepartmentSet(Set<Department> departmentSet) {
+//		this.departmentSet = departmentSet;
+//	}
 
 	public String getTeamCode() {
 		return teamCode;

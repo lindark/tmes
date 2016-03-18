@@ -19,7 +19,32 @@ jQuery(function($) {
 
 
 	jQuery(grid_selector).jqGrid({
-		
+		//direction: "rtl",
+
+		//subgrid options
+		subGrid : false,
+		//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
+		//datatype: "xml",
+		subGridOptions : {
+			plusicon : "ace-icon fa fa-plus center bigger-110 blue",
+			minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
+			openicon : "ace-icon fa fa-chevron-right center orange"
+		},
+		//for this example we are using local data
+		subGridRowExpanded: function (subgridDivId, rowId) {
+			var subgridTableId = subgridDivId + "_t";
+			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+			$("#" + subgridTableId).jqGrid({
+				datatype: 'local',
+				data: subgrid_data,
+				colNames: ['No','Item Name','Qty'],
+				colModel: [
+					{ name: 'id', width: 50 },
+					{ name: 'name', width: 150 },
+					{ name: 'qty', width: 50 }
+				]
+			});
+		},
 		url:"return_product!historylist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度

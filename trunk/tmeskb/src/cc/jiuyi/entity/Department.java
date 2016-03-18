@@ -29,7 +29,7 @@ public class Department extends BaseEntity {
 	private Department parentDept;//上级部门
 	private Set<Department> childDept;//下级部门
 	private Set<Admin> admin;//员工
-	private Team team;//班组
+	//private Team team;//班组
 	private String isWork;//是否启用
 	
 	//假字段
@@ -39,13 +39,13 @@ public class Department extends BaseEntity {
 	private String xcreater;//创建人
 	private String xisWork;//是否启用
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Team getTeam() {
-		return team;
-	}
-	public void setTeam(Team team) {
-		this.team = team;
-	}
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	public Team getTeam() {
+//		return team;
+//	}
+//	public void setTeam(Team team) {
+//		this.team = team;
+//	}
 	public String getDeptName() {
 		return deptName;
 	}

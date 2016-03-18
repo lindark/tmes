@@ -39,7 +39,7 @@ var setting = {
 
 var zNodes =[
 <#list list as department>
-	{ id:"${department.id}", pId:"${(department.parentDept.id)!}", name:"${department.deptName}",costcenter:"${department.costcenter}",movetype:"${department.movetype}",deptcode:"${department.deptCode}"},
+	{ id:"${(department.id)!}", pId:"${(department.parentDept.id)!}", name:"${(department.deptName)!}",costcenter:"${(department.costcenter)!}",movetype:"${(department.movetype)!}",deptcode:"${(department.deptCode)!}"},
 </#list>
 
 ];

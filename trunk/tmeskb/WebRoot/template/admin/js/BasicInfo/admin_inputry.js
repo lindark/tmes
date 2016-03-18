@@ -132,6 +132,7 @@ function post_event()
         	var info = iframeWin.getName();
         	$("#input_post").val(info.postid);
         	$("#span_postname").text(info.postname);
+        	$("#span_workstation").text(info.station);
         	layer.close(index);
         	return false;
         },

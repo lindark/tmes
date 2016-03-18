@@ -252,7 +252,7 @@
 				</div>
 			</div>
 			<div class="profile-info-row">
-				<div class="profile-info-name">误工小时数：</div>
+				<div class="profile-info-name">异常小时数：</div>
 				<div class="profile-info-value div-value">
 					<input type="text" id="input_hours" class=" input input-sm" />
 					<span id="span_hours" style="font-family: 微软雅黑;font-size: 10px;color: red;"></span>

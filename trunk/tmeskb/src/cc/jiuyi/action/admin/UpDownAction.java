@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
@@ -267,6 +268,15 @@ public class UpDownAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
+		
+		if(Param !=null){
+			JSONObject jsonobject = JSONObject.fromObject(Param);
+			if(jsonobject.get("pager.keyword") != null){
+				pager.setProperty(jsonobject.get("pager.property").toString());
+				pager.setKeyword(jsonobject.get("pager.keyword").toString());
+			}
+		}
+		
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		

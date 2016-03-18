@@ -443,8 +443,9 @@ public class KaoqinAction extends BaseAdminAction
 			if(a.getPost()!=null)
 			{
 				a.setXpost(a.getPost().getPostName());
+				a.setXgongwei(a.getPost().getStation());//工位
 			}
-			//工位
+			//模具组号
 			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
 			if(list_up.size()>0)
 			{

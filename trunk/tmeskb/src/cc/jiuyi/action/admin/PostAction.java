@@ -154,7 +154,7 @@ public class PostAction extends BaseAdminAction {
 		
 	//更新
 		public String update() {
-			Post persistent = postService.get(id);
+			Post persistent = postService.get(xpost.getId());
 			BeanUtils.copyProperties(xpost, persistent, new String[] { "id","createDate", "modifyDate"});
 			persistent.setModifyDate(new Date());
 			postService.update(persistent);

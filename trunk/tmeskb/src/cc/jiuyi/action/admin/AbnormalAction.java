@@ -110,7 +110,7 @@ public class AbnormalAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		if(loginid!=null && !"".equals(loginid)){
+		if(loginid!=null && !"".equals(loginid)){//当前登陆人生产日期和班次绑定
 			admin=adminService.get(loginid);
 			if(admin.getShift()==null||"".equals(admin.getShift())||admin.getProductDate()==null||"".equals(admin.getProductDate()))
 			{
@@ -136,7 +136,7 @@ public class AbnormalAction extends BaseAdminAction {
 	// ajax列表
 	public String ajlist() {
 
-		Admin admin2 = adminService.getLoginAdmin();
+		Admin admin2 = adminService.getLoginAdmin();//获取当前登录人
 		admin2 = adminService.get(admin2.getId());
 	
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -156,15 +156,15 @@ public class AbnormalAction extends BaseAdminAction {
 		}
 
 
-		pager = abnormalService.getAbnormalPager(pager, map, admin2);
+		pager = abnormalService.getAbnormalPager(pager, map, admin2);//分页查询语句
 
 		List pagerlist = pager.getList();  
         
-		for (int i = 0; i < pagerlist.size(); i++) {
+		for (int i = 0; i < pagerlist.size(); i++) {//对取到的对象进行重新封装
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
 			List<Admin> adminList = null;
 			
-			//消息处理
+			//消息处理，消息与异常多对多，将对象描述以字符串的形式进行拼接显示到页面上
 			List<Callreason> callreasonList = new ArrayList<Callreason>(
 					abnormal.getCallreasonSet());// 消息
 			List<String> strlist = new ArrayList<String>();
@@ -174,22 +174,22 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 			String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
 
-			//应答人处理
+			//应答人处理，应答人与异常多对多，将对象描述以字符串的形式进行拼接显示到页面上
 			List<Admin> respon = new ArrayList<Admin>(
 					abnormal.getResponsorSet());
 			
 			adminList = new ArrayList<Admin>();
 			for (SwiptCard s : abnormal.getSwiptCardSet()) {
-				if (s.getType().equals("0")) {
-					adminList.add(s.getAdmin());
+				if (s.getType().equals("0")) {//0指的是响应刷卡类型
+					adminList.add(s.getAdmin());//将已经刷过卡的人添加进入集合
 				}
 			}
 			
 			List<String> anslist = new ArrayList<String>();
 			
-			for (Admin admin : respon) {
+			for (Admin admin : respon) {//循环应答人
 				String str;
-				if(!adminList.contains(admin)){
+				if(!adminList.contains(admin)){//判断该集合中是否存在刷过卡的人，将没有刷过卡的人标记为红色
 					str = "<span style='color:red'>"+admin.getName()+"</span>";
 				}else{
 					str = admin.getName();							
@@ -202,28 +202,28 @@ public class AbnormalAction extends BaseAdminAction {
 			//日志处理
 			String ablists="";			
 			
-			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
+			List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());//异常日志记录
 			List<String> ablist = new ArrayList<String>();	
-			List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
-			List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());
-			List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());
-	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
+			List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());//该异常下的所有质量问题单
+			List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());//该异常下的所有工模维修单
+			List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());//该异常下的所有工艺维修单
+	        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());//该异常下的所有设备维修单
 	 
 			if(abLog.size()>0){	
-				if(qualityList.size()>1){					
+				if(qualityList.size()>1){//质量问题单超出一张，页面链接到单据清单页面					
 					String str1="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='quality'  style='color:#428bca;cursor:pointer'>质量问题单</a>"+"("+qualityList.size()+")";
 					ablist.add(str1);
 				}
-				if(modelList.size()>1){					
+				if(modelList.size()>1){	//工模维修单超出一张，页面链接到单据清单页面					
 					String str2="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='model'  style='color:#428bca;cursor:pointer'>工模维修单</a>"+"("+modelList.size()+")";
            		    ablist.add(str2);
            	    }
 				
-				 if(craftList.size()>1){            		
+				 if(craftList.size()>1){//工艺维修单超出一张，页面链接到单据清单页面         		
 					 String str3="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='craft'  style='color:#428bca;cursor:pointer'>工艺维修单</a>"+"("+craftList.size()+")";
 					 ablist.add(str3);
             	 }
-				 if(deviceList.size()>1){    
+				 if(deviceList.size()>1){ //设备维修单超出一张，页面链接到单据清单页面   
 					 String str4="已开"+"<input type='hidden' class='abnorId' value='"+abnormal.getId()+"' />"+"<a id='device'  style='color:#428bca;cursor:pointer'>设备维修单</a>"+"("+deviceList.size()+")";
 					 ablist.add(str4);
             	 }
@@ -231,23 +231,23 @@ public class AbnormalAction extends BaseAdminAction {
 		
 				for(AbnormalLog ab:abLog){
 					
-					String type = ab.getType();
-					String info= ab.getInfo();
-                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
+					String type = ab.getType();//获取日志类型
+					String info= ab.getInfo();//获取日志描述
+                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){  //日志类型为0，表示该异常已开质量问题单 ,质量问题单 只有一个，则链接到单据详情页面             	                    		
                     		 str="已开"+"<a href='quality!view.action?id="+qualityList.get(0).getId()+"'>质量问题单</a>"; 
 					 }
-                     else  if(type.equalsIgnoreCase("1") && modelList.size()==1){						
+                     else  if(type.equalsIgnoreCase("1") && modelList.size()==1){//日志类型为1，表示该异常已开工模维修单 ,工模维修单 只有一个，则链接到单据详情页面       						
                     		 str="已开"+"<a href='model!view.action?id="+modelList.get(0).getId()+"'>工模维修单</a>";                     	
-					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
+					 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){	//日志类型为2，表示该异常已开工艺维修单 ,工艺维修单 只有一个，则链接到单据详情页面    					
                     		 str="已开"+"<a href='craft!view.action?id="+craftList.get(0).getId()+"'>工艺维修单</a>";                     	
-					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
+					 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){	//日志类型为3，表示该异常已开设备维修单 ,设备维修单 只有一个，则链接到单据详情页面   					
                     		 str="已开"+"<a href='device!view.action?id="+deviceList.get(0).getId()+"'>设备维修单</a>";                      		 
 					 }else if(type.equalsIgnoreCase("5") && StringUtils.isNotEmpty(info)){
 						 str="已向"+info+"发送短信";
 					 }else{
 						 str="";
 					 }
-                     if(StringUtils.isNotEmpty(str) && !str.equalsIgnoreCase("")){
+                     if(StringUtils.isNotEmpty(str) && !str.equalsIgnoreCase("")){//不为空放入集合
                     	 ablist.add(str);
                      }
 
@@ -262,12 +262,12 @@ public class AbnormalAction extends BaseAdminAction {
 				ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
 			}
 			//ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
-			abnormal.setCallReason(comlist);
-			abnormal.setAnswer(anslist1);
-			abnormal.setLog(ablists);
-			abnormal.setOriginator(abnormal.getIniitiator().getName());
+			abnormal.setCallReason(comlist);//封装短息
+			abnormal.setAnswer(anslist1);//封装应答人
+			abnormal.setLog(ablists);//封装日志
+			abnormal.setOriginator(abnormal.getIniitiator().getName());//封装发起人
 			
-			//处理时间设置
+			//处理时间设置，状态为3表示已关闭，状态为4表示已撤销，在此两种状态下结束时间已确定可以直接计算，其他状态结束时间未定，用当前时间计算后显示页面，让时间持续增长
 			if(abnormal.getState().equalsIgnoreCase("3") || abnormal.getState().equalsIgnoreCase("4")){
 				abnormal.setDisposeTime(String.valueOf(abnormal.getHandlingTime()));
 			}else{
@@ -275,18 +275,18 @@ public class AbnormalAction extends BaseAdminAction {
 				int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 1000);
 				abnormal.setDisposeTime(String.valueOf(time));
 			}
-			
+			//状态封装，
 			abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "abnormalState", abnormal.getState()));
 			
-			//班次
+			//对班次进行封装
 			if(abnormal.getClasstime()!=null && !"".equals(abnormal.getClasstime())){
 				abnormal.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", abnormal.getClasstime()));
 			}else{
 				abnormal.setClasstime("");
 			}
 			
-			//关闭人或撤销人
+			//封装关闭人或撤销人，撤销与关闭两者选一，结束异常
 			if(abnormal.getCancelPerson()!=null && !"".equals(abnormal.getCancelPerson())){
 				Admin admin = adminService.get(abnormal.getCancelPerson());
 				abnormal.setCloseOrcancel(admin.getName());
@@ -297,7 +297,7 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormal.setCloseOrcancel("");
 			}
 			
-			//关闭人或撤销时间
+			//封装关闭人或撤销时间
 			if(abnormal.getCancelTime()!=null){
 				abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCancelTime()));
 			}else if(abnormal.getCloseTime()!=null){
@@ -306,7 +306,7 @@ public class AbnormalAction extends BaseAdminAction {
 				abnormal.setCloseOrcancelTime("");
 			}
 			
-			pagerlist.set(i, abnormal);
+			pagerlist.set(i, abnormal);//封装后重新放入pager对象中
 		}
 
 		JsonConfig jsonConfig = new JsonConfig();
@@ -320,40 +320,40 @@ public class AbnormalAction extends BaseAdminAction {
 	public String creditresponse() {
 		admin = adminService.getByCardnum(cardnumber);
 		ids= id.split(",");
-		List<Abnormal> abnormalList = abnormalService.get(ids);
+		List<Abnormal> abnormalList = abnormalService.get(ids);//获取所有的异常单,支持批量刷卡
 		for (int i = 0; i < abnormalList.size(); i++) {
 			List<Admin> adminList = null;
-			Abnormal persistent = abnormalList.get(i);
+			Abnormal persistent = abnormalList.get(i);//其中一个异常
 			Set<Admin> responsorSet = persistent.getResponsorSet();//获取应答人
-			if (responsorSet.contains(admin)) {
+			if (responsorSet.contains(admin)) {//判断应答人中是否有当前刷卡人
 				adminList = new ArrayList<Admin>();
 				for (SwiptCard s : persistent.getSwiptCardSet()) {
 					if (s.getType().equals("0")) {//判断是否是响应刷卡类型
-						adminList.add(s.getAdmin());
+						adminList.add(s.getAdmin());//将这个异常所有响应刷卡的人放入集合
 					}
 				}
-				if (adminList.contains(admin)) {
+				if (adminList.contains(admin)) {//如果集合中有这个人，表示这人已刷过卡
 					return ajaxJsonErrorMessage("请勿重复刷卡!");
 				}
-				if (responsorSet.size() == (adminList.size() + 1)) {
-					persistent.setState("2");
+				if (responsorSet.size() == (adminList.size() + 1)) {//当应答人与集合中相差一的时候，表示都响应了
+					persistent.setState("2");//更改状态为“2”处理中
 					Date date = new Date();
 					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
-					persistent.setResponseTime(time1);
-					removeQuartz(persistent.getJobname());			//删除定时发短信任务		
+					persistent.setResponseTime(time1);//设置响应时长(分钟)，当前时间减去异常发起时间
+					removeQuartz(persistent.getJobname());	//删除定时发短信任务		
 				} else {
-					persistent.setState("1");
+					persistent.setState("1");//状态为“1”未完全响应
 
 				}
-				SwiptCard swiptCard = new SwiptCard();
+				SwiptCard swiptCard = new SwiptCard();//刷卡表，一个异常存在多个刷卡
 				swiptCard.setAbnormal(persistent);
 				swiptCard.setAdmin(admin);
 				swiptCard.setType("0");
 				swiptCardService.save(swiptCard);
 				
-				AbnormalLog abnormalLog = new AbnormalLog();
+				AbnormalLog abnormalLog = new AbnormalLog();//异常日志表
 				abnormalLog.setAbnormal(persistent);				
-				abnormalLog.setType("4");
+				abnormalLog.setType("4");//日志类型：已刷卡
 				abnormalLog.setOperator(admin);
 				abnormalLogService.save(abnormalLog);
 				
@@ -372,23 +372,23 @@ public class AbnormalAction extends BaseAdminAction {
 	public String creditclose() {
 		admin = adminService.getByCardnum(cardnumber);
 		String ids[] = closeIds.split(",");
-		for (int i = 0; i < ids.length; i++) {
+		for (int i = 0; i < ids.length; i++) {//支持批量进行关闭
 			Abnormal persistent = abnormalService.load(ids[i]);
 			//if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
 				if (persistent.getState() != "3" & persistent.getState() != "4") {//"3"异常关闭 "4"异常撤销
 					persistent.setState("3");
-					persistent.setCloseTime(new Date());
-					persistent.setClosePerson(admin.getId());
-					removeQuartz(persistent.getJobname());	
-					if (persistent.getReplyDate() == null) {
+					persistent.setCloseTime(new Date());//关闭时间
+					persistent.setClosePerson(admin.getId());//关闭人
+					removeQuartz(persistent.getJobname());	//结束定时任务
+					if (persistent.getReplyDate() == null) {//判断是否存在应答时间
 						persistent.setReplyDate(new Date());
-						Date date = new Date();
+						Date date = new Date();//设置处理时间，当前时间减去异常发起时间
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 						double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
 						persistent.setHandlingTime(time);
 						persistent.setDealTime(time1);
 					}else{
-						Date date = new Date();
+						Date date = new Date();//设置处理时间，当前时间减去响应时间
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 						double time1=(double) ((date.getTime()-persistent.getReplyDate().getTime())/60000);
 						persistent.setHandlingTime(time);
@@ -412,15 +412,15 @@ public class AbnormalAction extends BaseAdminAction {
 		String ids[] = cancelIds.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			Abnormal persistent = abnormalService.load(ids[i]);
-			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
+			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人，只有发起人才有撤销的权限
 				if (persistent.getState().equals("0")
-						|| persistent.getState().equals("1")) {//"0"未响应  "1"未完全响应
-					persistent.setState("4");
-					persistent.setCancelPerson(admin.getId());
-					persistent.setCancelTime(new Date());
-					removeQuartz(persistent.getJobname());	
+						|| persistent.getState().equals("1")) {//"0"未响应  "1"未完全响应，只有处于这两种状态才能撤销
+					persistent.setState("4");//设置状态为撤销
+					persistent.setCancelPerson(admin.getId());//撤销人
+					persistent.setCancelTime(new Date());//撤销时间
+					removeQuartz(persistent.getJobname());	//删除定时任务
 					persistent.setReplyDate(new Date());
-					Date date = new Date();
+					Date date = new Date();//计算处理时长，当前时间减去异常发起时间
 					int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
 					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
 					persistent.setHandlingTime(time);
@@ -443,13 +443,13 @@ public class AbnormalAction extends BaseAdminAction {
 		return "abnormal_message";
 	}
 
-	//刷卡提交
+	//刷卡提交，发起一个异常
 	public String creditsave(){
 		
 		String errormes="";
 		try{
 			admin = adminService.getByCardnum(cardnumber);
-			for(int i=0;i<callReasonSet.size();i++){
+			for(int i=0;i<callReasonSet.size();i++){//从页面获取人员及短信信息
 				Callreason call = callReasonSet.get(i);
 				if(call.getId()==null){
 					return ajaxJsonErrorMessage("短信不能为空");
@@ -461,11 +461,11 @@ public class AbnormalAction extends BaseAdminAction {
 			List<Callreason> callreasonSet = new ArrayList<Callreason>();
 			List<String> strLen = new ArrayList<String>();
 			List<HashMap<String, String>> mapList = new ArrayList<HashMap<String,String>>();
-			
+			//获取当前刷卡人的车间，单元，和名字
 			String workshop=admin.getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
 			String unit=admin.getTeam().getFactoryUnit().getFactoryUnitName();
 			String adminName =admin.getName();
-			for(int i=0;i<callReasonSet.size();i++){
+			for(int i=0;i<callReasonSet.size();i++){//向指定人员发送指定短信，同时将人员和短信信息放入map中，方便定时任务的开启和执行
 				HashMap<String,String> map = new HashMap<String,String>();
 				//String message="";//这里显示需要的格式?										
 				
@@ -474,10 +474,10 @@ public class AbnormalAction extends BaseAdminAction {
 				Callreason call1 = callReasonService.get(call.getId());//短信
 				String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+adminName;
 								
-				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);												
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口											
 	            Document doc;   
-	            doc = DocumentHelper.parseText(str); 
-	            Node stateNode = doc.selectSingleNode("/infos/info/state");
+	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
+	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
 		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
 		      		errormes += admin.getName()+":短信发生失败!";
 		      	}								
@@ -493,8 +493,8 @@ public class AbnormalAction extends BaseAdminAction {
 			/*******定时任务**********/
 			Date dates = new Date();
 			String jobname=ThinkWayUtil.formatdateDateTime(dates);
-			job_name=job_name+jobname;
-			Abnormal abnormal = new Abnormal();
+			job_name=job_name+jobname;//字符串拼接成唯一的任务名
+			Abnormal abnormal = new Abnormal();//创建异常
 			abnormal.setJobname(job_name);
 			abnormal.setCallDate(new Date());
 			abnormal.setIniitiator(admin);
@@ -506,11 +506,11 @@ public class AbnormalAction extends BaseAdminAction {
 			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
 			
 			Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
-			admin2 = adminService.get(admin.getId());
+			admin2 = adminService.get(admin2.getId());
 			
 			abnormal.setProductdate(admin2.getProductDate());
 			abnormal.setClasstime(admin2.getShift());
-			abnormalService.save(abnormal);
+			abnormalService.save(abnormal);//保存数据
 
 			AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
 			abnormalLog.setAbnormal(abnormal);
@@ -519,23 +519,23 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormalLog.setInfo(comlist);
 			abnormalLogService.save(abnormalLog);	
 	
-			Calendar can = Calendar.getInstance();	//定时任务时间1
+			Calendar can = Calendar.getInstance();	//定时任务时间1，计算十分钟后的时间，异常未应答向其再发送一条短信
 			can.setTime(abnormal.getCreateDate());
 			can.add(Calendar.MINUTE, 10);
 			Date date=can.getTime();	
 			
-			Calendar can1 = Calendar.getInstance();//定时任务时间2
+			Calendar can1 = Calendar.getInstance();//定时任务时间2，计算三十分钟后的时间，异常还未应答向其直接上级发送一条短信
 			can1.setTime(abnormal.getCreateDate());
 			can1.add(Calendar.MINUTE, 30);
 			Date date1=can1.getTime();
 			
-			Calendar can2 = Calendar.getInstance();//定时任务时间3
+			Calendar can2 = Calendar.getInstance();//定时任务时间3，计算一小时后的时间，异常还未应答向其直接上级的直接上级发送一条短信，此后如未应答递归向直接上级发送短信
 			can2.setTime(abnormal.getCreateDate());
 			can2.add(Calendar.MINUTE, 60);
 			Date date2=can2.getTime();
 	
-			JSONArray jsonArray = JSONArray.fromObject(mapList);
-			
+			JSONArray jsonArray = JSONArray.fromObject(mapList);//将map类型进行转换
+			//创建一个map，放入异常，人员，时间，车间单元，任务名，标记符，短信和人员等信息
 			HashMap<String,Object> maps = new HashMap<String,Object>();
 			maps.put("id",abnormal.getId());
 			maps.put("name",admin.getId());
@@ -548,7 +548,7 @@ public class AbnormalAction extends BaseAdminAction {
 			maps.put("jobname", job_name);
 			maps.put("count","1");
 			maps.put("list", jsonArray.toString());
-			quartzMessage(ThinkWayUtil.getCron(date),maps);	
+			quartzMessage(ThinkWayUtil.getCron(date),maps);	//开启定时任务
 								
 		}catch(DocumentException e){
 			e.printStackTrace();
@@ -568,8 +568,8 @@ public class AbnormalAction extends BaseAdminAction {
 	//创建定时任务
 	public void quartzMessage(String time,HashMap<String,Object> maps){	
 		String name=(String)maps.get("jobname");
-		removeQuartz(name);
-		QuartzManagerUtil.addJob(name, ExtremelyMessage.class,time,maps);			      	      
+		removeQuartz(name);//如果存在同名的即先删除定时任务
+		QuartzManagerUtil.addJob(name, ExtremelyMessage.class,time,maps);//创建定时任务			      	      
 	}
 	
 	//删除定时任务
@@ -585,11 +585,11 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 	
-	public String history() {
+	public String history() {//异常历史页面
 		return "history";
 	}
 	
-	public String historylist() {
+	public String historylist() {//异常历史页面加载
 		Admin admin2 = adminService.getLoginAdmin();
 		admin2 = adminService.get(admin2.getId());
 	
@@ -623,7 +623,7 @@ public class AbnormalAction extends BaseAdminAction {
 			}
 		}
 
-		pager = abnormalService.getAbnormalAllPager(pager, map, admin2.getId());
+		pager = abnormalService.getAbnormalAllPager(pager, map, admin2.getId());//分页查询
 		
 		List pagerlist = pager.getList();  
         

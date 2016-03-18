@@ -14,6 +14,7 @@ public interface ReturnProductService extends BaseService<ReturnProduct, String>
 	void saveReturnProduct(List<ReturnProduct> returnProductList,String info,Admin admin);
 	void updateApprovalReturnProduct(String[] ids,Admin admin);
 	void updateEidtReturnProduct(String id,Admin admin,ReturnProduct returnProduct,String info);
+	public Pager jqGrid(Pager pager);
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 	public List<ReturnProduct> historyExcelExport(HashMap<String,String>map);
 }

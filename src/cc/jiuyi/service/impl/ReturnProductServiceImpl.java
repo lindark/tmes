@@ -68,7 +68,10 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		return returnProductDao.historyjqGrid(pager, map);
 	}
-
+	@Override
+	public Pager jqGrid(Pager pager) {
+		return returnProductDao.jqGrid(pager);
+	}
 	@Override
 	public List<ReturnProduct> historyExcelExport(HashMap<String, String> map) {
 		// TODO Auto-generated method stub

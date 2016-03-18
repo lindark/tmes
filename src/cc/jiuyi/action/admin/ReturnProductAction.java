@@ -105,8 +105,17 @@ public class ReturnProductAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
-		
-		pager = returnProductService.findByPager(pager);
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		pager = returnProductService.jqGrid(pager);
 		List<ReturnProduct> endProductList = pager.getList();
 		List<ReturnProduct> lst = new ArrayList<ReturnProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {

@@ -117,5 +117,12 @@ public class ReturnProductDaoImpl extends BaseDaoImpl<ReturnProduct, String> imp
 		}
 		return query.list();
 	}
+
+	@Override
+	public Pager jqGrid(Pager pager) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(ReturnProduct.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		return super.findByPager(pager,detachedCriteria);
+	}
 	
 }

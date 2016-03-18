@@ -75,7 +75,7 @@ jQuery(function($) {
 			{name:'xstation',label:"模具组号",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkscope',label:"工作范围",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkstate',index:'workstate',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
-			{name:'tardyHours',label:"误工小时数",width:100,editable: false,search:false,sortable:false},
+			{name:'tardyHours',label:"异常小时数",width:100,editable: false,search:false,sortable:false},
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 		], 

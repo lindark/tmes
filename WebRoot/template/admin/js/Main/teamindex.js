@@ -22,6 +22,7 @@ $(function() {
 	var $barcode = $(".barcode");//条码打印
 	var $deptpk = $("#deptpk");//部门领料
 	var $updown = $("#updown");//上架/下架
+	var $csll = $("#csll");//超市领料
 	
 	$table00.find("tbody tr").click(function(){
 		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
@@ -346,6 +347,14 @@ $(function() {
 		if(istrue){
 			window.location.href="up_down!list.action";
 		}
+	});
+	
+	$csll.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			window.location.href="up_down!cslist.action";
+		}
+		
 	});
 	
 	$barcode.click(function(){

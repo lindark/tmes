@@ -11,7 +11,8 @@ import cc.jiuyi.entity.ReturnProduct;
  * Dao接口 - 成品入库
  */
 public interface ReturnProductDao extends BaseDao<ReturnProduct, String> {
-
+	public Pager jqGrid(Pager pager);
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 	public List<ReturnProduct> historyExcelExport(HashMap<String,String>map);
+	
 }

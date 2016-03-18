@@ -83,7 +83,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin>getByTeamId(String tid)
 	{
 		//String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where c.id=? or a.isdaiban=? order by a.modifyDate desc";
-		String hql="from Admin where department.team.id=? or isdaiban=? order by modifyDate desc";
+		String hql="from Admin where team.id=? or isdaiban=? order by modifyDate desc";
 		return this.getSession().createQuery(hql).setParameter(0, tid).setParameter(1, tid).list();
 	}
 
@@ -100,14 +100,14 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			detachedCriteria.createAlias("post", "post");
 		}
 		//部门
-		if(!super.existAlias(detachedCriteria, "department", "department"))
-		{
-			detachedCriteria.createAlias("department", "department");
-		}
+//		if(!super.existAlias(detachedCriteria, "department", "department"))
+//		{
+//			detachedCriteria.createAlias("department", "department");
+//		}
 		//班组
-		if(!super.existAlias(detachedCriteria, "department.team", "team"))
+		if(!super.existAlias(detachedCriteria, "team", "team"))
 		{
-			detachedCriteria.createAlias("department.team", "team");
+			detachedCriteria.createAlias("team", "team");
 		}
 		if(map.size()>0)
 		{
@@ -132,8 +132,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 				detachedCriteria.add(Restrictions.like("post.postName", "%"+map.get("skill")+"%"));
 			}
 		}
-		detachedCriteria.add(Restrictions.ne("team.id", admin.getDepartment().getTeam().getId()));
-		detachedCriteria.add(Restrictions.ne("isdaiban", admin.getDepartment().getTeam().getId()));
+		detachedCriteria.add(Restrictions.ne("team.id", admin.getTeam().getId()));
+		detachedCriteria.add(Restrictions.ne("isdaiban", admin.getTeam().getId()));
 		detachedCriteria.add(Restrictions.eq("workstate", "1"));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
@@ -187,7 +187,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 */
 	public Admin getByCardnumAndTeamid(String cardNumber,String teamid)
 	{
-		String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where a.cardNumber=? and (c.id=? or a.isdaiban=?)";
+		String hql="from Admin a inner join fetch team c where a.cardNumber=? and (c.id=? or a.isdaiban=?)";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).setParameter(2, teamid).uniqueResult();
 	}
 	
@@ -278,14 +278,14 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Admin.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		//部门
-		if(!super.existAlias(detachedCriteria, "department", "department"))
-		{
-			detachedCriteria.createAlias("department", "department");
-		}
+//		if(!super.existAlias(detachedCriteria, "department", "department"))
+//		{
+//			detachedCriteria.createAlias("department", "department");
+//		}
 		//班组
-		if(!super.existAlias(detachedCriteria, "department.team", "team"))
+		if(!super.existAlias(detachedCriteria, "team", "team"))
 		{
-			detachedCriteria.createAlias("department.team", "team");
+			detachedCriteria.createAlias("team", "team");
 		}
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("team.id", tid),Restrictions.eq("isdaiban", tid)));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
@@ -326,10 +326,10 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		{
 			if (map!=null&&map.size() > 0)
 			{
-				if(!super.existAlias(detachedCriteria, "department", "department"))
-				{
-					detachedCriteria.createAlias("department", "department");
-				}
+//				if(!super.existAlias(detachedCriteria, "department", "department"))
+//				{
+//					detachedCriteria.createAlias("department", "department");
+//				}
 				if(!super.existAlias(detachedCriteria, "team", "team"))
 				{
 					detachedCriteria.createAlias("team", "team");
@@ -370,14 +370,14 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		if(map.size()>0)
 		{
 			//部门
-			if(!super.existAlias(detachedCriteria, "department", "department"))
-			{
-				detachedCriteria.createAlias("department", "department");
-			}
+//			if(!super.existAlias(detachedCriteria, "department", "department"))
+//			{
+//				detachedCriteria.createAlias("department", "department");
+//			}
 			//班组
-			if(!super.existAlias(detachedCriteria, "department.team", "team"))
+			if(!super.existAlias(detachedCriteria, "team", "team"))
 			{
-				detachedCriteria.createAlias("department.team", "team");
+				detachedCriteria.createAlias("team", "team");
 			}
 			//岗位
 			if(!super.existAlias(detachedCriteria, "post", "post"))

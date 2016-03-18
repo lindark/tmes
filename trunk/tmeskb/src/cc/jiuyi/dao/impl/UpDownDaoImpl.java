@@ -1,6 +1,8 @@
 package cc.jiuyi.dao.impl;
 
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -20,11 +22,12 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		UpDownDao {
 	
 	
-	public Pager findByPager(Pager pager,Admin admin) {
+	public Pager findByPager(Pager pager,Admin admin,List<String> list) {
 		
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(UpDown.class);
 		detachedCriteria.add(Restrictions.eq("productDate", admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		detachedCriteria.add(Restrictions.in("type", list));
 		return super.findByPager(pager, detachedCriteria);
 	}
 	

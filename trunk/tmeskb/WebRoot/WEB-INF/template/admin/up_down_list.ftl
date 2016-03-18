@@ -65,10 +65,12 @@
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									下架管理
 								</a>
-								<a id="btn_updown" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-cloud-upload"></i>
-									仓位移动
-								</a>
+								<!-- 
+									<a id="btn_updown" class="btn btn-white btn-default btn-sm btn-round">
+										<i class="ace-icon fa fa-cloud-upload"></i>
+										仓位移动
+									</a>
+								 -->
 								<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-book"></i>
 									查看

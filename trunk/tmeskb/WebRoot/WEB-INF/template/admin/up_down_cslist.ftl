@@ -56,7 +56,7 @@
 							<!-- ./ add by weitao  -->
 							
 							<div class="row buttons col-md-8 col-sm-4">
-								
+							<form class="form-horizontal" id="searchform" action="up_down!csajlist.action" role="form">	
 								<a id="btn_csll" class="btn btn-white btn-default btn-sm btn-round">
 									<i class="ace-icon fa fa-cloud-upload"></i>
 									超市领料
@@ -69,6 +69,20 @@
 									<i class="ace-icon fa fa-home"></i>
 									返回 
 								</a>
+									<select name="pager.property">
+										<option value="uplgpla">
+											发出仓位
+										</option>
+										<option value="downlgpla">
+											接受仓位
+										</option>
+									</select>
+									<input type="text" name="pager.keyword" class="input input-sm" id="form-field-icon-1">
+									<button id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+										<i class="ace-icon fa fa-filter blue"></i>
+										搜索
+									</button>
+								</form>
 							</div>
 							<div class="row">
 								<div class="col-xs-12">

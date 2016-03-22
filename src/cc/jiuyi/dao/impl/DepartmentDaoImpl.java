@@ -32,18 +32,18 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Department> getAllByHql(List<String>list_str) {
-		/*String hql="";
+		String hql="";
 		if(list_str.size()>0)
 		{
-			hql ="from Department where isDel = 'N' and isWork='Y' and id not in (?)";
-			return getSession().createQuery(hql).setParameter(0, list_str).list();
+			hql ="from Department where isDel = 'N' and isWork='Y' and id not in (:list)";
+			return getSession().createQuery(hql).setParameterList("list", list_str).list();
 		}
 		else
 		{
 			hql ="from Department where isDel = 'N' and isWork='Y'";
 			return getSession().createQuery(hql).list();
-		}*/
-		Pager pager=new Pager();
+		}
+		/*Pager pager=new Pager();
 		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Department.class);
 		if(list_str.size()>0)
 		{
@@ -51,7 +51,7 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));
 		detachedCriteria.add(Restrictions.eq("isWork", "Y"));
-		return super.findByPager(pager,detachedCriteria).getList();
+		return super.findByPager(pager,detachedCriteria).getList();*/
 	}
 	public List getAllByHql() {
 		String hql ="from Department where isDel = 'N'";

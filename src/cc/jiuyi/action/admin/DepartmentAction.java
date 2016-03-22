@@ -359,6 +359,10 @@ public class DepartmentAction extends BaseAdminAction {
 		Department d=this.deptservice.getByCode(deptcode);
 		if(d!=null)
 		{
+			if(id!=null&&d.getId().equals(id))
+			{
+				return this.ajaxJsonSuccessMessage("S");
+			}
 			return this.ajaxJsonErrorMessage("E");
 		}
 		return this.ajaxJsonSuccessMessage("S");

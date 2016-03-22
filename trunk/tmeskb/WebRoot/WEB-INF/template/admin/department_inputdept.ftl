@@ -88,13 +88,9 @@ body{background:#fff;}
 							<div class="profile-info-row">
 								<div class="profile-info-name">部门编码</div>
 								<div class="profile-info-value">
-									<#if isadd??>
-										<input id="input_deptcode" type="text" name="department.deptCode" class=" input input-sm formText {required: true}" value="${(department.deptCode)!}" />
-										<span id="span_code" style="color:red;font-family: 微软雅黑;font-size:10px;"></span>
-										<label class="requireField">*</label>
-									<#else>
-										${(department.deptCode)! }
-									</#if>
+									<input id="input_deptcode" type="text" name="department.deptCode" class=" input input-sm formText {required: true}" value="${(department.deptCode)!}" />
+									<span id="span_code" style="color:red;font-family: 微软雅黑;font-size:10px;"></span>
+									<label class="requireField">*</label>
 								</div>
 							</div>
 							<div class="profile-info-row">

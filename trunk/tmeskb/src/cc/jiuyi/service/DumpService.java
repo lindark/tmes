@@ -73,4 +73,6 @@ public interface DumpService extends BaseService<Dump, String>{
 	 */
 	public List<HashMap<String,String>> getMengeByConditions(Admin emp);
 	
+	public List<Dump> historyExcelExport(HashMap<String,String> map);
+	
 }

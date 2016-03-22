@@ -275,4 +275,10 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		}
 		return maplist;
 	}
+
+	@Override
+	public List<Dump> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return dumpDao.historyExcelExport(map);
+	}
 }

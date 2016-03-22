@@ -63,16 +63,20 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '物料凭证号','过账日期','凭证年度', '确认人','状态'],
-		colModel:[
-			
-			{name:'voucherId',index:'voucherId',key:true, width:200,sortable:"true",sorttype:"text"},
-			{name:'deliveryDate',index:'deliveryDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmtTwo},
-			{name:'mjahr',index:'mjahr',width:200,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
-			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dumpState"}}
-
-		], 
+	    colModel:[
+	  		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
+	  		    {name:'productionDate',index:'productionDate',label:"生产日期",width:100,editable:true,editoptions:{size:"20",maxlength:"30"}},
+	  		    {name:'xshift',index:'shift',search:false,label:"班次", width:50,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  		    {name:'materialCode',index:'materialCode',search:false,label:"组件编码", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  		    {name:'materialdes',index:'materialdes',search:false,label:"组件描述", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  			{name:'allcount',index:'allcount',search:false,label:"组件总数量", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  		    {name:'voucherId',index:'voucherId',search:false,label:"物料凭证号", width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  			{name:'createName',index:'createUser',label:"创建人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+	  			{name:'adminName',index:'confirmUser',label:"确认人",search:false, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+	  			{name:'createDate',index:'createDate',label:"创建日期",width:150,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+	  			{name:'stateRemark',index:'state', width:100,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=returnProState"}},
+	  			{name:'state',index:'state', label:"state", editable: false,hidden:true}
+	  			], 
 		//sortable:true,
 		//sortname: "deliveryDate",
 		//sortorder: "desc",
@@ -101,7 +105,7 @@ jQuery(function($) {
 		},
 
 		editurl: "dump!delete.action",//用它做标准删除动作
-		caption: "历史转储记录"
+		caption: "历史物料调拨记录"
 		
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

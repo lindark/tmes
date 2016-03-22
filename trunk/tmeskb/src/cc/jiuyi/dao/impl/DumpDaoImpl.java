@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dump;
 
 /**
@@ -26,23 +29,95 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 				.forClass(Dump.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		if (map.size() > 0) {
-			if(map.get("voucherId")!=null){
-			    detachedCriteria.add(Restrictions.eq("voucherId", map.get("voucherId")));
-			}		
-			if(map.get("start")!=null||map.get("end")!=null){
+			if (map.get("voucherId") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"voucherId",
+						"%" + map.get("voucherId") + "%"));
+			}	
+			if (map.get("materialCode") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"materialCode",
+						"%" + map.get("materialCode") + "%"));
+			}	
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"state",
+						"%" + map.get("state") + "%"));
+			}	
+			if(map.get("start")!=null && map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 				try{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
-					detachedCriteria.add(Restrictions.between("deliveryDate", start, end));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}
 		}
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+	
+	public List<Dump> historyExcelExport(HashMap<String,String> map){
+		String hql="from Dump model";
+		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
+			if (!map.get("voucherId").equals("")) {
+				if(ishead==0){
+					hql+=" where model.voucherId like '%"+map.get("voucherId")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.voucherId like '%"+map.get("voucherId")+"%'";
+				}
+			}	
+			if (!map.get("materialCode").equals("")) {
+				if(ishead==0){
+					hql+=" where model.materialCode like '%"+map.get("materialCode")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.materialCode like '%"+map.get("materialCode")+"%'";
+				}
+			}	
+			if (!map.get("state").equals("")) {
+				if(ishead==0){
+					hql+=" where model.state like '%"+map.get("state")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.state like '%"+map.get("state")+"%'";
+				}
+			}	
+			if(!map.get("start").equals("") && !map.get("end").equals("")){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					System.out.println(map.get("start")); 
+					if(ishead==0){
+						hql+=" where model.createDate between :start and :end";
+						ishead=1;
+					}else{
+						hql+=" and model.createDate between :start and :end";
+					}
+					parameters.put("start", start);
+					parameters.put("end", end);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		
+		Query query = getSession().createQuery(hql);
+		
+		if(parameters.get("start") != null){
+			query.setParameter("start", parameters.get("start"));
+		}
+		if(parameters.get("end") != null){
+			query.setParameter("end", parameters.get("end"));
+		}
+		
+		return query.list();
+	}
+
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

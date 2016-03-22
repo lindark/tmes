@@ -24,6 +24,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.FactoryUnit;
@@ -35,6 +36,7 @@ import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -70,6 +72,11 @@ public class DumpAction extends BaseAdminAction {
 	private String fuid;//单元主键ID
 	private String dumpid;//主键
 	private String xedit;
+	private String voucherId;
+	private String state;
+	private String materialCode;
+	private String end;
+	private String start;
 
 	@Resource
 	private DumpRfc dumpRfc;
@@ -84,6 +91,136 @@ public class DumpAction extends BaseAdminAction {
 	@Resource
 	private FactoryUnitService fuservice;
 
+	
+	// 物料调拨记录 @author Reece 2016/3/22
+	public String history() {
+		return "history";
+	}
+	
+	//物料调拨列表 @author Reece 2016/3/22
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("voucherId") != null) {
+				String voucherId = obj.getString("voucherId").toString();
+				map.put("voucherId", voucherId);
+			}
+			if (obj.get("materialCode") != null) {
+				String materialCode = obj.getString("materialCode").toString();
+				map.put("materialCode", materialCode);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+		pager = dumpService.findPagerByjqGrid(pager, map);
+		List<Dump> dumpList = pager.getList();
+		List<Dump> lst = new ArrayList<Dump>();
+		for (int i = 0; i < dumpList.size(); i++) {
+			Dump dump = (Dump) dumpList.get(i);
+			dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"dumpState", dump.getState()));
+			if (dump.getConfirmUser() != null) {
+				dump.setAdminName(dump.getConfirmUser().getName());
+			}
+			dump.setCreateName(dump.getCreateUser().getName());
+			if(dump.getShift()!=null&&!"".equals(dump.getShift())){
+				dump.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", dump.getShift()));
+			}
+			lst.add(dump);
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	// Excel导出 @author Reece 2016/3/22
+			public String excelexport() {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("voucherId", voucherId);
+				map.put("materialCode", materialCode);
+				map.put("state", state);
+				map.put("start", start);
+				map.put("end", end);
+
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				header.add("生产日期");
+				header.add("班次");
+				header.add("组件编码");
+				header.add("组件描述");
+				header.add("组件总数量");
+
+				header.add("物料凭证号");
+				header.add("创建日期");
+				header.add("创建人");
+				header.add("确认人");
+				header.add("状态");
+
+				List<Dump> dumpList = dumpService.historyExcelExport(map);
+				for (int i = 0; i < dumpList.size(); i++) {
+					Dump dump = dumpList.get(i);
+
+					Object[] bodyval = {
+							dump.getProductionDate(),
+							dump.getShift()==null ?"":
+								ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", dump.getShift()),
+							dump.getMaterialCode(),
+							dump.getMaterialdes(),
+							dump.getAllcount(),
+							
+							dump.getVoucherId(),
+							dump.getCreateDate(),
+							dump.getCreateUser() == null ? "" : dump
+									.getCreateUser().getName(),
+							dump.getConfirmUser() == null ? "" : dump
+									.getConfirmUser().getName(),
+							ThinkWayUtil.getDictValueByDictKey(dictService,
+									"dumpState", dump.getState())};
+					body.add(bodyval);
+				}
+
+				try {
+					String fileName = "物料调拨记录表" + ".xls";
+					setResponseExcel(fileName);
+					ExportExcel.exportExcel("物料调拨记录表", header, body, getResponse()
+							.getOutputStream());
+					getResponse().getOutputStream().flush();
+					getResponse().getOutputStream().close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+	
+	
 	public String list() {
 		admin = adminService.get(loginid);
 		boolean flag = ThinkWayUtil.isPass(admin);
@@ -97,11 +234,6 @@ public class DumpAction extends BaseAdminAction {
 		warehouseName = admin.getTeam().getFactoryUnit()
 				.getWarehouseName();
 		return "list";
-	}
-	
-	// 历史转储记录
-	public String history() {
-		return "history";
 	}
 
 	// 添加
@@ -179,61 +311,6 @@ public class DumpAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
 
-	/**
-	 * 历史转储记录
-	 * @return
-	 */
-	public String historylist() {
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager.getOrderBy().equals("")) {
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
-		}
-		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
-			if (!filters.equals("")) {
-				JSONObject filt = JSONObject.fromObject(filters);
-				Pager pager1 = new Pager();
-				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
-				m.put("rules", jqGridSearchDetailTo.class);
-				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
-				pager.setRules(pager1.getRules());
-				pager.setGroupOp(pager1.getGroupOp());
-			}
-		}
-		if (pager.is_search() == true && Param != null) {// 普通搜索功能
-			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
-			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("voucherId") != null) {
-				System.out.println("obj=" + obj);
-				String voucherId = obj.getString("voucherId").toString();
-				map.put("voucherId", voucherId);
-			}
-			if (obj.get("start") != null && obj.get("end") != null) {
-				String start = obj.get("start").toString();
-				String end = obj.get("end").toString();
-				map.put("start", start);
-				map.put("end", end);
-			}
-		}
-		pager = dumpService.findPagerByjqGrid(pager, map);
-		List<Dump> dumpList = pager.getList();
-		List<Dump> lst = new ArrayList<Dump>();
-		for (int i = 0; i < dumpList.size(); i++) {
-			Dump dump = (Dump) dumpList.get(i);
-			dump.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"dumpState", dump.getState()));
-			if (dump.getConfirmUser() != null) {
-				dump.setAdminName(dump.getConfirmUser().getName());
-			}
-			lst.add(dump);
-		}
-		pager.setList(lst);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Dump.class));// 排除有关联关系的属性字段
-		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		return ajaxJson(jsonArray.get(0).toString());
-	}
 
 	/**
 	 * ajax 列表
@@ -941,5 +1018,47 @@ public class DumpAction extends BaseAdminAction {
 	{
 		this.list_ddmap = list_ddmap;
 	}
+
+	public String getVoucherId() {
+		return voucherId;
+	}
+
+	public void setVoucherId(String voucherId) {
+		this.voucherId = voucherId;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+	
+	
 	
 }

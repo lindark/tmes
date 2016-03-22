@@ -552,7 +552,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="" >
+							<!--  <li class="" >
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									工序交接记录
@@ -560,6 +560,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							-->
 							
 							<li class="" >
 								<a href="odd_hand_over!history.action">
@@ -672,6 +673,16 @@
 								<b class="arrow"></b>
 							</li>
 							
+							<li class="" >
+								<a href="dump!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									物料调拨记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							
 							<li class="">
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -690,14 +701,6 @@
 								<b class="arrow"></b>
 							</li>
 							
-							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									物料调拨记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
 							
 							<li class="" >
 								<a href="#" style="font-size:12px;color:red">
@@ -707,6 +710,16 @@
 
 								<b class="arrow"></b>
 							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									上/下架记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
 							
 							<li class="" >
 								<a href="#" style="font-size:12px;color:red">
@@ -730,15 +743,6 @@
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品巡检记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							
-							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									上/下架记录
 								</a>
 
 								<b class="arrow"></b>

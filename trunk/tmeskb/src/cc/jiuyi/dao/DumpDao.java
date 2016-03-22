@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dump;
 
 /**
@@ -38,4 +39,6 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	 * @return
 	 */
 	public List<Object[]> getMengeByConditions(Admin emp);
+	
+	public List<Dump> historyExcelExport(HashMap<String,String> map);
 }

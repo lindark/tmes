@@ -27,7 +27,7 @@ function code_event()
 	$("#input_deptcode").val(deptcode);
 	if(deptcode!=null&&deptcode!="")
 	{
-		$.post("department!checkcode.action?deptcode="+deptcode,function(data){
+		$.post("department!checkcode.action?deptcode="+deptcode+"&id="+$("#deptid").val(),function(data){
 			if(data.status=="success")
 			{
 				$("#span_code").text("");
@@ -45,24 +45,17 @@ function check_event()
 {
 	var deptcode=$("#input_deptcode").val();
 	var deptid=$("#deptid").val();
-	if(deptid==null||deptid=="")
-	{
-		$.post("department!checkcode.action?deptcode="+deptcode,function(data){
-			if(data.status=="success")
-			{
-				$("#span_code").text("");
-				$("#inputForm").submit();
-			}
-			else if(data.status=="error")
-			{
-				$("#span_code").text("部门编码已存在!");
-			}
-		},"json");
-	}
-	else
-	{
-		$("#inputForm").submit();
-	}
+	$.post("department!checkcode.action?deptcode="+deptcode+"&id="+deptid,function(data){
+		if(data.status=="success")
+		{
+			$("#span_code").text("");
+			$("#inputForm").submit();
+		}
+		else if(data.status=="error")
+		{
+			$("#span_code").text("部门编码已存在!");
+		}
+	},"json");
 }
 
 //选择上级部门

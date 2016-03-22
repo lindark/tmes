@@ -136,8 +136,7 @@ body{background:#fff;}
 					<div class="profile-info-value">
 						<img id="img_boss" title="直接上级" alt="直接上级" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
 						<span id="span_boss">${(admin.parentAdmin.name)! }</span>
-						<input type="hidden" id="input_boss" name="admin.parentAdmin.id" value="${(admin.parentAdmin.id)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
-						<label class="requireField">*</label>
+						<input type="hidden" id="input_boss" name="admin.parentAdmin.id" value="${(admin.parentAdmin.id)! }" class="col-xs-10 col-sm-5" />
 					</div>
 				</div>
 				<div class="profile-info-row">

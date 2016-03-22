@@ -118,7 +118,8 @@ public class DepartmentServiceImpl extends BaseServiceImpl<Department, String> i
 	{
 		Department d=this.get(department.getId());
 		d.setModifyDate(new Date());
-		BeanUtils.copyProperties(department, d, new String[] { "id","isDel","deptCode","creater","createDate" });
+		BeanUtils.copyProperties(department, d, new String[] { "id","isDel","creater","createDate" });
+		d.setModifyDate(new Date());
 		this.update(d);
 	}
 }

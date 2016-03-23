@@ -80,7 +80,7 @@ jQuery(function($) {
 		},
 
 		editurl: "pick!delete.action",//用它做标准删除动作
-		caption: "历史领退料单"
+		caption: "领退料记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

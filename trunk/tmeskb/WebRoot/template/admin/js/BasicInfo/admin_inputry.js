@@ -185,7 +185,7 @@ function faunit_event()
         skin: 'layui-layer-lan',
         shift:2,
         title: "选择单元",
-        fix: false,
+        fix: true,
         shade: 0.5,
         shadeClose: true,
         maxmin: true,
@@ -197,7 +197,8 @@ function faunit_event()
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         	var info = iframeWin.getName();
         	$("#infoId").val(info.faunid);
-        	$("#infoName").text(info.faunname);
+        	$("#infoName").val(info.faunname);
+        	$("#infoNames").text(info.faunname);
         	layer.close(index);
         	return false;
         },

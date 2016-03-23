@@ -22,6 +22,7 @@ $(function() {
 	var $barcode = $(".barcode");//条码打印
 	var $deptpk = $("#deptpk");//部门领料
 	var $updown = $("#updown");//上架/下架
+	var $locatHO = $("#locatHO");//线边仓
 	var $csll = $("#csll");//超市领料
 	
 	$table00.find("tbody tr").click(function(){
@@ -346,6 +347,17 @@ $(function() {
 		var istrue = init.notCheck();
 		if(istrue){
 			window.location.href="up_down!list.action";
+		}
+	});
+	
+	/**
+	 * 线边仓保存
+	 */
+	$locatHO.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			var loginid=$("#loginid").val();//当前登录人的id
+			window.location.href="locat_hand_over!list.action?loginid="+loginid;
 		}
 	});
 	

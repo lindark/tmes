@@ -28,7 +28,7 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin list">
-<button type="button" id = "btn11">1111
+<input type="hidden" name="loginid" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -55,7 +55,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">库存</li>
+					<li class="active">线边仓库存</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -69,22 +69,9 @@
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal validate" id="searchform1" method="post"
-								action="locationonside!getStockList.action" role="form">
+								action="locat_hand_over!list.action" role="form">
+								<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
 								<div class="operateBar">
-									<div class="form-group">
-                                    <label class="col-sm-1 col-md-offset-1"style="text-align:right">物料编码:</label>
-										<div class="col-sm-3">
-											<input type="text" name="info"
-												class="input input-sm form-control" value="${(info)! }"
-												id="info">
-										</div>
-										<label class="col-sm-1 col-md-offset-1"style="text-align:right">物料描述:</label>
-										<div class="col-sm-3">
-											<input type="text" name="desp"
-												class="input input-sm form-control" value="${(desp)! }"
-												id="desp">
-										</div>
-									</div>
 									<div class="form-group">
 									<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>单元:</label>
 										<div class="col-sm-3">
@@ -96,8 +83,8 @@
 										</div>
 										<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>库位:</label>
 										<div class="col-sm-3">
-											<input type="text" name="position"
-												class="input input-sm form-control formText {required: true}" value="${(position)! }"
+											<input type="text" name="lgpla"
+												class="input input-sm form-control formText {required: true}" value="${(lgpla)! }"
 												id="position"/>
 												
 										</div>
@@ -110,10 +97,21 @@
 										<!-- <a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>Excel导出
 										</a> -->
+										<#if number=="1">
+											<a id="sunmitButton1"
+											class="btn btn-white btn-default btn-sm btn-round" > <i
+											class="ace-icon fa fa-filter blue"></i> 保存
+										</a>
+										<#else>
+										<a id="sunmitButton1"
+											class="btn btn-white btn-default btn-sm btn-round" disabled> <i
+											class="ace-icon fa fa-filter blue"></i> 保存
+										</a>
+										</#if>
 									</div>
 									<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
-									<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
+									<table id="tb_lho" class="table table-striped table-bordered table-hover">
 								    			
 													<tr>
 														<th class="tabth">库存地点</th>
@@ -124,11 +122,15 @@
 													</tr>
 													<#list (locasideListMap)! as lns>
 																<tr>
-																	<td>${(lns.lgort)! }</td>
-																	<td>${(lns.matnr)! }</td>
-																	<td>${(lns.maktx)! }</td>
-																	<td>${(lns.charg)! }</td>
-																	<td>${(lns.verme)! }</td>
+																	<td>${(lns.lgort)! }<input type="hidden" name="locatHandOverList[${lns_index}].locationCode" value="${(lns.lgort)! }"></td>
+																	<td>${(lns.matnr)! }<input type="hidden" name="locatHandOverList[${lns_index}].materialCode" value="${(lns.matnr)! }"></td>
+																	<td>${(lns.maktx)! }<input type="hidden" name="locatHandOverList[${lns_index}].materialName" value="${(lns.maktx)! }"></td>
+																	<td>${(lns.charg)! }<input type="hidden" name="locatHandOverList[${lns_index}].charg" value="${(lns.charg)! }"></td>
+																	<td>${(lns.verme)! }
+																	<input type="hidden" name="locatHandOverList[${lns_index}].amount" value="${(lns.verme)! }">
+																	<input type="hidden" name="locatHandOverList[${lns_index}].lgpla" value="${(lns.lgpla)! }">
+																	</td>
+																	
 																</tr>
 															</#list>
 										</table>
@@ -172,12 +174,11 @@
 		   $searchform.submit();
 	   });	  */ 
 	   $searchform.click(function(){
-		   var info = $("#info").val();
+		   var loginid = $("#loginid").val();
 		    var desp = $("#desp").val();
 		    var infoId = $("#infoId").val();
 		    var position = $("#position").val();
-		    var infoName = $("#infoName").text();
-		   window.self.location="locationonside!getStockList.action?info="+info+"&desp="+desp+"&infoId="+infoId+"&position="+position+"&infoName="+infoName;
+		   window.self.location="locationonside!getStockList.action?info="+info+"&desp="+desp+"&infoId="+infoId+"&position="+position;
 	   });
 	   
 	   
@@ -235,11 +236,25 @@
 		$("#searchButton1").click(function(){
 			$("#searchform1").submit();
 		});
-		
-		$("#btn11").click(function(){
-			window.self.location="locationonside!jianxin.action";
+		$("#sunmitButton1").click(function(){
+			var tr_lho = $("#tb_lho").find("tr").length;
+			//alert($("#searchform1").serialize());
+			if(tr_lho>1){
+				$.ajax({
+					url:"locat_hand_over!save.action",
+					data:$("#searchform1").serialize(),
+					dataType:"json",
+					success:function(data){
+						$.message(data.status,data.message);
+						$("#sunmitButton1").attr("disabled",true);
+					},
+					error:function(){
+						
+					}
+				});
+			}
 		});
-	})
+	});
 	
 	
 </script>

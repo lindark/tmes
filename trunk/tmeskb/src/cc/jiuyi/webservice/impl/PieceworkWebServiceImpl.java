@@ -327,8 +327,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 */
 	public String getPieceworkListTwo(String xmlString){
 		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
-				+ "<productDate>Dy01</productDate>"
-				+ "<shift>Dy01</shift></title></ROOT>";  */
+				+ "<productDate>2016-02-29</productDate>"
+				+ "<shift>3</shift></title></ROOT>";  */
         String productDate="";
         String shift="";
         Document doc = null;
@@ -357,9 +357,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				PieceworkMap.put("shift", shift);//生产日期
 				Team team  = kq.getTeam();
 				if(team!=null){
-					PieceworkMap.put("classSys", team.getClassSys());// 班制
-					PieceworkMap.put("basic", team.getClassSys());// 基本
-					PieceworkMap.put("team", team.getTeamName());// 班组
+					PieceworkMap.put("classSys", judgeNull(team.getClassSys()));// 班制
+					PieceworkMap.put("basic", judgeNull(team.getClassSys()));// 基本
+					PieceworkMap.put("team", judgeNull(team.getTeamName()));// 班组
 					
 					
 				}else{
@@ -367,15 +367,15 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("basic", "");// 基本
 					PieceworkMap.put("team", "");// 班组
 				}
-				Admin admin = adminService.get(kq.getEmpid());
+				Admin admin = adminService.get(judgeNull(kq.getEmpid()));
 				if(admin!=null){
-					PieceworkMap.put("workNumber", admin.getWorkNumber());// 工号
-					PieceworkMap.put("name", admin.getName());// 姓名
-					PieceworkMap.put("cardNumber", admin.getCardNumber());// 卡号
+					PieceworkMap.put("workNumber",  judgeNull(admin.getWorkNumber()));// 工号
+					PieceworkMap.put("name",  judgeNull(admin.getName()));// 姓名
+					PieceworkMap.put("cardNumber",  judgeNull(admin.getCardNumber()));// 卡号
 					Post post = admin.getPost();
 					if(post!=null){
-						PieceworkMap.put("post", post.getPostName());// 岗位
-						PieceworkMap.put("station", post.getStation());// 工位
+						PieceworkMap.put("post", judgeNull(post.getPostName()));// 岗位
+						PieceworkMap.put("station", judgeNull(post.getStation()));// 工位
 						
 					}else{
 						PieceworkMap.put("post", "");// 岗位
@@ -405,9 +405,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 							}
 						}
 					}
-					PieceworkMap.put("mouldNumber", mouldNumber);// 模具组号
-					PieceworkMap.put("workingRange", workingRange);// 工作范围
-					PieceworkMap.put("phone", admin.getPhoneNo());// 手机号码
+					PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+					PieceworkMap.put("workingRange", judgeNull(workingRange));// 工作范围
+					PieceworkMap.put("phone", judgeNull(admin.getPhoneNo()));// 手机号码
 				}else{
 					PieceworkMap.put("workNumber", "");// 工号
 					PieceworkMap.put("name", "");// 姓名
@@ -430,25 +430,25 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				String kuanggong = "";//旷工
 				switch(Integer.parseInt(kq.getWorkState())){
 				case 3:
-					jiaban = kq.getTardyHours();break;
+					jiaban = judgeNull(kq.getTardyHours());break;
 				case 4:
-					daiban = kq.getTardyHours();break;
+					daiban = judgeNull(kq.getTardyHours());break;
 				case 5:
-					shijia = kq.getTardyHours();break;
+					shijia = judgeNull(kq.getTardyHours());break;
 				case 6:
-					bingjia = kq.getTardyHours();break;
+					bingjia = judgeNull(kq.getTardyHours());break;
 				case 7:
-					nianxiujia = kq.getTardyHours();break;
+					nianxiujia = judgeNull(kq.getTardyHours());break;
 				case 8:
-					hunjia = kq.getTardyHours();break;
+					hunjia = judgeNull(kq.getTardyHours());break;
 				case 9:
-					sangjia = kq.getTardyHours();break;
+					sangjia = judgeNull(kq.getTardyHours());break;
 				case 10:
-					chidao = kq.getTardyHours();break;
+					chidao = judgeNull(kq.getTardyHours());break;
 				case 11:
-					zaotui = kq.getTardyHours();break;
+					zaotui = judgeNull(kq.getTardyHours());break;
 				case 12:
-					kuanggong = kq.getTardyHours();break;
+					kuanggong = judgeNull(kq.getTardyHours());break;
 					default:break;
 				}
 				PieceworkMap.put("jiaban", jiaban);// 加班
@@ -478,51 +478,51 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	    		Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
 	  	      //pieceworklist元素增加子元素
 	  	      Element productDateElmt = pieceworklistElmt.addElement("productDate");
-	  	      productDateElmt.setText((String)map.get("productDate"));
+	  	      productDateElmt.setText(judgeNull((String)map.get("productDate")));
 	  	      Element shiftElmt = pieceworklistElmt.addElement("shift");
-	  	      shiftElmt.setText((String)map.get("shift"));
+	  	      shiftElmt.setText(judgeNull((String)map.get("shift")));
 	  	      Element classSysElmt = pieceworklistElmt.addElement("classSys");
-	  	      classSysElmt.setText((String)map.get("classSys"));
+	  	      classSysElmt.setText(judgeNull((String)map.get("classSys")));
 	  	      Element basicElmt = pieceworklistElmt.addElement("basic");
-	  	      basicElmt.setText((String)map.get("basic"));
+	  	      basicElmt.setText(judgeNull((String)map.get("basic")));
 	  	      Element teamElmt = pieceworklistElmt.addElement("team");
-	  	      teamElmt.setText((String)map.get("team"));
+	  	      teamElmt.setText(judgeNull((String)map.get("team")));
 	  	      Element workNumberElmt = pieceworklistElmt.addElement("workNumber");
-	  	      workNumberElmt.setText((String)map.get("workNumber"));
+	  	      workNumberElmt.setText(judgeNull((String)map.get("workNumber")));
 	  	      Element nameElmt = pieceworklistElmt.addElement("name");
-	  	      nameElmt.setText((String)map.get("name"));
+	  	      nameElmt.setText(judgeNull((String)map.get("name")));
 	  	      Element cardNumberElmt = pieceworklistElmt.addElement("cardNumber");
-	  	      cardNumberElmt.setText((String)map.get("cardNumber"));
+	  	      cardNumberElmt.setText(judgeNull((String)map.get("cardNumber")));
 	  	      Element postElmt = pieceworklistElmt.addElement("post");
-	  	      postElmt.setText((String)map.get("post"));
+	  	      postElmt.setText(judgeNull((String)map.get("post")));
 	  	      Element stationElmt = pieceworklistElmt.addElement("station");
-	  	      stationElmt.setText((String)map.get("station"));
+	  	      stationElmt.setText(judgeNull((String)map.get("station")));
 	  	      Element mouldNumberElmt = pieceworklistElmt.addElement("mouldNumber");
-	  	      mouldNumberElmt.setText((String)map.get("mouldNumber"));
+	  	      mouldNumberElmt.setText(judgeNull((String)map.get("mouldNumber")));
 	  	      Element workingRangeElmt = pieceworklistElmt.addElement("workingRange");
-	  	      workingRangeElmt.setText((String)map.get("workingRange"));
+	  	      workingRangeElmt.setText(judgeNull((String)map.get("workingRange")));
 	  	      Element phoneElmt = pieceworklistElmt.addElement("phone");
-	  	      phoneElmt.setText((String)map.get("phone"));
+	  	      phoneElmt.setText(judgeNull((String)map.get("phone")));
 	  	      Element jiabanElmt = pieceworklistElmt.addElement("jiaban");
-	  	      jiabanElmt.setText((String)map.get("jiaban"));
+	  	      jiabanElmt.setText(judgeNull((String)map.get("jiaban")));
 	  	      Element daibanElmt = pieceworklistElmt.addElement("daiban");
-	  	      daibanElmt.setText((String)map.get("daiban"));
+	  	      daibanElmt.setText(judgeNull((String)map.get("daiban")));
 	  	      Element shijiaElmt = pieceworklistElmt.addElement("shijia");
-	  	      shijiaElmt.setText((String)map.get("shijia"));
+	  	      shijiaElmt.setText(judgeNull((String)map.get("shijia")));
 	  	      Element bingjiaElmt = pieceworklistElmt.addElement("bingjia");
-	  	      bingjiaElmt.setText((String)map.get("bingjia"));
+	  	      bingjiaElmt.setText(judgeNull((String)map.get("bingjia")));
 	  	      Element nianxiujiaElmt = pieceworklistElmt.addElement("nianxiujia");
-	  	      nianxiujiaElmt.setText((String)map.get("nianxiujia"));
+	  	      nianxiujiaElmt.setText(judgeNull((String)map.get("nianxiujia")));
 	  	      Element hunjiaElmt = pieceworklistElmt.addElement("hunjia");
-	  	      hunjiaElmt.setText((String)map.get("hunjia"));
+	  	      hunjiaElmt.setText(judgeNull((String)map.get("hunjia")));
 	  	      Element sangjiaElmt = pieceworklistElmt.addElement("sangjia");
-	  	      sangjiaElmt.setText((String)map.get("sangjia"));
+	  	      sangjiaElmt.setText(judgeNull((String)map.get("sangjia")));
 	  	      Element chidaoElmt = pieceworklistElmt.addElement("chidao");
-	  	      chidaoElmt.setText((String)map.get("chidao"));
+	  	      chidaoElmt.setText(judgeNull((String)map.get("chidao")));
 	  	      Element zaotuiElmt = pieceworklistElmt.addElement("zaotui");
-	  	      zaotuiElmt.setText((String)map.get("zaotui"));
+	  	      zaotuiElmt.setText(judgeNull((String)map.get("zaotui")));
 	  	      Element kuanggongElmt = pieceworklistElmt.addElement("kuanggong");
-	  	      kuanggongElmt.setText((String)map.get("kuanggong"));
+	  	      kuanggongElmt.setText(judgeNull((String)map.get("kuanggong")));
 	  	    }
 	    }else{
 	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
@@ -574,5 +574,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		      kuanggongElmt.setText("");
 	    }
 		return doc.asXML();
+	}
+	private String judgeNull(Object obj){
+		obj = obj==null?"":obj;
+		return obj.toString();
 	}
 }

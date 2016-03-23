@@ -162,6 +162,12 @@ public class DailyWorkAction extends BaseAdminAction {
 				dailyWork.setMatnr(dailyWork.getWorkingbill().getMatnr());
 				dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
 						"moudleType", dailyWork.getMoudle()));
+				if(dailyWork.getCONF_CNT() !=null){
+					dailyWork.setNo(dailyWork.getCONF_CNT().replaceAll("^(0+)", ""));
+				}
+				if(dailyWork.getCONF_NO() !=null){
+				    dailyWork.setCnt(dailyWork.getCONF_NO().replaceAll("^(0+)", ""));
+				}
 				lst.add(dailyWork);
 			}
 			pager.setList(lst);

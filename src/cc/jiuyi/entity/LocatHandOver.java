@@ -1,9 +1,11 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 /**
- * 实体类——线边仓交接
+ * 实体类——线边仓交接 从表
  * 
  */
 @Entity
@@ -21,7 +23,7 @@ public class LocatHandOver extends BaseEntity{
 	private String isDel;//是否删除
 	private String lgpla;//仓位
 	
-	
+	private LocatHandOverHeader locatHandOverHeader;//线边仓交接 主表
 	
 	
 	
@@ -81,6 +83,13 @@ public class LocatHandOver extends BaseEntity{
 	}
 	public void setBoxamount(String boxamount) {
 		this.boxamount = boxamount;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public LocatHandOverHeader getLocatHandOverHeader() {
+		return locatHandOverHeader;
+	}
+	public void setLocatHandOverHeader(LocatHandOverHeader locatHandOverHeader) {
+		this.locatHandOverHeader = locatHandOverHeader;
 	}
 	
 	

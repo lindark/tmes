@@ -41,9 +41,9 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 	
 	
 	
-	public List<HashMap<String,String>> upmaterList(String werks,String lgort,String matnr,String lgpla) throws IOException, CustomerException{//上/下架物料清单
+	public List<HashMap<String,String>> upmaterList(String werks,String lgort,String matnr,String lgpla,String maktx) throws IOException, CustomerException{//上/下架物料清单
 		
-		List<HashMap<String,String>> hashList = dumprfc.findMaterial(werks, lgort, matnr, lgpla);
+		List<HashMap<String,String>> hashList = dumprfc.findMaterial(werks, lgort, matnr, lgpla,maktx);
 		return hashList;
 	}
 	

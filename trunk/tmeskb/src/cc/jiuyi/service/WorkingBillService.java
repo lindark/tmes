@@ -12,6 +12,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.util.CustomerException;
 /**
  * Service接口 - 字典
  */
@@ -25,7 +26,7 @@ public interface WorkingBillService extends BaseService<WorkingBill, String>,Wor
 	 */
 	public Pager findPagerByjqGrid(Pager pager,Map map);
 	
-	public void mergeWorkingBill(List<WorkingBill> workingbillList,List<Orders> orderList,List<ProcessRoute> processrouteList,List<Bom> bomList);
+	public void mergeWorkingBill(List<WorkingBill> workingbillList,List<Orders> orderList,List<ProcessRoute> processrouteList,List<Bom> bomList) throws CustomerException ;
 
 	/**
 	 * 标记删除

@@ -108,7 +108,7 @@ jQuery(function($) {
 			}, 0);
 		},
 		editurl: "daily_work!delete.action",//用它做标准删除动作
-		caption: "历史报工记录"
+		caption: "报工记录"
 
 		//,autowidth: true,
 //		,

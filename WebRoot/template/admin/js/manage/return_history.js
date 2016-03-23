@@ -100,7 +100,7 @@ jQuery(function($) {
 		},
 
 		editurl: "return_product!delete.action",//用它做标准删除动作
-		caption: "历史成品入库单"
+		caption: "历史退中转仓入库单"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

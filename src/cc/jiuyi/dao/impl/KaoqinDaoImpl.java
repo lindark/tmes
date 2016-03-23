@@ -85,8 +85,14 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 
 	@SuppressWarnings("unchecked")
 	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
-		String hql = "from Kaoqin where productdate=? and classtime=? order by createDate desc";
-		return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+		String hql = "";
+		if(shift!=null && !"".equals(shift)){
+			hql =  "from Kaoqin where productdate=? and classtime=? order by createDate desc";
+			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+		}else{
+			hql =  "from Kaoqin where productdate=? order by createDate desc";
+			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();
+		}
 	}
 
 	/**

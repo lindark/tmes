@@ -53,6 +53,7 @@ public class LocationonsideAction extends BaseAdminAction {
 	private Locationonside locationonside;
 	private List<Locationonside> locationonsideList;
 	private List<HashMap<String, String>> locasideListMap;
+	private List<HashMap<String, String>> locasideListMaps;
 	private String info;
 	private String desp;
 	private String infoId;
@@ -270,34 +271,32 @@ public class LocationonsideAction extends BaseAdminAction {
 				locasideListMap = new ArrayList<HashMap<String, String>>();
 			}
 			try {
-				locasideListMap = rfc.findMaterial(werks, lgort, info, position, desp);
-				for (HashMap<String, String> los : locasideListMap) {
-					UnitConversion ucs = unitConversionService.get("matnr",
-							los.get("matnr"));
-					if (ucs != null) {
-						String amount = los.get("verme");
-						if (los.get("verme") == null || "".equals(los.get("verme"))) {
-							amount = "0";
+				locasideListMap = rfc.findMaterial(werks, lgort, "", position, "");
+				if (info != null && !"".equals(info)) {
+					locasideListMaps = new ArrayList<HashMap<String, String>>();
+					int i = info.length();
+					for (HashMap<String, String> los : locasideListMap) {
+						if (los.get("matnr").length() >= i) {
+							String s = los.get("matnr").substring(0, i);
+							if (info.equals(s)) {
+								locasideListMaps.add(los);
+							}
 						}
-						if (ucs.getConversationRatio() == null
-								|| "".equals(ucs.getConversationRatio())) {
-							ucs.setConversationRatio(0.0);
-						}
-						BigDecimal dcl = new BigDecimal(amount);
-						BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
-						try {
-							BigDecimal dc = dcl.divide(dcu).setScale(2,
-									RoundingMode.HALF_UP);
-							los.put("bmt", dc.toString());
-						} catch (Exception e) {
-							e.printStackTrace();
-							addActionError("物料" + los.get("matnr")
-									+ " 计量单位数据异常");
-							return ERROR;
-						}
-					} else {
-						los.put("bmt", "0.00");
 					}
+					locasideListMap = locasideListMaps;
+				}
+				if (desp != null && !"".equals(desp)) {
+					locasideListMaps = new ArrayList<HashMap<String, String>>();
+					int i = desp.length();
+					for (HashMap<String, String> los : locasideListMap) {
+						if (los.get("maktx").length() >= i) {
+							String s = los.get("maktx").substring(0, i);
+							if (desp.equals(s)) {
+								locasideListMaps.add(los);
+							}
+						}
+					}
+					locasideListMap = locasideListMaps;
 				}
 				
 			} catch (Exception e) {
@@ -470,7 +469,10 @@ public class LocationonsideAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	public String jianxin(){
-		String s = pieceworkWebService.getPieceworkListOne("");
+		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+				+ "<productDate>2016-02-29</productDate>"
+				+ "<shift>3</shift></title></ROOT>";
+		String s = pieceworkWebService.getPieceworkListTwo(xmlString);
 		
 		System.out.println(s);
 		
@@ -540,6 +542,14 @@ public class LocationonsideAction extends BaseAdminAction {
 
 	public void setInfoName(String infoName) {
 		this.infoName = infoName;
+	}
+
+	public List<HashMap<String, String>> getLocasideListMaps() {
+		return locasideListMaps;
+	}
+
+	public void setLocasideListMaps(List<HashMap<String, String>> locasideListMaps) {
+		this.locasideListMaps = locasideListMaps;
 	}
 
 }

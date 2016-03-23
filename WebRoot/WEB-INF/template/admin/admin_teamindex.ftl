@@ -442,7 +442,13 @@
 													</button>
 												</div>
 												
-												
+												<div class="col-md-3 col-sm-4" style="padding:2px;">
+													<button                                               
+														class="btn btn-green btn-success btn-bold btn-round btn-block" id="locatHO" type="button">
+														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">线边仓</span>
+													</button>
+												</div>
 												
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												

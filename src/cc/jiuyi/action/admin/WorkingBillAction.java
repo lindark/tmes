@@ -35,6 +35,13 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -141,9 +148,9 @@ public class WorkingBillAction extends BaseAdminAction {
 		
 		pager = workingbillService.findPagerByjqGrid(pager, map);
 		
-		List pagerlist = pager.getList();
+		List<WorkingBill> pagerlist = pager.getList();
 		for(int i =0; i < pagerlist.size();i++){
-			WorkingBill workingbill  = (WorkingBill)pagerlist.get(i);
+			WorkingBill workingbill  = pagerlist.get(i);
 			Orders order = ordersservice.get("aufnr",workingbill.getAufnr());
 			if(order!=null){
 				try {
@@ -184,15 +191,14 @@ public class WorkingBillAction extends BaseAdminAction {
 	}
 
 	//同步
-	public String sync() {
+	public String sync() throws SchedulerException {
 		System.out.println(aufnr+","+start+","+end);
-		try {
-			workingbillrfc.syncRepairorderAll(start, end, "", "",aufnr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			e.printStackTrace();
-		}
+		
+		
+		SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
+		Scheduler scheduler = gSchedulerFactory.getScheduler();
+		int state = scheduler.getTriggerState("cronTriggerWorkingBill", "DEFAULT");
+		System.out.println(state);
 		return SUCCESS;
 	}
 	

@@ -130,12 +130,21 @@ public class DailyWorkAction extends BaseAdminAction {
 							.toString();
 					map.put("maktx", maktx);
 				}
+				if (obj.get("start") != null) {
+					String start = obj.getString("start").toString();
+					map.put("start", start);
+				}
+				if (obj.get("end") != null) {
+					String end = obj.getString("end").toString();
+					map.put("end", end);
+				}
 				if (obj.get("start") != null && obj.get("end") != null) {
 					String start = obj.get("start").toString();
 					String end = obj.get("end").toString();
 					map.put("start", start);
 					map.put("end", end);
 				}
+				
 				if (obj.get("state") != null) {
 					String state = obj.getString("state").toString();
 					map.put("state", state);

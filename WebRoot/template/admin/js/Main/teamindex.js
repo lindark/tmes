@@ -357,7 +357,7 @@ $(function() {
 		var istrue = init.notCheck();
 		if(istrue){
 			var loginid=$("#loginid").val();//当前登录人的id
-			window.location.href="locat_hand_over!list.action?loginid="+loginid;
+			window.location.href="locat_hand_over_header!list.action?loginid="+loginid;
 		}
 	});
 	

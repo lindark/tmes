@@ -365,5 +365,6 @@ public class ThinkWayUtil {
 		
 		return ye+mo+da;
 	}
+	
 
 }

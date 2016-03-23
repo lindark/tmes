@@ -16,6 +16,7 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
+import cc.jiuyi.util.ThinkWayUtil;
 @Component
 public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRfc{
 
@@ -76,8 +77,10 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 			d.setOrderid(t_data.getString("AUFNR"));
 			d.setStep(t_data.getString("VORNR"));
 			d.setEnterAmount(t_data.getDouble("YIELD"));
-			d.setCONF_NO(t_data.getString("CONF_NO"));//确认号
-			d.setCONF_CNT(t_data.getString("CONF_CNT"));//计数器
+			String conf_no = ThinkWayUtil.null2String(t_data.getString("CONF_NO")).replaceAll("^(0+)", "");
+			String conf_cnt = ThinkWayUtil.null2String(t_data.getString("CONF_CNT")).replaceAll("^(0+)", "");
+			d.setCONF_NO(conf_no);//确认号
+			d.setCONF_CNT(conf_cnt);//计数器
 			d.setId(t_data.getString("TMESID"));//ID
 			list.add(d);
 		}

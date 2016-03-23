@@ -3,6 +3,7 @@ package cc.jiuyi.sap.rfc.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
@@ -67,7 +69,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	}
 	
 	@Override
-	public void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr) throws IOException, CustomerException {
+	public void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList) throws IOException, CustomerException {
 		super.setProperty("workingbillall");//根据配置文件读取到函数名称
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("STARTDATE", startdate);
@@ -76,8 +78,25 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		parameter.put("ENDTIME", endtime);
 		if(aufnr == null) aufnr="";
 		parameter.put("IM_AUFNR", aufnr);
+		if(workshopcode == null) workshopcode="";
+		parameter.put("G_FEVOR", workshopcode);
 		
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+		TableModel tablemodel = new TableModel();
+		tablemodel.setData("IT_ITEM");//表名
+		for(UnitdistributeProduct m:unitdistributeList){
+			HashMap<String,Object> item = new HashMap<String,Object>();
+			item.put("MATNR",m.getMaterialCode());//物料编码
+			arrList.add(item);
+		}
+		List<HashMap<String,Object>> arr = new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+		tablemodel.setList(arr);
+		tablemodelList.add(tablemodel);
 		super.setParameter(parameter);
+		super.setStructure(null);
+		super.setTable(tablemodelList);
+		
 		SAPModel model = execBapi();//执行 并获取返回值
 		
 		ParameterList outs = model.getOuttab();//返回表

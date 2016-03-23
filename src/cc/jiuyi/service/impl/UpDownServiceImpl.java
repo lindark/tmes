@@ -56,5 +56,21 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 	public Pager findByPager(Pager pager,Admin admin,List<String> list){
 		return updowndao.findByPager(pager, admin,list);
 	}
+
+
+
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return updowndao.historyjqGrid(pager, map);
+	}
+
+
+
+	@Override
+	public List<UpDown> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return updowndao.historyExcelExport(map);
+	}
 	
 }

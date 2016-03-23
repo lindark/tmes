@@ -682,6 +682,14 @@
 								<b class="arrow"></b>
 							</li>
 							
+							<li class="" >
+								<a href="up_down!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									超市领用记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 							
 							<li class="">
 								<a href="#" style="font-size:12px;color:red">
@@ -701,15 +709,6 @@
 								<b class="arrow"></b>
 							</li>
 							
-							
-							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									超市领用记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
 							
 							<li class="" >
 								<a href="#" style="font-size:12px;color:red">

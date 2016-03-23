@@ -21,7 +21,7 @@ jQuery(function($) {
 
 	jQuery(grid_selector).jqGrid({
 		
-		url:"up_down!csajlist.action",
+		url:"up_down!historylist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -40,13 +40,11 @@ jQuery(function($) {
 	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[
-			
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-			{name:'createDate',label:"创建日期",width:150,index:'createDate',editable:false,formatter:datefmt},
-			{name:'productDate',label:"生产日期",width:150,index:'productDate',editable:false},
+			{name:'productDate',label:"生产日期",width:100,index:'productDate',editable:false},
 			{name:'shiftx',label:"班次",width:50,index:'shift',editable:false},
-			{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},
-			{name:'maktx',label:"物料描述",width:150,index:'maktx',editable:false},
+			{name:'matnr',label:"组件编码",width:150,index:'matnr',editable:false},
+			{name:'maktx',label:"组件描述",width:150,index:'maktx',editable:false},
 			{name:'charg',label:"批次",width:100,index:'charg', editable: false},
 			{name:'typex',label:"类型",width:100,index:'type',editable:false},
 			{name:'uplgpla',label:"发出仓位",width:100,index:'uplgpla',editable:false},
@@ -55,6 +53,7 @@ jQuery(function($) {
 			{name:'dwnum',label:"数量",width:50,index:'dwnum', editable: false},
 			{name:'tanum',label:"转储单号",width:100,index:'tanum', editable: false},
 			{name:'tapos',label:"行项目号",width:100,index:'tapos', editable: false},
+			{name:'createDate',label:"创建日期",width:150,index:'createDate',editable:false,formatter:datefmt},
 			{name:'adminname',label:"确认人",width:100,index:'appvaladmin.name', editable: false},
 		], 
 
@@ -81,7 +80,7 @@ jQuery(function($) {
 		},
 
 		//editurl: "",//用它做标准删除动作
-		caption: "上架/下架"
+		caption: "超市领料历史单"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

@@ -101,41 +101,63 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PickDetail.class);
-		if (!existAlias(detachedCriteria, "pick", "pick")) {
-			detachedCriteria.createAlias("pick", "pick");
-		}
-		if (!existAlias(detachedCriteria, "pick.workingbill", "workingbill")) {
-			detachedCriteria.createAlias("pick.workingbill", "workingbill");
-		}
-		//detachedCriteria.add(Restrictions.eq("workingbill.id", "4028c781532c74d701532ca1986e0014"));//测试
-		if (map.size() > 0) {
-			if (map.get("maktx") != null) {
-				detachedCriteria.add(Restrictions.like(
-						"workingbill.maktx",
-						"%" + map.get("maktx") + "%"));
-			}	
-			if (map.get("materialCode") != null) {
-				detachedCriteria.add(Restrictions.like(
-						"materialCode",
-						"%" + map.get("materialCode") + "%"));
-			}	
-			if (map.get("state") != null) {
-				detachedCriteria.add(Restrictions.like(
-						"pick.state",
-						"%" + map.get("state") + "%"));
-			}	
-			if(map.get("start")!=null && map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
-					end = DateUtils.addDays(end, 1);
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
-				}catch(Exception e){
-					e.printStackTrace();
+			if (!existAlias(detachedCriteria, "pick", "pick")) {
+				detachedCriteria.createAlias("pick", "pick");
+			}
+			if (!existAlias(detachedCriteria, "pick.workingbill", "workingbill")) {
+				detachedCriteria.createAlias("pick.workingbill", "workingbill");
+			}
+			//detachedCriteria.add(Restrictions.eq("workingbill.id", "4028c781532c74d701532ca1986e0014"));//测试
+			if (map.size() > 0) {
+				if (map.get("maktx") != null) {
+					detachedCriteria.add(Restrictions.like(
+							"workingbill.maktx",
+							"%" + map.get("maktx") + "%"));
+				}	
+				if (map.get("materialCode") != null) {
+					detachedCriteria.add(Restrictions.like(
+							"materialCode",
+							"%" + map.get("materialCode") + "%"));
+				}	
+				if (map.get("state") != null) {
+					detachedCriteria.add(Restrictions.like(
+							"pick.state",
+							"%" + map.get("state") + "%"));
+				}
+				if (map.get("start") != null && map.get("end")==null) {
+					try {
+						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+						Date start=sd.parse(map.get("start"));
+						Date now=sd.parse(sd.format(new Date()));
+						now = DateUtils.addDays(now, 1);
+						detachedCriteria.add(Restrictions.between("createDate", start, now));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (map.get("start") == null && map.get("end")!=null ) {
+					try {
+						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+						Date end=sd.parse(map.get("end"));
+						Date now=sd.parse(sd.format(new Date()));
+						now = DateUtils.addDays(now, 1);
+						detachedCriteria.add(Restrictions.between("createDate", end, now));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if(map.get("start")!=null && map.get("end")!=null){
+					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+					try{
+						Date start=sdf.parse(map.get("start"));
+						Date end=sdf.parse(map.get("end"));
+						end = DateUtils.addDays(end, 1);
+						detachedCriteria.add(Restrictions.between("createDate", start, end));
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 				}
 			}
-		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
 	}

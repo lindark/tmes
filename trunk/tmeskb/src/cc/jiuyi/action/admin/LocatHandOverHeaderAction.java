@@ -3,6 +3,8 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +140,15 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 						locasideListMap = locasideListMaps;
 					}
 				}
+				Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
+					 
+		            public int compare(Map<String, String> o1, Map<String, String> o2) {
+		 
+		                int map1value = Integer.parseInt(o1.get("matnr"));
+		                int map2value =  Integer.parseInt(o2.get("matnr"));
+		                return map1value - map2value;
+		            }
+		        });
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

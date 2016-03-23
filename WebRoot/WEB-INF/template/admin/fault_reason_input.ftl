@@ -104,17 +104,13 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 所属原因</div>					
 										<div class="profile-info-value">
-										    <#if isAdd??>
 										    <select class="chosen-select" name="faultReasonId"
 														style="width:200px;">
-														<option value="">请选择...</option> 
-														<#list faultReasonList as list>
-														<option value="${list.id}" <#if (list.id == faultReason.faultParent.id)!> selected</#if>>${list.reasonName}</option>
-														</#list>
+													<option value="">请选择...</option> 
+													<#list faultReasonList as list>
+													<option value="${list.id}" <#if (list.id == faultReason.faultParent.id)!> selected</#if>>${list.reasonName}</option>
+													</#list>
 											</select>
-										    <#else>
-										       ${(faultReason.faultParent.reasonName)!}
-										    </#if>
 											<!-- <input type="text" name="faultReason.faultParent.reasonName" value="${(faultReason.faultParent.reasonName)!}" class=" input input-sm  formText {required: true}" /> -->
 											<label class="requireField">*</label>	
 										</div>
@@ -161,4 +157,5 @@ body{background:#fff;}
 
 
 </body>
+
 </html>

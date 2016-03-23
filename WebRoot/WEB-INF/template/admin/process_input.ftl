@@ -122,8 +122,7 @@ body{background:#fff;}
 													<span id="workShopName"></span><span id="factoryName"></span>
 													<label class="requireField">*</label>	
 													<#else>	
-													  <span id="workShopName">${workShopName}</span>
-													  <span id="factoryName">${factoryName}</span>
+													  <span id="workShopName">${(process.xworkShop)!}</span>
 													<label class="requireField">*</label>	
 													</#if>											
 												</div>

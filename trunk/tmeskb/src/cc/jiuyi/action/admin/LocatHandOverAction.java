@@ -71,32 +71,18 @@ public class LocatHandOverAction extends BaseAdminAction {
 				}else{
 					number = number==null?"0":"0";
 				}
-				for (HashMap<String, String> los : locasideListMap) {
-					UnitConversion ucs = unitConversionService.get("matnr",
-							los.get("matnr"));
-					if (ucs != null) {
-						String amount = los.get("verme");
-						if (los.get("verme") == null || "".equals(los.get("verme"))) {
-							amount = "0";
+				if(locasideListMap!=null && locasideListMap.size()>0){
+					BigDecimal bg = new BigDecimal(0);
+					List<HashMap<String, String>>  locasideListMaps = new ArrayList<HashMap<String, String>>();
+					if(locasideListMap!=null && locasideListMap.size()>0){
+						for (HashMap<String, String> los : locasideListMap) {
+							if(los.get("verme")!=null && !"".equals(los.get("verme"))){
+								if(bg.compareTo(new BigDecimal(los.get("verme")))!=0){
+									locasideListMaps.add(los);
+								}
+							}
 						}
-						if (ucs.getConversationRatio() == null
-								|| "".equals(ucs.getConversationRatio())) {
-							ucs.setConversationRatio(0.0);
-						}
-						BigDecimal dcl = new BigDecimal(amount);
-						BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
-						try {
-							BigDecimal dc = dcl.divide(dcu).setScale(2,
-									RoundingMode.HALF_UP);
-							los.put("bmt", dc.toString());
-						} catch (Exception e) {
-							e.printStackTrace();
-							addActionError("物料" + los.get("matnr")
-									+ " 计量单位数据异常");
-							return ERROR;
-						}
-					} else {
-						los.put("bmt", "0.00");
+						locasideListMap = locasideListMaps;
 					}
 				}
 			} catch (IOException e) {

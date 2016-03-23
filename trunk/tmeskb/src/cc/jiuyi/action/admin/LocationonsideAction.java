@@ -272,6 +272,18 @@ public class LocationonsideAction extends BaseAdminAction {
 			}
 			try {
 				locasideListMap = rfc.findMaterial(werks, lgort, "", position, "");
+				BigDecimal bg = new BigDecimal(0);
+				locasideListMaps = new ArrayList<HashMap<String, String>>();
+				if(locasideListMap!=null && locasideListMap.size()>0){
+					for (HashMap<String, String> los : locasideListMap) {
+						if(los.get("verme")!=null && !"".equals(los.get("verme"))){
+							if(bg.compareTo(new BigDecimal(los.get("verme")))!=0){
+								locasideListMaps.add(los);
+							}
+						}
+					}
+					locasideListMap = locasideListMaps;
+				}
 				if (info != null && !"".equals(info)) {
 					locasideListMaps = new ArrayList<HashMap<String, String>>();
 					int i = info.length();
@@ -469,10 +481,16 @@ public class LocationonsideAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	public String jianxin(){
-		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
 				+ "<productDate>2016-02-29</productDate>"
-				+ "<shift>3</shift></title></ROOT>";
-		String s = pieceworkWebService.getPieceworkListTwo(xmlString);
+				+ "<shift>3</shift></title></ROOT>";*/
+		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
+		+ "<factory>1000</factory>"
+		+ "<workShop>1001</workShop>"
+		+ "<factoryUnit></factoryUnit>"
+		+ "<productDate>2016-01-20</productDate>"
+		+ "<shift></shift></title></ROOT>";  
+		String s = pieceworkWebService.getPieceworkListOne(xmlString);
 		
 		System.out.println(s);
 		

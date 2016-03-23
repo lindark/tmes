@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.management.RuntimeErrorException;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -36,6 +37,7 @@ import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutCalculateBase;
 import cc.jiuyi.util.ArithUtil;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -186,9 +188,8 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public synchronized void mergeWorkingBill(List<WorkingBill> workingbillList,
+	public void mergeWorkingBill(List<WorkingBill> workingbillList,
 			List<Orders> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
-		
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
 			Orders order = orderList.get(i);

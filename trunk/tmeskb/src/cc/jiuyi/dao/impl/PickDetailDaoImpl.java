@@ -129,6 +129,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 				try{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
+					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();

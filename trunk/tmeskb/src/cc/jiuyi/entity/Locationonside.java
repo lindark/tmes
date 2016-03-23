@@ -11,8 +11,7 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
-public class Locationonside extends BaseEntity {
+public class Locationonside extends BaseEntity implements Comparable<Locationonside>{
 
 	private static final long serialVersionUID = 8226157605987504110L;
 
@@ -104,6 +103,11 @@ public class Locationonside extends BaseEntity {
 
 	public void setLgpla(String lgpla) {
 		this.lgpla = lgpla;
+	}
+
+	@Override
+	public int compareTo(Locationonside o){
+		return this.materialCode.compareTo(o.getMaterialCode());
 	}
 	
 	

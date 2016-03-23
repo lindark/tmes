@@ -82,7 +82,7 @@ jQuery(function($) {
 		},
 
 		//editurl: "",//用它做标准删除动作
-		caption: "上架/下架"
+		caption: "超市领料"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

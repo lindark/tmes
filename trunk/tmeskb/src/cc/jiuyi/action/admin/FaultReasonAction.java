@@ -142,8 +142,10 @@ public class FaultReasonAction extends BaseAdminAction {
 	// 更新
 	public String update() {
 		FaultReason persistent = faultReasonService.load(id);
-		BeanUtils.copyProperties(faultReason, persistent, new String[] { "id",
-				"createDate", "modifyDate","faultParent","type","isDel"});
+		FaultReason fault = new FaultReason();
+		fault.setId(faultReasonId);
+		faultReason.setFaultParent(fault);
+		BeanUtils.copyProperties(faultReason, persistent, new String[] { "id","isDel"});
 		faultReasonService.update(persistent);
 		redirectionUrl = "fault_reason!list.action";
 		return SUCCESS;

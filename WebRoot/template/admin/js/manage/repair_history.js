@@ -85,7 +85,7 @@ jQuery(function($) {
 		},
 
 		editurl: "repair!delete.action",//用它做标准删除动作
-		caption: "历史返修单"
+		caption: "成品返修记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

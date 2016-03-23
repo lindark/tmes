@@ -98,7 +98,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 
 	@Override
 	public List<HashMap<String, String>> findMaterial(String werks,
-			String lgort, String matnr,String lgpla) throws IOException {
+			String lgort, String matnr,String lgpla,String maktx) throws IOException {
 			List<HashMap<String,String>> arrList = new ArrayList<HashMap<String,String>>();
 			super.setProperty("materiallqua");//根据配置文件读取到函数名称
 			/******输入参数******/
@@ -107,6 +107,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			parameter.put("S_LGORT", lgort);//库存地点
 			parameter.put("S_MATNR", matnr);//物料
 			parameter.put("S_LGPLA", lgpla);//库位
+			parameter.put("S_MAKTX", maktx);//物料描述
 			super.setParameter(parameter);//输入参数
 			super.setTable(null);
 			SAPModel model = execBapi();//执行 并获取返回值

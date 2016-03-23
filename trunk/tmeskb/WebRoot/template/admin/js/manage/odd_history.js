@@ -119,7 +119,7 @@ jQuery(function($) {
 			}, 0);
 		},
 		editurl: "odd_hand_over!delete.action",//用它做标准删除动作
-		caption: "历史零头数交接记录"
+		caption: "零头数交接记录"
 
 		//,autowidth: true,
 //		,

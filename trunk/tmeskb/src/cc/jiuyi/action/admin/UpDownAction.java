@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,8 +17,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.UpDown;
 import cc.jiuyi.sap.rfc.UpDownRfc;
@@ -25,6 +28,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.UpDownServcie;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 
@@ -55,6 +59,142 @@ public class UpDownAction extends BaseAdminAction {
 	private String cardnumber;
 	private List<Locationonside> locationonsideList;
 	private List<UpDown> updownList;
+	private String matnr;
+	private String maktx;
+	private String tanum;
+	private String end;
+	private String start;
+	
+	// 超市领用记录 @author Reece 2016/3/22
+		public String history() {
+			return "history";
+		}
+		
+	//超市领用列表 @author Reece 2016/3/22
+		public String historylist() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			if (pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
+			}
+			if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+				if (!filters.equals("")) {
+					JSONObject filt = JSONObject.fromObject(filters);
+					Pager pager1 = new Pager();
+					Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+					m.put("rules", jqGridSearchDetailTo.class);
+					pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+					pager.setRules(pager1.getRules());
+					pager.setGroupOp(pager1.getGroupOp());
+				}
+			}
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("matnr") != null) {
+					String matnr = obj.getString("matnr").toString();
+					map.put("matnr", matnr);
+				}
+				if (obj.get("maktx") != null) {
+					String maktx = obj.getString("maktx").toString();
+					map.put("maktx", maktx);
+				}
+				if (obj.get("tanum") != null) {
+					String tanum = obj.getString("tanum").toString();
+					map.put("tanum", tanum);
+				}
+				if (obj.get("start") != null && obj.get("end") != null) {
+					String start = obj.get("start").toString();
+					String end = obj.get("end").toString();
+					map.put("start", start);
+					map.put("end", end);
+				}
+			}
+			pager = updownservice.historyjqGrid(pager, map);
+			List<UpDown> updownList = pager.getList();
+			List<UpDown> lst = new ArrayList<UpDown>();
+			for (int i = 0; i < updownList.size(); i++) {
+				UpDown updown = updownList.get(i);
+				updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
+				updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
+				updown.setAdminname(updown.getAppvaladmin().getName());
+				lst.add(updown);
+			}
+			pager.setList(lst);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(UpDown.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		}
+		
+		// Excel导出 @author Reece 2016/3/22
+				public String excelexport() {
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("matnr", matnr);
+					map.put("maktx", maktx);
+					map.put("tanum", tanum);
+					map.put("start", start);
+					map.put("end", end);
+
+					List<String> header = new ArrayList<String>();
+					List<Object[]> body = new ArrayList<Object[]>();
+					header.add("生产日期");
+					header.add("班次");
+					header.add("组件编码");
+					header.add("组件描述");
+					header.add("批次");
+					header.add("类型");
+					
+					header.add("发出仓位");
+					header.add("接收仓位");
+					header.add("库存地点");
+					header.add("数量");
+
+					header.add("转储单号");
+					header.add("行项目号");
+					header.add("创建日期");
+					header.add("确认人");
+
+					List<UpDown> upList = updownservice.historyExcelExport(map);
+					for (int i = 0; i < upList.size(); i++) {
+						UpDown updown = upList.get(i);
+
+						Object[] bodyval = {
+								updown.getProductDate(),
+								updown.getShift()==null ?"":
+									ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()),
+								updown.getMatnr(),
+								updown.getMaktx(),
+								updown.getCharg(),
+								ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()),
+								
+								updown.getUplgpla(),
+								updown.getDownlgpla(),
+								updown.getLgort(),
+								updown.getAmount(),
+								
+								updown.getTanum(),
+								updown.getTapos(),
+								updown.getCreateDate(),
+								updown.getAppvaladmin() ==null?"":updown.getAppvaladmin().getName(),
+								};
+						body.add(bodyval);
+					}
+
+					try {
+						String fileName = "超市领用记录表" + ".xls";
+						setResponseExcel(fileName);
+						ExportExcel.exportExcel("超市领用记录表", header, body, getResponse()
+								.getOutputStream());
+						getResponse().getOutputStream().flush();
+						getResponse().getOutputStream().close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return null;
+				}
+	
 	
 	public String add(){
 		//检查数据完整性
@@ -382,6 +522,46 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getTanum() {
+		return tanum;
+	}
+
+	public void setTanum(String tanum) {
+		this.tanum = tanum;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
 	}
 
 

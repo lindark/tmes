@@ -44,6 +44,9 @@ public class DailyWork extends BaseEntity {
 	private String matnr;//产品编码
 	private String xmoudle;//模具描述
 	
+	private String no;
+	private String cnt;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -253,6 +256,24 @@ public class DailyWork extends BaseEntity {
 
 	public void setXmoudle(String xmoudle) {
 		this.xmoudle = xmoudle;
+	}
+
+	@Transient
+	public String getNo() {
+		return no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
+	}
+
+	@Transient
+	public String getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(String cnt) {
+		this.cnt = cnt;
 	}
 
 	

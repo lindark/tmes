@@ -796,7 +796,7 @@ public class DumpAction extends BaseAdminAction {
 		String lgort=factoryunit.getPsaddress();//配送地点编码
 		String matnr=this.materialcode;//物料编码
 		String lgpla=factoryunit.getPsPositionAddress();//配送库存地点仓位
-		list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla);
+		list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla,"");
 		return "S";
 	}
 	

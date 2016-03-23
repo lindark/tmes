@@ -98,7 +98,7 @@
 									  </div>
 									  
 									  
-									<label class="col-sm-1 col-md-offset-1" style="text-align:right">日期:</label>
+									<label class="col-sm-1 col-md-offset-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"

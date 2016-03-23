@@ -101,12 +101,12 @@ inupt.stockMout{
 											<input type="text" name="lgplaun" <#if type="down"> readonly </#if> value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp;
 											<input type="hidden" name="type" value="${(type)! }"/>
 											<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
-											<!-- 
-											<label class="" style="text-align:right">物料编码:</label>
-											<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">&nbsp;&nbsp;&nbsp;
-											<label class="" style="text-align:right">物料描述:</label>
-											<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >&nbsp;&nbsp;&nbsp;
-											 -->									
+											 <#if type='up' || type='down'>
+												<label class="" style="text-align:right">物料编码:</label>
+												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
+												<label class="" style="text-align:right">物料描述:</label>
+												<input type="text" name="materialDesp" value="${(materialDesp)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
+											 </#if>
 											<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索

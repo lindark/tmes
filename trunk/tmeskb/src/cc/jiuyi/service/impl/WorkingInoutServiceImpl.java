@@ -333,10 +333,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				String materialname = workinginout.getMaterialName();
 				if(ThinkWayUtil.null2String(materialname).equals("")){//处理不知道什么问题导致物料描述没有的问题
-					materialname = bomservice.getMaterialName(materialname);
+					materialname = bomservice.getMaterialName(workinginout.getMaterialCode());
 				}
 				
-				map.put(strlen[25],workinginout.getMaterialName());//组件描述
+				map.put(strlen[25],materialname);//组件描述
 				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
 				map.put(strlen[3], afteroddamount);//接上班零头数

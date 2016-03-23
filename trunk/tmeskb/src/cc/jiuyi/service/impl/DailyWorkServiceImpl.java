@@ -163,7 +163,7 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			String CONF_NO = dailyWork.getCONF_NO();// 确认号
 			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 			dailyWork = dailyWorkDao.get(dailyWork.getId());			
-			totalamount =  new BigDecimal(workingbill.getDailyWorkTotalAmount()).add(totalamount).setScale(2, RoundingMode.HALF_UP);
+			totalamount  =  new BigDecimal(dailyWork.getEnterAmount()).add(totalamount).setScale(2, RoundingMode.HALF_UP);
 			if(dailyWork.getMoudle().equalsIgnoreCase("1")){
 				workingbill.setChecknum1("1");
 			}else if(dailyWork.getMoudle().equalsIgnoreCase("2")){
@@ -220,7 +220,6 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 
 	@Override
 	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return dailyWorkDao.historyExcelExport(map);
 	}
 

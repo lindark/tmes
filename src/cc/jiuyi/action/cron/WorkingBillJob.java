@@ -38,30 +38,35 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 	
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
-		try {
-			System.out.println("任务开始");
-			log.info("WorkingBillJob任务开始>........");
-			System.out.println("任务执行");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date d = new Date();
-			Calendar rightnow = Calendar.getInstance();
-			rightnow.setTime(d);
-			rightnow.add(Calendar.MINUTE,-10);
-			String startdate = sdf.format(d);
-			String enddate = sdf.format(d);
-			sdf = new SimpleDateFormat("hh:mm:ss");
-			String starttime = sdf.format(rightnow.getTime());
-			rightnow.add(Calendar.MINUTE,10);
-			String endtime = sdf.format(rightnow.getTime());
-			/******取10分钟之内的数据*********/
-			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
-			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"");
-			//workingbillrfc.syncRepairorderAll(startdate, enddate);
-			
-			log.info("WorkingBillJob任务结束");
-		} catch (Exception e) {
-			log.error("WorkingBillJob任务出错", e);
+		System.out.println("任务开始:"+ThinkWayUtil.SystemDate());
+		for(int i=0 ;i<5000;i++){
+			System.out.print(i);
 		}
+		System.out.println("任务结束:"+ThinkWayUtil.SystemDate());
+//		try {
+//			System.out.println("任务开始");
+//			log.info("WorkingBillJob任务开始>........");
+//			System.out.println("任务执行");
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			Date d = new Date();
+//			Calendar rightnow = Calendar.getInstance();
+//			rightnow.setTime(d);
+//			rightnow.add(Calendar.MINUTE,-10);
+//			String startdate = sdf.format(d);
+//			String enddate = sdf.format(d);
+//			sdf = new SimpleDateFormat("hh:mm:ss");
+//			String starttime = sdf.format(rightnow.getTime());
+//			rightnow.add(Calendar.MINUTE,10);
+//			String endtime = sdf.format(rightnow.getTime());
+//			/******取10分钟之内的数据*********/
+//			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
+//			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"");
+//			//workingbillrfc.syncRepairorderAll(startdate, enddate);
+//			
+//			log.info("WorkingBillJob任务结束");
+//		} catch (Exception e) {
+//			log.error("WorkingBillJob任务出错", e);
+//		}
 	}
 
 }

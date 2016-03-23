@@ -691,15 +691,6 @@
 								<b class="arrow"></b>
 							</li>
 							
-							<li class="">
-								<a href="#" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									返工记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							
 							<li class="" >
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -710,10 +701,29 @@
 							</li>
 							
 							
+							<li class="">
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							
 							<li class="" >
 								<a href="#" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									上/下架记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="#" style="font-size:12px;color:red">
+									<i class="menu-icon fa fa-caret-right"></i>
+									线边仓交接记录
 								</a>
 
 								<b class="arrow"></b>

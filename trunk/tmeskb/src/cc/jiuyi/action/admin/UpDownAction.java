@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
@@ -57,6 +59,8 @@ public class UpDownAction extends BaseAdminAction {
 	private String lgplaun;//接收仓位
 	private String loginid;
 	private String cardnumber;
+	private String materialCode;//物料编码
+	private String materialDesp;//物料描述
 	private List<Locationonside> locationonsideList;
 	private List<UpDown> updownList;
 	private String matnr;
@@ -225,6 +229,13 @@ public class UpDownAction extends BaseAdminAction {
 			addActionError("请输入正确的类型!");
 			return ERROR;
 		}
+		if("up".equals(type) || "down".equals(type))
+			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
+		else if("updown".equals(type))
+			materialCode = "";
+		int matnrlen = materialCode.length();
+		materialDesp = ThinkWayUtil.null2String(materialDesp);
+		
 		
 		if(ThinkWayUtil.null2String(this.lgpla).equals("")){
 			return INPUT;
@@ -232,22 +243,32 @@ public class UpDownAction extends BaseAdminAction {
 		//业务处理
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-		String matnr = "";
+		//materialCode = ThinkWayUtil.null2String(materialCode);
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
 		try{
-			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, matnr, lgpla);
+			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			locationonsideList = new ArrayList<Locationonside>();
 			for(int i=0;i<hashList.size();i++){
 				HashMap<String,String> hashmap = hashList.get(i);
 				Locationonside locationonside = new Locationonside();
+				
+				String matnr01 = hashmap.get("matnr");//物料编码
+				String maktx01 = hashmap.get("maktx");//物料描述
+				
+				String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
+				if(!materialCode.equals(matnr02)){
+					continue;
+				}
+				
 				locationonside.setLocationCode(lgort);//库存地点
-				locationonside.setMaterialCode(hashmap.get("matnr"));//物料编码
-				locationonside.setMaterialName(hashmap.get("maktx"));//物料描述
+				locationonside.setMaterialCode(matnr01);//物料编码
+				locationonside.setMaterialName(maktx01);//物料描述
 				locationonside.setCharg(hashmap.get("charg"));//批次
 				locationonside.setAmount(hashmap.get("verme"));//数量
 				locationonsideList.add(locationonside);
 			}
+			Collections.sort(locationonsideList); 
 		}catch(IOException e){
 			e.printStackTrace();
 			log.error(e);
@@ -522,6 +543,22 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	public String getMaterialDesp() {
+		return materialDesp;
+	}
+
+	public void setMaterialDesp(String materialDesp) {
+		this.materialDesp = materialDesp;
 	}
 
 	public String getMatnr() {

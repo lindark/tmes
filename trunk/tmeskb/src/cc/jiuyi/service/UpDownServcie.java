@@ -18,7 +18,7 @@ import cc.jiuyi.util.CustomerException;
 public interface UpDownServcie extends BaseService<UpDown, String>{
 
 	
-	public List<HashMap<String,String>> upmaterList(String werks,String lgort,String matnr,String lgpla) throws IOException, CustomerException;
+	public List<HashMap<String,String>> upmaterList(String werks,String lgort,String matnr,String lgpla,String maktx) throws IOException, CustomerException;
 	
 	public void save(List<UpDown> updownList);
 	

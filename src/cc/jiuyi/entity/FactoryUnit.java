@@ -47,6 +47,7 @@ public class FactoryUnit extends BaseEntity {
 	private Set<CardManagement>cardmanagement;//IP
 	private String psPositionAddress;//配送仓位
 	private String delivery;//待发货仓位
+	private Set<UnitdistributeProduct> unitdistributeSet;//分配产品
 	
 	//假字段
 	private String xiscanrepair;//是否可以返修/返修收获-描述
@@ -275,6 +276,14 @@ public class FactoryUnit extends BaseEntity {
 
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="factoryunit")
+	public Set<UnitdistributeProduct> getUnitdistributeSet() {
+		return unitdistributeSet;
+	}
+
+	public void setUnitdistributeSet(Set<UnitdistributeProduct> unitdistributeSet) {
+		this.unitdistributeSet = unitdistributeSet;
 	}
 	
 }

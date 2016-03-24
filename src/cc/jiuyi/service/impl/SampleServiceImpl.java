@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -196,4 +197,13 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 	public List<Sample> getUncheckList(){
 		return sampleDao.getUncheckList();
 	}
+	
+	public Pager getSamplePager(Pager pager, HashMap<String, String> map) {
+		return sampleDao.getSamplePager(pager, map);
+	}
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		return sampleDao.historyExcelExport(map);
+	}
+	
 }

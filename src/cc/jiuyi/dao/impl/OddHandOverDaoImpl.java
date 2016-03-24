@@ -103,12 +103,12 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 					hql+=" and model.materialCode like '%"+map.get("materialCode")+"%'";
 				}
 			}	
-			if (!map.get("workingBillCode").equals("")) {
+			if (!map.get("matnr").equals("")) {
 				if(ishead==0){
-					hql+=" where model1.workingBillCode like '%"+map.get("workingBillCode")+"%'";
+					hql+=" where model1.matnr like '%"+map.get("matnr")+"%'";
 					ishead=1;
 				}else{
-					hql+=" and model1.workingBillCode like '%"+map.get("workingBillCode")+"%'";
+					hql+=" and model1.matnr like '%"+map.get("matnr")+"%'";
 				}
 			}	
 			if (!map.get("state").equals("")) {

@@ -34,6 +34,9 @@ public class Sample extends BaseEntity
 	private String xproductname;//产品名称
 	private String xstate;//状态描述--页面显示
 	private String xsampletype;//抽检类型
+	private String maktx;
+	private String matnr;
+	
 	
 	@Column(length=20)
 	public String getState()

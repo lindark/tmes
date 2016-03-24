@@ -29,6 +29,9 @@
 		 -->
 		<script type="text/javascript"src="${base}/template/admin/js/BasicInfo/kaoqin_list.js"></script>
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
+		<style type="text/css">
+			.div_outexcel{text-align: center;}
+		</style>
 </head>
 <body class="no-skin list xtxt">
 <input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
@@ -168,57 +171,13 @@
 
 									<div id="grid-pager"></div>
 								</div>
+							</div></br>
+							<div class="div_outexcel">
+							<button id="btn_outexcel" type="button" class="btn btn-white btn-default btn-sm btn-round">
+								<i class="ace-icon fa fa-cloud-upload"></i>
+										导出Excel
+							</button>
 							</div>
-							<a onclick=""></a>
-							<!--  --
-							<div class="row">
-								<div class="widget-header">
-									<h4 class="widget-title">员工信息</h4>
-								</div>
-							<table id="tab1" class="table table-striped table-bordered table-hover tab1">
-								<tr>
-									<th width="15%" class="tabtd">员工卡号</th>
-									<th width="15%" class="tabtd">姓名</th>
-									<th width="15%" class="tabtd">岗位</th>
-									<th width="15%" class="tabtd">工位</th>
-									<th width="15%" class="tabtd">工作范围</th>
-									!-- 
-									<th width="13%" class="tabtd">班次</th>
-									 --						
-									<th width="15%" class="tabtd">员工状态</th>
-									<th width="10%" class="tabtd">操作</th>
-								</tr>
-								<#if list_emp??>
-									<#assign num=0>
-									<#list list_emp as list>
-										<tr>
-											<td>${(list.cardNumber)!}</td>
-											<td>${(list.name)!}</td>
-											<td>${(list.xpost)!}</td>
-											<td>${(list.xstation)!}</td>
-											<td>${(list.xworkscope)!}</td>
-											
-											<td>${(list.xshift)!}</td>
-											 
-											<td>
-												<span id="span_state${(list.cardNumber)!}">${(list.xworkstate)!}</span>
-												<input id="input_state${(list.cardNumber)!}" type="hidden" value="${(list.workstate)!}" />
-											</td>
-											<td><a id="a_edit${(list.cardNumber)!}" onclick="edit_event('${(list.cardNumber)!}')" class="a_edit">编辑</a>
-											</td>
-										</tr>
-										<#assign num=num+1>
-									</#list>
-								</#if>
-							</table>
-							<div class="row buttons col-md-8 col-sm-4 btn_tab">
-								<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
-									<i class="ace-icon fa fa-home"></i>
-									返回
-								</a>
-							</div>
-							</div>
-							 -->
 							<script type="text/javascript">
 								var $path_base = "${base}/template/admin";
 							</script>

@@ -87,7 +87,6 @@
 			</div><!-- /.page-content -->
 		</div><!-- /.main-content -->
 
-		<#include "/WEB-INF/template/admin/admin_footer.ftl">
 		<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
 		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">

@@ -20,7 +20,7 @@
 body {
 	background: #fff;
 }
-
+.input_width{min-width:100px;max-width: 200px;}
 </style>
 
 </head>
@@ -37,9 +37,26 @@ body {
 			<!-- add by welson 0728 -->
 			<div class="page-content">
 				<div class="page-content-area">
-
 					<div class="row">
 						<div class="col-xs-12">
+							<form class="form-horizontal" id="searchform" action="post!getpost.action" role="form">
+								<div class="operateBar">
+							   		<div class="form-group">
+							   			<label class="col-sm-1" style="text-align:right">岗位编码</label>
+										<div class="col-sm-3">
+											<input type="text" name="stationcode" class="input input-sm form-control input_width" value="" id="form-field-icon-1">
+										</div>
+							   			<label class="col-sm-1" style="text-align:right">岗位名称</label>
+										<div class="col-sm-3">
+											<input type="text" name="stationname" class="input input-sm form-control input_width" value="" id="form-field-icon-1">
+										</div>
+										<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+											<i class="ace-icon fa fa-filter blue"></i>
+											搜索
+										</a>
+							   		</div>
+								</div>
+							</form>
 							<!-- ./ add by welson 0728 -->
 							<table id="grid-table"></table>
 
@@ -70,13 +87,14 @@ function getName()
 	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
 	if(ids.length !=1)
 	{
-		layer.alert("请选择一个员工",false);
+		layer.alert("请选择一个岗位",false);
 		return "baga";
 	}
 	else
 	{
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
-		var info={"postid":ids,"postname":rowData.postName,"station":rowData.station};
+		//var info={"postid":ids,"postname":rowData.postName,"station":rowData.station};
+		var info={"postid":ids,"postname":rowData.postName};
 		return info;
 	}
 }

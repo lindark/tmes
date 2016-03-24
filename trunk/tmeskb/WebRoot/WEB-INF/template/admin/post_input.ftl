@@ -89,15 +89,14 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name">岗位名称</div>					
 										<div class="profile-info-value">
-											<input type="text" name="xpost.postName" value="${(xpost.postName)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<input type="text" name="xpost.postName" value="${(xpost.postName)!}" class=" input input-sm  formText {required: true}" />
 											<label class="requireField">*</label>	
 										</div>
 									</div>
 									<div class="profile-info-row">	
-										<div class="profile-info-name">工位</div>					
+										<div class="profile-info-name">部门编码</div>					
 										<div class="profile-info-value">
-											<input type="text" name="xpost.station" value="${(xpost.station)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
-											<label class="requireField">*</label>	
+											<input type="text" name="xpost.station" value="${(xpost.station)!}" class=" input input-sm" />
 										</div>
 									</div>
 									

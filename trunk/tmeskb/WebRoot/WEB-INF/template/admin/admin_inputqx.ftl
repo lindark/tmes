@@ -78,7 +78,7 @@ body{background:#fff;}
 		<form id="xform" method="post" action="admin!saveqx.action" class="validate">
 			<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 			<#if isEdit??>
-				<input type="hidden" name="admin.id" value="${(admin.id)! }"/>
+				<input id="input_id" type="hidden" name="admin.id" value="${(admin.id)! }"/>
 			</#if>
 			<div class="profile-user-info profile-user-info-striped">
 				<!-- 
@@ -98,12 +98,12 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">登录名</div>
 					<div class="profile-info-value">
-						<#if isAdd??>
-							<input type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}" title="登录名只允许包含中文、英文、数字和下划线">
-							<label class="requireField">*</label>
-						<#else>
-							${(admin.username)!}
-						</#if>
+						<!-- 
+						<input id="input_username" type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}" title="登录名只允许包含中文、英文、数字和下划线">
+						 -->
+						<input id="input_username" type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true,username: true, minlength: 2, maxlength: 20}" title="登录名只允许包含中文、英文、数字和下划线">
+						<span id="span_username" style="color:red;font-family: 微软雅黑;font-size:10px;"></span>
+						<label class="requireField">*</label>
 					</div>
 				</div>
 				<div class="profile-info-row">
@@ -185,7 +185,7 @@ body{background:#fff;}
 				</div>
 			</div>
 			<div class="buttonArea">
-				<input type="submit" class="formButton" id="btn_submit" value="确  定" hidefocus="true" />
+				<input type="button" class="formButton" id="btn_submit" value="确  定" hidefocus="true" />
 				<input type="button" class="formButton" id="btn_return" value="返  回" hidefocus="true" />
 			</div>
 		</form>

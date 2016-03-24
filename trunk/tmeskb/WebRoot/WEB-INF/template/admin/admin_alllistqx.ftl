@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>部门管理</title>
+<title>人员管理</title>
 <meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <link rel="stylesheet" rev="stylesheet" type="text/css" media="all" href="${base}/template/admin/jiuyi/admin/css/style.css"/>
@@ -64,7 +64,7 @@
 								 <div class="right_content">
 								 	 <div class="left_tree left_tree_position " id="left_tree">
 								        <div class="tree_top">
-								            <h5><span>部门列表</span></h5>
+								            <h5><span>人员列表</span></h5>
 								        </div>
 								        <div id="treeDiv" style="height:100%;max-height:100%;">
 								             <ul id="ingageTree" class="ztree"></ul>

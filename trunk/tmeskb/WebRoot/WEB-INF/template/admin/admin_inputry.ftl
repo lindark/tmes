@@ -46,7 +46,6 @@ body{background:#fff;}
 </style>
 </head>
 <body class="no-skin input">
-	
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -104,8 +103,12 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">身份证号</div>
 					<div class="profile-info-value">
-						<input type="text" name="admin.identityCard" value="${(admin.identityCard)! }" class="col-xs-10 col-sm-5 formText {required: true}">
-						<label class="requireField">*</label>
+						<#if isAdd??>
+							<input type="text" name="admin.identityCard" value="${(admin.identityCard)! }" class="col-xs-10 col-sm-5">
+						<#else>
+							${(admin.identityCard)! }
+							<input type="hidden" name="admin.identityCard" value="${(admin.identityCard)! }">
+						</#if>
 					</div>
 					<div class="profile-info-name">联系电话</div>
 					<div class="profile-info-value">
@@ -116,15 +119,23 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">工号</div>
 					<div class="profile-info-value">
-						<input type="text" id="input_worknum" name="admin.workNumber" value="${(admin.workNumber)! }" class="col-xs-10 col-sm-5 formText {required: true}">
-						<span id="span_worknum" class="xspan"></span>
-						<label class="requireField">*</label>
+						<#if isAdd??>
+							<input type="text" id="input_worknum" name="admin.workNumber" value="${(admin.workNumber)! }" class="col-xs-10 col-sm-5">
+							<span id="span_worknum" class="xspan"></span>
+						<#else>
+							${(admin.workNumber)! }
+							<input type="hidden" id="input_worknum" name="admin.workNumber" value="${(admin.workNumber)! }">
+						</#if>
 					</div>
 					<div class="profile-info-name">卡号</div>
 					<div class="profile-info-value">
-						<input type="text" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }" class="col-xs-10 col-sm-5 formText {required: true}">
-						<span id="span_cardnum" class="xspan"></span>
-						<label class="requireField">*</label>
+						<#if isAdd??>
+							<input type="text" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }" class="col-xs-10 col-sm-5">
+							<span id="span_cardnum" class="xspan"></span>
+						<#else>
+							${(admin.cardNumber)! }
+							<input type="hidden" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }">
+						</#if>
 					</div>
 				</div>
 				<div class="profile-info-row">
@@ -132,20 +143,32 @@ body{background:#fff;}
 					<div class="profile-info-value">
 						<input type="text" name="admin.email" value="${(admin.email)! }" class="col-xs-10 col-sm-5 ">
 					</div>
-					<div class="profile-info-name">直接上级</div>
+					<div class="profile-info-name">亲属关系</div>
 					<div class="profile-info-value">
-						<img id="img_boss" title="直接上级" alt="直接上级" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
-						<span id="span_boss">${(admin.parentAdmin.name)! }</span>
-						<input type="hidden" id="input_boss" name="admin.parentAdmin.id" value="${(admin.parentAdmin.id)! }" class="col-xs-10 col-sm-5" />
+						<input type="text" name="admin.relationShip" value="${(admin.relationShip)! }" class="col-xs-10 col-sm-5">
+					</div>
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">操作等级工</div>
+					<div class="profile-info-value">
+						<input type="text" name="admin.workerGrade" value="${(admin.workerGrade)! }" class="col-xs-10 col-sm-5">
+					</div>
+					<div class="profile-info-name">最高学历</div>
+					<div class="profile-info-value">
+						<input type="text" name="admin.education" value="${(admin.education)! }" class="col-xs-10 col-sm-5">
 					</div>
 				</div>
 				<div class="profile-info-row">
 					<div class="profile-info-name">部门编码</div>
 					<div class="profile-info-value">
-						<img id="img_dept" title="部门" alt="部门" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
-						<span id="span_deptcode">${(admin.department.deptCode)! }</span>
-						<input type="hidden" id="input_dept" name="admin.department.id" value="${(admin.department.id)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
-						<label class="requireField">*</label>
+						<#if isAdd??>
+							<img id="img_dept" title="部门" alt="部门" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+							<span id="span_deptcode">${(admin.department.deptCode)! }</span>
+							<input type="hidden" id="input_dept" name="admin.department.id" value="${(admin.department.id)! }" class="col-xs-10 col-sm-5" />
+						<#else>
+							${(admin.department.deptCode)! }
+							<input type="hidden" id="input_dept" name="admin.department.id" value="${(admin.department.id)! }" />
+						</#if>
 					</div>
 					<div class="profile-info-name">部门名称</div>
 					<div class="profile-info-value">
@@ -155,14 +178,25 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">岗位</div>
 					<div class="profile-info-value">
-						<img id="img_post" title="岗位" alt="岗位" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
-						<span id="span_postname">${(admin.post.postName)! }</span>
-						<input type="hidden" id="input_post" name="admin.post.id" value="${(admin.post.id)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
-						<label class="requireField">*</label>
+						<#if isAdd??>
+							<img id="img_post" title="岗位" alt="岗位" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+							<span id="span_postname">${(admin.post.postName)! }</span>
+							<input type="hidden" id="input_post" name="admin.post.id" value="${(admin.post.id)! }" class="col-xs-10 col-sm-5" />
+						<#else>
+							${(admin.post.postName)! }
+							<input type="hidden" id="input_post" name="admin.post.id" value="${(admin.post.id)! }" />
+						</#if>
 					</div>
-					<div class="profile-info-name">工位</div>
+					<div class="profile-info-name">工位编码/名称</div>
 					<div class="profile-info-value">
-						<span id="span_workstation">${(admin.post.station)! }</span>
+						<!-- <span id="span_workstation">${(admin.post.station)! }</span> -->
+						<select id="sel_station" name="strStationIds" class="chosen-select work" multiple="" style="width:290px;" data-placeholder="请选择...">
+					    	<#if list_station??>
+					    		<#list list_station as list>
+					    			<option value="${(list.id)!}">${(list.code)!}--${(list.name)!}</option>
+					    		</#list>
+					    	</#if>
+					    </select>
 					</div>
 				</div>
 				<div class="profile-info-row">
@@ -190,6 +224,14 @@ body{background:#fff;}
 						<span id="span_teamname">${(admin.team.teamName)! }</span>
 						<input type="hidden" id="input_team" name="admin.team.id" value="${(admin.team.id)! }" class="col-xs-10 col-sm-5" />
 					</div>
+					<div class="profile-info-name">直接上级</div>
+					<div class="profile-info-value">
+						<img id="img_boss" title="直接上级" alt="直接上级" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
+						<span id="span_boss">${(admin.parentAdmin.name)! }</span>
+						<input type="hidden" id="input_boss" name="admin.parentAdmin.id" value="${(admin.parentAdmin.id)! }" class="col-xs-10 col-sm-5" />
+					</div>
+				</div>
+				<div class="profile-info-row">
 					<div class="profile-info-name">是否离职</div>
 					<div class="profile-info-value">
 						<label class="pull-left inline">
@@ -201,24 +243,28 @@ body{background:#fff;}
 						<label class="pull-left inline">
 							<small class="muted smaller-90">离职</small>
 							<input type="radio" name="admin.isDel" class="ace" value="Y"
-								<#if (admin.isAccountEnabled == "Y")!> checked</#if> />
+								<#if (admin.isDel == "Y")!> checked</#if> />
 							<span class="lbl middle"></span>
 						</label>
 					</div>
-				</div>
-				<div class="profile-info-row">
 					<div class="profile-info-name">入职日期</div>
 					<div class="profile-info-value">
 						<#if isAdd??>
 							<input type="text" name="admin.startWorkDate" class="datePicker" value="${(strDate)! }" />
 						<#else>
-							<input type="text" name="admin.startWorkDate" class="datePicker" value="${(admin.startWorkDate)!}" />
+							${(admin.startWorkDate)!}
+							<input type="hidden" name="admin.startWorkDate" class="datePicker" value="${(admin.startWorkDate)!}" />
 						</#if>
 					</div>
 				</div>
 			</div>
 			<div class="buttonArea">
-				<input type="button" class="formButton" id="btn_submit" value="确  定" hidefocus="true" />
+				<#if isAdd??>
+					<input type="button" class="formButton" id="btn_submit" value="确  定" hidefocus="true" />
+				<#else>
+					<!-- 当可以编码工号,卡号时,此submit按钮不再使用--2016-03-24 -->
+					<input type="submit" class="formButton" value="确  定" hidefocus="true" />
+				</#if>
 				<input type="button" class="formButton" id="btn_return" value="返  回" hidefocus="true" />
 			</div>
 		</form>
@@ -238,16 +284,18 @@ body{background:#fff;}
 $(function(){
 	<#if isAdd??>
 	<#else>		 
-	 <#list admin.unitdistributeModelSet as list>
-	 $("#model option[value='${(list.id)!}']").attr("selected","selected"); 		  
-	 </#list>
+		<#list admin.unitdistributeModelSet as list>
+			$("#model option[value='${(list.id)!}']").attr("selected","selected"); 		  
+		</#list>
 	 		 
-	 <#list admin.unitdistributeProductSet as list>
-	 $("#product option[value='${(list.id)!}']").attr("selected","selected"); 		
-	 </#list>
-	
-	 $(".work").chosen();
-	 $(".work").trigger("chosen:updated");
+		<#list admin.unitdistributeProductSet as list>
+			$("#product option[value='${(list.id)!}']").attr("selected","selected"); 		
+		</#list>
+		<#list list_station2 as list>
+			$("#sel_station option[value='${(list.id)!}']").attr("selected","selected");
+		</#list>
+		$(".work").chosen();
+		$(".work").trigger("chosen:updated");
 	</#if>
 });
 </script>

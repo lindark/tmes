@@ -109,7 +109,7 @@ jQuery(function($) {
 			}, 0);
 		},
 		editurl: "cartonson!delete.action",//用它做标准删除动作
-		caption: "历史纸箱收货记录"
+		caption: "纸箱收货记录"
 
 		//,autowidth: true,
 //		,

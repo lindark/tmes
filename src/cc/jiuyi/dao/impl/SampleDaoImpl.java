@@ -40,7 +40,8 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 		return super.findByPager(pager,detachedCriteria);
 	}
 
-	/** 抽检表
+	/** 
+	 * 抽检表
 	 *  查询页面
 	 */
 	@Override
@@ -58,15 +59,15 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 		}
 		
 		if (map.size() > 0) {
-			if (map.get("maktx") != null) {
+			if (map.get("xproductname") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"workingbill.maktx",
-						"%" + map.get("maktx") + "%"));
+						"workingBill.maktx",
+						"%" + map.get("xproductname") + "%"));
 			}
-			if (map.get("matnr") != null) {
+			if (map.get("xproductnum") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"workingbill.matnr",
-						"%" + map.get("matnr") + "%"));
+						"workingBill.matnr",
+						"%" + map.get("xproductnum") + "%"));
 			}
 			if (map.get("state") != null) {
 				detachedCriteria.add(Restrictions.like(
@@ -117,20 +118,20 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 		Integer ishead=0;
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		if (map.size() > 0) {
-			if (!map.get("maktx").equals("")) {
+			if (!map.get("xproductname").equals("")) {
 				if(ishead==0){
-					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
+					hql+=" where model1.maktx like '%"+map.get("xproductname")+"%'";
 					ishead=1;
 				}else{
-					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
+					hql+=" and model1.maktx like '%"+map.get("xproductname")+"%'";
 				}
 			}
-			if (!map.get("maktx").equals("")) {
+			if (!map.get("xproductnum").equals("")) {
 				if(ishead==0){
-					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
+					hql+=" where model1.matnr like '%"+map.get("xproductnum")+"%'";
 					ishead=1;
 				}else{
-					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
+					hql+=" and model1.matnr like '%"+map.get("xproductnum")+"%'";
 				}
 			}
 			if (!map.get("state").equals("")) {
@@ -158,6 +159,22 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 					parameters.put("end", end);
 				}catch(Exception e){
 					e.printStackTrace();
+				}
+			}
+			if (!map.get("xsampler").equals("")) {
+				if(ishead==0){
+					hql+=" where model.sampler like '%"+map.get("xsampler")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.sampler like '%"+map.get("xsampler")+"%'";
+				}
+			}
+			if (!map.get("xcomfirmation").equals("")) {
+				if(ishead==0){
+					hql+=" where model.comfirmation like '%"+map.get("xcomfirmation")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.comfirmation like '%"+map.get("xcomfirmation")+"%'";
 				}
 			}
 		}

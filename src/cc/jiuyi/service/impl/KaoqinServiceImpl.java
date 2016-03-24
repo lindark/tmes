@@ -277,6 +277,26 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	 */
 	public void saveKq(List<Admin>list,Team t,Admin admin)
 	{
+		/**根据登录人查询当前随工单,然后把本班组保存进去,如果随工单已有班组,则不更新*/
+		List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
+		if(wblist!=null&&wblist.size()>0)
+		{
+			boolean flag=true;
+			for(int i=0;i<wblist.size()&&flag;i++)
+			{
+				WorkingBill wb=wblist.get(i);
+				if(wb.getTeam()==null)
+				{
+					wb.setTeam(t);
+					wb.setModifyDate(new Date());
+					this.workingbillservice.update(wb);
+				}
+				else
+				{
+					flag=false;
+				}
+			}
+		}
 		String procutdate=admin.getProductDate();
 		String shift=admin.getShift();
 		for(int i=0;i<list.size();i++)
@@ -314,26 +334,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			a.setShift(null);//班次
 			a.setTardyHours(null);//误工小时数
 			this.adminService.update(a);
-		}
-		/**根据登录人查询当前随工单,然后把本班组保存进去,如果随工单已有班组,则不更新*/
-		List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
-		if(wblist!=null&&wblist.size()>0)
-		{
-			boolean flag=true;
-			for(int i=0;i<wblist.size()&&flag;i++)
-			{
-				WorkingBill wb=wblist.get(i);
-				if(wb.getTeam()==null)
-				{
-					wb.setTeam(t);
-					wb.setModifyDate(new Date());
-					this.workingbillservice.update(wb);
-				}
-				else
-				{
-					flag=false;
-				}
-			}
 		}
 	}
 	@Override

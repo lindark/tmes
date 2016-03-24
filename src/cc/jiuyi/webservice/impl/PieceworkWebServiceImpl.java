@@ -34,6 +34,7 @@ import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.OrdersService;
@@ -57,6 +58,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	private KaoqinService kaoqinService;
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private DictService dictService;
 	
 	public Dict getDict() {
 		Dict d = new Dict();
@@ -324,6 +327,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @return chidao 迟到
 	 * @return zaotui 早退
 	 * @return kuanggong 旷工
+	 * @return workState 上班状态
+	 * @return workHour 上班时间
 	 */
 	public String getPieceworkListTwo(String xmlString){
 		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
@@ -418,7 +423,21 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("workingRange", "");// 工作范围
 					PieceworkMap.put("phone", "");// 手机号码
 				}
-				String jiaban = "";//加班
+				String workState = "";
+				List<Dict> dictlist =  dictService.getList("dictname", "adminworkstate");
+				if(dictlist!=null && dictlist.size()>0){
+					for(Dict d : dictlist){
+						if(d.getDictkey().equals(judgeNull(kq.getWorkState()))){
+							workState = d.getDictvalue();
+							PieceworkMap.put("workState", workState);
+							break;
+						}
+					}
+				}else{
+					PieceworkMap.put("workState", workState);
+				}
+				PieceworkMap.put("workHour", judgeNull(kq.getTardyHours()));
+				/*String jiaban = "";//加班
 				String daiban = "";//代班
 				String shijia = "";//事假
 				String bingjia = "";//病假
@@ -460,7 +479,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				PieceworkMap.put("sangjia", sangjia);// 丧假
 				PieceworkMap.put("chidao", chidao);// 迟到
 				PieceworkMap.put("zaotui", zaotui);// 早退
-				PieceworkMap.put("kuanggong", kuanggong);// 旷工
+				PieceworkMap.put("kuanggong", kuanggong);// 旷工*/	
 				PieceworkLists.add(PieceworkMap);
 			}
 		}
@@ -503,7 +522,11 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	  	      workingRangeElmt.setText(judgeNull((String)map.get("workingRange")));
 	  	      Element phoneElmt = pieceworklistElmt.addElement("phone");
 	  	      phoneElmt.setText(judgeNull((String)map.get("phone")));
-	  	      Element jiabanElmt = pieceworklistElmt.addElement("jiaban");
+	  	      Element workStateElmt = pieceworklistElmt.addElement("workState");
+	  	      workStateElmt.setText(judgeNull((String)map.get("workState")));
+	  	      Element workHourElmt = pieceworklistElmt.addElement("workHour");
+	  	      workHourElmt.setText(judgeNull((String)map.get("workHour")));
+	  	      /*Element jiabanElmt = pieceworklistElmt.addElement("jiaban");
 	  	      jiabanElmt.setText(judgeNull((String)map.get("jiaban")));
 	  	      Element daibanElmt = pieceworklistElmt.addElement("daiban");
 	  	      daibanElmt.setText(judgeNull((String)map.get("daiban")));
@@ -522,7 +545,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	  	      Element zaotuiElmt = pieceworklistElmt.addElement("zaotui");
 	  	      zaotuiElmt.setText(judgeNull((String)map.get("zaotui")));
 	  	      Element kuanggongElmt = pieceworklistElmt.addElement("kuanggong");
-	  	      kuanggongElmt.setText(judgeNull((String)map.get("kuanggong")));
+	  	      kuanggongElmt.setText(judgeNull((String)map.get("kuanggong")));*/
 	  	    }
 	    }else{
 	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
@@ -552,7 +575,11 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		      workingRangeElmt.setText("");
 		      Element phoneElmt = pieceworklistElmt.addElement("phone");
 		      phoneElmt.setText("");
-		      Element jiabanElmt = pieceworklistElmt.addElement("jiaban");
+		      Element workStateElmt = pieceworklistElmt.addElement("workState");
+	  	      workStateElmt.setText("");
+	  	      Element workHourElmt = pieceworklistElmt.addElement("workHour");
+	  	      workHourElmt.setText("");
+		      /*Element jiabanElmt = pieceworklistElmt.addElement("jiaban");
 		      jiabanElmt.setText("");
 		      Element daibanElmt = pieceworklistElmt.addElement("daiban");
 		      daibanElmt.setText("");
@@ -571,7 +598,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		      Element zaotuiElmt = pieceworklistElmt.addElement("zaotui");
 		      zaotuiElmt.setText("");
 		      Element kuanggongElmt = pieceworklistElmt.addElement("kuanggong");
-		      kuanggongElmt.setText("");
+		      kuanggongElmt.setText("");*/
 	    }
 		return doc.asXML();
 	}

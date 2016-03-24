@@ -25,8 +25,10 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.LocatHandOver;
 import cc.jiuyi.entity.LocatHandOverHeader;
+import cc.jiuyi.entity.ReturnProduct;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.LocatHandOverHeaderService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -57,6 +59,8 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	private LocationonsideRfc rfc;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private DictService dictService;
 	
 	
 	
@@ -84,6 +88,16 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 			pager.setGroupOp(pager1.getGroupOp());
 		}
 		pager = locatHandOverHeaderService.jqGrid(pager,admin);
+		
+		List<LocatHandOverHeader> lst = new ArrayList<LocatHandOverHeader>();
+		List<LocatHandOverHeader> locatHandOverHeaderList = pager.getList();
+		for (int i = 0; i < locatHandOverHeaderList.size(); i++) {
+			LocatHandOverHeader locatHandOverHeader = (LocatHandOverHeader) locatHandOverHeaderList.get(i);
+			locatHandOverHeader.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,"locathohstate", locatHandOverHeader.getState()==null?"":locatHandOverHeader.getState()));
+			lst.add(locatHandOverHeader);
+		}
+		pager.setList(lst);
+		
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(LocatHandOverHeader.class));// 排除有关联关系的属性字段
@@ -168,7 +182,17 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("保存失败!");
 		}
 	}
-	
+	//刷卡确认
+	public String creditapproval(){
+		try {
+			Admin admin =  adminService.getByCardnum(cardnumber);
+			String[] ids = id.split(","); 
+			locatHandOverHeaderService.updateLocatHandOver(admin,ids);
+			return ajaxJsonSuccessMessage("保存成功!"); 
+		} catch (Exception e) {
+			return ajaxJsonErrorMessage("保存失败!");
+		}
+	}
 	//查看
 	public String view(){
 		locatHandOverHeader = locatHandOverHeaderService.get(id);

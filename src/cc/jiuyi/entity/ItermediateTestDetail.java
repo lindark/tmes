@@ -54,13 +54,14 @@ public class ItermediateTestDetail extends BaseEntity{
 	
 	
 	
-	
+	@Transient
 	public String getXconfirmUser() {
 		return xconfirmUser;
 	}
 	public void setXconfirmUser(String xconfirmUser) {
 		this.xconfirmUser = xconfirmUser;
 	}
+	@Transient
 	public String getXcreateUser() {
 		return xcreateUser;
 	}

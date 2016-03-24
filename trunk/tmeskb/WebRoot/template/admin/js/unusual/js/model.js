@@ -87,11 +87,14 @@ $(function() {
 		$(".deleteImage2").live("click",function(){
 			$(this).parent().remove();
 		})
-		
-        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage2' alt='删除'>";
-            html+="<input type='hidden' name='longSet["+size+"].id' value='"+id[1]+"'/>";
-            html +="</div>";
-        $("#prevent").append(html);
+		if( work != ',')
+		{
+	        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' style='cursor: pointer;' class='deleteImage2' alt='删除'>";
+	            html+="<input type='hidden' name='longSet["+size+"].id' value='"+id[1]+"'/>";
+	            html +="</div>";            
+	       
+	        $("#prevent").append(html);
+		}
 		layer.close(index); 
 	});
 }
@@ -148,11 +151,14 @@ $(function() {
 		$(".deleteImage").live("click",function(){
 			$(this).parent().remove();
 		})
-
-        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
-            html+="<input type='hidden' name='faultReasonSet["+size+"].id' value='"+id[1]+"'/>";
-            html +="</div>";
-        $("#reason").append(html);
+		if(',' != work)
+		{
+	        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
+	            html+="<input type='hidden' name='faultReasonSet["+size+"].id' value='"+id[1]+"'/>";
+	            html +="</div>";
+	        $("#reason").append(html);
+		}
+        
 		layer.close(index); 
 	});
 }

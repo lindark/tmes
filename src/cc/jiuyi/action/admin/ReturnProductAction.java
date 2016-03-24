@@ -377,7 +377,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		public String history() {
 			return "history";
 		}
-		// 成品入库历史
+		// 退中转仓入库历史
 		public String historylist(){
 			try {
 				if (pager == null) {
@@ -407,6 +407,14 @@ public class ReturnProductAction extends BaseAdminAction {
 					if (obj.get("materialDesp") != null) {
 						String materialDesp = obj.getString("materialDesp").toString();
 						map.put("materialDesp", materialDesp);
+					}
+					if (obj.get("start") != null) {
+						String start = obj.getString("start").toString();
+						map.put("start", start);
+					}
+					if (obj.get("end") != null) {
+						String end = obj.getString("end").toString();
+						map.put("end", end);
 					}
 					if (obj.get("start") != null && obj.get("end") != null) {
 						String start = obj.get("start").toString();

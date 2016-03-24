@@ -14,4 +14,5 @@ import cc.jiuyi.entity.LocatHandOverHeader;
 public interface LocatHandOverHeaderService extends BaseService<LocatHandOverHeader, String> {
 	public Pager jqGrid(Pager pager,Admin admin);
 	void saveLocatHandOver(Admin admin, List<LocatHandOver> locatHandOverList,Admin admin1);
+	void updateLocatHandOver(Admin admin,String[] ids);
 }

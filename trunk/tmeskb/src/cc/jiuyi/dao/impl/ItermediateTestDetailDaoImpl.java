@@ -148,9 +148,11 @@ public class ItermediateTestDetailDaoImpl extends
 		// detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
-
+	/**
+	 * excel导出
+	 */
 	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
-		String hql = "from ItermediateTestDetail model join model.itermediateTest model1 join model1.confirmUser model2 join model1.createUser model3";
+		String hql = "from ItermediateTestDetail model join model.itermediateTest model1 left join model1.confirmUser model2 left join model1.createUser model3";
 		//
 		Integer ishead = 0;
 		Map<String, Object> parameters = new HashMap<String, Object>();

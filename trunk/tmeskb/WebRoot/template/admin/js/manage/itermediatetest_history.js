@@ -50,8 +50,8 @@ jQuery(function($) {
 //	        {name:'materialName',index:'materialName',label:"组件描述", width:100,sortable:"true",sorttype:"text"},
 //	        {name:'xmblnr',index:'pick.mblnr',label:"物料凭证号", width:100,sortable:"true",sorttype:"text"},
 //			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
-	        {name:'xcreateUser',index:'itermediateTest.createUser',label:"创建人", width:70,sortable:"true",sorttype:"text"},
-			{name:'xconfirmUser',label:"确认人",index:'itermediateTest.xconfirmUser', width:60,sortable:"true",sorttype:"text"},
+	        {name:'xcreateUser',index:'itermediateTest.createUser.name',label:"创建人", width:70,sortable:"true",sorttype:"text"},
+			{name:'xconfirmUser',label:"确认人",index:'itermediateTest.confirmUser.name', width:60,sortable:"true",sorttype:"text"},
 				
 			{name:'createDate',label:"创建时间",width:100,index:'createDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
  		    {name:'modifyDate',label:"修改时间",width:100,index:'modifyDate', editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
@@ -81,7 +81,7 @@ jQuery(function($) {
 		},
 
 		editurl: "itermediate_test!delete.action",//用它做标准删除动作
-		caption: "历史半成品单"
+		caption: "半成品巡检记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

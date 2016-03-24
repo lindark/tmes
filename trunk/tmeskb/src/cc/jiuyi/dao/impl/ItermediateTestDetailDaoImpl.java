@@ -93,6 +93,8 @@ public class ItermediateTestDetailDaoImpl extends
 				detachedCriteria.createAlias("itermediateTest",
 						"itermediateTest");
 			}
+			
+				
 			// detachedCriteria.add(Restrictions.eq("workingbill.id",
 			// "4028c781532c74d701532ca1986e0014"));//测试
 			if (map.size() > 0) {
@@ -121,19 +123,21 @@ public class ItermediateTestDetailDaoImpl extends
 					}
 				}
 				if (map.get("xconfirmUser") != null) {
-					if(!existAlias(detachedCriteria, "confirmUser", "admin"))
-					{
-						detachedCriteria.createAlias("confirmUser", "admin");
+					if (!existAlias(detachedCriteria, "itermediateTest.confirmUser",
+							"confirmUser")) {
+						detachedCriteria.createAlias("itermediateTest.confirmUser",
+								"confirmUser");
 					}
-					detachedCriteria.add(Restrictions.like("admin.name",
+					detachedCriteria.add(Restrictions.like("confirmUser.name",
 							"%" + map.get("xconfirmUser") + "%"));
 				}
 				if (map.get("xcreateUser") != null) {
-					if(!existAlias(detachedCriteria, "createUser", "admin"))
-					{
-						detachedCriteria.createAlias("createUser", "admin");
+					if (!existAlias(detachedCriteria, "itermediateTest.createUser",
+							"createUser")) {
+						detachedCriteria.createAlias("itermediateTest.createUser",
+								"createUser");
 					}
-					detachedCriteria.add(Restrictions.like("admin.name",
+					detachedCriteria.add(Restrictions.like("createUser.name",
 							"%" + map.get("xcreateUser") + "%"));
 				}
 				

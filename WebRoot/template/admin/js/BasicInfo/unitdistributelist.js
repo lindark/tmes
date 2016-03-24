@@ -65,8 +65,8 @@ jQuery(function($) {
 	    },
 		colNames:['单元编码','单元名称','物料编码','物料名称','状态'],
 		colModel:[
-			{name:'unitCode',index:'unitCode',sortable:true,editable: true},
-			{name:'unitName',index:'unitName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xunitCode',index:'factoryunit.factoryUnitCode',sortable:true,editable: true},
+			{name:'xunitName',index:'factoryunit.factoryUnitName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialCode',index:'materialCode', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'materialName',index:'materialName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=unitdistributeProductState"}}

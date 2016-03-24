@@ -390,15 +390,15 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						for(UnitdistributeProduct unitProduct : unitProductSet){
 							if("N".equals(unitProduct.getIsDel())){
 								if(i==0){
-									if(unitProduct.getUnitName()!=null && !"".equals(unitProduct.getUnitName())){
-										mouldNumber = unitProduct.getUnitName();
+									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitName())){
+										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitName();
 									}
 									workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode() +"-"+unitProduct.getMaterialName()==null?"":unitProduct.getMaterialName();
 								}else{
-									if(unitProduct.getUnitName()!=null && !"".equals(unitProduct.getUnitName())){
-										mouldNumber = mouldNumber+","+unitProduct.getUnitName();
+									if(unitProduct.getFactoryunit().getFactoryUnitName()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitName())){
+										mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitName();
 									}else{
-										mouldNumber = unitProduct.getUnitName();
+										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitName();
 									}
 									workingRange = workingRange+","+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode() +"-"+unitProduct.getMaterialName()==null?"":unitProduct.getMaterialName();
 								}

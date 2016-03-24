@@ -134,9 +134,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 								PieceworkMap.put("factory", factory);//工厂
 								PieceworkMap.put("workShop",workShop);//车间
-								PieceworkMap.put("factoryUnit",factoryUnit);//单元
+								PieceworkMap.put("factoryUnit",wb.getTeam().getFactoryUnit().getFactoryUnitCode());//单元
 								PieceworkMap.put("productDate",productDate);//生产日期
-								PieceworkMap.put("shift",shift);//班次
+								PieceworkMap.put("shift",wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2));//班次
 								PieceworkMap.put("wokingBillCode",wb.getWorkingBillCode());//随工单号
 								PieceworkMap.put("materialCode",wb.getMatnr());//物料编码
 								PieceworkMap.put("materialDesp",wb.getMaktx());//物料描述
@@ -229,35 +229,35 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	    		 Element pieceworklistElmt  = titleElmt.addElement("pieceworklist"); 
 	   	      //pieceworklist元素设置数据
 	   	      Element factoryElmt = pieceworklistElmt.addElement("factory");
-	   	      factoryElmt.setText((String)map.get("factory"));
+	   	      factoryElmt.setText(judgeNull(map.get("factory")));
 	   	      Element workShopElmt = pieceworklistElmt.addElement("workShop");
-	   	      workShopElmt.setText((String)map.get("workShop"));
+	   	      workShopElmt.setText(judgeNull(map.get("workShop")));
 	   	      Element factoryUnitElmt = pieceworklistElmt.addElement("factoryUnit");
-	   	      factoryUnitElmt.setText((String)map.get("factoryUnit"));
+	   	      factoryUnitElmt.setText(judgeNull(map.get("factoryUnit")));
 	   	      Element productDateElmt = pieceworklistElmt.addElement("productDate");
-	   	      productDateElmt.setText((String)map.get("productDate"));
+	   	      productDateElmt.setText(judgeNull(map.get("productDate")));
 	   	      Element shiftElmt = pieceworklistElmt.addElement("shift");
-	   	      shiftElmt.setText((String)map.get("shift"));
+	   	      shiftElmt.setText(judgeNull(map.get("shift")));
 	   	      Element wokingBillCodeElmt = pieceworklistElmt.addElement("wokingBillCode");
-	   	      wokingBillCodeElmt.setText((String)map.get("wokingBillCode"));
+	   	      wokingBillCodeElmt.setText(judgeNull(map.get("wokingBillCode")));
 	   	      Element materialCodeElmt = pieceworklistElmt.addElement("materialCode");
-	   	      materialCodeElmt.setText((String)map.get("materialCode"));
+	   	      materialCodeElmt.setText(judgeNull(map.get("materialCode")));
 	   	      Element materialDespElmt = pieceworklistElmt.addElement("materialDesp");
-	   	      materialDespElmt.setText((String)map.get("materialDesp"));
+	   	      materialDespElmt.setText(judgeNull(map.get("materialDesp")));
 	   	      Element mouldNumberElmt = pieceworklistElmt.addElement("mouldNumber");
-	   	      mouldNumberElmt.setText((String)map.get("mouldNumber"));
+	   	      mouldNumberElmt.setText(judgeNull(map.get("mouldNumber")));
 	   	      Element befWorkOddAmountElmt = pieceworklistElmt.addElement("befWorkOddAmount");
-	   	      befWorkOddAmountElmt.setText((String)map.get("befWorkOddAmount"));
+	   	      befWorkOddAmountElmt.setText(judgeNull(map.get("befWorkOddAmount")));
 	   	      Element storageAmountElmt = pieceworklistElmt.addElement("storageAmount");
-	   	      storageAmountElmt.setText((String)map.get("storageAmount"));
+	   	      storageAmountElmt.setText(judgeNull(map.get("storageAmount")));
 	   	      Element aftWorkOddAmountElmt = pieceworklistElmt.addElement("aftWorkOddAmount");
-	   	      aftWorkOddAmountElmt.setText((String)map.get("aftWorkOddAmount"));
+	   	      aftWorkOddAmountElmt.setText(judgeNull(map.get("aftWorkOddAmount")));
 	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
-	   	      unRepairAmountElmt.setText((String)map.get("unRepairAmount"));
+	   	      unRepairAmountElmt.setText(judgeNull(map.get("unRepairAmount")));
 	   	      Element qualifiedAmountElmt = pieceworklistElmt.addElement("qualifiedAmount");
-	   	      qualifiedAmountElmt.setText((String)map.get("qualifiedAmount"));
+	   	      qualifiedAmountElmt.setText(judgeNull(map.get("qualifiedAmount")));
 	   	      Element qualifiedRatioElmt = pieceworklistElmt.addElement("qualifiedRatio");
-	   	      qualifiedRatioElmt.setText((String)map.get("qualifiedRatio"));
+	   	      qualifiedRatioElmt.setText(judgeNull(map.get("qualifiedRatio")));
 	   	    }
 	    }else{
 	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
@@ -354,11 +354,11 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 			for(Kaoqin kq : KaoqinList){
 				Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 				PieceworkMap.put("productDate", productDate);//生产日期
-				PieceworkMap.put("shift", shift);//生产日期
+				PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
 				Team team  = kq.getTeam();
 				if(team!=null){
 					PieceworkMap.put("classSys", judgeNull(team.getClassSys()));// 班制
-					PieceworkMap.put("basic", judgeNull(team.getClassSys()));// 基本
+					PieceworkMap.put("basic", judgeNull(team.getBasic()));// 基本
 					PieceworkMap.put("team", judgeNull(team.getTeamName()));// 班组
 					
 					

@@ -42,12 +42,15 @@ jQuery(function($) {
 		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",formatter:datefmt},
 			{name:'submitUser',index:'submitUser',label:"创建人",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'confirmUser',index:'confirmUser',label:"确认人",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'productDate',index:'productDate',label:"生产日期",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'shift',index:'productDate',label:"班次",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'locationCode',index:'locationCode',search:true,label:"库存地点", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryUnitCode',index:'factoryUnitCode',search:true,label:"单元编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'factoryUnitDesp',index:'factoryUnitDesp',search:false,label:"单元描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'lgpla',index:'lgpla',search:true,label:"仓位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}}
+			{name:'lgpla',index:'lgpla',search:true,label:"仓位", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xstate',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=locathohstate"}},
+			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 			], 
 
 		viewrecords : true,
@@ -78,7 +81,7 @@ jQuery(function($) {
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	/*//给状态加样式
+	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
 		
@@ -92,12 +95,12 @@ jQuery(function($) {
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
-		//已撤销
+		/*//已撤销
 		if(rawObject.state=="3")
 		{
 			return "style='color:purple;font-weight:bold;'";
-		}
-	}*/
+		}*/
+	}
 	
 	
 	

@@ -731,7 +731,7 @@
 							
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="sample!history.action" style="font-size:12px;color:red">
 									<i class="menu-icon fa fa-caret-right"></i>
 									抽检记录
 								</a>

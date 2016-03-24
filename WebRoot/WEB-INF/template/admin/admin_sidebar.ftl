@@ -572,13 +572,14 @@
 							</li>
 							
 							<li class="">
-								<a href="pick!history.action" >
+								<a href="pick!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									领退料记录
 								</a>
 
 								<b class="arrow"></b>
 							</li>
+							
 							<li class="">
 								<a href="daily_work!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -587,6 +588,7 @@
 
 								<b class="arrow"></b>
 							</li>
+							
 							<li class="">
 								<a href="repair!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -620,7 +622,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="enteringware_house!history.action">
+								<a href="enteringware_house!history.action" > 
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品检验记录
 								</a>
@@ -635,15 +637,6 @@
 
 								<b class="arrow"></b>
 							</li>
-							<!--<li class="">
-								<a href="dump!recordList.action" style="font-size:12px;color:red">
-									<i class="menu-icon fa fa-caret-right"></i>
-									转储确认记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>  -->
-							
 							
 							<li class="">
 								<a href="cartonson!history.action">
@@ -731,7 +724,7 @@
 							
 							
 							<li class="" >
-								<a href="sample!history.action" style="font-size:12px;color:red">
+								<a href="sample!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									抽检记录
 								</a>

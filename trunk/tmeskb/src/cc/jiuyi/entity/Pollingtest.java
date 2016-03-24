@@ -43,6 +43,8 @@ public class Pollingtest extends BaseEntity {
 
 	private String isDel;// 是否删除
 	private String state;// 状态
+	
+	//假字段
 	private String craftWorkRemark;// 工艺确认描述
 	private String stateRemark;// 状态描述
 	private String pollingtestUserName;// 巡检人的名字
@@ -50,6 +52,7 @@ public class Pollingtest extends BaseEntity {
 	private String workingBillCode;
 	private String workingBillId;
 	private String maktx;//产品描述
+	private String matnr;//产品编号
 
 	public Integer getPollingtestAmount() {
 		return pollingtestAmount;
@@ -274,12 +277,10 @@ public class Pollingtest extends BaseEntity {
 	public String getMaktx() {
 		return maktx;
 	}
-
-	
-
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
 	}
+	
 	@Transient
 	public String getWorkingBillCode() {
 		return workingBillCode;
@@ -298,4 +299,13 @@ public class Pollingtest extends BaseEntity {
 		this.workingBillId = workingBillId;
 	}
 
+	
+	@Transient
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}	
 }

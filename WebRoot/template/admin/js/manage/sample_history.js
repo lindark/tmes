@@ -98,7 +98,7 @@ jQuery(function($) {
 			return "style='color:red;font-weight:bold;'";
 		}
 		//已撤销
-		if(rawObject.stateRemark=="已撤销")
+		if(rawObject.state=="已撤销")
 		{
 			return "style='color:purple;font-weight:bold;'";
 		}

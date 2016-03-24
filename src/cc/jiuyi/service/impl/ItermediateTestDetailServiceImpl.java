@@ -71,6 +71,10 @@ public class ItermediateTestDetailServiceImpl extends BaseServiceImpl<Itermediat
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return itermediateTestDetailDao.historyjqGrid(pager, map);
+	}
 
 	@Override
 	public ItermediateTestDetail getBySidAndMid(String sid, String mid) {
@@ -78,7 +82,9 @@ public class ItermediateTestDetailServiceImpl extends BaseServiceImpl<Itermediat
 		return itermediateTestDetailDao.getBySidAndMid(sid, mid);
 	}
 
-
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		return itermediateTestDetailDao.historyExcelExport(map);
+	}
 	
 
 

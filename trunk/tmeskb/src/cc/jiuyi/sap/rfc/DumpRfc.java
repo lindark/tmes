@@ -39,7 +39,7 @@ public interface DumpRfc extends BaserfcService{
 	 * @throws IOException
 	 * @throws CustomerException
 	 */
-	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException;
+	public String saveMaterial(HashMap<String,String> map,List<HashMap<String,String>> arrList) throws IOException, CustomerException;
 	
 	/**
 	 * 更新物料数据

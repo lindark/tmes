@@ -35,8 +35,7 @@ public class WorkingBillJobAll{
 	private FactoryUnitService factoryunitservice;
 
 	//workcode 单元
-	public void start(String workcode) throws InterruptedException{
-		WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
+	public void start(String workcode){
 		//ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletContext sc); 
 		log.info("同步生产订单开始..."+workcode);
 		try {
@@ -46,13 +45,13 @@ public class WorkingBillJobAll{
 			newdate = DateUtils.addDays(newdate, 1);
 			String enddate = String.format("%tF%n", newdate);
 			String endtime = String.format("%tT%n", newdate);
-			workingbillrfc = (WorkingBillRfc) wac.getBean("workingBillRfcImpl");
-			unitdistributeproductservice = (UnitdistributeProductService)wac.getBean("unitdistributeProductServiceImpl");
-			factoryunitservice = (FactoryUnitService)wac.getBean("factoryUnitServiceImpl");
+			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
+			unitdistributeproductservice = (UnitdistributeProductService)SpringUtil.getBean("unitdistributeProductServiceImpl");
+			factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
 			FactoryUnit factoryunit = factoryunitservice.get("factoryUnitCode",workcode);
 			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
 			String workshopcode = "201";
-			String[] propertyNames = {"unitCode","state","isDel"};
+			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
 			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList);
@@ -61,6 +60,9 @@ public class WorkingBillJobAll{
 			e.printStackTrace();
 		} catch (CustomerException e){
 			log.error("同步生产订单出错"+e);
+			e.printStackTrace();
+		} catch (Exception e){
+			log.error("错误"+e);
 			e.printStackTrace();
 		}
 		

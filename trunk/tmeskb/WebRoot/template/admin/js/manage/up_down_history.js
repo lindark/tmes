@@ -80,7 +80,7 @@ jQuery(function($) {
 		},
 
 		//editurl: "",//用它做标准删除动作
-		caption: "超市领料历史单"
+		caption: "超市领用记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

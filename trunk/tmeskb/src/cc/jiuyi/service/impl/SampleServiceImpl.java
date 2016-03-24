@@ -198,9 +198,16 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		return sampleDao.getUncheckList();
 	}
 	
+	/**
+	 * 取出抽检表
+	 */
 	public Pager getSamplePager(Pager pager, HashMap<String, String> map) {
 		return sampleDao.getSamplePager(pager, map);
 	}
+	
+	/**
+	 * Excel打印
+	 */
 	@Override
 	public List<Object[]> historyExcelExport(HashMap<String,String> map){
 		return sampleDao.historyExcelExport(map);

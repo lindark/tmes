@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -37,6 +38,28 @@ public class ReturnProductDaoImpl extends BaseDaoImpl<ReturnProduct, String> imp
 						"materialDesp",
 						"%" + map.get("materialDesp") + "%"));
 			}	
+			if (map.get("start") != null && map.get("end")==null) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+					Date start=sd.parse(map.get("start"));
+					Date now=sd.parse(sd.format(new Date()));
+					now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.between("createDate", start, now));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (map.get("start") == null && map.get("end")!=null ) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
+					Date end=sd.parse(map.get("end"));
+					Date now=sd.parse(sd.format(new Date()));
+					now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.between("createDate", end, now));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			if (map.get("state") != null) {
 				detachedCriteria.add(Restrictions.like(
 						"state",

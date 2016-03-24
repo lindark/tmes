@@ -39,15 +39,15 @@ public class Pollingtest extends BaseEntity {
 	private Admin confirmUser;// 确认人
 
 	private Set<PollingtestRecord> pollingtestRecord;// 巡检缺陷记录表
-	private WorkingBill workingbill;// 随工单
+	private WorkingBill workingBill;// 随工单
 
 	private String isDel;// 是否删除
 	private String state;// 状态
 	private String craftWorkRemark;// 工艺确认描述
 	private String stateRemark;// 状态描述
 	private String pollingtestUserName;// 巡检人的名字
-	private String adminName;// 确认人的名字
-	private String workingbillCode;
+	private String confirmUserName;// 确认人的名字
+	private String workingBillCode;
 	private String workingBillId;
 	private String maktx;//产品描述
 
@@ -190,18 +190,23 @@ public class Pollingtest extends BaseEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	public WorkingBill getWorkingbill() {
-		return workingbill;
+	public WorkingBill getWorkingBill() {
+		return workingBill;
 	}
 
-	public void setWorkingbill(WorkingBill workingbill) {
-		this.workingbill = workingbill;
+	public void setWorkingBill(WorkingBill workingBill) {
+		this.workingBill = workingBill;
 	}
+	
+	
+	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Admin getConfirmUser() {
 		return confirmUser;
 	}
+
+
 
 	public void setConfirmUser(Admin confirmUser) {
 		this.confirmUser = confirmUser;
@@ -257,12 +262,12 @@ public class Pollingtest extends BaseEntity {
 	}
 
 	@Transient
-	public String getAdminName() {
-		return adminName;
+	public String getConfirmUserName() {
+		return confirmUserName;
 	}
 
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
+	public void setConfirmUserName(String confirmUserName) {
+		this.confirmUserName = confirmUserName;
 	}
 
 	@Transient
@@ -270,16 +275,18 @@ public class Pollingtest extends BaseEntity {
 		return maktx;
 	}
 
+	
+
 	public void setMaktx(String maktx) {
 		this.maktx = maktx;
 	}
-
-	public String getWorkingbillCode() {
-		return workingbillCode;
+	@Transient
+	public String getWorkingBillCode() {
+		return workingBillCode;
 	}
 
-	public void setWorkingbillCode(String workingbillCode) {
-		this.workingbillCode = workingbillCode;
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
 	}
 
 	@Transient

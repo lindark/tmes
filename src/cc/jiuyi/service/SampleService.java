@@ -52,6 +52,12 @@ public interface SampleService extends BaseService<Sample, String>
 	 */
 	public List<Sample> getUncheckList();
 	
+	/**
+	 * 取出抽检记录
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
 	public Pager getSamplePager(Pager pager, HashMap<String, String> map);
 	
 	/**

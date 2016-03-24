@@ -508,6 +508,14 @@ public class EndProductAction extends BaseAdminAction {
 					String materialDesp = obj.getString("materialDesp").toString();
 					map.put("materialDesp", materialDesp);
 				}
+				if (obj.get("start") != null) {
+					String start = obj.getString("start").toString();
+					map.put("start", start);
+				}
+				if (obj.get("end") != null) {
+					String end = obj.getString("end").toString();
+					map.put("end", end);
+				}
 				if (obj.get("start") != null && obj.get("end") != null) {
 					String start = obj.get("start").toString();
 					String end = obj.get("end").toString();

@@ -96,13 +96,13 @@ body {
 												<div class="profile-info-value">
 												    <#if isAdd??>
 													<img id="unitId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-													<span id="unitName"></span> <input type="hidden"
-														name="unitdistributeProduct.unitName" id="unitNa" value=""
-														class="formText {required: true}" />
+													<span id="unitName"></span>
 														<input type="hidden"
-														name="unitdistributeProduct.unitCode" id="unitNo" value=""
-														class="formText {required: true}" /> <#else>
-													${(unitdistributeProduct.unitName)!} </#if>
+														name="unitdistributeProduct.factoryunit.id" id="unitNo" value=""
+														class="formText {required: true}" />
+												    <#else>
+														${(unitdistributeProduct.factoryunit.factoryUnitName)!}
+													 </#if>
 												</div>
 											</div> 
 											
@@ -202,8 +202,7 @@ $(function() {
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
 		$("#unitName").text(id[1]);
-		$("#unitNa").val(id[1]);//单元名称
-		$("#unitNo").val(id[2]);
+		$("#unitNo").val(id[0]);
 		layer.close(index); 
 	});
 }

@@ -733,7 +733,7 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="itermediate_test!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									半成品巡检记录
 								</a>

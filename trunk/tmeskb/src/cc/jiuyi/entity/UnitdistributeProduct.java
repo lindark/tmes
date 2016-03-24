@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -22,15 +23,20 @@ public class UnitdistributeProduct extends BaseEntity{
 	
     private String stateRemark;//状态描述
     
-    private String unitCode;//单元编码 
+    private FactoryUnit factoryunit;//单元
+    
+    //private String unitCode;//单元编码 
      
-    private String unitName;//单元名称 
+    //private String unitName;//单元名称 
     
     private String materialCode;//物料编码
     
-    private String materialName;//物料名称 
+    private String materialName;//物料名称
     
     private Set<Admin> adminSet;
+    
+    private String xunitName;
+    private String xunitCode;
 
 	public String getIsDel() {
 		return isDel;
@@ -51,21 +57,21 @@ public class UnitdistributeProduct extends BaseEntity{
 		this.state = state;
 	}
 
-	public String getUnitCode() {
-		return unitCode;
-	}
-
-	public void setUnitCode(String unitCode) {
-		this.unitCode = unitCode;
-	}
-
-	public String getUnitName() {
-		return unitName;
-	}
-
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
-	}
+//	public String getUnitCode() {
+//		return unitCode;
+//	}
+//
+//	public void setUnitCode(String unitCode) {
+//		this.unitCode = unitCode;
+//	}
+//
+//	public String getUnitName() {
+//		return unitName;
+//	}
+//
+//	public void setUnitName(String unitName) {
+//		this.unitName = unitName;
+//	}
 
 	public String getMaterialCode() {
 		return materialCode;
@@ -99,6 +105,31 @@ public class UnitdistributeProduct extends BaseEntity{
 
 	public void setAdminSet(Set<Admin> adminSet) {
 		this.adminSet = adminSet;
+	}
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	public FactoryUnit getFactoryunit() {
+		return factoryunit;
+	}
+
+	public void setFactoryunit(FactoryUnit factoryunit) {
+		this.factoryunit = factoryunit;
+	}
+	@Transient
+	public String getXunitName() {
+		return xunitName;
+	}
+
+	public void setXunitName(String xunitName) {
+		this.xunitName = xunitName;
+	}
+	@Transient
+	public String getXunitCode() {
+		return xunitCode;
+	}
+
+	public void setXunitCode(String xunitCode) {
+		this.xunitCode = xunitCode;
 	}
 
     

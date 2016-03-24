@@ -39,11 +39,13 @@ public class LocatHandOverHeaderServiceImpl extends BaseServiceImpl<LocatHandOve
 		
 		LocatHandOverHeader locatHandOverHeader = new LocatHandOverHeader();
 		locatHandOverHeader.setSubmitUser(admin.getName());
+		locatHandOverHeader.setSubmitUserCard(admin.getCardNumber());
 		locatHandOverHeader.setShift(admin1.getShift());
 		locatHandOverHeader.setProductDate(admin1.getProductDate());
 		locatHandOverHeader.setFactoryUnitCode(factoryUnit.getFactoryUnitCode());
 		locatHandOverHeader.setFactoryUnitDesp(factoryUnit.getFactoryUnitName());
 		locatHandOverHeader.setIsDel("N");
+		locatHandOverHeader.setState("1");
 		locatHandOverHeader.setLgpla(locatHandOverList.get(0).getLgpla());
 		locatHandOverHeader.setLocationCode(locatHandOverList.get(0).getLocationCode());
 		this.locatHandOverHeaderDao.save(locatHandOverHeader);
@@ -51,6 +53,16 @@ public class LocatHandOverHeaderServiceImpl extends BaseServiceImpl<LocatHandOve
 			lho.setIsDel("N");
 			lho.setLocatHandOverHeader(locatHandOverHeader);
 			locatHandOverService.save(lho);
+		}
+	}
+	@Override
+	public void updateLocatHandOver(Admin admin, String[] ids) {
+		List<LocatHandOverHeader> locatHandOverheaderList = locatHandOverHeaderDao.get(ids);
+		for(LocatHandOverHeader lho : locatHandOverheaderList){
+			lho.setState("2");
+			lho.setConfirmUser(admin.getName());
+			lho.setConfirmUserCard(admin.getCardNumber());
+			locatHandOverHeaderDao.update(lho);
 		}
 	}
 	

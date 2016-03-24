@@ -70,6 +70,8 @@ public class SampleAction extends BaseAdminAction
 	private String end;//日期结束点
 	private String xsampler;//抽检人
 	private String xcomfirmation;//确认人
+	private String xproductname;//产品名称
+	private String xproductnum;//产品编号
 	/**
 	 * service接口
 	 */
@@ -208,11 +210,15 @@ public class SampleAction extends BaseAdminAction
 		return "history";
 	}
 	
-	//Excel导出 @author Razey 2016/3/23
+	/**
+	 * Excel导出 @author Razey 2016/3/23
+	 * 
+	 * @return
+	 */
 	public String excelexport(){
 		HashMap<String,String> map = new HashMap<String,String>();
-		map.put("maktx", maktx);
-		map.put("matnr", matnr);
+		map.put("xproductname", xproductname);
+		map.put("xproductnum", xproductnum);
 		map.put("state", state);
 		map.put("start", start);
 		map.put("end", end);
@@ -232,7 +238,7 @@ public class SampleAction extends BaseAdminAction
         header.add("合格数量");
         header.add("合格率");
         header.add("抽检类型");
-        header.add("状态");
+//        header.add("状态");
         header.add("状态");
         
         List<Object[]> sampleList = sampleService.historyExcelExport(map);
@@ -244,16 +250,16 @@ public class SampleAction extends BaseAdminAction
         	
 			Object[] bodyval = {
 					sample.getId(),
-					sample.getModifyDate(),
-					workingbill.getMatnr(),
-					workingbill.getMaktx(),
-					sample.getSampler().getName(),
-					sample.getComfirmation().getName(),
-					sample.getSampleNum(),
-					sample.getQulified(),
-					sample.getQulifiedRate(),
-					sample.getSampleType(),
-					sample.getState(),
+					sample.getModifyDate()==null?"":sample.getModifyDate(),
+					workingbill.getMatnr()==null?"":workingbill.getMatnr(),
+					workingbill.getMaktx()==null?"":workingbill.getMaktx(),
+					sample.getSampler().getName()==null?"":sample.getSampler().getName(),
+					sample.getComfirmation().getName()==null?"":sample.getComfirmation().getName(),
+					sample.getSampleNum()==null?"":sample.getSampleNum(),
+					sample.getQulified()==null?"":sample.getQulified(),
+					sample.getQulifiedRate()==null?"":sample.getQulifiedRate(),
+					sample.getSampleType()==null?"":sample.getSampleType(),
+//					sample.getState()==null?"":sample.getState(),
 					ThinkWayUtil.getDictValueByDictKey(dictService,
 							"sampleState", sample.getState())};
 			body.add(bodyval);
@@ -273,19 +279,43 @@ public class SampleAction extends BaseAdminAction
 	}
 	
 	
-	//抽检表记录 @author Razey 2016/3/23
-	public String historylist(){
+	public String getXproductname() {
+		return xproductname;
+	}
 
+	public void setXproductname(String xproductname) {
+		this.xproductname = xproductname;
+	}
+
+	public String getXproductnum() {
+		return xproductnum;
+	}
+
+	public void setXproductnum(String xproductnum) {
+		this.xproductnum = xproductnum;
+	}
+
+	/**
+	 * 抽检表记录 @author Razey 2016/3/23
+	 * 
+	 * @return
+	 */
+	public String historylist(){
+		
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		try
 		{
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		if(pager == null) {
-			pager = new Pager();
-			
-		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("createDate");
+//		if(pager == null) {
+//			pager = new Pager();
+//			
+//		}
+//		pager.setOrderType(OrderType.desc);
+//		pager.setOrderBy("createDate");
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
@@ -299,15 +329,15 @@ public class SampleAction extends BaseAdminAction
 		if (pager.is_search() == true && Param != null) {// 普通搜索功能
 //			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
-			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
+			if (obj.get("xproductname") != null) {
+				String xproductname = obj.getString("xproductname")
 						.toString();
-				map.put("maktx", maktx);
+				map.put("xproductname", xproductname);
 			}
-			if (obj.get("matnr") != null) {
-				String matnr = obj.getString("matnr")
+			if (obj.get("xproductnum") != null) {
+				String xproductnum = obj.getString("xproductnum")
 						.toString();
-				map.put("matnr", matnr);
+				map.put("xproductnum", xproductnum);
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
@@ -339,16 +369,19 @@ public class SampleAction extends BaseAdminAction
 		for(int i=0;i<samplelist.size();i++)
 		{
 			Sample s1=samplelist.get(i);
-			s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleState", s1.getState()));//状态描述--页面显示
+			s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
+			s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
+			s1.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleState", s1.getState()));//状态描述--页面显示
+			s1.setModifyDate(s1.getModifyDate());
 			s1.setXsampler(s1.getSampler().getName());//抽检人xsampler
 			if(s1.getComfirmation()!=null)
 			{
 				s1.setXcomfirmation(s1.getComfirmation().getName());//确认人xcomfirmation
 			}
 			System.out.println(s1.getCreateDate());
-			s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
-			s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
-//			s1.setXsampletype(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleType", s1.getSampleType()));//抽检类型xsampletype
+//			s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
+//			s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
+////			s1.setXsampletype(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleType", s1.getSampleType()));//抽检类型xsampletype
 			samplelist2.add(s1);
 		}
 		pager.setList(samplelist2);

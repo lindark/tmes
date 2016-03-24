@@ -41,7 +41,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		Table ET_HEADER = outs.getTable("ET_HEADER");//物料凭证抬头表
 		Table ET_ITEM = outs.getTable("ET_ITEM");//物料凭证明细表
 		List<Dump> materialheader = new ArrayList<Dump>();
-		for (int i = 0; i < ET_HEADER.getNumRows(); i++) {
+		for (int i = 0; i < ET_HEADER.getNumRows(); i++){
 			ET_HEADER.setRow(i);
 			Dump dump =new Dump();
 			dump.setVoucherId(ET_HEADER.getString("MBLNR"));//物料凭证编号
@@ -139,47 +139,46 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		
 	}
 	
-	public String saveMaterial(List<HashMap<String,String>> arrList) throws IOException, CustomerException{
+	public String saveMaterial(HashMap<String,String> map,List<HashMap<String,String>> arrList) throws IOException, CustomerException{
 		String type="";
-		try
-		{
-			super.setProperty("materiallqua1");//根据配置文件读取到函数名称
-			/******输入参数******/
-			//HashMap<String,Object> parameter = new HashMap<String,Object>();
-			//parameter.put("GM_CODE", "03");//移动类型
-			/******输入表******/
-			//super.setParameter(null);
-			//super.setStructure(null);
-			List<TableModel> tablemodelList = new ArrayList<TableModel>();
-			TableModel GT_LQUA = new TableModel();
-			GT_LQUA.setData("GT_LQUA");
-			GT_LQUA.setList(arrList);
-			tablemodelList.add(GT_LQUA);
-			//super.setParameter(parameter);
-			super.setTable(tablemodelList);
-			/******执行 end******/
-			SAPModel model = execBapi();//执行 并获取返回值
-			ParameterList out = model.getOuts();//返回参数
-			ParameterList outs = model.getOuttab();//返回表
-			//Table t_data = outs.getTable("");//列表
-			type = out.getString("E_TYPE");
-			String message = out.getString("E_MESSAGE");
-			if(type.equals("E")){//如果是E，抛出自定义异常
-				throw new CustomerException("1400001", message);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+		super.setProperty("materiallqua1");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("S_WERKS", map.get("werks"));//工厂
+		parameter.put("S_LGORT", map.get("lgort"));//库存地点
+		//parameter.put("S_MATNR", "03");//移动类型
+		//parameter.put("S_LGPLA", "03");//移动类型
+		
+		/******输入表******/
+		//super.setParameter(null);
+		//super.setStructure(null);
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		TableModel GT_LQUA = new TableModel();
+		GT_LQUA.setData("GT_LQUA");
+		GT_LQUA.setList(arrList);
+		tablemodelList.add(GT_LQUA);
+		super.setParameter(parameter);
+		super.setStructure(null);
+		super.setTable(tablemodelList);
+		/******执行 end******/
+		SAPModel model = execBapi();//执行 并获取返回值
+		ParameterList out = model.getOuts();//返回参数
+		ParameterList outs = model.getOuttab();//返回表
+		//Table t_data = outs.getTable("");//列表
+		type = out.getString("E_TYPE");
+		String message = out.getString("E_MESSAGE");
+		String lenum = out.getString("LENUM");
+		if(type.equals("E")){//如果是E，抛出自定义异常
+			throw new CustomerException("1400001", message);
 		}
 		
-		return type;
+		
+		
+		return lenum;
 	}
 
 	public List<HashMap<String,String>> updateMaterial(String testrun,List<HashMap<String,String>> maplist)
 			throws IOException, CustomerException {
-		try
-		{
 			super.setProperty("pickbatch");//根据配置文件读取到函数名称
 			super.setParameter(null);
 			super.setStructure(null);
@@ -238,11 +237,6 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 				mlist.add(map);
 			}
 			return mlist;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		
 	}
 }

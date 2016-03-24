@@ -155,7 +155,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 		this.enteringwareHouse = enteringwareHouse;
 	}
 	
-	@OneToMany(mappedBy = "workingbill", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "workingBill", fetch = FetchType.LAZY)
 	public Set<Pollingtest> getPollingtest() {
 		return pollingtest;
 	}

@@ -46,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史巡检单</li>
+					<li class="active">历史成品巡检记录</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -63,16 +63,31 @@
 								action="repair!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-1 col-md-offset-1"
-											style="text-align:right">产品名称:</label>
-										<div class="col-sm-4">
-											<input type="text" name="maktx"
+										<label class="col-sm-1"
+											style="text-align:right">随工单号:</label>
+										<div class="col-sm-3">
+											<input type="text" name="workingBillCode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-
+										<label class="col-sm-1" style="text-align:right">产品名称:</label>
+										<div class="col-sm-3">											
+												<input type="text" class="input input-sm form-control"
+													name="maktx"> 											
+										</div>
+										<label class="col-sm-1" style="text-align:right">状态:</label>
+										<div class="col-sm-3">
+											<select name="state" id="form-field-icon-1" class="input input-sm form-control">											
+								                <option value=""></option>
+								                 <option value="1">已确认</option>
+								                <option value="2">未确认</option>
+								               
+							               </select>
+									    </div>
+									</div>
+									<div class="form-group">										
 										<label class="col-sm-1" style="text-align:right">巡检日期:</label>
-										<div class="col-sm-4">
+										<div class="col-sm-3">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
 													name="start"> <span class="input-group-addon">
@@ -81,15 +96,27 @@
 													name="end">
 											</div>
 										</div>
+										<label class="col-sm-1"
+											style="text-align:right">巡检人:</label>
+										<div class="col-sm-3">
+											<input type="text" name="pollingtestUserName"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1" style="text-align:right">确认人:</label>
+										<div class="col-sm-3">											
+											<input type="text" class="input input-sm form-control"
+												name="confirmUserName"> 
+											
+										</div>
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
-										<a id="btn_show" class="btn btn-white btn-default btn-sm btn-round">
-											<i class="ace-icon fa fa-book"></i>
-											查看
+										<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>Excel导出
 										</a>
 									</div>
 
@@ -122,6 +149,20 @@
 	<!-- ./ add by welson 0728 -->
 </body>
 </html>
+<script type ="text/javascript">
+   $(function(){
+	   var $excelReport = $("#excelReport");
+	   var $searchform = $("#searchform");
+       
+	   $excelReport.click(function(){
+		   $searchform.attr("action","pollingtest!excelexport.action");
+		   $searchform.submit();
+	   });	   
+	   
+   })
+
+
+</script>
 <script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生

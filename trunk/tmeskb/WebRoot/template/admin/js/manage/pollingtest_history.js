@@ -67,14 +67,14 @@ jQuery(function($) {
 		colNames:[ '随工单编号','产品名称','巡检数量','合格数量','合格率','巡检日期','巡检人', '确认人','状态','状态',"wid"],
 		colModel:[
 			
-		    {name:'workingbillCode',index:'workingbillCode', width:150,sortable:"true",sorttype:"text"},
-			{name:'maktx',index:'maktx', width:400,sortable:"true",sorttype:"text"},
+		    {name:'workingBillCode',index:'workingBill.workingBillCode', width:150,sortable:"true",sorttype:"text"},
+			{name:'maktx',index:'workingBill.maktx', width:400,sortable:"true",sorttype:"text"},
 			{name:'pollingtestAmount',index:'pollingtestAmount', width:100,sortable:"true",sorttype:"text"},
 			{name:'qualifiedAmount',index:'qualifiedAmount', width:100,sortable:"true",sorttype:"text"},
 			{name:'passedPercent',index:'passedPercent', width:100,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'pollingtestUserName',index:'pollingtestUserName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'pollingtestUserName',index:'pollingtestUser.name', width:100,sortable:"true",sorttype:"text"},
+			{name:'confirmUserName',index:'confirmUser.name', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pollingtestState"}},
 			{name:'state',index:'state', editable: false,hidden:true},
 			{name:'workingBillId',index:'workingBillId', editable: false,hidden:true}
@@ -108,7 +108,7 @@ jQuery(function($) {
 		},
 
 		editurl: "carton!delete.action",//用它做标准删除动作
-		caption: "历史巡检记录"
+		caption: "历史成品巡检记录"
 		
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

@@ -94,8 +94,22 @@ body {
 	
 	function getGridId(){
 		var i=$(".child option:selected").text();
-		var ii=$(".child option:selected").val();
+		var ii=$(".child option:selected").val();		
+		//jjt 三级为空时，获取二级选择结果	
+		if( '' == ii || undefined == ii)
+		{
+			i=$(".faultReason option:selected").text();
+			ii=$(".faultReason option:selected").val();
+		}	
+		
+		//jjt 二三级选择结果均为空时，返回空值
+		if( '' == ii || undefined == ii)
+		{
+			i='';
+			ii='';
+		}
 		var work=""+i+","+ii;
+		//alert(work);
 		return work;
 	}
 	

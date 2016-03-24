@@ -1,5 +1,6 @@
 package cc.jiuyi.util;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +46,17 @@ public static int getIntValue(String str){
 		i=-1;
 	}
 	return i;
+}
+public static String changeISOtoUTF(String str)
+{
+	
+	try {
+		str=new String(str.getBytes("iso-8859-1"), "utf-8");
+	} catch (UnsupportedEncodingException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	return str;
 }
 
 

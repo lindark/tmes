@@ -69,8 +69,8 @@ public class PollingtestServiceImpl extends
 		Admin admin = this.adminService.getByCardnum(cardnumber);
 		if (pollingtest != null) {
 			pollingtest.setPollingtestUser(admin);// 巡检人
-			pollingtest.setWorkingbillCode(workingbillService.get(
-					pollingtest.getWorkingbill().getId()).getWorkingBillCode());
+			pollingtest.setWorkingBillCode(workingbillService.get(
+					pollingtest.getWorkingBill().getId()).getWorkingBillCode());
 			if ("2".equals(my_id)) {
 				pollingtest.setConfirmUser(admin);
 				pollingtest.setState("1");
@@ -184,6 +184,12 @@ public class PollingtestServiceImpl extends
 	@Override
 	public List<Pollingtest> getUncheckList() {
 		return pollingtestDao.getUncheckList();
+	}
+
+	
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		return pollingtestDao.historyExcelExport(map);
 	}
 
 }

@@ -46,4 +46,8 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 	 * @return
 	 */
 	public List<Pollingtest> getUncheckList();
+	
+	
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

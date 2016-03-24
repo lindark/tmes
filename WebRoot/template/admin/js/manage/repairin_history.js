@@ -77,7 +77,7 @@ jQuery(function($) {
 		},
 
 		editurl: "repairin!delete.action",//用它做标准删除动作
-		caption: "历史报废单"
+		caption: "返修收货记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

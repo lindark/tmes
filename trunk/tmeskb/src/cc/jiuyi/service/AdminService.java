@@ -8,6 +8,7 @@ import java.util.Map;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Station;
 
 /**
  * Service接口 - 管理员
@@ -141,7 +142,7 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @param unitdistributeModels
 	 * @param roleList 
 	 */
-	public void saveInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels, List<Role> roleList,String loginid);
+	public void saveInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels, List<Role> roleList,String loginid,String stationids);
 
 	/**
 	 * 修改员工信息
@@ -177,7 +178,7 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @param unitdistributeModels 
 	 * @param unitdistributeProducts 
 	 */
-	public void updateEmpRy(Admin admin, String unitdistributeProducts, String unitdistributeModels);
+	public void updateEmpRy(Admin admin, String unitdistributeProducts, String unitdistributeModels,String stationids);
 
 	/**
 	 * 检验工号和卡号是否重复
@@ -194,4 +195,16 @@ public interface AdminService extends BaseService<Admin, String> {
 	 */
 	public void updateEmpQx(Admin admin, List<Role> roleList,String loginid);
 
+	/**
+	 * 根据用户名查询
+	 * @param username 用户名
+	 * @return
+	 */
+	public Admin getByUsername(String username);
+
+	/**
+	 * 假删除
+	 * @param id ids
+	 */
+	public void updateToDel(String id);
 }

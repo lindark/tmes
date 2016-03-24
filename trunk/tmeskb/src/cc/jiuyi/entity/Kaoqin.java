@@ -19,12 +19,23 @@ public class Kaoqin extends BaseEntity{
 	private String classtime;//班次
 	private Admin emp;//员工
 	private String empname;//名字
-	private String postname;//技能名称
+	private String postname;//岗位名称
 	private Team team;// 班组
 	private String workState;//工作状态
 	private String productdate;//生产日期
 	private String empid;//员工ID--admin表主键
 	private String tardyHours;//误工小时数
+	
+	//后续加上的字段
+	private String workCode;//工号
+	private String phoneNum;//联系电话
+	private String stationCode;//工位
+	private String modleNum;//模具组号
+	private String workNum;//工作范围-编码
+	private String postCode;//岗位编码
+	
+	private String stationName;//工位名称
+	private String workName;//工作范围名称
 	
 	@Column
 	public String getCardNumber() {
@@ -102,5 +113,69 @@ public class Kaoqin extends BaseEntity{
 	public void setEmp(Admin emp)
 	{
 		this.emp = emp;
+	}
+	public String getWorkCode()
+	{
+		return workCode;
+	}
+	public void setWorkCode(String workCode)
+	{
+		this.workCode = workCode;
+	}
+	public String getPhoneNum()
+	{
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum)
+	{
+		this.phoneNum = phoneNum;
+	}
+	public String getModleNum()
+	{
+		return modleNum;
+	}
+	public void setModleNum(String modleNum)
+	{
+		this.modleNum = modleNum;
+	}
+	public String getWorkNum()
+	{
+		return workNum;
+	}
+	public void setWorkNum(String workNum)
+	{
+		this.workNum = workNum;
+	}
+	public String getStationCode()
+	{
+		return stationCode;
+	}
+	public void setStationCode(String stationCode)
+	{
+		this.stationCode = stationCode;
+	}
+	public String getStationName()
+	{
+		return stationName;
+	}
+	public void setStationName(String stationName)
+	{
+		this.stationName = stationName;
+	}
+	public String getWorkName()
+	{
+		return workName;
+	}
+	public void setWorkName(String workName)
+	{
+		this.workName = workName;
+	}
+	public String getPostCode()
+	{
+		return postCode;
+	}
+	public void setPostCode(String postCode)
+	{
+		this.postCode = postCode;
 	}
 }

@@ -126,8 +126,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Admin empCreaterqx;//权限维护创建人
 	private Set<Admin>empCreaterqxSet;
 	
-	private Set<UnitdistributeProduct> unitdistributeProductSet;///模具组号
-	private Set<UnitdistributeModel> unitdistributeModelSet;//工作范围
+	private Set<UnitdistributeProduct> unitdistributeProductSet;//工作范围
+	private Set<UnitdistributeModel> unitdistributeModelSet;//模具组号
 	private Set<Deptpick> createUserSet;//部门领料提交人
 	private Set<Deptpick> comfirmUserSet;//部门领料审批人
 	private Set<Department>deptLeader;//部门负责人
@@ -135,6 +135,11 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<UpDown> updownSet;//上架/下架
 	private Team team;//班组
 	private Set<Kaoqin>empSet;//考勤员工
+	private String stationids;//工位ID
+	private String relationShip;//亲属关系
+	private String workerGrade;//操作等级工
+	private String education;//最高学历
+	private String isDelete;//是不删除
 	
 	//假字段
 	private String xdeptcode;//部门编码
@@ -1252,5 +1257,59 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setXgongwei(String xgongwei)
 	{
 		this.xgongwei = xgongwei;
+	}
+
+	public String getStationids()
+	{
+		return stationids;
+	}
+
+	public void setStationids(String stationids)
+	{
+		this.stationids = stationids;
+	}
+
+	public String getRelationShip()
+	{
+		return relationShip;
+	}
+
+	public void setRelationShip(String relationShip)
+	{
+		this.relationShip = relationShip;
+	}
+
+	public String getWorkerGrade()
+	{
+		return workerGrade;
+	}
+
+	public void setWorkerGrade(String workerGrade)
+	{
+		this.workerGrade = workerGrade;
+	}
+
+	public String getEducation()
+	{
+		return education;
+	}
+
+	public void setEducation(String education)
+	{
+		this.education = education;
+	}
+
+	public String getIsDelete()
+	{
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete)
+	{
+		if(isDelete==null)
+		{
+			isDelete="N";
+		}
+		this.isDelete = isDelete;
 	}
 }

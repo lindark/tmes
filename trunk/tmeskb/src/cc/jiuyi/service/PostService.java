@@ -41,4 +41,10 @@ public interface PostService extends BaseService<Post, String> {
 	 */
 	public Pager getAllPost(Pager pager);
 
+	/**
+	 * 查询所有未删除的岗位
+	 * @return
+	 */
+	public List<Post> getAllPost();
+
 }

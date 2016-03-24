@@ -29,7 +29,11 @@ public class Post extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Set<Admin> adminSet;
-    private String station;//工位
+    private String station;//工位--现在改为部门编码
+    private Set<Station> stationSet;//工位
+    
+    //假字段
+    private String xstation;
     
 	public String getPostCode() {
 		return postCode;
@@ -82,5 +86,23 @@ public class Post extends BaseEntity{
 	}
 	public void setStation(String station) {
 		this.station = station;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="posts")
+	public Set<Station> getStationSet()
+	{
+		return stationSet;
+	}
+	public void setStationSet(Set<Station> stationSet)
+	{
+		this.stationSet = stationSet;
+	}
+	@Transient
+	public String getXstation()
+	{
+		return xstation;
+	}
+	public void setXstation(String xstation)
+	{
+		this.xstation = xstation;
 	}
 }

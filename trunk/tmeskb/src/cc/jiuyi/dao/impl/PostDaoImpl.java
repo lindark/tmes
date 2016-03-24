@@ -103,4 +103,14 @@ public class PostDaoImpl extends BaseDaoImpl<Post, String> implements PostDao {
 		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用
 		return super.findByPager(pager, detachedCriteria);
 	}
+
+	/**
+	 * 查询所有未删除的岗位
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Post> getAllPost()
+	{
+		String hql="from Post where isDel='N'";
+		return this.getSession().createQuery(hql).list();
+	}
 }

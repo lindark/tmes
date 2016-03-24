@@ -123,5 +123,12 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @return
 	 */
 	public List<Admin> getByNumber(String number,String id, int my_id);
+	
+	/**
+	 * 根据用户名查询
+	 * @param username 用户名
+	 * @return
+	 */
+	public Admin getByUsername(String username);
 
 }

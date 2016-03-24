@@ -58,6 +58,10 @@
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看仓位库存交接
 									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmHandOver">
+										<i class="ace-icon fa fa-home"></i>
+										刷卡确认
+									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnHandOver">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -140,7 +144,7 @@
 		});
 		
 		
-	/* 	$("#confirmHandOver").click(function(){
+	 	$("#confirmHandOver").click(function(){
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			 if(id.length==0){
 				layer.msg("请选择一条记录!", {icon: 5});
@@ -149,20 +153,19 @@
 				 else{
 					 var rowData = $("#grid-table").jqGrid('getRowData',id);
 						var row_state = rowData.state;
-						if(row_state == "2" || row_state =="3"){
-							layer.msg("已经确认或已经撤销的领料单无法再确认!",{icon:5});
+						if(row_state == "2"){
+							layer.msg("已经确认交接单无法再确认!",{icon:5});
 							return false;
 						}else{
 							var loginId = $("#loginid").val();//当前登录人的id
-							var url="return_product!creditapproval.action?id="+id+"&loginId="+loginId;
+							var url="locat_hand_over_header!creditapproval.action?id="+id;
 						}	
-					
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");
 				})
 			 } 
-		}); */
+		});
 		
 		$("#viewHandOver").click(function(){
 			var id = "";

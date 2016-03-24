@@ -589,8 +589,8 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		factoryunit=this.fuservice.getById("192.168.29.85");// 
-		//factoryunit=this.fuservice.getById(ip);
+		//factoryunit=this.fuservice.getById("192.168.29.85");// 
+		factoryunit=this.fuservice.getById(ip);
 		//根据单元获取物料
 		if(factoryunit!=null)
 		{

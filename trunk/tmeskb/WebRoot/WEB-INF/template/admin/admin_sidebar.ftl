@@ -742,7 +742,7 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="pollingtest!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									成品巡检记录
 								</a>

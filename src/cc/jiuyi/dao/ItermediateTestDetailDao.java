@@ -42,4 +42,7 @@ public interface ItermediateTestDetailDao extends BaseDao<ItermediateTestDetail,
 	 * 根据主表id和物料表id查询
 	 */
 	public ItermediateTestDetail getBySidAndMid(String sid,String mid);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	public List<Object[]> historyExcelExport(HashMap<String, String> map);
 }

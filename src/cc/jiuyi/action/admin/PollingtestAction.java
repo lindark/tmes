@@ -282,41 +282,37 @@ public class PollingtestAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx").toString();
-				maktx=Util.changeISOtoUTF(maktx);
-				map.put("maktx", maktx);
-				System.out.println(maktx);
+				String maktx = obj.getString("maktx").toString();				
+				map.put("maktx", maktx);				
 			}
 			if (obj.get("workingBillCode") != null) {
 				String workingBillCode = obj.getString("workingBillCode")
-						.toString();
-				workingBillCode=Util.changeISOtoUTF(workingBillCode);
+						.toString();				
 				map.put("workingBillCode", workingBillCode);
-				System.out.println(workingBillCode);
+				
 			}
 			if (obj.get("start") != null && obj.get("end") != null) {
 				String start = obj.get("start").toString();
 				String end = obj.get("end").toString();			
 				map.put("start", start);
 				map.put("end", end);
-				System.out.println(start+end);
+				
 			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state").toString();
 				map.put("state", state);
-				System.out.println(state);
+				
 			}
 			if (obj.get("pollingtestUserName") != null) {
 				String pollingtestUserName = obj.getString("pollingtestUserName").toString();
-				pollingtestUserName=Util.changeISOtoUTF(pollingtestUserName);
+				
 				map.put("pollingtestUserName", pollingtestUserName);
-				System.out.println(pollingtestUserName);
+				
 			}
 			if (obj.get("confirmUserName") != null) {
-				String confirmUserName = obj.getString("confirmUserName").toString();
-				confirmUserName=Util.changeISOtoUTF(confirmUserName);
+				String confirmUserName = obj.getString("confirmUserName").toString();				
 				map.put("confirmUserName", confirmUserName);
-				System.out.println(confirmUserName);
+				
 			}
 		}
 		
@@ -379,13 +375,13 @@ public class PollingtestAction extends BaseAdminAction {
 	// Excel导出 @author Reece 2016/3/15
 		public String excelexport() {
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("workingBillCode", Util.changeISOtoUTF(workingBillCode));
-			map.put("maktx", Util.changeISOtoUTF(maktx));
-			map.put("state", Util.changeISOtoUTF(state));
-			map.put("start", Util.changeISOtoUTF(start));
-			map.put("end", Util.changeISOtoUTF(end));
-			map.put("pollingtestUserName", Util.changeISOtoUTF(pollingtestUserName));
-			map.put("confirmUserName", Util.changeISOtoUTF(confirmUserName));
+			map.put("workingBillCode", workingBillCode);
+			map.put("maktx", maktx);
+			map.put("state", state);
+			map.put("start", start);
+			map.put("end", end);
+			map.put("pollingtestUserName", pollingtestUserName);
+			map.put("confirmUserName", confirmUserName);
 
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();

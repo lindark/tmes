@@ -38,4 +38,6 @@ public interface PollingtestDao extends BaseDao<Pollingtest, String> {
 	 */
 	public List<Pollingtest> getUncheckList();
 
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

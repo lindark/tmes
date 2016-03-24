@@ -40,18 +40,20 @@ jQuery(function($) {
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:[		
 
-			{name:'id',index:'id',label:"ID",search:true,sorttype:"int",editable:false},
+			{name:'id',index:'id',label:"ID",search:true,sorttype:"int",editable:false,hidden:true,sortable:"true"},
+			{name:'xproductnum',index:'workingBill.matnr',label:"产品编号",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'xproductname',index:'workingBill.maktx',label:"产品名称",search:true,width:300,editable:false,sortable:"true",sorttype:"text"},
+			{name:'sampleNum',index:'sampleNum',label:"抽检数量",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'qulified',index:'qulified',label:"合格数量",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'qulifiedRate',index:'qulifiedRate',label:"合格率",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'sampleType',index:'sampleType',label:"抽检类型",search:true,editable:false,sortable:"true",sorttype:"text"},
 			{name:'modifyDate',label:"日期",index:'modifyDate', search:true,editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'xproductnum',index:'workingBill.matnr',label:"产品编号",search:true,editable:false},
-			{name:'xproductname',index:'workingBill.maktx',label:"产品名称",search:true,width:300,editable:false},
-			{name:'xsampler',index:'sampler.name',label:"抽检人",search:true,editable:false},
-			{name:'xcomfirmation',index:'comfirmation.name',label:"确认人",search:true,editable:false},
-			{name:'sampleNum',index:'sampleNum',label:"抽检数量",search:true,editable:false},
-			{name:'qulified',index:'qulified',label:"合格数量",search:true,editable:false},
-			{name:'qulifiedRate',index:'qulifiedRate',label:"合格率",search:true,editable:false},
-			{name:'sampleType',index:'sampleType',label:"抽检类型",search:true,editable:false},
-			{name:'xstate',index:'state', width:60,label:"状态",editable:false,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},	
-			{name:'state',index:'state',label:"状态",search:true,editable:false},
+			{name:'xsampler',index:'sampler',label:"抽检人",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'xcomfirmation',index:'comfirmation',label:"确认人",search:true,editable:false,sortable:"true",sorttype:"text"},
+			{name:'state',index:'state', width:60,label:"状态",editable:false,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,sortable:"true",sorttype:"text",search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleState"}},	
+			{name:'state',index:'state',label:"状态",search:true,editable:false,hidden:true},
+//			{name:'xstate',index:'state', width:60,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=sampleState"}},	
+//			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
 		viewrecords : true,
@@ -77,7 +79,7 @@ jQuery(function($) {
 		},
 
 		editurl: "sample!delete.action",//用它做标准删除动作
-		caption: "历史领退料单"
+		caption: "抽检记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -86,12 +88,12 @@ jQuery(function($) {
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
 		//已确认
-		if(rawObject.stateRemark=="已确认")
+		if(rawObject.state=="已确认")
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
 		//未确认
-		if(rawObject.stateRemark=="未确认")
+		if(rawObject.state=="未确认")
 		{
 			return "style='color:red;font-weight:bold;'";
 		}

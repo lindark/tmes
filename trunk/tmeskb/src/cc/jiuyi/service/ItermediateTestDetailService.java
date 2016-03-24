@@ -33,6 +33,7 @@ public interface ItermediateTestDetailService extends BaseService<ItermediateTes
 	public void save(List<ItermediateTestDetail> itermediateTestDetailList,String woringBillId);
 	
 	public List<ItermediateTestDetail> getItermediateTestDetail(String id);
-	
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 	ItermediateTestDetail getBySidAndMid(String sid,String mid);
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

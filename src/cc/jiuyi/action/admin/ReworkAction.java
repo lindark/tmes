@@ -89,6 +89,10 @@ public class ReworkAction extends BaseAdminAction {
 	 * 
 	 * @return
 	 */
+	public String history(){
+		return "history";
+	}
+		
 	public String list(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());

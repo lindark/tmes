@@ -56,6 +56,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 				detachedCriteria.createAlias("department", "department");
 			detachedCriteria.add(Restrictions.in("department.id", list));//取出未子部门
 		}
+		
 		return super.findByPager(pager,detachedCriteria);
 	}
 	
@@ -135,7 +136,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		detachedCriteria.add(Restrictions.ne("team.id", admin.getTeam().getId()));
 		detachedCriteria.add(Restrictions.ne("isdaiban", admin.getTeam().getId()));
 		detachedCriteria.add(Restrictions.eq("workstate", "1"));
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//未离职的
+		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 	
@@ -144,7 +146,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 */
 	public Admin getByCardnum(String cardNumber)
 	{
-		String hql="from Admin where cardNumber=?";
+		String hql="from Admin where cardNumber=? and isDelete='N'";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).uniqueResult();
 	}
 	
@@ -155,7 +157,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin> getByAdminId(String id)
 	{
-		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_BZ").list();
 		if(adminList1==null){
 			getParentById(id,null);
@@ -173,7 +175,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
-		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_BZ").list();
 		
 		if(temp==null){
@@ -187,7 +189,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 */
 	public Admin getByCardnumAndTeamid(String cardNumber,String teamid)
 	{
-		String hql="from Admin where cardNumber=? and (team.id=? or isdaiban=?)";
+		String hql="from Admin where cardNumber=? and (team.id=? or isdaiban=?) and isDelete='N' and isDel='N'";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, cardNumber).setParameter(1, teamid).setParameter(2, teamid).uniqueResult();
 	}
 	
@@ -198,7 +200,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin> getManagerByDeptId(String id)
 	{
-		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_FZ").list();
 		if(adminList1==null){
 			getParentById1(id,null);
@@ -216,7 +218,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
-		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_FZ").list();
 		
 		if(temp==null){
@@ -233,7 +235,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin> getDirectorByDeptId(String id)
 	{
-		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		List<Admin> adminList1=getSession().createQuery(hql).setParameter(0, id).setParameter(1, "ROLE_ZR").list();
 		if(adminList1==null){
 			getParentById2(id,null);
@@ -251,7 +253,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		String hql = "from  Department where childDept.id=?";	
 		Department  dept = (Department) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
-		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=?";
+		String hql1="select a from Admin a join a.department b join a.roleSet c where b.id=? and c.value=? and a.isDelete='N'";
 		temp=getSession().createQuery(hql1).setParameter(0, id).setParameter(1, "ROLE_ZR").list();
 		
 		if(temp==null){
@@ -266,7 +268,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	 */
 	public Admin getAdminById(String id){
 		
-		String hql="select b from Admin a join a.parentAdmin b where a.id=?";
+		String hql="select b from Admin a join a.parentAdmin b where a.id=? and a.isDelete='N'";
 		return (Admin) this.getSession().createQuery(hql).setParameter(0, id).uniqueResult();
 	}
 
@@ -288,7 +290,8 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			detachedCriteria.createAlias("team", "team");
 		}
 		detachedCriteria.add(Restrictions.or(Restrictions.eq("team.id", tid),Restrictions.eq("isdaiban", tid)));
-		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未离职数据
+		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -298,7 +301,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	@SuppressWarnings("unchecked")
 	public List<Admin> getAllList()
 	{
-		String hql="from Admin where isDel='N' and isAccountEnabled=?";
+		String hql="from Admin where isDel='N' and isAccountEnabled=? and isDelete='N'";
 		return this.getSession().createQuery(hql).setParameter(0, true).list();
 	}
 
@@ -357,6 +360,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			}
 			detachedCriteria.add(Restrictions.isNull("username"));
 		}
+		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
 	}
 
@@ -402,6 +406,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		detachedCriteria.add(Restrictions.eq("isAccountEnabled", true));//已启用的
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未离职的
+		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -417,11 +422,11 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		{
 			if(my_id==1)
 			{
-				hql="from Admin where workNumber=?";
+				hql="from Admin where isDelete='N' and workNumber=?";
 			}
 			else
 			{
-				hql="from Admin where cardNumber=?";
+				hql="from Admin where isDelete='N' and cardNumber=?";
 			}
 			return this.getSession().createQuery(hql).setParameter(0, number).list();
 		}
@@ -429,14 +434,29 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		{
 			if(my_id==1)
 			{
-				hql="from Admin where workNumber=? and id<>?";
+				hql="from Admin where isDelete='N' and workNumber=? and id<>?";
 			}
 			else
 			{
-				hql="from Admin where cardNumber=? and id<>?";
+				hql="from Admin where isDelete='N' and cardNumber=? and id<>?";
 			}
 			return this.getSession().createQuery(hql).setParameter(0, number).setParameter(1, id).list();
 		}
+	}
+
+	/**
+	 * 根据用户名查询
+	 */
+	@SuppressWarnings("unchecked")
+	public Admin getByUsername(String username)
+	{
+		String hql="from Admin where username=?";
+		List<Admin>list= this.getSession().createQuery(hql).setParameter(0, username).list();
+		if(list!=null&&list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
 	}
 	
 }

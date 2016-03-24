@@ -135,38 +135,38 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						if(factory.equals(wb.getWerks()) && workShop.equals(wb.getTeam().getFactoryUnit().getWorkShop().getWorkShopCode())){
 							if(!"".equals(factoryUnit) && factoryUnit.equals(workShop.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode()))){
 								Map<String,Object> PieceworkMap = new HashMap<String,Object>();
-								PieceworkMap.put("factory", factory);//工厂
-								PieceworkMap.put("workShop",workShop);//车间
-								PieceworkMap.put("factoryUnit",wb.getTeam().getFactoryUnit().getFactoryUnitCode());//单元
-								PieceworkMap.put("productDate",productDate);//生产日期
-								PieceworkMap.put("shift",wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2));//班次
-								PieceworkMap.put("wokingBillCode",wb.getWorkingBillCode());//随工单号
-								PieceworkMap.put("materialCode",wb.getMatnr());//物料编码
-								PieceworkMap.put("materialDesp",wb.getMaktx());//物料描述
-								Orders orders = ordersService.get("aufnr", wb.getWorkingBillCode());
-								PieceworkMap.put("mujuntext",orders==null?"":orders.getMujuntext());//模具组号
+								PieceworkMap.put("factory", judgeNull(factory));//工厂
+								PieceworkMap.put("workShop",judgeNull(workShop));//车间
+								PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+								PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
+								PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
+								PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
+								PieceworkMap.put("materialCode",judgeNull(wb.getMatnr()));//物料编码
+								PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
+								Orders orders = ordersService.get("aufnr", judgeNull(wb.getWorkingBillCode()));
+								PieceworkMap.put("mujuntext",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
 								
-								List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", wb.getWorkingBillCode());
+								List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 								if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
-									PieceworkMap.put("befWorkOddAmount",oddHandOverListBefore.get(0).getActualBomMount().toString());//上班零头
+									PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
 								}else{
 									PieceworkMap.put("befWorkOddAmount","0");//上班零头
 								}
-								PieceworkMap.put("storageAmount",wb.getTotalSingleAmount().toString());//入库数 
-								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", wb.getWorkingBillCode());
+								PieceworkMap.put("storageAmount",judgeNull(wb.getTotalSingleAmount()));//入库数 
+								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", judgeNull(wb.getWorkingBillCode()));
 								if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
-									PieceworkMap.put("aftWorkOddAmount",oddHandOverListAfter.get(0).getActualBomMount().toString());//下班零头
+									PieceworkMap.put("aftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getActualBomMount()));//下班零头
 								}else{
 									PieceworkMap.put("aftWorkOddAmount","0");//下班零头
 								}
-								PieceworkMap.put("unRepairAmount",wb.getTotalRepairAmount().toString());//表面异常维修数
+								PieceworkMap.put("unRepairAmount",judgeNull(wb.getTotalRepairAmount()));//表面异常维修数
 								Set<DailyWork> dailyWorkSet =  wb.getDailyWork();
 								if(dailyWorkSet!=null && dailyWorkSet.size()>0){
 									BigDecimal totalAmount = new BigDecimal(0);
 									for(DailyWork dailyWork : dailyWorkSet){
 										totalAmount = totalAmount.add(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
 									}
-									PieceworkMap.put("qualifiedAmount",totalAmount.toString());//报工数
+									PieceworkMap.put("qualifiedAmount",judgeNull(totalAmount));//报工数
 								}else{
 									PieceworkMap.put("qualifiedAmount","0");//报工数
 								}
@@ -174,38 +174,38 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								PieceworkLists.add(PieceworkMap);
 							}else{
 								Map<String,Object> PieceworkMap = new HashMap<String,Object>();
-								PieceworkMap.put("factory", factory);//工厂
-								PieceworkMap.put("workShop",workShop);//车间
-								PieceworkMap.put("factoryUnit",factoryUnit);//单元
-								PieceworkMap.put("productDate",productDate);//生产日期
-								PieceworkMap.put("shift",shift);//班次
-								PieceworkMap.put("wokingBillCode",wb.getWorkingBillCode());//随工单号
-								PieceworkMap.put("materialCode",wb.getMatnr());//物料编码
-								PieceworkMap.put("materialDesp",wb.getMaktx());//物料描述
-								Orders orders = ordersService.get("aufnr", wb.getAufnr());
-								PieceworkMap.put("mouldNumber",orders==null?"":orders.getMujuntext());//模具组号
+								PieceworkMap.put("factory", judgeNull(factory));//工厂
+								PieceworkMap.put("workShop",judgeNull(workShop));//车间
+								PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+								PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
+								PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
+								PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
+								PieceworkMap.put("materialCode",judgeNull(wb.getMatnr()));//物料编码
+								PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
+								Orders orders = ordersService.get("aufnr", judgeNull(wb.getAufnr()));
+								PieceworkMap.put("mouldNumber",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
 								
-								List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", wb.getWorkingBillCode());
+								List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 								if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
-									PieceworkMap.put("befWorkOddAmount",oddHandOverListBefore.get(0).getActualBomMount().toString());//上班零头
+									PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
 								}else{
 									PieceworkMap.put("befWorkOddAmount","0");//上班零头
 								}
-								PieceworkMap.put("storageAmount",wb.getTotalSingleAmount().toString());//入库数 
-								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", wb.getWorkingBillCode());
+								PieceworkMap.put("storageAmount",judgeNull(wb.getTotalSingleAmount()));//入库数 
+								List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", judgeNull(wb.getWorkingBillCode()));
 								if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
-									PieceworkMap.put("aftWorkOddAmount",oddHandOverListAfter.get(0).getActualBomMount().toString());//下班零头
+									PieceworkMap.put("aftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getActualBomMount()));//下班零头
 								}else{
 									PieceworkMap.put("aftWorkOddAmount","0");//下班零头
 								}
-								PieceworkMap.put("unRepairAmount",wb.getTotalRepairAmount().toString());//表面异常维修数
+								PieceworkMap.put("unRepairAmount",judgeNull(wb.getTotalRepairAmount().toString()));//表面异常维修数
 								Set<DailyWork> dailyWorkSet =  wb.getDailyWork();
 								if(dailyWorkSet!=null && dailyWorkSet.size()>0){
 									BigDecimal totalAmount = new BigDecimal(0);
 									for(DailyWork dailyWork : dailyWorkSet){
 										totalAmount = totalAmount.add(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
 									}
-									PieceworkMap.put("qualifiedAmount",totalAmount.toString());//报工数
+									PieceworkMap.put("qualifiedAmount",judgeNull(totalAmount));//报工数
 								}else{
 									PieceworkMap.put("qualifiedAmount","0");//报工数
 								}
@@ -364,7 +364,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				if(team!=null){
 					PieceworkMap.put("classSys", judgeNull(team.getClassSys()));// 班制
 					PieceworkMap.put("basic", judgeNull(team.getBasic()));// 基本
-					PieceworkMap.put("team", judgeNull(team.getTeamName()));// 班组
+					PieceworkMap.put("team", judgeNull(team.getTeamCode()));// 班组
 					
 					
 				}else{
@@ -395,15 +395,19 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						for(UnitdistributeProduct unitProduct : unitProductSet){
 							if("N".equals(unitProduct.getIsDel())){
 								if(i==0){
-									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitName())){
-										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitName();
+									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitCode())){
+										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitCode();
 									}
 									workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
 								}else{
-									if(unitProduct.getFactoryunit().getFactoryUnitName()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitName())){
-										mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitName();
+									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitCode())){
+										mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitCode();
 									}else{
-										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitName();
+										if("".equals(mouldNumber)){
+											mouldNumber = unitProduct.getFactoryunit().getFactoryUnitCode();
+										}else{
+											mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitCode();
+										}
 									}
 									workingRange = workingRange+","+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
 								}

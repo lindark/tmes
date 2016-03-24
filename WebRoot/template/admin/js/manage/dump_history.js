@@ -105,7 +105,7 @@ jQuery(function($) {
 		},
 
 		editurl: "dump!delete.action",//用它做标准删除动作
-		caption: "历史物料调拨记录"
+		caption: "物料调拨记录"
 		
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

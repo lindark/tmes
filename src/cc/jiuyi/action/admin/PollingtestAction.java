@@ -335,7 +335,7 @@ public class PollingtestAction extends BaseAdminAction {
 					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "craftWorkRemark",
 							pollingtest.getCraftWork()));
-			// 产品名称
+			// 工单编号
 			if (pollingtest.getWorkingBill() != null) {
 				pollingtest
 				.setWorkingBillCode(pollingtest.getWorkingBill().getWorkingBillCode());
@@ -344,6 +344,11 @@ public class PollingtestAction extends BaseAdminAction {
 			if (pollingtest.getWorkingBill() != null) {
 				pollingtest
 				.setMaktx(pollingtest.getWorkingBill().getMaktx());
+			}
+			// 产品名称
+			if (pollingtest.getWorkingBill() != null) {
+				pollingtest
+				.setMatnr(pollingtest.getWorkingBill().getMatnr());
 			}
 			// 确认人的名字
 			if (pollingtest.getConfirmUser() != null) {
@@ -384,11 +389,13 @@ public class PollingtestAction extends BaseAdminAction {
 
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();
-			header.add("随工单号");			
+			header.add("随工单号");
+			header.add("产品编号");
 			header.add("产品名称");
 			header.add("巡检数量");
 			header.add("合格数量");
 			header.add("合格率");
+			header.add("工艺确认");
 			header.add("巡检日期");
 			header.add("巡检人");
 			header.add("确认人");
@@ -399,17 +406,21 @@ public class PollingtestAction extends BaseAdminAction {
 				Object[] obj = workList.get(i);
 				Pollingtest pollingtest = (Pollingtest) obj[0];//Pollingtest
 	        	WorkingBill workingbill = (WorkingBill)obj[1];//workingBill
-	        	
+	        	Admin pollingtestUser = (Admin)obj[2];//pollingtestUser
+	        	Admin confirmUser = (Admin)obj[3];//ponfirmUser
 	        	
 				Object[] bodyval = {
-						workingbill.getWorkingBillCode(),						
-						workingbill.getMaktx(),
-						pollingtest.getPollingtestAmount(),					
-						pollingtest.getQualifiedAmount(),
-						pollingtest.getPassedPercent(),
-						pollingtest.getCreateDate(),
-						pollingtest.getPollingtestUser().getName(),
-						pollingtest.getConfirmUser().getName(),							
+						workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode(),
+						workingbill.getMatnr() == null ? "" : workingbill.getMatnr(),
+						workingbill.getMaktx() == null ? "" : workingbill.getMaktx(),
+						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),					
+						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),
+						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),
+						ThinkWayUtil.getDictValueByDictKey(
+									dictService, "craftWorkRemark", pollingtest.getCraftWork()),
+						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
+						pollingtestUser.getName() == null ? "" : pollingtestUser.getName(),
+						confirmUser.getName() == null ? "" : confirmUser.getName(),							
 						ThinkWayUtil.getDictValueByDictKey(dictService,
 								"pollingtestState", pollingtest.getState())
 						};

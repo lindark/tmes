@@ -252,7 +252,7 @@ function hours_event()
 		}
 		else
 		{
-			hours=setScale(hours,0,"");//精度
+			//hours=setScale(hours,0,"");//精度
 			$("#input_hours").val(hours);
 		}
 	}

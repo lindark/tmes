@@ -999,6 +999,7 @@
 							<b class="arrow"></b>
 						</li>
 					 -->
+					 <!-- 
 					<li class="">
 						<a href="department!list.action" >
 							<i class="menu-icon"></i>
@@ -1007,6 +1008,7 @@
 
 						<b class="arrow"></b>
 					</li>
+					 -->
 					<li class="">
 						<a href="admin!alllistqx.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

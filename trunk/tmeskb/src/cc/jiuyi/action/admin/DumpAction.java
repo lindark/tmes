@@ -589,8 +589,8 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		//factoryunit=this.fuservice.getById("192.168.29.85");// 
-		factoryunit=this.fuservice.getById(ip);
+		factoryunit=this.fuservice.getById("192.168.29.85");// 
+		//factoryunit=this.fuservice.getById(ip);
 		//根据单元获取物料
 		if(factoryunit!=null)
 		{
@@ -650,7 +650,7 @@ public class DumpAction extends BaseAdminAction {
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			addActionError("系统出现异常!");
+			addActionError("IO出现异常!");
 			return ERROR;
 		}
 		catch (CustomerException e)
@@ -713,9 +713,14 @@ public class DumpAction extends BaseAdminAction {
 				return this.ajaxJsonErrorMessage("已确认的不能再确认!");
 			}
 		}*/
+		HashMap<String,String> map = new HashMap<String,String>();
 		Admin emp=this.adminService.getByCardnum(cardnumber);//确认人
 		String productionDate=emp.getProductDate();//生产日期
 		String shift=emp.getShift();//班次
+		String lgort = emp.getTeam().getFactoryUnit().getPsaddress();
+		String werks = emp.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		map.put("lgort", ThinkWayUtil.null2String(lgort));
+		map.put("werks", ThinkWayUtil.null2String(werks));
 		if(productionDate==null||"".equals(productionDate)||shift==null||"".equals(shift))
 		{
 			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
@@ -737,7 +742,8 @@ public class DumpAction extends BaseAdminAction {
 				List<HashMap<String,String>>mlist=getMapList(dd);
 				if(!"Y".equals(isdone))
 				{
-					this.dumpRfc.saveMaterial(mlist);
+					String lenum = this.dumpRfc.saveMaterial(map,mlist);
+					dd.setLenum(lenum);
 					dd.setIsDone("Y");//是否已经从中转仓计算过
 					dd.setModifyDate(new Date());
 					this.dumpDetailService.update(dd);
@@ -748,12 +754,15 @@ public class DumpAction extends BaseAdminAction {
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return this.ajaxJsonErrorMessage("系统出现错误!");
+			return this.ajaxJsonErrorMessage("IO操作错误!");
 		}
 		catch (CustomerException e)
 		{
 			e.printStackTrace();
 			return this.ajaxJsonErrorMessage(e.getMsgDes());
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.ajaxJsonErrorMessage("系统出现错误!");
 		}
 		//与SAP交互及修改本地状态
 		if("S".equals(str))
@@ -804,7 +813,9 @@ public class DumpAction extends BaseAdminAction {
 		String lgort=factoryunit.getPsaddress();//配送地点编码
 		String matnr=this.materialcode;//物料编码
 		String lgpla=factoryunit.getPsPositionAddress();//配送库存地点仓位
-		list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla,"");
+		
+			list_ddmap=this.dumpRfc.findMaterial(werks, lgort, matnr, lgpla,"");
+		
 		return "S";
 	}
 	
@@ -825,6 +836,7 @@ public class DumpAction extends BaseAdminAction {
 		map.put("LENUM", dd.getLenum());//仓储单位编号
 		map.put("SEQU", dd.getSequ());//整数
 		map.put("NLPLA", dd.getNlpla());//目的地仓位
+		map.put("XUH", dd.getId());//序号
 		mlist.add(map);
 		return mlist;
 	}

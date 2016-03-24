@@ -30,8 +30,11 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 		pagerSqlByjqGrid(pager,detachedCriteria);		
 		
 		if (map.size() > 0) {
+			if(!super.existAlias(detachedCriteria, "factoryunit", "factoryunit"))
+				detachedCriteria.createAlias("factoryunit", "factoryunit");
+			
 			if(map.get("unitName")!=null){
-			    detachedCriteria.add(Restrictions.like("unitName", "%"+map.get("unitName")+"%"));
+			    detachedCriteria.add(Restrictions.like("factoryunit.factoryUnitName", "%"+map.get("unitName")+"%"));
 			}		
 		
 			if(map.get("materialName")!=null){
@@ -54,7 +57,7 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 
 	@Override
 	public List<UnitdistributeProduct> getProductList(String unitCode) {
-		String hql = "from UnitdistributeProduct unitproduct where unitproduct.unitCode = ? and unitproduct.isDel= ?";
+		String hql = "from UnitdistributeProduct unitproduct where unitproduct.factoryunit.factoryUnitCode = ? and unitproduct.isDel= ?";
 		List<UnitdistributeProduct> productList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return productList;
 	}

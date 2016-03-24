@@ -61,12 +61,14 @@ body {
 														<tr>
 															<th>物料编码</th>
 															<th>批次</th>
+															<th>转储单号</th>
 															<th>配送数量</th>
 														</tr>
 														<#list list_dd as ddlist>
 															<tr>
 																<td>${(ddlist.matnr)! }</td>
 																<td>${(ddlist.charg)! }</td>
+																<td>${(ddlist.lenum)! }</td>
 																<td>${(ddlist.menge)! }</td>
 															</tr>
 														</#list>

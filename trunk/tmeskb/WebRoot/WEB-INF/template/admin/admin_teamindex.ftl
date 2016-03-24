@@ -446,7 +446,7 @@
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="locatHO" type="button">
 														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">线边仓交接</span>
+															class="bigger-110 no-text-shadow">仓位库存交接</span>
 													</button>
 												</div>
 												

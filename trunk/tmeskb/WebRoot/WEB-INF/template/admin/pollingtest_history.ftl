@@ -63,31 +63,32 @@
 								action="repair!historylist.action" role="form">
 								<div class="operateBar">
 									<div class="form-group">
-										<label class="col-sm-1"
+										<label class="col-sm-1 col-md-offset-1"
 											style="text-align:right">随工单号:</label>
-										<div class="col-sm-3">
+										<div class="col-sm-4">
 											<input type="text" name="workingBillCode"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">产品名称:</label>
-										<div class="col-sm-3">											
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">产品名称:</label>
+										<div class="col-sm-4">											
 												<input type="text" class="input input-sm form-control"
 													name="maktx"> 											
 										</div>
-										<label class="col-sm-1" style="text-align:right">状态:</label>
-										<div class="col-sm-3">
+									
+									</div>
+									<div class="form-group">	
+										<label class="col-sm-1  col-md-offset-1" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
 											<select name="state" id="form-field-icon-1" class="input input-sm form-control">											
 								                <option value=""></option>
 								                 <option value="1">已确认</option>
 								                <option value="2">未确认</option>
 								                <option value="3">已撤销</option>
 							               </select>
-									    </div>
-									</div>
-									<div class="form-group">										
-										<label class="col-sm-1" style="text-align:right">巡检日期:</label>
-										<div class="col-sm-3">
+									    </div>									
+										<label class="col-sm-1  col-md-offset-1" style="text-align:right">巡检日期:</label>
+										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
 													name="start"> <span class="input-group-addon">
@@ -96,15 +97,18 @@
 													name="end">
 											</div>
 										</div>
-										<label class="col-sm-1"
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1  col-md-offset-1"
 											style="text-align:right">巡检人:</label>
-										<div class="col-sm-3">
+										<div class="col-sm-4">
 											<input type="text" name="pollingtestUserName"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										<label class="col-sm-1" style="text-align:right">确认人:</label>
-										<div class="col-sm-3">											
+										<label class="col-sm-1  col-md-offset-1" style="text-align:right">确认人:</label>
+										<div class="col-sm-4">											
 											<input type="text" class="input input-sm form-control"
 												name="confirmUserName"> 
 											

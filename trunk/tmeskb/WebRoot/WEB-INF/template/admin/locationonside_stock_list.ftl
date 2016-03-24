@@ -28,7 +28,7 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
 <body class="no-skin list">
-<!-- <button type="button" id = "btn11">1111 -->
+<button type="button" id = "btn11">1111 
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">

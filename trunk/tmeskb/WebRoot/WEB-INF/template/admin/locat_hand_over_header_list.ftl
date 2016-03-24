@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>线边仓交接</title>
+		<title>仓位库存交接</title>
 		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
@@ -37,7 +37,7 @@
 				<i class="ace-icon fa fa-home home-icon"></i>
 				<a href="admin!index.action">管理中心</a>
 			</li>
-			<li class="active">线边仓交接</li>
+			<li class="active">仓位库存交接</li>
 		</ul><!-- /.breadcrumb -->
 	</div>
 	
@@ -52,11 +52,11 @@
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addHandOver" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建线边仓交接
+										创建仓位库存交接
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="viewHandOver" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
-										查看线边仓交接
+										查看仓位库存交接
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnHandOver">
 										<i class="ace-icon fa fa-home"></i>

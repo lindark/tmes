@@ -20,6 +20,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.PollingtestRecord;
 import cc.jiuyi.entity.WorkingBill;
@@ -29,7 +30,9 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PollingtestRecordService;
 import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
+import cc.jiuyi.util.Util;
 
 /**
  * 巡检
@@ -57,6 +60,17 @@ public class PollingtestAction extends BaseAdminAction {
 	private String show;
 	private String cardnumber;// 刷卡卡号
 
+	
+	private String workingBillCode;
+	private String maktx;
+	private String end;
+	private String start;
+	private String state;
+	private String pollingtestUserName;// 巡检人姓名
+	private String confirmUserName;// 确认人姓名
+	
+	
+	
 	// 获取所有状态
 	private List<Dict> allCraftWork;
 	private List<Cause> list_cause;// 缺陷
@@ -169,7 +183,7 @@ public class PollingtestAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
-	public String historylist() {
+	public String ajlist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -217,18 +231,18 @@ public class PollingtestAction extends BaseAdminAction {
 			// 确认人的名字
 			if (pollingtest.getConfirmUser() != null) {
 				pollingtest
-						.setAdminName(pollingtest.getConfirmUser().getName());
+						.setConfirmUserName(pollingtest.getConfirmUser().getName());
 			}
 			// 巡检人的名字
 			if (pollingtest.getPollingtestUser() != null) {
 				pollingtest.setPollingtestUserName(pollingtest
 						.getPollingtestUser().getName());
 			}
-			pollingtest.setWorkingbillCode(workingBillService.get(
-					pollingtest.getWorkingbill().getId()).getWorkingBillCode());
+			pollingtest.setWorkingBillCode(workingBillService.get(
+					pollingtest.getWorkingBill().getId()).getWorkingBillCode());
 			pollingtest.setMaktx(workingBillService.get(
-					pollingtest.getWorkingbill().getId()).getMaktx());
-			pollingtest.setWorkingBillId(pollingtest.getWorkingbill().getId());
+					pollingtest.getWorkingBill().getId()).getMaktx());
+			pollingtest.setWorkingBillId(pollingtest.getWorkingBill().getId());
 			lst.add(pollingtest);
 		}
 		pager.setList(lst);
@@ -245,7 +259,7 @@ public class PollingtestAction extends BaseAdminAction {
 	 * 
 	 * @return
 	 */
-	public String ajlist() {
+	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
@@ -262,9 +276,54 @@ public class PollingtestAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-
-		pager = pollingtestService.findPagerByjqGrid(pager, map, workingBillId);
+		
+		
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx").toString();
+				maktx=Util.changeISOtoUTF(maktx);
+				map.put("maktx", maktx);
+				System.out.println(maktx);
+			}
+			if (obj.get("workingBillCode") != null) {
+				String workingBillCode = obj.getString("workingBillCode")
+						.toString();
+				workingBillCode=Util.changeISOtoUTF(workingBillCode);
+				map.put("workingBillCode", workingBillCode);
+				System.out.println(workingBillCode);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();			
+				map.put("start", start);
+				map.put("end", end);
+				System.out.println(start+end);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+				System.out.println(state);
+			}
+			if (obj.get("pollingtestUserName") != null) {
+				String pollingtestUserName = obj.getString("pollingtestUserName").toString();
+				pollingtestUserName=Util.changeISOtoUTF(pollingtestUserName);
+				map.put("pollingtestUserName", pollingtestUserName);
+				System.out.println(pollingtestUserName);
+			}
+			if (obj.get("confirmUserName") != null) {
+				String confirmUserName = obj.getString("confirmUserName").toString();
+				confirmUserName=Util.changeISOtoUTF(confirmUserName);
+				map.put("confirmUserName", confirmUserName);
+				System.out.println(confirmUserName);
+			}
+		}
+		
+		
+		pager = pollingtestService.historyjqGrid(pager, map);
 		List<Pollingtest> pollingtestList = pager.getList();
+		//System.out.println("结果："+pollingtestList.size());
 		List<Pollingtest> lst = new ArrayList<Pollingtest>();
 		for (int i = 0; i < pollingtestList.size(); i++) {
 			Pollingtest pollingtest = (Pollingtest) pollingtestList.get(i);
@@ -276,10 +335,20 @@ public class PollingtestAction extends BaseAdminAction {
 					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "craftWorkRemark",
 							pollingtest.getCraftWork()));
+			// 产品名称
+			if (pollingtest.getWorkingBill() != null) {
+				pollingtest
+				.setWorkingBillCode(pollingtest.getWorkingBill().getWorkingBillCode());
+			}
+			// 产品名称
+			if (pollingtest.getWorkingBill() != null) {
+				pollingtest
+				.setMaktx(pollingtest.getWorkingBill().getMaktx());
+			}
 			// 确认人的名字
 			if (pollingtest.getConfirmUser() != null) {
 				pollingtest
-						.setAdminName(pollingtest.getConfirmUser().getName());
+						.setConfirmUserName(pollingtest.getConfirmUser().getName());
 			}
 			// 巡检人的名字
 			if (pollingtest.getPollingtestUser() != null) {
@@ -288,7 +357,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 			lst.add(pollingtest);
 		}
-		pager.setList(lst);
+		pager.setList(lst);		
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig
@@ -298,6 +367,74 @@ public class PollingtestAction extends BaseAdminAction {
 
 	}
 
+	
+	
+	
+	
+	// Excel导出 @author Reece 2016/3/15
+		public String excelexport() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("workingBillCode", Util.changeISOtoUTF(workingBillCode));
+			map.put("maktx", Util.changeISOtoUTF(maktx));
+			map.put("state", Util.changeISOtoUTF(state));
+			map.put("start", Util.changeISOtoUTF(start));
+			map.put("end", Util.changeISOtoUTF(end));
+			map.put("pollingtestUserName", Util.changeISOtoUTF(pollingtestUserName));
+			map.put("confirmUserName", Util.changeISOtoUTF(confirmUserName));
+
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+			header.add("随工单号");			
+			header.add("产品名称");
+			header.add("巡检数量");
+			header.add("合格数量");
+			header.add("合格率");
+			header.add("巡检日期");
+			header.add("巡检人");
+			header.add("确认人");
+			header.add("状态");
+
+			List<Object[]> workList = pollingtestService.historyExcelExport(map);
+			for (int i = 0; i < workList.size(); i++) {
+				Object[] obj = workList.get(i);
+				Pollingtest pollingtest = (Pollingtest) obj[0];//Pollingtest
+	        	WorkingBill workingbill = (WorkingBill)obj[1];//workingBill
+	        	
+	        	
+				Object[] bodyval = {
+						workingbill.getWorkingBillCode(),						
+						workingbill.getMaktx(),
+						pollingtest.getPollingtestAmount(),					
+						pollingtest.getQualifiedAmount(),
+						pollingtest.getPassedPercent(),
+						pollingtest.getCreateDate(),
+						pollingtest.getPollingtestUser().getName(),
+						pollingtest.getConfirmUser().getName(),							
+						ThinkWayUtil.getDictValueByDictKey(dictService,
+								"pollingtestState", pollingtest.getState())
+						};
+				body.add(bodyval);
+			}
+
+			try {
+				String fileName = "成品巡检记录表" + ".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("成品巡检记录表", header, body, getResponse()
+						.getOutputStream());
+				getResponse().getOutputStream().flush();
+				getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	
+	
+	
+	
+	
+	
+	
 	// 刷卡确认
 	public String creditapproval() {
 		admin = adminService.getByCardnum(cardnumber);
@@ -463,4 +600,60 @@ public class PollingtestAction extends BaseAdminAction {
 		this.cardnumber = cardnumber;
 	}
 
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
+	}
+
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPollingtestUserName() {
+		return pollingtestUserName;
+	}
+
+	public void setPollingtestUserName(String pollingtestUserName) {
+		this.pollingtestUserName = pollingtestUserName;
+	}
+
+	public String getConfirmUserName() {
+		return confirmUserName;
+	}
+
+	public void setConfirmUserName(String confirmUserName) {
+		this.confirmUserName = confirmUserName;
+	}
+	
 }

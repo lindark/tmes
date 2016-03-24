@@ -173,6 +173,10 @@ public class DeptpickAction extends BaseAdminAction {
 			header.add("组件编码");
 			header.add("组件名称");
 			header.add("批次");
+			
+			header.add("接收成本中心");
+			header.add("接收部门");
+			header.add("发料移动类型");
 			header.add("库存地点");
 
 			header.add("物料凭证号");
@@ -190,6 +194,10 @@ public class DeptpickAction extends BaseAdminAction {
 						deptpick.getMaterialCode(),
 						deptpick.getMaterialName(),
 						deptpick.getMaterialBatch(),
+						
+						deptpick.getCostcenter(),
+						deptpick.getDepartmentName(),
+						deptpick.getMovetype(),
 						deptpick.getRepertorySite(),
 						
 					

@@ -41,6 +41,7 @@ import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Role;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Scrap;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
@@ -58,6 +59,7 @@ import cc.jiuyi.service.ProductService;
 import cc.jiuyi.service.RoleService;
 import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.ScrapService;
+import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
@@ -115,6 +117,10 @@ public class AdminAction extends BaseAdminAction {
 	private String deptid;//部门ID
 	private String loginid;//登录人id
 	private String strDate;
+	private String postid;//岗位ID
+	private String strStationIds;//工位
+	private List<Station>list_station;//工位
+	private List<Station>list_station2;//工位
 	
 	@Resource
 	private AdminService adminService;
@@ -153,6 +159,8 @@ public class AdminAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private StationService stationService;//工位
 	
 	// 登录页面
 	public String login() {
@@ -999,7 +1007,7 @@ public class AdminAction extends BaseAdminAction {
 		}
 		try
 		{
-			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,roleList,loginid);
+			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,roleList,loginid,null);
 		}
 		catch (Exception e)
 		{
@@ -1161,7 +1169,7 @@ public class AdminAction extends BaseAdminAction {
 		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
 		{
 			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+			pager.setOrderBy("createDate");
 		}
 		//需要查询条件,复杂查询
 		if(pager.is_search()==true && filters != null&&!"".equals(filters))
@@ -1208,12 +1216,12 @@ public class AdminAction extends BaseAdminAction {
 	{
 		try
 		{
-			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,null,loginid);
+			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,null,loginid,strStationIds);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			addActionError("保存失败!");
+			addActionError("系统出现问题!");
 			return ERROR;
 		}
 		this.redirectionUrl="admin!alllistry.action";
@@ -1226,6 +1234,11 @@ public class AdminAction extends BaseAdminAction {
 	public String editry()
 	{
 		this.admin=this.adminService.get(id);
+		if(admin.getPost()!=null)
+		{
+			this.list_station=new ArrayList<Station>(admin.getPost().getStationSet());
+		}
+		this.list_station2=this.stationService.getByIds(admin.getStationids());//根据员工表中的工位id查询工位
 		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
 		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
 		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
@@ -1241,7 +1254,7 @@ public class AdminAction extends BaseAdminAction {
 	{
 		try
 		{
-			this.adminService.updateEmpRy(admin,unitdistributeProducts,unitdistributeModels);
+			this.adminService.updateEmpRy(admin,unitdistributeProducts,unitdistributeModels,strStationIds);
 		}
 		catch(Exception e)
 		{
@@ -1334,6 +1347,42 @@ public class AdminAction extends BaseAdminAction {
 		return this.ajaxJsonSuccessMessage(str);
 	}
 	
+	/**
+	 * 获取岗位对应的工位
+	 */
+	public String getstation()
+	{
+		try
+		{
+			String str="";
+			List<Station>stationlist=this.stationService.getStationsByPostid(postid);//根据岗位ID获取对应的工位
+			if(stationlist!=null&&stationlist.size()>0)
+			{
+				for(int i=0;i<stationlist.size();i++)
+				{
+					Station s=stationlist.get(i);
+					str+="<option value='"+s.getId()+"'>"+s.getCode()+"--"+s.getName()+"</option>";
+				}
+				return this.ajaxJsonSuccessMessage(str);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonSuccessMessage("");
+		}
+		return this.ajaxJsonSuccessMessage("");
+	}
+	
+	/**
+	 * 假删除
+	 */
+	public String deleteempry()
+	{
+		this.adminService.updateToDel(id);
+		this.redirectionUrl="admin!alllistry.action";
+		return SUCCESS;
+	}
 	
 	/**===========end 用户信息管理===========*/
 	/**===========statr 用户权限管理=========*/
@@ -1402,12 +1451,20 @@ public class AdminAction extends BaseAdminAction {
 	{
 		try
 		{
-			this.adminService.updateEmpQx(admin,roleList,loginid);
+			if(tocheckusername(admin.getId(),admin.getUsername()))
+			{
+				this.adminService.updateEmpQx(admin,roleList,loginid);
+			}
+			else
+			{
+				addActionError("用户名已存在!");
+				return ERROR;
+			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			addActionError("保存失败!");
+			addActionError("系统出现异常!");
 			return ERROR;
 		}
 		this.redirectionUrl="admin!alllistqx.action";
@@ -1501,7 +1558,34 @@ public class AdminAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
+	/**
+	 * 查询用户名是否已存在
+	 */
+	public String ckusername()
+	{
+		if(tocheckusername(admin.getId(),admin.getUsername()))
+		{
+			return this.ajaxJsonSuccessMessage("success");
+		}
+		return this.ajaxJsonErrorMessage("error");
+	}
 	
+	/**
+	 * 查询用户名是否已存在
+	 */
+	public boolean tocheckusername(String xid,String username)
+	{
+		Admin a=this.adminService.getByUsername(username);
+		if(a!=null)
+		{
+			if(xid!=null&&xid.equals(a.getId()))
+			{
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
 	
 	/**===========end 用户权限管理===========*/
 	
@@ -1769,16 +1853,44 @@ public class AdminAction extends BaseAdminAction {
 	{
 		this.worknumber = worknumber;
 	}
-
-
+	public String getPostid()
+	{
+		return postid;
+	}
+	public void setPostid(String postid)
+	{
+		this.postid = postid;
+	}
+	public List<Station> getList_station()
+	{
+		return list_station;
+	}
+	public void setList_station(List<Station> list_station)
+	{
+		this.list_station = list_station;
+	}
+	public List<Station> getList_station2()
+	{
+		return list_station2;
+	}
+	public void setList_station2(List<Station> list_station2)
+	{
+		this.list_station2 = list_station2;
+	}
 	public String getStrDate()
 	{
 		return strDate;
 	}
-
-
 	public void setStrDate(String strDate)
 	{
 		this.strDate = strDate;
+	}
+	public String getStrStationIds()
+	{
+		return strStationIds;
+	}
+	public void setStrStationIds(String strStationIds)
+	{
+		this.strStationIds = strStationIds;
 	}
 }

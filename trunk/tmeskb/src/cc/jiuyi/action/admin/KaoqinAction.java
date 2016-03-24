@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,13 +19,16 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -68,6 +72,8 @@ public class KaoqinAction extends BaseAdminAction
 	private DictService dictService;
 	@Resource
 	private TeamService teamService;
+	@Resource
+	private StationService stationService;
 	/**========================end  variable,object,interface==========================*/
 	
 	/**========================method  start======================================*/
@@ -443,9 +449,28 @@ public class KaoqinAction extends BaseAdminAction
 			if(a.getPost()!=null)
 			{
 				a.setXpost(a.getPost().getPostName());
-				a.setXgongwei(a.getPost().getStation());//工位
 			}
-			//模具组号
+			//工位
+			if(a.getStationids()!=null)
+			{
+				String []sids=a.getStationids().split(",");
+				String str="";
+				for(int j=0;j<sids.length;j++)
+				{
+					Station s=this.stationService.get(sids[j]);
+					if(s!=null&&"N".equals(s.getIsDel())&&s.getName()!=null)
+					{
+						str+=s.getName()+",";
+					}
+					
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXgongwei(str);//工位
+			}
+			//工作范围
 			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
 			if(list_up.size()>0)
 			{
@@ -453,7 +478,7 @@ public class KaoqinAction extends BaseAdminAction
 				for(int j=0;j<list_up.size();j++)
 				{
 					UnitdistributeProduct up=list_up.get(j);
-					if(up.getMaterialName()!=null)
+					if(up!=null&&"N".equals(up.getIsDel())&&up.getMaterialName()!=null)
 					{
 						str+=up.getMaterialName()+",";
 					}
@@ -462,9 +487,9 @@ public class KaoqinAction extends BaseAdminAction
 				{
 					str=str.substring(0,str.length()-1);
 				}
-				a.setXworkscope(str);
+				a.setXstation(str);
 			}
-			//工作范围
+			//模具组号
 			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
 			if(list_um.size()>0)
 			{
@@ -472,7 +497,7 @@ public class KaoqinAction extends BaseAdminAction
 				for(int j=0;j<list_um.size();j++)
 				{
 					UnitdistributeModel um=list_um.get(j);
-					if(um.getStation()!=null)
+					if(um!=null&&"N".equals(um.getIsDel())&&um.getStation()!=null)
 					{
 						str+=um.getStation()+",";
 					}
@@ -481,11 +506,63 @@ public class KaoqinAction extends BaseAdminAction
 				{
 					str=str.substring(0,str.length()-1);
 				}
-				a.setXstation(str);
+				a.setXworkscope(str);
 			}
 			list2.add(a);
 		}
 		return list2;
+	}
+	
+	/**
+	 * 导出Excel表
+	 */
+	public String outexcel()
+	{
+		try {
+			pager=new Pager();
+			pager.setOrderType(OrderType.desc);//倒序
+			pager.setOrderBy("modifyDate");//以创建日期排序
+			pager = this.adminService.getEmpAjlist(pager,sameTeamId);//查询本班组的员工及在本班代班的员工
+			@SuppressWarnings("unchecked")
+			List<Admin>list1=pager.getList();
+			List<Admin>list2=getNewAdminList(list1);
+			List<String> header = new ArrayList<String>();
+			header.add("员工卡号");header.add("姓名");header.add("工号");header.add("手机号");
+			header.add("班组");header.add("岗位");header.add("工位");header.add("模具组号");
+			header.add("工作范围");header.add("员工状态");header.add("异常小时数");
+			List<Object[]> body = new ArrayList<Object[]>();
+			for(int i=0;i<list2.size();i++)
+			{
+				Admin a=list2.get(i);
+				Object[] str = new Object[header.size()];
+				str[0]=a.getCardNumber();
+				str[1]=a.getName();
+				str[2]=a.getWorkNumber();
+				str[3]=a.getPhoneNo();
+				str[4]=a.getXteam();
+				str[5]=a.getXpost();
+				str[6]=a.getXgongwei();
+				str[7]=a.getXstation();
+				str[8]=a.getXworkscope();
+				str[9]=a.getXworkstate();
+				str[10]=a.getTardyHours();
+				body.add(str);
+			}
+			/***Excel 下载****/
+		
+			String fileName="当前考勤"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("当前考勤信息", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			//return this.ajaxJsonSuccessMessage("e");
+		}
+		//return this.ajaxJsonSuccessMessage("s");
+		return null;
 	}
 	/**========================end  method======================================*/
 	

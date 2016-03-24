@@ -1,5 +1,6 @@
 package cc.jiuyi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
@@ -26,4 +27,13 @@ public interface SampleDao extends BaseDao<Sample, String>
 	 * @return
 	 */
 	public List<Sample> getUncheckList();
+	
+	public Pager getSamplePager(Pager pager,HashMap<String,String>map);
+	
+	/**
+	 * Excel打印
+	 * @param map
+	 * @return
+	 */
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
@@ -50,4 +51,13 @@ public interface SampleService extends BaseService<Sample, String>
 	 * @return
 	 */
 	public List<Sample> getUncheckList();
+	
+	public Pager getSamplePager(Pager pager, HashMap<String, String> map);
+	
+	/**
+	 * excel打印
+	 * @param map
+	 * @return
+	 */
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

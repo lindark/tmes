@@ -19,6 +19,9 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.entity.WorkingBill;
@@ -28,6 +31,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SampleRecordService;
 import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -59,6 +63,13 @@ public class SampleAction extends BaseAdminAction
 	private List<SampleRecord>list_samrecord;//缺陷记录
 	private String sampletype;//抽检类型
 	private String cardnumber;//刷卡人卡号
+	private String maktx;//物料编码
+	private String matnr;//物料名称
+	private String state;//状态
+	private String start;//日期起始点
+	private String end;//日期结束点
+	private String xsampler;//抽检人
+	private String xcomfirmation;//确认人
 	/**
 	 * service接口
 	 */
@@ -88,6 +99,273 @@ public class SampleAction extends BaseAdminAction
 		this.workingbill=this.workingBillService.get(wbId);
 		return LIST;
 	}
+	
+	public String getMaktx() {
+		return maktx;
+	}
+
+	public void setMaktx(String maktx) {
+		this.maktx = maktx;
+	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getXsampler() {
+		return xsampler;
+	}
+
+	public void setXsampler(String xsampler) {
+		this.xsampler = xsampler;
+	}
+
+	public String getXcomfirmation() {
+		return xcomfirmation;
+	}
+
+	public void setXcomfirmation(String xcomfirmation) {
+		this.xcomfirmation = xcomfirmation;
+	}
+
+	public SampleService getSampleService() {
+		return sampleService;
+	}
+
+	public void setSampleService(SampleService sampleService) {
+		this.sampleService = sampleService;
+	}
+
+	public WorkingBillService getWorkingBillService() {
+		return workingBillService;
+	}
+
+	public void setWorkingBillService(WorkingBillService workingBillService) {
+		this.workingBillService = workingBillService;
+	}
+
+	public DictService getDictService() {
+		return dictService;
+	}
+
+	public void setDictService(DictService dictService) {
+		this.dictService = dictService;
+	}
+
+	public CauseService getCauseService() {
+		return causeService;
+	}
+
+	public void setCauseService(CauseService causeService) {
+		this.causeService = causeService;
+	}
+
+	public AdminService getAdminService() {
+		return adminService;
+	}
+
+	public void setAdminService(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
+	public SampleRecordService getSrService() {
+		return srService;
+	}
+
+	public void setSrService(SampleRecordService srService) {
+		this.srService = srService;
+	}
+
+	public String history(){
+		return "history";
+	}
+	
+	//Excel导出 @author Razey 2016/3/23
+	public String excelexport(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("maktx", maktx);
+		map.put("matnr", matnr);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+		map.put("xsampler",xsampler);
+		map.put("xcomfirmation", xcomfirmation);
+		
+		
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+        header.add("ID");
+        header.add("日期");
+        header.add("产品编号");
+        header.add("产品名称");
+        header.add("抽检人");
+        header.add("确认人");
+        header.add("抽检数量");
+        header.add("合格数量");
+        header.add("合格率");
+        header.add("抽检类型");
+        header.add("状态");
+        header.add("状态");
+        
+        List<Object[]> sampleList = sampleService.historyExcelExport(map);
+        for (int i = 0; i < sampleList.size(); i++) {
+			Object[] obj = sampleList.get(i);
+			Sample sample = (Sample) obj[0];//oddHandOver
+        	WorkingBill workingbill = (WorkingBill)obj[1];//workingbill
+        	
+        	
+			Object[] bodyval = {
+					sample.getId(),
+					sample.getModifyDate(),
+					workingbill.getMatnr(),
+					workingbill.getMaktx(),
+					sample.getSampler().getName(),
+					sample.getComfirmation().getName(),
+					sample.getSampleNum(),
+					sample.getQulified(),
+					sample.getQulifiedRate(),
+					sample.getSampleType(),
+					sample.getState(),
+					ThinkWayUtil.getDictValueByDictKey(dictService,
+							"sampleState", sample.getState())};
+			body.add(bodyval);
+		}
+
+		try {
+			String fileName = "抽检记录表" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("抽检记录表", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	//抽检表记录 @author Razey 2016/3/23
+	public String historylist(){
+
+		try
+		{
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		if(pager == null) {
+			pager = new Pager();
+			
+		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("createDate");
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+//			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String maktx = obj.getString("maktx")
+						.toString();
+				map.put("maktx", maktx);
+			}
+			if (obj.get("matnr") != null) {
+				String matnr = obj.getString("matnr")
+						.toString();
+				map.put("matnr", matnr);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+			if (obj.get("xsampler") != null) {
+				String xsampler = obj.getString("xsampler").toString();
+				map.put("xsampler", xsampler);
+			}
+			if (obj.get("xcomfirmation") != null) {
+				String xcomfirmation = obj.getString("xcomfirmation").toString();
+				map.put("xcomfirmation", xcomfirmation);
+			}
+			
+//
+//		//{autoCode_Modify}
+		}
+
+		pager = sampleService.getSamplePager(pager, map);
+		@SuppressWarnings("unchecked")
+		List<Sample>samplelist=pager.getList();
+		List<Sample>samplelist2=new ArrayList<Sample>();
+		for(int i=0;i<samplelist.size();i++)
+		{
+			Sample s1=samplelist.get(i);
+			s1.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleState", s1.getState()));//状态描述--页面显示
+			s1.setXsampler(s1.getSampler().getName());//抽检人xsampler
+			if(s1.getComfirmation()!=null)
+			{
+				s1.setXcomfirmation(s1.getComfirmation().getName());//确认人xcomfirmation
+			}
+			System.out.println(s1.getCreateDate());
+			s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
+			s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
+//			s1.setXsampletype(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleType", s1.getSampleType()));//抽检类型xsampletype
+			samplelist2.add(s1);
+		}
+		pager.setList(samplelist2);
+		JsonConfig jsonConfig=new JsonConfig();   
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Sample.class));//排除有关联关系的属性字段  
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		//System.out.println(jsonArray.get(0).toString());
+		return ajaxJson(jsonArray.get(0).toString());
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	
+	}
+	
+	
 	
 	/**
 	 * 增加前

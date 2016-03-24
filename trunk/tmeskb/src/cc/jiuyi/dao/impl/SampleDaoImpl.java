@@ -1,13 +1,19 @@
 package cc.jiuyi.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.SampleDao;
+
 import cc.jiuyi.entity.Sample;
 /**
  * 抽检
@@ -34,10 +40,138 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 		return super.findByPager(pager,detachedCriteria);
 	}
 
+	/** 抽检表
+	 *  查询页面
+	 */
 	@Override
 	public List<Sample> getUncheckList() {
 		String hql="from Sample where state='1'";
 		return this.getSession().createQuery(hql).list();
+	}
+	
+	public Pager getSamplePager(Pager pager, HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Sample.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!existAlias(detachedCriteria, "workingBill", "workingBill"))
+		{
+			detachedCriteria.createAlias("workingBill", "workingBill");
+		}
+		
+		if (map.size() > 0) {
+			if (map.get("maktx") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"workingbill.maktx",
+						"%" + map.get("maktx") + "%"));
+			}
+			if (map.get("matnr") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"workingbill.matnr",
+						"%" + map.get("matnr") + "%"));
+			}
+			if (map.get("state") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"state",
+						"%" + map.get("state") + "%"));
+			}	
+			if(map.get("start")!=null && map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+			if (map.get("xsampler") != null) {
+				if(!existAlias(detachedCriteria, "sampler", "admin"))
+				{
+					detachedCriteria.createAlias("sampler", "admin");
+				}
+				detachedCriteria.add(Restrictions.like(
+						"admin.name",
+						"%" + map.get("xsampler") + "%"));
+			}	
+			if (map.get("xcomfirmation") != null) {
+				if(!existAlias(detachedCriteria, "comfirmation", "Admin"))
+				{
+					detachedCriteria.createAlias("comfirmation", "Admin");
+				}
+				detachedCriteria.add(Restrictions.like(
+						"Admin.name",
+						"%" + map.get("xcomfirmation") + "%"));
+			}	
+		}
+		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
+	
+	/**
+	 * 打印excel
+	 */
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		String hql="from Sample model join model.workingBill model1";
+		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		if (map.size() > 0) {
+			if (!map.get("maktx").equals("")) {
+				if(ishead==0){
+					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
+				}
+			}
+			if (!map.get("maktx").equals("")) {
+				if(ishead==0){
+					hql+=" where model1.maktx like '%"+map.get("maktx")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.maktx like '%"+map.get("maktx")+"%'";
+				}
+			}
+			if (!map.get("state").equals("")) {
+				if(ishead==0){
+					hql+=" where model.state like '%"+map.get("state")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.state like '%"+map.get("state")+"%'";
+				}
+			}	
+			if(!map.get("start").equals("") && !map.get("end").equals("")){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					System.out.println(map.get("start")); 
+					if(ishead==0){
+						hql+=" where mode.createDate between :start and :end";
+						ishead=1;
+					}else{
+						hql+=" and mode.createDate between :start and :end";
+					}
+					parameters.put("start", start);
+					parameters.put("end", end);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		Query query = getSession().createQuery(hql);
+		
+		if(parameters.get("start")!=null){
+			query.setParameter("start", parameters.get("start"));
+		}
+		if(parameters.get("end") != null){
+			query.setParameter("end", parameters.get("end"));
+		}
+		
+		return query.list();
 	}
 	
 }

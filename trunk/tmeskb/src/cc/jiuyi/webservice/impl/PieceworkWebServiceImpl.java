@@ -401,15 +401,19 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 									workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
 								}else{
 									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitCode())){
-										mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitCode();
+										mouldNumber = mouldNumber+";"+unitProduct.getFactoryunit().getFactoryUnitCode();
 									}else{
 										if("".equals(mouldNumber)){
 											mouldNumber = unitProduct.getFactoryunit().getFactoryUnitCode();
 										}else{
-											mouldNumber = mouldNumber+","+unitProduct.getFactoryunit().getFactoryUnitCode();
+											mouldNumber = mouldNumber+";"+unitProduct.getFactoryunit().getFactoryUnitCode();
 										}
 									}
-									workingRange = workingRange+","+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+									if("".equals(workingRange)){
+										workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+									}else{
+										workingRange = workingRange+";"+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+									}
 								}
 							}
 						}

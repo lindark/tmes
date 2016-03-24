@@ -69,7 +69,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'postCode',label:"岗位编码",index:'postCode', width:200,editable: true},
 			{name:'postName',label:"岗位名称",index:'postName', width:200,editable: true},
-			{name:'station',label:"工位",index:'station', width:200,editable: true},
+			{name:'station',label:"部门编码",index:'station', width:200,editable: true},
 			{name:'stateRemark',label:"状态",index:'state', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 		], 
 

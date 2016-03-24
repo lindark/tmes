@@ -49,13 +49,11 @@ public class PostServiceImpl extends BaseServiceImpl<Post, String>implements Pos
 
 	@Override
 	public Pager getPostPager(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return postDao.getPostPager(pager, map);
 	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		postDao.updateisdel(ids, oper);
 		
 	}
@@ -74,6 +72,14 @@ public class PostServiceImpl extends BaseServiceImpl<Post, String>implements Pos
 	public Pager getAllPost(Pager pager)
 	{
 		return this.postDao.getAllPost(pager);
+	}
+
+	/**
+	 * 查询所有未删除的岗位
+	 */
+	public List<Post> getAllPost()
+	{
+		return this.postDao.getAllPost();
 	}
 
 	

@@ -1,3 +1,4 @@
+var iscansub="N";
 $(function(){
 	//页面右上角点击登录人事件
 	login_event();
@@ -10,7 +11,40 @@ $(function(){
 	$("#btn_return").click(function(){
 		return_event();
 	});
+	
+	//用户名change事件
+	$("#input_username").change(function(){
+		username_event();
+	});
+	
+	//提交事件
+	$("#btn_submit").click(function(){
+		sub_event();
+	});
 });
+
+//用户名change事件
+function username_event()
+{
+	var username=$("#input_username").val();
+	username=username.replace(/\s+/g,"");//去空
+	$("#input_username").val(username);
+	if(username!=null&&username!="")
+	{
+		$.post("admin!ckusername.action?admin.id="+$("#input_id").val()+"&admin.username="+username,function(data){
+			if(data.status=="success")
+			{
+				$("#span_username").text("");
+				iscansub="Y";
+			}
+			else if(data.status=="error")
+			{
+				$("#span_username").text("用户名已存在!");
+				iscansub="N";
+			}
+		},"json");
+	}
+}
 
 //添加人员
 function addemp_event()
@@ -19,14 +53,14 @@ function addemp_event()
         type: 2,
         skin: 'layui-layer-lan',
         shift:2,
-        title: "选择班组",
+        title: "选择人员",
         fix: false,
         shade: 0.5,
         shadeClose: true,
         maxmin: true,
         scrollbar: false,
         btn:['确认','取消'],
-        area: ["80%", "80%"],//弹出框的高度，宽度
+        area: ["80%", "90%"],//弹出框的宽度高度
         content:"admin!beforegetempqxn.action",
         yes:function(index,layero){//确定
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
@@ -78,39 +112,13 @@ function login_event()
 //提交
 function sub_event()
 {
-	var worknum=$("#input_worknum").val();//工号
-	var cardnum=$("#input_cardnum");//卡号
-	if(worknum!=null&&worknum!=""&&cardnum!=null&&cardnum!="")
+	var username=$("#input_username").val();
+	if(username!=null&&username!="")
 	{
-		var url="admin!checknum.action?worknumber="+worknum+"&cardnumber="+cardnum;
-		$.post(url,function(data){
-			if(data.message=="w")
-			{
-				//只有工号重复
-				$("#span_worknum").text("工号已存在!");
-			}
-			else if(data.message=="c")
-			{
-				//只有卡号重复
-				$("#span_cardnum").text("卡号已存在!");
-			}
-			else if(data.message=="wc")
-			{
-				//工号卡号都重复
-				$("#span_worknum").text("工号已存在!");
-				$("#span_cardnum").text("卡号已存在!");
-			}
-			else if(data.message=="success")
-			{
-				//工号卡号都没有重复,可以提交
-				$("#xform").submit();
-			}
-			else
-			{
-				//系统出现异常
-				layer.alert("系统出现异常!",{icon:5, skin:"error"});
-			}
-		},"json");
+		if(iscansub=="Y")
+		{
+			$("#xform").submit();
+		}
 	}
 	else
 	{

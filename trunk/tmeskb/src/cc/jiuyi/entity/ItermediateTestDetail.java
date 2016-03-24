@@ -40,8 +40,33 @@ public class ItermediateTestDetail extends BaseEntity{
     private String isDel;//是否删除
     private String stateRemark;//状态描述
     private Admin confirmUser;//确认人
-      
+    
+    /*
+     * 假字段
+     */
+    private String xconfirmUser;// 确认人的名字
+ 
+
+	private String xcreateUser;//创建人的名字
+    
+   
 	
+	
+	
+	
+	
+	public String getXconfirmUser() {
+		return xconfirmUser;
+	}
+	public void setXconfirmUser(String xconfirmUser) {
+		this.xconfirmUser = xconfirmUser;
+	}
+	public String getXcreateUser() {
+		return xcreateUser;
+	}
+	public void setXcreateUser(String xcreateUser) {
+		this.xcreateUser = xcreateUser;
+	}
 	
 	private ItermediateTest itermediateTest;//半成品巡检主表
     private Set<IpRecord> ipRecord;//半成品巡检缺陷记录表

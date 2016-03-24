@@ -73,7 +73,7 @@ jQuery(function($) {
 		},
 
 		editurl: "locat_hand_over_header!delete.action",//用它做标准删除动作
-		caption: "线边仓交接"
+		caption: "仓位库存交接"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

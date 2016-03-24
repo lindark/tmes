@@ -192,6 +192,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.Deptpick</value>
 				<value>cc.jiuyi.entity.Mouldmaterial</value>
 				<value>cc.jiuyi.entity.UpDown</value>
+				<value>cc.jiuyi.entity.Station</value>
 				<value>cc.jiuyi.entity.LocatHandOver</value>
 				<value>cc.jiuyi.entity.LocatHandOverHeader</value>
 			</list>

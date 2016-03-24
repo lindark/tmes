@@ -64,7 +64,7 @@
 								 <div class="right_content">
 								 	 <div class="left_tree left_tree_position " id="left_tree">
 								        <div class="tree_top">
-								            <h5><span>部门列表</span></h5>
+								            <h5><span>人员列表</span></h5>
 								        </div>
 								        <div id="treeDiv" style="height:100%;max-height:100%;">
 								             <ul id="ingageTree" class="ztree"></ul>

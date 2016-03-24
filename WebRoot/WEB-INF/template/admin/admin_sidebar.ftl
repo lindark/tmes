@@ -927,6 +927,14 @@
 						<b class="arrow"></b>
 					</li>
 					<li class="">
+						<a href="station!list.action" >
+							<i class="menu-icon"></i>
+							工位管理
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					<li class="">
 						<a href="admin!alllistry.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							人员管理

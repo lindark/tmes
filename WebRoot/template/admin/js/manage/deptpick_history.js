@@ -76,7 +76,7 @@ jQuery(grid_selector).jqGrid({
 		},
 
 		editurl: "return_product!delete.action",//用它做标准删除动作
-		caption: "部门领料历史"
+		caption: "部门领用记录"
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

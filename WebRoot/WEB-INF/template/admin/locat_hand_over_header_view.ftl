@@ -5,7 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<title>线边仓交接 - Powered By ${systemConfig.systemName}</title>
+<title>仓位库存交接 - Powered By ${systemConfig.systemName}</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
@@ -42,7 +42,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> 
 					<a href="admin!index.action">管理中心</a></li>
-					<li class="active">线边仓交接详情</li>
+					<li class="active">仓位库存交接详情</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -58,7 +58,7 @@ body {
 							 method="post">
 							<div id="inputtabs">
 								 <ul>
-								    <li><a href="#tabs-1">线边仓交接详情</a></li>
+								    <li><a href="#tabs-1">仓位库存交接详情</a></li>
 								</ul>
 								<div id="tabs-1" class="tab1">
 								<div class="profile-user-info profile-user-info-striped">
@@ -111,7 +111,7 @@ body {
 											<tr id="tr_1">
 												<td class="center" name="">${(loh.locationCode)! }</td>
 												<td class="center" name="">${(loh.materialCode)! }</td>
-												<td class="center" name="">${(loh.materialDesp)! }</td>
+												<td class="center" name="">${(loh.materialName)! }</td>
 												<td class="center" >${(loh.charg)! }</td>
 												<td class="center">${(loh.amount)!}</td>								
 											</tr>

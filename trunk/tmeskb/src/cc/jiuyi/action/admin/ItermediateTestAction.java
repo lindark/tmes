@@ -281,7 +281,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
-	// 巡查记录列表 @author Reece 2016/3/22
+	// 巡查记录列表 @author lzx 2016/3/22
 	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
 
@@ -397,8 +397,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 			Object[] obj = workList.get(i);
 			ItermediateTestDetail itermediateTestDetail = (ItermediateTestDetail) obj[0];//itermediateTestDetail
 			ItermediateTest itermediateTest =	(ItermediateTest) obj[1];	
-//        	Admin confirmUser=(Admin) obj[2];
-//        	Admin createUser=(Admin) obj[3];
+         	Admin confirmUser=(Admin) obj[2];
+        	Admin createUser=(Admin) obj[3];
         	
 			Object[] bodyval = {
 					itermediateTestDetail.getMaterialCode(),
@@ -411,8 +411,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 					itermediateTestDetail.getGoodsSzie5(),
 					itermediateTestDetail.getFailReason(),
 					itermediateTestDetail.getFailAmount(),
-					itermediateTest.getConfirmUser().getName()==null?0:itermediateTest.getConfirmUser().getName(),
-					itermediateTest.getCreateUser().getName()==null?0:itermediateTest.getCreateUser().getName(),	
+					confirmUser.getName()==null?0:confirmUser.getName(),
+					createUser.getName()==null?0:createUser.getName(),	
 					itermediateTestDetail.getCreateDate(),
 					itermediateTestDetail.getModifyDate(),
 					ThinkWayUtil.getDictValueByDictKey(dictService,

@@ -407,7 +407,7 @@ public class PollingtestAction extends BaseAdminAction {
 				Pollingtest pollingtest = (Pollingtest) obj[0];//Pollingtest
 	        	WorkingBill workingbill = (WorkingBill)obj[1];//workingBill
 	        	Admin pollingtestUser = (Admin)obj[2];//pollingtestUser
-	        	Admin confirmUser = (Admin)obj[3];//ponfirmUser
+	        	Admin confirmUser = (Admin)obj[3];//ponfirmUser	        	
 	        	
 				Object[] bodyval = {
 						workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode(),
@@ -419,8 +419,8 @@ public class PollingtestAction extends BaseAdminAction {
 						ThinkWayUtil.getDictValueByDictKey(
 									dictService, "craftWorkRemark", pollingtest.getCraftWork()),
 						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
-						pollingtestUser.getName() == null ? "" : pollingtestUser.getName(),
-						confirmUser.getName() == null ? "" : confirmUser.getName(),							
+						pollingtestUser == null ? "" : pollingtestUser.getName(),
+						confirmUser == null ? "" : confirmUser.getName(),							
 						ThinkWayUtil.getDictValueByDictKey(dictService,
 								"pollingtestState", pollingtest.getState())
 						};

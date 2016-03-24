@@ -17,6 +17,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.CreditCard;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Role;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
@@ -223,7 +224,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	/**
 	 * 添加员工
 	 */
-	public void saveInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels,List<Role> roleList,String loginid)
+	public void saveInfo(Admin admin, String unitdistributeProducts,String unitdistributeModels,List<Role> roleList,String loginid,String stationids)
 	{
 		//当前登录人
 		Admin a=this.get(loginid);
@@ -270,6 +271,25 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		if(roleList!=null)
 		{
 			admin.setRoleSet(new HashSet<Role>(roleList));//管理角色
+		}
+		//工位
+		if(stationids!=null)
+		{
+			stationids=stationids.replace(" ", "");
+			String []ids=stationids.split(",");
+			String str="";
+			for(int i=0;i<ids.length;i++)
+			{
+				if(ids[i]!=null&&!"".equals(ids[i]))
+				{
+					str+=ids[i]+",";
+				}
+			}
+			if(str.endsWith(","))
+			{
+				str=str.substring(0, str.length()-1);
+			}
+			admin.setStationids(str);
 		}
 		if(admin.getPassword()!=null&&!"".equals(admin.getPassword()))
 		{
@@ -370,7 +390,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	/**
 	 * 人员信息维护:修改
 	 */
-	public void updateEmpRy(Admin admin, String unitdistributeProducts,String unitdistributeModels)
+	public void updateEmpRy(Admin admin, String unitdistributeProducts,String unitdistributeModels,String stationids)
 	{
 		Admin a=this.get(admin.getId());
 		//工作范围
@@ -407,8 +427,27 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		{
 			a.setUnitdistributeModelSet(null);
 		}
-		//姓名 性别  身份证号 联系电话 工号 卡号 E-mail 直接上级 部门 岗位 模具组号 工作范围 班组 是否离职 入职日期
-		// 
+		//工位 姓名 性别  身份证号 联系电话 工号 卡号 E-mail 直接上级 部门 岗位 模具组号 工作范围 班组 是否离职 入职日期
+		//
+		//工位
+		if(stationids!=null)
+		{
+			stationids=stationids.replace(" ", "");
+			String []ids=stationids.split(",");
+			String str="";
+			for(int i=0;i<ids.length;i++)
+			{
+				if(ids[i]!=null&&!"".equals(ids[i]))
+				{
+					str+=ids[i]+",";
+				}
+			}
+			if(str.endsWith(","))
+			{
+				str=str.substring(0, str.length()-1);
+			}
+			admin.setStationids(str);
+		}
 		a.setName(admin.getName());//姓名
 		a.setSex(admin.getSex());//性别
 		a.setIdentityCard(admin.getIdentityCard());//身份证号
@@ -479,5 +518,34 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			a.setEmpCreaterqx(loginer);
 		}
 		this.update(a);
+	}
+
+	/**
+	 * 根据用户名查询
+	 */
+	public Admin getByUsername(String username)
+	{
+		return this.adminDao.getByUsername(username);
+	}
+	
+	/**
+	 * 假删除
+	 */
+	public void updateToDel(String id)
+	{
+		if(id!=null)
+		{
+			String []ids=id.split(",");
+			for(int i=0;i<ids.length;i++)
+			{
+				Admin a=this.get(ids[i].trim());
+				if(a!=null)
+				{
+					a.setIsDelete("Y");
+					a.setModifyDate(new Date());
+					this.update(a);
+				}
+			}
+		}
 	}
 }

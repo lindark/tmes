@@ -83,7 +83,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		//editurl: "working_bill!delete.action",//用它做标准删除动作
+		editurl: "admin!deleteempry.action",//用它做标准删除动作
 		caption: "员工列表"
 
 	});
@@ -102,7 +102,7 @@ jQuery(function($) {
 				window.location.href="admin!addry.action";
 			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: false,
+			del: true,
 			delicon : 'ace-icon fa fa-trash-o red',
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',

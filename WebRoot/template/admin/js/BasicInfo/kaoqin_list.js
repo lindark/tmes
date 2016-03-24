@@ -72,8 +72,8 @@ jQuery(function($) {
 			{name:'xteam',label:"班组",width:100,editable: false,search:false,sortable:false},
 			{name:'xpost',label:"岗位",width:100,editable: false,search:false,sortable:false},
 			{name:'xgongwei',label:"工位",width:100,editable: false,search:false,sortable:false},
-			{name:'xstation',label:"模具组号",width:150,editable: false,search:false,sortable:false},
-			{name:'xworkscope',label:"工作范围",width:150,editable: false,search:false,sortable:false},
+			{name:'xworkscope',label:"模具组号",width:150,editable: false,search:false,sortable:false},
+			{name:'xstation',label:"工作范围",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkstate',index:'workstate',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
 			{name:'tardyHours',label:"异常小时数",width:100,editable: false,search:false,sortable:false},
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
@@ -206,6 +206,10 @@ jQuery(function($) {
 	//输入小时数是否合法--change事件
 	$("#input_hours").change(function(){
 		hours_event();
+	});
+	//导出Excel
+	$("#btn_outexcel").click(function(){
+		window.location.href="kaoqin!outexcel.action?sameTeamId="+$("#sameteamid").val();
 	});
 });
 

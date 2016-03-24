@@ -130,10 +130,15 @@ function post_event()
         yes:function(index,layero){//确定
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
         	var info = iframeWin.getName();
-        	$("#input_post").val(info.postid);
-        	$("#span_postname").text(info.postname);
-        	$("#span_workstation").text(info.station);
-        	layer.close(index);
+        	if(info!="baga")
+        	{
+        		$("#input_post").val(info.postid);
+            	$("#span_postname").text(info.postname);
+            	//$("#span_workstation").text(info.station);
+            	//获取对应的工位
+            	getstation(info.postid);
+            	layer.close(index);
+        	}
         	return false;
         },
         no:function(index)
@@ -304,4 +309,14 @@ function numchange_event()
 function return_event()
 {
 	window.location.href="admin!alllistry.action";
+}
+//获取工位
+function getstation(postid)
+{
+	$.post("admin!getstation.action?postid="+postid,function(data){
+		$("#sel_station option").remove();
+		$("#sel_station").append(data.message);
+		$("#sel_station").chosen();
+		$("#sel_station").trigger("chosen:updated");
+	},"json");
 }

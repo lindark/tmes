@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +16,16 @@ import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Post;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.HandOverService;
 import cc.jiuyi.service.KaoqinBrushCardRecordService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.WorkingBillService;
 
@@ -48,6 +53,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	private HandOverService handOverService;
 	@Resource
 	private WorkingBillService workingbillservice;
+	@Resource
+	private StationService stationService;
 
 	/**
 	 * jqGrid查询
@@ -281,8 +288,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
 		if(wblist!=null&&wblist.size()>0)
 		{
-			boolean flag=true;
-			for(int i=0;i<wblist.size()&&flag;i++)
+			for(int i=0;i<wblist.size();i++)
 			{
 				WorkingBill wb=wblist.get(i);
 				if(wb.getTeam()==null)
@@ -290,10 +296,6 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 					wb.setTeam(t);
 					wb.setModifyDate(new Date());
 					this.workingbillservice.update(wb);
-				}
-				else
-				{
-					flag=false;
 				}
 			}
 		}
@@ -312,10 +314,11 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			kq.setProductdate(procutdate);//生产日期
 			kq.setEmpid(a.getId());//员工主键ID
 			kq.setTardyHours(a.getTardyHours());//误工小时数
-			//技能名称
+			
 			if(p!=null)
 			{
-				kq.setPostname(p.getPostName());
+				kq.setPostname(p.getPostName());//岗位名称
+				kq.setPostCode(p.getPostCode());//岗位编码
 			}
 			else
 			{
@@ -324,6 +327,93 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			kq.setTeam(t);//班组
 			kq.setCreateDate(new Date());
 			kq.setModifyDate(new Date());
+			//新增保存：字段工号  联系电话  工位  模具组号  工作范围-编码  岗位编码  工位名称  模具组号名称  工作范围名称
+			//              
+			kq.setWorkCode(a.getWorkNumber());//工号
+			kq.setPhoneNum(a.getPhoneNo());//联系电话
+			//工位   工位名称
+			if(a.getStationids()!=null)
+			{
+				String []sids=a.getStationids().split(",");
+				String code="";
+				String name="";
+				for(int j=0;j<sids.length;j++)
+				{
+					Station s=this.stationService.get(sids[j]);
+					if(s!=null&&"N".equals(s.getIsDel()))
+					{
+						if(s.getCode()!=null)
+						{
+							code+=s.getCode()+",";
+						}
+						if(s.getName()!=null)
+						{
+							name+=s.getName()+",";
+						}
+					}
+				}
+				if(name.endsWith(","))
+				{
+					name=name.substring(0,name.length()-1);
+				}
+				if(code.endsWith(","))
+				{
+					code=code.substring(0,code.length()-1);
+				}
+				kq.setStationCode(code);//工位编码
+				kq.setStationName(name);//工位名称
+			}
+			//工作范围-编码   工作范围名称
+			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
+			if(list_up.size()>0)
+			{
+				String code="";
+				String name="";
+				for(int j=0;j<list_up.size();j++)
+				{
+					UnitdistributeProduct up=list_up.get(j);
+					if(up!=null&&"N".equals(up.getIsDel()))
+					{
+						if(up.getMaterialCode()!=null)
+						{
+							code+=up.getMaterialCode()+",";
+						}
+						if(up.getMaterialName()!=null)
+						{
+							name+=up.getMaterialName()+",";
+						}
+					}
+				}
+				if(code.endsWith(","))
+				{
+					code=code.substring(0,code.length()-1);
+				}
+				if(name.endsWith(","))
+				{
+					name=name.substring(0,name.length()-1);
+				}
+				kq.setWorkNum(code);//工作范围-编码
+				kq.setWorkName(name);//工作范围名称
+			}
+			//模具组号    模具组号名称
+			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
+			if(list_um.size()>0)
+			{
+				String code="";
+				for(int j=0;j<list_um.size();j++)
+				{
+					UnitdistributeModel um=list_um.get(j);
+					if(um!=null&&"N".equals(um.getIsDel())&&um.getStation()!=null)
+					{
+						code+=um.getStation()+",";
+					}
+				}
+				if(code.endsWith(","))
+				{
+					code=code.substring(0,code.length()-1);
+				}
+				kq.setModleNum(code);//模具组号
+			}
 			this.save(kq);
 			
 			/**员工下班*/

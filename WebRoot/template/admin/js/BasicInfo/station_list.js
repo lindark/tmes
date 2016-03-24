@@ -1,7 +1,6 @@
 jQuery(function($) {
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
-	var loginid=$("#loginid").val();
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
 		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
@@ -15,7 +14,9 @@ jQuery(function($) {
 				$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
 			}, 0);
 		}
-    });
+    })
+
+
 
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
@@ -45,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"admin!ajlistempqxn.action",
+		url:"station!ajlist.action",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -62,18 +63,14 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'workNumber',index:'workNumber',label:"工号",width:100, editable: false},
-			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
-			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
-			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
-			{name:'departName',index:'department.departName',label:"所在部门",width:100, editable: false},
-			{name:'xparentAdmin',index:'parentAdmin.name',label:"直接上级",width:100, editable: false},
-			{name:'xisJob',index:'isJob',label:"是否离职",width:100, editable: false}
+			{name:'code',index:'code',label:"工位编码",width:100,editable: true},
+			{name:'name',index:'name',label:"工位名称",width:100,editable: true},
+			{name:'xposts',index:'posts.postName',label:"岗位名称", width:100,search:true,editable: true},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'xisWork',index:'isWork',label:"是否启用",width:100,editable:true}
 		], 
-
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],
@@ -84,20 +81,20 @@ jQuery(function($) {
 		multiselect: true,
 		//multikey: "ctrlKey",
         multiboxonly: true,
-
+        gridComplete : function() {
+         },
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
-				styleCheckbox(table);
-				
+				styleCheckbox(table);				
 				updateActionIcons(table);
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
 		},
 
-		//editurl: "work_shop!delete.adction"//用它做标准删除动作
-		//caption: "员工信息"
+		editurl: "station!delete.action",//用它做标准删除动作
+		caption: "工位管理"
 
 		//,autowidth: true,
 //		,
@@ -141,27 +138,27 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			edit: false,
+			//edit: true,
 		    editfunc:function(rowId){
-			   // window.location.href="work_shop!edit.action?id="+rowId;
+			    window.location.href="station!edit.action?id="+rowId;
 		    },
-			//editicon : 'ace-icon fa fa-pencil blue',
-			add: false,
+			editicon : 'ace-icon fa fa-pencil blue',
+			//add: true,
 			addfunc:function(){
-				//window.location.href="work_shop!add.action";
+				window.location.href="station!add.action";
 			},
-			//addicon : 'ace-icon fa fa-plus-circle purple',
-			del: false,
-			delfunc:function(rowId){
-				//window.location.href="work_shop!delete.action?id="+rowId;
-			},
-			//delicon : 'ace-icon fa fa-trash-o red',
+			addicon : 'ace-icon fa fa-plus-circle purple',
+			del: true,
+			/*delfunc:function(rowId){
+				window.location.href="team!delete.action?id="+rowId;
+			},*/
+			delicon : 'ace-icon fa fa-trash-o red',
 			search: false,
-			//searchicon : 'ace-icon fa fa-search orange',
-			refresh: false,
-			//refreshicon : 'ace-icon fa fa-refresh green',
-			view: false,
-			//viewicon : 'ace-icon fa fa-search-plus grey',
+			searchicon : 'ace-icon fa fa-search orange',
+			refresh: true,
+			refreshicon : 'ace-icon fa fa-refresh green',
+			view: true,
+			viewicon : 'ace-icon fa fa-search-plus grey',
 		},
 		{
 			//edit record form
@@ -216,10 +213,8 @@ jQuery(function($) {
 			}
 			,
 			multipleSearch: true,
-			/**
-			multipleGroup:true,
+			multipleGroup:false,
 			showQuery: true
-			*/
 		},
 		{
 			//view record form
@@ -229,20 +224,10 @@ jQuery(function($) {
 				form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
 			}
 		}
-	)
+	);
+	
+	//搜索按钮
+	$("#searchButton").click(function(){
+		$("#searchform").submit();
+	});
 });
-
-//给状态加样式
-function addstyle(rowId, val, rowObject, cm, rdata)
-{
-	//已上班，代班，出差
-	if(rowObject.workstate=="2"||rowObject.workstate=="5"||rowObject.workstate=="6")
-	{
-		return "style='color:#008B00;font-weight:bold;'";
-	}
-	else
-	{
-		//未上班，旷工，请假
-		return "style='color:#b22;font-weight:bold;'";
-	}
-}

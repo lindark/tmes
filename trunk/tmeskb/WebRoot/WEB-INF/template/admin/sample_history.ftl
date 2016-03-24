@@ -94,6 +94,7 @@
 							                <option value=""></option>
 							                <option value="1">未确认</option>
 							                <option value="2">已确认</option>
+							                 <option value="3">已撤销</option>
 						               </select>
 									  </div>
 									  

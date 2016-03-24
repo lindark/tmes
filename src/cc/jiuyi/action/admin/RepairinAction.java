@@ -125,6 +125,14 @@ public class RepairinAction extends BaseAdminAction {
 						.toString();
 				map.put("EX_MBLNR", EX_MBLNR);
 			}
+			if (obj.get("start") != null) {
+				String start = obj.getString("start").toString();
+				map.put("start", start);
+			}
+			if (obj.get("end") != null) {
+				String end = obj.getString("end").toString();
+				map.put("end", end);
+			}
 			if (obj.get("state") != null) {
 				String state = obj.getString("state")
 						.toString();

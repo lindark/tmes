@@ -127,8 +127,11 @@ public class FactoryUnitAction extends BaseAdminAction {
 		{
 			pager=new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		if (pager.is_search() == true && filters != null)
 		{// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

@@ -57,6 +57,7 @@ public class DeptpickAction extends BaseAdminAction {
 	private List<WorkingBill> workingBillList;
 	private List<Deptpick> deptpickList;
 	private List<Locationonside> locationonsideList;
+	private List<Dict> dictList;
 	private String info;
 	private String cardnumber;
 	private Deptpick deptpick;
@@ -259,6 +260,7 @@ public class DeptpickAction extends BaseAdminAction {
 		for (int i = 0; i < deptpickList.size(); i++) {
 			Deptpick deptpick = (Deptpick) deptpickList.get(i);
 			deptpick.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,"deptPickState", deptpick.getState()));
+			deptpick.setXtype(ThinkWayUtil.getDictValueByDictKey(dictService,"bmllltlx", deptpick.getType()));
 			if(deptpick.getComfirmUser() != null)
 				deptpick.setXcomfirmUser(deptpick.getComfirmUser().getName());
 			if(deptpick.getCreateUser() != null)
@@ -638,6 +640,15 @@ public class DeptpickAction extends BaseAdminAction {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<Dict> getDictList() {
+		
+		return dictService.getState("bmllltlx");
+	}
+
+	public void setDictList(List<Dict> dictList) {
+		this.dictList = dictList;
 	}
 
 	

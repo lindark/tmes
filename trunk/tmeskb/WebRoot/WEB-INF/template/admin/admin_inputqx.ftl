@@ -101,7 +101,7 @@ body{background:#fff;}
 						<!-- 
 						<input id="input_username" type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true, username: true, remote: 'admin!checkUsername.action', minlength: 2, maxlength: 20, messages: {remote: '登录名已存在,请重新输入!'}}" title="登录名只允许包含中文、英文、数字和下划线">
 						 -->
-						<input id="input_username" type="text" name="admin.username" id="form-field-1" placeholder="登录名" class="col-xs-10 col-sm-5 formText {required: true,username: true, minlength: 2, maxlength: 20}" title="登录名只允许包含中文、英文、数字和下划线">
+						<input id="input_username" type="text" name="admin.username" id="form-field-1" placeholder="登录名" value="${(admin.username)! }" class="col-xs-10 col-sm-5 formText {required: true,username: true, minlength: 2, maxlength: 20}" title="登录名只允许包含中文、英文、数字和下划线">
 						<span id="span_username" style="color:red;font-family: 微软雅黑;font-size:10px;"></span>
 						<label class="requireField">*</label>
 					</div>

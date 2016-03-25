@@ -80,7 +80,7 @@ jQuery(function($) {
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 		], 
 		viewrecords : true,
-		rowNum:500,
+		rowNum:10000000,
 		//rowList:[30],
 		pager : pager_selector,
 		altRows: true,

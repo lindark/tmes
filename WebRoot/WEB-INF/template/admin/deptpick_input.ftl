@@ -132,15 +132,17 @@ inupt.stockMout{
 											</div>
 										</div>
 										<div class="row">
-											<#if isAdd??>
 												<div class="col-md-3">
 													类型:
 													<select class="select" name="type" id="type">
 														<option value="">请选择...</option>
-														<option value="deliver">发料</option>
-														<option value="rejected">退料</option>
+														<#list dictList as list>
+															<option value="${(list.dictkey)! }" <#if isEdit && deptpick.type ==list.dictkey> selected </#if> >${(list.dictvalue)! }</option>
+														</#list>
 													</select>
 												</div>
+											<#if isAdd??>
+												
 												<div class="col-md-3">
 													物料编码:
 													<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">

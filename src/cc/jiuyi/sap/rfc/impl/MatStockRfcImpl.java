@@ -19,11 +19,11 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class MatStockRfcImpl extends BaserfcServiceImpl implements MatStockRfc{
 
 	@Override
-	public List<HashMap<String, String>> getMatStockList(List<HashMap<String, String>> list) throws IOException,CustomerException {
+	public List<HashMap<String, String>> getMatStockList(String im_type,List<HashMap<String, String>> list) throws IOException,CustomerException {
 		super.setProperty("matstock");//获取函数名称
 		/*****输入参数*****/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("IM_TYPE","" );//是否查看仓位库存
+		parameter.put("IM_TYPE",im_type );//是否查看仓位库存
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();

@@ -518,13 +518,9 @@ public class KaoqinAction extends BaseAdminAction
 	 */
 	public String outexcel()
 	{
-		try {
-			pager=new Pager();
-			pager.setOrderType(OrderType.desc);//倒序
-			pager.setOrderBy("modifyDate");//以创建日期排序
-			pager = this.adminService.getEmpAjlist(pager,sameTeamId);//查询本班组的员工及在本班代班的员工
-			@SuppressWarnings("unchecked")
-			List<Admin>list1=pager.getList();
+		try
+		{
+			List<Admin>list1=this.adminService.getByTeamId(sameTeamId);//查询本班组的员工及在本班代班的员工
 			List<Admin>list2=getNewAdminList(list1);
 			List<String> header = new ArrayList<String>();
 			header.add("员工卡号");header.add("姓名");header.add("工号");header.add("手机号");

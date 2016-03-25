@@ -222,7 +222,7 @@ public class StationAction extends BaseAdminAction
 		Station s=this.stationService.getByCode(xcode);//根据编码查询
 		if(s!=null)
 		{
-			if(xid!=null&&xid.equals(s.getCode()))
+			if(xid!=null&&xid.equals(s.getId()))
 			{
 				return true;
 			}

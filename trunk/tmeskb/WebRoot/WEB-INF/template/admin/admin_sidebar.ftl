@@ -714,9 +714,9 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="locat_hand_over_header!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
-									线边仓交接记录
+									仓位库存交接记录
 								</a>
 
 								<b class="arrow"></b>

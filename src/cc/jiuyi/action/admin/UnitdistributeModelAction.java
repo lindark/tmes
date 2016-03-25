@@ -115,7 +115,9 @@ public class UnitdistributeModelAction extends BaseAdminAction {
 		for (int i = 0; i < unitList.size(); i++)
 		{
 			UnitdistributeModel unit = (UnitdistributeModel) unitList.get(i);
-			unit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "unitdistributeModelState", unit.getState()));					
+			unit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "unitdistributeModelState", unit.getState()));	
+			unit.setUnitCode(unit.getFactoryunit().getFactoryUnitCode());
+			unit.setUnitName(unit.getFactoryunit().getFactoryUnitName());
 			lst.add(unit);
 		}
 		pager.setList(lst);

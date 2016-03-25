@@ -444,7 +444,7 @@ jQuery(function() {
 				error.insertAfter(element).fadeOut(300).fadeIn(300);
 			}
 		},
-		submitHandler: function(form) {
+		submitHandler: function(form){
 			$(form).find(":submit").attr("disabled", true);
 			form.submit();
 		}

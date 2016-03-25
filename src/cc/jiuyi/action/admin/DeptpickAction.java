@@ -65,12 +65,14 @@ public class DeptpickAction extends BaseAdminAction {
 	private String departid;
 	private String costcenter;
 	private String movetype;
+	private String movetype1;
 	private String departmentName;//部门描述
 	private String ex_mblnr;
 	private String materialCode;
 	private String state;
 	private String start;
 	private String end;
+	private String type;
 	
 	@Resource
 	private DeptpickService deptpickservice;
@@ -349,6 +351,18 @@ public class DeptpickAction extends BaseAdminAction {
 			if(admin.getProductDate() == null || admin.getShift() == null){
 				return ajaxJsonErrorMessage("提交人未绑定生产日期或班次,不能提交!");
 			}
+			if(ThinkWayUtil.null2String(type).equals("")){
+				return ajaxJsonErrorMessage("类型必须填写!");
+			}else if(ThinkWayUtil.null2String(type).equals("deliver")){//发料
+				if(ThinkWayUtil.null2String(movetype).equals("")){
+					return ajaxJsonErrorMessage("发料移动类型不存在");
+				}
+			}else if(ThinkWayUtil.null2String(type).equals("rejected")){//退料
+				if(ThinkWayUtil.null2String(movetype1).equals("")){
+					return ajaxJsonErrorMessage("退料移动类型不存在");
+				}
+			}
+			
 			
 			for(int i=0;i<deptpickList.size();i++){
 				Deptpick deptpick = deptpickList.get(i);
@@ -369,7 +383,9 @@ public class DeptpickAction extends BaseAdminAction {
 				deptpick.setShift(admin.getShift());
 				deptpick.setCostcenter(costcenter);
 				deptpick.setMovetype(movetype);
+				deptpick.setMovetype1(movetype1);
 				deptpick.setState("notapproval");
+				deptpick.setType(type);
 				deptpick.setDepartmentName(departmentName);
 				deptpick.setDepartid(departid);
 				deptpick.setCreateUser(admin);//提交人
@@ -606,6 +622,22 @@ public class DeptpickAction extends BaseAdminAction {
 
 	public void setEnd(String end) {
 		this.end = end;
+	}
+
+	public String getMovetype1() {
+		return movetype1;
+	}
+
+	public void setMovetype1(String movetype1) {
+		this.movetype1 = movetype1;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	

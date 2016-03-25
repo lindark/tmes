@@ -19,18 +19,18 @@ import net.sf.json.util.CycleDetectionStrategy;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.LocatHandOver;
 import cc.jiuyi.entity.LocatHandOverHeader;
-import cc.jiuyi.entity.ReturnProduct;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.LocatHandOverHeaderService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 /**
  * 线边仓交接 主表
@@ -41,7 +41,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -6680285054015936531L;
 	private String loginid;
-	private String lgpla;
+	private String lgpla;		//仓位
 	private String infoId;
 	private String infoName;
 	private String number;
@@ -49,6 +49,12 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	private List<HashMap<String, String>> locasideListMap;
 	private List<LocatHandOver> locatHandOverList;
 	private LocatHandOverHeader locatHandOverHeader;
+	
+	private String locationCode;// 库存地点
+	private String state;//状态
+	private String end;		
+	private String start;
+	
 	
 	
 	@Resource
@@ -63,10 +69,17 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	private DictService dictService;
 	
 	
-	
 	public String list(){
 		return LIST;
 	}
+	
+	
+	
+	public String history() {
+		return "history";
+	}
+	
+	
 	/**
 	 * ajax 列表
 	 * 
@@ -104,6 +117,153 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	
+	
+	
+	/**
+	 * ajax 列表
+	 * 
+	 * @return
+	 */
+	public String historylist() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件,复杂查询
+			if (!filters.equals("")) {
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String, Class<jqGridSearchDetailTo>> m = new HashMap<String, Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+		}
+		
+		
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("locationCode") != null) {
+				locationCode = obj.getString("locationCode").toString();				
+				map.put("locationCode", locationCode);				
+			}
+			if (obj.get("lgpla") != null) {
+				lgpla = obj.getString("lgpla")
+						.toString();				
+				map.put("lgpla", lgpla);
+				
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				start = obj.get("start").toString();
+				end = obj.get("end").toString();			
+				map.put("start", start);
+				map.put("end", end);
+				
+			}
+			if (obj.get("state") != null) {
+				state = obj.getString("state").toString();
+				map.put("state", state);
+				
+			}			
+		}
+		
+		
+		pager = locatHandOverHeaderService.historyjqGrid(pager, map);
+		List<LocatHandOver> locatHandOverList = pager.getList();
+		//System.out.println("结果："+pollingtestList.size());
+		List<LocatHandOver> lst = new ArrayList<LocatHandOver>();
+		for (int i = 0; i < locatHandOverList.size(); i++) {
+			LocatHandOver locatHandOver = (LocatHandOver) locatHandOverList.get(i);
+			// 状态描述
+			locatHandOver.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "handOverState", locatHandOver.getLocatHandOverHeader().getState()));			
+			locatHandOver.setState(locatHandOver.getLocatHandOverHeader().getState());
+			lst.add(locatHandOver);
+		}
+		pager.setList(lst);		
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig
+				.setExcludes(ThinkWayUtil.getExcludeFields(LocatHandOver.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+
+	}
+
+	
+	
+	
+	
+	// Excel导出 @author Reece 2016/3/15
+		public String excelexport() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			
+			map.put("lgpla", lgpla);
+			map.put("locationCode", locationCode);
+			map.put("state", state);			
+			map.put("start", start);
+			map.put("end", end);
+			
+
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+			header.add("库存地点");
+			header.add("仓位");
+			header.add("物料编码");
+			header.add("物料描述");
+			header.add("批次");
+			header.add("库存数量");
+			header.add("创建时间");
+			header.add("状态");
+
+			List<Object[]> workList = locatHandOverHeaderService.historyExcelExport(map);
+			for (int i = 0; i < workList.size(); i++) {
+				Object[] obj = workList.get(i);
+				LocatHandOver locatHandOver = (LocatHandOver) obj[0];//Pollingtest
+	        	LocatHandOverHeader locatHandOverHeader = (LocatHandOverHeader)obj[1];//workingBill	        	        	
+	        	
+				Object[] bodyval = {
+						locatHandOver.getLocationCode() == null ? "" : locatHandOver.getLocationCode(),
+						locatHandOver.getLgpla() == null ? "" : locatHandOver.getLgpla(),
+						locatHandOver.getMaterialCode() == null ? "" : locatHandOver.getMaterialCode(),
+						locatHandOver.getMaterialName() == null ? "" : locatHandOver.getMaterialName(),
+						locatHandOver.getCharg() == null ? "" : locatHandOver.getCharg(),					
+						locatHandOver.getAmount() == null ? "" : locatHandOver.getAmount(),						
+						locatHandOver.getCreateDate() == null ? "" : locatHandOver.getCreateDate(),						
+						ThinkWayUtil.getDictValueByDictKey(
+										dictService, "handOverState", locatHandOverHeader.getState()),						
+						};
+				body.add(bodyval);
+			}
+
+			try {
+				String fileName = "仓位库存交接记录表" + ".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("仓位库存交接记录表", header, body, getResponse()
+						.getOutputStream());
+				getResponse().getOutputStream().flush();
+				getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 添加
 	 * @return
@@ -252,6 +412,54 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	}
 	public void setLocatHandOverHeader(LocatHandOverHeader locatHandOverHeader) {
 		this.locatHandOverHeader = locatHandOverHeader;
+	}
+
+
+
+	public String getLocationCode() {
+		return locationCode;
+	}
+
+
+
+	public void setLocationCode(String locationCode) {
+		this.locationCode = locationCode;
+	}
+
+
+
+	public String getState() {
+		return state;
+	}
+
+
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+
+
+	public String getEnd() {
+		return end;
+	}
+
+
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+
+
+	public String getStart() {
+		return start;
+	}
+
+
+
+	public void setStart(String start) {
+		this.start = start;
 	}
 	
 }

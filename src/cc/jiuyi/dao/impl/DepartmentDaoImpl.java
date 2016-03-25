@@ -80,6 +80,7 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department, String> implement
 	public Pager getAllDept(Pager pager,List<String>list_str)
 	{
 		DetachedCriteria detachedCriteria=DetachedCriteria.forClass(Department.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
 		if(list_str.size()>0)
 		{
 			detachedCriteria.add(Restrictions.in("id", list_str));

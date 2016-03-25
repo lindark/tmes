@@ -100,9 +100,9 @@ body {
 														name="unitdistributeModel.unitName" id="unitNa" value=""
 														class="formText {required: true}" />
 														<input type="hidden"
-														name="unitdistributeModel.unitCode" id="unitNo" value=""
+														name="unitdistributeModel.factoryunit.id" id="unitNo" value=""
 														class="formText {required: true}" /> <#else>
-													${(unitdistributeModel.unitName)!} </#if>
+													${(unitdistributeModel.factoryunit.factoryUnitName)!} </#if>
 												</div>
 											</div> 
 											
@@ -200,7 +200,7 @@ $(function() {
 		var id=work.split(",");
 		$("#unitName").text(id[1]);
 		$("#unitNa").val(id[1]);//单元名称
-		$("#unitNo").val(id[2]);
+		$("#unitNo").val(id[0]);
 		layer.close(index); 
 	});
 }

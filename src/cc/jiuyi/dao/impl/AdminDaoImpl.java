@@ -84,7 +84,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin>getByTeamId(String tid)
 	{
 		//String hql="from Admin a inner join fetch a.department b inner join fetch b.team c where c.id=? or a.isdaiban=? order by a.modifyDate desc";
-		String hql="from Admin where team.id=? or isdaiban=? order by modifyDate desc";
+		String hql="from Admin where (team.id=? or isdaiban=?) and isDel='N' and isDelete='N' order by modifyDate desc";
 		return this.getSession().createQuery(hql).setParameter(0, tid).setParameter(1, tid).list();
 	}
 

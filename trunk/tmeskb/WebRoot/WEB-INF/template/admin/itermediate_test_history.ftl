@@ -111,6 +111,7 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group">
 									<label class="col-sm-1 col-md-offset-1"
 										style="text-align:right">创建人:</label>
 									<div class="col-sm-4">
@@ -118,7 +119,7 @@
 											class="input input-sm form-control" value=""
 											id="form-field-icon-1">
 									</div>
-									<div class="form-group">
+									
 										<label class="col-sm-1 col-md-offset-1"
 											style="text-align:right">确认人:</label>
 										<div class="col-sm-4">

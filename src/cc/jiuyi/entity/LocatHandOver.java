@@ -3,6 +3,7 @@ package cc.jiuyi.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * 实体类——线边仓交接 从表
@@ -26,6 +27,12 @@ public class LocatHandOver extends BaseEntity{
 	private LocatHandOverHeader locatHandOverHeader;//线边仓交接 主表
 	
 	
+	/**
+	 * 假字段
+	 * @return
+	 */
+	private String state;
+	private String stateRemark;
 	
 	
 	
@@ -93,5 +100,22 @@ public class LocatHandOver extends BaseEntity{
 	}
 	
 	
+	@Transient	
+	public String getStateRemark() {
+		return stateRemark;
+	}
+	public void setStateRemark(String stateRemark) {
+		this.stateRemark = stateRemark;
+	}
+	
+	@Transient	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+
 	
 }

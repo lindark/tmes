@@ -140,6 +140,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String workerGrade;//操作等级工
 	private String education;//最高学历
 	private String isDelete;//是不删除
+	private String nowState;//当前状态
 	
 	//假字段
 	private String xdeptcode;//部门编码
@@ -1312,4 +1313,15 @@ public class Admin extends BaseEntity implements UserDetails {
 		}
 		this.isDelete = isDelete;
 	}
+
+	public String getNowState()
+	{
+		return nowState;
+	}
+
+	public void setNowState(String nowState)
+	{
+		this.nowState = nowState;
+	}
+	
 }

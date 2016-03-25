@@ -1,4 +1,4 @@
-var iscansub="N";
+var iscansub="Y";
 $(function(){
 	//页面右上角点击登录人事件
 	login_event();

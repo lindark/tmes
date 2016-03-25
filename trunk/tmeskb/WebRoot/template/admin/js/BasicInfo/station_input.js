@@ -1,4 +1,4 @@
-var iscansub="N";
+var iscansub="Y";
 $(function(){
 	//编码change事件
 	$("#input_code").change(function(){

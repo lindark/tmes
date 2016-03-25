@@ -4,8 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  * 实体类——线边仓交接 主表
@@ -124,6 +124,8 @@ public class LocatHandOverHeader extends BaseEntity {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	@Transient
 	public String getXstate() {
 		return Xstate;
 	}

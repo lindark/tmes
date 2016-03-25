@@ -70,7 +70,7 @@ inupt.stockMout{
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-							<form id="inputForm" name="inputForm" class="validate" action="" method="post">
+							<form id="inputForm" name="inputForm" class="validate" action="deptpick!add.action" method="post">
 								<!-- <div class="site">
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
@@ -110,25 +110,25 @@ inupt.stockMout{
 												<a href="javascript:void(0)" id="deptclick">
 													 <img class="img_addbug" title="部门选择" alt="部门选择" style="cursor:pointer" src="/template/shop/images/add_bug.gif">
 												 </a>
-												<input type="hidden" id="costcenter" name="costcenter" value="${(deptpick.costcenter)! }"/>
-												<span id="costcentertext" style="color:red">${(deptpick.costcenter)! }</span>
+												<input type="hidden" id="costcenter" name="costcenter" value="<#if isAdd??>${(costcenter)!} <#else> ${(deptpick.costcenter)! } </#if>"/>
+												<span id="costcentertext" style="color:red"><#if isAdd??>${(costcenter)!} <#else> ${(deptpick.costcenter)! } </#if></span>
 											</div>
 											<div class="col-md-3">
 												接收部门:
 												<input type="hidden" id="departid" name="departid" value="${(deptpick.departid)! }"/>
-												<input type="hidden" id="departmentName" name="departmentName" value="${(deptpick.departmentName)! }"/>
-												<span id="departmentNametext" style="color:red">${(deptpick.departmentName)! }</span>
+												<input type="hidden" id="departmentName" name="departmentName" value="<#if isAdd??>${(departmentName)! } <#else> ${(deptpick.departmentName)! } </#if>"/>
+												<span id="departmentNametext" style="color:red"><#if isAdd??>${(departmentName)! } <#else> ${(deptpick.departmentName)! } </#if></span>
 												
 											</div>
 											<div class="col-md-3">
 												发料移动类型:
-												<input type="hidden" id="movetype" name="movetype" value="${(deptpick.movetype)! }"/>
-												<span id="movetypetext" style="color:red">${(deptpick.movetype)! }</span>
+												<input type="hidden" id="movetype" name="movetype" value="<#if isAdd??>${(movetype)! } <#else> ${(deptpick.movetype)! } </#if>"/>
+												<span id="movetypetext" style="color:red"><#if isAdd??>${(movetype)! } <#else> ${(deptpick.movetype)! } </#if></span>
 											</div>
 											<div class="col-md-3">
 												退料移动类型:
-												<input type="hidden" id="movetype1" name="movetype1" value="${(deptpick.movetype1)! }"/>
-												<span id="movetypetext1" style="color:red">${(deptpick.movetype1)! }</span>
+												<input type="hidden" id="movetype1" name="movetype1" value="<#if isAdd??>${(movetype1)! } <#else> ${(deptpick.movetype1)! } </#if>"/>
+												<span id="movetypetext1" style="color:red"><#if isAdd??>${(movetype1)! } <#else> ${(deptpick.movetype1)! } </#if></span>
 											</div>
 										</div>
 										<div class="row">
@@ -137,7 +137,7 @@ inupt.stockMout{
 													<select class="select" name="type" id="type">
 														<option value="">请选择...</option>
 														<#list dictList as list>
-															<option value="${(list.dictkey)! }" <#if isEdit && deptpick.type ==list.dictkey> selected </#if> >${(list.dictvalue)! }</option>
+															<option value="${(list.dictkey)! }" <#if isAdd?? && type ==list.dictkey> selected </#if> <#if isEdit?? && deptpick.type ==list.dictkey> selected </#if> >${(list.dictvalue)! }</option>
 														</#list>
 													</select>
 												</div>
@@ -145,11 +145,11 @@ inupt.stockMout{
 												
 												<div class="col-md-3">
 													物料编码:
-													<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">
+													<input type="text" name="info" id="in_seartch_1"class="input input-sm" value="${info}">
 												</div>
 												<div class="col-md-3">
 													物料描述:
-													<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >
+													<input type="text" name="desp" id="in_seartch_2"class="input input-sm" value="${desp}" >
 												</div>
 												<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
 													<i class="ace-icon fa fa-filter blue"></i>
@@ -329,9 +329,10 @@ $(function(){
 		window.history.back();
 	});
 	$("#search_btn").click(function(){
-		var maco = $("#in_seartch_1").val();
-		var macodesp = $("#in_seartch_2").val();
-		window.location.href="deptpick!add.action?info="+maco+"&desp="+macodesp;
+		//var maco = $("#in_seartch_1").val();
+		//var macodesp = $("#in_seartch_2").val();
+		//window.location.href="deptpick!add.action?info="+maco+"&desp="+macodesp;
+		$("#inputForm").submit();
 	});
 });
 </script>

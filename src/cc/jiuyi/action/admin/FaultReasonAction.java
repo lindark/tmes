@@ -80,8 +80,11 @@ public class FaultReasonAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();

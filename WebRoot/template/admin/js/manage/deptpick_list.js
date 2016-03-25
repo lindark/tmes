@@ -43,6 +43,8 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xcomfirmUser',index:'comfirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'productDate',index:'productDate',label:"生产日期",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'shiftx',index:'shift',label:"班次",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName',search:false,label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialBatch',index:'materialBatch',search:false,label:"批次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},

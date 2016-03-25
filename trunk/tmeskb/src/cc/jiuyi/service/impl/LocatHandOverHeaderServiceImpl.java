@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -66,4 +67,13 @@ public class LocatHandOverHeaderServiceImpl extends BaseServiceImpl<LocatHandOve
 		}
 	}
 	
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return locatHandOverHeaderDao.historyjqGrid(pager, map);
+	}
+	
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		return locatHandOverHeaderDao.historyExcelExport(map);
+	}
 }

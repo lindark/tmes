@@ -192,7 +192,7 @@ body{background:#fff;}
 						<!-- <span id="span_workstation">${(admin.post.station)! }</span> -->
 						<select id="sel_station" name="strStationIds" class="chosen-select work" multiple="" style="width:290px;" data-placeholder="请选择...">
 					    	<#if list_station??>
-					    		<#list list_station as list>
+					    		<#list dictList as list>
 					    			<option value="${(list.id)!}">${(list.code)!}--${(list.name)!}</option>
 					    		</#list>
 					    	</#if>

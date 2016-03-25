@@ -65,8 +65,8 @@ jQuery(function($) {
 	    },
 		colNames:['单元编码','单元名称','模具组号','状态'],
 		colModel:[
-			{name:'unitCode',index:'unitCode',sortable:true,editable: true},
-			{name:'unitName',index:'unitName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'unitCode',index:'factoryunit.factoryUnitCode',sortable:true,editable: true},
+			{name:'unitName',index:'factoryunit.factoryUnitName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'station',index:'station', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=unitdistributeModelState"}}
 			 

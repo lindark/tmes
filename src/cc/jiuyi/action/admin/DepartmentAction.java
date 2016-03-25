@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FactoryUnit;
@@ -268,6 +269,19 @@ public class DepartmentAction extends BaseAdminAction {
 		{
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
+		}
+		if(pager.is_search()==true && filters != null&&!"".equals(filters))
+		{
+			if(!filters.equals(""))
+			{
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map<String,Class<jqGridSearchDetailTo>> m = new HashMap<String,Class<jqGridSearchDetailTo>>();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
 		}
 		pager=this.deptservice.getAllDept(pager,deptid);
 		@SuppressWarnings("unchecked")

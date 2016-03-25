@@ -479,8 +479,12 @@ public class EndProductAction extends BaseAdminAction {
 	// 成品入库历史
 	public String historylist(){
 		try {
-			if (pager == null) {
-				pager = new Pager();
+			if(pager==null)
+			{
+				pager=new Pager();
+			}
+			if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+			{
 				pager.setOrderType(OrderType.desc);
 				pager.setOrderBy("modifyDate");
 			}

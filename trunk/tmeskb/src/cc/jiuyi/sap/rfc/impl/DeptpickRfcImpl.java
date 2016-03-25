@@ -66,7 +66,12 @@ public class DeptpickRfcImpl extends BaserfcServiceImpl implements DeptpickRfc{
 			item2.put("ZSFSL", ""+deptpick.getStockMount());//数量
 			//item2.put("ITEM_TEXT", deptpick.get);//项目文本 选填
 			item2.put("XUH", deptpick.getId());//序号 必填
-			item2.put("MOVE_TYPE", deptpick.getMovetype());
+			if(ThinkWayUtil.null2String(deptpick.getType()).equals("deliver")){//发料
+				item2.put("MOVE_TYPE", deptpick.getMovetype());
+			}else if(ThinkWayUtil.null2String(deptpick.getType()).equals("rejected")){
+				item2.put("MOVE_TYPE", deptpick.getMovetype1());
+			}
+			
 			item2.put("CHARG", deptpick.getMaterialBatch());
 			//item2.put("ORDERID", rp.getRepair().getWorkingbill().getAufnr());
 			arrList2.add(item2);

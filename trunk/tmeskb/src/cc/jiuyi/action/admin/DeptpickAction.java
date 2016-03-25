@@ -261,6 +261,7 @@ public class DeptpickAction extends BaseAdminAction {
 			Deptpick deptpick = (Deptpick) deptpickList.get(i);
 			deptpick.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,"deptPickState", deptpick.getState()));
 			deptpick.setXtype(ThinkWayUtil.getDictValueByDictKey(dictService,"bmllltlx", deptpick.getType()));
+			deptpick.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", deptpick.getShift()));
 			if(deptpick.getComfirmUser() != null)
 				deptpick.setXcomfirmUser(deptpick.getComfirmUser().getName());
 			if(deptpick.getCreateUser() != null)

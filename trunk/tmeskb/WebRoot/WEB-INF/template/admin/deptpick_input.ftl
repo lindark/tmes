@@ -125,16 +125,29 @@ inupt.stockMout{
 												<input type="hidden" id="movetype" name="movetype" value="${(deptpick.movetype)! }"/>
 												<span id="movetypetext" style="color:red">${(deptpick.movetype)! }</span>
 											</div>
+											<div class="col-md-3">
+												退料移动类型:
+												<input type="hidden" id="movetype1" name="movetype1" value="${(deptpick.movetype1)! }"/>
+												<span id="movetypetext1" style="color:red">${(deptpick.movetype1)! }</span>
+											</div>
 										</div>
 										<div class="row">
 											<#if isAdd??>
 												<div class="col-md-3">
+													类型:
+													<select class="select" name="type" id="type">
+														<option value="">请选择...</option>
+														<option value="deliver">发料</option>
+														<option value="rejected">退料</option>
+													</select>
+												</div>
+												<div class="col-md-3">
 													物料编码:
-													<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">&nbsp;&nbsp;&nbsp;
+													<input type="text" name="materialCode" id="in_seartch_1"class="input input-sm" value="${info}">
 												</div>
 												<div class="col-md-3">
 													物料描述:
-													<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >&nbsp;&nbsp;&nbsp;
+													<input type="text" name="materialDesp" id="in_seartch_2"class="input input-sm" value="${desp}" >
 												</div>
 												<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
 													<i class="ace-icon fa fa-filter blue"></i>
@@ -260,6 +273,8 @@ $(function(){
 	        	$("#costcenter").val(depart.costcenter);
 	        	$("#movetype").val(depart.movetype);
 	        	$("#movetypetext").text(depart.movetype);
+	        	$("#movetype1").val(depart.movetype1);
+	        	$("#movetypetext1").text(depart.movetype1);
 	        	$("#costcentertext").text(depart.costcenter);
 	        	layer.close(index);
 	        	return false;
@@ -278,8 +293,14 @@ $(function(){
 	//刷卡提交
 	$subm.click(function(){
 		var costcenter = $("#costcenter").val();
+		var type = $("#type").val();
 		if(costcenter == ""){
-			layer.alert("请填写成本中心");
+			//layer.alert("请填写成本中心");
+			$.message("error","请填写成本中心");
+			return false;
+		}
+		if(type == ""){
+			$.message("error","请选择类型");
 			return false;
 		}
 		

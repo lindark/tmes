@@ -44,6 +44,7 @@ public class Deptpick extends BaseEntity {
 	private String xstate;//状态 描述 假字段
 	private String xcreateUser;//提交人
 	private String xcomfirmUser;//审批人
+	private String xtype;//类型
 	
 	
 	
@@ -207,6 +208,13 @@ public class Deptpick extends BaseEntity {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	@Transient
+	public String getXtype() {
+		return xtype;
+	}
+	public void setXtype(String xtype) {
+		this.xtype = xtype;
 	}
 	
 	

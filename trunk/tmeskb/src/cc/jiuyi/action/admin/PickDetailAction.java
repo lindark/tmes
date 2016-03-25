@@ -110,6 +110,13 @@ public class PickDetailAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		
+		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String im_type = "";
+		if(!ThinkWayUtil.null2String(lgpla).equals(""))
+			im_type = "X";
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
@@ -120,10 +127,12 @@ public class PickDetailAction extends BaseAdminAction {
 				HashMap<String, String> map = new HashMap<String, String>();
 				Bom bom = bomList.get(i);
 				map.put("matnr", bom.getMaterialCode());
-				map.put("lgort", admin.getTeam().getFactoryUnit().getWarehouse());		
+				map.put("lgort", lgort);//库存地点
+				map.put("lgpla", lgpla);//仓位
+				map.put("werks", werks);
 				list.add(map);
 			}			
-			List<HashMap<String, String>> data = matstockrfc.getMatStockList(list);
+			List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
 			for (int i = 0; i < data.size(); i++) {
 				String matnr = data.get(i).get("matnr");
 				String labst = data.get(i).get("labst");
@@ -234,6 +243,14 @@ public class PickDetailAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		String aufnr = workingbill.getAufnr();
+		
+		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String im_type = "";
+		if(!ThinkWayUtil.null2String(lgpla).equals(""))
+			im_type = "X";
+		
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		/** 调SAP接口取库存数量 **/
@@ -243,10 +260,12 @@ public class PickDetailAction extends BaseAdminAction {
 				HashMap<String, String> map = new HashMap<String, String>();
 				Bom bom = bomList.get(i);
 				map.put("matnr", bom.getMaterialCode());
-				map.put("lgort", admin.getTeam().getFactoryUnit().getWarehouse());		
+				map.put("lgort", lgort);//库存地点
+				map.put("lgpla", lgpla);//仓位
+				map.put("werks", werks);		
 				list.add(map);
 			}			
-			List<HashMap<String, String>> data = matstockrfc.getMatStockList(list);
+			List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
 			for (int j = 0; j < bomList.size(); j++) {
 				Bom bom = bomList.get(j);
 				String materialCode = bom.getMaterialCode();
@@ -319,6 +338,9 @@ public class PickDetailAction extends BaseAdminAction {
 		String workingBillCode = workingBill.getWorkingBillCode();
 		Admin admin = adminService.getByCardnum(cardnumber);
 		Admin admin1 = adminService.get(loginId);
+		String lgpla = admin1.getTeam().getFactoryUnit().getDelivery();//仓位
+		lgpla = ThinkWayUtil.null2String(lgpla);
+		
 		Pick pick = new Pick();
 //		pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 //		pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
@@ -345,12 +367,23 @@ public class PickDetailAction extends BaseAdminAction {
 			}*/
 			if (!"".equals(info) && !"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
 				flag = true;
+				
+				if("261".equals(info)){//领料
+					Double pickamount = Double.parseDouble(ThinkWayUtil.null2o(p.getPickAmount()));
+					Double stockamount = Double.parseDouble(ThinkWayUtil.null2o(p.getStockAmount()));
+					if(pickamount > stockamount){
+						return ajaxJsonErrorMessage("领用数量不能大于库存数量!");
+					}
+				}
+				
+				
 				p.setConfirmUser(admin);
 //				p.setMaterialCode("10490284");
 //				p.setCharg("15091901");
 //				p.setItem_text("文本");
 //				p.setOrderid("100116549");
 				p.setPickType(info);
+				p.setLgpla(lgpla);
 //				p.setCharg("15091901");//批号
 				p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
 				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
@@ -379,6 +412,8 @@ public class PickDetailAction extends BaseAdminAction {
 				List<Pick> list = new ArrayList<Pick>();
 				list.add(p);
 				admin = adminService.getByCardnum(cardnumber);
+				//Admin admin1 = adminService.get(loginId);
+				
 				pkList = pickDetailService.getPickDetail(pickId);
 				pick = pickDetailService.saveApproval1(pickDetailList,p);
 				List<PickDetail> pickdetailList =new ArrayList<PickDetail>(pick.getPickDetail());
@@ -438,6 +473,8 @@ public class PickDetailAction extends BaseAdminAction {
 			String workingBillCode = workingBill.getWorkingBillCode();
 			Admin admin = adminService.getByCardnum(cardnumber);
 			Admin admin1 = adminService.get(loginId);
+			String lgpla = admin1.getTeam().getFactoryUnit().getDelivery();//仓位
+			lgpla = ThinkWayUtil.null2String(lgpla);
 			Pick pick=new Pick();
 //			pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
 //			pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
@@ -470,6 +507,7 @@ public class PickDetailAction extends BaseAdminAction {
 //					p.setItem_text("文本");
 //					p.setOrderid("100116549");
 					p.setPickType(info);
+					p.setLgpla(lgpla);
 					p.setMaterialCode(p.getMaterialCode());//物料编码
 					p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
 					//System.out.println("项目文本:"+p.getItem_text());

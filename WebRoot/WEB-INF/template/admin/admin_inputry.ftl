@@ -257,6 +257,12 @@ body{background:#fff;}
 						</#if>
 					</div>
 				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name">当前状态</div>
+					<div class="profile-info-value">
+						<input type="text" name="admin.nowState" value="${(admin.nowState)! }" class="col-xs-10 col-sm-5">
+					</div>
+				</div>
 			</div>
 			<div class="buttonArea">
 				<#if isAdd??>

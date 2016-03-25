@@ -409,15 +409,19 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 									if(i==0){
 										if(um.getStation()!=null && !"".equals(um.getStation())){
 											mouldNumber = um.getStation();
+											i++;
 										}
 									}else{
 										if(um.getStation()!=null && !"".equals(um.getStation())){
 											mouldNumber = mouldNumber+";"+um.getStation();
+											i++;
 										}else{
 											if("".equals(mouldNumber)){
 												mouldNumber = um.getStation();
+												i++;
 											}else{
 												mouldNumber = mouldNumber+";"+um.getStation();
+												i++;
 											}
 										}
 									}
@@ -460,12 +464,20 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 							if("N".equals(unitProduct.getIsDel())){
 								if(i==0){
 									workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+								i++;
 								}else{
-									if("".equals(workingRange)){
-										workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+									if(unitProduct.getMaterialCode()!=null && !"".equals(unitProduct.getMaterialCode())){
+										if("".equals(workingRange)){
+											workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+											i++;
+										}else{
+											workingRange = workingRange+";"+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+											i++;
+										}
 									}else{
-										workingRange = workingRange+";"+unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
+										i++;
 									}
+									
 								}
 							}
 						}

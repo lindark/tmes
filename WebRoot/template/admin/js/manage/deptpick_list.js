@@ -48,7 +48,7 @@ jQuery(function($) {
 			{name:'materialBatch',index:'materialBatch',search:false,label:"批次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'costcenter',index:'costcenter',search:false,label:"接收成本中心", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'departmentName',index:'departmentName',search:false,label:"接收部门", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'type',index:'type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xtype',index:'type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'movetype',index:'movetype',search:false,label:"发料移动类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'movetype1',index:'movetype1',search:false,label:"退料移动类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'ex_mblnr',index:'ex_mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},

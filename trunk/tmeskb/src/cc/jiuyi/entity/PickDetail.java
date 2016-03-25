@@ -15,7 +15,6 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
 @Table(name = "PickDetail")
 public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 
@@ -44,6 +43,7 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	private String cqPickAmount;//裁切领退数
 	private String cqmultiple;//裁切倍数
 	private String cqhStockAmount;//裁切后库存
+	private String lgpla;//仓位
 	
 	/**假字段**/
 	private String productDate;//生产日期
@@ -256,6 +256,12 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	}
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+	public String getLgpla() {
+		return lgpla;
+	}
+	public void setLgpla(String lgpla) {
+		this.lgpla = lgpla;
 	}
 
 	

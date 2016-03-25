@@ -34,6 +34,8 @@ public class Deptpick extends BaseEntity {
 	private String movetype;//移动类型
 	private String departid;//部门ID
 	private String departmentName;//部门描述
+	private String movetype1;//退料移动类型
+	private String type;
 	
 	private String e_type;
 	private String e_message;
@@ -193,6 +195,18 @@ public class Deptpick extends BaseEntity {
 	}
 	public void setMovetype(String movetype) {
 		this.movetype = movetype;
+	}
+	public String getMovetype1() {
+		return movetype1;
+	}
+	public void setMovetype1(String movetype1) {
+		this.movetype1 = movetype1;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

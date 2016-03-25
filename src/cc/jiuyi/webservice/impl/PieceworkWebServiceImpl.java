@@ -26,11 +26,13 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -85,7 +87,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @param befWorkOddAmount上班零头    - oddHandOver : actualBomMount
 	 * @param storageAmount   入库数   - WorkingBill :   totalSingleAmount
 	 * @param aftWorkOddAmount  下班零头     - oddHandOver : actualBomMount
-	 * @param unRepairAmount 表面异常维修数   - WorkingBill :   totalRepairAmount
+	 * @param unRepairAmount 表面异常维修数   - WorkingBill :   totalRepairAmount   
+	 * @param unBefWorkOddAmount 上班异常零头
+	 * @param unAftWorkOddAmount 下班异常零头
 	 * @param qualifiedAmount 合格数-报工数 
 	 * @param qualifiedRatio 一次合格率
 	 * @return PieceworkList 返回需要的数据
@@ -156,15 +160,19 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 											PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
+											PieceworkMap.put("unBefWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getUnBomMount()));//上班异常零头数
 										}else{
 											PieceworkMap.put("befWorkOddAmount","0");//上班零头
+											PieceworkMap.put("unBefWorkOddAmount","0");//上班异常零头数
 										}
 										PieceworkMap.put("storageAmount",judgeNull(wb.getTotalSingleAmount()));//入库数 
 										List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
 											PieceworkMap.put("aftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getActualBomMount()));//下班零头
+											PieceworkMap.put("unAftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getUnBomMount()));//下班异常零头数
 										}else{
 											PieceworkMap.put("aftWorkOddAmount","0");//下班零头
+											PieceworkMap.put("unAftWorkOddAmount","0");//下班异常零头数
 										}
 										PieceworkMap.put("unRepairAmount",judgeNull(wb.getTotalRepairAmount()));//表面异常维修数
 										/*Set<DailyWork> dailyWorkSet =  wb.getDailyWork();
@@ -196,15 +204,19 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 											PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
+											PieceworkMap.put("unBefWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getUnBomMount()));//上班异常零头数
 										}else{
 											PieceworkMap.put("befWorkOddAmount","0");//上班零头
+											PieceworkMap.put("unBefWorkOddAmount","0");//上班异常零头数
 										}
 										PieceworkMap.put("storageAmount",judgeNull(wb.getTotalSingleAmount()));//入库数 
 										List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
 											PieceworkMap.put("aftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getActualBomMount()));//下班零头
+											PieceworkMap.put("unAftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getUnBomMount()));//下班异常零头数
 										}else{
 											PieceworkMap.put("aftWorkOddAmount","0");//下班零头
+											PieceworkMap.put("unAftWorkOddAmount","0");//下班异常零头数
 										}
 										PieceworkMap.put("unRepairAmount",judgeNull(wb.getTotalRepairAmount().toString()));//表面异常维修数
 										/*Set<DailyWork> dailyWorkSet =  wb.getDailyWork();
@@ -267,6 +279,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	   	      aftWorkOddAmountElmt.setText(judgeNull(map.get("aftWorkOddAmount")));
 	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
 	   	      unRepairAmountElmt.setText(judgeNull(map.get("unRepairAmount")));
+	   	      Element unBefWorkOddAmountElmt = pieceworklistElmt.addElement("unBefWorkOddAmount");
+	   	      unBefWorkOddAmountElmt.setText(judgeNull(map.get("unBefWorkOddAmount")));
+	   	      Element unAftWorkOddAmountElmt = pieceworklistElmt.addElement("unAftWorkOddAmount");
+	   	      unAftWorkOddAmountElmt.setText(judgeNull(map.get("unAftWorkOddAmount")));
 	   	      Element qualifiedAmountElmt = pieceworklistElmt.addElement("qualifiedAmount");
 	   	      qualifiedAmountElmt.setText(judgeNull(map.get("qualifiedAmount")));
 	   	      Element qualifiedRatioElmt = pieceworklistElmt.addElement("qualifiedRatio");
@@ -301,6 +317,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	   	      aftWorkOddAmountElmt.setText("");
 	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
 	   	      unRepairAmountElmt.setText("");
+	   	      Element unBefWorkOddAmountElmt = pieceworklistElmt.addElement("unBefWorkOddAmount");
+	   	      unBefWorkOddAmountElmt.setText("");
+	   	      Element unAftWorkOddAmountElmt = pieceworklistElmt.addElement("unAftWorkOddAmount");
+	   	      unAftWorkOddAmountElmt.setText("");
 	   	      Element qualifiedAmountElmt = pieceworklistElmt.addElement("qualifiedAmount");
 	   	      qualifiedAmountElmt.setText("");
 	   	      Element qualifiedRatioElmt = pieceworklistElmt.addElement("qualifiedRatio");
@@ -377,6 +397,38 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("team", judgeNull(team.getTeamCode()));// 班组
 					
 					
+					FactoryUnit fn = team.getFactoryUnit();
+					String mouldNumber = "";
+					if(fn!=null){
+						Set<UnitdistributeModel> unitdistributemodelSet = fn.getUnitdistributemodelSet();
+						if(unitdistributemodelSet!=null && unitdistributemodelSet.size()>0){
+							int i=0;
+							for(UnitdistributeModel um : unitdistributemodelSet){
+								if("N".equals(um.getIsDel())){
+									if(i==0){
+										if(um.getStation()!=null && !"".equals(um.getStation())){
+											mouldNumber = um.getStation();
+										}
+									}else{
+										if(um.getStation()!=null && !"".equals(um.getStation())){
+											mouldNumber = mouldNumber+";"+um.getStation();
+										}else{
+											if("".equals(mouldNumber)){
+												mouldNumber = um.getStation();
+											}else{
+												mouldNumber = mouldNumber+";"+um.getStation();
+											}
+										}
+									}
+								}
+							}
+							PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+						}else{
+							PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+						}
+					}else{
+						PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+					}
 				}else{
 					PieceworkMap.put("classSys", "");// 班制
 					PieceworkMap.put("basic", "");// 基本
@@ -398,27 +450,15 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						
 					}
 					Set<UnitdistributeProduct> unitProductSet = admin.getUnitdistributeProductSet();//模具组号
-					String mouldNumber = "";
+					
 					String workingRange = "";
 					int i=0;
 					if(unitProductSet!=null && unitProductSet.size()>0){
 						for(UnitdistributeProduct unitProduct : unitProductSet){
 							if("N".equals(unitProduct.getIsDel())){
 								if(i==0){
-									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitCode())){
-										mouldNumber = unitProduct.getFactoryunit().getFactoryUnitCode();
-									}
 									workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
 								}else{
-									if(unitProduct.getFactoryunit().getFactoryUnitCode()!=null && !"".equals(unitProduct.getFactoryunit().getFactoryUnitCode())){
-										mouldNumber = mouldNumber+";"+unitProduct.getFactoryunit().getFactoryUnitCode();
-									}else{
-										if("".equals(mouldNumber)){
-											mouldNumber = unitProduct.getFactoryunit().getFactoryUnitCode();
-										}else{
-											mouldNumber = mouldNumber+";"+unitProduct.getFactoryunit().getFactoryUnitCode();
-										}
-									}
 									if("".equals(workingRange)){
 										workingRange = unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode()==null?"":unitProduct.getMaterialCode();
 									}else{
@@ -428,7 +468,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 							}
 						}
 					}
-					PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+					
 					PieceworkMap.put("workingRange", judgeNull(workingRange));// 工作范围
 					PieceworkMap.put("phone", judgeNull(admin.getPhoneNo()));// 手机号码
 				}else{

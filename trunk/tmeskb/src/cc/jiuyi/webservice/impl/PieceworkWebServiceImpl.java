@@ -385,6 +385,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
         }
 		List<Map<String,Object>> PieceworkLists = new ArrayList<Map<String,Object>>();
 		List<Kaoqin> KaoqinList = kaoqinService.getKaoqinList(productDate, shift);
+		String mouldNumber = "";
 		if(KaoqinList!=null && KaoqinList.size()>0){
 			for(Kaoqin kq : KaoqinList){
 				Map<String,Object> PieceworkMap = new HashMap<String,Object>();
@@ -398,7 +399,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					
 					
 					FactoryUnit fn = team.getFactoryUnit();
-					String mouldNumber = "";
+					
 					if(fn!=null){
 						Set<UnitdistributeModel> unitdistributemodelSet = fn.getUnitdistributemodelSet();
 						if(unitdistributemodelSet!=null && unitdistributemodelSet.size()>0){
@@ -433,6 +434,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("classSys", "");// 班制
 					PieceworkMap.put("basic", "");// 基本
 					PieceworkMap.put("team", "");// 班组
+					PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
 				}
 				Admin admin = adminService.get(judgeNull(kq.getEmpid()));
 				if(admin!=null){
@@ -477,7 +479,6 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("cardNumber", "");// 卡号
 					PieceworkMap.put("post", "");// 岗位
 					PieceworkMap.put("station", "");// 工位
-					PieceworkMap.put("mouldNumber", "");// 模具组号
 					PieceworkMap.put("workingRange", "");// 工作范围
 					PieceworkMap.put("phone", "");// 手机号码
 				}

@@ -25,8 +25,10 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 		pagerSqlByjqGrid(pager,detachedCriteria);		
 		
 		if (map.size() > 0) {
+			if(!super.existAlias(detachedCriteria, "factoryunit", "factoryunit"))
+				detachedCriteria.createAlias("factoryunit", "factoryunit");
 			if(map.get("unitName")!=null){
-			    detachedCriteria.add(Restrictions.like("unitName", "%"+map.get("unitName")+"%"));
+			    detachedCriteria.add(Restrictions.like("factoryunit.factoryUnitName", "%"+map.get("unitName")+"%"));
 			}		
 		
 			if(map.get("station")!=null){
@@ -49,7 +51,7 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 
 	@Override
 	public List<UnitdistributeModel> getModelList(String unitCode) {
-		String hql = "from UnitdistributeModel unitmodel where unitmodel.unitCode = ? and unitmodel.isDel= ? ";
+		String hql = "from UnitdistributeModel unitmodel join factoryunit model1 where model1.factoryUnitCode = ? and unitmodel.isDel= ? ";
 		List<UnitdistributeModel> modelList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return modelList;
 	}

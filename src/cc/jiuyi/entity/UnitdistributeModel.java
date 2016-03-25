@@ -23,9 +23,9 @@ public class UnitdistributeModel extends BaseEntity{
 	
     private String stateRemark;//状态描述
     
-    //private String unitCode;//单元编码 
+    private String unitCode;//单元编码 
      
-    //private String unitName;//单元名称 
+    private String unitName;//单元名称 
     
   /*  private String materialCode;//物料编码
     
@@ -57,21 +57,22 @@ public class UnitdistributeModel extends BaseEntity{
 		this.state = state;
 	}
 
-//	public String getUnitCode() {
-//		return unitCode;
-//	}
-//
-//	public void setUnitCode(String unitCode) {
-//		this.unitCode = unitCode;
-//	}
-//
-//	public String getUnitName() {
-//		return unitName;
-//	}
-//
-//	public void setUnitName(String unitName) {
-//		this.unitName = unitName;
-//	}
+	@Transient
+	public String getUnitCode() {
+		return unitCode;
+	}
+
+	public void setUnitCode(String unitCode) {
+		this.unitCode = unitCode;
+	}
+	@Transient
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
 
 	/*public String getMaterialCode() {
 		return materialCode;

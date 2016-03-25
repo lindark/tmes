@@ -45,6 +45,7 @@ public class Deptpick extends BaseEntity {
 	private String xcreateUser;//提交人
 	private String xcomfirmUser;//审批人
 	private String xtype;//类型
+	private String shiftx;
 	
 	
 	
@@ -215,6 +216,13 @@ public class Deptpick extends BaseEntity {
 	}
 	public void setXtype(String xtype) {
 		this.xtype = xtype;
+	}
+	@Transient
+	public String getShiftx() {
+		return shiftx;
+	}
+	public void setShiftx(String shiftx) {
+		this.shiftx = shiftx;
 	}
 	
 	

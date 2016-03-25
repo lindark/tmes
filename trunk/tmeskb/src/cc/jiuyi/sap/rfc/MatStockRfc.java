@@ -7,5 +7,5 @@ import java.util.List;
 import cc.jiuyi.util.CustomerException;
 
 public interface MatStockRfc extends BaserfcService{
-	public List<HashMap<String,String>> getMatStockList(List<HashMap<String, String>> list) throws IOException,CustomerException;
+	public List<HashMap<String,String>> getMatStockList(String im_type,List<HashMap<String, String>> list) throws IOException,CustomerException;
 }

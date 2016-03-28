@@ -430,4 +430,14 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
 		return this.kqDao.getKaoqinList(productDate, shift);
 	}
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return kqDao.historyjqGrid(pager, map);
+	}
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return kqDao.historyExcelExport(map);
+	}
 }

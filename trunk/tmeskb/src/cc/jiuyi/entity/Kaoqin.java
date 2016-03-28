@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * 考勤
@@ -36,6 +37,12 @@ public class Kaoqin extends BaseEntity{
 	
 	private String stationName;//工位名称
 	private String workName;//工作范围名称
+	private String xteam;//班组假字段
+	
+	private String factoryUnitName;
+	private String xclasstime;
+	private String factory;
+	private String workshop;
 	
 	@Column
 	public String getCardNumber() {
@@ -178,4 +185,43 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.postCode = postCode;
 	}
+	
+	@Transient
+	public String getFactoryUnitName() {
+		return factoryUnitName;
+	}
+	public void setFactoryUnitName(String factoryUnitName) {
+		this.factoryUnitName = factoryUnitName;
+	}
+	
+	@Transient
+	public String getXteam() {
+		return xteam;
+	}
+	public void setXteam(String xteam) {
+		this.xteam = xteam;
+	}
+	@Transient
+	public String getXclasstime() {
+		return xclasstime;
+	}
+	public void setXclasstime(String xclasstime) {
+		this.xclasstime = xclasstime;
+	}
+	@Transient
+	public String getFactory() {
+		return factory;
+	}
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+	@Transient
+	public String getWorkshop() {
+		return workshop;
+	}
+	public void setWorkshop(String workshop) {
+		this.workshop = workshop;
+	}
+	
+	
 }

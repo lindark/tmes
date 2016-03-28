@@ -3,6 +3,7 @@ package cc.jiuyi.dao;
 import java.util.HashMap;
 import java.util.List;
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Kaoqin;
 
 /**
@@ -40,4 +41,9 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getByTPS(String sameTeamId, String productDate,String shift);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+		
+    public List<Object[]> historyExcelExport(HashMap<String,String> map);
+
 }

@@ -47,7 +47,7 @@ jQuery(function($) {
 		
 		url:"post!getpost.action",
 		datatype: "json",
-		height: "250",//weitao 修改此参数可以修改表格的高度
+		height: "280",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",

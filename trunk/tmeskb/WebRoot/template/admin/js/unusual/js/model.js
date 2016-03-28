@@ -136,32 +136,31 @@ $(function() {
 	})
 	
 	
-	function showReason()
-{
-	var title = "选择故障原因";
-	var width="420px";
-	var height="160px";
-	var content="model!reason.action";
-	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
-		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
-		var work=iframeWin.getGridId();
-		var id=work.split(",");
-		var size=$(".deleteImage").length;
-
-		$(".deleteImage").live("click",function(){
-			$(this).parent().remove();
-		})
-		if(',' != work)
-		{
-	        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
-	            html+="<input type='hidden' name='faultReasonSet["+size+"].id' value='"+id[1]+"'/>";
-	            html +="</div>";
-	        $("#reason").append(html);
-		}
-        
-		layer.close(index); 
-	});
-}
+	function showReason(){
+		var title = "选择故障原因";
+		var width="420px";
+		var height="160px";
+		var content="model!reason.action";
+		jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+			var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+			var work=iframeWin.getGridId();
+			var id=work.split(",");
+			var size=$(".deleteImage").length;
+	
+			$(".deleteImage").live("click",function(){
+				$(this).parent().remove();
+			})
+			if(',' != work)
+			{
+		        var html="<div><span>"+id[0]+"</span>&nbsp;&nbsp;<img src='/template/admin/images/input_delete_icon.gif' class='deleteImage' style='cursor: pointer;' alt='删除'>";
+		            html+="<input type='hidden' name='faultReasonSet["+size+"].id' value='"+id[1]+"'/>";
+		            html +="</div>";
+		        $("#reason").append(html);
+			}
+	        
+			layer.close(index); 
+		});
+	}
 	
 	
 

@@ -85,8 +85,8 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 			}
 
 			if (map.get("type") != null) {
-				detachedCriteria.add(Restrictions.like("type",
-						"%" + map.get("type") + "%"));
+				detachedCriteria.add(Restrictions.eq("type",
+						map.get("type")));
 			}
 			if (map.get("start") != null && map.get("end") != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -138,10 +138,10 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		if (map.get("type")!=null) {
 			if (!map.get("type").equals("")) {
 				if (ishead == 0) {
-					hql += " where model.type like '%" + map.get("type") + "%'";
+					hql += " where model.type = '" + map.get("type")+"'";
 					ishead = 1;
 				} else {
-					hql += " and model.type like '%" + map.get("type") + "%'";
+					hql += " and model.type = '" + map.get("type")+"'";
 				}
 			}
 		}

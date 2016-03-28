@@ -1,5 +1,13 @@
 
 jQuery(function($) {
+	var type = "${isud}";
+	var upname;
+	if(type=="UD"){
+		upname="上/下架记录";
+	}else
+		{
+		upname="超市领用记录";
+		}
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -80,7 +88,7 @@ jQuery(function($) {
 		},
 
 		//editurl: "",//用它做标准删除动作
-		caption: "超市领用记录"
+		caption: upname
 
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

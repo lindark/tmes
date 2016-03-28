@@ -166,6 +166,8 @@ public class ReworkAction extends BaseAdminAction {
 				ReworkRecord reworkRecord = reworkRecordList.get(i);
 				reworkRecord.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "reworkState", reworkRecord.getRework().getState()));
+				reworkRecord.setIsQualifieds(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "isQualifieds", reworkRecord.getIsQualified()));
 				if(reworkRecord.getRework().getWorkingbill()!=null){
 					reworkRecord.setProductsName(reworkRecord.getRework().getWorkingbill().getMaktx());
 				}
@@ -251,7 +253,8 @@ public class ReworkAction extends BaseAdminAction {
         			reworkrecord.getDuty()==null?"":reworkrecord.getDuty().getName(),
         			reworkrecord.getReworkAmount()==null?"":reworkrecord.getReworkAmount(),
         			reworkrecord.getDefectAmount()==null?"":reworkrecord.getDefectAmount(),
-        			reworkrecord.getIsQualified()==null?"":reworkrecord.getIsQualified(),
+//        			reworkrecord.getIsQualified()==null?"":reworkrecord.getIsQualified(),
+        			ThinkWayUtil.getDictValueByDictKey(dictService, "isQualifieds", reworkrecord.getIsQualified()),
         			reworkrecord.getCreateDate()==null?"":reworkrecord.getCreateDate(),
         			reworkrecord.getReworkCount()==null?"":reworkrecord.getReworkCount(),
         			ThinkWayUtil.getDictValueByDictKey(dictService,"reworkState", rework.getState())

@@ -178,6 +178,10 @@ jQuery(function($) {
 			}
 		}
 	)
+	
+	
+	
+
 });
 function myevents()
 {
@@ -268,6 +272,7 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 				beforeRename: beforeRename,
 				onRemove: onRemove,
 				onRename: onRename,
+				onExpand: onExpand,
 				onClick: onClick
 			}
 		};	
@@ -352,6 +357,25 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 	function onClick(event,treeId,treeNode){
 		if(clickHandle){clickHandle(treeNode)}
 	}
+	
+	function onExpand(event,treeId,treeNode){
+		var cookie = $.cookie("z_tree");
+		var z_tree = null;  
+        if(cookie){  
+            z_tree = JSON.parse(cookie);  
+        }  
+          
+        if(!z_tree){  
+            z_tree = new Array();  
+        }  
+        if(jQuery.inArray(treeNode.id, z_tree)<0){  
+            z_tree.push(treeNode.id);  
+        }  
+        $.cookie("z_tree", JSON.stringify(z_tree))
+	}
+	
+	
+	
 	
 	function selectAll() {
 		var zTree = $.fn.zTree.getZTreeObj("ingageTree");

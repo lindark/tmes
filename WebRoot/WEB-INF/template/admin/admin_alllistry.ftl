@@ -141,6 +141,19 @@ $(function(){
 		}
 		
 	});
+	
+	
+	var cookie = $.cookie("z_tree");  
+    if(cookie){  
+        z_tree = JSON.parse(cookie);  
+        var zTree = $.fn.zTree.getZTreeObj("ingageTree");  
+        for(var i=0; i< z_tree.length; i++){  
+            var node = zTree.getNodeByParam('id', z_tree[i])  
+            zTree.expandNode(node, true)  
+        }  
+          
+    }  
+	
 });
 </script>
 </html>

@@ -181,6 +181,7 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 				beforeRename: beforeRename,
 				onRemove: onRemove,
 				onRename: onRename,
+				onExpand:onExpand,
 				onClick: onClick
 			}
 		};	
@@ -264,6 +265,10 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 	
 	function onClick(event,treeId,treeNode){
 		if(clickHandle){clickHandle(treeNode)}
+	}
+	
+	function onExpand(event,treeId,treeNode){
+		
 	}
 	
 	function selectAll() {

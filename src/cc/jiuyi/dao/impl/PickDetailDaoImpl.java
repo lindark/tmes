@@ -223,5 +223,10 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		return query.list();
 	}
 
+	
+	public List<PickDetail> finddetailByapp(String workingbillid,String state){
+		String hql="from PickDetail model where model.pick.workingbill.id = ? and model.pick.state = ?";
+		return getSession().createQuery(hql).setParameter(0, workingbillid).setParameter(1, state).list();
+	}
 
 }

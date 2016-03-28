@@ -47,5 +47,19 @@ public interface ReworkRecordService extends BaseService<ReworkRecord, String> {
 			String reworkId, Integer reworkCount, ReworkRecord reworkRecord);
 	
 	public String saveApproval(String cardnumber,ReworkRecord reworkRecord);
-
+	
+	/**
+	 * 获得返工表记录
+	 * @param pager
+	 * @param map
+	 * @return
+	 */
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
+	
+	/**
+	 * 打印返工记录Excel表
+	 */
+	public List<Object[]> historyExcelExport(HashMap<String,String> map);
+	
+	public List<ReworkRecord> getReworkRecord(String id);
 }

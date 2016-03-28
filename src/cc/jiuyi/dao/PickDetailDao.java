@@ -42,4 +42,12 @@ public interface PickDetailDao extends BaseDao<PickDetail,String> {
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
 	public List<Object[]> historyExcelExport(HashMap<String,String> map);
+	
+	/**
+	 * 根据随工单ID 和 状态 进行查询
+	 * @param workingbillid
+	 * @param state
+	 * @return
+	 */
+	public List<PickDetail> finddetailByapp(String workingbillid,String state);
 }

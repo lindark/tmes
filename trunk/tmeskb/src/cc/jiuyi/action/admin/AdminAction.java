@@ -115,6 +115,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Department>list_department;//部门
 	private List<Admin>list_emp;
 	private String deptid;//部门ID
+	private String mydeptid;//部门ID
 	private String loginid;//登录人id
 	private String strDate;
 	private String postid;//岗位ID
@@ -1152,6 +1153,7 @@ public class AdminAction extends BaseAdminAction {
 	 */
 	public String alllistry()
 	{
+		this.mydeptid=deptid;
 		list_department=this.departmentservice.getAllDept();
 		return "alllistry";
 	}
@@ -1236,7 +1238,7 @@ public class AdminAction extends BaseAdminAction {
 		this.admin=this.adminService.get(id);
 		if(admin.getPost()!=null)
 		{
-			this.list_station=new ArrayList<Station>(admin.getPost().getStationSet());
+			this.list_station=this.stationService.getStationsByPostid(admin.getPost().getId());//根据岗位id查询所有工位
 		}
 		this.list_station2=this.stationService.getByIds(admin.getStationids());//根据员工表中的工位id查询工位
 		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
@@ -1262,7 +1264,7 @@ public class AdminAction extends BaseAdminAction {
 			addActionError("保存失败!");
 			return ERROR;
 		}
-		this.redirectionUrl="admin!alllistry.action";
+		this.redirectionUrl="admin!alllistry.action?deptid="+deptid;
 		return SUCCESS;
 	}
 	
@@ -1892,5 +1894,13 @@ public class AdminAction extends BaseAdminAction {
 	public void setStrStationIds(String strStationIds)
 	{
 		this.strStationIds = strStationIds;
+	}
+	public String getMydeptid()
+	{
+		return mydeptid;
+	}
+	public void setMydeptid(String mydeptid)
+	{
+		this.mydeptid = mydeptid;
 	}
 }

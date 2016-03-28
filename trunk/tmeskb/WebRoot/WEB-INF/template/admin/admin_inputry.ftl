@@ -77,6 +77,7 @@ body{background:#fff;}
 		<form id="xform" method="post" action="<#if isAdd??>admin!saveempry.action<#else>admin!updateempry.action</#if>" class="validate">
 			<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 			<input type="hidden" id="adminid" name="admin.id" value="${(admin.id)! }"/>
+			<input type="hidden" name="deptid" value="${(admin.department.id)! }"/>
 			<div class="profile-user-info profile-user-info-striped">
 				<div class="profile-info-row">
 					<div class="profile-info-name">姓名</div>
@@ -192,7 +193,7 @@ body{background:#fff;}
 						<!-- <span id="span_workstation">${(admin.post.station)! }</span> -->
 						<select id="sel_station" name="strStationIds" class="chosen-select work" multiple="" style="width:290px;" data-placeholder="请选择...">
 					    	<#if list_station??>
-					    		<#list dictList as list>
+					    		<#list list_station as list>
 					    			<option value="${(list.id)!}">${(list.code)!}--${(list.name)!}</option>
 					    		</#list>
 					    	</#if>

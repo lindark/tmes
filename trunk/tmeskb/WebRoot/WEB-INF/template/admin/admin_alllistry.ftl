@@ -114,6 +114,8 @@ $(function(){
  		 	</#list>
 	 	];
  	jiuyi.admin.depart.initTree(zNodes);
+	<#if deptid??>var url="admin!ajlistemp.action?deptid="+"${(deptid)!}";tostartpage(url);
+	<#else>var url="admin!ajlistemp.action";tostartpage(url);</#if>
  	var ishead=0;
 	$("#ace-settings-btn").click(function(){
 		if(ishead==0){

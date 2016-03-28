@@ -95,10 +95,23 @@ public class PostDaoImpl extends BaseDaoImpl<Post, String> implements PostDao {
 	/**
 	 * 查询岗位数据
 	 */
-	public Pager getAllPost(Pager pager)
+	public Pager getAllPost(Pager pager,HashMap<String, String> map)
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Post.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(map!=null&&map.size()>0)
+		{
+			//岗位编码
+			if(map.get("stationcode")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("postCode", "%"+map.get("stationcode").toString()+"%"));
+			}
+			//岗位名称
+			if(map.get("stationname")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("postName", "%"+map.get("stationname").toString()+"%"));
+			}
+		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用
 		return super.findByPager(pager, detachedCriteria);

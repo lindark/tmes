@@ -51,7 +51,8 @@ jQuery(function($) {
 					{name:'xduty',index:'duty',label:"责任人",search:true,editable:false,sortable:"true",sorttype:"text"},
 					{name:'reworkAmount',index:'reworkAmount',label:"翻包数量",search:true,editable:false,sortable:"true",sorttype:"text"},
 					{name:'defectAmount',index:'defectAmount',label:"缺陷数量",search:true,editable:false,sortable:"true",sorttype:"text"},
-					{name:'isQualified',index:'isQualified',label:"是否合格",search:true,editable:false,sortable:"true",sorttype:"text"},
+					{name:'isQualifieds',index:'isQualified',label:"是否合格",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isQualifieds"}},	
+					{name:'isQualified',index:'isQualified',label:"是否合格",search:true,editable:false,sortable:"true",sorttype:"text",hidden:true},
 					{name:'createDate',label:"创建日期",index:'createDate', search:true,editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 					////{name:'modifyDate',label:"日期",index:'modifyDate', search:true,editable: false,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 					

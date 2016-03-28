@@ -68,11 +68,14 @@ public class UpDownAction extends BaseAdminAction {
 	private String tanum;
 	private String end;
 	private String start;
+	private String isud;//判断页面
 	
 	// 超市领用记录 @author Reece 2016/3/22
 		public String history() {
+			
 			return "history";
 		}
+		
 		
 	//超市领用列表 @author Reece 2016/3/22
 		public String historylist() {
@@ -121,6 +124,11 @@ public class UpDownAction extends BaseAdminAction {
 					map.put("start", start);
 					map.put("end", end);
 				}
+				//上下架类型
+				if (obj.get("type") != null) {
+					String type = obj.getString("type").toString();
+					map.put("type", type);
+				}
 			}
 			pager = updownservice.historyjqGrid(pager, map);
 			List<UpDown> updownList = pager.getList();
@@ -148,7 +156,8 @@ public class UpDownAction extends BaseAdminAction {
 					map.put("tanum", tanum);
 					map.put("start", start);
 					map.put("end", end);
-
+					map.put("type", type);
+					
 					List<String> header = new ArrayList<String>();
 					List<Object[]> body = new ArrayList<Object[]>();
 					header.add("生产日期");
@@ -195,9 +204,15 @@ public class UpDownAction extends BaseAdminAction {
 					}
 
 					try {
-						String fileName = "超市领用记录表" + ".xls";
+						String excelName;
+						if("UD".equals(isud)){
+							 excelName="上下架记录表";
+						}else{
+							 excelName="超市领用记录表";
+						}
+						String fileName = excelName + ".xls";
 						setResponseExcel(fileName);
-						ExportExcel.exportExcel("超市领用记录表", header, body, getResponse()
+						ExportExcel.exportExcel(excelName, header, body, getResponse()
 								.getOutputStream());
 						getResponse().getOutputStream().flush();
 						getResponse().getOutputStream().close();
@@ -479,7 +494,6 @@ public class UpDownAction extends BaseAdminAction {
 		return VIEW;
 	}
 	
-	
 
 	public Pager getPager() {
 		return pager;
@@ -608,6 +622,18 @@ public class UpDownAction extends BaseAdminAction {
 	public void setStart(String start) {
 		this.start = start;
 	}
+
+
+	public String getIsud() {
+		return isud;
+	}
+
+
+	public void setIsud(String isud) {
+		this.isud = isud;
+	}
+
+
 
 
 	

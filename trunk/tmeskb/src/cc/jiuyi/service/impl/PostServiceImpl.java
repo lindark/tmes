@@ -69,9 +69,9 @@ public class PostServiceImpl extends BaseServiceImpl<Post, String>implements Pos
 	/**
 	 * 查询岗位数据
 	 */
-	public Pager getAllPost(Pager pager)
+	public Pager getAllPost(Pager pager,HashMap<String, String> map)
 	{
-		return this.postDao.getAllPost(pager);
+		return this.postDao.getAllPost(pager,map);
 	}
 
 	/**

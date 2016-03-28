@@ -1,5 +1,6 @@
 package cc.jiuyi.entity;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -60,6 +61,8 @@ public class ReworkRecord extends BaseEntity{
     
     private String productsCode;//产品编码
     private String productsName;//产品名称
+    private String productsDate;//生产日期
+    private String workingbillCode;//随工单号
     private Rework rework;
     
     
@@ -252,8 +255,26 @@ public class ReworkRecord extends BaseEntity{
 	public void setModifyUser(Admin modifyUser) {
 		this.modifyUser = modifyUser;
 	}
-
-
+	
+	@Transient
+	public String getWorkingbillCode() {
+		return workingbillCode;
+	}
+	public void setWorkingbillCode(String workingbillCode) {
+		this.workingbillCode = workingbillCode;
+	}
+	
+	@Transient
+	public String getProductsDate() {
+		return productsDate;
+	}
+	public void setProductsDate(String productsDate) {
+		this.productsDate = productsDate;
+	}
+	
+	
+	
+	
 
     
    

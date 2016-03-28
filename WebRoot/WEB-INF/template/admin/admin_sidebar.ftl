@@ -685,7 +685,7 @@
 							</li>
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="kaoqin!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									考勤记录
 								</a>
@@ -695,7 +695,7 @@
 							
 							
 							<li class="">
-								<a href="rework!history.action" style="font-size:12px;>
+								<a href="rework!history.action">
 									<i class="menu-icon fa fa-caret-right"></i>
 									返工记录
 								</a>

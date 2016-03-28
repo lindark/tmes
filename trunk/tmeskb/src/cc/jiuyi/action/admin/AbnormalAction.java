@@ -505,7 +505,8 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setCallreasonSet(new HashSet<Callreason>(callreasonSet));
 			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
 			
-			Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
+			//Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
+			Admin admin2 = admin;
 			admin2 = adminService.get(admin2.getId());
 			
 			abnormal.setProductdate(admin2.getProductDate());

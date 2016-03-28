@@ -705,7 +705,7 @@
 							
 							
 							<li class="" >
-								<a href="#" style="font-size:12px;color:red">
+								<a href="up_down!history.action?isud=UD">
 									<i class="menu-icon fa fa-caret-right"></i>
 									上/下架记录
 								</a>

@@ -46,7 +46,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">历史超市领料记录</li>
+					<li class="active"><#if isud=='UD'>上/下架记录<#else>历史超市领料记录</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -61,6 +61,7 @@
 							<!-- PAGE CONTENT BEGINS -->
 							<form class="form-horizontal" id="searchform"
 								action="repairin!historylist.action" role="form">
+								<input type=hidden name="isud" value="${isud}" />
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1"
@@ -77,35 +78,50 @@
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										
+
 									</div>
 									<div class="form-group">
-									 <label class="col-sm-1 col-md-offset-1" style="text-align:right">转储单号:</label>
-									  <div class="col-sm-4">
-									         <input type="text" name="tanum"
+										<#if isud=='UD'> <label class="col-sm-1 col-md-offset-1"
+											style="text-align:right">类型:</label>
+										<div class="col-sm-4">
+											<select name="type" id="form-field-icon-1"
+												class="input input-sm form-control">
+												<!-- 
+							                <#list AllState as list>
+								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
+							                </#list>
+							                 -->
+												<option value=""></option>
+												<option value="up">上架</option>
+												<option value="down">下架</option>
+												<option value="updown">仓位移动</option>
+											</select>
+										</div>
+										<#else> <label class="col-sm-1 col-md-offset-1"
+											style="text-align:right">转储单号:</label>
+										<div class="col-sm-4">
+											<input type="text" name="tanum"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
-									  </div>
-									
-									<label class="col-sm-1  col-md-offset-1" style="text-align:right">创建日期:</label>
+										</div>
+										</#if> <label class="col-sm-1  col-md-offset-1"
+											style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">
 												<input type="text" class="input-sm form-control datePicker"
 													name="start"> <span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span> <input type="text" class="input-sm form-control datePicker"
-													name="end">
+													<i class="fa fa-exchange"></i> </span> <input type="text"
+													class="input-sm form-control datePicker" name="end">
 											</div>
 										</div>
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
-											class="btn btn-white btn-default btn-sm btn-round">
-											 <i class="ace-icon fa fa-filter blue"></i> 搜索
-										</a>
-										<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
-											<i class="ace-icon fa fa-filter blue"></i>Excel导出
-										</a>
+											class="btn btn-white btn-default btn-sm btn-round"> <i
+											class="ace-icon fa fa-filter blue"></i> 搜索 </a> <a
+											id="excelReport"
+											class="btn btn-white btn-default btn-sm btn-round"> <i
+											class="ace-icon fa fa-filter blue"></i>Excel导出 </a>
 									</div>
 
 								</div>
@@ -144,49 +160,49 @@
 </body>
 </html>
 <script type="text/javascript">
-     $(function(){
-    	 var $excelReport = $("#excelReport");
-    	 var $searchform = $("#searchform");
-    	 
-    	 $excelReport.click(function(){
-    		 $searchform.attr("action","up_down!excelexport.action");
-  		     $searchform.submit();
-    	 });
-     })
-     
+	$(function() {
+		var $excelReport = $("#excelReport");
+		var $searchform = $("#searchform");
+		var type = "${isud}";
+		$excelReport.click(function() {
+			$searchform.attr("action", "up_down!excelexport.action?isud="
+					+ type);
+			$searchform.submit();
+		});
+	})
 </script>
 <script type="text/javascript">
 	/**
 	 * 用了ztree 有这个bug，这里是处理。不知道bug如何产生
 	 */
-	
-	$(function(){
-		var ishead=0;
-		$("#ace-settings-btn").click(function(){
-			if(ishead==0){
-				ishead=1;
+
+	$(function() {
+		var ishead = 0;
+		$("#ace-settings-btn").click(function() {
+			if (ishead == 0) {
+				ishead = 1;
 				$("#ace-settings-box").addClass("open");
-			}else{
-				ishead=0;
+			} else {
+				ishead = 0;
 				$("#ace-settings-box").removeClass("open");
 			}
 		});
-		$(".btn-colorpicker").click(function(){
-				$(".dropdown-colorpicker").addClass("open");
+		$(".btn-colorpicker").click(function() {
+			$(".dropdown-colorpicker").addClass("open");
 		})
-		
-		var ishead2=0;
-		$(".light-blue").click(function(){
-			if(ishead2==0){
-				ishead2=1;
+
+		var ishead2 = 0;
+		$(".light-blue").click(function() {
+			if (ishead2 == 0) {
+				ishead2 = 1;
 				$(this).addClass("open");
-			}else{
-				ishead2=0;
+			} else {
+				ishead2 = 0;
 				$(this).removeClass("open");
 			}
-			
+
 		})
-		
+
 		/*
 		var ishead3=0;
 		$(".hsub").click(function(){
@@ -202,8 +218,6 @@
 			}
 			
 		})
-		*/
+		 */
 	})
-	
-	
 </script>

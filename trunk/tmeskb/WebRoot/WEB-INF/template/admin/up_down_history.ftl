@@ -45,7 +45,8 @@
 
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
-						href="admin!index.action">管理中心</a></li>
+						href="admin!index.action">管理中心</a>
+					</li>
 					<li class="active"><#if isud=='UD'>上/下架记录<#else>历史超市领料记录</#if></li>
 				</ul>
 				<!-- /.breadcrumb -->
@@ -160,10 +161,16 @@
 </body>
 </html>
 <script type="text/javascript">
+	/**
+	 *表格标题
+	 */
 	$(function() {
 		var $excelReport = $("#excelReport");
 		var $searchform = $("#searchform");
 		var type = "${isud}";
+		var name = (type == "UD" ? "上/下架记录" : "超市领用记录");
+		$(".ui-jqgrid-title").html(name);
+
 		$excelReport.click(function() {
 			$searchform.attr("action", "up_down!excelexport.action?isud="
 					+ type);

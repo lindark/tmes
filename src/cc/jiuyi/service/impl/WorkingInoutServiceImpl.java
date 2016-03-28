@@ -17,15 +17,20 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.OddHandOverDao;
+import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.HandOverProcessService;
+import cc.jiuyi.service.PickDetailService;
+import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
@@ -51,6 +56,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	private HandOverProcessDao handoverprocessdao;
 	@Resource
 	private OddHandOverDao oddHandOverDao;
+	@Resource
+	private PickDetailDao pickdetaildao;
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -341,7 +348,23 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
 				map.put(strlen[3], afteroddamount);//接上班零头数
 				map.put(strlen[4], afterunoddamount);//接上班异常零头数
-				map.put(strlen[5], workinginout.getRecipientsAmount());//领用数
+				
+				List<PickDetail> pickdetailList = pickdetaildao.finddetailByapp(workingbill.getId(), "2");//"2" 表示 确认状态数据
+				Double recipientsamount = 0.00d;
+				for(int y=0;y<pickdetailList.size();y++){
+					PickDetail pickdetail1 = pickdetailList.get(y);
+					if(pickdetail1.getMaterialCode().equals(workinginout.getMaterialCode())){
+						if("261".equals(pickdetail1.getPickType())){//领料
+							//sum += Double.parseDouble(pickdetail1.getPickAmount());
+							recipientsamount = ArithUtil.add(Double.parseDouble(pickdetail1.getPickAmount()), recipientsamount);
+						}else{//退料
+							//sum -= Double.parseDouble(pickdetail1.getPickAmount());
+							recipientsamount = ArithUtil.sub(recipientsamount,Double.parseDouble(pickdetail1.getPickAmount()));
+						}
+					}
+				}
+				
+				map.put(strlen[5], recipientsamount);//领用数
 				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 				map.put(strlen[8],beforeoddamount);//交下班零头数
 				map.put(strlen[17],beforeunoddamount);//交下班异常零头数
@@ -376,7 +399,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				Double trzsl = 0.00d;
 				Double cczsl = 0.00d;
-				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getRecipientsAmount()));//领用数
+				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(recipientsamount));//领用数
 				//trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				
 			//	cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
@@ -451,9 +474,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 				BigDecimal cost = new BigDecimal(0);
-				if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workinginout.getRecipientsAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
-					jsonstr.add(map);
-				}
+				//if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(recipientsamount)))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
+					
+				//}
+				jsonstr.add(map);
 		}
 		}catch(Exception e){
 			log.error(e);

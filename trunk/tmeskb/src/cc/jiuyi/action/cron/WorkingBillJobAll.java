@@ -20,7 +20,7 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SpringUtil;
 
 /**
- * 定时任务-凌晨2点执行
+ * 定时任务-每隔10分钟执行一次
  * 
  * @author weita
  * 

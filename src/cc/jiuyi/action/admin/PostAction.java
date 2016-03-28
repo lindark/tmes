@@ -184,6 +184,7 @@ public class PostAction extends BaseAdminAction {
 	 */
 	public String getpost()
 	{
+		HashMap<String, String> map = new HashMap<String, String>();
 		if(pager == null)
 		{
 			pager = new Pager();
@@ -193,7 +194,23 @@ public class PostAction extends BaseAdminAction {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
 		}
-		pager =this.postService.getAllPost(pager);//查询岗位数据
+		if (pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			//岗位编码
+			if (obj.get("stationcode") != null)
+			{
+				String stationcode = obj.getString("stationcode").toString();
+				map.put("stationcode", stationcode);
+			}
+			//岗位名称
+			if (obj.get("stationname") != null)
+			{
+				String stationname = obj.getString("stationname").toString();
+				map.put("stationname", stationname);
+			}
+		}
+		pager =this.postService.getAllPost(pager,map);//查询岗位数据
 		@SuppressWarnings("unchecked")
 		List<Post> pagerlist = pager.getList();
 		List<Post>newlist=new ArrayList<Post>();

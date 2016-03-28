@@ -20,12 +20,17 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Rework;
+import cc.jiuyi.entity.ReworkRecord;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ReworkRecordService;
 import cc.jiuyi.service.ReworkService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -58,6 +63,11 @@ public class ReworkAction extends BaseAdminAction {
 	private String isQualified;//是否合格
 	private String isCompelete;//是否完工
 	private String cardnumber;//刷卡卡号
+	private String productsCode;//产品编号
+	private String productsName;//产品名称
+	private String state;//状态
+	private String start;//起始时间
+	private String end;//终止时间
 
 	private List<Dict> allCheck;
 	
@@ -72,6 +82,7 @@ public class ReworkAction extends BaseAdminAction {
 	private WorkingBillService workingBillService;
 	@Resource
 	private AdminService adminService;
+	@Resource ReworkRecordService reworkRecordService;
 	
 	//添加
 	public String add(){
@@ -91,6 +102,173 @@ public class ReworkAction extends BaseAdminAction {
 	 */
 	public String history(){
 		return "history";
+	}
+	
+	
+	
+	//返工记录列表 @author Razey 2016/3/3
+	public String historylist() {
+
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		
+		
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("productsName") != null) {
+				String productsName = obj.getString("productsName").toString();
+				map.put("productsName", productsName);
+			}
+			if (obj.get("productsCode") != null) {
+				String productsCode = obj.getString("productsCode").toString();
+				map.put("productsCode", productsCode);
+			}
+			if (obj.get("state") != null) {
+				String state = obj.getString("state").toString();
+				map.put("state", state);
+			}
+			if (obj.get("start") != null) {
+				String start = obj.getString("start").toString();
+				map.put("start", start);
+			}
+			if (obj.get("end") != null) {
+				String end = obj.getString("end").toString();
+				map.put("end", end);
+			}
+			if (obj.get("start") != null && obj.get("end") != null) {
+				String start = obj.get("start").toString();
+				String end = obj.get("end").toString();
+				map.put("start", start);
+				map.put("end", end);
+			}
+		}
+		pager = reworkRecordService.historyjqGrid(pager, map);
+		List<ReworkRecord> reworkRecordList = pager.getList();
+		List<ReworkRecord> lst = new ArrayList<ReworkRecord>();
+		try {
+			for (int i = 0; i < reworkRecordList.size(); i++) {
+				ReworkRecord reworkRecord = reworkRecordList.get(i);
+				reworkRecord.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "reworkState", reworkRecord.getRework().getState()));
+				if(reworkRecord.getRework().getWorkingbill()!=null){
+					reworkRecord.setProductsName(reworkRecord.getRework().getWorkingbill().getMaktx());
+				}
+				if(reworkRecord.getRework().getWorkingbill()!=null){
+					reworkRecord.setProductsCode(reworkRecord.getRework().getWorkingbill().getMatnr());
+				}
+				if(reworkRecord.getModifyDate()!=null){
+					reworkRecord.setModifyDate(reworkRecord.getModifyDate());
+				}
+				if(reworkRecord.getCreateUser()!=null){
+					reworkRecord.setXcreateUser(reworkRecord.getCreateUser().getName());
+				}
+				if(reworkRecord.getConfirmUser()!=null){
+					reworkRecord.setXconfirmUser(reworkRecord.getConfirmUser().getName());
+				}
+				if(reworkRecord.getDuty()!=null){
+					reworkRecord.setXduty(reworkRecord.getDuty().getName());
+				}
+				if(reworkRecord.getReworkAmount()!=null){
+					reworkRecord.setReworkAmount(reworkRecord.getReworkAmount());
+				}
+				if(reworkRecord.getRework().getWorkingbill()!=null){
+					reworkRecord.setWorkingbillCode(reworkRecord.getRework().getWorkingbill().getWorkingBillCode());
+				}
+				if(reworkRecord.getRework().getWorkingbill()!=null){
+					reworkRecord.setProductsDate(reworkRecord.getRework().getWorkingbill().getProductDate());
+				}
+				System.out.println(reworkRecord.getCreateDate());
+				lst.add(reworkRecord);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Rework.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	
+	}
+	
+	//Excel导出 @author Razey 2016/3/3
+	public String excelexport(){
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("productsCode", productsCode);
+		map.put("productsName", productsName);
+		map.put("state", state);
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<String> header = new ArrayList<String>();
+		List<Object[]> body = new ArrayList<Object[]>();
+		
+        header.add("随工单号");
+        header.add("产品编码");
+        header.add("产品名称");
+        header.add("生产日期");
+        header.add("创建人");
+        header.add("确认人");
+        header.add("责任人");
+        header.add("翻包数量");
+        header.add("缺陷数量");
+        header.add("是否合格");
+        header.add("创建日期");
+        header.add("翻包次数");
+        header.add("状态");
+        
+        List<Object[]> reworkrecordList = reworkRecordService.historyExcelExport(map);
+        for(int i=0;i<reworkrecordList.size();i++){
+        	Object[] obj = reworkrecordList.get(i);
+        	ReworkRecord reworkrecord = (ReworkRecord) obj[0];//pickdetail
+        	Rework rework = (Rework)obj[1];//pick
+        	WorkingBill workingbill = (WorkingBill)obj[2];//workingbill
+        	Object[] bodyval = {
+        			workingbill.getWorkingBillCode()==null?"":workingbill.getWorkingBillCode(),
+        			workingbill.getMaktx()==null?"":workingbill.getMaktx(),
+        			workingbill.getMatnr()==null?"":workingbill.getMatnr(),
+        			workingbill.getProductDate()==null?"":workingbill.getProductDate(),
+        			reworkrecord.getCreateUser()==null?"":reworkrecord.getCreateUser().getName(),
+        			reworkrecord.getConfirmUser()==null?"":reworkrecord.getConfirmUser().getName(),
+        			reworkrecord.getDuty()==null?"":reworkrecord.getDuty().getName(),
+        			reworkrecord.getReworkAmount()==null?"":reworkrecord.getReworkAmount(),
+        			reworkrecord.getDefectAmount()==null?"":reworkrecord.getDefectAmount(),
+        			reworkrecord.getIsQualified()==null?"":reworkrecord.getIsQualified(),
+        			reworkrecord.getCreateDate()==null?"":reworkrecord.getCreateDate(),
+        			reworkrecord.getReworkCount()==null?"":reworkrecord.getReworkCount(),
+        			ThinkWayUtil.getDictValueByDictKey(dictService,"reworkState", rework.getState())
+        	};
+        	body.add(bodyval);
+        }
+        
+        try {
+			String fileName = "返工记录表"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("返工记录表", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+		    getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 		
 	public String list(){
@@ -440,6 +618,89 @@ public class ReworkAction extends BaseAdminAction {
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
 	}
+
+	public String getProductsCode() {
+		return productsCode;
+	}
+
+	public void setProductsCode(String productsCode) {
+		this.productsCode = productsCode;
+	}
+
+	public String getProductsName() {
+		return productsName;
+	}
+
+	public void setProductsName(String productsName) {
+		this.productsName = productsName;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public WorkingBillService getWorkingBillService() {
+		return workingBillService;
+	}
+
+	public void setWorkingBillService(WorkingBillService workingBillService) {
+		this.workingBillService = workingBillService;
+	}
+
+	public AdminService getAdminService() {
+		return adminService;
+	}
+
+	public void setAdminService(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
+	public ReworkRecordService getReworkRecordService() {
+		return reworkRecordService;
+	}
+
+	public void setReworkRecordService(ReworkRecordService reworkRecordService) {
+		this.reworkRecordService = reworkRecordService;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public static String getCompelete() {
+		return COMPELETE;
+	}
+
+	public static String getUndo() {
+		return UNDO;
+	}
+
+	public static String getChecked() {
+		return CHECKED;
+	}
+	
+	
+	
 
 	
 	

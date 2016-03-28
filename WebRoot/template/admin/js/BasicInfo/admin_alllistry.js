@@ -45,9 +45,14 @@ jQuery(function($) {
 			{name:'xteam',label:"班组",width:100,fixed:true,index:'team.teamName', editable: true},
 			{name:'workNumber',label:"工号",width:80,fixed:true,index:'workNumber',editable:true},
 			{name:'name',label:"姓名",width:80,fixed:true,index:'name', editable: true},
-			{name:'xparentAdmin',label:"直接上级",width:50,fixed:true,index:'parentAdmin.name', editable: true},
+			{name:'xsex',label:"性别",width:50,fixed:true,index:'sex', editable: true},
+			{name:'xparentAdmin',label:"直接上级",width:80,fixed:true,index:'parentAdmin.name', editable: true},
 			{name:'cardNumber',label:"卡号",width:100,fixed:true,index:'cardNumber', editable: true},
 			{name:'xpost',label:"岗位",width:100,fixed:true,index:'post.postName', editable: true},
+			
+			
+			{name:'xgongwei',label:"工位",width:100,fixed:true,index:'post.postName', editable: true},
+			
 			{name:'xworkscope',label:"模具组号",width:100,fixed:true,index:'', editable: true},
 			//{name:'xstation',label:"工位",width:100,index:'', editable: true},
 			{name:'xstation',label:"工作范围",width:100,fixed:true,index:'', editable: true},
@@ -55,7 +60,13 @@ jQuery(function($) {
 			{name:'phoneNo',label:"联系电话",width:100,fixed:true,index:'phoneNo', editable: true},
 			{name:'email',label:"E-mail",width:100,fixed:true,index:'email', editable: true},
 			{name:'startWorkDate',index:'startWorkDate',label:"入职日期",width:100,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
-			{name:'xsex',label:"性别",width:50,fixed:true,index:'sex', editable: true},
+			
+			{name:'relationShip',label:"亲属关系",width:100,fixed:true,index:'relationShip', editable: true},
+			{name:'workerGrade',label:"操作等级工",width:100,fixed:true,index:'workerGrade', editable: true},
+			{name:'education',label:"最高学历",width:100,fixed:true,index:'education', editable: true},
+			{name:'nowState',label:"当前状态",width:100,fixed:true,index:'nowState', editable: true},
+			
+			
 			{name:'xisJob',label:"是否离职",width:50,fixed:true,index:'isJob', editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
 			{name:'xempCreater',index:'empCreater.name',label:"创建人",width:80,fixed:true,editable: true}

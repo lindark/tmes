@@ -379,4 +379,9 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 		public List<Object[]> historyExcelExport(HashMap<String,String> map){
 			return pickDetailDao.historyExcelExport(map);
 		}
+
+		@Override
+		public List<PickDetail> finddetailByapp(String workingbillid, String state) {
+			return pickDetailDao.finddetailByapp(workingbillid, state);
+		}
 }

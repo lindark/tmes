@@ -116,5 +116,7 @@ public class PickServiceImpl extends BaseServiceImpl<Pick, String>implements Pic
 		// TODO Auto-generated method stub
 		return pickDao.historyjqGrid(pager, map);
 	}
+	
+	
 
 }

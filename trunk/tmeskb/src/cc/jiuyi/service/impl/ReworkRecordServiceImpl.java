@@ -157,5 +157,22 @@ public class ReworkRecordServiceImpl extends BaseServiceImpl<ReworkRecord, Strin
 		}
 		return reworkId;
 	}
+	
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		return reworkReworkDao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		return reworkReworkDao.historyExcelExport(map);
+	}
+
+	@Override
+	public List<ReworkRecord> getReworkRecord(String id) {
+		return reworkReworkDao.getReworkRecord(id);
+	}
+	
+	
 
 }

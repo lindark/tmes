@@ -21,7 +21,7 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid({
 		
 		url:"admin!ajlistemp.action",
-		datatype: "json",
+		datatype: "local",
 		height: "300",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
@@ -226,6 +226,17 @@ jiuyi.admin.depart.initTree = function(nodes){
 jiuyi.admin.depart.clickHandle = function(treeNode){
 	$("#grid-table").jqGrid('setGridParam',{
 		url:"admin!ajlistemp.action?deptid="+treeNode.id,
+		datatype:"json",
+		page:1
+	}).trigger("reloadGrid");
+}
+/**
+ * 初始进入页面
+ */
+function tostartpage(url)
+{
+	$("#grid-table").jqGrid('setGridParam',{
+		url:url,
 		datatype:"json",
 		page:1
 	}).trigger("reloadGrid");

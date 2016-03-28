@@ -715,6 +715,26 @@ public class AdminAction extends BaseAdminAction {
 			{
 				a.setXsex("女");
 			}
+			//工位
+			if(a.getStationids()!=null)
+			{
+				String []sids=a.getStationids().split(",");
+				String str="";
+				for(int j=0;j<sids.length;j++)
+				{
+					Station s=this.stationService.get(sids[j]);
+					if(s!=null&&"N".equals(s.getIsDel())&&s.getName()!=null)
+					{
+						str+=s.getName()+",";
+					}
+					
+				}
+				if(str.endsWith(","))
+				{
+					str=str.substring(0,str.length()-1);
+				}
+				a.setXgongwei(str);//工位
+			}
 			newlist.add(a);
 		}
 		return newlist;

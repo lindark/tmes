@@ -144,15 +144,24 @@ $(function(){
 	
 	
 	var cookie = $.cookie("z_tree");  
+	var cookie1 = $.cookie("z_tree_sel");
     if(cookie){  
-        z_tree = JSON.parse(cookie);  
+        var z_tree = JSON.parse(cookie);  
         var zTree = $.fn.zTree.getZTreeObj("ingageTree");  
         for(var i=0; i< z_tree.length; i++){  
             var node = zTree.getNodeByParam('id', z_tree[i])  
             zTree.expandNode(node, true)  
         }  
-          
     }  
+    /*
+    if(cookie1){
+    	var z_tree = JSON.parse(cookie1);
+    	var zTree = $.fn.zTree.getZTreeObj("ingageTree");  
+    	for(var i=0;i<z_tree.length;i++){
+    		zTree.selectNode(z_tree[i]);
+    	}
+    }
+    */
 	
 });
 </script>

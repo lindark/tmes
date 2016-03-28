@@ -38,7 +38,7 @@ public interface PostDao extends BaseDao<Post,String> {
 	/**
 	 * 查询岗位数据
 	 */
-	public Pager getAllPost(Pager pager);
+	public Pager getAllPost(Pager pager,HashMap<String, String> map);
 
 	/**
 	 * 查询所有未删除的岗位

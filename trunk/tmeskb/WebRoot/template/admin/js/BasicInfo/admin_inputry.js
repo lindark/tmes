@@ -125,7 +125,7 @@ function post_event()
         maxmin: true,
         scrollbar: false,
         btn:['确认','取消'],
-        area: ["80%", "80%"],//弹出框的高度，宽度
+        area: ["75%", "75%"],//弹出框的高度，宽度
         content:"post!beforegetpost.action",
         yes:function(index,layero){//确定
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象

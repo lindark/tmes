@@ -427,7 +427,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		{
 			a.setUnitdistributeModelSet(null);
 		}
-		//工位 姓名 性别  身份证号 联系电话 工号 卡号 E-mail 直接上级 部门 岗位 模具组号 工作范围 班组 是否离职 入职日期  当前状态
+		//工位 姓名 性别  身份证号 联系电话 工号 卡号 E-mail 直接上级 部门 岗位 模具组号 工作范围 班组 是否离职 入职日期  亲属关系  操作等级工  最高学历  当前状态
 		//
 		//工位
 		if(stationids!=null)
@@ -446,7 +446,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			{
 				str=str.substring(0, str.length()-1);
 			}
-			admin.setStationids(str);
+			a.setStationids(str);
 		}
 		a.setName(admin.getName());//姓名
 		a.setSex(admin.getSex());//性别
@@ -462,6 +462,9 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		a.setIsDel(admin.getIsDel());//是否离职
 		a.setStartWorkDate(admin.getStartWorkDate());//入职日期
 		a.setNowState(admin.getNowState());//当前状态
+		a.setRelationShip(admin.getRelationShip());//亲属关系
+		a.setWorkerGrade(admin.getWorkerGrade());//操作等级工
+		a.setEducation(admin.getEducation());//最高学历
 		a.setModifyDate(new Date());//修改日期
 		this.update(a);
 	}

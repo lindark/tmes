@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,14 +16,18 @@ import net.sf.json.util.CycleDetectionStrategy;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
@@ -60,6 +65,10 @@ public class KaoqinAction extends BaseAdminAction
 	private String loginid;//当前登录人的ID
 	private String cardnumber;//刷卡人
 	private int my_id;
+	private String productdate;
+	private String empname;
+	private String classtime;
+	private String factoryUnitName;
 	
 	/**
 	 * service接口
@@ -77,6 +86,146 @@ public class KaoqinAction extends BaseAdminAction
 	/**========================end  variable,object,interface==========================*/
 	
 	/**========================method  start======================================*/
+	
+	//考勤记录 @author Reece 2016/3/25
+		public String history(){
+			return "history";
+		}
+		
+		//考勤记录列表 @author Reece 2016/3/25
+		public String historylist() {
+			HashMap<String, String> map = new HashMap<String, String>();
+
+			if (pager.getOrderBy().equals("")) {
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
+			}
+			if (pager.is_search() == true && filters != null) {// 需要查询条件
+				JSONObject filt = JSONObject.fromObject(filters);
+				Pager pager1 = new Pager();
+				Map m = new HashMap();
+				m.put("rules", jqGridSearchDetailTo.class);
+				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+				pager.setRules(pager1.getRules());
+				pager.setGroupOp(pager1.getGroupOp());
+			}
+
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				JSONObject obj = JSONObject.fromObject(Param);
+				if (obj.get("productdate") != null) {
+					String productdate = obj.getString("productdate").toString();
+					map.put("productdate", productdate);
+				}
+				if (obj.get("classtime") != null) {
+					String classtime = obj.getString("classtime").toString();
+					map.put("classtime", classtime);
+				}
+				if (obj.get("empname") != null) {
+					String empname = obj.getString("empname").toString();
+					map.put("empname", empname);
+				}
+				if (obj.get("factoryUnitName") != null) {
+					String factoryUnitName = obj.getString("factoryUnitName").toString();
+					map.put("factoryUnitName", factoryUnitName);
+				}
+				
+			}
+			pager = kqService.historyjqGrid(pager, map);
+			List<Kaoqin> kqlist = pager.getList();
+			List<Kaoqin> lst = new ArrayList<Kaoqin>();
+			try {
+				for (int i = 0; i < kqlist.size(); i++) {
+					Kaoqin kaoqin = kqlist.get(i);
+					if (kaoqin.getTeam() != null) {
+						kaoqin.setXteam(kaoqin.getTeam().getTeamName());
+					}
+				    kaoqin.setXclasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", kaoqin.getClasstime()));
+					kaoqin.setFactoryUnitName(kaoqin.getEmp().getTeam().getFactoryUnit().getFactoryUnitName());
+					kaoqin.setFactory(kaoqin.getEmp().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryName());
+					kaoqin.setWorkshop(kaoqin.getEmp().getTeam().getFactoryUnit().getWorkShop().getWorkShopName());
+					lst.add(kaoqin);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			pager.setList(lst);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Kaoqin.class));// 排除有关联关系的属性字段
+			JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+			return ajaxJson(jsonArray.get(0).toString());
+		}
+		
+		//Excel导出 @author Reece 2016/3/3
+		public String excelexport(){
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("productdate", productdate);
+			map.put("empname", empname);
+			map.put("classtime", classtime);
+			map.put("factoryUnitName", factoryUnitName);
+			
+			List<String> header = new ArrayList<String>();
+			List<Object[]> body = new ArrayList<Object[]>();
+	        header.add("员工卡号");
+	        header.add("姓名");
+	        header.add("工号");
+	        header.add("手机号");
+	        
+	        header.add("工厂");
+	        header.add("车间");
+	        header.add("生产日期");
+	        header.add("单元");
+	        header.add("班组");
+	        header.add("班次");
+	        
+	        header.add("岗位");
+	        header.add("工位");
+	        header.add("模具组号");
+	        header.add("工作范围");
+	        header.add("异常小时数");
+	      
+	        
+	        List<Object[]> kqlist = kqService.historyExcelExport(map);
+	        for(int i=0;i<kqlist.size();i++){
+	        	Object[] obj = kqlist.get(i);
+	        	Kaoqin kaoqin = (Kaoqin) obj[0];//
+	        	Admin admin = (Admin)obj[1];//
+	        	
+	        	Object[] bodyval = {
+	        			kaoqin.getCardNumber(),
+	        		    admin.getName(),
+	        		    admin.getWorkNumber(),
+	        		    admin.getPhoneNo(),
+	        		    
+	        		    kaoqin.getEmp().getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryName(),
+	        		    kaoqin.getEmp().getTeam().getFactoryUnit().getWorkShop().getWorkShopName(),
+	        		    kaoqin.getProductdate(),
+	        		    kaoqin.getEmp().getTeam().getFactoryUnit().getFactoryUnitName(),
+	        		    kaoqin.getTeam().getTeamName(),
+	        		    ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", kaoqin.getClasstime()),
+	        		    
+	        		    kaoqin.getPostname(),
+	        		    kaoqin.getStationName(),
+	        		    kaoqin.getModleNum(),
+	        		    kaoqin.getWorkName(),
+	        		    kaoqin.getTardyHours(),
+	        	};
+	        	body.add(bodyval);
+	        }
+			
+			try {
+				String fileName = "领退料记录表"+".xls";
+				setResponseExcel(fileName);
+				ExportExcel.exportExcel("领退料记录表", header, body, getResponse().getOutputStream());
+				getResponse().getOutputStream().flush();
+			    getResponse().getOutputStream().close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	
 	
 	/**
 	 * 生产日期或班次是否为空
@@ -694,5 +843,39 @@ public class KaoqinAction extends BaseAdminAction
 		this.iswork = iswork;
 	}
 
+	public String getProductdate() {
+		return productdate;
+	}
+
+	public void setProductdate(String productdate) {
+		this.productdate = productdate;
+	}
+
+	public String getEmpname() {
+		return empname;
+	}
+
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+
+	public String getClasstime() {
+		return classtime;
+	}
+
+	public void setClasstime(String classtime) {
+		this.classtime = classtime;
+	}
+
+	public String getFactoryUnitName() {
+		return factoryUnitName;
+	}
+
+	public void setFactoryUnitName(String factoryUnitName) {
+		this.factoryUnitName = factoryUnitName;
+	}
+
+	
+	
 	/**===========================end get/set===============================*/
 }

@@ -5,13 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
+import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Kaoqin;
 
 /**
@@ -105,5 +109,89 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).list();
 	}
 	
+	@Override
+	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Kaoqin.class);
+		if (!existAlias(detachedCriteria, "emp", "admin")) {
+			detachedCriteria.createAlias("emp", "admin");
+		}
+		if(!existAlias(detachedCriteria, "admin.team", "team"))
+		{
+			detachedCriteria.createAlias("admin.team", "team");
+		}
+		if(!existAlias(detachedCriteria, "admin.team.factoryUnit", "factoryUnit"))
+		{
+			detachedCriteria.createAlias("admin.team.factoryUnit", "factoryUnit");
+		}
+		//detachedCriteria.add(Restrictions.eq("workingbill.id", "4028c781532c74d701532ca1986e0014"));//测试
+		if (map.size() > 0) {
+			if (map.get("productdate") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"productdate",
+						"%" + map.get("productdate") + "%"));
+			}	
+			if (map.get("classtime") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"classtime",
+						"%" + map.get("classtime") + "%"));
+			}	
+			if (map.get("empname") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"empname",
+						"%" + map.get("empname") + "%"));
+			}	
+			if (map.get("factoryUnitName") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"factoryUnit.factoryUnitName",
+						"%" + map.get("factoryUnitName") + "%"));
+			}	
+			
+		}
+		return super.findByPager(pager,detachedCriteria);
+	}
+	
+	
+	public List<Object[]> historyExcelExport(HashMap<String,String> map){
+		String hql="from Kaoqin model join model.emp model1";
+		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
+			if (!map.get("productdate").equals("")) {
+				if(ishead==0){
+					hql+=" where model.productdate like '%"+map.get("productdate")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.productdate like '%"+map.get("productdate")+"%'";
+				}
+			}	
+			if (!map.get("classtime").equals("")) {
+				if(ishead==0){
+					hql+=" where model.classtime like '%"+map.get("classtime")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.classtime like '%"+map.get("classtime")+"%'";
+				}
+			}	
+			if (!map.get("empname").equals("")) {
+				if(ishead==0){
+					hql+=" where model.empname like '%"+map.get("empname")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model.empname like '%"+map.get("empname")+"%'";
+				}
+			}	
+			if (!map.get("factoryUnitName").equals("")) {
+				if(ishead==0){
+					hql+=" where model1.team.factoryUnit.factoryUnitName like '%"+map.get("factoryUnitName")+"%'";
+					ishead=1;
+				}else{
+					hql+=" and model1.team.factoryUnit.factoryUnitName like '%"+map.get("factoryUnitName")+"%'";
+				}
+			}	
+			
+		Query query = getSession().createQuery(hql);
+	
+		return query.list();
+	}
+
 	
 }

@@ -74,4 +74,8 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getKaoqinList(String productDate, String shift);
+	
+	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
+	
+    public List<Object[]> historyExcelExport(HashMap<String,String> map);
 }

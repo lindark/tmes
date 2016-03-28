@@ -39,7 +39,7 @@ public interface PostService extends BaseService<Post, String> {
 	 * @param pager
 	 * @return
 	 */
-	public Pager getAllPost(Pager pager);
+	public Pager getAllPost(Pager pager,HashMap<String, String> map);
 
 	/**
 	 * 查询所有未删除的岗位

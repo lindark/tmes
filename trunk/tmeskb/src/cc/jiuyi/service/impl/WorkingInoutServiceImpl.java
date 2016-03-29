@@ -344,10 +344,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				
 				map.put(strlen[25],materialname);//组件描述
-				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
+				map.put(strlen[26],workingbill.getDailyWorkTotalAmount()!=0?"<label style='color:red'>"+workingbill.getDailyWorkTotalAmount()+"</label>":workingbill.getDailyWorkTotalAmount());//当班报工数量
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
-				map.put(strlen[3], afteroddamount);//接上班零头数
-				map.put(strlen[4], afterunoddamount);//接上班异常零头数
+				map.put(strlen[3], afteroddamount!=0?"<label style='color:red'>"+afteroddamount+"</label>":afteroddamount);//接上班零头数
+				map.put(strlen[4], afterunoddamount!=0?"<label style='color:red'>"+afterunoddamount+"</label>":afterunoddamount);//接上班异常零头数
 				
 				List<PickDetail> pickdetailList = pickdetaildao.finddetailByapp(workingbill.getId(), "2");//"2" 表示 确认状态数据
 				Double recipientsamount = 0.00d;
@@ -363,14 +363,16 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						}
 					}
 				}
-				
-				map.put(strlen[5], recipientsamount);//领用数
-				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
-				map.put(strlen[8],beforeoddamount);//交下班零头数
-				map.put(strlen[17],beforeunoddamount);//交下班异常零头数
-				map.put(strlen[9],workinginout.getScrapNumber());//报废数
-				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
-				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+				if(workinginout.getScrapNumber()==null){
+					workinginout.setScrapNumber(0.0d);
+				}
+				map.put(strlen[5], recipientsamount!=0?"<label style='color:red'>"+recipientsamount+"</label>":recipientsamount);//领用数
+				map.put(strlen[7],workingbill.getTotalSingleAmount()!=0?"<label style='color:red'>"+workingbill.getTotalSingleAmount()+"</label>":workingbill.getTotalSingleAmount());//入库数
+				map.put(strlen[8],beforeoddamount!=0?"<label style='color:red'>"+beforeoddamount+"</label>":beforeoddamount);//交下班零头数
+				map.put(strlen[17],beforeunoddamount!=0?"<label style='color:red'>"+beforeunoddamount+"</label>":beforeunoddamount);//交下班异常零头数
+				map.put(strlen[9],workinginout.getScrapNumber()!=0?"<label style='color:red'>"+workinginout.getScrapNumber()+"</label>":workinginout.getScrapNumber());//报废数
+				map.put(strlen[10],workingbill.getTotalRepairAmount()!=0?"<label style='color:red'>"+workingbill.getTotalRepairAmount()+"</label>":workingbill.getTotalRepairAmount());//返修数量
+				map.put(strlen[11],workingbill.getTotalRepairinAmount()!=0?"<label style='color:red'>"+workingbill.getTotalRepairinAmount()+"</label>":workingbill.getTotalRepairinAmount());//返修收货数量
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
 				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
@@ -385,16 +387,16 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}else{
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
-				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
+				map.put(strlen[6],mount!=0?"<label style='color:red'>"+mount+"</label>":mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
 				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+				map.put(strlen[15],dwyl!=0?"<label style='color:red'>"+dwyl+"</label>":dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 			
 				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
 				
 				
 				
 				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(afteroddamount, afterunoddamount),totalsingleamount),beforeoddamount),beforeunoddamount);//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
-				map.put(strlen[16],dbjyhgs);//当班检验合格数
+				map.put(strlen[16],dbjyhgs!=0?"<label style='color:red'>"+dbjyhgs+"</label>":dbjyhgs);//当班检验合格数
 				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
 				
 				Double trzsl = 0.00d;
@@ -421,12 +423,11 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						if(handoverprocess != null){
 							zcjjsl = handoverprocess.getAmount();//正常交接数量
 							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
-							map.put("GXJSBZC_"+processid,"0" );//正常交接数量
-							map.put("GXJSBFX_"+processid, "0");//返修交接数量
+							map.put("GXJSBZC_"+processid, "0");//正常交接数量
+							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
 						}
-						map.put("GXJSBZC_"+processid,zcjjsl);//正常交接数量
-						map.put("GXJSBFX_"+processid,fxjjsl);//返修交接数量
-						
+						map.put("GXJSBZC_"+processid,zcjjsl!=0?"<label style='color:red'>"+zcjjsl+"</label>":zcjjsl);//正常交接数量
+						map.put("GXJSBFX_"+processid,fxjjsl!=0?"<label style='color:red'>"+fxjjsl+"</label>":fxjjsl);//返修交接数量!=						
 						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
 						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
 					}
@@ -441,8 +442,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							zcjjsl = handoverprocess.getAmount();//正常交接数量
 							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 						}
-						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
-						map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
+						map.put("GXJXBZC_"+processid,zcjjsl!=0?"<label style='color:red'>"+zcjjsl+"</label>":zcjjsl);//正常交接数量
+						map.put("GXJXBFX_"+processid,fxjjsl!=0?"<label style='color:red'>"+fxjjsl+"</label>":fxjjsl);//返修交接数量
 						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
 						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
 					}
@@ -450,7 +451,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					
 				}
 				
-				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
+				map.put(strlen[19],trzsl!=0?"<label style='color:red'>"+trzsl+"</label>":trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
 				
 				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
 				Double repairAmount = 0.00d;
@@ -469,8 +470,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 					
 				//cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
-				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
-				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
+				map.put(strlen[20],cczsl!=0?"<label style='color:red'>"+cczsl+"</label>":cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
+				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl)!=0?"<label style='color:red'>"+ArithUtil.sub(trzsl, cczsl)+"</label>":ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 				BigDecimal cost = new BigDecimal(0);

@@ -8,6 +8,9 @@
 				$("#a_zzc").click(function(){
 					window.location.href="dump!all.action?loginid="+$("#loginid").val();
 				});
+				$("#xbc_a").click(function(){
+					window.location.href="locationonside!getStockList.action?loginid="+$("#loginid").val();
+				});
 			});
 		</script>
 
@@ -752,8 +755,8 @@
 						</ul>
 					</li>
 					<li class="">
-						<a href="locationonside!getStockList.action">
-							<i class="menu-icon fa fa-caret-right""></i>
+						<a href="javascript:void(0)" id="xbc_a">
+							<i class="menu-icon fa fa-caret-right"></i>
 							线边仓库存
 						</a>
 						<b class="arrow"></b>

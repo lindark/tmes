@@ -34,7 +34,7 @@ public interface HandOverProcessService extends BaseService<HandOverProcess, Str
 	 * @param handoverprocessList
 	 * @return
 	 */
-	public void saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber);
+	public Admin saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber);
 	
 	/**
 	 * 根据组件编码，工序ID，产品编码获取对象

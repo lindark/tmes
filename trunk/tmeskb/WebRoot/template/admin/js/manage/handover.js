@@ -66,10 +66,10 @@ $(function(){
 	    		},dt)
 	        	return false;
 	        },
-	        btn2:function(index,layero){//刷卡确认
+	        btn2:function(index,layero){
 	        	return false;
 	        },
-	        btn3:function(index,layero){
+	        btn3:function(index,layero){//刷卡确认
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
 	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");

@@ -17,9 +17,8 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
-import cc.jiuyi.entity.DailyWork;
-import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.CartonsonService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.ExportExcel;
@@ -49,6 +48,7 @@ public class CartonsonAction extends BaseAdminAction
 	private String end;
 	private String start;
 	private String state;
+	private String bktxt;
 	
 	
 	
@@ -109,6 +109,10 @@ public class CartonsonAction extends BaseAdminAction
 					String state = obj.getString("state").toString();
 					map.put("state", state);
 				}
+				if (obj.get("bktxt") != null) {
+					String bktxt = obj.getString("bktxt").toString();
+					map.put("bktxt", bktxt);
+				}
 			}
 			pager = cartonsonService.historyjqGrid(pager, map);
 			List<CartonSon> cartonList = pager.getList();
@@ -151,6 +155,7 @@ public class CartonsonAction extends BaseAdminAction
 		map.put("state", state);
 		map.put("start", start);
 		map.put("end", end);
+		map.put("bktxt", bktxt);
 
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
@@ -169,9 +174,11 @@ public class CartonsonAction extends BaseAdminAction
 		header.add("确认人");
 		header.add("状态");
 
-		List<CartonSon> workList = cartonsonService.historyExcelExport(map);
+		List<Object[]> workList = cartonsonService.historyExcelExport(map);
 		for (int i = 0; i < workList.size(); i++) {
-			CartonSon cartonSon =  workList.get(i);
+			Object[] obj = workList.get(i);
+			CartonSon cartonSon = (CartonSon)obj[0];
+			Carton carton = (Carton)obj[1];
 			Object[] bodyval = {
 					cartonSon.getWbcode(),
 					cartonSon.getProductname(),
@@ -183,7 +190,7 @@ public class CartonsonAction extends BaseAdminAction
 					cartonSon.getCscount(),
 					cartonSon.getLGORT(),
 					cartonSon.getCarton().getEX_MBLNR() == null ? "":cartonSon.getCarton().getEX_MBLNR(),
-						cartonSon.getCarton().getBktxt(),
+					carton.getBktxt(),
 					cartonSon.getCreateDate(),
 					cartonSon.getCarton().getCreateUser() == null ? "" : cartonSon.getCarton()
 							.getCreateUser().getName(),
@@ -261,6 +268,16 @@ public class CartonsonAction extends BaseAdminAction
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+
+	public String getBktxt() {
+		return bktxt;
+	}
+
+
+	public void setBktxt(String bktxt) {
+		this.bktxt = bktxt;
 	}
 
 	

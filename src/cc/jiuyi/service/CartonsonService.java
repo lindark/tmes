@@ -16,6 +16,6 @@ public interface CartonsonService extends BaseService<CartonSon, String> {
 
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 
-	public List<CartonSon> historyExcelExport(HashMap<String, String> map);
+	public List<Object[]> historyExcelExport(HashMap<String, String> map);
 
 }

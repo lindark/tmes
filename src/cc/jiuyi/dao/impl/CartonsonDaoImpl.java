@@ -44,7 +44,12 @@ public class CartonsonDaoImpl extends BaseDaoImpl<CartonSon, String> implements 
 				detachedCriteria.add(Restrictions.like(
 						"productname",
 						"%" + map.get("productname") + "%"));
-			}	
+			}
+			if (map.get("bktxt") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"carton.bktxt",
+						"%" + map.get("bktxt") + "%"));
+			}
 			if (map.get("start") != null && map.get("end")==null) {
 				try {
 					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
@@ -87,8 +92,8 @@ public class CartonsonDaoImpl extends BaseDaoImpl<CartonSon, String> implements 
 	}
 
 	@Override
-	public List<CartonSon> historyExcelExport(HashMap<String, String> map) {
-			String hql="from CartonSon model";
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+			String hql="from CartonSon model join model.carton model1";
 			Integer ishead=0;
 			Map<String,Object> parameters = new HashMap<String,Object>();
 			if (map.size() > 0) {
@@ -115,7 +120,15 @@ public class CartonsonDaoImpl extends BaseDaoImpl<CartonSon, String> implements 
 					}else{
 						hql+=" and model.state like '%"+map.get("state")+"%'";
 					}
-				}	
+				}
+				if (!map.get("bktxt").equals("")) {
+					if(ishead==0){
+						hql+=" where model1.bktxt like '%"+map.get("bktxt")+"%'";
+						ishead=1;
+					}else{
+						hql+=" and model1.bktxt like '%"+map.get("bktxt")+"%'";
+					}
+				}
 				if(!map.get("start").equals("") && !map.get("end").equals("")){
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 					try{

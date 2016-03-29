@@ -32,7 +32,7 @@ public class CartonsonServiceImpl extends BaseServiceImpl<CartonSon, String> imp
 		return cartonsonDao.historyjqGrid(pager, map);
 	}
 	@Override
-	public List<CartonSon> historyExcelExport(HashMap<String, String> map) {
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return cartonsonDao.historyExcelExport(map);
 	}

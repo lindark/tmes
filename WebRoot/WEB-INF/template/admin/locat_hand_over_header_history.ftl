@@ -59,7 +59,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal" id="searchform" action="locat_hand_over_header!historylist.action" role="form">
+							<form class="form-horizontal" id="searchform" action="locat_hand_over_header!historylist.action" role="form" method="post">
 								<div class="operateBar">
 									<div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">库存地点:</label>

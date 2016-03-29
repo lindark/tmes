@@ -236,8 +236,11 @@ public class CartonAction extends BaseAdminAction {
 		{
 			pager=new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		if(isRecord==null){
 			isRecord="";
 		}

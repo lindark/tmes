@@ -45,7 +45,7 @@ body {
 								<input type="text" id="dumpid" name="dumpid" value="${(dump.id)! }" style="display: none;" />
 								<input type="hidden" name="fuid" value="${(factoryunit.id)! }" />
 								<input type="hidden" id="xedit" value="${xedit! }" />
-								<input type="hidden" name="materialcode" value="${materialcode! }"/>
+								<input id="materialCode" type="hidden" name="materialcode" value="${materialcode! }"/>
 								<!-- tabs start -->
 								<div id="inputtabs">
 									<ul>

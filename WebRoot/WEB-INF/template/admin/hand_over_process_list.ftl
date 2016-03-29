@@ -409,7 +409,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 <script src="${base}/template/admin/assets/js/additional-methods.min.js"></script>
 <script src="${base}/template/admin/assets/js/jquery.maskedinput.min.js"></script>
 <script src="${base}/template/admin/assets/js/select2.min.js"></script>
- <#if processList==null>
+ <#if processList??>
 <script type="text/javascript"
 	src="${base}/template/admin/js/manage/handovercontrol.js"></script>
   </#if>

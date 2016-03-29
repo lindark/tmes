@@ -31,6 +31,7 @@ import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Post;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
@@ -448,6 +449,20 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					Post post = admin.getPost();
 					if(post!=null){
 						PieceworkMap.put("post", judgeNull(post.getPostName()));// 岗位
+						String station ="";
+						Set<Station> stationset =post.getStationSet();
+						if(stationset!=null && stationset.size()>0){
+							for(Station sta : stationset){
+								if("".equals(station)){
+									station = sta.getName();
+								}else{
+									station = station +";"+sta.getName();
+								}
+							}
+							PieceworkMap.put("station", station);// 工位
+						}else{
+							PieceworkMap.put("station", "");// 工位
+						}
 						PieceworkMap.put("station", judgeNull(post.getStation()));// 工位
 						
 					}else{

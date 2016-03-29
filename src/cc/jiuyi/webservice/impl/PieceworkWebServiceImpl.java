@@ -463,7 +463,6 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						}else{
 							PieceworkMap.put("station", "");// 工位
 						}
-						PieceworkMap.put("station", judgeNull(post.getStation()));// 工位
 						
 					}else{
 						PieceworkMap.put("post", "");// 岗位

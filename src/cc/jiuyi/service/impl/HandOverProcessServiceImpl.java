@@ -85,7 +85,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 
 	
 	@Override
-	public void saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber) {
+	public Admin saveorupdate(List<HandOverProcess> handoverprocessList,String state,String cardNumber) {
 		Admin admin = adminservice.get("cardNumber", cardNumber);
 //		HandOver handOver = new HandOver();
 //		handOver.setState("1");
@@ -174,7 +174,7 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 			}
 				
 		}
-		
+		return admin;
 	}
 
 	@Override
@@ -215,8 +215,8 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 		if(!flag)
 			return flag+","+message;
 		
-		this.saveorupdate(handoverprocessList,state,cardNumber);
-		return flag+","+"操作成功";
+		Admin admin = this.saveorupdate(handoverprocessList,state,cardNumber);
+		return flag+","+"操作成功"+admin.getName();
 	}
 
 

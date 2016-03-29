@@ -54,7 +54,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">库存</li>
+					<li class="active">库存<!-- <button type="button" id="btn11">11111111 --></li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -85,18 +85,18 @@
 										</div>
 									</div>
 									<div class="form-group">
-									<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>单元:</label>
+									<label class="col-sm-1 col-md-offset-1"style="text-align:right">单元:</label>
 										<div class="col-sm-3">
 										<img id="img_faunit" title="单元" alt="单元" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
 										<span id="infoNames" >${(infoName)! }</span>
 										<input type="hidden" name="infoName" id="infoName" value="${(infoName)! }">
-										<input type="hidden" id="infoId" name="infoId" value="${(infoId)! }" class="col-xs-10 col-sm-5 formText {required: true}" />
+										<input type="hidden" id="infoId" name="infoId" value="${(infoId)! }" class="col-xs-10 col-sm-5 " />
 										
 										</div>
-										<label class="col-sm-1 col-md-offset-1"style="text-align:right"><label class="requireField" style="color:red;">*</label>库位:</label>
+										<label class="col-sm-1 col-md-offset-1"style="text-align:right">库位:</label>
 										<div class="col-sm-3">
 											<input type="text" name="position"
-												class="input input-sm form-control formText {required: true}" value="${(position)! }"
+												class="input input-sm form-control " value="${(position)! }"
 												id="position"/>
 												
 										</div>

@@ -74,7 +74,7 @@ jQuery(function($) {
           	{name:'cscount',index:'cscount', width:40,sortable:"true",sorttype:"text"},
           	{name:'LGORT',index:'LGORT', width:40,sortable:"true",sorttype:"text"},
         	{name:'mblnr',index:'mblnr', width:80,sortable:"true",sorttype:"text"},
-        	{name:'bktxt',index:'bktxt', width:50,sortable:"true",sorttype:"text"},
+        	{name:'bktxt',index:'carton.bktxt', width:50,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:100,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'createUser',index:'createUser', width:40,sortable:"true",sorttype:"text"},
 			{name:'confirmUser',index:'confirmUser', width:40,sortable:"true",sorttype:"text"},

@@ -101,7 +101,15 @@
 													name="end">
 											</div>
 										</div>
-										
+									</div>
+									<div class="form-group">
+									   <label class="col-sm-1 col-md-offset-1" style="text-align:right">单据编号:</label>
+										 <div class="col-sm-4">
+											<input type="text" name="bktxt"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+									   
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"

@@ -107,6 +107,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 		for (int i = 0; i < locatHandOverHeaderList.size(); i++) {
 			LocatHandOverHeader locatHandOverHeader = (LocatHandOverHeader) locatHandOverHeaderList.get(i);
 			locatHandOverHeader.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService,"locathohstate", locatHandOverHeader.getState()==null?"":locatHandOverHeader.getState()));
+			locatHandOverHeader.setShift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", locatHandOverHeader.getShift()));
 			lst.add(locatHandOverHeader);
 		}
 		pager.setList(lst);
@@ -356,6 +357,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	//查看
 	public String view(){
 		locatHandOverHeader = locatHandOverHeaderService.get(id);
+		locatHandOverHeader.setShift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", locatHandOverHeader.getShift()));
 		return VIEW;
 	}
 	

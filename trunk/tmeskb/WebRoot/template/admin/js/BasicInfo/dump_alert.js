@@ -122,7 +122,8 @@ function tosubmit(url,info)
 				}
 				if(info=="toconfrim")
 				{
-					window.location.href="dump!all.action?loginid="+$("#loginid").val();
+					//window.location.href="dump!all.action?loginid="+$("#loginid").val();
+					window.location.href="up_down!add.action?type=up&materialCode="+$("#materialCode").val();
 				}
 				else
 				{

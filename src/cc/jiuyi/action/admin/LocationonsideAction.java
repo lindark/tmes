@@ -61,6 +61,7 @@ public class LocationonsideAction extends BaseAdminAction {
 	private String infoId;
 	private String position;
 	private String infoName;
+	private String loginid;
 	
 	@Resource
 	private LocationonsideService locationonsideService;
@@ -265,10 +266,23 @@ public class LocationonsideAction extends BaseAdminAction {
 		return "stock_list";
 	}*/
 	public String getStockList(){
-		if(infoId!=null && !"".equals(infoId) && position!=null && !"".equals(position)){
+		//if(infoId!=null && !"".equals(infoId) && position!=null && !"".equals(position)){
+		String werks ="";
+		String lgort ="";
+		if(infoId!=null && !"".equals(infoId)){
 			FactoryUnit factoryUnit = factoryUniteService.get(infoId);
-			String werks = factoryUnit.getWorkShop().getFactory().getFactoryCode();
-			String lgort = factoryUnit.getWarehouse();
+			 werks = factoryUnit.getWorkShop()==null?"":factoryUnit.getWorkShop().getFactory()==null?"":factoryUnit.getWorkShop().getFactory().getFactoryCode();
+			 lgort = factoryUnit.getWarehouse();
+		}else{
+			Admin admin = adminService.get(loginid);
+			if(admin.getTeam()!=null){
+				infoId = admin.getTeam().getFactoryUnit().getId();
+				infoName = admin.getTeam().getFactoryUnit().getFactoryUnitName();
+				 werks = admin.getTeam().getFactoryUnit().getWorkShop()==null?"":admin.getTeam().getFactoryUnit().getWorkShop().getFactory()==null?"":admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+				 lgort = admin.getTeam().getFactoryUnit().getWarehouse();
+			}
+		}
+			
 			if (locasideListMap == null) {
 				locasideListMap = new ArrayList<HashMap<String, String>>();
 			}
@@ -324,7 +338,7 @@ public class LocationonsideAction extends BaseAdminAction {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		//}
 		
 		return "stock_list";
 	}
@@ -492,16 +506,16 @@ public class LocationonsideAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	public String jianxin(){
-		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
-				+ "<productDate>2016-02-29</productDate>"
-				+ "<shift>3</shift></title></ROOT>";*/
-		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
+		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+				+ "<productDate>2016-03-22</productDate>"
+				+ "<shift>3</shift></title></ROOT>";
+		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
 		+ "<factory>1000</factory>"
 		+ "<workShop>1001</workShop>"
 		+ "<factoryUnit></factoryUnit>"
-		+ "<productDate>2016-01-20</productDate>"
-		+ "<shift></shift></title></ROOT>";  
-		String s = pieceworkWebService.getPieceworkListOne(xmlString);
+		+ "<productDate>2016-02-29</productDate>"
+		+ "<shift>3</shift></title></ROOT>";  */
+		String s = pieceworkWebService.getPieceworkListTwo(xmlString);
 		
 		System.out.println(s);
 		
@@ -579,6 +593,14 @@ public class LocationonsideAction extends BaseAdminAction {
 
 	public void setLocasideListMaps(List<HashMap<String, String>> locasideListMaps) {
 		this.locasideListMaps = locasideListMaps;
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 
 }

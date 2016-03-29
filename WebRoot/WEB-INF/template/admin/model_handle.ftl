@@ -95,6 +95,12 @@ body {
 	function getGridId(){
 		var i=$(".child option:selected").text();
 		var ii=$(".child option:selected").val();
+		
+		if(ii =="" || typeof(ii) == "undefined"){
+			i=$(".handleResult option:selected").text();
+			ii=$(".handleResult option:selected").val();
+		}
+		
 		var work=""+i+","+ii;
 		return work;
 	}

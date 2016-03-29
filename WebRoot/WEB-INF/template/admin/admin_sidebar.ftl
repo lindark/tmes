@@ -774,7 +774,7 @@
 					<li class="">
 						<a href="javascript:void(0)" id="a_zzc">
 							<i class="menu-icon"></i>
-							中转仓
+							物流配送
 						</a>
 						<b class="arrow"></b>
 					</li>

@@ -41,7 +41,7 @@ body {
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-							<form class="form-horizontal" id="searchform" action="admin!ajlistempqxn.action" role="form">
+							<form class="form-horizontal" id="searchform" action="" role="form">
 								<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 								<div class="operateBar">
 									<div class="form-group">

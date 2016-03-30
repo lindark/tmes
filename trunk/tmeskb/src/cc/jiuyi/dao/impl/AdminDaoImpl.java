@@ -329,14 +329,6 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		{
 			if (map!=null&&map.size() > 0)
 			{
-//				if(!super.existAlias(detachedCriteria, "department", "department"))
-//				{
-//					detachedCriteria.createAlias("department", "department");
-//				}
-				if(!super.existAlias(detachedCriteria, "team", "team"))
-				{
-					detachedCriteria.createAlias("team", "team");
-				}
 				//工号
 				if(map.get("workNumber")!=null&&!"".equals(map.get("workNumber")))
 				{
@@ -347,14 +339,22 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 				{
 					detachedCriteria.add(Restrictions.like("name", "%"+map.get("name")+"%"));
 				}
-				//班组名称
+				//部门名称
 				if(map.get("dept")!=null&&!"".equals(map.get("dept")))
 				{
+					if(!super.existAlias(detachedCriteria, "department", "department"))
+					{
+						detachedCriteria.createAlias("department", "department");
+					}
 					detachedCriteria.add(Restrictions.like("department.deptName", "%"+map.get("dept")+"%"));
 				}
-				//班组编码
+				//班组名称
 				if(map.get("team")!=null&&!"".equals(map.get("team")))
 				{
+					if(!super.existAlias(detachedCriteria, "team", "team"))
+					{
+						detachedCriteria.createAlias("team", "team");
+					}
 				    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
 				}
 			}
@@ -378,19 +378,14 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 //			{
 //				detachedCriteria.createAlias("department", "department");
 //			}
-			//班组
-			if(!super.existAlias(detachedCriteria, "team", "team"))
-			{
-				detachedCriteria.createAlias("team", "team");
-			}
-			//岗位
-			if(!super.existAlias(detachedCriteria, "post", "post"))
-			{
-				detachedCriteria.createAlias("post", "post");
-			}
+			
 			//班组
 			if(map.get("team")!=null)
 			{
+				if(!super.existAlias(detachedCriteria, "team", "team"))
+				{
+					detachedCriteria.createAlias("team", "team");
+				}
 			    detachedCriteria.add(Restrictions.like("team.teamName","%"+ map.get("team")+"%"));
 			}
 			//姓名
@@ -401,6 +396,10 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			//岗位
 			if(map.get("skill")!=null)
 			{
+				if(!super.existAlias(detachedCriteria, "post", "post"))
+				{
+					detachedCriteria.createAlias("post", "post");
+				}
 				detachedCriteria.add(Restrictions.like("post.postName", "%"+map.get("skill")+"%"));
 			}
 		}

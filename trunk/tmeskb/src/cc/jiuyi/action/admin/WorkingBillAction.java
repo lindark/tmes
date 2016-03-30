@@ -89,6 +89,7 @@ public class WorkingBillAction extends BaseAdminAction {
 			json.put("maktx", workingbill.getMaktx());//物料描述
 			json.put("charg", ThinkWayUtil.getCharg());//批次
 			json.put("amount", unitconversion.getConversationRatio());//数量
+			json.put("time",ThinkWayUtil.formatDateByPattern(new Date(), "HH:mm:ss") );
 		}catch(Exception e){
 			e.printStackTrace();
 		}

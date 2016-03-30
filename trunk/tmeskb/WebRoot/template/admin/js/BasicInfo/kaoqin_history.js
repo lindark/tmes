@@ -39,7 +39,7 @@ jQuery(grid_selector).jqGrid({
 	    },
 		colModel:[
 {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true,sortable:false},
-{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100,editable: true,search:false,sortable:false},
+{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:80,editable: true,search:false,sortable:false},
 {name:'empname',index:'empname',label:"姓名",width:100,editable: false,search:false,sortable:false},
 {name:'workCode',index:'workCode',label:"工号",width:100,editable: false,search:false,sortable:false},
 {name:'phoneNum',index:'phoneNum',label:"手机号",width:100,editable: false,search:false,sortable:false},
@@ -52,8 +52,8 @@ jQuery(grid_selector).jqGrid({
 {name:'postname',label:"岗位",width:100,editable: false,search:false,sortable:false},
 {name:'stationName',label:"工位",width:100,editable: false,search:false,sortable:false},
 {name:'modleNum',label:"模具组号",width:150,editable: false,search:false,sortable:false},
-{name:'workName',label:"工作范围",width:150,editable: false,search:false,sortable:false},
-{name:'tardyHours',label:"异常小时数",width:50,editable: false,search:false,sortable:false},
+{name:'workName',label:"工作范围",width:100,editable: false,search:false,sortable:false},
+{name:'tardyHours',label:"异常小时数",width:80,editable: false,search:false,sortable:false},
 			], 
 
 		viewrecords : true,

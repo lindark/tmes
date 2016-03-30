@@ -206,7 +206,6 @@
 
 									<!-- /section:custom/widget-box -->
 								</div>
-
 								<!--按钮组start-->
 								<div class="col-xs-12 col-sm-6 widget-container-col">
 									<div class="widget-box transparent">

@@ -61,7 +61,6 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return updowndao.historyjqGrid(pager, map);
 	}
 
@@ -69,8 +68,14 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 
 	@Override
 	public List<UpDown> historyExcelExport(HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return updowndao.historyExcelExport(map);
+	}
+
+
+
+	@Override
+	public List<Object[]> findUpdowngroupby(UpDown updown) {
+		return updowndao.findUpdowngroupby(updown);
 	}
 	
 }

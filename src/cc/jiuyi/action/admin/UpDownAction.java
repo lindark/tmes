@@ -63,6 +63,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String materialDesp;//物料描述
 	private List<Locationonside> locationonsideList;
 	private List<UpDown> updownList;
+	private List<Object[]> updownObjList;
 	private String matnr;
 	private String maktx;
 	private String tanum;
@@ -71,8 +72,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String isud;//判断页面
 	
 	// 超市领用记录 @author Reece 2016/3/22
-		public String history() {
-			
+		public String history(){
 			return "history";
 		}
 		
@@ -403,11 +403,18 @@ public class UpDownAction extends BaseAdminAction {
 	}
 	
 	public String list(){
-		
 		return LIST;
 	}
 	
 	public String cslist(){
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		UpDown updown = new UpDown();
+		updown.setType("updown");
+		updown.setProductDate(admin.getProductDate());
+		updown.setShift(admin.getShift());
+		updownObjList = updownservice.findUpdowngroupby(updown);
+		
 		
 		return "cslist";
 	}
@@ -631,6 +638,16 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setIsud(String isud) {
 		this.isud = isud;
+	}
+
+
+	public List<Object[]> getUpdownObjList() {
+		return updownObjList;
+	}
+
+
+	public void setUpdownObjList(List<Object[]> updownObjList) {
+		this.updownObjList = updownObjList;
 	}
 
 

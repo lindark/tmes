@@ -54,7 +54,18 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by weitao  -->
-							
+							<div class="profile-user-info profile-user-info-striped">
+								<div class="profile-info-row">												
+									<div class="profile-info-name">当前状态</div>
+									<div class="profile-info-value">
+										<#list updownObjList as list >
+											发出仓位:${list[1] },
+											物料:${list[2] } &nbsp; ${list[3] },
+											数量:${list[0] } </br>
+										</#list>
+									</div>			
+								</div>
+							</div>
 							<div class="row buttons col-md-8 col-sm-4">
 							<form class="form-horizontal" id="searchform" action="up_down!csajlist.action" role="form">	
 								<a id="btn_csll" class="btn btn-white btn-default btn-sm btn-round">
@@ -74,7 +85,7 @@
 											发出仓位
 										</option>
 										<option value="downlgpla">
-											接受仓位
+											接收仓位
 										</option>
 									</select>
 									<input type="text" name="pager.keyword" class="input input-sm" id="form-field-icon-1">

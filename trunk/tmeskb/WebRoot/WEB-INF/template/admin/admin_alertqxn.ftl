@@ -59,7 +59,7 @@ body {
 										<div class="col-sm-4">
 											<input type="text" name="dept" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
-										<label class="col-sm-2" style="text-align:right;">班组:</label>
+										<label class="col-sm-2" style="text-align:right;">班组</label>
 										<div class="col-sm-4">
 											<input type="text" name="team" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>

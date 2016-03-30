@@ -104,7 +104,7 @@ $(function() {
 				LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 				LODOP.ADD_PRINT_TEXT("42mm","2mm","49mm","5mm","包装批次:"+workingbill.charg);
 				LODOP.ADD_PRINT_TEXT("47mm","2mm","49mm","5mm","数量:"+workingbill.amount);
-				LODOP.ADD_PRINT_TEXT("52mm","2mm","49mm","5mm","喷码批次:");
+				LODOP.ADD_PRINT_TEXT("52mm","2mm","49mm","5mm","打印时间:"+workingbill.time);
 				LODOP.ADD_PRINT_BARCODE("57mm","4mm","37mm","6mm","128Auto",workingbill.workingbillCode);
 				LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 				LODOP.ADD_PRINT_TEXT("65mm","2mm","49mm","5mm","随工单:"+workingbill.workingbillCode);
@@ -387,7 +387,8 @@ $(function() {
 			workingbill.maktx=data.maktx;//物料描述
 			workingbill.charg=data.charg;//批次
 			workingbill.amount=data.amount;//数量
-			workingbill.pagenumber=part;
+			workingbill.pagenumber=part;//打印的页数
+			workingbill.time = data.time;//时间
 			init.barcode(workingbill);
 		},"json" );
 		

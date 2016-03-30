@@ -176,4 +176,10 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 
 		return query.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> findUpdowngroupby(UpDown updown){
+		String hql="select sum(model.dwnum),model.uplgpla,model.matnr,model.maktx from UpDown model where model.type = ? and model.productDate = ? and model.shift = ? group by model.uplgpla,model.matnr,model.maktx";
+		return getSession().createQuery(hql).setParameter(0, updown.getType()).setParameter(1, updown.getProductDate()).setParameter(2, updown.getShift()).list();
+	}
 }

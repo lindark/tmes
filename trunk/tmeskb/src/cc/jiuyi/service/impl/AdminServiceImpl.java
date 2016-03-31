@@ -474,8 +474,16 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 	 */
 	public String getChecknum(String worknumber, String cardnumber,String id)
 	{
-		List<Admin>list1=this.adminDao.getByNumber(worknumber,id,1);
-		List<Admin>list2=this.adminDao.getByNumber(cardnumber,id,2);
+		List<Admin>list1=new ArrayList<Admin>();
+		List<Admin>list2=new ArrayList<Admin>();
+		if(worknumber!=null&&!"".equals(worknumber))
+		{
+			list1=this.adminDao.getByNumber(worknumber,id,1);
+		}
+		if(cardnumber!=null&&!"".equals(cardnumber))
+		{
+			list2=this.adminDao.getByNumber(cardnumber,id,2);
+		}
 		if(list1.size()>0&&list2.size()>0)
 		{
 			return "wc";

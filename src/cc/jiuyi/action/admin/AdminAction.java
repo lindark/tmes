@@ -1207,7 +1207,36 @@ public class AdminAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 		}
-		pager = adminService.getAllEmp(pager,null,deptid,1);
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			//工号
+			if (obj.get("workNumber") != null)
+			{
+				String workNumber = obj.getString("workNumber").toString();
+				map.put("workNumber", workNumber);
+			}
+			//姓名
+			if (obj.get("name") != null)
+			{
+				String name = obj.getString("name").toString();
+				map.put("name", name);
+			}
+			//部门
+			if (obj.get("dept") != null)
+			{
+				String dept = obj.getString("dept").toString();
+				map.put("dept", dept);
+			}
+			//是否离职
+			if (obj.get("islizhi") != null)
+			{
+				String islizhi = obj.getString("islizhi").toString();
+				map.put("islizhi", islizhi);
+			}
+		}
+		pager = adminService.getAllEmp(pager,map,deptid,1);
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin> newlist=getNewAdminList(pagerlist);
@@ -1238,6 +1267,22 @@ public class AdminAction extends BaseAdminAction {
 	{
 		try
 		{
+			String str=this.adminService.getChecknum(admin.getWorkNumber(),admin.getCardNumber(),null);
+			if("wc".equals(str))
+			{
+				addActionError("工号和卡号已存在!");
+				return ERROR;
+			}
+			else if("w".equals(str))
+			{
+				addActionError("工号已存在!");
+				return ERROR;
+			}
+			else if("c".equals(str))
+			{
+				addActionError("卡号已存在!");
+				return ERROR;
+			}
 			this.adminService.saveInfo(admin,unitdistributeProducts,unitdistributeModels,null,loginid,strStationIds);
 		}
 		catch(Exception e)

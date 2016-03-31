@@ -327,39 +327,52 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		else if(my_id==3)
 		{
-			if (map!=null&&map.size() > 0)
-			{
-				//工号
-				if(map.get("workNumber")!=null&&!"".equals(map.get("workNumber")))
-				{
-					detachedCriteria.add(Restrictions.like("workNumber", "%"+map.get("workNumber")+"%"));
-				}
-				//姓名
-				if(map.get("name")!=null&&!"".equals(map.get("name")))
-				{
-					detachedCriteria.add(Restrictions.like("name", "%"+map.get("name")+"%"));
-				}
-				//部门名称
-				if(map.get("dept")!=null&&!"".equals(map.get("dept")))
-				{
-					if(!super.existAlias(detachedCriteria, "department", "department"))
-					{
-						detachedCriteria.createAlias("department", "department");
-					}
-					detachedCriteria.add(Restrictions.like("department.deptName", "%"+map.get("dept")+"%"));
-				}
-				//班组名称
-				if(map.get("team")!=null&&!"".equals(map.get("team")))
-				{
-					if(!super.existAlias(detachedCriteria, "team", "team"))
-					{
-						detachedCriteria.createAlias("team", "team");
-					}
-				    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
-				}
-			}
 			detachedCriteria.add(Restrictions.isNull("username"));
 		}
+		if (map!=null&&map.size() > 0)
+		{
+			//工号
+			if(map.get("workNumber")!=null&&!"".equals(map.get("workNumber")))
+			{
+				detachedCriteria.add(Restrictions.like("workNumber", "%"+map.get("workNumber")+"%"));
+			}
+			//姓名
+			if(map.get("name")!=null&&!"".equals(map.get("name")))
+			{
+				detachedCriteria.add(Restrictions.like("name", "%"+map.get("name")+"%"));
+			}
+			//部门名称
+			if(map.get("dept")!=null&&!"".equals(map.get("dept")))
+			{
+				if(!super.existAlias(detachedCriteria, "department", "department"))
+				{
+					detachedCriteria.createAlias("department", "department");
+				}
+				detachedCriteria.add(Restrictions.like("department.deptName", "%"+map.get("dept")+"%"));
+			}
+			//班组名称
+			if(map.get("team")!=null&&!"".equals(map.get("team")))
+			{
+				if(!super.existAlias(detachedCriteria, "team", "team"))
+				{
+					detachedCriteria.createAlias("team", "team");
+				}
+			    detachedCriteria.add(Restrictions.like("team.teamName", "%"+map.get("team")+"%"));
+			}
+			//是否离职
+			if(map.get("islizhi")!=null&&!"baga".equals(map.get("islizhi")))
+			{
+				detachedCriteria.add(Restrictions.eq("isDel", map.get("islizhi")));
+			}
+		}
+		else
+		{
+			if(my_id==1)
+			{
+				detachedCriteria.add(Restrictions.eq("isDel", "N"));
+			}
+		}
+		
 		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
 	}
@@ -417,7 +430,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 	public List<Admin> getByNumber(String number,String id, int my_id)
 	{
 		String hql="";
-		if(id==null)
+		if(id==null||"".equals(id))
 		{
 			if(my_id==1)
 			{

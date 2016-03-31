@@ -41,27 +41,27 @@ public class CreditCardAction extends BaseAdminAction {
 		System.out.println(serverName);
 		
 		HashMap<String, String> map = new HashMap<String,String>();
-//		CreditCard creditCard = creditCardService.get(createDate);
-//		if(creditCard == null){//未找到
-//			map.put("status", "no");
-//		}else{
-			map.put("status", "yes");
-			map.put("cardnumber", "2661135367");
-//			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
-//			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
-//			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
-//			if(cardment == null){
-//				map.put("status", "no");
-//			}else{
-//				String pcip = cardment.getPcIp();
-//				if(ip.equals(pcip)){
-//					map.put("status", "yes");
-//					map.put("cardnumber", creditCard.getCardNumber());//卡号
-//				}else{
-//					map.put("status", "no");
-//				}
-//			}
-//		}
+		CreditCard creditCard = creditCardService.get(createDate);
+		if(creditCard == null){//未找到
+			map.put("status", "no");
+		}else{
+			//map.put("status", "yes");
+			//map.put("cardnumber", "2661135367");
+			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
+			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
+			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
+			if(cardment == null){
+				map.put("status", "no");
+			}else{
+				String pcip = cardment.getPcIp();
+				if(ip.equals(pcip)){
+					map.put("status", "yes");
+					map.put("cardnumber", creditCard.getCardNumber());//卡号
+				}else{
+					map.put("status", "no");
+				}
+			}
+		}
 		
 		return ajaxJson(map);
 	}

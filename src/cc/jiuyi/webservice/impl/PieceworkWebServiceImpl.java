@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,27 +13,20 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.jws.WebService;
 
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Component;
 
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Post;
-import cc.jiuyi.entity.Station;
+import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Team;
-import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
@@ -187,7 +179,23 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											PieceworkMap.put("qualifiedAmount","0");//报工数
 										}*/
 										PieceworkMap.put("qualifiedAmount",dw==null?"":dw.getEnterAmount()==null?"0":judgeNull(dw.getEnterAmount()));//报工数
-										PieceworkMap.put("qualifiedRatio","");//一次合格率  待确定
+										Set<Sample> sampleSet = wb.getSample();
+										if(sampleSet!=null && sampleSet.size()>0){
+											BigDecimal costQulified = new BigDecimal(0);
+											BigDecimal costSampleNum = new BigDecimal(0);
+											for(Sample sp :sampleSet){
+												costQulified = costQulified.add(new BigDecimal("".equals(judgeNull(sp.getQulified()))?"0":sp.getQulified()));
+												costSampleNum = costSampleNum.add(new BigDecimal("".equals(judgeNull(sp.getSampleNum()))?"0":sp.getSampleNum()));
+											}
+											if(costSampleNum.compareTo(new BigDecimal(0))==0){
+												PieceworkMap.put("qualifiedRatio","");
+											}else{
+												String costQulifiedRate =costSampleNum.divide(costQulified).setScale(2, RoundingMode.HALF_UP).toString()+"%";
+												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
+											}
+										}else{
+											PieceworkMap.put("qualifiedRatio","");//一次合格率  (抽检合格率 平均值)
+										}
 										PieceworkLists.add(PieceworkMap);
 									}else{
 										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
@@ -231,7 +239,25 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											PieceworkMap.put("qualifiedAmount","0");//报工数
 										}*/
 										PieceworkMap.put("qualifiedAmount",dw==null?"":dw.getEnterAmount()==null?"0":judgeNull(dw.getEnterAmount()));//报工数
-										PieceworkMap.put("qualifiedRatio","");//一次合格率  待确定
+										
+										Set<Sample> sampleSet = wb.getSample();
+										if(sampleSet!=null && sampleSet.size()>0){
+											BigDecimal costQulified = new BigDecimal(0);
+											BigDecimal costSampleNum = new BigDecimal(0);
+											for(Sample sp :sampleSet){
+												costQulified = costQulified.add(new BigDecimal("".equals(judgeNull(sp.getQulified()))?"0":sp.getQulified()));
+												costSampleNum = costSampleNum.add(new BigDecimal("".equals(judgeNull(sp.getSampleNum()))?"0":sp.getSampleNum()));
+											}
+											if(costSampleNum.compareTo(new BigDecimal(0))==0){
+												PieceworkMap.put("qualifiedRatio","");
+											}else{
+												String costQulifiedRate =costSampleNum.divide(costQulified).setScale(2, RoundingMode.HALF_UP).toString()+"%";
+												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
+											}
+										}else{
+											PieceworkMap.put("qualifiedRatio","");//一次合格率  (抽检合格率 平均值)
+										}
+										
 										PieceworkLists.add(PieceworkMap);
 									}
 								}

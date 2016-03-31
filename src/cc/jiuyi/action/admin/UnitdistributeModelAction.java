@@ -162,7 +162,7 @@ public class UnitdistributeModelAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")*/
 		public String update() {
 			UnitdistributeModel persistent = unitdistributeModelService.load(id);
-			BeanUtils.copyProperties(unitdistributeModel, persistent, new String[] { "id","createDate", "modifyDate","unitCode","unitName"});
+			BeanUtils.copyProperties(unitdistributeModel, persistent, new String[] { "id","createDate","unitCode","unitName","factoryunit"});
 			unitdistributeModelService.update(persistent);
 			redirectionUrl = "unitdistribute_model!list.action";
 			return SUCCESS;

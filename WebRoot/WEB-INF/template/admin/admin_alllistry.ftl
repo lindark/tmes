@@ -84,32 +84,32 @@
 											<div class="operateBar">
 												<div class="form-group div_group">
 													<div class="col-xs-12 col-sm-6 col-md-3">
-														部门：<input type="text" name="dept" value="" >
+														部门：<input type="text" id="input_dept" name="dept" value="" >
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-3">
-														工号：<input type="text" name="workNumber" value="" >
+														工号：<input type="text" id="input_worknum" name="workNumber" value="" >
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-3">
-														姓名：<input type="text" name="name" value="" >
+														姓名：<input type="text" id="input_name" name="name" value="" >
 													</div>
 													<div class="col-xs-12 col-sm-6 col-md-3">
 														是否离职：
-														<select name="islizhi">
+														<select id="sel_islizhi" name="islizhi">
 															<option value="baga">&nbsp;</option>
 															<option value="N">在职</option>
 															<option value="Y">离职</option>
 														</select>
 													</div>
-													<div class="div_btn">
-														<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
-															<i class="ace-icon fa fa-filter blue"></i> 搜索
-														</a>
-														&nbsp;&nbsp;
-														<button id="btn_outexcel" type="button" class="btn btn-white btn-default btn-sm btn-round">
-															<i class="ace-icon fa fa-cloud-upload"></i>
-																	导出Excel
-														</button>
-													</div>
+												</div>
+												<div class="div_btn">
+													<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+														<i class="ace-icon fa fa-filter blue"></i> 搜索
+													</a>
+													&nbsp;&nbsp;
+													<button id="btn_outexcel" type="button" class="btn btn-white btn-default btn-sm btn-round">
+														<i class="ace-icon fa fa-cloud-upload"></i>
+																导出Excel
+													</button>
 												</div>
 											</div>
 										</form>

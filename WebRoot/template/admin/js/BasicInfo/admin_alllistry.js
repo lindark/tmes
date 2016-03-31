@@ -22,7 +22,7 @@ jQuery(function($) {
 		
 		url:"admin!ajlistemp.action",
 		datatype: "local",
-		height: "330",//weitao 修改此参数可以修改表格的高度
+		height: "340",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -44,10 +44,10 @@ jQuery(function($) {
 			{name:'departName',label:"部门名称",width:100,fixed:true,index:'department.deptName', editable: true},
 			{name:'xteam',label:"班组",width:100,fixed:true,index:'team.teamName', editable: true},
 			{name:'workNumber',label:"工号",width:80,fixed:true,index:'workNumber',editable:true},
+			{name:'cardNumber',label:"卡号",width:100,fixed:true,index:'cardNumber', editable: true},
 			{name:'name',label:"姓名",width:80,fixed:true,index:'name', editable: true},
 			{name:'xsex',label:"性别",width:50,fixed:true,index:'sex', editable: true},
 			{name:'xparentAdmin',label:"直接上级",width:80,fixed:true,index:'parentAdmin.name', editable: true},
-			{name:'cardNumber',label:"卡号",width:100,fixed:true,index:'cardNumber', editable: true},
 			{name:'xpost',label:"岗位",width:100,fixed:true,index:'post.postName', editable: true},
 			
 			
@@ -67,7 +67,7 @@ jQuery(function($) {
 			{name:'nowState',label:"当前状态",width:100,fixed:true,index:'nowState', editable: true},
 			
 			
-			{name:'xisJob',label:"是否离职",width:80,fixed:true,index:'isJob', editable: true},
+			{name:'xisJob',label:"是否离职",width:80,fixed:true,index:'isDel', editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
 			{name:'xempCreater',index:'empCreater.name',label:"创建人",width:80,fixed:true,editable: true}
 		], 
@@ -204,6 +204,10 @@ function myevents()
 		}
 	});
 	$(window).triggerHandler('resize');
+	//导出Excel
+	$("#btn_outexcel").click(function(){
+		outexcel_event();
+	});
 }
 
 /**
@@ -409,3 +413,13 @@ jiuyi.admin.depart.tree = function(nodes,addHandle,editHandle,removeBeforeHandle
 	
 	$.fn.zTree.init($("#ingageTree"), setting, nodes);
 };
+
+//导出excel
+function outexcel_event()
+{
+	var name=$("#input_name").val();//姓名
+	var dept=$("#input_dept").val();//部门
+	var worknum=$("#input_worknum").val();//工号
+	var islizhi=$("#sel_islizhi").val();//是否离职
+	window.location.href="admin!outexcelry.action?admin.name="+name+"&admin.isDel="+islizhi+"&admin.workNumber="+worknum+"&admin.department.deptName="+dept;
+}

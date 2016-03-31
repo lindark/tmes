@@ -63,16 +63,23 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:['公司','工厂','成本中心','工作中心','设备编码','设备名称','设备型号','状态', ],
+		colNames:['公司','工厂','成本中心','工作中心','设备编码','设备名称','设备型号','功能位置','功能位置描述','ABC标识','设备种类','状态','有效起始日','有效截止日' ],
 		colModel:[		
-            {name:'company',index:'company', width:100,editable: true,sortable:true},
-            {name:'factory',index:'factory', width:100,editable: true,sortable:true},
+            {name:'companycode',index:'companycode', width:100,editable: true,sortable:true},
+            {name:'factorycode',index:'factorycode', width:100,editable: true,sortable:true},
             {name:'costCenter',index:'costCenter', width:100,editable: true,sortable:true},
             {name:'workCenter',index:'workCenter', width:100,editable: true,sortable:true},
 			{name:'equipmentNo',index:'equipmentNo', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'equipmentName',index:'equipmentName', width:200,sortable:true,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'versionReamrk',index:'version', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=equipmentState"}}
+			{name:'version',index:'version', width:200,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'functionPosition',index:'functionPosition', width:200,editable: true,sortable:true},
+			{name:'functionPositiondecribe',index:'functionPositiondecribe', width:200,editable: true,sortable:true},
+			{name:'identify',index:'identify', width:200,editable: true,sortable:true},
+			{name:'type',index:'type', width:200,editable: true,sortable:true},
+			{name:'stateRemark',index:'state', width:200, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=equipmentState"}},
+			{name:'startday',index:'startday', width:200,editable: true,sortable:true},
+			{name:'endday',index:'endday', width:200,editable: true,sortable:true}
+			
 		], 
 
 		viewrecords : true,

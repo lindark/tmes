@@ -22,7 +22,7 @@ jQuery(function($) {
 		
 		url:"admin!ajlistemp.action",
 		datatype: "local",
-		height: "300",//weitao 修改此参数可以修改表格的高度
+		height: "330",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
 	          repeatitems : false,
 	          root:"list",
@@ -67,7 +67,7 @@ jQuery(function($) {
 			{name:'nowState',label:"当前状态",width:100,fixed:true,index:'nowState', editable: true},
 			
 			
-			{name:'xisJob',label:"是否离职",width:50,fixed:true,index:'isJob', editable: true},
+			{name:'xisJob',label:"是否离职",width:80,fixed:true,index:'isJob', editable: true},
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,fixed:true,editable:true,search:false, sorttype:"date",formatter:datefmt},
 			{name:'xempCreater',index:'empCreater.name',label:"创建人",width:80,fixed:true,editable: true}
 		], 

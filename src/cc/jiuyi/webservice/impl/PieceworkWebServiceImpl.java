@@ -392,6 +392,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 				PieceworkMap.put("productDate", productDate);//生产日期
 				PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
+				PieceworkMap.put("mouldNumber", judgeNull(kq.getModleNum()));// 模具组号
+				PieceworkMap.put("workingRange", judgeNull(kq.getWorkName()));// 工作范围
+				PieceworkMap.put("station", judgeNull(kq.getStationName()));// 工位
 				Team team  = kq.getTeam();
 				if(team!=null){
 					PieceworkMap.put("classSys", judgeNull(team.getClassSys()));// 班制
@@ -399,7 +402,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("team", judgeNull(team.getTeamCode()));// 班组
 					
 					
-					FactoryUnit fn = team.getFactoryUnit();
+					/*FactoryUnit fn = team.getFactoryUnit();
 					
 					if(fn!=null){
 						Set<UnitdistributeModel> unitdistributemodelSet = fn.getUnitdistributemodelSet();
@@ -434,7 +437,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 						}
 					}else{
 						PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
-					}
+					}*/
 				}else{
 					PieceworkMap.put("classSys", "");// 班制
 					PieceworkMap.put("basic", "");// 基本
@@ -449,7 +452,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					Post post = admin.getPost();
 					if(post!=null){
 						PieceworkMap.put("post", judgeNull(post.getPostName()));// 岗位
-						String station ="";
+						/*String station ="";
 						Set<Station> stationset =post.getStationSet();
 						if(stationset!=null && stationset.size()>0){
 							for(Station sta : stationset){
@@ -462,14 +465,14 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 							PieceworkMap.put("station", station);// 工位
 						}else{
 							PieceworkMap.put("station", "");// 工位
-						}
+						}*/
 						
 					}else{
 						PieceworkMap.put("post", "");// 岗位
-						PieceworkMap.put("station", "");// 工位
+						//PieceworkMap.put("station", "");// 工位
 						
 					}
-					Set<UnitdistributeProduct> unitProductSet = admin.getUnitdistributeProductSet();//模具组号
+					/*Set<UnitdistributeProduct> unitProductSet = admin.getUnitdistributeProductSet();//模具组号
 					
 					String workingRange = "";
 					int i=0;
@@ -495,17 +498,17 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								}
 							}
 						}
-					}
+					}*/
 					
-					PieceworkMap.put("workingRange", judgeNull(workingRange));// 工作范围
+					
 					PieceworkMap.put("phone", judgeNull(admin.getPhoneNo()));// 手机号码
 				}else{
 					PieceworkMap.put("workNumber", "");// 工号
 					PieceworkMap.put("name", "");// 姓名
 					PieceworkMap.put("cardNumber", "");// 卡号
 					PieceworkMap.put("post", "");// 岗位
-					PieceworkMap.put("station", "");// 工位
-					PieceworkMap.put("workingRange", "");// 工作范围
+					//PieceworkMap.put("station", "");// 工位
+					//PieceworkMap.put("workingRange", "");// 工作范围
 					PieceworkMap.put("phone", "");// 手机号码
 				}
 				String workState = "";

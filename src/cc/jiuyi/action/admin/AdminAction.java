@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +65,7 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -1449,6 +1451,68 @@ public class AdminAction extends BaseAdminAction {
 		this.adminService.updateToDel(id);
 		this.redirectionUrl="admin!alllistry.action";
 		return SUCCESS;
+	}
+	
+	/**
+	 * 导出excel
+	 */
+	public String outexcelry()
+	{
+		try
+		{
+			List<Admin>list1=this.adminService.getAllByConditions(admin);//根据条件查询
+			List<Admin>list2=getNewAdminList(list1);
+			List<String> header = new ArrayList<String>();
+			header.add("部门编码");header.add("部门名称");header.add("班组");
+			header.add("工号");header.add("卡号");header.add("姓名");
+			header.add("性别");header.add("直接上级");header.add("岗位");
+			header.add("工位");header.add("模具组号");header.add("工作范围");
+			header.add("身份证号");header.add("联系电话");header.add("E-mail");
+			header.add("入职日期");header.add("亲属关系");header.add("操作等级工");
+			header.add("最高学历");header.add("当前状态");header.add("是否离职");
+			header.add("创建日期");header.add("创建人");
+			List<Object[]> body = new ArrayList<Object[]>();
+			for(int i=0;i<list2.size();i++)
+			{
+				Admin a=list2.get(i);
+				Object[] str = new Object[header.size()];
+				str[0]=a.getXdeptcode();
+				str[1]=a.getDepartName();
+				str[2]=a.getXteam();
+				str[3]=a.getWorkNumber();
+				str[4]=a.getCardNumber();
+				str[5]=a.getName();
+				str[6]=a.getXsex();
+				str[7]=a.getXparentAdmin();
+				str[8]=a.getXpost();
+				str[9]=a.getXgongwei();
+				str[10]=a.getXworkscope();
+				str[11]=a.getXstation();
+				str[12]=a.getIdentityCard();
+				str[13]=a.getPhoneNo();
+				str[14]=a.getEmail();
+				str[15]=a.getStartWorkDate();
+				str[16]=a.getRelationShip();
+				str[17]=a.getWorkerGrade();
+				str[18]=a.getEducation();
+				str[19]=a.getNowState();
+				str[20]=a.getXisJob();
+				str[21]=a.getCreateDate();
+				str[22]=a.getXempCreater();
+				body.add(str);
+			}
+			/***Excel 下载****/
+			String fileName="人员信息"+".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("人员信息", header, body, getResponse().getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**===========end 用户信息管理===========*/

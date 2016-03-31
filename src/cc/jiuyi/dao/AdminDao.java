@@ -130,5 +130,12 @@ public interface AdminDao extends BaseDao<Admin, String> {
 	 * @return
 	 */
 	public Admin getByUsername(String username);
+	
+	/**
+	 * 根据条件查询
+	 * @param admin
+	 * @return
+	 */
+	public List<Admin> getAllByConditions(Admin admin);
 
 }

@@ -560,4 +560,13 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 			}
 		}
 	}
+
+	/**
+	 * 根据条件查询
+	 * @return
+	 */
+	public List<Admin> getAllByConditions(Admin admin)
+	{
+		return this.adminDao.getAllByConditions(admin);
+	}
 }

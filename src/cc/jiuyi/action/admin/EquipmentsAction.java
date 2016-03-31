@@ -134,14 +134,13 @@ public class EquipmentsAction extends BaseAdminAction {
 		for (int i = 0; i < pagerlist.size(); i++) {
 			Equipments equipment = (Equipments) pagerlist.get(i);
 		
-			equipment.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "equipmentState", equipment.getState()));
-			if(equipment.getVersion()!=null && !"".equals(equipment.getVersion())){
-				equipment.setVersionReamrk(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "equipmentVersion", equipment.getVersion()));
-			}else{
-				equipment.setVersionReamrk("");
-			}
+			equipment.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "equipmentState", equipment.getState()));
+//			if(equipment.getVersion()!=null && !"".equals(equipment.getVersion())){
+//				equipment.setVersionReamrk(ThinkWayUtil.getDictValueByDictKey(
+//						dictService, "equipmentVersion", equipment.getVersion()));
+//			}else{
+//				equipment.setVersionReamrk("");
+//			}
 			
 			
 			pagerlist.set(i,equipment);

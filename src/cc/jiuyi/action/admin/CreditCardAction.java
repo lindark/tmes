@@ -49,7 +49,10 @@ public class CreditCardAction extends BaseAdminAction {
 			//map.put("cardnumber", "2661135367");
 			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
 			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
-			CardManagement cardment = cardmanagementservice.get("posCode",deviceCode);
+			
+			String [] propertyNames = {"posCode","isDel"};
+			Object [] propertyValues = {deviceCode,"N"};
+			CardManagement cardment = cardmanagementservice.get(propertyNames,propertyValues);
 			if(cardment == null){
 				map.put("status", "no");
 			}else{

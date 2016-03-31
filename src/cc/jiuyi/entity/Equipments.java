@@ -21,7 +21,9 @@ public class Equipments extends BaseEntity{
 	
 	private String version;//型号
 	private String company;//公司
+	private String companycode;//公司代码
 	private String factory;//工厂
+	private String factorycode;//工厂编码
 	private String costCenter;//成本中心
 	private String workCenter;//工作中心
 	private String functionPosition;//功能位置
@@ -179,6 +181,18 @@ public class Equipments extends BaseEntity{
 	}
 	public void setFunctionPositiondecribe(String functionPositiondecribe) {
 		this.functionPositiondecribe = functionPositiondecribe;
+	}
+	public String getCompanycode() {
+		return companycode;
+	}
+	public void setCompanycode(String companycode) {
+		this.companycode = companycode;
+	}
+	public String getFactorycode() {
+		return factorycode;
+	}
+	public void setFactorycode(String factorycode) {
+		this.factorycode = factorycode;
 	}
     
     

@@ -58,7 +58,9 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 			//request.getServletPath()
 			String path = request.getRequestURI();// 获取当前访问的路径
 			Object[] cardnumber = (Object[])parameters.get("cardnumber");//卡号
-			List<Admin> admin = adminservice.getList("cardNumber",cardnumber[0]);
+			String [] propertyNames = {"cardNumber","isDel","isDelete","isAccountEnabled"};
+			Object[] propertyValues = {cardnumber[0],"N","N",true};
+			List<Admin> admin = adminservice.getList(propertyNames,propertyValues);
 			if(admin == null || admin.size()<=0){
 				HashMap<String, String> jsonmap = new HashMap<String, String>();
 				jsonmap.put("status", "error");

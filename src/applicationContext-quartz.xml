@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+ 	<!-- 总调度器 -->
+	<bean id="mapScheduler" lazy-init="false"  autowire="no"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">   
+        <property name="triggers">   
+            <list>   
+	   		<ref local="cronTriggerCA_DocBM"/> 
+	   		 <ref local="cronTriggerWorkingBill"/> 
+	   		 <ref local="cronTriggerEquipment"/>
+            </list>   
+        </property>   
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
+        <property name="configLocation" value="classpath:quartz.properties" /> 
+        <property name="autoStartup" value="true" />   
+    </bean>  
+    
+
+	<!-- 第一种Spring 集成 quartz 的 例子 -->
+	<!-- 注意: -->
+	<!-- 任务必须实现 QuartzJobBean接口 -->
+	<!-- 定时任务-编码自动生成 -->
+	<bean name="docBmServiceJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.DocBmServiceJob" /> <!-- 要执行的任务类 -->
+    <property name="jobDataAsMap"> <!-- 传递的参数 -->
+     <map>
+      <entry key="timeout">
+       <value>5000</value>
+      </entry>
+      <!-- <entry key="dictService" value-ref="dictService" /> -->
+     </map>
+    </property>	
+   </bean> 
+   
+   <!-- 任务的执行 -->
+    <bean id="cronTriggerCA_DocBM" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="docBmServiceJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 05 23 ? * *</value>
+		  </property>
+    </bean>  
+    
+    
+    <!-- 定时任务-自动同步设备主数据 -->
+   <bean name="equipmentJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.EquipmentJob" /> <!-- 要执行的任务类 -->
+   </bean> 
+   
+   <!-- 任务的执行 -->
+    <bean id="cronTriggerEquipment" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="equipmentJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 0 3 ? * *</value><!-- 凌晨3点执行 -->
+		  </property>
+    </bean>  
+    
+    
+   <!-- 第二种Spring 集成 quartz 的 例子 -->
+   <!-- 注意: -->
+   <!-- 可以指定任意类的方法为任务类 -->
+   <!-- 同步生产订单 -->
+   <bean id="workingBillJobAll" class="cc.jiuyi.action.cron.WorkingBillJobAll"></bean>
+   <bean id="workingBillJobTask"  class="frameworkx.springframework.scheduling.quartz.BeanInvokingJobDetailFactoryBean">
+    	<property name="targetBean" value="workingBillJobAll"></property> <!-- 此处两种方式,一种是给 ceshi 增加 <bean> 配置,另外一种是给对应的类增加注解 @Component():要求类名一致 -->
+    	<property name="targetMethod"> <!-- 执行的具体方法 -->
+    		<value>start</value>
+    	</property>
+    	<property name="arguments">
+    		<list>
+    			<value>3110</value>
+    		</list>
+    	</property>
+    	<property name="concurrent"> <!-- 此处配置 任务是否是同步执行或者是异步执行官.解决并发问题 -->
+    		<value>false</value>
+    	</property>
+   </bean> 
+   
+   <!-- 任务的配置 -->
+    <bean id="cronTriggerWorkingBill" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail" ref="workingBillJobTask">
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 0/10 * * * ?</value><!-- 每隔10分钟执行一次 -->
+		  </property>
+    </bean>  
+
+ 
+</beans>

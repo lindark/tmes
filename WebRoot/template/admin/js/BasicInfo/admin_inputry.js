@@ -248,9 +248,9 @@ function login_event()
 //提交
 function sub_event()
 {
-	var worknum=$("#input_worknum").val();//工号
+	/*var worknum=$("#input_worknum").val();//工号
 	var cardnum=$("#input_cardnum").val();//卡号
-	if(worknum!=null&&worknum!=""&&cardnum!=null&&cardnum!="")
+	if((worknum!=null&&worknum!="")||(cardnum!=null&&cardnum!=""))
 	{
 		var url="admin!checknum.action?worknumber="+worknum+"&cardnumber="+cardnum+"&id="+$("#adminid").val();
 		$.post(url,function(data){
@@ -285,7 +285,8 @@ function sub_event()
 	else
 	{
 		$("#xform").submit();
-	}
+	}*/
+	$("#xform").submit();
 }
 
 //工号,卡号change()事件
@@ -295,13 +296,41 @@ function numchange_event()
 		var worknum=$("#input_worknum").val();//工号
 		worknum=worknum.replace(/\s+/g,"");//工号去空
 		$("#input_worknum").val(worknum);
-		$("#span_worknum").text("");
+		if(worknum!=null&&worknum!="")
+		{
+			var url="admin!checknum.action?worknumber="+worknum+"&id="+$("#adminid").val();
+			$.post(url,function(data){
+				if(data.message=="w")
+				{
+					//工号已存在
+					$("#span_worknum").text("工号已存在!");
+				}
+				else if(data.message=="success")
+				{
+					$("#span_worknum").text("");
+				}
+			},"json");
+		}
 	});
 	$("#input_cardnum").change(function(){
 		var cardnum=$("#input_cardnum").val();//卡号
 		cardnum=cardnum.replace(/\s+/g,"");//卡号去空
 		$("#input_cardnum").val(cardnum);
-		$("#span_cardnum").text("");
+		if(cardnum!=null&&cardnum!="")
+		{
+			var url="admin!checknum.action?cardnumber="+cardnum+"&id="+$("#adminid").val();
+			$.post(url,function(data){
+				if(data.message=="c")
+				{
+					//卡号已存在
+					$("#span_cardnum").text("卡号已存在!");
+				}
+				else if(data.message=="success")
+				{
+					$("#span_cardnum").text("");
+				}
+			},"json");
+		}
 	});
 }
 

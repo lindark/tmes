@@ -26,6 +26,9 @@
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 <style type="text/css">
 	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+	.formspace{margin-left: 25px;font-family: 微软雅黑;font-size: 14px;}
+	.div_btn{text-align: center;}
+	.div_group{display: block;}
 </style>
 </head>
 <body class="no-skin list">
@@ -75,9 +78,41 @@
 							    	</div><!--left_tree-->
 						    		<div class="right_grid" id="right_grid">
 						    		<a href="javascript:void(0);" class="tool_bar arrow_left" id="toggleMenuBar"></a>
-						    			<div class="top_tool">
 						                <input type="hidden" id="departId_hidden">
-						            	</div>
+						                <form class="form-horizontal formspace" id="searchform" action="" role="form">
+											<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
+											<div class="operateBar">
+												<div class="form-group div_group">
+													<div class="col-xs-12 col-sm-6 col-md-3">
+														部门：<input type="text" name="dept" value="" >
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-3">
+														工号：<input type="text" name="workNumber" value="" >
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-3">
+														姓名：<input type="text" name="name" value="" >
+													</div>
+													<div class="col-xs-12 col-sm-6 col-md-3">
+														是否离职：
+														<select name="islizhi">
+															<option value="baga">&nbsp;</option>
+															<option value="N">在职</option>
+															<option value="Y">离职</option>
+														</select>
+													</div>
+													<div class="div_btn">
+														<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
+															<i class="ace-icon fa fa-filter blue"></i> 搜索
+														</a>
+														&nbsp;&nbsp;
+														<button id="btn_outexcel" type="button" class="btn btn-white btn-default btn-sm btn-round">
+															<i class="ace-icon fa fa-cloud-upload"></i>
+																	导出Excel
+														</button>
+													</div>
+												</div>
+											</div>
+										</form>
 							            <div class="grid_style_01">
 							                <div class="list_area">
 								                <table id="grid-table"></table>
@@ -163,6 +198,12 @@ $(function(){
     }
     */
 	
+});
+$(document).keydown(function(event){
+	if(event.keyCode==13)
+	{
+		$("#searchButton").click();
+	}
 });
 </script>
 </html>

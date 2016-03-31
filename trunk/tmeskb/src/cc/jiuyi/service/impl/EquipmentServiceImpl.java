@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.dao.EquipmentDao;
 import cc.jiuyi.entity.Abnormal;
+import cc.jiuyi.entity.Equipment;
 import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.EquipmentService;
@@ -37,13 +39,25 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipments, String> im
 	
 	@Override
 	public void updateisdel(String[] ids, String oper) {
-		// TODO Auto-generated method stub
 		equipmentDao.updateisdel(ids, oper);
 	}
 
 	@Override
 	public boolean isExistByEquipmentNo(String equipmentNo) {
-		// TODO Auto-generated method stub
 		return equipmentDao.isExistByEquipmentNo(equipmentNo);
+	}
+	
+	//同步管理
+	public void saveorupdate(List<Equipments> equipmentList){
+		for(int i=0;i<equipmentList.size();i++){
+			Equipments equipment = equipmentList.get(i);
+			Equipments equipment01 = equipmentDao.isExist1("equipmentNo", equipment.getEquipmentNo());
+			if(equipment01 == null){//没找到
+				equipmentDao.save(equipment);
+			}else{//找到
+				equipment.setId(equipment01.getId());
+				equipmentDao.merge(equipment);
+			}
+		}
 	}
 }

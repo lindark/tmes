@@ -716,6 +716,230 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	    }
 		return doc.asXML();
 	}
+	
+	public String getPieceworkListThree(String xmlString){
+		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
+				+ "<factory>1000</factory>"
+				+ "<workShop>1001</workShop>"
+				+ "<factoryUnit></factoryUnit>"
+				+ "<productDate>2016-01-20</productDate>"
+				+ "<shift></shift></title></ROOT>";  */
+        Document doc = null;
+        String factory="";
+        String workShop="";
+        String factoryUnit="";
+        String productDate="";
+        String shift="";
+        try {
+            doc = DocumentHelper.parseText(xmlString); // 将字符串转为XML
+
+            Element rootElt = doc.getRootElement(); // 获取根节点
+            Iterator iter = rootElt.elementIterator("title"); // 获取根节点下的子节点title
+            // 遍历title节点
+            while (iter.hasNext()) {
+                Element recordEle = (Element) iter.next();
+                factory = recordEle.elementTextTrim("factory"); // 拿到title节点下的子节点factory值
+                workShop = recordEle.elementTextTrim("workShop"); // 拿到title节点下的子节点workShop值
+                factoryUnit = recordEle.elementTextTrim("factoryUnit"); // 拿到title节点下的子节点factoryUnit值
+                productDate = recordEle.elementTextTrim("productDate"); // 拿到title节点下的子节点productDate值
+                shift = recordEle.elementTextTrim("shift"); // 拿到title节点下的子节点shift值
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+/*		
+		factory = factory==null?"":factory;
+		workShop = workShop==null?"":workShop;
+		factoryUnit = factoryUnit==null?"":factoryUnit;
+		productDate =productDate==null?"":productDate;
+		shift = shift==null?"":shift;*/
+		 List<Map<String,Object>> PieceworkLists = new ArrayList<Map<String,Object>>();
+		 List<WorkingBill> WorkingBillList = workingBillService.findListWorkingBill(productDate, shift);
+		if(WorkingBillList!=null){
+			for(WorkingBill wb : WorkingBillList){
+				if(wb.getTeam()!=null){
+					if(wb.getTeam().getFactoryUnit()!=null){
+						if(factory.equals(wb.getWerks()) && workShop.equals(wb.getTeam().getFactoryUnit().getWorkShop().getWorkShopCode())){
+							Set<DailyWork> dwSet = wb.getDailyWork();
+							if(dwSet!=null && dwSet.size()>0){
+								for(DailyWork dw : dwSet){
+									dw.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+											"moudleType", dw.getMoudle()));
+									if(!"".equals(factoryUnit) && factoryUnit.equals(workShop.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode()))){
+										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
+										PieceworkMap.put("factory", judgeNull(factory));//工厂
+										PieceworkMap.put("workShop",judgeNull(workShop));//车间
+										PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+										PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
+										PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
+										PieceworkMap.put("materialCode",judgeNull(wb.getMatnr()));//物料编码
+										PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
+										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										PieceworkMap.put("qualifiedAmount",dw==null?"":dw.getEnterAmount()==null?"0":judgeNull(dw.getEnterAmount()));//报工数-合格数
+										PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
+										PieceworkLists.add(PieceworkMap);
+									}else{
+										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
+										PieceworkMap.put("factory", judgeNull(factory));//工厂
+										PieceworkMap.put("workShop",judgeNull(workShop));//车间
+										PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+										PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
+										PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
+										PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
+										PieceworkMap.put("materialCode",judgeNull(wb.getMatnr()));//物料编码
+										PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
+										//Orders orders = ordersService.get("aufnr", judgeNull(wb.getAufnr()));
+										//PieceworkMap.put("mouldNumber",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
+										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
+										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
+											PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
+											PieceworkMap.put("unBefWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getUnBomMount()));//上班异常零头数
+										}else{
+											PieceworkMap.put("befWorkOddAmount","0");//上班零头
+											PieceworkMap.put("unBefWorkOddAmount","0");//上班异常零头数
+										}
+										PieceworkMap.put("storageAmount",judgeNull(wb.getTotalSingleAmount()));//入库数 
+										List<OddHandOver> oddHandOverListAfter = oddHandOverService.getList("beforeWokingCode", judgeNull(wb.getWorkingBillCode()));
+										if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
+											PieceworkMap.put("aftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getActualBomMount()));//下班零头
+											PieceworkMap.put("unAftWorkOddAmount",judgeNull(oddHandOverListAfter.get(0).getUnBomMount()));//下班异常零头数
+										}else{
+											PieceworkMap.put("aftWorkOddAmount","0");//下班零头
+											PieceworkMap.put("unAftWorkOddAmount","0");//下班异常零头数
+										}
+										PieceworkMap.put("unRepairAmount",judgeNull(wb.getTotalRepairAmount().toString()));//表面异常维修数
+										/*Set<DailyWork> dailyWorkSet =  wb.getDailyWork();
+										if(dailyWorkSet!=null && dailyWorkSet.size()>0){
+											BigDecimal totalAmount = new BigDecimal(0);
+											for(DailyWork dailyWork : dailyWorkSet){
+												totalAmount = totalAmount.add(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
+											}
+											PieceworkMap.put("qualifiedAmount",judgeNull(totalAmount));//报工数
+										}else{
+											PieceworkMap.put("qualifiedAmount","0");//报工数
+										}*/
+										PieceworkMap.put("qualifiedAmount",dw==null?"":dw.getEnterAmount()==null?"0":judgeNull(dw.getEnterAmount()));//报工数
+										
+										Set<Sample> sampleSet = wb.getSample();
+										if(sampleSet!=null && sampleSet.size()>0){
+											BigDecimal costQulified = new BigDecimal(0);
+											BigDecimal costSampleNum = new BigDecimal(0);
+											for(Sample sp :sampleSet){
+												costQulified = costQulified.add(new BigDecimal("".equals(judgeNull(sp.getQulified()))?"0":sp.getQulified()));
+												costSampleNum = costSampleNum.add(new BigDecimal("".equals(judgeNull(sp.getSampleNum()))?"0":sp.getSampleNum()));
+											}
+											if(costSampleNum.compareTo(new BigDecimal(0))==0){
+												PieceworkMap.put("qualifiedRatio","");
+											}else{
+												String costQulifiedRate =costSampleNum.divide(costQulified).setScale(2, RoundingMode.HALF_UP).toString()+"%";
+												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
+											}
+										}else{
+											PieceworkMap.put("qualifiedRatio","");//一次合格率  (抽检合格率 平均值)
+										}
+										
+										PieceworkLists.add(PieceworkMap);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		 //1. 构造空的Document
+	    doc = DocumentHelper.createDocument();
+	    //2. 构造根元素
+	    Element rootElmt = doc.addElement("ROOT");
+	    Element titleElmt  = rootElmt.addElement("title"); 
+	    //title元素增加属性
+	    titleElmt.addAttribute("name", "计件系统第一个功能");
+	    //3. 递归构造子元素
+	    
+	    if(PieceworkLists.size()>0){
+	    	 for(Map<String,Object> map : PieceworkLists){
+	    		 Element pieceworklistElmt  = titleElmt.addElement("pieceworklist"); 
+	   	      //pieceworklist元素设置数据
+	   	      Element factoryElmt = pieceworklistElmt.addElement("factory");
+	   	      factoryElmt.setText(judgeNull(map.get("factory")));
+	   	      Element workShopElmt = pieceworklistElmt.addElement("workShop");
+	   	      workShopElmt.setText(judgeNull(map.get("workShop")));
+	   	      Element factoryUnitElmt = pieceworklistElmt.addElement("factoryUnit");
+	   	      factoryUnitElmt.setText(judgeNull(map.get("factoryUnit")));
+	   	      Element productDateElmt = pieceworklistElmt.addElement("productDate");
+	   	      productDateElmt.setText(judgeNull(map.get("productDate")));
+	   	      Element shiftElmt = pieceworklistElmt.addElement("shift");
+	   	      shiftElmt.setText(judgeNull(map.get("shift")));
+	   	      Element wokingBillCodeElmt = pieceworklistElmt.addElement("wokingBillCode");
+	   	      wokingBillCodeElmt.setText(judgeNull(map.get("wokingBillCode")));
+	   	      Element materialCodeElmt = pieceworklistElmt.addElement("materialCode");
+	   	      materialCodeElmt.setText(judgeNull(map.get("materialCode")));
+	   	      Element materialDespElmt = pieceworklistElmt.addElement("materialDesp");
+	   	      materialDespElmt.setText(judgeNull(map.get("materialDesp")));
+	   	      Element mouldNumberElmt = pieceworklistElmt.addElement("mouldNumber");
+	   	      mouldNumberElmt.setText(judgeNull(map.get("mouldNumber")));
+	   	      Element befWorkOddAmountElmt = pieceworklistElmt.addElement("befWorkOddAmount");
+	   	      befWorkOddAmountElmt.setText(judgeNull(map.get("befWorkOddAmount")));
+	   	      Element storageAmountElmt = pieceworklistElmt.addElement("storageAmount");
+	   	      storageAmountElmt.setText(judgeNull(map.get("storageAmount")));
+	   	      Element aftWorkOddAmountElmt = pieceworklistElmt.addElement("aftWorkOddAmount");
+	   	      aftWorkOddAmountElmt.setText(judgeNull(map.get("aftWorkOddAmount")));
+	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
+	   	      unRepairAmountElmt.setText(judgeNull(map.get("unRepairAmount")));
+	   	      Element unBefWorkOddAmountElmt = pieceworklistElmt.addElement("unBefWorkOddAmount");
+	   	      unBefWorkOddAmountElmt.setText(judgeNull(map.get("unBefWorkOddAmount")));
+	   	      Element unAftWorkOddAmountElmt = pieceworklistElmt.addElement("unAftWorkOddAmount");
+	   	      unAftWorkOddAmountElmt.setText(judgeNull(map.get("unAftWorkOddAmount")));
+	   	      Element qualifiedAmountElmt = pieceworklistElmt.addElement("qualifiedAmount");
+	   	      qualifiedAmountElmt.setText(judgeNull(map.get("qualifiedAmount")));
+	   	      Element qualifiedRatioElmt = pieceworklistElmt.addElement("qualifiedRatio");
+	   	      qualifiedRatioElmt.setText(judgeNull(map.get("qualifiedRatio")));
+	   	    }
+	    }else{
+	    	Element pieceworklistElmt  = titleElmt.addElement("pieceworklist");
+	   	      //pieceworklist元素设置数据
+	   	      Element factoryElmt = pieceworklistElmt.addElement("factory");
+	   	      factoryElmt.setText("");
+	   	      Element workShopElmt = pieceworklistElmt.addElement("workShop");
+	   	      workShopElmt.setText("");
+	   	      Element factoryUnitElmt = pieceworklistElmt.addElement("factoryUnit");
+	   	      factoryUnitElmt.setText("");
+	   	      Element productDateElmt = pieceworklistElmt.addElement("productDate");
+	   	      productDateElmt.setText("");
+	   	      Element shiftElmt = pieceworklistElmt.addElement("shift");
+	   	      shiftElmt.setText("");
+	   	      Element wokingBillCodeElmt = pieceworklistElmt.addElement("wokingBillCode");
+	   	      wokingBillCodeElmt.setText("");
+	   	      Element materialCodeElmt = pieceworklistElmt.addElement("materialCode");
+	   	      materialCodeElmt.setText("");
+	   	      Element materialDespElmt = pieceworklistElmt.addElement("materialDesp");
+	   	      materialDespElmt.setText("");
+	   	      Element mouldNumberElmt = pieceworklistElmt.addElement("mouldNumber");
+	   	      mouldNumberElmt.setText("");
+	   	      Element befWorkOddAmountElmt = pieceworklistElmt.addElement("befWorkOddAmount");
+	   	      befWorkOddAmountElmt.setText("");
+	   	      Element storageAmountElmt = pieceworklistElmt.addElement("storageAmount");
+	   	      storageAmountElmt.setText("");
+	   	      Element aftWorkOddAmountElmt = pieceworklistElmt.addElement("aftWorkOddAmount");
+	   	      aftWorkOddAmountElmt.setText("");
+	   	      Element unRepairAmountElmt = pieceworklistElmt.addElement("unRepairAmount");
+	   	      unRepairAmountElmt.setText("");
+	   	      Element unBefWorkOddAmountElmt = pieceworklistElmt.addElement("unBefWorkOddAmount");
+	   	      unBefWorkOddAmountElmt.setText("");
+	   	      Element unAftWorkOddAmountElmt = pieceworklistElmt.addElement("unAftWorkOddAmount");
+	   	      unAftWorkOddAmountElmt.setText("");
+	   	      Element qualifiedAmountElmt = pieceworklistElmt.addElement("qualifiedAmount");
+	   	      qualifiedAmountElmt.setText("");
+	   	      Element qualifiedRatioElmt = pieceworklistElmt.addElement("qualifiedRatio");
+	   	      qualifiedRatioElmt.setText("");
+	    }
+	   
+		return doc.asXML();
+	}
+	
 	private String judgeNull(Object obj){
 		obj = obj==null?"":obj;
 		return obj.toString();

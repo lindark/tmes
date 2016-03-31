@@ -57,7 +57,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 		   <ref bean="equipmentJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>0 0 3 ? * *</value><!-- 凌晨3点执行 -->
+		   <value>0 0 3 * * ?</value><!-- 凌晨3点执行 -->
 		  </property>
     </bean>  
     

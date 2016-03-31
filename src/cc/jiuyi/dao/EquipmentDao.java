@@ -20,4 +20,6 @@ public interface EquipmentDao extends BaseDao<Equipments, String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByEquipmentNo(String equipmentNo);
+	
+	public Equipments isExist1(String propertyName, Object value);
 }

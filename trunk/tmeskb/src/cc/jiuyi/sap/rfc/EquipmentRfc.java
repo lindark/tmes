@@ -7,5 +7,5 @@ import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.util.CustomerException;
 
 public interface EquipmentRfc extends BaserfcService{
-	public List<Equipments> getEquipment(String equipmentNo,String equipmentName)throws IOException,CustomerException;;
+	public List<Equipments> getEquipment()throws IOException,CustomerException;;
 }

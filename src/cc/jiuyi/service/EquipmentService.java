@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Equipments;
@@ -20,4 +21,7 @@ public interface EquipmentService extends BaseService<Equipments, String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public boolean isExistByEquipmentNo(String equipmentNo);
+	
+	
+	public void saveorupdate(List<Equipments> equipmentList);
 }

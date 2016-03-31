@@ -69,6 +69,8 @@ public class Equipments extends BaseEntity{
 		return state;
 	}
 	public void setState(String state) {
+		if(state == null)
+			state = "1";
 		this.state = state;
 	}
 	

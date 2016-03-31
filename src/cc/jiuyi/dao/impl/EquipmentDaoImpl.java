@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.EquipmentDao;
@@ -54,5 +55,12 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipments, String> implements
 		} else {
 			return false;
 		}
+	}
+	
+	public Equipments isExist1(String propertyName, Object value) {
+		Assert.hasText(propertyName, "propertyName must not be empty");
+		Assert.notNull(value, "value is required");
+		Equipments object = this.get(propertyName, value);
+		return object;
 	}
 }

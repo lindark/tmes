@@ -82,7 +82,7 @@ function write_bugnum_event(index)
 		}
 		else
 		{
-			bugnum=setScale(bugnum,0,"");//精度
+			//bugnum=setScale(bugnum,0,"");//精度
 			$("#mynum"+index).val(bugnum);
 		}
 	}
@@ -116,7 +116,7 @@ function slnum_event()
 	var reg=/^[0-9]+(\.[0-9]+)?$/;
 	if(reg.test(slnum))
 	{
-		slnum=setScale(slnum,0,"");//精度
+		//slnum=setScale(slnum,0,"");//精度
 		slnum=$("#sl_num").val(slnum);
 	}
 	else
@@ -196,7 +196,7 @@ function inputcount_blur(obj)
 	var reg=/^[0-9]+(\.[0-9]+)?$/;
 	if(reg.test(inputcountval))
 	{
-		inputcountval=setScale(inputcountval,0,"");
+		//inputcountval=setScale(inputcountval,0,"");
 		//span/input重新赋值
 		$("#input_count"+obj).val(inputcountval);
 		$("#span_count"+obj).text(inputcountval);

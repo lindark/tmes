@@ -82,15 +82,15 @@ public class EquipmentsAction extends BaseAdminAction {
 	
 	//同步
 	public String sync() {
-		try {
-		//	matnrrfc.getMaterialList("", "1000", "线圈");
-		eq.getEquipment("100010", "");
-			//workingbillrfc.syncRepairorder();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CustomerException e) {
-			e.printStackTrace();
-		}
+//		try {
+//		//	matnrrfc.getMaterialList("", "1000", "线圈");
+//		//eq.getEquipment("100010", "");
+//			//workingbillrfc.syncRepairorder();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (CustomerException e) {
+//			e.printStackTrace();
+//		}
 		return SUCCESS;
 	}
 

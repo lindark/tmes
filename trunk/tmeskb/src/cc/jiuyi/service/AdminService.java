@@ -207,4 +207,11 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @param id ids
 	 */
 	public void updateToDel(String id);
+
+	/**
+	 * 根据条件查询
+	 * @param admin 
+	 * @return
+	 */
+	public List<Admin> getAllByConditions(Admin admin);
 }

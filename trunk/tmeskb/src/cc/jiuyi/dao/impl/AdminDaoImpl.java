@@ -470,5 +470,35 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		}
 		return null;
 	}
+
+	/**
+	 * 根据条件查询
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Admin> getAllByConditions(Admin admin)
+	{
+		String hql="from Admin where isDelete='N'";
+		String deptname=admin.getDepartment().getDeptName();//部门名称
+		String worknum=admin.getWorkNumber();//工号
+		String name=admin.getName();//姓名
+		String isdel=admin.getIsDel();//是否离职
+		if(deptname!=null&&!"".equals(deptname))
+		{
+			hql+=" and department.deptName like '%"+deptname+"%'";
+		}
+		if(worknum!=null&&!"".equals(worknum))
+		{
+			hql+=" and workNumber like '%"+worknum+"%'";
+		}
+		if(name!=null&&!"".equals(name))
+		{
+			hql+=" and name like '%"+name+"%'";
+		}
+		if(isdel!=null&&!"baga".equals(isdel))
+		{
+			hql+=" and isDel='"+isdel+"'";
+		}
+		return this.getSession().createQuery(hql).list();
+	}
 	
 }

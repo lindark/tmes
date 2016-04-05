@@ -328,9 +328,7 @@ public class PollingtestAction extends BaseAdminAction {
 					dictService, "pollingtestState", pollingtest.getState()));
 			// 工艺确认描述
 			pollingtest
-					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "craftWorkRemark",
-							pollingtest.getCraftWork()));
+					.setCraftWorkRemark(getCraftWorkString(pollingtest.getCraftWork()));
 			// 确认人的名字
 			if (pollingtest.getConfirmUser() != null) {
 				pollingtest

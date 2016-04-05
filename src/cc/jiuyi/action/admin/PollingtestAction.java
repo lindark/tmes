@@ -145,6 +145,8 @@ public class PollingtestAction extends BaseAdminAction {
 						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
 		}
+		//pollingtest.setShift(admin.getShift());
+		//pollingtest.setProductDate(admin.getProductDate());
 		pollingtestService
 				.saveInfo(pollingtest, info, info2, my_id, cardnumber);
 		/*
@@ -158,8 +160,7 @@ public class PollingtestAction extends BaseAdminAction {
 	public String show() {
 		pollingtest = pollingtestService.load(id);
 		workingbill = workingBillService.get(workingBillId);
-		pollingtestType = ThinkWayUtil.getDictValueByDictKey(dictService,
-				"craftWorkRemark", pollingtest.getCraftWork());
+		pollingtestType = getCraftWorkString(pollingtest.getCraftWork());
 		list_pollingtestRecord = pollingtestRecordService
 				.findByPollingtestId(id);
 		this.show = "show";
@@ -225,9 +226,7 @@ public class PollingtestAction extends BaseAdminAction {
 					dictService, "pollingtestState", pollingtest.getState()));
 			// 工艺确认描述
 			pollingtest
-					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "craftWorkRemark",
-							pollingtest.getCraftWork()));
+					.setCraftWorkRemark(getCraftWorkString(pollingtest.getCraftWork()));
 			// 确认人的名字
 			if (pollingtest.getConfirmUser() != null) {
 				pollingtest
@@ -328,9 +327,7 @@ public class PollingtestAction extends BaseAdminAction {
 					dictService, "pollingtestState", pollingtest.getState()));
 			// 工艺确认描述
 			pollingtest
-					.setCraftWorkRemark(ThinkWayUtil.getDictValueByDictKey(
-							dictService, "craftWorkRemark",
-							pollingtest.getCraftWork()));
+					.setCraftWorkRemark(getCraftWorkString(pollingtest.getCraftWork()));
 			// 工单编号
 			if (pollingtest.getWorkingBill() != null) {
 				pollingtest
@@ -412,8 +409,7 @@ public class PollingtestAction extends BaseAdminAction {
 						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),					
 						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),
 						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),
-						ThinkWayUtil.getDictValueByDictKey(
-									dictService, "craftWorkRemark", pollingtest.getCraftWork()),
+						getCraftWorkString(pollingtest.getCraftWork()),
 						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
 						pollingtestUser == null ? "" : pollingtestUser.getName(),
 						confirmUser == null ? "" : confirmUser.getName(),							
@@ -486,6 +482,29 @@ public class PollingtestAction extends BaseAdminAction {
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
+	
+	
+	
+	public String getCraftWorkString(String ids)
+	{
+		if(null == ids || ids.equals(""))
+		{
+			return "";
+		}
+		String result="";		
+		String[] idList=ids.split(", ");		
+		for(int i=0;i<idList.length;i++)
+		{
+			//System.out.println(i+":"+idList[i]);
+			result+=ThinkWayUtil.getDictValueByDictKey(dictService, "craftWorkRemark", idList[i])+" ";
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
 	public Pollingtest getPollingtest() {
 		return pollingtest;
 	}

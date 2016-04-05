@@ -443,7 +443,44 @@ function wbout_event(wbid,maktx,productDate,shift)
 		
 	});*/
 }
-
+/**
+ * 获取模具组号
+ */
+function moudle_event(wbid)
+{
+	layer.open({
+        type: 2,
+        skin: 'layui-layer-lan',
+        shift:2,
+        title: "选择模具组号",
+        fix: true,
+        shade: 0.5,
+        shadeClose: true,
+        maxmin: true,
+        scrollbar: false,
+        btn:['确认','取消'],
+        area: ["40%", "80%"],//弹出框的高度，宽度
+        content:"working_bill!moudlelist.action?id="+wbid,
+        yes:function(index,layero){//确定
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var info = iframeWin.getName();
+        	/*$("#infoId").val(info.faunid);
+        	$("#infoName").val(info.faunname);
+        	$("#infoNames").text(info.faunname);*/
+        	if("baga"!=info){
+        		window.location.href="working_bill!updateWKInMoudel.action?aufnr="+info+"&wbid="+wbid;
+            	layer.close(index);
+        	}
+        	return false;
+        },
+        no:function(index)
+        {
+        	layer.close(index);
+        	return false;
+        }
+    });
+	return false;
+}
 
 
 

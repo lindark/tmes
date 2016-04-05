@@ -473,6 +473,7 @@ public class SampleAction extends BaseAdminAction
 					s1.setXcomfirmation(s1.getComfirmation().getName());//确认人xcomfirmation
 				}
 				System.out.println(s1.getCreateDate());
+				s1.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", s1.getMoudle()));
 				s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
 				s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
 				s1.setXsampletype(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleType", s1.getSampleType()));//抽检类型xsampletype
@@ -756,6 +757,10 @@ public class SampleAction extends BaseAdminAction
 	public void setCardnumber(String cardnumber)
 	{
 		this.cardnumber = cardnumber;
+	}
+	
+	public List<Dict> getAllMoudle() {
+		return dictService.getList("dictname", "moudleType");
 	}
 	
 	/**==========================end "get/set"====================================*/

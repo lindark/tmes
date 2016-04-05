@@ -43,7 +43,9 @@ public class CreditCardAction extends BaseAdminAction {
 		HashMap<String, String> map = new HashMap<String,String>();
 		CreditCard creditCard = creditCardService.get(createDate);
 		if(creditCard == null){//未找到
-			map.put("status", "no");
+//			map.put("status", "no");
+			map.put("status", "yes");
+			map.put("cardnumber", "2660995079");
 		}else{
 			//map.put("status", "yes");
 			//map.put("cardnumber", "2661135367");

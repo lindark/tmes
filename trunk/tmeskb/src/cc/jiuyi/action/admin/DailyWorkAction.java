@@ -252,6 +252,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list() {
+		try{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		boolean flag = ThinkWayUtil.isPass(admin);
@@ -260,6 +261,10 @@ public class DailyWorkAction extends BaseAdminAction {
 			return ERROR;
 		}
 		workingbill = workingBillService.get(workingBillId);
+		}catch(RuntimeException e){
+			e.printStackTrace();
+			System.out.println("运行错误");
+		}
 		return LIST;
 	}
 
@@ -313,6 +318,7 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 保存
 	public String creditsave() throws Exception {
+		try{
 		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
 		//Products products = productsService.getByPcode(workingBill.getMatnr());
 		//String time = ThinkWayUtil.formatdateDate(workingBill.get);
@@ -338,6 +344,10 @@ public class DailyWorkAction extends BaseAdminAction {
 		 * redirectionUrl = "daily_work!list.action?workingBillId=" +
 		 * dailyWork.getWorkingbill().getId();
 		 */
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("运行异常");
+		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 

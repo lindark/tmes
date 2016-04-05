@@ -56,4 +56,9 @@ public class UnitdistributeProductServiceImpl extends BaseServiceImpl<Unitdistri
 		return this.unitdistributeProductDao.getAllList();
 	}
 
+	@Override
+	public UnitdistributeProduct getUnitdistributeProduct(HashMap<String, String> map) {
+		return this.unitdistributeProductDao.getUnitdistributeProduct(map);
+	}
+
 }

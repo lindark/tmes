@@ -27,5 +27,8 @@ public interface UnitdistributeModelService extends BaseService<UnitdistributeMo
 	 * 查询所有工作范围
 	 */
 	public List<UnitdistributeModel> getAllList();
-	
+	/**
+	 * 根据条件查找模具组号
+	 */
+	public Pager getUBMList(Pager pager,HashMap<String,String>map);
 }

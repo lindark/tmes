@@ -25,7 +25,7 @@ public class PollingtestRecordDaoImpl extends
 				.forClass(PollingtestRecord.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));// 取出未删除标记数据
-		detachedCriteria.add(Restrictions.eq("workingbill.id", workingbillId));
+		detachedCriteria.add(Restrictions.eq("workingBill.id", workingbillId));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

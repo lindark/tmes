@@ -41,6 +41,8 @@ jQuery(function($) {
 		colModel:[
 			{name:'createDate',index:'createDate',lwidth:400,label:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',index:'createUser.name', label:"创建人",width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
+			{name:'productDate',index:'productDate',label:"生产日期", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'shiftx',index:'shiftx',label:"班次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'stateRemark',index:'state', width:300, label:"状态",cellattr:addstyle,label:"状态",sorttype:"select", sortable:false,editable: false,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},		 
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}

@@ -28,4 +28,8 @@ public interface UnitdistributeProductDao extends BaseDao<UnitdistributeProduct,
 	 * 查询所有工位
 	 */
 	public List<UnitdistributeProduct> getAllList();
+	/**
+	 * 查询可用产品
+	 */
+	public UnitdistributeProduct getUnitdistributeProduct(HashMap<String, String> map);
 }

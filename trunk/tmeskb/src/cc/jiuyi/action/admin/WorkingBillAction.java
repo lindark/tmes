@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,18 +17,22 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitConversion;
+import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.UnitConversionService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -64,6 +69,9 @@ public class WorkingBillAction extends BaseAdminAction {
 	private String start;
 	private String end;
 	private String wbid;
+	private String matnr;
+	private String funid;
+	private List<String> moudles;
 
 	@Resource
 	private WorkingBillService workingbillService;
@@ -75,7 +83,10 @@ public class WorkingBillAction extends BaseAdminAction {
 	private OrdersService ordersservice;
 	@Resource
 	private UnitConversionService unitconversionservice;
-	
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
 	
 	//条码打印
 	public String barcodePrint(){
@@ -250,6 +261,109 @@ public class WorkingBillAction extends BaseAdminAction {
 		redirectionUrl = "working_bill!list.action";
 		return SUCCESS;
 	}
+	//查询模具组号
+	/**
+	 * 进入弹框页面
+	 */
+	public String moudlelist()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		matnr="";
+		funid="";
+		WorkingBill wb = workingbillService.get(id);
+		moudles = new ArrayList<String>();
+		if(wb.getMoudle()!=null){
+			String[] ms = wb.getMoudle().split(",");
+			for(String s : ms){
+				moudles.add(s);
+			}
+		}
+		
+		if(wb.getTeam()!=null){
+			if(wb.getTeam().getFactoryUnit()!=null){
+				funid = wb.getTeam().getFactoryUnit().getId();
+			}
+		}
+		matnr = wb.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		return "moudlelist";
+	}
+	
+	public String getmoudlelist(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager == null)
+		{
+			pager = new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		//查询条件
+		/*if (pager.is_search() == true && Param != null)
+		{
+			JSONObject obj = JSONObject.fromObject(Param);
+			// 单元编码
+			if (obj.get("factoryUnitCode") != null)
+			{
+				String factoryUnitCode = obj.getString("factoryUnitCode").toString();
+				map.put("factoryUnitCode", factoryUnitCode);
+			}
+			// 单元名称
+			if (obj.get("factoryUnitName") != null)
+			{
+				String factoryUnitName = obj.getString("factoryUnitName").toString();
+				map.put("factoryUnitName", factoryUnitName);
+			}
+		}*/
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+		map.put("matmr", matmr);
+		pager = unitdistributeModelService.getUBMList(pager, map);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Team.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	public String updateWKInMoudel(){
+		WorkingBill wb = workingbillService.get(wbid);
+		/*String[] ids = id.split(",");
+		List<UnitdistributeModel> unitdistributeModelList = unitdistributeModelService.get(ids);
+		String moudle = "";
+		if(unitdistributeModelList!=null && unitdistributeModelList.size()>0){
+			for(UnitdistributeModel unitdistributeModel : unitdistributeModelList){
+				if("".equals(moudle)){
+					moudle = unitdistributeModel.getStation();
+				}else{
+					moudle = moudle + ","+unitdistributeModel.getStation();
+				}
+			}
+			
+		}*/
+		wb.setMoudle(aufnr);
+		workingbillService.update(wb);
+		redirectionUrl = "admin!index.action";
+		return ajaxJsonSuccessMessage("success"); 
+	}
+	
+	
+	
+	
+	
+	
 	
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -300,4 +414,31 @@ public class WorkingBillAction extends BaseAdminAction {
 	{
 		this.wbid = wbid;
 	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public String getFunid() {
+		return funid;
+	}
+
+	public void setFunid(String funid) {
+		this.funid = funid;
+	}
+
+	public List<String> getMoudles() {
+		return moudles;
+	}
+
+	public void setMoudles(List<String> moudles) {
+		this.moudles = moudles;
+	}
+
+
+	
 }

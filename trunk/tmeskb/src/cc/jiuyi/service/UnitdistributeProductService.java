@@ -32,4 +32,8 @@ public interface UnitdistributeProductService extends BaseService<Unitdistribute
 	 */
 	public List<UnitdistributeProduct> getAllList();
 	
+	/**
+	 * 查询可用产品
+	 */
+	public UnitdistributeProduct getUnitdistributeProduct(HashMap<String, String> map);
 }

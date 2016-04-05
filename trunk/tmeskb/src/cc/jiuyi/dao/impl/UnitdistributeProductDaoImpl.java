@@ -71,5 +71,11 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 		String hql="from UnitdistributeProduct where isDel='N'";
 		return this.getSession().createQuery(hql).list();
 	}
+
+	@Override
+	public UnitdistributeProduct getUnitdistributeProduct(HashMap<String, String> map) {
+		String hql="from UnitdistributeProduct where materialCode=? and factoryunit.id=? and isDel='N'";
+		return (UnitdistributeProduct) this.getSession().createQuery(hql).setParameter(0, map.get("matnr")).setParameter(1, map.get("funid")).uniqueResult();
+	}
 	
 }

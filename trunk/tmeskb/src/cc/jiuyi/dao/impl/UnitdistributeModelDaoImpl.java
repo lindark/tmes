@@ -65,5 +65,28 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 		String hql="from UnitdistributeModel where isDel='N'";
 		return this.getSession().createQuery(hql).list();
 	}
+
+	@Override
+	public Pager getUBMList(Pager pager, HashMap<String, String> map) {
+
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(UnitdistributeModel.class);
+		//pagerSqlByjqGrid(pager,detachedCriteria);		
+		
+		if (map.size() > 0) {
+			if(!super.existAlias(detachedCriteria, "factoryunit", "factoryunit"))
+				detachedCriteria.createAlias("factoryunit", "factoryunit");
+			if(map.get("funid")!=null){
+			    detachedCriteria.add(Restrictions.eq("factoryunit.id",map.get("funid")));
+			}		
+		
+			if(map.get("matmr")!=null){
+				detachedCriteria.add(Restrictions.like("station", "%"+map.get("matmr")));
+			}			
+		}
+		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
 	
 }

@@ -52,4 +52,9 @@ public class UnitdistributeModelServiceImpl extends BaseServiceImpl<Unitdistribu
 		return this.unitdistributeModelDao.getAllList();
 	}
 
+	@Override
+	public Pager getUBMList(Pager pager, HashMap<String, String> map) {
+		return unitdistributeModelDao.getUBMList(pager,map);
+	}
+
 }

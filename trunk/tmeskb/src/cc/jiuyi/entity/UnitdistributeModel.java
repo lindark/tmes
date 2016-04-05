@@ -33,7 +33,7 @@ public class UnitdistributeModel extends BaseEntity{
 */  
     
     private FactoryUnit factoryunit;
-    
+    private WorkingBill workingBill;
     private String station;//模具组号
     
     private Set<Admin> adminSet;
@@ -123,6 +123,14 @@ public class UnitdistributeModel extends BaseEntity{
 
 	public void setFactoryunit(FactoryUnit factoryunit) {
 		this.factoryunit = factoryunit;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	public WorkingBill getWorkingBill() {
+		return workingBill;
+	}
+
+	public void setWorkingBill(WorkingBill workingBill) {
+		this.workingBill = workingBill;
 	}
     
     

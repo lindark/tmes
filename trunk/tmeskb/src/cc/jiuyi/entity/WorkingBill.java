@@ -46,6 +46,8 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String checknum4;//检验合格数4
 	private String checknum5;//检验合格数5
 	private String isHand;//是否交接完成 Y为交接完成，N为未交接完成
+	private String moudle;//模具组号
+	private Set<UnitdistributeModel> unitdistributemodelSet;//分配磨具
 	
 	private Team team;//班组
 	
@@ -488,6 +490,20 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	}
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+	public String getMoudle() {
+		return moudle;
+	}
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="workingBill")
+	public Set<UnitdistributeModel> getUnitdistributemodelSet() {
+		return unitdistributemodelSet;
+	}
+	public void setUnitdistributemodelSet(
+			Set<UnitdistributeModel> unitdistributemodelSet) {
+		this.unitdistributemodelSet = unitdistributemodelSet;
 	}
 	
 	

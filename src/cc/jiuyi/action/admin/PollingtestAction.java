@@ -20,7 +20,6 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.PollingtestRecord;
 import cc.jiuyi.entity.WorkingBill;
@@ -32,7 +31,6 @@ import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
-import cc.jiuyi.util.Util;
 
 /**
  * 巡检
@@ -145,8 +143,9 @@ public class PollingtestAction extends BaseAdminAction {
 						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
 		}
-		//pollingtest.setShift(admin.getShift());
-		//pollingtest.setProductDate(admin.getProductDate());
+		Admin cardUser= adminService.getByCardnum(cardnumber);
+		pollingtest.setShift(cardUser.getShift());
+		pollingtest.setProductDate(cardUser.getProductDate());
 		pollingtestService
 				.saveInfo(pollingtest, info, info2, my_id, cardnumber);
 		/*

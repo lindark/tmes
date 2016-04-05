@@ -71,6 +71,7 @@ jQuery(function($) {
 			{name:'modifyDate',index:'modifyDate',label:"日期",width:130,editable: false,search:false,sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xproductnum',index:'workingBill.matnr',label:"产品编号",width:100,editable: false},
 			{name:'xproductname',index:'workingBill.maktx',label:"产品名称",width:100,editable: false},
+			{name:'xmoudle',index:'xmoudle',label:"模具",width:100,editable: false},
 			{name:'xsampler',index:'sampler.name',label:"抽检人",width:100,editable: false,search:false},
 			{name:'xcomfirmation',index:'comfirmation.name',label:"确认人",width:100,editable: false,search:false},
 			{name:'sampleNum',index:'sampleNum',label:"抽检数量",width:90,editable: false,search:false},

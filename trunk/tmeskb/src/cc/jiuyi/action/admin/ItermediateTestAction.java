@@ -123,6 +123,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 				}
 			}
 		} else {
+			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
 			list_material = bomservice.findBom(aufnr,
 					workingbill.getProductDate(),
 					workingbill.getWorkingBillCode());

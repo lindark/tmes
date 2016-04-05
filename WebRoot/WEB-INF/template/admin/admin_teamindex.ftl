@@ -498,7 +498,8 @@
 														<tr>
 															<td><input type="checkbox" class="ckbox"
 																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
-																<a href="javascript:void(0);" class="a matkx">${list.maktx}</a>
+																<a href="javascript:void(0);" class="a matkx" >${list.maktx}</a>&nbsp;&nbsp;
+																<a href="javascript:void(0);" class="a moudle" <#if list.moudle=="">style="color:red"</#if>>[添加模具组号]</a>
 															</td>
 
 															<td><b class="green">${list.planCount}</b>
@@ -564,7 +565,10 @@
 			}
 			wbout_event(id,matkx,productDate,shift);
 		});
-		
+		$(".moudle").bind("click",function(){
+			var id = $(this).prev().prev().val();
+			moudle_event(id);
+		});
 		<#if workingbillList==null || workingbillList?size <=0>
 		$.gritter
 				.add({

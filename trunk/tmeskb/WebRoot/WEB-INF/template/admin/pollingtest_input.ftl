@@ -67,7 +67,7 @@ body {
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">巡检单</li>
+					<li class="active">成品巡检单</li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>
@@ -91,10 +91,10 @@ body {
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }"/>
 								<input type="hidden" name="pollingtest.id" value="${(pollingtest.id)!}" /> 
 								<input type="hidden" class="input input-sm"
-									name="pollingtest.workingbill.id" value="${workingbill.id} " id="wkid">
+									name="pollingtest.workingBill.id" value="${workingbill.id} " id="wkid">
 								<div id="inputtabs">
 									<ul>
-										<li><a href="#tabs-1">巡检单</a></li>
+										<li><a href="#tabs-1">成品巡检单</a></li>
 
 									</ul>
 
@@ -159,7 +159,7 @@ body {
 												<#if show??>
 													<span>${pollingtestType! }</span>
 												<#else>
-													<select name="pollingtest.craftWork" id="form-field-icon-1" class="chosen-select">
+													<select name="pollingtest.craftWork" id="form-field-icon-1" class="chosen-select" multiple="multiple">
 														<#list allCraftWork as
 														list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
@@ -187,7 +187,7 @@ body {
 													<span>&nbsp;&nbsp;&nbsp;/秒</span>
 												</div>
 											</div>
-											<div class="profile-info-row">
+									<!--		<div class="profile-info-row">
 												<div class="profile-info-name">尺寸1</div>
 												<div class="profile-info-value">
 													<#if show??>
@@ -209,9 +209,9 @@ body {
 														class=" input input-sm" />
 												</#if>
 												</div>
-											</div>
+											</div>-->
 											<div class="profile-info-row">
-												<div class="profile-info-name">尺寸3</div>
+												<!--<div class="profile-info-name">尺寸3</div>
 												<div class="profile-info-value">
 												<#if show??>
 														<span>${(pollingtest.size3)! }</span>
@@ -220,14 +220,13 @@ body {
 														value="${(pollingtest.size3)!}"
 														class=" input input-sm" />
 												</#if>
-												</div>
+												</div>-->
 
 												<div class="profile-info-name">合格数量</div>
 												<div class="profile-info-value">
 													<span id="span_sq">${(pollingtest.qualifiedAmount)! }</span>
 												</div>
-											</div>
-											<div class="profile-info-row">
+												
 												<div class="profile-info-name">合格率</div>
 												<div class="profile-info-value">
 													<#if add??>
@@ -235,8 +234,10 @@ body {
 													<#else>
 														<span id="span_qrate">${(pollingtest.passedPercent)! }</span>
 													</#if>
-												</div>
+												</div>												
+												
 											</div>
+											
 										</div>
 										<!--weitao end modify-->
 										<div class="profile-user-info profile-user-info-striped">

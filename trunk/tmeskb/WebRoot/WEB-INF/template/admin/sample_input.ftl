@@ -131,7 +131,21 @@ body {
 														
 													</div>
 												</div>
+												<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+
+												<div class="profile-info-value">
+												    <select name="sample.moudle"> <#list
+														allMoudle as list>
+														<option value="${list.dictkey}"<#if ((isAdd &&
+															list.isDefault) || (isEdit && dailyWork.moudle ==
+															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+														</#list>
+													</select>
+													
+												</div>
 											</div>
+												</div>
 											<div class="profile-user-info profile-user-info-striped">
 												<div class="profile-info-row ceshi">
 													<div class="profile-info-value">

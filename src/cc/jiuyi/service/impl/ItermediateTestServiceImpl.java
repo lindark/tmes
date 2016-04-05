@@ -137,6 +137,8 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 		itermediateTest.setState("1");
 		itermediateTest.setCreateUser(admin);
 		itermediateTest.setCreateDate(new Date());
+		itermediateTest.setShift(admin.getShift());
+		itermediateTest.setProductDate(admin.getProductDate());
 		itermediateTest.setModifyDate(new Date());
 		if("2".equals(my_id)){
 			itermediateTest.setState("2");

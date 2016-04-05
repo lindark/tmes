@@ -22,6 +22,7 @@ public class Sample extends BaseEntity
 	private String qulified;//合格数量
 	private String qulifiedRate;//合格率
 	private String sampleType;//抽检类型
+	private String moudle;//模具
 	private Admin sampler;//抽检人
 	private Admin comfirmation;//确认人
 	private WorkingBill workingBill;//随工单
@@ -30,9 +31,8 @@ public class Sample extends BaseEntity
 	//不在数据库生成的字段，用在查询页面
 	private String xsampler;//抽检人
 	private String xcomfirmation;//确认人
+	private String xmoudle;//模具描述
 	private String xproductnum;//产品编号
-	
-
 	private String xproductname;//产品名称
 	private String xstate;//状态描述--页面显示
 	private String xsampletype;//抽检类型
@@ -210,6 +210,25 @@ public class Sample extends BaseEntity
 	public void setSapmpleRecordSet(Set<SampleRecord> sapmpleRecordSet)
 	{
 		this.sapmpleRecordSet = sapmpleRecordSet;
+	}
+
+	
+	
+	public String getMoudle() {
+		return moudle;
+	}
+
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
+	}
+
+	@Transient
+	public String getXmoudle() {
+		return xmoudle;
+	}
+
+	public void setXmoudle(String xmoudle) {
+		this.xmoudle = xmoudle;
 	}
 	
 	

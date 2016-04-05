@@ -128,17 +128,19 @@ body {
 												<div class="profile-info-value">
 													<span>${(workingbill.workingBillCode)!}</span>
 												</div>
+												<#if isAdd>
 												<div class="profile-info-name">组件编码</div>
 												<div class="col-sm-4">
 													<input type="text" name="lgpla"
 														class="input input-sm form-control formText {required: true}"
-														value="303" id="materialCode" />
+														value="${(materialCode)! }" id="materialCode" />
 												</div>
 												<div class="col-sm-2">
 													<a id="searchButton1"
 														class="btn btn-white btn-default btn-sm btn-round"> <i
 														class="ace-icon fa fa-filter blue"></i> 搜索 </a>
 												</div>
+												</#if>
 											</div>
 
 											<div class="profile-info-row">
@@ -416,6 +418,7 @@ $(function(){
 	//缺陷内容事件
 	cause_event();
 	
+	
 });
 
 
@@ -530,10 +533,6 @@ function sl_event(){
 		return false;
 	}		
 }
-
-
-
-
 
 
 

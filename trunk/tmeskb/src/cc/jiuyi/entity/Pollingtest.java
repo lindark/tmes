@@ -44,6 +44,9 @@ public class Pollingtest extends BaseEntity {
 	private String isDel;// 是否删除
 	private String state;// 状态
 	
+	private String productDate;// 生产日期
+	private String shift;// 班次
+	
 	//假字段
 	private String craftWorkRemark;// 工艺确认描述
 	private String stateRemark;// 状态描述
@@ -235,6 +238,22 @@ public class Pollingtest extends BaseEntity {
 			state = "2";
 		}
 		this.state = state;
+	}
+	
+	
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+	
+	public String getShift() {
+		return shift;
+	}
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 
 	@Transient

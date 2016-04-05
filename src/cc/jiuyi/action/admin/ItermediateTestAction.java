@@ -95,14 +95,14 @@ public class ItermediateTestAction extends BaseAdminAction {
 	@Resource
 	private BomService bomservice;
 
-	private String xcreateUser;//创建人员
-	private String xconfirmUser;//确认人员
-	private String materialCode;//组件编码
-	private String materialName;//组件名
-	private String start;//日期起始点
-	private String end;//日期结束点
-	private String state;//状态
-	
+	private String xcreateUser;// 创建人员
+	private String xconfirmUser;// 确认人员
+	private String materialCode;// 组件编码
+	private String materialName;// 组件名
+	private String start;// 日期起始点
+	private String end;// 日期结束点
+	private String state;// 状态
+
 	// 添加 ----modify weitao
 	public String add() {
 		this.workingbill = this.workingBillService.load(workingBillId);
@@ -111,8 +111,22 @@ public class ItermediateTestAction extends BaseAdminAction {
 				workingbill.getWorkingBillCode().length() - 2);
 		// Date productDate =
 		// ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		list_material = bomservice.findBom(aufnr, workingbill.getProductDate(),
-				workingbill.getWorkingBillCode());
+		if (materialCode != null && materialCode.length() > 0) {
+			list_material = new ArrayList<Bom>();
+			List<Bom> bomList = bomservice.findBom(aufnr,
+					workingbill.getProductDate(),
+					workingbill.getWorkingBillCode());
+			for (int y = 0; y < bomList.size(); y++) {
+				Bom bom = bomList.get(y);
+				if (bom.getMaterialCode().startsWith(materialCode)) {
+					list_material.add(bom);
+				}
+			}
+		} else {
+			list_material = bomservice.findBom(aufnr,
+					workingbill.getProductDate(),
+					workingbill.getWorkingBillCode());
+		}
 		this.list_cause = this.causeService.getBySample("3");// 半成品不合格内容
 		this.add = "add";
 		return INPUT;
@@ -142,7 +156,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
-
+		admin = adminService.getByCardnum(cardnumber);
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		if (pager.getOrderBy().equals("")) {
@@ -176,12 +190,17 @@ public class ItermediateTestAction extends BaseAdminAction {
 				itermediateTest.setXcreateUser(itermediateTest.getCreateUser()
 						.getName());
 			}
+
+			itermediateTest.setShiftx(ThinkWayUtil.getDictValueByDictKey(
+					dictService, "kaoqinClasses", itermediateTest.getShift()));
+
 			lst.add(itermediateTest);
 		}
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(ItermediateTest.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(ItermediateTest.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 
@@ -328,29 +347,42 @@ public class ItermediateTestAction extends BaseAdminAction {
 				String xcreateUser = obj.getString("xcreateUser").toString();
 				map.put("xcreateUser", xcreateUser);
 			}
-			
+
 		}
 		pager = itermediateTestDetailService.historyjqGrid(pager, map);
-	
+
 		List<ItermediateTestDetail> detailList = pager.getList();
 		List<ItermediateTestDetail> lst = new ArrayList<ItermediateTestDetail>();
 		try {
 			for (int i = 0; i < detailList.size(); i++) {
 				ItermediateTestDetail itermediateTestDetail = detailList.get(i);
-//				确认人姓名
+				// 确认人姓名
 				if (itermediateTestDetail.getItermediateTest().getConfirmUser() != null) {
-					itermediateTestDetail
-							.setXconfirmUser(itermediateTestDetail.getItermediateTest().getConfirmUser().getName());
+					itermediateTestDetail.setXconfirmUser(itermediateTestDetail
+							.getItermediateTest().getConfirmUser().getName());
 				}
-//				创建人姓名
+				// 创建人姓名
 				if (itermediateTestDetail.getItermediateTest().getCreateUser() != null) {
-					itermediateTestDetail.setXcreateUser(itermediateTestDetail.getItermediateTest().getCreateUser().getName());
+					itermediateTestDetail.setXcreateUser(itermediateTestDetail
+							.getItermediateTest().getCreateUser().getName());
 				}
-//				 状态描述
-				itermediateTestDetail.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "itermediateTestState", itermediateTestDetail.getItermediateTest().getState()));
+				// 状态描述
+				itermediateTestDetail.setStateRemark(ThinkWayUtil
+						.getDictValueByDictKey(dictService,
+								"itermediateTestState", itermediateTestDetail
+										.getItermediateTest().getState()));
 
+				// 合格数量
+				if (itermediateTestDetail.getFailAmount() == null) {
+					itermediateTestDetail.setPassAmount(itermediateTestDetail
+							.getTestAmount());
+				} else {
+					itermediateTestDetail.setPassAmount(itermediateTestDetail
+							.getTestAmount()
+							- itermediateTestDetail.getFailAmount());
+				}
 				lst.add(itermediateTestDetail);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -358,13 +390,14 @@ public class ItermediateTestAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(ItermediateTest.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(ItermediateTest.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 	}
-	
-	//excel导出
+
+	// excel导出
 	public String excelexport() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("materialName", materialName);
@@ -379,45 +412,35 @@ public class ItermediateTestAction extends BaseAdminAction {
 		header.add("组件编码");
 		header.add("组件名称");
 		header.add("抽检数量");
-		header.add("尺寸1");
-		header.add("尺寸2");
-		header.add("尺寸3");
-		header.add("尺寸4");
-		header.add("尺寸5");
-		header.add("不合格数量");
-		header.add("不合格原因");
+		header.add("合格数量");
 		header.add("创建人");
 		header.add("确认人");
 		header.add("创建时间");
 		header.add("修改时间");
 		header.add("状态");
 
-		List<Object[]> workList = itermediateTestDetailService.historyExcelExport(map);
+		List<Object[]> workList = itermediateTestDetailService
+				.historyExcelExport(map);
 		for (int i = 0; i < workList.size(); i++) {
 			Object[] obj = workList.get(i);
-			ItermediateTestDetail itermediateTestDetail = (ItermediateTestDetail) obj[0];//itermediateTestDetail
-			ItermediateTest itermediateTest =	(ItermediateTest) obj[1];	
-//        	Admin confirmUser=(Admin) obj[2];
-//        	Admin createUser=(Admin) obj[3];
-        	
+			ItermediateTestDetail itermediateTestDetail = (ItermediateTestDetail) obj[0];// itermediateTestDetail
+			ItermediateTest itermediateTest = (ItermediateTest) obj[1];
+			// Admin confirmUser=(Admin) obj[2];
+			// Admin createUser=(Admin) obj[3];
+
 			Object[] bodyval = {
 					itermediateTestDetail.getMaterialCode(),
 					itermediateTestDetail.getMaterialName(),
-					itermediateTestDetail.getTestAmount(),
-					itermediateTestDetail.getGoodsSzie1(),
-					itermediateTestDetail.getGoodsSzie2(),
-					itermediateTestDetail.getGoodsSzie3(),
-					itermediateTestDetail.getGoodsSzie4(),
-					itermediateTestDetail.getGoodsSzie5(),
-					itermediateTestDetail.getFailReason(),
-					itermediateTestDetail.getFailAmount(),
-					itermediateTest.getConfirmUser()==null?"":itermediateTest.getConfirmUser().getName(),
-					itermediateTest.getCreateUser()==null?"":itermediateTest.getCreateUser().getName(),	
+					(itermediateTestDetail.getTestAmount()).intValue(),
+					itermediateTestDetail.getPassAmount().intValue(),
+					itermediateTest.getConfirmUser() == null ? ""
+							: itermediateTest.getConfirmUser().getName(),
+					itermediateTest.getCreateUser() == null ? ""
+							: itermediateTest.getCreateUser().getName(),
 					itermediateTestDetail.getCreateDate(),
 					itermediateTestDetail.getModifyDate(),
 					ThinkWayUtil.getDictValueByDictKey(dictService,
-							"itermediateTestState", itermediateTest.getState())
-							};
+							"itermediateTestState", itermediateTest.getState()) };
 			body.add(bodyval);
 		}
 
@@ -433,6 +456,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		}
 		return null;
 	}
+
 	// 刷卡撤销
 	public String creditundo() {
 		admin = adminService.getLoginAdmin();

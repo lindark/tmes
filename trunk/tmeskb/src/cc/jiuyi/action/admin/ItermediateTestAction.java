@@ -432,7 +432,10 @@ public class ItermediateTestAction extends BaseAdminAction {
 					itermediateTestDetail.getMaterialCode(),
 					itermediateTestDetail.getMaterialName(),
 					(itermediateTestDetail.getTestAmount()).intValue(),
-					itermediateTestDetail.getPassAmount().intValue(),
+					itermediateTestDetail.getFailAmount() == null ? itermediateTestDetail
+							.getTestAmount().intValue() : itermediateTestDetail
+							.getTestAmount().intValue()
+							- itermediateTestDetail.getFailAmount().intValue(),
 					itermediateTest.getConfirmUser() == null ? ""
 							: itermediateTest.getConfirmUser().getName(),
 					itermediateTest.getCreateUser() == null ? ""

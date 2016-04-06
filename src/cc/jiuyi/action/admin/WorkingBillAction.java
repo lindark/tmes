@@ -74,6 +74,7 @@ public class WorkingBillAction extends BaseAdminAction {
 	private String matnr;
 	private String funid;
 	private List<String> moudles;
+	private String info;
 
 	@Resource
 	private WorkingBillService workingbillService;
@@ -300,7 +301,23 @@ public class WorkingBillAction extends BaseAdminAction {
 					map.put("matmr", matmr);
 					pager = unitdistributeModelService.getUBMList(pager, map);
 				}
-		
+				List<UnitdistributeModel> unitdistributeModelList = new ArrayList<UnitdistributeModel>();
+				if(pager.getList()!=null && pager.getList().size()>0){
+					String[] infos = info.split(",");
+					for(int i=0;i<pager.getList().size();i++){
+						UnitdistributeModel unitdistributeModel = (UnitdistributeModel) pager.getList().get(i);
+						boolean flag = true;
+						for(String in : infos){
+							if(in.equals(unitdistributeModel.getStation())){
+								flag = false;
+							}
+						}
+						if(flag){
+							unitdistributeModelList.add(unitdistributeModel);
+						}
+					}
+					pager.setList(unitdistributeModelList);
+				}
 		return "moudlelist";
 	}
 	
@@ -444,6 +461,14 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	public void setMoudles(List<String> moudles) {
 		this.moudles = moudles;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 

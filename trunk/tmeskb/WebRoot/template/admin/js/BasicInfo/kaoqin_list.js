@@ -70,7 +70,7 @@ jQuery(function($) {
 			{name:'workNumber',index:'workNumber',label:"工号",width:100,editable: false,search:false,sortable:false},
 			{name:'phoneNo',index:'phoneNo',label:"手机号",width:100,editable: false,search:false,sortable:false},
 			{name:'xteam',label:"班组",width:100,editable: false,search:false,sortable:false},
-			{name:'factoryUnitName',label:"单元",width:100,editable: false,search:false,sortable:false},
+			{name:'xfactoryUnit',label:"单元",width:100,editable: false,search:false,sortable:false},
 			{name:'xpost',label:"岗位",width:100,editable: false,search:false,sortable:false},
 			{name:'xgongwei',label:"工位",width:100,editable: false,search:false,sortable:false},
 			{name:'xworkscope',label:"模具组号",width:150,editable: false,search:false,sortable:false},

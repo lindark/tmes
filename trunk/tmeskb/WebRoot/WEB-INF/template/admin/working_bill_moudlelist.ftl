@@ -43,6 +43,7 @@
 							<input type="hidden" value="${(funid)!}" id="funid">
 							<input type="hidden" value="${(id)!}" id="wbid">
 							   <div class="operateBar">
+							   <#if pager.list?size!=0>
 							   <#list pager.list as list>
 								  <div class="form-group"style="text-align:center">
 								   <#if moudles?contains(list.station)>
@@ -60,7 +61,10 @@
 										</div> -->
 									</div>	
 									</#list>
-							
+								<#else>
+								<div class="form-group"style="text-align:center">未找到相关模具组号
+								</div>
+								</#if>
 									<!-- <div class="form-group" style="text-align:center">
 										<a id="sureButton" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-filter blue"></i>
@@ -116,13 +120,13 @@
 function getName()
 {
 	var le=$("input[type='checkbox']:checked");
-	if(le.length <1)
+	/* if(le.length <1)
 	{
 		layer.alert("请选择一个模具组号",false);
 		return "baga";
 	}
 	else
-	{
+	{ */
 		 var value="";
 		   for (var i=0;i<le.length;i++ ){
 		     if(le[i].checked){ //判断复选框是否选中
@@ -135,7 +139,7 @@ function getName()
 		  	}
 		   }
 		return value;
-	}
+	//}
 }
 $(document).keydown(function(event){
 	if(event.keyCode==13)

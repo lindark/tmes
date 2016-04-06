@@ -123,7 +123,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 				}
 			}
 		} else {
-			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
+//			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
 			list_material = bomservice.findBom(aufnr,
 					workingbill.getProductDate(),
 					workingbill.getWorkingBillCode());
@@ -414,8 +414,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 		header.add("组件名称");
 		header.add("抽检数量");
 		header.add("合格数量");
-		header.add("创建人");
 		header.add("确认人");
+		header.add("创建人");
 		header.add("创建时间");
 		header.add("修改时间");
 		header.add("状态");

@@ -1,0 +1,53 @@
+package cc.jiuyi.dao.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.dao.PositionManagementDao;
+import cc.jiuyi.entity.PositionManagement;
+@Repository
+public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, String> implements PositionManagementDao{
+
+	@SuppressWarnings("unchecked")
+	public List<PositionManagement> getPositionManagementList() {
+		String hql = "From PositionManagement positionManagement order by positionManagement.id " +
+				"asc positionManagement.crateDate desc";
+		return getSession().createQuery(hql).list();
+	}
+
+	@Override
+	public Pager getPositionManagementPager(Pager pager,
+			HashMap<String, String> map) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PositionManagement.class);
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		if (map.size() > 0) {
+		if(map.get("element")!=null){
+			detachedCriteria.add(Restrictions.like("element", "%"+map.get("element")+"%"));
+		}
+		if(map.get("empName")!=null){
+			detachedCriteria.add(Restrictions.like("empName", "%"+map.get("empName")+"%"));
+		}
+		if(map.get("warehouse")!=null){
+			detachedCriteria.add(Restrictions.like("warehouse", "%"+map.get("warehouse")+"%"));
+		}
+		}		
+		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
+		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public void updateisdel(String[] ids, String oper) {
+		for(String id:ids){
+			PositionManagement xpositionManagement=super.load(id);
+			xpositionManagement.setIsDel(oper);//标记删除
+			super.update(xpositionManagement);
+		}
+		
+	}
+	
+}

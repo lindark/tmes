@@ -1418,6 +1418,17 @@
 
 						
 					</li>
+					<li class="">
+						<a href="position_management!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							单元仓位管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li>
 					<!--
 					<li class="">
 						<a href="#">

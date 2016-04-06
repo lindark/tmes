@@ -158,6 +158,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xsex;//性别
 	private String xrole;//管理角色
 	private String xgongwei;//工位
+	private String xfactoryUnit;//单元名称
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="appvaladmin")
 	public Set<UpDown> getUpdownSet() {
@@ -1323,5 +1324,14 @@ public class Admin extends BaseEntity implements UserDetails {
 	{
 		this.nowState = nowState;
 	}
-	
+
+	public String getXfactoryUnit()
+	{
+		return xfactoryUnit;
+	}
+	@Transient
+	public void setXfactoryUnit(String xfactoryUnit)
+	{
+		this.xfactoryUnit = xfactoryUnit;
+	}
 }

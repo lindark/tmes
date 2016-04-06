@@ -106,7 +106,7 @@ jQuery(function($) {
 		},
 
 		editurl: "carton!delete.action",//用它做标准删除动作
-		caption: "巡检记录"
+		caption: "成品巡检单"
 		
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size

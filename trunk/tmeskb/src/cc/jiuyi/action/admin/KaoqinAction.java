@@ -582,11 +582,13 @@ public class KaoqinAction extends BaseAdminAction
 				a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", a.getShift()));
 			}
 			//班组
-			if(a.getDepartment()!=null)
+			if(a.getTeam()!=null)
 			{
-				if(a.getTeam()!=null)
+				a.setXteam( a.getTeam().getTeamName());
+				//单元
+				if(a.getTeam().getFactoryUnit()!=null)
 				{
-					a.setXteam( a.getTeam().getTeamName());
+					a.setXfactoryUnit(a.getTeam().getFactoryUnit().getFactoryUnitName());
 				}
 			}
 			//工作状态
@@ -673,8 +675,8 @@ public class KaoqinAction extends BaseAdminAction
 			List<Admin>list2=getNewAdminList(list1);
 			List<String> header = new ArrayList<String>();
 			header.add("员工卡号");header.add("姓名");header.add("工号");header.add("手机号");
-			header.add("班组");header.add("岗位");header.add("工位");header.add("模具组号");
-			header.add("工作范围");header.add("员工状态");header.add("异常小时数");
+			header.add("班组");header.add("单元");header.add("岗位");header.add("工位");
+			header.add("模具组号");header.add("工作范围");header.add("员工状态");header.add("异常小时数");
 			List<Object[]> body = new ArrayList<Object[]>();
 			for(int i=0;i<list2.size();i++)
 			{
@@ -685,12 +687,13 @@ public class KaoqinAction extends BaseAdminAction
 				str[2]=a.getWorkNumber();
 				str[3]=a.getPhoneNo();
 				str[4]=a.getXteam();
-				str[5]=a.getXpost();
-				str[6]=a.getXgongwei();
-				str[7]=a.getXstation();
-				str[8]=a.getXworkscope();
-				str[9]=a.getXworkstate();
-				str[10]=a.getTardyHours();
+				str[5]=a.getXfactoryUnit();
+				str[6]=a.getXpost();
+				str[7]=a.getXgongwei();
+				str[8]=a.getXstation();
+				str[9]=a.getXworkscope();
+				str[10]=a.getXworkstate();
+				str[11]=a.getTardyHours();
 				body.add(str);
 			}
 			/***Excel 下载****/

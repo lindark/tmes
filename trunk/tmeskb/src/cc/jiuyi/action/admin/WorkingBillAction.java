@@ -14,6 +14,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
@@ -24,6 +25,7 @@ import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.UnitConversionService;
@@ -87,6 +89,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	
 	//条码打印
 	public String barcodePrint(){
@@ -267,6 +271,9 @@ public class WorkingBillAction extends BaseAdminAction {
 	 */
 	public String moudlelist()
 	{
+		if(pager==null){
+			pager = new Pager();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		matnr="";
 		funid="";
@@ -278,22 +285,22 @@ public class WorkingBillAction extends BaseAdminAction {
 				moudles.add(s);
 			}
 		}
+				String  workCenter = wb.getWorkcenter();
+				FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+				if(fu!=null){
+					funid =fu.getId(); 
+				}
+				matnr = wb.getMatnr();
+				map.put("matnr", matnr);
+				map.put("funid", funid);
+				UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+				
+				if(unitdistributeProduct!=null){
+					String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+					map.put("matmr", matmr);
+					pager = unitdistributeModelService.getUBMList(pager, map);
+				}
 		
-		if(wb.getTeam()!=null){
-			if(wb.getTeam().getFactoryUnit()!=null){
-				funid = wb.getTeam().getFactoryUnit().getId();
-			}
-		}
-		matnr = wb.getMatnr();
-		map.put("matnr", matnr);
-		map.put("funid", funid);
-		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
-		
-		if(unitdistributeProduct!=null){
-			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
-			map.put("matmr", matmr);
-			pager = unitdistributeModelService.getUBMList(pager, map);
-		}
 		return "moudlelist";
 	}
 	
@@ -356,7 +363,7 @@ public class WorkingBillAction extends BaseAdminAction {
 		wb.setMoudle(aufnr);
 		workingbillService.update(wb);
 		redirectionUrl = "admin!index.action";
-		return ajaxJsonSuccessMessage("success"); 
+		return SUCCESS;
 	}
 	
 	

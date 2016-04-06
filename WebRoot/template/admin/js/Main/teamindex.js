@@ -446,7 +446,7 @@ function wbout_event(wbid,maktx,productDate,shift)
 /**
  * 获取模具组号
  */
-function moudle_event(wbid)
+function moudle_event(wbid,info)
 {
 	layer.open({
         type: 2,
@@ -460,15 +460,15 @@ function moudle_event(wbid)
         scrollbar: false,
         btn:['确认','取消'],
         area: ["40%", "80%"],//弹出框的高度，宽度
-        content:"working_bill!moudlelist.action?id="+wbid,
+        content:"working_bill!moudlelist.action?id="+wbid+"&info="+info,
         yes:function(index,layero){//确定
         	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-        	var info = iframeWin.getName();
+        	var aufnr = iframeWin.getName();
         	/*$("#infoId").val(info.faunid);
         	$("#infoName").val(info.faunname);
         	$("#infoNames").text(info.faunname);*/
-        	if("baga"!=info){
-        		window.location.href="working_bill!updateWKInMoudel.action?aufnr="+info+"&wbid="+wbid;
+        	if("baga"!=aufnr){
+        		window.location.href="working_bill!updateWKInMoudel.action?aufnr="+aufnr+"&wbid="+wbid;
             	layer.close(index);
         	}
         	return false;

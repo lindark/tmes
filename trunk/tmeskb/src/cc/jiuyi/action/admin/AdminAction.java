@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.math.BigDecimal;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -86,6 +88,13 @@ public class AdminAction extends BaseAdminAction {
 	private static Logger log = Logger.getLogger(AdminAction.class);  
 	
 	public static final String SPRING_SECURITY_LAST_EXCEPTION = "SPRING_SECURITY_LAST_EXCEPTION";// Spring security 最后登录异常Session名称
+
+	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
+			"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
+			"trzsl","cczsl","slcy","jhdcl","matnr","maktx","materialName","totalAmount","isHand"};
+	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
+			"交下班零头数","组件报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","单位用量","当班检验合格数","交下班异常零头数","一次合格率",
+			"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态"};
 
 	private String loginUsername;
 	private String parentId; 
@@ -124,6 +133,7 @@ public class AdminAction extends BaseAdminAction {
 	private String strStationIds;//工位
 	private List<Station>list_station;//工位
 	private List<Station>list_station2;//工位
+	private String info;
 	
 	@Resource
 	private AdminService adminService;
@@ -164,6 +174,8 @@ public class AdminAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private StationService stationService;//工位
+	@Resource
+	private WorkingInoutService workinginoutservice;
 	
 	// 登录页面
 	public String login() {
@@ -259,6 +271,25 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.get(admin.getId());
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				info = "";
+				for(WorkingBill wb : workingbillList){
+					JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+					HashMap<String,String> mapcheck = new HashMap<String,String>();
+					mapcheck.put("wbid", wb.getId());
+					jsonarray = workinginoutservice.findInoutByJsonData(jsonarray,mapcheck,strlen,2);
+					if("".equals(info)){
+						info = wb.getMoudle()==null?"":wb.getMoudle();
+					}else{
+						info = info + "," + wb.getMoudle()==null?"":wb.getMoudle();
+					}
+					for(int i=0;i<jsonarray.size();i++){
+						JSONObject jsonObject = jsonarray.getJSONObject(i);
+						if(new BigDecimal(0).compareTo(new BigDecimal(jsonObject.get("slcy").toString()))!=0){
+							wb.setDiffamount(1d);
+							break;
+						}
+					}
+				}
 				Collections.sort(workingbillList);
 			}
 		}catch(Exception e){
@@ -2031,5 +2062,15 @@ public class AdminAction extends BaseAdminAction {
 	public void setMydeptid(String mydeptid)
 	{
 		this.mydeptid = mydeptid;
+	}
+
+
+	public String getInfo() {
+		return info;
+	}
+
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 }

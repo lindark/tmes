@@ -75,6 +75,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     private Double cqsl;//裁切数量
     private Double cqamount;//裁切后正常交接数量
     private Double cqrepairamount;//裁切后返修交接数量
+    private Double diffamount;//数量差异
     /*冗余end*/
     
     
@@ -504,6 +505,13 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public void setUnitdistributemodelSet(
 			Set<UnitdistributeModel> unitdistributemodelSet) {
 		this.unitdistributemodelSet = unitdistributemodelSet;
+	}
+	@Transient
+	public Double getDiffamount() {
+		return diffamount;
+	}
+	public void setDiffamount(Double diffamount) {
+		this.diffamount = diffamount;
 	}
 	
 	

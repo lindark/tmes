@@ -74,6 +74,7 @@ public class DeptpickAction extends BaseAdminAction {
 	private String start;
 	private String end;
 	private String type;
+	private WorkingBill workingbill;
 	
 	@Resource
 	private DeptpickService deptpickservice;
@@ -85,6 +86,8 @@ public class DeptpickAction extends BaseAdminAction {
 	private LocationonsideRfc rfc;
 	@Resource
 	private DeptpickRfc deptpickrfc;
+	@Resource
+	private WorkingBillService workingBillService;
 	
 	//部门领料记录
 	public String history() {
@@ -239,7 +242,16 @@ public class DeptpickAction extends BaseAdminAction {
 			addActionError("您当前未上班,不能进行成本入库操作!");
 			return ERROR;
 		}
-		admin = adminService.get(admin.getId());
+		if(admin.getProductDate() != null && admin.getShift() != null){
+			List<WorkingBill> workingbillList = workingBillService.getListWorkingBillByDate(admin);
+			for(WorkingBill wb : workingbillList){
+				this.workingbill = workingBillService.get(wb.getId());	
+				if(this.workingbill.getIsHand().equals("Y")){
+					addActionError("当日交接已完成，不能进行成本入库操作");
+					return ERROR;
+				}
+			}
+		}
 		return LIST;
 	}
 	/**
@@ -650,6 +662,14 @@ public class DeptpickAction extends BaseAdminAction {
 
 	public void setDictList(List<Dict> dictList) {
 		this.dictList = dictList;
+	}
+
+	public WorkingBill getWorkingbill() {
+		return workingbill;
+	}
+
+	public void setWorkingbill(WorkingBill workingbill) {
+		this.workingbill = workingbill;
 	}
 
 	

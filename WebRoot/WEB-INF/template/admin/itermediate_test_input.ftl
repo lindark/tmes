@@ -133,7 +133,7 @@ body {
 												<div class="col-sm-4">
 													<input type="text" name="lgpla"
 														class="input input-sm form-control formText {required: true}"
-														value="${(materialCode)! }" id="materialCode" />
+														value="${materialCode!"303" }" id="materialCode" />
 												</div>
 												<div class="col-sm-2">
 													<a id="searchButton1"
@@ -167,7 +167,7 @@ body {
 														<th class="center">尺寸3</th>
 														<th class="center">尺寸4</th>
 														<th class="center">尺寸5</th>
-														<th sclass="center">不合格数量/原因</th>
+														<th class="center">不合格数量/原因</th>
 													</tr>
 													<#if show??> <#if list_itmesg??> <#assign num=0 /> <#list
 													list_itmesg as list>

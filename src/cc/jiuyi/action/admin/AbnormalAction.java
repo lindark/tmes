@@ -121,6 +121,7 @@ public class AbnormalAction extends BaseAdminAction {
 		
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+
 		
 		//班次
 		admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", admin.getShift()));
@@ -374,7 +375,7 @@ public class AbnormalAction extends BaseAdminAction {
 		String ids[] = closeIds.split(",");
 		for (int i = 0; i < ids.length; i++) {//支持批量进行关闭
 			Abnormal persistent = abnormalService.load(ids[i]);
-			//if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
+			if (persistent.getIniitiator().equals(admin)) {//判断刷卡人是否是异常发起人
 				if (persistent.getState() != "3" & persistent.getState() != "4") {//"3"异常关闭 "4"异常撤销
 					persistent.setState("3");
 					persistent.setCloseTime(new Date());//关闭时间
@@ -384,9 +385,9 @@ public class AbnormalAction extends BaseAdminAction {
 						persistent.setReplyDate(new Date());
 						Date date = new Date();//设置处理时间，当前时间减去异常发起时间
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
-						double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
+//						double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
 						persistent.setHandlingTime(time);
-						persistent.setDealTime(time1);
+						persistent.setDealTime(null);
 					}else{
 						Date date = new Date();//设置处理时间，当前时间减去响应时间
 						int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
@@ -398,9 +399,9 @@ public class AbnormalAction extends BaseAdminAction {
 				} else {
 					return ajaxJsonErrorMessage("异常已撤销/关闭!");
 				}
-			/*} else {
+			} else {
 				return ajaxJsonErrorMessage("您没有关闭的权限!");
-			}*/
+			}
 		}
 
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -422,7 +423,7 @@ public class AbnormalAction extends BaseAdminAction {
 					persistent.setReplyDate(new Date());
 					Date date = new Date();//计算处理时长，当前时间减去异常发起时间
 					int time = (int) ((date.getTime()-persistent.getCreateDate().getTime())/1000);
-					double time1=(double) ((date.getTime()-persistent.getCreateDate().getTime())/60000);
+					double time1=(double) ((date.getTime()-persistent.getReplyDate().getTime())/60000);
 					persistent.setHandlingTime(time);
 					persistent.setDealTime(time1);
 					abnormalService.update(persistent);

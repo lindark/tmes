@@ -43,7 +43,7 @@
 							<input type="hidden" value="${(funid)!}" id="funid">
 							<input type="hidden" value="${(id)!}" id="wbid">
 							   <div class="operateBar">
-							   <#if pager.list?size!=0>
+							   <#if pager.list?? && pager.list?size!=0>
 							   <#list pager.list as list>
 								  <div class="form-group"style="text-align:center">
 								   <#if moudles?contains(list.station)>

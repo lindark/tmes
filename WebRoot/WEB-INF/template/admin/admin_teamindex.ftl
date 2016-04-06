@@ -494,11 +494,12 @@
 													</thead>
 
 													<tbody>
+													<input type="hidden" value="${info}" id="info">
 														<#list workingbillList as list>
 														<tr>
 															<td><input type="checkbox" class="ckbox"
 																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
-																<a href="javascript:void(0);" class="a matkx" >${list.maktx}</a>&nbsp;&nbsp;
+																<a href="javascript:void(0);" class="a matkx" <#if list.diffamount??>style="color:red"</#if>>${list.maktx}</a>&nbsp;&nbsp;
 																<a href="javascript:void(0);" class="a moudle" <#if list.moudle=="">style="color:red"</#if>>[添加模具组号]</a>
 															</td>
 
@@ -567,7 +568,8 @@
 		});
 		$(".moudle").bind("click",function(){
 			var id = $(this).prev().prev().val();
-			moudle_event(id);
+			var info = $("#info").val();
+			moudle_event(id,info);
 		});
 		<#if workingbillList==null || workingbillList?size <=0>
 		$.gritter

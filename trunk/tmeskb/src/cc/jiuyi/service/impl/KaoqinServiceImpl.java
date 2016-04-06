@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOver;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
@@ -301,6 +302,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		}
 		String procutdate=admin.getProductDate();
 		String shift=admin.getShift();
+		FactoryUnit fu=t.getFactoryUnit();
 		for(int i=0;i<list.size();i++)
 		{
 			Admin a=list.get(i);
@@ -327,7 +329,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			kq.setTeam(t);//班组
 			kq.setCreateDate(new Date());
 			kq.setModifyDate(new Date());
-			//新增保存：字段工号  联系电话  工位  模具组号  工作范围-编码  岗位编码  工位名称  模具组号名称  工作范围名称
+			//新增保存：字段工号  联系电话  工位  模具组号  工作范围-编码  岗位编码  工位名称  模具组号名称  工作范围名称  单元
 			//              
 			kq.setWorkCode(a.getWorkNumber());//工号
 			kq.setPhoneNum(a.getPhoneNo());//联系电话
@@ -413,6 +415,11 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 					code=code.substring(0,code.length()-1);
 				}
 				kq.setModleNum(code);//模具组号
+			}
+			//单元
+			if(fu!=null)
+			{
+				kq.setFactoryUnit(fu.getFactoryUnitName());
 			}
 			this.save(kq);
 			

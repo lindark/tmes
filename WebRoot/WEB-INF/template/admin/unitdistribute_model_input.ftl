@@ -104,7 +104,7 @@ body {
 														class="formText {required: true}" /> 
 														<label class="requireField">*</label>
 													<#else>
-														<input type="hidden" id="input_fuid" value="${(unitdistributeModel.factoryunit.id)! }" />
+														<input type="hidden" id="input_fuid" name="unitdistributeModel.factoryunit.id" value="${(unitdistributeModel.factoryunit.id)! }" />
 														${(unitdistributeModel.factoryunit.factoryUnitName)!}
 													</#if>
 												</div>
@@ -221,7 +221,7 @@ function ck_event()
 	$("#input_statioin").val(umstation);
 	if(fuid!=null&&fuid!=""&&umstation!=null&&umstation!="")
 	{
-		$.post("Unitdistribute_model!checkinfo.action?unitdistributeModel.factoryunit.id="+fuid+"&unitdistributeModel.station="+umstation+"&id="+$("#input_id").val(),function(data){
+		$.post("unitdistribute_model!checkinfo.action?unitdistributeModel.factoryunit.id="+fuid+"&unitdistributeModel.station="+umstation+"&id="+$("#input_id").val(),function(data){
 			if(data.status=="success")
 			{
 				$("#inputForm").submit();

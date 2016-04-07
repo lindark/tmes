@@ -570,10 +570,7 @@ public class KaoqinAction extends BaseAdminAction {
 				a.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService,
 						"kaoqinClasses", a.getShift()));
 			}
-			// 班组
-			if (a.getDepartment() != null) {
-				if (a.getTeam() != null) {
-					a.setXteam(a.getTeam().getTeamName());
+			
 			//班组
 			if(a.getTeam()!=null)
 			{
@@ -652,8 +649,8 @@ public class KaoqinAction extends BaseAdminAction {
 			list2.add(a);
 		}
 		return list2;
-	}
-
+	
+		}
 	/**
 	 * 导出Excel表
 	 */

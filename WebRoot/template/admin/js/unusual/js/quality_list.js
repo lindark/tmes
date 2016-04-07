@@ -43,9 +43,8 @@ jQuery(function($) {
 					{ name: 'qty', width: 50 }
 				]
 			});
-		},
-		
-		url:"quality!ajlist.action?abnormalId="+$("#unusualId").val(),
+		},		
+		url:"quality!ajlist.action?abnormalId="+$("#unusualId").val()+"&materialCode=303",
 		datatype: "json",
 		height: "250",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -66,8 +65,8 @@ jQuery(function($) {
 		colModel:[
 			
 			{name:'productsName',index:'productsName',width:180, editable:true,search:false},
-			{name:'process',index:'process',width:120, editable:true},
-			{name:'problemDescription',index:'problemDescription', width:160, search:false,editable: true},
+			{name:'processName',index:'process',width:120, editable:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=process"}},
+			{name:'problemDescriptionName',index:'problemDescription', width:160, search:false,editable: true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=qualityProblemDescription"}},
 			{name:'founder',index:'founder', width:60, editable: true,search:false},
 			{name:'stateRemark',index:'state', width:60,editable: true, sortable:true,cellattr:addstyle,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=receiptState"}}		
 		], 

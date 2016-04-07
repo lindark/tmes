@@ -47,6 +47,11 @@ public class Quality extends BaseEntity{
 	private String productsName;
 	private String processName;
 	private String teamName;
+	private String problemDescriptionName;
+	
+	private String machineNumber;//台机号      jjt
+	private String productDate;// 生产日期 jjt
+	private String shift;// 班次 jjt
 	
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	private Set<UnusualLog> unusualLogSet;//异常日志
@@ -142,6 +147,18 @@ public class Quality extends BaseEntity{
 		this.unusualLogSet = unusualLogSet;
 	}
 	
+	
+	
+	
+	
+	public String getMachineNumber() {
+		return machineNumber;
+	}
+	public void setMachineNumber(String machineNumber) {
+		this.machineNumber = machineNumber;
+	}
+	
+	
 	@Transient
 	public String getStateRemark() {
 		return stateRemark;
@@ -205,10 +222,21 @@ public class Quality extends BaseEntity{
 		this.teamName = teamName;
 	}
 	
+	
+	@Transient
+	public String getProblemDescriptionName() {
+		return problemDescriptionName;
+	}
+	public void setProblemDescriptionName(String problemDescriptionName) {
+		this.problemDescriptionName = problemDescriptionName;
+	}
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Admin getReceiver() {
 		return receiver;
 	}
+	
 	public void setReceiver(Admin receiver) {
 		this.receiver = receiver;
 	}
@@ -231,6 +259,20 @@ public class Quality extends BaseEntity{
 	}
 	public void setBom(String bom) {
 		this.bom = bom;
+	}
+	
+	public String getProductDate() {
+		return productDate;
+	}
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+	
+	public String getShift() {
+		return shift;
+	}
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 	
 	

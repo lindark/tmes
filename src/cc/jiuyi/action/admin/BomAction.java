@@ -59,6 +59,7 @@ public class BomAction extends BaseAdminAction {
 	private String productid;//产品ID
 	private String bomId;
 	//private List<cc.jiuyi.entity.Material> materialAll;
+	private String materialCode;
 	
 	
 	//读取清单
@@ -78,6 +79,15 @@ public class BomAction extends BaseAdminAction {
 	public String ajlist() {
 
 		HashMap<String, String> map = new HashMap<String, String>();
+		if(pager.is_search() == false )//默认303查询
+		{
+			map.put("materialCode", materialCode);
+			pager.set_search(true);
+			if(Param==null || Param.equals(""))
+			{
+				Param="{\"materialCode\":\"303\"}";
+			}
+		}
 		try {
 			if (pager.getOrderBy().equals("")) {
 				pager.setOrderType(OrderType.desc);
@@ -94,6 +104,7 @@ public class BomAction extends BaseAdminAction {
 			}
 
 			if (pager.is_search() == true && Param != null) {
+				//System.out.println("param:"+Param);
 				JSONObject obj = JSONObject.fromObject(Param);
 				if (obj.get("materialCode") != null) {
 					String materialCode = obj.getString("materialCode")
@@ -288,5 +299,15 @@ public class BomAction extends BaseAdminAction {
 		this.bomId = bomId;
 	}
 
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	
+	
 	
 }

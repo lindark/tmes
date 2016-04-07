@@ -3,10 +3,15 @@ $(function() {
 	$("#completeQuality").click(function(){		
 		var choice = $("#productChoice").val();
 		var bom = $("#productNa").val();
-		if(choice.length>0 && bom.length>0){
-			alert("产品与产品Bom只能选择一个");
-			return false;
+		var qualityId=$("#qualityId").val()
+		if(qualityId ==null || qualityId=="")
+		{
+			if(choice.length>0 && bom.length>0){
+				alert("产品与产品Bom只能选择一个");
+				return false;
+			}
 		}
+		
     	$("#inputForm").submit();  	
 	});	
 	
@@ -100,7 +105,7 @@ $(function() {
 	var width="800px";
 	var height="560px";
 	var bomId="bomId";
-	var content="quality!browser.action?bomId="+bomId;
+	var content="quality!browser.action?bomId="+bomId+"&_srarch=true&materialCode=303";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
 		var work=iframeWin.getGridId();

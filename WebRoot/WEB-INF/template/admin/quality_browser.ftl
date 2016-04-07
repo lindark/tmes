@@ -38,7 +38,7 @@ body {
 		<div class="main-content">
 
            <input type="hidden" name="bomId" id="bomId" value="${(bomId)!}" />
-
+			<input type="hidden" name="materialCode" id="materialCode" value="${(materialCode)!}" />
 
 			<!-- add by welson 0728 -->
 			<div class="page-content">
@@ -55,7 +55,7 @@ body {
 											style="text-align:right;">组件编码:</label>
 										<div class="col-sm-4">
 											<input type="text" name="materialCode"
-												class="input input-sm form-control" value=""
+												class="input input-sm form-control" value="${(materialCode)!}"
 												id="form-field-icon-1">
 										</div>
 
@@ -118,5 +118,11 @@ body {
 		var work=""+rowName+""+","+rowCode;
 		return work;
 	}
+	
+	/*$(document).ready(function() { 
+		alert("ss");
+		$("#searchButton").trigger("click");
+	}); */
+	
 	
 </script>

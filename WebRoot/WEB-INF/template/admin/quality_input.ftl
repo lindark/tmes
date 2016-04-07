@@ -125,25 +125,35 @@ body {
 												<div class="profile-info-name">生产工序</div>
 
 												<div class="profile-info-value">
-													<#if isAdd??> <select name="quality.process"
+													<#if isAdd??> <select name="quality.process" style="width:163px;"
 														id="processName">
-
-													</select> <#else> ${(quality.process)!} </#if>
+															<option value="">请选择...</option>
+														<#list processList as list>	
+																								
+														<option value="${list.dictkey}" label="${list.dictvalue}">${list.dictvalue}</option> 														
+															</#list>
+													</select> <#else> ${(quality.processName)!} </#if>
 												</div>
 
 											</div>
 											
 											<div class="profile-info-row">
-											<div class="profile-info-name">产品bom</div>
-											<div class="profile-info-value">
-											       <#if isAdd??> <img id="productId" class="img_addbug"
-														title="添加产品信息" alt="添加产品信息" style="cursor:pointer"
-														src="${base}/template/shop/images/add_bug.gif" />
-													<span id="productName1"></span> <input type="hidden"
-														name="quality.bom" id="productNa" value=""
-														/> <#else>
-													${(bomproduct)!} </#if>
-											</div>
+												<div class="profile-info-name">产品bom</div>
+												<div class="profile-info-value">
+												       <#if isAdd??> <img id="productId" class="img_addbug"
+															title="添加产品信息" alt="添加产品信息" style="cursor:pointer"
+															src="${base}/template/shop/images/add_bug.gif" />
+														<span id="productName1"></span> <input type="hidden"
+															name="quality.bom" id="productNa" value=""
+															/> <#else>
+														${(bomproduct)!} </#if>
+												</div>
+												<div class="profile-info-name">台机号</div>
+												<div class="profile-info-value">
+													<input type="text" name="quality.machineNumber"
+														value="${(quality.machineNumber)!}"
+														class=" input input-sm  formText {required: false}" />
+												</div>
 											</div>
 
 											<div class="profile-info-row">
@@ -183,7 +193,7 @@ body {
 														class="formText {required: true}" /> <#else>
 													${(quality.receiver.name)!} </#if>
 												</div>
-												<div class="profile-info-name">工程师</div>
+												<div class="profile-info-name">质量工程师</div>
 												<div class="profile-info-value">
 													<#if isAdd??> <img id="receive1" class="img_addbug"
 														title="添加人员信息1" alt="添加人员信息1" style="cursor:pointer"
@@ -224,16 +234,70 @@ body {
 														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
 												</div>
 											</div>
-
+											<div class="profile-info-row">
+												<div class="profile-info-name">生产日期</div>
+												<div class="profile-info-value">
+													
+													<#if isAdd?? >
+														<input type="text" name="quality.productDate"	value="${(admin.productDate)!}" 
+														class=" input input-sm  formText {required: true}" readOnly="true"/>
+													<#else>
+														<input type="text" name="quality.productDate"	value="${(quality.productDate)!}" 
+														class=" input input-sm  formText {required: true}" readOnly="true"/>													
+													</#if>
+														
+												</div>
+												<div class="profile-info-name">班次</div>
+												<div class="profile-info-value">
+													<#if isAdd?? >
+														<select name="quality.shift" class="formText {required: true}" readOnly="true" style="width:163px;">
+														<option></option>
+														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+														<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+														</select>														
+													<#else>
+														<select name="quality.shift" class="formText {required: true}" readOnly="true" style="width:163px;">
+														<option></option>
+														<option value="1" <#if (quality.shift == 1)!> selected</#if>>早</option>
+														<option value="2" <#if (quality.shift == 2)!> selected</#if>>白</option>
+														<option value="3" <#if (quality.shift == 3)!> selected</#if>>晚</option>
+														</select>														
+													</#if>												
+													
+												</div>
+											</div>
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">质量问题描述</div>
-												<div class="profile-info-value">
+												<!--<div class="profile-info-value">
 													<textarea name="quality.problemDescription"
 														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
+												</div>-->
+												<#if isAdd??>
+												<div class="profile-info-value">
+													<select name="quality.problemDescription" style="width:727px;" class="formText {required: true}">
+															<option value="">请选择...</option>
+														<#list problemDescriptionList as list>	
+																								
+														<option value="${list.dictkey}" label="${list.dictvalue}">${list.dictvalue}</option> 														
+															</#list>
+													</select> 
 												</div>
+												<#else>
+													<select name="quality.problemDescription" style="width:727px;" class="formText {required: true}">
+															<option value="">请选择...</option>
+														<#list problemDescriptionList as list>	
+																								
+														<option value="${list.dictkey}" label="${list.dictvalue}" <#if (quality.problemDescription == list.dictkey)!>selected</#if> >${list.dictvalue}</option> 														
+															</#list>
+													</select> 
+												</#if>
+												
 											</div>
+											
+											
 										</div>
 
 										<#if isAdd??> <#else>
@@ -578,35 +642,11 @@ body {
 				}
 			})
 
-			$("#productChoice").change(function() {
-				var cc = $("#productChoice").val();
-				if(cc.length==0){
-					$("#processName").html("");
-					return false;
-				}
-				process();
-			})
+		
 
 		})
-
-		function process() {
-			var label = $("#productChoice option:selected").attr("label");
-			var id=label.split(",");
-			url="process_route!getProcessList.action?id="+id[1];
-			  $.ajax({
-					url: url,
-					//data: ids,
-					dataType: "json",		
-					success: function(data) {	
-						$("#processName").html("");
-						$(data).each(function(n){
-				            $("<option/>").html(this.name).val(this.id)
-				            .appendTo("#processName");
-				        });
-					}
-				});	
-			
-		}
+		
+	
 	</script>
 </body>
 </html>

@@ -241,6 +241,9 @@ public class ItermediateTestAction extends BaseAdminAction {
 				bom.setXgoodsSzie5(it.getGoodsSzie5());
 				if(it.getFailAmount()!=null){
 				bom.setXpassamount(it.getTestAmount()-it.getFailAmount());}
+				else{
+					bom.setXpassamount(it.getTestAmount());
+				}
 				bom.setXitid(it.getId());
 				List<IpRecord> l_ir = new ArrayList<IpRecord>(it.getIpRecord());// 获取每个物料对应的不合格原因
 				String sbids = "", sbnums = "";

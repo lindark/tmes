@@ -310,7 +310,7 @@ $(function () {
 		var num = $(this).val();
 		var noNum = $(this).parent().parent().find(".noNum").val();
 		var passNum = num-noNum;
-		alert(noNum);
+		
 		if(passNum>=0){
 		$(this).parent().parent().find(".pass_num").val(passNum);}
 	});

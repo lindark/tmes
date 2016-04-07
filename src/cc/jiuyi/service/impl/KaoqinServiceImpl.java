@@ -73,6 +73,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		a.setWorkstate(admin.getWorkstate());//工作状态
 		a.setTardyHours(admin.getTardyHours());//误工小时数
 		a.setModifyDate(new Date());
+		a.setUnitdistributeModelSet(admin.getUnitdistributeModelSet());
 		this.adminService.update(a);
 	}
 

@@ -87,11 +87,6 @@
 										<div class="col-sm-4">
 											<select name="state" id="form-field-icon-1"
 												class="input input-sm form-control">
-												<!-- 
-							                <#list AllState as list>
-								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
-							                </#list>
-							                 -->
 												<option value=""></option>
 												<option value="1">未确认</option>
 												<option value="2">已确认</option>

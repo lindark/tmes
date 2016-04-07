@@ -111,6 +111,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 				workingbill.getWorkingBillCode().length() - 2);
 		// Date productDate =
 		// ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+		materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
 		if (materialCode != null && materialCode.length() > 0) {
 			list_material = new ArrayList<Bom>();
 			List<Bom> bomList = bomservice.findBom(aufnr,
@@ -123,7 +124,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 				}
 			}
 		} else {
-//			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
+
 			list_material = bomservice.findBom(aufnr,
 					workingbill.getProductDate(),
 					workingbill.getWorkingBillCode());

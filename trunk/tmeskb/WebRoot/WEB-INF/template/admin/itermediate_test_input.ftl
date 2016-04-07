@@ -414,7 +414,7 @@ function boxtorow_event(index)
 	var testnum=$("#input_msgmenge"+index).parent().parent().find(".test_num").val();
 	
 	$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);
-	if (testnum-count<0){alert("请输入正确数量")};
+	if (testnum-count<0&&testnum>0){alert("请输入正确数量")};
 }
 
 $(function(){

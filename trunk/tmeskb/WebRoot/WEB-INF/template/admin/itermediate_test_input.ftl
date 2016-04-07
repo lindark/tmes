@@ -168,7 +168,7 @@ body {
 														<th class="center" "display:none">尺寸4</th>
 														<th class="center" "display:none">尺寸5</th>
 														--><th class="center">不合格数量/原因</th>
-														<#if isAdd><th class="center">合格数量</th></#if>
+														<th class="center">合格数量</th>
 													</tr>
 													<#if show??> <#if list_itmesg??> <#assign num=0 /> <#list
 													list_itmesg as list>
@@ -238,9 +238,11 @@ body {
 															id="input_bugid${num}" name="list_itbug[${num}].xbugids"
 															type="hidden" value="${(list.xrecordid)! }" />
 														</td>
-														<#if isAdd><td><input type="text"
-															class="form-control formText {digits:true} pass_num" readonly="readonly"/>
-														</td></#if>
+														<td><input type="text"
+															class="form-control formText {digits:true} pass_num" readonly="readonly"
+															value="${(list.xpassamount)!}"
+															/>
+														</td>
 													</tr>
 													<#assign num=num+1 /> </#list> </#if> </#if>
 												</table>
@@ -308,6 +310,7 @@ $(function () {
 		var num = $(this).val();
 		var noNum = $(this).parent().parent().find(".noNum").val();
 		var passNum = num-noNum;
+		alert(noNum);
 		if(passNum>=0){
 		$(this).parent().parent().find(".pass_num").val(passNum);}
 	});

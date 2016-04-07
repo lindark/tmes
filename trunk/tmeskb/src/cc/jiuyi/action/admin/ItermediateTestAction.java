@@ -491,6 +491,13 @@ public class ItermediateTestAction extends BaseAdminAction {
 		if (list_itmesg.size() > 0) {
 			for (int i = 0; i < list_itmesg.size(); i++) {
 				ItermediateTestDetail it = list_itmesg.get(i);
+				if(it.getTestAmount()!=null){
+					if(it.getFailAmount()!=null){
+					it.setPassAmount(it.getTestAmount()-it.getFailAmount());}
+					else{
+						it.setPassAmount(it.getTestAmount());
+					}
+				}
 				this.list_itmesg.add(it);
 			}
 		}

@@ -213,16 +213,16 @@ function showUnit()
 function ck_event()
 {
 	var xid=$("#input_id").val();//主键
-	var fuid=$("#unitNo").val();//单元id
-	var num=$("#input_num").val();//物料编码
-	num=num.replace(/\s+/g+"");//去空
-	$("#input_num").val(num);
 	if(xid!=null&&xid!="")
 	{
 		$("#inputForm").submit();
 	}
 	else
 	{
+		var fuid=$("#unitNo").val();//单元id
+		var num=$("#input_num").val();//物料编码
+		num=num.replace(/\s+/g+"");//去空
+		$("#input_num").val(num);
 		$.post("unitdistribute_product!checkinfo.action?unitdistributeProduct.factoryunit.id="+fuid+"&unitdistributeProduct.materialCode="+num,function(data){
 			if(data.status=="success")
 			{

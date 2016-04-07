@@ -34,6 +34,7 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	
 	
 	/**冗余**/
+	private Double xpassamount;
 	private Double xtestAmount;
 	private String xfailReason;
 	private Double xfailAmount;
@@ -74,10 +75,19 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	
 	
 
+	@Transient
+	public Double getXpassamount() {
+		return xpassamount;
+	}
 
+	public void setXpassamount(Double xpassamount) {
+		this.xpassamount = xpassamount;
+	}
+	
 	public String getShift() {
 		return shift;
 	}
+	
 
 	public void setShift(String shift) {
 		this.shift = shift;

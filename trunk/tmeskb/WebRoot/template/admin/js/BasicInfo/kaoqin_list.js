@@ -71,6 +71,7 @@ jQuery(function($) {
 			{name:'phoneNo',index:'phoneNo',label:"手机号",width:100,editable: false,search:false,sortable:false},
 			{name:'xteam',label:"班组",width:100,editable: false,search:false,sortable:false},
 			{name:'xfactoryUnit',label:"单元",width:100,editable: false,search:false,sortable:false},
+			{name:'xstationval',label:"xstationval",width:100,editable: false,search:false,sortable:false,hidden:true},
 			{name:'xpost',label:"岗位",width:100,editable: false,search:false,sortable:false},
 			{name:'xgongwei',label:"工位",width:100,editable: false,search:false,sortable:false},
 			{name:'xworkscope',label:"模具组号",width:150,editable: false,search:false,sortable:false},
@@ -94,7 +95,7 @@ jQuery(function($) {
         	 for ( var i = 0; i < ids.length; i++) {
         		var cl = ids[i];
         		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workstate+"','"+rowData.tardyHours+"') href='javascript:void(0)'>[编辑]</a>";
+        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workstate+"','"+rowData.tardyHours+"','"+rowData.xstationval+"') href='javascript:void(0)'>[编辑]</a>";
         		jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
         	 }
         },
@@ -260,10 +261,12 @@ function hours_event()
 }
 
 //编辑事件
-function edit_event(xid,workstate,tardyhours)
-{
-	$("#select_state").val(workstate);
-	$("#input_hours").val(tardyhours);
+function edit_event(xid,workstate,tardyhours,xstationval)
+{	$("#select_state").val(workstate);
+	$("#input_hours").val(tardyhours); 
+	var xstationvals =xstationval.split(",");
+	 $('#model').val(xstationvals);
+	 $("#model").trigger("chosen:updated");
 	layer.open({
 		type:1,
 		title:"修改员工状态",
@@ -279,12 +282,14 @@ function edit_event(xid,workstate,tardyhours)
 			var val=$("#select_state").val();
 			//var txt=$("#select_state option:selected").text();
 			var hours=$("#input_hours").val();
-			if(val!=workstate||hours!=tardyhours)
+			var unitdistributeModels=$("#model").val();
 			{
-				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+xid+"&admin.tardyHours="+hours;
+				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+xid+
+				"&admin.tardyHours="+hours+"&unitdistributeModels="+unitdistributeModels;
 				upd_event(url);
 			}
 		}
+	
 	});
 }
 

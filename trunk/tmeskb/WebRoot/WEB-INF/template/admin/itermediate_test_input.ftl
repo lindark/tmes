@@ -162,12 +162,13 @@ body {
 														<th class="center">组件编码</th>
 														<th class="center">组件名称</th>
 														<th class="center">检验数量</th>
-														<th class="center">尺寸1</th>
-														<th class="center">尺寸2</th>
-														<th class="center">尺寸3</th>
-														<th class="center">尺寸4</th>
-														<th class="center">尺寸5</th>
-														<th class="center">不合格数量/原因</th>
+														<!--<th class="center" "display:none">尺寸1</th>
+														<th class="center" "display:none">尺寸2</th>
+														<th class="center" "display:none">尺寸3</th>
+														<th class="center" "display:none">尺寸4</th>
+														<th class="center" "display:none">尺寸5</th>
+														--><th class="center">不合格数量/原因</th>
+														<#if isAdd><th class="center">合格数量</th></#if>
 													</tr>
 													<#if show??> <#if list_itmesg??> <#assign num=0 /> <#list
 													list_itmesg as list>
@@ -175,12 +176,13 @@ body {
 														<td>${(list.materialCode)! }</td>
 														<td>${(list.materialName)! }</td>
 														<td>${(list.testAmount)! }</td>
-														<td>${(list.goodsSzie1)! }</td>
+														<!--<td>${(list.goodsSzie1)! }</td>
 														<td>${(list.goodsSzie2)! }</td>
 														<td>${(list.goodsSzie3)! }</td>
 														<td>${(list.goodsSzie4)! }</td>
 														<td>${(list.goodsSzie5)! }</td>
-														<td>${(list.failReason)! }</td>
+														--><td>${(list.failReason)! }</td>
+														
 													</tr>
 													<#assign num=num+1 /> </#list> </#if> <#else> <#if
 													list_material??> <#assign num=0 /> <#list list_material as
@@ -191,9 +193,9 @@ body {
 														<td><input type="text"
 															name="list_itmesg[${num}].testAmount"
 															value="${(list.xtestAmount)!}"
-															class="form-control formText {digits:true}" />
+															class="form-control formText {digits:true} test_num" />
 														</td>
-														<td><input type="text"
+														<!--<td><input type="text"
 															name="list_itmesg[${num}].goodsSzie1"
 															value="${(list.xgoodsSzie1)!}" class="form-control" />
 														</td>
@@ -213,7 +215,7 @@ body {
 															name="list_itmesg[${num}].goodsSzie5"
 															value="${(list.xgoodsSzie5)!}" class="form-control" />
 														</td>
-														<td><img id="img_addbug${num}" class="img_addbug"
+														--><td><img id="img_addbug${num}" class="img_addbug"
 															title="添加不合格原因" alt="添加不合格原因"
 															src="${base}/template/shop/images/add_bug.gif" /> <span
 															id="span_bug${num}">${(list.xfailReason)!}</span> <input
@@ -228,7 +230,7 @@ body {
 															value="${(list.id)! }" /> <input type="hidden"
 															name="list_itmesg[${num}].id" value="${(list.xitid)! }" />
 															<input type="hidden" id="input_msgmenge${num}"
-															name="list_itmesg[${num}].failAmount"
+															class="noNum" name="list_itmesg[${num}].failAmount"
 															value="${(list.failAmount)! }" /> <input
 															id="input_bugnum${num}"
 															name="list_itbug[${num}].xbugnums" type="hidden"
@@ -236,6 +238,9 @@ body {
 															id="input_bugid${num}" name="list_itbug[${num}].xbugids"
 															type="hidden" value="${(list.xrecordid)! }" />
 														</td>
+														<#if isAdd><td><input type="text"
+															class="form-control formText {digits:true} pass_num" readonly="readonly"/>
+														</td></#if>
 													</tr>
 													<#assign num=num+1 /> </#list> </#if> </#if>
 												</table>
@@ -297,6 +302,16 @@ body {
 </body>
 </html>
 <script type="text/javascript">
+//合计计算
+$(function () {
+	$(".test_num").change(function(){		
+		var num = $(this).val();
+		var noNum = $(this).parent().parent().find(".noNum").val();
+		var passNum = num-noNum;
+		if(passNum>=0){
+		$(this).parent().parent().find(".pass_num").val(passNum);}
+	});
+	})
 
 //给按钮加事件--添加缺陷信息事件
 function addbug_event()
@@ -389,6 +404,9 @@ function boxtorow_event(index)
 	}
 	$("#span_bug"+index).text(spanbug);
 	$("#input_msgbug"+index).val(spanbug);
+	var testnum=$("#input_msgmenge"+index).parent().parent().find(".test_num").val();
+	if (testnum-count>=0){
+	$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);}
 }
 
 $(function(){
@@ -470,6 +488,7 @@ function sub_event(my_id)
 	if(my_id=="1")
 	{
 		var dt=$("#inputForm").serialize();
+		console.log(dt);
 		<#if isAdd??>
 		var url = "itermediate_test!creditsave.action";		
 	    <#else>

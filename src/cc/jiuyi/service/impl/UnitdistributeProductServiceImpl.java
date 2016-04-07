@@ -61,4 +61,12 @@ public class UnitdistributeProductServiceImpl extends BaseServiceImpl<Unitdistri
 		return this.unitdistributeProductDao.getUnitdistributeProduct(map);
 	}
 
+	/**
+	 * 根据单元id和物料编码查询是否已存在
+	 */
+	public UnitdistributeProduct getByConditions(String fuid,String materialCode)
+	{
+		return this.unitdistributeProductDao.getByConditions(fuid,materialCode);
+	}
+
 }

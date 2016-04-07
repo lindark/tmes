@@ -77,5 +77,20 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 		String hql="from UnitdistributeProduct where materialCode=? and factoryunit.id=? and isDel='N'";
 		return (UnitdistributeProduct) this.getSession().createQuery(hql).setParameter(0, map.get("matnr")).setParameter(1, map.get("funid")).uniqueResult();
 	}
+
+	/**
+	 * 根据单元id和物料编码查询是否已存在
+	 */
+	@SuppressWarnings("unchecked")
+	public UnitdistributeProduct getByConditions(String fuid,String materialCode)
+	{
+		String hql="from UnitdistributeProduct where factoryunit.id=? and materialCode=? and isDel='N'";
+		List<UnitdistributeProduct>list=this.getSession().createQuery(hql).setParameter(0, fuid).setParameter(1, materialCode).list();
+		if(list!=null&&list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
+	}
 	
 }

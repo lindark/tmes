@@ -1,11 +1,10 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -20,21 +19,10 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.UnitdistributeProduct;
-import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitdistributeProductService;
-import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
 
 /**
  * 后台Action类-单元管理
@@ -160,7 +148,10 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 		@InputConfig(resultName = "error")*/
 		public String update() {
 			UnitdistributeProduct persistent = unitdistributeProductService.load(id);
-			BeanUtils.copyProperties(unitdistributeProduct, persistent, new String[] { "id","createDate", "modifyDate","unitCode","unitName"});
+			//BeanUtils.copyProperties(unitdistributeProduct, persistent, new String[] { "id","createDate", "modifyDate","unitCode","unitName"});
+			persistent.setMaterialName(unitdistributeProduct.getMaterialName());
+			persistent.setState(unitdistributeProduct.getState());
+			persistent.setModifyDate(new Date());
 			unitdistributeProductService.update(persistent);
 			redirectionUrl = "unitdistribute_product!list.action";
 			return SUCCESS;
@@ -177,10 +168,41 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")*/
-	public String save()throws Exception{	
-		unitdistributeProductService.save(unitdistributeProduct);		
-		redirectionUrl="unitdistribute_product!list.action";
-		return SUCCESS;	
+	public String save(){
+		if(check())
+		{
+			unitdistributeProductService.save(unitdistributeProduct);		
+			redirectionUrl="unitdistribute_product!list.action";
+			return SUCCESS;	
+		}
+		this.addActionError("单元和物料编码已同时存在!");
+		return ERROR;
+	}
+	
+	/**
+	 * 根据单元id和物料编码查询是否已存在
+	 * @return
+	 */
+	public String checkinfo()
+	{
+		if(check())
+		{
+			return this.ajaxJsonSuccessMessage("");
+		}
+		return this.ajaxJsonErrorMessage("");
+	}
+	/**
+	 * 根据单元id和物料编码查询是否已存在
+	 * @return
+	 */
+	public boolean check()
+	{
+		UnitdistributeProduct up=this.unitdistributeProductService.getByConditions(unitdistributeProduct.getFactoryunit().getId(),unitdistributeProduct.getMaterialCode());
+		if(up!=null)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public UnitdistributeProduct getUnitdistributeProduct() {

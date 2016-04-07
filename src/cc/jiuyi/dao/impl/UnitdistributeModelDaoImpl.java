@@ -88,5 +88,20 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
 	}
+
+	/**
+	 * 根据单元id和模具组号查询
+	 */
+	@SuppressWarnings("unchecked")
+	public UnitdistributeModel getByConditions(String fuid, String station)
+	{
+		String hql="from UnitdistributeModel where factoryunit.id=? and station=? and isDel='N'";
+		List<UnitdistributeModel>list=this.getSession().createQuery(hql).setParameter(0, fuid).setParameter(1, station).list();
+		if(list!=null&&list.size()>0)
+		{
+			return list.get(0);
+		}
+		return null;
+	}
 	
 }

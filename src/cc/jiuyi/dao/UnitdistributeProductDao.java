@@ -32,4 +32,12 @@ public interface UnitdistributeProductDao extends BaseDao<UnitdistributeProduct,
 	 * 查询可用产品
 	 */
 	public UnitdistributeProduct getUnitdistributeProduct(HashMap<String, String> map);
+
+	/**
+	 * 根据单元id和物料编码查询是否已存在
+	 * @param fuid 单元id
+	 * @param materialCode 物料编码
+	 * @return
+	 */
+	public UnitdistributeProduct getByConditions(String fuid,String materialCode);
 }

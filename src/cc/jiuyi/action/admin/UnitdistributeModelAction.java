@@ -1,11 +1,10 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -20,23 +19,10 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
-import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitdistributeModelService;
-import cc.jiuyi.service.UnitdistributeProductService;
-import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.ThinkWayUtil;
-
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
-import com.opensymphony.xwork2.validator.annotations.Validations;
-
 
 /**
  * 后台Action类-单元管理
@@ -161,11 +147,19 @@ public class UnitdistributeModelAction extends BaseAdminAction {
 		)
 		@InputConfig(resultName = "error")*/
 		public String update() {
-			UnitdistributeModel persistent = unitdistributeModelService.load(id);
-			BeanUtils.copyProperties(unitdistributeModel, persistent, new String[] { "id","createDate","unitCode","unitName","factoryunit"});
-			unitdistributeModelService.update(persistent);
-			redirectionUrl = "unitdistribute_model!list.action";
-			return SUCCESS;
+			if(check())
+			{
+				UnitdistributeModel persistent = unitdistributeModelService.load(id);
+				//BeanUtils.copyProperties(unitdistributeModel, persistent, new String[] { "id","createDate","unitCode","unitName","factoryunit"});
+				persistent.setStation(unitdistributeModel.getStation());
+				persistent.setState(unitdistributeModel.getState());
+				persistent.setModifyDate(new Date());
+				unitdistributeModelService.update(persistent);
+				redirectionUrl = "unitdistribute_model!list.action";
+				return SUCCESS;
+			}
+			addActionError("单元和模具组号已同时存在!");
+			return ERROR;
 		}
 		
 	//保存
@@ -179,10 +173,47 @@ public class UnitdistributeModelAction extends BaseAdminAction {
 			  
 	)
 	@InputConfig(resultName = "error")*/
-	public String save()throws Exception{		
-		unitdistributeModelService.save(unitdistributeModel);
-		redirectionUrl="unitdistribute_model!list.action";
-		return SUCCESS;	
+	public String save(){
+		if(check())
+		{
+			unitdistributeModelService.save(unitdistributeModel);
+			redirectionUrl="unitdistribute_model!list.action";
+			return SUCCESS;	
+		}
+		addActionError("单元和模具组号已同时存在!");
+		return ERROR;
+	}
+	
+	/**
+	 * 检查单元和模具组号是否同时已存在
+	 * @return
+	 */
+	public String checkinfo()
+	{
+		if(check())
+		{
+			return this.ajaxJsonSuccessMessage(""); 
+		}
+		return this.ajaxJsonErrorMessage("");
+	}
+	
+	/**
+	 * 检查单元和模具组号是否同时已存在
+	 * @return
+	 */
+	public boolean check()
+	{
+		//根据单元id和模具组号查询
+		UnitdistributeModel um=this.unitdistributeModelService.getByConditions(unitdistributeModel.getFactoryunit().getId(),unitdistributeModel.getStation());
+		if(um!=null)
+		{
+			if(id!=null&&um.getId().equals(id))
+			{
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 
 	public UnitdistributeModel getUnitdistributeModel() {

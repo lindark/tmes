@@ -57,4 +57,12 @@ public class UnitdistributeModelServiceImpl extends BaseServiceImpl<Unitdistribu
 		return unitdistributeModelDao.getUBMList(pager,map);
 	}
 
+	/**
+	 * 根据单元id和模具组号查询
+	 */
+	public UnitdistributeModel getByConditions(String fuid, String station)
+	{
+		return this.unitdistributeModelDao.getByConditions(fuid,station);
+	}
+
 }

@@ -31,4 +31,12 @@ public interface UnitdistributeModelService extends BaseService<UnitdistributeMo
 	 * 根据条件查找模具组号
 	 */
 	public Pager getUBMList(Pager pager,HashMap<String,String>map);
+
+	/**
+	 * 根据单元id和模具组号查询
+	 * @param id 单元id
+	 * @param station 模具组号
+	 * @return
+	 */
+	public UnitdistributeModel getByConditions(String fuid, String station);
 }

@@ -231,7 +231,7 @@ body {
 															name="list_itmesg[${num}].id" value="${(list.xitid)! }" />
 															<input type="hidden" id="input_msgmenge${num}"
 															class="noNum" name="list_itmesg[${num}].failAmount"
-															value="${(list.failAmount)! }" /> <input
+															value="${(list.xfailAmount)! }" /> <input
 															id="input_bugnum${num}"
 															name="list_itbug[${num}].xbugnums" type="hidden"
 															value="${(list.xrecordNum)! }" /> <input
@@ -240,7 +240,7 @@ body {
 														</td>
 														<td><input type="text"
 															class="form-control formText {digits:true} pass_num" readonly="readonly"
-															value="${(list.xpassamount)!}"
+															value="${(list.xpassamount)! }"
 															/>
 														</td>
 													</tr>

@@ -182,6 +182,7 @@ body {
 														<td>${(list.goodsSzie4)! }</td>
 														<td>${(list.goodsSzie5)! }</td>
 														--><td>${(list.failReason)! }</td>
+														<td>${(list.passAmount)! }</td>
 														
 													</tr>
 													<#assign num=num+1 /> </#list> </#if> <#else> <#if
@@ -311,8 +312,11 @@ $(function () {
 		var noNum = $(this).parent().parent().find(".noNum").val();
 		var passNum = num-noNum;
 		
-		if(passNum>=0){
-		$(this).parent().parent().find(".pass_num").val(passNum);}
+		
+		$(this).parent().parent().find(".pass_num").val(passNum);
+		if(passNum<0){
+			alert("请输入正确数量!");
+		}
 	});
 	})
 
@@ -408,8 +412,9 @@ function boxtorow_event(index)
 	$("#span_bug"+index).text(spanbug);
 	$("#input_msgbug"+index).val(spanbug);
 	var testnum=$("#input_msgmenge"+index).parent().parent().find(".test_num").val();
-	if (testnum-count>=0){
-	$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);}
+	
+	$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);
+	if (testnum-count<0){alert("请输入正确数量")};
 }
 
 $(function(){

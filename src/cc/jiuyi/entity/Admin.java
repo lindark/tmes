@@ -158,6 +158,7 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xsex;//性别
 	private String xrole;//管理角色
 	private String xgongwei;//工位
+	private String xstationval;//模组信息
 	private String xfactoryUnit;//单元名称
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="appvaladmin")
@@ -1218,6 +1219,14 @@ public class Admin extends BaseEntity implements UserDetails {
 	{
 		this.xrole = xrole;
 	}
+	@Transient
+	public String getXstationval() {
+		return xstationval;
+	}
+
+	public void setXstationval(String xstationval) {
+		this.xstationval = xstationval;
+	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Admin getEmpCreaterqx()
@@ -1324,7 +1333,6 @@ public class Admin extends BaseEntity implements UserDetails {
 	{
 		this.nowState = nowState;
 	}
-
 	public String getXfactoryUnit()
 	{
 		return xfactoryUnit;

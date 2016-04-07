@@ -31,6 +31,7 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Orders;
@@ -54,6 +55,10 @@ import cc.jiuyi.service.UnusualLogService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
+/**
+ * @author ALF
+ *
+ */
 @ParentPackage("admin")
 public class QualityAction extends BaseAdminAction {
 
@@ -72,13 +77,16 @@ public class QualityAction extends BaseAdminAction {
 	private String bomproduct; 
 	private String bomId;
 	
+	private String materialCode;
+	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
 	private List<Craft> craftList;
 	private List<Device> deviceList;
 	private List<Department> list;
 	private List<FlowingRectify> flowingRectifys;
-	
+	private List<Dict> processList;//工序列表
+	private List<Dict> problemDescriptionList;//工序列表
 	
 	@Resource
 	private QualityService qualityService;
@@ -134,6 +142,7 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
+		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(dictService, "process", quality.getProcess()));
 		
 		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
@@ -233,7 +242,11 @@ public class QualityAction extends BaseAdminAction {
 				quality.setFounder(quality.getCreater().getName());				
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "receiptState", quality.getState()));		
+						dictService, "receiptState", quality.getState()));
+				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "process", quality.getProcess()));
+				quality.setProblemDescriptionName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "qualityProblemDescription", quality.getProblemDescription()));
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -254,7 +267,11 @@ public class QualityAction extends BaseAdminAction {
 				quality.setFounder(quality.getCreater().getName());				
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "receiptState", quality.getState()));		
+						dictService, "receiptState", quality.getState()));	
+				String str=getDictValueByDictKey(quality.getProcess(),"process");
+				quality.setProcessName(str==null ? "":str);
+				str=getDictValueByDictKey(quality.getProblemDescription(), "qualityProblemDescription");
+				quality.setProblemDescriptionName(str==null ? "":str);
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -307,6 +324,9 @@ public class QualityAction extends BaseAdminAction {
 		quality.setCreater(admin);
 		quality.setIsDel("N");
 		quality.setState("0");
+		
+		
+		
 		qualityService.save(quality);
          
 		UnusualLog log = new UnusualLog();
@@ -402,6 +422,7 @@ public class QualityAction extends BaseAdminAction {
 	
 	public String browser(){
 		bomId=bomId;
+		//materialCode="303";
 		return "browser";
 	}
 	
@@ -471,6 +492,14 @@ public class QualityAction extends BaseAdminAction {
 	}
 	*/
 
+	public String getDictValueByDictKey(String key,String dictName)
+	{
+		if(key==null || key.equals("") || dictName==null || dictName.equals(""))
+		return "";
+		
+		return ThinkWayUtil.getDictValueByDictKey(dictService, dictName, key);
+	}
+	
 	public Quality getQuality() {
 		return quality;
 	}
@@ -616,6 +645,33 @@ public class QualityAction extends BaseAdminAction {
 		this.bomId = bomId;
 	}
 
+	public List<Dict> getProcessList() {
+		return dictService.getList("dictname", "process");
+	}
+
+	public void setProcessList(List<Dict> processList) {
+		this.processList = processList;
+	}
+
+	public List<Dict> getProblemDescriptionList() {
+		return dictService.getList("dictname", "qualityProblemDescription");
+	}
+
+	public void setProblemDescriptionList(List<Dict> problemDescriptionList) {
+		this.problemDescriptionList = problemDescriptionList;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
+	}
+
+	
     
+	
+	
 	
 }

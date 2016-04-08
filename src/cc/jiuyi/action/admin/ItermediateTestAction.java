@@ -241,7 +241,12 @@ public class ItermediateTestAction extends BaseAdminAction {
 				bom.setXgoodsSzie4(it.getGoodsSzie4());
 				bom.setXgoodsSzie5(it.getGoodsSzie5());
 				if (it.getFailAmount() != null) {
-					bom.setXpassamount(it.getTestAmount() - it.getFailAmount());
+					if((it.getTestAmount() - it.getFailAmount())>0){
+						bom.setXpassamount(it.getTestAmount() - it.getFailAmount());
+					}else{
+						bom.setXpassamount(0d);
+					}
+					
 				} else {
 					bom.setXpassamount(it.getTestAmount());
 				}
@@ -494,8 +499,13 @@ public class ItermediateTestAction extends BaseAdminAction {
 				ItermediateTestDetail it = list_itmesg.get(i);
 				if (it.getTestAmount() != null) {
 					if (it.getFailAmount() != null) {
-						it.setPassAmount(it.getTestAmount()
-								- it.getFailAmount());
+						if((it.getTestAmount()- it.getFailAmount())>0){
+							it.setPassAmount(it.getTestAmount()
+									- it.getFailAmount());
+						}else{
+							it.setPassAmount(0d);
+						}
+						
 					} else {
 						it.setPassAmount(it.getTestAmount());
 					}

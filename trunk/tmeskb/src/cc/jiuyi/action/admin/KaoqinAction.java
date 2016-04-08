@@ -164,6 +164,10 @@ public class KaoqinAction extends BaseAdminAction {
 						.getWorkShop().getFactory().getFactoryName());
 				kaoqin.setWorkshop(kaoqin.getEmp().getTeam().getFactoryUnit()
 						.getWorkShop().getWorkShopName());
+				if(kaoqin.getWorkState()!=null&&!"".equals(kaoqin.getWorkState()))
+				{
+					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
+				}
 				lst.add(kaoqin);
 			}
 		} catch (Exception e) {
@@ -204,6 +208,7 @@ public class KaoqinAction extends BaseAdminAction {
 		header.add("模具组号");
 		header.add("工作范围");
 		header.add("异常小时数");
+		header.add("员工状态");
 
 		List<Object[]> kqlist = kqService.historyExcelExport(map);
 		for (int i = 0; i < kqlist.size(); i++) {
@@ -230,7 +235,8 @@ public class KaoqinAction extends BaseAdminAction {
 
 					kaoqin.getPostname(), kaoqin.getStationName(),
 					kaoqin.getModleNum(), kaoqin.getWorkName(),
-					kaoqin.getTardyHours(), };
+					kaoqin.getTardyHours(), 
+					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState())};
 			body.add(bodyval);
 		}
 

@@ -86,34 +86,40 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 	 */
 	public void myadd(List<ItermediateTestDetail> list_itmesg,
 			List<IpRecord> list_itbug, ItermediateTest itermediateTest, int i) {
-		// 不合格信息表
-		ItermediateTestDetail it = list_itmesg.get(i);
-		if (it.getTestAmount()!=null&&!"".equals(it.getTestAmount())) {
-			it.setCreateDate(new Date());
-			it.setModifyDate(new Date());
-			it.setItermediateTest(itermediateTest);
-			String DetailId = this.itdService.save(it);
-			ItermediateTestDetail it2 = this.itdService.load(DetailId);
+		try {
+			// 不合格信息表
+			ItermediateTestDetail it = list_itmesg.get(i);
+			if (it.getTestAmount()!=null&&!"".equals(it.getTestAmount())) {
+				it.setCreateDate(new Date());
+				it.setModifyDate(new Date());
+				it.setItermediateTest(itermediateTest);
+				String DetailId = this.itdService.save(it);
+				ItermediateTestDetail it2 = this.itdService.load(DetailId);
 
-			if (it.getFailReason() != null && !"".equals(it.getFailReason())) {
-				IpRecord ip1 = list_itbug.get(i);
-				String[] bugids = ip1.getXbugids().split(",");// 缺陷id
-				String[] bugnums = ip1.getXbugnums().split(",");// 缺陷描述
-				for (int j = 0; j < bugids.length; j++) {
-					if (bugids[j] != null && !"".equals(bugids[j])) {
-						IpRecord ipRecord = new IpRecord();
-						Cause cause = this.causeService.get(bugids[j]);
-						ipRecord.setCreateDate(new Date());
-						ipRecord.setCauseId(bugids[j]);// 缺陷ID
-						ipRecord.setRecordNum(bugnums[j]);// 缺陷数量
-						ipRecord.setRecordDescription(cause.getCauseName());// 缺陷描述
-						ipRecord.setItermediateTestDetail(it2);// 巡检从表对象
-						this.ipRecordService.save(ipRecord);
+				if (it.getFailReason() != null && !"".equals(it.getFailReason())) {
+					IpRecord ip1 = list_itbug.get(i);
+					String[] bugids = ip1.getXbugids().split(",");// 缺陷id
+					String[] bugnums = ip1.getXbugnums().split(",");// 缺陷描述
+					for (int j = 0; j < bugids.length; j++) {
+						if (bugids[j] != null && !"".equals(bugids[j])) {
+							IpRecord ipRecord = new IpRecord();
+							Cause cause = this.causeService.get(bugids[j]);
+							ipRecord.setCreateDate(new Date());
+							ipRecord.setCauseId(bugids[j]);// 缺陷ID
+							ipRecord.setRecordNum(bugnums[j]);// 缺陷数量
+							ipRecord.setRecordDescription(cause.getCauseName());// 缺陷描述
+							ipRecord.setItermediateTestDetail(it2);// 巡检从表对象
+							ipRecord.setIsDel("Y");
+							this.ipRecordService.save(ipRecord);
+						}
 					}
 				}
-			}
 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
 	/**

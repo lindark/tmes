@@ -266,13 +266,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
 		
 		//nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
-		//nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+		
 		//nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
 		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
 		//nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
 		//nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
-		
-		
+		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+		nameobj.add(strlen[28]);labelobj.add(lavenlen[28]);indexobj.add(strlen[28]);//校验差异
 		
 		
 		JSONArray jsonarray = new JSONArray();
@@ -478,6 +478,17 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				//if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(recipientsamount)))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
 					
 				//}
+				Double bgs = 0.00d;
+				bgs = ThinkWayUtil.null2o(workingbill.getDailyWorkTotalAmount());
+				map.put(strlen[26],bgs);//当班报工数
+				Double jycl = 0.00d;
+				Double rks = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
+				//beforeoddamount  //交下班零头
+				//bgs					//报工数
+				//afteroddamount   //接上班零头数
+				//repairinAmount  //返修收货
+				jycl = (new BigDecimal(rks).add(new BigDecimal(beforeoddamount))).subtract( (new BigDecimal(bgs).add(new BigDecimal(afteroddamount)).add(new BigDecimal(repairinAmount)))).doubleValue();
+				map.put(strlen[28],jycl);//校验差异    公式=（入库数+交下班零头）-（报工数+接上班零头+返修收货）
 				jsonstr.add(map);
 		}
 		}catch(Exception e){

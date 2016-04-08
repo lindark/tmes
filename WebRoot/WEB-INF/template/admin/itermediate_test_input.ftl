@@ -412,9 +412,14 @@ function boxtorow_event(index)
 	$("#span_bug"+index).text(spanbug);
 	$("#input_msgbug"+index).val(spanbug);
 	var testnum=$("#input_msgmenge"+index).parent().parent().find(".test_num").val();
+	if (testnum-count<0&&testnum>0){
+		$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(0);
+		alert("请输入正确数量")
+	}else{
+		$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);
+	}
 	
-	$("#input_msgmenge"+index).parent().parent().find(".pass_num").val(testnum-count);
-	if (testnum-count<0&&testnum>0){alert("请输入正确数量")};
+	
 }
 
 

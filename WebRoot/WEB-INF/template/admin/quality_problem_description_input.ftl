@@ -66,8 +66,9 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form name="qualityProblemDescription" id="inputForm" class="validate" action="<#if isAdd??>quality_problem_description!save.action<#else>quality_problem_description!update.action</#if>" method="post">
+		<form id="inputForm" class="validate" action="<#if isAdd??>quality_problem_description!save.action<#else>quality_problem_description!update.action</#if>" method="post">
 			<input type="hidden" name="id" value="${id}" />
+			<input type="hidden" name="qualityProblemDescription.id" value="${id}" />
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -86,8 +87,8 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 质量问题描述 </div>					
 										<div class="profile-info-value">
-											<textarea type="text" name="qualityProblemDescription.problemDescription" value="${(qualityProblemDescription.problemDescription)!}" class=" formText {required: true}" style="width:500px;height:80px;">
-											</textarea>
+											<input type="text" name="qualityProblemDescription.problemDescription" value="${ (qualityProblemDescription.problemDescription)! }" class="input formText {required: true}" style="width:800px;">
+												
 											<label class="requireField">*</label>	
 										</div>
 									</div>

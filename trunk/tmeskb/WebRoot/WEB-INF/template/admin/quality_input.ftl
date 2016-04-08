@@ -239,29 +239,22 @@ body {
 												<div class="profile-info-value">
 													
 													<#if isAdd?? >
-														<input type="text" name="quality.productDate"	value="${(admin.productDate)!}" 
-														class=" input input-sm  formText {required: true}" readOnly="true"/>
+														${(admin.productDate)!}
 													<#else>
-														<input type="text" name="quality.productDate"	value="${(quality.productDate)!}" 
-														class=" input input-sm  formText {required: true}" readOnly="true"/>													
+														${(quality.productDate)!}													
 													</#if>
 														
 												</div>
 												<div class="profile-info-name">班次</div>
 												<div class="profile-info-value">
 													<#if isAdd?? >
-														<select name="quality.shift" class="formText {required: true}" readOnly="true" style="width:163px;">
-														<option></option>
-														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
-														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
-														<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
-														</select>														
-													<#else>
-														<select name="quality.shift" class="formText {required: true}" readOnly="true" style="width:163px;">
-														<option></option>
-														<option value="1" <#if (quality.shift == 1)!> selected</#if>>早</option>
-														<option value="2" <#if (quality.shift == 2)!> selected</#if>>白</option>
-														<option value="3" <#if (quality.shift == 3)!> selected</#if>>晚</option>
+														<#if (admin.shift == 1)!> 早</#if>
+														<#if (admin.shift == 2)!> 白</#if>
+														<#if (admin.shift == 3)!> 晚</#if>																												
+													<#else>														
+														<#if (quality.shift == 1)!> 早</#if>
+														<#if (quality.shift == 2)!> 白</#if>
+														<#if (quality.shift == 3)!> 晚</#if>
 														</select>														
 													</#if>												
 													
@@ -277,20 +270,20 @@ body {
 												</div>-->
 												<#if isAdd??>
 												<div class="profile-info-value">
-													<select name="quality.problemDescription" style="width:727px;" class="formText {required: true}">
+													<select name="quality.qualityProblemDescription.id" style="width:727px;" class="formText {required: true}">
 															<option value="">请选择...</option>
 														<#list problemDescriptionList as list>	
 																								
-														<option value="${list.dictkey}" label="${list.dictvalue}">${list.dictvalue}</option> 														
+														<option value="${list.id}" label="${list.problemDescription}">${list.problemDescription}</option> 														
 															</#list>
 													</select> 
 												</div>
 												<#else>
-													<select name="quality.problemDescription" style="width:727px;" class="formText {required: true}">
+													<select name="quality.qualityProblemDescription.id" style="width:727px;" class="formText {required: true}">
 															<option value="">请选择...</option>
 														<#list problemDescriptionList as list>	
 																								
-														<option value="${list.dictkey}" label="${list.dictvalue}" <#if (quality.problemDescription == list.dictkey)!>selected</#if> >${list.dictvalue}</option> 														
+														<option value="${list.id}" label="${list.problemDescription}" <#if (quality.qualityProblemDescription.id == list.id)!>selected</#if> >${list.problemDescription}</option> 														
 															</#list>
 													</select> 
 												</#if>

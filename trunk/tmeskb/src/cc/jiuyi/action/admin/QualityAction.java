@@ -37,6 +37,7 @@ import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
+import cc.jiuyi.entity.QualityProblemDescription;
 import cc.jiuyi.entity.UnusualLog;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.WorkingBill;
@@ -50,6 +51,7 @@ import cc.jiuyi.service.FlowingRectifyService;
 import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.QualityProblemDescriptionService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.service.UnusualLogService;
 import cc.jiuyi.service.WorkingBillService;
@@ -86,7 +88,8 @@ public class QualityAction extends BaseAdminAction {
 	private List<Department> list;
 	private List<FlowingRectify> flowingRectifys;
 	private List<Dict> processList;//工序列表
-	private List<Dict> problemDescriptionList;//工序列表
+	private List<QualityProblemDescription> problemDescriptionList;//问题描述列表
+	private List<Dict> stateList;//状态列表
 	
 	@Resource
 	private QualityService qualityService;
@@ -114,7 +117,9 @@ public class QualityAction extends BaseAdminAction {
 	private OrdersService ordersService;
 	@Resource
 	private BomService bomService;
-
+	@Resource
+	private QualityProblemDescriptionService qualityProblemDescriptionService;
+	
 	// 添加
 	public String add() {
 		if (aid != null) {
@@ -245,8 +250,7 @@ public class QualityAction extends BaseAdminAction {
 						dictService, "receiptState", quality.getState()));
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "process", quality.getProcess()));
-				quality.setProblemDescriptionName(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "qualityProblemDescription", quality.getProblemDescription()));
+				quality.setProblemDescriptionName(quality.getQualityProblemDescription().getProblemDescription());
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -270,7 +274,7 @@ public class QualityAction extends BaseAdminAction {
 						dictService, "receiptState", quality.getState()));	
 				String str=getDictValueByDictKey(quality.getProcess(),"process");
 				quality.setProcessName(str==null ? "":str);
-				str=getDictValueByDictKey(quality.getProblemDescription(), "qualityProblemDescription");
+				str=quality.getQualityProblemDescription()==null ? "" : quality.getQualityProblemDescription().getProblemDescription();
 				quality.setProblemDescriptionName(str==null ? "":str);
 				pagerlist.set(i,quality);
 			}
@@ -320,6 +324,14 @@ public class QualityAction extends BaseAdminAction {
 		if(quality.getProcess()==null){
 			return ajaxJsonErrorMessage("工序名称不允许为空!");
 		}*/
+		
+		if(quality.getProductDate()==null){
+			quality.setProductDate(admin.getProductDate());
+		}	
+		if(quality.getShift()==null || quality.getShift().equals("") ){
+			quality.setShift(admin.getShift());
+		}
+		
 		quality.setAbnormal(abnormal);
 		quality.setCreater(admin);
 		quality.setIsDel("N");
@@ -653,11 +665,14 @@ public class QualityAction extends BaseAdminAction {
 		this.processList = processList;
 	}
 
-	public List<Dict> getProblemDescriptionList() {
-		return dictService.getList("dictname", "qualityProblemDescription");
+	
+
+	public List<QualityProblemDescription> getProblemDescriptionList() {
+		return qualityProblemDescriptionService.getAllQualityProblemDescription();
 	}
 
-	public void setProblemDescriptionList(List<Dict> problemDescriptionList) {
+	public void setProblemDescriptionList(
+			List<QualityProblemDescription> problemDescriptionList) {
 		this.problemDescriptionList = problemDescriptionList;
 	}
 
@@ -667,6 +682,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
+	}
+
+	public List<Dict> getStateList() {
+		return dictService.getList("dictname", "qualityProblemDescriptionState");
+	}
+
+	public void setStateList(List<Dict> stateList) {
+		this.stateList = stateList;
 	}
 
 	

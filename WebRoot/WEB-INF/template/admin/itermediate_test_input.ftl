@@ -417,6 +417,7 @@ function boxtorow_event(index)
 	if (testnum-count<0&&testnum>0){alert("请输入正确数量")};
 }
 
+
 $(function(){
 	//搜索
 	$("#searchButton1").click(function() {
@@ -490,8 +491,18 @@ function write_bugnum_event(index)
  * 按钮事件 
  */
 //1.刷卡保存2.刷卡确认
-function sub_event(my_id)
+function sub_event(my_id) 
 {
+	//保存时检查合格数量
+	var nums = $('.pass_num');
+	for(i=0;i<nums.length;i++)
+	{
+		var num=nums.eq(i).val();
+		if(num<0){
+			layer.msg("请确认输入的数量", {icon: 5});
+			return false;
+		}
+	}
 	$("#my_id").val(my_id);//赋值
 	if(my_id=="1")
 	{

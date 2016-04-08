@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -22,7 +23,7 @@ public class Quality extends BaseEntity{
 	private static final long serialVersionUID = -7213483223153832423L;
 	
 	private Team team;//班组
-	private String problemDescription;//问题描述
+	private QualityProblemDescription qualityProblemDescription;//问题描述
 	private Admin creater;//创建人
 	private Admin receiver;//接收人
 	private Admin engineer;//工程师
@@ -56,17 +57,19 @@ public class Quality extends BaseEntity{
 	private Set<FlowingRectify> flowingRectify;//整改情况跟踪
 	private Set<UnusualLog> unusualLogSet;//异常日志
 	
-
-	public String getProblemDescription() {
-		return problemDescription;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public QualityProblemDescription getQualityProblemDescription() {
+		return qualityProblemDescription;
 	}
-	public void setProblemDescription(String problemDescription) {
-		this.problemDescription = problemDescription;
+	public void setQualityProblemDescription(
+			QualityProblemDescription qualityProblemDescription) {
+		this.qualityProblemDescription = qualityProblemDescription;
 	}
-
+	
 	public Integer getSamplingAmont() {
 		return samplingAmont;
-	}
+	}	
 	public void setSamplingAmont(Integer samplingAmont) {
 		this.samplingAmont = samplingAmont;
 	}

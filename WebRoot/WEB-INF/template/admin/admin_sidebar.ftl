@@ -1354,6 +1354,14 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="">							
+								<a href="quality_problem_description!list.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									质量问题描述管理
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						
 						</ul>
 					</li>

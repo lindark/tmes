@@ -54,6 +54,8 @@ jQuery(grid_selector).jqGrid({
 {name:'modleNum',label:"模具组号",width:150,editable: false,search:false,sortable:false},
 {name:'workName',label:"工作范围",width:100,editable: false,search:false,sortable:false},
 {name:'tardyHours',label:"异常小时数",width:80,editable: false,search:false,sortable:false},
+{name:'xworkState',index:'workState',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
+{name:'workState',index:'workState', label:"workState", editable: false,hidden:true}
 			], 
 
 		viewrecords : true,
@@ -84,26 +86,6 @@ jQuery(grid_selector).jqGrid({
 	});
 	$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 	
-	//给状态加样式
-	function addstyle(rowId, val, rawObject, cm, rdata)
-	{
-		
-		//未确认
-		if(rawObject.state=="notapproval")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
-		//已确认
-		if(rawObject.state=="approval")
-		{
-			return "style='color:green;font-weight:bold;'";
-		}
-		//已撤销
-		if(rawObject.state=="undone")
-		{
-			return "style='color:purple;font-weight:bold;'";
-		}
-	}
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
@@ -223,5 +205,18 @@ function getId2()
 	{
 		layer.msg("请选择一条记录!", {icon: 5});
 		return false;
+	}
+}
+//给状态加样式
+function addstyle(rowId, val, rowObject, cm, rdata)
+{
+	if(rowObject.workState=="2"||rowObject.workState=="5"||rowObject.workState=="6")
+	{
+		return "style='color:#008B00;font-weight:bold;'";
+		
+	}
+	else
+	{
+		return "style='color:#b22;font-weight:bold;'";
 	}
 }

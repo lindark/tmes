@@ -92,7 +92,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		caption: "单元管理"
+		caption: "质量问题描述"
 
 		//,autowidth: true,
 //		,

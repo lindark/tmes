@@ -159,16 +159,16 @@ body {
 												<table id="tb_itd"
 													class="table table-striped table-bordered table-hover">
 													<tr>
-														<th class="center" >组件编码</th>
-														<th class="center" >组件名称</th>
-														<th class="center" width="100">检验数量</th>
+														<th class="center" style="width:10%">组件编码</th>
+														<th class="center" style="width:15%">组件名称</th>
+														<th class="center" style="width:10%">检验数量</th>
 														<!--<th class="center" "display:none">尺寸1</th>
 														<th class="center" "display:none">尺寸2</th>
 														<th class="center" "display:none">尺寸3</th>
 														<th class="center" "display:none">尺寸4</th>
 														<th class="center" "display:none">尺寸5</th>
-														--><th class="center">不合格原因/数量</th>
-														<th class="center" width="100">合格数量</th>
+														--><th class="center"style="width:55%">不合格原因/数量</th>
+														<th class="center" style="width:10%">合格数量</th>
 													</tr>
 													<#if show??> <#if list_itmesg??> <#assign num=0 /> <#list
 													list_itmesg as list>

@@ -86,7 +86,7 @@ body{background:#fff;}
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 质量问题描述 </div>					
 										<div class="profile-info-value">
-											<textarea type="text" name="qualityProblemDescription.problemDescription" value="${(qualityProblemDescription.problemDescription)!}" class=" formText {required: true}" >
+											<textarea type="text" name="qualityProblemDescription.problemDescription" value="${(qualityProblemDescription.problemDescription)!}" class=" formText {required: true}" style="width:500px;height:80px;">
 											</textarea>
 											<label class="requireField">*</label>	
 										</div>

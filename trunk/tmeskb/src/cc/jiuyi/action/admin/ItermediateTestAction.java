@@ -111,7 +111,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 				workingbill.getWorkingBillCode().length() - 2);
 		// Date productDate =
 		// ThinkWayUtil.formatStringDate(workingbill.getProductDate());
-		materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
+		materialCode = materialCode == null ? "303" : ThinkWayUtil
+				.null2String(materialCode);
 		if (materialCode != null && materialCode.length() > 0) {
 			list_material = new ArrayList<Bom>();
 			List<Bom> bomList = bomservice.findBom(aufnr,
@@ -230,7 +231,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 			Bom bom = l_material.get(i);
 			ItermediateTestDetail it = this.itermediateTestDetailService
 					.getBySidAndMid(id, bom.getMaterialCode());
-			if (it != null) {
+			if (it != null && it.getTestAmount() != null) {
 				bom.setXtestAmount(it.getTestAmount());
 				bom.setXfailReason(it.getFailReason());
 				bom.setXfailAmount(it.getFailAmount());
@@ -239,9 +240,9 @@ public class ItermediateTestAction extends BaseAdminAction {
 				bom.setXgoodsSzie3(it.getGoodsSzie3());
 				bom.setXgoodsSzie4(it.getGoodsSzie4());
 				bom.setXgoodsSzie5(it.getGoodsSzie5());
-				if(it.getFailAmount()!=null){
-				bom.setXpassamount(it.getTestAmount()-it.getFailAmount());}
-				else{
+				if (it.getFailAmount() != null) {
+					bom.setXpassamount(it.getTestAmount() - it.getFailAmount());
+				} else {
 					bom.setXpassamount(it.getTestAmount());
 				}
 				bom.setXitid(it.getId());
@@ -256,8 +257,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 				}
 				bom.setXrecordid(sbids);
 				bom.setXrecordNum(sbnums);
+				list_material.add(bom);
 			}
-			list_material.add(bom);
 		}
 		this.list_cause = this.causeService.getBySample("3");
 		this.itermediateTest = this.itermediateTestService.load(id);
@@ -491,10 +492,11 @@ public class ItermediateTestAction extends BaseAdminAction {
 		if (list_itmesg.size() > 0) {
 			for (int i = 0; i < list_itmesg.size(); i++) {
 				ItermediateTestDetail it = list_itmesg.get(i);
-				if(it.getTestAmount()!=null){
-					if(it.getFailAmount()!=null){
-					it.setPassAmount(it.getTestAmount()-it.getFailAmount());}
-					else{
+				if (it.getTestAmount() != null) {
+					if (it.getFailAmount() != null) {
+						it.setPassAmount(it.getTestAmount()
+								- it.getFailAmount());
+					} else {
 						it.setPassAmount(it.getTestAmount());
 					}
 				}

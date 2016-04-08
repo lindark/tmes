@@ -44,6 +44,7 @@ public class Kaoqin extends BaseEntity{
 	private String xclasstime;
 	private String factory;
 	private String workshop;
+	private String xworkState;//工作状态
 	
 	@Column
 	public String getCardNumber() {
@@ -230,5 +231,14 @@ public class Kaoqin extends BaseEntity{
 	public void setFactoryUnit(String factoryUnit)
 	{
 		this.factoryUnit = factoryUnit;
+	}
+	@Transient
+	public String getXworkState()
+	{
+		return xworkState;
+	}
+	public void setXworkState(String xworkState)
+	{
+		this.xworkState = xworkState;
 	}
 }

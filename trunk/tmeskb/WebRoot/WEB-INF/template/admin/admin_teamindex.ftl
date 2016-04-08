@@ -304,7 +304,7 @@
 															class="bigger-110 no-text-shadow">成品入库</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+												<div class="col-md-3 col-sm-4 " style="padding:2px;"
 													data-access-list="quickresponse">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block"
@@ -313,7 +313,7 @@
 															class="bigger-110 no-text-shadow">快速响应</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+												<div class="col-md-3 col-sm-4 " style="padding:2px;"
 													data-access-list="inspection">
 													
 													<button data-toggle="dropdown" id="scenecheck"

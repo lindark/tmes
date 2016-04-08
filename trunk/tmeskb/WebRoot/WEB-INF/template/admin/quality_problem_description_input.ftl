@@ -99,13 +99,13 @@ body{background:#fff;}
 										<div class="profile-info-value">
 											<label class="pull-left inline">
 					                           <small class="muted smaller-90">已启用:</small>
-						                       <input type="radio" class="ace" name="qualityProblemDescription.state" value="1"<#if (qualityProblemDescription.state == '1')!> checked</#if> />
+						                       <input type="radio" class="ace" name="qualityProblemDescription.state" value="1"<#if (isAdd || qualityProblemDescription.state == '1')!> checked</#if> />
 						                       <span class="lbl middle"></span>
 						                         &nbsp;&nbsp;
 					                        </label>						
 					                        <label class="pull-left inline">
 					                            <small class="muted smaller-90">未启用:</small>
-						                        <input type="radio" class="ace" name="qualityProblemDescription.state" value="2"<#if (isAdd || qualityProblemDescription.state == '2')!> checked</#if>  />
+						                        <input type="radio" class="ace" name="qualityProblemDescription.state" value="2"<#if (qualityProblemDescription.state == '2')!> checked</#if>  />
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	

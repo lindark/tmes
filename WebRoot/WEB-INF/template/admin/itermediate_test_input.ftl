@@ -159,8 +159,8 @@ body {
 												<table id="tb_itd"
 													class="table table-striped table-bordered table-hover">
 													<tr>
-														<th class="center" width="250">组件编码</th>
-														<th class="center" width="400">组件名称</th>
+														<th class="center" >组件编码</th>
+														<th class="center" >组件名称</th>
 														<th class="center" width="100">检验数量</th>
 														<!--<th class="center" "display:none">尺寸1</th>
 														<th class="center" "display:none">尺寸2</th>

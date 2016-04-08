@@ -77,7 +77,12 @@
 										</div>
 										<label class="col-sm-2" style="text-align:right">工序:</label>
 										<div class="col-sm-4">
-											<input type="text" name="process" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<select name="process" style="width:250px;">
+												<option value="">请选择...</option>
+												<#list processList as list>																								
+													<option value="${list.dictkey}" label="${list.dictvalue}">${list.dictvalue}</option> 														
+												</#list>
+											</select>	
 										</div>
 																									
 									</div>

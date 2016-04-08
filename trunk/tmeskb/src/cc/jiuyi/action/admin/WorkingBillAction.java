@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOverProcess;
@@ -25,6 +27,7 @@ import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
@@ -92,6 +95,10 @@ public class WorkingBillAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private WorkingBillService workingbillservice;
 	
 	//条码打印
 	public String barcodePrint(){
@@ -275,17 +282,29 @@ public class WorkingBillAction extends BaseAdminAction {
 		if(pager==null){
 			pager = new Pager();
 		}
+		info = "";
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		WorkingBill wb = workingbillService.get(id);
+		
+		if(admin.getProductDate() != null && admin.getShift() != null){
+			List<WorkingBill> workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			
+			for(WorkingBill wbl : workingbillList){
+				if(!id.equals(wbl.getId())){
+					if("".equals(info)){
+						info = wbl.getMoudle()==null?"":wbl.getMoudle();
+					}else{
+						info = info + "," + (wbl.getMoudle()==null?"":wbl.getMoudle());
+					}
+				}
+			}
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		matnr="";
 		funid="";
-		WorkingBill wb = workingbillService.get(id);
-		moudles = new ArrayList<String>();
-		if(wb.getMoudle()!=null){
-			String[] ms = wb.getMoudle().split(",");
-			for(String s : ms){
-				moudles.add(s);
-			}
-		}
+		
+		
 				String  workCenter = wb.getWorkcenter();
 				FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
 				if(fu!=null){
@@ -304,6 +323,13 @@ public class WorkingBillAction extends BaseAdminAction {
 				List<UnitdistributeModel> unitdistributeModelList = new ArrayList<UnitdistributeModel>();
 				if(pager.getList()!=null && pager.getList().size()>0){
 					String[] infos = info.split(",");
+					moudles = new ArrayList<String>();
+					if(wb.getMoudle()!=null){
+						String[] ms = wb.getMoudle().split(",");
+						for(String s : ms){
+							moudles.add(s);
+						}
+					}
 					for(int i=0;i<pager.getList().size();i++){
 						UnitdistributeModel unitdistributeModel = (UnitdistributeModel) pager.getList().get(i);
 						boolean flag = true;

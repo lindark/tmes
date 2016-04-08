@@ -1,8 +1,5 @@
 package cc.jiuyi.dao.impl;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -10,12 +7,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.QualityDao;
-import cc.jiuyi.entity.Abnormal;
-import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Quality;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Dao实现类 - 质量

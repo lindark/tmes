@@ -51,9 +51,6 @@ public class QualityProblemDescriptionAction extends BaseAdminAction {
 	
 	private QualityProblemDescription qualityProblemDescription;
 	
-	private String qualityProblemDescriptionId;	
-	
-	private String problemDescription;
 	
 	// 获取所有状态
 	private List<Dict> allState;	
@@ -152,10 +149,9 @@ public class QualityProblemDescriptionAction extends BaseAdminAction {
 	
 	// 更新
 	public String update() {
-		QualityProblemDescription persistent = qualityProblemDescriptionService.load(id);
-		QualityProblemDescription qualityProblemDescription = new QualityProblemDescription();
-		qualityProblemDescription.setId(qualityProblemDescriptionId);		
-		BeanUtils.copyProperties(qualityProblemDescription, persistent, new String[] { "id","isDel"});
+		QualityProblemDescription persistent = qualityProblemDescriptionService.load(id);		
+		persistent.setProblemDescription(qualityProblemDescription.getProblemDescription());
+		persistent.setState(qualityProblemDescription.getState());
 		qualityProblemDescriptionService.update(persistent);
 		redirectionUrl = "quality_problem_description!list.action";
 		return SUCCESS;
@@ -213,22 +209,9 @@ public class QualityProblemDescriptionAction extends BaseAdminAction {
 		this.qualityProblemDescription = qualityProblemDescription;
 	}
 
-	public String getQualityProblemDescriptionId() {
-		return qualityProblemDescriptionId;
-	}
+	
 
-	public void setQualityProblemDescriptionId(String qualityProblemDescriptionId) {
-		this.qualityProblemDescriptionId = qualityProblemDescriptionId;
-	}
-
-	public String getProblemDescription() {
-		return problemDescription;
-	}
-
-	public void setProblemDescription(String problemDescription) {
-		this.problemDescription = problemDescription;
-	}
-
+	
 	
 	
 	

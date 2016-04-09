@@ -106,6 +106,7 @@ inupt.stockMout{
 														<th class="tabth">类型</th>
 														<th class="tabth">库存数量</th>
 														<th class="tabth">数量</th>
+														<th class="tabth">来料说明</th>
 													</tr>
 													<tr>
 														<td>${(updown.lgort)! }</td>
@@ -117,6 +118,7 @@ inupt.stockMout{
 														<td>${(updown.typex)! }</td>
 														<td>${(updown.amount)! }</td>
 														<td>${(updown.dwnum)! }</td>
+														<td>${(updown.detailx)! }</td>
 													</tr>	
 												</table>
 							  				</div>

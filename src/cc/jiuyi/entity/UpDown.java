@@ -37,6 +37,24 @@ public class UpDown extends BaseEntity {
 	private String typex;//类型描述
 	private String shiftx;//班次描述
 	
+	private String detail;//来料说明编码
+	private String detailx;//来料说明详细
+	
+	
+	
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+	@Transient
+	public String getDetailx() {
+		return detailx;
+	}
+	public void setDetailx(String detailx) {
+		this.detailx = detailx;
+	}
 	@ManyToOne(fetch=FetchType.LAZY)
 	public Admin getAppvaladmin() {
 		return appvaladmin;

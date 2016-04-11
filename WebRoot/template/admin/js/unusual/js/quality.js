@@ -63,7 +63,9 @@ $(function() {
 		window.history.back();
 	});
 	
-	
+	$("#editQuality").click(function(){
+		window.open("quality!edit.action?id="+$("#qualityId").val());
+	});
 	
 	// 增加选项内容输入框
 	$("#addImage").click( function() {

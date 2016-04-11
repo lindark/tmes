@@ -4,13 +4,13 @@ $(function() {
 		var choice = $("#productChoice").val();
 		var bom = $("#productNa").val();
 		var qualityId=$("#qualityId").val()
-		if(qualityId ==null || qualityId=="")
+		/*if(qualityId ==null || qualityId=="")
 		{
 			if(choice.length>0 && bom.length>0){
 				alert("产品与产品Bom只能选择一个");
 				return false;
 			}
-		}
+		}*/
 		
     	$("#inputForm").submit();  	
 	});	
@@ -152,7 +152,7 @@ $(function() {
 		var work=iframeWin.getGridId();
 		var id=work.split(",");
 		$("#receiveName1").text(id[0]);
-		$("#receiveNa").val(id[1]);//
+		$("#receiveNa").val(id[1]);//		
 		layer.close(index); 
 	});
 }
@@ -177,10 +177,21 @@ $(function() {
 		var id=work.split(",");
 		$("#receiveName2").text(id[0]);
 		$("#receiveNa1").val(id[1]);//
+		$("#delete-opt-container").html('<a href="javascript:void(0);" onclick="deleteEngineer();">删除</a>');
 		layer.close(index); 
 	});
 }
 
+	
+	
+	
 })
 
+function deleteEngineer()
+	{
+		//alert("这里是删除操作哦");
+		$("#receiveName2").text("");
+		$("#receiveNa1").val("");//
+		$("#delete-opt-container").html("");
+	}
 

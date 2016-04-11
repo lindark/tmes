@@ -73,7 +73,7 @@ body {
 												<div class="profile-info-name">生产工序</div>
 
 												<div class="profile-info-value" >												    
-													${(quality.process)!}
+													${(quality.processName )!}
 												</div>
 
 											</div>
@@ -122,13 +122,24 @@ body {
 												   ${(quality.overTime)!}												
 												</div>
 											</div>
-
+											<div class="profile-info-row">
+												<div class="profile-info-name">生产日期</div>
+												<div class="profile-info-value">
+												   ${(quality.productDate)!}												
+												</div>
+												<div class="profile-info-name">班次</div>
+												<div class="profile-info-value">
+												   <#if (quality.shift == 1)!> 早</#if>
+														<#if (quality.shift == 2)!> 白</#if>
+														<#if (quality.shift == 3)!> 晚</#if>												
+												</div>
+											</div>
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">质量问题描述</div>
 												<div class="profile-info-value">
-												    ${(quality.problemDescription)!}										
+												    ${(quality.problemDescriptionName)!}										
 												</div>
 											</div>
 										</div>

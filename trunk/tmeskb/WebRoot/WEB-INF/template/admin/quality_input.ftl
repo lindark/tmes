@@ -175,7 +175,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.extrusionBatches"
 														value="${(quality.extrusionBatches)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
+														class=" input input-sm  formText {digits: true}" />
 												</div>
 											</div>
 
@@ -195,13 +195,14 @@ body {
 												</div>
 												<div class="profile-info-name">质量工程师</div>
 												<div class="profile-info-value">
-													<#if isAdd??> <img id="receive1" class="img_addbug"
-														title="添加人员信息1" alt="添加人员信息1" style="cursor:pointer"
-														src="${base}/template/shop/images/add_bug.gif" /> <span
-														id="receiveName2"></span> <input type="hidden"
-														name="quality.engineer.id" id="receiveNa1" value=""
-														class="formText {required: true}" /> <#else>
-													${(quality.engineer.name)!} </#if>
+													<img id="receive1" class="img_addbug" title="添加人员信息1" alt="添加人员信息1" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" /> 
+													<span id="receiveName2">${(quality.engineer.name)!}</span>
+													<span id="delete-opt-container">
+														<#if !isAdd??> 
+															<#if quality.engineer?if_exists ><a href="javascript:void(0);" onclick="deleteEngineer();">删除</a></#if>
+														</#if>
+													</span>
+													<input type="hidden" name="quality.engineer.id" id="receiveNa1" value="${(quality.engineer.id)!}" class="formText {}" /> 													
 												</div>
 											</div>
 
@@ -254,8 +255,7 @@ body {
 													<#else>														
 														<#if (quality.shift == 1)!> 早</#if>
 														<#if (quality.shift == 2)!> 白</#if>
-														<#if (quality.shift == 3)!> 晚</#if>
-														</select>														
+														<#if (quality.shift == 3)!> 晚</#if>																											
 													</#if>												
 													
 												</div>
@@ -269,23 +269,21 @@ body {
 														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
 												</div>-->
 												<#if isAdd??>
-												<div class="profile-info-value">
-													<select name="quality.qualityProblemDescription.id" style="width:727px;" class="formText {required: true}">
-															<option value="">请选择...</option>
-														<#list problemDescriptionList as list>	
-																								
-														<option value="${list.id}" label="${list.problemDescription}">${list.problemDescription}</option> 														
-															</#list>
-													</select> 
-												</div>
+													<div class="profile-info-value">
+															
+															<#list problemDescriptionList as list>	
+																									
+															<label><input value="${list.id}"  type="checkbox" name="quality.qualityProblemDescription"/ class="input mycheckbox formText {}">${ (list.problemDescription)! }</label>														
+																</#list>
+														 
+													</div>
 												<#else>
-													<select name="quality.qualityProblemDescription.id" style="width:727px;" class="formText {required: true}">
-															<option value="">请选择...</option>
+													<div class="profile-info-value">
 														<#list problemDescriptionList as list>	
-																								
-														<option value="${list.id}" label="${list.problemDescription}" <#if (quality.qualityProblemDescription.id == list.id)!>selected</#if> >${list.problemDescription}</option> 														
-															</#list>
-													</select> 
+																									
+															<label><input value="${list.id}"  type="checkbox" name="quality.qualityProblemDescription" class="input mycheckbox formText {}"/>${ (list.problemDescription)! }</label>														
+														</#list>
+													</div>		
 												</#if>
 												
 											</div>
@@ -508,7 +506,35 @@ body {
 	<!-- /.main-container -->
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
+	<#if !isAdd??> 
 	<script>
+	
+		var qpdstr="${quality.qualityProblemDescription }";
+		var qpdList=qpdstr.split(", ");
+		$(document).ready(function()
+		{
+			$(".mycheckbox").each(function()
+			{
+				for(var i=0;i<qpdList.length;i++)
+				{
+					if($(this).val()==qpdList[i])
+					{
+						$(this).attr("checked","checked");
+					}
+				}
+			});
+			
+			
+		});
+		
+		</script>
+	</#if>
+	<script>
+	
+		
+	
+	
+	
 		$(function() {
 
 			$("form.validatecredit")
@@ -634,8 +660,6 @@ body {
 					alert("请至少保留一个选项!");
 				}
 			})
-
-		
 
 		})
 		

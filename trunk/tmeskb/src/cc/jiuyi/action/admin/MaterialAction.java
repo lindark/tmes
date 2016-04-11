@@ -19,11 +19,13 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.sap.rfc.MatnrRfc;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MaterialService;
@@ -46,6 +48,8 @@ public class MaterialAction extends BaseAdminAction {
 	private Material material;
 	private Products products;
 
+	private Admin admin;
+	
 	//获取所有状态
 	private List<Dict> allState;
 	private String productsCode;
@@ -54,7 +58,8 @@ public class MaterialAction extends BaseAdminAction {
 	private List<Material> materialList;
 	private List<Factory> factoryList;
 	
-	
+	@Resource
+	private AdminService adminService;
 	@Resource
 	private MaterialService materialService;
 	@Resource
@@ -114,6 +119,74 @@ public class MaterialAction extends BaseAdminAction {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
+		if(pager==null)
+		{
+			pager=new Pager();
+		}
+		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
+		{
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if(pager.is_search()==true && filters != null){//需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("materialCode") != null) {
+				String materialCode = obj.getString("materialCode").toString();
+				map.put("materialCode", materialCode);
+			}
+			if (obj.get("materialName") != null) {
+				String materialName = obj.getString("materialName").toString();
+				map.put("materialName", materialName);
+			}
+		}
+            List<HashMap> list=new ArrayList<HashMap>();
+			pager = materialService.getMaterialPager(pager, map);
+			List<Material> materialList = pager.getList();
+			List<Material> lst = new ArrayList<Material>();
+			for (int i = 0; i < materialList.size(); i++) {
+				Material material  = (Material)materialList.get(i);
+				
+				if(material.getFactoryunit()!=null)
+				{
+					material.setXfactoryunit(material.getFactoryunit().getFactoryUnitName());//单元名称
+					if(material.getFactoryunit().getWorkShop()!=null)
+					{
+						material.setXworkshop(material.getFactoryunit().getWorkShop().getWorkShopName());//车间名称
+						if(material.getFactoryunit().getWorkShop().getFactory()!=null)
+						{
+							material.setXfactory(material.getFactoryunit().getWorkShop().getFactory().getFactoryName());//工厂名称
+						}
+					}
+				}
+				lst.add(material);
+			}
+		pager.setList(lst);
+		JsonConfig jsonConfig=new JsonConfig(); 
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Material.class));//排除有关联关系的属性字段 
+		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
+		 return ajaxJson(jsonArray.get(0).toString());
+		
+	}
+	
+	
+public String getQualityBomByFactoryunit(){
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		HashMap<String, String> map = new HashMap<String, String>();
+		pager.set_search(true);
+		map.put("factoryunitId",admin.getTeam().getFactoryUnit().getId());
 		if(pager==null)
 		{
 			pager=new Pager();

@@ -170,7 +170,7 @@ inupt.stockMout {
 															value="${(lns.amount)!}">
 														<td style="width:150px"><input style="width:95%"
 															type="text" name="updownList[${lns_index}].dwnum"
-															value=""
+															value="${(lns.xamount)!}"
 															onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
 															onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
 														</td>

@@ -83,11 +83,11 @@ body {
 														<#list list_map as mlist>
 															<tr>
 																<td>${(mlist.matnr)! }</td>
-																<td>${(mlist.charg)! }</td>
+																<td class="chargnumber">${(mlist.charg)! }</td>
 																<td>${(mlist.verme)! }</td>
 																<td>
 																	<!-- 数量 -->
-																	<input type="text" name="list_dd[${num}].menge" value="${(mlist.menge)! }" class="notnull input input-sm inputmenge"/>
+																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm inputmenge"/>
 
 																	<!-- SAP数据 -->
 																	<input type="hidden" name="list_dd[${num}].matnr" value="${(mlist.matnr)! }" /><!-- matnr物料编码 -->

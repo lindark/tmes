@@ -197,11 +197,11 @@ body {
 												<div class="profile-info-value">
 													<img id="receive1" class="img_addbug" title="添加人员信息1" alt="添加人员信息1" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" /> 
 													<span id="receiveName2">${(quality.engineer.name)!}</span>
-													<span id="delete-opt-container">
+													<div style="display:inline-block;margin-left:10px;" id="delete-opt-container">
 														<#if !isAdd??> 
 															<#if quality.engineer?if_exists ><a href="javascript:void(0);" onclick="deleteEngineer();">删除</a></#if>
 														</#if>
-													</span>
+													</div>
 													<input type="hidden" name="quality.engineer.id" id="receiveNa1" value="${(quality.engineer.id)!}" class="formText {}" /> 													
 												</div>
 											</div>

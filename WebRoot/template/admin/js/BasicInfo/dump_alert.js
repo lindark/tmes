@@ -123,7 +123,17 @@ function tosubmit(url,info)
 				if(info=="toconfrim")
 				{
 					//window.location.href="dump!all.action?loginid="+$("#loginid").val();
-					window.location.href="up_down!add.action?type=up&materialCode="+$("#materialCode").val();
+					var menges="";
+					for(var i=0;i<$(".inputmenge").length;i++)
+					{	
+						if($(".inputmenge").eq(i).val()!=""){
+						var numbers=$(".chargnumber").eq(i).text();
+						menges=menges+numbers+":"+($(".inputmenge").eq(i).val())+",";  
+						}
+					}
+						menges.substring(0,menges.length-2);
+					
+					window.location.href="up_down!add.action?type=up&materialCode="+$("#materialCode").val()+"&inputmenge="+menges;
 				}
 				else
 				{

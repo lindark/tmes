@@ -303,11 +303,11 @@ public class UpDownAction extends BaseAdminAction {
 				locationonside.setMaterialCode(matnr01);// 物料编码
 				locationonside.setMaterialName(maktx01);// 物料描述
 				locationonside.setCharg(hashmap.get("charg"));// 批次
-				locationonside.setAmount(hashmap.get("verme"));// 数量
+				locationonside.setAmount(hashmap.get("verme"));// 库存数量
 				if (isTransfer) {
 					locationonside.setXamount(jsonMap.optString(hashmap
 							.get("charg")));
-				} 
+				} //数量
 				locationonsideList.add(locationonside);
 			}
 			Collections.sort(locationonsideList);

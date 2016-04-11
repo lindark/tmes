@@ -19,7 +19,7 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 	private String locationName;// 库存地点描述
 	private String materialCode;//物料编码
 	private String materialName;//物料描述
-	private String amount;//数量
+	private String amount;//库存数量
 	private String charg;//批次
 	private String isDel;//是否删除
 	private String lgpla;//仓位
@@ -28,7 +28,7 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 	 * 假字段
 	 */
 	private Double boxMount;//库存箱数
-	
+	private String xamount;//转移数量
 	public String getLocationCode() {
 		return locationCode;
 	}
@@ -108,6 +108,14 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 	@Override
 	public int compareTo(Locationonside o){
 		return this.materialCode.compareTo(o.getMaterialCode());
+	}
+	@Transient
+	public String getXamount() {
+		return xamount;
+	}
+
+	public void setXamount(String xamount) {
+		this.xamount = xamount;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ import cc.jiuyi.service.UpDownServcie;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * 后台Action类 - 文章
@@ -71,6 +74,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String start;
 	private String isud;// 判断页面
 	private List<Dict> allDetails;// 来料说明
+	private String inputmenge;// 数量
 
 	// 超市领用记录 @author Reece 2016/3/22
 	public String history() {
@@ -273,6 +277,12 @@ public class UpDownAction extends BaseAdminAction {
 		// materialCode = ThinkWayUtil.null2String(materialCode);
 		// String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
+		Boolean isTransfer = false;// 判断是否从物流配送跳转读取json
+		JSONObject jsonMap = null;
+		if (inputmenge != null && inputmenge != "") {
+			jsonMap = JSONObject.fromObject("{" + inputmenge + "}");
+			isTransfer = true;
+		}
 		try {
 			List<HashMap<String, String>> hashList = updownservice.upmaterList(
 					werks, lgort, "", lgpla, materialDesp);// 物料编码在查询出来之后在处理
@@ -294,6 +304,10 @@ public class UpDownAction extends BaseAdminAction {
 				locationonside.setMaterialName(maktx01);// 物料描述
 				locationonside.setCharg(hashmap.get("charg"));// 批次
 				locationonside.setAmount(hashmap.get("verme"));// 数量
+				if (isTransfer) {
+					locationonside.setXamount(jsonMap.optString(hashmap
+							.get("charg")));
+				} 
 				locationonsideList.add(locationonside);
 			}
 			Collections.sort(locationonsideList);
@@ -334,7 +348,7 @@ public class UpDownAction extends BaseAdminAction {
 		if (lgplaun == null) {
 			return ajaxJsonErrorMessage("目的地仓位必须填写");
 		}
-		
+
 		// 数据类型定义
 		HashMap<String, String> hash = new HashMap<String, String>();
 		List<HashMap<String, String>> hashList = new ArrayList<HashMap<String, String>>();
@@ -369,7 +383,7 @@ public class UpDownAction extends BaseAdminAction {
 			hashmap.put("lgpla", lgpla);// 发出仓位
 			hashmap.put("dwnum", "" + updown.getDwnum());
 			hashmap.put("nlpla", lgplaun);// 目的地仓位
-			
+
 			hashList.add(hashmap);
 		}
 		// 接口调用
@@ -514,9 +528,10 @@ public class UpDownAction extends BaseAdminAction {
 		updown = updownservice.load(id);
 		updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice,
 				"updown", updown.getType()));
-		if(updown.getDetail()!=null){
-		updown.setDetailx(ThinkWayUtil.getDictValueByDictKey(dictservice,
-				"materialdetail", updown.getDetail()));}
+		if (updown.getDetail() != null) {
+			updown.setDetailx(ThinkWayUtil.getDictValueByDictKey(dictservice,
+					"materialdetail", updown.getDetail()));
+		}
 		return VIEW;
 	}
 
@@ -671,6 +686,14 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setAllDetails(List<Dict> allDetails) {
 		this.allDetails = allDetails;
+	}
+
+	public String getInputmenge() {
+		return inputmenge;
+	}
+
+	public void setInputmenge(String inputmenge) {
+		this.inputmenge = inputmenge;
 	}
 
 }

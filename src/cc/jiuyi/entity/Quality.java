@@ -23,7 +23,7 @@ public class Quality extends BaseEntity{
 	private static final long serialVersionUID = -7213483223153832423L;
 	
 	private Team team;//班组
-	private QualityProblemDescription qualityProblemDescription;//问题描述
+	private String qualityProblemDescription;//问题描述
 	private Admin creater;//创建人
 	private Admin receiver;//接收人
 	private Admin engineer;//工程师
@@ -58,12 +58,11 @@ public class Quality extends BaseEntity{
 	private Set<UnusualLog> unusualLogSet;//异常日志
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	public QualityProblemDescription getQualityProblemDescription() {
+	
+	public String getQualityProblemDescription() {
 		return qualityProblemDescription;
 	}
-	public void setQualityProblemDescription(
-			QualityProblemDescription qualityProblemDescription) {
+	public void setQualityProblemDescription(String qualityProblemDescription) {
 		this.qualityProblemDescription = qualityProblemDescription;
 	}
 	

@@ -226,7 +226,20 @@ public class QualityAction extends BaseAdminAction {
 				quality.setProcessName(process.getProcessName());*/
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "receiptState", quality.getState()));		
+						dictService, "receiptState", quality.getState()));	
+				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "process", quality.getProcess()));
+				String str0="";
+				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+				{
+					List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+					
+					for(QualityProblemDescription q:qList)
+					{
+						str0+=q.getProblemDescription()+", ";
+					}
+				}
+				quality.setProblemDescriptionName(str0);
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -250,7 +263,17 @@ public class QualityAction extends BaseAdminAction {
 						dictService, "receiptState", quality.getState()));
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "process", quality.getProcess()));
-				quality.setProblemDescriptionName(quality.getQualityProblemDescription().getProblemDescription());
+				String str="";
+				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+				{
+					List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+					
+					for(QualityProblemDescription q:qList)
+					{
+						str+=q.getProblemDescription()+", ";
+					}
+				}
+				quality.setProblemDescriptionName(str);
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -273,9 +296,20 @@ public class QualityAction extends BaseAdminAction {
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));	
 				String str=getDictValueByDictKey(quality.getProcess(),"process");
+				
 				quality.setProcessName(str==null ? "":str);
-				str=quality.getQualityProblemDescription()==null ? "" : quality.getQualityProblemDescription().getProblemDescription();
-				quality.setProblemDescriptionName(str==null ? "":str);
+				String str1="";
+				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+				{
+					List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+					
+					for(QualityProblemDescription q:qList)
+					{
+						str1+=q.getProblemDescription()+", ";
+					}
+				}
+				quality.setProblemDescriptionName(str1);
+				
 				pagerlist.set(i,quality);
 			}
 			pager.setList(pagerlist);
@@ -289,6 +323,9 @@ public class QualityAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
+	
+	
+	
 	
 	// 列表
 	public String sealist() {	
@@ -306,8 +343,19 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
-		/*Process pro = processService.get(quality.getProcess());
-		process=pro.getProcessName();*/
+		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
+				dictService, "process", quality.getProcess()));
+		String str="";
+		if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+		{
+			List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+			
+			for(QualityProblemDescription q:qList)
+			{
+				str+=q.getProblemDescription()+", ";
+			}
+		}
+		quality.setProblemDescriptionName(str);
 		return "hview";
 	}
 
@@ -365,7 +413,8 @@ public class QualityAction extends BaseAdminAction {
 		if(persistent.getState().equals("3") || persistent.getState().equals("1")){
 			return ajaxJsonErrorMessage("已关闭/回复的单据无法再提交!");
 		}
-		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion","bom"});		
+		BeanUtils.copyProperties(quality, persistent, new String[] { "id","createDate", "modifyDate","abnormal","isDel","state","products","creater","process","team","receiver","engineer","engineerOpinion","bom","productDate","shift"});		
+		persistent.setEngineer(quality.getEngineer());
 		qualityService.update(persistent);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -434,7 +483,6 @@ public class QualityAction extends BaseAdminAction {
 	
 	public String browser(){
 		bomId=bomId;
-		//materialCode="303";
 		return "browser";
 	}
 	
@@ -458,6 +506,24 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
+		
+		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
+				dictService, "process", quality.getProcess()));
+		String str="";
+		if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+		{
+			List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+			
+			for(QualityProblemDescription q:qList)
+			{
+				str+=q.getProblemDescription()+", ";
+			}
+		}
+		quality.setProblemDescriptionName(str);
+		
+		
+		
+		
 		abnormal=quality.getAbnormal();
 		/*Process pro = processService.get(quality.getProcess());
 		process=pro.getProcessName();*/

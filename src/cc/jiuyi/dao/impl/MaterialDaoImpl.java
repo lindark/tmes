@@ -52,6 +52,9 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			if(map.get("materialName")!=null){
 				detachedCriteria.add(Restrictions.like("materialName", "%"+map.get("materialName")+"%"));
 			}
+			if(map.get("factoryunitId")!=null){
+				detachedCriteria.add(Restrictions.eq("factoryunit.id", map.get("factoryunitId")));
+			}
 		}		
 		return super.findByPager(pager, detachedCriteria);
 	}

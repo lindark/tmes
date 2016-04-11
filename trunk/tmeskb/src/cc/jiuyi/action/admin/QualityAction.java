@@ -147,6 +147,7 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
+		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(dictService, "process", quality.getProcess()));
 		
 		abnormal=quality.getAbnormal();
@@ -227,6 +228,7 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));	
+				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "process", quality.getProcess()));
 				String str0="";
@@ -261,6 +263,7 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));
+				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "process", quality.getProcess()));
 				String str="";
@@ -295,9 +298,11 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));	
-				String str=getDictValueByDictKey(quality.getProcess(),"process");
-				
-				quality.setProcessName(str==null ? "":str);
+				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
+				{	
+					String str=getDictValueByDictKey(quality.getProcess(),"process");				
+					quality.setProcessName(str==null ? "":str);
+				}
 				String str1="";
 				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
 				{
@@ -343,6 +348,7 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
+		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 				dictService, "process", quality.getProcess()));
 		String str="";
@@ -506,7 +512,7 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
-		
+		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
 				dictService, "process", quality.getProcess()));
 		String str="";

@@ -70,6 +70,8 @@ public class RepairAction extends BaseAdminAction {
 	private String start;
 	private String state;
 	private List<Dict>list_dict;
+	private String costcenter;
+	private String departmentName;//部门描述
 
 	@Resource
 	private RepairService repairService;
@@ -276,6 +278,8 @@ public class RepairAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		String productDate = workingbill.getProductDate();
+		departmentName="返修部";
+		costcenter="10008431";
 		processRouteList = new ArrayList<ProcessRoute>();
 		//根据订单号,生产日期查询工艺路线
 		processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
@@ -821,4 +825,21 @@ public class RepairAction extends BaseAdminAction {
 	{
 		this.list_dict = list_dict;
 	}
+
+	public String getCostcenter() {
+		return costcenter;
+	}
+
+	public void setCostcenter(String costcenter) {
+		this.costcenter = costcenter;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	
 }

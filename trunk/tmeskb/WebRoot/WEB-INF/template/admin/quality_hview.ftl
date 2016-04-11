@@ -63,7 +63,7 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												
+												<input type="hidden" value="${(quality.id)!}" id="qualityId">
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">												    
@@ -81,6 +81,8 @@ body {
 											<div class="profile-info-row">
 											<div class="profile-info-name">产品bom</div>
 											<div class="profile-info-value">${(bomproduct)!}</div>
+											<div class="profile-info-name">台机号</div>
+											<div class="profile-info-value">${(quality.machineNumber)!}</div>
 											</div>
 
 											<div class="profile-info-row">
@@ -99,6 +101,8 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">接收人</div>
 												<div class="profile-info-value">${(quality.receiver.name)!}</div>
+												<div class="profile-info-name">质量工程师</div>
+												<div class="profile-info-value">${(quality.engineer.name)!}</div>
 											</div>
 											
 											<div class="profile-info-row">
@@ -170,7 +174,10 @@ body {
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-                                        								
+                                     <button class="btn btn-white btn-default btn-sm btn-round" id="editQuality" type=button>
+										<i class="ace-icon fa fa-edit"></i>
+										编辑
+									</button>								
 									     </div>
    
 									</div>

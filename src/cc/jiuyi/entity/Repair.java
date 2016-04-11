@@ -47,6 +47,7 @@ public class Repair extends BaseEntity {
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
 	
+	private String departmentName;//部门名称
 	//假字段
 	private String xrepairtype;//成品/子件
 	private String xmould;//模具
@@ -293,6 +294,14 @@ public class Repair extends BaseEntity {
 	public void setCostcenter(String costcenter)
 	{
 		this.costcenter = costcenter;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
 	@Transient

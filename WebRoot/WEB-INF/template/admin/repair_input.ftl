@@ -189,12 +189,16 @@ body {
 
 												<div class="profile-info-name">部门名称/成本中心</div>
 												<div class="profile-info-value">
-													<#if show??> ${(repair.departmentName)! }/${(repair.costcenter)!} <#else> <a
-														href="javascript:void(0)" id="deptclick"> <img
+													<#if show??> 
+													${(repair.departmentName)! }/${(repair.costcenter)!} 
+													<#else> 
+													<a href="javascript:void(0)" id="deptclick"> 
+														<img
 														class="img_addbug" title="部门选择" alt="部门选择"
 														style="cursor:pointer"
-														src="/template/shop/images/add_bug.gif"> </a> <#if
-													add??> <span id="departmentcontext" >返修组/10008431</span>
+														src="/template/shop/images/add_bug.gif"> </a> 
+														<#if add??> 
+													<span id="departmentcontext" >返修组/10008431</span>
 													<input type="hidden" id="departmentName"
 														name="repair.departmentName" value="${(departmentName)! }" />
 													<input type="hidden" id="costcenter"

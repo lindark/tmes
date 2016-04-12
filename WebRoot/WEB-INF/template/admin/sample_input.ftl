@@ -104,9 +104,9 @@ body {
 													<div class="profile-info-name">抽检类型</div>
 													<div class="profile-info-value">
 														<#if show??>
-															<span>${sampletype! }</span>
+															<span>${(sampletype)! }</span>
 														<#else>
-															<select name="sample.sampleType" id="sample_type" class="input input-sm form-control chosen-select">
+															<select name="sample.sampleType" id="sample_type" class="input input-sm">
 																<#list list_dict as dlist>
 																<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==sample.sampleType)!>selected</#if>>${(dlist.dictvalue)! }</option>
 																</#list>
@@ -135,11 +135,15 @@ body {
 												<div class="profile-info-name">模具</div>
 
 												<div class="profile-info-value">
-												    <select name="sample.moudle"> <#list
+												    <select name="sample.moudle"> 
+												    <!-- <#list
 														allMoudle as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
 															list.isDefault) || (isEdit && dailyWork.moudle ==
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+														</#list> -->
+														<#list pager.list as list>
+														<option value="${list.station}" <#if (list.station==sample.moudle)!>selected</#if>>${list.station}</option>
 														</#list>
 													</select>
 													

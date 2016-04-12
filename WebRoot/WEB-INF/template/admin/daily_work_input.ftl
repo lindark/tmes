@@ -121,13 +121,16 @@ body {
 												<div class="profile-info-name">模具</div>
 
 												<div class="profile-info-value">
-												    <select name="dailyWork.moudle"> <#list
-														allMoudle as list>
+												    <select name="dailyWork.moudle">
+												    <!--  <#list allMoudle as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&
 															list.isDefault) || (isEdit && dailyWork.moudle ==
 															list.dictkey))!> selected</#if>>${list.dictvalue}</option>
+														</#list>-->
+														<#list pager.list as list>
+															<option value="${list.station}"<#if (list.station==dailyWork.moudle)!>selected</#if>>${list.station}</option>
 														</#list>
-													</select>
+													</select> 
 													
 												</div>
 											</div>

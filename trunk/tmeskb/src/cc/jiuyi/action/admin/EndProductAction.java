@@ -245,7 +245,7 @@ public class EndProductAction extends BaseAdminAction {
 					BigDecimal dcl = new BigDecimal(los.getAmount());
 					BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
 					try {
-						BigDecimal dc = dcl.divide(dcu).setScale(2,
+						BigDecimal dc = dcl.divide(dcu,2,
 								RoundingMode.HALF_UP);
 						los.setBoxMount(dc.doubleValue());
 					} catch (Exception e) {
@@ -310,7 +310,7 @@ public class EndProductAction extends BaseAdminAction {
 						BigDecimal dcu = new BigDecimal(
 								ucs.getConversationRatio());
 						try {
-							BigDecimal dc = dcl.divide(dcu).setScale(2,
+							BigDecimal dc = dcl.divide(dcu,2,
 									RoundingMode.HALF_UP);
 							endProduct.setActualMaterialBoxMount(dc
 									.doubleValue());

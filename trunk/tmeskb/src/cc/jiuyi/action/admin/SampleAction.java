@@ -19,17 +19,22 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.SampleRecordService;
 import cc.jiuyi.service.SampleService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -87,6 +92,15 @@ public class SampleAction extends BaseAdminAction
 	private AdminService adminService;
 	@Resource
 	private SampleRecordService srService;//缺陷记录
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	
+	
+	
 	/**========================end  variable,object,interface==========================*/
 	
 	/**========================method  start======================================*/
@@ -407,6 +421,29 @@ public class SampleAction extends BaseAdminAction
 	public String add()
 	{
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+		//FactoryUnit fu = this.workingbill.getTeam().getFactoryUnit();
+		String  workCenter = this.workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = this.workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		
+		
 		this.list_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
 		this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
 		this.add="add";
@@ -445,9 +482,10 @@ public class SampleAction extends BaseAdminAction
 			if(pager==null)
 			{
 				pager=new Pager();
+				pager.setOrderType(OrderType.desc);
+				pager.setOrderBy("modifyDate");
 			}
-			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+			
 			//jqGrid条件查询
 			if(pager.is_search()==true&&filters!=null)
 			{
@@ -472,8 +510,8 @@ public class SampleAction extends BaseAdminAction
 				{
 					s1.setXcomfirmation(s1.getComfirmation().getName());//确认人xcomfirmation
 				}
-				System.out.println(s1.getCreateDate());
-				s1.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", s1.getMoudle()));
+				//s1.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", s1.getMoudle()));
+				s1.setXmoudle(s1.getMoudle());
 				s1.setXproductnum(s1.getWorkingBill().getMatnr());//产品编号xproductnum
 				s1.setXproductname(s1.getWorkingBill().getMaktx());//产品名称xproductnames
 				s1.setXsampletype(ThinkWayUtil.getDictValueByDictKey(dictService, "sampleType", s1.getSampleType()));//抽检类型xsampletype
@@ -546,6 +584,26 @@ public class SampleAction extends BaseAdminAction
 	public String edit()
 	{
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
+		String  workCenter = this.workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = this.workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
 		List<Cause> l_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
 		this.list_dict=this.dictService.getState("sampleType");//获取抽检类型
 		this.sample=this.sampleService.get(id);

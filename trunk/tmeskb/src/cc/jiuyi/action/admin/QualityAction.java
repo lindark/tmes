@@ -147,8 +147,7 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
-		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
-		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(dictService, "process", quality.getProcess()));
+		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(dictService, "process", quality.getProcess()==null?"":quality.getProcess()));
 		
 		abnormal=quality.getAbnormal();
 		qualityList=new ArrayList<Quality>(abnormal.getQualitySet());
@@ -228,9 +227,8 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));	
-				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "process", quality.getProcess()));
+						dictService, "process", quality.getProcess()==null?"":quality.getProcess()));
 				String str0="";
 				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
 				{
@@ -263,9 +261,8 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));
-				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 				quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
-						dictService, "process", quality.getProcess()));
+						dictService, "process", quality.getProcess()==null?"":quality.getProcess()));
 				String str="";
 				if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
 				{
@@ -298,7 +295,7 @@ public class QualityAction extends BaseAdminAction {
 				quality.setTeamName(quality.getTeam().getTeamName());
 				quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", quality.getState()));	
-				if(quality.getProcess()!=null && !quality.getProcess().equals(""))
+				if(quality.getProcess()!=null && !"".equals(quality.getProcess()))
 				{	
 					String str=getDictValueByDictKey(quality.getProcess(),"process");				
 					quality.setProcessName(str==null ? "":str);
@@ -348,9 +345,8 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
-		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
 		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
-				dictService, "process", quality.getProcess()));
+				dictService, "process", quality.getProcess()==null?"":quality.getProcess()));
 		String str="";
 		if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
 		{
@@ -512,9 +508,9 @@ public class QualityAction extends BaseAdminAction {
 			Products products=productsService.get("productsCode",quality.getProducts());
 			product = products.getProductsName();
 		}
-		if(quality.getProcess()!=null && !quality.getProcess().equals(""))
+		
 		quality.setProcessName(ThinkWayUtil.getDictValueByDictKey(
-				dictService, "process", quality.getProcess()));
+				dictService, "process", quality.getProcess()==null?"":quality.getProcess()));
 		String str="";
 		if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
 		{
@@ -547,7 +543,13 @@ public class QualityAction extends BaseAdminAction {
 		redirectionUrl = "quality!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
-	
+	//清空质量工程师
+	public String deleteEneer(){
+		quality = qualityService.load(id);
+		quality.setEngineer(null);
+		qualityService.update(quality);
+		return ajaxJsonSuccessMessage("删除成功");
+	}
 	public List<WorkingBill> getWorkList(){
 		Admin admin1 = adminService.getLoginAdmin();
 		admin1 = adminService.get(admin1.getId());

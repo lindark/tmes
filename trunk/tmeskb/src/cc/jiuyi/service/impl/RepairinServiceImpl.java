@@ -199,6 +199,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		/**修改主表数据*/
 		Repairin r = this.get(repairin.getId());
 		List<RepairinPiece>list=new ArrayList<RepairinPiece>(r.getRpieceSet());
+		r.setDepartName(repairin.getDepartName());
+		r.setCostcenter(repairin.getCostcenter());
 		r.setReceiveAmount(repairin.getReceiveAmount());//返修收货数量
 		r.setModifyDate(new Date());//修改日期
 		//r.setCreateUser(admin);

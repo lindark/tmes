@@ -35,6 +35,7 @@ public class Repairin extends BaseEntity {
 	private WorkingBill workingbill;// 随工单
 	private String EX_MBLNR;//物料凭证
 	private String costcenter;//成本中心
+	private String departName;//部门名称
 	private String CXORJC;//成型/挤出
 	
 	//SAP
@@ -291,6 +292,14 @@ public class Repairin extends BaseEntity {
 
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+
+	public String getDepartName() {
+		return departName;
+	}
+
+	public void setDepartName(String departName) {
+		this.departName = departName;
 	}
 	
 	

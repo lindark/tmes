@@ -121,7 +121,7 @@ body {
 												<div class="profile-info-name">接收人</div>
 												<div class="profile-info-value">${(quality.receiver.name)!}</div>
 												<div class="profile-info-name">质量工程师</div>
-												<div class="profile-info-value">${(quality.engineer.name)!}</div>
+												<div class="profile-info-value" id="engineer">${(quality.engineer.name)!} &nbsp;&nbsp;<#if quality.engineer??><a href="javascript:void(0);" id="deleteEn">删除</a></#if></div>
 											</div>
 											
 											<div class="profile-info-row">
@@ -193,10 +193,10 @@ body {
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-                                     <button class="btn btn-white btn-default btn-sm btn-round" id="editQuality" type=button>
+                                     <!--<button class="btn btn-white btn-default btn-sm btn-round" id="editQuality" type=button>
 										<i class="ace-icon fa fa-edit"></i>
 										编辑
-									</button>									
+									</button>	-->								
 									     </div>
    
 									</div>
@@ -332,47 +332,24 @@ body {
 $(function() {
 	$("#sample-table-1 tbody .zg .text").attr("disabled",true);
 	//$("#sample-table-1 tbody .zg .text").hide();
-	
-	$(".save").live("click", function() {
-		$text =	$(this).prev(); 
-		$input = $(this).prev().prev();
-		var i = $text.serialize();
-		var ii = $("#qualityId").val();
-		var iii = $(this).prev().prev().val();
-		if(iii==null || iii==undefined || iii==""){
-			iii="";
-		}
-		var ids = "";
-		ids += ii+","+i+","+iii;
-	    url="flowing_rectify!save.action?ids="+ids;
-		$.ajax({
-			url: url,
-			//data: ids,
-			dataType: "json",		
-			success: function(data) {
-				
-				$.tip(data.status, data.message);
-				$input.val(data.id);
-				$text.attr("disabled",true);
-			}
-		});	
-		  		  		  
-	});
-	
-	$(".edit").livequery("click", function(){
-		$(this).prev().prev().attr("disabled",false);
 
-	})
-	
-	
-	$(".deleteButton").livequery("click", function() {
-		if($(".zg").length > 1) {
-			$(this).parent().parent().remove();
-		} else {
-			alert("请至少保留一个选项!");
+
+	$("#deleteEn").bind("click",function(){
+		if(confirm("确定删除质量工程师")){
+			var qualityId = $("#qualityId").val();
+			$.ajax({	
+				url:"quality!deleteEneer.action",
+				data:{"id":qualityId},
+				dataType:"json",
+				success:function(data){
+					$("#engineer").text("");
+				},
+				error:function(){
+					alert("删除失败");
+				}
+			});
 		}
-	})		
-	
+	});
 })
 </script>
 </body>

@@ -191,7 +191,7 @@ body {
 													<span id="receiveName1"></span> <input type="hidden"
 														name="quality.receiver.id" id="receiveNa" value=""
 														class="formText {required: true}" /> <#else>
-													${(quality.receiver.name)!} </#if>
+													${(quality.receiver.name)!} </#if><span>*</span>
 												</div>
 												<div class="profile-info-name">质量工程师</div>
 												<div class="profile-info-value">
@@ -211,13 +211,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.samplingAmont"
 														value="${(quality.samplingAmont)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" /><span>*</span>
 												</div>
 												<div class="profile-info-name">缺陷数量</div>
 												<div class="profile-info-value">
 													<input type="text" name="quality.failAmont"
 														value="${(quality.failAmont)!}"
-														class=" input input-sm  formText {required: true, digits: true}" />
+														class=" input input-sm  formText {required: true, digits: true}" /><span>*</span>
 												</div>
 											</div>
 
@@ -226,13 +226,13 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.createDate"
 														value="${(quality.createDate)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" /><span>*</span>
 												</div>
 												<div class="profile-info-name">计划完成时间</div>
 												<div class="profile-info-value">
 													<input type="text" name="quality.overTime"
 														value="${(quality.overTime)!}"
-														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" />
+														class="formText {required: true,date:'date',dateFormat: 'yy-mm-dd'} datePicker" /><span>*</span>
 												</div>
 											</div>
 											<div class="profile-info-row">

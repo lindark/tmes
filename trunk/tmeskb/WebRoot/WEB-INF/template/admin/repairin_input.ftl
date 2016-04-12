@@ -28,6 +28,9 @@ body {
 .profile-info-value>span+span:before {
 	content: "";
 }
+#img_costcenter{
+	cursor:pointer;
+}
 </style>
 </head>
 <body class="no-skin input">

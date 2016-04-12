@@ -60,7 +60,9 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		Disjunction disjunction = Restrictions.disjunction();  
 		disjunction.add(Restrictions.eq("engineer.id", id));
 		disjunction.add(Restrictions.eq("receiver.id", id));
-		disjunction.add(Restrictions.eq("team.id", team));
+		if(team!=null){
+			disjunction.add(Restrictions.eq("team.id", team));
+		}
 		detachedCriteria.add(disjunction);
 		
 	//	detachedCriteria.add(Restrictions.or(Restrictions.eq("creater.id", id), Restrictions.eq("receiver.id", id)));

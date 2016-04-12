@@ -252,7 +252,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											if(costSampleNum.compareTo(new BigDecimal(0))==0){
 												PieceworkMap.put("qualifiedRatio","");
 											}else{
-												String costQulifiedRate =costSampleNum.divide(costQulified,2, RoundingMode.HALF_UP).toString()+"%";
+												String costQulifiedRate =costQulified.divide(costSampleNum,2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)).toString()+"%";
 												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
 											}
 										}else{

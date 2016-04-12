@@ -62,7 +62,9 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		}
 		
 		Disjunction disjunction = Restrictions.disjunction();  
-		disjunction.add(Restrictions.eq("team.id", team));
+		if(team!=null && "".equals(team)){
+			disjunction.add(Restrictions.eq("team.id", team));
+		}
 		disjunction.add(Restrictions.eq("insepector.id", id));
 		disjunction.add(Restrictions.eq("fixer.id", id));
 		detachedCriteria.add(disjunction);

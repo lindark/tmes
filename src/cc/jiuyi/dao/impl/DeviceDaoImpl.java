@@ -56,6 +56,7 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		Disjunction disjunction = Restrictions.disjunction();  
 		disjunction.add(Restrictions.eq("workshopLinkman.id", id));
 		disjunction.add(Restrictions.eq("disposalWorkers.id", id));
+		if(team!=null)
 		disjunction.add(Restrictions.eq("team.id", team));
 		detachedCriteria.add(disjunction);
 		

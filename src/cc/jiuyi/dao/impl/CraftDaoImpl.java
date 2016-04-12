@@ -60,6 +60,7 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		Disjunction disjunction = Restrictions.disjunction();  
 		disjunction.add(Restrictions.eq("creater.id", id));
 		disjunction.add(Restrictions.eq("repairName.id", id));
+		if(team!=null)
 		disjunction.add(Restrictions.eq("team.id", team));
 		detachedCriteria.add(disjunction);
 		

@@ -10,7 +10,6 @@
 <#include "/WEB-INF/template/common/include.ftl">
 <link href="${base}/template/admin/css/input.css" rel="stylesheet"
 	type="text/css" />
-	<#include "/WEB-INF/template/common/includelist.ftl"> <!--modify weitao-->
 		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>		
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 		<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
@@ -25,6 +24,9 @@
 <style>
 body {
 	background: #fff;
+}
+.profile-info-value>span+span:before {
+	content: "";
 }
 </style>
 </head>
@@ -119,9 +121,9 @@ body {
 													</#if>
 												</div>
 												
-												<div class="profile-info-name">成本中心</div>
+												<div class="profile-info-name">部门名称/成本中心</div>
 												<div class="profile-info-value">
-													<#if show??>
+													<!-- <#if show??>
 														${(repairin.costcenter)!}
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
@@ -130,6 +132,23 @@ body {
 															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="10008431" />
 														<#else>
 															<span id="span_costcenter">${(repairin.costcenter)!}</span>
+															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="${(repairin.costcenter)!}" />
+														</#if>
+														<label class="requireField">*</label>
+													</#if> -->
+													<#if show??>
+														${(repairin.departName)!}/${(repairin.costcenter)!}
+													<#else>
+														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
+														<#if add??>
+															<span id="span_departName">返修组</span>/
+															<span id="span_costcenter">10008431</span>
+															<input type="hidden" id="input_departName" name="repairin.departName" value="返修组" />
+															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="10008431" />
+														<#else>
+															<span id="span_departName">${(repairin.departName)!}</span>/
+															<span id="span_costcenter">${(repairin.costcenter)!}</span>
+															<input type="hidden" id="input_departName" name="repairin.departName" value="${(repairin.departName)!}" />
 															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="${(repairin.costcenter)!}" />
 														</#if>
 														<label class="requireField">*</label>
@@ -291,5 +310,53 @@ $(function(){
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	/* $("#img_costcenter").click(function(){
+		addcostcenter_event();
+	}); */
+	
+	var $dept= $("#img_costcenter");//部门选择功能
+	$dept.click(function(){
+		var $this = $(this);
+		$this.attr("disabled",true);
+		var content = "department!browser.action";
+		var title="部门选择";
+		var width="250px";
+		var height = "400px";
+		
+		var offsetleft = $(this).offset().left;
+		var offsettop = $(this).offset().top;
+		var kjheight = $(this).height();
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        offset:[offsettop+kjheight+"px",offsetleft+"px"],
+	        title: title,
+	        fix: false,
+	        shade: 0,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        btn:['确认'],
+	        area: [width, height],//弹出框的高度，宽度
+	        content:content,
+	        yes:function(index,layero){//确定
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+	        	var depart = iframeWin.getName();
+	        	//alert(depart.departid+","+depart.departName);
+	        	$("#span_departName").text(depart.departName );
+	        	$("#input_departName").val(depart.departName );
+	        	$("#span_costcenter").text(depart.costcenter);
+	        	$("#input_costcenter").val(depart.costcenter);
+	        	layer.close(index);
+	        	return false;
+	        },
+	        end:function(index,layero){
+	        	$this.removeAttr("disabled");
+	        }
+	        
+	    });
+		return false;
+	})
 });
 </script>

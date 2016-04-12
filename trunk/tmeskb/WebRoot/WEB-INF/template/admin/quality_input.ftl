@@ -435,8 +435,8 @@ body {
 								<tbody>
 									<#if (qualityList?size>1) >
 									<tr>
-										<td><a
-											href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>
+										<td>
+											<a href="quality!sealist.action?abnorId=${(abnormal.id)}">质量问题单</a>
 										</td>
 									</tr>
 									<#else> <#list (qualityList)! as list>

@@ -82,7 +82,7 @@ body {
 										<!--weitao begin modify-->
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
-												
+												<input type="hidden" value="${(quality.id)!}" id="qualityId">
 												<div class="profile-info-name">产品名称</div>
 
 												<div class="profile-info-value">												    
@@ -193,7 +193,10 @@ body {
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
-                                        								
+                                     <button class="btn btn-white btn-default btn-sm btn-round" id="editQuality" type=button>
+										<i class="ace-icon fa fa-edit"></i>
+										编辑
+									</button>									
 									     </div>
    
 									</div>

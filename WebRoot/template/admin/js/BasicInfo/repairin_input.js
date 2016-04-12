@@ -14,9 +14,9 @@ $(function(){
 	});
 	
 	//添加成本中心
-	$("#img_costcenter").click(function(){
+	/*$("#img_costcenter").click(function(){
 		addcostcenter_event();
-	});
+	});*/
 	
 	radio_event2();
 });

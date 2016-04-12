@@ -181,8 +181,8 @@ function iscansave()
 	var input_num=$("#input_num").val();//返修数量
 	//var input_duty=$("#input_duty").val();//责任人/批次
 	var input_part=$("#input_part").val();//返修部位
-	var departmentName=$("#departmentName").val();//成本中心
-	if(input_num==""||input_num==null||input_part==""||input_part==null||departmentName==""||departmentName==null)
+	//var departmentName=$("#departmentName").val();//成本中心
+	if(input_num==""||input_num==null||input_part==""||input_part==null)
 	{
 		return false;
 	}

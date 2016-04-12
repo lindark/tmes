@@ -96,19 +96,19 @@ jQuery(function($) {
 		loadComplete : function() {
 			var table = this;
 			
-			$("#quality").click( function() {
+			$(".quality").click( function() {
 				showReceive();
 			})
 			
-			$("#model").click( function() {
+			$(".model").click( function() {
 				showModel();
 			})
 			
-			$("#craft").click( function() {
+			$(".craft").click( function() {
 				showCraft();
 			})
 			
-			$("#device").click( function() {
+			$(".device").click( function() {
 				showDevice();
 			})
 			setTimeout(function(){

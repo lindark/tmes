@@ -276,7 +276,12 @@ public class DeviceAction extends BaseAdminAction {
 			}
 			pager.setList(pagerlist);
 		}else{//普通清单页面
-			pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getTeam().getId());
+			if(admin.getTeam()!=null){
+				pager = deviceService.getDevicePager(pager, map,admin.getId(),admin.getTeam().getId());
+			}else{
+				pager = deviceService.getDevicePager(pager, map,admin.getId(),null);
+			}
+			
 			List pagerlist = pager.getList();
 			for (int i = 0; i < pagerlist.size(); i++) {
 

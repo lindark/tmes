@@ -137,7 +137,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								for(DailyWork dw : dwSet){
 									dw.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
 											"moudleType", dw.getMoudle()));
-									if(!"".equals(factoryUnit) && factoryUnit.equals(workShop.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode()))){
+									if(!"".equals(factoryUnit) && factoryUnit.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode())){
 										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 										PieceworkMap.put("factory", judgeNull(factory));//工厂
 										PieceworkMap.put("workShop",judgeNull(workShop));//车间
@@ -190,7 +190,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											if(costSampleNum.compareTo(new BigDecimal(0))==0){
 												PieceworkMap.put("qualifiedRatio","");
 											}else{
-												String costQulifiedRate =costSampleNum.divide(costQulified).setScale(2, RoundingMode.HALF_UP).toString()+"%";
+												String costQulifiedRate = costSampleNum.divide(costQulified,2, RoundingMode.HALF_UP).toString()+"%";
 												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
 											}
 										}else{
@@ -252,7 +252,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											if(costSampleNum.compareTo(new BigDecimal(0))==0){
 												PieceworkMap.put("qualifiedRatio","");
 											}else{
-												String costQulifiedRate =costSampleNum.divide(costQulified).setScale(2, RoundingMode.HALF_UP).toString()+"%";
+												String costQulifiedRate =costSampleNum.divide(costQulified,2, RoundingMode.HALF_UP).toString()+"%";
 												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
 											}
 										}else{

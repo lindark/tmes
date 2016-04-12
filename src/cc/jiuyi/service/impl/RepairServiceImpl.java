@@ -184,6 +184,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		/**修改主表数据*/
 		Repair r = this.get(repair.getId());
 		List<RepairPiece>list=new ArrayList<RepairPiece>(r.getRpieceSet());
+		r.setCostcenter(repair.getCostcenter());
+		r.setDepartmentName(repair.getDepartmentName());
 		r.setRepairAmount(repair.getRepairAmount());//返修数量
 		r.setRepairPart(repair.getRepairPart());//返修部位
 		r.setDuty(repair.getDuty());//责任人/批次

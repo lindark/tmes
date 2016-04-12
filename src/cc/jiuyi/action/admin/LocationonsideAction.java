@@ -467,7 +467,7 @@ public class LocationonsideAction extends BaseAdminAction {
 					BigDecimal dcl = new BigDecimal(los.getAmount());
 					BigDecimal dcu = new BigDecimal(ucs.getConversationRatio());
 					try {
-						BigDecimal dc = dcl.divide(dcu).setScale(2,
+						BigDecimal dc = dcl.divide(dcu,2,
 								RoundingMode.HALF_UP);
 						los.setBoxMount(dc.doubleValue());
 					} catch (Exception e) {
@@ -506,16 +506,16 @@ public class LocationonsideAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	public String jianxin(){
-		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
 				+ "<productDate>2016-03-22</productDate>"
-				+ "<shift>3</shift></title></ROOT>";
-		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
+				+ "<shift>3</shift></title></ROOT>";*/
+		String xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
 		+ "<factory>1000</factory>"
-		+ "<workShop>1001</workShop>"
-		+ "<factoryUnit></factoryUnit>"
-		+ "<productDate>2016-02-29</productDate>"
-		+ "<shift>3</shift></title></ROOT>";  */
-		String s = pieceworkWebService.getPieceworkListTwo(xmlString);
+		+ "<workShop>201</workShop>"
+		+ "<factoryUnit>3110</factoryUnit>"
+		+ "<productDate>2016-04-06</productDate>"
+		+ "<shift>2</shift></title></ROOT>";  
+		String s = pieceworkWebService.getPieceworkListOne(xmlString);
 		
 		System.out.println(s);
 		

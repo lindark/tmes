@@ -23,20 +23,25 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.UnitConversion;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.UnitConversionService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
@@ -92,6 +97,12 @@ public class DailyWorkAction extends BaseAdminAction {
 	private ProcessRouteService processrouteservice;
 	@Resource
 	private UnitConversionService unitConversionService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
 
 	//报工记录表 @author Reece 2016/3/8
 	public String history() {
@@ -169,8 +180,9 @@ public class DailyWorkAction extends BaseAdminAction {
 						.getWorkingBillCode());
 				dailyWork.setProductDate(dailyWork.getWorkingbill().getProductDate());
 				dailyWork.setMatnr(dailyWork.getWorkingbill().getMatnr());
-				dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
-						"moudleType", dailyWork.getMoudle()));
+				/*dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"moudleType", dailyWork.getMoudle()));*/
+				dailyWork.setXmoudle(dailyWork.getMoudle());
 //				if(dailyWork.getCONF_CNT() !=null){
 //					dailyWork.setNo(dailyWork.getCONF_CNT().replaceAll("^(0+)", ""));
 //					String str = dailyWork.getCONF_CNT().replaceAll("^(0+)", "");
@@ -226,7 +238,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	        	
 	        	Object[] bodyval = {workingbill.getWorkingBillCode(),workingbill.getMatnr(),workingbill.getMaktx()
 	        			            ,workingbill.getProductDate(),dailywork.getEnterAmount()
-	        						,ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", dailywork.getMoudle())
+	        						,dailywork.getMoudle()
 	        						,dailywork.getCONF_NO(),dailywork.getCONF_CNT()
 	        						,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
 	        						,dailywork.getConfirmUser()==null?"":dailywork.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "dailyWorkState", dailywork.getState())};
@@ -274,13 +286,34 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String view() {
 		dailyWork = dailyWorkService.load(id);
 		workingbill = dailyWork.getWorkingbill();	
-		module = ThinkWayUtil.getDictValueByDictKey(dictService,
-				"moudleType", dailyWork.getMoudle());
+		/*module = ThinkWayUtil.getDictValueByDictKey(dictService,
+				"moudleType", dailyWork.getMoudle());*/
 		return VIEW;
 	}	
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		String  workCenter = workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		
 //		String productCode = workingbill.getMatnr();
 //		allProcess = new ArrayList<Process>();
 //		List<ProcessRoute> processRouteList = new ArrayList<ProcessRoute>();
@@ -298,6 +331,26 @@ public class DailyWorkAction extends BaseAdminAction {
 	public String edit() {
 		dailyWork = dailyWorkService.load(id);
 		workingbill = workingBillService.get(workingBillId);
+		String  workCenter = workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
 //		String productCode = workingbill.getMatnr();
 //		Integer version = workingbill.getProcessversion();
 //		if (version == null) {
@@ -499,8 +552,9 @@ public class DailyWorkAction extends BaseAdminAction {
 			if (dailyWork.getConfirmUser() != null) {
 				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
 			}
-			dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
-					"moudleType", dailyWork.getMoudle()));
+			/*dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+					"moudleType", dailyWork.getMoudle()));*/
+			dailyWork.setXmoudle(dailyWork.getMoudle());
 			/*dailyWork.setResponseName(processService.get("processCode",
 					dailyWork.getProcessCode()).getProcessName());*/
 			dailyWork.setCreateName(dailyWork.getCreateUser().getName());

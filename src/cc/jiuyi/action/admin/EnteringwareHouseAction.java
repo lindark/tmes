@@ -23,6 +23,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
+import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
 import cc.jiuyi.service.AdminService;
@@ -31,6 +33,8 @@ import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitConversionService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
@@ -81,6 +85,10 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private FactoryService factoryService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
 
 	
 	// 历史入库记录 @author Reece 2016/3/10
@@ -160,8 +168,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 					enteringwareHouse.getWorkingbill().getId()).getMatnr()));
 			enteringwareHouse.setProductDate((workingBillService.get(
 					enteringwareHouse.getWorkingbill().getId()).getProductDate()));
-			enteringwareHouse.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
-						"moudleType", enteringwareHouse.getMoudle()));
+			/*enteringwareHouse.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+						"moudleType", enteringwareHouse.getMoudle()));*/
+			enteringwareHouse.setXmoudle( enteringwareHouse.getMoudle());
 			lst.add(enteringwareHouse);
 		}
 		pager.setList(lst);
@@ -208,7 +217,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
         			            ,workingbill.getMatnr(),workingbill.getMaktx()
         			            ,enteringwareHouse.getBatch(),enteringwareHouse.getEx_mblnr()
         			            ,enteringwareHouse.getStorageAmount()
-        						,ThinkWayUtil.getDictValueByDictKey(dictService, "moudleType", enteringwareHouse.getMoudle())
+        						, enteringwareHouse.getMoudle()
         						,enteringwareHouse.getCreateDate(),enteringwareHouse.getCreateUser()==null?"":enteringwareHouse.getCreateUser().getName()
         						,enteringwareHouse.getConfirmUser()==null?"":enteringwareHouse.getConfirmUser().getName(),ThinkWayUtil.getDictValueByDictKey(dictService, "enteringwareState", enteringwareHouse.getState())};
         	body.add(bodyval);
@@ -253,11 +262,51 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String edit() {
 		enteringwareHouse = enteringwareHouseService.load(id);
 		workingbill = workingBillService.get(workingBillId);
+		String  workCenter = workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
 		return INPUT;
 	}	
 
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		String  workCenter = workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
 		return INPUT;
 	}
 

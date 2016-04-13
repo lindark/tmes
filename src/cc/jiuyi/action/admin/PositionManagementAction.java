@@ -67,6 +67,11 @@ public class PositionManagementAction extends BaseAdminAction{
 		redirectionUrl="position_management!list.action";
 		return SUCCESS;
 	}
+	
+	//单元选择
+	public String browser(){		
+		return "browser";	
+	}
 		
 	// 列表
 	public String list() {
@@ -95,9 +100,10 @@ public class PositionManagementAction extends BaseAdminAction{
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			
-		   if (obj.get("element") != null) { 
-			   String element = obj.getString("element").toString();
-			   map.put("element",element);
+			if (obj.get("xfactoryUnitName") != null) {
+				String xfactoryUnitName = obj.getString("xfactoryUnitName")
+						.toString();
+				map.put("xfactoryUnitName", xfactoryUnitName);
 			}
 
 		   if (obj.get("warehouse") != null) { 
@@ -115,6 +121,7 @@ public class PositionManagementAction extends BaseAdminAction{
 			PositionManagement positionManagement = (PositionManagement) pagerlist.get(i);		
 //			mould.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 //			dictService, "equipmentState", mould.getState()));
+			positionManagement.setXfactoryUnitName(positionManagement.getFactoryUnit().getFactoryUnitName());
 			pagerlist.set(i,positionManagement);
 		}
 		pager.setList(pagerlist);

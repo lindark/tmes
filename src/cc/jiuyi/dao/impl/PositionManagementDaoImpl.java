@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.PositionManagementDao;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.PositionManagement;
 @Repository
 public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, String> implements PositionManagementDao{
@@ -21,17 +22,16 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 	}
 
 	@Override
-	public Pager getPositionManagementPager(Pager pager,
-			HashMap<String, String> map) {
+	public Pager getPositionManagementPager(Pager pager,HashMap<String, String> map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(PositionManagement.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(!existAlias(detachedCriteria, "factoryUnit", "factoryUnit")){
+			detachedCriteria.createAlias("factoryUnit", "factoryUnit");
+		}
 		if (map.size() > 0) {
-		if(map.get("element")!=null){
-			detachedCriteria.add(Restrictions.like("element", "%"+map.get("element")+"%"));
-		}
-		if(map.get("empName")!=null){
-			detachedCriteria.add(Restrictions.like("empName", "%"+map.get("empName")+"%"));
-		}
+			if (map.get("xfactoryUnitName") != null) {
+				detachedCriteria.add(Restrictions.like("factoryUnit.factoryUnitName","%" + map.get("xfactoryUnitName") + "%"));
+			}
 		if(map.get("warehouse")!=null){
 			detachedCriteria.add(Restrictions.like("warehouse", "%"+map.get("warehouse")+"%"));
 		}
@@ -48,6 +48,18 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 			super.update(xpositionManagement);
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> getPositionList(PositionManagement positionManagement) {
+		String hql="Select distinct supermarketWarehouse From PositionManagement positionManagement where positionManagement.factoryUnit=?";
+		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getPositionList(String warehouse){
+		String hql="Select trimWareHouse from PositionManagement positionManagement where positionManagement.supermarketWarehouse=?";
+		return getSession().createQuery(hql).setParameter(0, warehouse).list();
 	}
 	
 }

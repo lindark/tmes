@@ -78,4 +78,6 @@ public interface WorkingBillService extends BaseService<WorkingBill, String>,Wor
 	 * 根据生产日期、班次查询随工单
 	 */
 	public List<WorkingBill> findListWorkingBill(String productDate,String shift);
+	
+	public List<WorkingBill> getWorkingBillList(String workingBillId);
 }

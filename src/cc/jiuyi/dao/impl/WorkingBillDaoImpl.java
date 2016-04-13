@@ -148,6 +148,12 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		}
 	
 	}
+
+	@Override
+	public List<WorkingBill> getWorkingBillList(String workingBillId) {
+		String hql = "From WorkingBill workingBill where workingBill.id = ?";
+		return getSession().createQuery(hql).setParameter(0, workingBillId).list();
+	}
 	
 
 }

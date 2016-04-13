@@ -39,7 +39,7 @@ public class Kaoqin extends BaseEntity{
 	private String stationName;//工位名称
 	private String workName;//工作范围名称
 	private String xteam;//班组假字段
-	
+	//假字段
 	private String factoryUnitName;
 	private String xclasstime;
 	private String factory;

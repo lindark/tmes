@@ -53,7 +53,7 @@
 								   <div class="form-group">
 										<label class="col-sm-1 col-md-offset-1" style="text-align:right">单元:</label>
 										<div class="col-sm-4">
-											<input type="text" name="element" class="input input-sm form-control" value="" id="form-field-icon-1">
+											<input type="text" name="xfactoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
 										</div>
 										
 										

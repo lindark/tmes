@@ -1,8 +1,10 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Mouldmaterial;
 import cc.jiuyi.entity.PositionManagement;
 
@@ -21,4 +23,10 @@ public interface PositionManagementService extends BaseService<PositionManagemen
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
+	
+	public List<PositionManagement> getPositionManagementList();
+	
+	public List<String> getPositionList(PositionManagement positionManagement);
+	
+	public List<String> getPositionList(String warehouse);
 }

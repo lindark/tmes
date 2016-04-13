@@ -1,6 +1,8 @@
 package cc.jiuyi.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.PositionManagementDao;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.PositionManagement;
 import cc.jiuyi.service.PositionManagementService;
 
@@ -33,6 +36,21 @@ public class PositionManagementServiceImpl extends BaseServiceImpl<PositionManag
 	public void updateisdel(String[] ids, String oper) {
 		positionManagementDao.updateisdel(ids, oper);
 		
+	}
+
+	@Override
+	public List<PositionManagement> getPositionManagementList() {
+		return positionManagementDao.getPositionManagementList();
+	}
+
+	@Override
+	public List<String> getPositionList(PositionManagement positionManagement) {
+		return positionManagementDao.getPositionList(positionManagement);
+	}
+
+	@Override
+	public List<String> getPositionList(String warehouse) {
+		return positionManagementDao.getPositionList(warehouse);
 	}
 	
 	

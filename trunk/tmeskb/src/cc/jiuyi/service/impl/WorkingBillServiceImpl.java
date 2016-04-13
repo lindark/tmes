@@ -460,5 +460,10 @@ public class WorkingBillServiceImpl extends
 		return workingbilldao.findListWorkingBill(productDate, shift);
 	}
 
+	@Override
+	public List<WorkingBill> getWorkingBillList(String workingBillId) {
+		return workingbilldao.getWorkingBillList(workingBillId);
+	}
+
 
 }

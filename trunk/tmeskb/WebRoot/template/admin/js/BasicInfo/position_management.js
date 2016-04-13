@@ -65,7 +65,9 @@ jQuery(function($) {
 	    },
 		colNames:['单元','仓库地点','超市仓库','裁切仓库'],
 		colModel:[		
-            {name:'element',index:'element',editable: true,sortable:true,search:true},
+		    
+//            {name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',editable: true,sortable:true,search:true},
+			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',search:true,editable:false,sortable:"true",sorttype:"text"},
             {name:'warehouse',index:'warehouse',editable: true,sortable:true,search:true},
             {name:'supermarketWarehouse',index:'supermarketWarehouse',editable: true,sortable:true,search:true},
             {name:'trimWareHouse',index:'trimWareHouse',editable: true,sortable:true,search:true}

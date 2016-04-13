@@ -49,6 +49,7 @@ public class FactoryUnit extends BaseEntity {
 	private String delivery;//待发货仓位
 	private Set<UnitdistributeProduct> unitdistributeSet;//分配产品
 	private Set<UnitdistributeModel> unitdistributemodelSet;//分配磨具
+	private Set<PositionManagement> positionManagement;//单元管理
 	
 	//假字段
 	private String xiscanrepair;//是否可以返修/返修收获-描述
@@ -295,5 +296,16 @@ public class FactoryUnit extends BaseEntity {
 			Set<UnitdistributeModel> unitdistributemodelSet) {
 		this.unitdistributemodelSet = unitdistributemodelSet;
 	}
+
+	@OneToMany(mappedBy = "factoryUnit", fetch = FetchType.LAZY)
+	public Set<PositionManagement> getPositionManagement() {
+		return positionManagement;
+	}
+
+	public void setPositionManagement(Set<PositionManagement> positionManagement) {
+		this.positionManagement = positionManagement;
+	}
+	
+	
 	
 }

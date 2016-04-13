@@ -19,6 +19,10 @@ $().ready( function() {
 
 });
 </script>
+<script type="text/javascript" src="${base}/template/admin/js/layer/layer.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
+<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
 <#if !id??>
 	<#assign isAdd = true />
 <#else>
@@ -80,14 +84,36 @@ body{background:#fff;}
 			
 				<!--weitao begin modify-->
 						<div class="profile-user-info profile-user-info-striped">
-									 	<div class="profile-info-row">
+									<div class="profile-info-row">
+										<!--  
 										<div class="profile-info-name"> 单元</div>					
 										<div class="profile-info-value">
 										        <input type="text" name="positionManagement.element" value="${(positionManagement.element)!}" class=" input input-sm  formText {required: true}" />											   											
 										</div>
+										-->
+										<div class="profile-info-name">单元信息</div>
+										<div class="profile-info-value">
+										    <#if isAdd??>
+											<img id="unitId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+											<span id="unitName"></span> 
+											<input type="hidden" name="positionManagement.factoryUnit.factoryUnitName"
+											 id="unitNa" value="" class="formText {required: true}" />
+											<input type="hidden" name="positionManagement.factoryUnit.id" 
+											id="unitNo" value="" class="formText {required: true}" /> <#else>
+											${(positionManagement.factoryUnit.factoryUnitName)!} </#if>
+										</div>
 									</div>	
-								
 									
+									<!--  
+									<div class="profile-info-row">	
+										<div class="profile-info-name"> 单元 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="positionManagement.element" value="${(positionManagement.element)!}" class=" input input-sm  formText {required: true}" />	
+										</div>
+										
+									</div>
+									
+									-->
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 仓库地点 </div>					
 										<div class="profile-info-value">
@@ -136,4 +162,30 @@ body{background:#fff;}
 
 
 </body>
+<script type="text/javascript">
+$(function() {	
+	
+	// 单元弹出框
+	$("#unitId").click( function() {
+		showUnit();
+	})
+	
+	
+	function showUnit(){
+	var title = "选择单元";
+	var width="800px";
+	var height="632px";
+	var content="position_management!browser.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		$("#unitName").text(id[1]);
+		$("#unitNa").val(id[1]);//单元名称
+		$("#unitNo").val(id[0]);
+		layer.close(index); 
+	});
+}
+})
+</script>
 </html>

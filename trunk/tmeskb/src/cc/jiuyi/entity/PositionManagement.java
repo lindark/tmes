@@ -1,7 +1,10 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.compass.annotations.Searchable;
 
@@ -17,18 +20,20 @@ public class PositionManagement extends BaseEntity{
 		
 	private static final long serialVersionUID = -4012609509119465713L;
 	
-	private String element;//单元
+//	private String element;//单元编号
 	private String warehouse;//仓库地点
 	private String supermarketWarehouse;//超市仓库
 	private String trimWareHouse;//裁切仓库
 	private String isDel;//是否删除
+	private FactoryUnit factoryUnit;//单元
+	private String xfactoryUnitName;//单元名字
 	
-	public String getElement() {
-		return element;
-	}
-	public void setElement(String element) {
-		this.element = element;
-	}
+//	public String getElement() {
+//		return element;
+//	}
+//	public void setElement(String element) {
+//		this.element = element;
+//	}
 	public String getWarehouse() {
 		return warehouse;
 	}
@@ -54,12 +59,22 @@ public class PositionManagement extends BaseEntity{
 		this.isDel = isDel;
 	}
 	
-	@Override
-	public String toString() {
-		return "PositionManagement [element=" + element + ", warehouse="
-				+ warehouse + ", supermarketWarehouse=" + supermarketWarehouse
-				+ ", trimWareHouse=" + trimWareHouse + ", isDel=" + isDel + "]";
+	@ManyToOne(fetch = FetchType.LAZY)
+	public FactoryUnit getFactoryUnit() {
+		return factoryUnit;
 	}
+	public void setFactoryUnit(FactoryUnit factoryUnit) {
+		this.factoryUnit = factoryUnit;
+	}
+	
+	@Transient
+	public String getXfactoryUnitName() {
+		return xfactoryUnitName;
+	}
+	public void setXfactoryUnitName(String xfactoryUnitName) {
+		this.xfactoryUnitName = xfactoryUnitName;
+	}
+
 	
 	
 

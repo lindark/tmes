@@ -334,7 +334,7 @@ function cause_event()
 	<#list list_cause as list>
 		$("#sr_num"+i).change(function(){
 			var idval=$(this).attr("id");
-			i=idval.substring(idval.length-1,idval.length);
+			i=idval.substring(6);
 			var samplenum=$("#sample_num").val();//巡检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
 			var num_qx=$(this).val().replace(" ","");//缺陷

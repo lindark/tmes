@@ -65,12 +65,13 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '巡检数量','合格数量','合格率','巡检日期','巡检人', '确认人','状态','状态'],
+		colNames:[ '巡检数量','合格数量','合格率','模具','巡检日期','巡检人', '确认人','状态','状态'],
 		colModel:[
 			
 			{name:'pollingtestAmount',index:'pollingtestAmount', width:200,sortable:"true",sorttype:"text"},
 			{name:'qualifiedAmount',index:'qualifiedAmount', width:200,sortable:"true",sorttype:"text"},
 			{name:'passedPercent',index:'passedPercent', width:200,sortable:"true",sorttype:"text"},
+			{name:'moudle',index:'moudle', width:200,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'pollingtestUserName',index:'pollingtestUserName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},

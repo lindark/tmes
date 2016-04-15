@@ -23,6 +23,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.IpRecord;
 import cc.jiuyi.entity.ItermediateTest;
 import cc.jiuyi.entity.ItermediateTestDetail;
@@ -32,14 +33,18 @@ import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Rework;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ItermediateTestDetailService;
 import cc.jiuyi.service.ItermediateTestService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -94,7 +99,14 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private CauseService causeService;
 	@Resource
 	private BomService bomservice;
-
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	
+	
 	private String xcreateUser;// 创建人员
 	private String xconfirmUser;// 确认人员
 	private String materialCode;// 组件编码
@@ -107,6 +119,31 @@ public class ItermediateTestAction extends BaseAdminAction {
 	public String add() {
 		this.workingbill = this.workingBillService.load(workingBillId);
 
+		
+		String  workCenter = this.workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = this.workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		
+		
+		
+		
 		String aufnr = workingbill.getWorkingBillCode().substring(0,
 				workingbill.getWorkingBillCode().length() - 2);
 		// Date productDate =
@@ -193,9 +230,11 @@ public class ItermediateTestAction extends BaseAdminAction {
 				itermediateTest.setXcreateUser(itermediateTest.getCreateUser()
 						.getName());
 			}
-
-			itermediateTest.setShiftx(ThinkWayUtil.getDictValueByDictKey(
-					dictService, "kaoqinClasses", itermediateTest.getShift()));
+			if(itermediateTest.getShift()!=null){
+				itermediateTest.setShiftx(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "kaoqinClasses", itermediateTest.getShift()));
+			}
+			
 
 			lst.add(itermediateTest);
 		}
@@ -221,6 +260,30 @@ public class ItermediateTestAction extends BaseAdminAction {
 	public String edit() {
 		this.list_material = new ArrayList<Bom>();
 		this.workingbill = this.workingBillService.load(workingBillId);
+		
+		
+		String  workCenter = this.workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = this.workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		
+		
 		String aufnr = workingbill.getWorkingBillCode().substring(0,
 				workingbill.getWorkingBillCode().length() - 2);
 		// Date productDate =

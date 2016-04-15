@@ -152,6 +152,24 @@ body {
 												<div class="profile-info-value">
 													<span>${(workingbill.maktx)!}</span>
 												</div>
+											</div
+											<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+												<#if show??>
+												<div class="profile-info-value">
+													<span>${(itermediateTest.moudle)!}</span>
+												</div>
+												<#else>
+												<div class="profile-info-value">
+												    <select name="itermediateTest.moudle"> 
+														<#list (pager.list)! as list>
+														<option value="${list.station}" <#if (list.station==itermediateTest.moudle)!>selected</#if>>${list.station}</option>
+														</#list>
+													</select>
+													
+												</div>
+												</#if>
+												
 											</div>
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
@@ -170,8 +188,9 @@ body {
 														--><th class="center"style="width:55%">不合格原因/数量</th>
 														<th class="center" style="width:10%">合格数量</th>
 													</tr>
-													<#if show??> <#if list_itmesg??> <#assign num=0 /> <#list
-													list_itmesg as list>
+													<#if show??> 
+													<#if list_itmesg??> 
+													<#assign num=0 /> <#list list_itmesg as list>
 													<tr>
 														<td>${(list.materialCode)! }</td>
 														<td>${(list.materialName)! }</td>

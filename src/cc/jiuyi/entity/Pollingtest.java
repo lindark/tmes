@@ -37,6 +37,7 @@ public class Pollingtest extends BaseEntity {
 	private String size3;// 尺寸3
 	private Admin pollingtestUser;// 巡检人
 	private Admin confirmUser;// 确认人
+	private String moudle;//模具组号
 
 	private Set<PollingtestRecord> pollingtestRecord;// 巡检缺陷记录表
 	private WorkingBill workingBill;// 随工单
@@ -326,5 +327,13 @@ public class Pollingtest extends BaseEntity {
 
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+
+	public String getMoudle() {
+		return moudle;
+	}
+
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
 	}	
 }

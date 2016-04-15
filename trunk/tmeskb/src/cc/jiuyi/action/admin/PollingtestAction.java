@@ -20,14 +20,19 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.PollingtestRecord;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.PollingtestRecordService;
 import cc.jiuyi.service.PollingtestService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -86,7 +91,13 @@ public class PollingtestAction extends BaseAdminAction {
 	private CauseService causeService;
 	@Resource
 	private PollingtestRecordService pollingtestRecordService;
-
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		workingbill = workingBillService.get(workingBillId);
@@ -96,6 +107,30 @@ public class PollingtestAction extends BaseAdminAction {
 	// 添加
 	public String add() {
 		workingbill = workingBillService.get(workingBillId);
+		
+		String  workCenter = workingbill.getWorkcenter();
+		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		HashMap<String, String> map = new HashMap<String, String>();
+		String matnr="";
+		String funid="";
+		if(fu!=null){
+			funid =fu.getId(); 
+		}
+		matnr = workingbill.getMatnr();
+		map.put("matnr", matnr);
+		map.put("funid", funid);
+		UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+		if(pager==null){
+			pager=new Pager();
+		}
+		if(unitdistributeProduct!=null){
+			String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+			map.put("matmr", matmr);
+			pager = unitdistributeModelService.getUBMList(pager, map);
+		}
+		
+		
+		
 		list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
 		this.add = "add";
 		return INPUT;
@@ -112,6 +147,36 @@ public class PollingtestAction extends BaseAdminAction {
 
 			pollingtest = pollingtestService.load(id);
 			workingbill = workingBillService.get(workingBillId);
+			
+			
+			
+			String  workCenter = workingbill.getWorkcenter();
+			FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+			HashMap<String, String> map = new HashMap<String, String>();
+			String matnr="";
+			String funid="";
+			if(fu!=null){
+				funid =fu.getId(); 
+			}
+			matnr = workingbill.getMatnr();
+			map.put("matnr", matnr);
+			map.put("funid", funid);
+			UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+			if(pager==null){
+				pager=new Pager();
+			}
+			if(unitdistributeProduct!=null){
+				String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+				map.put("matmr", matmr);
+				pager = unitdistributeModelService.getUBMList(pager, map);
+			}
+			
+			
+			
+			
+			
+			
+			
 			List<Cause> l_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
 			list_pollingtestRecord = pollingtestRecordService
 					.findByPollingtestId(id);
@@ -144,8 +209,10 @@ public class PollingtestAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
 		}
 		Admin cardUser= adminService.getByCardnum(cardnumber);
-		pollingtest.setShift(cardUser.getShift());
-		pollingtest.setProductDate(cardUser.getProductDate());
+		if(cardUser!=null){
+			pollingtest.setShift(cardUser.getShift());
+			pollingtest.setProductDate(cardUser.getProductDate());
+		}
 		pollingtestService
 				.saveInfo(pollingtest, info, info2, my_id, cardnumber);
 		/*
@@ -174,6 +241,11 @@ public class PollingtestAction extends BaseAdminAction {
 				|| String.valueOf(pollingtest.getPollingtestAmount()).matches(
 						"^[0-9]*[1-9][0-9]*$ ")) {
 			return ajaxJsonErrorMessage("巡检数量必须为零或正整数!");
+		}
+		Admin cardUser= adminService.getByCardnum(cardnumber);
+		if(cardUser!=null){
+			pollingtest.setShift(cardUser.getShift());
+			pollingtest.setProductDate(cardUser.getProductDate());
 		}
 		// 保存巡检单信息:巡检单，缺陷ID，缺陷数量，1保存/2确认
 		this.pollingtestService.updateInfo(pollingtest, info, info2, my_id,

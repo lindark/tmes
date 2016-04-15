@@ -133,7 +133,11 @@ body {
 												</div>
 												<div class="profile-info-row">
 												<div class="profile-info-name">模具</div>
-
+												<#if show??>
+												<div class="profile-info-value">
+														<span >${(sample.moudle)! }</span>
+													</div>
+												<#else>
 												<div class="profile-info-value">
 												    <select name="sample.moudle"> 
 												    <!-- <#list
@@ -148,6 +152,8 @@ body {
 													</select>
 													
 												</div>
+												</#if>
+												
 											</div>
 												</div>
 											<div class="profile-user-info profile-user-info-striped">

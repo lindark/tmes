@@ -165,6 +165,7 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			List<ItermediateTestDetail> list_itmesg, List<IpRecord> list_itbug,String my_id,String cardnumber) {
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		ItermediateTest it=this.itermediateTestDao.get(itermediateTest.getId());
+		it.setMoudle(itermediateTest.getMoudle());
 		it.setModifyDate(new Date());
 		if("2".equals(my_id)){
 			it.setState("2");//状态

@@ -39,6 +39,7 @@ public class ItermediateTest extends BaseEntity {
 	private String shift;// 班次
 	private String productDate;// 生产日期
 	private String shiftx;//班次描述
+	private String moudle;//模具
 	
 	@Transient
 	public String getShiftx() {
@@ -149,6 +150,14 @@ public class ItermediateTest extends BaseEntity {
 
 	public void setXcreateUser(String xcreateUser) {
 		this.xcreateUser = xcreateUser;
+	}
+
+	public String getMoudle() {
+		return moudle;
+	}
+
+	public void setMoudle(String moudle) {
+		this.moudle = moudle;
 	}
 
 }

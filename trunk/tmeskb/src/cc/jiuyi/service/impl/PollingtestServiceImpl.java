@@ -111,7 +111,7 @@ public class PollingtestServiceImpl extends
 			String my_id, String cardnumber) {
 		Admin admin = this.adminService.getByCardnum(cardnumber);
 		Pollingtest p = this.pollingtestDao.load(pollingtest.getId());
-		BeanUtils.copyProperties(pollingtest, p, new String[] { "id" });// 除了id不修改，其他都修改，自动完成设值操作
+		BeanUtils.copyProperties(pollingtest, p, new String[] { "id","createDate" });// 除了id不修改，其他都修改，自动完成设值操作
 		p.setPollingtestUser(admin);
 		if ("2".equals(my_id)) {
 			p.setConfirmUser(admin);

@@ -7,12 +7,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 /**
- * 考勤
- * @author lenovo
+ * 开启考勤后存的记录，临时考勤表
+ * @author jjt
  *
  */
 @Entity
-public class Kaoqin extends BaseEntity{
+public class TempKaoqin extends BaseEntity{
 
 	private static final long serialVersionUID = 6948365437771959825L;
 	
@@ -31,7 +31,7 @@ public class Kaoqin extends BaseEntity{
 	private String workCode;//工号
 	private String phoneNum;//联系电话
 	private String stationCode;//工位
-	private String modleNum;//模具组号
+	private String modelNum;//模具组号
 	private String workNum;//工作范围-编码
 	private String postCode;//岗位编码
 	private String factoryUnit;//单元
@@ -41,9 +41,8 @@ public class Kaoqin extends BaseEntity{
 	
 	private String isdaiban;//是否代班
 	
-	
-	//假字段
 	private String xteam;//班组假字段
+	//假字段
 	private String factoryUnitName;
 	private String xclasstime;
 	private String factory;
@@ -145,14 +144,17 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.phoneNum = phoneNum;
 	}
-	public String getModleNum()
-	{
-		return modleNum;
+
+
+	
+	
+	public String getModelNum() {
+		return modelNum;
 	}
-	public void setModleNum(String modleNum)
-	{
-		this.modleNum = modleNum;
+	public void setModelNum(String modelNum) {
+		this.modelNum = modelNum;
 	}
+	
 	public String getWorkNum()
 	{
 		return workNum;
@@ -247,7 +249,6 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.xworkState = xworkState;
 	}
-
 	
 	public String getIsdaiban() {
 		return isdaiban;
@@ -256,7 +257,6 @@ public class Kaoqin extends BaseEntity{
 		this.isdaiban = isdaiban;
 	}
 	
-	
 	@Transient
 	public String getModelName() {
 		return modelName;
@@ -264,5 +264,6 @@ public class Kaoqin extends BaseEntity{
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
+	
+	
 }
-

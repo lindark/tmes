@@ -171,6 +171,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.DumpDetail</value>
 				<value>cc.jiuyi.entity.CreditCard</value>
 				<value>cc.jiuyi.entity.Kaoqin</value>
+				<value>cc.jiuyi.entity.TempKaoqin</value>
 				<value>cc.jiuyi.entity.DeviceStep</value>
 				<value>cc.jiuyi.entity.DeviceModlue</value>
 				<value>cc.jiuyi.entity.ProcessRoute</value>

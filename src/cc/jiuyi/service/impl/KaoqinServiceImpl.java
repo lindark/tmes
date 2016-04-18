@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
+import cc.jiuyi.dao.TempKaoqinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOver;
@@ -19,6 +20,7 @@ import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
@@ -40,6 +42,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 {
 	@Resource
 	private KaoqinDao kqDao;
+	@Resource
+	private TempKaoqinDao tempKqDao;
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -108,8 +112,9 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 保存开启考勤(刷卡)记录
 	 */
-	public void updateBrushCardEmp(String loginid,int my_id)
+	public String updateBrushCardEmp(String loginid,int my_id)
 	{
+		String str="";
 		Admin admin=this.adminService.get(loginid);//当前登录人
 		/**1.保存刷卡记录*/
 		KaoqinBrushCardRecord kqbcr=new KaoqinBrushCardRecord();
@@ -119,40 +124,93 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		kqbcr.setCreateDate(new Date());//刷卡时间
 		this.kqBCRService.save(kqbcr);
 		/**2.获取班组状态,开启考勤/关闭考勤*/
+		
+		
 		Team t=admin.getTeam();
-		if(my_id==1)
+		if(my_id==2)
 		{
-			//开启考勤
-			t.setIscancreditcard("N");//是否可以刷卡
-			t.setIsWork("Y");//班组状态改为开启状态
-			t.setModifyDate(new Date());//修改日期
-			this.teamService.update(t);
-			
-			//初始化开启考勤的人的班组员工的生产日期和班次
-			List<Admin>list=this.adminService.getByTeamId(t.getId());
-			for(int i=0;i<list.size();i++)
-			{
-				Admin a=list.get(i);
-				if(!a.getId().equals(admin.getId()))
+			//关闭考勤	
+			//走班组下班流程								
+			if("Y".equals(t.getIsWork()))
+			{	
+				
+				/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
+				List<Kaoqin> kqList=this.kqDao.getByTPS(t.getId(),admin.getProductDate(),admin.getShift());
+				
+				if(kqList!=null && kqList.size()>0)
 				{
-					a.setProductDate(admin.getProductDate());//生产日期
-					a.setShift(admin.getShift());//班次
+					//数据已经保存
+					str="ybc";
+					//为了能够重新保存，先全部删除
+					for(Kaoqin kq:kqList)
+					{
+						kqDao.delete(kq);
+					}
+					kqList.clear();
+				}
+				
+					//不存在考勤数据，要从临时考勤表里读取数据，并进行存储
+					List<TempKaoqin> tempList=tempKqDao.getByTPS(t.getId(), admin.getProductDate(), admin.getShift());
+					kqList=new ArrayList<Kaoqin>();
+					for(TempKaoqin tkq:tempList)
+					{
+						Kaoqin kq=new Kaoqin();						
+						kq.setId(null);
+						kq.setCreateDate(new Date());
+						kq.setModifyDate(new Date());
+						
+						kq.setCardNumber(tkq.getCardNumber());
+						kq.setClasstime(tkq.getClasstime());
+						kq.setEmp(tkq.getEmp());
+						kq.setEmpid(tkq.getEmpid());
+						kq.setEmpname(tkq.getEmpname());
+						kq.setPostname(tkq.getPostname());
+						kq.setTeam(tkq.getTeam());
+						kq.setWorkState(tkq.getWorkState());
+						kq.setProductdate(tkq.getProductdate());
+						kq.setTardyHours(tkq.getTardyHours());
+						kq.setWorkCode(tkq.getWorkCode());
+						kq.setPhoneNum(tkq.getPhoneNum());
+						kq.setStationCode(tkq.getStationCode());
+						kq.setModleNum(tkq.getModelNum());
+						kq.setWorkNum(tkq.getWorkNum());
+						kq.setPostCode(tkq.getPostCode());
+						kq.setFactoryUnit(tkq.getFactoryUnit());
+						kq.setStationName(tkq.getStationName());
+						kq.setWorkName(tkq.getWorkName());
+						kq.setIsdaiban(tkq.getIsdaiban());						
+						
+						kqDao.save(kq);
+						kqList.add(kq);
+					}					
+					str="s";
+				
+				//处理admin里的下班信息
+				for(int i=0;i<kqList.size();i++)
+				{
+					Admin a=kqList.get(i).getEmp();
+					/**员工下班*/
+					a.setWorkstate("1");//状态-默认为未上班
+					a.setIsdaiban("N");//是否代班默认为N
 					a.setModifyDate(new Date());//修改日期
+					a.setProductDate(null);//生产日期
+					a.setShift(null);//班次
+					a.setTardyHours(null);//误工小时数
 					this.adminService.update(a);
 				}
+				
+				
+				/**班组下班*/
+				t.setIsWork("N");
+				t.setIscancreditcard("Y");
+				t.setModifyDate(new Date());
+				this.teamService.update(t);
+				
+				return str;
 			}
-			//开启考勤的人改为上班状态
-			admin.setWorkstate("2");//开启考勤后,开启人改为上班
-			admin.setModifyDate(new Date());
-			this.adminService.update(admin);
+			return "e";
 		}
-		else
-		{
-			//关闭考勤
-			t.setIscancreditcard("Y");//可以再刷卡
-			t.setModifyDate(new Date());//修改日期
-			this.teamService.update(t);
-		}
+		return "e";
 	}
 	
 	/**

@@ -172,24 +172,27 @@
 														点击刷卡上班
 													</button>
 												</div>
-												<div class="div-btn4">
+												<!--<div class="div-btn4" >
 													<button id="btn_gooffwork" class="btn_gooffwork">
 														<img style=""
 															src="${base}/template/admin/images/gooffwork3.gif"></img>
 														班组下班
 													</button>
-												</div>
+												</div>-->
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<input type="hidden" id="sameteamid" value="${sameTeamId}" />
+							<#if (iscancreditcard=='N')!>
 							<div class="row">
 								<div class="col-xs-12">
+									
 									<table id="grid-table"></table>
 
 									<div id="grid-pager"></div>
+									
 								</div>
 							</div>
 							</br>
@@ -199,6 +202,7 @@
 									<i class="ace-icon fa fa-cloud-upload"></i> 导出Excel
 								</button>
 							</div>
+							</#if>
 							<script type="text/javascript">
 								var $path_base = "${base}/template/admin";
 							</script>

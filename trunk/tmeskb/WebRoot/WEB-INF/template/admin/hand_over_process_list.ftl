@@ -134,7 +134,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
                                      班次:
                                      <select name="shift"id="sl_sh">
                                      	<option value="" <#if (admin.shift == "")!> selected</#if>></option>
-                                     	<!-- <option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option> -->
+                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
 										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
 										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
                                    </select>

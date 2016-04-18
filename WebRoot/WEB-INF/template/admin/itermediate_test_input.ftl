@@ -292,7 +292,7 @@ body {
 										<div class="profile-info-value div-value">
 											<#if show??> <#else> <#assign num=0 /> <#if list_cause??>
 											<#list list_cause as clist>
-											<div class="col-xs-4" style="margin:2px auto;">
+											<div class="col-xs-4" style="margin:2px auto;width:50%;height:30px;">
 												<label>${(clist.causeName)! }</label> <input
 													id="mynum${num}" type="text" value="${(clist.causeNum)! }"
 													class="input-value" />

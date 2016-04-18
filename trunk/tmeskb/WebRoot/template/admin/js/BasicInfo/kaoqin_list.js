@@ -46,7 +46,7 @@ jQuery(function($) {
 			});
 		},
 		
-		url:"kaoqin!empajlist.action?loginid="+$("#loginid").val()+"&sameTeamId="+$("#sameteamid").val(),
+		url:"temp_kaoqin!ajlist.action?loginid="+$("#loginid").val()+"&sameTeamId="+$("#sameteamid").val(),
 		datatype: "json",
 		height: "100%",//weitao 修改此参数可以修改表格的高度
 		jsonReader : {
@@ -66,20 +66,22 @@ jQuery(function($) {
 		colModel:[
 			{name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true,sortable:false},
 			{name:'cardNumber',index:'cardNumber',label:"员工卡号",width:100,editable: true,search:false,sortable:false},
-			{name:'name',index:'name',label:"姓名",width:100,editable: false,search:false,sortable:false},
-			{name:'workNumber',index:'workNumber',label:"工号",width:100,editable: false,search:false,sortable:false},
-			{name:'phoneNo',index:'phoneNo',label:"手机号",width:100,editable: false,search:false,sortable:false},
+			{name:'empname',index:'empname',label:"姓名",width:100,editable: false,search:false,sortable:false},
+			{name:'workCode',index:'workCode',label:"工号",width:100,editable: false,search:false,sortable:false},
+			{name:'phoneNum',index:'phoneNum',label:"手机号",width:100,editable: false,search:false,sortable:false},
 			{name:'xteam',label:"班组",width:100,editable: false,search:false,sortable:false},
-			{name:'xfactoryUnit',label:"单元",width:100,editable: false,search:false,sortable:false},
+			{name:'factoryUnitName',label:"单元",width:100,editable: false,search:false,sortable:false},
 			{name:'xstationval',label:"xstationval",width:100,editable: false,search:false,sortable:false,hidden:true},
-			{name:'xpost',label:"岗位",width:100,editable: false,search:false,sortable:false},
-			{name:'xgongwei',label:"工位",width:100,editable: false,search:false,sortable:false},
-			{name:'xworkscope',label:"模具组号",width:150,editable: false,search:false,sortable:false},
-			{name:'xstation',label:"工作范围",width:150,editable: false,search:false,sortable:false},
-			{name:'xworkstate',index:'workstate',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
+			{name:'postname',label:"岗位",width:100,editable: false,search:false,sortable:false},
+			{name:'stationName',label:"工位",width:100,editable: false,search:false,sortable:false},
+			{name:'modelName',index:'modelNum',label:"模具组号",width:150,editable: false,search:false,sortable:false},
+			{name:'workName',label:"工作范围",width:150,editable: false,search:false,sortable:false},
+			{name:'xworkState',index:'workState',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
 			{name:'tardyHours',label:"异常小时数",width:100,editable: false,search:false,sortable:false},
+			{name:'isdaiban',index:'isdaiban',label:"是否代班",width:80,editable: false,sortable:false},			
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
-			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
+			{name:'workState',index:'workState', label:"workState", editable: false,hidden:true},
+			{name:'modelNum',index:'modelNum', label:"modelNum", editable: false,hidden:true}
 		], 
 		viewrecords : true,
 		rowNum:10000000,
@@ -95,7 +97,20 @@ jQuery(function($) {
         	 for ( var i = 0; i < ids.length; i++) {
         		var cl = ids[i];
         		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workstate+"','"+rowData.tardyHours+"','"+rowData.xstationval+"') href='javascript:void(0)'>[编辑]</a>";
+        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workState+"','"+rowData.tardyHours+"','"+rowData.modelNum+"') href='javascript:void(0)'>[编辑]</a>";
+        		
+        		if(rowData.isdaiban =='N' )
+        		{
+        			var bstr="";
+        			jQuery(grid_selector).jqGrid('setRowData', ids[i], { isdaiban : bstr });
+        		}
+        		else
+        		{
+        			var bstr="<span style='color:#b22;font-weight:bold;'>代班</span>";        			 
+        			jQuery(grid_selector).jqGrid('setRowData', ids[i], { isdaiban : bstr });
+        			be+= "<a onclick=remove_daiban('"+rowData.id+"') href='javascript:void(0)'>[移除]</a>";
+            		
+        		}
         		jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
         	 }
         },
@@ -211,7 +226,7 @@ jQuery(function($) {
 	});
 	//导出Excel
 	$("#btn_outexcel").click(function(){
-		window.location.href="kaoqin!outexcel.action?sameTeamId="+$("#sameteamid").val();
+		window.location.href="temp_kaoqin!outexcel.action?sameTeamId="+$("#sameteamid").val();
 	});
 });
 
@@ -262,7 +277,9 @@ function hours_event()
 
 //编辑事件
 function edit_event(xid,workstate,tardyhours,xstationval)
-{	$("#select_state").val(workstate);
+{
+	console.log(xid+";"+workstate+";"+tardyhours+";"+xstationval+";");
+	$("#select_state").val(workstate);
 	$("#input_hours").val(tardyhours); 
 	var xstationvals =xstationval.split(",");
 	 $('#model').val(xstationvals);
@@ -284,7 +301,7 @@ function edit_event(xid,workstate,tardyhours,xstationval)
 			var hours=$("#input_hours").val();
 			var unitdistributeModels=$("#model").val();
 			{
-				var url="kaoqin!updateEmpWorkState.action?admin.workstate="+val+"&admin.id="+xid+
+				var url="temp_kaoqin!updateemptkaoqin.action?admin.workstate="+val+"&kaoqin.id="+xid+
 				"&admin.tardyHours="+hours+"&unitdistributeModels="+unitdistributeModels;
 				upd_event(url);
 			}
@@ -334,7 +351,7 @@ function addemp()
 		{
 			layer.closeAll();
 			$.ajax({
-				url:"kaoqin!addnewemp.action?ids="+info+"&sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val(),
+				url:"temp_kaoqin!addnewemp.action?ids="+info+"&sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val(),
 				dataType:"json",
 				type:"post",
 				data:{},
@@ -395,6 +412,12 @@ function startWorking()
 					iscancreditcard="Y";
 					$("#span_startkaoqin").text("考勤未开启");
 					$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+					location.reload();
+				}
+				else if(data.status=="error")
+				{
+					$.message(data.status,data.message);
+					
 				}
 			});
 		},function(){
@@ -403,7 +426,7 @@ function startWorking()
 	}
 	else if(iscancreditcard=="Y")
 	{
-		var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+loginid+"&my_id=1";
+		var url="temp_kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+loginid+"&my_id=1";
 		credit.creditCard(url,function(data){
 			if(data.status=="success")
 			{
@@ -412,7 +435,8 @@ function startWorking()
 				iswork="Y";
 				$("#span_startkaoqin").text("考勤已开启");
 				$img_startkaoqi.attr("src","/template/admin/images/btn_open2.gif");
-				$("#grid-table").trigger("reloadGrid");
+				//$("#grid-table").trigger("reloadGrid");
+				location.reload();
 			}
 			else
 			{
@@ -432,7 +456,7 @@ function clickandcredit()
 	//考勤已开启,可以点击并刷卡
 	if(iscancreditcard=="N")
 	{
-		var url="kaoqin!creditapproval.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val();
+		var url="temp_kaoqin!creditapproval.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val();
 		credit.creditCard(url,function(data){
 			if(data.status=="success")
 			{
@@ -551,7 +575,8 @@ function sapn_stype2(obj)
 //给状态加样式
 function addstyle(rowId, val, rowObject, cm, rdata)
 {
-	if(rowObject.workstate=="2"||rowObject.workstate=="5"||rowObject.workstate=="6")
+	
+	if(rowObject.workState=="2"||rowObject.workState=="5"||rowObject.workState=="6")
 	{
 		return "style='color:#008B00;font-weight:bold;'";
 		
@@ -659,3 +684,40 @@ function btn_style_startkaoqin()
 		$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
 	}
 }
+
+
+function remove_daiban(id)
+{
+	$.ajax({
+		url:"temp_kaoqin!removeDaiban.action?id="+id,
+		dataType:"json",
+		type:"post",
+		data:{},
+		success:function(data)
+		{
+			//1添加成功
+			if(data.message=="1")
+			{
+				$.message("success","您的操作已成功!");
+				$("#grid-table").trigger("reloadGrid");
+			}
+			else if(data.message=="2")
+			{
+				//2生产日期或班次为空,添加失败!
+				layer.alert("生产日期或班次为空,添加失败!", {
+			        icon:5,
+			        skin:'error'
+			    });
+			}
+			else if(data.message=="3")
+			{
+				//3系统出现异常!
+				layer.alert("系统出现异常!", {
+			        icon:5,
+			        skin:'error'
+			    });
+			}
+		}
+	});
+}
+

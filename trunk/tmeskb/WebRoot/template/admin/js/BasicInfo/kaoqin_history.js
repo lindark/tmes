@@ -51,7 +51,7 @@ jQuery(grid_selector).jqGrid({
 {name:'xclasstime',label:"班次",width:50,editable: false,search:false,sortable:false},
 {name:'postname',label:"岗位",width:100,editable: false,search:false,sortable:false},
 {name:'stationName',label:"工位",width:100,editable: false,search:false,sortable:false},
-{name:'modleNum',label:"模具组号",width:150,editable: false,search:false,sortable:false},
+{name:'modelName',label:"模具组号",width:150,editable: false,search:false,sortable:false},
 {name:'workName',label:"工作范围",width:100,editable: false,search:false,sortable:false},
 {name:'tardyHours',label:"异常小时数",width:80,editable: false,search:false,sortable:false},
 {name:'xworkState',index:'workState',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},

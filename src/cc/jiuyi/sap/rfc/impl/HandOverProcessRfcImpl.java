@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,8 @@ import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
@@ -75,6 +78,54 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			throw new CustomerException("1400001", "交接失败,"+E_MESSAGE);
 		}
 		return EX_MBLNR;
+	}
+	@Override
+	public ProcessHandover BatchProcessHandOver(
+			ProcessHandover processHandover, String testrun, String loginid)
+			throws IOException, CustomerException {
+		Admin admin = adminservice.get(loginid);//获取当前登录身份
+		admin = adminservice.load(admin.getId());
+		super.setProperty("handover");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("IS_COMMIT", testrun);//testrun
+		/******输入表******/
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+		TableModel tablemodel = new TableModel();
+		tablemodel.setData("IT_ITEM");//表名
+		for(ProcessHandoverSon p : processHandover.getProcessHandoverSonSet()){
+			HashMap<String,Object> item = new HashMap<String,Object>();
+			item.put("MATNR", p.getBomCode());//物料编码
+			item.put("ZSFSL", p.getBomAmount());//数量
+			item.put("ORDERID1", p.getBeforeWorkingCode());//上班随工单
+			item.put("ORDERID2", p.getAfterWokingCode());//下班随工单
+			item.put("XUH", p.getId());
+			item.put("WERKS", processHandover.getProcessHandoverTop().getWerk());//工厂
+			item.put("LGORT", admin.getTeam().getFactoryUnit().getWarehouse());
+			arrList.add(item);
+		}
+		tablemodel.setList(arrList);
+		tablemodelList.add(tablemodel);
+		/*******执行******/
+		super.setTable(tablemodelList);
+		super.setParameter(parameter);
+		SAPModel model = execBapi();//执行 并获取返回值
+		/******执行 end******/
+		ParameterList out = model.getOuts();//返回表
+		String EX_MBLNR=out.getString("EX_MBLNR");
+		String E_TYPE=out.getString("E_TYPE");
+		String E_MESSAGE=out.getString("E_MESSAGE");
+		//String buDat = out.getString("BUDAT");
+		if(E_TYPE.equals("E")){
+			throw new CustomerException("1400001", "交接失败,"+E_MESSAGE);
+		}
+		ProcessHandover processHandover1 = new ProcessHandover();
+		//processHandover1.setBudat(buDat);
+		processHandover1.setE_message(E_MESSAGE);
+		processHandover1.setE_type(E_TYPE);
+		processHandover1.setMblnr(EX_MBLNR);
+		return processHandover1;
 	}
 
 }

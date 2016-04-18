@@ -150,6 +150,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										//Orders orders = ordersService.get("aufnr", judgeNull(wb.getWorkingBillCode()));
 										//PieceworkMap.put("mujuntext",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
 										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										//PieceworkMap.put("mouldNumber",judgeNull(wb.getMoudle()));//模具组号
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 											PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头
@@ -209,8 +210,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
 										//Orders orders = ordersService.get("aufnr", judgeNull(wb.getAufnr()));
 										//PieceworkMap.put("mouldNumber",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
-										//PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
-										PieceworkMap.put("mouldNumber",judgeNull(wb.getMoudle()));//模具组号
+										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										//PieceworkMap.put("mouldNumber",judgeNull(wb.getMoudle()));//模具组号
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 											PieceworkMap.put("befWorkOddAmount",judgeNull(oddHandOverListBefore.get(0).getActualBomMount()));//上班零头

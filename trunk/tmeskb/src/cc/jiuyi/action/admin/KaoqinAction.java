@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,22 +14,20 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
+import oracle.net.aso.l;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
-import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
@@ -168,6 +167,22 @@ public class KaoqinAction extends BaseAdminAction {
 				{
 					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
 				}
+				
+				if(kaoqin.getModleNum()!=null)
+				{
+					String[] models=kaoqin.getModleNum().split(",");
+					String modelsName="";
+					for(int n=0;n<models.length;n++)
+					{
+						UnitdistributeModel model=unitdistributeModelService.get(models[n]);
+						if(model != null)
+						modelsName+=model.getStation()+",";
+					}
+					if(modelsName.length()>0) modelsName=modelsName.substring(0, modelsName.length()-1);
+					kaoqin.setModelName(modelsName);	
+					
+				}
+				
 				lst.add(kaoqin);
 			}
 		} catch (Exception e) {
@@ -216,6 +231,19 @@ public class KaoqinAction extends BaseAdminAction {
 			Kaoqin kaoqin = (Kaoqin) obj[0];//
 			Admin admin = (Admin) obj[1];//
 
+			String mjzh="";
+			if(kaoqin.getModleNum()!=null)
+			{
+				String[] models=kaoqin.getModleNum().split(",");					
+				for(int n=0;n<models.length;n++)
+				{
+					UnitdistributeModel model=unitdistributeModelService.get(models[n]);
+					if(model != null)
+						mjzh+=model.getStation()+",";
+				}
+				if(mjzh.length()>0) mjzh=mjzh.substring(0, mjzh.length()-1);					
+			}			
+			
 			Object[] bodyval = {
 					kaoqin.getCardNumber(),
 					admin.getName(),
@@ -234,16 +262,16 @@ public class KaoqinAction extends BaseAdminAction {
 							"kaoqinClasses", kaoqin.getClasstime()),
 
 					kaoqin.getPostname(), kaoqin.getStationName(),
-					kaoqin.getModleNum(), kaoqin.getWorkName(),
+					mjzh, kaoqin.getWorkName(),
 					kaoqin.getTardyHours(), 
 					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState())};
 			body.add(bodyval);
 		}
 
 		try {
-			String fileName = "领退料记录表" + ".xls";
+			String fileName = "考勤记录表" + ".xls";
 			setResponseExcel(fileName);
-			ExportExcel.exportExcel("领退料记录表", header, body, getResponse()
+			ExportExcel.exportExcel("考勤记录表", header, body, getResponse()
 					.getOutputStream());
 			getResponse().getOutputStream().flush();
 			getResponse().getOutputStream().close();
@@ -477,17 +505,71 @@ public class KaoqinAction extends BaseAdminAction {
 			return this.ajaxJsonErrorMessage("3");// 系统出现异常
 		}
 	}
+	
+	
+	/**
+	 * 移除代班员工
+	 * 
+	 */
+	public String removeDaiban()
+	{
+		Admin rda=adminService.get(id);
+		rda.setIsdaiban("N");
+		rda.setModifyDate(new Date());
+		rda.setProductDate(null);
+		rda.setShift(null);
+		adminService.update(rda);
+		return this.ajaxJsonSuccessMessage("1");// 移除成功
+	}
+	
+	
+	
 
 	/**
 	 * 开启考勤
 	 */
 	public String creditreply() {
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		
+		Admin longinAdmin=adminService.get(loginid);
+		String shift=longinAdmin.getShift();
+		String teamName=longinAdmin.getTeam().getTeamName();
+		productdate=longinAdmin.getProductDate();
 		if (!isnull()) {
 			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
 		}
 		// 保存开启考勤(刷卡)记录
-		this.kqService.updateBrushCardEmp(loginid, my_id);
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		String str=this.kqService.updateBrushCardEmp(loginid, my_id);
+		if ("s".equals(str)) {
+			// 操作成功
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "您的操作已成功!");
+			return this.ajaxJson(hashmap);
+		} else if ("e".equals(str)) {
+			// 操作错误
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "该班组已经下班,请刷新页面查看!");
+			return this.ajaxJson(hashmap);
+		} else if("ybc".equals(str)){
+			// 操作成功,考勤已保存过,提示本次不在保存
+			String xshift = ThinkWayUtil.getDictValueByDictKey(dictService,
+					"kaoqinClasses", shift);
+			hashmap.put("info", "t");
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "班组下班成功!班组:" + teamName + ",生产日期:" + productdate
+					+ ",班次:" + xshift + ",已经记录到考勤,本次不再重复记录!");
+			return this.ajaxJson(hashmap);
+		}
+		else
+		{			
+			hashmap.put("info", "e");
+			hashmap.put(STATUS, "error");
+			hashmap.put(MESSAGE, "对不起,数据出现异常!请刷新重试！");
+			return this.ajaxJson(hashmap);
+		}
+		//return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	/**

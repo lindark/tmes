@@ -69,7 +69,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	}
 	
 	@Override
-	public void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList) throws IOException, CustomerException {
+	public synchronized void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList) throws IOException, CustomerException {
 		super.setProperty("workingbillall");//根据配置文件读取到函数名称
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("STARTDATE", startdate);

@@ -339,6 +339,13 @@ function upd_event(url)
 //添加员工信息
 function addemp()
 {
+	if(iscancreditcard=="Y")
+	{
+		//考勤未开启,不可以点击及刷卡
+		layer.alert("考勤未开启!",{icon:5,skin:'error'});
+		return;
+	}
+	
 	var title = "添加代班员工";
 	var width="800px";
 	var height="620px";

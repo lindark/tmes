@@ -134,48 +134,46 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			for(int i=0;i<adminList.size();i++)
 			{
 				Admin a=adminList.get(i);
-				if(!a.getId().equals(admin.getId()))
-				{
-					a.setProductDate(admin.getProductDate());//生产日期
-					a.setShift(admin.getShift());//班次
-					a.setModifyDate(new Date());//修改日期
-					this.adminService.update(a);
-				}
-				else
-				{
-					//开启考勤的人改为上班状态
-					a.setWorkstate("2");
-					a.setModifyDate(new Date());//修改日期
-					this.adminService.update(a);
-				}
-			}
-			/*//开启考勤的人改为上班状态
-			admin.setWorkstate("2");//开启考勤后,开启人改为上班
-			admin.setModifyDate(new Date());
-			this.adminService.update(admin);*/			
+				
+				a.setProductDate(admin.getProductDate());//生产日期
+				a.setShift(admin.getShift());//班次								
+				//开启考勤后人员改为上班状态，以防止被添加成代班人员。
+				a.setWorkstate("2");
+				a.setModifyDate(new Date());//修改日期
+				this.adminService.update(a);
+				
+			}					
 			
 			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
 			List<TempKaoqin> kqlist=this.tempKqDao.getByTPS(t.getId(),admin.getProductDate(),admin.getShift());			
 			if(kqlist != null && kqlist.size() > 0 )
 			{
-				//之前已经开启过考勤，	无需重新添加数据	
-				//开启考勤的人改为上班状态
-				TempKaoqin tkq=tempKqDao.getByTPSA(t.getId(), admin.getProductDate(), admin.getShift(), admin.getId()).get(0);
-				tkq.setWorkState(admin.getWorkstate());
-				tempKqDao.update(tkq);
+				//之前已经开启过考勤，	无需重新添加数据				
+								
+				for(TempKaoqin tkq:kqlist)
+				{
+					//修改admin中上班状态为以上班，防止被添加为代班。
+					Admin a=tkq.getEmp();
+					a.setWorkstate("2");
+					adminService.update(a);
+					//开启考勤的人改为上班状态
+					if(tkq.getId().equals(loginid))
+					{
+						tkq.setWorkState("2");
+						tempKqDao.update(tkq);
+					}
+					
+				}
 			}
 			else
 			{				
 				saveKq(adminList, t, admin); //开启考勤后存到临时记录表里
-			}
+			}			
 			
-			
-		}
-		else
-		{
-			//关闭考勤
-			//关闭考勤走下班流程，将会由KaoqinAction处理，此处不作处理
-		}
+		}		
+		//关闭考勤
+		//关闭考勤走下班流程，将会由KaoqinAction处理，此处不作处理
+		
 	}
 	
 	
@@ -245,7 +243,14 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			kq.setClasstime(shift);//班次
 			kq.setEmp(a);//员工
 			kq.setEmpname(a.getName());//名字
-			kq.setWorkState(a.getWorkstate());//工作状态
+			kq.setWorkState("1");//工作状态
+			
+			//如果是刷卡登陆的人，就将其改为已上班状态
+			if(a.getId().equals(admin.getId()))
+			{
+				kq.setWorkState("2");//工作状态
+			}
+			
 			kq.setProductdate(procutdate);//生产日期
 			kq.setEmpid(a.getId());//员工主键ID
 			kq.setTardyHours(null);//误工小时数

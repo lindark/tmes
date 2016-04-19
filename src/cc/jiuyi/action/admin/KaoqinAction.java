@@ -324,10 +324,21 @@ public class KaoqinAction extends BaseAdminAction {
 		 * if(l_emp!=null) { this.list_emp=getNewAdminList(l_emp); }
 		 */
 		Team t = this.teamService.get(sameTeamId);
+		
 		// this.isstartteam=t.getIsWork();//班组是否开启
 		this.iscancreditcard = t.getIscancreditcard();// 是否可以开启考勤
 		this.iswork = t.getIsWork();// 班组是否在上班
-		this.unitModelList = this.unitdistributeModelService.getAllList();// 查询所有工作范围
+		
+		
+		if(t.getFactoryUnit()!=null && t.getFactoryUnit().getFactoryUnitCode()!=null && !"".equals(t.getFactoryUnit().getFactoryUnitCode()))
+		{
+			String unitcode=t.getFactoryUnit().getFactoryUnitCode();
+			this.unitModelList = this.unitdistributeModelService.getModelList(unitcode);// 查询所有工作范围
+		}
+		else
+		{
+			this.unitModelList = this.unitdistributeModelService.getAllList();
+		}
 		return LIST;
 	}
 

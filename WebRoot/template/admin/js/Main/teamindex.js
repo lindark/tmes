@@ -24,6 +24,7 @@ $(function() {
 	var $updown = $("#updown");//上架/下架
 	var $locatHO = $("#locatHO");//线边仓
 	var $csll = $("#csll");//超市领料
+	var $processHO = $("#processHO");//工序交接
 	
 	$table00.find("tbody tr").click(function(){
 		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
@@ -349,7 +350,15 @@ $(function() {
 			window.location.href="up_down!list.action";
 		}
 	});
-	
+	/**
+	 * 工序交接
+	 */
+	$processHO.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			window.location.href="process_handover!list.action";
+		}
+	});
 	/**
 	 * 线边仓保存
 	 */

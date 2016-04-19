@@ -93,6 +93,7 @@ body {
 											<th style="text-align:center;">组件名称</th>
 											<th style="text-align:center;">库存数量</th>
 											<th style="text-align:center;">裁切倍数</th>
+											<th style="text-align:center;">批次</th>
 											<th style="text-align:center;">裁切后库存数量</th>
 											<th style="text-align:center;">裁切后领/退料数量</th>
 											<th style="text-align:center;">实际领/退料数量</th>
@@ -108,6 +109,7 @@ body {
 												<td class="center" name="">${(list.materialName)! }</td>
 												<td class="center" >${(list.stockAmount)! }</td>
 												<td class="center" >${(list.cqmultiple)! }</td>
+												<td class="center" >${(list.charg)! }</td>
 												<td class="center" >${(list.cqhStockAmount)! }</td>
 												<td class="center" >${(list.cqPickAmount)! }</td>
 										 		<td class="center">${(list.pickAmount)! }</td>

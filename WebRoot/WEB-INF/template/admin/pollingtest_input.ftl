@@ -237,7 +237,28 @@ body {
 												</div>												
 												
 											</div>
+											<#if show??>
+											<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+												<div class="profile-info-value">
+											<span>${(pollingtest.moudle)!}		</span>
+												</div>
+											</div>
 											
+											<#else>
+											<div class="profile-info-row">
+												<div class="profile-info-name">模具</div>
+
+												<div class="profile-info-value">
+												    <select name="pollingtest.moudle"> 
+														<#list (pager.list)! as list>
+														<option value="${list.station}" <#if (list.station==pollingtest.moudle)!>selected</#if>>${list.station}</option>
+														</#list>
+													</select>
+													
+												</div>
+											</div>
+											</#if>
 										</div>
 										<!--weitao end modify-->
 										<div class="profile-user-info profile-user-info-striped">
@@ -280,10 +301,10 @@ body {
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡保存
 										</a>
-										<a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
+										<!-- <a id="btn_confirm" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-cloud-upload"></i>
 											刷卡确认
-										</a>
+										</a> -->
 										</#if>
 										<a id="btn_back" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-home"></i>

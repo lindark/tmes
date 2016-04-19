@@ -51,7 +51,7 @@ public class UnitdistributeModelDaoImpl extends BaseDaoImpl<UnitdistributeModel,
 
 	@Override
 	public List<UnitdistributeModel> getModelList(String unitCode) {
-		String hql = "from UnitdistributeModel unitmodel join factoryunit model1 where model1.factoryUnitCode = ? and unitmodel.isDel= ? ";
+		String hql = "from UnitdistributeModel unitmodel where unitmodel.factoryunit.factoryUnitCode = ? and unitmodel.isDel= ? ";
 		List<UnitdistributeModel> modelList=getSession().createQuery(hql).setParameter(0,unitCode).setParameter(1,"N").list();
 		return modelList;
 	}

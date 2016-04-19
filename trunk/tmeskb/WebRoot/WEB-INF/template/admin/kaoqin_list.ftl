@@ -185,7 +185,7 @@
 								</div>
 							</div>
 							<input type="hidden" id="sameteamid" value="${sameTeamId}" />
-							<#if (iscancreditcard=='N')!>
+							
 							<div class="row">
 								<div class="col-xs-12">
 									
@@ -202,7 +202,7 @@
 									<i class="ace-icon fa fa-cloud-upload"></i> 导出Excel
 								</button>
 							</div>
-							</#if>
+							
 							<script type="text/javascript">
 								var $path_base = "${base}/template/admin";
 							</script>

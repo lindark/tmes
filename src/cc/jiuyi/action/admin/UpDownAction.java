@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Pick;
+import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.PositionManagement;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.UpDown;
@@ -37,6 +40,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PositionManagementService;
 import cc.jiuyi.service.UpDownServcie;
 import cc.jiuyi.service.WorkingBillService;
@@ -72,6 +76,10 @@ public class UpDownAction extends BaseAdminAction {
 	private MatStockRfc matstockrfc;
 	@Resource
 	private MaterialService materialService;
+	@Resource
+	private AdminService adminService;
+	@Resource
+	private PickDetailService pickDetailService;
 	
 	private Pager pager;
 	private UpDown updown;
@@ -92,13 +100,14 @@ public class UpDownAction extends BaseAdminAction {
 	private String start;
 	private String isud;//判断页面
 	private String warehouse;//页面传入参数，超市仓库
+	private String charg;//批次
 	private List<PositionManagement> positionManagementList1;
 	private List<String> positionManagementList;
 	private String workingBillId;//随工单id;
-	private WorkingBill workingbill;//岁工单
+	private WorkingBill workingbill;//随工单
 	private List<WorkingBill> workingBillList;//随工单集合
 	private List<Bom> bomList;
-	
+	private List<PickDetail> pickDetailList;
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -493,7 +502,6 @@ public class UpDownAction extends BaseAdminAction {
 	 */
 	public String creditsave(){
 		//检查数据完整性
-
 		Admin admin = adminservice.get(loginid);
 		Admin admin1 = adminservice.getByCardnum(cardnumber);
 		if(admin.getProductDate() == null || admin.getShift() == null){
@@ -563,12 +571,90 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setUplgpla(lgpla);
 				updown.setDownlgpla(lgplaun);
 				updown.setType(type);
+				updown.setCharg(updown.getCharg());
 				updown.setAppvaladmin(admin1);//保存人
 				updown.setProductDate(admin.getProductDate());//将生产日期和班次写入
 				updown.setShift(admin.getShift());
 				updownList.set(i, updown);
 			}
 			updownservice.save(updownList);
+			if(workingBillId != null && !workingBillId.equals("")){
+				WorkingBill workingBill = workingBillService.get(workingBillId);
+				String workingBillCode = workingBill.getWorkingBillCode();
+				String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+				lgpla = ThinkWayUtil.null2String(lgpla);
+				Pick pick = new Pick();
+//				pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
+//				pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
+//				pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
+//				pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
+				pick.setMove_type("261");//移动类型 
+				pick.setBudat(workingBill.getProductDate());//随工单日期
+				pick.setLgort(admin1.getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
+				pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
+			    pick.setWerks(admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+				pick.setCreateDate(new Date());
+				pick.setCreateUser(admin1);
+				pick.setWorkingbill(workingBill);
+				pick.setState("1");
+				boolean button = false;
+				List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
+				for (int i = 0; i < updownList.size(); i++) {
+					UpDown updown = updownList.get(i);
+					PickDetail p = new PickDetail();
+					/*if(p!=null){
+						if(p.getCqPickAmount()!=null && !"".equals(p.getCqPickAmount())){
+							String[] s = p.getCqPickAmount().split(",");
+							p.setCqPickAmount(s[0]);
+						}
+					}*/
+					if (!"".equals(p.getPickAmount()) && !"0".equals(p.getPickAmount())) {
+						button = true;
+						
+//						if("261".equals(info)){//领料
+//							Double pickamount = Double.parseDouble(ThinkWayUtil.null2o(p.getPickAmount()));
+//							Double stockamount = Double.parseDouble(ThinkWayUtil.null2o(p.getStockAmount()));
+//							if(pickamount > stockamount){
+//								return ajaxJsonErrorMessage("领用数量不能大于库存数量!");
+//							}
+//						}
+						p.setMaterialCode(updown.getMatnr());
+						p.setMaterialName(updown.getMaktx());
+						p.setCharg(updown.getCharg());
+						p.setStockAmount((updown.getDwnum()).toString());
+						Material mt = materialService.get("materialCode", p.getMaterialCode());
+						if(mt==null){
+							p.setCqmultiple("1");
+							p.setCqhStockAmount(p.getStockAmount());
+						}else{
+							if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+								p.setCqmultiple("1");
+								p.setCqhStockAmount(p.getStockAmount());
+							}else{
+								p.setCqmultiple(mt.getCqmultiple());
+								BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+								BigDecimal stockAmount = new BigDecimal(p.getStockAmount());
+								BigDecimal total = multiple.multiply(stockAmount);
+								p.setCqhStockAmount(total.toString());
+							}
+						}
+						p.setCqPickAmount((updown.getDwnum().toString()));
+						BigDecimal a = new BigDecimal(p.getCqhStockAmount());
+						BigDecimal b = new BigDecimal(p.getCqmultiple());
+						BigDecimal c = a.divide(b,3);
+						p.setPickAmount(c.toString());
+						p.setPickType("261");
+						
+						pickDetailList1.add(p);
+					}
+				}	
+				if(button == false){
+					return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
+				}
+
+				/**同时保存主从表**/
+				pickDetailService.saveSubmit(pickDetailList1, pick);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			log.error(e);
@@ -1040,6 +1126,46 @@ public class UpDownAction extends BaseAdminAction {
 		this.materialService = materialService;
 	}
 
+
+	public AdminService getAdminService() {
+		return adminService;
+	}
+
+
+	public void setAdminService(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
+
+	public PickDetailService getPickDetailService() {
+		return pickDetailService;
+	}
+
+
+	public void setPickDetailService(PickDetailService pickDetailService) {
+		this.pickDetailService = pickDetailService;
+	}
+
+
+	public List<PickDetail> getPickDetailList() {
+		return pickDetailList;
+	}
+
+
+	public void setPickDetailList(List<PickDetail> pickDetailList) {
+		this.pickDetailList = pickDetailList;
+	}
+
+
+	public String getCharg() {
+		return charg;
+	}
+
+
+	public void setCharg(String charg) {
+		this.charg = charg;
+	}
+
 	
 	
 
@@ -1054,7 +1180,11 @@ public class UpDownAction extends BaseAdminAction {
 //		JSONArray json = JSONArray.fromObject(positionManagementList);
 //		return json;
 //	}
-
+	/**
+	 * 创建 领/退料记录
+	 * @return
+	 * @throws Exception
+	 */
 	
 	
 }

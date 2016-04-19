@@ -653,7 +653,7 @@ public class PickDetailAction extends BaseAdminAction {
 //					p.setOrderid("100116549");
 					p.setPickType(info);
 					p.setLgpla(lgpla);
-					p.setCharg(p.getCharg());
+//					p.setCharg(p.getCharg());
 					p.setMaterialCode(p.getMaterialCode());//物料编码
 					p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
 					//System.out.println("项目文本:"+p.getItem_text());
@@ -685,8 +685,9 @@ public class PickDetailAction extends BaseAdminAction {
 						message +=pick2.getE_message();
 					}
 				}
-				if(!flag1)
+				if(!flag1){
 					return ajaxJsonErrorMessage(message);
+				}
 				else{
 					flag1 = true;
 					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);

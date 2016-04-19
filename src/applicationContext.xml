@@ -198,6 +198,9 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.LocatHandOverHeader</value>
 				<value>cc.jiuyi.entity.PositionManagement</value>
 				<value>cc.jiuyi.entity.QualityProblemDescription</value>
+				<value>cc.jiuyi.entity.ProcessHandoverTop</value>
+				<value>cc.jiuyi.entity.ProcessHandover</value>
+				<value>cc.jiuyi.entity.ProcessHandoverSon</value>
 			</list>
 		</property>
 	</bean>

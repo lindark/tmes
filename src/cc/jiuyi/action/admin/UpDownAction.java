@@ -524,6 +524,7 @@ public class UpDownAction extends BaseAdminAction {
 		//业务处理
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();
+		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String flag = "";
 		if(type.equals("up"))
 			flag = "0";
@@ -536,6 +537,7 @@ public class UpDownAction extends BaseAdminAction {
 		
 		hash.put("werks", werks);
 		hash.put("lgort", lgort);
+		hash.put("lgpla", lgpla);
 		hash.put("flag", flag);
 		
 		for(int i=0;i<updownList.size();i++){
@@ -584,7 +586,7 @@ public class UpDownAction extends BaseAdminAction {
 			if(workingBillId != null && !workingBillId.equals("")){
 				WorkingBill workingBill = workingBillService.get(workingBillId);
 				String workingBillCode = workingBill.getWorkingBillCode();
-				String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+
 				lgpla = ThinkWayUtil.null2String(lgpla);
 				Pick pick = new Pick();
 //				pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
@@ -626,6 +628,8 @@ public class UpDownAction extends BaseAdminAction {
 						p.setCharg(updown.getCharg());
 						p.setMaterialState(ThinkWayUtil.getDictValueByDictKey(dictservice, "materialdetail", updown.getDetail()));
 						p.setStockAmount((updown.getDwnum()).toString());
+						p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));
+						p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));
 						Material mt = materialService.get("materialCode", p.getMaterialCode());
 						if(mt==null){
 							p.setCqmultiple("1");

@@ -76,7 +76,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     	<property name="arguments">
     		<list>
     			<value>3110</value>
-    		</list>
+    		</list> 
     	</property>
     	<property name="concurrent"> <!-- 此处配置 任务是否是同步执行或者是异步执行官.解决并发问题 -->
     		<value>false</value>

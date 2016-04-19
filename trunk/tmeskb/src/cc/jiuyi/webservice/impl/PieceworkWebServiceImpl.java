@@ -135,8 +135,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 							Set<DailyWork> dwSet = wb.getDailyWork();
 							if(dwSet!=null && dwSet.size()>0){
 								for(DailyWork dw : dwSet){
-									dw.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
-											"moudleType", dw.getMoudle()));
+									/*dw.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
+											"moudleType", dw.getMoudle()));*/
 									if(!"".equals(factoryUnit) && factoryUnit.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode())){
 										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 										PieceworkMap.put("factory", judgeNull(factory));//工厂
@@ -149,7 +149,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
 										//Orders orders = ordersService.get("aufnr", judgeNull(wb.getWorkingBillCode()));
 										//PieceworkMap.put("mujuntext",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
-										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getMoudle()));//模具组号
 										//PieceworkMap.put("mouldNumber",judgeNull(wb.getMoudle()));//模具组号
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
@@ -210,7 +210,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										PieceworkMap.put("materialDesp",judgeNull(wb.getMaktx()));//物料描述
 										//Orders orders = ordersService.get("aufnr", judgeNull(wb.getAufnr()));
 										//PieceworkMap.put("mouldNumber",orders==null?"":judgeNull(orders.getMujuntext()));//模具组号
-										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getXmoudle()));//模具组号
+										PieceworkMap.put("mouldNumber",dw==null?"":judgeNull(dw.getMoudle()));//模具组号
 										//PieceworkMap.put("mouldNumber",judgeNull(wb.getMoudle()));//模具组号
 										List<OddHandOver> oddHandOverListBefore = oddHandOverService.getList("afterWorkingCode", judgeNull(wb.getWorkingBillCode()));
 										if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){

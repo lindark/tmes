@@ -85,10 +85,12 @@ inupt.stockMout {
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
-							<form id="inputForm" name="inputForm" class="validate" action=""
-								method="post">
+							<form id="inputForm" name="inputForm" class="validate" action="" method="post">
 								<input type="hidden" id="productDate" value="${productDate}" />
 								<input type="hidden" id="shift" value="${shift}" />
+								<input type="hidden" name="type" value="${(type)!}"/> 
+								<input type="hidden" id="work" name="workingBill" value="${(workingBill)!'' }"/>
+								<input type="hidden" id="workId" name="workingBillId" value="${(workingBillId)!'' }"/>
 								<!-- <div class="site">
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
@@ -113,25 +115,58 @@ inupt.stockMout {
 									</ul>
 									<div id="tabs-1" class="tab1">
 										<div>
-											<#if isAdd??> <label class="" style="text-align:right">发出仓位:</label>
-											<input type="text" name="lgpla"<#if type='up'>
-											readonly </#if> value="${(lgpla)! }">&nbsp;&nbsp;&nbsp; <label
-												class="" style="text-align:right">接收仓位:</label> <input
-												type="text" name="lgplaun"<#if type="down"> readonly
-											</#if> value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp; <input
-												type="hidden" name="type" value="${(type)! }" /> <input
-												type="hidden" name="loginid"
-												value="<@sec.authentication property='principal.id' />" />
-											<#if type='up' || type='down'> <label class=""
-												style="text-align:right">物料编码:</label> <input type="text"
-												name="materialCode" value="${(materialCode)! }"
-												class="input input-sm">&nbsp;&nbsp;&nbsp; <label
-												class="" style="text-align:right">物料描述:</label> <input
-												type="text" name="materialDesp" value="${(materialDesp)! }"
-												class="input input-sm">&nbsp;&nbsp;&nbsp; </#if> <a
-												id="search_btn"
-												class="btn btn-white btn-default btn-sm btn-round"> <i
-												class="ace-icon fa fa-filter blue"></i> 搜索 </a> </#if>
+											<#if isAdd??> 
+											<label class="" style="text-align:right">发出仓位:</label>
+											<#if type="updown">
+												<select name="lgpla" id="select1" style=" width:160px;">
+												<option value="" ></option>
+												<#list PositionManagementList as list>
+												<option value="${list }"<#if list==lgpla>selected </#if>>${list }</option>
+												</#list>	
+												</select>
+											<#else>
+											<#if type="down">
+												<select name="lgpla" style=" width:160px;" id="lgpla">
+												<option value="" ></option>
+												<#list positionManagementList1 as list>
+												<option value="${list.trimWareHouse}"<#if list.trimWareHouse==lgpla>selected </#if>>${list.trimWareHouse}</option>
+												</#list>
+											</select>
+											<#else>
+											<input type="text" name="lgpla"<#if type='up'> readonly </#if> value="${(lgpla)! }">&nbsp;&nbsp;&nbsp;
+											</#if>
+											</#if>
+											<label class="" style="text-align:right">接收仓位:</label>
+											<#if type="updown">
+												<select name="lgplaun" id="select2" style=" width:160px;">
+												<option value="">
+												</option>
+												
+												</select>
+											<#else>
+											<#if type='up'>
+												<select name="lgplaun" style=" width:160px;">
+												<option value="" ></option>
+												<#list positionManagementList1 as list>
+												<option value="${list.supermarketWarehouse}"<#if list.supermarketWarehouse==lgplaun>selected </#if>>${list.supermarketWarehouse}</option>
+												</#list>
+											</select> 	
+											<#else>
+											<input type="text" name="lgplaun" <#if type="down"> readonly </#if> value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp;
+											</#if>
+											<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
+											 <#if type='up' || type='down'>
+												<label class="" style="text-align:right">物料编码:</label>
+												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
+												<label class="" style="text-align:right">物料描述:</label>
+												<input type="text" name="materialDesp" value="${(materialDesp)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
+											 </#if>
+											 </#if>
+											<a id="search_btn" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												搜索
+											</a>
+										</#if>
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
@@ -175,9 +210,9 @@ inupt.stockMout {
 															onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
 														</td>
 														<td><select name="updownList[${lns_index}].detail"
-															value=""><option value="">请选择</option><#list
-																allDetails as dic>
-																<option value="${dic.dictkey}">${(dic.dictvalue)!}</option></#list>
+															value=""><option value="">请选择
+															</option><#list allDetails as dic>
+															<option value="${dic.dictkey}">${(dic.dictvalue)!}</option></#list>
 														</select></td>
 														<!--<input type="hidden"
 															name="updownList[${lns_index}].detail"
@@ -226,7 +261,25 @@ inupt.stockMout {
 </body>
 </html>
 <script type="text/javascript">
-	$(function() {
+$(function() {
+		var $select1 = $("#select1");
+		$select1.change(function(){
+			var warehouse = $(this).val();
+			$.ajax({	
+				url: "up_down!trimget.action",
+				data:{"warehouse":warehouse},
+				dataType: "json",
+				async: false,
+				success: function(data) {
+					for (var i = 0; i < data.length; i++) {
+						$("#select2").append("<option>"+data[i]+"</option>");
+					}
+				},error:function(data){
+					alert("发生异常")
+				}
+			});
+		});
+		
 		var $subm = $("#btn_subm");
 		var $sure = $("#btn_subm");
 		//刷卡提交
@@ -236,6 +289,10 @@ inupt.stockMout {
 			credit.creditCard(url, function(data) {
 				if (data.status == "success") {
 					//window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
+					var workId = $("#workId").val();
+					if( workId != ""){
+					window.location.href = window.location.href = "pick!list.action?workingBillId="+'${(workingbill.id)!}';
+					}	
 				}
 			}, dt);
 		});
@@ -259,7 +316,12 @@ inupt.stockMout {
 				window.location.href = "up_down!cslist.action";
 		});
 		$("#search_btn").click(function() {
+			var workId = $("#workId").val();
+			if( workId != ""){
+				$("#inputForm").attr("action","up_down!trim.action");
+			}else{
 			$("#inputForm").attr("action", "up_down!add.action");
+			}
 			$("#inputForm").submit();
 		});
 	});

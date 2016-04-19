@@ -88,7 +88,8 @@ public class PickAction extends BaseAdminAction {
 	private String end;//日期结束点
 	private String state;//状态
 	private String materialCode;//物料编码
-	
+	private String charg;//批次
+	private String type;//类型
 
 	//领退料记录 @author Reece 2016/3/3
 	public String history(){
@@ -633,6 +634,7 @@ public class PickAction extends BaseAdminAction {
 					if (!flag)
 						return ajaxJsonErrorMessage(message);
 				}
+				//自动创建一条领料信息
 			} catch (IOException e) {
 				e.printStackTrace();
 				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
@@ -796,7 +798,23 @@ public class PickAction extends BaseAdminAction {
 		this.materialCode = materialCode;
 	}
 
+	public String getCharg() {
+		return charg;
+	}
 
+	public void setCharg(String charg) {
+		this.charg = charg;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
 	
 	
 }

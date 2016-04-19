@@ -28,6 +28,7 @@ public class Carton extends BaseEntity {
 	private Set<CartonSon>cartonsonSet;//纸箱收货-子表
 	private String teamshift;//班次
 	private String productDate;//生产日期
+	private FactoryUnit factoryUnit;//单元    jjt
 	private String bktxt;//单据编号
 	
 	//假字段
@@ -204,4 +205,12 @@ public class Carton extends BaseEntity {
 		ET_EBELP = eT_EBELP;
 	}*/
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public FactoryUnit getFactoryUnit() {
+		return factoryUnit;
+	}
+	public void setFactoryUnit(FactoryUnit factoryUnit) {
+		this.factoryUnit = factoryUnit;
+	}
 }

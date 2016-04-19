@@ -31,6 +31,7 @@ public class Deptpick extends BaseEntity {
 	private String costcenter;//成本中心
 	private String productDate;//生产日期
 	private String shift;//班次
+	private FactoryUnit factoryUnit;//单元    jjt
 	private String movetype;//移动类型
 	private String departid;//部门ID
 	private String departmentName;//部门描述
@@ -225,5 +226,11 @@ public class Deptpick extends BaseEntity {
 		this.shiftx = shiftx;
 	}
 	
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public FactoryUnit getFactoryUnit() {
+		return factoryUnit;
+	}
+	public void setFactoryUnit(FactoryUnit factoryUnit) {
+		this.factoryUnit = factoryUnit;
+	}
 }

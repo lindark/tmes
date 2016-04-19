@@ -35,6 +35,13 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 				admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
 		detachedCriteria.add(Restrictions.in("type", list));
+		
+		//增加单元筛选
+		if(admin.getTeam().getFactoryUnit()!=null && admin.getTeam().getFactoryUnit().getId()!=null)
+		{
+			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		}
+		
 		return super.findByPager(pager, detachedCriteria);
 	}
 

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
-import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Kaoqin;
 
 /**
@@ -108,6 +106,16 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		String hql="from Kaoqin where team.id=? and productdate=? and classtime=?";
 		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).list();
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
+	{
+		String hql="from Kaoqin where team.id=? and productdate=? and classtime=? and emp.id=?";
+		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).setParameter(3, adminId).list();
+	}
+	
+	
 	
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {

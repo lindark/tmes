@@ -19,13 +19,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Station;
-import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
-import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.TempKaoqinService;
@@ -76,7 +75,9 @@ public class TempKaoqinAction extends BaseAdminAction {
 	 * service接口
 	 */
 	@Resource
-	private TempKaoqinService kqService;
+	private TempKaoqinService tkqService;
+	@Resource
+	private KaoqinService kqService;
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -135,7 +136,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 		map.put("productDate", productDate);
 					
 		
-		pager = this.kqService.getTempKaoqinPager(pager, map);
+		pager = this.tkqService.getTempKaoqinPager(pager, map);
 		
 		List<TempKaoqin> kqlist = pager.getList();
 		List<TempKaoqin> lst = new ArrayList<TempKaoqin>();
@@ -209,21 +210,29 @@ public class TempKaoqinAction extends BaseAdminAction {
 		}		
 		
 		//修改tempkaoqin
-		TempKaoqin tkq=kqService.get(kaoqin.getId());
+		TempKaoqin tkq=tkqService.get(kaoqin.getId());
 		tkq.setWorkState(admin.getWorkstate());
 		tkq.setTardyHours(admin.getTardyHours());//误工小时数
 		tkq.setModifyDate(new Date());
 		tkq.setModelNum(unitdistributeModels);
-		kqService.update(tkq);
+		tkqService.update(tkq);
 		
 		//修改admin
-		Admin a = this.adminService.get(tkq.getEmp().getId());//根据ID查询员工
-		a.setWorkstate(admin.getWorkstate());//工作状态
-		a.setTardyHours(admin.getTardyHours());//误工小时数
-		a.setModifyDate(new Date());
-		a.setUnitdistributeModelSet(admin.getUnitdistributeModelSet());
-		this.adminService.update(a);
-		//修改TempKaoqin
+		//Admin a = this.adminService.get(tkq.getEmp().getId());//根据ID查询员工
+		//a.setWorkstate(admin.getWorkstate());//工作状态
+		//a.setTardyHours(admin.getTardyHours());//误工小时数
+		//a.setModifyDate(new Date());
+		//a.setUnitdistributeModelSet(admin.getUnitdistributeModelSet());
+		//this.adminService.update(a);
+		
+		//修改Kaoqin
+		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+		kq.setWorkState(tkq.getWorkState());
+		kq.setTardyHours(tkq.getTardyHours());//误工小时数
+		kq.setModifyDate(new Date());
+		kq.setModleNum(unitdistributeModels);
+		kqService.update(kq);
+		
 		
 		unitdistributeModels = null;// 清空选择
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -239,7 +248,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			}
 			if (ids != null) {
 				ids = ids[0].split(",");
-				this.kqService.saveNewEmp(ids, sameTeamId, admin);
+				this.tkqService.saveNewEmp(ids, sameTeamId, admin);
 			}
 			return this.ajaxJsonSuccessMessage("1");// 添加成功
 		} catch (Exception e) {
@@ -255,10 +264,13 @@ public class TempKaoqinAction extends BaseAdminAction {
 	 */
 	public String removeDaiban()
 	{
-		TempKaoqin tkq=kqService.get(id);
+		TempKaoqin tkq=tkqService.get(id);
 		String adminId=tkq.getEmp().getId();
 		
-		kqService.delete(id);
+		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+
+		tkqService.delete(id);
+		kqService.delete(kq);
 		
 		Admin rda=adminService.get(adminId);
 		rda.setIsdaiban("N");
@@ -285,7 +297,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
 		}
 		// 保存开启考勤(刷卡)记录
-		this.kqService.updateBrushCardEmp(loginid, my_id);
+		this.tkqService.updateBrushCardEmp(loginid, my_id);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -295,7 +307,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 	public String creditapproval() {
 		Admin a = this.adminService.getByCardnum(cardnumber);
 		// 修改刷卡 人的状态,返回：1修改成功 2已经刷卡成功无需重复刷卡 3不是本班员工或本班代班员工
-		int n = this.kqService.updateWorkStateByCreidt(cardnumber, sameTeamId,
+		int n = this.tkqService.updateWorkStateByCreidt(cardnumber, sameTeamId,
 				loginid);
 		if (n == 1) {
 			return this.ajaxJsonSuccessMessage(a.getName() + "刷卡成功!");
@@ -315,7 +327,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 	public String outexcel() {
 		Admin loginAdmin=adminService.getLoginAdmin();
 		try {
-			List<TempKaoqin> list = this.kqService.getByTPS(sameTeamId,loginAdmin.getProductDate(), loginAdmin.getShift());
+			List<TempKaoqin> list = this.tkqService.getByTPS(sameTeamId,loginAdmin.getProductDate(), loginAdmin.getShift());
 			List<String> header = new ArrayList<String>();
 		
 			header.add("员工卡号");

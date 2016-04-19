@@ -326,7 +326,9 @@ public class KaoqinAction extends BaseAdminAction {
 		Team t = this.teamService.get(sameTeamId);
 		
 		// this.isstartteam=t.getIsWork();//班组是否开启
-		this.iscancreditcard = t.getIscancreditcard();// 是否可以开启考勤
+		
+		this.iscancreditcard = kqService.getIsCanCreditCard(admin);
+		
 		this.iswork = t.getIsWork();// 班组是否在上班
 		
 		

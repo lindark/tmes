@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 /**
@@ -68,6 +69,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     private Set<ItermediateTest> itermediateTest;//半成品巡检
     private Set<OddHandOver> oddHandOverSet;//零头数交接
     private Set<PumPackHandOver> pumPackHandOverSet;//抽包异常交接
+    private ProcessHandover processHandover;
     
     /*冗余*/
     private String afterworkingBillCode;//下一随工单
@@ -512,6 +514,13 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	}
 	public void setDiffamount(Double diffamount) {
 		this.diffamount = diffamount;
+	}
+	@OneToOne(mappedBy = "workingBill", fetch = FetchType.LAZY)
+	public ProcessHandover getProcessHandover() {
+		return processHandover;
+	}
+	public void setProcessHandover(ProcessHandover processHandover) {
+		this.processHandover = processHandover;
 	}
 	
 	

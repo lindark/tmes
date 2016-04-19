@@ -301,7 +301,7 @@ function edit_event(xid,workstate,tardyhours,xstationval)
 			var hours=$("#input_hours").val();
 			var unitdistributeModels=$("#model").val();
 			{
-				var url="temp_kaoqin!updateemptkaoqin.action?admin.workstate="+val+"&kaoqin.id="+xid+
+				var url="temp_kaoqin!updatetempkaoqin.action?admin.workstate="+val+"&kaoqin.id="+xid+
 				"&admin.tardyHours="+hours+"&unitdistributeModels="+unitdistributeModels;
 				upd_event(url);
 			}

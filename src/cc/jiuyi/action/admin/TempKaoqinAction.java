@@ -190,7 +190,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 	/**
 	 * 修改临时考勤表工作信息
 	 */
-	public String updateemptkaoqin() {
+	public String updatetempkaoqin() {
 
 		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
 		if (unitdistributeModels != null && !("").equals(unitdistributeModels) && !("null").equals(unitdistributeModels)) 

@@ -44,6 +44,7 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	private String cqmultiple;//裁切倍数
 	private String cqhStockAmount;//裁切后库存
 	private String lgpla;//仓位
+	private String materialState;//来料说明
 	
 	/**假字段**/
 	private String productDate;//生产日期
@@ -262,6 +263,12 @@ public class PickDetail extends BaseEntity implements Comparable<PickDetail>{
 	}
 	public void setLgpla(String lgpla) {
 		this.lgpla = lgpla;
+	}
+	public String getMaterialState() {
+		return materialState;
+	}
+	public void setMaterialState(String materialState) {
+		this.materialState = materialState;
 	}
 
 	

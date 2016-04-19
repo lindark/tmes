@@ -5,14 +5,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.entity.Admin;
@@ -97,7 +100,7 @@ public class PickDetailAction extends BaseAdminAction {
 	private String pickId;//页面传过来主表id
 	private String labst;//库存地点
 	private String loginId;
-	
+	private String type;
 	
 
 	// 添加
@@ -116,7 +119,7 @@ public class PickDetailAction extends BaseAdminAction {
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		String im_type = "";
 		if(!ThinkWayUtil.null2String(lgpla).equals(""))
-			im_type = "X";
+			im_type = "";
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
 		bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
@@ -131,37 +134,74 @@ public class PickDetailAction extends BaseAdminAction {
 				map.put("lgpla", lgpla);//仓位
 				map.put("werks", werks);
 				list.add(map);
-			}			
+			}
+			bomList = new ArrayList();
 			List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
 			for (int i = 0; i < data.size(); i++) {
 				String matnr = data.get(i).get("matnr");
 				String labst = data.get(i).get("labst");
-				for (int j = 0; j < bomList.size(); j++) {
-					Bom bom = bomList.get(j);
-					if(matnr.equals(bom.getMaterialCode())){
-						bom.setStockAmount(labst);
-						Material mt = materialService.get("materialCode", bom.getMaterialCode());
-						if(mt==null){
-							bom.setCqmultiple("1");
-							bom.setCqhStockAmount(bom.getStockAmount());
-						}else{
-							if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
-								bom.setCqmultiple("1");
-								bom.setCqhStockAmount(bom.getStockAmount());
-							}else{
-								bom.setCqmultiple(mt.getCqmultiple());
-								BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
-								BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
-								BigDecimal total = multiple.multiply(stockAmount);
-								bom.setCqhStockAmount(total.toString());
-							}
-						}
-						bomList.set(j, bom);
+				String maktx = data.get(i).get("maktx");
+				String charg = data.get(i).get("charg");
+				
+//				for (int j = 0; j < bomList.size(); j++) {
+//					Bom bom = bomList.get(j);
+//					if(matnr.equals(bom.getMaterialCode())){
+//						bom.setStockAmount(labst);
+//						Material mt = materialService.get("materialCode", bom.getMaterialCode());
+//						if(mt==null){
+//							bom.setCqmultiple("1");
+//							bom.setCqhStockAmount(bom.getStockAmount());
+//						}else{
+//							if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+//								bom.setCqmultiple("1");
+//								bom.setCqhStockAmount(bom.getStockAmount());
+//							}else{
+//								bom.setCqmultiple(mt.getCqmultiple());
+//								BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+//								BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
+//								BigDecimal total = multiple.multiply(stockAmount);
+//								bom.setCqhStockAmount(total.toString());
+//							}
+//						}
+//						bomList.set(j, bom);
+//					}
+//				}
+				Bom bom = new Bom();
+				bom.setMaterialName(maktx);
+				bom.setMaterialCode(matnr);
+				bom.setStockAmount(labst);
+				bom.setXcharg(charg);
+				Material mt = materialService.get("materialCode", matnr);
+				if(mt==null){
+					bom.setCqmultiple("1");
+					bom.setCqhStockAmount(labst);
+				}else{
+					if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+						bom.setCqmultiple("1");
+						bom.setCqhStockAmount(labst);
+					}else{
+						bom.setCqmultiple(mt.getCqmultiple());
+						BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+						BigDecimal stockAmount = new BigDecimal(labst);
+						BigDecimal total = multiple.multiply(stockAmount);
+						bom.setCqhStockAmount(total.toString());
 					}
-				}			
+				}
+				bomList.add(bom);
+				
 			}
 			
-			Collections.sort(bomList); 
+			Collections.sort(bomList, new  Comparator<Bom>() {
+
+				@Override
+				public int compare(Bom o1, Bom o2) {
+					int map1value = Integer.parseInt(o1.getMaterialCode());
+	                int map2value =  Integer.parseInt(o2.getMaterialCode());
+	                return map1value - map2value;
+				}
+			
+			});
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CustomerException e) {
@@ -169,6 +209,108 @@ public class PickDetailAction extends BaseAdminAction {
 		}
 		return LIST;
 	}
+	
+	// 列表
+		public String editList() {
+			workingbill = workingBillService.get(workingBillId);
+			Admin admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			
+			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+			String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+			String im_type = "";
+			if(!ThinkWayUtil.null2String(lgpla).equals(""))
+				im_type = "";
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+			/** 调SAP接口取库存数量 **/
+			List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
+			try {
+				for (int i = 0; i < bomList.size(); i++) {
+					HashMap<String, String> map = new HashMap<String, String>();
+					Bom bom = bomList.get(i);
+					map.put("matnr", bom.getMaterialCode());
+					map.put("lgort", lgort);//库存地点
+					map.put("lgpla", lgpla);//仓位
+					map.put("werks", werks);
+					list.add(map);
+				}
+				bomList = new ArrayList();
+				List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
+				for (int i = 0; i < data.size(); i++) {
+					String matnr = data.get(i).get("matnr");
+					String labst = data.get(i).get("labst");
+					String maktx = data.get(i).get("maktx");
+					String charg = data.get(i).get("charg");
+					Bom bom = new Bom();
+					/**
+					 * 循环数据库，查出有填写裁切后领退料数量数据的记录
+					 */
+					workingbill = workingBillService.get(workingBillId);
+					pick = pickService.load(id);
+					pkList = pickDetailService.getPickDetail(id);
+					for (int j = 0; j < pkList.size(); j++) {
+						PickDetail pickDetail = pkList.get(j);
+//						pickDetail.setXpickType(ThinkWayUtil.getDictValueByDictKey(dictService, "pickType", pickDetail.getPickType()));	
+//						if((pickDetail.getMaterialCode()).equals(data.get(i).get("matnr")) && 
+//								(pickDetail.getCharg()).equals(data.get(i).get("charg"))){
+//							if(pickDetail.getCqPickAmount() != null && !pickDetail.getCqPickAmount().equals("")){
+						if(charg != null && !charg.equals("")){
+							if((pickDetail.getMaterialCode()).equals(data.get(i).get("matnr")) && 
+									(pickDetail.getCharg()).equals(data.get(i).get("charg"))){
+								bom.setCqPickAmount(pickDetail.getCqPickAmount());
+							}		
+						}else{
+							if((pickDetail.getMaterialCode()).equals(data.get(i).get("matnr"))){
+							bom.setCqPickAmount(pickDetail.getCqPickAmount());
+							}
+						}
+					}
+					
+					bom.setMaterialName(maktx);
+					bom.setMaterialCode(matnr);
+					bom.setStockAmount(labst);
+					bom.setXcharg(charg);
+					Material mt = materialService.get("materialCode", matnr);
+					if(mt==null){
+						bom.setCqmultiple("1");
+						bom.setCqhStockAmount(labst);
+					}else{
+						if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+							bom.setCqmultiple("1");
+							bom.setCqhStockAmount(labst);
+						}else{
+							bom.setCqmultiple(mt.getCqmultiple());
+							BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+							BigDecimal stockAmount = new BigDecimal(labst);
+							BigDecimal total = multiple.multiply(stockAmount);
+							bom.setCqhStockAmount(total.toString());
+						}
+					}
+					bomList.add(bom);
+					
+				}
+				
+				Collections.sort(bomList, new  Comparator<Bom>() {
+
+					@Override
+					public int compare(Bom o1, Bom o2) {
+						int map1value = Integer.parseInt(o1.getMaterialCode());
+		                int map2value =  Integer.parseInt(o2.getMaterialCode());
+		                return map1value - map2value;
+					}
+				
+				});
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (CustomerException e) {
+				e.printStackTrace();
+			}
+			return LIST;
+		}
 
 	// 查看页面
 	public String view() {
@@ -262,7 +404,7 @@ public class PickDetailAction extends BaseAdminAction {
 				map.put("matnr", bom.getMaterialCode());
 				map.put("lgort", lgort);//库存地点
 				map.put("lgpla", lgpla);//仓位
-				map.put("werks", werks);		
+				map.put("werks", werks);
 				list.add(map);
 			}			
 			List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
@@ -275,6 +417,7 @@ public class PickDetailAction extends BaseAdminAction {
 				for (int i = 0; i < data.size(); i++) {
 					String matnr = data.get(i).get("matnr");//1
 					String labst = data.get(i).get("labst");
+					String charg = data.get(i).get("charg");
 					if(matnr.equals(materialCode)){
 						bom.setStockAmount(labst);
 					}
@@ -302,6 +445,7 @@ public class PickDetailAction extends BaseAdminAction {
 					bom.setCqhStockAmount(pickdetail.getCqhStockAmount());
 					bom.setCqmultiple(pickdetail.getCqmultiple());
 					bom.setCqPickAmount(pickdetail.getCqPickAmount());
+					bom.setXcharg(pickdetail.getCharg());
 				}
 				
 				bomList.set(j, bom);
@@ -389,6 +533,7 @@ public class PickDetailAction extends BaseAdminAction {
 				p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
 				pickDetailList1.add(p);
 			}
+			Collections.sort(pickDetailList1);
 		}	
 		if(flag == false){
 			return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
@@ -508,9 +653,11 @@ public class PickDetailAction extends BaseAdminAction {
 //					p.setOrderid("100116549");
 					p.setPickType(info);
 					p.setLgpla(lgpla);
+					p.setCharg(p.getCharg());
 					p.setMaterialCode(p.getMaterialCode());//物料编码
 					p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));//项目文本(随工单位最后两位)
 					//System.out.println("项目文本:"+p.getItem_text());
+					p.setCharg(p.getCharg());
 					p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));//工单号(随工单位除了最后两位)
 					//System.out.println("工单号:"+p.getOrderid());
 					pickDetailList1.add(p);
@@ -786,6 +933,14 @@ public class PickDetailAction extends BaseAdminAction {
 		this.loginId = loginId;
 	}
 
+	public String getType() {
+		return type;
+	}
 
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
 
 }

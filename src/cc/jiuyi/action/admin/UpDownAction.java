@@ -575,6 +575,7 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setAppvaladmin(admin1);//保存人
 				updown.setProductDate(admin.getProductDate());//将生产日期和班次写入
 				updown.setShift(admin.getShift());
+				updown.setFactoryUnit(admin.getTeam().getFactoryUnit());//添加的单元 jjt
 				updownList.set(i, updown);
 			}
 			updownservice.save(updownList);

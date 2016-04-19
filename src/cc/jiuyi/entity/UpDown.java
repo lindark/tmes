@@ -33,6 +33,7 @@ public class UpDown extends BaseEntity {
 	private String adminname;//确认人名称
 	private String productDate;//生产日期
 	private String shift;//班次
+	private FactoryUnit factoryUnit;//单元    jjt
 	
 	private String typex;//类型描述
 	private String shiftx;//班次描述
@@ -173,6 +174,13 @@ public class UpDown extends BaseEntity {
 	}
 	public void setShiftx(String shiftx) {
 		this.shiftx = shiftx;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	public FactoryUnit getFactoryUnit() {
+		return factoryUnit;
+	}
+	public void setFactoryUnit(FactoryUnit factoryUnit) {
+		this.factoryUnit = factoryUnit;
 	}
 	
 	

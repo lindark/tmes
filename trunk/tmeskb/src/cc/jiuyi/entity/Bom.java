@@ -59,6 +59,7 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	private String productsName;
 	private String stockAmount;//库存数量
 	private String oerderCode;
+	private String xcharg;//批次
 	
 	private String cqPickAmount;//裁切领退数
 	private String cqmultiple;//裁切倍数
@@ -480,6 +481,15 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 
 	public void setCqhStockAmount(String cqhStockAmount) {
 		this.cqhStockAmount = cqhStockAmount;
+	}
+
+	@Transient
+	public String getXcharg() {
+		return xcharg;
+	}
+
+	public void setXcharg(String xcharg) {
+		this.xcharg = xcharg;
 	}
 	
 	

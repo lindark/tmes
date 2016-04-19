@@ -25,6 +25,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
@@ -108,6 +109,7 @@ public class UpDownAction extends BaseAdminAction {
 	private List<WorkingBill> workingBillList;//随工单集合
 	private List<Bom> bomList;
 	private List<PickDetail> pickDetailList;
+	private List<Dict> allDetails;// 来料说明
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -622,6 +624,7 @@ public class UpDownAction extends BaseAdminAction {
 						p.setMaterialCode(updown.getMatnr());
 						p.setMaterialName(updown.getMaktx());
 						p.setCharg(updown.getCharg());
+						p.setMaterialState(ThinkWayUtil.getDictValueByDictKey(dictservice, "materialdetail", updown.getDetail()));
 						p.setStockAmount((updown.getDwnum()).toString());
 						Material mt = materialService.get("materialCode", p.getMaterialCode());
 						if(mt==null){
@@ -1167,7 +1170,14 @@ public class UpDownAction extends BaseAdminAction {
 		this.charg = charg;
 	}
 
-	
+	// 字典获取
+	public List<Dict> getAllDetails() {
+		return dictservice.getList("dictname", "materialdetail");
+	}
+
+	public void setAllDetails(List<Dict> allDetails) {
+		this.allDetails = allDetails;
+	}
 	
 
 

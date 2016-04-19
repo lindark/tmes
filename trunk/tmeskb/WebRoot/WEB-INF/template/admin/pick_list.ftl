@@ -72,8 +72,7 @@
 										</div>
 
 										<div class="widget-body">
-											<div
-												class="widget-main padding-6 no-padding-left no-padding-right">
+											<div class="widget-main padding-6 no-padding-left no-padding-right">
 												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
 														<div class="profile-info-name">随工单号</div>
@@ -124,7 +123,11 @@
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="addPick" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建领/退料单
+										创建领料单
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="addBackPick" type=button>
+										<i class="ace-icon fa fa-folder-open-o"></i>
+										创建退料单
 									</button>
 									<!--  <a id="pickBtn" class="btn btn-white btn-default btn-sm btn-round" href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}">
 										<i class="ace-icon fa fa-folder-open-o"></i>
@@ -221,9 +224,14 @@
 			}
 			
 		})
-		
 		$("#addPick").click(function(){
-			window.location.href="pick_detail!list.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
+			var id = $("#workingbill").val();
+			window.location.href="up_down!trim.action?type=down&workingBillId="+ id;
+			
+		});
+		
+		$("#addBackPick").click(function(){
+			window.location.href="pick_detail!list.action?type=back&matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
 			
 		});
 		
@@ -278,7 +286,7 @@
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="pick_detail!edit.action?id="+id+"&workingBillId=${workingbill.id}&matnr=${(workingbill.matnr)!}";
+					window.location.href="pick_detail!editList.action?id="+id+"&workingBillId=${workingbill.id}&matnr=${(workingbill.matnr)!}";
 				}				
 			}		
 		});

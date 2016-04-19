@@ -59,6 +59,7 @@ body {
 							 <input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
                             <input type="hidden"  id="workingBillId" name="workingBillId" value="${(workingbill.id)!} "/>
                             <input type="hidden" id="pickId" name="pickId" value="${(pick.id)! }" />
+                            <input type="hidden" id="type" name="type" value="${type }"/>
 							<div id="inputtabs">
 								 <ul>
 								    <li><a href="#tabs-1">领/退料详情</a></li>
@@ -86,10 +87,18 @@ body {
 												<div class="profile-info-row">
 													<div class="profile-info-name">操作类型</div>
 													<div class="profile-info-value">
-														<select id="pickType" name="info" style="width:300px;">
-													    <option value="">-请选择-</option> <#list allType as alist>
+														<select id="pickType" name="info" style="width:300px;" >
+													    
+													    <#if type="back">
+													    <option value="262">退料</option>
+													    <#else>
+													    <option value="">-请选择-</option> 
+													    <#list allType as alist>
 													    <option value="${alist.dictkey}"<#if ((isAdd &&alist.isDefault) || (isEdit && pick.move_type ==alist.dictkey))!> selected</#if>>${alist.dictvalue}</option>
 													    </#list>
+													    </#if>
+													    <!--  
+													    <option value="262">退料</option> -->
 													</select>
 													</div>
 												</div>								
@@ -103,7 +112,8 @@ body {
 											<th style="text-align:center;">组件名称</th>
 											<th style="text-align:center;">库存数量</th>
 											<th style="text-align:center;">裁切倍数</th>
-											<th style="text-align:center;">裁切后库存数量</th>	
+											<th style="text-align:center;">裁切后库存数量</th>
+											<th style="text-align:center;">批次</th>	
 											<th style="text-align:center;">裁切后领退料</th>
 											<th style="text-align:center;">实际领退料</th>
 										</tr>
@@ -118,13 +128,19 @@ body {
 												<td class="center" name="">${(list.stockAmount)!  }</td>
 												<td class="center" name="">${(list.cqmultiple)!  }</td>
 												<td class="center" name="">${(list.cqhStockAmount)!  }</td>
+												<#if list.xcharg == null || list.xcharg ="" >
+												<td align="center" id="charg"><input type="text" class="charg"></td>
+												<#else>
+												<td class="center" id="charg" name="">${(list.xcharg) }</td>
+												</#if>
 												<td class="center" name=""><input type="text" name="pickDetailList[${(num)}].cqPickAmount" value="${(list.cqPickAmount)!}" class="notnull input input-sm formText {digits:true} cqPickAmount" /></td>
 												<td class="center">
-													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true}"readonly/>
+													<input type="text" name="pickDetailList[${(num)}].pickAmount" value="${(list.pickAmount)!}" class="notnull input input-sm formText {digits:true} pickAmount"  readonly/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialCode" value="${(list.materialCode)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].materialName" value="${(list.materialName)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].pickType" value="${(list.pickType)! }"/>
 													<input type="hidden" id="stockAmount${(num)}" name="pickDetailList[${(num)}].stockAmount" value="${(list.stockAmount)! }" class="stockAmount"/>
+													<input type="hidden" name="pickDetailList[${(num)}].charg" value="${(list.xcharg)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].id" value="${(list.pickDetailid)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].cqmultiple" value="${(list.cqmultiple)! }"/>
 													<input type="hidden" name="pickDetailList[${(num)}].cqhStockAmount" value="${(list.cqhStockAmount)! }"/>
@@ -188,41 +204,56 @@ body {
 				layer.alert("请选择正确的操作类型",{icon: 7});
 				return false;
 			}
-			if(pickType =='261') {
-			$("#mytable tr").each(function(){
-				var stockAmount = ($(this).children("td:eq(4)").text());
-				var pickAmount = ($(this).children("td:eq(5)").children("input:first").val());
-				if(pickAmount != null){
-					i=floatSub(pickAmount,stockAmount);//减法
-					if(i>0)
-					{
-						layer.alert("领料数量不能大于库存数量",{icon: 7});
-						return false;
-					}	
+			var flag = true;
+			$(".cqPickAmount").each(function(){
+				if($(this).val() != null && $(this).val() != ""){
+					if(($(this).parent().prev().text()) == null || ($(this).parent().prev().text()) == ""){
+						if(($(this).parent().prev().children().val()) == null || ($(this).parent().prev().children().val()) == ""){
+							flag = false;
+							layer.alert("请填写批次号",{icon: 7});
+							return false;
+						}
+					}
 				}
 			});
-		}
-		 var dt=$("#inputForm").serialize();
-				var workingBillId = $("#workingBillId").val();
-				var loginId = $("#loginid").val();
-				<#if isAdd??>
-				var url="pick_detail!creditsubmit.action?loginId="+loginId;
-				<#else>
-				var url="pick_detail!creditupdate.action?loginId="+loginId;
-				</#if>
-				credit.creditCard(url,function(data){
-					if(data.status=="success"){
-						layer.alert(data.message, {icon: 6},function(){
-							window.location.href="pick!list.action?workingBillId="+workingBillId;
-						}); 
-					}else if(data.status=="error"){
-						layer.alert(data.message, {
-					        closeBtn: 0,
-					        icon:5,
-					        skin:'error'
-					    });
-					}					
-				},dt)
+			if(flag){
+				if(pickType =='261') {
+					$("#mytable tr").each(function(){
+						var stockAmount = ($(this).children("td:eq(4)").text());
+						var pickAmount = ($(this).children("td:eq(5)").children("input:first").val());
+						if(pickAmount != null){
+							i=floatSub(pickAmount,stockAmount);//减法
+							if(i>0)
+							{
+								layer.alert("领料数量不能大于库存数量",{icon: 7});
+								return false;
+							}	
+						}
+					});
+				}
+				 var dt=$("#inputForm").serialize();
+						var workingBillId = $("#workingBillId").val();
+						var loginId = $("#loginid").val();
+						<#if isAdd??>
+						var url="pick_detail!creditsubmit.action?loginId="+loginId;
+						<#else>
+						var url="pick_detail!creditupdate.action?loginId="+loginId;
+						</#if>
+						credit.creditCard(url,function(data){
+							if(data.status=="success"){
+								layer.alert(data.message, {icon: 6},function(){
+									window.location.href="pick!list.action?workingBillId="+workingBillId;
+								}); 
+							}else if(data.status=="error"){
+								layer.alert(data.message, {
+							        closeBtn: 0,
+							        icon:5,
+							        skin:'error'
+							    });
+							}					
+						},dt)
+			}
+			
 		});
 		
 		
@@ -233,6 +264,19 @@ body {
 				layer.alert("请选择正确的操作类型",{icon: 7});
 				return false;
 			}
+			var flag = true;
+			$(".cqPickAmount").each(function(){
+				if($(this).val() != null && $(this).val() != ""){
+					if(($(this).parent().prev().text()) == null || ($(this).parent().prev().text()) == ""){
+						if(($(this).parent().prev().children().val()) == null || ($(this).parent().prev().children().val()) == ""){
+							flag = false;
+							layer.alert("请填写批次号",{icon: 7});
+							return false;
+						}
+					}
+				}
+			});
+			if(flag){
 			if(pickType =='261') {
 			$("#mytable tr").each(function(){
 				var stockAmount = ($(this).children("td:eq(4)").text());
@@ -278,6 +322,8 @@ body {
 					    });
 					}					
 				},dt)
+			
+			}
 		});
 		
 		
@@ -318,7 +364,7 @@ body {
 			var mount = $(this).val();
 			if(mount!=""){
 				mount = mount*1;
-				var cqmultiple = $(this).parent().prev().prev().text()*1;
+				var cqmultiple = $(this).parent().prev().prev().prev().text()*1;
 				var total  = mount / cqmultiple;
 				$(this).parent().next().children().eq(0).val(total);
 				//var id = $(this).parent().children().eq(1).text();
@@ -326,6 +372,13 @@ body {
 				$(this).parent().next().children().eq(0).val("");
 			}
 		
+		});
+		
+		$(".charg").change(function(){
+			var num = $(this).val();
+			if(num!=""){
+				$(this).parent().next().next().children().eq(5).val(num);
+			}
 		});
 		
 	})

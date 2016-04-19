@@ -152,8 +152,8 @@ body {
 												<div class="profile-info-value">
 													<span>${(workingbill.maktx)!}</span>
 												</div>
-											</div
-											<div class="profile-info-row">
+											</div>
+											<!-- <div class="profile-info-row">
 												<div class="profile-info-name">模具</div>
 												<#if show??>
 												<div class="profile-info-value">
@@ -170,7 +170,7 @@ body {
 												</div>
 												</#if>
 												
-											</div>
+											</div> -->
 										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
@@ -293,9 +293,10 @@ body {
 											<#if show??> <#else> <#assign num=0 /> <#if list_cause??>
 											<#list list_cause as clist>
 											<div class="col-xs-4" style="margin:2px auto;width:50%;height:30px;">
-												<label>${(clist.causeName)! }</label> <input
-													id="mynum${num}" type="text" value="${(clist.causeNum)! }"
-													class="input-value" />
+												<label style="width:50%;">${(clist.causeName)! }</label> 
+												<input 
+													 id="mynum${num}" type="text" value="${(clist.causeNum)! }"
+													class="input-value" style="width:30%;"/>
 											</div>
 											<#assign num=num+1 /> </#list> </#if> </#if>
 										</div>
@@ -346,7 +347,8 @@ function addbug_event()
 	<#list list_material as list>
 		$("#img_addbug"+i).live("click",function(){
 			var idval=$(this).attr("id");
-			i=idval.substring(idval.length-1,idval.length);
+			//i=idval.substring(idval.length-1,idval.length);
+			i=idval.substring(10);
 			btn_addbug_event(i);
 		});
 		i+=1;
@@ -359,7 +361,8 @@ function cause_event()
 	<#list list_cause as list>
 		$("#mynum"+i).change(function(){
 			var idval=$(this).attr("id");
-			i=idval.substring(idval.length-1,idval.length);
+			//i=idval.substring(idval.length-1,idval.length);
+			i=idval.substring(5);
 			write_bugnum_event(i);
 		});
 		i+=1;

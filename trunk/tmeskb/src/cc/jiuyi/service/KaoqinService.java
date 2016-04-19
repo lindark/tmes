@@ -78,4 +78,11 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
+    
+    
+    
+    public String getIsCanCreditCard(Admin admin);
+    
+    
+    public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
 }

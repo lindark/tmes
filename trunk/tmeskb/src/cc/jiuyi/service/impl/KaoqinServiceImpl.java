@@ -506,4 +506,18 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		// TODO Auto-generated method stub
 		return kqDao.historyExcelExport(map);
 	}
+	@Override
+	public String getIsCanCreditCard(Admin admin) {
+		List<TempKaoqin> tkqList = tempKqDao.getByTPS(admin.getTeam().getId(), admin.getProductDate(), admin.getShift());
+		if(tkqList==null || tkqList.size()<1)//无数据，可以刷卡开启考勤
+		{
+			return "Y";
+		}
+		return "N";
+	}
+	
+	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
+	{
+		return kqDao.getByTPSA(sameTeamId, productDate, shift, adminId);
+	}
 }

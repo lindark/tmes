@@ -410,6 +410,7 @@ function startWorking()
 	var loginid=$("#loginid").val();//当前登录人的id
 	if(iscancreditcard=="N")
 	{
+		return;
 		layer.confirm("考勤已经开启,确定要关闭考勤吗?",{icon:3,btn:["确定","取消"]},function(){
 			var url="kaoqin!creditreply.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+loginid+"&my_id=2";
 			credit.creditCard(url,function(data){

@@ -2,8 +2,8 @@ package cc.jiuyi.dao;
 
 import java.util.HashMap;
 import java.util.List;
+
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Kaoqin;
 
 /**
@@ -41,6 +41,8 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getByTPS(String sameTeamId, String productDate,String shift);
+
+	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 		

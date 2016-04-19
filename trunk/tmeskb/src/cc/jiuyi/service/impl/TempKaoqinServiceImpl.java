@@ -15,6 +15,7 @@ import cc.jiuyi.dao.TempKaoqinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOver;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.KaoqinBrushCardRecord;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Station;
@@ -42,6 +43,8 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> implements TempKaoqinService
 {
 	@Resource
+	private KaoqinDao kqDao;
+	@Resource
 	private TempKaoqinDao tempKqDao;
 	@Resource
 	private DictService dictService;
@@ -65,6 +68,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	/**
 	 * jqGrid查询
 	 */
+	
 	public Pager getTempKaoqinPager(Pager pager, HashMap<String, String> map)
 	{
 		return this.tempKqDao.getTempKaoqinPager(pager,map);
@@ -93,15 +97,17 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			if(ids[i]!=null&&!"".equals(ids[i]))
 			{
 				Admin a=this.adminService.get(ids[i]);
-				a.setIsdaiban(sameteamid);//班组ID
+				//a.setIsdaiban(sameteamid);//班组ID
 				a.setModifyDate(new Date());
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次
 				this.adminService.update(a);
+				a.setIsdaiban(sameteamid);//班组ID
 				adminList.add(a);
 			}			
 		}
-		saveKq(adminList,team,admin);
+		//先存储临时，再存储记录
+		saveKqListByTkqList( saveTkqList(adminList,team,admin));
 	}
 	
 	/**
@@ -138,7 +144,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次								
 				//开启考勤后人员改为上班状态，以防止被添加成代班人员。
-				a.setWorkstate("2");
+				//a.setWorkstate("2");
 				a.setModifyDate(new Date());//修改日期
 				this.adminService.update(a);
 				
@@ -154,25 +160,32 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				{
 					//修改admin中上班状态为以上班，防止被添加为代班。
 					Admin a=tkq.getEmp();
-					a.setWorkstate("2");
-					adminService.update(a);
+					//a.setWorkstate("2");
+					//adminService.update(a);
 					//开启考勤的人改为上班状态
 					if(tkq.getId().equals(loginid))
 					{
 						tkq.setWorkState("2");
 						tempKqDao.update(tkq);
+						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+						kq.setWorkState(tkq.getWorkState());
+						kqDao.update(kq);
 					}
 					
 				}
 			}
 			else
-			{				
-				saveKq(adminList, t, admin); //开启考勤后存到临时记录表里
+			{			
+				//开启考勤后存到临时记录表里,同时存储到记录表里
+				saveKqListByTkqList(saveTkqList(adminList, t, admin)); 
 			}			
 			
-		}		
-		//关闭考勤
-		//关闭考勤走下班流程，将会由KaoqinAction处理，此处不作处理
+		}
+		else 
+		{
+			//关闭考勤
+			//关闭考勤走下班流程，将会由KaoqinAction处理，此处不作处理
+		}
 		
 	}
 	
@@ -196,12 +209,12 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				Admin a_login=this.adminService.get(loginid);
 				a.setShift(a_login.getShift());//班次
 				a.setProductDate(a_login.getProductDate());//生产日期
-				a.setWorkstate("2");
+				//a.setWorkstate("2");
 				//是否是代班的
-				if(a.getIsdaiban().equals(teamid))
+				/*if(a.getIsdaiban().equals(teamid))
 				{
 					a.setWorkstate("4");
-				}
+				}*/
 				a.setModifyDate(new Date());
 				this.adminService.update(a);
 				
@@ -210,9 +223,17 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				if(tkqs!=null && tkqs.size()>0) 
 				{
 					TempKaoqin tqk=tkqs.get(0);
-					tqk.setWorkState(a.getWorkstate());
+					tqk.setWorkState("2");
 					tqk.setModifyDate(new Date());
 					tempKqDao.update(tqk);
+				}
+				List<Kaoqin> kqs=kqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());
+				if(kqs!=null && kqs.size()>0) 
+				{
+					Kaoqin qk=kqs.get(0);
+					qk.setWorkState("2");
+					qk.setModifyDate(new Date());
+					kqDao.update(qk);
 				}
 				
 				return 1;
@@ -228,9 +249,9 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	/**
 	 * 添加临时考勤记录
 	 */
-	public void saveKq(List<Admin>list,Team t,Admin admin)
+	public List<TempKaoqin> saveTkqList(List<Admin>list,Team t,Admin admin)
 	{
-		
+		List<TempKaoqin> tkqList=new ArrayList<TempKaoqin>();
 		String procutdate=admin.getProductDate();
 		String shift=admin.getShift();
 		FactoryUnit fu=t.getFactoryUnit();
@@ -361,10 +382,56 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				kq.setFactoryUnit(fu.getFactoryUnitName());
 			}
 			this.save(kq);
-			
+			tkqList.add(kq);
 			
 		}
+		return tkqList;
 	}
+	
+	
+	
+	private List<Kaoqin> saveKqListByTkqList(List<TempKaoqin> tkqList)
+	{
+		
+		List<Kaoqin> kqList=new ArrayList<Kaoqin>();
+		for(TempKaoqin tkq:tkqList)
+		{
+			Kaoqin kq=new Kaoqin();						
+			kq.setId(null);
+			kq.setCreateDate(new Date());
+			kq.setModifyDate(new Date());
+			
+			kq.setCardNumber(tkq.getCardNumber());
+			kq.setClasstime(tkq.getClasstime());
+			kq.setEmp(tkq.getEmp());
+			kq.setEmpid(tkq.getEmpid());
+			kq.setEmpname(tkq.getEmpname());
+			kq.setPostname(tkq.getPostname());
+			kq.setTeam(tkq.getTeam());
+			kq.setWorkState(tkq.getWorkState());
+			kq.setProductdate(tkq.getProductdate());
+			kq.setTardyHours(tkq.getTardyHours());
+			kq.setWorkCode(tkq.getWorkCode());
+			kq.setPhoneNum(tkq.getPhoneNum());
+			kq.setStationCode(tkq.getStationCode());
+			kq.setModleNum(tkq.getModelNum());
+			kq.setWorkNum(tkq.getWorkNum());
+			kq.setPostCode(tkq.getPostCode());
+			kq.setFactoryUnit(tkq.getFactoryUnit());
+			kq.setStationName(tkq.getStationName());
+			kq.setWorkName(tkq.getWorkName());
+			kq.setIsdaiban(tkq.getIsdaiban());						
+			
+			kqDao.save(kq);
+			kqList.add(kq);
+		}
+		return kqList;
+	}
+	
+	
+	
+	
+	
 	@Override
 	public List<TempKaoqin> getTempKaoqinList(String productDate, String shift) {
 		return this.tempKqDao.getTempKaoqinList(productDate, shift);

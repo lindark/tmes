@@ -240,8 +240,10 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				d += bom.getMaterialAmount();// Bom数量
 				p = bom.getProductAmount();// 产品数量
 			}
-			Double unitChange = d/p ;//(兑换比例)一个产品需要几个子件
-		
+			Double unitChange=0.0d;
+			if(p.intValue() != 0){
+				unitChange = d/p ;//(兑换比例)一个产品需要几个子件
+			}
 			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
 			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量

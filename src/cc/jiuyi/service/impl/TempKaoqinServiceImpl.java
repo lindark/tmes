@@ -180,6 +180,23 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				saveKqListByTkqList(saveTkqList(adminList, t, admin)); 
 			}			
 			
+			
+			List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
+			if(wblist!=null&&wblist.size()>0)
+			{
+				for(int i=0;i<wblist.size();i++)
+				{
+					WorkingBill wb=wblist.get(i);
+					if(wb.getTeam()==null)
+					{
+						wb.setTeam(t);
+						wb.setModifyDate(new Date());
+						this.workingbillservice.update(wb);
+					}
+				}
+			}
+			
+			
 		}
 		else 
 		{

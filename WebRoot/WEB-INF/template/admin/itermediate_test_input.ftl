@@ -245,9 +245,9 @@ body {
 															name="list_itmesg[${num}].materialCode"
 															value="${(list.materialCode)! }" /> <input type="hidden"
 															name="list_itmesg[${num}].materialName"
-															value="${(list.materialName)! }" /> <input type="hidden"
+															value="${(list.materialName)! }" /><!--  <input type="hidden"
 															name="list_itmesg[${num}].materialId"
-															value="${(list.id)! }" /> <input type="hidden"
+															value="${(list.id)! }" /> --> <input type="hidden"
 															name="list_itmesg[${num}].id" value="${(list.xitid)! }" />
 															<input type="hidden" id="input_msgmenge${num}"
 															class="noNum" name="list_itmesg[${num}].failAmount"

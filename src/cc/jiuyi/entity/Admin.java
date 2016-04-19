@@ -142,6 +142,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String isDelete;//是不删除
 	private String nowState;//当前状态
 	
+	private Set<ProcessHandoverTop> PHTcreateUser;//创建人
+	private Set<ProcessHandoverTop> PHTconfimUser;//创建人
+	
 	//假字段
 	private String xdeptcode;//部门编码
 	private String departName;// 部门名称
@@ -1341,5 +1344,21 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setXfactoryUnit(String xfactoryUnit)
 	{
 		this.xfactoryUnit = xfactoryUnit;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
+	public Set<ProcessHandoverTop> getPHTcreateUser() {
+		return PHTcreateUser;
+	}
+
+	public void setPHTcreateUser(Set<ProcessHandoverTop> pHTcreateUser) {
+		PHTcreateUser = pHTcreateUser;
+	}
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="confimUser")
+	public Set<ProcessHandoverTop> getPHTconfimUser() {
+		return PHTconfimUser;
+	}
+
+	public void setPHTconfimUser(Set<ProcessHandoverTop> pHTconfimUser) {
+		PHTconfimUser = pHTconfimUser;
 	}
 }

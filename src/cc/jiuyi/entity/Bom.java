@@ -71,8 +71,11 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	private String gltrp;//完工日期
 	private String mujuntext;//长文本
 	private Integer xplancount;//随工单计划数量
-	/**冗余 end**/
 	
+	/**冗余 end**/
+	private String beforeWorkingCode;//上班随工单
+	private String afterWorkingCode;//下班随工单
+
 	
 	
 
@@ -491,6 +494,26 @@ public class Bom extends BaseEntity implements Comparable<Bom>{
 	public void setXcharg(String xcharg) {
 		this.xcharg = xcharg;
 	}
+	
+	
+	@Transient
+	public String getAfterWorkingCode() {
+		return afterWorkingCode;
+	}
+
+	public void setAfterWorkingCode(String afterWorkingCode) {
+		this.afterWorkingCode = afterWorkingCode;
+	}
+	@Transient
+	public String getBeforeWorkingCode() {
+		return beforeWorkingCode;
+	}
+
+	public void setBeforeWorkingCode(String beforeWorkingCode) {
+		this.beforeWorkingCode = beforeWorkingCode;
+	}
+	
+
 	
 	
 }

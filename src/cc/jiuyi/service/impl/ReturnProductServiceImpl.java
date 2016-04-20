@@ -13,6 +13,7 @@ import cc.jiuyi.dao.ReturnProductDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.ReturnProduct;
+import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.ReturnProductService;
 
 /**
@@ -24,6 +25,8 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 
 	@Resource
 	ReturnProductDao  returnProductDao;
+	@Resource
+	AdminService  adminService;
 	
 	@Resource
 	public void setBaseDao(ReturnProductDao returnProductDao) {
@@ -33,12 +36,31 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 	@Override
 	public void saveReturnProduct(List<ReturnProduct> returnProductList, String info, Admin admin) {
 		if(returnProductList!=null){
+			Admin admin1 = adminService.getLoginAdmin();
+			admin1= adminService.get(admin1.getId()); 
+			String produtDate = null;
+			String shift = null;
+			String factoryCode = null;
+			String factoryDesp = null;
+			if(admin1!=null){
+				produtDate = admin1.getProductDate();
+				shift = admin1.getShift();
+				if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
+					factoryCode = admin1.getTeam().getFactoryUnit().getFactoryUnitCode();
+					factoryDesp = admin1.getTeam().getFactoryUnit().getFactoryUnitName();
+				}
+			}
+			
 			for(ReturnProduct rp : returnProductList){
 				if(rp.getStockMout()!=null && !"".equals(rp.getStockMout())){
 					rp.setCreateUser(admin.getUsername());
 					rp.setCreateName(admin.getName());
 					rp.setReceiveRepertorySite(info);
 					rp.setState("1");
+					rp.setProductDate(produtDate);
+					rp.setShift(shift);
+					rp.setFactoryCode(factoryCode);
+					rp.setFactoryDesp(factoryDesp);
 					save(rp);
 				}
 			}
@@ -55,11 +77,30 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 	@Override
 	public void updateEidtReturnProduct(String id, Admin admin,
 			ReturnProduct returnProduct, String info) {
+		Admin admin1 = adminService.getLoginAdmin();
+		admin1= adminService.get(admin1.getId()); 
+		String produtDate = null;
+		String shift = null;
+		String factoryCode = null;
+		String factoryDesp = null;
+		if(admin1!=null){
+			produtDate = admin1.getProductDate();
+			shift = admin1.getShift();
+			if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
+				factoryCode = admin1.getTeam().getFactoryUnit().getFactoryUnitCode();
+				factoryDesp = admin1.getTeam().getFactoryUnit().getFactoryUnitName();
+			}
+		}
+		
 		ReturnProduct rp = get(id);
 		BeanUtils.copyProperties(returnProduct, rp, new String[] {"id","state"});
 		rp.setCreateUser(admin.getUsername());
 		rp.setCreateName(admin.getName());
 		rp.setReceiveRepertorySite(info);
+		rp.setProductDate(produtDate);
+		rp.setShift(shift);
+		rp.setFactoryCode(factoryCode);
+		rp.setFactoryDesp(factoryDesp);
 		update(rp);
 		
 	}
@@ -69,8 +110,8 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 		return returnProductDao.historyjqGrid(pager, map);
 	}
 	@Override
-	public Pager jqGrid(Pager pager) {
-		return returnProductDao.jqGrid(pager);
+	public Pager jqGrid(Pager pager,Admin admin) {
+		return returnProductDao.jqGrid(pager,admin);
 	}
 	@Override
 	public List<ReturnProduct> historyExcelExport(HashMap<String, String> map) {

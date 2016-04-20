@@ -3,6 +3,7 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 
 
 
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -31,6 +33,7 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
+
 
 
 
@@ -177,7 +180,14 @@ public class ProcessHandoverAction extends BaseAdminAction {
 							return ERROR;
 						}
 					}
-					Collections.sort(workingbillList);
+					Collections.sort(workingbillList, new Comparator<WorkingBill>() {
+						public int compare( WorkingBill o1,  WorkingBill o2) {
+							 
+			                int map1value = Integer.parseInt(o1.getWorkingBillCode());
+			                int map2value =  Integer.parseInt(o2.getWorkingBillCode());
+			                return map1value - map2value;
+			            }
+					}); 
 					for(int i=0;i<workingbillList.size();i++){
 						
 						WorkingBill wb = workingbillList.get(i);

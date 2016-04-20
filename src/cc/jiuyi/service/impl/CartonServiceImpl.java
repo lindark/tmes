@@ -218,8 +218,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 					cs.setMATNRDES(bom.getMaterialName());//物料描述
 					cs.setProductcode(wb.getMatnr());//产品编号
 					cs.setProductname(wb.getMaktx());//产品名称
-					cs.setWbcode(wb.getWorkingBillCode());//随工单编码
-					cs.setWbid(wb.getId());//随工单ID
+					//cs.setWbcode(wb.getWorkingBillCode());//随工单编码
+					//cs.setWbid(wb.getId());//随工单ID
 					cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
 					cslist.add(cs);
 				}
@@ -292,12 +292,26 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				cs.setMATNRDES(bom.getMaterialName());//物料描述
 				cs.setProductcode(wb.getMatnr());//产品编号
 				cs.setProductname(wb.getMaktx());//产品名称
-				cs.setWbcode(wb.getWorkingBillCode());//随工单编码
-				cs.setWbid(wb.getId());//随工单ID
-				cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
+				//cs.setWbcode(wb.getWorkingBillCode());//随工单编码
+				//cs.setWbid(wb.getId());//随工单ID
+				//cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
 				xlist.add(cs);
 			}
 		}
+		List<CartonSon> xcslist = new ArrayList<CartonSon>();
+		for(CartonSon cs : xlist){
+			boolean flag = true;
+			for(CartonSon cs1 : xcslist){
+				if(cs.getMATNR().equals(cs1.getMATNR()) && cs.getProductcode().equals(cs1.getProductcode())){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				xcslist.add(cs);
+			}
+		}
+		xlist = xcslist;
 		/**外表数据和本表的数据融合*/
 		Carton c=this.get(id);
 		List<CartonSon>xlist2=new ArrayList<CartonSon>(c.getCartonsonSet());
@@ -309,7 +323,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				for(int j=0;j<xlist2.size();j++)
 				{
 					CartonSon cs2=xlist2.get(j);
-					if(cs2.getWbid().equals(cs.getWbid()))
+					if(cs2.getMATNR().equals(cs.getMATNR()) && cs2.getProductcode().equals(cs.getProductcode()))
 					{
 						cs.setCscount(cs2.getCscount());
 					}
@@ -330,6 +344,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	public void updateData(List<CartonSon> list_cs, String id,String bktxt)
 	{
 		Carton c=this.get(id);
+		c.setBktxt(bktxt);// 修改单据编号
+		this.update(c);
 		List<CartonSon>list=new ArrayList<CartonSon>(c.getCartonsonSet());//获取对应子表数据
 		if(list.size()>0)
 		{
@@ -340,14 +356,14 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			}
 			
 		}
-		if (list_cs != null) {
+		/*if (list_cs != null) {
 			for (int i = 0; i < list_cs.size(); i++) {
 				CartonSon cs = list.get(i);
 			}
 			c.setModifyDate(new Date());// 修改日期
 			c.setBktxt(bktxt);// 修改单据编号
 			this.update(c);
-		}
+		}*/
 
 		/** 子表数据插入 */
 		saveinfo(id,list_cs);
@@ -425,18 +441,18 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			for(int j=0;j<listcs.size();j++)
 			{
 				CartonSon cs=listcs.get(j);
-				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
+				//WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
 				cs.setLIFNR(lifnr);//供应商
 				cs.setWERKS(werks);//工厂
-				cs.setBUDAT(wb.getProductDate());//过账日期
+				cs.setBUDAT(c.getProductDate());//过账日期
 				cs.setLGORT(warehouse);//库存地点
 				cs.setMOVE_TYPE("101");//移动类型
 				list.add(cs);
 				this.csService.update(cs);
 				//修改随工单中对应数量
-				Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
-				wb.setCartonTotalAmount(d.intValue());
-				this.workingbillService.update(wb);
+				//Double d=ArithUtil.add(Integer.parseInt(cs.getCscount()), wb.getCartonTotalAmount());
+				//wb.setCartonTotalAmount(d.intValue());
+				//this.workingbillService.update(wb);
 			}
 			if(list.size()>0)
 			{
@@ -534,8 +550,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			for(int i=0;i<list.size();i++)
 			{
 				CartonSon cs=list.get(i);
-				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询随工单
-				cs.setXcstotal(wb.getCartonTotalAmount()+"");
+				//WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询随工单
+				//cs.setXcstotal(wb.getCartonTotalAmount()+"");
 				list_cs.add(cs);
 			}
 		}

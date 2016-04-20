@@ -524,7 +524,7 @@ public class UpDownAction extends BaseAdminAction {
 		//业务处理
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();
-		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+//		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String flag = "";
 		if(type.equals("up"))
 			flag = "0";
@@ -537,7 +537,7 @@ public class UpDownAction extends BaseAdminAction {
 		
 		hash.put("werks", werks);
 		hash.put("lgort", lgort);
-		hash.put("lgpla", lgpla);
+//		hash.put("lgpla", lgpla);
 		hash.put("flag", flag);
 		
 		for(int i=0;i<updownList.size();i++){

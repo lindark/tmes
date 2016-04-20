@@ -1,12 +1,9 @@
 package cc.jiuyi.sap.rfc;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
-import com.sap.mw.jco.JCO.Table;
 
-import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.util.CustomerException;
 

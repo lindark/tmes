@@ -21,6 +21,10 @@ $(function(){
 	$("#img_team").click(function(){
 		team_event();
 	});
+	//班组img_team
+	$("#img_team1").click(function(){
+		team_event1();
+	});
 	//单元img_faunit
 	$("#img_faunit").click(function(){
 		faunit_event();
@@ -171,6 +175,62 @@ function team_event()
         	var info = iframeWin.getName();
         	$("#input_team").val(info.teamid);
         	$("#span_teamname").text(info.teamname);
+        	layer.close(index);
+        	return false;
+        },
+        no:function(index)
+        {
+        	layer.close(index);
+        	return false;
+        }
+    });
+	return false;
+}
+//班组1
+function team_event1()
+{
+	layer.open({
+        type: 2,
+        skin: 'layui-layer-lan',
+        shift:2,
+        title: "选择班组",
+        fix: false,
+        shade: 0.5,
+        shadeClose: true,
+        maxmin: true,
+        scrollbar: false,
+        btn:['确认','取消'],
+        area: ["80%", "80%"],//弹出框的高度，宽度
+        content:"team!beforegetalllist.action",
+        yes:function(index,layero){//确定
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var info = iframeWin.getName();
+        	$.ajax({
+        		url:"team!findFactoryUnit.action?info="+info.teamid,
+        		dataType:"json",
+        		success:function(data){
+        			$("#input_team").val(info.teamid);
+                	$("#span_teamname").text(info.teamname);
+                	$("#model").empty();
+                	$("#model_chosen").find(".chosen-results").empty();
+                	var opt="";
+                	var opt1="";
+                	for(var i=0;i<data.length;i++){
+            			opt = "<option value="+data[i].umid+">"+data[i].station+"</option>";
+            			$("#model").append(opt);
+            			if(i==0){
+            				opt1 = "<li class=\"active-result highlighted\" \"data-option-array-index="+i+"\""+">"+data[i].station+"</li>";
+            			}else{
+            				opt1 = "<li class=\"active-result\" \"data-option-array-index="+i+"\""+">"+data[i].station+"</li>";
+            			}
+            			$("#model_chosen").find(".chosen-results").append(opt1);  
+            		}
+        		},
+        		error:function(){
+        			alert("查找失败");
+        		}
+        		
+         	});
         	layer.close(index);
         	return false;
         },

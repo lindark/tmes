@@ -108,6 +108,7 @@ inupt.stockMout{
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
 														<th class="tabth">库存数量</th>
+														<th class="tabth">操作</th>
 													</tr>
 													<#list (locasideListMap)! as lns>
 																<tr>
@@ -119,7 +120,7 @@ inupt.stockMout{
 																	<input type="hidden" name="locatHandOverList[${lns_index}].amount" value="${(lns.verme)! }">
 																	<input type="hidden" name="locatHandOverList[${lns_index}].lgpla" value="${(lns.lgpla)! }">
 																	</td>
-																	
+																	<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
 																</tr>
 															</#list>
 										</table>
@@ -184,5 +185,16 @@ $(function(){
 	$("#searchButton1").click(function(){
 		$("#searchform1").submit();
 	});
+	
+	$(".removeLine").click(
+		function()
+		{
+			//var tr=$(this).parent().parent();
+			$(this).parent().parent().remove()
+		}
+	);
+	
 });
+
+
 </script>

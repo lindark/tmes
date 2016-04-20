@@ -332,17 +332,32 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	}
 	//刷卡提交
 	public String creditsubmit(){
-		try {
+		//try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
 			Admin admin1 = adminService.get(loginid);
 			if(locatHandOverList!=null && locatHandOverList.size()>0){
+				//System.out.println(locatHandOverList.size());
+				locatHandOverList=updateList(locatHandOverList);
+				//System.out.println(locatHandOverList.size());
 				locatHandOverHeaderService.saveLocatHandOver(admin,locatHandOverList,admin1);
 			}
 			return ajaxJsonSuccessMessage("保存成功!"); 
-		} catch (Exception e) {
-			return ajaxJsonErrorMessage("保存失败!");
-		}
+		//} catch (Exception e) {
+		//	return ajaxJsonErrorMessage("保存失败!");
+		//}
 	}
+	
+	private List<LocatHandOver> updateList(List<LocatHandOver> list)
+	{
+		List<LocatHandOver> result=new ArrayList<LocatHandOver>();
+		for(LocatHandOver lho:list)
+		{
+			if(lho!=null)
+				result.add(lho);
+		}
+		return result;
+	}
+	
 	//刷卡确认
 	public String creditapproval(){
 		try {

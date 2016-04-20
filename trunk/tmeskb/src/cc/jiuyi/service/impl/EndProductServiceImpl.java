@@ -46,6 +46,8 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	@Override
 	public void saveEndProduct(List<EndProduct> endProductList,String info,Admin admin,String productDate,String shift) {
 		if(endProductList!=null){
+			Admin admin1 = adminservice.getLoginAdmin();
+			admin1 = adminservice.get(admin1.getId());
 			for(EndProduct ed : endProductList){
 				if(ed.getStockBoxMout()!=null && !"".equals(ed.getStockBoxMout())){
 					ed.setCreateUser(admin.getUsername());
@@ -56,6 +58,13 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 					/**modify by Reece**/
 					ed.setProductDate(productDate);
 					ed.setShift(shift);
+					
+					if(admin1!=null){
+						if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
+							ed.setFactoryCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+							ed.setFactoryDesp(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
+						}
+					}
 					
 					UnitConversion ucs = unitConversionService.get("matnr", ed.getMaterialCode());
 					if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
@@ -88,6 +97,17 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 		ep.setReceiveRepertorySite(info);
 		ep.setProductDate(productDate);
 		ep.setShift(shift);
+		
+		
+		Admin admin1 = adminservice.getLoginAdmin();
+		admin1 = adminservice.get(admin1.getId());
+		if(admin1!=null){
+			if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
+				ep.setFactoryCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+				ep.setFactoryDesp(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
+			}
+		}
+		
 		UnitConversion ucs = unitConversionService.get("matnr", ep.getMaterialCode());
 		if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
 				ucs.setConversationRatio(0.0);
@@ -101,9 +121,9 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	}
 
 	@Override
-	public Pager getProductsPager(Pager pager,String productDate,String shift) {
+	public Pager getProductsPager(Pager pager,String productDate,String shift,String factoryCode) {
 		// TODO Auto-generated method stub
-		return endProductDao.getProductsPager(pager,productDate,shift);
+		return endProductDao.getProductsPager(pager,productDate,shift,factoryCode);
 	}
 
 	@Override

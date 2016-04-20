@@ -34,6 +34,7 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		detachedCriteria.add(Restrictions.eq("productDate",
 				admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		detachedCriteria.add(Restrictions.in("type", list));
 		
 		//增加单元筛选

@@ -62,7 +62,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		Admin admin=this.adminservice.get(loginid);
 		String productDate=admin.getProductDate();//生产日期
 		String teamshift=admin.getShift();//当前班次
-		return cartonDao.getCartonPager(pager,productDate,teamshift);
+		String unitId=admin.getTeam().getFactoryUnit().getId();
+		return cartonDao.getCartonPager(pager,productDate,teamshift,unitId);
 	}
 
 	@Override
@@ -241,6 +242,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		c.setCreateUser(admin);//创建人
 		c.setProductDate(login_admin.getProductDate());//生产日期
 		c.setTeamshift(login_admin.getShift());//班次
+		c.setFactoryUnit(login_admin.getTeam().getFactoryUnit());
 		c.setState("2");//状态-未确认
 		c.setBktxt(bktxt);
 		String cid=this.save(c);//保存

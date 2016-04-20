@@ -154,6 +154,25 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 		String hql = "From WorkingBill workingBill where workingBill.id = ?";
 		return getSession().createQuery(hql).setParameter(0, workingBillId).list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WorkingBill> getListWorkingBillByProductDate(String startDate,
+			String endDate,String workcode) {
+		startDate = startDate.trim();
+		endDate =  endDate.trim();
+		/*String hql = "select * from workingBill w"
+				+ " where"
+				+ " ("
+				+ "productDate="+startDate
+						+ " or"
+						+ " productDate="+endDate+")"
+								+ " and"
+								+ " workcenter='"+workcode+"'";*/
+		String hql = "from WorkingBill where (productDate=? or productDate=?) and workcenter=? and isdel=?";
+		return (List<WorkingBill>)getSession().createQuery(hql).setParameter(0, startDate).setParameter(1, endDate).setParameter(2, workcode).setParameter(3, "N").list();
+		//return (List<WorkingBill>)getSession().createSQLQuery(hql).list();
+	}
 	
 
 }

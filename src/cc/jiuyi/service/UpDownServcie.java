@@ -24,6 +24,9 @@ public interface UpDownServcie extends BaseService<UpDown, String>{
 	
 	public Pager findByPager(Pager pager,Admin admin,List<String> list);
 	
+	public Pager searchByPager(Pager pager,Admin admin,List<String> list,HashMap<String, String> map);
+		
+	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
     public List<UpDown> historyExcelExport(HashMap<String,String> map);

@@ -44,6 +44,43 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		{
 			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		}
+		if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
+			detachedCriteria.createAlias("appvaladmin", "appvaladmin");
+		}
+		
+		return super.findByPager(pager, detachedCriteria);
+	}
+	
+	public Pager searchByPager(Pager pager, Admin admin, List<String> list,HashMap<String,String> map) {
+
+		DetachedCriteria detachedCriteria = DetachedCriteria
+				.forClass(UpDown.class);
+		detachedCriteria.add(Restrictions.eq("productDate",
+				admin.getProductDate()));
+		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		if(admin.getTeam()!=null &&admin.getTeam().getFactoryUnit()!=null)
+		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		detachedCriteria.add(Restrictions.in("type", list));
+		
+		//增加单元筛选
+		if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null)
+		{
+			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		}
+		if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
+			detachedCriteria.createAlias("appvaladmin", "appvaladmin");
+		}
+		
+		if (map.size() > 0) {
+			if (map.get("maktx") != null) {
+				detachedCriteria.add(Restrictions.like("maktx",
+						"%" + map.get("maktx") + "%"));
+			}
+			if (map.get("type") != null) {
+				detachedCriteria.add(Restrictions.eq("type",
+						map.get("type")));
+			}
+		}
 		
 		return super.findByPager(pager, detachedCriteria);
 	}

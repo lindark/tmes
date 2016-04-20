@@ -46,7 +46,7 @@ jQuery(function($) {
 			{name:'productDate',label:"生产日期",width:150,index:'productDate',editable:false},
 			{name:'shiftx',label:"班次",width:50,index:'shift',editable:false},
 			{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},
-			{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},
+			/*{name:'matnr',label:"物料编码",width:150,index:'matnr',editable:false},*/
 			{name:'maktx',label:"物料描述",width:150,index:'maktx',editable:false},
 			{name:'charg',label:"批次",width:100,index:'charg', editable: false},
 			{name:'typex',label:"类型",width:100,index:'type',editable:false},

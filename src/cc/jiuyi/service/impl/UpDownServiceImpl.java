@@ -58,6 +58,10 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 	}
 
 
+	public Pager searchByPager(Pager pager,Admin admin,List<String> list,HashMap<String, String> map){
+		return updowndao.searchByPager(pager, admin,list,map);
+	}
+	
 
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {

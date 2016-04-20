@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,12 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		detachedCriteria.add(Restrictions.eq("productDate",
 				admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		if(admin.getTeam()!=null &&admin.getTeam().getFactoryUnit()!=null)
 		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		detachedCriteria.add(Restrictions.in("type", list));
 		
 		//增加单元筛选
-		if(admin.getTeam().getFactoryUnit()!=null && admin.getTeam().getFactoryUnit().getId()!=null)
+		if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null)
 		{
 			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		}
@@ -187,7 +189,13 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 	
 	@SuppressWarnings("unchecked")
 	public List<Object[]> findUpdowngroupby(UpDown updown){
-		String hql="select sum(model.dwnum),model.uplgpla,model.matnr,model.maktx from UpDown model where model.type = ? and model.productDate = ? and model.shift = ? group by model.uplgpla,model.matnr,model.maktx";
+		String hql="";
+		if(updown.getFactoryUnit()!=null)
+		{
+		hql="select sum(model.dwnum),model.uplgpla,model.matnr,model.maktx from UpDown model where model.type = ? and model.productDate = ? and model.shift = ? group by model.uplgpla,model.matnr,model.maktx";
 		return getSession().createQuery(hql).setParameter(0, updown.getType()).setParameter(1, updown.getProductDate()).setParameter(2, updown.getShift()).list();
+		}
+		else
+			return new ArrayList<Object[]>();
 	}
 }

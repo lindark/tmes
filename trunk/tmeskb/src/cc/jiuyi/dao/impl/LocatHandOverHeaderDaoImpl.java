@@ -32,7 +32,9 @@ public class LocatHandOverHeaderDaoImpl extends BaseDaoImpl<LocatHandOverHeader,
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));
 		detachedCriteria.add(Restrictions.eq("productDate",admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift",admin.getShift()));
+		if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null)
 		detachedCriteria.add(Restrictions.eq("factoryUnitCode",admin.getTeam().getFactoryUnit().getFactoryUnitCode()));
+		
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		return super.findByPager(pager,detachedCriteria);
 	}

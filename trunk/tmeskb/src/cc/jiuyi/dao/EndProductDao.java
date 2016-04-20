@@ -11,7 +11,7 @@ import cc.jiuyi.entity.EndProduct;
  */
 public interface EndProductDao extends BaseDao<EndProduct, String> {
 
-	public Pager getProductsPager(Pager pager,String productDate, String shift);
+	public Pager getProductsPager(Pager pager,String productDate, String shift,String factoryCode);
 
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 	

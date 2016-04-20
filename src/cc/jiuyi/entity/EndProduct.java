@@ -36,7 +36,8 @@ public class EndProduct extends BaseEntity implements Comparable<EndProduct>{
 	private String xstate;
 	private String productDate;//生产日期
 	private String shift;//班次
-	
+	private String factoryCode;//单元编号
+	private String factoryDesp;//单元名称
 	
 	/**
 	 * 假字段
@@ -287,6 +288,24 @@ public class EndProduct extends BaseEntity implements Comparable<EndProduct>{
 	public int compareTo(EndProduct o) {
 		return this.materialCode.compareTo(o.getMaterialCode());
 	}
+
+	public String getFactoryCode() {
+		return factoryCode;
+	}
+
+	public void setFactoryCode(String factoryCode) {
+		this.factoryCode = factoryCode;
+	}
+
+	public String getFactoryDesp() {
+		return factoryDesp;
+	}
+
+	public void setFactoryDesp(String factoryDesp) {
+		this.factoryDesp = factoryDesp;
+	}
+
+
 
 	
 }

@@ -32,6 +32,12 @@ public class ReturnProduct extends BaseEntity {
 	
 	private String xstate;
 	
+	
+	private String productDate;//生产日期
+	private String shift;//班次
+	private String factoryCode;//单元编号
+	private String factoryDesp;//单元名称
+	
 	/**
 	 * 假字段
 	 * @return
@@ -243,6 +249,38 @@ public class ReturnProduct extends BaseEntity {
 
 	public void setXstate(String xstate) {
 		this.xstate = xstate;
+	}
+
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public String getFactoryCode() {
+		return factoryCode;
+	}
+
+	public void setFactoryCode(String factoryCode) {
+		this.factoryCode = factoryCode;
+	}
+
+	public String getFactoryDesp() {
+		return factoryDesp;
+	}
+
+	public void setFactoryDesp(String factoryDesp) {
+		this.factoryDesp = factoryDesp;
 	}
 
 	

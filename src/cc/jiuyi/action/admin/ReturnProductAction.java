@@ -100,7 +100,9 @@ public class ReturnProductAction extends BaseAdminAction {
 	 */
 	public String ajlist() {
 
-	
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
@@ -115,7 +117,7 @@ public class ReturnProductAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		pager = returnProductService.jqGrid(pager);
+		pager = returnProductService.jqGrid(pager,admin);
 		List<ReturnProduct> endProductList = pager.getList();
 		List<ReturnProduct> lst = new ArrayList<ReturnProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {

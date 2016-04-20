@@ -54,7 +54,7 @@
 				<ul class="breadcrumb">
 					<li><i class="ace-icon fa fa-home home-icon"></i> <a
 						href="admin!index.action">管理中心</a></li>
-					<li class="active">库存<!-- <button type="button" id="btn11">11111111 --></li>
+					<li class="active">库存 </li>
 				</ul>
 				<!-- /.breadcrumb -->
 			</div>

@@ -63,9 +63,9 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '随工单编码','产品名称','生产日期','班次','物料编码','物料名称','纸箱数量','库存地点','物料凭证号','单据编号','收货日期','创建人', '确认人','状态','状态-隐藏'],
+		colNames:['产品名称','生产日期','班次','物料编码','物料名称','纸箱数量','库存地点','物料凭证号','单据编号','收货日期','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
-            {name:'wbcode',index:'wbcode', width:60,sortable:"true",sorttype:"text"},
+            //{name:'wbcode',index:'wbcode', width:60,sortable:"true",sorttype:"text"},
             {name:'productname',index:'productname', width:180,sortable:"true",sorttype:"text"},
             {name:'BUDAT',index:'BUDAT', width:50,sortable:"true",sorttype:"text"},
             {name:'xteamshift',index:'xteamshift', width:20,sortable:"true",sorttype:"text"},

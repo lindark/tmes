@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ReturnProductDao;
-import cc.jiuyi.entity.EndProduct;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ReturnProduct;
 /**
  * Dao实现类 - 成品入库
@@ -142,9 +142,20 @@ public class ReturnProductDaoImpl extends BaseDaoImpl<ReturnProduct, String> imp
 	}
 
 	@Override
-	public Pager jqGrid(Pager pager) {
+	public Pager jqGrid(Pager pager,Admin admin) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(ReturnProduct.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
+		if(admin!=null){
+			if(admin.getProductDate()!=null){
+				detachedCriteria.add(Restrictions.eq("productDate", admin.getProductDate()));
+			}
+			if(admin.getShift()!=null){
+				detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+			}
+			if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null && admin.getTeam().getFactoryUnit().getFactoryUnitCode()!=null){
+				detachedCriteria.add(Restrictions.eq("factoryCode", admin.getTeam().getFactoryUnit().getFactoryUnitCode()));
+			}
+		}
 		return super.findByPager(pager,detachedCriteria);
 	}
 	

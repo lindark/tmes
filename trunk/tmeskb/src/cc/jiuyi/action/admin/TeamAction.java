@@ -23,9 +23,11 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 
@@ -53,6 +55,8 @@ public class TeamAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private FactoryUnitService fuService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
 
 	private String info;// 前端传的值
 
@@ -354,6 +358,34 @@ public class TeamAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(ListMap);
 		return ajaxJson(jsonArray.toString());
 	}
+	
+	
+
+	public String findFactoryUnit(){
+		List<Map<String, String>> optionList = new ArrayList<Map<String, String>>();
+		if(info!=null && !"".equals(info)){
+			Team team = teamService.get(info);
+			String factoryUnitCode = team.getFactoryUnit()==null?"":team.getFactoryUnit().getFactoryUnitCode();
+			List<UnitdistributeModel>  unitdistributeModelList = new ArrayList<UnitdistributeModel>();
+			try {
+				if(!"".equals(factoryUnitCode)){
+					unitdistributeModelList = unitdistributeModelService.getModelList(factoryUnitCode);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			for(UnitdistributeModel um : unitdistributeModelList){
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("umid", um.getId());
+				map.put("station", um.getStation());
+				optionList.add(map);
+			}
+		}
+		JSONArray jsonArray = JSONArray.fromObject(optionList);
+		return ajaxJson(jsonArray.toString());
+	}
+	
 	
 	/**=============弹框==================== */
 	/**

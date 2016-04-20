@@ -1288,7 +1288,7 @@ public class AdminAction extends BaseAdminAction {
 	{
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		this.strDate=sdf.format(new Date());
-		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		//this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
 		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
 		return "inputry";
 	}
@@ -1340,7 +1340,11 @@ public class AdminAction extends BaseAdminAction {
 		}
 		this.list_station2=this.stationService.getByIds(admin.getStationids());//根据员工表中的工位id查询工位
 		//this.list_department=this.departmentservice.getAllByHql(id);//查询所有部门
-		this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		//this.unitModelList=this.unitdistributeModelService.getAllList();//查询所有工作范围
+		String fauncode = this.admin.getTeam()==null?"":this.admin.getTeam().getFactoryUnit()==null?"":this.admin.getTeam().getFactoryUnit().getFactoryUnitCode();
+		if(fauncode!=null && !"".equals(fauncode)){
+			this.unitModelList = unitdistributeModelService.getModelList(fauncode);
+		}
 		this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工位
 		//this.postList=postService.getAllList();//查询所有岗位
 		//this.list_emp=this.adminService.getAllList();//查询所有在职员工

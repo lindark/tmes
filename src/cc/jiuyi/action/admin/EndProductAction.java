@@ -71,7 +71,6 @@ public class EndProductAction extends BaseAdminAction {
 	private String state;
 	private String start;
 	private String end;
-
 	@Resource
 	private EndProductService endProductService;
 	@Resource
@@ -158,8 +157,15 @@ public class EndProductAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-
-		pager = endProductService.getProductsPager(pager,productDate,shift);
+		Admin admin1 = adminService.getLoginAdmin();
+		admin1 = adminService.get(admin1.getId());
+		String factoryCode = null;
+		if(admin1!=null){
+			if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
+				factoryCode = admin1.getTeam().getFactoryUnit().getFactoryUnitCode();
+			}
+		}
+		pager = endProductService.getProductsPager(pager,productDate,shift,factoryCode);
 		List<EndProduct> endProductList = pager.getList();
 		List<EndProduct> lst = new ArrayList<EndProduct>();
 		for (int i = 0; i < endProductList.size(); i++) {

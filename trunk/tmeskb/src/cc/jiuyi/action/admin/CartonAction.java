@@ -82,6 +82,20 @@ public class CartonAction extends BaseAdminAction {
 	public String add() 
 	{
 		list_cs=this.cartonService.getBomByConditions();//获取bom中随工单对应的以5开头的各个物料
+		List<CartonSon> cslist = new ArrayList<CartonSon>();
+		for(CartonSon cs : list_cs){
+			boolean flag = true;
+			for(CartonSon cs1 : cslist){
+				if(cs.getMATNR().equals(cs1.getMATNR()) && cs.getProductcode().equals(cs1.getProductcode())){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				cslist.add(cs);
+			}
+		}
+		list_cs = cslist;
 		add="add";
 		return INPUT;
 	}

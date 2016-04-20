@@ -466,5 +466,11 @@ public class WorkingBillServiceImpl extends
 		return workingbilldao.getWorkingBillList(workingBillId);
 	}
 
+	@Override
+	public List<WorkingBill> getListWorkingBillByProductDate(String startdate,
+			String enddate, String workcode) {
+		return workingbilldao.getListWorkingBillByProductDate(startdate, enddate, workcode);
+	}
+
 
 }

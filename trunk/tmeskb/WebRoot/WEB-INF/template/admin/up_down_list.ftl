@@ -51,6 +51,47 @@
 			<div class="page-content">
 				<div class="page-content-area">
 
+
+				<div class="row" style="height: 90px;">
+						<div class="col-xs-12">
+							
+							
+							<form class="form-horizontal" id="searchform" action="repair!historylist.action" role="form">
+								<div class="operateBar">
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1" style="text-align:right">物料描述:</label>
+										<div class="col-sm-4">
+											<input type="text" name="maktx"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+										<label class="col-sm-1  col-md-offset-1" style="text-align:right">状态:</label>
+										<div class="col-sm-4">
+											<select name="type" id="form-field-icon-1" class="input input-sm form-control">											
+								                <option value="">全部</option>
+												<option value="up">上架</option>
+												<option value="down">下架</option>
+												<option value="updown">仓位移动</option>								                
+							               </select>
+									    </div>	
+									
+									</div>
+									
+									<div class="form-group" style="text-align:center">
+										<a id="searchButton"
+											class="btn btn-white btn-default btn-sm btn-round"> 
+											<i class="ace-icon fa fa-filter blue"></i>&nbsp;&nbsp;搜索&nbsp;&nbsp;
+										</a>										
+									</div>
+
+								</div>
+						</form>
+							
+					</div>
+			</div>
+
+
+
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- ./ add by weitao  -->

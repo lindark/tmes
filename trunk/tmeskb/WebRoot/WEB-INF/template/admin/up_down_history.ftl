@@ -92,7 +92,7 @@
 								            <option value="${list.dictkey}" <#if ((isAdd && list.isDefault) || (isEdit && process.state == list.dictkey))!> selected</#if> >${list.dictvalue}</option>
 							                </#list>
 							                 -->
-												<option value=""></option>
+												<option value="">全部</option>
 												<option value="up">上架</option>
 												<option value="down">下架</option>
 												<option value="updown">仓位移动</option>

@@ -694,7 +694,7 @@ public class UpDownAction extends BaseAdminAction {
 	}
 	
 	public String ajlist(){
-		
+		HashMap<String, String> map = new HashMap<String, String>();
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
@@ -707,7 +707,19 @@ public class UpDownAction extends BaseAdminAction {
 		list.add("up");
 		list.add("down");
 		
-		pager = updownservice.findByPager(pager,admin,list);
+		if (pager.is_search() == true && Param != null) {// 普通搜索功能
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+			if (obj.get("maktx") != null) {
+				String matnr = obj.getString("maktx").toString();
+				map.put("maktx", matnr);
+			}
+			if (obj.get("type") != null) {
+				String maktx = obj.getString("type").toString();
+				map.put("type", maktx);
+			}
+		}
+		pager = updownservice.searchByPager(pager,admin,list,map);
 		
 		List<UpDown> updownList = pager.getList();
 		List<UpDown> updownList1 = new ArrayList<UpDown>();

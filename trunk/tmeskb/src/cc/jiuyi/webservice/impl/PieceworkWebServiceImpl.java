@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Post;
@@ -31,6 +32,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.OrdersService;
@@ -57,6 +59,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	private AdminService adminService;
 	@Resource
 	private DictService dictService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	
 	public Dict getDict() {
 		Dict d = new Dict();
@@ -127,21 +131,22 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		shift = shift==null?"":shift;*/
 		 List<Map<String,Object>> PieceworkLists = new ArrayList<Map<String,Object>>();
 		 List<WorkingBill> WorkingBillList = workingBillService.findListWorkingBill(productDate, shift);
+		
 		if(WorkingBillList!=null){
 			for(WorkingBill wb : WorkingBillList){
-				if(wb.getTeam()!=null){
-					if(wb.getTeam().getFactoryUnit()!=null){
-						if(factory.equals(wb.getWerks()) && workShop.equals(wb.getTeam().getFactoryUnit().getWorkShop().getWorkShopCode())){
+				 FactoryUnit fun = factoryUnitService.get("workCenter", wb.getWorkcenter());
+				if(fun!=null){
+						if(factory.equals(wb.getWerks()) && workShop.equals(fun.getWorkShop().getWorkShopCode())){
 							Set<DailyWork> dwSet = wb.getDailyWork();
 							if(dwSet!=null && dwSet.size()>0){
 								for(DailyWork dw : dwSet){
 									/*dw.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
 											"moudleType", dw.getMoudle()));*/
-									if(!"".equals(factoryUnit) && factoryUnit.equals(wb.getTeam().getFactoryUnit().getFactoryUnitCode())){
+									if(!"".equals(factoryUnit) && factoryUnit.equals(fun.getFactoryUnitCode())){
 										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 										PieceworkMap.put("factory", judgeNull(factory));//工厂
 										PieceworkMap.put("workShop",judgeNull(workShop));//车间
-										PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+										PieceworkMap.put("factoryUnit",judgeNull(fun.getFactoryUnitCode()));//单元
 										PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
 										PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
 										PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
@@ -202,7 +207,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 										PieceworkMap.put("factory", judgeNull(factory));//工厂
 										PieceworkMap.put("workShop",judgeNull(workShop));//车间
-										PieceworkMap.put("factoryUnit",judgeNull(wb.getTeam().getFactoryUnit().getFactoryUnitCode()));//单元
+										PieceworkMap.put("factoryUnit",judgeNull(fun.getFactoryUnitCode()));//单元
 										PieceworkMap.put("productDate",judgeNull(productDate));//生产日期
 										PieceworkMap.put("shift",judgeNull(wb.getWorkingBillCode().substring(wb.getWorkingBillCode().length()-2)));//班次
 										PieceworkMap.put("wokingBillCode",judgeNull(wb.getWorkingBillCode()));//随工单号
@@ -265,7 +270,6 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 								}
 							}
 						}
-					}
 				}
 			}
 		}

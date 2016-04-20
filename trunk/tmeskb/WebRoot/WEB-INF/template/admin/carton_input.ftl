@@ -89,7 +89,7 @@ body {
 								  			<div class="profile-info-row">
 								    			<table id="tb_cartonson" class="table table-striped table-bordered table-hover">
 													<tr>
-														<th class="tabth">随工单编码</th>
+														<!-- <th class="tabth">随工单编码</th> -->
 														<th class="tabth">产品编码</th>
 														<th class="tabth">产品名称</th>
 														<th class="tabth">物料编码</th>
@@ -103,7 +103,7 @@ body {
 														<#if list_cs??>
 															<#list list_cs as cslist>
 																<tr>
-																	<td>${(cslist.wbcode)! }</td>
+																	<!-- <td>${(cslist.wbcode)! }</td> -->
 																	<td>${(cslist.productcode)! }</td>
 																	<td>${(cslist.productname)! }</td>
 																	<td>${(cslist.MATNR)! }</td>
@@ -119,10 +119,10 @@ body {
 									    				<#assign  num=0 />
 														<#list list_cs as list>
 															<tr>
-																<td>
+																<!-- <td>
 																	${(list.wbcode)! }
 																	<input type="hidden" name="list_cs[${num}].wbcode" value="${(list.wbcode)! }" />
-																</td>
+																</td> -->
 																<td>
 																	${(list.productcode)! }
 																	<input type="hidden" name="list_cs[${num}].productcode" value="${(list.productcode)! }" />

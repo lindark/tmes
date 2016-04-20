@@ -513,7 +513,7 @@ public class LocationonsideAction extends BaseAdminAction {
 		+ "<factory>1000</factory>"
 		+ "<workShop>201</workShop>"
 		+ "<factoryUnit>3110</factoryUnit>"
-		+ "<productDate>2016-04-06</productDate>"
+		+ "<productDate>2016-04-17</productDate>"
 		+ "<shift>2</shift></title></ROOT>";  
 		String s = pieceworkWebService.getPieceworkListOne(xmlString);
 		

@@ -28,12 +28,15 @@ public class EndProductDaoImpl extends BaseDaoImpl<EndProduct, String> implement
 
 
 	@Override
-	public Pager getProductsPager(Pager pager,String productDate, String shift) {
+	public Pager getProductsPager(Pager pager,String productDate, String shift,String factoryCode) {
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(EndProduct.class);	
 		pagerSqlByjqGrid(pager,detachedCriteria);	
 		detachedCriteria.add(Restrictions.eq("productDate",productDate));
 		detachedCriteria.add(Restrictions.eq("shift",shift));		
+		if(factoryCode!=null && !"".equals(factoryCode)){
+			detachedCriteria.add(Restrictions.eq("factoryCode",factoryCode));		
+		}
 		return super.findByPager(pager, detachedCriteria);
 	}
 

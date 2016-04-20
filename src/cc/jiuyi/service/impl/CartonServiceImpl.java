@@ -62,7 +62,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 		Admin admin=this.adminservice.get(loginid);
 		String productDate=admin.getProductDate();//生产日期
 		String teamshift=admin.getShift();//当前班次
-		String unitId=admin.getTeam().getFactoryUnit().getId();
+		String unitId=admin.getTeam()==null? "":admin.getTeam().getFactoryUnit()==null ?"":admin.getTeam().getFactoryUnit().getId();
 		return cartonDao.getCartonPager(pager,productDate,teamshift,unitId);
 	}
 

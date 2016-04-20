@@ -687,6 +687,7 @@ public class UpDownAction extends BaseAdminAction {
 		updown.setType("updown");
 		updown.setProductDate(admin.getProductDate());
 		updown.setShift(admin.getShift());
+		updown.setFactoryUnit(admin.getTeam()==null?null:admin.getTeam().getFactoryUnit()==null?null:admin.getTeam().getFactoryUnit());
 		updownObjList = updownservice.findUpdowngroupby(updown);
 		
 		return "cslist";

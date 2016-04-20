@@ -80,4 +80,7 @@ public interface WorkingBillService extends BaseService<WorkingBill, String>,Wor
 	public List<WorkingBill> findListWorkingBill(String productDate,String shift);
 	
 	public List<WorkingBill> getWorkingBillList(String workingBillId);
+
+	public List<WorkingBill> getListWorkingBillByProductDate(String startdate,
+			String enddate, String workcode);
 }

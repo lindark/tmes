@@ -204,9 +204,11 @@ body{background:#fff;}
 					<div class="profile-info-name">模具组号</div>
 					<div class="profile-info-value">
 						<select class="chosen-select work" id="model" multiple="" style="width:290px;" name="unitdistributeModels" data-placeholder="请选择...">
-							<#list unitModelList as list>
+							<#if isEdit??>
+							 <#list unitModelList as list>
 							      <option value="${(list.id)!}">${(list.station)!}</option>
 							</#list>
+							</#if>
 					    </select>
 					</div>
 					<div class="profile-info-name">工作范围</div>
@@ -221,7 +223,7 @@ body{background:#fff;}
 				<div class="profile-info-row">
 					<div class="profile-info-name">班组</div>
 					<div class="profile-info-value">
-						<img id="img_team" title="班组" alt="班组" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+						<img id="img_team2" title="班组" alt="班组" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
 						<span id="span_teamname">${(admin.team.teamName)! }</span>
 						<input type="hidden" id="input_team" name="admin.team.id" value="${(admin.team.id)! }" class="col-xs-10 col-sm-5" />
 					</div>
@@ -289,6 +291,64 @@ body{background:#fff;}
 </body>
 <script type="text/javascript">
 $(function(){
+	$("#img_team2").bind("click",function(){
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: "选择班组",
+	        fix: false,
+	        shade: 0.5,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        btn:['确认','取消'],
+	        area: ["80%", "80%"],//弹出框的高度，宽度
+	        content:"team!beforegetalllist.action",
+	        yes:function(index,layero){//确定
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+	        	var info = iframeWin.getName();
+	        	$.ajax({
+	        		url:"team!findFactoryUnit.action?info="+info.teamid,
+	        		dataType:"json",
+	        		success:function(data){
+	        			$("#input_team").val(info.teamid);
+	                	$("#span_teamname").text(info.teamname);
+	                	$("#model").empty();
+	                	/* $("#model_chosen").find(".chosen-results").empty(); */
+	                	var opt="";
+	                	var opt1="";
+	                	for(var i=0;i<data.length;i++){
+	            			opt = "<option value="+data[i].umid+">"+data[i].station+"</option>";
+	            			$("#model").append(opt);
+	            			/* if(i==0){
+	            				opt1 = "<li class=\"active-result highlighted\" \"data-option-array-index="+i+"\""+">"+data[i].station+"</li>";
+	            			}else{
+	            				opt1 = "<li class=\"active-result\" \"data-option-array-index="+i+"\""+">"+data[i].station+"</li>";
+	            			}
+	            			$("#model_chosen").find(".chosen-results").append(opt1);   */
+	            		}
+	                	$("#model").chosen();
+	            		$("#model").trigger("chosen:updated");
+	        		},
+	        		error:function(){
+	        			alert("查找失败");
+	        		}
+	        		
+	         	});
+	        	layer.close(index);
+	        	return false;
+	        },
+	        no:function(index)
+	        {
+	        	layer.close(index);
+	        	return false;
+	        }
+	    });
+		return false;
+	});
+	
+	
 	<#if isAdd??>
 	<#else>		 
 		<#list admin.unitdistributeModelSet as list>

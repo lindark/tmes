@@ -18,7 +18,7 @@ public interface EndProductService extends BaseService<EndProduct, String> {
 
 	void updateEidtEndProduct(String id, Admin admin, EndProduct endProduct,
 			String info,String productDate,String shift);
-	public Pager getProductsPager(Pager pager,String productDate,String shift);
+	public Pager getProductsPager(Pager pager,String productDate,String shift,String factoryCode);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
 	

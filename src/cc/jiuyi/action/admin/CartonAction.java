@@ -232,6 +232,15 @@ public class CartonAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String ajlist() {
+		
+		Admin loginAdmin=adminService.getLoginAdmin();
+		loginAdmin = adminService.get(loginAdmin.getId());
+		String unitId="";
+		if(loginAdmin.getTeam()!=null && loginAdmin.getTeam().getFactoryUnit()!=null)
+		{
+			unitId=loginAdmin.getTeam().getFactoryUnit().getId();
+		}
+		
 		if(pager==null)
 		{
 			pager=new Pager();
@@ -245,12 +254,13 @@ public class CartonAction extends BaseAdminAction {
 			isRecord="";
 		}
 		if("Y".equals(isRecord)){
-			if (pager.is_search() == true) 
-			{
+			
 				HashMap<String,String> mapcheck = new HashMap<String,String>();
-				if(Param != null){//普通搜索功能
-					if(!Param.equals("")){
-					//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+				if(Param != null)//普通搜索功能
+				{
+					if(!Param.equals(""))
+					{
+						//此处处理普通查询结果  Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 						JSONObject param = JSONObject.fromObject(Param);
 						String start = ThinkWayUtil.null2String(param.get("start"));
 						String end = ThinkWayUtil.null2String(param.get("end"));
@@ -259,11 +269,15 @@ public class CartonAction extends BaseAdminAction {
 						mapcheck.put("start", start);
 						mapcheck.put("end", end);
 						mapcheck.put("state", state);
-						mapcheck.put("mntr", mntr);
-						pager = cartonService.findCartonByPager(pager,mapcheck);
-						System.out.println(pager.getList().size());
-					}
+						mapcheck.put("mntr", mntr);	
+					}					
 				}
+				if(!unitId.equals(""))
+				{
+					mapcheck.put("unitId", unitId);
+				}
+				pager = cartonService.findCartonByPager(pager,mapcheck);
+				System.out.println(pager.getList().size());
 				// 需要查询条件
 //				JSONObject filt = JSONObject.fromObject(filters);
 //				Pager pager1 = new Pager();
@@ -272,9 +286,7 @@ public class CartonAction extends BaseAdminAction {
 //				pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
 //				pager.setRules(pager1.getRules());
 //				pager.setGroupOp(pager1.getGroupOp());
-			}else{
-				pager = this.cartonService.findByPager(pager);
-			}
+			
 		}else{
 			pager = this.cartonService.getCartonPager(pager,loginid);
 		}

@@ -33,6 +33,7 @@ public class DeptpickDaoImpl extends BaseDaoImpl<Deptpick, String> implements
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Deptpick.class);
 		detachedCriteria.add(Restrictions.eq("productDate", admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		return findByPager(pager, detachedCriteria);
 	}
 	

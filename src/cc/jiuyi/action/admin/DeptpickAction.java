@@ -404,6 +404,7 @@ public class DeptpickAction extends BaseAdminAction {
 				deptpick.setDepartmentName(departmentName);
 				deptpick.setDepartid(departid);
 				deptpick.setCreateUser(admin);//提交人
+				deptpick.setFactoryUnit(admin.getTeam().getFactoryUnit());//单元
 			}
 			if(flag)
 				return ajaxJsonErrorMessage("当前单据已确认,无法提交");

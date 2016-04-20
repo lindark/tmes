@@ -22,10 +22,17 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 	/**
 	 * jqgrid查询
 	 */
-	public Pager getCartonPager(Pager pager,String productDate,String teamshift) {
+	public Pager getCartonPager(Pager pager,String productDate,String teamshift,String unitId) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Carton.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("state", "2"),Restrictions.and(Restrictions.eq("productDate", productDate),Restrictions.eq("teamshift", teamshift))));//只查询未确认的及当前生产日期和班次的数据
+		detachedCriteria.add(Restrictions.or(Restrictions.eq("state", "2"),
+											 Restrictions.and(Restrictions.and(Restrictions.eq("productDate", productDate),
+													 		  				   Restrictions.eq("teamshift", teamshift)
+													 		  				   ),
+													 		  Restrictions.eq("factoryUnit.id", unitId)
+													 		 )
+											)
+						    );//只查询未确认的及当前生产日期和班次的数据
 		return super.findByPager(pager, detachedCriteria);
 	}
 
@@ -111,6 +118,12 @@ public class CartonDaoImpl extends BaseDaoImpl<Carton, String> implements
 				detachedCriteria.add(Restrictions.eq(
 						"EX_MBLNR",
 						mapcheck.get("mntr")));
+			}
+			if (mapcheck.get("unitId") != null && !"".equals(mapcheck.get("unitId"))) 
+			{
+				detachedCriteria.add(Restrictions.eq(
+						"factoryUnit.id",
+						mapcheck.get("unitId")));
 			}
 		}
 		return super.findByPager(pager, detachedCriteria);

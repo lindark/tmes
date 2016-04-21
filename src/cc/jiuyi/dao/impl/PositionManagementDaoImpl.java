@@ -16,8 +16,7 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 
 	@SuppressWarnings("unchecked")
 	public List<PositionManagement> getPositionManagementList() {
-		String hql = "From PositionManagement positionManagement order by positionManagement.id " +
-				"asc positionManagement.crateDate desc";
+		String hql = "From PositionManagement positionManagement order by positionManagement.id asc positionManagement.crateDate desc where positionManagement.isDel='N'";
 		return getSession().createQuery(hql).list();
 	}
 
@@ -52,13 +51,13 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 
 	@SuppressWarnings("unchecked")
 	public List<String> getPositionList(PositionManagement positionManagement) {
-		String hql="Select distinct supermarketWarehouse From PositionManagement positionManagement where positionManagement.factoryUnit=? and isDel=?";
-		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).setParameter(1, "N").list();
+		String hql="Select distinct supermarketWarehouse From PositionManagement positionManagement where positionManagement.factoryUnit=? and positionManagement.isDel='N'";
+		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).list();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<String> getPositionList(String warehouse){
-		String hql="Select trimWareHouse from PositionManagement positionManagement where positionManagement.supermarketWarehouse=?";
+		String hql="Select trimWareHouse from PositionManagement positionManagement where positionManagement.supermarketWarehouse=? and positionManagement.isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, warehouse).list();
 	}
 	

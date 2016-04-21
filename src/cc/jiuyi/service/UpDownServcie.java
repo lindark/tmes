@@ -37,5 +37,6 @@ public interface UpDownServcie extends BaseService<UpDown, String>{
      * @return
      */
     public List<Object[]> findUpdowngroupby(UpDown updown);
-
+    
+    public List<Object[]> newFindUpdowngroupby(UpDown updown);
 }

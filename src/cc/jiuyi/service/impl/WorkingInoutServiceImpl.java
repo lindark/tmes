@@ -77,7 +77,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	@Override
 	public List<WorkingInout> findPagerByWorkingBillInout(
 			HashMap<String, String> map) {
-		return workingInoutDao.findPagerByWorkingBillInout(map);
+		return workingInoutDao.newFindPagerByWorkingBillInout(map);
 	}
 
 	public JSONArray showInoutJsonData(String[] strlen,String[] lavenlen){
@@ -89,6 +89,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		String[] propertyValues={"N","1"};
 		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
 		
+		nameobj.add(strlen[29]);labelobj.add(lavenlen[29]);indexobj.add(strlen[29]);//单元
 		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
 		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
 		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
@@ -332,6 +333,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
 				}
 				
+				map.put(strlen[29], workingbill.getWorkcenter());//单元
 				map.put(strlen[0], workingbill.getWorkingBillCode());
 				map.put(strlen[1], workinginout.getMaterialCode());
 				map.put(strlen[2], workingbill.getPlanCount());

@@ -15,9 +15,9 @@ import cc.jiuyi.entity.PositionManagement;
 public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, String> implements PositionManagementDao{
 
 	@SuppressWarnings("unchecked")
-	public List<PositionManagement> getPositionManagementList() {
-		String hql = "From PositionManagement positionManagement where positionManagement.isDel='N' order by positionManagement.id asc positionManagement.crateDate desc";
-		return getSession().createQuery(hql).list();
+	public List<PositionManagement> getPositionManagementList(PositionManagement positionManagement) {
+		String hql = "From PositionManagement positionManagement where positionManagement.isDel='N' and positionManagement.factoryUnit=? order by positionManagement.id asc positionManagement.crateDate desc";
+		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).list();
 	}
 
 	@Override

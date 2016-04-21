@@ -264,7 +264,7 @@ $(function() {
 		var $select1 = $("#select1");
 		$select1.change(function(){
 			var warehouse = $(this).val();
-			$("#select2").children.remove();
+			$("#select2").children().remove();
 			$.ajax({	
 				url: "up_down!trimget.action",
 				data:{"warehouse":warehouse},

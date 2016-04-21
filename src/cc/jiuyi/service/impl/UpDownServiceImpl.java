@@ -82,4 +82,9 @@ public class UpDownServiceImpl extends BaseServiceImpl<UpDown, String>implements
 		return updowndao.findUpdowngroupby(updown);
 	}
 	
+	@Override
+	public List<Object[]> newFindUpdowngroupby(UpDown updown) {
+		return updowndao.newFindUpdowngroupby(updown);
+	}
+	
 }

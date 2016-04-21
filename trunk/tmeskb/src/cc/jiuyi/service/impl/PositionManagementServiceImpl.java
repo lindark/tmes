@@ -49,8 +49,8 @@ public class PositionManagementServiceImpl extends BaseServiceImpl<PositionManag
 	}
 
 	@Override
-	public List<String> getPositionList1(PositionManagement positionManagement) {
-		return positionManagementDao.getPositionList1(positionManagement);
+	public List<String> getPositionList1(String warehouse,PositionManagement positionManagement) {
+		return positionManagementDao.getPositionList1(warehouse,positionManagement);
 	}
 	
 	

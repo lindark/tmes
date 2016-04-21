@@ -102,7 +102,13 @@ body {
 														class="formText {required: true}" />
 													<label class="requireField">*</label>
 												    <#else>
-														${(unitdistributeProduct.factoryunit.factoryUnitName)!}
+														
+														<img id="unitId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<span id="unitName">${(unitdistributeProduct.factoryunit.factoryUnitName)!}</span>
+													<input type="hidden"
+														name="unitdistributeProduct.factoryunit.id" id="unitNo" value="${(unitdistributeProduct.factoryunit.id)!}"
+														class="formText {required: true}" />
+													<label class="requireField">*</label>														
 													 </#if>
 												</div>
 											</div> 
@@ -115,7 +121,10 @@ body {
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
 													<label class="requireField">*</label>
 												    <#else>
-														${(unitdistributeProduct.materialCode)!} 
+														<input type="text" id="input_num" name="unitdistributeProduct.materialCode"
+														value="${(unitdistributeProduct.materialCode)!}"
+														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+														<label class="requireField">*</label>
 													</#if> 											
 												</div>
 											</div>
@@ -215,7 +224,29 @@ function ck_event()
 	var xid=$("#input_id").val();//主键
 	if(xid!=null&&xid!="")
 	{
-		$("#inputForm").submit();
+		//$("#inputForm").submit();
+		
+		var fuid=$("#unitNo").val();//单元id
+		var num=$("#input_num").val();//物料编码
+		num=num.replace(/\s+/g+"");//去空
+		$("#input_num").val(num);
+		$.post("unitdistribute_product!checkinfo.action?unitdistributeProduct.id="+xid+"&unitdistributeProduct.factoryunit.id="+fuid+"&unitdistributeProduct.materialCode="+num,function(data){
+			if(data.status=="success")
+			{
+				$("#inputForm").submit();
+			}
+			else
+			{
+				layer.alert("单元和物料编码已同时存在!", {
+			        closeBtn: 0,
+			        icon:5,
+			        skin:'error'
+			    },function(){
+			    	layer.closeAll();
+				});
+			}
+		},"json");
+		
 	}
 	else
 	{
@@ -223,7 +254,7 @@ function ck_event()
 		var num=$("#input_num").val();//物料编码
 		num=num.replace(/\s+/g+"");//去空
 		$("#input_num").val(num);
-		$.post("unitdistribute_product!checkinfo.action?unitdistributeProduct.factoryunit.id="+fuid+"&unitdistributeProduct.materialCode="+num,function(data){
+		$.post("unitdistribute_product!checkinfo.action?unitdistributeProduct.id=&unitdistributeProduct.factoryunit.id="+fuid+"&unitdistributeProduct.materialCode="+num,function(data){
 			if(data.status=="success")
 			{
 				$("#inputForm").submit();

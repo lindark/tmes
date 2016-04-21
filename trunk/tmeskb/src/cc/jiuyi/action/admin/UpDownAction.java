@@ -595,7 +595,7 @@ public class UpDownAction extends BaseAdminAction {
 //				pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
 				pick.setMove_type("261");//移动类型 
 				pick.setBudat(workingBill.getProductDate());//随工单日期
-				pick.setLgort(admin1.getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
+				pick.setLgort(admin.getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
 				pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 			    pick.setWerks(admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				pick.setCreateDate(new Date());

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -103,6 +105,8 @@ public class UpDownAction extends BaseAdminAction {
 	private String warehouse;//页面传入参数，超市仓库
 	private String charg;//批次
 	private List<PositionManagement> positionManagementList1;
+	private Set<String> trimWareHouseSet;
+	private Set<String> supermarketWarehouseSet;
 	private List<String> positionManagementList;
 	private String workingBillId;//随工单id;
 	private WorkingBill workingbill;//随工单
@@ -691,9 +695,14 @@ public class UpDownAction extends BaseAdminAction {
 		updown.setType("updown");
 		updown.setProductDate(admin.getProductDate());
 		updown.setShift(admin.getShift());
+		if(admin.getTeam()!=null){
+			if(admin.getTeam().getFactoryUnit()!=null){
+				updown.setFactoryUnit(admin.getTeam().getFactoryUnit());
+			}
+		}
 		updown.setFactoryUnit(admin.getTeam()==null?null:admin.getTeam().getFactoryUnit()==null?null:admin.getTeam().getFactoryUnit());
-		updownObjList = updownservice.findUpdowngroupby(updown);
-		
+//		updownObjList = updownservice.findUpdowngroupby(updown);
+		updownObjList = updownservice.newFindUpdowngroupby(updown);
 		return "cslist";
 	}
 	
@@ -1049,7 +1058,13 @@ public class UpDownAction extends BaseAdminAction {
 
 
 	public List<PositionManagement> getPositionManagementList1() {
-		positionManagementList1 = positionManagementService.getPositionManagementList();
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		PositionManagement positionManagement = new PositionManagement();
+		if(admin.getTeam() != null){
+			positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+		}
+		positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
 		return positionManagementList1;
 	}
 
@@ -1206,6 +1221,48 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setAllDetails(List<Dict> allDetails) {
 		this.allDetails = allDetails;
+	}
+
+
+	public Set<String> getTrimWareHouseSet() {
+		this.trimWareHouseSet = new HashSet<String>();
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		PositionManagement positionManagement = new PositionManagement();
+		if(admin.getTeam() != null){
+		positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+		}
+		positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
+		for(PositionManagement list :positionManagementList1 ){
+			trimWareHouseSet.add(list.getTrimWareHouse());
+		}
+		return trimWareHouseSet;
+	}
+
+
+	public void setTrimWareHouseSet(Set<String> trimWareHouseSet) {
+		this.trimWareHouseSet = trimWareHouseSet;
+	}
+
+
+	public Set<String> getSupermarketWarehouseSet() {
+		this.supermarketWarehouseSet = new HashSet<String>();
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminservice.get(admin.getId());
+		PositionManagement positionManagement = new PositionManagement();
+		if(admin.getTeam() != null){
+		positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+		}
+		positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
+		for(PositionManagement list :positionManagementList1 ){
+			supermarketWarehouseSet.add(list.getSupermarketWarehouse());
+		}
+		return supermarketWarehouseSet;
+	}
+
+
+	public void setSupermarketWarehouseSet(Set<String> supermarketWarehouseSet) {
+		this.supermarketWarehouseSet = supermarketWarehouseSet;
 	}
 	
 

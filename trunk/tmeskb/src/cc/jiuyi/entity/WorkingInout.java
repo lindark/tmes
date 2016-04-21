@@ -43,6 +43,9 @@ public class WorkingInout extends BaseEntity {
 	private Double repairinAmount;//返修收货
 	private WorkingBill workingbill;
 	
+	//假字段
+	private String xFactoryUnit;//单元
+	
 	//维修合格接收数
 	//数量差异
 	//计划达成率
@@ -236,4 +239,13 @@ public class WorkingInout extends BaseEntity {
 	{
 		this.repairinAmount = repairinAmount;
 	}
+	
+	@Transient
+	public String getxFactoryUnit() {
+		return xFactoryUnit;
+	}
+	public void setxFactoryUnit(String xFactoryUnit) {
+		this.xFactoryUnit = xFactoryUnit;
+	}
+	
 }

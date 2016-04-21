@@ -235,4 +235,16 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		else
 			return new ArrayList<Object[]>();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> newFindUpdowngroupby(UpDown updown){
+		String hql="";
+		if(updown.getFactoryUnit()!=null)
+		{
+		hql="select sum(model.dwnum),model.uplgpla,model.matnr,model.maktx from UpDown model where model.type = ? and model.productDate = ? and model.shift = ? and model.factoryUnit=? group by model.uplgpla,model.matnr,model.maktx";
+		return getSession().createQuery(hql).setParameter(0, updown.getType()).setParameter(1, updown.getProductDate()).setParameter(2, updown.getShift()).setParameter(3, updown.getFactoryUnit()).list();
+		}
+		else
+			return new ArrayList<Object[]>();
+	}
 }

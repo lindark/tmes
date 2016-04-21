@@ -36,6 +36,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -79,6 +80,8 @@ public class DumpAction extends BaseAdminAction {
 	private String end;
 	private String start;
 
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private DumpRfc dumpRfc;
 	@Resource
@@ -232,6 +235,9 @@ public class DumpAction extends BaseAdminAction {
 	
 	public String list() {
 		admin = adminService.get(loginid);
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行转储操作!");

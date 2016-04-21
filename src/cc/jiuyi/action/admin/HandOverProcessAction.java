@@ -36,6 +36,7 @@ import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -98,7 +99,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private ProcessRouteService processrouteservice;
 	@Resource 
 	private AdminService adminService;
-
+	@Resource
+	private TempKaoqinService tempKaoqinService;
+	
 	// 添加 工序交接
 	public String add() {
 		workingbillList = new ArrayList<WorkingBill>();
@@ -186,6 +189,7 @@ public class HandOverProcessAction extends BaseAdminAction {
 		materialList = new ArrayList<Bom>();
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行交接操作!");

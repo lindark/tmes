@@ -69,6 +69,20 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	 * jqGrid查询
 	 */
 	
+	public Admin getAdminWorkStateByAdmin(Admin admin)
+	{
+		if(admin==null || admin.getTeam()==null || admin.getProductDate()==null || admin.getProductDate().equals("") ||	admin.getShift()==null || admin.getShift().equals(""))
+		return new Admin();
+		
+		List<TempKaoqin> tkqList=tempKqDao.getByTPSA(admin.getTeam().getId(), admin.getProductDate(), admin.getShift(), admin.getId());
+		if(tkqList!=null && tkqList.size()>0)
+		{
+			admin.setWorkstate(tkqList.get(0).getWorkState());
+			return admin;
+		}
+		return new Admin();
+	}
+	
 	public Pager getTempKaoqinPager(Pager pager, HashMap<String, String> map)
 	{
 		return this.tempKqDao.getTempKaoqinPager(pager,map);

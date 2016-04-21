@@ -34,6 +34,7 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.RepairinService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -77,7 +78,8 @@ public class RepairinAction extends BaseAdminAction {
 	{
 		this.loginid = loginid;
 	}
-
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private RepairinService repairinService;
 	@Resource
@@ -241,6 +243,7 @@ public class RepairinAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修收货操作!");

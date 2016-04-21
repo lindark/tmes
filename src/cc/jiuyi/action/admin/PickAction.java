@@ -32,6 +32,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
@@ -63,6 +64,9 @@ public class PickAction extends BaseAdminAction {
 	private List<Dict> allState;
 	private Admin admin;
 
+	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private PickService pickService;
 	@Resource
@@ -257,6 +261,7 @@ public class PickAction extends BaseAdminAction {
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行领料操作!");

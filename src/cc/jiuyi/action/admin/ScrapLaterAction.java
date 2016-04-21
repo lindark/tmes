@@ -26,6 +26,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ScrapLaterService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -49,6 +50,8 @@ public class ScrapLaterAction extends BaseAdminAction
 	private WorkingBillService wbService;//随工单
 	@Resource
 	private DictService dictService;//字典表
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	private Admin admin;
 	private WorkingBill workingbill;//随工单
@@ -68,6 +71,7 @@ public class ScrapLaterAction extends BaseAdminAction
 	{
 		this.admin=this.adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报废操作!");

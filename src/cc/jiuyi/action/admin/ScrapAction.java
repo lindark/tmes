@@ -39,6 +39,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ScrapOutService;
 import cc.jiuyi.service.ScrapService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -98,7 +99,8 @@ public class ScrapAction extends BaseAdminAction
 	private ScrapRfc scrapRfc;
 	@Resource
 	private ScrapOutService soService;
-	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	/**========================end  variable,object,interface==========================*/
 	
 	/**========================method  start======================================*/
@@ -110,6 +112,7 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.admin=this.adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报废操作!");

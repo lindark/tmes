@@ -720,6 +720,8 @@ public class DumpAction extends BaseAdminAction {
 		Admin emp=this.adminService.getByCardnum(cardnumber);//确认人
 		String productionDate=emp.getProductDate();//生产日期
 		String shift=emp.getShift();//班次
+		if(emp.getTeam()==null)return this.ajaxJsonErrorMessage("刷卡人员不存在班组");
+		if(emp.getTeam().getFactoryUnit()==null)return this.ajaxJsonErrorMessage("刷卡人员不存在单元");
 		String lgort = emp.getTeam().getFactoryUnit().getPsaddress();
 		String werks = emp.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		map.put("lgort", ThinkWayUtil.null2String(lgort));

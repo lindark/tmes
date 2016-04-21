@@ -52,8 +52,8 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 
 	@SuppressWarnings("unchecked")
 	public List<String> getPositionList(PositionManagement positionManagement) {
-		String hql="Select distinct supermarketWarehouse From PositionManagement positionManagement where positionManagement.factoryUnit=?";
-		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).list();
+		String hql="Select distinct supermarketWarehouse From PositionManagement positionManagement where positionManagement.factoryUnit=? and isDel=?";
+		return getSession().createQuery(hql).setParameter(0, positionManagement.getFactoryUnit()).setParameter(1, "N").list();
 	}
 	
 	@SuppressWarnings("unchecked")

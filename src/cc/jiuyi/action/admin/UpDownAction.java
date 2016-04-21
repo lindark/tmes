@@ -348,6 +348,10 @@ public class UpDownAction extends BaseAdminAction {
 		return INPUT;
 	}
 	
+	/**
+	 * 创建领料记录
+	 * @return
+	 */
 	public String trim(){
 		//检查数据完整性
 		workingbill = workingBillService.get(workingBillId);
@@ -1030,7 +1034,9 @@ public class UpDownAction extends BaseAdminAction {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		PositionManagement positionManagement = new PositionManagement();
+		if(admin.getTeam() != null){
 		positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+		}
 		List<String> PositionManagementList= positionManagementService.getPositionList(positionManagement);
 		return PositionManagementList;
 	}
@@ -1055,10 +1061,16 @@ public class UpDownAction extends BaseAdminAction {
 	
 	public String trimget(){
 		try{
-		List<String> positionManagementList = positionManagementService.getPositionList(warehouse);
-		JSONArray jsonArray = JSONArray.fromObject(positionManagementList);
-		System.out.println(jsonArray.toString());
-		return ajaxJson(jsonArray.toString());
+			Admin admin = adminservice.getLoginAdmin();
+			admin = adminservice.get(admin.getId());
+			PositionManagement positionManagement = new PositionManagement();
+			if(admin.getTeam() != null){
+			positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+			}
+			List<String> positionManagementList = positionManagementService.getPositionList1(positionManagement);
+			JSONArray jsonArray = JSONArray.fromObject(positionManagementList);
+			System.out.println(jsonArray.toString());
+			return ajaxJson(jsonArray.toString());
 		}catch(Exception e){
 			e.printStackTrace();
 		}

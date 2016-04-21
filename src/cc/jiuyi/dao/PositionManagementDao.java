@@ -23,5 +23,5 @@ public interface PositionManagementDao extends BaseDao<PositionManagement, Strin
 	
 	public List<String> getPositionList(PositionManagement positionManagement);
 	
-	public List<String> getPositionList1(PositionManagement positionManagement);
+	public List<String> getPositionList1(String warehouse,PositionManagement positionManagement);
 }

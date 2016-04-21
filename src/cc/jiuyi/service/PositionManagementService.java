@@ -30,5 +30,5 @@ public interface PositionManagementService extends BaseService<PositionManagemen
 	
 //	public List<String> getPositionList(String warehouse);
 
-	public List<String> getPositionList1(PositionManagement PositionManagement);
+	public List<String> getPositionList1(String warehouse,PositionManagement PositionManagement);
 }

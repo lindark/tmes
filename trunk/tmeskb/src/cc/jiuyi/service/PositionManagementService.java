@@ -24,7 +24,7 @@ public interface PositionManagementService extends BaseService<PositionManagemen
 	 */
 	public void updateisdel(String[] ids,String oper);
 	
-	public List<PositionManagement> getPositionManagementList();
+	public List<PositionManagement> getPositionManagementList(PositionManagement positionManagement);
 	
 	public List<String> getPositionList(PositionManagement positionManagement);
 	

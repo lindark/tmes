@@ -10,7 +10,7 @@ import cc.jiuyi.entity.PositionManagement;
 
 public interface PositionManagementDao extends BaseDao<PositionManagement, String>{
 	
-	public List<PositionManagement> getPositionManagementList();
+	public List<PositionManagement> getPositionManagementList(PositionManagement positionManagement);
 	
 	public Pager getPositionManagementPager(Pager pager,HashMap<String,String>map);
 

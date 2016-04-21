@@ -11,6 +11,7 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.FactoryUnitDao;
@@ -198,5 +199,14 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		detachedCriteria.add(Restrictions.eq("state", "1"));//已启用的
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public FactoryUnit get(String propertyName, Object value) {
+		Assert.hasText(propertyName, "propertyName must not be empty");
+		Assert.notNull(value, "value is required");
+		String hql = "from FactoryUnit as model where model."
+				+ propertyName + " = ? and isDel=?";
+		return (FactoryUnit) getSession().createQuery(hql).setParameter(0, value).setParameter(1, "N").uniqueResult();
 	}
 }

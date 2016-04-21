@@ -107,23 +107,24 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	 */
 	public String saveInfo(List<DumpDetail>list_dd,String fuid,String cardnumber,String materialcode)
 	{
-		Admin admin=this.adminService.getByCardnum(cardnumber);
-		Material m=this.materialService.getByNum(materialcode);//根据物料编码查询
-		//新增主表信息
-		Dump d=new Dump();
-		d.setCreateDate(new Date());
-		d.setCreateUser(admin);//创建人
-		d.setModifyDate(new Date());
-		d.setMaterialCode(materialcode);//物料编码
-		if(m!=null)
-		{
-			d.setMaterialdes(m.getMaterialName());//物料描述
-		}
-		d.setFactoryUnitId(fuid);//单元ID
-		String dumpid=this.save(d);
-		Dump dump=this.get(dumpid);
-		myadd(list_dd,dump);
-		return dumpid; 
+			Admin admin=this.adminService.getByCardnum(cardnumber);
+			Material m=this.materialService.getByNum(materialcode);//根据物料编码查询
+			//新增主表信息
+			Dump d=new Dump();
+			d.setCreateDate(new Date());
+			d.setCreateUser(admin);//创建人
+			d.setModifyDate(new Date());
+			d.setMaterialCode(materialcode);//物料编码
+			if(m!=null)
+			{
+				d.setMaterialdes(m.getMaterialName());//物料描述
+			}
+			d.setFactoryUnitId(fuid);//单元ID
+			String dumpid=this.save(d);
+			Dump dump=this.get(dumpid);
+			myadd(list_dd,dump);
+			return dumpid; 
+
 	}
 
 	/**

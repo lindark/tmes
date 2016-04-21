@@ -57,6 +57,13 @@ $(function(){
 						return false;
 					}
 				}
+	        	for(var i=0;i<$afterworkingBillCode.length;i++){
+	        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
+	        		if(workingCode == $afterworkingBillCode.eq(i).val()){
+	        			alert("数据错误,下一班随工单不允许与上班随工单一致");
+	        			return false;
+	        		}
+	        	}
 	        	var url = "hand_over_process!creditsubmit.action";
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){
@@ -79,6 +86,13 @@ $(function(){
 						return false;
 					}
 				}
+	        	for(var i=0;i<$afterworkingBillCode.length;i++){
+	        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
+	        		if(workingCode == $afterworkingBillCode.eq(i).val()){
+	        			alert("数据错误,下一班随工单不允许与上班随工单一致");
+	        			return false;
+	        		}
+	        	}
 	        	var url = "hand_over_process!creditapproval.action";
 	        	var dt = $(docu).find("#inputForm").serialize();
 	        	credit.creditCard(url,function(data){

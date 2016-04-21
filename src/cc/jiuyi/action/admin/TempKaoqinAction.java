@@ -119,7 +119,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			pager = new Pager();
 		}
 		pager.setOrderType(OrderType.desc);// 倒序
-		pager.setOrderBy("createDate");// 以创建日期排序
+		pager.setOrderBy("modifyDate");// 以创建日期排序
 		
 		Admin admin=adminService.load(loginid);
 		

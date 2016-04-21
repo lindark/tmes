@@ -329,10 +329,10 @@ public class LocationonsideAction extends BaseAdminAction {
 				Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
 					 
 		            public int compare(Map<String, String> o1, Map<String, String> o2) {
-		 
-		                int map1value = Integer.parseInt(o1.get("matnr"));
-		                int map2value =  Integer.parseInt(o2.get("matnr"));
-		                return map1value - map2value;
+		                /*int map1value = Char.parseInt(o1.get("lgpla"));
+		                int map2value =  Integer.parseInt(o2.get("lgpla"));
+		                return map1value - map2value;*/
+		            	return o1.get("lgpla").compareTo(o2.get("lgpla"));
 		            }
 		        });
 			} catch (Exception e) {

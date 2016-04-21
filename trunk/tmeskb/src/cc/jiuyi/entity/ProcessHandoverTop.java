@@ -33,7 +33,9 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String budat;//过账日期
 	private String werk;//工厂
 	private String wshop;//车间
-	
+	private String processCode;//工序编码
+	private String processName;//工序名称
+
 	
 	private Set<ProcessHandover> processHandOverSet;
 	
@@ -149,6 +151,18 @@ public class ProcessHandoverTop extends BaseEntity {
 	}
 	public void setXconfirmUser(String xconfirmUser) {
 		this.xconfirmUser = xconfirmUser;
+	}
+	public String getProcessCode() {
+		return processCode;
+	}
+	public void setProcessCode(String processCode) {
+		this.processCode = processCode;
+	}
+	public String getProcessName() {
+		return processName;
+	}
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 	
 	

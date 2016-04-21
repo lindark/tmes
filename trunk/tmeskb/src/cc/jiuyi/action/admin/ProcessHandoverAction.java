@@ -26,6 +26,10 @@ import javax.annotation.Resource;
 
 
 
+
+
+
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -45,6 +49,10 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 
 
+
+
+
+
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 import cc.jiuyi.bean.Pager;
@@ -52,6 +60,8 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Material;
+import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
@@ -60,8 +70,10 @@ import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
@@ -85,6 +97,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private ProcessHandoverTop processHandoverTop;
 	public List<ProcessHandover> processHandoverList; 
 	public List<ProcessHandoverSon> processHandoverSonList; 
+	public List<Process> processList;
 	private String loginid;
 	private String show;
 	
@@ -102,7 +115,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private HandOverProcessRfc handoverprocessrfc;
-	
+	@Resource
+	private MaterialService materialService;
+	@Resource
+	private ProcessService processservice;
 	/**
 	 * 列表
 	 * @return
@@ -167,6 +183,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverTop.setId(uuid);*/
 			processHandoverList = new ArrayList<ProcessHandover>();
 			
+			//获取维护物料信息
+			List<Material> materialList = materialService.getAll();
 			
 			processHandoverSonList = new ArrayList<ProcessHandoverSon>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
@@ -183,9 +201,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					Collections.sort(workingbillList, new Comparator<WorkingBill>() {
 						public int compare( WorkingBill o1,  WorkingBill o2) {
 							 
-			                int map1value = Integer.parseInt(o1.getWorkingBillCode());
+			               /* int map1value = Integer.parseInt(o1.getWorkingBillCode());
 			                int map2value =  Integer.parseInt(o2.getWorkingBillCode());
-			                return map1value - map2value;
+			                return map1value - map2value;*/
+							return o1.getWorkingBillCode().compareTo(o2.getWorkingBillCode());
 			            }
 					}); 
 					for(int i=0;i<workingbillList.size();i++){
@@ -207,34 +226,59 @@ public class ProcessHandoverAction extends BaseAdminAction {
 							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
 							processHandover1.setAfterWorkingBillCode(wbnext.getWorkingBillCode());
 						}
-						//获取Bom
-						String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
-						List<Bom> bomLists = bomService.findBom(aufnr, wb.getProductDate(),wb.getWorkingBillCode());
-						if(bomLists != null && bomLists.size()>0){
-							Set<ProcessHandoverSon> processHandoverSonSet = new HashSet<ProcessHandoverSon>();
-							for(Bom b : bomLists){
-								ProcessHandoverSon processHandoverSon1 = new ProcessHandoverSon();
-								/*uuid = CommonUtil.getUUID();
-								processHandoverSon1.setId(uuid);*/
-								b.setBeforeWorkingCode(wb.getWorkingBillCode());
-								if(wbnext!=null){
-									b.setAfterWorkingCode(wbnext.getWorkingBillCode());
+						
+						
+						if(materialList!=null && materialList.size()>0){
+							//获取Bom
+							String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+							List<Bom> bomLists = bomService.findBom(aufnr, wb.getProductDate(),wb.getWorkingBillCode());
+							if(bomLists != null && bomLists.size()>0){
+								//删除Bom中未维护物料
+								List<Bom> bmls = new ArrayList<Bom>();
+								for(Bom bm : bomLists){
+									for(Material mt : materialList){
+										if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
+											bmls.add(bm);
+											break;
+										}
+									}
 								}
-								processHandoverSon1.setProcessHandover(processHandover1);
-								processHandoverSon1.setProductAmount(b.getProductAmount()==null?"":b.getProductAmount().toString());
-								processHandoverSon1.setBomCode(b.getMaterialCode());
-								processHandoverSon1.setBomDesp(b.getMaterialName());
-								processHandoverSon1.setMaterialAmount(b.getMaterialAmount()==null?"":b.getMaterialAmount().toString());
-								processHandoverSon1.setBeforeWorkingCode(wb.getWorkingBillCode());
-								processHandoverSonSet.add(processHandoverSon1);
-								bomList.add(b);
+								
+								Set<ProcessHandoverSon> processHandoverSonSet = new HashSet<ProcessHandoverSon>();
+								for(Bom b : bmls){
+									ProcessHandoverSon processHandoverSon1 = new ProcessHandoverSon();
+									/*uuid = CommonUtil.getUUID();
+									processHandoverSon1.setId(uuid);*/
+									b.setBeforeWorkingCode(wb.getWorkingBillCode());
+									if(wbnext!=null){
+										b.setAfterWorkingCode(wbnext.getWorkingBillCode());
+									}
+									processHandoverSon1.setProcessHandover(processHandover1);
+									processHandoverSon1.setProductAmount(b.getProductAmount()==null?"":b.getProductAmount().toString());
+									processHandoverSon1.setBomCode(b.getMaterialCode());
+									processHandoverSon1.setBomDesp(b.getMaterialName());
+									processHandoverSon1.setMaterialAmount(b.getMaterialAmount()==null?"":b.getMaterialAmount().toString());
+									processHandoverSon1.setBeforeWorkingCode(wb.getWorkingBillCode());
+									processHandoverSonSet.add(processHandoverSon1);
+									bomList.add(b);
+								}
+								processHandover1.setProcessHandoverSonSet(processHandoverSonSet);
 							}
-							processHandover1.setProcessHandoverSonSet(processHandoverSonSet);
 						}
 						processHandoverSet.add(processHandover1);
 					}
 					processHandoverTop.setProcessHandOverSet(processHandoverSet);
 				}
+				
+				processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
+				if(!processList.isEmpty()){
+					Collections.sort(processList, new Comparator<Process>() {
+			            public int compare(Process arg0, Process arg1) {
+			                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+			            }
+			        });
+				}
+				
 			}else{
 				addActionError("请绑定生产日期和班次");
 				return ERROR;

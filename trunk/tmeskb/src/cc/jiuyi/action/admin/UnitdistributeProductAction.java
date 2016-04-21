@@ -149,6 +149,10 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 		public String update() {
 			UnitdistributeProduct persistent = unitdistributeProductService.load(id);
 			//BeanUtils.copyProperties(unitdistributeProduct, persistent, new String[] { "id","createDate", "modifyDate","unitCode","unitName"});
+			persistent.setFactoryunit(unitdistributeProduct.getFactoryunit());
+			persistent.setMaterialCode(unitdistributeProduct.getMaterialCode());
+			
+			
 			persistent.setMaterialName(unitdistributeProduct.getMaterialName());
 			persistent.setState(unitdistributeProduct.getState());
 			persistent.setModifyDate(new Date());
@@ -200,6 +204,10 @@ public class UnitdistributeProductAction extends BaseAdminAction {
 		UnitdistributeProduct up=this.unitdistributeProductService.getByConditions(unitdistributeProduct.getFactoryunit().getId(),unitdistributeProduct.getMaterialCode());
 		if(up!=null)
 		{
+			if(up.getId().equals(unitdistributeProduct.getId()))
+			{
+				return true;
+			}
 			return false;
 		}
 		return true;

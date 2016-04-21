@@ -60,6 +60,7 @@ body {
 													<#if xshow??>
 														<tr>
 															<th>物料编码</th>
+															<th>物料描述</th>
 															<th>批次</th>
 															<th>转储单号</th>
 															<th>配送数量</th>
@@ -67,6 +68,7 @@ body {
 														<#list list_dd as ddlist>
 															<tr>
 																<td>${(ddlist.matnr)! }</td>
+																<td>${(ddlist.maktx)! }</td>
 																<td>${(ddlist.charg)! }</td>
 																<td>${(ddlist.lenum)! }</td>
 																<td>${(ddlist.menge)! }</td>
@@ -75,6 +77,7 @@ body {
 													<#else>
 														<tr>
 															<th>物料编码</th>
+															<th>物料描述</th>
 															<th>批次</th>
 															<th>库存数量</th>
 															<th>配送数量</th>
@@ -83,6 +86,7 @@ body {
 														<#list list_map as mlist>
 															<tr>
 																<td>${(mlist.matnr)! }</td>
+																<td>${(mlist.maktx)! }</td>
 																<td class="chargnumber">${(mlist.charg)! }</td>
 																<td>${(mlist.verme)! }</td>
 																<td>

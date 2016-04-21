@@ -104,8 +104,14 @@ body {
 														class="formText {required: true}" /> 
 														<label class="requireField">*</label>
 													<#else>
-														<input type="hidden" id="input_fuid" name="unitdistributeModel.factoryunit.id" value="${(unitdistributeModel.factoryunit.id)! }" />
-														${(unitdistributeModel.factoryunit.factoryUnitName)!}
+														<img id="unitId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+														<span id="unitName">${(unitdistributeModel.factoryunit.factoryUnitName)! }</span> 
+														<input type="hidden" name="unitdistributeModel.unitName" id="unitNa" value="${(unitdistributeModel.factoryunit.factoryUnitName)! }"class="formText {required: true}" />
+														
+														<input type="hidden" name="unitdistributeModel.factoryunit.id" id="input_fuid" value="${(unitdistributeModel.factoryunit.id)! }" class="formText {required: true}" /> 
+														<label class="requireField">*</label>
+													
+														
 													</#if>
 												</div>
 											</div> 

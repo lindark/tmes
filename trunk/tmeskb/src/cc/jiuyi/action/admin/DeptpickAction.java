@@ -39,6 +39,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DeptpickService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReturnProductService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
@@ -76,6 +77,8 @@ public class DeptpickAction extends BaseAdminAction {
 	private String type;
 	private WorkingBill workingbill;
 	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private DeptpickService deptpickservice;
 	@Resource
@@ -237,6 +240,8 @@ public class DeptpickAction extends BaseAdminAction {
 	public String list(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行成本入库操作!");

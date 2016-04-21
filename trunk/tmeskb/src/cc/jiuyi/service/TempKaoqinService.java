@@ -17,6 +17,13 @@ import cc.jiuyi.entity.TempKaoqin;
 public interface TempKaoqinService extends BaseService<TempKaoqin, String>
 {
 
+	
+	/**
+	 * 传入admin，传出admin，搜索考勤表，加上了上班状态信息
+	 */
+	public Admin getAdminWorkStateByAdmin(Admin admin);
+	
+	
 	/**
 	 * jqGrid查询
 	 * @param pager

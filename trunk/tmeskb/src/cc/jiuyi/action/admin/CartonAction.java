@@ -24,6 +24,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -60,7 +61,8 @@ public class CartonAction extends BaseAdminAction {
 	private DictService dictService;
 	@Resource
 	private AdminService adminService;
-	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	/**
 	 * list页面
@@ -70,6 +72,8 @@ public class CartonAction extends BaseAdminAction {
 	{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行纸箱收货操作!");

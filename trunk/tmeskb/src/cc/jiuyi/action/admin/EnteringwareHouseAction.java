@@ -32,6 +32,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
@@ -69,6 +70,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private String state;
 	private String end;
 
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private WorkingBillService workingBillService;
 	@Resource
@@ -244,6 +247,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行入库操作!");

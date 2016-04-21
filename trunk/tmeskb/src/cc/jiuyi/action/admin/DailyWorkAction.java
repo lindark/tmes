@@ -39,6 +39,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
@@ -103,7 +104,8 @@ public class DailyWorkAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private UnitdistributeModelService unitdistributeModelService;
-
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	//报工记录表 @author Reece 2016/3/8
 	public String history() {
 		return "history";
@@ -267,6 +269,8 @@ public class DailyWorkAction extends BaseAdminAction {
 		try{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报工操作!");

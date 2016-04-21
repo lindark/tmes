@@ -37,6 +37,7 @@ import cc.jiuyi.sap.rfc.ReturnProductRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReturnProductService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
@@ -80,11 +81,13 @@ public class ReturnProductAction extends BaseAdminAction {
 	private ReturnProductRfc reprfc;
 	@Resource
 	private UnitConversionService unitConversionService;
-	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	public String list(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行成本入库操作!");

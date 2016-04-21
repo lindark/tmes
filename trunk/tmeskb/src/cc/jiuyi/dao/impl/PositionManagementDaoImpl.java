@@ -16,7 +16,7 @@ public class PositionManagementDaoImpl extends BaseDaoImpl<PositionManagement, S
 
 	@SuppressWarnings("unchecked")
 	public List<PositionManagement> getPositionManagementList() {
-		String hql = "From PositionManagement positionManagement order by positionManagement.id asc positionManagement.crateDate desc where positionManagement.isDel='N'";
+		String hql = "From PositionManagement positionManagement where positionManagement.isDel='N' order by positionManagement.id asc positionManagement.crateDate desc";
 		return getSession().createQuery(hql).list();
 	}
 

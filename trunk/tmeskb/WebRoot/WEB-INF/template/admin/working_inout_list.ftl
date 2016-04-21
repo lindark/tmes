@@ -90,6 +90,16 @@
 										</div>
 									</div>
 									
+									<div class="form-group">
+										<label class="col-sm-1 col-md-offset-1"style="text-align:right">单元:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xFactoryUnit"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+									</div>
+									
+									
 										<div class="form-group" style="text-align:center">
 											<a  id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>

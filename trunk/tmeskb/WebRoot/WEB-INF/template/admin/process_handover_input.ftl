@@ -80,6 +80,12 @@
 								action="" role="form">
 								<#if isAdd??>
 								<div class="widget-box transparent">
+									<!-- <input type="text" name="processHandoverTop.processName" id="processName">
+									<select name="processHandoverTop.processCode" id="process">
+										<#list processList as pl>
+											<option value="${(pl.processCode)! }">${(pl.processName)! }</option>
+										</#list> -->
+									</select>
 										<div class="widget-header">
 											<h4 class="widget-title lighter">班组信息</h4>
 											<div class="widget-toolbar no-border">
@@ -543,5 +549,12 @@
 			$("#btn_back").click(function(){
 				window.history.back();
 			});
+		 var process = $("#process option:checked").text();
+		 $("#processName").val(process);
+		 
+		 $("#process").change(function(){
+			 var process = $("#process option:checked").text();
+			 $("#processName").val(process);
+		 });
 	});
 </script>

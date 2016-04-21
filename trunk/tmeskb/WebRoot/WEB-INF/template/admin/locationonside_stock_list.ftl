@@ -116,6 +116,7 @@
 								    			
 													<tr>
 														<th class="tabth">库存地点</th>
+														<th class="tabth">仓位</th> 
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
@@ -124,6 +125,7 @@
 													<#list (locasideListMap)! as lns>
 																<tr>
 																	<td>${(lns.lgort)! }</td>
+																	<td>${(lns.lgpla)! }</td>
 																	<td>${(lns.matnr)! }</td>
 																	<td>${(lns.maktx)! }</td>
 																	<td>${(lns.charg)! }</td>

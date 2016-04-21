@@ -59,7 +59,7 @@ body {
 											<select name="shift" id="form-field-icon-1" class="input input-sm form-control">
 							                <option value="">&nbsp;</option>
 							                <option value="1">早</option>
-							                <option value="2">中</option>
+							                <option value="2">白</option>
 							                <option value="3">晚</option>
 						               </select>
 										</div>

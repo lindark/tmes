@@ -28,4 +28,6 @@ public interface UpDownDao extends BaseDao<UpDown, String> {
      * @return
      */
     public List<Object[]> findUpdowngroupby(UpDown updown);
+    
+    public List<Object[]> newFindUpdowngroupby(UpDown updown);
 }

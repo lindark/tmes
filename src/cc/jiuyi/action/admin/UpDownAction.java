@@ -1067,7 +1067,7 @@ public class UpDownAction extends BaseAdminAction {
 			if(admin.getTeam() != null){
 			positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
 			}
-			List<String> positionManagementList = positionManagementService.getPositionList1(positionManagement);
+			List<String> positionManagementList = positionManagementService.getPositionList1(warehouse,positionManagement);
 			JSONArray jsonArray = JSONArray.fromObject(positionManagementList);
 			System.out.println(jsonArray.toString());
 			return ajaxJson(jsonArray.toString());

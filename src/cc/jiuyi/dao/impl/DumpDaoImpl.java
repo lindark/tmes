@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -177,14 +178,21 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 		String productionDate=emp.getProductDate();//生产日期
 		String shift=emp.getShift();//班次
 		String hql="";
-		if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
-		{
-			hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' and productionDate='"+productionDate+"' and shift='"+shift+"' group by materialCode";
+		if(emp.getTeam().getFactoryUnit()!=null){
+			String funid = emp.getTeam().getFactoryUnit().getId();
+			if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
+			{
+				hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' and productionDate='"+productionDate+"' and shift='"+shift+"' and factoryUnitId='"+funid+"' group by materialCode";
+			}
+			else
+			{
+				hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' group by materialCode and factoryUnitId='"+funid+"'";
+			}
+			return this.getSession().createQuery(hql).list();
+		}else{
+			List<Object[]> list = new ArrayList<Object[]>();
+			return list;
 		}
-		else
-		{
-			hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' group by materialCode";
-		}
-		return this.getSession().createQuery(hql).list();
+		
 	}
 }

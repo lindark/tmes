@@ -49,6 +49,7 @@ inupt.stockMout {
 </style>
 </head>
 <body class="no-skin input">
+<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -138,9 +139,8 @@ inupt.stockMout {
 											</#if>
 											<label class="" style="text-align:right">接收仓位:</label>
 											<#if type="updown">
-												<select name="lgplaun" id="select2" style=" width:160px;">
-												<option value="">
-												</option>
+												<select name="lgplaun" id="select2" style=" width:160px;"value="${(lgplaun)! }">
+												<option value="${(lgplaun)! }">${(lgplaun)! }</option>
 												
 												</select>
 											<#else>
@@ -154,7 +154,6 @@ inupt.stockMout {
 											<#else>
 											<input type="text" name="lgplaun" <#if type="down"> readonly </#if> value=" ${(lgplaun)! }">&nbsp;&nbsp;&nbsp;
 											</#if>
-											<input type="hidden" name="loginid" value="<@sec.authentication property='principal.id' />" />
 											 <#if type='up' || type='down'>
 												<label class="" style="text-align:right">物料编码:</label>
 												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
@@ -285,7 +284,8 @@ $(function() {
 		//刷卡提交
 		$subm.click(function() {
 			var dt = $("#inputForm").serialize();
-			var url = "up_down!creditsave.action";
+			var loginid = $("#loginid").val();
+			var url = "up_down!creditsave.action?loginid="+loginid;
 			credit.creditCard(url, function(data) {
 				if (data.status == "success") {
 					//window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;

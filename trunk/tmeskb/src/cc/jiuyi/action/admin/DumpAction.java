@@ -592,6 +592,12 @@ public class DumpAction extends BaseAdminAction {
 		//根据ip获取单元
 		//factoryunit=this.fuservice.getById("192.168.40.40");// 
 		factoryunit=this.fuservice.getById(ip);
+		
+		//测试时使用
+		//admin=adminService.getLoginAdmin();
+		//admin=adminService.get(admin.getId());
+		//factoryunit=admin.getTeam().getFactoryUnit();
+						
 		System.out.println(ip);
 		
 		//根据单元获取物料

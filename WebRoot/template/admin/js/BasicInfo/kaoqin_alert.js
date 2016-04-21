@@ -72,7 +72,7 @@ jQuery(function($) {
 			{name:'xworkscope',index:'xxx',label:"工作范围",width:100, editable: false},
 			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},
 			{name:'xshift',index:'shift',label:"班次",width:100, editable: false},
-			{name:'xworkstate',index:'workstate',label:"工作状态",cellattr:addstyle,width:100, editable: false},
+			//{name:'xworkstate',index:'workstate',label:"工作状态",cellattr:addstyle,width:100, editable: false},
 			{name:'workstate',index:'workstate', label:"workstate", editable: false,hidden:true}
 			//{name:'shift',index:'shift',label:"shift",editable: false,hidden:true}
 		], 

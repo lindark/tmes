@@ -134,8 +134,10 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			}
 		}
 		detachedCriteria.add(Restrictions.ne("team.id", admin.getTeam().getId()));
+		//detachedCriteria.add(Restrictions.ne("shift", admin.getShift()));
+		detachedCriteria.add(Restrictions.eq("team.factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		detachedCriteria.add(Restrictions.ne("isdaiban", admin.getTeam().getId()));
-		detachedCriteria.add(Restrictions.eq("workstate", "1"));
+		//detachedCriteria.add(Restrictions.eq("workstate", "1"));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//未离职的
 		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

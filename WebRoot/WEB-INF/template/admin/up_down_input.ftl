@@ -129,8 +129,8 @@ inupt.stockMout {
 											<#if type="down">
 												<select name="lgpla" style=" width:160px;" id="lgpla">
 												<option value="" ></option>
-												<#list positionManagementList1 as list>
-												<option value="${list.trimWareHouse}"<#if list.trimWareHouse==lgpla>selected </#if>>${list.trimWareHouse}</option>
+												<#list trimWareHouseSet as list>
+												<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
 												</#list>
 											</select>
 											<#else>
@@ -147,8 +147,8 @@ inupt.stockMout {
 											<#if type='up'>
 												<select name="lgplaun" style=" width:160px;">
 												<option value="" ></option>
-												<#list positionManagementList1 as list>
-												<option value="${list.supermarketWarehouse}"<#if list.supermarketWarehouse==lgplaun>selected </#if>>${list.supermarketWarehouse}</option>
+												<#list supermarketWarehouseSet as list>
+												<option value="${list}"<#if list==lgplaun>selected </#if>>${list}</option>
 												</#list>
 											</select> 	
 											<#else>

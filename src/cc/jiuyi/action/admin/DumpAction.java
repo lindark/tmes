@@ -519,8 +519,12 @@ public class DumpAction extends BaseAdminAction {
 	{
 		Admin emp=this.adminService.get(loginid);
 		//查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+		HttpServletRequest request = getRequest();
+		String ip = ThinkWayUtil.getIp2(request);
+		//根据ip获取单元
+		factoryunit=this.fuservice.getById(ip);
 		list_map=new ArrayList<HashMap<String,String>>();
-		list_map=this.dumpService.getMengeByConditions(emp);
+		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
 		return "all";
 	}
 	

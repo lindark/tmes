@@ -16,6 +16,7 @@ import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
@@ -257,10 +258,10 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	/**
 	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
 	 */
-	public List<HashMap<String,String>> getMengeByConditions(Admin emp)
+	public List<HashMap<String,String>> getMengeByConditions(Admin emp,FactoryUnit factoryUnit)
 	{
 		List<HashMap<String,String>>maplist=new ArrayList<HashMap<String,String>>();
-		List<Object[]>list=this.dumpDao.getMengeByConditions(emp);
+		List<Object[]>list=this.dumpDao.getMengeByConditions(emp,factoryUnit);
 		for(int i=0;i<list.size();i++)
 		{
 			HashMap<String,String>map=new HashMap<String,String>();

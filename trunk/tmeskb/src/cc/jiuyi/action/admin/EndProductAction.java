@@ -346,7 +346,11 @@ public class EndProductAction extends BaseAdminAction {
 
 	public String update() {
 		try {
+			 Admin	admin1 = adminService.get(loginid);
 			Admin admin = adminService.getByCardnum(cardnumber);
+			admin.setTeam(admin1.getTeam());
+			admin.setProductDate(admin1.getProductDate());
+			admin.setShift(admin1.getShift());
 			endProductService.updateEidtEndProduct(id, admin, endProduct, info,productDate,shift);
 			return ajaxJsonSuccessMessage("修改成功");
 		} catch (Exception e) {
@@ -368,7 +372,11 @@ public class EndProductAction extends BaseAdminAction {
 					}
 				}
 			}
+			 Admin admin1 = adminService.get(loginid);
 			Admin admin = adminService.getByCardnum(cardnumber);
+			admin.setTeam(admin1.getTeam());
+			admin.setProductDate(admin1.getProductDate());
+			admin.setShift(admin1.getShift());
 			endProductService.saveEndProduct(endProducts, info, admin,productDate,shift);
 			return ajaxJsonSuccessMessage("保存成功!");
 

@@ -8,6 +8,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.util.CustomerException;
 
 /**
@@ -71,7 +72,7 @@ public interface DumpService extends BaseService<Dump, String>{
 	 * @param emp
 	 * @return
 	 */
-	public List<HashMap<String,String>> getMengeByConditions(Admin emp);
+	public List<HashMap<String,String>> getMengeByConditions(Admin emp,FactoryUnit factoryUnit);
 	
 	public List<Dump> historyExcelExport(HashMap<String,String> map);
 	

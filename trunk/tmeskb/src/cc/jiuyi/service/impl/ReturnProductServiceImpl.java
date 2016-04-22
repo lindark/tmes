@@ -36,20 +36,17 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 	@Override
 	public void saveReturnProduct(List<ReturnProduct> returnProductList, String info, Admin admin) {
 		if(returnProductList!=null){
-			Admin admin1 = adminService.getLoginAdmin();
-			admin1= adminService.get(admin1.getId()); 
+			
 			String produtDate = null;
 			String shift = null;
 			String factoryCode = null;
 			String factoryDesp = null;
-			if(admin1!=null){
-				produtDate = admin1.getProductDate();
-				shift = admin1.getShift();
-				if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
-					factoryCode = admin1.getTeam().getFactoryUnit().getFactoryUnitCode();
-					factoryDesp = admin1.getTeam().getFactoryUnit().getFactoryUnitName();
+				produtDate = admin.getProductDate();
+				shift = admin.getShift();
+				if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+					factoryCode = admin.getTeam().getFactoryUnit().getFactoryUnitCode();
+					factoryDesp = admin.getTeam().getFactoryUnit().getFactoryUnitName();
 				}
-			}
 			
 			for(ReturnProduct rp : returnProductList){
 				if(rp.getStockMout()!=null && !"".equals(rp.getStockMout())){
@@ -77,20 +74,17 @@ public class ReturnProductServiceImpl extends BaseServiceImpl<ReturnProduct, Str
 	@Override
 	public void updateEidtReturnProduct(String id, Admin admin,
 			ReturnProduct returnProduct, String info) {
-		Admin admin1 = adminService.getLoginAdmin();
-		admin1= adminService.get(admin1.getId()); 
+		
 		String produtDate = null;
 		String shift = null;
 		String factoryCode = null;
 		String factoryDesp = null;
-		if(admin1!=null){
-			produtDate = admin1.getProductDate();
-			shift = admin1.getShift();
-			if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
-				factoryCode = admin1.getTeam().getFactoryUnit().getFactoryUnitCode();
-				factoryDesp = admin1.getTeam().getFactoryUnit().getFactoryUnitName();
+			produtDate = admin.getProductDate();
+			shift = admin.getShift();
+			if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+				factoryCode = admin.getTeam().getFactoryUnit().getFactoryUnitCode();
+				factoryDesp = admin.getTeam().getFactoryUnit().getFactoryUnitName();
 			}
-		}
 		
 		ReturnProduct rp = get(id);
 		BeanUtils.copyProperties(returnProduct, rp, new String[] {"id","state"});

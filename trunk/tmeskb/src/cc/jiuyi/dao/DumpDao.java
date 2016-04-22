@@ -7,6 +7,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.FactoryUnit;
 
 /**
  * Dao接口
@@ -38,7 +39,7 @@ public interface DumpDao extends BaseDao<Dump, String>{
 	 * @param emp
 	 * @return
 	 */
-	public List<Object[]> getMengeByConditions(Admin emp);
+	public List<Object[]> getMengeByConditions(Admin emp,FactoryUnit factoryUnit);
 	
 	public List<Dump> historyExcelExport(HashMap<String,String> map);
 }

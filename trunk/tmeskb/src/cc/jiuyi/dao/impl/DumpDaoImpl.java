@@ -18,6 +18,7 @@ import cc.jiuyi.dao.DumpDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Deptpick;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.FactoryUnit;
 
 /**
  * Dao接口 - 转储管理
@@ -173,20 +174,20 @@ public class DumpDaoImpl extends BaseDaoImpl<Dump, String> implements DumpDao {
 	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getMengeByConditions(Admin emp)
+	public List<Object[]> getMengeByConditions(Admin emp,FactoryUnit factoryUnit)
 	{
 		String productionDate=emp.getProductDate();//生产日期
 		String shift=emp.getShift();//班次
 		String hql="";
-		if(emp.getTeam().getFactoryUnit()!=null){
-			String funid = emp.getTeam().getFactoryUnit().getId();
+		if(factoryUnit!=null){
+			String funid = factoryUnit.getId();
 			if(productionDate!=null&&!"".equals(productionDate)&&shift!=null&&!"".equals(shift))
 			{
 				hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' and productionDate='"+productionDate+"' and shift='"+shift+"' and factoryUnitId='"+funid+"' group by materialCode";
 			}
 			else
 			{
-				hql="select materialCode,sum(allcount) from Dump where state='1' and isDel='N' group by materialCode and factoryUnitId='"+funid+"'";
+				hql="select materialCode,sum(allcount) from Dump where state='1' and factoryUnitId='"+funid+"' and isDel='N' group by materialCode";
 			}
 			return this.getSession().createQuery(hql).list();
 		}else{

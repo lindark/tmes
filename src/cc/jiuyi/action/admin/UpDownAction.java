@@ -408,15 +408,124 @@ public class UpDownAction extends BaseAdminAction {
 		int matnrlen = materialCode.length();
 		materialDesp = ThinkWayUtil.null2String(materialDesp);
 		
-		
-		if(ThinkWayUtil.null2String(this.lgpla).equals("")){
-			return INPUT;
-		}
-		//Bom获取
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		String im_type = "";
+		
+		if(ThinkWayUtil.null2String(this.lgpla).equals("")){
+
+			//Bom获取
+			
+			if(!ThinkWayUtil.null2String(lgpla).equals(""))
+				im_type = "";
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			bomList = bomService.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+			/** 调SAP接口取库存数量 **/
+			List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();		
+			try {
+				for (int i = 0; i < bomList.size(); i++) {
+					HashMap<String, String> map = new HashMap<String, String>();
+					Bom bom = bomList.get(i);
+					map.put("matnr", bom.getMaterialCode());
+					map.put("lgort", lgort);//库存地点
+					map.put("lgpla", lgpla);//仓位
+					map.put("werks", werks);
+					list.add(map);
+				}			
+				List<HashMap<String, String>> data = matstockrfc.getMatStockList(im_type,list);
+				for (int i = 0; i < data.size(); i++) {
+					String matnr = data.get(i).get("matnr");
+					String labst = data.get(i).get("labst");
+					for (int j = 0; j < bomList.size(); j++) {
+						Bom bom = bomList.get(j);
+						if(matnr.equals(bom.getMaterialCode())){
+							bom.setStockAmount(labst);
+							Material mt = materialService.get("materialCode", bom.getMaterialCode());
+							if(mt==null){
+								bom.setCqmultiple("1");
+								bom.setCqhStockAmount(bom.getStockAmount());
+							}else{
+								if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+									bom.setCqmultiple("1");
+									bom.setCqhStockAmount(bom.getStockAmount());
+								}else{
+									bom.setCqmultiple(mt.getCqmultiple());
+									BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
+									BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
+									BigDecimal total = multiple.multiply(stockAmount);
+									bom.setCqhStockAmount(total.toString());
+								}
+							}
+							bomList.set(j, bom);
+						}
+					}			
+				}
+				
+				Collections.sort(bomList); 
+			
+			//业务处理
+			werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
+			lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+			//materialCode = ThinkWayUtil.null2String(materialCode);
+			//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
+			lgpla = this.lgpla;//仓位
+				List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
+				//
+				
+				
+				//
+				locationonsideList = new ArrayList<Locationonside>();
+				for(int i=0;i<hashList.size();i++){
+					
+					HashMap<String,String> hashmap = hashList.get(i);
+					Locationonside locationonside = new Locationonside();
+					
+					String isFive = hashmap.get("matnr").substring(0,1);//判断物料编号开头是否为5
+					if(!isFive.equals("5")){
+						continue;
+					}
+					String matnr01 = hashmap.get("matnr");//物料编码
+					String maktx01 = hashmap.get("maktx");//物料描述
+					String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
+//					if(!materialCode.equals(matnr02)){
+//						continue;
+//					}
+					boolean flag = false;
+					for(int j=0;j<bomList.size();j++){
+						if(((bomList.get(j).getMaterialCode()).equals(matnr01))){
+							flag = true;
+							break;
+						}
+					}
+					if(flag){
+					locationonside.setLocationCode(lgort);//库存地点
+					locationonside.setMaterialCode(matnr01);//物料编码
+					locationonside.setMaterialName(maktx01);//物料描述
+					locationonside.setCharg(hashmap.get("charg"));//批次
+					locationonside.setAmount(hashmap.get("verme"));//数量
+					locationonsideList.add(locationonside);
+					}
+				}
+				Collections.sort(locationonsideList); 
+			}catch(IOException e){
+				e.printStackTrace();
+				log.error(e);
+				addActionError("IO操作失败");
+				return ERROR;
+			}catch(CustomerException e){
+				e.printStackTrace();
+				log.error(e);
+				addActionError(e.getMsgDes());
+				return ERROR;
+			}
+			
+			return INPUT;
+			
+		}else{
+		//Bom获取
+		
 		if(!ThinkWayUtil.null2String(lgpla).equals(""))
 			im_type = "";
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
@@ -517,6 +626,7 @@ public class UpDownAction extends BaseAdminAction {
 		}
 		
 		return INPUT;
+		}
 	}
 	/**
 	 * 刷卡保存

@@ -285,6 +285,11 @@ public class UpDownAction extends BaseAdminAction {
 		}
 		
 		if("up".equals(type)){//上架
+			if(admin.getTeam()==null || admin.getTeam().getFactoryUnit()==null )
+			{
+				addActionError("当前单元未维护代发货仓位!");
+				return ERROR;
+			}
 			String delivery = admin.getTeam().getFactoryUnit().getDelivery();
 			if(ThinkWayUtil.null2String(delivery).equals("")){
 				addActionError("当前单元未维护代发货仓位!");

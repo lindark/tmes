@@ -600,7 +600,7 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		//factoryunit=this.fuservice.getById("192.168.37.24");// 
+		//factoryunit=this.fuservice.getById("192.168.19.18");// 
 		factoryunit=this.fuservice.getById(ip);
 		
 		//测试时使用
@@ -650,7 +650,12 @@ public class DumpAction extends BaseAdminAction {
 	public String creditsave()
 	{
 		dumpid=this.dumpService.saveInfo(list_dd,fuid,cardnumber,materialcode);
-		return this.ajaxJsonSuccessMessage(dumpid);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("dumpid", dumpid);
+		map.put("cardnumber", cardnumber);
+		map.put("status", "success");
+		
+		return this.ajaxJson(map);
 	}
 	
 	/**
@@ -788,7 +793,11 @@ public class DumpAction extends BaseAdminAction {
 		//与SAP交互及修改本地状态
 		if("S".equals(str))
 		{
-			return this.ajaxJsonSuccessMessage("您的操作已成功!");
+			Map<String,String> map1 = new HashMap<String,String>();
+			map.put("dumpid", dumpid);
+			map.put("cardnumber", cardnumber);
+			map.put("status", "success");
+			return this.ajaxJson(map1);
 		}
 		return this.ajaxJsonErrorMessage(str);
 	}

@@ -113,11 +113,11 @@ public class ScrapAction extends BaseAdminAction
 		this.admin=this.adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
-		boolean flag = ThinkWayUtil.isPass(admin);
+		/*boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报废操作!");
 			return ERROR;
-		}
+		}*/
 		this.workingbill=this.wbService.get(wbId);
 		return LIST;
 	}

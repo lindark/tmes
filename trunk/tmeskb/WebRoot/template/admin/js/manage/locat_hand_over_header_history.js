@@ -64,14 +64,14 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '库存地点','仓位','物料编码','物料描述','批次','库存数量','创建日期','状态','状态'],
+		colNames:[ '库存地点','仓位','物料编码','物料描述','库存数量','创建日期','状态','状态'],
 		colModel:[
 			
 		    {name:'locationCode',index:'locationCode', width:150,sortable:"true",sorttype:"text"},
 		    {name:'lgpla',index:'lgpla', width:100,sortable:"true",sorttype:"text"},
 		    {name:'materialCode',index:'materialCode', width:150,sortable:"true",sorttype:"text"},
 			{name:'materialName',index:'materialName', width:300,sortable:"true",sorttype:"text"},
-			{name:'charg',index:'charg', width:100,sortable:"true",sorttype:"text"},
+			//{name:'charg',index:'charg', width:100,sortable:"true",sorttype:"text"},
 			{name:'amount',index:'amount', width:100,sortable:"true",sorttype:"text"},	
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=handOverState"}},

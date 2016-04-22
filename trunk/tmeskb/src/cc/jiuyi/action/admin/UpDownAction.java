@@ -114,6 +114,9 @@ public class UpDownAction extends BaseAdminAction {
 	private List<Bom> bomList;
 	private List<PickDetail> pickDetailList;
 	private List<Dict> allDetails;// 来料说明
+	private String jumpType;//跳转类型
+	private String productDate;//生产日期
+	private String shift;//班次
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -272,6 +275,10 @@ public class UpDownAction extends BaseAdminAction {
 		//检查数据完整性
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
+		
+		productDate = admin.getProductDate();
+		shift = admin.getShift();
+
 		if(admin.getProductDate() == null || admin.getShift() == null){
 			addActionError("生产日期和班次必须绑定后才可以使用");
 			return ERROR;
@@ -1264,9 +1271,42 @@ public class UpDownAction extends BaseAdminAction {
 	public void setSupermarketWarehouseSet(Set<String> supermarketWarehouseSet) {
 		this.supermarketWarehouseSet = supermarketWarehouseSet;
 	}
+
+
+	public String getJumpType() {
+		return jumpType;
+	}
+
+
+	public void setJumpType(String jumpType) {
+		this.jumpType = jumpType;
+	}
+
+
+	public String getProductDate() {
+		return productDate;
+	}
+
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+
+	public String getShift() {
+		return shift;
+	}
+
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
 	
 
-
+	
+	
+	
 	
 
 

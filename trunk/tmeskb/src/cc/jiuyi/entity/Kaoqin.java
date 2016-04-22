@@ -129,6 +129,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.emp = emp;
 	}
+	
 	public String getWorkCode()
 	{
 		return workCode;
@@ -145,6 +146,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.phoneNum = phoneNum;
 	}
+	@Column(length=4000)
 	public String getModleNum()
 	{
 		return modleNum;
@@ -153,6 +155,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.modleNum = modleNum;
 	}
+	@Column(length=4000)
 	public String getWorkNum()
 	{
 		return workNum;
@@ -161,6 +164,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.workNum = workNum;
 	}
+	@Column(length=4000)
 	public String getStationCode()
 	{
 		return stationCode;
@@ -169,6 +173,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.stationCode = stationCode;
 	}
+	@Column(length=4000)
 	public String getStationName()
 	{
 		return stationName;
@@ -177,6 +182,7 @@ public class Kaoqin extends BaseEntity{
 	{
 		this.stationName = stationName;
 	}
+	@Column(length=4000)
 	public String getWorkName()
 	{
 		return workName;

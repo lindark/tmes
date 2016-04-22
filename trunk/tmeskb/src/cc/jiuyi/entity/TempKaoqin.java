@@ -128,6 +128,7 @@ public class TempKaoqin extends BaseEntity{
 	{
 		this.emp = emp;
 	}
+	
 	public String getWorkCode()
 	{
 		return workCode;
@@ -147,14 +148,14 @@ public class TempKaoqin extends BaseEntity{
 
 
 	
-	
+	@Column(length=4000)
 	public String getModelNum() {
 		return modelNum;
 	}
 	public void setModelNum(String modelNum) {
 		this.modelNum = modelNum;
 	}
-	
+	@Column(length=4000)
 	public String getWorkNum()
 	{
 		return workNum;
@@ -163,6 +164,7 @@ public class TempKaoqin extends BaseEntity{
 	{
 		this.workNum = workNum;
 	}
+	@Column(length=4000)
 	public String getStationCode()
 	{
 		return stationCode;
@@ -171,6 +173,7 @@ public class TempKaoqin extends BaseEntity{
 	{
 		this.stationCode = stationCode;
 	}
+	@Column(length=4000)
 	public String getStationName()
 	{
 		return stationName;
@@ -179,6 +182,7 @@ public class TempKaoqin extends BaseEntity{
 	{
 		this.stationName = stationName;
 	}
+	@Column(length=4000)
 	public String getWorkName()
 	{
 		return workName;

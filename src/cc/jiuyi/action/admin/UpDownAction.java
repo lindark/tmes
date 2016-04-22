@@ -276,10 +276,13 @@ public class UpDownAction extends BaseAdminAction {
 		//检查数据完整性
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
-		
-		productDate = admin.getProductDate();
-		shift = admin.getShift();
-
+		if(cardnumber!=null && !"".equals(cardnumber)){
+			admin=this.adminService.getByCardnum(cardnumber);
+		}
+		if(admin.getTeam()==null){
+			addActionError("当前登录人员未绑定班组");
+			return ERROR;
+		}
 		if(admin.getProductDate() == null || admin.getShift() == null){
 			addActionError("生产日期和班次必须绑定后才可以使用");
 			return ERROR;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.LocatHandOver;
 import cc.jiuyi.entity.LocatHandOverHeader;
-import cc.jiuyi.entity.Locationside;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -52,7 +50,6 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	private List<HashMap<String, String>> locasideListMap;
 	private List<LocatHandOver> locatHandOverList;
 	private LocatHandOverHeader locatHandOverHeader;
-	private List<Locationside> locationsideList;
 	
 	private String locationCode;// 库存地点
 	private String state;//状态
@@ -221,7 +218,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 			header.add("仓位");
 			header.add("物料编码");
 			header.add("物料描述");
-			header.add("批次");
+			//header.add("批次");
 			header.add("库存数量");
 			header.add("创建时间");
 			header.add("状态");
@@ -237,7 +234,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 						locatHandOver.getLgpla() == null ? "" : locatHandOver.getLgpla(),
 						locatHandOver.getMaterialCode() == null ? "" : locatHandOver.getMaterialCode(),
 						locatHandOver.getMaterialName() == null ? "" : locatHandOver.getMaterialName(),
-						locatHandOver.getCharg() == null ? "" : locatHandOver.getCharg(),					
+						//locatHandOver.getCharg() == null ? "" : locatHandOver.getCharg(),					
 						locatHandOver.getAmount() == null ? "" : locatHandOver.getAmount(),						
 						locatHandOver.getCreateDate() == null ? "" : locatHandOver.getCreateDate(),						
 						ThinkWayUtil.getDictValueByDictKey(
@@ -305,61 +302,44 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 				}else{
 					number = number==null?"0":"0";
 				}
-				if(locasideListMap!=null && locasideListMap.size()>0){
-					BigDecimal bg = new BigDecimal(0);
-					List<HashMap<String, String>>  locasideListMaps = new ArrayList<HashMap<String, String>>();
-					if(locasideListMap!=null && locasideListMap.size()>0){
-						for (HashMap<String, String> los : locasideListMap) {
-							if(los.get("verme")!=null && !"".equals(los.get("verme"))){
-								if(bg.compareTo(new BigDecimal(los.get("verme")))!=0){
-									locasideListMaps.add(los);
+				if(locasideListMap.size()>0){
+					List<HashMap<String, String>> locasideListMap1 = new ArrayList<HashMap<String, String>>();
+					for(int i=0;i<locasideListMap.size();i++){
+						BigDecimal bg = new BigDecimal(0);
+						HashMap<String, String> map = locasideListMap.get(i);
+						if(map.get("verme")!=null && !"".equals(map.get("verme"))){
+							if(bg.compareTo(new BigDecimal(map.get("verme")))!=0){
+								BigDecimal verme = new BigDecimal(map.get("verme"));
+								if(i==0){
+									locasideListMap1.add(map);
+								}else{
+									boolean flag = true;
+									for(int j=0;j<locasideListMap1.size();j++){
+										HashMap<String, String> map1 = locasideListMap.get(j);
+										if(map1.get("lgort").equals(map.get("lgort")) && map1.get("matnr").equals(map.get("matnr"))){
+											BigDecimal verme1 = new BigDecimal(map1.get("verme")); 
+											verme1 = verme1.add(verme).setScale(2, RoundingMode.HALF_UP);
+											map1.remove("verme");
+											map1.put("verme",verme1.toString());
+											flag = false;
+											break;
+										}
+									}
+									if(flag)locasideListMap1.add(map);
 								}
 							}
 						}
-						locasideListMap = locasideListMaps;
 					}
-				}
-				Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
-					 
-		            public int compare(Map<String, String> o1, Map<String, String> o2) {
-		 
-		                int map1value = Integer.parseInt(o1.get("matnr"));
-		                int map2value =  Integer.parseInt(o2.get("matnr"));
-		                return map1value - map2value;
-		            }
-		        });
-				
-				List<HashMap<String, String>> locasideListMap1 = new ArrayList<HashMap<String, String>>();
-			    locationsideList = new ArrayList<Locationside>();
-				for(int i=0;i<locasideListMap.size();i++){
-					Locationside locationside = new Locationside();
-					locationside.setLgort(locasideListMap.get(i).get("lgort"));
-					locationside.setMatnr(locasideListMap.get(i).get("matnr"));
-					locationside.setMaktx(locasideListMap.get(i).get("maktx"));
-					locationside.setVerme(locasideListMap.get(i).get("verme"));
-					locationsideList.add(locationside);
-				}
-				List<Locationside> locationsideList1 = new ArrayList<Locationside>();
-				boolean flag = true;
-				Map map = new HashMap();
-				Iterator it = locationsideList.iterator();
-				while(it.hasNext()){
-					Locationside locationside = (Locationside) it.next();
-					String key = locationside.getMaktx();
-					if(map.get(key)==null){
-						map.put(key, locationside);
-					}else{
-						Locationside locationside1 = (Locationside) map.get(key);
-						Double num1 = Double.valueOf(locationside1.getVerme());
-						Double num2 = Double.valueOf(locationside.getVerme());
-						Double num3 = num1+num2;
-						locationside1.setVerme(num3.toString());
-						map.put(key,locationside1);
-					}
-				}
-				locationsideList.clear();
-				for(Object obj:map.keySet()){
-					locationsideList.add((Locationside) map.get(obj));
+					locasideListMap = locasideListMap1;
+					Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
+						 
+			            public int compare(Map<String, String> o1, Map<String, String> o2) {
+			 
+			                int map1value = Integer.parseInt(o1.get("matnr"));
+			                int map2value =  Integer.parseInt(o2.get("matnr"));
+			                return map1value - map2value;
+			            }
+			        });
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -515,18 +495,5 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 	public void setStart(String start) {
 		this.start = start;
 	}
-
-
-
-	public List<Locationside> getLocationsideList() {
-		return locationsideList;
-	}
-
-
-
-	public void setLocationsideList(List<Locationside> locationsideList) {
-		this.locationsideList = locationsideList;
-	}
-	
 	
 }

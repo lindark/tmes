@@ -109,20 +109,6 @@ inupt.stockMout {
 									</span>
 									<div style="clear:both"></div>
 								</div> -->
-								<#if jumpType='updown'>
-								<div class="div_top">
-										 生产日期:
-                                    <input type="text" id="productDate" name="productDate" value="${(productDate)! }" class="datePicker formText"/>
-                                   &nbsp;&nbsp;&nbsp;&nbsp;
-                                   		  班次:
-                                     <select name="shift"id="sl_sh">
-                                     	<option value="" <#if (shift == "")!> selected</#if>></option>
-                                     	<option value="1" <#if (shift == 1)!> selected</#if>>早</option>
-										<option value="2" <#if (shift == 2)!> selected</#if>>白</option>
-										<option value="3" <#if (shift == 3)!> selected</#if>>晚</option>
-                                   </select>
-									</div>
-								</#if>
 								<div id="inputtabs">
 									<ul>
 										<li><a href="#tabs-1"><#if type='up' ||
@@ -305,10 +291,6 @@ $(function() {
 				if (data.status == "success") {
 					//window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
 					var workId = $("#workId").val();
-					var type = '${(type)! }';
-					if( type == "updown"){
-						window.location.href="up_down!add.action?type=up&jumpType=updown";
-					}
 					if( workId != ""){
 					window.location.href = "pick!list.action?workingBillId="+'${(workingbill.id)!}';
 					}	

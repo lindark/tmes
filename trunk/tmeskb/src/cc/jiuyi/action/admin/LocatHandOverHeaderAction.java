@@ -2,6 +2,7 @@ package cc.jiuyi.action.admin;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -301,29 +302,43 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 				}else{
 					number = number==null?"0":"0";
 				}
-				if(locasideListMap!=null && locasideListMap.size()>0){
-					BigDecimal bg = new BigDecimal(0);
-					List<HashMap<String, String>>  locasideListMaps = new ArrayList<HashMap<String, String>>();
-					if(locasideListMap!=null && locasideListMap.size()>0){
-						for (HashMap<String, String> los : locasideListMap) {
-							if(los.get("verme")!=null && !"".equals(los.get("verme"))){
-								if(bg.compareTo(new BigDecimal(los.get("verme")))!=0){
-									locasideListMaps.add(los);
+				if(locasideListMap.size()>0){
+					for(int i=0;i<locasideListMap.size();i++){
+						BigDecimal bg = new BigDecimal(0);
+						List<HashMap<String, String>> locasideListMap1 = new ArrayList<HashMap<String, String>>();
+						HashMap<String, String> map = locasideListMap.get(i);
+						if(map.get("verme")!=null && !"".equals(map.get("verme"))){
+							if(bg.compareTo(new BigDecimal(map.get("verme")))!=0){
+								BigDecimal verme = new BigDecimal(map.get("verme"));
+								if(i==0){
+									locasideListMap1.add(map);
+								}else{
+									for(int j=0;j<locasideListMap1.size();j++){
+										HashMap<String, String> map1 = locasideListMap.get(i);
+										if(map1.get("lgort").equals(map.get("lgort")) && map1.get("matnr").equals(map.get("matnr"))){
+											BigDecimal verme1 = new BigDecimal(map1.get("verme")); 
+											verme1 = verme1.add(verme).setScale(2, RoundingMode.HALF_UP);
+											map1.remove("verme");
+											map1.put("verme",verme1.toString());
+										}else{
+											locasideListMap1.add(map);
+										}
+									}
 								}
+								locasideListMap = locasideListMap1;
 							}
 						}
-						locasideListMap = locasideListMaps;
 					}
+					Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
+						 
+			            public int compare(Map<String, String> o1, Map<String, String> o2) {
+			 
+			                int map1value = Integer.parseInt(o1.get("matnr"));
+			                int map2value =  Integer.parseInt(o2.get("matnr"));
+			                return map1value - map2value;
+			            }
+			        });
 				}
-				Collections.sort(locasideListMap, new Comparator<Map<String, String>>() {
-					 
-		            public int compare(Map<String, String> o1, Map<String, String> o2) {
-		 
-		                int map1value = Integer.parseInt(o1.get("matnr"));
-		                int map2value =  Integer.parseInt(o2.get("matnr"));
-		                return map1value - map2value;
-		            }
-		        });
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

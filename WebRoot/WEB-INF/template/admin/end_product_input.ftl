@@ -216,13 +216,14 @@ $(function(){
 	$subm.click(function(){
 		var productDate = $("#productDate").val();
 		var shift = $("#shift").val();
+		var loginid = $("#loginid").val();
 		//alert(shift);
 		//return false;
 		var dt = $("#inputForm").serialize();
 		if($ep==""){
-			var url = "end_product!creditsubmit.action?productDate="+productDate+"&shift="+shift;
+			var url = "end_product!creditsubmit.action?productDate="+productDate+"&shift="+shift+"&loginid="+loginid;
 		}else{
-			var url = "end_product!update.action?productDate="+productDate+"&shift="+shift;
+			var url = "end_product!update.action?productDate="+productDate+"&shift="+shift+"&loginid="+loginid;
 		}
 		credit.creditCard(url,function(data){
 			if(data.status=="success"){

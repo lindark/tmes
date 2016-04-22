@@ -106,18 +106,16 @@ inupt.stockMout{
 														<th class="tabth">库存地点</th>
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
-														<!--  
-														<th class="tabth" >批次</th> -->
+														<!-- <th class="tabth">批次</th> -->
 														<th class="tabth">库存数量</th>
 														<th class="tabth">操作</th>
 													</tr>
-													<#list (locationsideList)! as lns>
+													<#list (locasideListMap)! as lns>
 																<tr>
 																	<td>${(lns.lgort)! }<input type="hidden" name="locatHandOverList[${lns_index}].locationCode" value="${(lns.lgort)! }"></td>
 																	<td>${(lns.matnr)! }<input type="hidden" name="locatHandOverList[${lns_index}].materialCode" value="${(lns.matnr)! }"></td>
 																	<td>${(lns.maktx)! }<input type="hidden" name="locatHandOverList[${lns_index}].materialName" value="${(lns.maktx)! }"></td>
-																	<!--  
-																	<td>${(lns.charg)! }<input type="hidden" name="locatHandOverList[${lns_index}].charg" value="${(lns.charg)! }"></td> -->
+																	<!-- <td>${(lns.charg)! }<input type="hidden" name="locatHandOverList[${lns_index}].charg" value="${(lns.charg)! }"></td> -->
 																	<td>${(lns.verme)! }
 																	<input type="hidden" name="locatHandOverList[${lns_index}].amount" value="${(lns.verme)! }">
 																	<input type="hidden" name="locatHandOverList[${lns_index}].lgpla" value="${(lns.lgpla)! }">

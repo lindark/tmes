@@ -102,7 +102,7 @@ body {
 										<th class="tabth">库存地点</th>
 										<th class="tabth">物料编码</th>
 										<th class="tabth">物料描述</th>
-										<th class="tabth">批次</th>
+										<!-- <th class="tabth">批次</th> -->
 										<th class="tabth">库存数量</th>
 									</tr>
 									</thead>
@@ -112,7 +112,7 @@ body {
 												<td class="center" name="">${(loh.locationCode)! }</td>
 												<td class="center" name="">${(loh.materialCode)! }</td>
 												<td class="center" name="">${(loh.materialName)! }</td>
-												<td class="center" >${(loh.charg)! }</td>
+												<!-- <td class="center" >${(loh.charg)! }</td> -->
 												<td class="center">${(loh.amount)!}</td>								
 											</tr>
 											</#list>

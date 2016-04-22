@@ -118,7 +118,7 @@ function tosubmit(url,info)
 				else
 				{
 					xedit="saved";
-					$("#dumpid").val(data.message);
+					$("#dumpid").val(data.dumpid);
 				}
 				if(info=="toconfrim")
 				{
@@ -132,8 +132,9 @@ function tosubmit(url,info)
 						}
 					}
 						menges.substring(0,menges.length-2);
-					
-					window.location.href="up_down!add.action?type=up&materialCode="+$("#materialCode").val()+"&inputmenge="+menges;
+					var loginid = $("#loginid").val();
+					var cardnumber = data.cardnumber;
+					window.location.href="up_down!add.action?type=up&cardnumber="+cardnumber+"materialCode="+$("#materialCode").val()+"&inputmenge="+menges+"&loginid"+loginid;
 				}
 				else
 				{

@@ -46,8 +46,7 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 	@Override
 	public void saveEndProduct(List<EndProduct> endProductList,String info,Admin admin,String productDate,String shift) {
 		if(endProductList!=null){
-			Admin admin1 = adminservice.getLoginAdmin();
-			admin1 = adminservice.get(admin1.getId());
+			
 			for(EndProduct ed : endProductList){
 				if(ed.getStockBoxMout()!=null && !"".equals(ed.getStockBoxMout())){
 					ed.setCreateUser(admin.getUsername());
@@ -59,12 +58,10 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 					ed.setProductDate(productDate);
 					ed.setShift(shift);
 					
-					if(admin1!=null){
-						if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
-							ed.setFactoryCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
-							ed.setFactoryDesp(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
+						if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+							ed.setFactoryCode(admin.getTeam().getFactoryUnit().getFactoryUnitCode());
+							ed.setFactoryDesp(admin.getTeam().getFactoryUnit().getFactoryUnitName());
 						}
-					}
 					
 					UnitConversion ucs = unitConversionService.get("matnr", ed.getMaterialCode());
 					if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){
@@ -99,14 +96,11 @@ public class EndProductServiceImpl extends BaseServiceImpl<EndProduct, String> i
 		ep.setShift(shift);
 		
 		
-		Admin admin1 = adminservice.getLoginAdmin();
-		admin1 = adminservice.get(admin1.getId());
-		if(admin1!=null){
-			if(admin1.getTeam()!=null && admin1.getTeam().getFactoryUnit()!=null){
-				ep.setFactoryCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
-				ep.setFactoryDesp(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
+		
+			if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+				ep.setFactoryCode(admin.getTeam().getFactoryUnit().getFactoryUnitCode());
+				ep.setFactoryDesp(admin.getTeam().getFactoryUnit().getFactoryUnitName());
 			}
-		}
 		
 		UnitConversion ucs = unitConversionService.get("matnr", ep.getMaterialCode());
 		if(ucs.getConversationRatio()==null || "".equals(ucs.getConversationRatio())){

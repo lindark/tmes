@@ -235,7 +235,11 @@ public class ReturnProductAction extends BaseAdminAction {
 	}
 	public String update(){
 		try {
+			 Admin	admin1= adminService.get(loginId); 
 			Admin admin =  adminService.getByCardnum(cardnumber);
+			admin.setTeam(admin1.getTeam());
+			admin.setProductDate(admin1.getProductDate());
+			admin.setShift(admin1.getShift());
 			returnProductService.updateEidtReturnProduct(id, admin,returnProduct,info);
 			return ajaxJsonSuccessMessage("修改成功");
 		} catch (Exception e) {
@@ -245,7 +249,11 @@ public class ReturnProductAction extends BaseAdminAction {
 	//刷卡提交
 	public String creditsubmit(){
 		try {
+			Admin	admin1= adminService.get(loginId); 
 			Admin admin =  adminService.getByCardnum(cardnumber);
+			admin.setTeam(admin1.getTeam());
+			admin.setProductDate(admin1.getProductDate());
+			admin.setShift(admin1.getShift());
 			returnProductService.saveReturnProduct(returnProducts,info,admin);
 			return ajaxJsonSuccessMessage("保存成功!"); 
 		} catch (Exception e) {

@@ -391,7 +391,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
 				cs.setLIFNR(lifnr);//供应商
 				cs.setWERKS(werks);//工厂
-				cs.setBUDAT(wb.getProductDate());//过账日期
+				cs.setBUDAT(c.getProductDate());//过账日期
 				cs.setLGORT(warehouse);//库存地点
 				cs.setMOVE_TYPE("101");//移动类型
 				list.add(cs);

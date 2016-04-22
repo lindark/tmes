@@ -193,6 +193,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 	 */
 	public String updatetempkaoqin() {
 
+		//此处admin为前端传过来的admin，修改的一些值存储在其中
 		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
 		if (unitdistributeModels != null && !("").equals(unitdistributeModels) && !("null").equals(unitdistributeModels)) 
 		{
@@ -217,7 +218,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 		tkq.setModelNum(unitdistributeModels);
 		tkqService.update(tkq);
 		
-		//修改admin
+		//修改admin  已经不做处理，所以注释
 		//Admin a = this.adminService.get(tkq.getEmp().getId());//根据ID查询员工
 		//a.setWorkstate(admin.getWorkstate());//工作状态
 		//a.setTardyHours(admin.getTardyHours());//误工小时数
@@ -265,8 +266,12 @@ public class TempKaoqinAction extends BaseAdminAction {
 	public String removeDaiban()
 	{
 		TempKaoqin tkq=tkqService.get(id);
-		String adminId=tkq.getEmp().getId();
+		if(tkq==null)
+		{
+			return this.ajaxJsonErrorMessage("0");// 移除成功
+		}
 		
+		String adminId=tkq.getEmp().getId();		
 		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
 
 		tkqService.delete(id);
@@ -276,12 +281,8 @@ public class TempKaoqinAction extends BaseAdminAction {
 		rda.setIsdaiban("N");
 		rda.setModifyDate(new Date());
 		rda.setProductDate(null);
-		rda.setShift(null);
-		rda.setWorkstate("1");
+		rda.setShift(null);		
 		adminService.update(rda);
-		
-		
-		
 		
 		return this.ajaxJsonSuccessMessage("1");// 移除成功
 	}

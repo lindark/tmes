@@ -117,6 +117,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String jumpType;//跳转类型
 	private String productDate;//生产日期
 	private String shift;//班次
+	private String inputmenge;// 数量
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -326,6 +327,12 @@ public class UpDownAction extends BaseAdminAction {
 		//materialCode = ThinkWayUtil.null2String(materialCode);
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
+		Boolean isTransfer = false;// 判断是否从物流配送跳转读取json
+		JSONObject jsonMap = null;
+		if (inputmenge != null && inputmenge != "") {
+			jsonMap = JSONObject.fromObject("{" + inputmenge + "}");
+			isTransfer = true;
+		}
 		try{
 			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			locationonsideList = new ArrayList<Locationonside>();
@@ -1415,6 +1422,16 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setShift(String shift) {
 		this.shift = shift;
+	}
+
+
+	public String getInputmenge() {
+		return inputmenge;
+	}
+
+
+	public void setInputmenge(String inputmenge) {
+		this.inputmenge = inputmenge;
 	}
 
 	

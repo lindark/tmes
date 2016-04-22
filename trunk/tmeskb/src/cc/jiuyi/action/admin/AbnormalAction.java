@@ -450,6 +450,7 @@ public class AbnormalAction extends BaseAdminAction {
 		String errormes="";
 		try{
 			admin = adminService.getByCardnum(cardnumber);
+			Admin loginAdmin=adminService.get(admin.getId());
 			for(int i=0;i<callReasonSet.size();i++){//从页面获取人员及短信信息
 				Callreason call = callReasonSet.get(i);
 				if(call.getId()==null){
@@ -489,6 +490,13 @@ public class AbnormalAction extends BaseAdminAction {
 		      	map.put("adminid", call.getAdminid());
 		      	map.put("reasonid", call.getId());
 		      	mapList.add(map);
+		      	
+		      	//同时要给添加人的上级发送，所以把添加人加入map中
+		      	//发给几个需要响应的人员，就会给添加人上级发送几次短信，短信内容分别等于各响应人员的内容
+		      	HashMap<String,String> sjmap = new HashMap<String,String>();
+		      	sjmap.put("adminid", loginAdmin.getId());
+		      	sjmap.put("reasonid", call.getId());
+		      	mapList.add(sjmap);
 			}
 			
 			/*******定时任务**********/

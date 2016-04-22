@@ -106,16 +106,15 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		Team team=admin.getTeam();
 		List<Admin> adminList=new ArrayList<Admin>();
 		for(int i=0;i<ids.length;i++)
-		{
-			//admin表修改员工状态为代班
+		{			
 			if(ids[i]!=null&&!"".equals(ids[i]))
 			{
-				Admin a=this.adminService.get(ids[i]);
-				//a.setIsdaiban(sameteamid);//班组ID
+				Admin a=this.adminService.get(ids[i]);				
 				a.setModifyDate(new Date());
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次
 				this.adminService.update(a);
+				//先update，后设置，此处并未保存代班字段，仅用于生成临时考勤使用。
 				a.setIsdaiban(sameteamid);//班组ID
 				adminList.add(a);
 			}			
@@ -129,7 +128,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	 */
 	public void updateBrushCardEmp(String loginid,int my_id)
 	{
-		Admin admin=this.adminService.get(loginid);//当前登录人
+		Admin admin=this.adminService.get(loginid);//当前登录人		
 		/**1.保存刷卡记录*/
 		KaoqinBrushCardRecord kqbcr=new KaoqinBrushCardRecord();
 		kqbcr.setCardnum(admin.getCardNumber());//刷卡人卡号
@@ -153,15 +152,11 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			List<Admin> adminList=this.adminService.getByTeamId(t.getId());
 			for(int i=0;i<adminList.size();i++)
 			{
-				Admin a=adminList.get(i);
-				
+				Admin a=adminList.get(i);				
 				a.setProductDate(admin.getProductDate());//生产日期
-				a.setShift(admin.getShift());//班次								
-				//开启考勤后人员改为上班状态，以防止被添加成代班人员。
-				//a.setWorkstate("2");
+				a.setShift(admin.getShift());//班次
 				a.setModifyDate(new Date());//修改日期
-				this.adminService.update(a);
-				
+				this.adminService.update(a);				
 			}					
 			
 			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
@@ -171,12 +166,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				//之前已经开启过考勤，	无需重新添加数据				
 								
 				for(TempKaoqin tkq:kqlist)
-				{
-					//修改admin中上班状态为以上班，防止被添加为代班。
-					Admin a=tkq.getEmp();
-					//a.setWorkstate("2");
-					//adminService.update(a);
-					//开启考勤的人改为上班状态
+				{					
+					//开启考勤的人的考勤记录改为上班状态
 					if(tkq.getId().equals(loginid))
 					{
 						tkq.setWorkState("2");
@@ -211,12 +202,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			}
 			
 			
-		}
-		else 
-		{
-			//关闭考勤
-			//关闭考勤走下班流程，将会由KaoqinAction处理，此处不作处理
-		}
+		}		
 		
 	}
 	
@@ -230,34 +216,26 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	 */
 	public int updateWorkStateByCreidt(String cardnumber,String teamid,String loginid)
 	{
-		//根据卡号 班组ID查询
-		Admin a=this.adminService.getByCardnumAndTeamid(cardnumber,teamid);
+		//根据卡号查询admin
+		Admin a=adminService.getByCardnum(cardnumber);		
 		if(a!=null)
-		{
-			//过滤已上班的或者代班的
-			if(!"2".equals(a.getWorkstate())&&!"4".equals(a.getWorkstate()))
+		{	
+			Admin a_login=this.adminService.get(loginid);
+			List<TempKaoqin> tkqs=tempKqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());			
+			if(tkqs!=null && tkqs.size()>0) 
 			{
-				Admin a_login=this.adminService.get(loginid);
-				a.setShift(a_login.getShift());//班次
-				a.setProductDate(a_login.getProductDate());//生产日期
-				//a.setWorkstate("2");
-				//是否是代班的
-				/*if(a.getIsdaiban().equals(teamid))
+				TempKaoqin tqk=tkqs.get(0);
+				//过滤已上班的
+				if(tqk.getWorkState().equals("2"))
 				{
-					a.setWorkstate("4");
-				}*/
-				a.setModifyDate(new Date());
-				this.adminService.update(a);
-				
-				
-				List<TempKaoqin> tkqs=tempKqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());
-				if(tkqs!=null && tkqs.size()>0) 
-				{
-					TempKaoqin tqk=tkqs.get(0);
-					tqk.setWorkState("2");
-					tqk.setModifyDate(new Date());
-					tempKqDao.update(tqk);
+					//已上班，无需重新刷卡
+					return 2;
 				}
+				
+				tqk.setWorkState("2");
+				tqk.setModifyDate(new Date());
+				tempKqDao.update(tqk);				
+				
 				List<Kaoqin> kqs=kqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());
 				if(kqs!=null && kqs.size()>0) 
 				{
@@ -266,11 +244,17 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 					qk.setModifyDate(new Date());
 					kqDao.update(qk);
 				}
-				
 				return 1;
+				//admin不做修改
+				/*a.setShift(a_login.getShift());//班次
+				a.setProductDate(a_login.getProductDate());//生产日期				
+				a.setModifyDate(new Date());
+				this.adminService.update(a);*/
 			}
-			return 2;
-		}
+			//并无此人员的考勤临时记录
+			return 3;
+		}			
+		//卡号无对应的人员
 		return 3;
 	}
 
@@ -290,40 +274,40 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		{
 			Admin a=list.get(i);
 			Post p=a.getPost();
-			TempKaoqin kq=new TempKaoqin();
-			kq.setCardNumber(a.getCardNumber());//卡号
-			kq.setClasstime(shift);//班次
-			kq.setEmp(a);//员工
-			kq.setEmpname(a.getName());//名字
-			kq.setWorkState("1");//工作状态
+			TempKaoqin tkq=new TempKaoqin();
+			tkq.setCardNumber(a.getCardNumber());//卡号
+			tkq.setClasstime(shift);//班次
+			tkq.setEmp(a);//员工
+			tkq.setEmpname(a.getName());//名字
+			tkq.setWorkState("1");//工作状态
 			
 			//如果是刷卡登陆的人，就将其改为已上班状态
 			if(a.getId().equals(admin.getId()))
 			{
-				kq.setWorkState("2");//工作状态
+				tkq.setWorkState("2");//工作状态
 			}
 			
-			kq.setProductdate(procutdate);//生产日期
-			kq.setEmpid(a.getId());//员工主键ID
-			kq.setTardyHours(null);//误工小时数
-			kq.setIsdaiban(a.getIsdaiban());
+			tkq.setProductdate(procutdate);//生产日期
+			tkq.setEmpid(a.getId());//员工主键ID
+			tkq.setTardyHours(null);//误工小时数
+			tkq.setIsdaiban(a.getIsdaiban());
 			
 			if(p!=null)
 			{
-				kq.setPostname(p.getPostName());//岗位名称
-				kq.setPostCode(p.getPostCode());//岗位编码
+				tkq.setPostname(p.getPostName());//岗位名称
+				tkq.setPostCode(p.getPostCode());//岗位编码
 			}
 			else
 			{
-				kq.setPostname("");
+				tkq.setPostname("");
 			}
-			kq.setTeam(t);//班组
-			kq.setCreateDate(new Date());
-			kq.setModifyDate(new Date());
+			tkq.setTeam(t);//班组
+			tkq.setCreateDate(new Date());
+			tkq.setModifyDate(new Date());
 			//新增保存：字段工号  联系电话  工位  模具组号  工作范围-编码  岗位编码  工位名称  模具组号名称  工作范围名称  单元
 			//              
-			kq.setWorkCode(a.getWorkNumber());//工号
-			kq.setPhoneNum(a.getPhoneNo());//联系电话
+			tkq.setWorkCode(a.getWorkNumber());//工号
+			tkq.setPhoneNum(a.getPhoneNo());//联系电话
 			//工位   工位名称
 			if(a.getStationids()!=null)
 			{
@@ -353,8 +337,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				{
 					code=code.substring(0,code.length()-1);
 				}
-				kq.setStationCode(code);//工位编码
-				kq.setStationName(name);//工位名称
+				tkq.setStationCode(code);//工位编码
+				tkq.setStationName(name);//工位名称
 			}
 			//工作范围-编码   工作范围名称
 			List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(a.getUnitdistributeProductSet());
@@ -385,8 +369,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				{
 					name=name.substring(0,name.length()-1);
 				}
-				kq.setWorkNum(code);//工作范围-编码
-				kq.setWorkName(name);//工作范围名称
+				tkq.setWorkNum(code);//工作范围-编码
+				tkq.setWorkName(name);//工作范围名称
 			}
 			//模具组号    模具组号名称
 			List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(a.getUnitdistributeModelSet());
@@ -405,15 +389,15 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				{
 					code=code.substring(0,code.length()-1);
 				}
-				kq.setModelNum(code);//模具组号
+				tkq.setModelNum(code);//模具组号
 			}
 			//单元
 			if(fu!=null)
 			{
-				kq.setFactoryUnit(fu.getFactoryUnitName());
+				tkq.setFactoryUnit(fu.getFactoryUnitName());
 			}
-			this.save(kq);
-			tkqList.add(kq);
+			this.save(tkq);
+			tkqList.add(tkq);
 			
 		}
 		return tkqList;

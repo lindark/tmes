@@ -79,6 +79,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 			mapcheck.put("start", startDate);
 			mapcheck.put("end", endDate);
 			mapcheck.put("workingBillCode", wbc);
+			mapcheck.put("xFactoryUnit", "");
 		}
 		JSONArray jsonstr = new JSONArray();
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);

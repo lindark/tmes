@@ -794,9 +794,10 @@ public class DumpAction extends BaseAdminAction {
 		if("S".equals(str))
 		{
 			Map<String,String> map1 = new HashMap<String,String>();
-			map.put("dumpid", dumpid);
-			map.put("cardnumber", cardnumber);
-			map.put("status", "success");
+			map1.put("dumpid", dumpid);
+			map1.put("cardnumber", cardnumber);
+			map1.put("status", "success");
+			map1.put("funid", fuid);
 			return this.ajaxJson(map1);
 		}
 		return this.ajaxJsonErrorMessage(str);

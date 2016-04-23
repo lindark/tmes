@@ -134,7 +134,15 @@ function tosubmit(url,info)
 						menges.substring(0,menges.length-2);
 					var loginid = $("#loginid").val();
 					var cardnumber = data.cardnumber;
-					window.location.href="up_down!add.action?type=up&cardnumber="+cardnumber+"materialCode="+$("#materialCode").val()+"&inputmenge="+menges+"&loginid"+loginid;
+					var funid = data.funid;
+					var map = {};
+				/*	map["loginid"]=$("#loginid").val();
+					map["cardnumber"]=data.cardnumber;
+					map["funid"]= data.funid;
+					map["materialCode"]=$("#materialCode").val();
+					map["inputmenge"]= menges;*/
+					//window.location.href="up_down!addForWuliu.action?map="+map;
+					window.location.href="up_down!addForWuliu.action?funid="+funid+"&cardnumber="+cardnumber+"&materialCode="+$("#materialCode").val()+"&inputmenge="+menges+"&loginid"+loginid;
 				}
 				else
 				{

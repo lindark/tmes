@@ -189,11 +189,7 @@ public class UnitConversionAction extends BaseAdminAction {
 					@RequiredStringValidator(fieldName = "unitConversion.unitCode", message = "单位编码不允许为空!"),
 					@RequiredStringValidator(fieldName = "unitConversion.unitDescription", message = "单位描述不允许为空!"),
 					@RequiredStringValidator(fieldName = "unitConversion.convertUnit", message = "转换单位不允许为空!")
-			  },
-			intRangeFields = {
-				@IntRangeFieldValidator(fieldName = "unitConversion.conversationRatio", min = "0", message = "兑换比例必须为零或正整数!")		
-			}
-			
+			  }
 			
 	)
 	@InputConfig(resultName = "error")

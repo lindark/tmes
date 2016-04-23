@@ -92,6 +92,9 @@ inupt.stockMout {
 								<input type="hidden" name="type" value="${(type)!}"/> 
 								<input type="hidden" id="work" name="workingBill" value="${(workingBill)!'' }"/>
 								<input type="hidden" id="workId" name="workingBillId" value="${(workingBillId)!'' }"/>
+								<input type="hidden" id="cardNumber" name="cardnumber" value="${(cardnumber)!}">
+								<input type="hidden" id="funid" name="funid" value="${(funid)!}">
+								<input type="hidden" id="inputmenge" name="inputmenge" value="${(inputmenge)!}">
 								<!-- <div class="site">
 									<span class="reSite">发出库存地点:
 										<select name="endProducts.repertorySite">
@@ -318,11 +321,17 @@ $(function() {
 		});
 		$("#search_btn").click(function() {
 			var workId = $("#workId").val();
-			if( workId != ""){
-				$("#inputForm").attr("action","up_down!trim.action");
+			var carduumber = $("#cardNumber").val();
+			if(carduumber != ""){
+				$("#inputForm").attr("action","up_down!addForWuliu.action");
 			}else{
-			$("#inputForm").attr("action", "up_down!add.action");
+				if( workId != ""){
+					$("#inputForm").attr("action","up_down!trim.action");
+				}else{
+				$("#inputForm").attr("action", "up_down!add.action");
+				}
 			}
+			
 			$("#inputForm").submit();
 		});
 	});

@@ -29,6 +29,8 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
@@ -42,6 +44,8 @@ import cc.jiuyi.sap.rfc.UpDownRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PositionManagementService;
@@ -83,6 +87,8 @@ public class UpDownAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private PickDetailService pickDetailService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	
 	private Pager pager;
 	private UpDown updown;
@@ -118,6 +124,8 @@ public class UpDownAction extends BaseAdminAction {
 	private String productDate;//生产日期
 	private String shift;//班次
 	private String inputmenge;// 数量
+	private String funid;//单元ID
+	private Map<String,String> map = new HashMap<String,String>();
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -291,7 +299,7 @@ public class UpDownAction extends BaseAdminAction {
 		if("up".equals(type)){//上架
 			if(admin.getTeam()==null || admin.getTeam().getFactoryUnit()==null )
 			{
-				addActionError("当前单元未维护代发货仓位!");
+				addActionError("当前人员未维护班组或单元!");
 				return ERROR;
 			}
 			String delivery = admin.getTeam().getFactoryUnit().getDelivery();
@@ -330,12 +338,6 @@ public class UpDownAction extends BaseAdminAction {
 		//materialCode = ThinkWayUtil.null2String(materialCode);
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
-		Boolean isTransfer = false;// 判断是否从物流配送跳转读取json
-		JSONObject jsonMap = null;
-		if (inputmenge != null && inputmenge != "") {
-			jsonMap = JSONObject.fromObject("{" + inputmenge + "}");
-			isTransfer = true;
-		}
 		try{
 			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			locationonsideList = new ArrayList<Locationonside>();
@@ -350,7 +352,7 @@ public class UpDownAction extends BaseAdminAction {
 				if(!materialCode.equals(matnr02)){
 					continue;
 				}
-				
+			
 				locationonside.setLocationCode(lgort);//库存地点
 				locationonside.setMaterialCode(matnr01);//物料编码
 				locationonside.setMaterialName(maktx01);//物料描述
@@ -373,7 +375,85 @@ public class UpDownAction extends BaseAdminAction {
 		
 		return INPUT;
 	}
-	
+	public String addForWuliu(){
+		type="up";
+		//检查数据完整性
+			Admin admin=this.adminService.getByCardnum(cardnumber);
+			
+		if(admin.getTeam()==null){
+			addActionError("当前登录人员未绑定班组");
+			return ERROR;
+		}
+		if(admin.getProductDate() == null || admin.getShift() == null){
+			addActionError("生产日期和班次必须绑定后才可以使用");
+			return ERROR;
+		}
+		
+			if(admin.getTeam()==null || admin.getTeam().getFactoryUnit()==null )
+			{
+				addActionError("当前刷卡人员未维护班组或单元!");
+				return ERROR;
+			}
+			
+			String werks="";//工厂
+			FactoryUnit factoryunit=this.factoryUnitService.get(funid);//根据单元id查询单元
+			if(factoryunit.getWorkShop()!=null&&factoryunit.getWorkShop().getFactory()!=null)
+			{
+				werks=factoryunit.getWorkShop().getFactory().getFactoryCode();//工厂
+			}
+			String lgort=factoryunit.getWarehouse();//配送地点编码
+			String matnr=this.materialCode;//物料编码
+			this.lgpla=factoryunit.getDelivery();//配送库存地点仓位
+
+		//业务处理
+		Boolean isTransfer = false;// 判断是否从物流配送跳转读取json
+		JSONObject jsonMap = null;
+		if (inputmenge != null && inputmenge != "") {
+			jsonMap = JSONObject.fromObject("{" + inputmenge + "}");
+			isTransfer = true;
+		}
+		try{
+			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, matnr, lgpla,materialDesp);//物料编码在查询出来之后在处理
+			locationonsideList = new ArrayList<Locationonside>();
+			materialCode = materialCode ==null?"":materialCode;
+			int matnrlen = materialCode.length();
+			for(int i=0;i<hashList.size();i++){
+				HashMap<String,String> hashmap = hashList.get(i);
+				Locationonside locationonside = new Locationonside();
+				
+				String matnr01 = hashmap.get("matnr");//物料编码
+				String maktx01 = hashmap.get("maktx");//物料描述
+				
+				String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
+				if(!materialCode.equals(matnr02)){
+					continue;
+				}
+				locationonside.setLocationCode(lgort);//库存地点
+				locationonside.setMaterialCode(matnr01);//物料编码
+				locationonside.setMaterialName(maktx01);//物料描述
+				locationonside.setCharg(hashmap.get("charg"));//批次
+				locationonside.setAmount(hashmap.get("verme"));//数量
+				if (isTransfer) {
+					locationonside.setXamount(jsonMap.optString(hashmap
+							.get("charg")));
+				} //数量
+				locationonsideList.add(locationonside);
+			}
+			Collections.sort(locationonsideList); 
+		}catch(IOException e){
+			e.printStackTrace();
+			log.error(e);
+			addActionError("IO操作失败");
+			return ERROR;
+		}catch(CustomerException e){
+			e.printStackTrace();
+			log.error(e);
+			addActionError(e.getMsgDes());
+			return ERROR;
+		}
+		
+		return INPUT;
+	}
 	/**
 	 * 创建领料记录
 	 * @return
@@ -1382,13 +1462,24 @@ public class UpDownAction extends BaseAdminAction {
 		Admin admin = adminservice.getLoginAdmin();
 		admin = adminservice.get(admin.getId());
 		PositionManagement positionManagement = new PositionManagement();
-		if(admin.getTeam() != null){
-		positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+		if(funid!=null && !"".equals(funid)){
+			FactoryUnit factoryUnit = factoryUnitService.get(funid);
+			positionManagement.setFactoryUnit(factoryUnit);
+			positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
+			for(PositionManagement list :positionManagementList1 ){
+				supermarketWarehouseSet.add(list.getSupermarketWarehouse());
+			}
+		}else{
+			if(admin.getTeam() != null){
+				positionManagement.setFactoryUnit(admin.getTeam().getFactoryUnit());
+			}
+			positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
+			for(PositionManagement list :positionManagementList1 ){
+				supermarketWarehouseSet.add(list.getSupermarketWarehouse());
+			}
 		}
-		positionManagementList1 = positionManagementService.getPositionManagementList(positionManagement);
-		for(PositionManagement list :positionManagementList1 ){
-			supermarketWarehouseSet.add(list.getSupermarketWarehouse());
-		}
+		
+		
 		return supermarketWarehouseSet;
 	}
 
@@ -1435,6 +1526,26 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setInputmenge(String inputmenge) {
 		this.inputmenge = inputmenge;
+	}
+
+
+	public String getFunid() {
+		return funid;
+	}
+
+
+	public void setFunid(String funid) {
+		this.funid = funid;
+	}
+
+
+	public Map<String, String> getMap() {
+		return map;
+	}
+
+
+	public void setMap(Map<String, String> map) {
+		this.map = map;
 	}
 
 	

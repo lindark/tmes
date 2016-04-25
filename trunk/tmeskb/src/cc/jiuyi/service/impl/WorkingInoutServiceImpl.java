@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.dao.PickDetailDao;
@@ -292,6 +293,215 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		
 		return jsonarray;
 	}
+	
+	
+	
+	
+
+	/**
+	 * 投入产出报表
+	 */
+	public Pager listjqGrid(Pager pager,HashMap<String,String> mapcheck,JSONArray jsonarray,String[] strlen) {
+		
+		List result = new ArrayList<JSONObject>();
+		try{
+			List<WorkingInout> workingInoutList=new ArrayList<WorkingInout>();
+			
+			pager = workingInoutDao.listjqGrid(pager, mapcheck);
+			workingInoutList=pager.getList();
+			System.out.println(workingInoutList.size());
+			for(int i=0;i<workingInoutList.size();i++){
+				JSONObject map = new JSONObject();
+				WorkingInout workinginout = workingInoutList.get(i);
+				WorkingBill workingbill = workinginout.getWorkingbill();
+				String aufnr = workingbill.getAufnr();
+				
+				List<OddHandOver> oddHandOverListBefore = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				Double afteroddamount =0.0d;
+				Double afterunoddamount=0.0d;
+				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
+					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
+					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
+				}
+				List<OddHandOver> oddHandOverListAfter = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				Double beforeoddamount = 0.0d;
+				Double beforeunoddamount = 0.0d;
+				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
+					beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
+					beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
+				}
+				
+				map.put(strlen[29], workingbill.getWorkcenter());//单元
+				map.put(strlen[0], workingbill.getWorkingBillCode());
+				map.put(strlen[1], workinginout.getMaterialCode());
+				map.put(strlen[2], workingbill.getPlanCount());
+				map.put(strlen[23], workingbill.getMatnr());//产品编码
+				map.put(strlen[24], workingbill.getMaktx());//产品描述
+				
+				String materialname = workinginout.getMaterialName();
+				if(ThinkWayUtil.null2String(materialname).equals("")){//处理不知道什么问题导致物料描述没有的问题
+					materialname = bomservice.getMaterialName(workinginout.getMaterialCode());
+				}
+				
+				map.put(strlen[25],materialname);//组件描述
+				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
+				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
+				map.put(strlen[3], afteroddamount);//接上班零头数
+				map.put(strlen[4], afterunoddamount);//接上班异常零头数
+				
+				List<PickDetail> pickdetailList = pickdetaildao.finddetailByapp(workingbill.getId(), "2");//"2" 表示 确认状态数据
+				Double recipientsamount = 0.00d;
+				for(int y=0;y<pickdetailList.size();y++){
+					PickDetail pickdetail1 = pickdetailList.get(y);
+					if(pickdetail1.getMaterialCode().equals(workinginout.getMaterialCode())){
+						if("261".equals(pickdetail1.getPickType())){//领料
+							//sum += Double.parseDouble(pickdetail1.getPickAmount());
+							recipientsamount = ArithUtil.add(Double.parseDouble(pickdetail1.getPickAmount()), recipientsamount);
+						}else{//退料
+							//sum -= Double.parseDouble(pickdetail1.getPickAmount());
+							recipientsamount = ArithUtil.sub(recipientsamount,Double.parseDouble(pickdetail1.getPickAmount()));
+						}
+					}
+				}
+				if(workinginout.getScrapNumber()==null){
+					workinginout.setScrapNumber(0.0d);
+				}
+				map.put(strlen[5], recipientsamount);//领用数
+				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
+				map.put(strlen[8],beforeoddamount);//交下班零头数
+				map.put(strlen[17],beforeunoddamount);//交下班异常零头数
+				map.put(strlen[9],workinginout.getScrapNumber());//报废数
+				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
+				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+				map.put(strlen[12],workingbill.getProductDate());//生产日期
+				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
+				map.put(strlen[14],workingbill.getAufnr());//生产订单号
+				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
+				Double bomamount = 0.00d;
+				for(Bom bom :bomList){
+					bomamount +=bom.getMaterialAmount();
+				}
+				Double mount = 0.0d;
+				if(bomamount<=0){
+					mount = 0d;
+				}else{
+					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
+				}
+				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
+				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+			
+				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
+				
+				
+				
+				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(afteroddamount, afterunoddamount),totalsingleamount),beforeoddamount),beforeunoddamount);//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+				map.put(strlen[16],dbjyhgs);//当班检验合格数
+				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
+				
+				Double trzsl = 0.00d;
+				Double cczsl = 0.00d;
+				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(recipientsamount));//领用数
+				//trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				
+			//	cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+//				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量  modify 
+//				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
+				
+				for(int y=0;y<jsonarray.size();y++){
+					JSONObject json = (JSONObject) jsonarray.get(y);
+					String name = json.getString("name");
+					int firstls = StringUtils.indexOf(name, "GXJSBZC_");
+					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
+					if(firstls >= 0){//如果找到，表示是接上班工序交接
+						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
+						String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						Double zcjjsl = 0.00d;
+						Double fxjjsl = 0.00d;
+						if(handoverprocess != null){
+							zcjjsl = handoverprocess.getAmount();//正常交接数量
+							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+							map.put("GXJSBZC_"+processid, "0");//正常交接数量
+							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
+						}
+						map.put("GXJSBZC_"+processid,zcjjsl);//正常交接数量
+						map.put("GXJSBFX_"+processid,fxjjsl);//返修交接数量!=						
+						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
+					}
+					if(firstls00>=0){//交下班
+						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
+						String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						Double zcjjsl = 0.00d;
+						Double fxjjsl = 0.00d;
+						if(handoverprocess != null){
+							zcjjsl = handoverprocess.getAmount();//正常交接数量
+							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+						}
+						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
+						map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
+						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
+					}
+					//int firstls1 = StringUtils
+					
+				}
+				
+				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
+				
+				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+				Double repairAmount = 0.00d;
+				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				Double repairinAmount = 0.00d;
+				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				Double zjbfs = 0.00d;
+				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				String s = workinginout.getMaterialCode().substring(0, 1);
+				if(!"5".equals(s)){
+					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
+					cczsl = (new BigDecimal(cczsl).add(new BigDecimal(beforeoddamount)).add(new BigDecimal(beforeunoddamount)).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(new BigDecimal(afteroddamount)).subtract(new BigDecimal(afterunoddamount))).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+				}else{
+					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+				}
+					
+				//cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
+				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
+				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
+				Double jhdcl = ArithUtil.round(ArithUtil.div(dbjyhgs, workingbill.getPlanCount())*100,2);//计划达成率
+				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
+				BigDecimal cost = new BigDecimal(0);
+				//if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(recipientsamount)))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
+					
+				//}
+				Double bgs = 0.00d;
+				bgs = ThinkWayUtil.null2o(workingbill.getDailyWorkTotalAmount());
+				map.put(strlen[26],bgs);//当班报工数
+				Double jycl = 0.00d;
+				Double rks = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
+				//beforeoddamount  //交下班零头
+				//bgs					//报工数
+				//afteroddamount   //接上班零头数
+				//repairinAmount  //返修收货
+				jycl = (new BigDecimal(rks).add(new BigDecimal(beforeoddamount))).subtract( (new BigDecimal(bgs).add(new BigDecimal(afteroddamount)).add(new BigDecimal(repairinAmount)))).doubleValue();
+				map.put(strlen[28],jycl);//校验差异    公式=（入库数+交下班零头）-（报工数+接上班零头+返修收货）
+				result.add(map);
+		}
+		}catch(Exception e){
+			log.error(e);
+			e.printStackTrace();
+		}
+		
+		pager.setList(result);
+		
+		return pager;
+	}
+
+	
 	
 	
 	

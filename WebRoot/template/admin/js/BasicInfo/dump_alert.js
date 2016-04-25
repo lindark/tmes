@@ -142,7 +142,7 @@ function tosubmit(url,info)
 					map["materialCode"]=$("#materialCode").val();
 					map["inputmenge"]= menges;*/
 					//window.location.href="up_down!addForWuliu.action?map="+map;
-					window.location.href="up_down!addForWuliu.action?funid="+funid+"&cardnumber="+cardnumber+"&materialCode="+$("#materialCode").val()+"&inputmenge="+menges+"&loginid"+loginid;
+					window.location.href="up_down!addForWuliu.action?funid="+funid+"&cardnumber="+cardnumber+"&inputmenge="+menges+"&loginid"+loginid;
 				}
 				else
 				{

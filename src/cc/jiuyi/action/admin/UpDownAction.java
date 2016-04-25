@@ -339,7 +339,7 @@ public class UpDownAction extends BaseAdminAction {
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
 		try{
-			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
+			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, materialCode, lgpla,materialDesp);//物料编码在查询出来之后在处理
 			locationonsideList = new ArrayList<Locationonside>();
 			for(int i=0;i<hashList.size();i++){
 				HashMap<String,String> hashmap = hashList.get(i);
@@ -498,14 +498,17 @@ public class UpDownAction extends BaseAdminAction {
 		int matnrlen = materialCode.length();
 		materialDesp = ThinkWayUtil.null2String(materialDesp);
 		
-		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
-		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-		String im_type = "";
 		
+		
+		//默认为空时候
 		if(ThinkWayUtil.null2String(this.lgpla).equals("")){
 
 			//Bom获取
+			
+			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+			lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+			String im_type = "";
 			
 			if(!ThinkWayUtil.null2String(lgpla).equals(""))
 				im_type = "";
@@ -615,7 +618,12 @@ public class UpDownAction extends BaseAdminAction {
 			
 		}else{
 		//Bom获取
-		
+		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
+		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String im_type = "";
+			
+			
 		if(!ThinkWayUtil.null2String(lgpla).equals(""))
 			im_type = "";
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);

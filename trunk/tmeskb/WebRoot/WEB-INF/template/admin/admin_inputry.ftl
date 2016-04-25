@@ -134,8 +134,7 @@ body{background:#fff;}
 							<input type="text" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }" class="col-xs-10 col-sm-5">
 							<span id="span_cardnum" class="xspan"></span>
 						<#else>
-							${(admin.cardNumber)! }
-							<input type="hidden" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }">
+							<input type="text" id="input_cardnum" name="admin.cardNumber" value="${(admin.cardNumber)! }">
 						</#if>
 					</div>
 				</div>

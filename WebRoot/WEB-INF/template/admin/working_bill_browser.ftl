@@ -44,9 +44,9 @@ body {
 							  <div class="profile-user-info profile-user-info-striped">
 							    <div class="profile-info-row">
 								<div class="profile-info-value div-value">
-										<label class="col-sm-3" style="text-align:right">订单号:</label>
+										<label class="col-sm-3" style="text-align:right">单元编码:</label>
 										<div class="col-sm-6">
-											<input type="text" id="aufnr" class="input input-sm form-control" value="">
+											<input type="text" id="workcode"name="workcode" class="input input-sm form-control" value="">
 										</div>
 										    <label class="requireField">*</label>	
 									</div>
@@ -98,18 +98,22 @@ body {
 
 	function getGridId() {
 		var choose ="ERROR";
-		var aufnr = $("#aufnr").val();
+		var workcode = $("#workcode").val();
 		var start = $("#start").val();
 		var end = $("#end").val();
 		/*if(aufnr == null || aufnr == "" || aufnr.length> 10){
 			layer.alert("订单号不能为空且长度不能大于10位!");
 		}
 		else*/ 
+		if(workcode == null || workcode==""){
+			layer.alert("单元不能为空");
+			return false;
+		}
 		if(start == null || start == "" ||end ==null || end ==""){
 			layer.alert("生产日期不能为空!");
 		}
 		else{			
-		 choose = aufnr + "," + start + "," + end;
+		 choose = workcode + "," + start + "," + end;
 		}
 		//alert(choose);
 		return choose;

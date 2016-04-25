@@ -605,6 +605,23 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
+			var flag = true;
+			$(".afterWork").each(function(){
+				var afterWorkCode  = $(this).val();
+				var beforeWorkCode = $(this).parent().prev().text();
+				if(afterWorkCode==beforeWorkCode){
+					layer.alert("数据错误,下班随工单不允许与上班随工单一致");
+					flag = false;
+				}
+			});
+			if(flag){
+				var loginid = $("#loginid").val();
+				var productDate = $("#productDate").val();
+				var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift+"&loginid="+loginid;
+				var dt = $("#oddlist").serialize();
+				credit.creditCard(url,function(data){
+				},dt);
+			}
 			/*var $afterwork = $(".afterWork");
 			 for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
@@ -612,12 +629,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					return false;
 				}
 			} */
-			var loginid = $("#loginid").val();
-			var productDate = $("#productDate").val();
-			var url = "odd_hand_over!creditsubmit.action?nowDate="+productDate+"&shift="+shift+"&loginid="+loginid;
-			var dt = $("#oddlist").serialize();
-			credit.creditCard(url,function(data){
-			},dt);
+			
 
 		});
 		
@@ -629,6 +641,26 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 				layer.alert("请选择班次");
 				return false;
 			}
+			var flag = true;
+			$(".afterWork").each(function(){
+				
+				var afterWorkCode  = $(this).val();
+				var beforeWorkCode = $(this).parent().prev().text();
+				if(afterWorkCode==beforeWorkCode){
+					layer.alert("数据错误,下班随工单不允许与上班随工单一致");
+					flag = false;
+				}
+			});
+			if(flag){
+				var url = "odd_hand_over!creditapproval.action";
+				var dt = $("#oddlist").serialize();
+				credit.creditCard(url,function(data){
+					if(data.status=="success"){
+						$("#oddcreditapproval").prop("disabled",true);
+						$("#oddcreditsubmit").prop("disabled",true);
+					}
+				},dt);
+			}
 			/* var $afterwork = $(".afterWork");
 			for(var i=0;i<$afterwork.length;i++){
 				if($afterwork.eq(i).val()==""){
@@ -636,14 +668,7 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 					return false;
 				}
 			} */
-			var url = "odd_hand_over!creditapproval.action";
-			var dt = $("#oddlist").serialize();
-			credit.creditCard(url,function(data){
-				if(data.status=="success"){
-					$("#oddcreditapproval").prop("disabled",true);
-					$("#oddcreditsubmit").prop("disabled",true);
-				}
-			},dt);
+			
 		});
 		
 	/* 	//抽包异常交接提交

@@ -11,10 +11,13 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -25,10 +28,11 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private static final long serialVersionUID = 4881226445354414940L;
 	@Resource
 	private WorkingInoutService workinginoutservice;
+	
 	private Pager pager;
 	private String start;
 	private String end;
-	private String workingBillCode;
+	private String workingBillCode;	
 	private String wbid;
 	
 	private String jsondata;
@@ -81,11 +85,15 @@ public class WorkingInoutAction extends BaseAdminAction {
 			mapcheck.put("workingBillCode", wbc);
 			mapcheck.put("xFactoryUnit", "");
 		}
-		JSONArray jsonstr = new JSONArray();
 		JSONArray jsonarray = JSONArray.fromObject(jsondata);
-		jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
+		pager = workinginoutservice.listjqGrid(pager,mapcheck,jsonarray, strlen);
 		
-		return ajaxJson(jsonstr.toString());
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig
+				.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
 	//Excel 导出
@@ -104,8 +112,10 @@ public class WorkingInoutAction extends BaseAdminAction {
 		mapcheck.put("start", start);
 		mapcheck.put("end", end);
 		mapcheck.put("workingBillCode", workingBillCode);
+		mapcheck.put("xFactoryUnit", getParameter("xFactoryUnit"));	
 		
 		JSONArray jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
+		
 		for(int i=0;i<jsonstr.size();i++){
 			JSONObject jsonobject = (JSONObject) jsonstr.get(i);
 			Object[] str = new Object[header.size()];

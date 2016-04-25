@@ -159,7 +159,13 @@ inupt.stockMout {
 											</#if>
 											 <#if type='up' || type='down'>
 												<label class="" style="text-align:right">物料编码:</label>
-												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
+												
+												<#if workingBillId ??>
+												<input type="text" name="materialCode" value="5" class="input input-sm">
+												<#else>
+												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">
+												</#if>
+												&nbsp;&nbsp;&nbsp;
 												<label class="" style="text-align:right">物料描述:</label>
 												<input type="text" name="materialDesp" value="${(materialDesp)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
 											 </#if>
@@ -233,11 +239,7 @@ inupt.stockMout {
 									id="btn_subm" type="button" />
 								<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡保存
 								</button>
-								&nbsp;&nbsp;&nbsp;&nbsp;
-								<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="btn_sure" type="button" />
-										<i class="ace-icon glyphicon glyphicon-check"></i>
-										刷卡确认
-									</button>&nbsp;&nbsp;&nbsp;&nbsp; -->
+								&nbsp;&nbsp;&nbsp;&nbsp;btn_subm
 								<button class="btn btn-white btn-default btn-sm btn-round"
 									id="btn_back" type="button" />
 								<i class="ace-icon fa fa-home"></i> 返回

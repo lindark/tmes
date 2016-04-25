@@ -2,9 +2,11 @@ package cc.jiuyi.action.admin;
 
 import java.math.BigDecimal;
 import java.io.IOException;
+import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +37,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.Pollingtest;
@@ -106,7 +109,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Role> allRoleSystem;
 	private List<Role> allRole;
 	private List<Role> roleList;
-	private List<WorkingBill> workingbillList;
+	private List<WorkingBill> workingbillList = new ArrayList<WorkingBill>();
 	private List<Team> teamList;
 	private List<Pollingtest> pollingtestList;
 	private List<Scrap> scrapList;
@@ -271,6 +274,12 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.get(admin.getId());
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				for(int i=0;i<workingbillList.size();i++){
+					System.out.println(workingbillList.get(i).getMaktx());
+					System.out.println(workingbillList.get(i).getMatnr());
+				}
+				Collections.sort(workingbillList, new SortChineseName());  
+				
 				info = "";
 				for(WorkingBill wb : workingbillList){
 					JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
@@ -282,15 +291,9 @@ public class AdminAction extends BaseAdminAction {
 					}else{
 						info = info + "," + wb.getMoudle()==null?"":wb.getMoudle();
 					}
-					for(int i=0;i<jsonarray.size();i++){
-						JSONObject jsonObject = jsonarray.getJSONObject(i);
-						if(new BigDecimal(0).compareTo(new BigDecimal(jsonObject.get("slcy").toString()))!=0){
-							wb.setDiffamount(1d);
-							break;
-						}
-					}
+					           
 				}
-				Collections.sort(workingbillList);
+		//		Collections.sort(workingbillList);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -2077,4 +2080,19 @@ public class AdminAction extends BaseAdminAction {
 	public void setInfo(String info) {
 		this.info = info;
 	}
+	
+	 class SortChineseName implements Comparator<WorkingBill>{  
+	    Collator cmp = Collator.getInstance(java.util.Locale.CHINA);  
+	    @Override  
+	    public int compare(WorkingBill o1, WorkingBill o2) {  
+	        if (cmp.compare(o1.getMaktx(), o2.getMaktx())>0){  
+	            return 1;  
+	        }else if (cmp.compare(o1.getMaktx(), o2.getMaktx())<0){  
+	            return -1;  
+	        }  
+	        return 0;  
+	    }  
+	}  
+	
 }
+	

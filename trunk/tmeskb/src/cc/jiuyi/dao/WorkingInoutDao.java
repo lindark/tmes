@@ -4,6 +4,7 @@ package cc.jiuyi.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.WorkingInout;
 
 /**
@@ -36,4 +37,6 @@ public interface WorkingInoutDao extends BaseDao<WorkingInout,String> {
 	public List<WorkingInout> findWbinoutput(String wbid);
 	
 	public List<WorkingInout> newFindPagerByWorkingBillInout(HashMap<String, String> map) ;
+	
+	public Pager listjqGrid(Pager pager, HashMap<String, String> map);
 }

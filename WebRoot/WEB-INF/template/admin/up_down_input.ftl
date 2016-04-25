@@ -239,7 +239,11 @@ inupt.stockMout {
 									id="btn_subm" type="button" />
 								<i class="ace-icon glyphicon glyphicon-check"></i> 刷卡保存
 								</button>
-								&nbsp;&nbsp;&nbsp;&nbsp;btn_subm
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="btn_sure" type="button" />
+										<i class="ace-icon glyphicon glyphicon-check"></i>
+										刷卡确认
+									</button>&nbsp;&nbsp;&nbsp;&nbsp; -->
 								<button class="btn btn-white btn-default btn-sm btn-round"
 									id="btn_back" type="button" />
 								<i class="ace-icon fa fa-home"></i> 返回

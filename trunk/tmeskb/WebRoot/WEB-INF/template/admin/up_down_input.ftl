@@ -159,12 +159,7 @@ inupt.stockMout {
 											</#if>
 											 <#if type='up' || type='down'>
 												<label class="" style="text-align:right">物料编码:</label>
-												
-												<#if workingBillId ??>
-												<input type="text" name="materialCode" value="5" class="input input-sm">
-												<#else>
 												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">
-												</#if>
 												&nbsp;&nbsp;&nbsp;
 												<label class="" style="text-align:right">物料描述:</label>
 												<input type="text" name="materialDesp" value="${(materialDesp)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;

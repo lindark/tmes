@@ -51,26 +51,34 @@ $(function(){
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
 	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");
+	        	var flag = true;
 	        	for(var i=0;i<$afterworkingBillCode.length;i++){
 					if($afterworkingBillCode.eq(i).val()==""){
 						alert("数据错误,无法查询到下一班随工单,或手动填写随工单");
+						flag = false;
 						return false;
 					}
 				}
-	        	for(var i=0;i<$afterworkingBillCode.length;i++){
-	        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
-	        		if(workingCode == $afterworkingBillCode.eq(i).val()){
-	        			alert("数据错误,下一班随工单不允许与上班随工单一致");
-	        			return false;
-	        		}
+	        	
+	        	if(flag){
+	        		for(var i=0;i<$afterworkingBillCode.length;i++){
+		        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
+		        		if(workingCode == $afterworkingBillCode.eq(i).val()){
+		        			alert("数据错误,下一班随工单不允许与上班随工单一致");
+		        			flag = false;
+		        			return false;
+		        		}
+		        	}
 	        	}
-	        	var url = "hand_over_process!creditsubmit.action";
-	        	var dt = $(docu).find("#inputForm").serialize();
-	        	credit.creditCard(url,function(data){
-	    			$.message(data.status,data.message);
-	    			iframeWin.reloadwin();
-	    			//iframeWin.location.reload();
-	    		},dt)
+	        	if(flag){
+	        		var url = "hand_over_process!creditsubmit.action";
+		        	var dt = $(docu).find("#inputForm").serialize();
+		        	credit.creditCard(url,function(data){
+		    			$.message(data.status,data.message);
+		    			iframeWin.reloadwin();
+		    			//iframeWin.location.reload();
+		    		},dt)
+	        	}
 	        	return false;
 	        },
 	        btn2:function(index,layero){
@@ -80,25 +88,33 @@ $(function(){
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var docu = iframeWin.document;//获取document 对象
 	        	var $afterworkingBillCode = $(docu).find(".afterworkingBillCode");
+	        	var flag = true;
+	        	
 	        	for(var i=0;i<$afterworkingBillCode.length;i++){
 					if($afterworkingBillCode.eq(i).val()==""){
 						alert("数据错误,无法查询到下一班随工单,或手动填写随工单");
+						flag = false;
 						return false;
 					}
 				}
-	        	for(var i=0;i<$afterworkingBillCode.length;i++){
-	        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
-	        		if(workingCode == $afterworkingBillCode.eq(i).val()){
-	        			alert("数据错误,下一班随工单不允许与上班随工单一致");
-	        			return false;
-	        		}
+	        	if(flag){
+	        		for(var i=0;i<$afterworkingBillCode.length;i++){
+		        		var workingCode  = $afterworkingBillCode.eq(i).parent().prev().prev().prev().text();
+		        		if(workingCode == $afterworkingBillCode.eq(i).val()){
+		        			alert("数据错误,下一班随工单不允许与上班随工单一致");
+		        			flag = false;
+		        			return false;
+		        		}
+		        	}
 	        	}
-	        	var url = "hand_over_process!creditapproval.action";
-	        	var dt = $(docu).find("#inputForm").serialize();
-	        	credit.creditCard(url,function(data){
-	    			$.message(data.status,data.message);
-	    			iframeWin.location.reload();
-	    		},dt)
+	        	if(flag){
+	        		var url = "hand_over_process!creditapproval.action";
+		        	var dt = $(docu).find("#inputForm").serialize();
+		        	credit.creditCard(url,function(data){
+		    			$.message(data.status,data.message);
+		    			iframeWin.location.reload();
+		    		},dt)
+	        	}
 	    		return false;
 	        }
 	        

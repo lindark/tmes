@@ -339,7 +339,7 @@ public class UpDownAction extends BaseAdminAction {
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 		String lgpla = this.lgpla;
 		try{
-			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, materialCode, lgpla,materialDesp);//物料编码在查询出来之后在处理
+			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			locationonsideList = new ArrayList<Locationonside>();
 			for(int i=0;i<hashList.size();i++){
 				HashMap<String,String> hashmap = hashList.get(i);
@@ -491,8 +491,8 @@ public class UpDownAction extends BaseAdminAction {
 //			return ERROR;
 //		}
 //		if("up".equals(type) || "down".equals(type))
-//			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
-			materialCode = "";
+		materialCode = materialCode == null ?"5":ThinkWayUtil.null2String(materialCode);
+		//	materialCode = "";
 //		else if("updown".equals(type))
 //			materialCode = "";
 		int matnrlen = materialCode.length();
@@ -564,6 +564,7 @@ public class UpDownAction extends BaseAdminAction {
 			//materialCode = ThinkWayUtil.null2String(materialCode);
 			//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
 			lgpla = this.lgpla;//仓位
+//			materialCode = "5";
 				List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 				//
 				
@@ -575,16 +576,16 @@ public class UpDownAction extends BaseAdminAction {
 					HashMap<String,String> hashmap = hashList.get(i);
 					Locationonside locationonside = new Locationonside();
 					
-					String isFive = hashmap.get("matnr").substring(0,1);//判断物料编号开头是否为5
-					if(!isFive.equals("5")){
-						continue;
-					}
+//					String isFive = hashmap.get("matnr").substring(0,1);//判断物料编号开头是否为5
+//					if(!isFive.equals("5")){
+//						continue;
+//					}
 					String matnr01 = hashmap.get("matnr");//物料编码
 					String maktx01 = hashmap.get("maktx");//物料描述
 					String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
-//					if(!materialCode.equals(matnr02)){
-//						continue;
-//					}
+					if(!materialCode.equals(matnr02)){
+						continue;
+					}
 					boolean flag = false;
 					for(int j=0;j<bomList.size();j++){
 						if(((bomList.get(j).getMaterialCode()).equals(matnr01))){
@@ -691,9 +692,9 @@ public class UpDownAction extends BaseAdminAction {
 				String matnr01 = hashmap.get("matnr");//物料编码
 				String maktx01 = hashmap.get("maktx");//物料描述
 				String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
-//				if(!materialCode.equals(matnr02)){
-//					continue;
-//				}
+				if(!materialCode.equals(matnr02)){
+					continue;
+				}
 				boolean flag = false;
 				for(int j=0;j<bomList.size();j++){
 					if(((bomList.get(j).getMaterialCode()).equals(matnr01))){

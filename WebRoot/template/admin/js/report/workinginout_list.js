@@ -18,26 +18,37 @@ jQuery(function($) {
     })
 	jQuery(grid_selector).jqGrid({
 		
-		url:"working_inout!ajlist.action",//?jsondata="+$("#jsondata").val(),
+		url:"working_inout!ajlist.action?jsondata="+$("#jsondata").val(),
 		datatype: "json",
 		
 		mtype:"POST",
 		postData:{jsondata:$("#jsondata").val()},
 		height: "100%",//weitao 修改此参数可以修改表格的高度
-		jsonReader : {
+		
+        jsonReader : {
 	          repeatitems : false,
-	          root:"list"
+	          root:"list",
+	          total:"pageCount",
+	          records:"totalCount",
+	          id:"id"
 	        },
+	    prmNames : {
+	    	rows:"pager.pageSize",
+	    	page:"pager.pageNumber",
+	    	search:"pager._search",
+	    	sort:"pager.orderBy",
+	    	order:"pager.orderType"
+	    	
+	    },
 		//colNames:[ 'ID','createDate','Name', 'Stock', 'Ship via','Notes'],
 		colModel:jsondata, 
-		loadonce:true, //从服务器抓取数据,然后交给客户端处理
-		viewrecords : true,
-		scroll:true,
-		rowNum:9999999999,
-		//rowList:[10,20,30],
+		//loadonce:true, //从服务器抓取数据,然后交给客户端处理
+		viewrecords : true,		
+		//scroll:true,
+		rowNum:10,
+		rowList:[10,20,30],
 		pager : pager_selector,
-		pgbuttons:false,
-		pginput:false,
+		
 		
 		altRows: true,
 		//toppager: true,

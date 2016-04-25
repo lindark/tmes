@@ -28,6 +28,7 @@ import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
@@ -36,6 +37,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.OrdersService;
+import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
 import cc.jiuyi.webservice.PieceworkWebService;
@@ -60,7 +62,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	@Resource
 	private DictService dictService;
 	@Resource
-	private FactoryUnitService factoryUnitService;
+	private FactoryUnitService factoryUnitService; 
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService; 
 	
 	public Dict getDict() {
 		Dict d = new Dict();
@@ -196,7 +200,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 											if(costSampleNum.compareTo(new BigDecimal(0))==0){
 												PieceworkMap.put("qualifiedRatio","");
 											}else{
-												String costQulifiedRate = costSampleNum.divide(costQulified,2, RoundingMode.HALF_UP).toString()+"%";
+												
+												String costQulifiedRate = costQulified.divide(costSampleNum,2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)).toString()+"%";
 												PieceworkMap.put("qualifiedRatio",costQulifiedRate);
 											}
 										}else{
@@ -264,7 +269,6 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 										}else{
 											PieceworkMap.put("qualifiedRatio","");//一次合格率  (抽检合格率 平均值)
 										}
-										
 										PieceworkLists.add(PieceworkMap);
 									}
 								}
@@ -424,7 +428,31 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 				PieceworkMap.put("productDate", productDate);//生产日期
 				PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
-				PieceworkMap.put("mouldNumber", judgeNull(kq.getModleNum()));// 模具组号
+				//PieceworkMap.put("mouldNumber", judgeNull(kq.getModleNum()));// 模具组号
+				String[] mud = judgeNull(kq.getModleNum()).split(",");
+				String mudle = "";
+				if(mud.length>0){
+					for(int i=0; i<mud.length;i++){
+						if(i==0){
+							UnitdistributeModel unitdistributeModel = unitdistributeModelService.get(mud[i]);
+							if(unitdistributeModel!=null){
+								mudle = unitdistributeModel.getStation();
+							}
+						}else{
+							UnitdistributeModel unitdistributeModel = unitdistributeModelService.get(mud[i]);
+							if(unitdistributeModel!=null){
+								if(!"".equals(mudle)){
+									mudle = mudle+","+unitdistributeModel.getStation();
+								}else{
+									mudle = unitdistributeModel.getStation();
+								}
+							}
+						}
+					}
+				}
+				PieceworkMap.put("mouldNumber", mudle);// 模具组号
+				
+				
 				PieceworkMap.put("workingRange", judgeNull(kq.getWorkName()));// 工作范围
 				PieceworkMap.put("station", judgeNull(kq.getStationName()));// 工位
 				Team team  = kq.getTeam();
@@ -474,7 +502,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					PieceworkMap.put("classSys", "");// 班制
 					PieceworkMap.put("basic", "");// 基本
 					PieceworkMap.put("team", "");// 班组
-					PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
+					//PieceworkMap.put("mouldNumber", judgeNull(mouldNumber));// 模具组号
 				}
 				Admin admin = adminService.get(judgeNull(kq.getEmpid()));
 				if(admin!=null){

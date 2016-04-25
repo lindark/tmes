@@ -34,7 +34,9 @@ public class UnitdistributeProductDaoImpl extends BaseDaoImpl<UnitdistributeProd
 				detachedCriteria.createAlias("factoryunit", "factoryunit");
 			
 			if(map.get("unitName")!=null){
-			    detachedCriteria.add(Restrictions.like("factoryunit.factoryUnitName", "%"+map.get("unitName")+"%"));
+	//		    detachedCriteria.add(Restrictions.like("factoryunit.factoryUnitName", "%"+map.get("unitName")+"%"));
+			    detachedCriteria.add(Restrictions.or(Restrictions.like("factoryunit.factoryUnitName", "%"+map.get("unitName")+"%"),
+			    		Restrictions.like("factoryunit.factoryUnitCode", "%"+map.get("unitName")+"%")));
 			}		
 		
 			if(map.get("materialName")!=null){

@@ -500,7 +500,9 @@ public class UpDownAction extends BaseAdminAction {
 		
 		
 		
-		//默认为空时候
+		/**默认为空时候
+		 * 
+		 */
 		if(ThinkWayUtil.null2String(this.lgpla).equals("")){
 
 			//Bom获取

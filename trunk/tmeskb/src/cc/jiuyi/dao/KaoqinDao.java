@@ -32,6 +32,7 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getKaoqinList(String productDate, String shift);
+	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 
 	/**
 	 * 根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示

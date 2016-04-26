@@ -74,6 +74,15 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @return
 	 */
 	public List<Kaoqin> getKaoqinList(String productDate, String shift);
+	/**
+	 * 根据生产日期、班次和单元编码查询数据
+	 * @author Lk
+	 * @param productDate
+	 * @param shift
+	 * @param factoryCode
+	 * @return
+	 */
+	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	

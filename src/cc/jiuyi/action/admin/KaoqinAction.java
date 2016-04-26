@@ -75,6 +75,9 @@ public class KaoqinAction extends BaseAdminAction {
 	private String factoryUnitName;
 	private String unitdistributeModels;// 工位
 	private List<UnitdistributeModel> unitModelList = new ArrayList<UnitdistributeModel>();
+	
+	private String workNumber;
+	private String xFactoryUnit;
 	/**
 	 * service接口
 	 */
@@ -412,6 +415,16 @@ public class KaoqinAction extends BaseAdminAction {
 			if (obj.get("skill") != null) {
 				String skill = obj.getString("skill").toString();
 				map.put("skill", skill);
+			}
+			// 工号
+			if (obj.get("workNumber") != null) {
+				String workNumber = obj.getString("workNumber").toString();
+				map.put("workNumber", workNumber);
+			}
+			// 单元
+			if (obj.get("xFactoryUnit") != null) {
+				String xFactoryUnit = obj.getString("xFactoryUnit").toString();
+				map.put("xFactoryUnit", xFactoryUnit);
 			}
 		}
 		pager = this.adminService.getEmpPager(pager, map, admin);
@@ -975,5 +988,22 @@ public class KaoqinAction extends BaseAdminAction {
 		this.unitdistributeModels = unitdistributeModels;
 	}
 
+	public String getWorkNumber() {
+		return workNumber;
+	}
+
+	public void setWorkNumber(String workNumber) {
+		this.workNumber = workNumber;
+	}
+
+	public String getxFactoryUnit() {
+		return xFactoryUnit;
+	}
+
+	public void setxFactoryUnit(String xFactoryUnit) {
+		this.xFactoryUnit = xFactoryUnit;
+	}
+
+	
 	/** ===========================end get/set=============================== */
 }

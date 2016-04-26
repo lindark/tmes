@@ -274,10 +274,6 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.get(admin.getId());
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-				for(int i=0;i<workingbillList.size();i++){
-					System.out.println(workingbillList.get(i).getMaktx());
-					System.out.println(workingbillList.get(i).getMatnr());
-				}
 				Collections.sort(workingbillList, new SortChineseName());  
 				
 				info = "";
@@ -293,6 +289,7 @@ public class AdminAction extends BaseAdminAction {
 					}
 					           
 				}
+				
 		//		Collections.sort(workingbillList);
 			}
 		}catch(Exception e){

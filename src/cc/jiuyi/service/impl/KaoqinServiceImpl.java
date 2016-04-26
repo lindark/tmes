@@ -520,4 +520,9 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	{
 		return kqDao.getByTPSA(sameTeamId, productDate, shift, adminId);
 	}
+	@Override
+	public List<Kaoqin> getKaoqinList(String productDate, String shift,
+			String factoryUnitCode) {
+		return this.kqDao.getKaoqinList(productDate, shift,factoryUnitCode);
+	}
 }

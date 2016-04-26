@@ -100,6 +100,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public List<Process> processList;
 	private String loginid;
 	private String show;
+	private String[] workingCode;
 	
 	@Resource
 	private AdminService adminService;
@@ -221,11 +222,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 						processHandover1.setPlanCount(wb.getPlanCount()==null?"":wb.getPlanCount().toString());
 						processHandover1.setMatnr(wb.getMatnr());
 						processHandover1.setMaktx(wb.getMaktx());
-						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
-						if(wbnext!=null){
-							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
-							processHandover1.setAfterWorkingBillCode(wbnext.getWorkingBillCode());
-						}
+//						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
+//						if(wbnext!=null){
+//							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
+//							processHandover1.setAfterWorkingBillCode(wbnext.getWorkingBillCode());
+//						}
 						
 						
 						if(materialList!=null && materialList.size()>0){
@@ -250,9 +251,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 									/*uuid = CommonUtil.getUUID();
 									processHandoverSon1.setId(uuid);*/
 									b.setBeforeWorkingCode(wb.getWorkingBillCode());
-									if(wbnext!=null){
-										b.setAfterWorkingCode(wbnext.getWorkingBillCode());
-									}
+//									if(wbnext!=null){
+//										b.setAfterWorkingCode(wbnext.getWorkingBillCode());
+//									}
 									processHandoverSon1.setProcessHandover(processHandover1);
 									processHandoverSon1.setProductAmount(b.getProductAmount()==null?"":b.getProductAmount().toString());
 									processHandoverSon1.setBomCode(b.getMaterialCode());
@@ -449,6 +450,14 @@ public class ProcessHandoverAction extends BaseAdminAction {
 
 	public void setShow(String show) {
 		this.show = show;
+	}
+
+	public String[] getWorkingCode() {
+		return workingCode;
+	}
+
+	public void setWorkingCode(String[] workingCode) {
+		this.workingCode = workingCode;
 	}
 	
 	

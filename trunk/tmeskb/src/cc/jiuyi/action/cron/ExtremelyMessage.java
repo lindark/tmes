@@ -26,10 +26,13 @@ import cc.jiuyi.entity.AbnormalLog;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.SwiptCard;
+import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CallreasonService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
@@ -51,6 +54,8 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 	private AdminService adminService;
 	@Resource
 	private CallreasonService callReasonService;
+	@Resource
+	private UnitdistributeProductService productservice;
 	
 	public void setTimeout(int timeout){
 		  this.timeout = timeout;
@@ -97,8 +102,12 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		 			maps1.put("reasonid",jsonObj.getString("reasonid"));
 		 			hashmapList.add(maps1);
 		 			
-		 			Callreason call1 = callReasonService.get(jsonObj.getString("reasonid"));//短信
-		 			String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+admin.getName();
+		 			Callreason call1 = callReasonService.get(jsonObj.getString("reasonid"));//短信		 			
+		 			UnitdistributeProduct product=productservice.get(jsonObj.getString("productid"));
+		 			SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
+					String time=sdf.format(abnormal.getCallDate()); 
+					String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+" 呼叫时间:"+time;
+					
 		 			
 		 			 String phoneNo = admin2.getPhoneNo();
 		 			

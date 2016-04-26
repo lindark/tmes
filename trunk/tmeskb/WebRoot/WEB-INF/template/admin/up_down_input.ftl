@@ -92,7 +92,7 @@ inupt.stockMout {
 								<input type="hidden" name="type" value="${(type)!}"/> 
 								<input type="hidden" id="work" name="workingBill" value="${(workingBill)!'' }"/>
 								<input type="hidden" id="workId" name="workingBillId" value="${(workingBillId)!'' }"/>
-								<input type="hidden" id="cardNumber" name="cardnumber" value="${(cardnumber)!}">
+								<input type="hidden" id="cardnumber1" name="cardnumber1" value="${(cardnumber1)!}">
 								<input type="hidden" id="funid" name="funid" value="${(funid)!}">
 								<input type="hidden" id="inputmenge" name="inputmenge" value="${(inputmenge)!}">
 								<!-- <div class="site">
@@ -322,8 +322,8 @@ $(function() {
 		});
 		$("#search_btn").click(function() {
 			var workId = $("#workId").val();
-			var carduumber = $("#cardNumber").val();
-			if(carduumber != ""){
+			var cardnumber = $("#cardnumber1").val();
+			if(cardnumber != ""){
 				$("#inputForm").attr("action","up_down!addForWuliu.action");
 			}else{
 				if( workId != ""){

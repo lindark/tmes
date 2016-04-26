@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import cc.jiuyi.action.cron.WorkingBillJobAll;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -37,6 +38,7 @@ import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -44,6 +46,8 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -67,6 +71,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 public class WorkingBillAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 1341979251224008699L;
+	public static Logger log = Logger.getLogger(WorkingBill.class);
 	
 	private WorkingBill workingbill;
 	private List<Material> materialList;
@@ -78,6 +83,7 @@ public class WorkingBillAction extends BaseAdminAction {
 	private String funid;
 	private List<String> moudles;
 	private String info;
+	private String workcode;
 
 	@Resource
 	private WorkingBillService workingbillService;
@@ -216,13 +222,41 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	//同步
 	public String sync() throws SchedulerException {
-		System.out.println(aufnr+","+start+","+end);
+		/*System.out.println(aufnr+","+start+","+end);
 		
 		
 		SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
 		Scheduler scheduler = gSchedulerFactory.getScheduler();
 		int state = scheduler.getTriggerState("cronTriggerWorkingBill", "DEFAULT");
-		System.out.println(state);
+		System.out.println(state);*/
+		log.info("同步生产订单开始..."+workcode);
+		try {
+			Date newdate = new Date();
+			//String startdate = String.format("%tF%n", newdate);
+			String starttime = String.format("%tT%n", newdate);
+			//newdate = DateUtils.addDays(newdate, 1);
+			//String enddate = String.format("%tF%n", newdate);
+			String endtime = String.format("%tT%n", newdate);
+			//FactoryUnit factoryunit = this.factoryUnitService.get("factoryUnitCode",workcode);
+			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
+			String workshopcode = "201";
+			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
+			Object[] propertyValues = {workcode,"1","N"};
+			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);
+			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,"",workshopcode,unitdistributeList);
+		} catch (IOException e){
+			log.error("同步生产订单出错"+e);
+			e.printStackTrace();
+		} catch (CustomerException e){
+			log.error("同步生产订单出错"+e);
+			e.printStackTrace();
+		} catch (Exception e){
+			log.error("错误"+e);
+			e.printStackTrace();
+		}
+		
+		log.info("同步生产订单结束..."+workcode);
+		
 		return SUCCESS;
 	}
 	
@@ -495,6 +529,14 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public String getWorkcode() {
+		return workcode;
+	}
+
+	public void setWorkcode(String workcode) {
+		this.workcode = workcode;
 	}
 
 

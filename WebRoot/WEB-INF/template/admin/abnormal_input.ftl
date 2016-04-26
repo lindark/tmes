@@ -79,6 +79,7 @@ body{background:#fff;}
 											<thead>
 												<tr>											
 													<th>姓名</th>
+													<th>产品</th>
 													<th>短信</th>
 													<th>操作</th>
 												</tr>
@@ -151,6 +152,11 @@ $(function(){
 	        	html+="<td>";
 	        	html+="<input type='hidden' name='callReasonSet["+size+"].adminid' value='"+arrayObj[i].id+"'/>";
 	        	html+="<input type='text' value='"+arrayObj[i].name+"'/>";
+	        	html+="</td>";
+	        	html+="<td>";
+	        	html+="<select name='callReasonSet["+size+"].product.id' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";
+	        	html+="<#list productList as list><option value='${list.id}'>${list.materialName}</option></#list>";
+				html+=+"</select>";
 	        	html+="</td>";
 	        	html+="<td>";
 	        	html+="<select name='callReasonSet["+size+"].id' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";

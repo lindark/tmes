@@ -45,6 +45,37 @@ body {
 								<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 								<div class="operateBar">
 									<div class="form-group">
+										<label class="col-sm-2" style="text-align:right;">单元:</label>
+										<div class="col-sm-4">
+											<input type="text" name="xFactoryUnit"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+										
+
+
+										<label class="col-sm-2" style="text-align:right;">班次:</label>
+										<div class="col-sm-4">
+											<select name="shift" id="form-field-icon-1" class="input input-sm form-control">
+								                <option value="">非当前班次</option>
+								                <!--<option value="1">早</option>
+								                <option value="2">白</option>
+								                <option value="3">晚</option>-->
+						               		</select>
+										</div>
+									</div>
+									
+									
+									<div class="form-group">
+										
+										
+										<label class="col-sm-2" style="text-align:right;">岗位:</label>
+										<div class="col-sm-4">
+											<input type="text" name="skill"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
+										
 										<label class="col-sm-2"
 											style="text-align:right;">班组:</label>
 										<div class="col-sm-4">
@@ -52,17 +83,7 @@ body {
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-
-
-										<label class="col-sm-2" style="text-align:right;">班次:</label>
-										<div class="col-sm-4">
-											<select name="shift" id="form-field-icon-1" class="input input-sm form-control">
-							                <option value="">&nbsp;</option>
-							                <option value="1">早</option>
-							                <option value="2">白</option>
-							                <option value="3">晚</option>
-						               </select>
-										</div>
+										
 									</div>
 									
 									
@@ -73,9 +94,9 @@ body {
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										<label class="col-sm-2" style="text-align:right;">岗位:</label>
+										<label class="col-sm-2" style="text-align:right;">员工工号:</label>
 										<div class="col-sm-4">
-											<input type="text" name="skill"
+											<input type="text" name="workNumber"
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>

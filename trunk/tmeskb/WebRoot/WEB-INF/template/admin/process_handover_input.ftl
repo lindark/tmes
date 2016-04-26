@@ -380,6 +380,11 @@
 																				<td style="width:15%;">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
+																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				</td>
+																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				</td>
+																				
 																			</tr>
 																		</#list> 
 																		
@@ -412,7 +417,7 @@
 																	<!--  
 																	<#if (list.afterWorkingBillCode)!??> -->
 																	<td class="center"><input type="text" class="afterWork state_input"
-																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value=""/></td>
+																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/></td>
 																	<!-- 
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
@@ -568,7 +573,7 @@
 				$(".workingCode1").each(function(){
 					if($(this).val() == $(this).parent().next().children().val()){
 						flag = false;
-						alert("上班随工单不允许与下班随工单一致");
+						layer.alert("上班随工单不允许与下班随工单一致",{icon: 7});
 						return false;
 					}
 				});

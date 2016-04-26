@@ -88,6 +88,17 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		return this.getSession().createQuery(hql).setParameter(0, tid).setParameter(1, tid).list();
 	}
 
+	
+	public static boolean isMath(String value) {
+		  try {
+		   Integer.parseInt(value);
+		   return true;
+		  } catch (NumberFormatException e) {
+		   return false;
+		  }
+		}
+	
+	
 	/**
 	 * jqgrid分页条件查询--考勤
 	 */
@@ -100,15 +111,16 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 		{
 			detachedCriteria.createAlias("post", "post");
 		}
-		//部门
-//		if(!super.existAlias(detachedCriteria, "department", "department"))
-//		{
-//			detachedCriteria.createAlias("department", "department");
-//		}
+		
 		//班组
 		if(!super.existAlias(detachedCriteria, "team", "team"))
 		{
 			detachedCriteria.createAlias("team", "team");
+		}
+		//单元
+		if(!super.existAlias(detachedCriteria, "team.factoryUnit", "factoryUnit"))
+		{
+			detachedCriteria.createAlias("team.factoryUnit", "factoryUnit");
 		}
 		if(map.size()>0)
 		{
@@ -118,10 +130,10 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			    detachedCriteria.add(Restrictions.like("team.teamName","%"+ map.get("team")+"%"));
 			}
 			//班次
-			if(map.get("shift")!=null)
+			/*if(map.get("shift")!=null)
 			{
 				detachedCriteria.add(Restrictions.eq("shift", map.get("shift")));
-			}
+			}*/
 			//姓名
 			if(map.get("name")!=null)
 			{
@@ -132,14 +144,47 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 			{
 				detachedCriteria.add(Restrictions.like("post.postName", "%"+map.get("skill")+"%"));
 			}
+			//工号
+			if(map.get("workNumber")!=null)
+			{
+				detachedCriteria.add(Restrictions.like("workNumber", "%"+map.get("workNumber")+"%"));
+			}
+			//单元
+			if(map.get("xFactoryUnit")!=null)
+			{
+				String str="";
+				if(isMath(map.get("xFactoryUnit")))
+				{
+					str="factoryUnit.factoryUnitCode";
+				}
+				else
+				{
+					str="factoryUnit.factoryUnitName";
+				}
+				detachedCriteria.add(Restrictions.like(str, "%"+map.get("xFactoryUnit")+"%"));
+				
+			}
 		}
+		//非当前班组的
 		detachedCriteria.add(Restrictions.ne("team.id", admin.getTeam().getId()));
 		//detachedCriteria.add(Restrictions.ne("shift", admin.getShift()));
-		detachedCriteria.add(Restrictions.eq("team.factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
-		detachedCriteria.add(Restrictions.ne("isdaiban", admin.getTeam().getId()));
+		//当前单元的,已修改成所有单元的
+		//detachedCriteria.add(Restrictions.eq("team.factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		//不是当前班组代班人员的,由于代班标志位以不做维护，此处判断已失效
+		//detachedCriteria.add(Restrictions.ne("isdaiban", admin.getTeam().getId()));
 		//detachedCriteria.add(Restrictions.eq("workstate", "1"));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//未离职的
 		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
+		
+		
+		//需要排除已添加成为代班人员的，需要到考勤表里查找是否有数据，有时将过滤,这里获取已是代班人员的id 列表
+		String hql="select a.empid from TempKaoqin a where a.productdate='"+admin.getProductDate()+
+				"' and a.classtime='"+admin.getShift()+"' and a.team.id='"+admin.getTeam().getId()+"'";
+		//System.out.println(hql);
+		List<String> idList=(List<String>)getSession().createQuery(hql).list();
+		//System.out.println(idList.size());
+		detachedCriteria.add(Restrictions.not(Restrictions.in("id", idList)));//取出未删除标记数据
+		
 		return super.findByPager(pager, detachedCriteria);
 	}
 	

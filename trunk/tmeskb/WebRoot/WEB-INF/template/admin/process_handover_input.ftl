@@ -86,6 +86,24 @@
 											<option value="${(pl.processCode)! }">${(pl.processName)! }</option>
 										</#list> -->
 									</select>
+									<div class="div_top">
+										 下班生产日期:
+                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                                	        班次:
+                                     <select name="shift"id="sl_sh">
+                                     	<option value="" <#if (admin.shift == "")!> selected</#if>></option>
+                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
+										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+                              	     </select>
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                                   	   工序选择:
+                                     <select name="shift"id="sl_sh">
+                                     	<#list processList as list>
+                                     	<option value="${list.processName }">${list.processName }</option>
+                                     	</#list>
+                                     </select>
 										<div class="widget-header">
 											<h4 class="widget-title lighter">班组信息</h4>
 											<div class="widget-toolbar no-border">
@@ -349,7 +367,7 @@
 																			<tr>
 																				<td style="width:65%;"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
-																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
+																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
@@ -388,15 +406,17 @@
 																	<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
 																	</td>
 																	
-																	<td>${(list.workingBillCode)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
+																	<td class="workingCode" name="workingCode" class="workingCode">${(list.workingBillCode)! }
+																	<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" class="workingCode1" value="${(list.workingBillCode)! }">
 																	</td>
-																	<#if (list.afterWorkingBillCode)!??>
-																	<td>${(list.afterWorkingBillCode)! }</td>
-																	<input type="hidden" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }">
+																	<!--  
+																	<#if (list.afterWorkingBillCode)!??> -->
+																	<td class="center"><input type="text" class="afterWork state_input"
+																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value=""/></td>
+																	<!-- 
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
-																	</#if>
+																	</#if>  -->
 																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
@@ -410,6 +430,8 @@
 																				<th class=""style="width:5%;">子件数量</th>
 																				<th class=""style="width:15%">条子数量</th>
 																				<th class=""style="width:15%">产品数量</th>
+																				<th class=""style="width:15%">合格数量</th>
+																				<th class=""style="width:15%">返修数量</th>
 																				
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
@@ -419,6 +441,8 @@
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
+																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber" value="${bl.qualifiedNumber }">
+																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].repairNumber" value="${bl.repairNumber }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
 																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
@@ -428,6 +452,10 @@
 																				</td>
 																				<td style="width:15%;">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
+																				</td>
+																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				</td>
+																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
 																			</tr>
 																		</#list> 
@@ -526,6 +554,29 @@
 		 $("#btn_save").click(function(){
 		 		var dt=$("#inputForm").serialize();
 				var loginId = $("#loginid").val();
+				var productDate = $("#productDate").val();
+				var select = $("#sl_sh").val();
+				
+				if(productDate == ""){
+					layer.alert("请选择下班生产日期",{icon: 7});
+					return false;
+				}
+				
+				if(select == ""){
+					layer.alert("请选择班次",{icon: 7});
+					return false;
+				}
+				var flag = true;
+				$(".workingCode1").each(function(){
+					if($(this).val() == $(this).parent().next().children().val()){
+						flag = false;
+						alert("11111111111");
+						return false;
+					}
+				});
+				
+				
+				if(flag){
 				<#if isAdd??>
 				var url="process_handover!creditsubmit.action?loginid="+loginId;
 				<#else>
@@ -541,9 +592,10 @@
 					        closeBtn: 0,
 					        icon:5,
 					        skin:'error'
-					    });
-					}					
-				},dt)
+						    });
+						}					
+					},dt)
+				}
 		}); 
 		 /*返回*/
 			$("#btn_back").click(function(){
@@ -556,5 +608,107 @@
 			 var process = $("#process option:checked").text();
 			 $("#processName").val(process);
 		 });
+		 $("#sl_sh").change(function(){
+				var shift = $("#sl_sh").val();
+				var $afterwork = $(".afterWork");
+				if(shift==""){
+					
+					for(var i=0;i<$afterwork.length;i++){
+						$afterwork.eq(i).val("");
+					}
+					return false;
+				}
+				var productDate = $("#productDate").val();
+				if(productDate==""){
+					return false;
+				}
+				
+				 var array = [];
+					$(".workingCode").each(function(){
+						array.push($(this).text());
+					});
+					var loginid = $("#loginid").val();
+				  $.ajax({
+						url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
+						data:{"nowDate":productDate,"shift":shift,"workingCode":array},
+						traditional: true,  
+						dataType: "json",
+						type:"POST",
+						success:function(data){
+							if(data.status=="error"){
+								for(var i=0;i<$afterwork.length;i++){
+									$afterwork.eq(i).val("");
+								}
+							}else{
+								for(var i=0;i<$afterwork.length;i++){
+									$afterwork.eq(i).val(data[i].afterCode);
+								}
+							}
+						},
+						error:function(){
+							layer.alert("操作失败");
+						}
+					});  
+				
+			});
+		 $("#productDate").change(function(){
+				if($(this).val()==""){
+					alert("生产日期不允许为空");
+					$(this).val(productDates);
+					return false;
+				}else{
+						// 统一日期格式
+						var strDate = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
+						var beforelength = $(this).val().length;
+						if(beforelength==9){
+							var befores = $(this).val().charAt(beforelength-1);
+							if(befores=="0"){
+								layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+								$(this).val(productDates);
+								return false;
+							}
+						}
+						  //判断日期是否是预期的格式
+						  if (!strDate.test($(this).val())) {
+							  layer.alert("请输入正确的日期格式(例如:1970-01-01或1907-1-1)");
+						    $(this).val(productDates);
+						    return false;
+						  }
+						  var shift = $("#sl_sh").val();
+							if(shift==""){
+								return false;
+							}
+						  var productDate = $(this).val();
+						  var array = [];
+							$(".workingCode").each(function(){
+								array.push($(this).text());
+							});
+							var $afterwork = $(".afterWork");
+							var loginid = $("#loginid").val();
+						  $.ajax({
+								url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
+								data:{"nowDate":productDate,"shift":shift,"workingCode":array},
+								traditional: true,  
+								dataType: "json",
+								type:"POST",
+								success:function(data){
+									if(data.status=="error"){
+										for(var i=0;i<$afterwork.length;i++){
+											$afterwork.eq(i).val("");
+										}
+									}else{
+										for(var i=0;i<$afterwork.length;i++){
+											$afterwork.eq(i).val(data[i].afterCode);
+										}
+									}
+								},
+								error:function(){
+									layer.alert("操作失败");
+								}
+							});  
+						  
+				}
+				
+			});
 	});
 </script>

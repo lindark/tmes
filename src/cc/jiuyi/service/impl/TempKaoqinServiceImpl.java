@@ -395,6 +395,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			if(fu!=null)
 			{
 				tkq.setFactoryUnit(fu.getFactoryUnitName());
+				tkq.setFactoryUnitCode(fu.getFactoryUnitCode());
 			}
 			this.save(tkq);
 			tkqList.add(tkq);
@@ -433,6 +434,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			kq.setWorkNum(tkq.getWorkNum());
 			kq.setPostCode(tkq.getPostCode());
 			kq.setFactoryUnit(tkq.getFactoryUnit());
+			kq.setFactoryUnitCode(tkq.getFactoryUnitCode());
 			kq.setStationName(tkq.getStationName());
 			kq.setWorkName(tkq.getWorkName());
 			kq.setIsdaiban(tkq.getIsdaiban());						

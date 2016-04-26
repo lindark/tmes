@@ -34,8 +34,8 @@ public class Kaoqin extends BaseEntity{
 	private String modleNum;//模具组号
 	private String workNum;//工作范围-编码
 	private String postCode;//岗位编码
-	private String factoryUnit;//单元
-	
+	private String factoryUnit;//单元名字
+	private String factoryUnitCode;//单元编码
 	private String stationName;//工位名称
 	private String workName;//工作范围名称
 	
@@ -270,5 +270,14 @@ public class Kaoqin extends BaseEntity{
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
+	
+	
+	public String getFactoryUnitCode() {
+		return factoryUnitCode;
+	}
+	public void setFactoryUnitCode(String factoryUnitCode) {
+		this.factoryUnitCode = factoryUnitCode;
+	}
+	
 }
 

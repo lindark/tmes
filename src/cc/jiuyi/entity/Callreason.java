@@ -27,6 +27,7 @@ public class Callreason extends BaseEntity {
 	
 	private Set<Abnormal> abnormalSet;//异常 
 	private String adminid;
+	private UnitdistributeProduct product;	//单元分配产品ID
 	
 	public String getCallType() {
 		return callType;
@@ -68,10 +69,20 @@ public class Callreason extends BaseEntity {
 	public String getAdminid() {
 		return adminid;
 	}
+	
 	public void setAdminid(String adminid) {
 		this.adminid = adminid;
 	}
-
+	
+	@Transient
+	public UnitdistributeProduct getProduct() {
+		return product;
+	}
+	public void setProduct(UnitdistributeProduct product) {
+		this.product = product;
+	}
+	
+	
 	
 	
 }

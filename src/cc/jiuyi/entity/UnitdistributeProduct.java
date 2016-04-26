@@ -34,6 +34,7 @@ public class UnitdistributeProduct extends BaseEntity{
     private String materialName;//物料名称
     
     private Set<Admin> adminSet;
+    private Set<Abnormal> abnormalSet;
     
     private String xunitName;
     private String xunitCode;
@@ -106,11 +107,21 @@ public class UnitdistributeProduct extends BaseEntity{
 	public void setAdminSet(Set<Admin> adminSet) {
 		this.adminSet = adminSet;
 	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "productSet")
+	public Set<Abnormal> getAbnormalSet() {
+		return abnormalSet;
+	}
+
+	public void setAbnormalSet(Set<Abnormal> abnormalSet) {
+		this.abnormalSet = abnormalSet;
+	}
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	public FactoryUnit getFactoryunit() {
 		return factoryunit;
-	}
+	}	
+
 
 	public void setFactoryunit(FactoryUnit factoryunit) {
 		this.factoryunit = factoryunit;

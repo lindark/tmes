@@ -44,6 +44,8 @@ public class Abnormal extends BaseEntity{
 	
 	private Admin iniitiator;//发起人
 	private Set<Admin> responsorSet;//应答人
+	private Set<UnitdistributeProduct> productSet;//产品
+	
 	private Set<Quality> qualitySet;//质量问题单
 	private Set<Model> modelSet;//工模维修单
 	private Set<Craft> craftSet;//工艺维修单
@@ -100,10 +102,20 @@ public class Abnormal extends BaseEntity{
 	public void setResponsorSet(Set<Admin> responsorSet) {
 		this.responsorSet = responsorSet;
 	}
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	public Set<UnitdistributeProduct> getProductSet() {
+		return productSet;
+	}
+	public void setProductSet(Set<UnitdistributeProduct> productSet) {
+		this.productSet = productSet;
+	}
+	
 	@Column
 	public String getState() {
 		return state;
 	}
+	
 	public void setState(String state) {
 		this.state = state;
 	}

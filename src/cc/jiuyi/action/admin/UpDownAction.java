@@ -97,6 +97,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String lgplaun;//接收仓位
 	private String loginid;
 	private String cardnumber;
+	private String cardnumber1;
 	private String materialCode;//物料编码
 	private String materialDesp;//物料描述
 	private List<Locationonside> locationonsideList;
@@ -126,6 +127,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String inputmenge;// 数量
 	private String funid;//单元ID
 	private Map<String,String> map = new HashMap<String,String>();
+	
 	
 	
 	// 超市领用记录 @author Reece 2016/3/22
@@ -194,7 +196,7 @@ public class UpDownAction extends BaseAdminAction {
 				UpDown updown = updownList.get(i);
 				updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
 				updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
-				updown.setAdminname(updown.getAppvaladmin().getName());
+				updown.setAdminname(updown.getAppvaladmin()==null?"":updown.getAppvaladmin().getName());
 				lst.add(updown);
 			}
 			pager.setList(lst);
@@ -378,7 +380,7 @@ public class UpDownAction extends BaseAdminAction {
 	public String addForWuliu(){
 		type="up";
 		//检查数据完整性
-			Admin admin=this.adminService.getByCardnum(cardnumber);
+			Admin admin=this.adminService.getByCardnum(cardnumber1);
 			
 		if(admin.getTeam()==null){
 			addActionError("当前登录人员未绑定班组");
@@ -963,7 +965,7 @@ public class UpDownAction extends BaseAdminAction {
 			UpDown updown = updownList.get(i);
 			updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
 			updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
-			updown.setAdminname(updown.getAppvaladmin().getName());
+			updown.setAdminname(updown.getAppvaladmin()==null?"":updown.getAppvaladmin().getName());
 			updownList1.add(updown);
 		}
 		pager.setList(updownList1);
@@ -1004,7 +1006,7 @@ public class UpDownAction extends BaseAdminAction {
 			UpDown updown = updownList.get(i);
 			updown.setTypex(ThinkWayUtil.getDictValueByDictKey(dictservice, "updown", updown.getType()));
 			updown.setShiftx(ThinkWayUtil.getDictValueByDictKey(dictservice, "kaoqinClasses", updown.getShift()));
-			updown.setAdminname(updown.getAppvaladmin().getName());
+			updown.setAdminname(updown.getAppvaladmin()==null?"":updown.getAppvaladmin().getName());
 			updownList1.add(updown);
 		}
 		pager.setList(updownList1);
@@ -1557,6 +1559,16 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setMap(Map<String, String> map) {
 		this.map = map;
+	}
+
+
+	public String getCardnumber1() {
+		return cardnumber1;
+	}
+
+
+	public void setCardnumber1(String cardnumber1) {
+		this.cardnumber1 = cardnumber1;
 	}
 
 	

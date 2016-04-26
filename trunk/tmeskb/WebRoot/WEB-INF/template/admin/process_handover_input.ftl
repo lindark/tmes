@@ -441,11 +441,9 @@
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber" value="${bl.qualifiedNumber }">
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].repairNumber" value="${bl.repairNumber }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
+																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
 																				<td style="width:15%;" >${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
@@ -453,9 +451,9 @@
 																				<td style="width:15%;">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
 																			</tr>
 																		</#list> 
@@ -570,7 +568,7 @@
 				$(".workingCode1").each(function(){
 					if($(this).val() == $(this).parent().next().children().val()){
 						flag = false;
-						alert("11111111111");
+						alert("上班随工单不允许与下班随工单一致");
 						return false;
 					}
 				});

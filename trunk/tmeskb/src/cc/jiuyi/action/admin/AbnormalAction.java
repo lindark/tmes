@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +46,7 @@ import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.SwiptCard;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
 import cc.jiuyi.service.AdminService;
@@ -52,6 +54,7 @@ import cc.jiuyi.service.CallreasonService;
 import cc.jiuyi.service.DepartmentService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SwiptCardService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SendMsgUtil;
@@ -81,7 +84,8 @@ public class AbnormalAction extends BaseAdminAction {
 	
 	private List<Department> list;
 	private List<Admin> adminSet;
-	private List<Callreason> callReasonSet;
+	private List<Callreason> callReasonSet;	
+	
 	@Resource
 	private AbnormalService abnormalService;
 	@Resource
@@ -96,6 +100,8 @@ public class AbnormalAction extends BaseAdminAction {
 	private AbnormalLogService abnormalLogService;
 	@Resource
 	private DepartmentService deptservice;
+	@Resource
+	private UnitdistributeProductService productservice;
 
 	// 添加
 	public String add() {
@@ -458,8 +464,11 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				if(call.getAdminid() == null)
 					return ajaxJsonErrorMessage("人员不能为空");
+				if(call.getProduct() == null || call.getProduct().getId() ==null)
+					return ajaxJsonErrorMessage("产品不能为空");
 			}
 			List<Admin> responsorSet = new ArrayList<Admin>();
+			List<UnitdistributeProduct> productSet = new ArrayList<UnitdistributeProduct>();
 			List<Callreason> callreasonSet = new ArrayList<Callreason>();
 			List<String> strLen = new ArrayList<String>();
 			List<HashMap<String, String>> mapList = new ArrayList<HashMap<String,String>>();
@@ -473,22 +482,27 @@ public class AbnormalAction extends BaseAdminAction {
 				
 				Callreason call = callReasonSet.get(i);
 				Admin admin = adminService.get(call.getAdminid());//人员
-				Callreason call1 = callReasonService.get(call.getId());//短信
-				String message=workshop+unit+"单元出现"+call1.getCallReason()+"。   "+"呼叫人:"+adminName;
+				UnitdistributeProduct product=productservice.get(call.getProduct().getId());
+				Callreason call1 = callReasonService.get(call.getId());//短信				
+				SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
+				String time=sdf.format(new Date()); 
+				String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+" 呼叫时间:"+time;
 								
 				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口											
 	            Document doc;   
 	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
 	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
 		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
-		      		errormes += admin.getName()+":短信发生失败!";
-		      	}								
+		      		errormes += admin.getName()+":短信发送失败!";
+		      	}							
 				
 		      	responsorSet.add(admin);//将短信人加进去
+		      	productSet.add(product);
 		      	callreasonSet.add(call1);//将短信内容加进去
 		      	strLen.add(admin.getName());		   
 		      	map.put("adminid", call.getAdminid());
 		      	map.put("reasonid", call.getId());
+		      	map.put("productid", product.getId());
 		      	mapList.add(map);
 		      	
 		      	//同时要给添加人的上级发送，所以把添加人加入map中
@@ -496,6 +510,7 @@ public class AbnormalAction extends BaseAdminAction {
 		      	HashMap<String,String> sjmap = new HashMap<String,String>();
 		      	sjmap.put("adminid", loginAdmin.getId());
 		      	sjmap.put("reasonid", call.getId());
+		      	map.put("productid", product.getId());
 		      	mapList.add(sjmap);
 			}
 			
@@ -511,6 +526,7 @@ public class AbnormalAction extends BaseAdminAction {
 			abnormal.setState("0");
 			
 			abnormal.setResponsorSet(new HashSet<Admin>(responsorSet));			
+			abnormal.setProductSet(new HashSet<UnitdistributeProduct>(productSet));			
 			abnormal.setCallreasonSet(new HashSet<Callreason>(callreasonSet));
 			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
 			
@@ -827,6 +843,13 @@ public class AbnormalAction extends BaseAdminAction {
 	// 获取所有原因
 	public List<Callreason> getCallReasonList() {
 		return callReasonService.getAll();
+	}
+	
+	// 获取本单元所有产品
+	public List<UnitdistributeProduct> getProductList() {
+		admin=adminService.getLoginAdmin();
+		admin=adminService.get(admin.getId());
+		return productservice.getProductList(admin.getTeam().getFactoryUnit().getFactoryUnitCode());
 	}
 
 	public String getCallReasonId() {

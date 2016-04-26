@@ -24,6 +24,8 @@ public class ProcessHandoverSon extends BaseEntity {
 	private String bomAmount;//子件数量
 	private String materialAmount;//条子数量
 	private String productAmount;//产品数量
+	private String qualifiedNumber;//合格数量
+	private String repairNumber;//返修数量
 	
 	
 	/**
@@ -97,4 +99,21 @@ public class ProcessHandoverSon extends BaseEntity {
 		this.beforeWorkingCode = beforeWorkingCode;
 	}
 
+	public String getQualifiedNumber() {
+		return qualifiedNumber;
+	}
+
+	public void setQualifiedNumber(String qualifiedNumber) {
+		this.qualifiedNumber = qualifiedNumber;
+	}
+
+	public String getRepairNumber() {
+		return repairNumber;
+	}
+
+	public void setRepairNumber(String repairNumber) {
+		this.repairNumber = repairNumber;
+	}
+
+	
 }

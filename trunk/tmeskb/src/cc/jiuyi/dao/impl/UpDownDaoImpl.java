@@ -36,7 +36,7 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 				admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
 		if(admin.getTeam()!=null &&admin.getTeam().getFactoryUnit()!=null)
-		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		//detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		detachedCriteria.add(Restrictions.in("type", list));
 		
 		//增加单元筛选
@@ -44,9 +44,9 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		{
 			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		}
-		if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
+		/*if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
 			detachedCriteria.createAlias("appvaladmin", "appvaladmin");
-		}
+		}*/
 		
 		return super.findByPager(pager, detachedCriteria);
 	}
@@ -59,7 +59,7 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 				admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
 		if(admin.getTeam()!=null &&admin.getTeam().getFactoryUnit()!=null)
-		detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
+		//detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		detachedCriteria.add(Restrictions.in("type", list));
 		
 		//增加单元筛选
@@ -67,9 +67,9 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 		{
 			detachedCriteria.add(Restrictions.eq("factoryUnit.id", admin.getTeam().getFactoryUnit().getId()));
 		}
-		if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
+		/*if (!existAlias(detachedCriteria, "appvaladmin", "appvaladmin")) {
 			detachedCriteria.createAlias("appvaladmin", "appvaladmin");
-		}
+		}*/
 		
 		if (map.size() > 0) {
 			if (map.get("maktx") != null) {

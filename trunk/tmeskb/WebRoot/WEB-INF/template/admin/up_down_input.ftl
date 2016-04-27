@@ -133,9 +133,12 @@ inupt.stockMout {
 												<select name="lgpla" style=" width:160px;" id="lgpla">
 												<option value="" ></option>
 												<#list trimWareHouseSet as list>
-												<#if list == "R-00">
-												<#else>
+												<#if list != "R-00">
 												<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
+												<#else>
+													<#if workingBillId ?? || workingBillId =="">
+													<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
+													</#if>
 												</#if>
 												</#list>
 											</select>
@@ -181,6 +184,9 @@ inupt.stockMout {
 
 													<tr>
 														<th class="tabth">库存地点</th>
+														<#if type="down">
+														<th class="tabth">仓位</th>
+														</#if>
 														<th class="tabth">物料编码</th>
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
@@ -196,6 +202,14 @@ inupt.stockMout {
 														<input type="hidden"
 															name="updownList[${lns_index}].lgortname"
 															value="${(lns.locationName)!}">
+														<#if type="down">
+														<td>${(lns.locationName)! }</td>
+														<input type="hidden" name="updownList[${lns_index}].lgpla"
+															value="${(lns.locationName)!}">
+														<input type="hidden"
+															name="updownList[${lns_index}].lgplaname"
+															value="${(lns.locationName)!}">
+														</#if>
 														<td>${(lns.materialCode)! }</td>
 														<td>${(lns.materialName)! }</td>
 														<input type="hidden" name="updownList[${lns_index}].matnr"

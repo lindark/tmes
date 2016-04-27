@@ -356,6 +356,7 @@ public class UpDownAction extends BaseAdminAction {
 				}
 			
 				locationonside.setLocationCode(lgort);//库存地点
+				locationonside.setLocationName(lgpla);//仓位
 				locationonside.setMaterialCode(matnr01);//物料编码
 				locationonside.setMaterialName(maktx01);//物料描述
 				locationonside.setCharg(hashmap.get("charg"));//批次
@@ -510,7 +511,7 @@ public class UpDownAction extends BaseAdminAction {
 			//Bom获取
 			
 			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-			String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+			String lgpla = "R-00";//仓位
 			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 			String im_type = "";
 			
@@ -564,10 +565,11 @@ public class UpDownAction extends BaseAdminAction {
 			
 			//业务处理
 			werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();//工厂
+			
 			lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 			//materialCode = ThinkWayUtil.null2String(materialCode);
 			//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
-			lgpla = this.lgpla;//仓位
+			lgpla = "R-00";//仓位
 //			materialCode = "5";
 				List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 				//
@@ -599,6 +601,7 @@ public class UpDownAction extends BaseAdminAction {
 					}
 					if(flag){
 					locationonside.setLocationCode(lgort);//库存地点
+					locationonside.setLocationName(lgpla);//仓位
 					locationonside.setMaterialCode(matnr01);//物料编码
 					locationonside.setMaterialName(maktx01);//物料描述
 					locationonside.setCharg(hashmap.get("charg"));//批次
@@ -682,7 +685,7 @@ public class UpDownAction extends BaseAdminAction {
 		lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 		//materialCode = ThinkWayUtil.null2String(materialCode);
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
-		lgpla = this.lgpla;//仓位
+		lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			//
 			
@@ -708,6 +711,7 @@ public class UpDownAction extends BaseAdminAction {
 				}
 				if(flag){
 				locationonside.setLocationCode(lgort);//库存地点
+				locationonside.setLocationName(lgpla);//仓位
 				locationonside.setMaterialCode(matnr01);//物料编码
 				locationonside.setMaterialName(maktx01);//物料描述
 				locationonside.setCharg(hashmap.get("charg"));//批次

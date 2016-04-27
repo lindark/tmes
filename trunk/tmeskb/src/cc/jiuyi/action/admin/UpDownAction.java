@@ -510,7 +510,7 @@ public class UpDownAction extends BaseAdminAction {
 			//Bom获取
 			
 			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-			lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+			String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 			String im_type = "";
 			

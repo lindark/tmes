@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.compass.annotations.Searchable;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -19,6 +20,7 @@ import org.hibernate.annotations.CascadeType;
  * 实体类 - 生产订单
  */
 @Entity
+@Searchable
 public class Orders extends BaseEntity{
 
 	/**

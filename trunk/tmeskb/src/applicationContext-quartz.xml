@@ -35,7 +35,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="quartzManagerTrigger" />
+				<ref bean="quartzManagerTrigger" /> 
 				<!-- <ref local="cronTriggerCA_DocBM"/>  -->
 				<!-- <ref local="cronTriggerEquipment"/> -->
 			</list>

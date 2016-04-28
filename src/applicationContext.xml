@@ -201,6 +201,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ProcessHandoverTop</value>
 				<value>cc.jiuyi.entity.ProcessHandover</value>
 				<value>cc.jiuyi.entity.ProcessHandoverSon</value>
+				<value>cc.jiuyi.entity.FactoryUnitSyn</value>
 			</list>
 		</property>
 	</bean>

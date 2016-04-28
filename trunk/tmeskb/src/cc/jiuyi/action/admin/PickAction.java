@@ -261,12 +261,12 @@ public class PickAction extends BaseAdminAction {
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
-		}		
+		}	*/	
 		this.workingbill = workingBillService.get(workingBillId);	
 		
 		if(this.workingbill.getIsHand().equals("Y")){
@@ -442,12 +442,23 @@ public class PickAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		
+		
+	
+		
+		
 		try {
 		ids = id.split(",");
 		String message = "";
 		String pickId = "";
 		List<Pick> list = pickService.get(ids);
 		admin = adminService.getByCardnum(cardnumber);
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+		if(!ThinkWayUtil.isPass(admin)){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行退领料操作!");			
+		}
+		
 		List<PickDetail> pickdetailList = new ArrayList<PickDetail>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
@@ -531,6 +542,12 @@ public class PickAction extends BaseAdminAction {
 	public String creditundo() {
 		String str="";
 		admin = adminService.getByCardnum(cardnumber);
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+		if(!ThinkWayUtil.isPass(admin)){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行退领料操作!");			
+		}
+		
 		ids = id.split(",");
 		String message = "";
 		String pickId="";

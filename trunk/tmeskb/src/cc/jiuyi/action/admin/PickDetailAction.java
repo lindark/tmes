@@ -36,6 +36,7 @@ import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProductsService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -80,7 +81,10 @@ public class PickDetailAction extends BaseAdminAction {
 	private MatStockRfc matstockrfc;
 	@Resource
 	private BomService bomService;
-
+	@Resource
+	private TempKaoqinService tempKaoqinService;
+	
+	
 	private String productsId;
 	private WorkingBill workingbill;
 	private String workingBillId;
@@ -110,6 +114,15 @@ public class PickDetailAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
+		
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行退领料操作!");
+			return ERROR;
+		}
+		
 		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
@@ -212,6 +225,15 @@ public class PickDetailAction extends BaseAdminAction {
 	
 	// 列表
 		public String editList() {
+			
+			Admin login_admin = adminService.getLoginAdmin();
+			login_admin = adminService.get(login_admin.getId());
+			login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+			if(!ThinkWayUtil.isPass(login_admin)){
+				addActionError("您当前未上班,不能进行退领料操作!");
+				return ERROR;
+			}
+			
 			workingbill = workingBillService.get(workingBillId);
 			Admin admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());

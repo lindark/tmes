@@ -240,13 +240,13 @@ public class DeptpickAction extends BaseAdminAction {
 	public String list(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
-			addActionError("您当前未上班,不能进行成本入库操作!");
+			addActionError("您当前未上班,不能进行部门领用操作!");
 			return ERROR;
-		}
+		}*/
 		if(admin.getProductDate() != null && admin.getShift() != null){
 			List<WorkingBill> workingbillList = workingBillService.getListWorkingBillByDate(admin);
 			for(WorkingBill wb : workingbillList){
@@ -296,6 +296,15 @@ public class DeptpickAction extends BaseAdminAction {
 	public String add(){
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行部门领用操作!");
+			return ERROR;
+		}
+		
 		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
 		String wareHouse = admin.getTeam().getFactoryUnit().getWarehouse();
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
@@ -350,6 +359,17 @@ public class DeptpickAction extends BaseAdminAction {
 		return INPUT;
 	}
 	public String edit(){
+		
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行部门领用操作!");
+			return ERROR;
+		}
 		
 		deptpick = deptpickservice.get(id);
 
@@ -428,6 +448,13 @@ public class DeptpickAction extends BaseAdminAction {
 		String message="";
 		Integer ishead=0;
 		Admin admin =  adminService.getByCardnum(cardnumber);//确认人
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		if(!ThinkWayUtil.isPass(admin)){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行部门领用操作!");			
+		}
+		
 		ids = id.split(",");
 		try{
 			for(int i=0;i<ids.length;i++){
@@ -490,6 +517,13 @@ public class DeptpickAction extends BaseAdminAction {
 	public String creditundo(){
 		ids = id.split(",");
 		Admin admin =  adminService.getByCardnum(cardnumber);//确认人
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		if(!ThinkWayUtil.isPass(admin)){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行部门领用操作!");			
+		}
+		
 		List<Deptpick> deptpickList = deptpickservice.get(ids);
 		for(int i=0;i<deptpickList.size();i++){
 			Deptpick deptpick = deptpickList.get(i);

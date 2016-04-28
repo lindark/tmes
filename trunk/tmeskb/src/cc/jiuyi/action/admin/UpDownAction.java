@@ -49,6 +49,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PositionManagementService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UpDownServcie;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
@@ -89,6 +90,8 @@ public class UpDownAction extends BaseAdminAction {
 	private PickDetailService pickDetailService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	private Pager pager;
 	private UpDown updown;
@@ -462,6 +465,16 @@ public class UpDownAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String trim(){
+		
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行领料操作!");
+			return ERROR;
+		}
+		
+		
 		//检查数据完整性
 		workingbill = workingBillService.get(workingBillId);
 		Admin admin = adminservice.getLoginAdmin();

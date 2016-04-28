@@ -269,13 +269,13 @@ public class DailyWorkAction extends BaseAdminAction {
 		try{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报工操作!");
 			return ERROR;
-		}
+		}*/
 		workingbill = workingBillService.get(workingBillId);
 		}catch(RuntimeException e){
 			e.printStackTrace();
@@ -296,6 +296,16 @@ public class DailyWorkAction extends BaseAdminAction {
 	}	
 
 	public String add() {
+		
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行报工操作!");
+			return ERROR;
+		}
+		
+		
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
 		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
@@ -333,6 +343,16 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 编辑
 	public String edit() {
+		
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行报工操作!");
+			return ERROR;
+		}
+		
+		
 		dailyWork = dailyWorkService.load(id);
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
@@ -434,6 +454,13 @@ public class DailyWorkAction extends BaseAdminAction {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}*/
 		
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
+		}
+		
 		try {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
@@ -481,6 +508,15 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
+		}
+		
+		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();

@@ -86,13 +86,13 @@ public class ReturnProductAction extends BaseAdminAction {
 	
 	public String list(){
 		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		/*admin = adminService.get(admin.getId());
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行成本入库操作!");
 			return ERROR;
-		}
+		}*/
 		admin = adminService.get(admin.getId());
 		return LIST;
 	}
@@ -145,7 +145,15 @@ public class ReturnProductAction extends BaseAdminAction {
 	//添加
 	public String add(){
 		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		admin = adminService.get(admin.getId());		
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行中转仓操作!");
+			return ERROR;
+		}
+		
 		List<Locationonside> locationonsideLists =new ArrayList<Locationonside>();
 		String wareHouse = admin.getTeam().getFactoryUnit().getWarehouse();
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
@@ -201,6 +209,16 @@ public class ReturnProductAction extends BaseAdminAction {
 	}
 	//编辑
 	public String edit(){
+		
+		Admin admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行中转仓操作!");
+			return ERROR;
+		}
+		
 		if(returnProduct==null){
 			returnProduct = new ReturnProduct();
 		}
@@ -266,7 +284,15 @@ public class ReturnProductAction extends BaseAdminAction {
 		String message = "";
 		List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {
-			Admin admin =  adminService.getByCardnum(cardnumber);
+			Admin admin =  adminService.getByCardnum(cardnumber);			
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			if(!ThinkWayUtil.isPass(admin))
+			{
+				return ajaxJsonErrorMessage("您当前未上班,不能进行中转仓操作!");
+				
+			}
+			
+			
 			//endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginId);
 			List<ReturnProduct> returnProductList = new ArrayList<ReturnProduct>();
@@ -327,6 +353,12 @@ public class ReturnProductAction extends BaseAdminAction {
 		//List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			if(!ThinkWayUtil.isPass(admin))
+			{
+				return ajaxJsonErrorMessage("您当前未上班,不能进行中转仓操作!");
+				
+			}
 			//endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginId);
 			//List<ReturnProduct> returnProductList = new ArrayList<ReturnProduct>();

@@ -247,12 +247,12 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行入库操作!");
 			return ERROR;
-		}
+		}*/
 		workingbill = workingBillService.get(workingBillId);
 		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
@@ -264,6 +264,16 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 	// 编辑
 	public String edit() {
+		
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行入库操作!");
+			return ERROR;
+		}
+		
 		enteringwareHouse = enteringwareHouseService.load(id);
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
@@ -290,6 +300,17 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}	
 
 	public String add() {
+		
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行入库操作!");
+			return ERROR;
+		}
+		
+		
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
 		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
@@ -357,7 +378,15 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 
 	// 刷卡确认
-	public String creditapproval() {		
+	public String creditapproval() {
+		
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
+		}
+		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		if(unitconversion==null){
@@ -440,6 +469,14 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
+		}
+		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();		

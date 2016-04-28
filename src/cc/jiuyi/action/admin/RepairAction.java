@@ -263,6 +263,21 @@ public class RepairAction extends BaseAdminAction {
 	
 
 	public String list() {
+		/*admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行返修操作!");
+			return ERROR;
+		}*/
+		workingbill = workingBillService.get(workingBillId);
+		return "list";
+	}
+
+	// 添加
+	public String add() 
+	{
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
@@ -271,13 +286,6 @@ public class RepairAction extends BaseAdminAction {
 			addActionError("您当前未上班,不能进行返修操作!");
 			return ERROR;
 		}
-		workingbill = workingBillService.get(workingBillId);
-		return "list";
-	}
-
-	// 添加
-	public String add() 
-	{
 		this.list_dict=dictService.getList("dictname", "moudleType");
 		workingbill = workingBillService.get(workingBillId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
@@ -299,6 +307,15 @@ public class RepairAction extends BaseAdminAction {
 	// 编辑
 	public String edit() 
 	{
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行返修操作!");
+			return ERROR;
+		}
+		
 		this.list_dict=dictService.getList("dictname", "moudleType");
 		repair = repairService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
@@ -329,6 +346,15 @@ public class RepairAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		
+		admin = adminService.getByCardnum(cardnumber);		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行返修操作!");
+			 
+		}
+		
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);

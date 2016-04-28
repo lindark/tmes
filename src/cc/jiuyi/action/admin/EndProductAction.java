@@ -92,12 +92,12 @@ public class EndProductAction extends BaseAdminAction {
 	public String list() {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if (!flag) {
 			addActionError("您当前未上班,不能进行成本入库操作!");
 			return ERROR;
-		}
+		}*/
 		admin = adminService.get(admin.getId());
 		/**根据生产日期/班次/已确认查出所有对象**/
 		List<EndProduct> list = new ArrayList<EndProduct>(endProductService.getListChecked(productDate, shift));
@@ -195,6 +195,16 @@ public class EndProductAction extends BaseAdminAction {
 	public String add() {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if (!flag) {
+			addActionError("您当前未上班,不能进行成品入库操作!");
+			return ERROR;
+		}
+		
+		
 		List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
 		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
@@ -284,6 +294,14 @@ public class EndProductAction extends BaseAdminAction {
 		endProduct = endProductService.get(id);
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if (!flag) {
+			addActionError("您当前未上班,不能进行成品入库操作!");
+			return ERROR;
+		}
+		
 		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();
 		String werks = admin.getTeam().getFactoryUnit()
@@ -391,6 +409,12 @@ public class EndProductAction extends BaseAdminAction {
 		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
 		try {
 			Admin admin = adminService.getByCardnum(cardnumber);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
+			if (!ThinkWayUtil.isPass(admin)) {
+				return ajaxJsonErrorMessage("您当前未上班,不能进行成品入库操作!");
+				
+			}
+			
 			// endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginid);
 			List<EndProduct> endProductList = new ArrayList<EndProduct>();
@@ -452,6 +476,14 @@ public class EndProductAction extends BaseAdminAction {
 	
 	// 刷卡撤销
 		public String creditundo() {
+			
+			Admin admin = adminService.getByCardnum(cardnumber);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
+			if (!ThinkWayUtil.isPass(admin)) {
+				return ajaxJsonErrorMessage("您当前未上班,不能进行成品入库操作!");
+				
+			}
+			
 			ids = id.split(",");
 			String str = "";
 			List<EndProduct> list = endProductService.get(ids);

@@ -241,6 +241,21 @@ public class RepairinAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list() {
+		/*admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行返修收货操作!");
+			return ERROR;
+		}*/
+		workingbill = workingBillService.get(workingBillId);
+		return LIST;
+	}
+
+	// 添加
+	public String add() {
+		
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
@@ -249,12 +264,7 @@ public class RepairinAction extends BaseAdminAction {
 			addActionError("您当前未上班,不能进行返修收货操作!");
 			return ERROR;
 		}
-		workingbill = workingBillService.get(workingBillId);
-		return LIST;
-	}
-
-	// 添加
-	public String add() {
+		
 		workingbill = workingBillService.get(workingBillId);
 		this.add="add";
 		return INPUT;
@@ -262,6 +272,15 @@ public class RepairinAction extends BaseAdminAction {
 	// 编辑
 	public String edit() 
 	{
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行返修收货操作!");
+			return ERROR;
+		}
+		
 		repairin = repairinService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
@@ -293,6 +312,16 @@ public class RepairinAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		// workingbill = workingBillService.get(workingBillId);
+		
+		admin = adminService.getByCardnum(cardnumber);		
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			return ajaxJsonErrorMessage("您当前未上班,不能进行返修操作!");
+			 
+		}
+		
+		
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repairin = repairinService.load(ids[i]);

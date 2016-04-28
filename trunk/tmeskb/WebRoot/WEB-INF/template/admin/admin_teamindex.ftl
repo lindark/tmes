@@ -175,9 +175,9 @@
 													    <div class="profile-info-name">生产日期/班次:</div>
 														<div class="profile-info-value">
 														      <form id="inputForm" class="validate" action="admin!productupdate.action" method="post">
-								                        <input type="hidden" name="id" value="${admin.id}" />
-								                        <input type="hidden" id="productDate" value="${admin.productDate}"/>
-								                        <input type="hidden" id="shift" value="${admin.shift}"/>
+								                        <input type="hidden" name="id" value="${(admin.id)!}" />
+								                        <input type="hidden" id="productDate" value="${(admin.productDate)!}"/>
+								                        <input type="hidden" id="shift" value="${(admin.shift)!}"/>
 								                        
 								                        
 														<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker formText {required: true}"/>
@@ -448,13 +448,13 @@
 															class="bigger-110 no-text-shadow">仓位库存交接</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4" style="padding:2px;">
+												 <!-- <div class="col-md-3 col-sm-4" style="padding:2px;">
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="processHO" type="button">
 														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">工序交接</span>
 													</button>
-												</div>
+												</div> -->
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												
 

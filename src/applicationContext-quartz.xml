@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<bean id="quartzManagerBean" class="cc.jiuyi.action.cron.QuartzManager">
+		<property name="scheduler" ref="schedulerManager" />
+	</bean>
+	<bean id="quartzManagerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzManagerBean" />
+		<property name="targetMethod" value="reScheduleJob" />
+		<property name="concurrent" value="false" />
+	</bean> 
+	<!-- 主定时计划 -->
+	<bean id="quartzManagerTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="quartzManagerJobDetail" />
+		<!-- 延时1秒 执行任务 -->
+		<property name="startDelay" value="30000" />
+		<!-- 任务执行周期 6秒 -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+	<bean id="schedulerManager" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="quartzManagerTrigger" /> 
+				<!-- <ref local="cronTriggerCA_DocBM"/>  -->
+				<!-- <ref local="cronTriggerEquipment"/> -->
+			</list> 
+		</property>
+	</bean>
+	
+	
+	<!-- 第一种Spring 集成 quartz 的 例子 -->
+	<!-- 注意: -->
+	<!-- 任务必须实现 QuartzJobBean接口 -->
+	<!-- 定时任务-编码自动生成 -->
+	<bean name="docBmServiceJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.DocBmServiceJob" /> <!-- 要执行的任务类 -->
+    <property name="jobDataAsMap"> <!-- 传递的参数 -->
+     <map>
+      <entry key="timeout">
+       <value>5000</value>
+      </entry>
+      <!-- <entry key="dictService" value-ref="dictService" /> -->
+     </map>
+    </property>	
+   </bean> 
+   
+   <!-- 任务的执行 -->
+    <bean id="cronTriggerCA_DocBM" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="docBmServiceJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 05 23 ? * *</value>
+		  </property>
+    </bean>
+	
+	<!-- 定时任务-自动同步设备主数据 -->
+   <bean name="equipmentJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="cc.jiuyi.action.cron.EquipmentJob" /> <!-- 要执行的任务类 -->
+   </bean> 
+   
+   <!-- 任务的执行 -->
+    <bean id="cronTriggerEquipment" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		  <property name="jobDetail">
+		   <ref bean="equipmentJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>0 0 3 * * ?</value><!-- 凌晨3点执行 -->
+		  </property>
+    </bean>
+	
+</beans>

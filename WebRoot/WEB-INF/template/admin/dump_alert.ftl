@@ -61,6 +61,7 @@ body {
 														<tr>
 															<th>物料编码</th>
 															<th>物料描述</th>
+															<th>货位</th>
 															<th>批次</th>
 															<th>转储单号</th>
 															<th>配送数量</th>
@@ -69,6 +70,7 @@ body {
 															<tr>
 																<td>${(ddlist.matnr)! }</td>
 																<td>${(ddlist.maktx)! }</td>
+																<th>${(ddlist.lgpla)! }</th>
 																<td>${(ddlist.charg)! }</td>
 																<td>${(ddlist.lenum)! }</td>
 																<td>${(ddlist.menge)! }</td>
@@ -78,6 +80,7 @@ body {
 														<tr>
 															<th>物料编码</th>
 															<th>物料描述</th>
+															<th>货位</th>
 															<th>批次</th>
 															<th>库存数量</th>
 															<th>配送数量</th>
@@ -87,6 +90,7 @@ body {
 															<tr>
 																<td>${(mlist.matnr)! }</td>
 																<td>${(mlist.maktx)! }</td>
+																<td>${(factoryunit.psPositionAddres)! }</td>
 																<td class="chargnumber">${(mlist.charg)! }</td>
 																<td>${(mlist.verme)! }</td>
 																<td>

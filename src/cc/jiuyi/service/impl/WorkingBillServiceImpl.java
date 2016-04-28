@@ -167,19 +167,23 @@ public class WorkingBillServiceImpl extends
 	@Override
 	public WorkingBill getCodeNext(Admin admin, String workingbillCode,
 			String productDate, String shift) {
-		WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
-		Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
-		String workcenter = admin.getTeam().getFactoryUnit().getWorkCenter();
-		if(workcenter == null)return null;
-		List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
-		for(int i=0;i<workingbillList.size();i++){
-			WorkingBill workingbill = workingbillList.get(i);
-			String aufnr = workingbill.getAufnr();
-			Orders order = orderservice.get("aufnr",aufnr);
-			order.getMujuntext();
-			if(ThinkWayUtil.null2String(order00.getMujuntext()).equals(ThinkWayUtil.null2String(order.getMujuntext()))){
-				return workingbill;
+		try {
+			WorkingBill workingbill00 = this.get("workingBillCode",workingbillCode);
+			Orders order00 = orderservice.get("aufnr",workingbill00.getAufnr());
+			String workcenter = admin.getTeam().getFactoryUnit().getWorkCenter();
+			if(workcenter == null)return null;
+			List<WorkingBill> workingbillList = this.getListWorkingBillByDate(productDate, shift,workcenter,workingbill00.getMatnr());//根据传入的生产日期和班次，找到班组随工单集合
+			for(int i=0;i<workingbillList.size();i++){
+				WorkingBill workingbill = workingbillList.get(i);
+				String aufnr = workingbill.getAufnr();
+				Orders order = orderservice.get("aufnr",aufnr);
+				order.getMujuntext();
+				if(ThinkWayUtil.null2String(order00.getMujuntext()).equals(ThinkWayUtil.null2String(order.getMujuntext()))){
+					return workingbill;
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -189,8 +193,9 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public synchronized void mergeWorkingBill(List<WorkingBill> workingbillList,
+	public  void mergeWorkingBill(List<WorkingBill> workingbillList,
 			List<Orders> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
+		log.info("生产订单:"+orderList.size()+"-----"+"随工单:"+workingbillList.size()+"-----"+"工艺:"+processrouteList.size());
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
 			Orders order = orderList.get(i);

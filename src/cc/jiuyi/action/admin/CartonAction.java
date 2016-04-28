@@ -74,17 +74,27 @@ public class CartonAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		
+		/*
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行纸箱收货操作!");
 			return ERROR;
 		}
+		*/
 		return LIST;
 	}
 
 	// 添加前
 	public String add() 
 	{
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行纸箱收货操作!");
+			return ERROR;
+		}
+		
 		list_cs=this.cartonService.getBomByConditions();//获取bom中随工单对应的以5开头的各个物料
 		List<CartonSon> cslist = new ArrayList<CartonSon>();
 		for(CartonSon cs : list_cs){
@@ -114,6 +124,14 @@ public class CartonAction extends BaseAdminAction {
 	// 编辑
 	public String edit()
 	{
+		Admin login_admin = adminService.getLoginAdmin();
+		login_admin = adminService.get(login_admin.getId());
+		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		if(!ThinkWayUtil.isPass(login_admin)){
+			addActionError("您当前未上班,不能进行纸箱收货操作!");
+			return ERROR;
+		}
+		
 		this.edit=id;
 		carton = cartonService.get(id);
 		list_cs=this.cartonService.getBomByConditions_edit(id);//获取bom中随工单对应的以5开头的各个物料
@@ -139,6 +157,13 @@ public class CartonAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval()
 	{
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行纸箱收货操作!");
+		}
+		
 		try
 		{
 			ids = info.split(",");
@@ -179,6 +204,12 @@ public class CartonAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		//Admin admin = adminService.get(loginid);
+		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		if(!ThinkWayUtil.isPass(card_admin)){
+			
+			return ajaxJsonErrorMessage("您当前未上班,不能进行纸箱收货操作!");
+		}
 		try{
 		ids = info.split(",");
 		String str = "";

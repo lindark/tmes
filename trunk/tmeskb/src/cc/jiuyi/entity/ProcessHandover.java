@@ -35,6 +35,8 @@ public class ProcessHandover extends BaseEntity {
 	private String ztext;//抬头文本
 	private String mblnr;//物料凭证号
 	private String xuh;//序号
+	private String responsibleName;//责任人姓名
+	private String responsibleId;//责任人id
 	private String e_type;
 	private String e_message;
 	
@@ -200,6 +202,22 @@ public class ProcessHandover extends BaseEntity {
 
 	public void setXamount(String xamount) {
 		this.xamount = xamount;
+	}
+
+	public String getResponsibleName() {
+		return responsibleName;
+	}
+
+	public void setResponsibleName(String responsibleName) {
+		this.responsibleName = responsibleName;
+	}
+
+	public String getResponsibleId() {
+		return responsibleId;
+	}
+
+	public void setResponsibleId(String responsibleId) {
+		this.responsibleId = responsibleId;
 	}
 
 	

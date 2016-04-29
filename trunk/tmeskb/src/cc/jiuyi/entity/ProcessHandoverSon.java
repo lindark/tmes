@@ -21,17 +21,22 @@ public class ProcessHandoverSon extends BaseEntity {
 	private String bomDesp;//子件描述
 	private String beforeWorkingCode;//上班随工单
 	private String afterWokingCode;//下班随工单
-	private String bomAmount;//子件数量
+	private String bomAmount;//合格数量
 	private String materialAmount;//条子数量
 	private String productAmount;//产品数量
-	private String qualifiedNumber;//合格数量
+//	private String qualifiedNumber;//合格数量
 	private String repairNumber;//返修数量
-	
+	private Double amount;//交接数量
+	private Double cqsl;//裁切倍数
+    private Double cqamount;//裁切后正常交接数量
+    private Double cqrepairamount;//裁切后返修交接数量
+	private Double repairamount;//返修交接数量
 	
 	/**
 	 * 假字段
 	 */
-	
+
+    
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public ProcessHandover getProcessHandover() {
@@ -99,13 +104,13 @@ public class ProcessHandoverSon extends BaseEntity {
 		this.beforeWorkingCode = beforeWorkingCode;
 	}
 
-	public String getQualifiedNumber() {
-		return qualifiedNumber;
-	}
-
-	public void setQualifiedNumber(String qualifiedNumber) {
-		this.qualifiedNumber = qualifiedNumber;
-	}
+//	public String getQualifiedNumber() {
+//		return qualifiedNumber;
+//	}
+//
+//	public void setQualifiedNumber(String qualifiedNumber) {
+//		this.qualifiedNumber = qualifiedNumber;
+//	}
 
 	public String getRepairNumber() {
 		return repairNumber;
@@ -115,5 +120,46 @@ public class ProcessHandoverSon extends BaseEntity {
 		this.repairNumber = repairNumber;
 	}
 
+	public Double getCqsl() {
+		return cqsl;
+	}
+
+	public void setCqsl(Double cqsl) {
+		this.cqsl = cqsl;
+	}
+
+	public Double getCqamount() {
+		return cqamount;
+	}
+
+	public void setCqamount(Double cqamount) {
+		this.cqamount = cqamount;
+	}
+
+	public Double getCqrepairamount() {
+		return cqrepairamount;
+	}
+
+	public void setCqrepairamount(Double cqrepairamount) {
+		this.cqrepairamount = cqrepairamount;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Double getRepairamount() {
+		return repairamount;
+	}
+
+	public void setRepairamount(Double repairamount) {
+		this.repairamount = repairamount;
+	}
+	
+	
 	
 }

@@ -32,6 +32,7 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.FactoryUnitSyn;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitSynService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -132,30 +133,31 @@ public class FactoryUnitSynAction extends BaseAdminAction  implements Applicatio
 		factoryUnitSyn.setReadme("readme");
 		factoryUnitSyn.setIsspringbean("0");
 		factoryUnitSynService.save(factoryUnitSyn);
-		//QuartzManager q = new QuartzManager();
-		//q.reScheduleJob();
-		//Scheduler scheduler = (Scheduler)SpringUtil.getBean("quartzManagerBean");
-		//scheduler.start();
 		reshSyn();//重启quartz 任务
 		redirectionUrl="factory_unit_syn!list.action";
 		return SUCCESS;	
 	}
 	public String edit(){
 		factoryUnitSyn  = factoryUnitSynService.get(id);
-		factoryUnitSyn.setState(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitSynState", factoryUnitSyn.getState()));
 		return INPUT;
 	}
-	public String update(){
-		
+	public String update() throws ParseException, Exception{
+		FactoryUnitSyn  fus =  factoryUnitSynService.get(id);
+		fus.setState(factoryUnitSyn.getState());
+		fus.setCronexpression(factoryUnitSyn.getCronexpression());
+		fus.setFactoryUnitCode(factoryUnitSyn.getFactoryUnitCode());
+		fus.setFactoryUnitName(factoryUnitSyn.getFactoryUnitName());
+		factoryUnitSynService.update(fus);
+		reshSyn();//重启quartz 任务
 		redirectionUrl="factory_unit_syn!list.action";
 		return SUCCESS;
 	}
 	public String delete(){
 		FactoryUnitSyn funs = factoryUnitSynService.get(id);
-		/*funs.setIsDel("Y");
+		funs.setIsDel("Y");
 		funs.setState("2");
-		factoryUnitSynService.update(funs);*/
-		factoryUnitSynService.delete(funs);
+		factoryUnitSynService.update(funs);
+		//factoryUnitSynService.delete(funs);
 		redirectionUrl = "factory_unit_syn!list.action";
 		return ajaxJsonSuccessMessage("删除成功！");
 	}
@@ -173,9 +175,9 @@ public class FactoryUnitSynAction extends BaseAdminAction  implements Applicatio
 		}else{
 			if(id!=null && !"".equals(id)){
 				if(funs.getId().equals(id)){
-					return ajaxText("false");
-				}else{
 					return ajaxText("true");
+				}else{
+					return ajaxText("false");
 				}
 			}else{
 				return ajaxText("false");
@@ -185,20 +187,21 @@ public class FactoryUnitSynAction extends BaseAdminAction  implements Applicatio
 	
 	
 	public void reshSyn() throws ParseException, Exception{
-		/*SchedulerFactoryBean schedulerFactoryBean = (SchedulerFactoryBean)SpringUtil.getBean("schedulerManager");
-		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
+		//Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		QuartzManager q = new QuartzManager();
-		q.resh(scheduler);*/
+		q.resh(scheduler);
 
         // 读取容器中的QUARTZ总管类
-        Scheduler scheduler = (StdScheduler)context.getBean("schedulerManager");
+       /* Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
         //停止正在运行的JOB
         List<FactoryUnitSyn> FactoryUnitSynList = factoryUnitSynService.getAll();
         for(FactoryUnitSyn f : FactoryUnitSynList){
         	 scheduler.interrupt(f.getTriggername(), Scheduler.DEFAULT_GROUP);
         }
         // 重启任务
-        scheduler.resumeTrigger("quartzManagerTrigger", Scheduler.DEFAULT_GROUP);
+        scheduler.resumeTrigger("quartzManagerTrigger", Scheduler.DEFAULT_GROUP);*/
+		//QuartzManagerUtil.startJobs();
 	}
 	public FactoryUnitSyn getFactoryUnitSyn() {
 		return factoryUnitSyn;

@@ -36,13 +36,25 @@
 		<property name="triggers">
 			<list>
 				<ref bean="quartzManagerTrigger" /> 
-				<!-- <ref local="cronTriggerCA_DocBM"/>  -->
-				<!-- <ref local="cronTriggerEquipment"/> -->
+				<!--  <ref local="cronTriggerCA_DocBM"/>  
+				 <ref local="cronTriggerEquipment"/> --> 
 			</list> 
 		</property>
 	</bean>
 	
-	
+	<!-- 总调度器 -->
+	<bean id="mapScheduler" lazy-init="false"  autowire="no"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">   
+        <property name="triggers">   
+            <list>   
+	   		<ref local="cronTriggerCA_DocBM"/> 
+	   		 <ref local="cronTriggerEquipment"/>
+            </list>   
+        </property>   
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
+        <property name="configLocation" value="classpath:quartz.properties" /> 
+        <property name="autoStartup" value="true" />   
+    </bean>
 	<!-- 第一种Spring 集成 quartz 的 例子 -->
 	<!-- 注意: -->
 	<!-- 任务必须实现 QuartzJobBean接口 -->
@@ -67,9 +79,10 @@
 		  <property name="cronExpression">
 		   <value>0 05 23 ? * *</value>
 		  </property>
-    </bean>
-	
-	<!-- 定时任务-自动同步设备主数据 -->
+    </bean>  
+    
+    
+    <!-- 定时任务-自动同步设备主数据 -->
    <bean name="equipmentJob"  class="org.springframework.scheduling.quartz.JobDetailBean">
     <property name="jobClass" value="cc.jiuyi.action.cron.EquipmentJob" /> <!-- 要执行的任务类 -->
    </bean> 
@@ -80,8 +93,8 @@
 		   <ref bean="equipmentJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>0 0 3 * * ?</value><!-- 凌晨3点执行 -->
+		   <value>0 0/2 * * * ?</value><!-- 凌晨3点执行 -->
 		  </property>
-    </bean>
+    </bean>  
 	
 </beans>

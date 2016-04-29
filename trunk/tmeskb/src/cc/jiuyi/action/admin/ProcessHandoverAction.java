@@ -60,20 +60,24 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
+import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
@@ -101,6 +105,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private String loginid;
 	private String show;
 	private String[] workingCode;
+	private String materialCode;// 组件编码
 	
 	@Resource
 	private AdminService adminService;
@@ -120,6 +125,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private MaterialService materialService;
 	@Resource
 	private ProcessService processservice;
+	@Resource
+	private MaterialService materialservice;
+	@Resource
+	private KaoqinService kqService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
+
 	/**
 	 * 列表
 	 * @return
@@ -128,7 +140,122 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		
 		return LIST;
 	}
-	
+	/**
+	 * 单元选择
+	 * @return
+	 */
+		public String browser(){		
+			return "browser";	
+		}
+
+	/**
+	 * 责任人搜索
+	 * @return
+	 */
+	public String responsibleList() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+
+		
+			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
+			JSONObject obj = JSONObject.fromObject(Param);
+//			if (obj.get("productdate") != null) {
+//				String productdate = obj.getString("productdate").toString();
+//				map.put("productdate", productdate);
+//			}
+//			if (obj.get("classtime") != null) {
+//				String classtime = obj.getString("classtime").toString();
+//				map.put("classtime", classtime);
+//			}
+//			if (obj.get("factoryUnitName") != null) {
+//				String factoryUnitName = obj.getString("factoryUnitName")
+//						.toString();
+//				map.put("factoryUnitName", factoryUnitName);
+//			}
+			if(admin.getTeam() ==null){
+				return ajaxJsonSuccessMessage("未找到当前登录人的班组信息!");
+			}
+			if(admin.getTeam().getFactoryUnit() == null){
+				return ajaxJsonSuccessMessage("未找到当前登录人的单元信息!");
+			}
+			String productdate = admin.getProductDate();
+			String classtime = admin.getShift();
+			String factoryUnitName = admin.getTeam().getFactoryUnit().getFactoryUnitName();
+			map.put("productdate", productdate);
+			map.put("classtime", classtime);
+			map.put("factoryUnitName", factoryUnitName);
+			if (pager.is_search() == true && Param != null) {// 普通搜索功能
+				if (obj.get("empname") != null) {
+					String empname = obj.getString("empname").toString();
+					map.put("empname", empname);
+			}
+		}
+
+		
+		pager = kqService.historyjqGrid(pager, map);
+		List<Kaoqin> kqlist = pager.getList();
+		List<Kaoqin> lst = new ArrayList<Kaoqin>();
+		try {
+			for (int i = 0; i < kqlist.size(); i++) {
+				Kaoqin kaoqin = kqlist.get(i);
+				if (kaoqin.getTeam() != null) {
+					kaoqin.setXteam(kaoqin.getTeam().getTeamName());
+				}
+				kaoqin.setXclasstime(ThinkWayUtil.getDictValueByDictKey(
+						dictService, "kaoqinClasses", kaoqin.getClasstime()));
+				kaoqin.setFactoryUnitName(kaoqin.getEmp().getTeam()
+						.getFactoryUnit().getFactoryUnitName());
+				kaoqin.setFactory(kaoqin.getEmp().getTeam().getFactoryUnit()
+						.getWorkShop().getFactory().getFactoryName());
+				kaoqin.setWorkshop(kaoqin.getEmp().getTeam().getFactoryUnit()
+						.getWorkShop().getWorkShopName());
+				if(kaoqin.getWorkState()!=null&&!"".equals(kaoqin.getWorkState()))
+				{
+					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
+				}
+				
+				if(kaoqin.getModleNum()!=null)
+				{
+					String[] models=kaoqin.getModleNum().split(",");
+					String modelsName="";
+					for(int n=0;n<models.length;n++)
+					{
+						UnitdistributeModel model=unitdistributeModelService.get(models[n]);
+						if(model != null)
+						modelsName+=model.getStation()+",";
+					}
+					if(modelsName.length()>0) modelsName=modelsName.substring(0, modelsName.length()-1);
+					kaoqin.setModelName(modelsName);	
+					
+				}
+				
+				lst.add(kaoqin);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pager.setList(lst);
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Kaoqin.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}		
+		
 	/**
 	 * aj列表
 	 * @return
@@ -186,7 +313,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			
 			//获取维护物料信息
 			List<Material> materialList = materialService.getAll();
-			
+
 			processHandoverSonList = new ArrayList<ProcessHandoverSon>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
@@ -248,12 +375,23 @@ public class ProcessHandoverAction extends BaseAdminAction {
 								Set<ProcessHandoverSon> processHandoverSonSet = new HashSet<ProcessHandoverSon>();
 								for(Bom b : bmls){
 									ProcessHandoverSon processHandoverSon1 = new ProcessHandoverSon();
+									materialCode = b.getMaterialCode();
+									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
 									/*uuid = CommonUtil.getUUID();
 									processHandoverSon1.setId(uuid);*/
 									b.setBeforeWorkingCode(wb.getWorkingBillCode());
 //									if(wbnext!=null){
 //										b.setAfterWorkingCode(wbnext.getWorkingBillCode());
 //									}
+									if(mt == null){
+										processHandoverSon1.setCqsl(1d);
+									}else{
+										if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+											processHandoverSon1.setCqsl(1d);
+										}else{
+											processHandoverSon1.setCqsl(Double.valueOf(mt.getCqmultiple()));
+										}
+									}
 									processHandoverSon1.setProcessHandover(processHandover1);
 									processHandoverSon1.setProductAmount(b.getProductAmount()==null?"":b.getProductAmount().toString());
 									processHandoverSon1.setBomCode(b.getMaterialCode());
@@ -458,6 +596,14 @@ public class ProcessHandoverAction extends BaseAdminAction {
 
 	public void setWorkingCode(String[] workingCode) {
 		this.workingCode = workingCode;
+	}
+
+	public String getMaterialCode() {
+		return materialCode;
+	}
+
+	public void setMaterialCode(String materialCode) {
+		this.materialCode = materialCode;
 	}
 	
 	

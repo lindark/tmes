@@ -78,7 +78,7 @@ body{background:#fff;}
 						            <div class="profile-info-row">
 										<div class="profile-info-name"> 单元编码 </div>					
 										<div class="profile-info-value">
-											<input type="text" name="factoryUnitSyn.factoryUnitCode" class="formText {digits:true,required: true,minlength:2,maxlength: 100,productsCode:true,remote:'factory_unit_syn!checkFactoryUnitCode.action?id=${id }',messages:{remote:'物料编码已存在'}}" />
+											<input type="text" name="factoryUnitSyn.factoryUnitCode" value="${(factoryUnitSyn.factoryUnitCode)!}" class="formText {digits:true,required: true,minlength:2,maxlength: 100,productsCode:true,remote:'factory_unit_syn!checkFactoryUnitCode.action?id=${id }',messages:{remote:'物料编码已存在'}}" />
 											<label class="requireField">*</label>
 										</div>
 									</div>	
@@ -90,7 +90,7 @@ body{background:#fff;}
 										</div>
 									</div>
 									<div class="profile-info-row">
-										<input type="hidden" name="factoryUnitSyn.cronexpression" value="0 0/5 * * * ?">
+										<input type="hidden" name="factoryUnitSyn.cronexpression" value="0 0/2 * * * ?">
 										<!-- <div class="profile-info-name"> 同步周期 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnitSyn.cronexpression" value="${(factoryUnitSyn.cronexpression)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />

@@ -1,3 +1,6 @@
+
+
+
 <#assign sec=JspTaglibs["/WEB-INF/security.tld"] />
 <!DOCTYPE html>
 <html lang="en">
@@ -98,12 +101,52 @@
 										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
                               	     </select>
                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                   <!--  
                                    	   工序选择:
                                      <select name="shift"id="sl_sh">
                                      	<#list processList as list>
                                      	<option value="${list.processName }">${list.processName }</option>
                                      	</#list>
                                      </select>
+                                     &nbsp;&nbsp;&nbsp;&nbsp;
+                                     <input type="checkbox" id="qualified" name="processHandoverTop.processType" value="合格" border: 1px solid black">合格
+                                     &nbsp;&nbsp;&nbsp;&nbsp;
+                                     <input type="checkbox" id="repair" name="processHandoverTop.processType" value="返修" border: 1px solid black">返修 -->
+										<div class="widget-header">
+											<h4 class="widget-title lighter">工序类型选择</h4>
+											<div class="widget-toolbar no-border">
+												<a href="#" data-action="collapse"></a>
+
+											</div>
+										</div>
+										
+										<div class="widget-body">
+											<div class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name">工序选择：</div>
+														<div class="profile-info-value">
+															<select name="processHandoverTop.processName">
+						                                     	<#list processList as list>
+						                                     	<option value="${list.processName }">${list.processName }</option>
+						                                     	</#list>
+						                                     </select>
+														</div>
+													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">合格：</div>
+														<div class="profile-info-value" style="width:300px;">
+															<input type="checkbox" id="qualified" style="width:18px;height:18px;" name="processHandoverTop.processType" value="合格" border: 1px solid black">
+														</div>
+														<div class="profile-info-name" >返修：</div>
+														<div class="profile-info-value">
+															<input type="checkbox" id="repair" style="width:18px;height:18px;"name="processHandoverTop.processType" value="返修" border: 1px solid black">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 										<div class="widget-header">
 											<h4 class="widget-title lighter">班组信息</h4>
 											<div class="widget-toolbar no-border">
@@ -159,6 +202,38 @@
 										</div>
 									</div>
 									<#else>
+									<div class="widget-header">
+											<h4 class="widget-title lighter">工序类型选择</h4>
+											<div class="widget-toolbar no-border">
+												<a href="#" data-action="collapse"></a>
+
+											</div>
+										</div>
+										
+										<div class="widget-body">
+											<div class="widget-main padding-6 no-padding-left no-padding-right">
+												<div class="profile-user-info profile-user-info-striped">
+													<div class="profile-info-row">
+														<div class="profile-info-name">工序选择：</div>
+														<div class="profile-info-value">
+															<select name="processHandoverTop.processName">
+						                                     	<option value="${processHandoverTop.processName }">${processHandoverTop.processName }</option>
+						                                    </select>
+														</div>
+													</div>
+													<div class="profile-info-row">
+														<div class="profile-info-name">合格：</div>
+														<div class="profile-info-value" style="width:300px;">
+															<input type="checkbox" <#if processHandoverTop.processType?index_of("合格")!=-1>checked </#if> id="qualified" style="width:18px;height:18px;" name="processHandoverTop.processType" value="合格" border: 1px solid black">
+														</div>
+														<div class="profile-info-name" >返修：</div>
+														<div class="profile-info-value">
+															<input type="checkbox" <#if processHandoverTop.processType?index_of("返修")!=-1>checked </#if> id="repair" style="width:18px;height:18px;"name="processHandoverTop.processType" value="返修" border: 1px solid black">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									<div class="widget-box transparent">
 										<div class="widget-header">
 											<h4 class="widget-title lighter">班组信息</h4>
@@ -263,6 +338,7 @@
 														<th class="tabth">上班随工单</th>
 														<th class="tabth">下班随工单</th>
 														<th class="tabth">成品数</th>
+														<th class="tabth">责任人</th>
 														<th class="tabth mblnr"style="display:none">物料凭证号</th>
 													</tr>
 												<!-- 	<#list workingbillList as list>
@@ -349,42 +425,66 @@
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>
 																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
+																	<td >${(list.responsibleName)! }
+																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" value="${(list.responsibleName)! }">
+																	</td>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
 																</tr>
 																<tr class="tableson"  style="display:none;">
 																	<td></td>
-																	<td colspan=7>
-																		<table id="" class="table table-striped table-bordered table-hover" style="width:60%;margin-bottom: 0px; ">
+																	<td colspan=8>
+																		<table id="" class="table table-striped table-bordered table-hover" style="width:100%;margin-bottom: 0px; ">
 																		<tr>
-																				<th class="" style="width:65%;">子件名称</th>
-																				<th class=""style="width:5%;">子件数量</th>
-																				<th class=""style="width:15%">条子数量</th>
-																				<th class=""style="width:15%">产品数量</th>
+																				<th class="">子件名称</th>
+																				<th class="">条子数量</th>
+																				<th class="">产品数量</th>
+																	<!-- 		<th class=""style="width:15%">合格数量</th>  -->
+																				<th class="">合格数量</th>
+																				<th class="">返修数量</th>
+																				<th class="">裁切倍数</th>
+																				<th class="">裁切后正常交接数量</th>
+																				<th class="">裁切后返修交接数量</th>
+																				<th class="">实际正常交接数量</th>
+																				<th class="">实际返修交接数量</th>
 																				
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
 																			<tr>
-																				<td style="width:65%;"> 
+																				<td> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
+																				<td  ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
-																				<td style="width:15%;" >${(bl.materialAmount)! }
+																				<td >${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
-																				<td style="width:15%;">${(bl.productAmount)! }
+																				<td>${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				<td><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td>${bl.cqsl }
+																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
-																				
+																				<td>
+																				<input type="text" id="cqamount" readonly= "true" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				</td>
+																				<td>
+																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				</td>
+																				<td>
+																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
+																				<span class="amount">${(bl.amount)! }</span>
+																				</td>
+																				<td>
+																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
+																				<span class="repairamount">${(bl.repairamount)! }</span>
+																				</td>
 																			</tr>
 																		</#list> 
 																		
@@ -423,42 +523,71 @@
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
 																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
+																	<td>
+																	<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+																	<span id="responsibleName">${(list.responsibleName) }</span>
+																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
+																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
+																	<label class="requireField">*</label>
+																	</td>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
 																</tr>
 																<tr class="tableson"  style="display:none;">
 																	<td></td>
-																	<td colspan=6>
-																		<table id="" class="table table-striped table-bordered table-hover" style="width:60%;margin-bottom: 0px; ">
+																	<td colspan=8>
+																		<table id="" class="table table-striped table-bordered table-hover" style="width:95%;margin-bottom: 0px; ">
 																		<tr>
-																				<th class="" style="width:65%;">子件名称</th>
-																				<th class=""style="width:5%;">子件数量</th>
-																				<th class=""style="width:15%">条子数量</th>
-																				<th class=""style="width:15%">产品数量</th>
-																				<th class=""style="width:15%">合格数量</th>
-																				<th class=""style="width:15%">返修数量</th>
+																				<th class="">子件名称</th>
+																				<th class="">条子数量</th>
+																				<th class="">产品数量</th>
+																	<!-- 		<th class=""style="width:15%">合格数量</th>  -->
+																				<th class="">合格数量</th>
+																				<th class="">返修数量</th>
+																				<th class="">裁切倍数</th>
+																				<th class="">裁切后正常交接数量</th>
+																				<th class="">裁切后返修交接数量</th>
+																				<th class="">实际正常交接数量</th>
+																				<th class="">实际返修交接数量</th>
 																				
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
 																			<tr>
-																				<td style="width:65%;"> 
+																				<td> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
-																				</td>
-																				<td style="width:15%;" >${(bl.materialAmount)! }
+																				<td>${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
-																				<td style="width:15%;">${(bl.productAmount)! }
+																				<td>${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				<!--  <td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
+																				</td> -->
+																				<td><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
-																				<td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				</td>
+																				<td>${bl.cqsl }
+																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
+																				</td>
+																				<td>
+																				<input type="text" id="cqamount" readonly= "true" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				</td>
+																				<td>
+																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				</td>
+																				<td>
+																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
+																				<span class="amount">${(bl.amount)! }</span>
+																				</td>
+																				<td>
+																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
+																				<span class="repairamount">${(bl.repairamount)! }</span>
 																				</td>
 																			</tr>
 																		</#list> 
@@ -515,7 +644,65 @@
 </body>
 </html>
 <script type="text/javascript">
+function showUnit(num1){
+	var title = "选择单元";
+	var width="800px";
+	var height="632px";
+	var content="process_handover!browser.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+//		$("#responsibleName").text(id[1]);
+//		$("#responsibleNa").val(id[1]);//单元名称
+//		$("#responsibleId").val(id[0]);
+		num1.next().text(id[1]);
+		num1.next().next().val(id[1]);
+		num1.next().next().next().val(id[0]);
+		layer.close(index); 
+	});
+}
 	$(function(){
+		$(".img_addbug").click( function() {
+			showUnit($(this));
+		});
+		$("#qualified").click(function(){
+			if($(this).is(':checked')){
+			$(".cqamount").removeAttr("readonly");
+			}else{
+				$(".cqamount").attr("readonly","true");
+			}
+		});
+		$("#repair").click(function(){
+			if($(this).is(':checked')){
+				$(".cqrepairamount").removeAttr("readonly");
+				}else{
+					$(".cqrepairamount").attr("readonly","true");
+				}
+		});
+		var $cqamount = $(".cqamount");//裁切后正常交接数量
+		var $cqrepairamount = $(".cqrepairamount");//裁切后返修交接数量
+		
+		$cqamount.change(function(){//裁切后正常交接数量改变事件
+			var sVal = $(this).val();//裁切后正常数量
+			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
+			var sv = floatDiv(sVal,sCqsl);
+			if(isNaN(sv)) sv = 0;
+			var sv = setScale(sv,2,"");//保留两位小数
+			$(this).parent().parent().find(".amountinp").val(sv);
+			$(this).parent().parent().find(".amount").text(sv);
+		});
+		
+		$cqrepairamount.change(function(){//裁切后返修交接数量改变事件
+			var sVal = $(this).val();//裁切后返修交接数量
+			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
+			var sv = floatDiv(sVal,sCqsl);
+			if(isNaN(sv)) sv = 0;
+			var sv = setScale(sv,2,"");//保留两位小数
+			$(this).parent().parent().find(".repairamountinp").val(sv);
+			$(this).parent().parent().find(".repairamount").text(sv);
+		});
+		
 		<#if show??>
 		$(".show_input").attr("readonly","readonly");
 		 $("#btn_save").css("display","none");
@@ -540,11 +727,11 @@
 				productAmount = 0;
 			}
 			$productA.parent().parent().next().find(".bomAmount").each(function(){
-				var materialAmount = $(this).parent().next().text();
+				var materialAmount = $(this).parent().prev().prev().text();
 				if(materialAmount==""){
 					materialAmount = 0;
 				}
-				var productAmountson = $(this).parent().next().next().text();
+				var productAmountson = $(this).parent().prev().text();
 				if(productAmountson=="" || productAmountson==0){
 					$(this).val("");
 				}else{
@@ -577,8 +764,19 @@
 						return false;
 					}
 				});
-				
-				
+				<#if !(isAdd??)>
+				$(".productAmount").each(function(){
+					var productAmount = $(this).val();
+					var afterworkbill = $(this).parent().prev().prev().prev().children().val();
+					if(productAmount != null && productAmount != ""){
+						if(afterworkbill == null || afterworkbill == ""){
+							flag = false;
+							layer.alert("请填写下班随工单",{icon: 7});
+							return false;
+						}
+					}
+				});
+				</#if>
 				if(flag){
 				<#if isAdd??>
 				var url="process_handover!creditsubmit.action?loginid="+loginId;

@@ -35,6 +35,9 @@
 		dispaly:block;
 		cursor:pointer;
 	}
+	.width_input{
+	width:100%;
+	}
 </style>
 <#include "/WEB-INF/template/common/include_adm_top.ftl">
 </head>
@@ -224,11 +227,11 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">合格：</div>
 														<div class="profile-info-value" style="width:300px;">
-															<input type="checkbox" <#if processHandoverTop.processType?index_of("合格")!=-1>checked </#if> id="qualified" style="width:18px;height:18px;" name="processHandoverTop.processType" value="合格" border: 1px solid black">
+															<input type="checkbox" <#if (processHandoverTop.processType?index_of("合格")!=-1)!>checked </#if> id="qualified" style="width:18px;height:18px;" name="processHandoverTop.processType" value="合格" border: 1px solid black">
 														</div>
 														<div class="profile-info-name" >返修：</div>
 														<div class="profile-info-value">
-															<input type="checkbox" <#if processHandoverTop.processType?index_of("返修")!=-1>checked </#if> id="repair" style="width:18px;height:18px;"name="processHandoverTop.processType" value="返修" border: 1px solid black">
+															<input type="checkbox" <#if (processHandoverTop.processType?index_of("返修")!=-1)!>checked </#if> id="repair" style="width:18px;height:18px;"name="processHandoverTop.processType" value="返修" border: 1px solid black">
 														</div>
 													</div>
 												</div>
@@ -451,37 +454,37 @@
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
 																			<tr>
-																				<td> 
+																				<td style="width:25%;">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td  ><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
-																				</td>
-																				<td >${(bl.materialAmount)! }
+																				<td style="width:5%;">${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
-																				<td>${(bl.productAmount)! }
+																				<td style="width:5%;">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td style="width:10%;"><input type="text"  class=" show_input bomAmount width_input {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px;"value="${(bl.bomAmount)! }">
 																				</td>
-																				<td>${bl.cqsl }
-																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
+																				<td  style="width:10%;"><input type="text"  class="show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
-																				<td>
-																				<input type="text" id="cqamount" readonly= "true" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				<td style="width:5%;">${bl.cqsl }
+																				<input type="hidden" class="show_input cqsl " name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
-																				<td>
-																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				<td style="width:10%;">
+																				<input type="text" id="cqamount" readonly= "true" class="cqamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
 																				</td>
-																				<td>
+																				<td style="width:10%;">
+																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				</td>
+																				<td style="width:10%;">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
 																				<span class="amount">${(bl.amount)! }</span>
 																				</td>
-																				<td>
+																				<td style="width:10%;">
 																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
 																				<span class="repairamount">${(bl.repairamount)! }</span>
 																				</td>
@@ -516,13 +519,13 @@
 																	</td>
 																	<!--  
 																	<#if (list.afterWorkingBillCode)!??> -->
-																	<td class="center"><input type="text" class="afterWork state_input"
+																	<td class="center" ><input type="text" class="afterWork state_input"
 																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/></td>
 																	<!-- 
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
-																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
+																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}"></td>
 																	<td>
 																	<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 																	<span id="responsibleName">${(list.responsibleName) }</span>
@@ -553,39 +556,39 @@
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
 																			<tr>
-																				<td> 
+																				<td style="width:25%"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td>${(bl.materialAmount)! }
+																				<td style="width:5%">${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
-																				<td>${(bl.productAmount)! }
+																				<td style="width:5%">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
 																				<!--  <td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
 																				</td> -->
-																				<td><input type="text"  class="show_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
+																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
-																				<td><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td style="width:10%"> <input type="text"  readonly= "true" class=" repairNumber show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
-																				<td>${bl.cqsl }
+																				<td style="width:5%">${bl.cqsl }
 																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
-																				<td>
-																				<input type="text" id="cqamount" readonly= "true" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				<td style="width:10%">
+																				<input type="text" id="cqamount" class=" width_input" name="cqamount processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				</td >
+																				<td style="width:10%">
+																				<input type="text" id="cqrepairamount"  class=" width_input" name="cqrepairamount processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
 																				</td>
-																				<td>
-																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
-																				</td>
-																				<td>
+																				<td style="width:10%">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
 																				<span class="amount">${(bl.amount)! }</span>
 																				</td>
-																				<td>
+																				<td style="width:10%">
 																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
 																				<span class="repairamount">${(bl.repairamount)! }</span>
 																				</td>
@@ -668,16 +671,16 @@ function showUnit(num1){
 		});
 		$("#qualified").click(function(){
 			if($(this).is(':checked')){
-			$(".cqamount").removeAttr("readonly");
+			$(".bomAmount").removeAttr("readonly");
 			}else{
-				$(".cqamount").attr("readonly","true");
+				$(".bomAmount").attr("readonly","true");
 			}
 		});
 		$("#repair").click(function(){
 			if($(this).is(':checked')){
-				$(".cqrepairamount").removeAttr("readonly");
+				$(".repairNumber").removeAttr("readonly");
 				}else{
-					$(".cqrepairamount").attr("readonly","true");
+					$(".repairNumber").attr("readonly","true");
 				}
 		});
 		var $cqamount = $(".cqamount");//裁切后正常交接数量

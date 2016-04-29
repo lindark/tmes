@@ -75,6 +75,7 @@ public class QuartzManager implements BeanFactoryAware {
 				trigger.setCronExpression(tbcq.getCronexpression());
 				scheduler.rescheduleJob(tbcq.getTriggername(),
 						Scheduler.DEFAULT_GROUP, trigger);
+				log.info(new Date() + ": 更新" + tbcq.getTriggername() + "计划任务");
 				System.out.println(new Date() + ": 更新" + tbcq.getTriggername() + "计划任务");
 			}
 		} else {
@@ -84,7 +85,7 @@ public class QuartzManager implements BeanFactoryAware {
 			scheduler.deleteJob(trigger.getJobName(), trigger.getJobGroup());// 删除任务
 			log.info(new Date() + ": 删除" + tbcq.getTriggername() + "计划任务");
 			
-			System.out.println(new Date() + ": 新建" + tbcq.getTriggername() + "计划任务1");
+			System.out.println(new Date() + ": 删除" + tbcq.getTriggername() + "计划任务");
 		}
 
 	}
@@ -133,9 +134,7 @@ public class QuartzManager implements BeanFactoryAware {
 	}
 
 	public void resh(Scheduler scheduler) throws ParseException, Exception{
-		if(scheduler==null){
 			this.scheduler= scheduler;
-		}
 		reScheduleJob();
 	}
 	

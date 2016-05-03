@@ -90,7 +90,7 @@ body{background:#fff;}
 										</div>
 									</div>
 									<div class="profile-info-row">
-										<input type="hidden" name="factoryUnitSyn.cronexpression" value="0 0/2 * * * ?">
+										<input type="hidden" name="factoryUnitSyn.cronexpression" value="0 0/10 * * * ?">
 										<!-- <div class="profile-info-name"> 同步周期 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="factoryUnitSyn.cronexpression" value="${(factoryUnitSyn.cronexpression)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />

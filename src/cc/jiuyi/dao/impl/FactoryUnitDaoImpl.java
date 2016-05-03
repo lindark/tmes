@@ -52,11 +52,6 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(FactoryUnit.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		System.out.println("o");
-		if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
-			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
-		if(!super.existAlias(detachedCriteria, "workShop.factory", "factory"))
-			detachedCriteria.createAlias("workShop.factory", "factory");
 		/*
 		if (!wheresql.equals("")) {
 			// detachedCriteria.createAlias("dict", "dict");
@@ -74,12 +69,16 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 				detachedCriteria.add(Restrictions.like("state", "%"+map.get("state")+"%"));
 			}
             if(map.get("workShopName")!=null){
-				
+            	if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+        			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
 				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
 				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("workShopName")+"%"));
 			}
             if(map.get("factoryName")!=null){
-				
+            	if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+        			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
+            	if(!super.existAlias(detachedCriteria, "workShop.factory", "factory"))
+        			detachedCriteria.createAlias("workShop.factory", "factory");
 				//	detachedCriteria.add(Restrictions.in("factory.factoryName", new Object[]{factoryName}));
 				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName")+"%"));
 			}
@@ -118,14 +117,6 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 	{
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(FactoryUnit.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-		if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
-		{
-			detachedCriteria.createAlias("workShop", "workShop");//表名，别名
-		}
-		if(!super.existAlias(detachedCriteria, "workShop.factory", "factory"))
-		{
-			detachedCriteria.createAlias("workShop.factory", "factory");
-		}
 		if (map.size() > 0) 
 		{
 			if(map.get("factoryUnitCode")!=null)
@@ -138,10 +129,22 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			}
 		    if(map.get("workShopName")!=null)
 		    {
+		    	if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+				{
+					detachedCriteria.createAlias("workShop", "workShop");//表名，别名
+				}
 				detachedCriteria.add(Restrictions.like("workShop.workShopName", "%"+map.get("workShopName")+"%"));
 			}
 		    if(map.get("factoryName")!=null)
 		    {
+		    	if(!super.existAlias(detachedCriteria, "workShop", "workShop"))
+				{
+					detachedCriteria.createAlias("workShop", "workShop");//表名，别名
+				}
+		    	if(!super.existAlias(detachedCriteria, "workShop.factory", "factory"))
+				{
+					detachedCriteria.createAlias("workShop.factory", "factory");
+				}
 				detachedCriteria.add(Restrictions.like("factory.factoryName", "%"+map.get("factoryName")+"%"));
 			}
 		}		

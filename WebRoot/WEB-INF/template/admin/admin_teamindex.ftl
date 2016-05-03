@@ -152,17 +152,32 @@
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
 												<div class="profile-user-info profile-user-info-striped">
+												
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组：</div>
+														<div class="profile-info-value">															
+															${(admin.team.teamName)! }
+															<#if fzrFlag >
+																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-white btn-default btn-sm btn-round" id="changeTeamButton" type="button">更换班组</button>													   
+													   
+															</#if>
+														</div>										
+													</div>
+												
 												   <div class="profile-info-row">
 														<div class="profile-info-name">工厂/车间：</div>
 														<div class="profile-info-value">
 															${(admin.team.factoryUnit.workShop.factory.factoryName)!
 															} &nbsp;&nbsp;&nbsp;    ${(admin.team.factoryUnit.workShop.workShopName)!
-															}</div>
+															}
+														</div>
 													<!--  	<div class="profile-info-name">车间：</div>
 														<div class="profile-info-value">
 															${(admin.team.factoryUnit.workShop.workShopName)!
 															}</div>-->
 													</div>
+
+													
 
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
@@ -621,8 +636,58 @@
 		
 		
 		
+		
+		
+		
 	});
 	</script>
-
+<#if fzrFlag >
+<script type="text/javascript">
+$(function(){
+	$("#changeTeamButton").bind("click",function(){
+			layer.open({
+		        type: 2,
+		        skin: 'layui-layer-lan',
+		        shift:2,
+		        title: "选择班组",
+		        fix: false,
+		        shade: 0.5,
+		        shadeClose: true,
+		        maxmin: true,
+		        scrollbar: false,
+		        btn:['确认','取消'],
+		        area: ["80%", "80%"],//弹出框的高度，宽度
+		        content:"team!beforegetalllist.action",
+		        yes:function(index,layero){//确定
+		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+		        	var info = iframeWin.getName();
+		        	$.ajax({
+		        		url:"admin!changeTeam.action?loginid="+"${admin.id}"+"&teamId="+info.teamid,
+		        		dataType:"json",
+		        		success:function(data)
+		        		{
+		        			alert(data.message);
+		        			location.reload();	                	
+		        		},
+		        		error:function(){
+		        			alert("发生错误，请重试！");
+		        			//location.reload();
+		        		}
+		        		
+		         	});
+		        	layer.close(index);
+		        	return false;
+		        },
+		        no:function(index)
+		        {
+		        	layer.close(index);
+		        	return false;
+		        }
+		    });
+		return false;
+	});
+});
+	</script>
+</#if>
 </body>
 </html>

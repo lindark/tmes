@@ -475,10 +475,10 @@
 																				<input type="hidden" class="show_input cqsl " name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
 																				<td style="width:10%;">
-																				<input type="text" id="cqamount" readonly= "true" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				<input type="text" id="cqamount" readonly= "true" class="cqamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
 																				</td>
 																				<td style="width:10%;">
-																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
 																				</td>
 																				<td style="width:10%;">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
@@ -579,10 +579,10 @@
 																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
 																				<td style="width:10%">
-																				<input type="text" id="cqamount" class="cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				<input type="text" id="cqamount" class=" width_input cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
 																				</td >
 																				<td style="width:10%">
-																				<input type="text" id="cqrepairamount" class="cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				<input type="text" id="cqrepairamount"  class=" width_input cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
 																				</td>
 																				<td style="width:10%">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>

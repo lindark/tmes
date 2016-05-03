@@ -33,7 +33,7 @@ public class EquipmentJob extends MyDetailQuartzJobBean {
    List<Equipments> equipmentsList = equipmentrfc.getEquipment();
    equipmentservice.saveorupdate(equipmentsList);
    
-   log.info("同步设备主数据开始>........");
+   log.info("同步设备主数据结束>........");
   }catch(Exception e){
    log.error("同步设备主数据出错",e);
   }

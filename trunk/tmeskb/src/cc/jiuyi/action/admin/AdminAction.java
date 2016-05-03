@@ -137,6 +137,7 @@ public class AdminAction extends BaseAdminAction {
 	private List<Station>list_station;//工位
 	private List<Station>list_station2;//工位
 	private String info;
+	private boolean fzrFlag=false;
 	
 	@Resource
 	private AdminService adminService;
@@ -266,13 +267,32 @@ public class AdminAction extends BaseAdminAction {
 		return null;
 	}
 	
+	
+	
 	// 后台首页
 	@SuppressWarnings("finally")
 	public String index() {
-		try{
+		try{			
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
-			if(admin.getProductDate() != null && admin.getShift() != null){
+			
+			//判定是否是副主任
+			fzrFlag=false;
+			Set<Role> roles=admin.getRoleSet();
+			Iterator<Role> it=roles.iterator();
+			while(it.hasNext())
+			{
+				Role role=it.next();
+				if(role.getValue().equalsIgnoreCase("ROLE_CJFZR"))
+				{
+					fzrFlag=true;
+					break;
+				}
+			}
+			
+			
+			if(admin.getProductDate() != null && admin.getShift() != null)
+			{
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 				Collections.sort(workingbillList, new SortChineseName());  
 				
@@ -299,11 +319,33 @@ public class AdminAction extends BaseAdminAction {
 			return "teamindex";
 		}
 		
+		
+		
 		/**weitao 此处处理条形码 begin**/
 		//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
 		//OneBarcodeUtil.createCode("我就测试一下", path);
 		/**weitao end**/
 	}
+	
+	
+	public String changeTeam()
+	{
+		String teamId=getParameter("teamId");
+		if(teamId!=null && !"".equals(teamId))
+		{
+			Team team=teamService.get(teamId);
+			if(team!=null)
+			{
+				Admin admin=adminService.get(loginid);
+				admin.setTeam(team);
+				adminService.update(admin);
+				return ajaxJsonSuccessMessage("更改成功！");
+			}
+		}
+		return ajaxJsonErrorMessage("更改失败！");
+	}
+	
+	
 	// 后台质检首页弹出层
 	public String teamWorkingBill() {
 		if(team==null){
@@ -2078,7 +2120,20 @@ public class AdminAction extends BaseAdminAction {
 		this.info = info;
 	}
 	
-	 class SortChineseName implements Comparator<WorkingBill>{  
+	
+	
+	 public boolean isFzrFlag() {
+		return fzrFlag;
+	}
+
+
+	public void setFzrFlag(boolean fzrFlag) {
+		this.fzrFlag = fzrFlag;
+	}
+
+
+
+	class SortChineseName implements Comparator<WorkingBill>{  
 	    Collator cmp = Collator.getInstance(java.util.Locale.CHINA);  
 	    @Override  
 	    public int compare(WorkingBill o1, WorkingBill o2) {  

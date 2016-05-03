@@ -28,7 +28,7 @@
 		<!-- 延时1秒 执行任务 -->
 		<property name="startDelay" value="30000" />
 		<!-- 任务执行周期 6秒 -->
-		<property name="repeatInterval" value="600000" />
+		<property name="repeatInterval" value="9999999999999" />
 	</bean>
 	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
 	<bean id="schedulerManager" lazy-init="false" autowire="no"
@@ -36,8 +36,6 @@
 		<property name="triggers">
 			<list>
 				<ref bean="quartzManagerTrigger" /> 
-				<!--  <ref local="cronTriggerCA_DocBM"/>  
-				 <ref local="cronTriggerEquipment"/> --> 
 			</list> 
 		</property>
 	</bean>
@@ -64,7 +62,7 @@
     <property name="jobDataAsMap"> <!-- 传递的参数 -->
      <map>
       <entry key="timeout">
-       <value>5000</value>
+       <value>10000</value>
       </entry>
       <!-- <entry key="dictService" value-ref="dictService" /> -->
      </map>
@@ -93,7 +91,7 @@
 		   <ref bean="equipmentJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>0 0/2 * * * ?</value><!-- 凌晨3点执行 -->
+		   <value>0 0 3 * * ?</value><!-- 凌晨3点执行 -->
 		  </property>
     </bean>  
 	

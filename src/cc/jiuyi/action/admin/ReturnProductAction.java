@@ -138,7 +138,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Pick.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(ReturnProduct.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -492,7 +492,7 @@ public class ReturnProductAction extends BaseAdminAction {
 				pager.setList(lst);
 				JsonConfig jsonConfig = new JsonConfig();
 				jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-				jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(EndProduct.class));// 排除有关联关系的属性字段
+				jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(ReturnProduct.class));// 排除有关联关系的属性字段
 				JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 				return ajaxJson(jsonArray.get(0).toString());
 			} catch (Exception e) {

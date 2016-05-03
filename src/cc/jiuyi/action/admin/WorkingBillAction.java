@@ -417,7 +417,7 @@ public class WorkingBillAction extends BaseAdminAction {
 		pager = unitdistributeModelService.getUBMList(pager, map);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Team.class));//排除有关联关系的属性字段 
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(UnitdistributeModel.class));//排除有关联关系的属性字段 
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}

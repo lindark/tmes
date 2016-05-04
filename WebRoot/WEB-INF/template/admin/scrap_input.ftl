@@ -117,14 +117,14 @@ body {background: #fff;font-family: 微软雅黑;}
 															<th style="width: 15%;">物料编码</th>
 															<th style="width: 30%;">物料描述</th>
 															<th style="width: 20%;">责任划分</th>
-															<th style="width: 35%;min-width:105px;">报废原因/数量</th>
+															<th style="width: 35%;min-width:105px;">报废原因/数量/批次/责任人</th>
 														</tr>
 														<#else>
 														<tr>
 															<th style="width: 15%;">物料编码</th>
 															<th style="width: 20%;">物料描述</th>
 															<th style="width: 20%;">责任划分</th>
-															<th style="width: 35%;min-width:105px;">报废原因(数量,批次/责任人)</th>
+															<th style="width: 35%;min-width:105px;">报废原因/数量/批次/责任人</th>
 															<th style="width: 10%;">操作</th>
 														</tr>
 														</#if>
@@ -149,7 +149,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.smmatterNum)! }</td>
 																		<td>${(list.smmatterDes)! }</td>
 																		<td>
-																			<select id="select_duty${num}" name="list_scrapmsg[${num}].smduty" style="width:150px;">
+																			<select id="select_duty${num}" class="select_duty" name="list_scrapmsg[${num}].smduty" style="width:150px;">
 																				<option value="baga">&nbsp;</option>
 																				<#list list_dict as dlist>
 																					<option value="${(dlist.dictkey)! }" <#if (dlist.dictkey==list.smduty)!>selected</#if>>${(dlist.dictvalue)! }</option>
@@ -272,20 +272,34 @@ body {background: #fff;font-family: 微软雅黑;}
 										<#if show??>
 										<#else>
 											<div class="profile-info-value div-value">
-												<span style="color: red;font-size: 14px;">提示：第一个空格填写报废数量&nbsp;&nbsp;第二个空格填写批次/责任人</span>
-												<#assign num=0 />
-												<#if list_cause??>
-													<div id="div_allcause">
-													<#list list_cause as clist>
-														<div id="div_${num}" class="col-md-6 col-xs-6 col-sm-6 div-value2">
-															<label>${(clist.causeName)! }</label>
-															<input id="mynum${num}" type="text" class=" input-value" />
-															<input id="mypeople${num}" type="text" class=" input-value" />
-														</div>
-														<#assign num=num+1 />
-													</#list>
-													</div>
-												</#if>
+												<table class="table table-striped table-bordered table-hover" id="div_allcause">
+													<tr>
+															<th style="width: 15%;">类型</th>
+															<th style="width: 20%;">报废数量</th>
+															<th style="width: 25%;">批次</th>
+															<th style="width: 40%;min-width:105px;">责任人</th>
+													</tr>
+													
+													
+													<#if list_cause??>
+														<#assign num=0 />														
+														<#list list_cause as clist>
+															<tr id="div_${num}" >
+																<td><label>${(clist.causeName)! }</label></td>
+																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" /></td>
+																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
+																<td>
+																	<input id="zrr${num}" type="text" style="width:85%;"/>
+																	<img id="img_addpeople${num}" class="img_addzrr" title="添加责任人" alt="添加责任人" src="/template/shop/images/add_bug.gif">
+																	<!--<a href="javascript:void(0);" class="btn_remove" >删除</a>-->
+																</td>
+															</tr>
+															<#assign num=num+1 />
+														</#list>												
+														
+													</#if>
+													
+												</table>
 											</div>
 										</#if>
 									</div>
@@ -365,12 +379,67 @@ body {background: #fff;font-family: 微软雅黑;}
 </body>
 </html>
 <script type="text/javascript">
+
+$(function(){
+	/*$(".btn_remove").click(
+		function()
+		{
+			$(this).prv().prv().val("");
+		}
+	);*/
+
+
+	$(".img_addzrr").click(
+		function()
+		{
+			var textinput=$(this).prev();			
+			layer.open({
+		        type: 2,
+		        skin: 'layui-layer-lan',
+		        shift:2,
+		        title: "添加负责人",
+		        fix: false,
+		        shade: 0.5,
+		        shadeClose: true,
+		        maxmin: true,
+		        scrollbar: false,
+		        btn:['确认','取消'],
+		        area: ["80%", "80%"],//弹出框的高度，宽度
+		        content:"admin!addzrr.action",
+		        yes:function(index,layero){//确定
+		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+		        	var result = iframeWin.getGridId();		        	
+		        	if(result!="baga")
+		        	{	
+		        		if(textinput.val()!="")
+		        		{
+		        			textinput.val(textinput.val()+","+result);
+		        		}
+		        		else
+		        		{
+		        			textinput.val(result);
+		        		}
+		        		layer.close(index);	
+		        		return false;	        		
+		        	}
+		        	return false;
+		        },
+		        no:function(index)
+		        {
+		        	layer.close(index);
+		        	return false;
+		        }
+		    });
+		}
+	);	
+});
+
 var number="0";
 //给按钮加事件--添加缺陷信息事件
 function addbug_event()
 {
-	var i=0;
-	<#list list_material as list>
+	//var i=0;
+	<!--<#list list_material as list>-->
 		/*
 		$("#img_addbug"+i).live("click",function(){
 			var idval=$(this).attr("id");
@@ -379,13 +448,13 @@ function addbug_event()
 		});
 		*/
 		//责任类型变化事件
-		$("#select_duty"+i).change(function(){
+		$(".select_duty").change(function(){
 			var idval2=$(this).attr("id");
 			idval2=idval2.substring(11,idval2.length);
 			selectduty_event(idval2);
 		});
-		i+=1;
-	</#list>
+		//i+=1;
+	<!--</#list>-->
 }
 //缺陷内容事件
 function cause_event()
@@ -409,9 +478,12 @@ function rowtobox_event(index)
 	var rowids_array=rowids.split(",");
 	var rownums_array=rownums.split(",");
 	var i=0;
+	
+	
 	<#list list_cause as list>
 		$("#mynum"+i).val("");//先清空
-		$("#mypeople"+i).val("");
+		$("#ph"+i).val("");
+		$("#zrr"+i).val("");
 		for(var j=0;j<rowids_array.length;j++)
 		{
 			if(rowids_array[j]!=null&&rowids_array[j]!="")
@@ -425,6 +497,32 @@ function rowtobox_event(index)
 		}
 		i+=1;
 	</#list>
+	
+	
+	var str=$("#input_msgbug"+index).val();	
+	if(str!="")
+	{
+		var strList=str.split("; ");		
+		var trList=$("#div_allcause tr.active");
+		//alert(trList);		
+		var j=0,k=0;
+		for(j=0;j<trList.length;j++)
+		{
+			var tds=trList.eq(j).children();
+			var strLists=strList[k].split('/');
+			var tdlab=tds.eq(0).children().eq(0).text();
+			if(tdlab==strLists[0])
+			{
+				//alert('已进入');
+				tds.eq(2).children().eq(0).val(strLists[2]);
+				tds.eq(3).children().eq(0).val(strLists[3]);
+				k++;
+				if(k>=strList.length) break;
+			}
+		}
+	}
+	
+	
 }
 
 //报废原因数量填写好并确定之后把填写的保存起来
@@ -442,11 +540,12 @@ function boxtorow_event(index)
 		{
 			var id="${(list.id)!}";
 			var des="${(list.causeName)!}";
-			var mypeople=$("#mypeople"+i).val().replace(/\s+/g,"");
+			var ph=$("#ph"+i).val().replace(/\s+/g,"");
+			var zrr=$("#zrr"+i).val().replace(/\s+/g,"");
 			rowids=rowids+id+",";
 			rownums=rownums+boxnum+",";
 			count=floatAdd(count,boxnum);			
-			spanbug=spanbug+des+""+"/"+boxnum+"/"+mypeople+";";
+			spanbug=spanbug+des+""+"/"+boxnum+"/"+ph+"/"+zrr+"; ";
 		}
 		i+=1;
 	</#list>
@@ -463,7 +562,7 @@ function boxtorow_event(index)
 	}
 	if(spanbug!="")
 	{
-		spanbug=spanbug.substring(0, spanbug.length-1);
+		spanbug=spanbug.substring(0, spanbug.length-2);
 	}
 	$("#span_bug"+index).text(spanbug);
 	$("#input_msgbug"+index).val(spanbug);
@@ -531,10 +630,12 @@ function showorhide_event(obj)
 		if(obj==dutyval)
 		{
 			$("#div_"+i).show();
+			$("#div_"+i).addClass("active");
 		}
 		else
 		{
 			$("#div_"+i).hide();
+			$("#div_"+i).removeClass("active");
 		}
 		i+=1;
 	</#list>
@@ -549,7 +650,7 @@ function fuzhi_box3torow(val,txt)
 	var xhtml="<tr>" +
 			"<td>"+val+"</td>" +
 			"<td>"+txt+"</td>" +
-			"<td><select id='select_duty"+row+"' name='list_scrapmsg["+row+"].smduty' style='width:150px;'>" +
+			"<td><select id='select_duty"+row+"' name='list_scrapmsg["+row+"].smduty' class='select_duty' style='width:150px;'>" +
 			"<option value='baga'>&nbsp;</option>"+
 			<#list list_dict as dlist2>
 			"<option value='${(dlist2.dictkey)! }'>${(dlist2.dictvalue)! }</option>"+
@@ -570,5 +671,6 @@ function fuzhi_box3torow(val,txt)
 			"</td>" +
 			"</tr>";
 	$("#tab_scrapmsg").append(xhtml);
+	addbug_event();
 }
 </script>

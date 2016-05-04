@@ -100,7 +100,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private ProcessHandover processHandover;
 	private ProcessHandoverTop processHandoverTop;
 	public List<ProcessHandover> processHandoverList; 
+	public List<ProcessHandover> processHandoverLists; 
 	public List<ProcessHandoverSon> processHandoverSonList; 
+	public List<ProcessHandoverSon> processHandoverSonLists; 
 	public List<Process> processList;
 	private String loginid;
 	private String show;
@@ -137,11 +139,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String list(){
-		
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		return LIST;
 	}
 	/**
-	 * 单元选择
+	 * 责任人选择
 	 * @return
 	 */
 		public String browser(){		
@@ -202,9 +205,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				if (obj.get("empname") != null) {
 					String empname = obj.getString("empname").toString();
 					map.put("empname", empname);
+				}
+				if (obj.get("empworkNumber") != null) {
+					String empworkNumber= obj.getString("empworkNumber").toString();
+					map.put("empworkNumber", empworkNumber);
+				}
 			}
-		}
-
+		
 		
 		pager = kqService.historyjqGrid(pager, map);
 		List<Kaoqin> kqlist = pager.getList();
@@ -307,6 +314,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
 			processHandoverTop = new ProcessHandoverTop();
+			
+			//判断当前登录人是否已经创建过工序交接
+			List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
+			if(phtlist!=null && phtlist.size()>0){
+				addActionError("您当日工序交接已提交或已确认");
+				return ERROR;
+			}
 			/*String uuid = CommonUtil.getUUID();
 			processHandoverTop.setId(uuid);*/
 			processHandoverList = new ArrayList<ProcessHandover>();
@@ -319,13 +333,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
-					for(int i=0;i<workingbillList.size();i++){
+					/*for(int i=0;i<workingbillList.size();i++){
 						WorkingBill wb = workingbillList.get(i);
 						if(wb.getProcessHandover()!=null){
 							addActionError("当日工序交接已提交或已确认");
 							return ERROR;
 						}
-					}
+					}*/
 					Collections.sort(workingbillList, new Comparator<WorkingBill>() {
 						public int compare( WorkingBill o1,  WorkingBill o2) {
 							 
@@ -408,7 +422,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					}
 					processHandoverTop.setProcessHandOverSet(processHandoverSet);
 				}
-				
+				processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 				processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
 				if(!processList.isEmpty()){
 					Collections.sort(processList, new Comparator<Process>() {
@@ -437,6 +451,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		processHandoverTop = processHandoverTopService.get(id);
+		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		return INPUT;
 	}
 	/**
@@ -444,6 +459,16 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditsubmit(){
+		//判断当前登录人是否已经创建过工序交接
+		/*List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
+		if(phtlist!=null && phtlist.size()>0){
+			for(ProcessHandoverTop pht : phtlist){
+				if(processHandoverTop.getProcessCode().equals(pht.getProcessCode())){
+					addActionError("您当日工序交接已提交或已确认");
+					return ERROR;
+				}
+			}
+		}*/
 		processHandoverService.saveProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
@@ -452,6 +477,16 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditupdate() {
+		//判断当前登录人是否已经创建过工序交接
+		/*List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
+		if(phtlist!=null && phtlist.size()>0){
+			for(ProcessHandoverTop pht : phtlist){
+				if(processHandoverTop.getProcessCode().equals(pht.getProcessCode()) && !processHandoverTop.getId().equals(pht.getId())){
+					addActionError("您当日工序交接已提交或已确认");
+					return ERROR;
+				}
+			}
+		}*/
 		//processHandoverTop = processHandoverTopService.get(id);
 		processHandoverService.updateProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -494,6 +529,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String view(){
 		processHandoverTop = processHandoverTopService.get(id);
+		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		if(show==null)
 		show = "show";
 		return INPUT;
@@ -604,6 +640,25 @@ public class ProcessHandoverAction extends BaseAdminAction {
 
 	public void setMaterialCode(String materialCode) {
 		this.materialCode = materialCode;
+	}
+	public List<ProcessHandover> getProcessHandoverLists() {
+		return processHandoverLists;
+	}
+	public void setProcessHandoverLists(List<ProcessHandover> processHandoverLists) {
+		this.processHandoverLists = processHandoverLists;
+	}
+	public List<ProcessHandoverSon> getProcessHandoverSonLists() {
+		return processHandoverSonLists;
+	}
+	public void setProcessHandoverSonLists(
+			List<ProcessHandoverSon> processHandoverSonLists) {
+		this.processHandoverSonLists = processHandoverSonLists;
+	}
+	public List<Process> getProcessList() {
+		return processList;
+	}
+	public void setProcessList(List<Process> processList) {
+		this.processList = processList;
 	}
 	
 	

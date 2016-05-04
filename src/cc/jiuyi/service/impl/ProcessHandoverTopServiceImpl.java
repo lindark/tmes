@@ -1,12 +1,17 @@
 package cc.jiuyi.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
+
 
 
 
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.dao.ProcessHandoverTopDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ProcessHandoverTop;
 import cc.jiuyi.service.ProcessHandoverTopService;
 /**
@@ -21,5 +26,9 @@ public class ProcessHandoverTopServiceImpl extends BaseServiceImpl<ProcessHandov
 	@Resource
 	public void setBaseDao(ProcessHandoverTopDao processHandoverTopDao){
 		super.setBaseDao(processHandoverTopDao);
+	}
+	@Override
+	public List<ProcessHandoverTop> getPHT(Admin admin) {
+		return processHandoverTopDao.getPHT(admin);
 	}
 }

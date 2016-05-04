@@ -41,6 +41,7 @@ jQuery(function($) {
 		colModel:[
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'factoryUnitName',index:'factoryUnitName',search:false,label:"单元名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'processName',index:'processName',search:false,label:"工序名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productDate',index:'productDate',search:false,label:"生产日期", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xshift',index:'shift',search:false,label:"班次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	

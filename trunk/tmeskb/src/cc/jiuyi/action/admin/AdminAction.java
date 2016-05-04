@@ -1417,6 +1417,11 @@ public class AdminAction extends BaseAdminAction {
 		return "alert";
 	}
 	
+	public String addzrr()
+	{
+		return "alertzrr";
+	}
+	
 	/**
 	 * 获取未离职的,已启用的员工
 	 * 1.部门添加时获取部门负责人

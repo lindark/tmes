@@ -100,10 +100,11 @@ body{background:#fff;}
 											 id="unitNa" value="" class="formText {required: true}" />
 											<input type="hidden" name="positionManagement.factoryUnit.id" 
 											id="unitNo" value="" class="formText {required: true}" /> <#else>
-											${(positionManagement.factoryUnit.factoryUnitName)!} </#if>
+											${(positionManagement.factoryUnit.factoryUnitName)!} 
+											<input type="hidden" name="positionManagement.factoryUnit.id" value="${(positionManagement.factoryUnit.id)!} "/>
+											</#if>
 										</div>
 									</div>	
-									
 									<!--  
 									<div class="profile-info-row">	
 										<div class="profile-info-name"> 单元 </div>					

@@ -65,16 +65,22 @@ body {
 												class="input input-sm form-control" value=""
 												id="form-field-icon-1">
 										</div>
-										
+										<label class="col-sm-2"
+											style="text-align:right;">员工卡号:</label>
+										<div class="col-sm-4">
+											<input type="text" name="empworkNumber"
+												class="input input-sm form-control" value=""
+												id="form-field-icon-1">
+										</div>
 									</div>
 									<div class="form-group" style="text-align:center">
 										<a id="searchButton"
 											class="btn btn-white btn-default btn-sm btn-round">
 											 <i class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
-										<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
+									<!-- 	<a  id="excelReport" class="btn btn-white btn-default btn-sm btn-round">
 											<i class="ace-icon fa fa-filter blue"></i>Excel导出
-										</a>
+										</a> -->
 									</div>
 
 								</div>

@@ -219,7 +219,7 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">工序选择：</div>
 														<div class="profile-info-value">
-															<select name="processHandoverTop.processName">
+															<select name="processHandoverTop.processName"<#if show??>disabled="true"</#if>>
 						                                     	<option value="${processHandoverTop.processName }">${processHandoverTop.processName }</option>
 						                                    </select>
 														</div>
@@ -227,11 +227,11 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">合格：</div>
 														<div class="profile-info-value" style="width:300px;">
-															<input type="checkbox" <#if (processHandoverTop.processType?index_of("合格")!=-1)!>checked </#if> id="qualified" style="width:18px;height:18px;" name="processHandoverTop.processType" value="合格" border: 1px solid black">
+															<input type="checkbox" <#if (processHandoverTop.processType?index_of("合格")!=-1)!>checked </#if> id="qualified" style="width:18px;height:18px;border: 1px solid black;" name="processHandoverTop.processType" value="合格" <#if show??>disabled="true"</#if>>
 														</div>
 														<div class="profile-info-name" >返修：</div>
 														<div class="profile-info-value">
-															<input type="checkbox" <#if (processHandoverTop.processType?index_of("返修")!=-1)!>checked </#if> id="repair" style="width:18px;height:18px;"name="processHandoverTop.processType" value="返修" border: 1px solid black">
+															<input type="checkbox" <#if (processHandoverTop.processType?index_of("返修")!=-1)!>checked </#if> id="repair" style="width:18px;height:18px;border: 1px solid black;"name="processHandoverTop.processType" value="返修"  <#if show??>disabled="true"</#if>>
 														</div>
 													</div>
 												</div>
@@ -344,62 +344,8 @@
 														<th class="tabth">责任人</th>
 														<th class="tabth mblnr"style="display:none">物料凭证号</th>
 													</tr>
-												<!-- 	<#list workingbillList as list>
-																<tr>
-																	<td class="add_icon">
-																	<i class="i_plus ace-icon fa fa-plus blue fa-2x" id="i_plus"></i>
-																	<i class="i_minus ace-icon fa fa-minus blue fa-2x"id="i_minus" style="display:none"></i>
-																	</td>
-																	<td name="processHandoverList${list_index}.maktx">
-																	${(list.maktx)! }
-																	</td>
-																	<td name="processHandoverList${list_index}.planCount">${(list.planCount)! }</td>
-																	<td name="processHandoverList${list_index}.matnr">${(list.matnr)! }</td>
-																	<td name="processHandoverList${list_index}.workingBillCode">${(list.workingBillCode)! }</td>
-																	<#if (list.afterworkingBillCode)!??>
-																	<td name="processHandoverList${list_index}.afterWorkingBillCode">${(list.afterworkingBillCode)! }</td>
-																	<#else>
-																	<input type="text" name="processHandoverList${list_index}.afterWorkingBillCode" value="">
-																	</#if>
-																	<td name="processHandoverList${list_index}.productAmount"><input type="text" class="productAmount" style="padding:2px 2px ;"></td>
-																</tr>
-																<tr class="tableson"  style="display:none;">
-																	<td></td>
-																	<td colspan=6>
-																		<table id="" class="table table-striped table-bordered table-hover" style="width:60%;margin-bottom: 0px; ">
-																		<tr>
-																				<th class="" style="width:65%;">子件名称</th>
-																				<th class=""style="width:5%;">子件数量</th>
-																				<th class=""style="width:15%">条子数量</th>
-																				<th class=""style="width:15%">产品数量</th>
-																				
-																		</tr>
-																		<#list bomList as bl>
-																		<#if bl.beforeWorkingCode==list.workingBillCode>
-																			<tr>
-																				<td style="width:65%;"> 
-																				<input type="hidden" name="processHandoverSonList${bl_index }.beforeWorkingCode" value="${bl.beforeWorkingCode}">
-																				<input type="hidden" name="processHandoverSonList${bl_index }.bomCode" value="${bl.materialCode }">
-																				<input type="hidden" name="processHandoverSonList${bl_index }.bomDesp" value="${bl.materialName }">
-																				<input type="hidden"name="processHandoverSonList${bl_index }.afterWorkingCode" value="${bl.afterWorkingCode }">
-																				${bl.materialCode } &nbsp;&nbsp;&nbsp;${bl.materialName }
-																				</td>
-																				<td style="width:5%;" name="processHandoverSonList${bl_index }.bomAmount"><input type="text"style="padding:2px 2px ;"></td>
-																				<td style="width:15%;">${(bl.materialAmount)! }</td>
-																				<td style="width:15%;">${(bl.productAmount)! }</td>
-																			</tr>
-																			</#if>
-																		</#list> 
-																		
-																		</table>
-																	</td>
-																</tr>
-																
-														</#list>-->
-													
-														<#list processHandoverTop.processHandOverSet as list>
+														<#list processHandoverLists?sort_by("matnr") as list>
 															<#if show??>
-																<#if list.productAmount??>
 																<tr>
 																	<td class="add_icon">
 																	<i class="i_plus ace-icon fa fa-plus blue fa-2x" id="i_plus"></i>
@@ -442,7 +388,6 @@
 																				<th class="">子件名称</th>
 																				<th class="">条子数量</th>
 																				<th class="">产品数量</th>
-																	<!-- 		<th class=""style="width:15%">合格数量</th>  -->
 																				<th class="">合格数量</th>
 																				<th class="">返修数量</th>
 																				<th class="">裁切倍数</th>
@@ -467,7 +412,7 @@
 																				<td style="width:5%;">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:10%;"><input type="text"  class=" show_input bomAmount width_input {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px;"value="${(bl.bomAmount)! }">
+																				<td style="width:10%;"><input type="text"  class=" show_input  width_input {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px;"value="${(bl.bomAmount)! }">
 																				</td>
 																				<td  style="width:10%;"><input type="text"  class="show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
@@ -494,7 +439,6 @@
 																		</table>
 																	</td>
 																</tr>
-																</#if>
 															<#else>
 															<tr>
 																	<td class="add_icon">
@@ -525,13 +469,12 @@
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
-																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}"></td>
+																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="bomAmount show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
 																	<td>
-																	<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 																	<span id="responsibleName">${(list.responsibleName) }</span>
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
-																	<label class="requireField">*</label>
 																	</td>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
@@ -544,7 +487,6 @@
 																				<th class="">子件名称</th>
 																				<th class="">条子数量</th>
 																				<th class="">产品数量</th>
-																	<!-- 		<th class=""style="width:15%">合格数量</th>  -->
 																				<th class="">合格数量</th>
 																				<th class="">返修数量</th>
 																				<th class="">裁切倍数</th>
@@ -569,8 +511,6 @@
 																				<td style="width:5%">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<!--  <td style="width:5%;" ><input type="text"  class="show_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].qualifiedNumber"  style="padding:2px 2px ;"value="${(bl.qualifiedNumber)! }">
-																				</td> -->
 																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
 																				<td style="width:10%"> <input type="text"  readonly= "true" class=" repairNumber show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
@@ -579,10 +519,10 @@
 																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
 																				</td>
 																				<td style="width:10%">
-																				<input type="text" id="cqamount" class=" width_input cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
+																				<input type="text" id="cqamount" class="width_input cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }" readonly/>
 																				</td >
 																				<td style="width:10%">
-																				<input type="text" id="cqrepairamount"  class=" width_input cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
+																				<input type="text" id="cqrepairamount"  class="repairNumber width_input cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"readonly/>
 																				</td>
 																				<td style="width:10%">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
@@ -666,14 +606,23 @@ function showUnit(num1){
 	});
 }
 	$(function(){
+		if($("#qualified").is(':checked')){
+			$(".bomAmount").removeAttr("readonly");
+			$(".cqamount").removeAttr("readonly");
+		}
+		if($("#repair").is(':checked')){
+			$(".repairNumber").removeAttr("readonly");
+		}
 		$(".img_addbug").click( function() {
 			showUnit($(this));
 		});
 		$("#qualified").click(function(){
 			if($(this).is(':checked')){
 			$(".bomAmount").removeAttr("readonly");
+			$(".cqamount").removeAttr("readonly");
 			}else{
 				$(".bomAmount").attr("readonly","true");
+				$(".cqamount").attr("readonly","true");
 			}
 		});
 		$("#repair").click(function(){

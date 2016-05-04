@@ -1,5 +1,6 @@
 package cc.jiuyi.action.admin;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,19 +16,24 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.quartz.Scheduler;
+import org.quartz.impl.StdScheduler;
 import org.springframework.beans.BeanUtils;
 
+import cc.jiuyi.action.cron.QuartzManager;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.FactoryUnitSyn;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.WorkShopService;
+import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -227,10 +233,22 @@ public class FactoryUnitAction extends BaseAdminAction {
 				  
 		)
 		@InputConfig(resultName = "error")
-		public String update() {
+		public String update() throws ParseException, Exception {
 			FactoryUnit persistent = factoryUnitService.load(id);
-			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate", "modifyDate","workShop"});
+			factoryUnit.setTriggername(factoryUnit.getWorkCenter());
+			//factoryUnitSyn.setCronexpression("0 0/5 * * * ?");
+			factoryUnit.setJobdetailname(factoryUnit.getWorkCenter());
+			factoryUnit.setTargetobject("cc.jiuyi.action.cron.WorkingBillJobAll");
+			factoryUnit.setMethodname("start1");
+			String[]  arguments = {factoryUnit.getWorkCenter()};
+			factoryUnit.setMethodArguments(arguments);
+			factoryUnit.setConcurrent("1");
+			//factoryUnitSyn.setState("1");
+			factoryUnit.setReadme("readme");
+			factoryUnit.setIsspringbean("0");
+			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate","workShop",""});
 			factoryUnitService.update(persistent);
+			reshSyn();//重启quartz 任务
 			redirectionUrl = "factory_unit!list.action";
 			return SUCCESS;
 		}
@@ -249,7 +267,23 @@ public class FactoryUnitAction extends BaseAdminAction {
 	public String save()throws Exception{
 		workShop=workShopService.load(workShopId);
 		factoryUnit.setWorkShop(workShop);
+		
+		factoryUnit.setTriggername(factoryUnit.getWorkCenter());
+		//factoryUnitSyn.setCronexpression("0 0/5 * * * ?");
+		factoryUnit.setJobdetailname(factoryUnit.getWorkCenter());
+		factoryUnit.setTargetobject("cc.jiuyi.action.cron.WorkingBillJobAll");
+		factoryUnit.setMethodname("start1");
+		String[]  arguments = {factoryUnit.getWorkCenter()};
+		factoryUnit.setMethodArguments(arguments);
+		factoryUnit.setConcurrent("1");
+		//factoryUnitSyn.setState("1");
+		factoryUnit.setReadme("readme");
+		factoryUnit.setIsspringbean("0");
+		
 		factoryUnitService.save(factoryUnit);
+		
+		reshSyn();//重启quartz 任务
+		
 		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	
 	}
@@ -332,6 +366,27 @@ public class FactoryUnitAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
+	public void reshSyn() throws ParseException, Exception{
+		Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
+		//Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		QuartzManager q = new QuartzManager();
+		q.resh(scheduler);
+
+        // 读取容器中的QUARTZ总管类
+       /* Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
+        //停止正在运行的JOB
+        List<FactoryUnitSyn> FactoryUnitSynList = factoryUnitSynService.getAll();
+        for(FactoryUnitSyn f : FactoryUnitSynList){
+        	 scheduler.interrupt(f.getTriggername(), Scheduler.DEFAULT_GROUP);
+        }
+        // 重启任务
+        scheduler.resumeTrigger("quartzManagerTrigger", Scheduler.DEFAULT_GROUP);*/
+		//QuartzManagerUtil.startJobs();
+	}
+	public List<FactoryUnit> getAll(){
+		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
+		return  factoryUnitList;
+	 }
 	
 	public FactoryUnit getFactoryUnit() {
 		return factoryUnit;

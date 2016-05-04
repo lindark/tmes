@@ -15,7 +15,9 @@ import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.stereotype.Component;
 
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.FactoryUnitSyn;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.FactoryUnitSynService;
 import cc.jiuyi.util.SpringUtil;
 
@@ -24,22 +26,22 @@ public class QuartzManager implements BeanFactoryAware {
 	private Logger log = Logger.getLogger(QuartzManager.class);
 	private Scheduler scheduler;
 	private static BeanFactory beanFactory = null;
-	private FactoryUnitSynService factoryUnitSynService;
+	private FactoryUnitService factoryUnitService;
 	@SuppressWarnings("unused")
 	public void reScheduleJob() throws Exception, ParseException {
 		// 通过查询数据库里计划任务来配置计划任务
 		System.out.println("reScheduleJob---->"+new Date());
 		
-		factoryUnitSynService = (FactoryUnitSynService)SpringUtil.getBean("factoryUnitSynServiceImpl");
-		List<FactoryUnitSyn> FactoryUnitSynList = factoryUnitSynService.getAll();
+		factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
+		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
 	
-		List<FactoryUnitSyn> quartzList = new ArrayList<FactoryUnitSyn>();//这里是手动设置了一个
-		for(FactoryUnitSyn f : FactoryUnitSynList){
+		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//这里是手动设置了一个
+		for(FactoryUnit f : factoryUnitList){
 			configQuatrz(f);
 		}
 	}
 
-	public  boolean configQuatrz(FactoryUnitSyn tbcq) {
+	public  boolean configQuatrz(FactoryUnit tbcq) {
 		boolean result = false;
 		CronTriggerBean trigger = null;
 		try {
@@ -63,11 +65,11 @@ public class QuartzManager implements BeanFactoryAware {
 		return result;
 	}
 
-	public  void change(FactoryUnitSyn tbcq, CronTriggerBean trigger)
+	public  void change(FactoryUnit tbcq, CronTriggerBean trigger)
 			throws Exception {
 		System.out.println("----------"+tbcq.getMethodArguments()[0]+"-----------");
 		// 如果任务为可用
-		if (tbcq.getState().equals("1")) {
+		if (tbcq.getIsSync().equals("1")) {
 			// 判断从DB中取得的任务时间和现在的quartz线程中的任务时间是否相等
 			// 如果相等，则表示用户并没有重新设定数据库中的任务时间，这种情况不需要重新rescheduleJob
 			if (!trigger.getCronExpression().equalsIgnoreCase(
@@ -97,7 +99,7 @@ public class QuartzManager implements BeanFactoryAware {
 	 *            计划任务配置对象
 	 * @throws Exception
 	 */
-	public void createCronTriggerBean(FactoryUnitSyn tbcq) throws Exception {
+	public void createCronTriggerBean(FactoryUnit tbcq) throws Exception {
 		// 新建一个基于Spring的管理Job类
 		MethodInvokingJobDetailFactoryBean mjdfb = new MethodInvokingJobDetailFactoryBean();
 		

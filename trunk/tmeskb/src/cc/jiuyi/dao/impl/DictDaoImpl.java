@@ -64,7 +64,7 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	@Override
 	public String getDictValueByDictKey(Object dictname, Object dictkey) {
 		// TODO Auto-generated method stub
-		String hql = "from Dict dict where dict.dictname=? and dictkey=?order by dict.dictkey asc";
+		String hql = "from Dict dict where dictname=? and dictkey=? order by dictkey asc";
 		// System.out.println(hql);
 		List<Dict> dictlist = (List<Dict>) getSession().createQuery(hql).setParameter(0, dictname).setParameter(1, dictkey).list();
 		if(dictlist!=null && dictlist.size()>0){

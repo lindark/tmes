@@ -127,9 +127,9 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		{
 			detachedCriteria.createAlias("admin.team", "team");
 		}
-		if(!existAlias(detachedCriteria, "admin.team.factoryUnit", "factoryUnit"))
+		if(!existAlias(detachedCriteria, "team.factoryUnit", "factoryUnit"))
 		{
-			detachedCriteria.createAlias("admin.team.factoryUnit", "factoryUnit");
+			detachedCriteria.createAlias("team.factoryUnit", "factoryUnit");
 		}
 		//detachedCriteria.add(Restrictions.eq("workingbill.id", "4028c781532c74d701532ca1986e0014"));//测试
 		if (map.size() > 0) {
@@ -138,15 +138,20 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 						"productdate",
 						"%" + map.get("productdate") + "%"));
 			}	
-			if (map.get("classtime") != null) {
+			/*if (map.get("classtime") != null) {
 				detachedCriteria.add(Restrictions.like(
 						"classtime",
 						"%" + map.get("classtime") + "%"));
-			}	
+			}*/
 			if (map.get("empname") != null) {
 				detachedCriteria.add(Restrictions.like(
 						"empname",
 						"%" + map.get("empname") + "%"));
+			}
+			if (map.get("empworkNumber") != null) {
+				detachedCriteria.add(Restrictions.like(
+						"cardNumber",
+						"%" + map.get("empworkNumber") + "%"));
 			}	
 			if (map.get("factoryUnitName") != null) {
 				detachedCriteria.add(Restrictions.like(

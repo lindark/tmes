@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -123,6 +124,7 @@ public class ProcessHandoverTop extends BaseEntity {
 	}
 	@OneToMany(mappedBy = "processHandoverTop", fetch = FetchType.LAZY)
 	@Cascade(value={CascadeType.DELETE})
+	@OrderBy("workingBillCode desc") 
 	public Set<ProcessHandover> getProcessHandOverSet() {
 		return processHandOverSet;
 	}

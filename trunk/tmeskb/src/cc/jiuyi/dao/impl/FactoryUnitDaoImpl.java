@@ -93,6 +93,7 @@ public class FactoryUnitDaoImpl extends BaseDaoImpl<FactoryUnit, String> impleme
 			FactoryUnit factoryUnit=super.load(id);
 			factoryUnit.setIsDel(oper);//标记删除
 			factoryUnit.setState("2");
+			factoryUnit.setIsSync("2");
 			super.update(factoryUnit);
 		}
 		

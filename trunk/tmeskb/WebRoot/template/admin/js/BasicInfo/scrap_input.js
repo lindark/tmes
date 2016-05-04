@@ -271,7 +271,7 @@ function tosubmit(url)
 
 //责任类型变化事件,清空缺陷内容
 function selectduty_event(obj)
-{
+{	
 	$("#span_bug"+obj).text("");
 	$("#input_msgbug"+obj).val("");
 	$("#input_msgmenge"+obj).val("");

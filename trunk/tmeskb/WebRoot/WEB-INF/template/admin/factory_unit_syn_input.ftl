@@ -110,7 +110,7 @@ body{background:#fff;}
 						                         <span class="lbl middle"></span>
 					                        </label>		
 										</div>	
-									</div
+									</div>
 						</div>
 				</div>
 				</div>

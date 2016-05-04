@@ -223,6 +223,28 @@ body{background:#fff;}
 					                        </label>		
 										</div>	
 									</div>
+									<div class="profile-info-row">
+										<input type="hidden" name="factoryUnit.cronexpression" value="0 0/10 * * * ?">
+										<!-- <div class="profile-info-name"> 同步周期 </div>					
+										<div class="profile-info-value">
+											<input type="text" name="factoryUnitSyn.cronexpression" value="${(factoryUnitSyn.cronexpression)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />
+											<label class="requireField">*</label>	
+										</div> -->
+										<div class="profile-info-name"> 是否开启同步</div>					
+										<div class="profile-info-value">
+											<label class="pull-left inline">
+					                           <small class="muted smaller-90">开启:</small>
+						                       <input type="radio" class="ace" name="factoryUnit.isSync" value="1"<#if ( factoryUnit.isSync == '1')!> checked</#if> />
+						                       <span class="lbl middle"></span>
+						                         &nbsp;&nbsp;
+					                        </label>						
+					                        <label class="pull-left inline">
+					                            <small class="muted smaller-90">关闭:</small>
+						                        <input type="radio" class="ace" name="factoryUnit.isSync" value="2"<#if (isAdd || factoryUnit.isSync == '2')!> checked</#if>  />
+						                         <span class="lbl middle"></span>
+					                        </label>		
+										</div>	
+									</div>
 								</div>
 								<div class="buttonArea">
 									<input type="button" id="input_btn" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;

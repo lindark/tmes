@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -48,7 +49,7 @@ public class ProcessHandover extends BaseEntity {
 	private ProcessHandoverTop processHandoverTop;
 	private Set<ProcessHandoverSon> processHandoverSonSet;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingBill() {
 		return workingBill;
 	}
@@ -179,6 +180,7 @@ public class ProcessHandover extends BaseEntity {
 	}
 	@OneToMany(mappedBy = "processHandover", fetch = FetchType.LAZY)
 	@Cascade(value={CascadeType.DELETE})
+	@OrderBy("bomCode desc") 
 	public Set<ProcessHandoverSon> getProcessHandoverSonSet() {
 		return processHandoverSonSet;
 	}

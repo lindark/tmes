@@ -69,7 +69,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     private Set<ItermediateTest> itermediateTest;//半成品巡检
     private Set<OddHandOver> oddHandOverSet;//零头数交接
     private Set<PumPackHandOver> pumPackHandOverSet;//抽包异常交接
-    private ProcessHandover processHandover;
+    private Set<ProcessHandover> processHandoverSet;
     
     /*冗余*/
     private String afterworkingBillCode;//下一随工单
@@ -515,12 +515,12 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public void setDiffamount(Double diffamount) {
 		this.diffamount = diffamount;
 	}
-	@OneToOne(mappedBy = "workingBill", fetch = FetchType.LAZY)
-	public ProcessHandover getProcessHandover() {
-		return processHandover;
+	@OneToMany(mappedBy = "workingBill", fetch = FetchType.LAZY)
+	public Set<ProcessHandover> getProcessHandoverSet() {
+		return processHandoverSet;
 	}
-	public void setProcessHandover(ProcessHandover processHandover) {
-		this.processHandover = processHandover;
+	public void setProcessHandoverSet(Set<ProcessHandover> processHandoverSet) {
+		this.processHandoverSet = processHandoverSet;
 	}
 	
 	

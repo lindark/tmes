@@ -186,13 +186,13 @@ public class FactoryUnitAction extends BaseAdminAction {
 		{
 			FactoryUnit factoryUnit = (FactoryUnit) factoryUnitList.get(i);
 			factoryUnit.setStateRemark(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitState", factoryUnit.getState()));
+			factoryUnit.setXisSync(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIsSync", factoryUnit.getIsSync()));
 			factoryUnit.setFactoryName(factoryUnit.getWorkShop().getFactory().getFactoryName());
 			factoryUnit.setWorkShopName(factoryUnit.getWorkShop().getWorkShopName());
 			//是否可以返修/返修收获
 			if(factoryUnit.getIscanrepair()!=null)
 			{
 				factoryUnit.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", factoryUnit.getIscanrepair()));
-				factoryUnit.setXisSync(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIsSync", factoryUnit.getIsSync()));
 			}
 			lst.add(factoryUnit);
 		}

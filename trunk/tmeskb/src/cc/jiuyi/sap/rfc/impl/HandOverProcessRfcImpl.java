@@ -1,6 +1,7 @@
 package cc.jiuyi.sap.rfc.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.HandOverProcess;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
@@ -94,16 +96,52 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel tablemodel = new TableModel();
 		tablemodel.setData("IT_ITEM");//表名
-		for(ProcessHandoverSon p : processHandover.getProcessHandoverSonSet()){
-			HashMap<String,Object> item = new HashMap<String,Object>();
-			item.put("MATNR", p.getBomCode());//物料编码
-			item.put("ZSFSL", p.getBomAmount());//数量
-			item.put("ORDERID1", p.getBeforeWorkingCode());//上班随工单
-			item.put("ORDERID2", p.getAfterWokingCode());//下班随工单
-			item.put("XUH", p.getId());
-			item.put("WERKS", processHandover.getProcessHandoverTop().getWerk());//工厂
-			item.put("LGORT", admin.getTeam().getFactoryUnit().getWarehouse());
-			arrList.add(item);
+		if(processHandover.getProcessHandoverTop().getType().equals("工序交接")){
+			for(ProcessHandoverSon p : processHandover.getProcessHandoverSonSet()){
+				HashMap<String,Object> item = new HashMap<String,Object>();
+				if(p.getBomAmount()==null || p.getBomAmount().equals("")){
+					p.setBomAmount("0");
+				}
+				if(p.getRepairNumber()==null || p.getRepairNumber().equals("")){
+					p.setRepairNumber("0");
+				}
+				if(p.getCqamount()==null || p.getCqamount().equals("")){
+					p.setCqamount(0.0);
+				}
+				if(p.getCqrepairamount()==null || p.getCqrepairamount().equals("")){
+					p.setCqrepairamount(0.0);
+				}
+				BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+				BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+				BigDecimal cqamount = new BigDecimal(p.getCqamount());
+				BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+				BigDecimal amount = bomAmount.add(repairNumber).add(cqamount).add(cqrepairamount);
+				String mount = amount.toString();
+				item.put("MATNR", p.getBomCode());//物料编码
+				item.put("ZSFSL", mount);//数量
+				item.put("ORDERID1", p.getBeforeWorkingCode());//上班随工单
+				item.put("ORDERID2", p.getAfterWokingCode());//下班随工单
+				item.put("XUH", p.getId());
+				item.put("WERKS", processHandover.getProcessHandoverTop().getWerk());//工厂
+				item.put("LGORT", admin.getTeam().getFactoryUnit().getWarehouse());
+				arrList.add(item);
+			}
+		}else{
+			for(OddHandOver  o:processHandover.getOddHandOverSet()){
+				HashMap<String,Object> item = new HashMap<String,Object>();
+				item.put("MATNR", o.getBomCode());//物料编码
+				BigDecimal actualBomMount = new BigDecimal(o.getActualBomMount());
+				BigDecimal unBomMount = new BigDecimal(o.getUnBomMount());
+				BigDecimal amount = actualBomMount.add(unBomMount);
+				String mount = amount.toString();
+				item.put("ZSFSL", mount);//数量
+				item.put("ORDERID1", o.getBeforeWokingCode());//上班随工单
+				item.put("ORDERID2", o.getAfterWorkingCode());//下班随工单
+				item.put("XUH", o.getId());
+				item.put("WERKS", processHandover.getProcessHandoverTop().getWerk());//工厂
+				item.put("LGORT", admin.getTeam().getFactoryUnit().getWarehouse());
+				arrList.add(item);
+			}
 		}
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);

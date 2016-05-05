@@ -240,8 +240,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			factoryUnit.setJobdetailname(factoryUnit.getWorkCenter());
 			factoryUnit.setTargetobject("cc.jiuyi.action.cron.WorkingBillJobAll");
 			factoryUnit.setMethodname("start1");
-			String[]  arguments = {factoryUnit.getWorkCenter()};
-			factoryUnit.setMethodArguments(arguments);
+			factoryUnit.setMethodArguments(factoryUnit.getWorkCenter());
 			factoryUnit.setConcurrent("1");
 			//factoryUnitSyn.setState("1");
 			factoryUnit.setReadme("readme");
@@ -273,8 +272,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 		factoryUnit.setJobdetailname(factoryUnit.getWorkCenter());
 		factoryUnit.setTargetobject("cc.jiuyi.action.cron.WorkingBillJobAll");
 		factoryUnit.setMethodname("start1");
-		String[]  arguments = {factoryUnit.getWorkCenter()};
-		factoryUnit.setMethodArguments(arguments);
+		factoryUnit.setMethodArguments(factoryUnit.getWorkCenter());
 		factoryUnit.setConcurrent("1");
 		//factoryUnitSyn.setState("1");
 		factoryUnit.setReadme("readme");

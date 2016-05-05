@@ -149,9 +149,9 @@ public class WorkingBillAction extends BaseAdminAction {
 		HashMap<String,String> map = new HashMap<String,String>();
 		if(pager == null) {
 			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
 		}
+		pager.setOrderType(OrderType.desc);
+		pager.setOrderBy("modifyDate");
 		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
 			if(!filters.equals("")){
 				JSONObject filt = JSONObject.fromObject(filters);
@@ -170,9 +170,11 @@ public class WorkingBillAction extends BaseAdminAction {
 				String start = ThinkWayUtil.null2String(param.get("start"));
 				String end = ThinkWayUtil.null2String(param.get("end"));
 				String workingBillCode = ThinkWayUtil.null2String(param.get("workingBillCode"));//随工单
+				String workCenter = ThinkWayUtil.null2String(param.get("workCenter"));//随工单
 				map.put("start", start);
 				map.put("end", end);
 				map.put("workingBillCode", workingBillCode);
+				map.put("workCenter", workCenter);
 			}
 		}
 		

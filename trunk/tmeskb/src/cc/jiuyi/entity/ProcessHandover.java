@@ -40,6 +40,8 @@ public class ProcessHandover extends BaseEntity {
 	private String responsibleId;//责任人id
 	private String e_type;
 	private String e_message;
+	private Double actualHOMount;//实际零头数交接数量
+	private Double unHOMount;//实际异常交接数量
 	
 	/**
 	 * 假字段
@@ -48,6 +50,7 @@ public class ProcessHandover extends BaseEntity {
 	
 	private ProcessHandoverTop processHandoverTop;
 	private Set<ProcessHandoverSon> processHandoverSonSet;
+	private Set<OddHandOver> oddHandOverSet;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingBill() {
@@ -220,6 +223,32 @@ public class ProcessHandover extends BaseEntity {
 
 	public void setResponsibleId(String responsibleId) {
 		this.responsibleId = responsibleId;
+	}
+
+	@OneToMany(mappedBy = "processHandover", fetch = FetchType.LAZY)
+	@Cascade(value={CascadeType.DELETE})
+	public Set<OddHandOver> getOddHandOverSet() {
+		return oddHandOverSet;
+	}
+
+	public void setOddHandOverSet(Set<OddHandOver> oddHandOverSet) {
+		this.oddHandOverSet = oddHandOverSet;
+	}
+
+	public Double getActualHOMount() {
+		return actualHOMount;
+	}
+
+	public void setActualHOMount(Double actualHOMount) {
+		this.actualHOMount = actualHOMount;
+	}
+
+	public Double getUnHOMount() {
+		return unHOMount;
+	}
+
+	public void setUnHOMount(Double unHOMount) {
+		this.unHOMount = unHOMount;
 	}
 
 	

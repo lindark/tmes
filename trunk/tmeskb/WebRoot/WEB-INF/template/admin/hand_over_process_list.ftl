@@ -240,7 +240,6 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 												<th class="center"style="width:15%">下一班随工单编号</th>
 												<th class="center"style="width:5%">零头数交接数量</th>
 												<th class="center"style="width:5%">异常交接数量</th>
-												<th class="center" style="width:10%">状态</th>
 											</tr>
 										</thead>
 	
@@ -265,7 +264,6 @@ input.oddhandOverMount,input.unhandOverMount,input.afterWork{
 														<td class="center"><input type="text" class="afterWork state_input" value=""/>	</td>
 														<td class="center"><input type="text" class="oddhandOverMount state_input" name="actualMounts" value=""/></td>
 														<td class="center"><input type="text" class="unhandOverMount state_input" name="unMounts" value=""/></td>
-														<td class="center OddHstate"></td>
 														</#if>
 												</tr>
 											</#list>

@@ -133,7 +133,7 @@ inupt.stockMout {
 												<select name="lgpla" style=" width:160px;" id="lgpla">
 												<option value="" ></option>
 												<#list trimWareHouseSet as list>
-												<input 
+
 												<#if list != "R-00">
 												<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
 												<#else>
@@ -191,7 +191,11 @@ inupt.stockMout {
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
 														<th class="tabth">库存数量</th>
-														<th class="tabth">数量</th>
+														<th class="tabth">裁切后数量</th>
+														<#if type="down">
+														<th class="tabth">倍数</th>
+														<th class="tabth">裁切前数量</th>
+														</#if>
 														<th class="tabth">来料说明</th>
 													</tr>
 													<#list locationonsideList as lns>
@@ -205,9 +209,6 @@ inupt.stockMout {
 														<#if type="down">
 														<td>${(lns.locationName)! }</td>
 														<input type="hidden" name="updownList[${lns_index}].lgpla"
-															value="${(lns.locationName)!}">
-														<input type="hidden"
-															name="updownList[${lns_index}].lgplaname"
 															value="${(lns.locationName)!}">
 														</#if>
 														<td>${(lns.materialCode)! }</td>
@@ -223,12 +224,20 @@ inupt.stockMout {
 														<input type="hidden"
 															name="updownList[${lns_index}].amount"
 															value="${(lns.amount)!}">
+															
 														<td style="width:150px"><input style="width:95%"
-															type="text" name="updownList[${lns_index}].dwnum"
+															type="text" name="updownList[${lns_index}].dwnum" class="dwnum"
 															value="${(lns.xamount)!}"
 															onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
 															onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
 														</td>
+															<#if type="down">
+														<td>${(lns.cqmultiple)!'1'}<input type="hidden"
+															name="updownList[${lns_index}].cqmultiple"
+															value="${(lns.cqmultiple)!'1'}" class="cqmultiple"></td>
+														<td>${(lns.beforeamount)! }<input type="text" class="beforeamount" name="updownList[${lns_index}].beforeamount"
+															value="${(lns.beforeamount)!}" readonly></td>
+														</#if>
 														<td><select name="updownList[${lns_index}].detail"
 															value=""><option value="">请选择
 															</option><#list allDetails as dic>
@@ -352,5 +361,17 @@ $(function() {
 			
 			$("#inputForm").submit();
 		});
+		
+		$(".dwnum").change(function(){
+			var $cqmultiple_input = $(this).parent().next().find(".cqmultiple");
+			if($cqmultiple_input.length>0){
+				var cqmultiple = $cqmultiple_input.val();
+				var $beforeamount_input = $cqmultiple_input.parent().next().find(".beforeamount");
+				var amount = floatDiv($(this).val(),cqmultiple);
+				$beforeamount_input.val(amount);
+			}
+		});
+		
+		
 	});
 </script>

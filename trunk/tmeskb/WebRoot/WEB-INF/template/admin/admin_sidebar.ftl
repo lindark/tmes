@@ -1437,7 +1437,7 @@
 
 						
 					</li>
-					<li class="">
+					<!-- <li class="">
 						<a href="factory_unit_syn!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>
 							单元同步管理
@@ -1447,7 +1447,7 @@
 						<b class="arrow"></b>
 
 						
-					</li>
+					</li> -->
 					<!--
 					<li class="">
 						<a href="#">

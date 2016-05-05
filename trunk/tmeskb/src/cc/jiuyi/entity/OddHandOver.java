@@ -29,10 +29,19 @@ public class OddHandOver extends BaseEntity {
 	private String mblnr;//物料凭证号 
 	private String beforeWokingCode;//上班随工单
 	private String afterWorkingCode;//下班随工单
-	
-	
+//	private String responsibleName;//责任人姓名
+//	private String responsibleId;//责任人id
+	private String planCount;//计划数量
+//	private String afterWorkingBillCode;//下一随工单
+	private Double cqsl;//裁切倍数
+	private String productAmount;//成品数量
 	private WorkingBill workingBill;//随工单 
 	private HandOver handOver;//主表
+	private String bomCode;//子件编码
+	private String bomDesp;//子件描述
+	private Double materialAmount;//Bom数量
+//	private ProcessHandoverTop processHandoverTop;//工序交接表
+	private ProcessHandover processHandover;//主表
 	
 	private String workingBillCode;
 	private String maktx;
@@ -141,8 +150,7 @@ public class OddHandOver extends BaseEntity {
 	public void setMaterialDesp(String materialDesp) {
 		this.materialDesp = materialDesp;
 	}
-	
-	@Transient
+
 	public String getWorkingBillCode() {
 		return workingBillCode;
 	}
@@ -184,6 +192,63 @@ public class OddHandOver extends BaseEntity {
 	}
 	
 
+	
+//	public String getResponsibleName() {
+//		return responsibleName;
+//	}
+//	public void setResponsibleName(String responsibleName) {
+//		this.responsibleName = responsibleName;
+//	}
+//	public String getResponsibleId() {
+//		return responsibleId;
+//	}
+//	public void setResponsibleId(String responsibleId) {
+//		this.responsibleId = responsibleId;
+//	}
+	public String getPlanCount() {
+		return planCount;
+	}
+	public void setPlanCount(String planCount) {
+		this.planCount = planCount;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	public ProcessHandover getProcessHandover() {
+		return processHandover;
+	}
+	public void setProcessHandover(ProcessHandover processHandover) {
+		this.processHandover = processHandover;
+	}
+	public Double getCqsl() {
+		return cqsl;
+	}
+	public void setCqsl(Double cqsl) {
+		this.cqsl = cqsl;
+	}
+	public String getProductAmount() {
+		return productAmount;
+	}
+	public void setProductAmount(String productAmount) {
+		this.productAmount = productAmount;
+	}
+	public String getBomCode() {
+		return bomCode;
+	}
+	public void setBomCode(String bomCode) {
+		this.bomCode = bomCode;
+	}
+	public String getBomDesp() {
+		return bomDesp;
+	}
+	public void setBomDesp(String bomDesp) {
+		this.bomDesp = bomDesp;
+	}
+	public Double getMaterialAmount() {
+		return materialAmount;
+	}
+	public void setMaterialAmount(Double materialAmount) {
+		this.materialAmount = materialAmount;
+	}
 	
 	
 }

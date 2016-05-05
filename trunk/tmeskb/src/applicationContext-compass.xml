@@ -14,8 +14,6 @@
 		</property>
 		<property name="classMappings">
 			<list>
-				<value>cc.jiuyi.entity.Article</value>
-				<value>cc.jiuyi.entity.Product</value>
 			</list>
 		</property>
 		

@@ -10,4 +10,5 @@ import cc.jiuyi.entity.ProcessHandoverTop;
  */
 public interface ProcessHandoverTopService extends BaseService<ProcessHandoverTop, String> {
 	public List<ProcessHandoverTop> getPHT(Admin admin);
+	public List<ProcessHandoverTop> getReN(Admin admin);
 }

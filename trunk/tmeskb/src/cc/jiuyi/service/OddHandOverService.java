@@ -5,6 +5,8 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverTop;
 /**
  * Service接口 - 零头数交接
  */
@@ -20,4 +22,12 @@ public interface OddHandOverService extends BaseService<OddHandOver, String> {
     public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
 	public List<Object[]> historyExcelExport(HashMap<String,String> map);
+	
+	public void saveOddHandOverList(ProcessHandoverTop processHandoverTop,List<OddHandOver> OddHandOverList, List<ProcessHandover> processHandoverList,String loginid);
+	
+	public void updateOddHandOver(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<OddHandOver> OddHandOverList,String loginid);
+	
+	public OddHandOver findById(String id);
+	
+	public void updateOddHandOver(OddHandOver oddHandOver);
 }

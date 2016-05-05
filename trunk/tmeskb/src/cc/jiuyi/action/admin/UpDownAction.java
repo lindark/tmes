@@ -524,7 +524,7 @@ public class UpDownAction extends BaseAdminAction {
 			//Bom获取
 			
 			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-			String lgpla = "R-00";//仓位
+			lgpla = "R-00";//仓位
 			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 			String im_type = "";
 			
@@ -761,6 +761,11 @@ public class UpDownAction extends BaseAdminAction {
 		}
 		if(updownList==null || updownList.size()<=0){
 			return ajaxJsonErrorMessage("请至少填写一行数据");
+		}
+		if(workingBillId!=null && !workingBillId.equals("")){
+			if(lgpla.equals("")){
+				lgpla="R-00";
+			}
 		}
 		if(lgpla == null){
 			return ajaxJsonErrorMessage("发出仓位必须填写");

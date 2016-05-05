@@ -608,6 +608,7 @@ public class UpDownAction extends BaseAdminAction {
 					boolean flag = false;
 					for(int j=0;j<bomList.size();j++){
 						if(((bomList.get(j).getMaterialCode()).equals(matnr01))){
+							locationonside.setCqmultiple(bomList.get(j).getCqmultiple());
 							flag = true;
 							break;
 						}

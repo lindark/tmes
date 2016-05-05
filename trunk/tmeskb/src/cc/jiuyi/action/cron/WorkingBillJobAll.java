@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -14,6 +13,7 @@ import org.apache.log4j.*;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
+import cc.jiuyi.sap.rfc.impl.WorkingBillRfcImpl;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.util.CustomerException;

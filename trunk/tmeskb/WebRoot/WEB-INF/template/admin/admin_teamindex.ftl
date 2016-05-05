@@ -153,16 +153,6 @@
 												class="widget-main padding-6 no-padding-left no-padding-right">
 												<div class="profile-user-info profile-user-info-striped">
 												
-													<div class="profile-info-row">
-														<div class="profile-info-name">班组：</div>
-														<div class="profile-info-value">															
-															${(admin.team.teamName)! }
-															<#if fzrFlag >
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-white btn-default btn-sm btn-round" id="changeTeamButton" type="button">更换班组</button>													   
-													   
-															</#if>
-														</div>										
-													</div>
 												
 												   <div class="profile-info-row">
 														<div class="profile-info-name">工厂/车间：</div>
@@ -183,6 +173,17 @@
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
 															${(admin.team.factoryUnit.factoryUnitName)! }</div>										
+													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组：</div>
+														<div class="profile-info-value">															
+															${(admin.team.teamName)! }
+															<#if fzrFlag >
+																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-white btn-default btn-sm btn-round" id="changeTeamButton" type="button">更换班组</button>													   
+													   
+															</#if>
+														</div>										
 													</div>
 													
 													<div class="profile-info-row">
@@ -463,13 +464,13 @@
 															class="bigger-110 no-text-shadow">仓位库存交接</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4" style="padding:2px;">
+												 <!-- <div class="col-md-3 col-sm-4" style="padding:2px;">
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="processHO" type="button">
 														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">工序交接</span>
 													</button>
-												</div> 
+												</div> -->
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												
 
@@ -656,7 +657,7 @@ $(function(){
 		        maxmin: true,
 		        scrollbar: false,
 		        btn:['确认','取消'],
-		        area: ["80%", "60%"],//弹出框的高度，宽度
+		        area: ["80%", "80%"],//弹出框的高度，宽度
 		        content:"team!beforegetalllist.action",
 		        yes:function(index,layero){//确定
 		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象

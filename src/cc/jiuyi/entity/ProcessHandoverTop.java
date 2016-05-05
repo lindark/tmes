@@ -37,9 +37,11 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String processCode;//工序编码
 	private String processName;//工序名称
 	private String processType;//工序类型
+	private String type;//类型
 
 	
 	private Set<ProcessHandover> processHandOverSet;
+	
 	
 	/**
 	 *	假字段
@@ -172,6 +174,13 @@ public class ProcessHandoverTop extends BaseEntity {
 	}
 	public void setProcessType(String processType) {
 		this.processType = processType;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

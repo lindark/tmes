@@ -4,15 +4,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.sap.mw.jco.IFunctionTemplate;
 import com.sap.mw.jco.JCO;
+import com.sap.mw.jco.JCO.Client;
+import com.sap.mw.jco.JCO.Function;
 import com.sap.mw.jco.JCO.ParameterList;
+import com.sap.mw.jco.JCO.Repository;
+import com.sap.mw.jco.JCO.Structure;
 import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Bom;
@@ -27,6 +34,7 @@ import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.SAPUtil;
 import cc.jiuyi.util.TableModel;
@@ -34,7 +42,7 @@ import cc.jiuyi.util.TableModel;
 
 @Component
 public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBillRfc {
-
+	
 	@Resource
 	private WorkingBillService workingbillservice;
 	@Override
@@ -69,7 +77,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	}
 	
 	@Override
-	public synchronized void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList) throws IOException, CustomerException {
+	public  void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList) throws IOException, CustomerException {
 		super.setProperty("workingbillall");//根据配置文件读取到函数名称
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("STARTDATE", startdate);
@@ -80,7 +88,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		parameter.put("IM_AUFNR", aufnr);
 		if(workshopcode == null) workshopcode="";
 		parameter.put("G_FEVOR", workshopcode);
-		
+		//System.out.println("-------------"+parameter+"-------------");
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel tablemodel = new TableModel();
@@ -90,14 +98,14 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			item.put("MATNR",m.getMaterialCode());//物料编码
 			arrList.add(item);
 		}
+		//System.out.println("-------------"+arrList+"-------------");
 		List<HashMap<String,Object>> arr = new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
 		tablemodel.setList(arr);
 		tablemodelList.add(tablemodel);
-		super.setParameter(parameter);
-		super.setStructure(null);
-		super.setTable(tablemodelList);
-		
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);
+		//super.setStructure(null);
+		//super.setTable(tablemodelList);
+		SAPModel model = execBapi(tablemodelList,null,parameter);//执行 并获取返回值
 		
 		ParameterList outs = model.getOuttab();//返回表
 		Table table01 = outs.getTable("ET_ITEM");//随工单
@@ -165,6 +173,75 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			bomList.add(bom);
 		}
 		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
+	}
+
+	
+	/**
+	 * 执行BAPI
+	 * 
+	 * @throws IOException
+	 */
+	protected SAPModel execBapi(List<TableModel> tablemodelList1,Mapping mapping,HashMap<String, Object> parameter) throws IOException {
+		SAPModel mode = new SAPModel();
+		Client myConnection = null;
+
+			myConnection = getSAPConnection();// 获取SAP链接
+			myConnection.connect();// 开启链接
+		Repository myRepository = new JCO.Repository("Repository", myConnection); // 名字
+		IFunctionTemplate ft = myRepository
+				.getFunctionTemplate(getFunctionName());// 从SAP读取函数信息
+		Function bapi = ft.getFunction();// 获得函数物件
+		ParameterList parameterList = bapi.getImportParameterList();// 获得输入参数
+		JCO.ParameterList inputtable = bapi.getTableParameterList();// 输入表的处理
+
+		if (parameter != null) {
+			Set set = parameter.entrySet();
+			for (Iterator it = set.iterator(); it.hasNext();) {
+				Map.Entry<String, Object> entry = (Map.Entry) it.next();
+				parameterList.setValue((String) entry.getValue(),
+						(String) entry.getKey());
+			}
+		}
+
+		if (mapping != null) {
+			Structure Structure01 = parameterList.getStructure(mapping
+					.getStrutName());
+			Map map = mapping.getMap();
+			Set set = map.entrySet();
+			for (Iterator it = set.iterator(); it.hasNext();) {
+				Map.Entry entry = (Map.Entry) it.next();
+				Structure01.setValue((String) entry.getValue(),
+						(String) entry.getKey());
+			}
+		}
+
+		if (tablemodelList1 != null) {
+			for (int i = 0; i < tablemodelList1.size(); i++) {
+				TableModel table = (TableModel) tablemodelList1.get(i);
+				Table IT_ITEM = inputtable.getTable(table.getData());
+				List tablelist = table.getList();
+				for (int j = 0; j < tablelist.size(); j++) {
+					IT_ITEM.appendRow();
+					Map map = (Map) tablelist.get(j);
+					Set set = map.entrySet();
+					for (Iterator it = set.iterator(); it.hasNext();) {
+						Map.Entry entry = (Map.Entry) it.next();
+						System.out.println(entry.getKey() + "-----------"+ (String) entry.getValue());
+						IT_ITEM.setValue((String) entry.getValue(),
+								(String) entry.getKey());
+
+					}
+				}
+			}
+		}
+		myConnection.execute(bapi);
+		mode.setOuts(bapi);
+		mode.setOuttab(bapi);
+		if (null != myConnection) {
+			this.releaseClient(myConnection);
+		}
+
+		return mode;
 	}
 
 }

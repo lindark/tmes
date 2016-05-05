@@ -52,7 +52,7 @@ public class QuartzManager implements BeanFactoryAware {
 				change(tbcq, trigger);
 			} else {
 				// 如果计划任务不存在并且数据库里的任务状态为可用时,则创建计划任务
-				if (tbcq.getState().equals("1")) {
+				if (tbcq.getIsSync().equals("1")) {
 					this.createCronTriggerBean(tbcq);
 				}
 			}
@@ -67,7 +67,6 @@ public class QuartzManager implements BeanFactoryAware {
 
 	public  void change(FactoryUnit tbcq, CronTriggerBean trigger)
 			throws Exception {
-		System.out.println("----------"+tbcq.getMethodArguments()[0]+"-----------");
 		// 如果任务为可用
 		if (tbcq.getIsSync().equals("1")) {
 			// 判断从DB中取得的任务时间和现在的quartz线程中的任务时间是否相等
@@ -113,7 +112,7 @@ public class QuartzManager implements BeanFactoryAware {
 					.newInstance());// 设置任务类
 		}
 		mjdfb.setTargetMethod(tbcq.getMethodname());// 设置任务方法
-		mjdfb.setArguments(tbcq.getMethodArguments());//设置方法参数
+		mjdfb.setArguments(tbcq.getMethodArguments().split(","));//设置方法参数
 		mjdfb.setConcurrent(tbcq.getConcurrent().equals("0") ? false : true); // 设置是否并发启动任务
 		mjdfb.afterPropertiesSet();// 将管理Job类提交到计划管理类
 		// 将Spring的管理Job类转为Quartz管理Job类

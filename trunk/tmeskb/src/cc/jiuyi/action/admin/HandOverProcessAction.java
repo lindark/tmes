@@ -248,58 +248,58 @@ public class HandOverProcessAction extends BaseAdminAction {
 			}
 	
 			//获取维护物料信息
-			List<Material> ml= materialservice.getAll();
-			if(ml!=null && ml.size()>0){
-				for(int y=0;y<bomList.size();y++){
-					Bom bom = bomList.get(y);
-					for(Material mt : ml){
-						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
-							boolean f = true;
-							for(Bom b : materialList){
-								if(b.getMaterialCode().equals(bom.getMaterialCode())){
-									f=false;
-								}
-							}
-							if(f){
-								materialList.add(bom);	
-							}
-							break;
-						}
-					}
-				}
-			}
+//			List<Material> ml= materialservice.getAll();
+//			if(ml!=null && ml.size()>0){
+//				for(int y=0;y<bomList.size();y++){
+//					Bom bom = bomList.get(y);
+//					for(Material mt : ml){
+//						if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
+//							boolean f = true;
+//							for(Bom b : materialList){
+//								if(b.getMaterialCode().equals(bom.getMaterialCode())){
+//									f=false;
+//								}
+//							}
+//							if(f){
+//								materialList.add(bom);	
+//							}
+//							break;
+//						}
+//					}
+//				}
+//			}
 			
 		}
 		//processList = processservice.findProcess(workingbillList);// 取出当前随工单的所有工序
 		//processList = processservice.getListRoute(matnrList);//取出所有工序
 		
-		String warehouse = admin.getTeam().getFactoryUnit()
-				.getWarehouse();// 获取人员对应单元对应的线边仓数据
-		List<String> materialCodeList = new ArrayList<String>();
-		for (Bom material : materialList) {
-			materialCodeList.add(material.getMaterialCode());
-		}
-		Collections.sort(materialList, new Comparator<Bom>() {
-            public int compare(Bom arg0, Bom arg1) {
-                return arg0.getMaterialCode().compareTo(arg1.getMaterialCode());
-            }
-        });
-		try {
-			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-			locationonsideList = rfc.findWarehouse1(warehouse,werks);
-		} catch (IOException e) {
-			addActionError("IO操作失败");
-			e.printStackTrace();
-			return ERROR;
-		} catch (CustomerException e) {
-			addActionError(e.getMsgDes());
-			e.printStackTrace();
-			return ERROR;
-		}catch(Exception e){
-			addActionError("系统出现问题，请联系系统管理员");
-			e.printStackTrace();
-			return ERROR;
-		}
+//		String warehouse = admin.getTeam().getFactoryUnit()
+//				.getWarehouse();// 获取人员对应单元对应的线边仓数据
+//		List<String> materialCodeList = new ArrayList<String>();
+//		for (Bom material : materialList) {
+//			materialCodeList.add(material.getMaterialCode());
+//		}
+//		Collections.sort(materialList, new Comparator<Bom>() {
+//            public int compare(Bom arg0, Bom arg1) {
+//                return arg0.getMaterialCode().compareTo(arg1.getMaterialCode());
+//            }
+//        });
+//		try {
+//			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+//			locationonsideList = rfc.findWarehouse1(warehouse,werks);
+//		} catch (IOException e) {
+//			addActionError("IO操作失败");
+//			e.printStackTrace();
+//			return ERROR;
+//		} catch (CustomerException e) {
+//			addActionError(e.getMsgDes());
+//			e.printStackTrace();
+//			return ERROR;
+//		}catch(Exception e){
+//			addActionError("系统出现问题，请联系系统管理员");
+//			e.printStackTrace();
+//			return ERROR;
+//		}
 		return LIST;
 	}
 

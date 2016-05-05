@@ -467,12 +467,18 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
-					for(int i=0;i<workingbillList.size();i++){
-						WorkingBill wb = workingbillList.get(i);
-						if(wb.getProcessHandover()!=null){
-							addActionError("当日工序交接已提交或已确认");
-							return ERROR;
-						}
+//					for(int i=0;i<workingbillList.size();i++){
+//						WorkingBill wb = workingbillList.get(i);
+//						if(wb.getProcessHandover()!=null){
+//							addActionError("当日工序交接已提交或已确认");
+//							return ERROR;
+//						}
+//					}
+					//判断当前登录人是否已经创建过工序交接
+					List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
+					if(phtlist!=null && phtlist.size()>0){
+						addActionError("您当日工序交接已提交或已确认");
+						return ERROR;
 					}
 					Collections.sort(workingbillList, new Comparator<WorkingBill>() {
 						public int compare( WorkingBill o1,  WorkingBill o2) {
@@ -628,7 +634,31 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverTop = processHandoverTopService.get(id);
 			String budat = null;
 			for(ProcessHandover p : processHandoverTop.getProcessHandOverSet()){
-				if(p.getProductAmount()!=null && !"".equals(p.getProductAmount())){
+				boolean flag =false;
+				if(p.getProductAmount()!=null && p.getProductAmount().equals("")){
+					flag = true;
+				}
+				if(p.getActualHOMount()!=null && !p.getActualHOMount().equals("")){
+					flag = true;
+				}
+				if(p.getUnHOMount()!=null && !p.getUnHOMount().equals("")){
+					flag = true;
+				}
+				for(ProcessHandoverSon ps:p.getProcessHandoverSonSet()){
+					if(ps.getBomAmount()!=null && !ps.getBomAmount().equals("")){
+						flag = true;
+					}
+					if(ps.getRepairNumber()!=null && !ps.getRepairNumber().equals("")){
+						flag = true;
+					}
+					if(ps.getCqamount()!=null && !ps.getCqamount().equals("")){
+						flag = true;
+					}
+					if(ps.getCqrepairamount()!=null && !ps.getCqrepairamount().equals("")){
+						flag = true;
+					}
+				}
+				if(flag){
 					ProcessHandover ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
 					if(budat==null)
 					//budat = ProcessHandover.getBudat();

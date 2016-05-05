@@ -41,15 +41,17 @@ public class CreditCardAction extends BaseAdminAction {
 		System.out.println(serverName);
 		
 		HashMap<String, String> map = new HashMap<String,String>();
-		CreditCard creditCard = creditCardService.get(createDate);
-		if(creditCard == null){//未找到
+		map.put("status", "yes");
+		map.put("cardnumber", "2660432599");
+		//CreditCard creditCard = creditCardService.get(createDate);
+		//if(creditCard == null){//未找到
 //			map.put("status", "no");
+		//	map.put("status", "yes");
+		//	map.put("cardnumber", "2660432599");
+	//	}else{
 			map.put("status", "yes");
-			map.put("cardnumber", "2660995079");
-		}else{
-			//map.put("status", "yes");
-			//map.put("cardnumber", "2661135367");
-			String deviceCode = creditCard.getDeviceCode();//刷卡机编号
+			map.put("cardnumber", "2660432599");
+			/*String deviceCode = creditCard.getDeviceCode();//刷卡机编号
 			deviceCode = StringUtils.substringBefore(deviceCode, "\n");
 			
 			String [] propertyNames = {"posCode","isDel"};
@@ -65,8 +67,8 @@ public class CreditCardAction extends BaseAdminAction {
 				}else{
 					map.put("status", "no");
 				}
-			}
-		}
+			}*/
+	//	}
 		
 		return ajaxJson(map);
 	}

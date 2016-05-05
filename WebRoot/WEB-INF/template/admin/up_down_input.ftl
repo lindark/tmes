@@ -165,7 +165,11 @@ inupt.stockMout {
 											</#if>
 											 <#if type='up' || type='down'>
 												<label class="" style="text-align:right">物料编码:</label>
+												<#if !materialCode1??>
 												<input type="text" name="materialCode" value="${(materialCode)! }" class="input input-sm">
+												<#else>
+												<input type="text" name="materialCode" value="" class="input input-sm">
+												</#if>
 												&nbsp;&nbsp;&nbsp;
 												<label class="" style="text-align:right">物料描述:</label>
 												<input type="text" name="materialDesp" value="${(materialDesp)! }" class="input input-sm">&nbsp;&nbsp;&nbsp;
@@ -191,10 +195,12 @@ inupt.stockMout {
 														<th class="tabth">物料描述</th>
 														<th class="tabth">批次</th>
 														<th class="tabth">库存数量</th>
-														<th class="tabth">裁切后数量</th>
 														<#if type="down">
+														<th class="tabth">裁切后数量</th>
 														<th class="tabth">倍数</th>
 														<th class="tabth">裁切前数量</th>
+														<#else>
+														<th class="tabth">数量</th>
 														</#if>
 														<th class="tabth">来料说明</th>
 													</tr>
@@ -208,8 +214,8 @@ inupt.stockMout {
 															value="${(lns.locationName)!}">
 														<#if type="down">
 														<td>${(lns.locationName)! }</td>
-														<input type="hidden" name="updownList[${lns_index}].lgpla"
-															value="${(lns.locationName)!}">
+														 <!-- <input type="hidden" name="updownList[${lns_index}].lgpla"
+															value="${(lns.locationName)!}">  -->
 														</#if>
 														<td>${(lns.materialCode)! }</td>
 														<td>${(lns.materialName)! }</td>

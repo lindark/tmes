@@ -47,6 +47,9 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 				detachedCriteria.add(Restrictions.like("workingBillCode", "%"
 						+ map.get("workingBillCode").toString() + "%"));
 			}
+			if (!map.get("workCenter").equals("")) {
+				detachedCriteria.add(Restrictions.eq("workcenter", map.get("workCenter").toString()));
+			}
 		}
 		detachedCriteria.add(Restrictions.eq("isdel", "N"));// 取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

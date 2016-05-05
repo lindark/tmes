@@ -226,7 +226,7 @@
 		})
 		$("#addPick").click(function(){
 			var id = $("#workingbill").val();
-			window.location.href="up_down!trim.action?type=down&workingBillId="+ id;
+			window.location.href="up_down!trim.action?materialCode1=5&type=down&workingBillId="+ id+"&lgpla=R-00";
 			
 		});
 		

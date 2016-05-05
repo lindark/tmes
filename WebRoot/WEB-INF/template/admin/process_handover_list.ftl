@@ -59,10 +59,22 @@
 									    <i class="ace-icon glyphicon glyphicon-edit"></i>
 									      编辑工序交接
 								    </button>  							
-									<button class="btn btn-white btn-default btn-sm btn-round" id=viewProHO type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="viewProHO" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看工序交接
 									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="addChangeNum" type=button>
+										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
+										创建零头数交接
+									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="editChangeNum" type=button>
+									    <i class="ace-icon glyphicon glyphicon-edit"></i>
+									      编辑零头数交接
+								    </button>  
+								    <button class="btn btn-white btn-default btn-sm btn-round" id="viewChangeNum" type=button>
+										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
+										查看零头数交接
+									</button>	
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmProHO" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
@@ -146,15 +158,17 @@
 			}
 			
 		})
-		/*创建*/
+		/*创建工序交接*/
 		$("#addProHO").click(function(){
 			window.location.href="process_handover!add.action";
 			
 		});
-		/*编辑*/
+		/*编辑工序交接*/
 		$("#editProHO").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var type = rowData.type;
 			if(id==""){
 				alert("请选择至少一条记录");
 				return false;
@@ -163,8 +177,10 @@
 				alert("只能选择一条记录");
 				return false;
 			}
+			if(type!="工序交接"){
+				alert("请选择工序交接记录");
+			}
 			else{
-				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认的工序交接无法再编辑!",{icon:5});
@@ -173,6 +189,73 @@
 					window.location.href="process_handover!edit.action?id="+id;
 				}				
 			}		
+		});
+		/*查看工序交接*/
+		$("#viewProHO").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var type = rowData.type;
+			if(id.length>1){
+				alert("只能选择一条记录！");
+				return false;
+			}if(id==""){
+				alert("至少选择一条记录！");
+				return false;
+			}if(type!="工序交接"){
+				alert("请选择工序交接记录");
+			}else{
+				window.location.href="process_handover!view.action?id="+id;				
+			}			
+		});
+		/*创建零头数交接*/
+		$("#addChangeNum").click(function(){
+			window.location.href="odd_hand_over!addChangeNum.action";
+		});
+		/*编辑零头数交接*/
+		$("#editChangeNum").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var type = rowData.type;
+			if(id==""){
+				alert("请选择至少一条记录");
+				return false;
+			}
+			if(id.length>1){
+				alert("只能选择一条记录");
+				return false;
+			}
+			if(type!="零头数交接"){
+				alert("请选择零头数交接记录");
+			}
+			else{
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3"){
+					layer.msg("已经确认的工序交接无法再编辑!",{icon:5});
+					return false;
+				}else{
+					window.location.href="odd_hand_over!edit.action?id="+id;
+				}				
+			}		
+		});
+		/*查看零头数交接*/
+		$("#viewChangeNum").click(function(){
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var type = rowData.type;
+			if(id.length>1){
+				alert("只能选择一条记录！");
+				return false;
+			}if(id==""){
+				alert("至少选择一条记录！");
+				return false;
+			}if(type!="零头数交接"){
+				alert("请选择零头数交接记录");
+			}else{
+				window.location.href="odd_hand_over!view.action?id="+id;				
+			}			
 		});
 		/*刷卡确认*/
 		$("#confirmProHO").click(function(){
@@ -183,11 +266,11 @@
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}	
-				else{
-					var url="process_handover!creditapproval.action?id="+id+"&loginid="+loginid;
-					credit.creditCard(url,function(data){
-						$.message(data.status,data.message);
-						$("#grid-table").trigger("reloadGrid");
+			else{
+				var url="process_handover!creditapproval.action?id="+id+"&loginid="+loginid;
+				credit.creditCard(url,function(data){
+					$.message(data.status,data.message);
+					$("#grid-table").trigger("reloadGrid");
 				})
 			 }
 		});
@@ -207,24 +290,6 @@
 				});
 			}
 		}); */
-
-
-		
-		/*查看*/
-		$("#viewProHO").click(function(){
-			var id = "";
-			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
-			if(id.length>1){
-				alert("只能选择一条记录！");
-				return false;
-			}if(id==""){
-				alert("至少选择一条记录！");
-				return false;
-			}else{
-				window.location.href="process_handover!view.action?id="+id;				
-			}			
-		});
-		
 		
 		/*返回*/
 		$("#returnProHO").click(function(){

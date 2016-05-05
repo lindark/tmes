@@ -13,4 +13,5 @@ import cc.jiuyi.entity.ProcessHandoverTop;
 @Repository
 public interface ProcessHandoverTopDao extends BaseDao<ProcessHandoverTop,String> {
 	public List<ProcessHandoverTop> getPHT(Admin admin);
+	public List<ProcessHandoverTop> getReN(Admin admin);
 }

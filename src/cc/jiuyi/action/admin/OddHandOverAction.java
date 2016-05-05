@@ -2,6 +2,8 @@ package cc.jiuyi.action.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,16 +25,24 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.CartonSon;
+import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverSon;
+import cc.jiuyi.entity.ProcessHandoverTop;
+import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -57,12 +67,22 @@ public class OddHandOverAction extends BaseAdminAction {
 	private String nowDate;
 	private String shift;
 	private String loginid;
+	private List<WorkingBill> workingbillList;//随工单集合
+	private List<Bom> bomList;
+	public List<ProcessHandover> processHandoverList; 
 	
 	private String workingBillCode;
 	private String materialCode;
 	private String end;
 	private String start;
 	private String state;
+	private String show;//查看零头数交接
+	private HandOverProcess handOverProcess;
+	private OddHandOver oddHandOver;
+	private List<Bom> materialList;
+	private ProcessHandoverTop processHandoverTop = new ProcessHandoverTop();
+	private Set<OddHandOver> oddHandOverSet = new HashSet<OddHandOver>();
+	private List<OddHandOver> oddHandOverList;
 	
 	@Resource
 	private WorkingBillService workingBillService;
@@ -76,12 +96,24 @@ public class OddHandOverAction extends BaseAdminAction {
 	private OddHandOverService oddHandOverService;
 	@Resource
 	private DictService dictService;
-
+	@Resource
+	private AdminService adminservice;
+	@Resource
+	private WorkingBillService workingbillservice;
+	@Resource
+	private BomService bomservice;
+	@Resource
+	private HandOverProcessService handOverProcessService;
+	@Resource
+	private ProcessHandoverTopService processHandoverTopService;
+	@Resource
+	private MaterialService materialservice;
+	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
 		return "history";
 	}
-		
+	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String historylist() {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -156,7 +188,224 @@ public class OddHandOverAction extends BaseAdminAction {
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
+	
+	/**
+	 * 查看
+	 * @return
+	 */
+	public String view(){
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		processHandoverTop = processHandoverTopService.get(id);
+		if(show==null)
+		show = "show";
+		return INPUT;
+	}
+	
+	/**
+	 * 查询零头数交接
+	 * @return
+	 */
+	public String add() {
+		materialList = new ArrayList<Bom>();
+		Admin admin = adminservice.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+//		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+//		boolean flag = ThinkWayUtil.isPass(admin);
+//		if(!flag){
+//			addActionError("您当前未上班,不能进行交接操作!");
+//			return ERROR;
+//		}
+		admin = adminservice.get(admin.getId());
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);// 获取当前身份的所有随工单对象
+		if(workingbillList.size() <=0){
+			addActionError("未找到任何随工单数据");
+			return ERROR;
+		}
+		for (int i = 0; i < workingbillList.size(); i++) {
+			if("Y".equals(workingbillList.get(i).getIsHand())){
+				addActionError("当日交接已完成，不可再次交接");
+				return ERROR;
+			}
+		}
+		for (int i = 0; i < workingbillList.size(); i++) {
+			WorkingBill workingbill = workingbillList.get(i);
+//			Products products = productsservice.get("productsCode",workingbill.getMatnr());
+//			if(products == null){
+//				addActionError(workingbill.getMatnr()+"未维护");
+//				return ERROR;
+//			}
+			String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+			//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate());
+			List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+			if(bomList == null || bomList.size()<=0){
+				addActionError("未找到一条BOM信息");
+				return ERROR;
+			}
+			
+//			processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
+//			if(!processList.isEmpty()){
+//				Collections.sort(processList, new Comparator<Process>() {
+//		            public int compare(Process arg0, Process arg1) {
+//		                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+//		            }
+//		        });
+//			}
+			if(state==null){
+				state = "0";
+			}
+			wb:for (int k = 0; k < workingbillList.size(); k++) {
+				List<OddHandOver> ohoSets = new ArrayList<OddHandOver>(workingbillList.get(k).getOddHandOverSet());
+				if(ohoSets!=null && ohoSets.size()>0){
+					for(OddHandOver oho : ohoSets){
+						if("1".equals(oho.getState())){
+							state="1";
+						}else if("2".equals(oho.getState())){
+							state="2";
+						}
+						break wb;
+					}
+				}
+			}		
+		}
+		return INPUT;
+	}
+	
+	/**
+	 * 创建零头数交接
+	 * @return
+	 */
+	public String addChangeNum(){
+		try{
+			bomList = new ArrayList<Bom>();
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
+			processHandoverTop = new ProcessHandoverTop();
+			/*String uuid = CommonUtil.getUUID();
+			processHandoverTop.setId(uuid);*/
+			processHandoverList = new ArrayList<ProcessHandover>();
+			
+			//获取维护物料信息
+			List<Material> materialList = materialService.getAll();
 
+			oddHandOverList = new ArrayList<OddHandOver>();
+			if(admin.getProductDate() != null && admin.getShift() != null){
+				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				if(workingbillList!=null && workingbillList.size()>0){
+					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
+//					for(int i=0;i<workingbillList.size();i++){
+//						WorkingBill wb = workingbillList.get(i);
+//						if(wb.getProcessHandover()!=null&&wb.getProcessHandover().getProcessHandoverTop().getType().equals("工序交接")){
+//							addActionError("当日工序交接已提交或已确认");
+//							return ERROR;
+//						}
+//					}
+					//判断当前登录人是否已经创建过工序交接
+					List<ProcessHandoverTop> phtlist = processHandoverTopService.getReN(admin);
+					if(phtlist!=null && phtlist.size()>0){
+						addActionError("您当日工序交接已提交或已确认");
+						return ERROR;
+					}
+					Collections.sort(workingbillList, new Comparator<WorkingBill>() {
+						public int compare( WorkingBill o1,  WorkingBill o2) {
+							 
+			               /* int map1value = Integer.parseInt(o1.getWorkingBillCode());
+			                int map2value =  Integer.parseInt(o2.getWorkingBillCode());
+			                return map1value - map2value;*/
+							return o1.getWorkingBillCode().compareTo(o2.getWorkingBillCode());
+			            }
+					}); 
+					for(int i=0;i<workingbillList.size();i++){
+						
+						WorkingBill wb = workingbillList.get(i);
+						String s = Integer.toString(i);
+						ProcessHandover processHandover1 = new ProcessHandover();
+						/*uuid = CommonUtil.getUUID();
+						processHandover1.setId(uuid);*/
+						processHandover1.setProcessHandoverTop(processHandoverTop);
+						processHandover1.setWorkingBill(wb);
+						processHandover1.setAufnr(wb.getAufnr());
+						processHandover1.setWorkingBillCode(wb.getWorkingBillCode());
+						processHandover1.setPlanCount(wb.getPlanCount()==null?"":wb.getPlanCount().toString());
+						processHandover1.setMatnr(wb.getMatnr());
+						processHandover1.setMaktx(wb.getMaktx());
+//						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
+//						if(wbnext!=null){
+//							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
+//							processHandover1.setAfterWorkingBillCode(wbnext.getWorkingBillCode());
+//						}
+						
+						
+						if(materialList!=null && materialList.size()>0){
+							//获取Bom
+							String aufnr = wb.getWorkingBillCode().substring(0,wb.getWorkingBillCode().length()-2);
+							List<Bom> bomLists = bomService.findBom(aufnr, wb.getProductDate(),wb.getWorkingBillCode());
+							if(bomLists != null && bomLists.size()>0){
+								//删除Bom中未维护物料
+								List<Bom> bmls = new ArrayList<Bom>();
+								for(Bom bm : bomLists){
+									for(Material mt : materialList){
+										if(bm.getMaterialCode().equals(mt.getMaterialCode()) && wb.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
+											bmls.add(bm);
+											break;
+										}
+									}
+								}
+								
+								Set<OddHandOver> oddHandOverSet = new HashSet<OddHandOver>();
+								for(Bom b : bmls){
+									oddHandOver = new OddHandOver();
+									materialCode = b.getMaterialCode();
+									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+									b.setBeforeWorkingCode(wb.getWorkingBillCode());
+									if(mt == null){
+										oddHandOver.setCqsl(1d);
+										
+									}else{
+										if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
+											oddHandOver.setCqsl(1d);
+										}else{
+											oddHandOver.setCqsl(Double.valueOf(mt.getCqmultiple()));
+										}
+									}
+									oddHandOver.setMaterialAmount(b.getMaterialAmount());
+									oddHandOver.setProcessHandover(processHandover1);
+									oddHandOver.setProductAmount(b.getProductAmount()==null?"":b.getProductAmount().toString());
+									oddHandOver.setBomCode(b.getMaterialCode());
+									oddHandOver.setBomDesp(b.getMaterialName());
+									oddHandOver.setBeforeWokingCode(b.getBeforeWorkingCode()==null?"":b.getBeforeWorkingCode().toString());
+									oddHandOver.setAfterWorkingCode(b.getAfterWorkingCode()==null?"":b.getAfterWorkingCode().toString());
+									oddHandOverSet.add(oddHandOver);		
+									bomList.add(b);
+								}
+								processHandover1.setOddHandOverSet(oddHandOverSet);
+							}
+						}
+						processHandoverSet.add(processHandover1);
+					}
+					processHandoverTop.setProcessHandOverSet(processHandoverSet);
+				}
+				
+			}else{
+				addActionError("请绑定生产日期和班次");
+				return ERROR;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return INPUT;
+	}
+	/**
+	 * 编辑零头数交接
+	 * @return
+	 */
+	public String edit(){
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		processHandoverTop = processHandoverTopService.get(id);
+		return INPUT;
+	}
+	
 	// Excel导出 @author Reece 2016/3/15
 	public String excelexport() {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -237,9 +486,27 @@ public class OddHandOverAction extends BaseAdminAction {
 		
 		/**=====================get/set  start==============================*/
 		
+	/**
+	 * 创建零头数交接（新）
+	 * @return
+	 */
 	
+	public String newCreditsubmit(){
+		oddHandOverService.saveOddHandOverList(processHandoverTop, oddHandOverList, processHandoverList, loginid);
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
 	
-	
+	/**
+	 * 编辑零头数交接
+	 * @return
+	 */
+	public String creditupdate() {
+		//获取当前登录人信息
+//		Admin admin = adminService.getLoginAdmin();
+//		admin = adminService.get(admin.getId());
+		oddHandOverService.updateOddHandOver(processHandoverTop,processHandoverList,oddHandOverList,loginid);
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
 	//刷卡提交
 	public String creditsubmit(){
 		//获取当前登录人信息
@@ -545,7 +812,80 @@ public class OddHandOverAction extends BaseAdminAction {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
 
+	public List<WorkingBill> getWorkingbillList() {
+		return workingbillList;
+	}
+
+	public void setWorkingbillList(List<WorkingBill> workingbillList) {
+		this.workingbillList = workingbillList;
+	}
+
+	public List<Bom> getMaterialList() {
+		return materialList;
+	}
+
+	public void setMaterialList(List<Bom> materialList) {
+		this.materialList = materialList;
+	}
+
+	public HandOverProcess getHandOverProcess() {
+		return handOverProcess;
+	}
+
+	public void setHandOverProcess(HandOverProcess handOverProcess) {
+		this.handOverProcess = handOverProcess;
+	}
+
+	public ProcessHandoverTop getProcessHandoverTop() {
+		return processHandoverTop;
+	}
+
+	public void setProcessHandoverTop(ProcessHandoverTop processHandoverTop) {
+		this.processHandoverTop = processHandoverTop;
+	}
+
+	public Set<OddHandOver> getOddHandOverSet() {
+		return oddHandOverSet;
+	}
+
+	public void setOddHandOverSet(Set<OddHandOver> oddHandOverSet) {
+		this.oddHandOverSet = oddHandOverSet;
+	}
+
+	public List<OddHandOver> getOddHandOverList() {
+		return oddHandOverList;
+	}
+
+	public void setOddHandOverList(List<OddHandOver> oddHandOverList) {
+		this.oddHandOverList = oddHandOverList;
+	}
+
+	public OddHandOver getOddHandOver() {
+		return oddHandOver;
+	}
+
+	public void setOddHandOver(OddHandOver oddHandOver) {
+		this.oddHandOver = oddHandOver;
+	}
+
+	public String getShow() {
+		return show;
+	}
+
+	public void setShow(String show) {
+		this.show = show;
+	}
+
+	public List<ProcessHandover> getProcessHandoverList() {
+		return processHandoverList;
+	}
+
+	public void setProcessHandoverList(List<ProcessHandover> processHandoverList) {
+		this.processHandoverList = processHandoverList;
+	}
+	
+	
+	
 
 }

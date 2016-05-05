@@ -81,10 +81,8 @@ jQuery(function($) {
 			{name:'costcenter',label:"成本中心",index:'costcenter', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xiscanrepair',label:"是否可以返修/返修收货",index:'iscanrepair', width:130, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitIscanrepair"}},
 			{name:'stateRemark',label:"状态",index:'state', width:100, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitState"}},
-			{name:'isSync',label:"是否同步",index:'isSync', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}}
-			//{name:'xisSync',label:"是否同步",index:'isSync', width:100, sortable:true,editable: true,sorttype:"local",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=factoryUnitIsSync"}}
-			/*{name:'myac',width:200,fixed:true,sorttable:false,resize:false}*/
-		], 
+			{name:'xisSync',label:"是否同步",index:'isSync', width:100,editable: true,sortable:true,editoptions:{size:"20",maxlength:"30"}}
+			], 
 
 		viewrecords : true,
 		rowNum:10,

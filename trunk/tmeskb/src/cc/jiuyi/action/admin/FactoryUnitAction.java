@@ -192,6 +192,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			if(factoryUnit.getIscanrepair()!=null)
 			{
 				factoryUnit.setXiscanrepair(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIscanrepair", factoryUnit.getIscanrepair()));
+				factoryUnit.setXisSync(ThinkWayUtil.getDictValueByDictKey(dictService, "factoryUnitIsSync", factoryUnit.getIsSync()));
 			}
 			lst.add(factoryUnit);
 		}

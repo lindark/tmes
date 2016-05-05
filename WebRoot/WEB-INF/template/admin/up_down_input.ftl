@@ -133,12 +133,12 @@ inupt.stockMout {
 												<select name="lgpla" style=" width:160px;" id="lgpla">
 												<option value="" ></option>
 												<#list trimWareHouseSet as list>
+												<input 
 												<#if list != "R-00">
 												<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
 												<#else>
-													<#if workingBillId ?? || workingBillId =="">
-													<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>
-													</#if>
+													<#if !workingBillId?? || workingBillId =="">
+													<option value="${list}"<#if list==lgpla>selected </#if>>${list}</option>													</#if>
 												</#if>
 												</#list>
 											</select>

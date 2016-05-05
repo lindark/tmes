@@ -40,7 +40,6 @@ import org.htmlparser.visitors.TextExtractingVisitor;
  */
 
 @Entity
-@Searchable
 public class Article extends BaseEntity {
 
 	private static final long serialVersionUID = 1475773294701585482L;
@@ -65,7 +64,7 @@ public class Article extends BaseEntity {
 	
 	private ArticleCategory articleCategory;// 文章分类
 
-	@SearchableProperty(store = Store.YES)
+
 	@Column(nullable = false)
 	public String getTitle() {
 		return title;
@@ -75,7 +74,6 @@ public class Article extends BaseEntity {
 		this.title = title;
 	}
 	
-	@SearchableProperty(index = Index.NO, store = Store.YES)
 	public String getAuthor() {
 		return author;
 	}
@@ -84,7 +82,7 @@ public class Article extends BaseEntity {
 		this.author = author;
 	}
 	
-	@SearchableProperty(store = Store.YES)
+
 	public String getContent() {
 		return content;
 	}
@@ -109,7 +107,7 @@ public class Article extends BaseEntity {
 		this.metaDescription = metaDescription;
 	}
 
-	@SearchableProperty(store = Store.NO)
+
 	@Column(nullable = false)
 	public Boolean getIsPublication() {
 		return isPublication;
@@ -119,7 +117,7 @@ public class Article extends BaseEntity {
 		this.isPublication = isPublication;
 	}
 
-	@SearchableProperty(store = Store.NO)
+
 	@Column(nullable = false)
 	public Boolean getIsTop() {
 		return isTop;
@@ -129,7 +127,7 @@ public class Article extends BaseEntity {
 		this.isTop = isTop;
 	}
 
-	@SearchableProperty(store = Store.NO)
+
 	@Column(nullable = false)
 	public Boolean getIsRecommend() {
 		return isRecommend;
@@ -148,7 +146,6 @@ public class Article extends BaseEntity {
 		this.pageCount = pageCount;
 	}
 
-	@SearchableProperty(store = Store.YES)
 	@JoinColumn(nullable = false, updatable = false)
 	public String getHtmlFilePath() {
 		return htmlFilePath;

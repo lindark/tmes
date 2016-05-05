@@ -25,9 +25,11 @@ public class UpDown extends BaseEntity {
 	private String werks;//工厂
 	private String type;//上架/下架
 	private String charg;//批次
-	private Double dwnum;//库存数量
+	private Double dwnum;//数量
 	private Admin appvaladmin;//确认人
-	private Double amount;//数量
+	private Double amount;//库存数量
+	private Double beforeamount;//数量
+	private String  cqmultiple;//倍数
 	private String tanum;//转储单号
 	private String tapos;//转出单行项目号
 	private String adminname;//确认人名称
@@ -181,6 +183,18 @@ public class UpDown extends BaseEntity {
 	}
 	public void setFactoryUnit(FactoryUnit factoryUnit) {
 		this.factoryUnit = factoryUnit;
+	}
+	public Double getBeforeamount() {
+		return beforeamount;
+	}
+	public void setBeforeamount(Double beforeamount) {
+		this.beforeamount = beforeamount;
+	}
+	public String getCqmultiple() {
+		return cqmultiple;
+	}
+	public void setCqmultiple(String cqmultiple) {
+		this.cqmultiple = cqmultiple;
 	}
 	
 	

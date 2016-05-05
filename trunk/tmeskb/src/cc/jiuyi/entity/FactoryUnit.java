@@ -18,7 +18,6 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
 // @Table(name = "FactoryUnit")
 public class FactoryUnit extends BaseEntity {
 
@@ -62,7 +61,7 @@ public class FactoryUnit extends BaseEntity {
 	//类名对应的方法名
 	private String methodname;
 	//方法名中的参数
-	private String[] methodArguments;
+	private String methodArguments;
 	//设置是否并发启动任务 0是false 非0是true
 	private String concurrent;
 	// 如果计划任务不存在并且数据库里的任务状态为可用时,则创建计划任务 1为不存在
@@ -369,13 +368,7 @@ public class FactoryUnit extends BaseEntity {
 		this.methodname = methodname;
 	}
 
-	public String[] getMethodArguments() {
-		return methodArguments;
-	}
-
-	public void setMethodArguments(String[] methodArguments) {
-		this.methodArguments = methodArguments;
-	}
+	
 
 	public String getConcurrent() {
 		return concurrent;
@@ -415,6 +408,14 @@ public class FactoryUnit extends BaseEntity {
 
 	public void setXisSync(String xisSync) {
 		this.xisSync = xisSync;
+	}
+
+	public String getMethodArguments() {
+		return methodArguments;
+	}
+
+	public void setMethodArguments(String methodArguments) {
+		this.methodArguments = methodArguments;
 	}
 	
 	

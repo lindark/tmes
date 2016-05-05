@@ -20,7 +20,6 @@ import org.hibernate.annotations.CascadeType;
  * 实体类 - 生产订单
  */
 @Entity
-@Searchable
 public class Orders extends BaseEntity{
 
 	/**

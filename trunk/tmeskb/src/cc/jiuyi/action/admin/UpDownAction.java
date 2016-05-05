@@ -102,6 +102,7 @@ public class UpDownAction extends BaseAdminAction {
 	private String cardnumber;
 	private String cardnumber1;
 	private String materialCode;//物料编码
+	private String materialCode1;//物料编码
 	private String materialDesp;//物料描述
 	private List<Locationonside> locationonsideList;
 	private List<UpDown> updownList;
@@ -507,10 +508,16 @@ public class UpDownAction extends BaseAdminAction {
 //			return ERROR;
 //		}
 //		if("up".equals(type) || "down".equals(type))
-		materialCode = materialCode == null ?"5":ThinkWayUtil.null2String(materialCode);
+		//materialCode = materialCode == null ?"5":ThinkWayUtil.null2String(materialCode);
 		//	materialCode = "";
 //		else if("updown".equals(type))
 //			materialCode = "";
+			if(materialCode1!=null){
+				materialCode=materialCode1;
+			}else{
+				materialCode =(materialCode==null?"":materialCode);
+			}
+			
 		int matnrlen = materialCode.length();
 		materialDesp = ThinkWayUtil.null2String(materialDesp);
 		
@@ -582,7 +589,7 @@ public class UpDownAction extends BaseAdminAction {
 			lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 			//materialCode = ThinkWayUtil.null2String(materialCode);
 			//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
-			lgpla = "R-00";//仓位
+			//lgpla = "R-00";//仓位
 //			materialCode = "5";
 				List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 				//
@@ -641,7 +648,7 @@ public class UpDownAction extends BaseAdminAction {
 		}else{
 		//Bom获取
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
-		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+		//String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
 		String im_type = "";
 			
@@ -699,7 +706,7 @@ public class UpDownAction extends BaseAdminAction {
 		lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 		//materialCode = ThinkWayUtil.null2String(materialCode);
 		//String lgpla = this.lgpla ==null?"":this.lgpla;//仓位
-		lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
+		//lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 			List<HashMap<String,String>> hashList = updownservice.upmaterList(werks, lgort, "", lgpla,materialDesp);//物料编码在查询出来之后在处理
 			//
 			
@@ -719,6 +726,7 @@ public class UpDownAction extends BaseAdminAction {
 				boolean flag = false;
 				for(int j=0;j<bomList.size();j++){
 					if(((bomList.get(j).getMaterialCode()).equals(matnr01))){
+						locationonside.setCqmultiple(bomList.get(j).getCqmultiple());
 						flag = true;
 						break;
 					}
@@ -807,12 +815,18 @@ public class UpDownAction extends BaseAdminAction {
 			hashmap.put("matnr", updown.getMatnr());//物料号
 			hashmap.put("charg", updown.getCharg());//批次
 			hashmap.put("lgpla", lgpla);//发出仓位
-			hashmap.put("dwnum", ""+updown.getDwnum());
+			if("0".equals(flag)){
+				hashmap.put("dwnum", ""+updown.getDwnum());
+			}else if("2".equals(flag)){
+				hashmap.put("dwnum", ""+updown.getBeforeamount());
+			}
+			
 			hashmap.put("nlpla", lgplaun);//目的地仓位
 			hashList.add(hashmap);
 		}
 		//接口调用
 		try {
+			//List<HashMap<String,String>> maplist = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> maplist = undownrfc.undown(hash, hashList);
 			for(int i=0;i<updownList.size();i++){
 				UpDown updown = updownList.get(i);
@@ -883,7 +897,7 @@ public class UpDownAction extends BaseAdminAction {
 						p.setMaterialName(updown.getMaktx());
 						p.setCharg(updown.getCharg());
 						p.setMaterialState(ThinkWayUtil.getDictValueByDictKey(dictservice, "materialdetail", updown.getDetail()));
-						p.setStockAmount((updown.getDwnum()).toString());
+						p.setStockAmount((updown.getAmount()).toString());
 						p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));
 						p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));
 						Material mt = materialService.get("materialCode", p.getMaterialCode());
@@ -903,7 +917,7 @@ public class UpDownAction extends BaseAdminAction {
 							}
 						}
 						p.setCqPickAmount((updown.getDwnum().toString()));
-						BigDecimal a = new BigDecimal(p.getCqhStockAmount());
+						BigDecimal a = new BigDecimal(p.getCqPickAmount());
 						BigDecimal b = new BigDecimal(p.getCqmultiple());
 						BigDecimal c = a.divide(b,3);
 						p.setPickAmount(c.toString());
@@ -1332,7 +1346,7 @@ public class UpDownAction extends BaseAdminAction {
 			}
 			List<String> positionManagementList = positionManagementService.getPositionList1(warehouse,positionManagement);
 			JSONArray jsonArray = JSONArray.fromObject(positionManagementList);
-			System.out.println(jsonArray.toString());
+			//System.out.println(jsonArray.toString());
 			return ajaxJson(jsonArray.toString());
 		}catch(Exception e){
 			e.printStackTrace();
@@ -1592,6 +1606,16 @@ public class UpDownAction extends BaseAdminAction {
 
 	public void setCardnumber1(String cardnumber1) {
 		this.cardnumber1 = cardnumber1;
+	}
+
+
+	public String getMaterialCode1() {
+		return materialCode1;
+	}
+
+
+	public void setMaterialCode1(String materialCode1) {
+		this.materialCode1 = materialCode1;
 	}
 
 	

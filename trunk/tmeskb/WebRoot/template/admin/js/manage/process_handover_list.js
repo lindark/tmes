@@ -44,6 +44,7 @@ jQuery(function($) {
 			{name:'processName',index:'processName',search:false,label:"工序名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productDate',index:'productDate',search:false,label:"生产日期", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xshift',index:'shift',search:false,label:"班次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'type',index:'type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xstate',index:'state',search:false,label:"状态", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},

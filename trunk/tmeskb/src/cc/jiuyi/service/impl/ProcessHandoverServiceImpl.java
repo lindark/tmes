@@ -60,11 +60,31 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 	public void saveProcessHandover(ProcessHandoverTop processHandoverTop,
 			List<ProcessHandover> processHandoverList,
 			List<ProcessHandoverSon> processHandoverSonList, String loginid) {
+//		Admin admin = adminService.get(loginid);
+//		processHandoverTop.setCreateUser(admin);
+//		processHandoverTop.setState("1");
+//		processHandoverTop.setIsdel("N");
+//		processHandoverTop.setType("工序交接");
+//		processHandoverTopService.save(processHandoverTop);
+//		for(int i=0;i<processHandoverList.size();i++){
+//			ProcessHandover processHandover = processHandoverList.get(i);
+//			if(processHandover!=null){
+//				WorkingBill wb = workingBillService.get("workingBillCode", processHandover.getWorkingBillCode());
+//				processHandover.setWorkingBill(wb);
+//				processHandover.setProcessHandoverTop(processHandoverTop);
+//				processHandoverDao.save(processHandover);
+//				for(int j=0;j<processHandoverSonList.size();j++){
+//					ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);
+//					if(processHandoverSon!=null){
+//						if(processHandoverSon.getBeforeWorkingCode().equals(processHandover.getWorkingBillCode())){
+//							processHandoverSon.setProcessHandover(processHandover);
+//							processHandoverSonService.save(processHandoverSon);
 		try {
 			Admin admin = adminService.get(loginid);
 			processHandoverTop.setCreateUser(admin);
 			processHandoverTop.setState("1");
 			processHandoverTop.setIsdel("N");
+			processHandoverTop.setType("工序交接");
 			processHandoverTopService.save(processHandoverTop);
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
@@ -101,7 +121,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		Admin admin = adminService.get(loginid);
 		processHandoverTop.setCreateUser(admin);
 		ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
-		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state"});
+		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
 		processHandoverTopService.update(processHandoverTopcopy);
 		for(int i=0;i<processHandoverList.size();i++){
 			ProcessHandover processHandover = processHandoverList.get(i);

@@ -194,7 +194,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	{
 		// 报废信息表
 		ScrapMessage sm = list_scrapmsg.get(i);
-		if (sm.getSmreson() != null && !"".equals(sm.getSmreson()))
+		if (sm!=null && sm.getSmreson() != null && !"".equals(sm.getSmreson()))
 		{
 			// 如果不为空，则新增报废信息和报废bug两个表
 			// 报废信息表新增

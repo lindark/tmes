@@ -161,8 +161,7 @@ public class BaserfcServiceImpl implements BaserfcService {
 					Set set = map.entrySet();
 					for (Iterator it = set.iterator(); it.hasNext();) {
 						Map.Entry entry = (Map.Entry) it.next();
-						System.out.println(entry.getKey() + "-----------"
-								+ (String) entry.getValue());
+						//System.out.println(entry.getKey() + "-----------"+ (String) entry.getValue());
 						IT_ITEM.setValue((String) entry.getValue(),
 								(String) entry.getKey());
 

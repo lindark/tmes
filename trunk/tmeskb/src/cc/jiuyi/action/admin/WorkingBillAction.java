@@ -150,8 +150,10 @@ public class WorkingBillAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 		}
-		pager.setOrderType(OrderType.desc);
-		pager.setOrderBy("modifyDate");
+		if(pager.getOrderBy()==null || pager.getOrderBy().equals("")){
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
 		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
 			if(!filters.equals("")){
 				JSONObject filt = JSONObject.fromObject(filters);

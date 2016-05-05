@@ -31,4 +31,8 @@ public class ProcessHandoverTopServiceImpl extends BaseServiceImpl<ProcessHandov
 	public List<ProcessHandoverTop> getPHT(Admin admin) {
 		return processHandoverTopDao.getPHT(admin);
 	}
+	@Override
+	public List<ProcessHandoverTop> getReN(Admin admin) {
+		return processHandoverTopDao.getReN(admin);
+	}
 }

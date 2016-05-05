@@ -29,6 +29,8 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 	 */
 	private Double boxMount;//库存箱数
 	private String xamount;//转移数量
+	private String cqmultiple;//倍数
+	
 	public String getLocationCode() {
 		return locationCode;
 	}
@@ -116,6 +118,14 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 
 	public void setXamount(String xamount) {
 		this.xamount = xamount;
+	}
+	@Transient
+	public String getCqmultiple() {
+		return cqmultiple;
+	}
+
+	public void setCqmultiple(String cqmultiple) {
+		this.cqmultiple = cqmultiple;
 	}
 	
 	

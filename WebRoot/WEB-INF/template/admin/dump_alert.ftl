@@ -76,6 +76,31 @@ body {
 																<td>${(ddlist.menge)! }</td>
 															</tr>
 														</#list>
+													<#elseif xedit??>
+														<tr>
+															<th>物料编码</th>
+															<th>物料描述</th>
+															<th>货位</th>
+															<th>批次</th>
+															<th>库存数量</th>
+															<th>配送数量</th>
+														</tr>
+														<#assign  num=0 />
+														<#list list_dd as mlist>
+														<tr>
+																<td>${(mlist.matnr)! }</td>
+																<td>${(mlist.maktx)! }</td>
+																<td>${(mlist.lgpla)! }</td>
+																<td class="chargnumber">${(mlist.charg)! }</td>
+																<td>${(mlist.verme)! }</td>
+																<td>
+																	<!-- 数量 -->
+																	<input type="hidden" name="list_dd[${num}].id"  value="${(mlist.id)! }" />
+																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm inputmenge"/>
+																</td>
+															</tr>
+															<#assign num=num+1 />
+														</#list>
 													<#else>
 														<tr>
 															<th>物料编码</th>

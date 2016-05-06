@@ -380,12 +380,12 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		
-		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
 		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
 		if(!ThinkWayUtil.isPass(card_admin)){
 			
 			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
-		}
+		}*/
 		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
@@ -470,12 +470,12 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		
-		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
 		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
 		if(!ThinkWayUtil.isPass(card_admin)){
 			
 			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
-		}
+		}*/
 		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);

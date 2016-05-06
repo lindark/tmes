@@ -158,11 +158,11 @@ public class CartonAction extends BaseAdminAction {
 	public String creditapproval()
 	{
 		Admin  card_admin= adminService.getByCardnum(cardnumber);
-		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		/*card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
 		if(!ThinkWayUtil.isPass(card_admin)){
 			
 			return ajaxJsonErrorMessage("您当前未上班,不能进行纸箱收货操作!");
-		}
+		}*/
 		
 		try
 		{
@@ -205,11 +205,11 @@ public class CartonAction extends BaseAdminAction {
 	public String creditundo() {
 		//Admin admin = adminService.get(loginid);
 		Admin  card_admin= adminService.getByCardnum(cardnumber);
-		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
+		/*card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
 		if(!ThinkWayUtil.isPass(card_admin)){
 			
 			return ajaxJsonErrorMessage("您当前未上班,不能进行纸箱收货操作!");
-		}
+		}*/
 		try{
 		ids = info.split(",");
 		String str = "";

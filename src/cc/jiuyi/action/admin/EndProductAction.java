@@ -409,11 +409,11 @@ public class EndProductAction extends BaseAdminAction {
 		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
 		try {
 			Admin admin = adminService.getByCardnum(cardnumber);
-			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
+			/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
 			if (!ThinkWayUtil.isPass(admin)) {
 				return ajaxJsonErrorMessage("您当前未上班,不能进行成品入库操作!");
 				
-			}
+			}*/
 			
 			// endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginid);
@@ -477,12 +477,12 @@ public class EndProductAction extends BaseAdminAction {
 	// 刷卡撤销
 		public String creditundo() {
 			
-			Admin admin = adminService.getByCardnum(cardnumber);
+			/*Admin admin = adminService.getByCardnum(cardnumber);
 			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
 			if (!ThinkWayUtil.isPass(admin)) {
 				return ajaxJsonErrorMessage("您当前未上班,不能进行成品入库操作!");
 				
-			}
+			}*/
 			
 			ids = id.split(",");
 			String str = "";

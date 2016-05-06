@@ -209,15 +209,18 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	@Override
 	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode) {
 		String hql = "";
-		if( !"".equals(shift) && "".equals(shift) ){
+		if( !"".equals(shift) && "".equals(factoryUnitCode) ){
 			hql =  "from Kaoqin where productdate=? and classtime=? order by createDate desc";
 			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
-		}else if(!"".equals(shift) && !"".equals(shift)){
+		}else if(!"".equals(shift) && !"".equals(factoryUnitCode)){
 			hql =  "from Kaoqin where productdate=? and classtime=? and factoryUnitCode=? order by createDate desc";
 			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryUnitCode).list();
+		}else if("".equals(shift) && !"".equals(factoryUnitCode)){
+			hql =  "from Kaoqin where productdate=? and factoryUnitCode=? order by createDate desc";
+			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).list();
 		}else{
 			hql =  "from Kaoqin where productdate=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();
+			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();	
 		}
 	}
 

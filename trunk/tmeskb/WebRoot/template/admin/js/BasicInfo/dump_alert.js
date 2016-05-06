@@ -55,6 +55,9 @@ function sub_event(i)
 		{
 			url="dump!creditupdate.action";
 			tosubmit(url,"tosave");
+		}else if(xedit=="xedit1"){
+			url="dump!creditupdate.action?xedit=xedit1";
+			tosubmit(url,"tosave");
 		}
 		else if(xedit=="saved")
 		{
@@ -82,6 +85,7 @@ function sub_event(i)
 			tosubmit(url,"toconfrim");
 		});*/
 		layer.confirm("修改数据未保存,是否确认提交修改前的数据?", {icon: 3,btn:["确定","取消"]},function(){
+			alert(11);
 			url="dump!creditreply.action";
 			tosubmit(url,"toconfrim");
 		},function(){
@@ -96,9 +100,16 @@ function sub_event(i)
 			layer.alert("数据保存后才可以确认!",false);
 		}
 		else
-		{
-			url="dump!creditreply.action";
-			tosubmit(url,"toconfrim");
+		{	
+			if(xedit=="xedit1"){
+				url="dump!creditreply.action?xedit=xedit2";
+				xedit="xedit2";
+				tosubmit(url,"toconfrim");
+			}else{
+				url="dump!creditreply.action";
+				tosubmit(url,"toconfrim");
+			}
+			
 		}
 	}
 }
@@ -114,10 +125,15 @@ function tosubmit(url,info)
 				if(xedit=="xedit")
 				{
 					xedit="updated";
+				}else if(xedit=="xedit1"){
+					xedit="xedit1";
+					alert(data.message+"---------message-");
+					$("#dumpid").val(data.message);
 				}
 				else
 				{
 					xedit="saved";
+					alert(data.dumpid+"---------dumpid-");
 					$("#dumpid").val(data.dumpid);
 				}
 				if(info=="toconfrim")

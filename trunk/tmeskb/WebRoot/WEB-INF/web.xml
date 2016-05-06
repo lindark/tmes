@@ -106,17 +106,9 @@
 		<url-pattern>/admin/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- 商品列表页面缓存 -->
-	<filter-mapping>
-		<filter-name>cacheFilter</filter-name>
-		<url-pattern>/shop/product!list.action</url-pattern>
-	</filter-mapping>
+
 	
-	<!-- 文章列表页面缓存 -->
-	<filter-mapping>
-		<filter-name>cacheFilter</filter-name>
-		<url-pattern>/shop/article!list.action</url-pattern>
-	</filter-mapping>
+
 	
 	<!-- 注意:需放在struts2过滤器filter-mapping之前 -->
 	<filter-mapping>

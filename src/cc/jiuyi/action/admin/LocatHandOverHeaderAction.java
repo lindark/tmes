@@ -315,7 +315,7 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 								}else{
 									boolean flag = true;
 									for(int j=0;j<locasideListMap1.size();j++){
-										HashMap<String, String> map1 = locasideListMap.get(j);
+										HashMap<String, String> map1 = locasideListMap1.get(j);
 										if(map1.get("lgort").equals(map.get("lgort")) && map1.get("matnr").equals(map.get("matnr"))){
 											BigDecimal verme1 = new BigDecimal(map1.get("verme")); 
 											verme1 = verme1.add(verme).setScale(2, RoundingMode.HALF_UP);

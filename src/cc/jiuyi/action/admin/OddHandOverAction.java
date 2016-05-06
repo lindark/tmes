@@ -43,6 +43,7 @@ import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
+import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -83,6 +84,8 @@ public class OddHandOverAction extends BaseAdminAction {
 	private ProcessHandoverTop processHandoverTop = new ProcessHandoverTop();
 	private Set<OddHandOver> oddHandOverSet = new HashSet<OddHandOver>();
 	private List<OddHandOver> oddHandOverList;
+	public List<ProcessHandover> processHandoverLists; 
+	public List<Process> processList;
 	
 	@Resource
 	private WorkingBillService workingBillService;
@@ -108,6 +111,8 @@ public class OddHandOverAction extends BaseAdminAction {
 	private ProcessHandoverTopService processHandoverTopService;
 	@Resource
 	private MaterialService materialservice;
+	@Resource
+	private ProcessService processservice;
 	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
@@ -385,7 +390,15 @@ public class OddHandOverAction extends BaseAdminAction {
 					}
 					processHandoverTop.setProcessHandOverSet(processHandoverSet);
 				}
-				
+				processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
+				processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
+				if(!processList.isEmpty()){
+					Collections.sort(processList, new Comparator<Process>() {
+			            public int compare(Process arg0, Process arg1) {
+			                return arg0.getProcessCode().compareTo(arg1.getProcessCode());
+			            }
+			        });
+				}
 			}else{
 				addActionError("请绑定生产日期和班次");
 				return ERROR;

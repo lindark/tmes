@@ -815,7 +815,7 @@ public class UpDownAction extends BaseAdminAction {
 			hashmap.put("matnr", updown.getMatnr());//物料号
 			hashmap.put("charg", updown.getCharg());//批次
 			hashmap.put("lgpla", lgpla);//发出仓位
-			if("0".equals(flag)){
+			if("0".equals(flag) || "3".equals(flag)){
 				hashmap.put("dwnum", ""+updown.getDwnum());
 			}else if("2".equals(flag)){
 				hashmap.put("dwnum", ""+updown.getBeforeamount());

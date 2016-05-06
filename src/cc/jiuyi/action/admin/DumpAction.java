@@ -600,8 +600,8 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		factoryunit=this.fuservice.getById("192.168.19.18");// 
-		//factoryunit=this.fuservice.getById(ip);
+		//factoryunit=this.fuservice.getById("192.168.40.40");// 
+		factoryunit=this.fuservice.getById(ip);
 		
 		//测试时使用
 		//admin=adminService.getLoginAdmin();
@@ -666,7 +666,8 @@ public class DumpAction extends BaseAdminAction {
 		this.dump=this.dumpService.get(id);
 		this.materialcode=dump.getMaterialCode();//物料编码
 		fuid=dump.getFactoryUnitId();//单元ID
-		//获取批次
+		factoryunit = fuservice.get(fuid);
+		/*//获取批次
 		try
 		{
 			addoredit();
@@ -682,9 +683,9 @@ public class DumpAction extends BaseAdminAction {
 			e.printStackTrace();
 			addActionError(e.getMsgDes());
 			return ERROR;
-		}
+		}*/
 		list_dd=new ArrayList<DumpDetail>(dump.getDumpDetail());
-		list_map=new ArrayList<HashMap<String,String>>();
+		/*list_map=new ArrayList<HashMap<String,String>>();
 		for(int i=0;i<list_ddmap.size();i++)
 		{
 			HashMap<String,String>m=list_ddmap.get(i);
@@ -697,8 +698,8 @@ public class DumpAction extends BaseAdminAction {
 				}
 			}
 			list_map.add(m);
-		}
-		xedit="xedit";
+		}*/
+		xedit="xedit1";
 		return "alert";
 	}
 	
@@ -707,10 +708,27 @@ public class DumpAction extends BaseAdminAction {
 	 */
 	public String creditupdate()
 	{
-		this.dumpService.updateInfo(list_dd,fuid,dumpid);
+		//this.dumpService.updateInfo(list_dd,fuid,dumpid);
+		Dump d=this.dumpService.get(dumpid);
+		List<DumpDetail> ddlist1=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
+		if(xedit!=null && xedit.equals("xedit1")){
+			if(list_dd!=null && list_dd.size()>0){}
+			for(int i=0;i<ddlist1.size();i++){
+				DumpDetail dd=ddlist1.get(i);
+				for(int j=0;j<list_dd.size();j++){
+					DumpDetail dd1=list_dd.get(j);
+					if(dd1==null)continue;
+					if(dd.getId().equals(dd1.getId())){
+						dd.setMenge(dd1.getMenge());
+						dd.setModifyDate(new Date());
+						this.dumpDetailService.update(dd);
+						break;
+					}
+				}
+			}
+		}
 		return this.ajaxJsonSuccessMessage(dumpid);
 	}
-	
 	/**
 	 * 显示
 	 */
@@ -760,6 +778,22 @@ public class DumpAction extends BaseAdminAction {
 		String str="";
 		try
 		{
+			List<DumpDetail> ddlist1=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
+			if(xedit!=null && xedit.equals("xedit2")){
+				if(list_dd!=null && list_dd.size()>0){}
+				for(int i=0;i<ddlist1.size();i++){
+					DumpDetail dd=ddlist1.get(i);
+					for(int j=0;j<list_dd.size();j++){
+						DumpDetail dd1=list_dd.get(j);
+						if(dd1==null)continue;
+						if(dd.getId().equals(dd1.getId())){
+							dd.setMenge(dd1.getMenge());
+							this.dumpDetailService.update(dd);
+							break;
+						}
+					}
+				}
+			}
 			List<DumpDetail>ddlist=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
 			for(int i=0;i<ddlist.size();i++)
 			{

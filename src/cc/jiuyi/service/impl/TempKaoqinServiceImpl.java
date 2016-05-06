@@ -72,7 +72,10 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	public Admin getAdminWorkStateByAdmin(Admin admin)
 	{
 		if(admin==null || admin.getTeam()==null || admin.getProductDate()==null || admin.getProductDate().equals("") ||	admin.getShift()==null || admin.getShift().equals(""))
-		return admin;
+		{
+			admin.setWorkstate("1");//设置成未上班
+			return admin;
+		}
 		
 		List<TempKaoqin> tkqList=tempKqDao.getByTPSA(admin.getTeam().getId(), admin.getProductDate(), admin.getShift(), admin.getId());
 		if(tkqList!=null && tkqList.size()>0)
@@ -80,7 +83,11 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			admin.setWorkstate(tkqList.get(0).getWorkState());
 			return admin;
 		}
-		return admin;
+		else
+		{
+			admin.setWorkstate("1");//设置成未上班
+			return admin;
+		}		
 	}
 	
 	public Pager getTempKaoqinPager(Pager pager, HashMap<String, String> map)
@@ -113,7 +120,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				a.setModifyDate(new Date());
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次
-				this.adminService.update(a);
+				//this.adminService.update(a);//添加代班的不修改admin信息，已经注释
 				//先update，后设置，此处并未保存代班字段，仅用于生成临时考勤使用。
 				a.setIsdaiban(sameteamid);//班组ID
 				adminList.add(a);
@@ -156,7 +163,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次
 				a.setModifyDate(new Date());//修改日期
-				this.adminService.update(a);				
+				//this.adminService.update(a);				
 			}					
 			
 			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
@@ -278,6 +285,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			tkq.setCardNumber(a.getCardNumber());//卡号
 			tkq.setClasstime(shift);//班次
 			tkq.setEmp(a);//员工
+			tkq.setEmpid(a.getId());
 			tkq.setEmpname(a.getName());//名字
 			tkq.setWorkState("1");//工作状态
 			
@@ -397,6 +405,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				tkq.setFactoryUnit(fu.getFactoryUnitName());
 				tkq.setFactoryUnitCode(fu.getFactoryUnitCode());
 			}
+			a.setIsdaiban("N");
 			this.save(tkq);
 			tkqList.add(tkq);
 			

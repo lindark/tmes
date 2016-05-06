@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 
 
+
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Role;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 
@@ -325,6 +327,25 @@ public class ThinkWayUtil {
      * @return
      */
 	public static boolean isPass(Admin admin) {
+		
+		/*if(admin.getRoleSet()!=null)
+		{
+			boolean superFlag=false;
+			for(Role role:admin.getRoleSet())
+			{
+				//属于特殊高级权限的无需判断是否上班
+				if(role.getValue().equals("ROLE_CJFZR")
+						||role.getValue().equals("ROLE_ADMIN"))
+				{
+					superFlag=true;
+					break;
+				}
+			}
+			if(superFlag)
+			{
+				return true;
+			}
+		}		*/
 		if (admin.getWorkstate().equals("2")) {
 			return true;
 		}

@@ -308,7 +308,7 @@ public class OddHandOverAction extends BaseAdminAction {
 					//判断当前登录人是否已经创建过工序交接
 					List<ProcessHandoverTop> phtlist = processHandoverTopService.getReN(admin);
 					if(phtlist!=null && phtlist.size()>0){
-						addActionError("您当日工序交接已提交或已确认");
+						addActionError("您当日零头数交接已提交或已确认");
 						return ERROR;
 					}
 					Collections.sort(workingbillList, new Comparator<WorkingBill>() {

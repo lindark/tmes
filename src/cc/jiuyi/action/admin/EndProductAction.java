@@ -197,12 +197,12 @@ public class EndProductAction extends BaseAdminAction {
 		admin = adminService.get(admin.getId());
 		
 		
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
-		boolean flag = ThinkWayUtil.isPass(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			boolean flag = ThinkWayUtil.isPass(admin);
 		if (!flag) {
 			addActionError("您当前未上班,不能进行成品入库操作!");
 			return ERROR;
-		}
+		}*/
 		
 		
 		List<Locationonside> locationonsideLists = new ArrayList<Locationonside>();
@@ -295,12 +295,12 @@ public class EndProductAction extends BaseAdminAction {
 		Admin admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if (!flag) {
 			addActionError("您当前未上班,不能进行成品入库操作!");
 			return ERROR;
-		}
+		}*/
 		
 		String wareHouse = admin.getTeam().getFactoryUnit()
 				.getWarehouse();

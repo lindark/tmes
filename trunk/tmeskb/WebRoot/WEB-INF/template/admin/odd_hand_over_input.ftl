@@ -72,7 +72,6 @@
 								<div class="widget-box transparent">
 						<div class="div_top">
 								<#if !(show??)>
-								<#if isAdd??>
 								<div>
 								下班生产日期:
                                 <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
@@ -85,7 +84,6 @@
 										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
                                    </select>
 								</div>
-								</#if>
 								</#if>
 						<div class="widget-header">
 							<h4 class="widget-title lighter">班组信息</h4>
@@ -158,7 +156,59 @@
 										</thead>
 	
 										<tbody>
-											
+											<#if isAdd??>
+											<#list processHandoverLists?sort_by("matnr") as list>
+												<tr>
+													<td class="center">${(list.maktx)! }
+													<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
+													<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
+													</td>
+													<td class="center">${(list.planCount)! }
+													<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }">
+													</td>
+													<td class="center">${(list.matnr)! }
+													<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
+													</td>
+													<td class="center workingCode" name="workingCode">${(list.workingBillCode)! }
+													<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
+													</td>
+													<td class="center" >
+													<input type="text" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/>
+													</td>
+														<!--  
+														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
+															<#list list.oddHandOverSet as loh>
+																<td class="center"><input type="text" class="oddhandOverMount state_input" name="actualMounts" value="${loh.actualBomMount }"/></td>
+																<td class="center"><input type="text" class="unhandOverMount state_input" name="unMounts" value="${loh.unBomMount }"/></td>
+																<td class="center OddHstate"></td>
+															<#break>
+															</#list>
+														<#else> 	</#if> -->
+													<td class="center"><input type="text" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
+													<td class="center"><input type="text" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
+													<td>
+														<#if !(show??)>
+														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+														<span id="responsibleName">${(list.responsibleName) }</span>
+														<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
+														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
+														<label class="requireField">*</label>
+														</td>
+														<#else>
+														<span id="responsibleName">${(list.responsibleName) }</span>		
+														</#if>
+														<#list list.oddHandOverSet as bl>
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].id" value="${bl.id }">  
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].materialAmount" value="${bl.materialAmount }">   
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].beforeWokingCode" value="${bl.beforeWokingCode }">
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].afterWorkingCode" value="${bl.afterWorkingCode }">
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].productAmount" value="${bl.productAmount }">
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
+														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
+														</#list>
+												</tr>
+											</#list>
+											<#else>
 											<#list processHandoverTop.processHandOverSet as list>
 												<tr>
 													<td class="center">${(list.maktx)! }
@@ -210,6 +260,7 @@
 														</#list>
 												</tr>
 											</#list>
+											</#if>
 										</tbody>
 									</table>
 									
@@ -398,13 +449,14 @@ function showUnit(num1){
 				return false;
 			}
 			var flag = true;
-			$(".workingCode").each(function(){
-				if($(this).text() == $(this).next().children().val()){
+			$(".afterWork").each(function(){
+				if($(this).val() == $(this).parent().prev().children().val()){
 					flag = false;
 					layer.alert("上班随工单不允许与下班随工单一致",{icon: 7});
 					return false;
 				}
 			});
+			return false;
 			$(".oddhandOverMount").each(function(){
 				var productAmount = $(this).val();
 				var afterworkbill = $(this).parent().prev().children().val();

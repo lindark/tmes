@@ -116,7 +116,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		{			
 			if(ids[i]!=null&&!"".equals(ids[i]))
 			{
-				Admin a=this.adminService.get(ids[i]);				
+				Admin a=this.adminService.get(ids[i]);			
 				a.setModifyDate(new Date());
 				a.setProductDate(admin.getProductDate());//生产日期
 				a.setShift(admin.getShift());//班次
@@ -128,6 +128,9 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		}
 		//先存储临时，再存储记录
 		saveKqListByTkqList( saveTkqList(adminList,team,admin));
+		for(Admin a :adminList){
+			a.setIsdaiban("N");
+		}
 	}
 	
 	/**
@@ -224,10 +227,10 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	public int updateWorkStateByCreidt(String cardnumber,String teamid,String loginid)
 	{
 		//根据卡号查询admin
-		Admin a=adminService.getByCardnum(cardnumber);		
+		Admin a=adminService.getByCardnum(cardnumber);	
+		Admin a_login=this.adminService.get(loginid);
 		if(a!=null)
 		{	
-			Admin a_login=this.adminService.get(loginid);
 			List<TempKaoqin> tkqs=tempKqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());			
 			if(tkqs!=null && tkqs.size()>0) 
 			{
@@ -257,9 +260,19 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				a.setProductDate(a_login.getProductDate());//生产日期				
 				a.setModifyDate(new Date());
 				this.adminService.update(a);*/
+			}else{
+				if(a.getTeam()==null || a.getProductDate()==null || a.getShift()==null){
+					//并无此人员的考勤临时记录
+					return 3;
+				}else{
+					if(a.getTeam().getId().equals(teamid) && a.getProductDate().equals(a_login.getProductDate()) && a.getShift().equals(a_login.getShift())){
+						saveKaoqin(saveTeamKaoqin(a));
+						return 1;
+					}else{
+						return 3;
+					}
+				}
 			}
-			//并无此人员的考勤临时记录
-			return 3;
 		}			
 		//卡号无对应的人员
 		return 3;
@@ -405,15 +418,167 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				tkq.setFactoryUnit(fu.getFactoryUnitName());
 				tkq.setFactoryUnitCode(fu.getFactoryUnitCode());
 			}
-			a.setIsdaiban("N");
 			this.save(tkq);
 			tkqList.add(tkq);
 			
 		}
 		return tkqList;
 	}
-	
-	
+	public TempKaoqin saveTeamKaoqin(Admin admin){
+		String procutdate=admin.getProductDate();
+		String shift=admin.getShift();
+		FactoryUnit fu=admin.getTeam().getFactoryUnit();
+		Post p=admin.getPost();
+		TempKaoqin tkq=new TempKaoqin();
+		tkq.setCardNumber(admin.getCardNumber());//卡号
+		tkq.setClasstime(shift);//班次
+		tkq.setEmp(admin);//员工
+		tkq.setEmpid(admin.getId());
+		tkq.setEmpname(admin.getName());//名字
+		tkq.setWorkState("2");//工作状态
+		tkq.setProductdate(procutdate);//生产日期
+		tkq.setEmpid(admin.getId());//员工主键ID
+		tkq.setTardyHours(null);//误工小时数
+		tkq.setIsdaiban(admin.getIsdaiban());
+		if(p!=null)
+		{
+			tkq.setPostname(p.getPostName());//岗位名称
+			tkq.setPostCode(p.getPostCode());//岗位编码
+		}
+		else
+		{
+			tkq.setPostname("");
+		}
+		tkq.setTeam(admin.getTeam());//班组
+		tkq.setCreateDate(new Date());
+		tkq.setModifyDate(new Date());
+		//新增保存：字段工号  联系电话  工位  模具组号  工作范围-编码  岗位编码  工位名称  模具组号名称  工作范围名称  单元
+		//              
+		tkq.setWorkCode(admin.getWorkNumber());//工号
+		tkq.setPhoneNum(admin.getPhoneNo());//联系电话
+		//工位   工位名称
+		if(admin.getStationids()!=null)
+		{
+			String []sids=admin.getStationids().split(",");
+			String code="";
+			String name="";
+			for(int j=0;j<sids.length;j++)
+			{
+				Station s=this.stationService.get(sids[j]);
+				if(s!=null&&"N".equals(s.getIsDel()))
+				{
+					if(s.getCode()!=null)
+					{
+						code+=s.getCode()+",";
+					}
+					if(s.getName()!=null)
+					{
+						name+=s.getName()+",";
+					}
+				}
+			}
+			if(name.endsWith(","))
+			{
+				name=name.substring(0,name.length()-1);
+			}
+			if(code.endsWith(","))
+			{
+				code=code.substring(0,code.length()-1);
+			}
+			tkq.setStationCode(code);//工位编码
+			tkq.setStationName(name);//工位名称
+		}
+		//工作范围-编码   工作范围名称
+		List<UnitdistributeProduct>list_up=new ArrayList<UnitdistributeProduct>(admin.getUnitdistributeProductSet());
+		if(list_up.size()>0)
+		{
+			String code="";
+			String name="";
+			for(int j=0;j<list_up.size();j++)
+			{
+				UnitdistributeProduct up=list_up.get(j);
+				if(up!=null&&"N".equals(up.getIsDel()))
+				{
+					if(up.getMaterialCode()!=null)
+					{
+						code+=up.getMaterialCode()+",";
+					}
+					if(up.getMaterialName()!=null)
+					{
+						name+=up.getMaterialName()+",";
+					}
+				}
+			}
+			if(code.endsWith(","))
+			{
+				code=code.substring(0,code.length()-1);
+			}
+			if(name.endsWith(","))
+			{
+				name=name.substring(0,name.length()-1);
+			}
+			tkq.setWorkNum(code);//工作范围-编码
+			tkq.setWorkName(name);//工作范围名称
+		}
+		//模具组号    模具组号名称
+		List<UnitdistributeModel>list_um=new ArrayList<UnitdistributeModel>(admin.getUnitdistributeModelSet());
+		if(list_um.size()>0)
+		{
+			String code="";
+			for(int j=0;j<list_um.size();j++)
+			{
+				UnitdistributeModel um=list_um.get(j);
+				if(um!=null&&"N".equals(um.getIsDel())&&um.getStation()!=null)
+				{
+					code+=um.getId()+",";
+				}
+			}
+			if(code.endsWith(","))
+			{
+				code=code.substring(0,code.length()-1);
+			}
+			tkq.setModelNum(code);//模具组号
+		}
+		//单元
+		if(fu!=null)
+		{
+			tkq.setFactoryUnit(fu.getFactoryUnitName());
+			tkq.setFactoryUnitCode(fu.getFactoryUnitCode());
+		}
+		this.save(tkq);
+		return tkq;
+	}
+	public void saveKaoqin(TempKaoqin tkq){
+
+		Kaoqin kq=new Kaoqin();						
+		kq.setId(null);
+		kq.setCreateDate(new Date());
+		kq.setModifyDate(new Date());
+		
+		kq.setCardNumber(tkq.getCardNumber());
+		kq.setClasstime(tkq.getClasstime());
+		kq.setEmp(tkq.getEmp());
+		kq.setEmpid(tkq.getEmpid());
+		kq.setEmpname(tkq.getEmpname());
+		kq.setPostname(tkq.getPostname());
+		kq.setTeam(tkq.getTeam());
+		kq.setWorkState(tkq.getWorkState());
+		kq.setProductdate(tkq.getProductdate());
+		kq.setTardyHours(tkq.getTardyHours());
+		kq.setWorkCode(tkq.getWorkCode());
+		kq.setPhoneNum(tkq.getPhoneNum());
+		kq.setStationCode(tkq.getStationCode());
+		kq.setModleNum(tkq.getModelNum());
+		kq.setWorkNum(tkq.getWorkNum());
+		kq.setPostCode(tkq.getPostCode());
+		kq.setFactoryUnit(tkq.getFactoryUnit());
+		kq.setFactoryUnitCode(tkq.getFactoryUnitCode());
+		kq.setStationName(tkq.getStationName());
+		kq.setWorkName(tkq.getWorkName());
+		kq.setIsdaiban(tkq.getIsdaiban());						
+		
+		kqDao.save(kq);
+	}
 	
 	private List<Kaoqin> saveKqListByTkqList(List<TempKaoqin> tkqList)
 	{

@@ -89,11 +89,11 @@ public class CartonAction extends BaseAdminAction {
 	{
 		Admin login_admin = adminService.getLoginAdmin();
 		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		/*login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
 		if(!ThinkWayUtil.isPass(login_admin)){
 			addActionError("您当前未上班,不能进行纸箱收货操作!");
 			return ERROR;
-		}
+		}*/
 		
 		list_cs=this.cartonService.getBomByConditions();//获取bom中随工单对应的以5开头的各个物料
 		List<CartonSon> cslist = new ArrayList<CartonSon>();
@@ -126,11 +126,11 @@ public class CartonAction extends BaseAdminAction {
 	{
 		Admin login_admin = adminService.getLoginAdmin();
 		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		/*login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
 		if(!ThinkWayUtil.isPass(login_admin)){
 			addActionError("您当前未上班,不能进行纸箱收货操作!");
 			return ERROR;
-		}
+		}*/
 		
 		this.edit=id;
 		carton = cartonService.get(id);

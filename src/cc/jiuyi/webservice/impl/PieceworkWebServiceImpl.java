@@ -98,9 +98,9 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	public String getPieceworkListOne(String xmlString){
 		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第一个功能'>"
 				+ "<factory>1000</factory>"
-				+ "<workShop>1001</workShop>"
+				+ "<workShop>201</workShop>"
 				+ "<factoryUnit></factoryUnit>"
-				+ "<productDate>2016-01-20</productDate>"
+				+ "<productDate>2016-04-20</productDate>"
 				+ "<shift></shift></title></ROOT>";  */
         Document doc = null;
         String factory="";
@@ -398,10 +398,10 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	 * @return workHour 上班时间
 	 */
 	public String getPieceworkListTwo(String xmlString){
-		xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
+		/*xmlString="<?xml version='1.0' encoding='UTF-8'?><ROOT><title name='计件系统第二个功能'>"
 				+ "<factoryUnit></factoryUnit>"
-				+ "<productDate>2016-04-23</productDate>"
-				+ "<shift>3</shift></title></ROOT>";
+				+ "<productDate>2016-05-04</productDate>"
+				+ "<shift></shift></title></ROOT>";*/
         String productDate="";
         String shift="";
         String factoryUnit="";
@@ -430,7 +430,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 			if(KaoqinList!=null && KaoqinList.size()>0){
 				for(Kaoqin kq : KaoqinList){
 					Map<String,Object> PieceworkMap = new HashMap<String,Object>();
-					PieceworkMap.put("factoryUnit", factoryUnit);//单元
+					PieceworkMap.put("factoryUnit", kq.getFactoryUnitCode());//单元
 					PieceworkMap.put("productDate", productDate);//生产日期
 					PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
 					String[] mud = judgeNull(kq.getModleNum()).split(",");

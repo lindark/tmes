@@ -93,17 +93,6 @@
 										</#list> 
 									</select> -->
 									<div class="div_top">
-										 下班生产日期:
-                                    <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
-                                   &nbsp;&nbsp;&nbsp;&nbsp;
-                                	        班次:
-                                     <select name="shift"id="sl_sh">
-                                     	<option value="" <#if (admin.shift == "")!> selected</#if>></option>
-                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
-										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
-										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
-                              	     </select>
-                                   &nbsp;&nbsp;&nbsp;&nbsp;
                                    <!--  
                                    	   工序选择:
                                      <select name="shift"id="sl_sh">
@@ -205,6 +194,17 @@
 										</div>
 									</div>
 									<#else>
+									 下班生产日期:
+                                    <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                                	        班次:
+                                     <select name="processHandoverTop.aftershift"id="sl_sh">
+                                     	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
+                                     	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
+										<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (processHandoverTop.aftershift== 3)!> selected</#if>>晚</option>
+                              	     </select>
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
 									<div class="widget-header">
 											<h4 class="widget-title lighter">工序类型选择</h4>
 											<div class="widget-toolbar no-border">

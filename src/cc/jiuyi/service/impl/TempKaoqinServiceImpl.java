@@ -261,11 +261,15 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				a.setModifyDate(new Date());
 				this.adminService.update(a);*/
 			}else{
-				if(a.getTeam()==null || a.getProductDate()==null || a.getShift()==null){
+				if(a.getTeam()==null){
 					//并无此人员的考勤临时记录
 					return 3;
 				}else{
-					if(a.getTeam().getId().equals(teamid) && a.getProductDate().equals(a_login.getProductDate()) && a.getShift().equals(a_login.getShift())){
+					if(a.getTeam().getId().equals(teamid)){
+						a.setShift(a_login.getShift());//班次
+						a.setProductDate(a_login.getProductDate());//生产日期				
+						a.setModifyDate(new Date());
+						this.adminService.update(a);
 						saveKaoqin(saveTeamKaoqin(a));
 						return 1;
 					}else{

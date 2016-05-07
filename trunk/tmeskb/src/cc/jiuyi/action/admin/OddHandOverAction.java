@@ -202,6 +202,7 @@ public class OddHandOverAction extends BaseAdminAction {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		processHandoverTop = processHandoverTopService.get(id);
+		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		if(show==null)
 		show = "show";
 		return INPUT;
@@ -416,6 +417,7 @@ public class OddHandOverAction extends BaseAdminAction {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		processHandoverTop = processHandoverTopService.get(id);
+		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		return INPUT;
 	}
 	

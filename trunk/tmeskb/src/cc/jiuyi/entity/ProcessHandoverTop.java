@@ -38,6 +38,8 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String processName;//工序名称
 	private String processType;//工序类型
 	private String type;//类型
+	private String afterProductDate;//下班生产日期
+	private String aftershift;//下班班次
 
 	
 	private Set<ProcessHandover> processHandOverSet;
@@ -181,6 +183,18 @@ public class ProcessHandoverTop extends BaseEntity {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getAfterProductDate() {
+		return afterProductDate;
+	}
+	public void setAfterProductDate(String afterProductDate) {
+		this.afterProductDate = afterProductDate;
+	}
+	public String getAftershift() {
+		return aftershift;
+	}
+	public void setAftershift(String aftershift) {
+		this.aftershift = aftershift;
 	}
 	
 	

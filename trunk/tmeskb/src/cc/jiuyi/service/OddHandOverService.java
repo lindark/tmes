@@ -27,7 +27,4 @@ public interface OddHandOverService extends BaseService<OddHandOver, String> {
 	
 	public void updateOddHandOver(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<OddHandOver> OddHandOverList,String loginid);
 	
-	public OddHandOver findById(String id);
-	
-	public void updateOddHandOver(OddHandOver oddHandOver);
 }

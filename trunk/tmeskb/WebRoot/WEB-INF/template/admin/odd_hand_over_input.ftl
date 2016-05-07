@@ -30,7 +30,7 @@
 <body class="no-skin list" onload="refresh()">
 <input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
-	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
+	<#include "/WEB-INF/template/admin/admin_navbar.ftl">	
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {
@@ -74,14 +74,14 @@
 								<#if !(show??)>
 								<div>
 								下班生产日期:
-                                <input type="text" id="productDate" name="" value="" class="datePicker formText"/>
+                                <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
                                    &nbsp;&nbsp;
                                  	         班次:
-                                     <select name="shift"id="sl_sh">
-                                     	<option value="" <#if (admin.shift == "")!> selected</#if>></option>
-                                     	<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
-										<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option>
-										<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
+                                     <select name="processHandoverTop.aftershift"id="sl_sh">
+                                     	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
+                                     	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
+										<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>
+										<option value="3" <#if (processHandoverTop.aftershift == 3)!> selected</#if>>晚</option>
                                    </select>
 								</div>
 								</#if>
@@ -146,17 +146,16 @@
 											<tr>
 												<th class="center" style="width:25%">产品名称</th>
 												<th class="center" style="width:10%">计划数量</th>
-												<th class="center" style="width:15%">产品编号</th>
-												<th class="center"style="width:15%">随工单编号</th>
+												<th class="center" style="width:10%">产品编号</th>
+												<th class="center"style="width:10%">随工单编号</th>
 												<th class="center"style="width:15%">下一班随工单编号</th>
-												<th class="center"style="width:5%">零头数交接数量</th>
-												<th class="center"style="width:5%">异常交接数量</th>
-												<th class="center"style="width:5%">责任人</th>
+												<th class="center"style="width:10%">零头数交接数量</th>
+												<th class="center"style="width:10%">异常交接数量</th>
+												<th class="center"style="width:10%">责任人</th>
 											</tr>
 										</thead>
 	
 										<tbody>
-											<#if isAdd??>
 											<#list processHandoverLists?sort_by("matnr") as list>
 												<tr>
 													<td class="center">${(list.maktx)! }
@@ -208,72 +207,20 @@
 														</#list>
 												</tr>
 											</#list>
-											<#else>
-											<#list processHandoverTop.processHandOverSet as list>
-												<tr>
-													<td class="center">${(list.maktx)! }
-													<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
-													<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
-													</td>
-													<td class="center">${(list.planCount)! }
-													<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }">
-													</td>
-													<td class="center">${(list.matnr)! }
-													<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
-													</td>
-													<td class="center workingCode" name="workingCode">${(list.workingBillCode)! }
-													<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
-													</td>
-													<td class="center" >
-													<input type="text" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/>
-													</td>
-														<!--  
-														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
-															<#list list.oddHandOverSet as loh>
-																<td class="center"><input type="text" class="oddhandOverMount state_input" name="actualMounts" value="${loh.actualBomMount }"/></td>
-																<td class="center"><input type="text" class="unhandOverMount state_input" name="unMounts" value="${loh.unBomMount }"/></td>
-																<td class="center OddHstate"></td>
-															<#break>
-															</#list>
-														<#else> 	</#if> -->
-													<td class="center"><input type="text" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
-													<td class="center"><input type="text" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
-													<td>
-														<#if !(show??)>
-														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-														<span id="responsibleName">${(list.responsibleName) }</span>
-														<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
-														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
-														<label class="requireField">*</label>
-														</td>
-														<#else>
-														<span id="responsibleName">${(list.responsibleName) }</span>		
-														</#if>
-														<#list list.oddHandOverSet as bl>
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].id" value="${bl.id }">  
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].materialAmount" value="${bl.materialAmount }">   
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].beforeWokingCode" value="${bl.beforeWokingCode }">
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].afterWorkingCode" value="${bl.afterWorkingCode }">
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].productAmount" value="${bl.productAmount }">
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
-														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
-														</#list>
-												</tr>
-											</#list>
-											</#if>
 										</tbody>
 									</table>
-									
+									<#if !show??>
 									<div class="row buttons col-md-8 col-sm-4 sub-style" style="margin-top:5px;text-align:center">
                                      <button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="btn_save" type=button <#if state=="2">disabled</#if>>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>
+									</#if>
 									<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="btn_confirm" type=button>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡确认
 									</button> -->
-									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type=button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type=button" style="text-align:center">
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
@@ -456,7 +403,6 @@ function showUnit(num1){
 					return false;
 				}
 			});
-			return false;
 			$(".oddhandOverMount").each(function(){
 				var productAmount = $(this).val();
 				var afterworkbill = $(this).parent().prev().children().val();
@@ -476,7 +422,9 @@ function showUnit(num1){
 				var url = "odd_hand_over!creditupdate.action?loginid="+loginid;
 				</#if>
 				credit.creditCard(url,function(data){
-					window.location.href="process_handover!list.action";
+					if(data.status=="success"){
+						window.location.href="process_handover!list.action";
+					}
 				},dt);
 			}
 	 });

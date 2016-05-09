@@ -138,7 +138,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		
 		if(WorkingBillList!=null){
 			for(WorkingBill wb : WorkingBillList){
-				 FactoryUnit fun = factoryUnitService.get("workCenter", wb.getWorkcenter());
+				 FactoryUnit fun = factoryUnitService.get("factoryUnitCode", wb.getWorkcenter());
 				if(fun!=null){
 						if(factory.equals(wb.getWerks()) && workShop.equals(fun.getWorkShop().getWorkShopCode())){
 							Set<DailyWork> dwSet = wb.getDailyWork();

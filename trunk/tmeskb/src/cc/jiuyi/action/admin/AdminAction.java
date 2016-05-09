@@ -307,8 +307,17 @@ public class AdminAction extends BaseAdminAction {
 					}else{
 						info = info + "," + wb.getMoudle()==null?"":wb.getMoudle();
 					}
+					for(int i=0;i<jsonarray.size();i++){
+						JSONObject jsonObject = jsonarray.getJSONObject(i);
+						if(new BigDecimal(0).compareTo(new BigDecimal(jsonObject.get("slcy").toString()))!=0){
+							wb.setDiffamount(1d);
+							break;
+						}
+					}
 					           
 				}
+				
+				
 				
 		//		Collections.sort(workingbillList);
 			}

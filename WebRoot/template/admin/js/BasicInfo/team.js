@@ -75,7 +75,7 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'stateRemark',index:'state',label:"状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
 			{name:'xisWork',index:'isWork',label:"上班状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=isWork'}},
-			{name:'toedit',label:"操作",width:100,search:false, sortable:false}
+			/*{name:'toedit',label:"操作",width:100,search:false, sortable:false}*/
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -88,12 +88,12 @@ jQuery(function($) {
 		//multikey: "ctrlKey",
         multiboxonly: true,
         gridComplete : function() {
-         	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+         	 /*var ids = jQuery(grid_selector).jqGrid('getDataIDs');
          	 for ( var i = 0; i < ids.length; i++) {
          		 var cl = ids[i];
          		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
          		 jQuery(grid_selector).jqGrid('setRowData', ids[i], { toedit : be });
-         	 }
+         	 }*/
          },
 		loadComplete : function() {
 			var table = this;
@@ -150,21 +150,21 @@ jQuery(function($) {
 	//navButtons
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
-			//edit: true,
-		    editfunc:function(rowId){
+			edit: false,
+		    /*editfunc:function(rowId){
 			    window.location.href="team!edit.action?id="+rowId;
-		    },
-			editicon : 'ace-icon fa fa-pencil blue',
-			//add: true,
-			addfunc:function(){
+		    },*/
+			//editicon : 'ace-icon fa fa-pencil blue',
+			add: false,
+			/*addfunc:function(){
 				window.location.href="team!add.action";
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
-			del: true,
+			addicon : 'ace-icon fa fa-plus-circle purple',*/
+			del: false,
 			/*delfunc:function(rowId){
 				window.location.href="team!delete.action?id="+rowId;
 			},*/
-			delicon : 'ace-icon fa fa-trash-o red',
+			/*delicon : 'ace-icon fa fa-trash-o red',*/
 			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,

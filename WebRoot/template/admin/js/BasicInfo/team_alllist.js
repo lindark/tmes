@@ -1,5 +1,4 @@
 jQuery(function($) {
-	start_event();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -73,8 +72,10 @@ jQuery(function($) {
 			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
 			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},
+			{name:'createDate',index:'createDate',label:"创建日期",width:100,editable:true,search:false, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'stateRemark',index:'state',label:"状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=teamState'}},
-			{name:'xisWork',index:'isWork',label:"上班状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=isWork'}}
+			{name:'xisWork',index:'isWork',label:"上班状态",width:100,editable:true,stype:"select",searchoptions:{dataUrl:'dict!getDict1.action?dict.dictname=isWork'}},
+			/*{name:'toedit',label:"操作",width:100,search:false, sortable:false}*/
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -87,7 +88,7 @@ jQuery(function($) {
 		//multikey: "ctrlKey",
         multiboxonly: true,
         gridComplete : function() {
-         	/* var ids = jQuery(grid_selector).jqGrid('getDataIDs');
+         	 /*var ids = jQuery(grid_selector).jqGrid('getDataIDs');
          	 for ( var i = 0; i < ids.length; i++) {
          		 var cl = ids[i];
          		 be = "<a href='team!edit.action?id="+ids[i]+"'>[编辑]</a>";
@@ -104,7 +105,7 @@ jQuery(function($) {
 			}, 0);
 		},
 
-		editurl: "",//用它做标准删除动作
+		editurl: "team!delete.action",//用它做标准删除动作
 		caption: "班组管理"
 
 		//,autowidth: true,
@@ -150,21 +151,21 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: false,
-		    editfunc:function(rowId){
+		    /*editfunc:function(rowId){
 			    window.location.href="team!edit.action?id="+rowId;
-		    },
-			editicon : 'ace-icon fa fa-pencil blue',
+		    },*/
+			//editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
-			addfunc:function(){
+			/*addfunc:function(){
 				window.location.href="team!add.action";
 			},
-			addicon : 'ace-icon fa fa-plus-circle purple',
+			addicon : 'ace-icon fa fa-plus-circle purple',*/
 			del: false,
 			/*delfunc:function(rowId){
 				window.location.href="team!delete.action?id="+rowId;
 			},*/
-			delicon : 'ace-icon fa fa-trash-o red',
-			search: false,
+			/*delicon : 'ace-icon fa fa-trash-o red',*/
+			search: true,
 			searchicon : 'ace-icon fa fa-search orange',
 			refresh: true,
 			refreshicon : 'ace-icon fa fa-refresh green',
@@ -239,51 +240,3 @@ jQuery(function($) {
 
 
 });
-
-//右上角点击登录人事件
-function start_event()
-{
-	var ishead=0;
-	$("#ace-settings-btn").click(function(){
-		if(ishead==0){
-			ishead=1;
-			$("#ace-settings-box").addClass("open");
-		}else{
-			ishead=0;
-			$("#ace-settings-box").removeClass("open");
-		}
-	});
-	$(".btn-colorpicker").click(function(){
-			$(".dropdown-colorpicker").addClass("open");
-	});
-	
-	var ishead2=0;
-	$(".light-blue").click(function(){
-		if(ishead2==0){
-			ishead2=1;
-			$(this).addClass("open");
-		}else{
-			ishead2=0;
-			$(this).removeClass("open");
-		}
-		
-	});
-	
-	/*
-	var ishead3=0;
-	$(".hsub").click(function(){
-		if(ishead3==0){
-			alert("OK");
-			ishead3=1;
-			$(".hsub").addClass("open");
-			//$(this).find(".submenu").removeClass("nav-hide");
-		}else{
-			ishead3=0;
-			//$(this).removeClass("open");
-			//$(this).find(".submenu").removeClass("nav-show").addClass("nav-hide").css("display","none");
-		}
-		
-	})
-	*/
-});
-}

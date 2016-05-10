@@ -94,10 +94,10 @@ public class TeamAction extends BaseAdminAction {
 			if (pager == null) {
 				pager = new Pager();
 			}
-			if(pager.getOrderBy()!=null&&!"".equals(pager.getOrderBy()))
+			if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
 			{
 				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("orderList");
+				pager.setOrderBy("teamCode");
 			}
 			if (pager.is_search() == true && filters != null) {// 需要查询条件
 				JSONObject filt = JSONObject.fromObject(filters);
@@ -199,10 +199,10 @@ public class TeamAction extends BaseAdminAction {
 			if (pager == null) {
 				pager = new Pager();
 			}
-			if(pager.getOrderBy()!=null&&!"".equals(pager.getOrderBy()))
+			if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
 			{
 				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("orderList");
+				pager.setOrderBy("teamCode");
 			}
 			if (pager.is_search() == true && Param != null) {// 普通搜索功能
 																// 此处处理普通查询结果
@@ -409,7 +409,7 @@ public class TeamAction extends BaseAdminAction {
 		if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
 		{
 			pager.setOrderType(OrderType.desc);
-			pager.setOrderBy("modifyDate");
+			pager.setOrderBy("teamCode");
 		}
 		//查询条件
 		if (pager.is_search() == true && Param != null)

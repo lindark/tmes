@@ -217,7 +217,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryUnitCode).list();
 		}else if("".equals(shift) && !"".equals(factoryUnitCode)){
 			hql =  "from Kaoqin where productdate=? and factoryUnitCode=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).list();
+			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).setParameter(1,factoryUnitCode).list();
 		}else{
 			hql =  "from Kaoqin where productdate=? order by createDate desc";
 			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();	

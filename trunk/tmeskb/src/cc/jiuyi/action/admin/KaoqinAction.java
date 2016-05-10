@@ -26,6 +26,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
@@ -33,7 +34,9 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -57,6 +60,7 @@ public class KaoqinAction extends BaseAdminAction {
 	 * 对象，变量
 	 */
 	private Kaoqin kaoqin;
+	private TempKaoqin tempkaoqin;
 	private Admin admin;
 	private List<Dict> list_dict;// 员工状态
 	private List<Kaoqin> list_kq;
@@ -74,13 +78,17 @@ public class KaoqinAction extends BaseAdminAction {
 	private String classtime;
 	private String factoryUnitName;
 	private String unitdistributeModels;// 工位
+	private List<Station>list_station;//工位
 	private List<UnitdistributeModel> unitModelList = new ArrayList<UnitdistributeModel>();
-	
+	private List<UnitdistributeProduct> unitProductList=new ArrayList<UnitdistributeProduct>();
+
 	private String workNumber;
 	private String xFactoryUnit;
 	/**
 	 * service接口
 	 */
+	@Resource
+	private TempKaoqinService tkqService;
 	@Resource
 	private KaoqinService kqService;
 	@Resource
@@ -93,7 +101,8 @@ public class KaoqinAction extends BaseAdminAction {
 	private StationService stationService;
 	@Resource
 	private UnitdistributeModelService unitdistributeModelService;
-
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
 	/**
 	 * ========================end
 	 * variable,object,interface==========================
@@ -338,12 +347,17 @@ public class KaoqinAction extends BaseAdminAction {
 		if(t.getFactoryUnit()!=null && t.getFactoryUnit().getFactoryUnitCode()!=null && !"".equals(t.getFactoryUnit().getFactoryUnitCode()))
 		{
 			String unitcode=t.getFactoryUnit().getFactoryUnitCode();
-			this.unitModelList = this.unitdistributeModelService.getModelList(unitcode);// 查询所有工作范围
+			this.unitModelList = this.unitdistributeModelService.getModelList(unitcode);// 查询单元下所有模具组号
+			this.unitProductList=this.unitdistributeProductService.getProductList(unitcode);//查询单元下所有工作范围
 		}
 		else
 		{
-			this.unitModelList = this.unitdistributeModelService.getAllList();
+			this.unitModelList = this.unitdistributeModelService.getAllList();// 查询所有模具组号
+			this.unitProductList=this.unitdistributeProductService.getAllList();//查询所有工作范围
 		}
+		
+		//this.list_station=this.stationService.getStationsByPostid(admin.getPost().getId());
+		//this.list_station=this.stationService.getAll();
 		return LIST;
 	}
 
@@ -353,7 +367,8 @@ public class KaoqinAction extends BaseAdminAction {
 	public String show() {
 		return "show";
 	}
-
+	
+	
 	/**
 	 * 转入查询员工页面
 	 */
@@ -1002,6 +1017,30 @@ public class KaoqinAction extends BaseAdminAction {
 
 	public void setxFactoryUnit(String xFactoryUnit) {
 		this.xFactoryUnit = xFactoryUnit;
+	}
+
+	public TempKaoqin getTempkaoqin() {
+		return tempkaoqin;
+	}
+
+	public void setTempkaoqin(TempKaoqin tempkaoqin) {
+		this.tempkaoqin = tempkaoqin;
+	}
+
+	public List<Station> getList_station() {
+		return list_station;
+	}
+
+	public void setList_station(List<Station> list_station) {
+		this.list_station = list_station;
+	}
+
+	public List<UnitdistributeProduct> getUnitProductList() {
+		return unitProductList;
+	}
+
+	public void setUnitProductList(List<UnitdistributeProduct> unitProductList) {
+		this.unitProductList = unitProductList;
 	}
 
 	

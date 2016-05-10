@@ -20,11 +20,14 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.KaoqinService;
+import cc.jiuyi.service.PostService;
 import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.TempKaoqinService;
@@ -90,13 +93,14 @@ public class TempKaoqinAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private UnitdistributeProductService unitdistributeProductService;
-
-
+	@Resource
+	private PostService postService;
 	
 
 	/**
 	 * 生产日期或班次是否为空
 	 */
+
 	public boolean isnull() {
 		this.admin = this.adminService.get(loginid);// 当前登录人
 		String productionDate = admin.getProductDate();// 生产日期
@@ -191,51 +195,128 @@ public class TempKaoqinAction extends BaseAdminAction {
 	/**
 	 * 修改临时考勤表工作信息
 	 */
-	public String updatetempkaoqin() {
-
-		//此处admin为前端传过来的admin，修改的一些值存储在其中
-		List<UnitdistributeModel> modelList = new ArrayList<UnitdistributeModel>();
-		if (unitdistributeModels != null && !("").equals(unitdistributeModels) && !("null").equals(unitdistributeModels)) 
+	public String updatetempkaoqin() {		
+		String editId=kaoqin.getId();
+		if(editId==null || editId.equals(""))
 		{
-			String[] id = unitdistributeModels.split(",");
-			for (int i = 0; i < id.length; i++) {
-				UnitdistributeModel unitMod = unitdistributeModelService
-						.get(id[i].trim());
-				modelList.add(unitMod);
-			}
-			admin.setUnitdistributeModelSet(new HashSet<UnitdistributeModel>(modelList));
+			return ajaxJsonErrorMessage("数据不完整!");
 		}
-		else 
+		TempKaoqin DBkaoqin=tkqService.get(editId);
+		if(DBkaoqin==null)
 		{
-			admin.setUnitdistributeModelSet(null);
-		}		
+			return ajaxJsonErrorMessage("不存在这个考勤记录!");
+		}
+		//数据处理
+		
+		
+		DBkaoqin.setPhoneNum(kaoqin.getPhoneNum());
+		
+		
+		DBkaoqin.setWorkState(kaoqin.getWorkState());
+		
+		DBkaoqin.setTardyHours(kaoqin.getTardyHours());
+				
+		if(kaoqin.getPostCode()!=null&&!"".equals(kaoqin.getPostCode()))
+		{
+			String postId=kaoqin.getPostCode();
+			DBkaoqin.setPostCode(postId);
+			DBkaoqin.setPostname(postService.get(postId).getPostName());
+		}
+		else
+		{
+			DBkaoqin.setPostCode(null);
+			DBkaoqin.setPostname(null);
+		}
+		
+		if(kaoqin.getStationCode()!=null&&!"".equals(kaoqin.getStationCode()))
+		{
+			String str=kaoqin.getStationCode();
+			str=str.replace(" ","");
+			DBkaoqin.setStationCode(str);
+			String[] strs=str.split(",");
+			System.out.println(strs.length);
+			String stationName="";
+			for(String code:strs)
+			{
+				Station station= stationService.getByCode(code);
+				if(station!=null)
+				stationName+=station.getName()+",";
+			}
+			stationName=stationName.substring(0, stationName.length()-1);
+			DBkaoqin.setStationName(stationName);
+		}
+		else
+		{
+			DBkaoqin.setStationCode(null);
+			DBkaoqin.setStationName(null);
+		}
+		
+		if(kaoqin.getModelNum()!=null&&!"".equals(kaoqin.getModelNum()))
+		{			
+			String str=kaoqin.getModelNum();
+			str=str.replace(" ","");
+			DBkaoqin.setModelNum(str);
+			/*String[] strs=str.split(",");
+			String modelName="";
+			for(String id:strs)
+			{
+				UnitdistributeModel model= unitdistributeModelService.get(id);
+				if(model!=null)
+				modelName+=model.getUnitName()+",";
+			}
+			modelName=modelName.substring(0, modelName.length()-1);
+			DBkaoqin.setModelName(modelName);*/
+		}
+		else
+		{
+			DBkaoqin.setModelNum(null);
+		}
+		
+		if(kaoqin.getWorkNum()!=null && !"".equals(kaoqin.getWorkNum()))
+		{
+			String str=kaoqin.getWorkNum();
+			str=str.replace(" ","");
+			DBkaoqin.setWorkNum(str);
+			String[] strs=str.split(",");
+			String workName="";
+			for(String code:strs)
+			{
+				UnitdistributeProduct product= unitdistributeProductService.get("materialCode", code);
+				if(product!=null)
+				workName+=product.getMaterialName()+",";
+			}
+			workName=workName.substring(0, workName.length()-1);
+			DBkaoqin.setWorkName(workName);
+		}
+		else
+		{
+			DBkaoqin.setWorkNum(null);
+			DBkaoqin.setWorkName(null);
+		}
 		
 		//修改tempkaoqin
-		TempKaoqin tkq=tkqService.get(kaoqin.getId());
-		tkq.setWorkState(admin.getWorkstate());
-		tkq.setTardyHours(admin.getTardyHours());//误工小时数
-		tkq.setModifyDate(new Date());
-		tkq.setModelNum(unitdistributeModels);
-		tkqService.update(tkq);
+	
+		DBkaoqin.setModifyDate(new Date());		
+		tkqService.update(DBkaoqin);
 		
-		//修改admin  已经不做处理，所以注释
-		//Admin a = this.adminService.get(tkq.getEmp().getId());//根据ID查询员工
-		//a.setWorkstate(admin.getWorkstate());//工作状态
-		//a.setTardyHours(admin.getTardyHours());//误工小时数
-		//a.setModifyDate(new Date());
-		//a.setUnitdistributeModelSet(admin.getUnitdistributeModelSet());
-		//this.adminService.update(a);
+		
 		
 		//修改Kaoqin
-		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
-		kq.setWorkState(tkq.getWorkState());
-		kq.setTardyHours(tkq.getTardyHours());//误工小时数
-		kq.setModifyDate(new Date());
-		kq.setModleNum(unitdistributeModels);
+		Kaoqin kq=kqService.getByTPSA(DBkaoqin.getTeam().getId(), DBkaoqin.getProductdate(), DBkaoqin.getClasstime(), DBkaoqin.getEmp().getId()).get(0);
+		kq.setPhoneNum(DBkaoqin.getPhoneNum());
+		kq.setWorkState(DBkaoqin.getWorkState());//
+		kq.setTardyHours(DBkaoqin.getTardyHours());//误工小时数
+		kq.setPostCode(DBkaoqin.getPostCode());
+		kq.setPostname(DBkaoqin.getEmpname());		
+		kq.setStationCode(DBkaoqin.getStationCode());
+		kq.setStationName(DBkaoqin.getStationName());
+		kq.setModleNum(DBkaoqin.getModelNum());
+		kq.setWorkNum(DBkaoqin.getWorkNum());
+		kq.setWorkName(DBkaoqin.getWorkName());
+		kq.setModifyDate(new Date());		
 		kqService.update(kq);
 		
-		
-		unitdistributeModels = null;// 清空选择
+			
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -319,8 +400,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 		}
 	}
 
-	
-
+		
 	
 	/**
 	 * 导出Excel表

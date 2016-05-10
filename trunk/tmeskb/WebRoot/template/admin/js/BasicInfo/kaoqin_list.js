@@ -81,7 +81,10 @@ jQuery(function($) {
 			{name:'isdaiban',index:'isdaiban',label:"是否代班",width:80,editable: false,sortable:false},			
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
 			{name:'workState',index:'workState', label:"workState", editable: false,hidden:true},
-			{name:'modelNum',index:'modelNum', label:"modelNum", editable: false,hidden:true}
+			{name:'modelNum',index:'modelNum', label:"modelNum", editable: false,hidden:true},
+			{name:'stationCode',index:'stationCode', label:"stationCode", editable: false,hidden:true},
+			{name:'workNum',index:'workNum', label:"workNum", editable: false,hidden:true},
+			{name:'postCode',index:'postCode', label:"postCode", editable: false,hidden:true},
 		], 
 		viewrecords : true,
 		rowNum:10000000,
@@ -94,10 +97,10 @@ jQuery(function($) {
         multiboxonly: true,
         gridComplete : function() {
         	 var ids = jQuery(grid_selector).jqGrid('getDataIDs');
-        	 for ( var i = 0; i < ids.length; i++) {
-        		var cl = ids[i];
+        	 for ( var i = 0; i < ids.length; i++) {        		 
+        		var cl = ids[i];        		
         		var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-        		var be = "<a onclick=edit_event('"+rowData.id+"','"+rowData.workState+"','"+rowData.tardyHours+"','"+rowData.modelNum+"') href='javascript:void(0)'>[编辑]</a>";
+        		var be = "<a onclick=edit_event('"+cl+"') href='javascript:void(0)'>[编辑]</a>";
         		
         		if(rowData.isdaiban =='N' )
         		{
@@ -132,7 +135,10 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
 		{ 	//navbar options
 			edit: false,
-			//editicon : 'ace-icon fa fa-pencil blue',
+			/*editfunc:function(rowId){
+			    window.location.href="kaoqin!edit.action?id="+rowId;
+		    },*/
+			editicon : 'ace-icon fa fa-pencil blue',
 			add: false,
 			addfunc:function(rowId){
 				window.location.href="";
@@ -233,6 +239,10 @@ jQuery(function($) {
 //按钮事件
 function btn_event()
 {
+	//岗位img_post
+	$("#img_post").click(function(){
+		post_event();
+	});
 	//添加代班人
 	$("#btn_add").click(function(){
 		addemp();
@@ -276,46 +286,58 @@ function hours_event()
 }
 
 //编辑事件
-function edit_event(xid,workstate,tardyhours,xstationval)
+function edit_event(rowId)
 {
-	console.log(xid+";"+workstate+";"+tardyhours+";"+xstationval+";");
-	$("#select_state").val(workstate);
-	$("#input_hours").val(tardyhours); 
-	var xstationvals =xstationval.split(",");
-	 $('#model').val(xstationvals);
-	 $("#model").trigger("chosen:updated");
+	//console.log(rowId);
+	var data = $("#grid-table").jqGrid('getRowData',rowId);
+	//console.log(data);	
+	
+	$("#kq-id").val(data.id); 
+	$("#kq-name").html(data.empname);
+	$("#phoneNum").val(data.phoneNum); 
+	$("#select_state").val(data.workState);
+	$("#input_hours").val(data.tardyHours); 
+	$("#span_postname").text(data.postname);
+	$("#input_post").val(data.postCode);
+	getandsetstation(data.postCode,data.stationCode);
+	
+	var xstations =data.stationCode.split(",");
+	$('#sel_station').val(xstations);
+	$("#sel_station").trigger("chosen:updated");
+	
+	var xmodels =data.modelNum.split(",");
+	$('#model').val(xmodels);
+	$("#model").trigger("chosen:updated");
+	
+	var xproducts =data.workNum.split(",");
+	$('#product').val(xproducts);
+	$("#product").trigger("chosen:updated");
+	
 	layer.open({
 		type:1,
-		title:"修改员工状态",
+		title:"修改考勤",
 		shade:0.52,
 		shadeClose:false,
 		move:false,
-		area:["500px","333px"],
+		area:["800px","420px"],
 		content:$("#divbox"),
 		closeBtn:1,
 		btn:["修改提交","取消"],
-		yes:function(i){
-			layer.close(i);
-			var val=$("#select_state").val();
-			//var txt=$("#select_state option:selected").text();
-			var hours=$("#input_hours").val();
-			var unitdistributeModels=$("#model").val();
-			{
-				var url="temp_kaoqin!updatetempkaoqin.action?admin.workstate="+val+"&kaoqin.id="+xid+
-				"&admin.tardyHours="+hours+"&unitdistributeModels="+unitdistributeModels;
-				upd_event(url);
-			}
+		yes:function(){			
+			var url="temp_kaoqin!updatetempkaoqin.action";
+			var kqdata=$("#xform").serializeArray();
+			upd_event(url,kqdata);
 		}
 	
 	});
 }
 
 //确认修改
-function upd_event(url)
+function upd_event(url,kqdata)
 {
 	$.ajax({	
 		url: url,
-		//data: $(form).serialize(),
+		data: kqdata,
 		dataType: "json",
 		async: false,
 		beforeSend: function(data) {
@@ -693,6 +715,67 @@ function btn_style_startkaoqin()
 	}
 }
 
+
+//岗位
+function post_event()
+{
+	layer.open({
+        type: 2,
+        skin: 'layui-layer-lan',
+        shift:2,
+        title: "选择岗位",
+        fix: false,
+        shade: 0.5,
+        shadeClose: true,
+        maxmin: true,
+        scrollbar: false,
+        btn:['确认','取消'],
+        area: ["1000px", "500px"],//弹出框的高度，宽度
+        content:"post!beforegetpost.action",
+        yes:function(index,layero){//确定
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var info = iframeWin.getName();
+        	if(info!="baga")
+        	{
+        		$("#input_post").val(info.postid);
+            	$("#span_postname").text(info.postname);
+            	//$("#span_workstation").text(info.station);
+            	//获取对应的工位
+            	getstation(info.postid);
+            	layer.close(index);
+        	}
+        	return false;
+        },
+        no:function(index)
+        {
+        	layer.close(index);
+        	return false;
+        }
+    });
+	return false;
+}
+
+//获取工位
+function getstation(postid)
+{
+	$.post("admin!getstationcode.action?postid="+postid,function(data){
+		$("#sel_station option").remove();
+		$("#sel_station").append(data.message);
+		$("#sel_station").chosen();
+		$("#sel_station").trigger("chosen:updated");
+	},"json");
+}
+function getandsetstation(postid,ids)
+{
+	$.post("admin!getstationcode.action?postid="+postid,function(data){
+		$("#sel_station option").remove();
+		$("#sel_station").append(data.message);		
+		var xstations =ids.split(",");
+		$('#sel_station').val(xstations);
+		$("#sel_station").chosen();
+		$("#sel_station").trigger("chosen:updated");
+	},"json");
+}
 
 function remove_daiban(id)
 {

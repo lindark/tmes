@@ -1534,6 +1534,37 @@ public class AdminAction extends BaseAdminAction {
 		return this.ajaxJsonSuccessMessage("");
 	}
 	
+	
+	
+	/**
+	 * 获取岗位对应的工位
+	 */
+	public String getstationcode()
+	{
+		try
+		{
+			String str="";
+			List<Station>stationlist=this.stationService.getStationsByPostid(postid);//根据岗位ID获取对应的工位
+			if(stationlist!=null&&stationlist.size()>0)
+			{
+				for(int i=0;i<stationlist.size();i++)
+				{
+					Station s=stationlist.get(i);
+					str+="<option value='"+s.getCode()+"'>"+s.getName()+"</option>";
+				}
+				return this.ajaxJsonSuccessMessage(str);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return this.ajaxJsonSuccessMessage("");
+		}
+		return this.ajaxJsonSuccessMessage("");
+	}
+	
+	
+	
 	/**
 	 * 假删除
 	 */

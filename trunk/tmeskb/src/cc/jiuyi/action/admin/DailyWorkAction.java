@@ -454,13 +454,13 @@ public class DailyWorkAction extends BaseAdminAction {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}*/
 		
-		Admin  card_admin= adminService.getByCardnum(cardnumber);
+		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
 		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
 		if(!ThinkWayUtil.isPass(card_admin)){
 			
 			return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
 		}
-		
+		*/
 		try {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();

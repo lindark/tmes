@@ -449,11 +449,11 @@ public class DeptpickAction extends BaseAdminAction {
 		Integer ishead=0;
 		Admin admin =  adminService.getByCardnum(cardnumber);//确认人
 		
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		
 		if(!ThinkWayUtil.isPass(admin)){
 			return ajaxJsonErrorMessage("您当前未上班,不能进行部门领用操作!");			
-		}
+		}*/
 		
 		ids = id.split(",");
 		try{

@@ -227,36 +227,73 @@
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<div id="divbox" style="display: none;">
 		<br />
+		<form id="xform" method="post" action="temp_kaoqin!updatetempkaoqin.action" class="validate" >
+			<input type="hidden" id="kq-id" name="kaoqin.id" /> 
 		<div class="profile-user-info profile-user-info-striped divbox">
 			<div class="profile-info-row ceshi">
 				<div class="profile-info-row">
+					<div class="profile-info-name">姓名：</div>
+					<div class="profile-info-value div-value" id="kq-name">												
+					</div>
+					<div class="profile-info-name">手机号码：</div>
+					<div class="profile-info-value div-value">
+						<input typr="text" id="phoneNum" name="kaoqin.phoneNum"> 			
+					</div>
+				</div>
+								
+				<div class="profile-info-row">
 					<div class="profile-info-name">员工状态：</div>
 					<div class="profile-info-value div-value">
-						<#if list_dict??> <select id="select_state" class="select_state">
+						<#if list_dict??> <select id="select_state" class="select_state" name="kaoqin.workState">
 							<#list list_dict as dlist>
 							<option value="${(dlist.dictkey)! }"<#if
 								(dlist.dictkey==list.workstate)!>selected</#if>>${(dlist.dictvalue)!
 								}</option> </#list>
 						</select> </#if>
 					</div>
-				</div>
-				<div class="profile-info-row">
 					<div class="profile-info-name">异常小时数：</div>
 					<div class="profile-info-value div-value">
-						<input type="text" id="input_hours" class=" input input-sm" /> <span
-							id="span_hours"
-							style="font-family: 微软雅黑;font-size: 10px;color: red;"></span>
+						<input type="text" id="input_hours" class=" input input-sm" name="kaoqin.tardyHours"/> 
+						<span id="span_hours" style="font-family: 微软雅黑;font-size: 10px;color: red;"></span>
 					</div>
+				</div>				
+				<div class="profile-info-row">
+					<div class="profile-info-name">岗位</div>
+					<div class="profile-info-value">						
+							<img id="img_post" title="岗位" alt="岗位" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+							<span id="span_postname"></span>
+							<input type="hidden" id="input_post" name="kaoqin.postCode" value="" class="col-xs-10 col-sm-5" />
+						
+					</div>
+					<div class="profile-info-name">工位名称</div>
+					<div class="profile-info-value">
+						<select id="sel_station" name="kaoqin.stationCode" class="chosen-select work" multiple="true" style="width:290px;" data-placeholder="请选择...">
+					    	<#if list_station??>
+					    		<#list list_station as list>
+					    			<option value="${(list.code)!}">${(list.code)!}--${(list.name)!}</option>
+					    		</#list>
+					    	</#if>
+					    </select>
+					</div>					
 				</div>
 				<div class="profile-info-row">
 					<div class="profile-info-name">模具组号</div>
 					<div class="profile-info-value">
-						<select class="chosen-select work" id="model" multiple=""
-							style="width:290px;" name="unitdistributeModels"
+						<select class="chosen-select work" id="model" multiple="true"
+							style="width:290px;" name="kaoqin.modelNum"
 							data-placeholder="请选择..."> <#list unitModelList as list>
 							<option value="${(list.id)!}">${(list.station)!}</option>
 							</#list>
 						</select>
+					</div>
+				
+					<div class="profile-info-name">工作范围</div>
+					<div class="profile-info-value">
+						<select class="chosen-select work" multiple="true" id="product" style="width:290px;" name="kaoqin.workNum" data-placeholder="请选择...">
+							<#list unitProductList as list>
+							      <option value="${(list.materialCode)!}">${(list.materialName)!}</option>
+							</#list>
+					    </select>
 					</div>
 				</div>
 			</div>

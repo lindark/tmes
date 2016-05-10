@@ -127,13 +127,13 @@ function tosubmit(url,info)
 					xedit="updated";
 				}else if(xedit=="xedit1"){
 					xedit="xedit1";
-					alert(data.message+"---------message-");
+					//alert(data.message+"---------message-");
 					$("#dumpid").val(data.message);
 				}
 				else
 				{
 					xedit="saved";
-					alert(data.dumpid+"---------dumpid-");
+					//alert(data.dumpid+"---------dumpid-");
 					$("#dumpid").val(data.dumpid);
 				}
 				if(info=="toconfrim")

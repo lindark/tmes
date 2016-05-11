@@ -1,5 +1,8 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -43,5 +46,13 @@ public class ProcessHandoverDaoImpl extends BaseDaoImpl<ProcessHandover, String>
 		return super.findByPager(pager, detachedCriteria);
 		
 	}
+
+//	@Override
+//	public List<ProcessHandover> getProcessHandoverList(String[] propertyNames,
+//			String[] propertyValues) {
+//		List<ProcessHandover> processHandoverList = new ArrayList<ProcessHandover>();
+//		String hql = "From ProcessHandover where ProcessHandover.processHandoverTop."+propertyNames[0]+"=? and"+propertyNames[1]+"=? and"+propertyNames[2]+"=?";
+//		return getSession().createQuery(hql).setParameter(0, propertyValues[0]).setParameter(1, propertyValues[1]).setParameter(2, propertyValues[2]).list();
+//	}
 
 }

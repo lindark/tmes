@@ -16,9 +16,6 @@
 		<script type="text/javascript" src="${base}/template/admin/js/jqgrid_common.js"></script>
 	 	<script type="text/javascript" src="${base}/template/admin/js/list.js"></script> 
 		<script type="text/javascript" src="${base}/template/admin/js/browser/browser.js"></script>
-		<script type="text/javascript" src="${base}/template/admin/js/SystemConfig/user/admin.js"></script>
-		<script src="${base}/template/admin/assets/js/jquery-ui.min.js"></script>
-		<script src="${base}/template/admin/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<style>
 			.operateBar{
 				padding:3px 0px;

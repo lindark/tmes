@@ -46,7 +46,7 @@ jQuery(function($) {
 		viewrecords : true,		
 		//scroll:true,
 		rowNum:10,
-		rowList:[10,20,30],
+		rowList:[10,30,50,100],
 		pager : pager_selector,
 		
 		

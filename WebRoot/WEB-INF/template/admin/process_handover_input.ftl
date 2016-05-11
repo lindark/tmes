@@ -357,7 +357,7 @@
 														<th class="tabth">产品名称</th>
 														<th class="tabth">计划数量</th>
 														<th class="tabth">产品编号</th>
-														<th class="tabth">上班随工单</th>
+														<th class="tabth">本班随工单</th>
 														<th class="tabth">下班随工单</th>
 														<th class="tabth">成品数</th>
 														<th class="tabth">模具</th>
@@ -692,7 +692,7 @@ function showUnit(num1){
 				$(".workingCode1").each(function(){
 					if($(this).val() == $(this).parent().next().children().val()){
 						flag = false;
-						layer.alert("上班随工单不允许与下班随工单一致",{icon: 7});
+						layer.alert("本班随工单不允许与下班随工单一致",{icon: 7});
 						return false;
 					}
 				});

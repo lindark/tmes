@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+
 
 
 
@@ -125,6 +127,13 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 	
 	@Override
 	public Pager listjqGrid(Pager pager, HashMap<String, String> map) {
+		if(pager==null){
+			pager = new Pager();
+		}
+		String[] orderbyArr = {"workingbill.workingBillCode","workingbill.productDate","workingbill.aufnr","workingbill.matnr","workingbill.maktx","workingbill.workcenter"};
+		if(pager.getOrderBy()==null || !Arrays.asList(orderbyArr).contains(pager.getOrderBy())){
+			pager.setOrderBy("modifyDate");
+		}
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(WorkingInout.class);
 		pagerSqlByjqGrid(pager, detachedCriteria);

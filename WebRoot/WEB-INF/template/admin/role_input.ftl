@@ -17,7 +17,13 @@ body {
 	background: #fff;
 }
 </style>
-
+<script type="text/javascript">
+	$(function(){
+		$("#tab_2").bind("click",function(){
+			$("#tabs-2").css("display","inline-block");
+		});
+	})
+</script>
 </head>
 <body class="no-skin input">
 
@@ -70,7 +76,7 @@ body {
 									<ul>
 										<li><a href="#tabs-1">基本信息</a>
 										</li>
-										<li><a href="#tabs-2">分配资源</a>
+										<li><a href="#tabs-2" id="tab_2">分配资源</a>
 										</li>
 
 									</ul>
@@ -114,7 +120,7 @@ body {
 										</div>
 										
 									</div>
-									<div id="tabs-2" class="col-xs-12">
+									<div id="tabs-2" class="col-xs-12" style="display:none">
 											
 											 <#list allResource as list>
 												<div style="width: 30%;float:left">

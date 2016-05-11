@@ -25,6 +25,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.CartonSon;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
@@ -35,15 +36,19 @@ import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -86,6 +91,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	private List<OddHandOver> oddHandOverList;
 	public List<ProcessHandover> processHandoverLists; 
 	public List<Process> processList;
+	public List<HashMap<String,Pager>> pagerMapList;
 	
 	@Resource
 	private WorkingBillService workingBillService;
@@ -113,6 +119,12 @@ public class OddHandOverAction extends BaseAdminAction {
 	private MaterialService materialservice;
 	@Resource
 	private ProcessService processservice;
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private UnitdistributeModelService unitdistributeModelService;
 	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
@@ -290,7 +302,7 @@ public class OddHandOverAction extends BaseAdminAction {
 			/*String uuid = CommonUtil.getUUID();
 			processHandoverTop.setId(uuid);*/
 			processHandoverList = new ArrayList<ProcessHandover>();
-			
+			pagerMapList = new ArrayList<HashMap<String,Pager>>();
 			//获取维护物料信息
 			List<Material> materialList = materialService.getAll();
 
@@ -324,6 +336,32 @@ public class OddHandOverAction extends BaseAdminAction {
 					for(int i=0;i<workingbillList.size();i++){
 						
 						WorkingBill wb = workingbillList.get(i);
+						String  workCenter = wb.getWorkcenter();
+						FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+						HashMap<String, String> map = new HashMap<String, String>();
+						String matnr="";
+						String funid="";
+						if(fu!=null){
+							funid =fu.getId(); 
+						}
+						matnr = wb.getMatnr();
+						map.put("matnr", matnr);
+						map.put("funid", funid);
+						UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+						
+							pager=new Pager();
+						
+						if(unitdistributeProduct!=null){
+							String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+							map.put("matmr", matmr);
+							pager = unitdistributeModelService.getUBMList(pager, map);
+						}
+							HashMap<String,Pager> pagerMap = new HashMap<String,Pager>();
+							Pager pager1 = new Pager();
+							pager1.setSearchString(wb.getWorkingBillCode());
+							pagerMap.put("pager", pager);
+							pagerMap.put("workingBillCode", pager1);
+							pagerMapList.add(pagerMap);
 						String s = Integer.toString(i);
 						ProcessHandover processHandover1 = new ProcessHandover();
 						/*uuid = CommonUtil.getUUID();
@@ -416,6 +454,43 @@ public class OddHandOverAction extends BaseAdminAction {
 	public String edit(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		pagerMapList = new ArrayList<HashMap<String,Pager>>();
+		if(admin.getProductDate() != null && admin.getShift() != null){
+			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			if(workingbillList!=null && workingbillList.size()>0){
+				for(int i=0;i<workingbillList.size();i++){
+					WorkingBill wb = workingbillList.get(i);
+					//////////////////////////////////////////////////////////////
+		//			workingbill = workingBillService.get(workingBillId);
+					String  workCenter = wb.getWorkcenter();
+					FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+					HashMap<String, String> map = new HashMap<String, String>();
+					String matnr="";
+					String funid="";
+					if(fu!=null){
+						funid =fu.getId(); 
+					}
+					matnr = wb.getMatnr();
+					map.put("matnr", matnr);
+					map.put("funid", funid);
+					UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+					
+						pager=new Pager();
+					
+					if(unitdistributeProduct!=null){
+						String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+						map.put("matmr", matmr);
+						pager = unitdistributeModelService.getUBMList(pager, map);
+					}
+						HashMap<String,Pager> pagerMap = new HashMap<String,Pager>();
+						Pager pager1 = new Pager();
+						pager1.setSearchString(wb.getWorkingBillCode());
+						pagerMap.put("pager", pager);
+						pagerMap.put("workingBillCode", pager1);
+						pagerMapList.add(pagerMap);
+				}
+			}
+		}
 		processHandoverTop = processHandoverTopService.get(id);
 		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		return INPUT;

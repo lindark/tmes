@@ -7,59 +7,22 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-
-
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Resource;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
@@ -68,18 +31,23 @@ import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
 import cc.jiuyi.entity.UnitdistributeModel;
+import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.UnitdistributeModelService;
+import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -105,6 +73,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public List<ProcessHandoverSon> processHandoverSonList; 
 	public List<ProcessHandoverSon> processHandoverSonLists; 
 	public List<Process> processList;
+	public List<HashMap<String,Pager>> pagerMapList;
 	private String loginid;
 	private String show;
 	private String[] workingCode;
@@ -134,7 +103,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private KaoqinService kqService;
 	@Resource
 	private UnitdistributeModelService unitdistributeModelService;
-
+	@Resource
+	private FactoryUnitService factoryUnitService;
+	@Resource
+	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private WorkingInoutService workinginoutservice;
+	
 	/**
 	 * 列表
 	 * @return
@@ -315,6 +290,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
 			processHandoverTop = new ProcessHandoverTop();
+			pagerMapList = new ArrayList<HashMap<String,Pager>>();
 			
 			//判断当前登录人是否已经创建过工序交接
 			List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
@@ -353,6 +329,35 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					for(int i=0;i<workingbillList.size();i++){
 						
 						WorkingBill wb = workingbillList.get(i);
+						//////////////////////////////////////////////////////////////
+			//			workingbill = workingBillService.get(workingBillId);
+						String  workCenter = wb.getWorkcenter();
+						FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+						HashMap<String, String> map = new HashMap<String, String>();
+						String matnr="";
+						String funid="";
+						if(fu!=null){
+							funid =fu.getId(); 
+						}
+						matnr = wb.getMatnr();
+						map.put("matnr", matnr);
+						map.put("funid", funid);
+						UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+						
+							pager=new Pager();
+						
+						if(unitdistributeProduct!=null){
+							String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+							map.put("matmr", matmr);
+							pager = unitdistributeModelService.getUBMList(pager, map);
+						}
+							HashMap<String,Pager> pagerMap = new HashMap<String,Pager>();
+							Pager pager1 = new Pager();
+							pager1.setSearchString(wb.getWorkingBillCode());
+							pagerMap.put("pager", pager);
+							pagerMap.put("workingBillCode", pager1);
+							pagerMapList.add(pagerMap);
+						/////////////////////////////////////////////////////
 						String s = Integer.toString(i);
 						ProcessHandover processHandover1 = new ProcessHandover();
 						/*uuid = CommonUtil.getUUID();
@@ -423,7 +428,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					}
 					processHandoverTop.setProcessHandOverSet(processHandoverSet);
 				}
-				processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
+				if(processHandoverTop.getProcessHandOverSet()!=null){
+					processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
+				}else{
+					processHandoverLists = new ArrayList<ProcessHandover>();
+				}
+				
 				processList = processservice.getExistAndStateProcessList();//取出工序表中所有未删除的工序
 				if(!processList.isEmpty()){
 					Collections.sort(processList, new Comparator<Process>() {
@@ -584,6 +594,43 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public String edit(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		pagerMapList = new ArrayList<HashMap<String,Pager>>();
+		if(admin.getProductDate() != null && admin.getShift() != null){
+			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			if(workingbillList!=null && workingbillList.size()>0){
+				for(int i=0;i<workingbillList.size();i++){
+					WorkingBill wb = workingbillList.get(i);
+					//////////////////////////////////////////////////////////////
+		//			workingbill = workingBillService.get(workingBillId);
+					String  workCenter = wb.getWorkcenter();
+					FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+					HashMap<String, String> map = new HashMap<String, String>();
+					String matnr="";
+					String funid="";
+					if(fu!=null){
+						funid =fu.getId(); 
+					}
+					matnr = wb.getMatnr();
+					map.put("matnr", matnr);
+					map.put("funid", funid);
+					UnitdistributeProduct unitdistributeProduct = unitdistributeProductService.getUnitdistributeProduct(map);
+					
+						pager=new Pager();
+					
+					if(unitdistributeProduct!=null){
+						String matmr  = unitdistributeProduct.getMaterialName().substring(unitdistributeProduct.getMaterialName().length()-2);
+						map.put("matmr", matmr);
+						pager = unitdistributeModelService.getUBMList(pager, map);
+					}
+						HashMap<String,Pager> pagerMap = new HashMap<String,Pager>();
+						Pager pager1 = new Pager();
+						pager1.setSearchString(wb.getWorkingBillCode());
+						pagerMap.put("pager", pager);
+						pagerMap.put("workingBillCode", pager1);
+						pagerMapList.add(pagerMap);
+				}
+			}
+		}
 		processHandoverTop = processHandoverTopService.get(id);
 		processHandoverLists = new ArrayList<ProcessHandover>(processHandoverTop.getProcessHandOverSet());
 		return INPUT;
@@ -643,6 +690,24 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				}
 				if(p.getUnHOMount()!=null && !p.getUnHOMount().equals("")){
 					flag = true;
+				}
+				
+				boolean flag1 = workinginoutservice.isExist(p.getWorkingBill().getId(), p.getMatnr());
+				if(!flag1){//如果不存在，新增  --- 上一随工单信息
+					WorkingInout workinginout = new WorkingInout();
+					workinginout.setWorkingbill(p.getWorkingBill());
+					workinginout.setMaterialCode(p.getMatnr());
+					workinginout.setMaterialName(p.getMaktx());
+					workinginoutservice.save(workinginout);
+				}
+				WorkingBill AfterWorkingbill = workingbillservice.get("workingBillCode", p.getAfterWorkingBillCode());
+				boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),p.getMatnr());
+				if(!flag2){//如果不存在,新增 --- 下一随工单信息
+					WorkingInout workinginout = new WorkingInout();
+					workinginout.setWorkingbill(AfterWorkingbill);
+					workinginout.setMaterialCode(p.getMatnr());
+					workinginout.setMaterialName(p.getMaktx());
+					workinginoutservice.save(workinginout);
 				}
 				for(ProcessHandoverSon ps:p.getProcessHandoverSonSet()){
 					if(ps.getBomAmount()!=null && !ps.getBomAmount().equals("")){
@@ -818,6 +883,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public void setProcessList(List<Process> processList) {
 		this.processList = processList;
 	}
+	public List<HashMap<String, Pager>> getPagerMapList() {
+		return pagerMapList;
+	}
+	public void setPagerMapList(List<HashMap<String, Pager>> pagerMapList) {
+		this.pagerMapList = pagerMapList;
+	}
+
 	
 	
 }

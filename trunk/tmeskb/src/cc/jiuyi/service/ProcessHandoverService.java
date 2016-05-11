@@ -3,6 +3,7 @@ package cc.jiuyi.service;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
@@ -16,6 +17,8 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	 * @return
 	 */
 	public Pager jqGrid(Pager pager);
+	
+	public Pager jqGrid(Pager pager,Admin admin);
 	
 	/**
 	 * 保存工序交接

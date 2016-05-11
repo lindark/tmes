@@ -245,7 +245,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String ajlist(){
 		HashMap<String, String> map = new HashMap<String, String>();
-
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
 		if (pager.getOrderBy().equals("")) {
 			pager.setOrderType(OrderType.desc);
 			pager.setOrderBy("modifyDate");
@@ -259,7 +260,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		pager = processHandoverService.jqGrid(pager);
+		pager = processHandoverService.jqGrid(pager,admin);
 		List<ProcessHandoverTop> processHandoverTopList = pager.getList();
 		List<ProcessHandoverTop> lst = new ArrayList<ProcessHandoverTop>();
 		for (int i = 0; i < processHandoverTopList.size(); i++) {
@@ -735,6 +736,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				}
 			}
 			processHandoverTop.setBudat(budat);
+			processHandoverTop.setState("2");
 			processHandoverTopService.update(processHandoverTop);
 		} catch (IOException e) {
 			e.printStackTrace();

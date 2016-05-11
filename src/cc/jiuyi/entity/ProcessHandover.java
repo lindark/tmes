@@ -30,6 +30,7 @@ public class ProcessHandover extends BaseEntity {
 	private String matnr;// 物料号
 	private String maktx;// 物料 描述
 	private String productAmount;//成品数量
+	private WorkingBill afterworkingbill;//下班随工单
 	private String afterWorkingBillCode;//下班随工单
 	private String budat;//过账日期
 	private String lgort;//库存地点
@@ -42,7 +43,8 @@ public class ProcessHandover extends BaseEntity {
 	private String e_message;
 	private Double actualHOMount;//实际零头数交接数量
 	private Double unHOMount;//实际异常交接数量
-	
+	private String station;//模具组号
+	private String processid;//工序id
 	/**
 	 * 假字段
 	 */
@@ -250,6 +252,33 @@ public class ProcessHandover extends BaseEntity {
 	public void setUnHOMount(Double unHOMount) {
 		this.unHOMount = unHOMount;
 	}
+
+	public String getStation() {
+		return station;
+	}
+
+	public void setStation(String station) {
+		this.station = station;
+	}
+
+	public String getProcessid() {
+		return processid;
+	}
+
+	public void setProcessid(String processid) {
+		this.processid = processid;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public WorkingBill getAfterworkingbill() {
+		return afterworkingbill;
+	}
+
+	public void setAfterworkingbill(WorkingBill afterworkingbill) {
+		this.afterworkingbill = afterworkingbill;
+	}
+
+	
 
 	
 }

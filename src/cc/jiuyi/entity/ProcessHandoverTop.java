@@ -36,10 +36,13 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String wshop;//车间
 	private String processCode;//工序编码
 	private String processName;//工序名称
+	private String processid;//工序id
 	private String processType;//工序类型
 	private String type;//类型
 	private String afterProductDate;//下班生产日期
 	private String aftershift;//下班班次
+	
+
 
 	
 	private Set<ProcessHandover> processHandOverSet;
@@ -196,6 +199,14 @@ public class ProcessHandoverTop extends BaseEntity {
 	public void setAftershift(String aftershift) {
 		this.aftershift = aftershift;
 	}
+	public String getProcessid() {
+		return processid;
+	}
+	public void setProcessid(String processid) {
+		this.processid = processid;
+	}
+
+
 	
 	
 	

@@ -126,13 +126,19 @@
 										<div class="widget-body">
 											<div class="widget-main padding-6 no-padding-left no-padding-right">
 												<div class="profile-user-info profile-user-info-striped">
+												<input type="hidden" name="processHandoverTop.processid" id="processid" value="${(processHandoverTop.processid)!}"/>
 													<div class="profile-info-row">
 														<div class="profile-info-name">工序选择：</div>
 														<div class="profile-info-value">
-															<select name="processHandoverTop.processName">
+														<div style="display:none">
+															<#list processList as pl>
+																<div class="process_div"><span class="processN">${pl.processName }</span><span class="processI">${pl.id }</span></div>				                                     	
+						                                     </#list>
+														</div>
+															<select id="processName_sel" value="" name="processHandoverTop.processName">
+															<option value=""></option>
 						                                     	<#list processList as list>
 						                                     	<option value="${list.processName }">${list.processName }</option>
-						                                     	<input type="hidden" name="processHandoverTop.processid" value="${list.id }"/>
 						                                     	</#list>
 						                                     </select>
 														</div>
@@ -362,104 +368,6 @@
 														<th class="tabth mblnr"style="display:none">物料凭证号</th>
 													</tr>
 														<#list processHandoverLists?sort_by("matnr") as list>
-															<#if show??>
-																<tr>
-																	<td class="add_icon">
-																	<i class="i_plus ace-icon fa fa-plus blue fa-2x" id="i_plus"></i>
-																	<i class="i_minus ace-icon fa fa-minus blue fa-2x"id="i_minus" style="display:none"></i>
-																	</td>
-																	<td>${(list.maktx)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
-																	<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
-																	</td>
-																	
-																	<td>${(list.planCount)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }">
-																	</td>
-																	
-																	<td>${(list.matnr)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
-																	</td>
-																	
-																	<td>${(list.workingBillCode)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
-																	</td>
-																	<#if (list.afterWorkingBillCode)!??>
-																	<td>${(list.afterWorkingBillCode)! }</td>
-																	<input type="hidden" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }">
-																	<#else>
-																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
-																	</#if>
-																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
-																	<td >
-																	${(list.station)! }
-																	</td>
-																	<td >${(list.responsibleName)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" value="${(list.responsibleName)! }">
-																	</td>
-																	<td class="mblnr" style="display:none">${(list.mblnr)! }
-																	</td>
-																</tr>
-																<tr class="tableson"  style="display:none;">
-																	<td></td>
-																	<td colspan=8>
-																		<table id="" class="table table-striped table-bordered table-hover" style="width:100%;margin-bottom: 0px; ">
-																		<tr>
-																				<th class="">子件名称</th>
-																				<th class="">条子数量</th>
-																				<th class="">产品数量</th>
-																				<th class="">合格数量</th>
-																				<th class="">返修数量</th>
-																				<th class="">裁切倍数</th>
-																				<th class="">裁切后正常交接数量</th>
-																				<th class="">裁切后返修交接数量</th>
-																				<th class="">实际正常交接数量</th>
-																				<th class="">实际返修交接数量</th>
-																				
-																		</tr>
-																		<#list list.processHandoverSonSet as bl>
-																			<tr>
-																				<td style="width:25%;">
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
-																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
-																				</td>
-																				<td style="width:5%;">${(bl.materialAmount)! }
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
-																				</td>
-																				<td style="width:5%;">${(bl.productAmount)! }
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
-																				</td>
-																				<td style="width:10%;"><input type="text"  class=" show_input  width_input {number:true,messages:{number:'*请输入正确金额'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px;"value="${(bl.bomAmount)! }">
-																				</td>
-																				<td  style="width:10%;"><input type="text"  class="show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
-																				</td>
-																				<td style="width:5%;">${bl.cqsl }
-																				<input type="hidden" class="show_input cqsl " name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
-																				</td>
-																				<td style="width:10%;">
-																				<input type="text" id="cqamount" readonly= "true" class="cqamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }"/>
-																				</td>
-																				<td style="width:10%;">
-																				<input type="text" id="cqrepairamount" readonly= "true" class="cqrepairamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
-																				</td>
-																				<td style="width:10%;">
-																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
-																				<span class="amount">${(bl.amount)! }</span>
-																				</td>
-																				<td style="width:10%;">
-																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
-																				<span class="repairamount">${(bl.repairamount)! }</span>
-																				</td>
-																			</tr>
-																		</#list> 
-																		
-																		</table>
-																	</td>
-																</tr>
-															<#else>
 															<tr>
 																	<td class="add_icon">
 																	<i class="i_plus ace-icon fa fa-plus blue fa-2x" id="i_plus"></i>
@@ -483,25 +391,35 @@
 																	</td>
 																	<!--  
 																	<#if (list.afterWorkingBillCode)!??> -->
-																	<td class="center" ><input type="text" class="afterWork state_input"
+																	<td class="center" ><input type="text" class="show_input afterWork state_input"
 																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/></td>
 																	<!-- 
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
-																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="bomAmount show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
+																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
 																	<td style="width:10%">
+																	<#if !show??>
 																	<#list pagerMapList as bl>
-																	 
 																	<#if bl.workingBillCode.searchString == list.workingBillCode>
-																			<select name="processHandoverList[${list_index}].station">
+																			<select id="station"  name="processHandoverList[${list_index}].station">
+																			<#if (bl.pager.list?size>0)!>
+																			<option value=""></option>
 																			<#list bl.pager.list as pagerlist>
-																				<option <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
-																			</#list>	
+																				<option value="${(pagerlist.station)! }" <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																			</#list>
+																			<#else>
+																				<#list bl.pager.list as pagerlist>
+																					<option value="${(pagerlist.station)! }" <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																				</#list>
+																			</#if>	
 																			</select>
 																	<#break>
 																	</#if>
 																	</#list>
+																	<#else>
+																	${(list.station)! }
+																	</#if>
 																	</td>
 																	<td>
 																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
@@ -510,20 +428,20 @@
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
 																	</td>
 																	<#if !(show??)>
-																	<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
+																	<td style="width:5%"><a href="javascript:void(0);" class="removeLine">删除</a></td>
 																	</#if>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
 																</tr>
 																<tr class="tableson"  style="display:none;">
 																	<td></td>
-																	<td colspan=8>
+																	<td colspan=9>
 																		<table id="" class="table table-striped table-bordered table-hover" style="width:95%;margin-bottom: 0px; ">
 																		<tr>
 																				<th class="">子件名称</th>
-																				<th class="">条子数量</th>
-																				<th class="">产品数量</th>
-																				<th class="">合格数量</th>
+																				<th class="" style="display:none">条子数量</th>
+																				<th class="" style="display:none">产品数量</th>
+																				<th class="">子件数量</th>
 																				<th class="">返修数量</th>
 																				<th class="">裁切倍数</th>
 																				<th class="">裁切后正常交接数量</th>
@@ -541,24 +459,24 @@
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td style="width:5%">${(bl.materialAmount)! }
+																				<td style="display:none">${(bl.materialAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
-																				<td style="width:5%">${(bl.productAmount)! }
+																				<td style="display:none">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input bomAmount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
+																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
 																				</td>
 																				<td style="width:10%"> <input type="text"  readonly= "true" class=" repairNumber show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
 																				</td>
 																				<td style="width:5%">${bl.cqsl }
-																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }"/>
+																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }" />
 																				</td>
 																				<td style="width:10%">
 																				<input type="text" id="cqamount" class="width_input cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }" readonly/>
 																				</td >
 																				<td style="width:10%">
-																				<input type="text" id="cqrepairamount"  class="repairNumber width_input cqrepairamount" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"readonly/>
+																				<input type="text" id="cqrepairamount"  class="cqrepairamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"readonly/>
 																				</td>
 																				<td style="width:10%">
 																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
@@ -574,7 +492,6 @@
 																		</table>
 																	</td>
 																</tr>
-															</#if>
 														</#list>
 										</table>
 										</div>
@@ -644,7 +561,8 @@ function showUnit(num1){
 	$(function(){
 		if($("#qualified").is(':checked')){
 			$(".bomAmount").removeAttr("readonly");
-			$(".cqamount").removeAttr("readonly");
+			$(".productAmount").removeAttr("readonly");
+			//$(".cqamount").removeAttr("readonly");
 		}
 		if($("#repair").is(':checked')){
 			$(".repairNumber").removeAttr("readonly");
@@ -655,10 +573,12 @@ function showUnit(num1){
 		$("#qualified").click(function(){
 			if($(this).is(':checked')){
 			$(".bomAmount").removeAttr("readonly");
-			$(".cqamount").removeAttr("readonly");
+			$(".productAmount").removeAttr("readonly");
+			//$(".cqamount").removeAttr("readonly");
 			}else{
 				$(".bomAmount").attr("readonly","true");
-				$(".cqamount").attr("readonly","true");
+				$(".productAmount").attr("readonly","true");
+				//$(".cqamount").attr("readonly","true");
 			}
 		});
 		$("#repair").click(function(){
@@ -724,10 +644,34 @@ function showUnit(num1){
 					$(this).val("");
 				}else{
 					var accDivA = floatDiv(materialAmount,productAmountson)
-					var accMulA = floatMul(accDivA,productAmount);
-					$(this).val(accMulA.toFixed(2));
+					var accMulA = floatMul(accDivA,productAmount).toFixed(2);
+					$(this).val(accMulA);
+					$(this).parent().parent().find(".amountinp").eq(0).val(accMulA);
+					$(this).parent().parent().find(".amountinp").eq(0).next().text(accMulA);
+					var $cqbs = $(this).parent().next().next();
+					//alert(floatMul(accMulA,cqbs).toFixed(2));
+					var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
+					$cqbs.next().find("#cqamount").val(cqhmount);
 				}
+				
 			});
+		});
+		$(".bomAmount").change(function(){
+			var bomAmount = $(this).val();
+			$(this).parent().parent().find(".amountinp").eq(0).val(bomAmount);
+			$(this).parent().parent().find(".amountinp").eq(0).next().text(bomAmount);
+			var $cqbs = $(this).parent().next().next();
+			var cqhmount = floatMul(bomAmount,$cqbs.text()).toFixed(2);
+			$cqbs.next().find("#cqamount").val(cqhmount);
+		});
+		$(".repairNumber").change(function(){
+			var cqrepairamount = $(this).val();
+			$(this).parent().parent().find(".repairamountinp").eq(0).val(cqrepairamount);
+			$(this).parent().parent().find(".repairamountinp").eq(0).next().text(cqrepairamount);
+			var $cqbs = $(this).parent().next();
+			var cqhmount = floatMul(cqrepairamount,$cqbs.text()).toFixed(2);
+			$cqbs.next().next().find("#cqrepairamount").val(cqhmount);
+			
 		});
 		 $("#btn_save").click(function(){
 		 		var dt=$("#inputForm").serialize();
@@ -752,19 +696,24 @@ function showUnit(num1){
 						return false;
 					}
 				});
-				<#if !(isAdd??)>
 				$(".productAmount").each(function(){
 					var productAmount = $(this).val();
-					var afterworkbill = $(this).parent().prev().prev().prev().children().val();
+					//var afterworkbill = $(this).parent().prev().prev().prev().children().val();
+					var afterworkbill = $(this).parent().parent().find(".afterWork").eq(0).val();
 					if(productAmount != null && productAmount != ""){
 						if(afterworkbill == null || afterworkbill == ""){
 							flag = false;
 							layer.alert("请填写下班随工单",{icon: 7});
 							return false;
 						}
+						if($("#station").val()==""){
+							flag = false;
+							layer.alert("请选择模具",{icon: 7});
+							return false;
+						};
 					}
 				});
-				</#if>
+				
 				if( $("table tr:visible").length == 1){
 					flag = false;
 					layer.alert("请至少保留一条数据",{icon: 7});
@@ -908,8 +857,32 @@ function showUnit(num1){
 					function()
 					{
 						//var tr=$(this).parent().parent();
-						$(this).parent().parent().remove()
+						$(this).parent().parent().next().remove();
+						$(this).parent().parent().remove();
+						
 					}
 				);
+				if($("#processName_sel").val()==""){
+					$("#processid").val("");
+					//alert($("#processName_sel").val());
+				}
+				$("#processName_sel").bind("change",function(){
+					var processName = $(this).val();
+					//alert(processName);
+					if(processName!=""){
+						var $process=$(".process_div");
+						$process.each(function(){
+							var processN = $(this).find(".processN").eq(0).text();
+							if(processN==processName){
+								var processI = $(this).find(".processI").eq(0).text();
+								$("#processid").val(processI);
+								return true;
+							}
+						});
+					}else{
+						$("#processid").val("");
+					}
+					
+				});
 	});
 </script>

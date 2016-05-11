@@ -435,24 +435,26 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 //							zcjjsl = handoverprocess.getAmount();//正常交接数量
 //							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 						if(processHandoverList != null && processHandoverList.size()>0){
-							BigDecimal amout = new BigDecimal(0);
-							BigDecimal repairAmout = new BigDecimal(0);
-							BigDecimal mout = new BigDecimal(0);
-							BigDecimal repairMout = new BigDecimal(0);
+							//BigDecimal amout = new BigDecimal(0);
+							//BigDecimal repairAmout = new BigDecimal(0);
+							//BigDecimal mout = new BigDecimal(0);
+							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									amout = amout.add(bomAmount).add(cqamount);
-									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									//amout = amout.add(bomAmount).add(cqamount);
+									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									fxjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getRepairamount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 								}
-								mout = mout.add(amout);
-								repairMout = repairMout.add(repairAmout);
-								zcjjsl = mout.doubleValue();
-								fxjjsl = repairMout.doubleValue();
+								//mout = mout.add(amout);
+								//repairMout = repairMout.add(repairAmout);
+								//zcjjsl = mout.doubleValue();
+								//fxjjsl = repairMout.doubleValue();
 							}
 							map.put("GXJSBZC_"+processid, "0");//正常交接数量
 							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
@@ -476,24 +478,26 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 //							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 //						}
 						if(processHandoverList != null && processHandoverList.size()>0){
-							BigDecimal amout = new BigDecimal(0);
-							BigDecimal repairAmout = new BigDecimal(0);
-							BigDecimal mout = new BigDecimal(0);
-							BigDecimal repairMout = new BigDecimal(0);
+							//BigDecimal amout = new BigDecimal(0);
+							//BigDecimal repairAmout = new BigDecimal(0);
+							//BigDecimal mout = new BigDecimal(0);
+							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									amout = amout.add(bomAmount).add(cqamount);
-									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									//amout = amout.add(bomAmount).add(cqamount);
+									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									fxjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getRepairamount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 								}
-								mout = mout.add(amout);
-								repairMout = repairMout.add(repairAmout);
-								zcjjsl = mout.doubleValue();
-								fxjjsl = repairMout.doubleValue();
+								//mout = mout.add(amout);
+								//repairMout = repairMout.add(repairAmout);
+								//zcjjsl = mout.doubleValue();
+								//fxjjsl = repairMout.doubleValue();
 							}
 						}
 						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
@@ -704,24 +708,26 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 //							zcjjsl = handoverprocess.getAmount();//正常交接数量
 //							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 						if(processHandoverList != null && processHandoverList.size()>0){
-							BigDecimal amout = new BigDecimal(0);
-							BigDecimal repairAmout = new BigDecimal(0);
-							BigDecimal mout = new BigDecimal(0);
-							BigDecimal repairMout = new BigDecimal(0);
+							//BigDecimal amout = new BigDecimal(0);
+							//BigDecimal repairAmout = new BigDecimal(0);
+							//BigDecimal mout = new BigDecimal(0);
+							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									amout = amout.add(bomAmount).add(cqamount);
-									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									//amout = amout.add(bomAmount).add(cqamount);
+									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									fxjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getRepairamount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 								}
-								mout = mout.add(amout);
-								repairMout = repairMout.add(repairAmout);
-								zcjjsl = mout.doubleValue();
-								fxjjsl = repairMout.doubleValue();
+								//mout = mout.add(amout);
+								//repairMout = repairMout.add(repairAmout);
+								//zcjjsl = mout.doubleValue();
+								//fxjjsl = repairMout.doubleValue();
 							}
 							map.put("GXJSBZC_"+processid, "0");//正常交接数量
 							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
@@ -745,24 +751,26 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 //							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 //						}
 						if(processHandoverList != null && processHandoverList.size()>0){
-							BigDecimal amout = new BigDecimal(0);
-							BigDecimal repairAmout = new BigDecimal(0);
-							BigDecimal mout = new BigDecimal(0);
-							BigDecimal repairMout = new BigDecimal(0);
+							//BigDecimal amout = new BigDecimal(0);
+							//BigDecimal repairAmout = new BigDecimal(0);
+							//BigDecimal mout = new BigDecimal(0);
+							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									amout = amout.add(bomAmount).add(cqamount);
-									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									//amout = amout.add(bomAmount).add(cqamount);
+									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+									zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									fxjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getRepairamount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 								}
-								mout = mout.add(amout);
-								repairMout = repairMout.add(repairAmout);
-								zcjjsl = mout.doubleValue();
-								fxjjsl = repairMout.doubleValue();
+								//mout = mout.add(amout);
+								//repairMout = repairMout.add(repairAmout);
+								//zcjjsl = mout.doubleValue();
+								//fxjjsl = repairMout.doubleValue();
 							}
 							map.put("GXJSBZC_"+processid, "0");//正常交接数量
 							map.put("GXJSBFX_"+processid,  "0");//返修交接数量

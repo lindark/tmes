@@ -47,7 +47,8 @@ jQuery(function($) {
 			{name:'type',index:'type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'xstate',index:'state',search:false,label:"状态", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+		//	{name:'xstate',index:'state',search:false,label:"状态", width:200,editable: true,editoptions:{size:"20",maxlength:"30",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processHandoverTopState"}}},
+			{name:'xstate',index:'state', width:60,label:"状态",editable:false,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,sortable:"true",sorttype:"text",search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processHandoverTopState"}},	
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
@@ -82,21 +83,21 @@ jQuery(function($) {
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
-		//未确认
-		if(rawObject.state=="1")
-		{
-			return "style='color:red;font-weight:bold;'";
-		}
 		//已确认
-		if(rawObject.state=="2")
+		if(rawObject.state=="已确认")
 		{
 			return "style='color:green;font-weight:bold;'";
 		}
-		//已撤销
-		/*if(rawObject.state=="3")
+		//未确认
+		if(rawObject.state=="未确认")
 		{
-			return "style='color:purple;font-weight:bold;'";
-		}*/
+			return "style='color:red;font-weight:bold;'";
+		}
+		//已撤销
+	//	if(rawObject.state=="已撤销")
+	//	{
+	//		return "style='color:purple;font-weight:bold;'";
+	//	}
 	}
 	
 	

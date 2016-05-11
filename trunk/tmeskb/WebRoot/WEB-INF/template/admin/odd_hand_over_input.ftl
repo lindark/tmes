@@ -145,16 +145,16 @@
 										<thead>
 											<tr>
 												<th class="center" style="width:20%">产品名称</th>
-												<th class="center" style="width:10%">计划数量</th>
+												<th class="center" style="width:5%">计划数量</th>
 												<th class="center" style="width:10%">产品编号</th>
-												<th class="center"style="width:10%">随工单编号</th>
-												<th class="center"style="width:10%">下一班随工单编号</th>
-												<th class="center"style="width:8%">零头数交接数量</th>
-												<th class="center"style="width:8%">异常交接数量</th>
+												<th class="center"style="width:10%">本班随工单编号</th>
+												<th class="center"style="width:15%">下班随工单编号</th>
+												<th class="center"style="width:10%">零头交接数量</th>
+												<th class="center"style="width:10%">异常交接数量</th>
 												<th class="center"style="width:5%">模具</th>
 												<th class="center"style="width:10%">责任人</th>
 												<#if !(show??)>
-												<th class="center"style="width:9%">操作</th>
+												<th class="center"style="width:5%">操作</th>
 												</#if>
 											</tr>
 										</thead>
@@ -162,21 +162,21 @@
 										<tbody>
 											<#list processHandoverLists?sort_by("matnr") as list>
 												<tr>
-													<td class="center">${(list.maktx)! }
+													<td class="center" style="width:20%">${(list.maktx)! }
 													<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
 													<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
 													</td>
-													<td class="center">${(list.planCount)! }
+													<td class="center" style="width:5%">${(list.planCount)! }
 													<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }">
 													</td>
-													<td class="center">${(list.matnr)! }
+													<td class="center" style="width:10%">${(list.matnr)! }
 													<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
 													</td>
-													<td class="center workingCode" name="workingCode">${(list.workingBillCode)! }
+													<td class="center workingCode" style="width:10%"name="workingCode">${(list.workingBillCode)! }
 													<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
 													</td>
-													<td class="center" >
-													<input type="text" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/>
+													<td class="center" style="width:15%">
+													<input type="text" style="width:95%" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/>
 													</td>
 														<!--  
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
@@ -187,9 +187,9 @@
 															<#break>
 															</#list>
 														<#else> 	</#if> -->
-													<td class="center"><input type="text" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
-													<td class="center"><input type="text" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
-														<td class="station">
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
+														<td class="station"style="width:5%">
 														<#if !(show??)>
 																	<#list pagerMapList as bl>
 																	 
@@ -206,14 +206,14 @@
 														<span>${(list.station) }</span>
 														</#if>		
 														</td>
-														<td>
+														<td style="width:5%">
 														<#if !(show??)>
 														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 														<span id="responsibleName">${(list.responsibleName) }</span>
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 			
 														</td>
-														<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
+														<td style="width:5%"><a href="javascript:void(0);" class="removeLine">删除</a></td>
 														<#else>
 														<span id="responsibleName">${(list.responsibleName) }</span>		
 														</#if>
@@ -421,7 +421,7 @@ function showUnit(num1){
 			$(".afterWork").each(function(){
 				if($(this).val() == $(this).parent().prev().children().val()){
 					flag = false;
-					layer.alert("上班随工单不允许与下班随工单一致",{icon: 7});
+					layer.alert("本班随工单不允许与下班随工单一致",{icon: 7});
 					return false;
 				}
 			});

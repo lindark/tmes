@@ -212,7 +212,7 @@
 														<span id="responsibleName">${(list.responsibleName) }</span>
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
-														<label class="requireField">*</label>
+														<label class="requireField"></label>
 														</td>
 														<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
 														<#else>

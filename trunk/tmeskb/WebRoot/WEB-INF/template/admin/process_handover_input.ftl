@@ -133,9 +133,6 @@
 						                                     	<#list processList as list>
 						                                     	<option value="${list.processName }">${list.processName }</option>
 						                                     	<input type="hidden" name="processHandoverTop.processid" value="${list.id }"/>
-						                                     	<#list processHandoverLists as pl>
-						                                  		<input type="hidden" name="processHandoverList[${pl_index}].processid" value="${list.id }"/>
-						                                     	</#list>
 						                                     	</#list>
 						                                     </select>
 														</div>
@@ -236,6 +233,7 @@
 														<div class="profile-info-value">
 															<select name="processHandoverTop.processName"<#if show??>disabled="true"</#if>>
 						                                     	<option value="${processHandoverTop.processName }">${processHandoverTop.processName }</option>
+						                                     	<input type="hidden" name="processHandoverTop.processid" value="${processHandoverTop.processid }"/>
 						                                    </select>
 														</div>
 													</div>
@@ -372,7 +370,6 @@
 																	</td>
 																	<td>${(list.maktx)! }
 																	<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
-																	<input type="hidden" name="processHandoverList[${list_index}].processId" value="${list.id }"/>
 																	<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
 																	</td>
 																	

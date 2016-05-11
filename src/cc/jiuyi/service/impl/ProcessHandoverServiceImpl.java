@@ -90,7 +90,9 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
 					WorkingBill wb = workingBillService.get("workingBillCode", processHandover.getWorkingBillCode());
+					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
 					processHandover.setWorkingBill(wb);
+					processHandover.setAfterworkingbill(afterWb);
 					processHandover.setProcessHandoverTop(processHandoverTop);
 					processHandoverDao.save(processHandover);
 					for(int j=0;j<processHandoverSonList.size();j++){
@@ -128,6 +130,8 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			if(processHandover!=null){
 				ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
 				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill"});
+				WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
+				processHandovercopy.setAfterworkingbill(afterWb);
 				processHandoverDao.update(processHandovercopy);
 				for(int j=0;j<processHandoverSonList.size();j++){
 					ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);

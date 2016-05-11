@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.dao.PickDetailDao;
+import cc.jiuyi.dao.ProcessHandoverDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
@@ -26,6 +28,8 @@ import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.BomService;
@@ -59,6 +63,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	private OddHandOverDao oddHandOverDao;
 	@Resource
 	private PickDetailDao pickdetaildao;
+	@Resource
+	private ProcessHandoverDao processHandoverDao;
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -415,14 +421,36 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
 					if(firstls >= 0){//如果找到，表示是接上班工序交接
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
-						String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+			//			String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+						String[] propertyNames = {"processid","afterworkingbill.id","matnr"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						if(handoverprocess != null){
+//							zcjjsl = handoverprocess.getAmount();//正常交接数量
+//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+						if(processHandoverList != null && processHandoverList.size()>0){
+							BigDecimal amout = new BigDecimal(0);
+							BigDecimal repairAmout = new BigDecimal(0);
+							BigDecimal mout = new BigDecimal(0);
+							BigDecimal repairMout = new BigDecimal(0);
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									amout = amout.add(bomAmount).add(cqamount);
+									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+								}
+								mout = mout.add(amout);
+								repairMout = repairMout.add(repairAmout);
+								zcjjsl = mout.doubleValue();
+								fxjjsl = repairMout.doubleValue();
+							}
 							map.put("GXJSBZC_"+processid, "0");//正常交接数量
 							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
 						}
@@ -433,14 +461,37 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					}
 					if(firstls00>=0){//交下班
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
-						String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
+			//			String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
+						String[] propertyNames = {"processid","workingBill.id","matnr"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						if(handoverprocess != null){
+//							zcjjsl = handoverprocess.getAmount();//正常交接数量
+//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						}
+						if(processHandoverList != null && processHandoverList.size()>0){
+							BigDecimal amout = new BigDecimal(0);
+							BigDecimal repairAmout = new BigDecimal(0);
+							BigDecimal mout = new BigDecimal(0);
+							BigDecimal repairMout = new BigDecimal(0);
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									amout = amout.add(bomAmount).add(cqamount);
+									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+								}
+								mout = mout.add(amout);
+								repairMout = repairMout.add(repairAmout);
+								zcjjsl = mout.doubleValue();
+								fxjjsl = repairMout.doubleValue();
+							}
 						}
 						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
 						map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
@@ -627,14 +678,36 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
 					if(firstls >= 0){//如果找到，表示是接上班工序交接
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
-						String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+				//		String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
+						String[] propertyNames = {"processid","afterworkingbill.id","matnr"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+				//		HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						if(handoverprocess != null){
+//							zcjjsl = handoverprocess.getAmount();//正常交接数量
+//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+						if(processHandoverList != null && processHandoverList.size()>0){
+							BigDecimal amout = new BigDecimal(0);
+							BigDecimal repairAmout = new BigDecimal(0);
+							BigDecimal mout = new BigDecimal(0);
+							BigDecimal repairMout = new BigDecimal(0);
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									amout = amout.add(bomAmount).add(cqamount);
+									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+								}
+								mout = mout.add(amout);
+								repairMout = repairMout.add(repairAmout);
+								zcjjsl = mout.doubleValue();
+								fxjjsl = repairMout.doubleValue();
+							}
 							map.put("GXJSBZC_"+processid, "0");//正常交接数量
 							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
 						}
@@ -645,15 +718,41 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					}
 					if(firstls00>=0){//交下班
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
-						String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
+			//			String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
+						String[] propertyNames = {"processid","workingBill.id","matnr"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-						HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-						if(handoverprocess != null){
-							zcjjsl = handoverprocess.getAmount();//正常交接数量
-							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						if(handoverprocess != null){
+//							zcjjsl = handoverprocess.getAmount();//正常交接数量
+//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
+//						}
+						if(processHandoverList != null && processHandoverList.size()>0){
+							BigDecimal amout = new BigDecimal(0);
+							BigDecimal repairAmout = new BigDecimal(0);
+							BigDecimal mout = new BigDecimal(0);
+							BigDecimal repairMout = new BigDecimal(0);
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+									BigDecimal cqamount = new BigDecimal(p.getCqamount());
+									BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+									BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+									amout = amout.add(bomAmount).add(cqamount);
+									repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+								}
+								mout = mout.add(amout);
+								repairMout = repairMout.add(repairAmout);
+								zcjjsl = mout.doubleValue();
+								fxjjsl = repairMout.doubleValue();
+							}
+							map.put("GXJSBZC_"+processid, "0");//正常交接数量
+							map.put("GXJSBFX_"+processid,  "0");//返修交接数量
 						}
+
 						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
 						map.put("GXJXBFX_"+processid,fxjjsl);//返修交接数量
 						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量

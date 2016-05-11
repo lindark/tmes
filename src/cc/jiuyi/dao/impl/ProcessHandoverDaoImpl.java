@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessHandoverDao;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverTop;
 /**
@@ -47,6 +48,19 @@ public class ProcessHandoverDaoImpl extends BaseDaoImpl<ProcessHandover, String>
 		
 	}
 
+	@Override
+	public Pager jqGrid(Pager pager,Admin admin) {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(ProcessHandoverTop.class);
+		detachedCriteria.add(Restrictions.eq("isdel", "N"));
+		detachedCriteria.add(Restrictions.eq("productDate", admin.getProductDate()));
+		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
+		if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit() !=null){
+			detachedCriteria.add(Restrictions.eq("factoryUnitCode", admin.getTeam().getFactoryUnit().getFactoryUnitCode()));
+		}
+		pagerSqlByjqGrid(pager,detachedCriteria);
+		return super.findByPager(pager, detachedCriteria);
+		
+	}
 //	@Override
 //	public List<ProcessHandover> getProcessHandoverList(String[] propertyNames,
 //			String[] propertyValues) {

@@ -40,15 +40,14 @@ jQuery(function($) {
 		//colNames:['创建日期','创建人','确认人','物料凭证号','状态'],
 		colModel:[
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
-			{name:'factoryUnitName',index:'factoryUnitName',search:false,label:"单元名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'processName',index:'processName',search:false,label:"工序名称", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'factoryUnitName',index:'factoryUnitName',search:false,label:"单元名称",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'processName',index:'processName',search:false,label:"工序名称", width:200,editable: true,search:true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'productDate',index:'productDate',search:false,label:"生产日期", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'xshift',index:'shift',search:false,label:"班次", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'type',index:'type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'xshift',index:'shift',search:false,label:"班次", search:true ,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'type',index:'type',search:false,label:"类型", search:true,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
-		//	{name:'xstate',index:'state',search:false,label:"状态", width:200,editable: true,editoptions:{size:"20",maxlength:"30",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processHandoverTopState"}}},
-			{name:'xstate',index:'state', width:60,label:"状态",editable:false,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,sortable:"true",sorttype:"text",search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=processHandoverTopState"}},	
+			{name:'xstate',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
@@ -83,21 +82,21 @@ jQuery(function($) {
 	//给状态加样式
 	function addstyle(rowId, val, rawObject, cm, rdata)
 	{
-		//已确认
-		if(rawObject.state=="已确认")
-		{
-			return "style='color:green;font-weight:bold;'";
-		}
 		//未确认
-		if(rawObject.state=="未确认")
+		if(rawObject.state=="1")
 		{
 			return "style='color:red;font-weight:bold;'";
 		}
+		//已确认
+		if(rawObject.state=="2")
+		{
+			return "style='color:green;font-weight:bold;'";
+		}
 		//已撤销
-	//	if(rawObject.state=="已撤销")
-	//	{
-	//		return "style='color:purple;font-weight:bold;'";
-	//	}
+		if(rawObject.state=="3")
+		{
+			return "style='color:purple;font-weight:bold;'";
+		}
 	}
 	
 	

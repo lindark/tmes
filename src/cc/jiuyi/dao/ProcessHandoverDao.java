@@ -3,6 +3,7 @@ package cc.jiuyi.dao;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ProcessHandover;
 
 /**
@@ -15,6 +16,8 @@ public interface ProcessHandoverDao extends BaseDao<ProcessHandover, String> {
 	 * @return
 	 */
 	public Pager jqGrid(Pager pager);
+	
+	public Pager jqGrid(Pager pager,Admin admin);
 	
 //	public List<ProcessHandover> getProcessHandoverList(String[] propertyNames,String[] propertyValues);
 }

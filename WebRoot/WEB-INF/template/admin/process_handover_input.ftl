@@ -132,11 +132,15 @@
 															<select name="processHandoverTop.processName">
 						                                     	<#list processList as list>
 						                                     	<option value="${list.processName }">${list.processName }</option>
+						                                     	<input type="hidden" name="processHandoverTop.processid" value="${list.id }"/>
+						                                     	<#list processHandoverLists as pl>
+						                                  		<input type="hidden" name="processHandoverList[${pl_index}].processid" value="${list.id }"/>
+						                                     	</#list>
 						                                     	</#list>
 						                                     </select>
 														</div>
 													</div>
-													
+																	
 													<div class="profile-info-row">
 														<div class="profile-info-name">合格：</div>
 														<div class="profile-info-value" style="width:300px;">
@@ -342,7 +346,7 @@
 									</div> -->
 									<div class="profile-user-info profile-user-info-striped">
 								  			<div class="profile-info-row">
-									<table id="" class="table table-striped table-bordered table-hover">
+									<table id="table" class="table table-striped table-bordered table-hover">
 								    			
 													<tr>
 														<th></th>
@@ -352,7 +356,11 @@
 														<th class="tabth">上班随工单</th>
 														<th class="tabth">下班随工单</th>
 														<th class="tabth">成品数</th>
+														<th class="tabth">模具</th>
 														<th class="tabth">责任人</th>
+														<#if !(show??)>
+														<th class="tabth">操作</th>
+														</#if>
 														<th class="tabth mblnr"style="display:none">物料凭证号</th>
 													</tr>
 														<#list processHandoverLists?sort_by("matnr") as list>
@@ -364,6 +372,7 @@
 																	</td>
 																	<td>${(list.maktx)! }
 																	<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
+																	<input type="hidden" name="processHandoverList[${list_index}].processId" value="${list.id }"/>
 																	<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
 																	</td>
 																	
@@ -385,6 +394,9 @@
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>
 																	<td ><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="padding:2px 2px ;"value="${(list.productAmount)!''}"></td>
+																	<td >
+																	${(list.station)! }
+																	</td>
 																	<td >${(list.responsibleName)! }
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" value="${(list.responsibleName)! }">
 																	</td>
@@ -481,12 +493,28 @@
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
 																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="bomAmount show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
+																	<td style="width:10%">
+																	<#list pagerMapList as bl>
+																	 
+																	<#if bl.workingBillCode.searchString == list.workingBillCode>
+																			<select name="processHandoverList[${list_index}].station">
+																			<#list bl.pager.list as pagerlist>
+																				<option <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																			</#list>	
+																			</select>
+																	<#break>
+																	</#if>
+																	</#list>
+																	</td>
 																	<td>
 																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 																	<span id="responsibleName">${(list.responsibleName) }</span>
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
 																	</td>
+																	<#if !(show??)>
+																	<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
+																	</#if>
 																	<td class="mblnr" style="display:none">${(list.mblnr)! }
 																	</td>
 																</tr>
@@ -740,6 +768,11 @@ function showUnit(num1){
 					}
 				});
 				</#if>
+				if( $("table tr:visible").length == 1){
+					flag = false;
+					layer.alert("请至少保留一条数据",{icon: 7});
+					return false;
+				}
 				if(flag){
 				<#if isAdd??>
 				var url="process_handover!creditsubmit.action?loginid="+loginId;
@@ -874,5 +907,12 @@ function showUnit(num1){
 				}
 				
 			});
+		 $(".removeLine").click(
+					function()
+					{
+						//var tr=$(this).parent().parent();
+						$(this).parent().parent().remove()
+					}
+				);
 	});
 </script>

@@ -141,17 +141,21 @@
 										</div>
 									</div>
 						</br>
-						<table class="table table-striped table-bordered">
+						<table id="table" class="table table-striped table-bordered">
 										<thead>
 											<tr>
-												<th class="center" style="width:25%">产品名称</th>
+												<th class="center" style="width:20%">产品名称</th>
 												<th class="center" style="width:10%">计划数量</th>
 												<th class="center" style="width:10%">产品编号</th>
 												<th class="center"style="width:10%">随工单编号</th>
-												<th class="center"style="width:15%">下一班随工单编号</th>
-												<th class="center"style="width:10%">零头数交接数量</th>
-												<th class="center"style="width:10%">异常交接数量</th>
+												<th class="center"style="width:10%">下一班随工单编号</th>
+												<th class="center"style="width:8%">零头数交接数量</th>
+												<th class="center"style="width:8%">异常交接数量</th>
+												<th class="center"style="width:5%">模具</th>
 												<th class="center"style="width:10%">责任人</th>
+												<#if !(show??)>
+												<th class="center"style="width:9%">操作</th>
+												</#if>
 											</tr>
 										</thead>
 	
@@ -185,7 +189,24 @@
 														<#else> 	</#if> -->
 													<td class="center"><input type="text" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
 													<td class="center"><input type="text" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
-													<td>
+														<td class="station">
+														<#if !(show??)>
+																	<#list pagerMapList as bl>
+																	 
+																	<#if bl.workingBillCode.searchString == list.workingBillCode>
+																			<select name="processHandoverList[${list_index}].station">
+																			<#list bl.pager.list as pagerlist>
+																				<option <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																			</#list>	
+																			</select>
+																	<#break>
+																	</#if>
+																	</#list>
+														<#else>
+														<span>${(list.station) }</span>
+														</#if>		
+														</td>
+														<td>
 														<#if !(show??)>
 														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 														<span id="responsibleName">${(list.responsibleName) }</span>
@@ -193,6 +214,7 @@
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
 														<label class="requireField">*</label>
 														</td>
+														<td><a href="javascript:void(0);" class="removeLine">删除</a></td>
 														<#else>
 														<span id="responsibleName">${(list.responsibleName) }</span>		
 														</#if>
@@ -254,6 +276,7 @@ function refresh(){
 	$(".afterWork").attr("readonly","true");
 	$(".oddhandOverMount").attr("readonly","true");
 	$(".unhandOverMount").attr("readonly","true");
+	$(".station").attr("readonly","true");
 	</#if>
 }
 window.refresh();
@@ -403,6 +426,11 @@ function showUnit(num1){
 					return false;
 				}
 			});
+			if( $("table tr:visible").length == 1){
+				flag = false;
+				layer.alert("请至少保留一条数据",{icon: 7});
+				return false;
+			}
 			$(".oddhandOverMount").each(function(){
 				var productAmount = $(this).val();
 				var afterworkbill = $(this).parent().prev().children().val();
@@ -432,5 +460,13 @@ function showUnit(num1){
 		$("#btn_back").click(function(){
 			window.history.back();
 		});
+	 /*删除操作*/
+		$(".removeLine").click(
+				function()
+				{
+					//var tr=$(this).parent().parent();
+					$(this).parent().parent().remove()
+				}
+			);
    });
 </script>

@@ -53,7 +53,10 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		return processHandoverDao.jqGrid(pager);
 	}
 
-
+	@Override
+	public Pager jqGrid(Pager pager, Admin admin) {
+		return processHandoverDao.jqGrid(pager,admin);
+	}
 
 
 	@Override
@@ -93,6 +96,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
 					processHandover.setWorkingBill(wb);
 					processHandover.setAfterworkingbill(afterWb);
+					processHandover.setProcessid(processHandoverTop.getProcessid());
 					processHandover.setProcessHandoverTop(processHandoverTop);
 					processHandoverDao.save(processHandover);
 					for(int j=0;j<processHandoverSonList.size();j++){
@@ -132,6 +136,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill"});
 				WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
 				processHandovercopy.setAfterworkingbill(afterWb);
+				processHandovercopy.setProcessid(processHandoverTopcopy.getProcessid());
 				processHandoverDao.update(processHandovercopy);
 				for(int j=0;j<processHandoverSonList.size();j++){
 					ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);
@@ -147,4 +152,9 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			
 		}
 	}
+
+
+
+
+	
 }

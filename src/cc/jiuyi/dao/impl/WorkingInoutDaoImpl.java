@@ -100,25 +100,25 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		switch(flag){
 		case 1:
 			if(flag1){
-				hql = "from WorkingInout a where (( workingbill.productDate between ? and ? ) and workingbill.aufnr=? ) and (workingbill.workcenter in (select workCenter from FactoryUnit where FactoryUnitCode=?)) ";
+				hql = "from WorkingInout a where (( workingbill.productDate between ? and ? ) and workingbill.aufnr=? ) and (workingbill.workcenter in (select workCenter from FactoryUnit where FactoryUnitCode=?)) order by workingbill.productDate,workingbill.workcenter ";
 				return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("workingBillCode")).setParameter(3, map.get("xFactoryUnit")).list();
 				}else{
-				hql = "from WorkingInout a where (( workingbill.productDate between ? and ? ) and workingbill.aufnr=? ) and (workingbill.workcenter in (select workcenter from FactoryUnit where FactoryUnit.factoryUnitName like '%?%'))";	
+				hql = "from WorkingInout a where (( workingbill.productDate between ? and ? ) and workingbill.aufnr=? ) and (workingbill.workcenter in (select workcenter from FactoryUnit where FactoryUnit.factoryUnitName like '%?%')) order by workingbill.productDate,workingbill.workcenter";	
 				return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("workingBillCode")).setParameter(3, map.get("xFactoryUnit")).list();
 			}
 		case 2:
-			hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and workingbill.aufnr=?";
+			hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and workingbill.aufnr=? order by workingbill.productDate,workingbill.workcenter";
 			return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("workingBillCode")).list();
 		case 3:
 			if(flag1){
-				hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and (workingbill.workcenter in (select  workCenter from FactoryUnit where FactoryUnitCode=?)) ";
+				hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and (workingbill.workcenter in (select  workCenter from FactoryUnit where FactoryUnitCode=?)) order by workingbill.productDate,workingbill.workcenter ";
 				return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("xFactoryUnit")).list();
 			}else{
-				hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and (workingbill.workcenter in (select workCenter from FactoryUnit where FactoryUnit.factoryUnitName like '%?%'))";
+				hql = "from WorkingInout a where ( workingbill.productDate between ? and ? ) and (workingbill.workcenter in (select workCenter from FactoryUnit where FactoryUnit.factoryUnitName like '%?%')) order by workingbill.productDate,workingbill.workcenter";
 				return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).setParameter(2, map.get("xFactoryUnit")).list();
 			}
 		default:
-			hql = "from WorkingInout a where workingbill.productDate between ? and ? ";
+			hql = hql = "from WorkingInout a where workingbill.productDate between ? and ? order by workingbill.productDate,workingbill.workcenter ";
 			return (List<WorkingInout>) getSession().createQuery(hql).setParameter(0, map.get("start")).setParameter(1, map.get("end")).list();
 		}
 	}

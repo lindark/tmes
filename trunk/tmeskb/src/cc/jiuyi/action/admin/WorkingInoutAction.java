@@ -18,6 +18,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -34,15 +35,17 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private String end;
 	private String workingBillCode;	
 	private String wbid;
+	private String xFactoryUnit;
+	private String info;
 	
 	private String jsondata;
 	
 	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
-								"trzsl","cczsl","slcy","jhdcl","matnr","maktx","materialName","totalAmount","isHand","jycl","xFactoryUnit"};
+								"trzsl","cczsl","slcy","jhdcl","matnr","maktx","materialName","totalAmount","isHand","jycl","xFactoryUnit","teamCode","teamName"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
 								"交下班零头数","组件报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","单位用量","当班检验合格数","交下班异常零头数","一次合格率",
-								"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态","校验差异","单元"};
+								"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态","校验差异","单元","班组编码","班组名称"};
 	public String list(){
 		
 		Integer[] sunxulen={};
@@ -64,7 +67,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 				JSONObject param = JSONObject.fromObject(Param);
 				String start = ThinkWayUtil.null2String(param.get("start"));
 				String end = ThinkWayUtil.null2String(param.get("end"));
-				String xFactoryUnit = ThinkWayUtil.null2String(param.get("xFactoryUnit"));
+				String xFactoryUnit = ThinkWayUtil.null2String(param.get("info"));
 				String workingBillCode = ThinkWayUtil.null2String(param.get("workingBillCode"));//随工单
 				mapcheck.put("start", start);
 				mapcheck.put("end", end);
@@ -91,7 +94,7 @@ public class WorkingInoutAction extends BaseAdminAction {
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig
-				.setExcludes(ThinkWayUtil.getExcludeFields(Pollingtest.class));// 排除有关联关系的属性字段
+				.setExcludes(ThinkWayUtil.getExcludeFields(WorkingInout.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -112,7 +115,10 @@ public class WorkingInoutAction extends BaseAdminAction {
 		mapcheck.put("start", start);
 		mapcheck.put("end", end);
 		mapcheck.put("workingBillCode", workingBillCode);
-		mapcheck.put("xFactoryUnit", getParameter("xFactoryUnit"));	
+		if(info==null){
+			info ="";
+		}
+		mapcheck.put("xFactoryUnit", info);
 		
 		JSONArray jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
 		
@@ -218,5 +224,21 @@ public class WorkingInoutAction extends BaseAdminAction {
 	public void setWbid(String wbid)
 	{
 		this.wbid = wbid;
+	}
+
+	public String getxFactoryUnit() {
+		return xFactoryUnit;
+	}
+
+	public void setxFactoryUnit(String xFactoryUnit) {
+		this.xFactoryUnit = xFactoryUnit;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 }

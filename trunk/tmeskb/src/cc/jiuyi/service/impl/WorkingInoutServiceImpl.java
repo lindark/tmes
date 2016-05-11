@@ -92,11 +92,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		List<String> labelobj = new ArrayList<String>();
 		List<String> indexobj = new ArrayList<String>();
 		
-		String[] propertyNames = {"isDel","state"};
+		/*String[] propertyNames = {"isDel","state"};
 		String[] propertyValues={"N","1"};
-		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
+		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);*/
 		
 		nameobj.add(strlen[29]);labelobj.add(lavenlen[29]);indexobj.add(strlen[29]);//单元
+		//nameobj.add(strlen[30]);labelobj.add(lavenlen[29]);indexobj.add(strlen[30]);//班组编码
+		nameobj.add(strlen[31]);labelobj.add(lavenlen[31]);indexobj.add(strlen[31]);//班组名称
 		nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
 		nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
 		nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
@@ -108,7 +110,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
 		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
 		/**处理接上班(正常)**/
-		for(int i=0;i<processList00.size();i++){
+		/*for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "接上班"+process.getProcessName()+"(正常)";
 			String name ="GXJSBZC_"+process.getId();
@@ -116,10 +118,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
+		}*/
 		/**处理接上班 (正常)end**/
 		/**处理接上班(返修)**/
-		for(int i=0;i<processList00.size();i++){
+	/*	for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "接上班"+process.getProcessName()+"(返修)";
 			String name ="GXJSBFX_"+process.getId();
@@ -127,12 +129,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
+		}*/
 		/**处理接上班 (返修)end**/
 		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
 		
 		/**处理交下班(正常)**/
-		for(int i=0;i<processList00.size();i++){
+		/*for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "交下班"+process.getProcessName()+"(正常)";
 			String name ="GXJXBZC_"+process.getId();
@@ -140,11 +142,11 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
+		}*/
 		/**处理交下班(正常)end**/
 		
 		/**处理交下班(返修)**/
-		for(int i=0;i<processList00.size();i++){
+		/*for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "交下班"+process.getProcessName()+"(返修)";
 			String name ="GXJXBFX_"+process.getId();
@@ -152,7 +154,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
+		}*/
 		/**处理交下班 (返修)end**/
 		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
 		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
@@ -171,7 +173,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
 		nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
 		nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
-		
+		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+		nameobj.add(strlen[28]);labelobj.add(lavenlen[28]);indexobj.add(strlen[28]);//校验差异
 		
 		
 		
@@ -540,6 +543,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				//repairinAmount  //返修收货
 				jycl = (new BigDecimal(rks).add(new BigDecimal(beforeoddamount))).subtract( (new BigDecimal(bgs).add(new BigDecimal(afteroddamount)).add(new BigDecimal(repairinAmount)))).doubleValue();
 				map.put(strlen[28],jycl);//校验差异    公式=（入库数+交下班零头）-（报工数+接上班零头+返修收货）
+				map.put(strlen[31],workingbill.getTeam()==null?"":workingbill.getTeam().getTeamName());//班组名称
 				result.add(map);
 		}
 		}catch(Exception e){
@@ -681,7 +685,18 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				//		String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
 						String[] propertyNames = {"processid","afterworkingbill.id","matnr"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
-				//		HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						/*HandOverProcess handoverprocess = null;
+						List<HandOverProcess> handoverprocessList = handoverprocessdao.getList(propertyNames, propertyValues);
+						if(handoverprocessList!=null && handoverprocessList.size()>1){
+							for(HandOverProcess hod : handoverprocessList){
+								if(hod.getAfterworkingbill().getId().equals(hod.getAfterworkingbill().getId())){
+									handoverprocess = hod;
+									break;
+								}
+							}
+						}else{
+							handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
+						}*/
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
@@ -800,6 +815,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				//repairinAmount  //返修收货
 				jycl = (new BigDecimal(rks).add(new BigDecimal(beforeoddamount))).subtract( (new BigDecimal(bgs).add(new BigDecimal(afteroddamount)).add(new BigDecimal(repairinAmount)))).doubleValue();
 				map.put(strlen[28],jycl);//校验差异    公式=（入库数+交下班零头）-（报工数+接上班零头+返修收货）
+				map.put(strlen[31],workingbill.getTeam()==null?"":workingbill.getTeam().getTeamName());//班组名称
 				jsonstr.add(map);
 		}
 		}catch(Exception e){

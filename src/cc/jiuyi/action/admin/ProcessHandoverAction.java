@@ -685,12 +685,21 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-			Map<String,String> emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
-			if(emsg.get("status").equals("E")){
-				return ajaxJsonErrorMessage(emsg.get("massge"));
-			}else{
-				return ajaxJsonSuccessMessage(emsg.get("massge"));
+			try {
+				Map<String, String> emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
+				if(emsg.get("status").equals("E")){
+					return ajaxJsonErrorMessage(emsg.get("massge"));
+				}else{
+					return ajaxJsonSuccessMessage(emsg.get("massge"));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+			} catch (CustomerException e) {
+				e.printStackTrace();
+				return ajaxJsonErrorMessage(e.getMsgDes());
 			}
+			
 		
 	}
 	

@@ -685,79 +685,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-		try {
-			admin = adminService.getByCardnum(cardnumber);
-			processHandoverTop = processHandoverTopService.get(id);
-			String budat = null;
-			for(ProcessHandover p : processHandoverTop.getProcessHandOverSet()){
-				boolean flag =false;
-				if(p.getProductAmount()!=null && p.getProductAmount().equals("")){
-					flag = true;
-				}
-				if(p.getActualHOMount()!=null && !p.getActualHOMount().equals("")){
-					flag = true;
-				}
-				if(p.getUnHOMount()!=null && !p.getUnHOMount().equals("")){
-					flag = true;
-				}
-				
-				boolean flag1 = workinginoutservice.isExist(p.getWorkingBill().getId(), p.getMatnr());
-				if(!flag1){//如果不存在，新增  --- 上一随工单信息
-					WorkingInout workinginout = new WorkingInout();
-					workinginout.setWorkingbill(p.getWorkingBill());
-					workinginout.setMaterialCode(p.getMatnr());
-					workinginout.setMaterialName(p.getMaktx());
-					workinginoutservice.save(workinginout);
-				}
-				WorkingBill AfterWorkingbill = workingbillservice.get("workingBillCode", p.getAfterWorkingBillCode());
-				if(AfterWorkingbill==null){
-					return ajaxJsonErrorMessage("请填写正确的下班随工单");
-				}
-				boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),p.getMatnr());
-				if(!flag2){//如果不存在,新增 --- 下一随工单信息
-					WorkingInout workinginout = new WorkingInout();
-					workinginout.setWorkingbill(AfterWorkingbill);
-					workinginout.setMaterialCode(p.getMatnr());
-					workinginout.setMaterialName(p.getMaktx());
-					workinginoutservice.save(workinginout);
-				}
-				for(ProcessHandoverSon ps:p.getProcessHandoverSonSet()){
-					if(ps.getBomAmount()!=null && !ps.getBomAmount().equals("")){
-						flag = true;
-					}
-					if(ps.getRepairNumber()!=null && !ps.getRepairNumber().equals("")){
-						flag = true;
-					}
-					if(ps.getCqamount()!=null && !ps.getCqamount().equals("")){
-						flag = true;
-					}
-					if(ps.getCqrepairamount()!=null && !ps.getCqrepairamount().equals("")){
-						flag = true;
-					}
-				}
-				if(flag){
-					ProcessHandover ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
-					if(budat==null)
-					//budat = ProcessHandover.getBudat();
-					//p.setBudat(ProcessHandover.getBudat());
-					p.setE_message(ProcessHandover.getE_message());
-					p.setE_type(ProcessHandover.getE_type());
-					p.setMblnr(ProcessHandover.getMblnr());
-					processHandoverService.update(p);
-				}
-			}
-			processHandoverTop.setConfimUser(admin);
-			processHandoverTop.setBudat(budat);
-			processHandoverTop.setState("2");
-			processHandoverTopService.update(processHandoverTop);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
-		} catch (CustomerException e) {
-			e.printStackTrace();
-			return ajaxJsonErrorMessage(e.getMsgDes());
-		}//执行
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+			String emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
+		return ajaxJsonSuccessMessage(emsg);
 	}
 	
 	/**
@@ -772,7 +701,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		return INPUT;
 	}
 	
-	// 刷卡撤销
+	/**
+	 *  刷卡撤销
+	 * @return
+	 */
 	public String creditundo() {
 		processHandoverTop = processHandoverTopService.get(id);
 		admin = adminService.getByCardnum(cardnumber);

@@ -183,7 +183,7 @@
 			else{
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
-					layer.msg("已经确认的工序交接无法再编辑!",{icon:5});
+					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再编辑!",{icon:5});
 					return false;
 				}else{
 					window.location.href="process_handover!edit.action?id="+id;
@@ -230,6 +230,7 @@
 				alert("请选择零头数交接记录");
 			}
 			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再编辑!",{icon:5});
@@ -267,6 +268,7 @@
 				return false;
 			}	
 			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再确认!",{icon:5});
@@ -290,6 +292,7 @@
 				return false;
 			}
 			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});

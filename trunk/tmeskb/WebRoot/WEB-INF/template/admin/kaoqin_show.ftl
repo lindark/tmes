@@ -71,9 +71,9 @@
 										<div class="col-sm-4">
 											<select name="classtime" id="form-field-icon-1" class="input input-sm form-control">
 							                	<option value="">&nbsp;</option>
-							                	<option value="1">早班</option>
-							                	<option value="2">中班</option>
-							                	<option value="3">晚班</option>
+							                	<option value="1">早</option>
+							                	<option value="2">白</option>
+							                	<option value="3">晚</option>
 						               		</select>
 										</div>
 									</div>	

@@ -96,7 +96,7 @@
 														<div class="profile-info-name">班次</div>
 														<div class="profile-info-value">
 															<#if (admin.shift == "1")!><span class="editable editable-click" id="signup">早</span></#if>
-															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">中</span></#if>
+															<#if (admin.shift == "2")!><span class="editable editable-click" id="signup">白</span></#if>
 															<#if (admin.shift == "3")!><span class="editable editable-click" id="signup">晚</span></#if>
 														</div>
 														

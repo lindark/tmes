@@ -232,7 +232,7 @@
 			else{
 				var row_state = rowData.state;
 				if(row_state == "2" || row_state =="3"){
-					layer.msg("已经确认的工序交接无法再编辑!",{icon:5});
+					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再编辑!",{icon:5});
 					return false;
 				}else{
 					window.location.href="odd_hand_over!edit.action?id="+id;
@@ -267,11 +267,17 @@
 				return false;
 			}	
 			else{
-				var url="process_handover!creditapproval.action?id="+id+"&loginid="+loginid;
-				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#grid-table").trigger("reloadGrid");
-				})
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3"){
+					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再确认!",{icon:5});
+					return false;
+				}else{
+					var url="process_handover!creditapproval.action?id="+id+"&loginid="+loginid;
+					credit.creditCard(url,function(data){
+						$.message(data.status,data.message);
+						$("#grid-table").trigger("reloadGrid");
+					});
+				}
 			 }
 		});
 		
@@ -284,11 +290,17 @@
 				return false;
 			}
 			else{
-				var url="process_handover!creditundo.action?id="+id+"&loginid="+loginid;;
-				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#grid-table").trigger("reloadGrid");
-				});
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3"){
+					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
+					return false;
+				}else{
+					var url="process_handover!creditundo.action?id="+id+"&loginid="+loginid;;
+					credit.creditCard(url,function(data){
+						$.message(data.status,data.message);
+						$("#grid-table").trigger("reloadGrid");
+					});
+				}		
 			}
 		}); 
 		

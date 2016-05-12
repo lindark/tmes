@@ -685,8 +685,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditapproval(){
-			String emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
-		return ajaxJsonSuccessMessage(emsg);
+			Map<String,String> emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
+			if(emsg.get("status").equals("E")){
+				return ajaxJsonErrorMessage(emsg.get("massge"));
+			}else{
+				return ajaxJsonSuccessMessage(emsg.get("massge"));
+			}
+		
 	}
 	
 	/**
@@ -711,7 +716,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		if(processHandoverTop.getState().equals("1")){
 			if(processHandoverTop.getType().equals("工序交接")){
 			processHandoverTop.setIsdel("Y");
-			processHandoverTop.setState("2");
+			processHandoverTop.setState("3");
 			processHandoverTop.setConfimUser(admin);
 			processHandoverTopService.update(processHandoverTop);
 			Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
@@ -726,7 +731,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				}
 			}else{
 				processHandoverTop.setIsdel("Y");
-				processHandoverTop.setState("2");
+				processHandoverTop.setState("3");
 				processHandoverTop.setConfimUser(admin);
 				processHandoverTopService.update(processHandoverTop);
 				Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();

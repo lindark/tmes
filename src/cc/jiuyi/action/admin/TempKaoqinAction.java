@@ -218,9 +218,9 @@ public class TempKaoqinAction extends BaseAdminAction {
 				
 		if(kaoqin.getPostCode()!=null&&!"".equals(kaoqin.getPostCode()))
 		{
-			String postId=kaoqin.getPostCode();
-			DBkaoqin.setPostCode(postId);
-			DBkaoqin.setPostname(postService.get(postId).getPostName());
+			String postCode=kaoqin.getPostCode();
+			DBkaoqin.setPostCode(postCode);
+			DBkaoqin.setPostname(postService.get("postCode", postCode).getPostName());
 		}
 		else
 		{

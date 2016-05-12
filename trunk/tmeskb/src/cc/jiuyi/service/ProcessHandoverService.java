@@ -1,5 +1,6 @@
 package cc.jiuyi.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
+import cc.jiuyi.util.CustomerException;
 /**
  * Service接口 - 工序交接
  */
@@ -31,6 +33,8 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	public void updateProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid);
 	/**
 	 * 刷卡确认
+	 * @throws CustomerException 
+	 * @throws IOException 
 	 */
-	public Map<String,String> saveApproval(String cardnumber,String id,String loginid);
+	public Map<String,String> saveApproval(String cardnumber,String id,String loginid) throws IOException, CustomerException;
 }

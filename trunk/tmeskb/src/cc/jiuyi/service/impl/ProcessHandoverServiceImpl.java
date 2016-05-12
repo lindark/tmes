@@ -167,7 +167,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 
 
 	@Override
-	public Map<String,String> saveApproval(String cardnumber, String id, String loginid) {
+	public Map<String,String> saveApproval(String cardnumber, String id, String loginid) throws IOException, CustomerException {
 		HashMap<String,String> map = new HashMap<String,String>();
 		Admin admin = adminService.getByCardnum(cardnumber);
 		ProcessHandoverTop processHandoverTop = processHandoverTopService.get(id);
@@ -222,9 +222,9 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			}
 			if(flag){
 				ProcessHandover ProcessHandover;
-				try {
+				//try {
 					ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
-				} catch (IOException e) {
+			/*	} catch (IOException e) {
 					e.printStackTrace();
 					map.put("staus", "E");
 					map.put("massge","IO出现异常，请联系系统管理员");
@@ -234,7 +234,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					map.put("staus", "E");
 					map.put("massge",e.getMsgDes());
 					return map;
-				}
+				}*/
 				if(budat==null)
 				//budat = ProcessHandover.getBudat();
 				//p.setBudat(ProcessHandover.getBudat());

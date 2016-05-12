@@ -2,7 +2,9 @@ package cc.jiuyi.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -165,7 +167,8 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 
 
 	@Override
-	public String saveApproval(String cardnumber, String id, String loginid) {
+	public Map<String,String> saveApproval(String cardnumber, String id, String loginid) {
+		HashMap<String,String> map = new HashMap<String,String>();
 		Admin admin = adminService.getByCardnum(cardnumber);
 		ProcessHandoverTop processHandoverTop = processHandoverTopService.get(id);
 		String budat = null;
@@ -191,7 +194,9 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			}
 			WorkingBill AfterWorkingbill = workingBillService.get("workingBillCode", p.getAfterWorkingBillCode());
 			if(AfterWorkingbill==null){
-				return "请填写正确的下班随工单";
+				map.put("staus", "E");
+				map.put("massge", "请填写正确的下班随工单");
+				return map;
 			}
 			boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),p.getMatnr());
 			if(!flag2){//如果不存在,新增 --- 下一随工单信息
@@ -221,10 +226,14 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
 				} catch (IOException e) {
 					e.printStackTrace();
-					return "IO出现异常，请联系系统管理员";
+					map.put("staus", "E");
+					map.put("massge","IO出现异常，请联系系统管理员");
+					return map;
 				} catch (CustomerException e) {
 					e.printStackTrace();
-					return e.getMsgDes();
+					map.put("staus", "E");
+					map.put("massge",e.getMsgDes());
+					return map;
 				}
 				if(budat==null)
 				//budat = ProcessHandover.getBudat();
@@ -239,7 +248,9 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		processHandoverTop.setBudat(budat);
 		processHandoverTop.setState("2");
 		processHandoverTopService.update(processHandoverTop);
-		return "您的操作已成功!";
+		map.put("staus", "S");
+		map.put("massge","您的操作已成功!");
+		return map;
 	}
 
 	

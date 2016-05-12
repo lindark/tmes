@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.List;
+import java.util.Map;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
@@ -31,5 +32,5 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	/**
 	 * 刷卡确认
 	 */
-	public String saveApproval(String cardnumber,String id,String loginid);
+	public Map<String,String> saveApproval(String cardnumber,String id,String loginid);
 }

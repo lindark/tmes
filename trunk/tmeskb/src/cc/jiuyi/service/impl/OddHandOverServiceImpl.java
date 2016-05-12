@@ -109,42 +109,48 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 //			}
 //			
 //		}
-		for(int i=0;i<processHandoverList.size();i++){
-			ProcessHandover processHandover = processHandoverList.get(i);
-			if(processHandover!=null){
-				WorkingBill wb = workingbillservice.get("workingBillCode", processHandover.getWorkingBillCode());
-				processHandover.setWorkingBill(wb);
-				processHandover.setProcessHandoverTop(processHandoverTop);
-				processHandoverService.save(processHandover);
-				for(int j=0;j<OddHandOverList.size();j++){
-					OddHandOver oddHandOver = OddHandOverList.get(j);
-					Double actualHOMount = processHandover.getActualHOMount();
-					Double unHOMount = processHandover.getUnHOMount();
-					if(oddHandOver!=null){
-						if(oddHandOver.getBeforeWokingCode().equals(processHandover.getWorkingBillCode())){
-							if(actualHOMount != null){
-								BigDecimal amount = new BigDecimal(actualHOMount);
-								BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
-								BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-								Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
-								oddHandOver.setActualBomMount(mount);
+		try {
+			for(int i=0;i<processHandoverList.size();i++){
+				ProcessHandover processHandover = processHandoverList.get(i);
+				if(processHandover!=null){
+					WorkingBill wb = workingbillservice.get("workingBillCode", processHandover.getWorkingBillCode());
+					processHandover.setWorkingBill(wb);
+					processHandover.setProcessHandoverTop(processHandoverTop);
+					processHandoverService.save(processHandover);
+					for(int j=0;j<OddHandOverList.size();j++){
+						OddHandOver oddHandOver = OddHandOverList.get(j);
+						Double actualHOMount = processHandover.getActualHOMount();
+						Double unHOMount = processHandover.getUnHOMount();
+						if(oddHandOver!=null){
+							if(oddHandOver.getBeforeWokingCode().equals(processHandover.getWorkingBillCode())){
+								if(actualHOMount != null){
+									BigDecimal amount = new BigDecimal(actualHOMount);
+									BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
+									BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
+									Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									oddHandOver.setActualBomMount(mount);
+								}
+								if(unHOMount != null){
+									BigDecimal amount = new BigDecimal(unHOMount);
+									BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
+									BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
+									Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									oddHandOver.setUnBomMount(mount);
+								}
+								oddHandOver.setProcessHandover(processHandover);
+								oddHandOver.setBeforeWokingCode(processHandover.getWorkingBillCode());
+								oddHandOver.setAfterWorkingCode(processHandover.getAfterWorkingBillCode());
+								oddHandOverDao.save(oddHandOver);
 							}
-							if(unHOMount != null){
-								BigDecimal amount = new BigDecimal(unHOMount);
-								BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
-								BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-								Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
-								oddHandOver.setUnBomMount(mount);
-							}
-							oddHandOver.setProcessHandover(processHandover);
-							oddHandOver.setBeforeWokingCode(processHandover.getWorkingBillCode());
-							oddHandOver.setAfterWorkingCode(processHandover.getAfterWorkingBillCode());
-							oddHandOverDao.save(oddHandOver);
 						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e);
 		}
+		
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class ProcessHandoverDaoImpl extends BaseDaoImpl<ProcessHandover, String>
 	@Override
 	public Pager jqGrid(Pager pager,Admin admin) {
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(ProcessHandoverTop.class);
-		detachedCriteria.add(Restrictions.eq("isdel", "N"));
+		//detachedCriteria.add(Restrictions.eq("isdel", "N"));
 		detachedCriteria.add(Restrictions.eq("productDate", admin.getProductDate()));
 		detachedCriteria.add(Restrictions.eq("shift", admin.getShift()));
 		if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit() !=null){

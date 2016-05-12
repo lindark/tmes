@@ -98,7 +98,7 @@
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="signup">
 																<#if (admin.shift == "1")!>早</#if>
-																<#if (admin.shift == "2")!>中</#if>
+																<#if (admin.shift == "2")!>白</#if>
 																<#if (admin.shift == "3")!>晚</#if>
 															</span>
 														</div>

@@ -325,14 +325,28 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				WorkingBill workingbill = workinginout.getWorkingbill();
 				String aufnr = workingbill.getAufnr();
 				
-				List<OddHandOver> oddHandOverListBefore = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
+				for(int k=0;k<oddHandOverListBefore1.size();k++){
+					OddHandOver oddHandOver = oddHandOverListBefore1.get(i);
+					if(oddHandOver.getIsdel().equals("N")){
+						oddHandOverListBefore.add(oddHandOver);
+					}
+				}
 				Double afteroddamount =0.0d;
 				Double afterunoddamount=0.0d;
 				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
 					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
 				}
-				List<OddHandOver> oddHandOverListAfter = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
+				for(int k=0;k<oddHandOverListAfter1.size();k++){
+					OddHandOver oddHandOver = oddHandOverListAfter1.get(i);
+					if(oddHandOver.getIsdel().equals("N")){
+						oddHandOverListAfter.add(oddHandOver);
+					}
+				}
 				Double beforeoddamount = 0.0d;
 				Double beforeunoddamount = 0.0d;
 				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
@@ -425,8 +439,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					if(firstls >= 0){//如果找到，表示是接上班工序交接
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
 			//			String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
-						String[] propertyNames = {"processid","afterworkingbill.id","matnr"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						String[] propertyNames = {"processid","afterworkingbill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode(),"N"};
 			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
@@ -467,8 +481,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					if(firstls00>=0){//交下班
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
 			//			String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
-						String[] propertyNames = {"processid","workingBill.id","matnr"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						String[] propertyNames = {"processid","workingBill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode(),"N"};
 			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;
@@ -587,14 +601,28 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				WorkingBill workingbill = workinginout.getWorkingbill();
 				String aufnr = workingbill.getAufnr();
 				
-				List<OddHandOver> oddHandOverListBefore = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
+				for(int k=0;k<oddHandOverListBefore1.size();k++){
+					OddHandOver oddHandOver = oddHandOverListBefore1.get(i);
+					if(oddHandOver.getIsdel().equals("N")){
+						oddHandOverListBefore.add(oddHandOver);
+					}
+				}
 				Double afteroddamount =0.0d;
 				Double afterunoddamount=0.0d;
 				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
 					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
 					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
 				}
-				List<OddHandOver> oddHandOverListAfter = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
+				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
+				for(int k=0;k<oddHandOverListAfter1.size();k++){
+					OddHandOver oddHandOver = oddHandOverListAfter1.get(i);
+					if(oddHandOver.getIsdel().equals("N")){
+						oddHandOverListAfter.add(oddHandOver);
+					}
+				}
 				Double beforeoddamount = 0.0d;
 				Double beforeunoddamount = 0.0d;
 				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
@@ -687,8 +715,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					if(firstls >= 0){//如果找到，表示是接上班工序交接
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
 				//		String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
-						String[] propertyNames = {"processid","afterworkingbill.id","matnr"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						String[] propertyNames = {"processid","afterworkingbill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode(),"N"};
 						/*HandOverProcess handoverprocess = null;
 						List<HandOverProcess> handoverprocessList = handoverprocessdao.getList(propertyNames, propertyValues);
 						if(handoverprocessList!=null && handoverprocessList.size()>1){
@@ -740,8 +768,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					if(firstls00>=0){//交下班
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
 			//			String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
-						String[] propertyNames = {"processid","workingBill.id","matnr"};
-						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode()};
+						String[] propertyNames = {"processid","workingBill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getMaterialCode(),"N"};
 			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyNames);
 						Double zcjjsl = 0.00d;

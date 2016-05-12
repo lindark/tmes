@@ -161,14 +161,14 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 			ProcessHandover processHandover = processHandoverList.get(i);
 			if(processHandover!=null){
 				ProcessHandover processHandovercopy = processHandoverService.get(processHandover.getId());
-				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill"});
+				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
 				processHandoverService.update(processHandovercopy);
 				for(int j=0;j<OddHandOverList.size();j++){
 					OddHandOver oddHandOver = OddHandOverList.get(j);
 					if(oddHandOver!=null){
 						if(oddHandOver.getBeforeWokingCode().equals(processHandover.getWorkingBillCode())){
 							OddHandOver oddHandOver1 = oddHandOverDao.get(oddHandOver.getId());
-							BeanUtils.copyProperties(oddHandOver, oddHandOver1, new String[]{"id", "createDate","processHandover"});
+							BeanUtils.copyProperties(oddHandOver, oddHandOver1, new String[]{"id", "createDate","processHandover","isdel"});
 							Double actualHOMount = processHandover.getActualHOMount();
 							Double unHOMount = processHandover.getUnHOMount();
 							if(actualHOMount != null){

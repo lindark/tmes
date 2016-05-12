@@ -86,6 +86,7 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 				}
 			}
 		}		
+		detachedCriteria.add(Restrictions.eq("isdel", "N"));
 		return super.findByPager(pager, detachedCriteria);
 	}
 

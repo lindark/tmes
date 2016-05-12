@@ -45,6 +45,7 @@ public class ProcessHandover extends BaseEntity {
 	private Double unHOMount;//实际异常交接数量
 	private String station;//模具组号
 	private String processid;//工序id
+	private String isdel;// 是否删除
 	/**
 	 * 假字段
 	 */
@@ -276,6 +277,17 @@ public class ProcessHandover extends BaseEntity {
 
 	public void setAfterworkingbill(WorkingBill afterworkingbill) {
 		this.afterworkingbill = afterworkingbill;
+	}
+
+	public String getIsdel() {
+		return isdel;
+	}
+
+	public void setIsdel(String isdel) {
+		if(isdel==null){
+			isdel="N";
+		}
+		this.isdel = isdel;
 	}
 
 	

@@ -48,7 +48,7 @@ public class OddHandOver extends BaseEntity {
 	private String productDate;
 	private String stateRemark;
 	private String matnr;
-	
+	private String isdel;// 是否删除
 	
 	
 	public Double getActualHOMount() {
@@ -248,6 +248,15 @@ public class OddHandOver extends BaseEntity {
 	}
 	public void setMaterialAmount(Double materialAmount) {
 		this.materialAmount = materialAmount;
+	}
+	public String getIsdel() {
+		return isdel;
+	}
+	public void setIsdel(String isdel) {
+		if(isdel==null){
+			isdel="N";
+		}
+		this.isdel = isdel;
 	}
 	
 	

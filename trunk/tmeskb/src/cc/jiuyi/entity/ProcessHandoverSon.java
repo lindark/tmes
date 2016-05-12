@@ -31,6 +31,7 @@ public class ProcessHandoverSon extends BaseEntity {
     private Double cqamount;//裁切后正常交接数量
     private Double cqrepairamount;//裁切后返修交接数量
 	private Double repairamount;//返修交接数量
+	private String isdel;// 是否删除
 	
 	/**
 	 * 假字段
@@ -158,6 +159,17 @@ public class ProcessHandoverSon extends BaseEntity {
 
 	public void setRepairamount(Double repairamount) {
 		this.repairamount = repairamount;
+	}
+
+	public String getIsdel() {
+		return isdel;
+	}
+
+	public void setIsdel(String isdel) {
+		if(isdel==null){
+			isdel="N";
+		}
+		this.isdel = isdel;
 	}
 	
 	

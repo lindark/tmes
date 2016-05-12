@@ -28,4 +28,8 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	 * 修改工序交接
 	 */
 	public void updateProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid);
+	/**
+	 * 刷卡确认
+	 */
+	public String saveApproval(String cardnumber,String id,String loginid);
 }

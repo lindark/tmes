@@ -41,7 +41,9 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessHandoverService;
+import cc.jiuyi.service.ProcessHandoverSonService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.UnitdistributeModelService;
@@ -78,6 +80,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private String show;
 	private String[] workingCode;
 	private String materialCode;// 组件编码
+	private String cardnumber;//卡号
 	
 	@Resource
 	private AdminService adminService;
@@ -109,6 +112,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private WorkingInoutService workinginoutservice;
+	@Resource
+	private ProcessHandoverSonService processHandoverSonService;
+	@Resource
+	private OddHandOverService oddHandOverService;
 	
 	/**
 	 * 列表
@@ -679,6 +686,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String creditapproval(){
 		try {
+			admin = adminService.getByCardnum(cardnumber);
 			processHandoverTop = processHandoverTopService.get(id);
 			String budat = null;
 			for(ProcessHandover p : processHandoverTop.getProcessHandOverSet()){
@@ -702,6 +710,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					workinginoutservice.save(workinginout);
 				}
 				WorkingBill AfterWorkingbill = workingbillservice.get("workingBillCode", p.getAfterWorkingBillCode());
+				if(AfterWorkingbill==null){
+					return ajaxJsonErrorMessage("请填写正确的下班随工单");
+				}
 				boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),p.getMatnr());
 				if(!flag2){//如果不存在,新增 --- 下一随工单信息
 					WorkingInout workinginout = new WorkingInout();
@@ -735,6 +746,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					processHandoverService.update(p);
 				}
 			}
+			processHandoverTop.setConfimUser(admin);
 			processHandoverTop.setBudat(budat);
 			processHandoverTop.setState("2");
 			processHandoverTopService.update(processHandoverTop);
@@ -758,6 +770,49 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		if(show==null)
 		show = "show";
 		return INPUT;
+	}
+	
+	// 刷卡撤销
+	public String creditundo() {
+		processHandoverTop = processHandoverTopService.get(id);
+		admin = adminService.getByCardnum(cardnumber);
+		if(processHandoverTop.getState().equals("1")){
+			if(processHandoverTop.getType().equals("工序交接")){
+			processHandoverTop.setIsdel("Y");
+			processHandoverTop.setState("2");
+			processHandoverTop.setConfimUser(admin);
+			processHandoverTopService.update(processHandoverTop);
+			Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
+			for(ProcessHandover p:ProcessHandoverSet){
+				p.setIsdel("Y");
+				processHandoverService.update(p);
+				Set<ProcessHandoverSon> processHandoverSonSet = p.getProcessHandoverSonSet();
+				for(ProcessHandoverSon ps:processHandoverSonSet){
+					ps.setIsdel("Y");
+					processHandoverSonService.update(ps);
+					}
+				}
+			}else{
+				processHandoverTop.setIsdel("Y");
+				processHandoverTop.setState("2");
+				processHandoverTop.setConfimUser(admin);
+				processHandoverTopService.update(processHandoverTop);
+				Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
+				for(ProcessHandover p:ProcessHandoverSet){
+					p.setIsdel("Y");
+					processHandoverService.update(p);
+					Set<OddHandOver> oddHandOverSet = p.getOddHandOverSet();
+					for(OddHandOver os:oddHandOverSet){
+						os.setIsdel("Y");
+						oddHandOverService.update(os);
+						}
+					}
+			}
+		}else{
+			return ajaxJsonSuccessMessage("请选择未确认的记录!");
+		}
+		
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	public String delete(){
@@ -890,6 +945,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	}
 	public void setPagerMapList(List<HashMap<String, Pager>> pagerMapList) {
 		this.pagerMapList = pagerMapList;
+	}
+	public String getCardnumber() {
+		return cardnumber;
+	}
+	public void setCardnumber(String cardnumber) {
+		this.cardnumber = cardnumber;
 	}
 
 	

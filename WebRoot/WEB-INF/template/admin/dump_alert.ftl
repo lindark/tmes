@@ -96,7 +96,7 @@ body {
 																<td>
 																	<!-- 数量 -->
 																	<input type="hidden" name="list_dd[${num}].id"  value="${(mlist.id)! }" />
-																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm inputmenge"/>
+																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm {number:true,messages:{number:'*请输入正确数量'}}"/>
 																</td>
 															</tr>
 															<#assign num=num+1 />
@@ -120,7 +120,7 @@ body {
 																<td>${(mlist.verme)! }</td>
 																<td>
 																	<!-- 数量 -->
-																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm inputmenge"/>
+																	<input type="text" name="list_dd[${num}].menge"  value="${(mlist.menge)! }" class="notnull input input-sm  {number:true,messages:{number:'*请输入正确数量'}}"/>
 
 																	<!-- SAP数据 -->
 																	<input type="hidden" name="list_dd[${num}].matnr" value="${(mlist.matnr)! }" /><!-- matnr物料编码 -->

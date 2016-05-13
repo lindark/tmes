@@ -318,7 +318,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			
 			pager = workingInoutDao.listjqGrid(pager, mapcheck);
 			workingInoutList=pager.getList();
-			System.out.println(workingInoutList.size());
 			for(int i=0;i<workingInoutList.size();i++){
 				JSONObject map = new JSONObject();
 				WorkingInout workinginout = workingInoutList.get(i);
@@ -328,7 +327,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
 				for(int k=0;k<oddHandOverListBefore1.size();k++){
-					OddHandOver oddHandOver = oddHandOverListBefore1.get(i);
+					OddHandOver oddHandOver = oddHandOverListBefore1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
 						oddHandOverListBefore.add(oddHandOver);
 					}
@@ -342,7 +341,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
 				for(int k=0;k<oddHandOverListAfter1.size();k++){
-					OddHandOver oddHandOver = oddHandOverListAfter1.get(i);
+					OddHandOver oddHandOver = oddHandOverListAfter1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
 						oddHandOverListAfter.add(oddHandOver);
 					}
@@ -397,7 +396,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
 				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
-				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
+				map.put(strlen[13],workingbill.getShift());//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
 				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
 				Double bomamount = 0.00d;
@@ -604,7 +603,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
 				for(int k=0;k<oddHandOverListBefore1.size();k++){
-					OddHandOver oddHandOver = oddHandOverListBefore1.get(i);
+					OddHandOver oddHandOver = oddHandOverListBefore1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
 						oddHandOverListBefore.add(oddHandOver);
 					}
@@ -618,7 +617,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
 				for(int k=0;k<oddHandOverListAfter1.size();k++){
-					OddHandOver oddHandOver = oddHandOverListAfter1.get(i);
+					OddHandOver oddHandOver = oddHandOverListAfter1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
 						oddHandOverListAfter.add(oddHandOver);
 					}
@@ -673,7 +672,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
 				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
-				map.put(strlen[13],workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()));//班次
+				map.put(strlen[13],workingbill.getShift());//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
 				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
 				Double bomamount = 0.00d;

@@ -608,7 +608,7 @@ public class DumpAction extends BaseAdminAction {
 		//admin=adminService.get(admin.getId());
 		//factoryunit=admin.getTeam().getFactoryUnit();
 						
-		System.out.println(ip);
+		//System.out.println(ip);
 		
 		//根据单元获取物料
 		if(factoryunit!=null)

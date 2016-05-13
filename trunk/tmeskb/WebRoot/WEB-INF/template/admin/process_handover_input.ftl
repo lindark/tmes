@@ -397,7 +397,7 @@
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
 																	</#if>  -->
-																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确金额'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
+																	<td style="width:10%"><input type="text" name="processHandoverList[${list_index}].productAmount" class="show_input productAmount {number:true,messages:{number:'*请输入正确数量'}}" style="width:100%"value="${(list.productAmount)!''}" readonly></td>
 																	<td style="width:10%">
 																	<#if !show??>
 																	<#list pagerMapList as bl>

@@ -9,10 +9,8 @@
 	content="Dynamic tables and grids using jqGrid plugin" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<#include "/WEB-INF/template/common/includelist.ftl">
-<!--modify weitao-->
-<script type="text/javascript" src="${base}/template/admin/js/manage/sample_history.js"></script>
-<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<#include "/WEB-INF/template/common/include.ftl">
+<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/template/common/js/jquery.form.js"></script>
 <script type="text/javascript" src="${base}/template/common/js/jquery.metadata.js"></script>
 <script type="text/javascript" src="${base}/template/common/js/jquery.validate.js"></script>
@@ -68,7 +66,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal validate" id="inputForm" method="post">
+							<form class="form-horizontal validate" id="inputForm" method="post" action="" role="form">
 								<div class="widget-box transparent">
 						<div class="div_top">
 								<#if !(show??)>
@@ -187,8 +185,8 @@
 															<#break>
 															</#list>
 														<#else> 	</#if> -->
-													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount state_input" name="processHandoverList[${list_index}].actualHOMount" value="${(list.actualHOMount) }"/></td>
-													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount state_input" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount state_input " name="processHandoverList[${list_index}].actualHOMount" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"value="${(list.actualHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount state_input "onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
 														<td class="station"style="width:5%">
 														<#if !(show??)>
 																	<#list pagerMapList as bl>

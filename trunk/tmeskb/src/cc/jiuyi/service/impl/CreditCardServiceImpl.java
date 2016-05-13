@@ -35,4 +35,11 @@ public class CreditCardServiceImpl extends BaseServiceImpl<CreditCard, String> i
 		return creditcarddao.get(createdate);
 		
 	}
+
+	@Override
+	public void deleteCrard() {
+		creditcarddao.deleteCrard();
+	}
+	
+	
 }

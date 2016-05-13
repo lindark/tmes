@@ -24,4 +24,6 @@ public interface CreditCardDao extends BaseDao<CreditCard, String> {
 	 * @return
 	 */
 	public List<CreditCard> getByDate(Date startdate, Date enddate);
+	
+	public void deleteCrard();
 }

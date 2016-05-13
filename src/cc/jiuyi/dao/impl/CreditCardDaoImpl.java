@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -42,5 +43,20 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 	{
 		String hql="from CreditCard where createDate between ? and ?)";
 		return this.getSession().createQuery(hql).setParameter(0, startdate).setParameter(1,enddate).list();
+	}
+
+	@Override
+	public void deleteCrard() {
+		GregorianCalendar g=new GregorianCalendar();
+		int year = g.get(GregorianCalendar.YEAR);
+		String month = (g.get(GregorianCalendar.MONTH)+1)+"";
+		if(month.length()==1){
+			month = "0"+month;
+		}
+		/*String hql1 = "insert into CreditCardCopy (select * from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd'))";
+		getSession().createQuery(hql1).executeUpdate();*/
+		
+		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd')";
+		getSession().createQuery(hql).executeUpdate();
 	}
 }

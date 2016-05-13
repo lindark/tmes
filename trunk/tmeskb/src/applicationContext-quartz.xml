@@ -47,6 +47,7 @@
             <list>   
 	   		<ref local="cronTriggerCA_DocBM"/> 
 	   		 <ref local="cronTriggerEquipment"/>
+	   		 <ref local="cronTriggerdeleteCardJob"/>
             </list>   
         </property>   
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
@@ -95,4 +96,18 @@
 		  </property>
     </bean>  
 	
+	
+	<!-- 定时任务  删除刷卡记录 -->
+	<bean name="deleteCardJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="cc.jiuyi.action.cron.DeleteCardJob"></property>
+	</bean>
+	<!-- 任务的执行 -->
+	<bean id="cronTriggerdeleteCardJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	 <property name="jobDetail">
+		   <ref bean="deleteCardJob"/>
+		  </property>
+		  <property name="cronExpression">
+		   <value>	0 5 3 5 * ?</value><!-- 凌晨3点执行 -->
+		  </property>
+	</bean>
 </beans>

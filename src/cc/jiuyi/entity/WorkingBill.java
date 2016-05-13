@@ -49,6 +49,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String isHand;//是否交接完成 Y为交接完成，N为未交接完成
 	private String moudle;//模具组号
 	private Set<UnitdistributeModel> unitdistributemodelSet;//分配磨具
+	private String shift;
 	
 	private Team team;//班组
 	
@@ -530,6 +531,12 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public void setAfterprocessHandoverSet(
 			Set<ProcessHandover> afterprocessHandoverSet) {
 		this.afterprocessHandoverSet = afterprocessHandoverSet;
+	}
+	public String getShift() {
+		return shift;
+	}
+	public void setShift(String shift) {
+		this.shift = shift;
 	}
 	
 

@@ -302,10 +302,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			
 			//判断当前登录人是否已经创建过工序交接
 			List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
-			if(phtlist!=null && phtlist.size()>0){
-				addActionError("您当日工序交接已提交或已确认");
-				return ERROR;
-			}
+//			if(phtlist!=null && phtlist.size()>0){
+//				addActionError("您当日工序交接已提交或已确认");
+//				return ERROR;
+//			}
 			/*String uuid = CommonUtil.getUUID();
 			processHandoverTop.setId(uuid);*/
 			processHandoverList = new ArrayList<ProcessHandover>();

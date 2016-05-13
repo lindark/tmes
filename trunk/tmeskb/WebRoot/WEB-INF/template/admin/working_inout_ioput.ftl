@@ -17,12 +17,15 @@
 <script type="text/javascript" src="${base}/template/admin/js/list.js"></script> 
 <script type="text/javascript">
 	var jsondata = ${(jsondata)!};
+	$(function(){
+		$("#grid-table_materialName").css("width","150px");
+		$("#grid-table tr td:nth-child(2)").css("width","150px");
+	});
 </script>
 <style>
 body {
 	background: #fff;
 }
-
 </style>
 
 </head>

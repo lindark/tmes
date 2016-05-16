@@ -61,7 +61,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private static final String CONFIRMED = "1";
 	// private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
-	private static final String steus="PP02";
+	private static final String steus="PP01";
 	private static final String UNITCODE = "CAR";
 
 	private DailyWork dailyWork;

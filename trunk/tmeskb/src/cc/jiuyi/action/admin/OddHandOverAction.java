@@ -47,6 +47,7 @@ import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
@@ -125,6 +126,8 @@ public class OddHandOverAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
@@ -305,7 +308,15 @@ public class OddHandOverAction extends BaseAdminAction {
 			pagerMapList = new ArrayList<HashMap<String,Pager>>();
 			//获取维护物料信息
 			List<Material> materialList = materialService.getAll();
-
+			
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			
+			boolean flag = ThinkWayUtil.isPass(admin);
+			if(!flag){
+				addActionError("您当前未上班,不能进行部门领用操作!");
+				return ERROR;
+			}
+			
 			oddHandOverList = new ArrayList<OddHandOver>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);

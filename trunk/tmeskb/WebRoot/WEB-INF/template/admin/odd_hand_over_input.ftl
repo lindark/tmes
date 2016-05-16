@@ -185,23 +185,29 @@
 														<#else> 	</#if> -->
 													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount state_input " name="processHandoverList[${list_index}].actualHOMount" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"value="${(list.actualHOMount) }"/></td>
 													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount state_input "onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
-														<td class="station"style="width:5%">
-														<#if !(show??)>
+														<td style="width:5%">
+																	<#if !show??>
 																	<#list pagerMapList as bl>
-																	 
 																	<#if bl.workingBillCode.searchString == list.workingBillCode>
-																			<select name="processHandoverList[${list_index}].station">
+																			<select id="station"  name="processHandoverList[${list_index}].station">
+																			<#if (bl.pager.list?size>0)!>
+																			<option value=""></option>
 																			<#list bl.pager.list as pagerlist>
-																				<option <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
-																			</#list>	
+																				<option value="${(pagerlist.station)! }" <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																			</#list>
+																			<#else>
+																				<#list bl.pager.list as pagerlist>
+																					<option value="${(pagerlist.station)! }" <#if (pagerlist.station == (list.station))!> selected</#if>>${(pagerlist.station)! } </option>
+																				</#list>
+																			</#if>	
 																			</select>
 																	<#break>
 																	</#if>
 																	</#list>
-														<#else>
-														<span>${(list.station) }</span>
-														</#if>		
-														</td>
+																	<#else>
+																	${(list.station)! }
+																	</#if>
+																	</td>
 														<td style="width:5%">
 														<#if !(show??)>
 														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />

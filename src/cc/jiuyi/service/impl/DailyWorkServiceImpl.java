@@ -164,13 +164,13 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 			dailyWork = dailyWorkDao.get(dailyWork.getId());			
 			totalamount  =  new BigDecimal(dailyWork.getEnterAmount()).add(totalamount).setScale(2, RoundingMode.HALF_UP);
-			if(dailyWork.getMoudle().equalsIgnoreCase("1")){
+			if("1".equalsIgnoreCase(dailyWork.getMoudle())){
 				workingbill.setChecknum1("1");
-			}else if(dailyWork.getMoudle().equalsIgnoreCase("2")){
+			}else if("2".equalsIgnoreCase(dailyWork.getMoudle())){
 				workingbill.setChecknum2("2");
-			}else if(dailyWork.getMoudle().equalsIgnoreCase("3")){
+			}else if("3".equalsIgnoreCase(dailyWork.getMoudle())){
 				workingbill.setChecknum3("3");
-			}else if(dailyWork.getMoudle().equalsIgnoreCase("4")){
+			}else if("4".equalsIgnoreCase(dailyWork.getMoudle())){
 				workingbill.setChecknum4("4");
 			}else{
 				workingbill.setChecknum5("5");
@@ -194,13 +194,13 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 				dailyWork = dailyWorkDao.get(dailyWork.getId());
 				totalamount = totalamount.subtract(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
-				if(dailyWork.getMoudle().equalsIgnoreCase("1")){
+				if("1".equalsIgnoreCase(dailyWork.getMoudle())){
 					workingbill.setChecknum1("1");
-				}else if(dailyWork.getMoudle().equalsIgnoreCase("2")){
+				}else if("2".equalsIgnoreCase(dailyWork.getMoudle())){
 					workingbill.setChecknum2("2");
-				}else if(dailyWork.getMoudle().equalsIgnoreCase("3")){
+				}else if("3".equalsIgnoreCase(dailyWork.getMoudle())){
 					workingbill.setChecknum3("3");
-				}else if(dailyWork.getMoudle().equalsIgnoreCase("4")){
+				}else if("4".equalsIgnoreCase(dailyWork.getMoudle())){
 					workingbill.setChecknum4("4");
 				}else{
 					workingbill.setChecknum5("5");

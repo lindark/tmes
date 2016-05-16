@@ -9,14 +9,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Resource;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
+
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
+
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -46,6 +51,7 @@ import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverSonService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
@@ -116,6 +122,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private ProcessHandoverSonService processHandoverSonService;
 	@Resource
 	private OddHandOverService oddHandOverService;
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	/**
 	 * 列表
@@ -299,6 +307,14 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			admin = adminService.get(admin.getId());
 			processHandoverTop = new ProcessHandoverTop();
 			pagerMapList = new ArrayList<HashMap<String,Pager>>();
+			
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			
+			boolean flag = ThinkWayUtil.isPass(admin);
+			if(!flag){
+				addActionError("您当前未上班,不能进行部门领用操作!");
+				return ERROR;
+			}
 			
 			//判断当前登录人是否已经创建过工序交接
 			List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);

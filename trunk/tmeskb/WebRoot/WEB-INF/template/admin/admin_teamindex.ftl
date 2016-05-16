@@ -633,16 +633,7 @@
 		})
 		
 		
-		
-		
-		
-		
-	});
-	</script>
-
-<script type="text/javascript">
-$(function(){
-	$("#changeTeamButton").bind("click",function(){
+		$("#changeTeamButton").bind("click",function(){
 			layer.open({
 		        type: 2,
 		        skin: 'layui-layer-lan',
@@ -684,8 +675,10 @@ $(function(){
 		    });
 		return false;
 	});
-});
+		
+		
+		
+	});
 	</script>
-
 </body>
 </html>

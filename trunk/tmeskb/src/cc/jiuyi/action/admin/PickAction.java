@@ -269,10 +269,10 @@ public class PickAction extends BaseAdminAction {
 		}	*/	
 		this.workingbill = workingBillService.get(workingBillId);	
 		
-		if(this.workingbill.getIsHand().equals("Y")){
+		/*if(this.workingbill.getIsHand().equals("Y")){
 			addActionError("当日交接已完成，领退料不能使用");
 			return ERROR;
-		}
+		}*/
 		
 		
         List<PickDetail> pickDetailList = new ArrayList<PickDetail>();

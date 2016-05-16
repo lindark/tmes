@@ -128,10 +128,11 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			}
 		}else{
 			for(OddHandOver  o:processHandover.getOddHandOverSet()){
+				
 				HashMap<String,Object> item = new HashMap<String,Object>();
 				item.put("MATNR", o.getBomCode());//物料编码
-				BigDecimal actualBomMount = new BigDecimal(o.getActualBomMount());
-				BigDecimal unBomMount = new BigDecimal(o.getUnBomMount());
+				BigDecimal actualBomMount = new BigDecimal(o.getActualHOMount()==null?0:o.getActualBomMount());
+				BigDecimal unBomMount = new BigDecimal(o.getUnHOMount()==null?0:o.getUnHOMount());
 				BigDecimal amount = actualBomMount.add(unBomMount);
 				String mount = amount.toString();
 				item.put("ZSFSL", mount);//数量

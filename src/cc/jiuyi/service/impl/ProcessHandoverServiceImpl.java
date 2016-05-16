@@ -226,23 +226,23 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				}
 			}
 			if(flag){
-				ProcessHandover ProcessHandover;
+				
 				//try {
-					ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
+				ProcessHandover ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
 			/*	} catch (IOException e) {
 					e.printStackTrace();
-					map.put("status", "E");
+					map.put("staus", "E");
 					map.put("massge","IO出现异常，请联系系统管理员");
 					return map;
 				} catch (CustomerException e) {
 					e.printStackTrace();
-					map.put("status", "E");
+					map.put("staus", "E");
 					map.put("massge",e.getMsgDes());
 					return map;
 				}*/
 				if(budat==null)
-				//budat = ProcessHandover.getBudat();
-				//p.setBudat(ProcessHandover.getBudat());
+				budat = ProcessHandover.getBudat();
+				p.setBudat(ProcessHandover.getBudat());
 				p.setE_message(ProcessHandover.getE_message());
 				p.setE_type(ProcessHandover.getE_type());
 				p.setMblnr(ProcessHandover.getMblnr());
@@ -254,6 +254,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		processHandoverTop.setState("2");
 		processHandoverTopService.update(processHandoverTop);
 		}
+
 		map.put("status", "S");
 		map.put("massge","您的操作已成功!");
 		return map;

@@ -399,7 +399,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
 		//Products products = productsService.getByPcode(workingBill.getMatnr());
 		//String time = ThinkWayUtil.formatdateDate(workingBill.get);
-		List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
+		/*List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
 		List<String> ProcessRouteIdList = new ArrayList<String>();
 		for(ProcessRoute pr:processrouteList){
 			ProcessRouteIdList.add(pr.getId());
@@ -408,7 +408,7 @@ public class DailyWorkAction extends BaseAdminAction {
 		if (process == null || process.equals("")) {
 	           return ajaxJsonErrorMessage("未找到所对应的工序!");
 			}
-		dailyWork.setProcessCode(process);
+		dailyWork.setProcessCode(process);*/
 		if (dailyWork.getEnterAmount() == null
 				|| String.valueOf(dailyWork.getEnterAmount()).matches(
 						"^[0-9]*[1-9][0-9]*$ ")) {
@@ -473,9 +473,22 @@ public class DailyWorkAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage("已撤销的无法再确认！");
 				}
 			//	dailyWork.setEnterAmount(dailyWork.getEnterAmount());
+				WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
+				//Products products = productsService.getByPcode(workingBill.getMatnr());
+				//String time = ThinkWayUtil.formatdateDate(workingBill.get);
+				List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
+				List<String> ProcessRouteIdList = new ArrayList<String>();
+				for(ProcessRoute pr:processrouteList){
+					ProcessRouteIdList.add(pr.getId());
+				}
+				String process = processRouteService.getProcess(ProcessRouteIdList,steus);
+				if (process == null || process.equals("")) {
+			           return ajaxJsonErrorMessage("未找到所对应的工序!");
+					}
+				dailyWork.setProcessCode(process);
 				dailyList.add(dailyWork);
 			}
-			List<DailyWork> list = dailyWorkService.get(ids);
+			//List<DailyWork> list = dailyWorkService.get(ids);
 			
 			dailyWorkService.updateState(dailyList,CONFIRMED,workingBillId,cardnumber);
 			

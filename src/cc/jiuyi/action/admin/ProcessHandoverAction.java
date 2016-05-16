@@ -312,7 +312,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			
 			boolean flag = ThinkWayUtil.isPass(admin);
 			if(!flag){
-				addActionError("您当前未上班,不能进行部门领用操作!");
+				addActionError("您当前未上班,不能进行部门工序交接操作!");
 				return ERROR;
 			}
 			

@@ -441,6 +441,12 @@ function showUnit(num1){
 						layer.alert("请填写下班随工单",{icon: 7});
 						return false;
 					}
+					
+					if($("#station").val()==""){
+						flag = false;
+						layer.alert("请选择模具",{icon: 7});
+						return false;
+					};
 				}
 			});
 			if(flag){

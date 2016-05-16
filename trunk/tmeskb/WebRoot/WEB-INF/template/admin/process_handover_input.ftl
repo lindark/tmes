@@ -781,7 +781,7 @@ function showUnit(num1){
 		}); 
 		 /*返回*/
 			$("#btn_back").click(function(){
-				window.history.back();
+				window.history.back();return false;
 			});
 		 var process = $("#process option:checked").text();
 		 $("#processName").val(process);

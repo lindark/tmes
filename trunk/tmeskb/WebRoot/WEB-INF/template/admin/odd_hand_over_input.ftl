@@ -228,7 +228,7 @@
 									</table>
 									<#if !show??>
 									<div class="row buttons col-md-8 col-sm-4 sub-style" style="margin-top:5px;text-align:center">
-                                     <button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="btn_save" type=button <#if state=="2">disabled</#if>>
+                                     <button class="btn btn-white btn-default btn-sm btn-round btnsubmit" id="btn_save" type="button" <#if state=="2">disabled</#if>>
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡提交
 									</button>
@@ -237,7 +237,7 @@
 										<i class="ace-icon glyphicon glyphicon-check"></i>
 										刷卡确认
 									</button> -->
-									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type=button" style="text-align:center">
+									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back" type="button" style="text-align:center">
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
@@ -453,7 +453,7 @@ function showUnit(num1){
 	 });
 	 /*返回*/
 		$("#btn_back").click(function(){
-			window.history.back();
+			window.history.back();return false;
 		});
 	 /*删除操作*/
 		$(".removeLine").click(

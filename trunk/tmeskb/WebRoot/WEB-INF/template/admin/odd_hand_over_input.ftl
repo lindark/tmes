@@ -69,7 +69,6 @@
 							<form class="form-horizontal validate" id="inputForm" method="post" action="" role="form">
 								<div class="widget-box transparent">
 						<div class="div_top">
-								<#if !(show??)>
 								<div>
 								下班生产日期:
                                 <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
@@ -82,7 +81,6 @@
 										<option value="3" <#if (processHandoverTop.aftershift == 3)!> selected</#if>>晚</option>
                                    </select>
 								</div>
-								</#if>
 						<div class="widget-header">
 							<h4 class="widget-title lighter">班组信息</h4>
 							<div class="widget-toolbar no-border">

@@ -720,8 +720,10 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditundo() {
-		processHandoverTop = processHandoverTopService.get(id);
+		String[] ids = id.split(",");
 		admin = adminService.getByCardnum(cardnumber);
+		for(String id:ids){
+		processHandoverTop = processHandoverTopService.get(id);
 		if(processHandoverTop.getState().equals("1")){
 			if(processHandoverTop.getType().equals("工序交接")){
 			processHandoverTop.setIsdel("Y");
@@ -753,11 +755,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 						oddHandOverService.update(os);
 						}
 					}
+				}
 			}
-		}else{
-			return ajaxJsonSuccessMessage("请选择未确认的记录!");
+			else{
+				return ajaxJsonSuccessMessage("请选择未确认的记录!");
+			}
 		}
-		
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	

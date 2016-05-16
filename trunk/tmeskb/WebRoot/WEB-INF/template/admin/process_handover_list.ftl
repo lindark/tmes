@@ -57,7 +57,7 @@
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="editProHO" type=button>
 									    <i class="ace-icon glyphicon glyphicon-edit"></i>
-									      编辑工序交接
+									      修改工序交接单
 								    </button>  							
 									<button class="btn btn-white btn-default btn-sm btn-round" id="viewProHO" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
@@ -69,7 +69,7 @@
 									</button>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="editChangeNum" type=button>
 									    <i class="ace-icon glyphicon glyphicon-edit"></i>
-									      编辑零头数交接
+									      修改零头交接单
 								    </button>  
 								    <button class="btn btn-white btn-default btn-sm btn-round" id="viewChangeNum" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
@@ -283,8 +283,9 @@
 			 }
 		});
 		
+		/*刷卡撤销*/
 		$("#repealPick").click(function(){
-			var loginid = $("#loginid").val();
+	//		var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -298,7 +299,8 @@
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
 					return false;
 				}else{
-					var url="process_handover!creditundo.action?id="+id+"&loginid="+loginid;;
+					var url="process_handover!creditundo.action?id="+id
+							//+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");

@@ -277,7 +277,7 @@ public class AdminAction extends BaseAdminAction {
 			admin = adminService.get(admin.getId());
 			
 			//判定是否是副主任
-			fzrFlag=false;
+			/*fzrFlag=false;
 			Set<Role> roles=admin.getRoleSet();
 			Iterator<Role> it=roles.iterator();
 			while(it.hasNext())
@@ -288,7 +288,7 @@ public class AdminAction extends BaseAdminAction {
 					fzrFlag=true;
 					break;
 				}
-			}
+			}*/
 			
 			
 			if(admin.getProductDate() != null && admin.getShift() != null)

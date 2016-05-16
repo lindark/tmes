@@ -308,7 +308,7 @@ public class ThinkWayUtil {
     public static String getIp2(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         //System.out.println("ip1:"+ip);
-        log.info("ip1:"+ip);
+        //log.info("ip1:"+ip);
         if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
             //多次反向代理后会有多个ip值，第一个ip才是真实ip
             int index = ip.indexOf(",");
@@ -320,7 +320,7 @@ public class ThinkWayUtil {
         }
         ip = request.getHeader("X-Real-IP");
         //System.out.println("ip2:"+ip);
-        log.info("ip2:"+ip);
+        //log.info("ip2:"+ip);
         if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
             return ip;
         }

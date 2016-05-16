@@ -202,7 +202,7 @@ public class TeamAction extends BaseAdminAction {
 			if(pager.getOrderBy()==null||"".equals(pager.getOrderBy()))
 			{
 				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("teamCode");
+				pager.setOrderBy("factoryUnitCode");
 			}
 			if (pager.is_search() == true && Param != null) {// 普通搜索功能
 																// 此处处理普通查询结果

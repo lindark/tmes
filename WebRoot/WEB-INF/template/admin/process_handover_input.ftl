@@ -379,7 +379,7 @@
 																	</td>
 																	
 																	<td>${(list.planCount)! }
-																	<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }">
+																	<input type="hidden" name="processHandoverList[${list_index}].planCount" value="${(list.planCount)! }" class="planCount">
 																	</td>
 																	
 																	<td>${(list.matnr)! }
@@ -439,7 +439,7 @@
 																		<table id="" class="table table-striped table-bordered table-hover" style="width:95%;margin-bottom: 0px; ">
 																		<tr>
 																				<th class="">子件名称</th>
-																				<th class="" style="display:none">条子数量</th>
+																				<th class="" >需求数量</th>
 																				<th class="" style="display:none">产品数量</th>
 																				<th class="">子件数量</th>
 																				<th class="">返修数量</th>
@@ -459,8 +459,8 @@
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td style="display:none">${(bl.materialAmount)! }
-																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
+																				<td>${(bl.materialAmount)! }
+																				<input type="hidden" class="materialAmount" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
 																				<td style="display:none">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
@@ -628,7 +628,7 @@ function showUnit(num1){
 			$(this).prev().css("display","block");
 			$(this).parent().parent().next().css("display","none");
 		});
-		$(".productAmount").change(function(){
+		/* $(".productAmount").change(function(){
 			var $productA = $(this);
 			var productAmount = $productA.val();
 			if(productAmount==""){
@@ -653,6 +653,45 @@ function showUnit(num1){
 					var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
 					$cqbs.next().find("#cqamount").val(cqhmount);
 				}
+				
+			});
+		}); */
+		$(".productAmount").change(function(){
+			var $productA = $(this);
+			var planmount = $productA.parent().parent().find(".planCount").eq(0).val();
+			var productAmount = $productA.val();
+			if(productAmount==""){
+				productAmount = 0;
+			}
+			$productA.parent().parent().next().find(".bomAmount").each(function(){
+				var materialAmount = $(this).parent().parent().find(".materialAmount").eq(0).val();
+				if(materialAmount==""){
+					materialAmount = 0;
+				}
+				//alert(materialAmount+"---"+planmount+"---"+productAmount);
+				var accDivA = floatDiv(materialAmount,planmount)
+				var accMulA = floatMul(accDivA,productAmount).toFixed(2);
+				$(this).val(accMulA);
+				$(this).parent().parent().find(".amountinp").eq(0).val(accMulA);
+				$(this).parent().parent().find(".amountinp").eq(0).next().text(accMulA);
+				var $cqbs = $(this).parent().next().next();
+				//alert(floatMul(accMulA,cqbs).toFixed(2));
+				var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
+				$cqbs.next().find("#cqamount").val(cqhmount);
+				/* var productAmountson = $(this).parent().prev().text();
+				if(productAmountson=="" || productAmountson==0){
+					$(this).val("");
+				}else{
+					var accDivA = floatDiv(materialAmount,productAmountson)
+					var accMulA = floatMul(accDivA,productAmount).toFixed(2);
+					$(this).val(accMulA);
+					$(this).parent().parent().find(".amountinp").eq(0).val(accMulA);
+					$(this).parent().parent().find(".amountinp").eq(0).next().text(accMulA);
+					var $cqbs = $(this).parent().next().next();
+					//alert(floatMul(accMulA,cqbs).toFixed(2));
+					var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
+					$cqbs.next().find("#cqamount").val(cqhmount);
+				} */
 				
 			});
 		});

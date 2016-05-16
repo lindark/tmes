@@ -179,11 +179,8 @@
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">															
 															${(admin.team.teamName)! }
-															<#if fzrFlag >
-																&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-white btn-default btn-sm btn-round" id="changeTeamButton" type="button">更换班组</button>													   
-													   
-															</#if>
-														</div>										
+															<button class="btn btn-white btn-default btn-sm btn-round access"data-access-list="changeTeamButton"  id="changeTeamButton">更换班组</button>													   												   														
+														</div>		
 													</div>
 													
 													<div class="profile-info-row">
@@ -464,13 +461,13 @@
 															class="bigger-110 no-text-shadow">仓位库存交接</span>
 													</button>
 												</div>
-												 <!-- <div class="col-md-3 col-sm-4" style="padding:2px;">
+												   <div class="col-md-3 col-sm-4" style="padding:2px;">
 													<button                                               
 														class="btn btn-green btn-success btn-bold btn-round btn-block" id="processHO" type="button">
 														<i class="ace-icon fa fa-reply-all bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">工序交接</span>
 													</button>
-												</div> -->
+												</div> 
 												<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 												
 
@@ -642,7 +639,7 @@
 		
 	});
 	</script>
-<#if fzrFlag >
+
 <script type="text/javascript">
 $(function(){
 	$("#changeTeamButton").bind("click",function(){
@@ -689,6 +686,6 @@ $(function(){
 	});
 });
 	</script>
-</#if>
+
 </body>
 </html>

@@ -299,7 +299,7 @@
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
 					return false;
 				}else{
-					var url="process_handover!creditundo.action?id="+id
+					var url="process_handover!creditundo.action?id="+id;
 							//+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);

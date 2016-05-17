@@ -24,6 +24,7 @@ public class Quality extends BaseEntity{
 	
 	private Team team;//班组
 	private String qualityProblemDescription;//问题描述
+	private String writeQualityPromblem;//问题描述，手写
 	private Admin creater;//创建人
 	private Admin receiver;//接收人
 	private Admin engineer;//工程师
@@ -275,6 +276,12 @@ public class Quality extends BaseEntity{
 	}
 	public void setShift(String shift) {
 		this.shift = shift;
+	}
+	public String getWriteQualityPromblem() {
+		return writeQualityPromblem;
+	}
+	public void setWriteQualityPromblem(String writeQualityPromblem) {
+		this.writeQualityPromblem = writeQualityPromblem;
 	}
 	
 	

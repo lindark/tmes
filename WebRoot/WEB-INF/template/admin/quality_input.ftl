@@ -268,29 +268,27 @@ body {
 													<textarea name="quality.problemDescription"
 														style="width:600px;" class="formText {required: true}">${(quality.problemDescription)!}</textarea>
 												</div>-->
-												<#if isAdd??>
-													<div class="profile-info-value">
-															
-															<#list problemDescriptionList as list>	
-																									
-															<label><input value="${list.id}"  type="checkbox" name="quality.qualityProblemDescription"/ class="input mycheckbox formText {}">${ (list.problemDescription)! }</label>														
-																</#list>
-														 
-													</div>
-												<#else>
-													<div class="profile-info-value">
-														<#list problemDescriptionList as list>	
-																									
-															<label><input value="${list.id}"  type="checkbox" name="quality.qualityProblemDescription" class="input mycheckbox formText {}"/>${ (list.problemDescription)! }</label>														
-														</#list>
-													</div>		
-												</#if>
 												
+												<div class="profile-info-value">
+													<#list problemDescriptionList as list>											
+														<label><input value="${list.id}"  type="checkbox" name="quality.qualityProblemDescription" class="input mycheckbox formText {}"/>${ (list.problemDescription)! }</label>														
+													</#list>
+												</div>		
 											</div>
 											
 											
 										</div>
-
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">质量问题描述</div>
+												
+												<div class="profile-info-value">
+													<input type="text" name="quality.writeQualityPromblem"
+														value="${(quality.writeQualityPromblem)!}"
+														class=" input input-sm  formText" />
+												</div>
+											</div>
+										</div>
 										<#if isAdd??> <#else>
 										<div
 											class="profile-user-info profile-user-info-striped access"

@@ -166,7 +166,16 @@ body {
 												</div>
 											</div>
 										</div>
-
+										<div class="profile-user-info profile-user-info-striped">
+											<div class="profile-info-row">
+												<div class="profile-info-name">质量问题描述</div>
+												<div class="profile-info-value">
+													<input type="text" name="quality.writeQualityPromblem"
+														value="${(quality.writeQualityPromblem)!}"
+														class=" input input-sm  formText" />
+												</div>
+											</div>
+										</div>
 										<div class="profile-user-info profile-user-info-striped">
 											<div class="profile-info-row">
 												<div class="profile-info-name">车间整改方案</div>

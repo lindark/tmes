@@ -183,8 +183,8 @@
 															<#break>
 															</#list>
 														<#else> 	</#if> -->
-													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount state_input " name="processHandoverList[${list_index}].actualHOMount" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"value="${(list.actualHOMount) }"/></td>
-													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount state_input "onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="oddhandOverMount oddMount state_input " name="processHandoverList[${list_index}].actualHOMount" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"value="${(list.actualHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%" class="unhandOverMount oddMount state_input "onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
 														<td style="width:5%">
 																	<#if !show??>
 																	<#list pagerMapList as bl>
@@ -432,7 +432,7 @@ function showUnit(num1){
 				layer.alert("请至少保留一条数据",{icon: 7});
 				return false;
 			}
-			$(".oddhandOverMount").each(function(){
+			$(".oddMount").each(function(){
 				var productAmount = $(this).val();
 				var afterworkbill = $(this).parent().prev().children().val();
 				if(productAmount != null && productAmount != ""){

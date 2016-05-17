@@ -10,7 +10,7 @@ import org.compass.annotations.Searchable;
  *
  */
 @Entity
-@Searchable
+//@Searchable
 public class QualityProblemDescription extends BaseEntity {
 
 	

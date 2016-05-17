@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import org.compass.annotations.Searchable;
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "PositionManagement")
 public class PositionManagement extends BaseEntity{
 

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import org.compass.annotations.Searchable;
 
 @Entity
-@Searchable
+//@Searchable
 public class DumpDetail extends BaseEntity {
 	
 	private static final long serialVersionUID = -98273463438281L;

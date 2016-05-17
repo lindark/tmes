@@ -15,7 +15,7 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
+//@Searchable
 public class Repairin extends BaseEntity {
 
 	private static final long serialVersionUID = 727896572443412459L;

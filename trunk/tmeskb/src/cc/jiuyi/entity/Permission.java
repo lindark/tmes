@@ -13,7 +13,7 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "Permission")
 public class Permission extends BaseEntity{
 

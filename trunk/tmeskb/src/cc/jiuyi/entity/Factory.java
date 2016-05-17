@@ -17,7 +17,7 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "Factory")
 public class Factory extends BaseEntity{
 

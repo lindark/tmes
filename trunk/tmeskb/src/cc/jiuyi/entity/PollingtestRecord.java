@@ -11,7 +11,7 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
+//@Searchable
 public class PollingtestRecord extends BaseEntity {
 
 	private static final long serialVersionUID = 128480212829968597L;

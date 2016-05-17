@@ -13,7 +13,7 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "DailyWork")
 public class DailyWork extends BaseEntity {
 

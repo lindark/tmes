@@ -12,7 +12,7 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
+//@Searchable
 public class FactoryUnitSyn extends BaseEntity{
 	
 	private static final long serialVersionUID = -8030009887776670155L;

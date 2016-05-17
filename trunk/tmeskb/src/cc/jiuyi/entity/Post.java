@@ -17,7 +17,7 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "Post")
 public class Post extends BaseEntity{
 

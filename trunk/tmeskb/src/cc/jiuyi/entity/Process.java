@@ -18,7 +18,7 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "Process")
 public class Process extends BaseEntity {
 

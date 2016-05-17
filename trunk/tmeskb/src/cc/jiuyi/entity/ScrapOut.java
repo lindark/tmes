@@ -18,7 +18,7 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "ScrapOut")
 public class ScrapOut extends BaseEntity {
 

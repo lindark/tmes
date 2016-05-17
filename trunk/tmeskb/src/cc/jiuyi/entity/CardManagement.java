@@ -15,7 +15,6 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
 @Table(name = "CardManagement")
 public class CardManagement extends BaseEntity{
 

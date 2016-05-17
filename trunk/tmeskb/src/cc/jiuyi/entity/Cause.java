@@ -10,7 +10,6 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
 public class Cause extends BaseEntity {
 
 	private static final long serialVersionUID = -7677927911812294207L;

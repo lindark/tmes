@@ -12,7 +12,7 @@ import org.compass.annotations.Searchable;
  */
 
 @Entity
-@Searchable
+//@Searchable
 public class Pros extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

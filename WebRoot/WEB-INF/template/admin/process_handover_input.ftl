@@ -174,8 +174,8 @@
 														<div class="profile-info-name">工厂/车间：</div>
 														<div class="profile-info-value">
 														<input type="hidden" name="processHandoverTop.id" value="${(processHandoverTop.id)!}">
-														<input type="hidden" name="processHandoverTop.werk" value="${(admin.team.factoryUnit.workShop.factory.factoryName)!}">
-														<input type="hidden" name="processHandoverTop.wshop" value="${(admin.team.factoryUnit.workShop.workShopName)!}">
+														<input type="hidden" name="processHandoverTop.werk" value="${(admin.team.factoryUnit.workShop.factory.factoryCode)!}">
+														<input type="hidden" name="processHandoverTop.wshop" value="${(admin.team.factoryUnit.workShop.workShopCode)!}">
 															${(admin.team.factoryUnit.workShop.factory.factoryName)!} &nbsp;&nbsp;&nbsp;    
 															${(admin.team.factoryUnit.workShop.workShopName)!}</div>
 													</div>

@@ -9,7 +9,7 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
+//@Searchable
 public class ProductGroup extends BaseEntity {
 
 	private static final long serialVersionUID = 1196867753616820638L;

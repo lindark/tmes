@@ -40,7 +40,7 @@ public class BaseEntity implements Serializable {
 		this.id = id;
 	}
 
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	@Column(updatable = false)
 	public Date getCreateDate() {
 		return createDate;
@@ -50,7 +50,7 @@ public class BaseEntity implements Serializable {
 		this.createDate = createDate;
 	}
 
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	public Date getModifyDate() {
 		return modifyDate;
 	}

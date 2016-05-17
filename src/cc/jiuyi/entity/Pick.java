@@ -19,7 +19,7 @@ import org.compass.annotations.Searchable;
 
 
 @Entity
-@Searchable
+//@Searchable
 @Table(name = "Pick")
 public class Pick extends BaseEntity{
 

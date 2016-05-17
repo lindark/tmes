@@ -39,7 +39,7 @@ import org.hibernate.annotations.MapKey;
  */
 
 @Entity
-@Searchable
+//@Searchable
 public class Product extends BaseEntity {
 
 	private static final long serialVersionUID = 4858058186018438872L;
@@ -92,7 +92,7 @@ public class Product extends BaseEntity {
 		this.productSn = productSn;
 	}
 	
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	@Column(nullable = false)
 	public String getName() {
 		return name;
@@ -102,7 +102,7 @@ public class Product extends BaseEntity {
 		this.name = name;
 	}
 	
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	@Column(precision = 15, scale = 5, nullable = false)
 	public BigDecimal getPrice() {
 		return price;
@@ -113,7 +113,7 @@ public class Product extends BaseEntity {
 		this.price = SystemConfigUtil.getPriceScaleBigDecimal(price);
 	}
 
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	@Column(precision = 15, scale = 5, nullable = false)
 	public BigDecimal getMarketPrice() {
 		return marketPrice;
@@ -143,7 +143,7 @@ public class Product extends BaseEntity {
 		this.weightUnit = weightUnit;
 	}
 	
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	public Integer getStore() {
 		return store;
 	}
@@ -152,7 +152,7 @@ public class Product extends BaseEntity {
 		this.store = store;
 	}
 	
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	@Column(nullable = false)
 	public Integer getFreezeStore() {
 		return freezeStore;
@@ -174,7 +174,7 @@ public class Product extends BaseEntity {
 		this.point = point;
 	}
 
-	@SearchableProperty(store = Store.NO)
+	//@SearchableProperty(store = Store.NO)
 	@Column(nullable = false)
 	public Boolean getIsMarketable() {
 		return isMarketable;
@@ -184,7 +184,7 @@ public class Product extends BaseEntity {
 		this.isMarketable = isMarketable;
 	}
 
-	@SearchableProperty(store = Store.NO)
+	//@SearchableProperty(store = Store.NO)
 	@Column(nullable = false)
 	public Boolean getIsBest() {
 		return isBest;
@@ -194,7 +194,7 @@ public class Product extends BaseEntity {
 		this.isBest = isBest;
 	}
 
-	@SearchableProperty(store = Store.NO)
+	//@SearchableProperty(store = Store.NO)
 	@Column(nullable = false)
 	public Boolean getIsNew() {
 		return isNew;
@@ -204,7 +204,7 @@ public class Product extends BaseEntity {
 		this.isNew = isNew;
 	}
 
-	@SearchableProperty(store = Store.NO)
+	//@SearchableProperty(store = Store.NO)
 	@Column(nullable = false)
 	public Boolean getIsHot() {
 		return isHot;
@@ -238,7 +238,7 @@ public class Product extends BaseEntity {
 		this.metaDescription = metaDescription;
 	}
 	
-	@SearchableProperty(index = Index.NO, store = Store.YES)
+	//@SearchableProperty(index = Index.NO, store = Store.YES)
 	@Column(nullable = false, updatable = false)
 	public String getHtmlFilePath() {
 		return htmlFilePath;
@@ -248,7 +248,7 @@ public class Product extends BaseEntity {
 		this.htmlFilePath = htmlFilePath;
 	}
 
-	@SearchableProperty(store = Store.YES)
+	//@SearchableProperty(store = Store.YES)
 	public String getProductImageListStore() {
 		return productImageListStore;
 	}

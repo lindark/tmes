@@ -16,7 +16,7 @@ import org.compass.annotations.Searchable;
  * 
  */
 @Entity
-@Searchable
+//@Searchable
 public class Dump extends BaseEntity {
 
 	private static final long serialVersionUID = -2687433396607084358L;

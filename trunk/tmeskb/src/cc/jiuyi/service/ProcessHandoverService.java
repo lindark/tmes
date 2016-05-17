@@ -25,12 +25,14 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	
 	/**
 	 * 保存工序交接
+	 * @throws Exception 
 	 */
-	public void saveProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid);
+	public void saveProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid) throws CustomerException;
 	/**
 	 * 修改工序交接
+	 * @throws Exception 
 	 */
-	public void updateProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid);
+	public void updateProcessHandover(ProcessHandoverTop processHandoverTop,List<ProcessHandover> processHandoverList,List<ProcessHandoverSon> processHandoverSonList,String loginid) throws CustomerException;
 	/**
 	 * 刷卡确认
 	 * @throws CustomerException 

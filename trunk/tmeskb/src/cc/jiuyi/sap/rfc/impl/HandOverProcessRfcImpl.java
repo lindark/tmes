@@ -116,6 +116,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 				BigDecimal cqamount = new BigDecimal(p.getCqamount());
 				BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
 				BigDecimal amount = bomAmount.add(repairNumber).add(cqamount).add(cqrepairamount);
+				if(new BigDecimal(0).compareTo(amount)==0)continue;
 				String mount = amount.toString();
 				item.put("MATNR", p.getBomCode());//物料编码
 				item.put("ZSFSL", mount);//数量
@@ -135,6 +136,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 				BigDecimal unBomMount = new BigDecimal(o.getUnHOMount()==null?0:o.getUnHOMount());
 				BigDecimal amount = actualBomMount.add(unBomMount);
 				String mount = amount.toString();
+				if(new BigDecimal(0).compareTo(amount)==0)continue;
 				item.put("ZSFSL", mount);//数量
 				item.put("ORDERID1", o.getBeforeWokingCode());//上班随工单
 				item.put("ORDERID2", o.getAfterWorkingCode());//下班随工单

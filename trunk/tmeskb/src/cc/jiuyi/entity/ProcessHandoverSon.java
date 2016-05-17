@@ -11,7 +11,6 @@ import org.compass.annotations.Searchable;
  * 实体类 - 工序交接子类
  */
 @Entity
-@Searchable
 @Table(name = "ProcessHandoverSon")
 public class ProcessHandoverSon extends BaseEntity {
 	private static final long serialVersionUID = -8286559049968869353L;

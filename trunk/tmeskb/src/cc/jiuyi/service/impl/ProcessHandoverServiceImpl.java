@@ -151,10 +151,10 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				processHandoverDao.update(processHandovercopy);
 				for(int j=0;j<processHandoverSonList.size();j++){
 					ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);
+					processHandoverSon.setAfterWokingCode(processHandovercopy.getAfterWorkingBillCode());
 					if(processHandoverSon!=null){
 						if(processHandoverSon.getBeforeWorkingCode().equals(processHandover.getWorkingBillCode())){
 							ProcessHandoverSon processHandoverSoncopy = processHandoverSonService.get(processHandoverSon.getId());
-							processHandoverSoncopy.setAfterWokingCode(processHandovercopy.getAfterWorkingBillCode());
 							BeanUtils.copyProperties(processHandoverSon, processHandoverSoncopy, new String[]{"id", "createDate","processHandover","isdel"});
 							processHandoverSonService.update(processHandoverSoncopy);
 						}

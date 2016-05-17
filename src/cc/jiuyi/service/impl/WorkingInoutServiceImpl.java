@@ -21,6 +21,7 @@ import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.dao.ProcessHandoverDao;
+import cc.jiuyi.dao.UnitConversionDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.HandOverProcess;
@@ -30,6 +31,7 @@ import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
+import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.BomService;
@@ -37,6 +39,7 @@ import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -65,6 +68,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	private PickDetailDao pickdetaildao;
 	@Resource
 	private ProcessHandoverDao processHandoverDao;
+	@Resource
+	private UnitConversionService unitConversionService;
+	
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -322,6 +328,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				JSONObject map = new JSONObject();
 				WorkingInout workinginout = workingInoutList.get(i);
 				WorkingBill workingbill = workinginout.getWorkingbill();
+				if(workingbill.getTeam()==null)continue;
 				String aufnr = workingbill.getAufnr();
 				
 				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
@@ -410,9 +417,16 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
-			
+				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+				//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+				Double dwyl = 0.0;
+				List<UnitConversion> unitConversionList = unitConversionService.getList("matnr", workingbill.getMatnr());
+				if(unitConversionList!=null && unitConversionList.size()>0){
+					if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
+						dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+					}
+				}
+				map.put(strlen[15],dwyl);//组件单位用量 = MES中基本信息--计量单位转换中的1/兑换比例
 				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
 				
 				
@@ -686,8 +700,16 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+				//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
+				Double dwyl = 0.0;
+				List<UnitConversion> unitConversionList = unitConversionService.getList("matnr", workingbill.getMatnr());
+				if(unitConversionList!=null && unitConversionList.size()>0){
+					if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
+						dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+					}
+				}
+				map.put(strlen[15],dwyl);//组件单位用量 = MES中基本信息--计量单位转换中的1/兑换比例
 			
 				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
 				

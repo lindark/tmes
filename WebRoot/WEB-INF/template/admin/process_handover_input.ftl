@@ -752,6 +752,14 @@ function showUnit(num1){
 						};
 					}
 				});
+				$(".afterWork").each(function(){
+					var afterWork = $(this).val();
+					if(afterWork != null && afterWork != ""){
+						flag = false;
+						layer.alert("请填写下班随工单",{icon: 7});
+						return false;
+					}
+				});
 				
 				if( $("table tr:visible").length == 1){
 					flag = false;

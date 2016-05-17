@@ -285,7 +285,8 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="quality.writeQualityPromblem"
 														value="${(quality.writeQualityPromblem)!}"
-														class=" input input-sm  formText" />
+														class=" input input-sm  formText" 
+														style="width:850px;" />
 												</div>
 											</div>
 										</div>

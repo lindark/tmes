@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.persistence.RollbackException;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -98,13 +99,13 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			processHandoverTop.setState("1");
 			processHandoverTop.setIsdel("N");
 			processHandoverTop.setType("工序交接");
-			
+			processHandoverTopService.save(processHandoverTop);
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
 					WorkingBill wb = workingBillService.get("workingBillCode", processHandover.getWorkingBillCode());
 					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
-					if(afterWb==null)throw new CustomerException("找不到下班随工单或填写错误");
+					if(afterWb==null)throw new RollbackException("找不到下班随工单或填写错误");
 					processHandover.setWorkingBill(wb);
 					processHandover.setAfterworkingbill(afterWb);
 					processHandover.setProcessid(processHandoverTop.getProcessid());
@@ -122,7 +123,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					}
 				}
 			}
-			processHandoverTopService.save(processHandoverTop);
+			
 	}
 
 
@@ -137,12 +138,13 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			processHandoverTop.setCreateUser(admin);
 			ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
 			BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
+			processHandoverTopService.update(processHandoverTopcopy);
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
 					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
 					if(afterWb==null){
-						throw new CustomerException("找不到下班随工单或填写错误");
+						throw new RollbackException("找不到下班随工单或填写错误");
 					}
 					ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
 					BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
@@ -162,7 +164,6 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					}
 				}
 			}
-			processHandoverTopService.update(processHandoverTopcopy);
 	}
 
 

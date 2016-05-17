@@ -18,7 +18,6 @@ import org.hibernate.annotations.CascadeType;
  * 实体类 - 工序交接
  */
 @Entity
-@Searchable
 @Table(name = "ProcessHandover")
 public class ProcessHandover extends BaseEntity {
 	private static final long serialVersionUID = 2094155854837323121L;

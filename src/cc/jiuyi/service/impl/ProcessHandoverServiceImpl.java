@@ -72,7 +72,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 	@Override
 	public void saveProcessHandover(ProcessHandoverTop processHandoverTop,
 			List<ProcessHandover> processHandoverList,
-			List<ProcessHandoverSon> processHandoverSonList, String loginid) {
+			List<ProcessHandoverSon> processHandoverSonList, String loginid) throws CustomerException {
 //		Admin admin = adminService.get(loginid);
 //		processHandoverTop.setCreateUser(admin);
 //		processHandoverTop.setState("1");
@@ -92,18 +92,19 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 //						if(processHandoverSon.getBeforeWorkingCode().equals(processHandover.getWorkingBillCode())){
 //							processHandoverSon.setProcessHandover(processHandover);
 //							processHandoverSonService.save(processHandoverSon);
-		try {
+
 			Admin admin = adminService.get(loginid);
 			processHandoverTop.setCreateUser(admin);
 			processHandoverTop.setState("1");
 			processHandoverTop.setIsdel("N");
 			processHandoverTop.setType("工序交接");
-			processHandoverTopService.save(processHandoverTop);
+			
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
 					WorkingBill wb = workingBillService.get("workingBillCode", processHandover.getWorkingBillCode());
 					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
+					if(afterWb==null)throw new CustomerException("找不到下班随工单或填写错误");
 					processHandover.setWorkingBill(wb);
 					processHandover.setAfterworkingbill(afterWb);
 					processHandover.setProcessid(processHandoverTop.getProcessid());
@@ -121,11 +122,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 					}
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e);
-		}
-		
+			processHandoverTopService.save(processHandoverTop);
 	}
 
 
@@ -134,35 +131,38 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 	@Override
 	public void updateProcessHandover(ProcessHandoverTop processHandoverTop,
 			List<ProcessHandover> processHandoverList,
-			List<ProcessHandoverSon> processHandoverSonList, String loginid) {
-		Admin admin = adminService.get(loginid);
-		processHandoverTop.setCreateUser(admin);
-		ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
-		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
-		processHandoverTopService.update(processHandoverTopcopy);
-		for(int i=0;i<processHandoverList.size();i++){
-			ProcessHandover processHandover = processHandoverList.get(i);
-			if(processHandover!=null){
-				ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
-				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
-				WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
-				processHandovercopy.setAfterworkingbill(afterWb);
-				processHandovercopy.setProcessid(processHandoverTopcopy.getProcessid());
-				processHandoverDao.update(processHandovercopy);
-				for(int j=0;j<processHandoverSonList.size();j++){
-					ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);
-					processHandoverSon.setAfterWokingCode(processHandovercopy.getAfterWorkingBillCode());
-					if(processHandoverSon!=null){
-						if(processHandoverSon.getBeforeWorkingCode().equals(processHandover.getWorkingBillCode())){
-							ProcessHandoverSon processHandoverSoncopy = processHandoverSonService.get(processHandoverSon.getId());
-							BeanUtils.copyProperties(processHandoverSon, processHandoverSoncopy, new String[]{"id", "createDate","processHandover","isdel"});
-							processHandoverSonService.update(processHandoverSoncopy);
+			List<ProcessHandoverSon> processHandoverSonList, String loginid) throws CustomerException {
+
+			Admin admin = adminService.get(loginid);
+			processHandoverTop.setCreateUser(admin);
+			ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
+			BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
+			for(int i=0;i<processHandoverList.size();i++){
+				ProcessHandover processHandover = processHandoverList.get(i);
+				if(processHandover!=null){
+					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
+					if(afterWb==null){
+						throw new CustomerException("找不到下班随工单或填写错误");
+					}
+					ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
+					BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
+					processHandovercopy.setAfterworkingbill(afterWb);
+					processHandovercopy.setProcessid(processHandoverTopcopy.getProcessid());
+					processHandoverDao.update(processHandovercopy);
+					for(int j=0;j<processHandoverSonList.size();j++){
+						ProcessHandoverSon processHandoverSon = processHandoverSonList.get(j);
+						if(processHandoverSon!=null){
+							if(processHandoverSon.getBeforeWorkingCode().equals(processHandover.getWorkingBillCode())){
+								processHandoverSon.setAfterWokingCode(processHandovercopy.getAfterWorkingBillCode());
+								ProcessHandoverSon processHandoverSoncopy = processHandoverSonService.get(processHandoverSon.getId());
+								BeanUtils.copyProperties(processHandoverSon, processHandoverSoncopy, new String[]{"id", "createDate","processHandover","isdel"});
+								processHandoverSonService.update(processHandoverSoncopy);
+							}
 						}
 					}
 				}
 			}
-			
-		}
+			processHandoverTopService.update(processHandoverTopcopy);
 	}
 
 
@@ -228,23 +228,23 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				}
 			}
 			if(flag){
-				ProcessHandover ProcessHandover;
+				
 				//try {
-					ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
+				ProcessHandover ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
 			/*	} catch (IOException e) {
 					e.printStackTrace();
-					map.put("status", "E");
+					map.put("staus", "E");
 					map.put("massge","IO出现异常，请联系系统管理员");
 					return map;
 				} catch (CustomerException e) {
 					e.printStackTrace();
-					map.put("status", "E");
+					map.put("staus", "E");
 					map.put("massge",e.getMsgDes());
 					return map;
 				}*/
 				if(budat==null)
-				//budat = ProcessHandover.getBudat();
-				//p.setBudat(ProcessHandover.getBudat());
+				budat = ProcessHandover.getBudat();
+				p.setBudat(ProcessHandover.getBudat());
 				p.setE_message(ProcessHandover.getE_message());
 				p.setE_type(ProcessHandover.getE_type());
 				p.setMblnr(ProcessHandover.getMblnr());
@@ -256,6 +256,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		processHandoverTop.setState("2");
 		processHandoverTopService.update(processHandoverTop);
 		}
+
 		map.put("status", "S");
 		map.put("massge","您的操作已成功!");
 		return map;

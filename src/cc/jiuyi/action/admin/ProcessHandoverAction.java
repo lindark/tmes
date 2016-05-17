@@ -674,8 +674,13 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				}
 			}
 		}*/
-		processHandoverService.saveProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		try {
+			processHandoverService.saveProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
+			return ajaxJsonSuccessMessage("您的操作已成功!");
+		} catch (Exception e) {
+			return ajaxJsonErrorMessage(e.getMessage());
+		}
+		
 	}
 	/**
 	 * 刷卡保存 update
@@ -693,8 +698,15 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}*/
 		//processHandoverTop = processHandoverTopService.get(id);
-		processHandoverService.updateProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+		try {
+			processHandoverService.updateProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
+			return ajaxJsonSuccessMessage("您的操作已成功!");
+		} catch (Exception e) {
+			System.out.println(e);
+			return ajaxJsonErrorMessage(e.getMessage());
+		}
+		
+		
 	}
 	/**
 	 * 刷卡确认 update

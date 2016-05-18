@@ -11,7 +11,10 @@
 	<!-- 定义Spring配置文件位置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext*.xml</param-value>
+		<param-value>
+		classpath:applicationContext*.xml
+		<!--  classpath:net/bull/javamelody/monitoring-spring.xml -->
+		</param-value>
 	</context-param>
 	
 	<!-- 编码处理过滤器 -->
@@ -84,6 +87,13 @@
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 	</filter>
 	
+	<!-- 监控 -->
+	<!--<filter>
+    <filter-name>javamelody</filter-name>
+    <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+    <async-supported>true</async-supported>
+	</filter>-->
+	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -120,6 +130,13 @@
 		<filter-name>struts</filter-name>
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
+	
+	<!--<filter-mapping>
+    <filter-name>javamelody</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+	</filter-mapping>  -->
 	
 	<!-- JSPSupportServlet配置 -->
 	<servlet>

@@ -28,7 +28,7 @@
 		<!-- 延时1秒 执行任务 -->
 		<property name="startDelay" value="30000" />
 		<!-- 任务执行周期 6秒 -->
-		<property name="repeatInterval" value="9999999999999" />
+		<property name="repeatInterval" value="180000" />
 	</bean>
 	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
 	<bean id="schedulerManager" lazy-init="false" autowire="no"

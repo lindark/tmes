@@ -142,8 +142,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String isDelete;//是不删除
 	private String nowState;//当前状态
 	
-	private Set<ProcessHandoverTop> PHTcreateUser;//创建人
-	private Set<ProcessHandoverTop> PHTconfimUser;//创建人
+	private Set<ProcessHandoverTop> phtcreateUser;//创建人
+	private Set<ProcessHandoverTop> phtconfimUser;//创建人
 	
 	//假字段
 	private String xdeptcode;//部门编码
@@ -1345,20 +1345,25 @@ public class Admin extends BaseEntity implements UserDetails {
 	{
 		this.xfactoryUnit = xfactoryUnit;
 	}
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="createUser")
-	public Set<ProcessHandoverTop> getPHTcreateUser() {
-		return PHTcreateUser;
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="phtcreateUser")
+	public Set<ProcessHandoverTop> getPhtcreateUser() {
+		return phtcreateUser;
 	}
 
-	public void setPHTcreateUser(Set<ProcessHandoverTop> pHTcreateUser) {
-		PHTcreateUser = pHTcreateUser;
+	public void setPhtcreateUser(Set<ProcessHandoverTop> phtcreateUser) {
+		this.phtcreateUser = phtcreateUser;
 	}
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="confimUser")
-	public Set<ProcessHandoverTop> getPHTconfimUser() {
-		return PHTconfimUser;
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="phtconfimUser")
+	public Set<ProcessHandoverTop> getPhtconfimUser() {
+		return phtconfimUser;
 	}
 
-	public void setPHTconfimUser(Set<ProcessHandoverTop> pHTconfimUser) {
-		PHTconfimUser = pHTconfimUser;
+	public void setPhtconfimUser(Set<ProcessHandoverTop> phtconfimUser) {
+		this.phtconfimUser = phtconfimUser;
 	}
+	
+
+	
+
 }

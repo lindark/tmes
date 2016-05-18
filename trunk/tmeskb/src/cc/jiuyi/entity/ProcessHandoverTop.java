@@ -23,8 +23,8 @@ public class ProcessHandoverTop extends BaseEntity {
 	
 	private static final long serialVersionUID = -1983728038240787367L;
 	
-	private Admin createUser;//创建人
-	private Admin confimUser;//确认人
+	private Admin phtcreateUser;//创建人
+	private Admin phtconfimUser;//确认人
 	private String isdel;// 是否删除
 	private String productDate;// 生产日期
 	private String shift;//班次
@@ -60,18 +60,18 @@ public class ProcessHandoverTop extends BaseEntity {
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getCreateUser() {
-		return createUser;
+	public Admin getPhtcreateUser() {
+		return phtcreateUser;
 	}
-	public void setCreateUser(Admin createUser) {
-		this.createUser = createUser;
+	public void setPhtcreateUser(Admin phtcreateUser) {
+		this.phtcreateUser = phtcreateUser;
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
-	public Admin getConfimUser() {
-		return confimUser;
+	public Admin getPhtconfimUser() {
+		return phtconfimUser;
 	}
-	public void setConfimUser(Admin confimUser) {
-		this.confimUser = confimUser;
+	public void setPhtconfimUser(Admin phtconfimUser) {
+		this.phtconfimUser = phtconfimUser;
 	}
 	public String getIsdel() {
 		return isdel;
@@ -150,12 +150,14 @@ public class ProcessHandoverTop extends BaseEntity {
 	public void setWshop(String wshop) {
 		this.wshop = wshop;
 	}
+	@Transient
 	public String getXcreateUser() {
 		return xcreateUser;
 	}
 	public void setXcreateUser(String xcreateUser) {
 		this.xcreateUser = xcreateUser;
 	}
+	@Transient
 	public String getXconfirmUser() {
 		return xconfirmUser;
 	}

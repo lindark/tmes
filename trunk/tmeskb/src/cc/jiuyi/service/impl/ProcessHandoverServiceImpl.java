@@ -95,7 +95,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 //							processHandoverSonService.save(processHandoverSon);
 
 			Admin admin = adminService.get(loginid);
-			processHandoverTop.setCreateUser(admin);
+			processHandoverTop.setPhtcreateUser(admin);
 			processHandoverTop.setState("1");
 			processHandoverTop.setIsdel("N");
 			processHandoverTop.setType("工序交接");
@@ -135,7 +135,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			List<ProcessHandoverSon> processHandoverSonList, String loginid) throws CustomerException {
 
 			Admin admin = adminService.get(loginid);
-			processHandoverTop.setCreateUser(admin);
+			processHandoverTop.setPhtcreateUser(admin);
 			ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
 			BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
 			processHandoverTopService.update(processHandoverTopcopy);
@@ -252,7 +252,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				processHandoverDao.update(p);
 			}
 		}
-		processHandoverTop.setConfimUser(admin);
+		processHandoverTop.setPhtconfimUser(admin);
 		processHandoverTop.setBudat(budat);
 		processHandoverTop.setState("2");
 		processHandoverTopService.update(processHandoverTop);

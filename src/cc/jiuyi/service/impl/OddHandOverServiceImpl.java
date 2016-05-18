@@ -65,7 +65,7 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 			List<ProcessHandover> processHandoverList, String loginid) {
 
 		Admin admin = adminService.get(loginid);
-		processHandoverTop.setCreateUser(admin);
+		processHandoverTop.setPhtcreateUser(admin);
 		processHandoverTop.setState("1");
 		processHandoverTop.setIsdel("N");
 		processHandoverTop.setType("零头数交接");
@@ -161,7 +161,7 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 			List<OddHandOver> OddHandOverList, String loginid) {
 
 		Admin admin = adminService.get(loginid);
-		processHandoverTop.setCreateUser(admin);
+		processHandoverTop.setPhtcreateUser(admin);
 		ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
 		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
 		processHandoverTopService.update(processHandoverTopcopy);

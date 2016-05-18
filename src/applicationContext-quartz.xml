@@ -107,7 +107,8 @@
 		   <ref bean="deleteCardJob"/>
 		  </property>
 		  <property name="cronExpression">
-		   <value>	0 5 3 5 * ?</value><!-- 凌晨3点执行 -->
+		  <value>0 15 1 ? * L</value> <!-- 凌晨3点执行 -->
+		  <!-- <value>0 0/1 * * * ?</value> -->
 		  </property>
 	</bean>
 </beans>

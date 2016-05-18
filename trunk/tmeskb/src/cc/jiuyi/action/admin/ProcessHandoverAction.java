@@ -282,8 +282,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			ProcessHandoverTop processHandoverTop = (ProcessHandoverTop) processHandoverTopList.get(i);
 			processHandoverTop.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "processHandoverTopState",processHandoverTop.getState()));
 			processHandoverTop.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", processHandoverTop.getShift()));
-			processHandoverTop.setXcreateUser(processHandoverTop.getCreateUser()==null?"":processHandoverTop.getCreateUser().getName());
-			processHandoverTop.setXconfirmUser(processHandoverTop.getConfimUser()==null?"":processHandoverTop.getConfimUser().getName());
+			processHandoverTop.setXcreateUser(processHandoverTop.getPhtcreateUser()==null?"":processHandoverTop.getPhtcreateUser().getName());
+			processHandoverTop.setXconfirmUser(processHandoverTop.getPhtconfimUser()==null?"":processHandoverTop.getPhtconfimUser().getName());
 			lst.add(processHandoverTop);
 		}
 		pager.setList(lst);
@@ -756,7 +756,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			if(processHandoverTop.getType().equals("工序交接")){
 			processHandoverTop.setIsdel("Y");
 			processHandoverTop.setState("3");
-			processHandoverTop.setConfimUser(admin);
+			processHandoverTop.setPhtconfimUser(admin);
 			processHandoverTopService.update(processHandoverTop);
 			Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
 			for(ProcessHandover p:ProcessHandoverSet){
@@ -771,7 +771,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}else{
 				processHandoverTop.setIsdel("Y");
 				processHandoverTop.setState("3");
-				processHandoverTop.setConfimUser(admin);
+				processHandoverTop.setPhtconfimUser(admin);
 				processHandoverTopService.update(processHandoverTop);
 				Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
 				for(ProcessHandover p:ProcessHandoverSet){

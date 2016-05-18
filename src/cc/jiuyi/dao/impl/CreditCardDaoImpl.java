@@ -48,15 +48,21 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 	@Override
 	public void deleteCrard() {
 		GregorianCalendar g=new GregorianCalendar();
+		g.add(g.DATE, -1);  //设置为前一天
 		int year = g.get(GregorianCalendar.YEAR);
 		String month = (g.get(GregorianCalendar.MONTH)+1)+"";
 		if(month.length()==1){
 			month = "0"+month;
 		}
-		/*String hql1 = "insert into CreditCardCopy (select * from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd'))";
-		getSession().createQuery(hql1).executeUpdate();*/
+		String date = (g.get(GregorianCalendar.DATE))+"";
+		if(date.length()==1){
+			date = "0"+date;
+		}
+		String sql = "INSERT INTO CREDITCARDCOPY (SELECT * FROM CREDITCARD WHERE  MODIFYDATE < TO_DATE('"+year+"-"+month+"-"+date+"','yyyy-MM-dd'))";
+		//String hql1 = "insert into CreditCardCopy (select * from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd'))";
+		getSession().createSQLQuery(sql).executeUpdate();
 		
-		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd')";
+		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-"+date+"','yyyy-MM-dd')";
 		getSession().createQuery(hql).executeUpdate();
 	}
 }

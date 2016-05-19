@@ -40,6 +40,12 @@ public class CreditCardServiceImpl extends BaseServiceImpl<CreditCard, String> i
 	public void deleteCrard() {
 		creditcarddao.deleteCrard();
 	}
+
+	@Override
+	public CreditCard get(String[] propertyNames, Object[] propertyValues) {
+		
+		return creditcarddao.get(propertyNames, propertyValues);
+	}
 	
 	
 }

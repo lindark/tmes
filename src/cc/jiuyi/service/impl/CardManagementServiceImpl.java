@@ -62,5 +62,12 @@ public class CardManagementServiceImpl extends BaseServiceImpl<CardManagement, S
 		
 	}
 
+
+	@Override
+	public CardManagement getByIp(String ip) {
+		// TODO Auto-generated method stub
+		return cardManagementDao.getByIp(ip);
+	}
+
 	
 }

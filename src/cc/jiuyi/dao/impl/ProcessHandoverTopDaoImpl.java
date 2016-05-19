@@ -17,7 +17,7 @@ public class ProcessHandoverTopDaoImpl extends BaseDaoImpl<ProcessHandoverTop, S
 	@Override
 	public List<ProcessHandoverTop> getPHT(Admin admin) {
 		if(admin!=null){
-			String hql = "from ProcessHandoverTop processHandoverTop where productDate=? and shift=? and createUser.id=? and isDel=? and type=?";
+			String hql = "from ProcessHandoverTop processHandoverTop where productDate=? and shift=? and phtcreateUser.id=? and isDel=? and type=?";
 			return (List<ProcessHandoverTop>)getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, admin.getShift()).setParameter(2, admin.getId()).setParameter(3, "N").setParameter(4, "工序交接").list();
 		}else{
 			return null;
@@ -26,7 +26,7 @@ public class ProcessHandoverTopDaoImpl extends BaseDaoImpl<ProcessHandoverTop, S
 	@Override
 	public List<ProcessHandoverTop> getReN(Admin admin) {
 		if(admin!=null){
-			String hql = "from ProcessHandoverTop processHandoverTop where productDate=? and shift=? and createUser.id=? and isDel=? and type=?";
+			String hql = "from ProcessHandoverTop processHandoverTop where productDate=? and shift=? and phtcreateUser.id=? and isDel=? and type=?";
 			return (List<ProcessHandoverTop>)getSession().createQuery(hql).setParameter(0, admin.getProductDate()).setParameter(1, admin.getShift()).setParameter(2, admin.getId()).setParameter(3, "N").setParameter(4, "零头数交接").list();
 		}else{
 			return null;

@@ -432,15 +432,23 @@ function showUnit(num1){
 				layer.alert("请至少保留一条数据",{icon: 7});
 				return false;
 			}
+			$(".afterWork").each(function(){
+				var afterWork = $(this).val();
+				if(afterWork == ""){
+					flag = false;
+					layer.alert("请填写下班随工单",{icon: 7});
+					return false;
+				}
+			});
 			$(".oddhandOverMount").each(function(){
 				var productAmount = $(this).val();
 				var afterworkbill = $(this).parent().prev().children().val();
 				if(productAmount != null && productAmount != ""){
-					if(afterworkbill == null || afterworkbill == ""){
+					/* if(afterworkbill == null || afterworkbill == ""){
 						flag = false;
 						layer.alert("请填写下班随工单",{icon: 7});
 						return false;
-					}
+					} */
 					
 					if($("#station").val()==""){
 						flag = false;

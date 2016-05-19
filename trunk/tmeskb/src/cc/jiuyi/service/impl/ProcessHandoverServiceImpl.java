@@ -104,7 +104,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
 					WorkingBill wb = workingBillService.get("workingBillCode", processHandover.getWorkingBillCode());
-					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
+					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode()==null?"":processHandover.getAfterWorkingBillCode());
 					if(afterWb==null)throw new RollbackException("找不到下班随工单或填写错误");
 					processHandover.setWorkingBill(wb);
 					processHandover.setAfterworkingbill(afterWb);
@@ -142,7 +142,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
-					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode());
+					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode()==null?"":processHandover.getAfterWorkingBillCode());
 					if(afterWb==null){
 						throw new RollbackException("找不到下班随工单或填写错误");
 					}
@@ -191,7 +191,12 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			if(p.getMblnr()!=null&&!p.getMblnr().equals("")){
 				continue;
 			}
-			
+			WorkingBill AfterWorkingbill = workingBillService.get("workingBillCode", p.getAfterWorkingBillCode()==null?"":p.getAfterWorkingBillCode());
+			if(AfterWorkingbill==null){
+				map.put("status", "E");
+				map.put("massge", "请填写正确的下班随工单");
+				return map;
+			}
 			boolean flag1 = workinginoutservice.isExist(p.getWorkingBill().getId(), p.getMatnr());
 			if(!flag1){//如果不存在，新增  --- 上一随工单信息
 				WorkingInout workinginout = new WorkingInout();
@@ -199,12 +204,6 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				workinginout.setMaterialCode(p.getMatnr());
 				workinginout.setMaterialName(p.getMaktx());
 				workinginoutservice.save(workinginout);
-			}
-			WorkingBill AfterWorkingbill = workingBillService.get("workingBillCode", p.getAfterWorkingBillCode());
-			if(AfterWorkingbill==null){
-				map.put("status", "E");
-				map.put("massge", "请填写正确的下班随工单");
-				return map;
 			}
 			boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),p.getMatnr());
 			if(!flag2){//如果不存在,新增 --- 下一随工单信息

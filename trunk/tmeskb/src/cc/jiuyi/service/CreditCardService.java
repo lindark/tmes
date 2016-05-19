@@ -12,6 +12,6 @@ import cc.jiuyi.entity.CreditCard;
 public interface CreditCardService extends BaseService<CreditCard, String> {
 
 	public CreditCard get(Date createDate);
-	
+	public CreditCard get(String[] propertyNames, Object[] propertyValues);
 	public void deleteCrard();
 }

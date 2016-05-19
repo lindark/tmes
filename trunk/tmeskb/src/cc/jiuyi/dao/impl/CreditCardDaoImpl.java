@@ -19,6 +19,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,16 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 		String hql = "from CreditCard a where a.createDate > ? order by a.createDate asc";
 		return (CreditCard) getSession().createQuery(hql).setParameter(0, createdate).setMaxResults(1).uniqueResult();//取createdate 开始的 第一条记录
 	}
+	@Override
+	public CreditCard get(String[] propertyNames, Object[] propertyValues) {
 
+		if (!(propertyNames != null && propertyValues != null && propertyValues.length == propertyNames.length)) {
+			throw new RuntimeException(
+					"请提供正确的参数值！propertyNames与propertyValues必须一一对应!");
+		} //     rtrim(replace(creditcard0_.deviceCode,chr(10),''))
+		String hql = "from CreditCard as model where model."+ propertyNames[0] + " > ?  and rtrim(replace(model." + propertyNames[1] +",chr(10),'')) = ? order by model.createDate asc";
+		return (CreditCard)getSession().createQuery(hql).setParameter(0, propertyValues[0]).setParameter(1, propertyValues[1].toString().trim()).setMaxResults(1).uniqueResult();
+	}
 	/**
 	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人
 	 */
@@ -65,4 +75,6 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-"+date+"','yyyy-MM-dd')";
 		getSession().createQuery(hql).executeUpdate();
 	}
+
+	
 }

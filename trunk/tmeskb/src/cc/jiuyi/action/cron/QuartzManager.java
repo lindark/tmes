@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 import org.quartz.JobDetail;
@@ -29,29 +31,32 @@ public class QuartzManager implements BeanFactoryAware {
 	private FactoryUnitService factoryUnitService;
 	@SuppressWarnings("unused")
 	public void reScheduleJob() throws Exception, ParseException {
-		// Í¨¹ı²éÑ¯Êı¾İ¿âÀï¼Æ»®ÈÎÎñÀ´ÅäÖÃ¼Æ»®ÈÎÎñ
+		// é€šè¿‡æŸ¥è¯¢æ•°æ®åº“é‡Œè®¡åˆ’ä»»åŠ¡æ¥é…ç½®è®¡åˆ’ä»»åŠ¡
 		System.out.println("reScheduleJob---->"+new Date());
 		
 		factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
 		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
 	
-		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//ÕâÀïÊÇÊÖ¶¯ÉèÖÃÁËÒ»¸ö
+		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//è¿™é‡Œæ˜¯æ‰‹åŠ¨è®¾ç½®äº†ä¸€ä¸ª
 		for(FactoryUnit f : factoryUnitList){
 			configQuatrz(f);
 		}
+		
+		//scheduler.shutdown(true);
+		//System.out.println("reScheduleJob---->å…³é—­");
 	}
 
 	public  boolean configQuatrz(FactoryUnit tbcq) {
 		boolean result = false;
 		CronTriggerBean trigger = null;
 		try {
-				// ÔËĞĞÊ±¿ÉÍ¨¹ı¶¯Ì¬×¢ÈëµÄschedulerµÃµ½trigger
+				// è¿è¡Œæ—¶å¯é€šè¿‡åŠ¨æ€æ³¨å…¥çš„schedulerå¾—åˆ°trigger
 				trigger = (CronTriggerBean) scheduler.getTrigger(tbcq.getTriggername(), Scheduler.DEFAULT_GROUP);
-			// Èç¹û¼Æ»®ÈÎÎñÒÑ´æÔÚÔòµ÷ÓÃĞŞ¸Ä·½·¨
+			// å¦‚æœè®¡åˆ’ä»»åŠ¡å·²å­˜åœ¨åˆ™è°ƒç”¨ä¿®æ”¹æ–¹æ³•
 			if (trigger != null) {
 				change(tbcq, trigger);
 			} else {
-				// Èç¹û¼Æ»®ÈÎÎñ²»´æÔÚ²¢ÇÒÊı¾İ¿âÀïµÄÈÎÎñ×´Ì¬Îª¿ÉÓÃÊ±,Ôò´´½¨¼Æ»®ÈÎÎñ
+				// å¦‚æœè®¡åˆ’ä»»åŠ¡ä¸å­˜åœ¨å¹¶ä¸”æ•°æ®åº“é‡Œçš„ä»»åŠ¡çŠ¶æ€ä¸ºå¯ç”¨æ—¶,åˆ™åˆ›å»ºè®¡åˆ’ä»»åŠ¡
 				if (tbcq.getIsSync().equals("1")) {
 					this.createCronTriggerBean(tbcq);
 				}
@@ -67,71 +72,71 @@ public class QuartzManager implements BeanFactoryAware {
 
 	public  void change(FactoryUnit tbcq, CronTriggerBean trigger)
 			throws Exception {
-		// Èç¹ûÈÎÎñÎª¿ÉÓÃ
+		// å¦‚æœä»»åŠ¡ä¸ºå¯ç”¨
 		if (tbcq.getIsSync().equals("1")) {
-			// ÅĞ¶Ï´ÓDBÖĞÈ¡µÃµÄÈÎÎñÊ±¼äºÍÏÖÔÚµÄquartzÏß³ÌÖĞµÄÈÎÎñÊ±¼äÊÇ·ñÏàµÈ
-			// Èç¹ûÏàµÈ£¬Ôò±íÊ¾ÓÃ»§²¢Ã»ÓĞÖØĞÂÉè¶¨Êı¾İ¿âÖĞµÄÈÎÎñÊ±¼ä£¬ÕâÖÖÇé¿ö²»ĞèÒªÖØĞÂrescheduleJob
+			// åˆ¤æ–­ä»DBä¸­å–å¾—çš„ä»»åŠ¡æ—¶é—´å’Œç°åœ¨çš„quartzçº¿ç¨‹ä¸­çš„ä»»åŠ¡æ—¶é—´æ˜¯å¦ç›¸ç­‰
+			// å¦‚æœç›¸ç­‰ï¼Œåˆ™è¡¨ç¤ºç”¨æˆ·å¹¶æ²¡æœ‰é‡æ–°è®¾å®šæ•°æ®åº“ä¸­çš„ä»»åŠ¡æ—¶é—´ï¼Œè¿™ç§æƒ…å†µä¸éœ€è¦é‡æ–°rescheduleJob
 			if (!trigger.getCronExpression().equalsIgnoreCase(
 					tbcq.getCronexpression())) {
 				trigger.setCronExpression(tbcq.getCronexpression());
 				scheduler.rescheduleJob(tbcq.getTriggername(),
 						Scheduler.DEFAULT_GROUP, trigger);
-				log.info(new Date() + ": ¸üĞÂ" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
-				System.out.println(new Date() + ": ¸üĞÂ" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
+				log.info(new Date() + ": æ›´æ–°" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
+				System.out.println(new Date() + ": æ›´æ–°" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
 			}
 		} else {
-			// ²»¿ÉÓÃ
-			scheduler.pauseTrigger(trigger.getName(), trigger.getGroup());// Í£Ö¹´¥·¢Æ÷
-			scheduler.unscheduleJob(trigger.getName(), trigger.getGroup());// ÒÆ³ı´¥·¢Æ÷
-			scheduler.deleteJob(trigger.getJobName(), trigger.getJobGroup());// É¾³ıÈÎÎñ
-			log.info(new Date() + ": É¾³ı" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
+			// ä¸å¯ç”¨
+			scheduler.pauseTrigger(trigger.getName(), trigger.getGroup());// åœæ­¢è§¦å‘å™¨
+			scheduler.unscheduleJob(trigger.getName(), trigger.getGroup());// ç§»é™¤è§¦å‘å™¨
+			scheduler.deleteJob(trigger.getJobName(), trigger.getJobGroup());// åˆ é™¤ä»»åŠ¡
+			log.info(new Date() + ": åˆ é™¤" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
 			
-			System.out.println(new Date() + ": É¾³ı" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
+			System.out.println(new Date() + ": åˆ é™¤" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
 		}
 
 	}
 
 	/**
-	 * ´´½¨/Ìí¼Ó¼Æ»®ÈÎÎñ
+	 * åˆ›å»º/æ·»åŠ è®¡åˆ’ä»»åŠ¡
 	 * 
 	 * @param tbcq
-	 *            ¼Æ»®ÈÎÎñÅäÖÃ¶ÔÏó
+	 *            è®¡åˆ’ä»»åŠ¡é…ç½®å¯¹è±¡
 	 * @throws Exception
 	 */
 	public void createCronTriggerBean(FactoryUnit tbcq) throws Exception {
-		// ĞÂ½¨Ò»¸ö»ùÓÚSpringµÄ¹ÜÀíJobÀà
+		// æ–°å»ºä¸€ä¸ªåŸºäºSpringçš„ç®¡ç†Jobç±»
 		MethodInvokingJobDetailFactoryBean mjdfb = new MethodInvokingJobDetailFactoryBean();
 		
-		mjdfb.setName(tbcq.getJobdetailname());// ÉèÖÃJobÃû³Æ
-		// Èç¹û¶¨ÒåµÄÈÎÎñÀàÎªSpringµÄ¶¨ÒåµÄBeanÔòµ÷ÓÃ getBean·½·¨
+		mjdfb.setName(tbcq.getJobdetailname());// è®¾ç½®Jobåç§°
+		// å¦‚æœå®šä¹‰çš„ä»»åŠ¡ç±»ä¸ºSpringçš„å®šä¹‰çš„Beanåˆ™è°ƒç”¨ getBeanæ–¹æ³•
 		if (tbcq.getIsspringbean().equals("1")) {
-			mjdfb.setTargetObject(beanFactory.getBean(tbcq.getTargetobject()));// ÉèÖÃÈÎÎñÀà
+			mjdfb.setTargetObject(beanFactory.getBean(tbcq.getTargetobject()));// è®¾ç½®ä»»åŠ¡ç±»
 		} else {
-			// ·ñÔòÖ±½Ónew¶ÔÏó
+			// å¦åˆ™ç›´æ¥newå¯¹è±¡
 			mjdfb.setTargetObject(Class.forName(tbcq.getTargetobject())
-					.newInstance());// ÉèÖÃÈÎÎñÀà
+					.newInstance());// è®¾ç½®ä»»åŠ¡ç±»
 		}
-		mjdfb.setTargetMethod(tbcq.getMethodname());// ÉèÖÃÈÎÎñ·½·¨
-		mjdfb.setArguments(tbcq.getMethodArguments().split(","));//ÉèÖÃ·½·¨²ÎÊı
-		mjdfb.setConcurrent(tbcq.getConcurrent().equals("0") ? false : true); // ÉèÖÃÊÇ·ñ²¢·¢Æô¶¯ÈÎÎñ
-		mjdfb.afterPropertiesSet();// ½«¹ÜÀíJobÀàÌá½»µ½¼Æ»®¹ÜÀíÀà
-		// ½«SpringµÄ¹ÜÀíJobÀà×ªÎªQuartz¹ÜÀíJobÀà
+		mjdfb.setTargetMethod(tbcq.getMethodname());// è®¾ç½®ä»»åŠ¡æ–¹æ³•
+		mjdfb.setArguments(tbcq.getMethodArguments().split(","));//è®¾ç½®æ–¹æ³•å‚æ•°
+		mjdfb.setConcurrent(tbcq.getConcurrent().equals("0") ? false : true); // è®¾ç½®æ˜¯å¦å¹¶å‘å¯åŠ¨ä»»åŠ¡
+		mjdfb.afterPropertiesSet();// å°†ç®¡ç†Jobç±»æäº¤åˆ°è®¡åˆ’ç®¡ç†ç±»
+		// å°†Springçš„ç®¡ç†Jobç±»è½¬ä¸ºQuartzç®¡ç†Jobç±»
 		JobDetail jobDetail = new JobDetail();
 		jobDetail = (JobDetail) mjdfb.getObject();
 		jobDetail.setName(tbcq.getJobdetailname());
-		scheduler.addJob(jobDetail, true); // ½«JobÌí¼Óµ½¹ÜÀíÀà
-		// ĞÂÒ»¸ö»ùÓÚSpringµÄÊ±¼äÀà
+		scheduler.addJob(jobDetail, true); // å°†Jobæ·»åŠ åˆ°ç®¡ç†ç±»
+		// æ–°ä¸€ä¸ªåŸºäºSpringçš„æ—¶é—´ç±»
 		CronTriggerBean c = new CronTriggerBean();
 		
-		c.setCronExpression(tbcq.getCronexpression());// ÉèÖÃÊ±¼ä±í´ïÊ½
-		c.setName(tbcq.getTriggername());// ÉèÖÃÃû³Æ
-		c.setJobDetail(jobDetail);// ×¢ÈëJob
-		c.setJobName(tbcq.getJobdetailname());// ÉèÖÃJobÃû³Æ
-		scheduler.scheduleJob(c);// ×¢Èëµ½¹ÜÀíÀà
+		c.setCronExpression(tbcq.getCronexpression());// è®¾ç½®æ—¶é—´è¡¨è¾¾å¼
+		c.setName(tbcq.getTriggername());// è®¾ç½®åç§°
+		c.setJobDetail(jobDetail);// æ³¨å…¥Job
+		c.setJobName(tbcq.getJobdetailname());// è®¾ç½®Jobåç§°
+		scheduler.scheduleJob(c);// æ³¨å…¥åˆ°ç®¡ç†ç±»
 		scheduler.rescheduleJob(tbcq.getTriggername(), Scheduler.DEFAULT_GROUP,
-				c);// Ë¢ĞÂ¹ÜÀíÀà
-		log.info(new Date() + ": ĞÂ½¨" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
-		System.out.println(new Date() + ": ĞÂ½¨" + tbcq.getTriggername() + "¼Æ»®ÈÎÎñ");
+				c);// åˆ·æ–°ç®¡ç†ç±»
+		log.info(new Date() + ": æ–°å»º" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
+		System.out.println(new Date() + ": æ–°å»º" + tbcq.getTriggername() + "è®¡åˆ’ä»»åŠ¡");
 	}
 
 	public void resh(Scheduler scheduler) throws ParseException, Exception{

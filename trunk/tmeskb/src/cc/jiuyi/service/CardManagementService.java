@@ -27,5 +27,10 @@ public interface CardManagementService extends BaseService<CardManagement, Strin
 	 * @param oper Y/N
 	 */
 	public void updateisdel(String[] ids,String oper);
-
+	/**
+	 * 根据ip查询
+	 * @param ip
+	 * @return
+	 */
+	public CardManagement getByIp(String ip);
 }

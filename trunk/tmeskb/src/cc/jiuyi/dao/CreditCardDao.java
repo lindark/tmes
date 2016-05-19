@@ -16,7 +16,7 @@ public interface CreditCardDao extends BaseDao<CreditCard, String> {
 
 	
 	public CreditCard get(Date createdate);
-
+	public CreditCard get(String[] propertyNames, Object[] propertyValues);
 	/**
 	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人
 	 * @param startdate

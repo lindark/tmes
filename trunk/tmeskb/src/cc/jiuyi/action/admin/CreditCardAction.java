@@ -24,9 +24,8 @@ public class CreditCardAction
   private CardManagementService cardmanagementservice;
   private Date createDate;
   
-  public String getCredit()
-  {
-    HttpServletRequest request = getRequest();
+  public String getCredit() {
+	  /*HttpServletRequest request = getRequest();
     String ip = ThinkWayUtil.getIp2(request);
     System.out.println(ip);
     String serverName = request.getServerName();
@@ -65,7 +64,38 @@ public class CreditCardAction
       }
     }
     return ajaxJson(map);
-  }
+  */
+	  HttpServletRequest request = getRequest();
+	    String ip = ThinkWayUtil.getIp2(request);
+	    System.out.println(ip);
+	    //ip="192.168.40.40";
+	    String serverName = request.getServerName();
+	    System.out.println(serverName);
+	    HashMap<String, String> map = new HashMap();
+	    CardManagement cardment = (CardManagement)this.cardmanagementservice.getByIp(ip==null?"":ip);
+	    if(cardment==null){
+	    	map.put("status", "no");
+	    	System.out.println("------------------------------no=1");
+	    	return ajaxJson(map);
+	    }else{
+	    	 String[] propertyNames = { "createDate", "deviceCode" };
+	         Object[] propertyValues = { this.createDate, cardment.getPosCode() };
+	         CreditCard creditCard = this.creditCardService.get(propertyNames,propertyValues);
+	         if (creditCard == null)
+	         {
+	           map.put("status", "no");
+	           System.out.println("------------------------------no=2");
+	           return ajaxJson(map);
+	         }
+	         else
+	         {
+	        	 map.put("status", "yes");
+	             map.put("cardnumber", creditCard.getCardNumber());
+	             System.out.println("------------------------------cardnumber="+map.get("cardnumber"));
+	             return ajaxJson(map);
+	         }
+	    }
+  	}
   
   public Date getCreateDate()
   {

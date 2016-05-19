@@ -277,13 +277,13 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 	
 	<!-- XFire end -->
 	
-<!-- <bean id="facadeMonitoringAdvisor"  class="net.bull.javamelody.MonitoringSpringAdvisor"> 
+ <bean id="facadeMonitoringAdvisor"  class="net.bull.javamelody.MonitoringSpringAdvisor"> 
 		<property name="pointcut">  
 			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut"> 
 				<property name="pattern" value="cc.jiuyi.service..*.*(..)" /> 
 			</bean> 
 		</property> 
-	</bean> -->
+	</bean>
 	<!-- 重建索引配置 -->
 
 	<!-- <bean id="indexBuilder" class="cc.jiuyi.common.CompassIndexBuilder">

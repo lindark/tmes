@@ -13,7 +13,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		classpath:applicationContext*.xml
-		<!--  classpath:net/bull/javamelody/monitoring-spring.xml -->
+		classpath:net/bull/javamelody/monitoring-spring.xml
 		</param-value>
 	</context-param>
 	
@@ -88,11 +88,11 @@
 	</filter>
 	
 	<!-- 监控 -->
-	<!--<filter>
+	<filter>
     <filter-name>javamelody</filter-name>
     <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
     <async-supported>true</async-supported>
-	</filter>-->
+	</filter>
 	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
@@ -131,12 +131,12 @@
 		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 	
-	<!--<filter-mapping>
+	<filter-mapping>
     <filter-name>javamelody</filter-name>
     <url-pattern>/*</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>ASYNC</dispatcher>
-	</filter-mapping>  -->
+	</filter-mapping>
 	
 	<!-- JSPSupportServlet配置 -->
 	<servlet>

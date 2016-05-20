@@ -55,6 +55,7 @@ body{background:#fff;}
 								<!-- ./ add by welson 0728 -->
 								
 		<form id="inputForm" class="validatecredit" action="abnormal!creditsave.action" method="post">
+		<input type="hidden" id="loginid" name="loginid" value="<@sec.authentication property='principal.id' />" />
 			<div id="inputtabs">
 			<ul>
 				<li>
@@ -119,6 +120,7 @@ body{background:#fff;}
 <script type="text/javascript">
 $(function(){
 	var $userAddBtn = $("#userAddBtn");//添加用户
+	$("#sure").hide();
 	/**
 	 * 添加按钮点击
 	 */
@@ -154,7 +156,7 @@ $(function(){
 	        	html+="<input type='text' value='"+arrayObj[i].name+"'/>";
 	        	html+="</td>";
 	        	html+="<td>";
-	        	html+="<select name='callReasonSet["+size+"].product.id' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";
+	        	html+="<select name='callReasonSet["+size+"].productid' class='{required: true}' style='width:200px;'><option value=''>请选择...</option>";
 	        	html+="<#list productList as list><option value='${list.id}'>${list.materialName}</option></#list>";
 				html+=+"</select>";
 	        	html+="</td>";

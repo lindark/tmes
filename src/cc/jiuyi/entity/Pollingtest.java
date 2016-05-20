@@ -235,7 +235,7 @@ public class Pollingtest extends BaseEntity {
 	}
 
 	public void setState(String state) {
-		if (state == null) {
+		if (state == null || state.equals("")) {
 			state = "2";
 		}
 		this.state = state;

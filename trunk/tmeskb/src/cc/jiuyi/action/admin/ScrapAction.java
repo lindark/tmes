@@ -210,10 +210,15 @@ public class ScrapAction extends BaseAdminAction
 			{
 				Bom m=list_material.get(i);
 				//根据物料编码查询产品编码
-				ScrapOut so=this.soService.getByMaterialCode(m.getMaterialCode());
-				if(so!=null)
+				//ScrapOut so=this.soService.getByMaterialCode(m.getMaterialCode());
+				List<ScrapOut> soList = this.soService.getByMaterialCode1(m.getMaterialCode());
+				/*if(so!=null)
 				{
 					list_so.add(so);
+				}*/
+				if(soList!=null && soList.size()>0)
+				{
+					list_so.addAll(soList);
 				}
 			}
 		}

@@ -80,5 +80,11 @@ public class ScrapOutDaoImpl extends BaseDaoImpl<ScrapOut, String> implements Sc
 		return (ScrapOut) this.getSession().createQuery(hql).setParameter(0, materialCode).uniqueResult();
 	}
 
+	@Override
+	public List<ScrapOut> getByMaterialCode1(String materialCode) {
+		String hql="from ScrapOut where materialCode=? and isDel='N'";
+		return (List<ScrapOut>) this.getSession().createQuery(hql).setParameter(0, materialCode).list();
+	}
+
 
 }

@@ -37,5 +37,5 @@ public interface ScrapOutDao extends BaseDao<ScrapOut,String> {
 	 */
 	public ScrapOut getByMaterialCode(String materialCode);
 	
-	
+	public List<ScrapOut> getByMaterialCode1(String materialCode);
 }

@@ -456,7 +456,7 @@ public class AbnormalAction extends BaseAdminAction {
 		String errormes="";
 		try{
 			admin = adminService.getByCardnum(cardnumber);
-			Admin loginAdmin=adminService.get(admin.getId());
+			Admin loginAdmin=adminService.get(loginid);
 			for(int i=0;i<callReasonSet.size();i++){//从页面获取人员及短信信息
 				Callreason call = callReasonSet.get(i);
 				if(call.getId()==null){
@@ -464,7 +464,7 @@ public class AbnormalAction extends BaseAdminAction {
 				}
 				if(call.getAdminid() == null)
 					return ajaxJsonErrorMessage("人员不能为空");
-				if(call.getProduct() == null || call.getProduct().getId() ==null)
+				if(call.getProductid() == null || call.getProductid() ==null)
 					return ajaxJsonErrorMessage("产品不能为空");
 			}
 			List<Admin> responsorSet = new ArrayList<Admin>();
@@ -482,7 +482,7 @@ public class AbnormalAction extends BaseAdminAction {
 				
 				Callreason call = callReasonSet.get(i);
 				Admin admin = adminService.get(call.getAdminid());//人员
-				UnitdistributeProduct product=productservice.get(call.getProduct().getId());
+				UnitdistributeProduct product=productservice.get(call.getProductid());
 				Callreason call1 = callReasonService.get(call.getId());//短信				
 				SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
 				String time=sdf.format(new Date()); 
@@ -493,15 +493,15 @@ public class AbnormalAction extends BaseAdminAction {
 	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
 	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
 		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
-		      		errormes += admin.getName()+":短信发送失败!";
-		      	}							
+		      		errormes += admin.getName()+":短信发生失败!";
+		      	}								
 				
 		      	responsorSet.add(admin);//将短信人加进去
 		      	productSet.add(product);
 		      	callreasonSet.add(call1);//将短信内容加进去
 		      	strLen.add(admin.getName());		   
 		      	map.put("adminid", call.getAdminid());
-		      	map.put("reasonid", call.getId());
+		      	map.put("reasonid", call1.getId());
 		      	map.put("productid", product.getId());
 		      	mapList.add(map);
 		      	
@@ -509,8 +509,8 @@ public class AbnormalAction extends BaseAdminAction {
 		      	//发给几个需要响应的人员，就会给添加人上级发送几次短信，短信内容分别等于各响应人员的内容
 		      	HashMap<String,String> sjmap = new HashMap<String,String>();
 		      	sjmap.put("adminid", loginAdmin.getId());
-		      	sjmap.put("reasonid", call.getId());
-		      	map.put("productid", product.getId());
+		      	sjmap.put("reasonid", call1.getId());
+		      	sjmap.put("productid", product.getId());
 		      	mapList.add(sjmap);
 			}
 			

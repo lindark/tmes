@@ -97,6 +97,16 @@ public class PollingtestServiceImpl extends
 	}
 
 	@Override
+	public void updateConfirm(List<Pollingtest> list, Admin admin, String stu) {
+		for (int i = 0; i < list.size(); i++) {
+			Pollingtest pollingtest = list.get(i);
+			pollingtest.setState(stu);
+			pollingtest.setConfirmUser(admin);
+			pollingtestDao.update(pollingtest);
+		}
+	}
+	
+	@Override
 	public void confirm(List<Pollingtest> list, Admin admin, String stu) {
 		for (int i = 0; i < list.size(); i++) {
 			Pollingtest pollingtest = list.get(i);

@@ -172,7 +172,7 @@
 				},
 				"everyTime":function(sysdate){
 					var codenumber=0;
-					$('body').everyTime('1s','B',function(){//计划任务
+					$('body').everyTime('10s','B',function(){//计划任务
 						$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 							if(data.status == "no"){//未找到
 								/*
@@ -181,9 +181,10 @@
 									
 								}
 								*/
-								//layer.close(index);
+								$('body').stopTime (B);
+								layer.close(credit.index);
 							}else if(data.status == "yes"){//已找到
-								$('body').stopTime ();
+								$('body').stopTime (B);
 								credit.cardnumber = data.cardnumber;//获取卡号
 								layer.close(credit.index);
 							}

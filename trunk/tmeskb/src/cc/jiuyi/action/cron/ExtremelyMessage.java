@@ -85,14 +85,16 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		     Admin admin = adminService.get(adminId);
 		     callReasonService=(CallreasonService) SpringUtil.getBean("callreasonServiceImpl");
 		     abnormalLogService=(AbnormalLogService) SpringUtil.getBean("abnormalLogServiceImpl");
-		    		     
+		     productservice = 	 (UnitdistributeProductService) SpringUtil.getBean("unitdistributeProductServiceImpl");    
 		     //定时发送短信		
 		 
 			 String adminName =admin.getName();	
 	    	 List<String> strList= new ArrayList<String>();
 	    	 List<HashMap<String,Object>> hashmapList = new ArrayList<HashMap<String,Object>>();		
+	    	// log.info(jsonarray);
 	    	 for(int i=0;i<jsonarray.size();i++){
 	    		 JSONObject jsonObj= JSONObject.fromObject(jsonarray.get(i));
+	    		// log.info(jsonObj);
 	    		 HashMap<String,Object> maps1 = new HashMap<String,Object>();
 	    		 Admin admin1 = adminService.get(jsonObj.getString("adminid"));
 	    		 Admin admin2 = adminService.getAdminById(admin1.getId());
@@ -100,9 +102,11 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 	    		 if(admin2!=null){//存在直接上级
 	    			maps1.put("adminid", admin2.getId());
 		 			maps1.put("reasonid",jsonObj.getString("reasonid"));
+		 			maps1.put("productid",jsonObj.getString("productid"));
 		 			hashmapList.add(maps1);
 		 			
-		 			Callreason call1 = callReasonService.get(jsonObj.getString("reasonid"));//短信		 			
+		 			Callreason call1 = callReasonService.get(jsonObj.getString("reasonid"));//短信
+		 			//log.info(jsonObj.getString("productid"));
 		 			UnitdistributeProduct product=productservice.get(jsonObj.getString("productid"));
 		 			SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
 					String time=sdf.format(abnormal.getCallDate()); 

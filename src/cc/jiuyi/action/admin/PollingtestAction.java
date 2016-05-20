@@ -501,7 +501,8 @@ public class PollingtestAction extends BaseAdminAction {
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			pollingtest = pollingtestService.load(ids[i]);
+//			Pollingtest pollingtest = pollingtestService.load(ids[i]);
+			pollingtest = pollingtestService.get(ids[i]);
 			if (CONFIRMED.equals(pollingtest.getState())) {
 				// addActionError("已确认的无须再确认！");
 
@@ -513,7 +514,8 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		pollingtestService.confirm(list, admin, CONFIRMED);
+//		pollingtestService.confirm(list, admin, CONFIRMED);
+		pollingtestService.updateConfirm(list, admin, CONFIRMED);
 		// redirectionUrl = "pollingtest!list.action?workingBillId="+
 		// pollingtest.getWorkingbill().getId();
 

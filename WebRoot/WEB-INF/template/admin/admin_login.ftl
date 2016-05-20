@@ -253,8 +253,8 @@ $(function(){
 					},"json" );
 				},"json" );
 				
-			},
-			/*  "everyTime":function(sysdate){
+			}/*,
+			  "everyTime":function(sysdate){
 				$('body').everyTime('10s','B',function(){//计划任务
 					$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 						if(data.status == "no"){//未找到

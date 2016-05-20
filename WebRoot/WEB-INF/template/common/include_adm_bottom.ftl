@@ -166,21 +166,33 @@
 					
 					$.post("base_admin!getSystemDate.action",function(data){
 						var systemDate = data.systemDate;
-						credit.everyTime(systemDate);
+						//credit.everyTime(systemDate);
+						$.post("credit_card!getCredit.action", { createDate: systemDate},function(data){
+							if(data.status == "no"){//未找到
+								//layer.close(index);
+								layer.alert(data.cardnumber);
+								layer.close(credit.index);
+							}else if(data.status == "yes"){//已找到
+								//$('body').stopTime ();
+								credit.cardnumber = data.cardnumber;//获取卡号
+								layer.close(credit.index);
+							}
+							
+						},"json" );
 					},"json" );
 					
-				},
-				"everyTime":function(sysdate){
+				}/*,
+			 	"everyTime":function(sysdate){
 					var codenumber=0;
 					$('body').everyTime('10s','B',function(){//计划任务
 						$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 							if(data.status == "no"){//未找到
-								/*
-								codenumber++;
-								if(codenumber >=30){//执行30次，如果还无响应，报错
+								
+								//codenumber++;
+							//	if(codenumber >=30){//执行30次，如果还无响应，报错
 									
-								}
-								*/
+							//	}
+								
 								$('body').stopTime (B);
 								layer.close(credit.index);
 							}else if(data.status == "yes"){//已找到
@@ -191,7 +203,7 @@
 							
 						},"json" );
 					},0,true);
-				}
+				} */
 		}
 		
 		

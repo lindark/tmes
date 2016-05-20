@@ -205,7 +205,7 @@ $(function(){
 					data = "";
 				var bool = url.indexOf("?");
 				var cardnubmer="";
-				credit.index= layer.msg('请刷卡', {icon: 16,time:30000,shade:0.3,shadeClose:true},function(){
+				credit.index= layer.msg('请刷卡', {icon: 16,time:20000,shade:0.3,shadeClose:true},function(){
 					
 					if(typeof(credit.cardnumber) == "undefined"){
 						$('body').stopTime ();
@@ -238,12 +238,24 @@ $(function(){
 				
 				$.post("base_admin!getSystemDate.action",function(data){
 					var systemDate = data.systemDate;
-					credit.everyTime(systemDate);
+					//credit.everyTime(systemDate);
+					$.post("credit_card!getCredit.action", { createDate: systemDate},function(data){
+						if(data.status == "no"){//未找到
+							//layer.close(index);
+							layer.alert(data.cardnumber);
+							layer.close(credit.index);
+						}else if(data.status == "yes"){//已找到
+							//$('body').stopTime ();
+							credit.cardnumber = data.cardnumber;//获取卡号
+							layer.close(credit.index);
+						}
+						
+					},"json" );
 				},"json" );
 				
 			},
-			"everyTime":function(sysdate){
-				$('body').everyTime('1s','B',function(){//计划任务
+			/*  "everyTime":function(sysdate){
+				$('body').everyTime('10s','B',function(){//计划任务
 					$.post("credit_card!getCredit.action", { createDate: sysdate},function(data){
 						if(data.status == "no"){//未找到
 							//layer.close(index);
@@ -255,7 +267,7 @@ $(function(){
 						
 					},"json" );
 				},0,true);
-			}
+			}  */
 	}
 	
 	$.message = function(status,message){

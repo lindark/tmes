@@ -65,5 +65,10 @@ public class ScrapOutServiceImpl extends BaseServiceImpl<ScrapOut, String>implem
 	{
 		return this.scrapOutDao.getByMaterialCode(materialCode);
 	}
+
+	@Override
+	public List<ScrapOut> getByMaterialCode1(String materialCode) {
+		return this.scrapOutDao.getByMaterialCode1(materialCode);
+	}
 }
 	

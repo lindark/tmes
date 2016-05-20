@@ -34,6 +34,7 @@ public interface ScrapOutService extends BaseService<ScrapOut, String> {
 	 */
 	public ScrapOut getByMaterialCode(String materialCode);
 	
+	public List<ScrapOut> getByMaterialCode1(String materialCode);
 	
 	/**
 	 * 更新清单

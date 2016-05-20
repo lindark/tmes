@@ -512,13 +512,20 @@ public class UpDownAction extends BaseAdminAction {
 		//	materialCode = "";
 //		else if("updown".equals(type))
 //			materialCode = "";
+			String m1 = "";
+			String m2 = "";
 			if(materialCode1!=null){
-				materialCode=materialCode1;
+				String[] m=  materialCode1.split(",");
+				materialCode=m[0];
+				m1 = m[1];
+				m2 = m[2];
 			}else{
 				materialCode =(materialCode==null?"":materialCode);
 			}
 			
 		int matnrlen = materialCode.length();
+		int matnrlen1 = m1.length();
+		int matnrlen2 = m2.length();
 		materialDesp = ThinkWayUtil.null2String(materialDesp);
 		
 		
@@ -720,7 +727,9 @@ public class UpDownAction extends BaseAdminAction {
 				String matnr01 = hashmap.get("matnr");//物料编码
 				String maktx01 = hashmap.get("maktx");//物料描述
 				String matnr02 = StringUtils.substring(matnr01, 0, matnrlen);
-				if(!materialCode.equals(matnr02)){
+				String matnr03 = StringUtils.substring(matnr01, 0, matnrlen1);
+				String matnr04 = StringUtils.substring(matnr01, 0, matnrlen2);
+				if(!materialCode.equals(matnr02) && !m1.equals(matnr03) && !m2.equals(matnr04)){
 					continue;
 				}
 				boolean flag = false;

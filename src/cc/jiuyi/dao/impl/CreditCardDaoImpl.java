@@ -1,5 +1,6 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -57,22 +58,30 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 
 	@Override
 	public void deleteCrard() {
-		GregorianCalendar g=new GregorianCalendar();
-		g.add(g.DATE, -1);  //设置为前一天
-		int year = g.get(GregorianCalendar.YEAR);
-		String month = (g.get(GregorianCalendar.MONTH)+1)+"";
+		//GregorianCalendar g=new GregorianCalendar();
+		//g.add(g.DATE, -1);  //设置为前一天
+		Calendar g = Calendar.getInstance();
+		//System.out.println(g.get(Calendar.HOUR_OF_DAY));
+		//System.out.println(g.HOUR_OF_DAY);
+		//g.add(g.HOUR_OF_DAY, -1);
+		int year = g.get(Calendar.YEAR);
+		String month = (g.get(Calendar.MONTH)+1)+"";
 		if(month.length()==1){
 			month = "0"+month;
 		}
-		String date = (g.get(GregorianCalendar.DATE))+"";
+		String date = (g.get(Calendar.DATE))+"";
 		if(date.length()==1){
 			date = "0"+date;
 		}
-		String sql = "INSERT INTO CREDITCARDCOPY (SELECT * FROM CREDITCARD WHERE  MODIFYDATE < TO_DATE('"+year+"-"+month+"-"+date+"','yyyy-MM-dd'))";
+		String hour = (g.get(Calendar.HOUR_OF_DAY))+"";
+		if(hour.length()==1){
+			hour = "0"+hour;
+		}
+		String sql = "INSERT INTO CREDITCARDCOPY (SELECT * FROM CREDITCARD WHERE  MODIFYDATE < TO_DATE('"+year+"-"+month+"-"+date+" "+hour+"','yyyy-MM-dd hh24'))";
 		//String hql1 = "insert into CreditCardCopy (select * from CreditCard where modifyDate < to_date('"+year+"-"+month+"-01"+"','yyyy-MM-dd'))";
 		getSession().createSQLQuery(sql).executeUpdate();
 		
-		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-"+date+"','yyyy-MM-dd')";
+		String hql = "delete from CreditCard where modifyDate < to_date('"+year+"-"+month+"-"+date+" "+hour+"','yyyy-MM-dd hh24')";
 		getSession().createQuery(hql).executeUpdate();
 	}
 

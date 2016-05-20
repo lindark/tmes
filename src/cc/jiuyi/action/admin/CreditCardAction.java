@@ -6,7 +6,6 @@ import cc.jiuyi.service.CardManagementService;
 import cc.jiuyi.service.CreditCardService;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -14,6 +13,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
+
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 @ParentPackage("admin")
@@ -21,6 +22,7 @@ public class CreditCardAction
   extends BaseAdminAction
 {
   private static final long serialVersionUID = 3458281237366633447L;
+  public static Logger log = Logger.getLogger(CreditCard.class);
   @Resource
   private CreditCardService creditCardService;
   @Resource
@@ -70,8 +72,9 @@ public class CreditCardAction
   */
 	 HttpServletRequest request = getRequest();
 	    String ip = ThinkWayUtil.getIp2(request);
-	    System.out.println(ip);
-	    //ip="192.168.40.40";
+	    //System.out.println(ip);
+	    log.info(ip);
+	    //ip="192.168.37.24";
 	   //String serverName = request.getServerName();
 	    //System.out.println(serverName);
 	    HashMap<String, String> map = new HashMap();
@@ -81,7 +84,8 @@ public class CreditCardAction
 		    if(cardment==null){
 		    	map.put("status", "no");
 		    	map.put("cardnumber", "当前ip未找到对应设备");
-		    	System.out.println("------------------------------no=1");
+		    	//System.out.println("------------------------------no=1");
+		    	log.info("-------"+this.createDate+"-------"+ip+"-----no=1");
 		    	return ajaxJson(map);
 		    }
 		    String[] propertyNames = { "createDate", "deviceCode" };
@@ -91,7 +95,8 @@ public class CreditCardAction
 		         if (creditCard == null)
 		         {
 		          // map.put("status", "no");
-		        	 System.out.println("------------------------------no=2");
+		        	// System.out.println("------------------------------no=2");
+		        	 log.info("-------"+this.createDate+"-------"+ip+"-----no=2");
 		        	 try {
 		        		 Thread.sleep(1000);//等待一秒
 		        		 ++i;
@@ -104,7 +109,8 @@ public class CreditCardAction
 		         {
 		        	 map.put("status", "yes");
 		             map.put("cardnumber", creditCard.getCardNumber());
-		             System.out.println("------------------------------cardnumber="+map.get("cardnumber"));
+		            // System.out.println("------------------------------cardnumber="+map.get("cardnumber"));
+		             log.info("-------"+this.createDate+"-------"+ip+"-----cardnumber="+map.get("cardnumber"));
 		             flag = false;
 		         }
 		    }

@@ -37,6 +37,8 @@ public interface PollingtestService extends BaseService<Pollingtest, String> {
 
 	public void confirm(List<Pollingtest> list, Admin admin, String stu);
 
+	public void updateConfirm(List<Pollingtest> list, Admin admin, String stu);
+	
 	public void updateInfo(Pollingtest pollingtest, String info, String info2,
 			String my_id, String cardnumber);
 

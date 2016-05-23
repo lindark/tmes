@@ -332,33 +332,59 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				String aufnr = workingbill.getAufnr();
 				
 				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
-				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
+			//	List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
+				BigDecimal actualAmount = new BigDecimal(0);
+				BigDecimal unAmount = new BigDecimal(0);
 				for(int k=0;k<oddHandOverListBefore1.size();k++){
 					OddHandOver oddHandOver = oddHandOverListBefore1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
-						oddHandOverListBefore.add(oddHandOver);
+						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
+						//continue;
+						BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
+						BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
+						actualAmount = actualAmount.add(NewActualAmount);
+						unAmount = unAmount.add(NewUnAmount);
+						//oddHandOverListBefore.add(oddHandOver);
 					}
 				}
 				Double afteroddamount =0.0d;
 				Double afterunoddamount=0.0d;
-				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
-					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
-					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
-				}
+			//	if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
+			//		afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
+					afteroddamount = actualAmount.doubleValue();//接上班零头数
+			//		afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
+					afterunoddamount = unAmount.doubleValue();//接上班异常零头数
+			//	}
+				map.put(strlen[3], actualAmount);//接上班零头数
+				map.put(strlen[4], unAmount);//接上班异常零头数
+				
 				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
-				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
+				//List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
+				actualAmount = new BigDecimal(0);
+				unAmount = new BigDecimal(0);
 				for(int k=0;k<oddHandOverListAfter1.size();k++){
 					OddHandOver oddHandOver = oddHandOverListAfter1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
-						oddHandOverListAfter.add(oddHandOver);
+						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
+						//continue;
+						BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
+						BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
+						actualAmount = actualAmount.add(NewActualAmount);
+						unAmount = unAmount.add(NewUnAmount);
+				//		oddHandOverListAfter.add(oddHandOver);
 					}
 				}
 				Double beforeoddamount = 0.0d;
 				Double beforeunoddamount = 0.0d;
-				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
-					beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
-					beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
-				}
+			//	if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
+			//		beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
+					beforeoddamount = actualAmount.doubleValue();//交下班零头数
+			//		beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
+					beforeunoddamount = unAmount.doubleValue();//交下班异常零头数
+			//	}
+				
+				map.put(strlen[8],actualAmount);//交下班零头数
+				map.put(strlen[17],unAmount);//交下班异常零头数
 				
 				map.put(strlen[29], workingbill.getWorkcenter());//单元
 				map.put(strlen[0], workingbill.getWorkingBillCode());
@@ -375,8 +401,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[25],materialname);//组件描述
 				map.put(strlen[26],workingbill.getDailyWorkTotalAmount());//当班报工数量
 				map.put(strlen[27],workingbill.getIsHand().equals("Y")?"交接完成":"未交接完成");//单据状态
-				map.put(strlen[3], afteroddamount);//接上班零头数
-				map.put(strlen[4], afterunoddamount);//接上班异常零头数
+				
 				
 				List<PickDetail> pickdetailList = pickdetaildao.finddetailByapp(workingbill.getId(), "2");//"2" 表示 确认状态数据
 				Double recipientsamount = 0.00d;
@@ -397,8 +422,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				map.put(strlen[5], recipientsamount);//领用数
 				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
-				map.put(strlen[8],beforeoddamount);//交下班零头数
-				map.put(strlen[17],beforeunoddamount);//交下班异常零头数
 				map.put(strlen[9],workinginout.getScrapNumber());//报废数
 				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
 				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
@@ -621,31 +644,51 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
+				BigDecimal actualAmount = new BigDecimal(0);
+				BigDecimal unAmount = new BigDecimal(0);
 				for(int k=0;k<oddHandOverListBefore1.size();k++){
 					OddHandOver oddHandOver = oddHandOverListBefore1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
+						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
+						//continue;
+						BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
+						BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
+						actualAmount = actualAmount.add(NewActualAmount);
+						unAmount = unAmount.add(NewUnAmount);
 						oddHandOverListBefore.add(oddHandOver);
 					}
 				}
 				Double afteroddamount =0.0d;
 				Double afterunoddamount=0.0d;
 				if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
-					afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
-					afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
+			//		afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
+					afteroddamount = actualAmount.doubleValue();//接上班零头数
+			//		afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
+					afterunoddamount = unAmount.doubleValue();//接上班异常零头数
 				}
 				List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
 				List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
+				actualAmount = new BigDecimal(0);
+				unAmount = new BigDecimal(0);
 				for(int k=0;k<oddHandOverListAfter1.size();k++){
 					OddHandOver oddHandOver = oddHandOverListAfter1.get(k);
 					if(oddHandOver.getIsdel().equals("N")){
+						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
+						//continue;
+						BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
+						BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
+						actualAmount = actualAmount.add(NewActualAmount);
+						unAmount = unAmount.add(NewUnAmount);
 						oddHandOverListAfter.add(oddHandOver);
 					}
 				}
 				Double beforeoddamount = 0.0d;
 				Double beforeunoddamount = 0.0d;
 				if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
-					beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
-					beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
+				//	beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
+					beforeoddamount = actualAmount.doubleValue();//交下班零头数
+				//	beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
+					beforeunoddamount = unAmount.doubleValue();//交下班异常零头数
 				}
 				
 				map.put(strlen[29], workingbill.getWorkcenter());//单元

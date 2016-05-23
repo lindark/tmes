@@ -771,6 +771,8 @@ public class UpDownAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditsave(){
+		//接口调用
+	try {
 		//检查数据完整性
 		Admin admin = adminservice.get(loginid);
 		Admin admin1 = adminservice.getByCardnum(cardnumber);
@@ -833,8 +835,7 @@ public class UpDownAction extends BaseAdminAction {
 			hashmap.put("nlpla", lgplaun);//目的地仓位
 			hashList.add(hashmap);
 		}
-		//接口调用
-		try {
+		
 			//List<HashMap<String,String>> maplist = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> maplist = undownrfc.undown(hash, hashList);
 			for(int i=0;i<updownList.size();i++){

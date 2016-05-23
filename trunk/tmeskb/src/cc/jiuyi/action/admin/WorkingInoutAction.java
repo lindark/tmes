@@ -42,10 +42,10 @@ public class WorkingInoutAction extends BaseAdminAction {
 	
 	private String[] strlen = {"workingbill.workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","workingbill.productDate","shift","workingbill.aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
-								"trzsl","cczsl","slcy","jhdcl","workingbill.matnr","workingbill.maktx","materialName","totalAmount","isHand","jycl","workingbill.workcenter","teamCode","teamName"};
+								"trzsl","cczsl","slcy","jhdcl","workingbill.matnr","workingbill.maktx","materialName","totalAmount","isHand","jycl","workingbill.workcenter","teamCode","teamName","bulkProductMount"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
 								"交下班零头数","组件报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","单位用量","当班检验合格数","交下班异常零头数","一次合格率",
-								"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态","校验差异","单元","班组编码","班组名称"};
+								"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态","校验差异","单元","班组编码","班组名称","待包装数量"};
 	public String list(){
 		
 		Integer[] sunxulen={};

@@ -417,14 +417,19 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				Double dwyl = 0.0;
-				List<UnitConversion> unitConversionList = unitConversionService.getList("matnr", workingbill.getMatnr());
-				if(unitConversionList!=null && unitConversionList.size()>0){
-					if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
-						dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+				String s = workinginout.getMaterialCode().substring(0, 1);
+				if("5".equals(s)){
+					List<UnitConversion> unitConversionList = unitConversionService.getList("matnr",workingbill.getMatnr());
+					if(unitConversionList!=null && unitConversionList.size()>0){
+						if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
+							dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+						}
 					}
+				}else{
+					dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+					//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				}
 				map.put(strlen[15],dwyl);//组件单位用量 = MES中基本信息--计量单位转换中的1/兑换比例
 				Double totalsingleamount = ThinkWayUtil.null2o(workingbill.getTotalSingleAmount());//入库数
@@ -545,8 +550,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
-				String s = workinginout.getMaterialCode().substring(0, 1);
-				if(!"5".equals(s)){
+				String str = workinginout.getMaterialCode().substring(0, 1);
+				if(!"5".equals(str)){
 					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
 					cczsl = (new BigDecimal(cczsl).add(new BigDecimal(beforeoddamount)).add(new BigDecimal(beforeunoddamount)).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(new BigDecimal(afteroddamount)).subtract(new BigDecimal(afterunoddamount))).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
@@ -700,14 +705,19 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					mount = ArithUtil.round(ArithUtil.div(workingbill.getPlanCount(),bomamount),2);
 				}
 				map.put(strlen[6],mount);//倍数 = 随工单计划数量 / bom数量  保留2位小数
-				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
-				//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				Double dwyl = 0.0;
-				List<UnitConversion> unitConversionList = unitConversionService.getList("matnr", workingbill.getMatnr());
-				if(unitConversionList!=null && unitConversionList.size()>0){
-					if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
-						dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+				//Double dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+				String s = workinginout.getMaterialCode().substring(0, 1);
+				if("5".equals(s)){
+					List<UnitConversion> unitConversionList = unitConversionService.getList("matnr",workingbill.getMatnr());
+					if(unitConversionList!=null && unitConversionList.size()>0){
+						if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
+							dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+						}
 					}
+				}else{
+					dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+					//map.put(strlen[15],dwyl);//组件单位用量 = BOM需求数量  / 随工单计划数量 保留2位小数
 				}
 				map.put(strlen[15],dwyl);//组件单位用量 = MES中基本信息--计量单位转换中的1/兑换比例
 			
@@ -843,8 +853,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
-				String s = workinginout.getMaterialCode().substring(0, 1);
-				if(!"5".equals(s)){
+				String str = workinginout.getMaterialCode().substring(0, 1);
+				if(!"5".equals(str)){
 					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
 					cczsl = (new BigDecimal(cczsl).add(new BigDecimal(beforeoddamount)).add(new BigDecimal(beforeunoddamount)).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(new BigDecimal(afteroddamount)).subtract(new BigDecimal(afterunoddamount))).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 

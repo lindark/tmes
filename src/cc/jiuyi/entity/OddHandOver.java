@@ -19,6 +19,7 @@ public class OddHandOver extends BaseEntity {
 	private String materialDesp;//物料描述
 	private Double actualHOMount;//实际零头数交接数量
 	private Double unHOMount;//实际异常交接数量
+//	private Double bulkProductMount;//待包装数量
 	private Double actualBomMount;//实际物料数量
 	private Double unBomMount;//实际异常物料数量
 	private String submitCode;//提交人编号
@@ -258,6 +259,12 @@ public class OddHandOver extends BaseEntity {
 		}
 		this.isdel = isdel;
 	}
+//	public Double getBulkProductMount() {
+//		return bulkProductMount;
+//	}
+//	public void setBulkProductMount(Double bulkProductMount) {
+//		this.bulkProductMount = bulkProductMount;
+//	}
 	
 	
 }

@@ -324,6 +324,7 @@ public class ReturnProductAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
+					returnProductCrt = new ArrayList<ReturnProduct>();
 					returnProductCrt = reprfc.returnProductCrt("", returnProductList);
 					for(ReturnProduct epc : returnProductCrt){
 						String e_type = epc.getE_type();

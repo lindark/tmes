@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ScrapDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
@@ -84,6 +86,12 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		scrap.setModifyDate(new Date());//初始化修改日期
 		scrap.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		scrap.setBudat(wb.getProductDate());//过账日期
+		scrap.setProductDate(admin.getProductDate());
+		scrap.setShift(admin.getShift());
+		FactoryUnit  fu = admin.getTeam().getFactoryUnit();
+		scrap.setFactoryid(fu.getId());
+		scrap.setFactoryUnitCode(fu.getFactoryUnitCode());
+		scrap.setFactoryUnitName(fu.getFactoryUnitName());
 		String scrapId=this.save(scrap);
 		Scrap scp=this.get(scrapId);//获取新增的对象
 		if (list_scrapmsg != null)
@@ -129,6 +137,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		String charg=productdate+item_text;
 		scp.setModifyDate(new Date());//修改日期
 		scp.setState("1");
+		
 		this.update(scp);//执行修改
 		/**删除报废信息表,及对应bug表*/
 		List<ScrapMessage>old_listsm=new ArrayList<ScrapMessage>(scp.getScrapMsgSet());

@@ -149,6 +149,10 @@ public class MaterialAction extends BaseAdminAction {
 				String materialName = obj.getString("materialName").toString();
 				map.put("materialName", materialName);
 			}
+			if (obj.get("factoryUnitName") != null) {
+				String factoryUnitName = obj.getString("factoryUnitName").toString();
+				map.put("factoryUnitName", factoryUnitName);
+			}
 		}
             List<HashMap> list=new ArrayList<HashMap>();
 			pager = materialService.getMaterialPager(pager, map);

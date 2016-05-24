@@ -205,7 +205,7 @@ body {
 				return false;
 			}
 			var flag = true;
-			$(".cqPickAmount").each(function(){
+			/* $(".cqPickAmount").each(function(){
 				if($(this).val() != null && $(this).val() != ""){
 					if(($(this).parent().prev().text()) == null || ($(this).parent().prev().text()) == ""){
 						if(($(this).parent().prev().children().val()) == null || ($(this).parent().prev().children().val()) == ""){
@@ -215,7 +215,7 @@ body {
 						}
 					}
 				}
-			});
+			}); */
 			if(flag){
 				if(pickType =='261') {
 					$("#mytable tr").each(function(){
@@ -265,7 +265,7 @@ body {
 				return false;
 			}
 			var flag = true;
-			$(".cqPickAmount").each(function(){
+			/* $(".cqPickAmount").each(function(){
 				if($(this).val() != null && $(this).val() != ""){
 					if(($(this).parent().prev().text()) == null || ($(this).parent().prev().text()) == ""){
 						if(($(this).parent().prev().children().val()) == null || ($(this).parent().prev().children().val()) == ""){
@@ -275,7 +275,7 @@ body {
 						}
 					}
 				}
-			});
+			}); */
 			if(flag){
 			if(pickType =='261') {
 			$("#mytable tr").each(function(){

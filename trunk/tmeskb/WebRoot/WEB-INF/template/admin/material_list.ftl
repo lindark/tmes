@@ -63,9 +63,10 @@
 									</div>
 								   
 								   	<div class="form-group">
-										
-										
-										
+										<label class="col-sm-2" style="text-align:right">单元名称:</label>
+										<div class="col-sm-4">
+											<input type="text" name="factoryUnitName" class="input input-sm form-control" value="" id="form-field-icon-1">
+										</div>
 										<!--  <label class="col-sm-1" style="text-align:right">创建日期:</label>
 										<div class="col-sm-4">
 											<div class="input-daterange input-group">

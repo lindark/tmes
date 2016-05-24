@@ -44,7 +44,10 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Material.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
-	
+			if(!existAlias(detachedCriteria, "factoryunit", "factoryunit"))
+			{
+				detachedCriteria.createAlias("factoryunit", "factoryunit");
+			}
 		if (map.size() > 0) {
 			if(map.get("materialCode")!=null){
 			    detachedCriteria.add(Restrictions.like("materialCode", "%"+map.get("materialCode")+"%"));
@@ -52,8 +55,11 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 			if(map.get("materialName")!=null){
 				detachedCriteria.add(Restrictions.like("materialName", "%"+map.get("materialName")+"%"));
 			}
-			if(map.get("factoryunitId")!=null){
+			/*if(map.get("factoryunitId")!=null){
 				detachedCriteria.add(Restrictions.eq("factoryunit.id", map.get("factoryunitId")));
+			}*/
+			if(map.get("factoryUnitName")!=null){
+				detachedCriteria.add(Restrictions.eq("factoryunit.factoryUnitName", map.get("factoryUnitName")));
 			}
 		}		
 		return super.findByPager(pager, detachedCriteria);

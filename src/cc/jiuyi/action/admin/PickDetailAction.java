@@ -598,6 +598,7 @@ public class PickDetailAction extends BaseAdminAction {
 						return ajaxJsonErrorMessage(message);
 					else {
 						flag = true;
+						pickRfc = new ArrayList<Pick>();
 						pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
 								pickdetailList);
 						for (Pick pick2 : pickRfc) {
@@ -712,6 +713,7 @@ public class PickDetailAction extends BaseAdminAction {
 				}
 				else{
 					flag1 = true;
+					pickRfc = new ArrayList<Pick>();
 					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
 					for(Pick pick2 : pickRfc){
 						String e_type = pick2.getE_type();

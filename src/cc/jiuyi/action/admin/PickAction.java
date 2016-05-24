@@ -494,6 +494,7 @@ public class PickAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage(message);
 			else {
 				flag = true;
+				pickRfc = new ArrayList<Pick>();
 				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
 						pickdetailList);
 				for (Pick pick2 : pickRfc) {
@@ -504,7 +505,7 @@ public class PickAction extends BaseAdminAction {
 					if (e_type.equals("E")) { // 如果有一行发生了错误
 						flag = false;
 						message += pick2.getE_message();
-					} else {
+					} else{
 						Pick pickReturn = pickService.get(pick2.getId());
 						pickReturn.setE_message(e_message);
 						pickReturn.setEx_mblnr(ex_mblnr);
@@ -627,6 +628,7 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
+					pickRfc = new ArrayList<Pick>();
 					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
 					for (Pick pick2 : pickRfc) {
 						String e_type = pick2.getE_type();

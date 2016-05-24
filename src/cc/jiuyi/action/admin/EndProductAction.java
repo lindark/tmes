@@ -448,6 +448,7 @@ public class EndProductAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage(message);
 			else {
 				flag = true;
+				endProductCrt = new ArrayList<EndProduct>();
 				endProductCrt = eprfc.EndProductCrt("", endProductList);
 				for (EndProduct epc : endProductCrt) {
 					String e_type = epc.getE_type();

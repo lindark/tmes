@@ -774,10 +774,10 @@ public class UpDownAction extends BaseAdminAction {
 		//接口调用
 	try {
 		//检查数据完整性
-		Admin admin = adminservice.get(loginid);
+		//Admin admin = adminservice.get(loginid);
 		Admin admin1 = adminservice.getByCardnum(cardnumber);
-		if(admin.getProductDate() == null || admin.getShift() == null){
-			return ajaxJsonErrorMessage("生产日期和班次必须绑定后才可以使用");
+		if(admin1.getProductDate() == null || admin1.getShift() == null){
+			return ajaxJsonErrorMessage("刷卡人生产日期和班次必须绑定后才可以使用");
 		}
 		if(updownList==null || updownList.size()<=0){
 			return ajaxJsonErrorMessage("请至少填写一行数据");
@@ -797,8 +797,8 @@ public class UpDownAction extends BaseAdminAction {
 		HashMap<String,String> hash = new HashMap<String,String>();
 		List<HashMap<String,String>> hashList = new ArrayList<HashMap<String,String>>();
 		//业务处理
-		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
-		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();
+		String werks = admin1.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
+		String lgort = admin1.getTeam().getFactoryUnit().getWarehouse();
 //		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String flag = "";
 		if(type.equals("up"))
@@ -857,9 +857,9 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setType(type);
 				updown.setCharg(updown.getCharg());
 				updown.setAppvaladmin(admin1);//保存人
-				updown.setProductDate(admin.getProductDate());//将生产日期和班次写入
-				updown.setShift(admin.getShift());
-				updown.setFactoryUnit(admin.getTeam().getFactoryUnit());//添加的单元 jjt
+				updown.setProductDate(admin1.getProductDate());//将生产日期和班次写入
+				updown.setShift(admin1.getShift());
+				updown.setFactoryUnit(admin1.getTeam().getFactoryUnit());//添加的单元 jjt
 				updownList.set(i, updown);
 			}
 			updownservice.save(updownList);
@@ -875,9 +875,9 @@ public class UpDownAction extends BaseAdminAction {
 //				pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码
 				pick.setMove_type("261");//移动类型 
 				pick.setBudat(workingBill.getProductDate());//随工单日期
-				pick.setLgort(admin.getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
+				pick.setLgort(admin1.getTeam().getFactoryUnit().getWarehouse());//库存地点SAP测试数据 单元库存地点
 				pick.setZtext(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
-			    pick.setWerks(admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+			    pick.setWerks(admin1.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
 				pick.setCreateDate(new Date());
 				pick.setCreateUser(admin1);
 				pick.setWorkingbill(workingBill);

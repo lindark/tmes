@@ -67,6 +67,8 @@ body {background: #fff;font-family: 微软雅黑;}
 							<form id="inputForm" class="validate" action="" method="post">
 								<input type="hidden" id="my_id" name="my_id" value="${(my_id)! }" />
 								<input type="hidden" id="xwbid" name="scrap.workingBill.id" value="${(workingbill.id)! }" />
+								<input type="hidden" id="xwbmatnr" name="scrap.workingBill.matnr" value="${(workingbill.matnr)! }" />
+								<input type="hidden" id="xwbmaktxs" name="scrap.workingBill.maktxs" value="${(workingbill.maktx)! }" />
 								<input type="hidden" id="id" name="scrap.id" value="${(scrap.id)! }" />
 								
 								<!-- tabs start -->

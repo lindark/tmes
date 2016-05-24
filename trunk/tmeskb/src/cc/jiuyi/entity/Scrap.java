@@ -32,6 +32,13 @@ public class Scrap extends BaseEntity
 	private String e_type;//类型S/E
 	private String e_message;//反馈消息
 	private String mblnr;//物料凭证
+	private String shift;//班次
+	private String productDate;//生产日期
+	private String factoryid;//单元id
+	private String factoryUnitCode;//单元编号
+	private String factoryUnitName;//单元名称
+	private String matnr;//产品编号
+	private String maktxs;//产品名称
 	
 	//从表
 	private Set<ScrapMessage> scrapMsgSet;//报废信息表
@@ -195,10 +202,10 @@ public class Scrap extends BaseEntity
 	
 	@Transient
 	public String getMaktx() {
-		return maktx;
+		return maktxs;
 	}
 	public void setMaktx(String maktx) {
-		this.maktx = maktx;
+		this.maktxs = maktx;
 	}
 	@Transient
 	public String getWorkingbillCode() {
@@ -206,6 +213,48 @@ public class Scrap extends BaseEntity
 	}
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
+	}
+	public String getShift() {
+		return shift;
+	}
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+	public String getProductDate() {
+		return productDate;
+	}
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+	public String getFactoryid() {
+		return factoryid;
+	}
+	public void setFactoryid(String factoryid) {
+		this.factoryid = factoryid;
+	}
+	public String getFactoryUnitCode() {
+		return factoryUnitCode;
+	}
+	public void setFactoryUnitCode(String factoryUnitCode) {
+		this.factoryUnitCode = factoryUnitCode;
+	}
+	public String getFactoryUnitName() {
+		return factoryUnitName;
+	}
+	public void setFactoryUnitName(String factoryUnitName) {
+		this.factoryUnitName = factoryUnitName;
+	}
+	public String getMatnr() {
+		return matnr;
+	}
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+	public String getMaktxs() {
+		return maktxs;
+	}
+	public void setMaktxs(String maktxs) {
+		this.maktxs = maktxs;
 	}
 	
 	

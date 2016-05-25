@@ -110,11 +110,8 @@ public class EnteringwareHouseServiceImpl extends
 		}
 		
 		workingbill.setTotalSingleAmount(totalamount);
-		try{
-		workingbillService.merge(workingbill);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		workingbillService.update(workingbill);
+
 	}
 	
 	/**

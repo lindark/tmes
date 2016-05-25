@@ -165,6 +165,9 @@ public class ResourcesDaoImpl extends BaseDaoImpl<Resources, String> implements 
 	
 	@SuppressWarnings("unchecked")
 	public Integer getListByadmin(List<String> roleid,String path){
+		if(roleid.size()<=0){
+			return 0;
+		}
 		String hql="select count(a) from Resources a join a.roleSet b where a.value like ? and b.id in (:list)";
 		return ((Number) getSession().createQuery(hql).setParameter(0, path+"%").setParameterList("list", roleid).uniqueResult()).intValue();
 	}

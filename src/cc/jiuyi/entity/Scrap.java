@@ -22,6 +22,7 @@ public class Scrap extends BaseEntity
 	private String isDel;//是否已删除
 	private String state;//状态
 	private WorkingBill workingBill;//随工单
+	private String workingBillCode;//随工单
 	private Admin creater;//提交人
 	private Admin confirmation;//确认人
 	private String move_type;//移动类型
@@ -255,6 +256,12 @@ public class Scrap extends BaseEntity
 	}
 	public void setMaktxs(String maktxs) {
 		this.maktxs = maktxs;
+	}
+	public String getWorkingBillCode() {
+		return workingBillCode;
+	}
+	public void setWorkingBillCode(String workingBillCode) {
+		this.workingBillCode = workingBillCode;
 	}
 	
 	

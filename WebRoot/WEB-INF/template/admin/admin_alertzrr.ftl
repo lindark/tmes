@@ -105,7 +105,7 @@ function getGridId()
 		for(var i=0;i<ids.length;i++)
 		{
 			var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
-			result+=rowData.name+",";
+			result+=rowData.name+"("+rowData.cardNumber+"),";
 		}
 		result=result.substring(0,result.length-1);					
 		return result;

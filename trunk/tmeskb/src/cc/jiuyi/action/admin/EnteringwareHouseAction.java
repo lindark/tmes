@@ -13,8 +13,10 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
+
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -50,7 +52,8 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class EnteringwareHouseAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 352880047222902914L;
-
+	public static Logger log = Logger.getLogger(EnteringwareHouse.class);
+	
 	private static final String CONFIRMED = "1";
 	private static final String UNCONFIRM = "2";
 	private static final String UNDO = "3";
@@ -388,6 +391,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		}*/
 		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
+		log.info("入库刷卡确认开始"+workingbill.getTotalSingleAmount());
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		if(unitconversion==null){
 			return ajaxJsonErrorMessage("未找到该物料对应的单位!");
@@ -443,12 +447,15 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 					cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			log.info(e1);
 			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
 			e1.printStackTrace();
+			log.info(e1);
 			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch (Exception e) {
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
@@ -464,6 +471,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount()
 				.toString());
 		//hashmap.put("total", totalAmount.toString());
+		log.info("入库刷卡确认结束"+workingbill.getTotalSingleAmount());
 		return ajaxJson(hashmap);
 	}
 
@@ -483,6 +491,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		if (ratio == null || ratio.equals("")) {
 	           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 			}*/
+		log.info("入库刷卡确认撤销开始"+workingbill.getTotalSingleAmount());
 		Admin admin = adminService.getByCardnum(cardnumber);
 		
 		String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
@@ -517,24 +526,34 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		if(enterList.size()>0){//已确认的数据调sap接口
 			
 		try {
+			List<EnteringwareHouse> aufnr1=enteringwareHouseRfc.WarehousingCrt("X",enterList);
+			for(EnteringwareHouse e:aufnr1){
+				if("E".equalsIgnoreCase(e.getE_type()))
+				{
+					return this.ajaxJsonErrorMessage(e.getE_message());
+				}
+				
+			}
 			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
 			for(EnteringwareHouse e:aufnr){
 				if("E".equalsIgnoreCase(e.getE_type()))
 				{
 					return this.ajaxJsonErrorMessage(e.getE_message());
 				}
-				
-			}	
-
+			}
+			
 			enteringwareHouseService.updateState(aufnr, UNDO, workingbill,cardnumber);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			log.info(e1);
 			return ajaxJsonErrorMessage("IO出现异常");
 		} catch (CustomerException e1) {
 			e1.printStackTrace();
+			log.info(e1);
 			return ajaxJsonErrorMessage(e1.getMsgDes());
 		}catch (Exception e) {
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
 		}
 		
@@ -552,6 +571,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount()
 				.toString());
 		//hashmap.put("total", totalAmount.toString());
+		log.info("入库刷卡确认撤销结束"+workingbill.getTotalSingleAmount());
 		return ajaxJson(hashmap);
 	}
 

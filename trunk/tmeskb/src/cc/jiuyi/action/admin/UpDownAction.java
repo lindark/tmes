@@ -838,6 +838,7 @@ public class UpDownAction extends BaseAdminAction {
 		
 			//List<HashMap<String,String>> maplist = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> maplist = undownrfc.undown(hash, hashList);
+			log.info("--------------sap返回size"+maplist.size());
 			for(int i=0;i<updownList.size();i++){
 				UpDown updown = updownList.get(i);
 				for(int y=0;y<maplist.size();y++){
@@ -846,6 +847,7 @@ public class UpDownAction extends BaseAdminAction {
 					String charg = map.get("charg");//批次
 					String tanum = map.get("tanum");//转储单号
 					String tapos = map.get("tapos");//转出单行项目号
+					log.info("--------------转储单号和单行项目号："+tanum+"---"+tapos);
 					if(ThinkWayUtil.null2String(updown.getMatnr()).equals(ThinkWayUtil.null2String(matnr)) &&
 					   ThinkWayUtil.null2String(updown.getCharg()).equals(ThinkWayUtil.null2String(charg))){
 						updown.setTanum(tanum);
@@ -862,6 +864,7 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setFactoryUnit(admin1.getTeam().getFactoryUnit());//添加的单元 jjt
 				updownList.set(i, updown);
 			}
+			log.info("--------------保存updown");
 			updownservice.save(updownList);
 			if(workingBillId != null && !workingBillId.equals("")){
 				WorkingBill workingBill = workingBillService.get(workingBillId);

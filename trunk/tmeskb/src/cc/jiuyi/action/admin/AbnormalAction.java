@@ -18,6 +18,7 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.commons.lang.xwork.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -40,6 +41,7 @@ import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
 import cc.jiuyi.entity.Dump;
+import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FlowingRectify;
 import cc.jiuyi.entity.Member;
@@ -67,7 +69,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class AbnormalAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 7823213806344131048L;
-
+	public static Logger log = Logger.getLogger(Abnormal.class);
 	private Abnormal abnormal;
 	private String loginUsername;
 	private String callId;
@@ -578,9 +580,11 @@ public class AbnormalAction extends BaseAdminAction {
 								
 		}catch(DocumentException e){
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonErrorMessage("短信发送失败");
 		}catch(Exception e){
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonErrorMessage("系统出现错误,请联系系统管理员");
 		}
 		

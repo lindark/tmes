@@ -65,7 +65,7 @@ jQuery(function($) {
 		//colNames:['工厂名称','车间编码','车间名称',],
 		colModel:[
 			{name:'id',index:'id', sorttype:"int",label:"ID", editable: false,hidden:true},
-			{name:'cardNumber',index:'cardNumber',label:"员工卡号", width:100, editable: false},
+			{name:'workNumber',index:'workNumber',label:"员工工号", width:100, editable: false},
 			{name:'name',index:'name',label:"员工姓名",width:100, editable: false},
 			{name:'xpost',index:'post.postName',label:"岗位",width:100, editable: false},
 			{name:'xteam',index:'team.teamName',label:"班组",width:100, editable: false},

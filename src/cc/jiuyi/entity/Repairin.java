@@ -37,6 +37,10 @@ public class Repairin extends BaseEntity {
 	private String costcenter;//成本中心
 	private String departName;//部门名称
 	private String CXORJC;//成型/挤出
+	private String productDate;// 生产日期
+	private String shift;//班次
+	private String matnr;// 产品编号
+	private String factoryUnitCode;// 单元编码
 	
 	//SAP
 	private String WERKS;//工厂
@@ -46,10 +50,10 @@ public class Repairin extends BaseEntity {
 	private String E_TYPE;//返回类型S/E
 	private String E_MESSAGE;//返回消息
 	
-	/**冗余字段**/
+	/**冗余字段
 	private String productDate;
 	private String matnr;
-	
+	**/
 	
 	private String xrepairintype;//成品/子件-描述
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -136,7 +140,6 @@ public class Repairin extends BaseEntity {
 		this.createName = createName;
 	}
 
-	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}
@@ -276,7 +279,6 @@ public class Repairin extends BaseEntity {
 		CXORJC = cXORJC;
 	}
 
-	@Transient
 	public String getProductDate() {
 		return productDate;
 	}
@@ -285,7 +287,6 @@ public class Repairin extends BaseEntity {
 		this.productDate = productDate;
 	}
 
-	@Transient
 	public String getMatnr() {
 		return matnr;
 	}
@@ -300,6 +301,22 @@ public class Repairin extends BaseEntity {
 
 	public void setDepartName(String departName) {
 		this.departName = departName;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public String getFactoryUnitCode() {
+		return factoryUnitCode;
+	}
+
+	public void setFactoryUnitCode(String factoryUnitCode) {
+		this.factoryUnitCode = factoryUnitCode;
 	}
 	
 	

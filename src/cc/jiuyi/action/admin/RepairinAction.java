@@ -296,16 +296,18 @@ public class RepairinAction extends BaseAdminAction {
 	// 保存
 	public String creditsave()
 	{
+		Admin loginAdmin= adminService.get(loginid);//登陆人
 		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
-		this.repairinService.saveData(repairin,cardnumber,list_rp,list_bom);
+		this.repairinService.saveData(repairin,cardnumber,list_rp,list_bom,loginAdmin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	// 更新
 	public String creditupdate()
 	{
+		Admin loginAdmin= adminService.get(loginid);//登陆人
 		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
-		this.repairinService.updateData(repairin,list_rp,cardnumber,list_bom);
+		this.repairinService.updateData(repairin,list_rp,cardnumber,list_bom,loginAdmin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 

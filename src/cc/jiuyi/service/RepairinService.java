@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.RepairinPiece;
@@ -48,13 +49,13 @@ public interface RepairinService extends BaseService<Repairin, String> {
 	 * @param repair
 	 * @param cardnumber
 	 */
-	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp,List<Bom>list_bom);
+	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp,List<Bom>list_bom,Admin admin);
 
 	/**
 	 * 修改
 	 * @param id
 	 */
-	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom);
+	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom,Admin admin);
 	
 	
 	public List<Object[]> historyExcelExport(HashMap<String,String> map);

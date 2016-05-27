@@ -73,6 +73,7 @@ public class RepairAction extends BaseAdminAction {
 	private List<Dict>list_dict;
 	private String costcenter;
 	private String departmentName;//部门描述
+	private List<Dict> processList;//责任工序 
 
 	@Resource
 	private TempKaoqinService tempKaoqinService;
@@ -207,7 +208,7 @@ public class RepairAction extends BaseAdminAction {
 	        
 	        header.add("返修部位");
 	        header.add("返修数量");
-	        header.add("责任人/批次");
+	        header.add("责任人");
 	        header.add("物料凭证号");
 	        
 	        header.add("返修日期");
@@ -295,6 +296,7 @@ public class RepairAction extends BaseAdminAction {
 		processRouteList = new ArrayList<ProcessRoute>();
 		//根据订单号,生产日期查询工艺路线
 		processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
+		processList = dictService.getList("dictname", "process");
 		this.add="add";
 		return INPUT;
 	}
@@ -323,7 +325,8 @@ public class RepairAction extends BaseAdminAction {
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
-		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
+		processList = dictService.getList("dictname", "process");
+//		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.edit="edit";
 		return INPUT;
 	}
@@ -331,16 +334,18 @@ public class RepairAction extends BaseAdminAction {
 	// 保存
 	public String creditsave()
 	{
+		Admin loginAdmin= adminService.get(loginid);//登陆人
 		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
-		this.repairService.saveData(repair,cardnumber,list_rp,list_bom);
+		this.repairService.saveData(repair,cardnumber,list_rp,list_bom,loginAdmin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
 	//修改
 	public String creditupdate() 
-	{
+	{	
+		Admin loginAdmin= adminService.get(loginid);//登陆人
 		List<Bom>list_bom=getbomlist();//获取物料表中包含list1中的数据
-		this.repairService.updateData(repair,list_rp,cardnumber,list_bom);
+		this.repairService.updateData(repair,list_rp,cardnumber,list_bom,loginAdmin);
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 
@@ -451,9 +456,11 @@ public class RepairAction extends BaseAdminAction {
 				String productDate = workingbill.getProductDate();
 				//生产订单号,日期,编码查询一条工艺路线
 				ProcessRoute pr= processRouteService.getOneByConditions(aufnr, productDate,repair.getProcessCode());
-				if(pr!=null)
+		//		if(pr!=null)
+				if(repair.getProcessCode()!=null)
 				{
-					repair.setResponseName(pr.getProcessName());
+			//		repair.setResponseName(pr.getProcessName());
+					repair.setResponseName(ThinkWayUtil.getDictValueByDictKey(dictService,"process",repair.getProcessCode()));
 				}
 				repair.setXrepairtype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairtype",repair.getRepairtype()));//成品/子件
 			}
@@ -576,9 +583,10 @@ public class RepairAction extends BaseAdminAction {
 		String productDate = workingbill.getProductDate();
 		//生产订单号,日期,编码查询一条工艺路线
 		ProcessRoute pr= processRouteService.getOneByConditions(aufnr, productDate,repair.getProcessCode());
-		if(pr!=null)
+	//	if(pr!=null)
+		if(repair.getProcessCode()!=null)
 		{
-			repair.setResponseName(pr.getProcessName());
+			repair.setResponseName(ThinkWayUtil.getDictValueByDictKey(dictService,"process",repair.getProcessCode()));
 		}
 		if(repair.getMould()!=null)
 		{
@@ -601,9 +609,10 @@ public class RepairAction extends BaseAdminAction {
 		String productDate = workingbill.getProductDate();
 		//生产订单号,日期,编码查询一条工艺路线
 		ProcessRoute pr= processRouteService.getOneByConditions(aufnr, productDate,repair.getProcessCode());
-		if(pr!=null)
+	//	if(pr!=null)
+		if(repair.getProcessCode()!=null)
 		{
-			repair.setResponseName(pr.getProcessName());
+			repair.setResponseName(ThinkWayUtil.getDictValueByDictKey(dictService,"process",repair.getProcessCode()));
 		}
 		if(repair.getMould()!=null)
 		{
@@ -870,5 +879,14 @@ public class RepairAction extends BaseAdminAction {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
+
+	public List<Dict> getProcessList() {
+		return processList;
+	}
+
+	public void setProcessList(List<Dict> processList) {
+		this.processList = processList;
+	}
+	
 	
 }

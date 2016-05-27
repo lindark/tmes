@@ -148,7 +148,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 新增
 	 */
-	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp,List<Bom>list_bom)
+	public void saveData(Repairin repairin, String cardnumber,List<RepairinPiece>list_rp,List<Bom>list_bom,Admin admin1)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
@@ -163,6 +163,17 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		repairin.setModifyDate(new Date());//修改日期
 		repairin.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repairin.setBUDAT(wb.getProductDate());//过账日期
+		if(admin1 !=null){
+			repairin.setProductDate(admin1.getProductDate());//生产日期
+			repairin.setShift(admin1.getShift());//班次
+			if(admin1.getTeam() !=null){
+				repairin.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+			}
+		}
+		if(wb !=null){
+			repairin.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
+			repairin.setMatnr(wb.getMatnr());//产品编号
+		}
 		String rid=this.save(repairin);
 		/**保存组件表数据*/
 		Repairin r=this.get(rid);//根据id查询
@@ -187,7 +198,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 修改
 	 */
-	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom)
+	public void updateData(Repairin repairin,List<RepairinPiece>list_rp,String cardnumber,List<Bom>list_bom,Admin admin1)
 	{
 		//Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repairin.getWorkingbill().getId());//当前随工单
@@ -204,6 +215,17 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		r.setReceiveAmount(repairin.getReceiveAmount());//返修收货数量
 		r.setModifyDate(new Date());//修改日期
 		//r.setCreateUser(admin);
+		if(admin1 !=null){
+			repairin.setProductDate(admin1.getProductDate());//生产日期
+			repairin.setShift(admin1.getShift());//班次
+			if(admin1.getTeam() !=null){
+				repairin.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+			}
+		}
+		if(wb !=null){
+			repairin.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
+			repairin.setMatnr(wb.getMatnr());//产品编号
+		}
 		this.update(r);
 		/**修改组件表数据*/
 		//1.删除原数据

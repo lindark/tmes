@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.ProcessRoute;
 
 
@@ -62,4 +63,5 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
      public List<Object[]> getMaxVersion(List<String> orderidList);
      
      public ProcessRoute getProcessRoute(Integer version,String orderid);
+     
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
@@ -53,12 +54,12 @@ public interface RepairService extends BaseService<Repair, String>{
 	 * @param repair
 	 * @param cardnumber
 	 */
-	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom);
+	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom,Admin admin);
 
 	/**
 	 * 修改
 	 * @param id
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom);
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom,Admin admin);
 
 }

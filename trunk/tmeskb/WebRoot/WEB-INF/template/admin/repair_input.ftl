@@ -82,6 +82,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate" action="" method="post">
+							<input type="hidden" name="loginid" id="loginid" value="<@sec.authentication property='principal.id' />" />
 								<input type="hidden" name="repair.id" value="${(repair.id)!}" />
 								<input type="hidden" name="repair.workingbill.id"
 									value="${workingbill.id} " id="wkid"> <input
@@ -142,20 +143,38 @@ body {
 												</div>
 											</div>
 											<div class="profile-info-row">
-												<div class="profile-info-name">责任人/批次</div>
+												<div class="profile-info-name">责任人</div>
+												<div class="profile-info-value">	
+												<#if show??> 
+												${(repair.duty)! }
+												<#else>	
+													<td>
+													<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+													<span id="responsibleName">${(repair.duty)! }</span>
+														<input type="hidden" name="repair.duty" id="responsibleNa" value="${(repair.duty)!}" class="formText {required: true}" />
+														<input type="hidden" name="repair.responsibleId" id="responsibleId" value="${(repair.responsibleId)!}" class="formText {required: true}" /> 			 
+													</td>
+												</#if>
+												</div>
+
+												<div class="profile-info-name">批次</div>
 												<div class="profile-info-value">
-													<#if show??> ${(repair.duty)!} <#else> <input type="text"
-														id="input_duty" name="repair.duty"
-														value="${(repair.duty)!}" class=" input input-sm" />
+													<#if show??> ${(repair.charg)!} <#else> <input type="text"
+														id="input_charg" name="repair.charg"
+														value="${(repair.charg)!}" class=" input input-sm" />
 													<!-- 
 														<label class="requireField">*</label>
 														 -->
 													</#if>
 												</div>
-
+											</div>
+											<div class="profile-info-row">
 												<div class="profile-info-name">责任工序</div>
 												<div class="profile-info-value">
-													<#if show??> ${(repair.responseName)! } <#else> <select
+													<#if show??> ${(repair.responseName)! } 
+													<#else> 
+													<!--  
+													<select
 														name="repair.processCode" id="r_select"
 														class="chosen-select"> <#if processRouteList??>
 														<#list processRouteList as list>
@@ -163,9 +182,31 @@ body {
 															value="${(list.processCode)!}"<#if
 															(repair.processCode==list.processCode)!>
 															selected</#if>>${(list.processName)!}</option> </#list> </#if>
+													</select> -->
+													<select name="repair.processCode" id="r_select" class="chosen-select">
+													<#if processList??>
+													<#list processList as list>
+													<option value="${(list.dictkey)! }"
+													<#if (repair.processCode==list.dictkey)!>selected</#if>>
+													${(list.dictvalue)! }
+													</option>
+													</#list>
+													</#if>
+													</select>
+													</#if>
+												</div>
+												
+												<div class="profile-info-name">模具</div>
+												<div class="profile-info-value">
+													<#if show??> ${(repair.xmould)! } <#else> <select
+														name="repair.mould"> <#list list_dict as list>
+														<option value="${list.dictkey}"<#if
+															(list.dictkey==repair.mould)!>
+															selected</#if>>${list.dictvalue}</option> </#list>
 													</select> </#if>
 												</div>
 											</div>
+											
 											<div class="profile-info-row">
 												<div class="profile-info-name">成品/组件</div>
 												<div class="profile-info-value">
@@ -228,17 +269,7 @@ body {
 												-->
 												</div>
 											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name">模具</div>
-												<div class="profile-info-value">
-													<#if show??> ${(repair.xmould)! } <#else> <select
-														name="repair.mould"> <#list list_dict as list>
-														<option value="${list.dictkey}"<#if
-															(list.dictkey==repair.mould)!>
-															selected</#if>>${list.dictvalue}</option> </#list>
-													</select> </#if>
-												</div>
-											</div>
+											
 										</div>
 										<!--weitao end modify , gyf modify-->
 										<br />
@@ -401,6 +432,26 @@ $(function(){
 		return false;
 	})
 })
+function showUnit(num1){
+	var title = "选择单元";
+	var width="800px";
+	var height="632px";
+	var content="process_handover!browser.action";
+	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
+		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
+		var work=iframeWin.getGridId();
+		var id=work.split(",");
+		num1.next().text(id[1]);
+		num1.next().next().val(id[1]);
+		num1.next().next().next().val(id[0]);
+		layer.close(index); 
+	});
+}
+$(function(){
+	$(".img_addbug").click( function() {
+		showUnit($(this));
+	});
+});
 $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
@@ -424,5 +475,5 @@ $(function(){
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
-})
+});
 </script>

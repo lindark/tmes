@@ -13,10 +13,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
@@ -36,7 +38,9 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	private WorkingBillService workingbillService;
 	@Resource
 	private AdminService adminservice;
-
+	@Resource
+	private KaoqinService kaoqinservice;
+	
 	@Resource
 	public void setBaseDao(RepairDao repairDao) {
 		super.setBaseDao(repairDao);
@@ -142,7 +146,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 新增
 	 */
-	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom)
+	public void saveData(Repair repair, String cardnumber,List<RepairPiece>list_rp,List<Bom>list_bom,Admin admin1)
 	{
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repair.getWorkingbill().getId());//当前随工单
@@ -153,6 +157,21 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		repair.setModifyDate(new Date());//修改日期
 		repair.setZTEXT(workingBillCode.substring(workingBillCode.length()-2));//抬头文本 SAP测试数据随工单位最后两位
 		repair.setBUDAT(wb.getProductDate());//过账日期
+		if(admin1 !=null){
+			repair.setProductDate(admin1.getProductDate());//生产日期
+			repair.setShift(admin1.getShift());//班次
+			if(admin1.getTeam() !=null){
+				repair.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+			}
+		}
+		if(wb !=null){
+			repair.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
+			repair.setMatnr(wb.getMatnr());//产品编号
+		}
+		if(repair.getResponsibleId() !=null &&	!repair.getResponsibleId().equals("")){
+			Kaoqin kaoqin = kaoqinservice.get(repair.getResponsibleId());
+			repair.setResponsibleNum(kaoqin.getCardNumber());
+		}
 		String rid=this.save(repair);
 		/**保存组件表数据*/
 		Repair r=this.get(rid);//根据id查询
@@ -176,7 +195,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 修改
 	 */
-	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom)
+	public void updateData(Repair repair,List<RepairPiece>list_rp,String cardnumber,List<Bom>list_bom,Admin admin1)
 	{
 		//Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill wb = workingbillService.get(repair.getWorkingbill().getId());//当前随工单
@@ -192,6 +211,24 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		r.setProcessCode(repair.getProcessCode());//责任工序
 		r.setMould(repair.getMould());//模具
 		r.setModifyDate(new Date());//修改日期
+		r.setCharg(repair.getCharg());//批次
+		r.setResponsibleId(repair.getResponsibleId());//责任人id
+		r.setDuty(repair.getDuty());//责任人名字
+		if(admin1 !=null){
+			repair.setProductDate(admin1.getProductDate());//生产日期
+			repair.setShift(admin1.getShift());//班次
+			if(admin1.getTeam() !=null){
+				repair.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+			}
+		}
+		if(wb !=null){
+			repair.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
+			repair.setMatnr(wb.getMatnr());//产品编号
+		}
+		if(repair.getResponsibleId() !=null){
+			Kaoqin kaoqin = kaoqinservice.get(repair.getResponsibleId());
+			repair.setResponsibleNum(kaoqin.getCardNumber());
+		}
 		//r.setCreateUser(admin);
 		this.update(r);
 		/**修改组件表数据*/

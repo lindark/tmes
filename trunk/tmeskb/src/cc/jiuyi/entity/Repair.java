@@ -39,6 +39,14 @@ public class Repair extends BaseEntity {
 	private String costcenter;//成本中心
 	private String CXORJC;//成型/挤出
 	private String mould;//模具
+	private String charg;//批次
+//	private String responsibleName;//责任人姓名
+	private String responsibleId;//责任人id
+	private String responsibleNum;//责任人卡号
+	private String productDate;// 生产日期
+	private String shift;//班次
+	private String matnr;// 产品编号
+	private String factoryUnitCode;// 单元编码
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -169,7 +177,6 @@ public class Repair extends BaseEntity {
 		this.responseName = responseName;
 	}
 
-	@Transient
 	public String getWorkingbillCode() {
 		return workingbillCode;
 	}
@@ -345,5 +352,70 @@ public class Repair extends BaseEntity {
 	{
 		this.xmould = xmould;
 	}
+
+	public String getCharg() {
+		return charg;
+	}
+
+	public void setCharg(String charg) {
+		this.charg = charg;
+	}
+
+//	public String getResponsibleName() {
+//		return responsibleName;
+//	}
+//
+//	public void setResponsibleName(String responsibleName) {
+//		this.responsibleName = responsibleName;
+//	}
+
+	public String getResponsibleId() {
+		return responsibleId;
+	}
+
+	public void setResponsibleId(String responsibleId) {
+		this.responsibleId = responsibleId;
+	}
+
+	public String getResponsibleNum() {
+		return responsibleNum;
+	}
+
+	public void setResponsibleNum(String responsibleNum) {
+		this.responsibleNum = responsibleNum;
+	}
+
+	public String getProductDate() {
+		return productDate;
+	}
+
+	public void setProductDate(String productDate) {
+		this.productDate = productDate;
+	}
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public String getMatnr() {
+		return matnr;
+	}
+
+	public void setMatnr(String matnr) {
+		this.matnr = matnr;
+	}
+
+	public String getFactoryUnitCode() {
+		return factoryUnitCode;
+	}
+
+	public void setFactoryUnitCode(String factoryUnitCode) {
+		this.factoryUnitCode = factoryUnitCode;
+	}
+	
 	
 }

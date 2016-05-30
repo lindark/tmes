@@ -332,6 +332,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverSonList = new ArrayList<ProcessHandoverSon>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				for (int i = 0; i < workingbillList.size(); i++) {
+					if("Y".equals(workingbillList.get(i).getIsHand())){
+						addActionError("当日交接已完成，不可再次交接");
+						return ERROR;
+					}
+				}
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
 					/*for(int i=0;i<workingbillList.size();i++){
@@ -788,6 +794,37 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			else{
 				return ajaxJsonSuccessMessage("请选择未确认的记录!");
 			}
+		}
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	public String allHandover(){
+		admin = adminService.get(loginid);
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		boolean flag = ThinkWayUtil.isPass(admin);
+		if(!flag){
+			addActionError("您当前未上班,不能进行部门工序交接操作!");
+			return ERROR;
+		}
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		for(WorkingBill workingbill : workingbillList){
+			if("Y".equals(workingbill.getIsHand())){
+				addActionError("当日总体交接已完成");
+				return ERROR;
+			}
+		}
+		
+		return "all";
+	}
+	public String allSubmit(){
+		return ajaxJsonSuccessMessage("您的操作已成功!");
+	}
+	public String allapproval(){
+		Admin admin = adminService.get(loginid);
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		for(WorkingBill workingbill : workingbillList){
+			workingbill.setIsHand("Y");
+			workingbillservice.update(workingbill);
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

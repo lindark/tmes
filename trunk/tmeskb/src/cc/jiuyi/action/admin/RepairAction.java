@@ -169,6 +169,7 @@ public class RepairAction extends BaseAdminAction {
 			repairPiece.setRepairPart(repairPiece.getRepair().getRepairPart());
 			repairPiece.setRepairAmount(repairPiece.getRepair().getRepairAmount());
 			repairPiece.setDuty(repairPiece.getRepair().getDuty());
+			repairPiece.setCharg(repairPiece.getRepair().getCharg());
 			repairPiece.setProductDate(repairPiece.getRepair().getWorkingbill().getProductDate());
 			repairPiece.setMblnr(repairPiece.getRepair().getEX_MBLNR());
 			repairPiece.setMatnr(repairPiece.getRepair().getWorkingbill().getMatnr());
@@ -209,6 +210,7 @@ public class RepairAction extends BaseAdminAction {
 	        header.add("返修部位");
 	        header.add("返修数量");
 	        header.add("责任人");
+	        header.add("批次");
 	        header.add("物料凭证号");
 	        
 	        header.add("返修日期");
@@ -239,6 +241,7 @@ public class RepairAction extends BaseAdminAction {
 					repair.getRepairPart(),
 					repair.getRepairAmount(),
 					repair.getDuty(),
+					repair.getCharg(),
 					repair.getEX_MBLNR(),
 					repairPiece.getCreateDate(),
 					repair.getCreateUser() == null ? "" : repair
@@ -289,13 +292,13 @@ public class RepairAction extends BaseAdminAction {
 		}
 		this.list_dict=dictService.getList("dictname", "moudleType");
 		workingbill = workingBillService.get(workingBillId);
-		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		String productDate = workingbill.getProductDate();
+		//String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//String productDate = workingbill.getProductDate();
 		departmentName="返修部";
 		costcenter="10008431";
 		processRouteList = new ArrayList<ProcessRoute>();
 		//根据订单号,生产日期查询工艺路线
-		processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
+		//processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
 		processList = dictService.getList("dictname", "process");
 		this.add="add";
 		return INPUT;

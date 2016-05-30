@@ -162,16 +162,17 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			repair.setShift(admin1.getShift());//班次
 			if(admin1.getTeam() !=null){
 				repair.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+				repair.setFactoryUnitName(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
 			}
 		}
 		if(wb !=null){
 			repair.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
 			repair.setMatnr(wb.getMatnr());//产品编号
 		}
-		if(repair.getResponsibleId() !=null &&	!repair.getResponsibleId().equals("")){
+		/*if(repair.getResponsibleId() !=null &&	!repair.getResponsibleId().equals("")){
 			Kaoqin kaoqin = kaoqinservice.get(repair.getResponsibleId());
 			repair.setResponsibleNum(kaoqin.getCardNumber());
-		}
+		}*/
 		String rid=this.save(repair);
 		/**保存组件表数据*/
 		Repair r=this.get(rid);//根据id查询
@@ -213,22 +214,24 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		r.setModifyDate(new Date());//修改日期
 		r.setCharg(repair.getCharg());//批次
 		r.setResponsibleId(repair.getResponsibleId());//责任人id
+		r.setResponsibleNum(repair.getResponsibleNum());//卡号
 		r.setDuty(repair.getDuty());//责任人名字
 		if(admin1 !=null){
 			repair.setProductDate(admin1.getProductDate());//生产日期
 			repair.setShift(admin1.getShift());//班次
 			if(admin1.getTeam() !=null){
 				repair.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+				repair.setFactoryUnitName(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
 			}
 		}
 		if(wb !=null){
 			repair.setWorkingbillCode(wb.getWorkingBillCode());//随工单编号
 			repair.setMatnr(wb.getMatnr());//产品编号
 		}
-		if(repair.getResponsibleId() !=null){
+		/*if(repair.getResponsibleId() !=null){
 			Kaoqin kaoqin = kaoqinservice.get(repair.getResponsibleId());
 			repair.setResponsibleNum(kaoqin.getCardNumber());
-		}
+		}*/
 		//r.setCreateUser(admin);
 		this.update(r);
 		/**修改组件表数据*/

@@ -320,6 +320,13 @@ public class OddHandOverAction extends BaseAdminAction {
 			oddHandOverList = new ArrayList<OddHandOver>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				for (int i = 0; i < workingbillList.size(); i++) {
+					if("Y".equals(workingbillList.get(i).getIsHand())){
+						addActionError("当日交接已完成，不可再次交接");
+						return ERROR;
+					}
+				}
+				
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
 //					for(int i=0;i<workingbillList.size();i++){

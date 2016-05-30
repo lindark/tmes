@@ -38,7 +38,7 @@ jQuery(function($) {
 	    	
 	    },
 	    colNames:[ '随工单编号','生产日期','产品编码','产品名称','产品数量',
-	               '返修部位','返修数量','返修日期','责任人/批次','物料凭证号','创建人', '确认人','状态','状态-隐藏'],
+	               '返修部位','返修数量','返修日期','责任人','批次','物料凭证号','创建人', '确认人','状态','状态-隐藏'],
 		colModel:[
 			
 	        {name:'workingbillCode',index:'workingbill.workingbillCode', width:90,sortable:"true",sorttype:"text"},
@@ -55,6 +55,7 @@ jQuery(function($) {
 			{name:'repairAmount',index:'repair.repairAmount', width:70},
 			{name:'createDate',index:'createDate',width:120,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'duty',index:'repair.duty', width:90,sortable:"true",sorttype:"text"},
+			{name:'charg',index:'repair.charg', width:90,sortable:"true",sorttype:"text"},
 			{name:'mblnr',index:'repair.EX_MBLNR', width:90,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'repair.createUser', width:60,sortable:"true",sorttype:"text"},
 			{name:'confirmUser',index:'repair.confirmUser', width:60,sortable:"true",sorttype:"text"},

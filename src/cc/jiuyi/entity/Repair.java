@@ -47,6 +47,7 @@ public class Repair extends BaseEntity {
 	private String shift;//班次
 	private String matnr;// 产品编号
 	private String factoryUnitCode;// 单元编码
+	private String factoryUnitName;// 单元编码
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -415,6 +416,14 @@ public class Repair extends BaseEntity {
 
 	public void setFactoryUnitCode(String factoryUnitCode) {
 		this.factoryUnitCode = factoryUnitCode;
+	}
+
+	public String getFactoryUnitName() {
+		return factoryUnitName;
+	}
+
+	public void setFactoryUnitName(String factoryUnitName) {
+		this.factoryUnitName = factoryUnitName;
 	}
 	
 	

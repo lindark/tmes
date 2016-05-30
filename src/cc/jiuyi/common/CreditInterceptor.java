@@ -100,7 +100,7 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 			if(count <=0){
 				HashMap<String, String> jsonmap = new HashMap<String, String>();
 				jsonmap.put("status", "error");
-				jsonmap.put("message", "对不起,您无权限访问");
+				jsonmap.put("message", "对不起,您无权限访问,不存在角色");
 	
 				JSONObject jsonObject = JSONObject.fromObject(jsonmap);
 				response.setContentType("text/html" + ";charset=UTF-8");
@@ -115,7 +115,7 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 			log.error(e);
 			HashMap<String, String> jsonmap = new HashMap<String, String>();
 			jsonmap.put("status", "error");
-			jsonmap.put("message", "对不起,您无权限访问");
+			jsonmap.put("message", "对不起,您无权限访问,系统异常");
 
 			JSONObject jsonObject = JSONObject.fromObject(jsonmap);
 			response.setContentType("text/html" + ";charset=UTF-8");

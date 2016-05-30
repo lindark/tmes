@@ -839,7 +839,7 @@ public class UpDownAction extends BaseAdminAction {
 			//List<HashMap<String,String>> maplist = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> maplist = undownrfc.undown(hash, hashList);
 			log.info("--------------sap返回size"+maplist.size());
-			for(int i=0;i<updownList.size();i++){
+			undown:for(int i=0;i<updownList.size();i++){
 				UpDown updown = updownList.get(i);
 				for(int y=0;y<maplist.size();y++){
 					HashMap<String,String> map = maplist.get(y);
@@ -848,8 +848,10 @@ public class UpDownAction extends BaseAdminAction {
 					String tanum = map.get("tanum");//转储单号
 					String tapos = map.get("tapos");//转出单行项目号
 					log.info("--------------转储单号和单行项目号："+tanum+"---"+tapos);
+				
 					if(ThinkWayUtil.null2String(updown.getMatnr()).equals(ThinkWayUtil.null2String(matnr)) &&
 					   ThinkWayUtil.null2String(updown.getCharg()).equals(ThinkWayUtil.null2String(charg))){
+						if("".equals(tanum) || "".equals(tapos))continue undown;
 						updown.setTanum(tanum);
 						updown.setTapos(tapos);
 					}
@@ -889,6 +891,7 @@ public class UpDownAction extends BaseAdminAction {
 				List<PickDetail> pickDetailList1= new ArrayList<PickDetail>();
 				for (int i = 0; i < updownList.size(); i++) {
 					UpDown updown = updownList.get(i);
+					if(updown.getTanum()==null || "".equals(updown.getTanum()) || updown.getTapos()==null || "".equals(updown.getTapos()))continue;
 					PickDetail p = new PickDetail();
 					/*if(p!=null){
 						if(p.getCqPickAmount()!=null && !"".equals(p.getCqPickAmount())){
@@ -942,9 +945,10 @@ public class UpDownAction extends BaseAdminAction {
 				if(button == false){
 					return ajaxJsonErrorMessage("输入内容有误,数量不能为0且必须选择对应操作类型!");
 				}
-
-				/**同时保存主从表**/
-				pickDetailService.saveSubmit(pickDetailList1, pick);
+				if(pickDetailList1.size()>0){
+					/**同时保存主从表**/
+					pickDetailService.saveSubmit(pickDetailList1, pick);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

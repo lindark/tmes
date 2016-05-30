@@ -168,6 +168,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			repairin.setShift(admin1.getShift());//班次
 			if(admin1.getTeam() !=null){
 				repairin.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+				repairin.setFactoryUnitName(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
 			}
 		}
 		if(wb !=null){
@@ -220,6 +221,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			repairin.setShift(admin1.getShift());//班次
 			if(admin1.getTeam() !=null){
 				repairin.setFactoryUnitCode(admin1.getTeam().getFactoryUnit().getFactoryUnitCode());
+				repairin.setFactoryUnitName(admin1.getTeam().getFactoryUnit().getFactoryUnitName());
 			}
 		}
 		if(wb !=null){

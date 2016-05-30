@@ -146,13 +146,14 @@ body {
 												<div class="profile-info-name">责任人</div>
 												<div class="profile-info-value">	
 												<#if show??> 
-												${(repair.duty)! }
+												${(repair.duty)! }( ${(repair.responsibleNum)! } )
 												<#else>	
 													<td>
 													<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 													<span id="responsibleName">${(repair.duty)! }</span>
 														<input type="hidden" name="repair.duty" id="responsibleNa" value="${(repair.duty)!}" class="formText {required: true}" />
-														<input type="hidden" name="repair.responsibleId" id="responsibleId" value="${(repair.responsibleId)!}" class="formText {required: true}" /> 			 
+														<input type="hidden" name="repair.responsibleId" id="responsibleId" value="${(repair.responsibleId)!}" class="formText {required: true}" /> 
+														<input type="hidden" name="repair.responsibleNum" id="responsibleNum" value="${(repair.responsibleNum)!}" class="formText {required: true}" /> 			 			 
 													</td>
 												</#if>
 												</div>
@@ -183,8 +184,12 @@ body {
 															(repair.processCode==list.processCode)!>
 															selected</#if>>${(list.processName)!}</option> </#list> </#if>
 													</select> -->
-													<select name="repair.processCode" id="r_select" class="chosen-select">
+													<select name="repair.processCode" id="r_select" class="">
 													<#if processList??>
+													<option value=""
+													<#if (repair.processCode=="")!>selected</#if>>
+													
+													</option>
 													<#list processList as list>
 													<option value="${(list.dictkey)! }"
 													<#if (repair.processCode==list.dictkey)!>selected</#if>>
@@ -444,6 +449,7 @@ function showUnit(num1){
 		num1.next().text(id[1]);
 		num1.next().next().val(id[1]);
 		num1.next().next().next().val(id[0]);
+		num1.next().next().next().next().val(id[2]);
 		layer.close(index); 
 	});
 }

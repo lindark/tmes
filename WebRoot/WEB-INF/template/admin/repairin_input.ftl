@@ -75,6 +75,7 @@ body {
 							<!-- ./ add by welson 0728 -->
 
 							<form id="inputForm" class="validate" action="" method="post">
+							<input type="hidden" name="loginid" id="loginid" value="<@sec.authentication property='principal.id' />" />
 								<input type="hidden" name="repairin.id" value="${(repairin.id)!}" />
 								<input type="hidden" class="input input-sm" name="repairin.workingbill.id" value="${workingbill.id} " id="wkid">
 								<input type="hidden" name="workingBillId" value="${workingbill.id} ">

@@ -446,44 +446,44 @@
 																				<th class="">裁切倍数</th>
 																				<th class="">裁切后正常交接数量</th>
 																				<th class="">裁切后返修交接数量</th>
-																				<th class="">实际正常交接数量</th>
-																				<th class="">实际返修交接数量</th>
+																				<th class=""style="display:none">实际正常交接数量</th>
+																				<th class=""style="display:none">实际返修交接数量</th>
 																				
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
 																			<tr>
-																				<td style="width:25%"> 
+																				<td style="width:30%"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomCode" value="${bl.bomCode }">
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].bomDesp" value="${bl.bomDesp }">
 																				${bl.bomCode } &nbsp;&nbsp;&nbsp;${bl.bomDesp }
 																				</td>
-																				<td>${(bl.materialAmount)! }
+																				<td  style="width:10%">${(bl.materialAmount)! }
 																				<input type="hidden" class="materialAmount" name="processHandoverSonList[${list_index}${bl_index }].materialAmount"value="${(bl.materialAmount)! }">
 																				</td>
 																				<td style="display:none">${(bl.productAmount)! }
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].productAmount"value="${(bl.productAmount)! }">
 																				</td>
-																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input  {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }">
+																				<td style="width:10%"><input type="text"  readonly= "true" class=" bomAmount show_input width_input  " name="processHandoverSonList[${list_index}${bl_index }].bomAmount"  style="padding:2px 2px ;"value="${(bl.bomAmount)! }"readonly>
 																				</td>
-																				<td style="width:10%"> <input type="text"  readonly= "true" class=" repairNumber show_input  width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }">
+																				<td style="width:10%"> <input type="text"  readonly= "true" class=" repairNumber show_input  width_input " name="processHandoverSonList[${list_index}${bl_index }].repairNumber"  style="padding:2px 2px ;"value="${(bl.repairNumber)! }"readonly>
 																				</td>
-																				<td style="width:5%">${bl.cqsl }
+																				<td style="width:10%">${bl.cqsl }
 																				<input type="hidden" class="show_input cqsl" name="processHandoverSonList[${list_index}${bl_index }].cqsl" value="${(bl.cqsl)! }" />
 																				</td>
-																				<td style="width:10%">
-																				<input type="text" id="cqamount" class="width_input cqamount" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }" readonly/>
+																				<td style="width:15%">
+																				<input type="text" id="cqamount" class="width_input cqamount {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].cqamount"value="${(bl.cqamount)! }" />
 																				</td >
-																				<td style="width:10%">
-																				<input type="text" id="cqrepairamount"  class="cqrepairamount width_input" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"readonly/>
+																				<td style="width:15%">
+																				<input type="text" id="cqrepairamount"  class="cqrepairamount width_input {number:true,messages:{number:'*请输入正确数量'}}" name="processHandoverSonList[${list_index}${bl_index }].cqrepairamount"value="${(bl.cqrepairamount)! }"/>
 																				</td>
-																				<td style="width:10%">
-																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }"/>
+																				<td style="width:10%;display:none">
+																				<input type="hidden" class="amountinp" name="processHandoverSonList[${list_index}${bl_index }].amount"value="${(bl.amount)! }" />
 																				<span class="amount">${(bl.amount)! }</span>
 																				</td>
-																				<td style="width:10%">
-																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }"/>
+																				<td style="width:10%;display:none">
+																				<input type="hidden" class="repairamountinp" name="processHandoverSonList[${list_index}${bl_index }].repairamount"value="${(bl.repairamount)! }" />
 																				<span class="repairamount">${(bl.repairamount)! }</span>
 																				</td>
 																			</tr>
@@ -560,32 +560,36 @@ function showUnit(num1){
 }
 	$(function(){
 		if($("#qualified").is(':checked')){
-			$(".bomAmount").removeAttr("readonly");
+			$(".cqamount").removeAttr("readonly");
 			$(".productAmount").removeAttr("readonly");
 			//$(".cqamount").removeAttr("readonly");
+		}else{
+			$(".cqamount").attr("readonly","true");
 		}
 		if($("#repair").is(':checked')){
-			$(".repairNumber").removeAttr("readonly");
+			$(".cqrepairamount").removeAttr("readonly");
+		}else{
+			$(".cqrepairamount").attr("readonly","true");
 		}
 		$(".img_addbug").click( function() {
 			showUnit($(this));
 		});
 		$("#qualified").click(function(){
 			if($(this).is(':checked')){
-			$(".bomAmount").removeAttr("readonly");
+			$(".cqamount").removeAttr("readonly");
 			$(".productAmount").removeAttr("readonly");
 			//$(".cqamount").removeAttr("readonly");
 			}else{
-				$(".bomAmount").attr("readonly","true");
+				$(".cqamount").attr("readonly","true");
 				$(".productAmount").attr("readonly","true");
 				//$(".cqamount").attr("readonly","true");
 			}
 		});
 		$("#repair").click(function(){
 			if($(this).is(':checked')){
-				$(".repairNumber").removeAttr("readonly");
+				$(".cqrepairamount").removeAttr("readonly");
 				}else{
-					$(".repairNumber").attr("readonly","true");
+					$(".cqrepairamount").attr("readonly","true");
 				}
 		});
 		var $cqamount = $(".cqamount");//裁切后正常交接数量
@@ -596,9 +600,11 @@ function showUnit(num1){
 			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
 			var sv = floatDiv(sVal,sCqsl);
 			if(isNaN(sv)) sv = 0;
-			var sv = setScale(sv,2,"");//保留两位小数
-			$(this).parent().parent().find(".amountinp").val(sv);
-			$(this).parent().parent().find(".amount").text(sv);
+			var sv = setScale(sv,3,"");//保留两位小数
+			var $parents = $(this).parent().parent();
+			$parents.find(".bomAmount").val(sv);
+			$parents.find(".amountinp").val(sv);
+			$parents.find(".amount").text(sv);
 		});
 		
 		$cqrepairamount.change(function(){//裁切后返修交接数量改变事件
@@ -606,9 +612,11 @@ function showUnit(num1){
 			var sCqsl = $(this).parent().parent().find(".cqsl").val();//裁切倍数
 			var sv = floatDiv(sVal,sCqsl);
 			if(isNaN(sv)) sv = 0;
-			var sv = setScale(sv,2,"");//保留两位小数
-			$(this).parent().parent().find(".repairamountinp").val(sv);
-			$(this).parent().parent().find(".repairamount").text(sv);
+			var sv = setScale(sv,3,"");//保留两位小数
+			var $parents = $(this).parent().parent();
+			$parents.find(".repairNumber").val(sv);
+			$parents.find(".repairamountinp").val(sv);
+			$parents.find(".repairamount").text(sv);
 		});
 		
 		<#if show??>
@@ -656,28 +664,28 @@ function showUnit(num1){
 				
 			});
 		}); */
-		$(".productAmount").change(function(){
-			var $productA = $(this);
-			var planmount = $productA.parent().parent().find(".planCount").eq(0).val();
-			var productAmount = $productA.val();
-			if(productAmount==""){
-				productAmount = 0;
-			}
-			$productA.parent().parent().next().find(".bomAmount").each(function(){
-				var materialAmount = $(this).parent().parent().find(".materialAmount").eq(0).val();
-				if(materialAmount==""){
-					materialAmount = 0;
-				}
+//		$(".productAmount").change(function(){
+//			var $productA = $(this);
+//			var planmount = $productA.parent().parent().find(".planCount").eq(0).val();
+//			var productAmount = $productA.val();
+//			if(productAmount==""){
+//				productAmount = 0;
+//			}
+//			$productA.parent().parent().next().find(".bomAmount").each(function(){
+//				var materialAmount = $(this).parent().parent().find(".materialAmount").eq(0).val();
+//				if(materialAmount==""){
+//					materialAmount = 0;
+//				}
 				//alert(materialAmount+"---"+planmount+"---"+productAmount);
-				var accDivA = floatDiv(materialAmount,planmount)
-				var accMulA = floatMul(accDivA,productAmount).toFixed(2);
-				$(this).val(accMulA);
-				$(this).parent().parent().find(".amountinp").eq(0).val(accMulA);
-				$(this).parent().parent().find(".amountinp").eq(0).next().text(accMulA);
-				var $cqbs = $(this).parent().next().next();
+//				var accDivA = floatDiv(materialAmount,planmount)
+//				var accMulA = floatMul(accDivA,productAmount).toFixed(2);
+//				$(this).val(accMulA);
+//				$(this).parent().parent().find(".amountinp").eq(0).val(accMulA);
+//				$(this).parent().parent().find(".amountinp").eq(0).next().text(accMulA);
+//				var $cqbs = $(this).parent().next().next();
 				//alert(floatMul(accMulA,cqbs).toFixed(2));
-				var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
-				$cqbs.next().find("#cqamount").val(cqhmount);
+//				var cqhmount = floatMul(accMulA,$cqbs.text()).toFixed(2);
+//				$cqbs.next().find("#cqamount").val(cqhmount);
 				/* var productAmountson = $(this).parent().prev().text();
 				if(productAmountson=="" || productAmountson==0){
 					$(this).val("");
@@ -693,14 +701,36 @@ function showUnit(num1){
 					$cqbs.next().find("#cqamount").val(cqhmount);
 				} */
 				
+//			});
+//		});
+		$(".productAmount").change(function(){
+			var $productA = $(this);
+			//var planmount = $productA.parent().parent().find(".planCount").eq(0).val();
+			var productAmount = $productA.val();
+			
+			if(productAmount==""){
+				productAmount = 0;
+			}
+			$productA.parent().parent().next().find(".cqamount").each(function(){
+				var cqbs = $(this).parent().prev().text();
+				//var accMulA = floatMul(productAmount,cqbs).toFixed(2);
+				var $parents =  $(this).parent().parent();
+				$parents.find(".cqamount").val(productAmount);
+				var accDivA = floatDiv(productAmount,cqbs).toFixed(3);
+				$parents.find(".bomAmount").val(accDivA);
+				$parents.find(".amountinp").val(accDivA);
+				$parents.find(".amount").text(accDivA);
 			});
+			
+			
+			
 		});
 		$(".bomAmount").change(function(){
 			var bomAmount = $(this).val();
 			$(this).parent().parent().find(".amountinp").eq(0).val(bomAmount);
 			$(this).parent().parent().find(".amountinp").eq(0).next().text(bomAmount);
 			var $cqbs = $(this).parent().next().next();
-			var cqhmount = floatMul(bomAmount,$cqbs.text()).toFixed(2);
+			var cqhmount = floatMul(bomAmount,$cqbs.text()).toFixed(3);
 			$cqbs.next().find("#cqamount").val(cqhmount);
 		});
 		$(".repairNumber").change(function(){
@@ -708,7 +738,7 @@ function showUnit(num1){
 			$(this).parent().parent().find(".repairamountinp").eq(0).val(cqrepairamount);
 			$(this).parent().parent().find(".repairamountinp").eq(0).next().text(cqrepairamount);
 			var $cqbs = $(this).parent().next();
-			var cqhmount = floatMul(cqrepairamount,$cqbs.text()).toFixed(2);
+			var cqhmount = floatMul(cqrepairamount,$cqbs.text()).toFixed(3);
 			$cqbs.next().next().find("#cqrepairamount").val(cqhmount);
 			
 		});

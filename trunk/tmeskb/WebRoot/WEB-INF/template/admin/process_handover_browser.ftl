@@ -126,7 +126,7 @@ body {
 			}
 			var rowData = $("#grid-table").jqGrid('getRowData',ids);
 			var rowName=rowData.empname;
-			var rowCode=rowData.id;
+			var rowCode=rowData.workCode;
 			var work=""+ids+""+","+rowName+","+rowCode;
 			return work;
 		}

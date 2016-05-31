@@ -71,13 +71,12 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	
 	public Admin getAdminWorkStateByAdmin(Admin admin)
 	{
-		if(admin==null || admin.getTeam()==null || admin.getProductDate()==null || admin.getProductDate().equals("") ||	admin.getShift()==null || admin.getShift().equals(""))
+		if(admin==null || admin.getTeam()==null || admin.getTeam().getFactoryUnit()==null || admin.getWorkNumber()==null || admin.getWorkNumber().equals("") ||	 admin.getProductDate()==null || admin.getProductDate().equals("") ||	admin.getShift()==null || admin.getShift().equals(""))
 		{
 			admin.setWorkstate("1");//设置成未上班
 			return admin;
 		}
-		
-		List<TempKaoqin> tkqList=tempKqDao.getByTPSA(admin.getTeam().getId(), admin.getProductDate(), admin.getShift(), admin.getId());
+		List<TempKaoqin> tkqList=tempKqDao.getByTPSA(admin.getTeam().getFactoryUnit().getId(), admin.getProductDate(), admin.getShift(), admin.getId());
 		if(tkqList!=null && tkqList.size()>0)
 		{
 			admin.setWorkstate(tkqList.get(0).getWorkState());
@@ -182,7 +181,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 					{
 						tkq.setWorkState("2");
 						tempKqDao.update(tkq);
-						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
 						kq.setWorkState(tkq.getWorkState());
 						kqDao.update(kq);
 					}
@@ -231,7 +230,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		Admin a_login=this.adminService.get(loginid);
 		if(a!=null)
 		{	
-			List<TempKaoqin> tkqs=tempKqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());			
+			Team team = teamService.get(teamid);
+			List<TempKaoqin> tkqs=tempKqDao.getByTPSA(team.getFactoryUnit().getId(), a_login.getProductDate(), a_login.getShift(), a.getId());			
 			if(tkqs!=null && tkqs.size()>0) 
 			{
 				TempKaoqin tqk=tkqs.get(0);
@@ -245,8 +245,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				tqk.setWorkState("2");
 				tqk.setModifyDate(new Date());
 				tempKqDao.update(tqk);				
-				
-				List<Kaoqin> kqs=kqDao.getByTPSA(teamid, a_login.getProductDate(), a_login.getShift(), a.getId());
+				List<Kaoqin> kqs=kqDao.getByTPSA(team.getFactoryUnit().getId(), a_login.getProductDate(), a_login.getShift(), a.getId());
 				if(kqs!=null && kqs.size()>0) 
 				{
 					Kaoqin qk=kqs.get(0);

@@ -291,9 +291,16 @@ body {background: #fff;font-family: 微软雅黑;}
 																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td>
+																	<!--
 																	<input id="zrr${num}" type="text" style="width:85%;"/>
 																	<img id="img_addpeople${num}" class="img_addzrr" title="添加责任人" alt="添加责任人" src="/template/shop/images/add_bug.gif">
 																	<!--<a href="javascript:void(0);" class="btn_remove" >删除</a>-->
+																	<select id="zrr${num}" multiple class="chosen-select">
+																		<option></option>
+																		<#list employeeList as Rlist>
+																		<option value="${(Rlist.name)! }(${(Rlist.workNumber)! })">${(Rlist.name) }(${(Rlist.workNumber) })</option>
+																		</#list>
+																	</select>
 																</td>
 															</tr>
 															<#assign num=num+1 />
@@ -381,14 +388,14 @@ body {background: #fff;font-family: 微软雅黑;}
 </body>
 </html>
 <script type="text/javascript">
-
+/*
 $(function(){
 	/*$(".btn_remove").click(
 		function()
 		{
 			$(this).prv().prv().val("");
 		}
-	);*/
+	);
 
 
 	$(".img_addzrr").click(
@@ -434,7 +441,7 @@ $(function(){
 		    });
 		}
 	);	
-});
+});*/
 
 var number="0";
 //给按钮加事件--添加缺陷信息事件
@@ -517,7 +524,11 @@ function rowtobox_event(index)
 			{
 				//alert('已进入');
 				tds.eq(2).children().eq(0).val(strLists[2]);
-				tds.eq(3).children().eq(0).val(strLists[3]);
+				var zrrList = strLists[3].split(',');
+				for(var n=0;n<zrrList.length;n++){
+					
+					tds.eq(3).children().eq(0).find("option[value='"+zrrList[n]+"']").attr("selected",true);
+				}
 				k++;
 				if(k>=strList.length) break;
 			}
@@ -543,7 +554,8 @@ function boxtorow_event(index)
 			var id="${(list.id)!}";
 			var des="${(list.causeName)!}";
 			var ph=$("#ph"+i).val().replace(/\s+/g,"");
-			var zrr=$("#zrr"+i).val().replace(/\s+/g,"");
+			var zrr=$("#zrr"+i).val();
+			console.log(zrr);
 			rowids=rowids+id+",";
 			rownums=rownums+boxnum+",";
 			count=floatAdd(count,boxnum);			

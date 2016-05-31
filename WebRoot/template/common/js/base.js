@@ -181,7 +181,14 @@ jQuery(function() {
 		$('.chosen-select').each(function() {
 			 var $this = $(this);
 			 //$this.next().css({'width': $this.parent().width()});
-			 $this.next().css({'width': '200px'});
+			 var wdl = $(this).parent().find(".chosen-input").length;
+			 if(wdl!=0){
+				 var wd = $(this).parent().find(".chosen-input").val();
+				 $this.next().css({'width': wd});
+			 }else{
+				 $this.next().css({'width': "200px"});
+			 }
+			
 		})
 	}).trigger('resize.chosen');
 	

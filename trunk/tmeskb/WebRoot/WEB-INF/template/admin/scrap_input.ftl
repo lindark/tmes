@@ -290,7 +290,9 @@ body {background: #fff;font-family: 微软雅黑;}
 																<td><label>${(clist.causeName)! }</label></td>
 																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
-																<td><select id="zrr${num}" data-placeholder="" multiple class="chosen-select">
+																<td >
+																<input type="hidden" class="chosen-input" value="95%">
+																<select id="zrr${num}" data-placeholder=""  multiple class="chosen-select"  >
 																		<option></option>
 																		<#list employeeList as Rlist>
 																		<option value="${(Rlist.name)! }(${(Rlist.workNumber)! })">${(Rlist.name) }(${(Rlist.workNumber) })</option>

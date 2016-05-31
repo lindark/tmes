@@ -77,6 +77,7 @@ public class ScrapAction extends BaseAdminAction
 	private String cardnumber;
 	private List<ScrapOut>list_so;//
 	private String loginid;//当前登录人
+	private List<Admin> employeeList;//员工列表
 	
 	/**
 	 * service接口
@@ -184,6 +185,8 @@ public class ScrapAction extends BaseAdminAction
 		//获取维护物料信息
 		List<Material> ml= materialservice.getAll();
 		List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+		employeeList = adminService.getAllList();//员工列表 
+		System.out.println(employeeList);
 		if(ml!=null && ml.size()>0){
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);
@@ -882,6 +885,15 @@ public class ScrapAction extends BaseAdminAction
 	{
 		this.loginid = loginid;
 	}
+
+	public List<Admin> getEmployeeList() {
+		return employeeList;
+	}
+
+	public void setEmployeeList(List<Admin> employeeList) {
+		this.employeeList = employeeList;
+	}
+	
 	
 	/**==========================end "get/set"=================================*/
 }

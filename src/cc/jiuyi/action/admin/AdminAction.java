@@ -40,6 +40,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Products;
@@ -58,6 +59,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.MemberService;
 import cc.jiuyi.service.MessageService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.PollingtestService;
 import cc.jiuyi.service.PostService;
 import cc.jiuyi.service.ProductService;
@@ -180,6 +182,8 @@ public class AdminAction extends BaseAdminAction {
 	private StationService stationService;//工位
 	@Resource
 	private WorkingInoutService workinginoutservice;
+	@Resource
+	private OrdersService  ordersservice;
 	
 	// 登录页面
 	public String login() {
@@ -314,7 +318,10 @@ public class AdminAction extends BaseAdminAction {
 							break;
 						}
 					}
-					           
+					Orders order = ordersservice.get("aufnr",wb.getAufnr());
+					if(order!=null){
+						wb.setModule(order.getMujuntext());
+					}           
 				}
 				
 				

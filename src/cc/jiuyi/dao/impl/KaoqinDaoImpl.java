@@ -111,7 +111,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	@SuppressWarnings("unchecked")
 	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
 	{
-		String hql="from Kaoqin where team.id=? and productdate=? and classtime=? and emp.id=?";
+		String hql="from Kaoqin where team.factoryUnit.id=? and productdate=? and classtime=? and emp.id=?";
 		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).setParameter(3, adminId).list();
 	}
 	

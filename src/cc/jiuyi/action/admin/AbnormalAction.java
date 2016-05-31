@@ -454,7 +454,7 @@ public class AbnormalAction extends BaseAdminAction {
 
 	//刷卡提交，发起一个异常
 	public String creditsave(){
-		
+		//log.info("--------异常开始---------");	
 		String errormes="";
 		try{
 			admin = adminService.getByCardnum(cardnumber);
@@ -489,15 +489,17 @@ public class AbnormalAction extends BaseAdminAction {
 				SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
 				String time=sdf.format(new Date()); 
 				String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+" 呼叫时间:"+time;
-								
-				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口											
+				//log.info("调用发送短信接口开始");		
+				
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口
+				
 	            Document doc;   
 	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
 	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
 		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
 		      		errormes += admin.getName()+":短信发生失败!";
 		      	}								
-				
+		      	//log.info("调用发送短信接口结束");	
 		      	responsorSet.add(admin);//将短信人加进去
 		      	productSet.add(product);
 		      	callreasonSet.add(call1);//将短信内容加进去
@@ -576,8 +578,9 @@ public class AbnormalAction extends BaseAdminAction {
 			maps.put("jobname", job_name);
 			maps.put("count","1");
 			maps.put("list", jsonArray.toString());
-			quartzMessage(ThinkWayUtil.getCron(date),maps);	//开启定时任务
-								
+			//log.info("--------异常结束1--------");
+				quartzMessage(ThinkWayUtil.getCron(date),maps);	//开启定时任务		
+			//log.info("--------异常结束2--------");						
 		}catch(DocumentException e){
 			e.printStackTrace();
 			log.info(e);

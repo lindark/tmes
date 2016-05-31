@@ -44,11 +44,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 		<!-- 设置数据库密码 -->
 		<property name="password" value="${jdbc.password}" />
 		<!-- 设置连接池初始值 -->
-		<property name="initialSize" value="5" />
+		<property name="initialSize" value="25" />
 		<!-- 设置连接池最大值 -->
-		<property name="maxActive" value="100" />
+		<property name="maxActive" value="500" />
 		<!-- 设置连接池最小空闲值 -->
-		<property name="minIdle" value="20" />
+		<property name="minIdle" value="30" />
 		<!-- 设置连接池最大空闲值 -->
 		<property name="maxIdle" value="50" />
 	</bean>
@@ -280,7 +280,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
  <bean id="facadeMonitoringAdvisor"  class="net.bull.javamelody.MonitoringSpringAdvisor"> 
 		<property name="pointcut">  
 			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut"> 
-				<property name="pattern" value="cc.jiuyi.service..*.*(..)" /> 
+				<property name="pattern" value="cc.jiuyi.action..*.*(..)" /> 
 			</bean> 
 		</property> 
 	</bean>

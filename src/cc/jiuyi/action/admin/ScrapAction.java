@@ -186,7 +186,7 @@ public class ScrapAction extends BaseAdminAction
 		List<Material> ml= materialservice.getAll();
 		List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		employeeList = adminService.getAllList();//员工列表 
-		System.out.println(employeeList);
+		//System.out.println(employeeList);
 		if(ml!=null && ml.size()>0){
 			for(int y=0;y<bomList.size();y++){
 				Bom bom = bomList.get(y);

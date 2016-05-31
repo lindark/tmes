@@ -364,7 +364,7 @@ public class UpDownAction extends BaseAdminAction {
 				locationonside.setMaterialCode(matnr01);//物料编码
 				locationonside.setMaterialName(maktx01);//物料描述
 				locationonside.setCharg(hashmap.get("charg"));//批次
-				locationonside.setAmount(hashmap.get("verme"));//数量
+				locationonside.setAmount(String.valueOf(new BigDecimal(hashmap.get("verme")==null?"0":hashmap.get("verme")).doubleValue()));//数量
 				locationonsideList.add(locationonside);
 			}
 			Collections.sort(locationonsideList); 
@@ -838,6 +838,13 @@ public class UpDownAction extends BaseAdminAction {
 		
 			//List<HashMap<String,String>> maplist = new ArrayList<HashMap<String,String>>();
 			List<HashMap<String,String>> maplist = undownrfc.undown(hash, hashList);
+//				HashMap<String,String> hashmap = new HashMap<String,String>();
+//				hashmap.put("tanum", "00001207881");//转储单号
+//				hashmap.put("tapos", "0001");//行项目号 
+//				hashmap.put("matnr", "30300268");//物料号
+//				hashmap.put("werks","1000");//工厂
+//				hashmap.put("charg", "16050526C");//批次
+//				maplist.add(hashmap);
 			log.info("--------------sap返回size"+maplist.size());
 			undown:for(int i=0;i<updownList.size();i++){
 				UpDown updown = updownList.get(i);
@@ -865,9 +872,16 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setShift(admin1.getShift());
 				updown.setFactoryUnit(admin1.getTeam().getFactoryUnit());//添加的单元 jjt
 				updownList.set(i, updown);
+				try {
+					updownservice.save(updown);
+					log.info("--------------保存成功----------"+updown.getTanum());
+				} catch (Exception e) {
+					e.printStackTrace();
+					log.info(e);
+				}
 			}
-			log.info("--------------保存updown");
-			updownservice.save(updownList);
+			//updownservice.save(updownList);
+			log.info("----------updownList.size="+updownList.size()+"-------workingBillId="+workingBillId);
 			if(workingBillId != null && !workingBillId.equals("")){
 				WorkingBill workingBill = workingBillService.get(workingBillId);
 				String workingBillCode = workingBill.getWorkingBillCode();

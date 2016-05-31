@@ -20,6 +20,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProcessService;
@@ -115,7 +116,7 @@ public class ProcessAction extends BaseAdminAction {
 			if (pager.is_search() == true && Param != null) {
 				JSONObject obj = JSONObject.fromObject(Param);
 				if (obj.get("processCode") != null) {
-					System.out.println("obj=" + obj);
+			//		System.out.println("obj=" + obj);
 					String processCode = obj.getString("processCode").toString();
 					map.put("processCode", processCode);
 				}
@@ -193,6 +194,13 @@ public class ProcessAction extends BaseAdminAction {
 		try {
 			// ar=getIdsAndNames();
 			process = getOne(id);
+			if(process.getWorkShopId() != null && !process.getWorkShopId().equals("")){
+				WorkShop workShop = workShopService.get(process.getWorkShopId());
+				process.setXworkShop(workShop.getWorkShopName());
+				if(workShop.getFactory()!=null){
+					process.setXfactory(workShop.getFactory().getFactoryName());
+				}
+			}
 			return INPUT;
 		} catch (Exception e) {
 			e.printStackTrace();

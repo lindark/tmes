@@ -271,7 +271,7 @@
 															class="bigger-110 no-text-shadow">裁切配送</span>
 													</button>
 												</div>
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+												<!-- <div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="handover">
 													<button
 														class="btn btn-green btn-success btn-bold btn-round btn-block"
@@ -279,7 +279,7 @@
 														<i class="ace-icon fa fa-fire bigger-110"></i> <span
 															class="bigger-110 no-text-shadow">交接</span>
 													</button>
-												</div>
+												</div> -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="sttm">
 													<button
@@ -507,6 +507,8 @@
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
+																<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>模具</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>条码打印</th>
 														</tr>
@@ -527,6 +529,7 @@
 
 															<td class="hidden-480">${list.matnr}</td>
 															<td class="hidden-480">${list.workingBillCode}</td>
+															<td class="hidden-480">${(list.module)!}</td>
 															<td class="hidden-480"><input type="text" class="input-sm col-sm-2 part"/>&nbsp; 
 																<a href="javascript:void(0);" class="barcode">打印</a>
 															</td>

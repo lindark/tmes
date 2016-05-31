@@ -302,7 +302,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 		
 		
 		//修改Kaoqin
-		Kaoqin kq=kqService.getByTPSA(DBkaoqin.getTeam().getId(), DBkaoqin.getProductdate(), DBkaoqin.getClasstime(), DBkaoqin.getEmp().getId()).get(0);
+		Kaoqin kq=kqService.getByTPSA(DBkaoqin.getTeam().getFactoryUnit().getId(), DBkaoqin.getProductdate(), DBkaoqin.getClasstime(), DBkaoqin.getEmp().getId()).get(0);
 		kq.setPhoneNum(DBkaoqin.getPhoneNum());
 		kq.setWorkState(DBkaoqin.getWorkState());//
 		kq.setTardyHours(DBkaoqin.getTardyHours());//误工小时数
@@ -353,7 +353,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 		}
 		
 		//String adminId=tkq.getEmp().getId();		
-		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
 
 		tkqService.delete(id);
 		kqService.delete(kq);

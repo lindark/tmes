@@ -70,11 +70,12 @@ public class CreditCardAction
     }
     return ajaxJson(map);
   */
-	 HttpServletRequest request = getRequest();
+	HttpServletRequest request = getRequest();
 	    String ip = ThinkWayUtil.getIp2(request);
 	    //System.out.println(ip);
 	    log.info(ip);
-	    //ip="192.168.37.24";
+	   // ip="192.168.37.24";//测试机
+	   // ip="192.168.40.40";
 	   //String serverName = request.getServerName();
 	    //System.out.println(serverName);
 	    HashMap<String, String> map = new HashMap();
@@ -117,7 +118,7 @@ public class CreditCardAction
 	    return ajaxJson(map);
 //	  HashMap<String, String> map = new HashMap();
 //	  map.put("status", "yes");
-//      map.put("cardnumber", "3794253605");
+//      map.put("cardnumber", "2657143831");
 //      return ajaxJson(map);
   	}
   

@@ -122,7 +122,7 @@ body{background:#fff;}
 													<#else>	
 													<!--  
 													  <span id="workShopName"></span> -->
-													  <span>${(process.xworkShop)!}</span>
+													  <span id="newWorkShopName">${(process.xworkShop)!}</span>
 													  <input type="hidden" id="workShopName" name="process.xworkShop" value="${(process.xworkShop)!} " />
 													  <input type="hidden" id="factoryName" name="process.xfactory" value="${(process.xfactory)!}" />
 													<label class="requireField">*</label>	
@@ -192,6 +192,7 @@ $(function() {
              var id=work.split(",");
              $("#workShopId").val(id[1]);
              $("#workShopName").text(id[0]);
+             $("#newWorkShopName").text(id[0]);
              $("#factoryName").text(id[2]);
              layer.close(index); 
              loadData(id[1]);//加载表单数据            

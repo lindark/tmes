@@ -184,7 +184,7 @@ body {
 															(repair.processCode==list.processCode)!>
 															selected</#if>>${(list.processName)!}</option> </#list> </#if>
 													</select> -->
-													<select name="repair.processCode" id="r_select" class="">
+													<select name="repair.processCode" id="r_select" multiple class="chosen-select">
 													<#if processList??>
 													<option value=""
 													<#if (repair.processCode=="")!>selected</#if>>

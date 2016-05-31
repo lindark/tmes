@@ -80,7 +80,7 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 	@SuppressWarnings("unchecked")
 	public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
 	{
-		String hql="from TempKaoqin where team.id=? and productdate=? and classtime=? and emp.id=?";
+		String hql="from TempKaoqin where team.factoryUnit.id=? and productdate=? and classtime=? and emp.id=?";
 		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).setParameter(3, adminId).list();
 	}
 	

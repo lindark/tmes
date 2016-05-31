@@ -818,20 +818,24 @@ public class UpDownAction extends BaseAdminAction {
 		for(int i=0;i<updownList.size();i++){
 			HashMap<String,String> hashmap = new HashMap<String,String>();
 			UpDown updown = updownList.get(i);
-			if(ThinkWayUtil.null2o(updown.getDwnum()) <= 0){
-				updownList.remove(i);
-				i--;
-				continue;
+			if("0".equals(flag) || "3".equals(flag)){
+				if("".equals(updown.getDwnum()) && ThinkWayUtil.null2o(updown.getDwnum()) <= 0){
+					updownList.remove(i);
+					i--;
+					continue;
+				}
+				hashmap.put("dwnum", ""+updown.getDwnum());
+			}else if("2".equals(flag)){
+				if("".equals(updown.getBeforeamount()) && ThinkWayUtil.null2o(updown.getBeforeamount()) <= 0 ){
+					updownList.remove(i);
+					i--;
+					continue;
+				}
+				hashmap.put("dwnum", ""+updown.getBeforeamount());
 			}
 			hashmap.put("matnr", updown.getMatnr());//物料号
 			hashmap.put("charg", updown.getCharg());//批次
 			hashmap.put("lgpla", lgpla);//发出仓位
-			if("0".equals(flag) || "3".equals(flag)){
-				hashmap.put("dwnum", ""+updown.getDwnum());
-			}else if("2".equals(flag)){
-				hashmap.put("dwnum", ""+updown.getBeforeamount());
-			}
-			
 			hashmap.put("nlpla", lgplaun);//目的地仓位
 			hashList.add(hashmap);
 		}
@@ -854,13 +858,13 @@ public class UpDownAction extends BaseAdminAction {
 					String charg = map.get("charg");//批次
 					String tanum = map.get("tanum");//转储单号
 					String tapos = map.get("tapos");//转出单行项目号
-					log.info("--------------转储单号和单行项目号："+tanum+"---"+tapos);
+					log.info(updown.getMatnr()+","+updown.getCharg()+"---"+matnr+","+charg+"---转储单号和单行项目号："+tanum+","+tapos);
 				
-					if(ThinkWayUtil.null2String(updown.getMatnr()).equals(ThinkWayUtil.null2String(matnr)) &&
-					   ThinkWayUtil.null2String(updown.getCharg()).equals(ThinkWayUtil.null2String(charg))){
-						if("".equals(tanum) || "".equals(tapos))continue undown;
+					if(ThinkWayUtil.null2String(updown.getMatnr()).equals(ThinkWayUtil.null2String(matnr)) &&ThinkWayUtil.null2String(updown.getCharg()).equals(ThinkWayUtil.null2String(charg))){
+						if("".equals(ThinkWayUtil.null2String(tanum)))continue undown;
 						updown.setTanum(tanum);
 						updown.setTapos(tapos);
+						break;
 					}
 				}
 				updown.setUplgpla(lgpla);

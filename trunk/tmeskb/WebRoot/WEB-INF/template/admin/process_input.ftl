@@ -98,7 +98,7 @@ body{background:#fff;}
 											<!-- <input id="processcode" type="text" name="process.processCode" class="formText {required: true,minlength:2,maxlength: 100,processCode:true,remote:'process!checkProcesssCode.action',messages:{remote:'工序编码已存在'}}" /> -->
 										<#else>
 										    ${process.processCode}
-										    <input id="processcode" type="hidden" name="process.processCode" value="${(process.processCode)!}"/><!-- <label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" style="display: none"></span> -->
+										    <input id="processcode" type="text" name="process.processCode" value="${(process.processCode)!}"/><!-- <label class="requireField">*</label>&nbsp;&nbsp;<span id="span_code" style="display: none"></span> -->
 										</#if>	
 										</div>
 									</div>	
@@ -112,9 +112,7 @@ body{background:#fff;}
 									
 									<div class="profile-info-name">车间</div>
 												<div class="profile-info-value">
-													<input type="hidden" id="workShopId"
-														name="process.workShopId"
-														value="${(process.workShopId)!} }"
+													<input type="hidden" id="workShopId" name="process.workShopId" value="${(process.workShopId)!} "
 														class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}"/>
 													<button type="button" class="btn btn-xs btn-info"
 														id="workShopSeach" data-toggle="button">选择</button>
@@ -122,7 +120,10 @@ body{background:#fff;}
 													<span id="workShopName"></span><span id="factoryName"></span>
 													<label class="requireField">*</label>	
 													<#else>	
-													  <span id="workShopName">${(process.xworkShop)!}</span>
+													<!--  
+													  <span id="workShopName">${(process.xworkShop)!}</span> -->
+													  <input type="hidden" id="workShopName" name="process.xworkShop" value="${(process.xworkShop)!} " />
+													  <input type="hidden" id="factoryName" name="process.xfactory" value="${(process.xfactory)!}" />
 													<label class="requireField">*</label>	
 													</#if>											
 												</div>

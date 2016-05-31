@@ -18,7 +18,7 @@ jQuery(function($) {
     })
 	jQuery(grid_selector).jqGrid({
 		
-		url:"working_inout!ajlist.action?jsondata="+$("#jsondata").val(),
+		url:"working_inout!ajlist.action",
 		datatype: "json",
 		
 		mtype:"POST",

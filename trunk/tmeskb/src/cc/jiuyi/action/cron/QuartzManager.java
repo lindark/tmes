@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 import org.quartz.JobDetail;
@@ -18,9 +16,7 @@ import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.stereotype.Component;
 
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.FactoryUnitSyn;
 import cc.jiuyi.service.FactoryUnitService;
-import cc.jiuyi.service.FactoryUnitSynService;
 import cc.jiuyi.util.SpringUtil;
 
 @Component

@@ -203,7 +203,7 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setAdminname(updown.getAppvaladmin()==null?"":updown.getAppvaladmin().getName());
 				lst.add(updown);
 			}
-			pager.setList(lst);
+			pager.setList(lst); 
 			JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(UpDown.class));// 排除有关联关系的属性字段
@@ -818,25 +818,20 @@ public class UpDownAction extends BaseAdminAction {
 		for(int i=0;i<updownList.size();i++){
 			HashMap<String,String> hashmap = new HashMap<String,String>();
 			UpDown updown = updownList.get(i);
-			if("0".equals(flag) || "3".equals(flag)){
-				if("".equals(updown.getDwnum()) && ThinkWayUtil.null2o(updown.getDwnum()) <= 0){
-					updownList.remove(i);
-					i--;
-					continue;
-				}
-				hashmap.put("dwnum", ""+updown.getDwnum());
-			}else if("2".equals(flag)){
-				if("".equals(updown.getBeforeamount()) && ThinkWayUtil.null2o(updown.getBeforeamount()) <= 0 ){
-					updownList.remove(i);
-					i--;
-					continue;
-				}
-				hashmap.put("dwnum", ""+updown.getBeforeamount());
+			if("".equals(updown.getDwnum()) || ThinkWayUtil.null2o(updown.getDwnum()) <= 0){
+				updownList.remove(i);
+				i--;
+				continue;
 			}
 			hashmap.put("matnr", updown.getMatnr());//物料号
 			hashmap.put("charg", updown.getCharg());//批次
 			hashmap.put("lgpla", lgpla);//发出仓位
 			hashmap.put("nlpla", lgplaun);//目的地仓位
+			if("0".equals(flag) || "3".equals(flag)){
+				hashmap.put("dwnum", ""+updown.getDwnum());
+			}else if("2".equals(flag)){
+				hashmap.put("dwnum", ""+updown.getBeforeamount());
+			}
 			hashList.add(hashmap);
 		}
 		

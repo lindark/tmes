@@ -141,7 +141,7 @@ body {
 																	<input type="hidden" name="list_cs[${num}].wbid" value="${(list.wbid)! }" />
 																</td>
 																<td>
-																	<input type="text" name="list_cs[${num}].cscount" value="${(list.cscount)! }" id="input_cscount${(list.matnr)! }" class="notnull input input-sm"/>
+																	<input type="text" name="list_cs[${num}].cscount" value="${(list.cscount)! }" id="input_cscount${(list.matnr)! }" onblur="check(this)"  onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" class="notnull input input-sm"/>
 																	
 																</td>
 																<!-- 
@@ -215,6 +215,7 @@ $(function(){
 });
 
 //数量输入事件
+/**
 function num_event()
 {
 	<#list list_cs as xlist>
@@ -224,6 +225,16 @@ function num_event()
 		});
 	</#list>
 }
-
-
+*/
+function check(e) { 
+    var re = /^\d+(?=\.{0,1}\d+$|$)/ 
+    if (e.value != "") { 
+        if (!re.test(e.value)) { 
+            alert("请输入正确的数字"); 
+            e.value = ""; 
+            e.focus(); 
+        } 
+    } 
+}
+		
 </script>

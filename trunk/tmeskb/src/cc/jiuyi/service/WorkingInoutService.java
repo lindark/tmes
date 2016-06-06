@@ -47,4 +47,5 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	public JSONArray showInoutJsonData1(String[] strlen,String[] lavenlen);
 
 	//public List<WorkingInout> findWbinoutput(String wbid);
+	public JSONArray findInoutByJsonData3(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen);
 }

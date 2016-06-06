@@ -293,19 +293,18 @@ public class AdminAction extends BaseAdminAction {
 					break;
 				}
 			}*/
-			
-			
 			if(admin.getProductDate() != null && admin.getShift() != null)
 			{
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 				Collections.sort(workingbillList, new SortChineseName());  
 				
 				info = "";
+				
 				for(WorkingBill wb : workingbillList){
-					JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
 					HashMap<String,String> mapcheck = new HashMap<String,String>();
 					mapcheck.put("wbid", wb.getId());
-					jsonarray = workinginoutservice.findInoutByJsonData(jsonarray,mapcheck,strlen,2);
+					JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+					jsonarray = workinginoutservice.findInoutByJsonData3(jsonarray,mapcheck,strlen);
 					if("".equals(info)){
 						info = wb.getMoudle()==null?"":wb.getMoudle();
 					}else{
@@ -323,10 +322,6 @@ public class AdminAction extends BaseAdminAction {
 						wb.setModule(order.getMujuntext());
 					}           
 				}
-				
-				
-				
-		//		Collections.sort(workingbillList);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -342,7 +337,43 @@ public class AdminAction extends BaseAdminAction {
 		//OneBarcodeUtil.createCode("我就测试一下", path);
 		/**weitao end**/
 	}
-	
+	public String findWorkingBill(){
+		try {
+			if(admin.getProductDate() != null && admin.getShift() != null)
+			{
+				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				Collections.sort(workingbillList, new SortChineseName());  
+				
+				info = "";
+				
+				for(WorkingBill wb : workingbillList){
+					HashMap<String,String> mapcheck = new HashMap<String,String>();
+					mapcheck.put("wbid", wb.getId());
+					JSONArray jsonarray = workinginoutservice.showInoutJsonData(strlen,lavenlen);
+					jsonarray = workinginoutservice.findInoutByJsonData3(jsonarray,mapcheck,strlen);
+					if("".equals(info)){
+						info = wb.getMoudle()==null?"":wb.getMoudle();
+					}else{
+						info = info + "," + wb.getMoudle()==null?"":wb.getMoudle();
+					}
+					for(int i=0;i<jsonarray.size();i++){
+						JSONObject jsonObject = jsonarray.getJSONObject(i);
+						if(new BigDecimal(0).compareTo(new BigDecimal(jsonObject.get("slcy").toString()))!=0){
+							wb.setDiffamount(1d);
+							break;
+						}
+					}
+					Orders order = ordersservice.get("aufnr",wb.getAufnr());
+					if(order!=null){
+						wb.setModule(order.getMujuntext());
+					}           
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "wb_load";
+	}
 	
 	public String changeTeam()
 	{

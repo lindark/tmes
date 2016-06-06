@@ -83,6 +83,7 @@ public class ReturnProductAction extends BaseAdminAction {
 	private UnitConversionService unitConversionService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+
 	
 	public String list(){
 		admin = adminService.getLoginAdmin();
@@ -132,6 +133,9 @@ public class ReturnProductAction extends BaseAdminAction {
 			}
 			if (endProduct.getCreateName() != null) {
 				endProduct.setCreateName(endProduct.getCreateName());
+			}
+			if (endProduct.getShift() != null) {
+				endProduct.setShift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", endProduct.getShift()));
 			}
 			lst.add(endProduct);
 		}
@@ -285,13 +289,13 @@ public class ReturnProductAction extends BaseAdminAction {
 		List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {
 			Admin admin =  adminService.getByCardnum(cardnumber);			
-			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*	admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 			if(!ThinkWayUtil.isPass(admin))
 			{
 				return ajaxJsonErrorMessage("您当前未上班,不能进行中转仓操作!");
 				
 			}
-			
+			*/
 			
 			//endProductService.updateApprovalEndProduct(ids,admin);
 			Admin admin1 = adminService.get(loginId);

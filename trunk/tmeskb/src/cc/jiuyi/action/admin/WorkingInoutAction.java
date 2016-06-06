@@ -97,6 +97,10 @@ public class WorkingInoutAction extends BaseAdminAction {
 				.setExcludes(ThinkWayUtil.getExcludeFields(WorkingInout.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
+		/*JSONArray jsonstr = new JSONArray();
+		JSONArray jsonarray = JSONArray.fromObject(jsondata);
+		jsonstr =workinginoutservice.findInoutByJsonData(jsonarray, mapcheck, strlen,1);
+		return ajaxJson(jsonstr.toString());*/
 	}
 	
 	//Excel 导出

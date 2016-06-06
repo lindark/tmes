@@ -142,12 +142,12 @@
                                <!-- <button class="btn btn-white btn-default btn-sm btn-round" id="showRework">
 										<i class="ace-icon fa fa-book"></i>
 										查看返工单
-									</button>
+									</button>	 --> 
 									
 							       <button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
-									</button> --> 
+									</button>
 
 
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">

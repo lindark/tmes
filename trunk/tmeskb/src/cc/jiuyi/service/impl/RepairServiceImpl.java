@@ -70,7 +70,7 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	 */
 	public synchronized void updateState(List<Repair> list, String statu,
 			String workingbillid,String cardnumber) {
-		//Admin admin = adminservice.getByCardnum(cardnumber);
+		Admin admin = adminservice.getByCardnum(cardnumber);
 		WorkingBill workingbill = workingbillService.get(workingbillid);
 		Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {
@@ -79,8 +79,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			/*if (statu.equals("3") && repair.getState().equals("1")) {
 				totalamount -= repair.getRepairAmount();
 			}*/
-			//repair.setConfirmUser(admin);
-			//repairDao.update(repair);
+			repair.setConfirmUser(admin);
+			repairDao.update(repair);
 		}
 		workingbill.setTotalRepairAmount(totalamount);
 		workingbillService.update(workingbill);

@@ -255,6 +255,48 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	}		
 		
 	/**
+	 * 总体交接aj列表
+	 * @return
+	 */
+	public String allAjlist(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		if (pager.getOrderBy().equals("")) {
+			pager.setOrderType(OrderType.desc);
+			pager.setOrderBy("modifyDate");
+		}
+		if (pager.is_search() == true && filters != null) {// 需要查询条件
+			JSONObject filt = JSONObject.fromObject(filters);
+			Pager pager1 = new Pager();
+			Map m = new HashMap();
+			m.put("rules", jqGridSearchDetailTo.class);
+			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager.setRules(pager1.getRules());
+			pager.setGroupOp(pager1.getGroupOp());
+		}
+		pager = processHandoverService.jqGrid(pager,admin);
+		List<ProcessHandoverTop> processHandoverTopList = pager.getList();
+		List<ProcessHandoverTop> lst = new ArrayList<ProcessHandoverTop>();
+		for (int i = 0; i < processHandoverTopList.size(); i++) {
+			ProcessHandoverTop processHandoverTop = (ProcessHandoverTop) processHandoverTopList.get(i);
+			processHandoverTop.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "processHandoverTopState",processHandoverTop.getState()));
+			processHandoverTop.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", processHandoverTop.getShift()));
+			processHandoverTop.setXcreateUser(processHandoverTop.getPhtcreateUser()==null?"":processHandoverTop.getPhtcreateUser().getName());
+			processHandoverTop.setXconfirmUser(processHandoverTop.getPhtconfimUser()==null?"":processHandoverTop.getPhtconfimUser().getName());
+			lst.add(processHandoverTop);
+		}
+		pager.setList(lst);
+		
+		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
+		jsonConfig.setExcludes(ThinkWayUtil
+				.getExcludeFields(ProcessHandoverTop.class));// 排除有关联关系的属性字段
+		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
+		return ajaxJson(jsonArray.get(0).toString());
+	}
+	
+	/**
 	 * aj列表
 	 * @return
 	 */

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -200,7 +201,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		
 		return jsonarray;
 	}
-
+	/**
+	 * 页面投入产出报表显示方法
+	 */
 	public JSONArray showInoutJsonData1(String[] strlen,String[] lavenlen){
 		List<String> nameobj = new ArrayList<String>();
 		List<String> labelobj = new ArrayList<String>();
@@ -210,84 +213,63 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		String[] propertyValues={"N","1"};
 		List<Process> processList00 = processservice.getList(propertyNames, propertyValues);
 		
-		//nameobj.add(strlen[12]);labelobj.add(lavenlen[12]);indexobj.add(strlen[12]);//生产日期
-		//nameobj.add(strlen[13]);labelobj.add(lavenlen[13]);indexobj.add(strlen[13]);//班次
-		//nameobj.add(strlen[14]);labelobj.add(lavenlen[14]);indexobj.add(strlen[14]);//生产订单号
-		//nameobj.add(strlen[23]);labelobj.add(lavenlen[23]);indexobj.add(strlen[23]);//物料编码
-		//nameobj.add(strlen[24]);labelobj.add(lavenlen[24]);indexobj.add(strlen[24]);//物料描述
-		//nameobj.add(strlen[1]);labelobj.add(lavenlen[1]);indexobj.add(strlen[1]);//子件编码
 		nameobj.add(strlen[25]);labelobj.add(lavenlen[25]);indexobj.add(strlen[25]);//组件描述
-		
-		//nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
-		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
-		/**处理接上班 (返修)end**/
 		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
-		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
-		
-		/**处理接上班(正常)**/
+		/**处理接上班**/
+		boolean flagProcess1 = false;//判断工序是否都为0，如不为0，在首页投入产出表中显示
+		boolean flagProcess2 = false;//判断工序返修是否都为0，如不为0，在首页投入产出表中显示
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
-			String label = "接上班"+process.getProcessName()+"(正常)";
+			String label = "接/"+process.getProcessName();
 			String name ="GXJSBZC_"+process.getId();
 			String index="GXJSBZC_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
-		/**处理接上班 (正常)end**/
-		/**处理接上班(返修)**/
-		for(int i=0;i<processList00.size();i++){
-			Process process = processList00.get(i);
-			String label = "接上班"+process.getProcessName()+"(返修)";
-			String name ="GXJSBFX_"+process.getId();
-			String index="GXJSBFX_"+process.getId();
+			
+			process = processList00.get(i);
+			label = "接/"+process.getProcessName()+"/返";
+			name ="GXJSBFX_"+process.getId();
+			index="GXJSBFX_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		
-		/**处理交下班(正常)**/
+		/**处理接上班end**/
+		/**处理交下班**/
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
-			String label = "交下班"+process.getProcessName()+"(正常)";
+			String label = "交/"+process.getProcessName();
 			String name ="GXJXBZC_"+process.getId();
 			String index="GXJXBZC_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
-		}
-		/**处理交下班(正常)end**/
-		
-		/**处理交下班(返修)**/
-		for(int i=0;i<processList00.size();i++){
-			Process process = processList00.get(i);
-			String label = "交下班"+process.getProcessName()+"(返修)";
-			String name ="GXJXBFX_"+process.getId();
-			String index="GXJXBFX_"+process.getId();
+			
+			process = processList00.get(i);
+			label = "交/"+process.getProcessName()+"/返";
+			name ="GXJXBFX_"+process.getId();
+			index="GXJXBFX_"+process.getId();
 			indexobj.add(index);
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理交下班 (返修)end**/
+		/**处理交下班end**/
+		
+		
+		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
+		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//单位用量
 		nameobj.add(strlen[7]);labelobj.add(lavenlen[7]);indexobj.add(strlen[7]);//入库数
+		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//组件报废数
 		nameobj.add(strlen[8]);labelobj.add(lavenlen[8]);indexobj.add(strlen[8]);//交下班零头数
 		nameobj.add(strlen[17]);labelobj.add(lavenlen[17]);indexobj.add(strlen[17]);//交下班异常零头数
-		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
 		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
 		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
-		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
-		
-		//nameobj.add(strlen[6]);labelobj.add(lavenlen[6]);indexobj.add(strlen[6]);//倍数
-		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
-		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
+		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//返修发货
+		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//返修收货
 		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量
-		
-		//nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
-		
-		//nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
 		nameobj.add(strlen[21]);labelobj.add(lavenlen[21]);indexobj.add(strlen[21]);//数量差异
-		//nameobj.add(strlen[22]);labelobj.add(lavenlen[22]);indexobj.add(strlen[22]);//计划达成率
-		//nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
+		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//生产数
 		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
 		nameobj.add(strlen[28]);labelobj.add(lavenlen[28]);indexobj.add(strlen[28]);//校验差异
 		
@@ -690,11 +672,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				String aufnr = workingbill.getAufnr();
 				
 				/** 接上班 */
-			//	List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
 				String[] propertyNamesLTJSB={"afterWorkingBillCode","isdel"};
 				String[] propertyValuesLTJSB={workingbill.getWorkingBillCode(),"N"};
 				List<ProcessHandover> processHandoverListLTJSB = processHandoverDao.getList(propertyNamesLTJSB, propertyValuesLTJSB);
-				//List<OddHandOver> oddHandOverListBefore = new ArrayList<OddHandOver>();
 				BigDecimal actualAmountLTJSB = new BigDecimal(0);
 				BigDecimal unAmountLTJSB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJSB.size();k++){
@@ -704,49 +684,15 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						unAmountLTJSB = unAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
 				}
-			//	for(int k=0;k<oddHandOverListBefore1.size();k++){
-				//	OddHandOver oddHandOver = oddHandOverListBefore1.get(k);
-			//		if(oddHandOver.getIsdel().equals("N")){
-						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
-						//continue;
-				//		BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
-				//		BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
-				//		actualAmount = actualAmount.add(NewActualAmount);
-				//		unAmount = unAmount.add(NewUnAmount);
-						//oddHandOverListBefore.add(oddHandOver);
-			//		}
-			//	}
-		//		Double afteroddamount =0.0d;
-			//	Double afterunoddamount=0.0d;
-				//if(oddHandOverListBefore!=null && oddHandOverListBefore.size()>0){
-			//		afteroddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getActualBomMount());//接上班零头数
-			//		afteroddamount = actualAmount.doubleValue();//接上班零头数
-			//		afterunoddamount = ThinkWayUtil.null2o(oddHandOverListBefore.get(0).getUnBomMount());//接上班异常零头数
-			//		afterunoddamount = unAmount.doubleValue();//接上班异常零头数
-			//	}
 				map.put(strlen[3], actualAmountLTJSB);//接上班零头数
 				map.put(strlen[4], unAmountLTJSB);//接上班异常零头数
 				
 				/** 交下班 */
-			//	List<OddHandOver> oddHandOverListAfter1 = oddHandOverDao.getList("beforeWokingCode", workingbill.getWorkingBillCode());
-			//	List<OddHandOver> oddHandOverListAfter = new ArrayList<OddHandOver>();
 				String[] propertyNamesLTJXB={"workingBillCode","isdel"};
 				String[] propertyValuesLTJXB={workingbill.getWorkingBillCode(),"N"};
 				List<ProcessHandover> processHandoverListLTJXB = processHandoverDao.getList(propertyNamesLTJXB, propertyValuesLTJXB);
 				BigDecimal actualAmountLTJXB = new BigDecimal(0);
 				BigDecimal unAmountLTJXB = new BigDecimal(0);
-			//	for(int k=0;k<processHandoverListLTJXB.size();k++){
-			//		OddHandOver oddHandOver = oddHandOverListAfter1.get(k);
-			//		if(oddHandOver.getIsdel().equals("N")){
-						//if(oddHandOver.getProcessHandover()!=null && oddHandOver.getProcessHandover().getProcessHandoverTop()!=null && !"2".equals(oddHandOver.getProcessHandover().getProcessHandoverTop().getState()))
-						//continue;
-			//			BigDecimal NewActualAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getActualBomMount()));
-			//			BigDecimal NewUnAmount = new BigDecimal(ThinkWayUtil.null2o(oddHandOver.getUnBomMount()));
-			//			actualAmount = actualAmount.add(NewActualAmount);
-			//			unAmount = unAmount.add(NewUnAmount);
-			//			oddHandOverListAfter.add(oddHandOver);
-		//			}
-			//	}
 				for(int k=0;k<processHandoverListLTJXB.size();k++){
 					ProcessHandover ph = processHandoverListLTJXB.get(k);
 					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
@@ -756,14 +702,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				map.put(strlen[8],actualAmountLTJXB);//交下班零头数
 				map.put(strlen[17],unAmountLTJXB);//交下班异常零头数
-			//	Double beforeoddamount = 0.0d;
-			//	Double beforeunoddamount = 0.0d;
-		//		if(oddHandOverListAfter!=null && oddHandOverListAfter.size()>0){
-				//	beforeoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getActualBomMount());//交下班零头数
-		//			beforeoddamount = actualAmount.doubleValue();//交下班零头数
-				//	beforeunoddamount = ThinkWayUtil.null2o(oddHandOverListAfter.get(0).getUnBomMount());//交下班异常零头数
-		//			beforeunoddamount = unAmount.doubleValue();//交下班异常零头数
-		//		}
 				
 				map.put(strlen[29], workingbill.getWorkcenter());//单元
 				map.put(strlen[0], workingbill.getWorkingBillCode());
@@ -852,11 +790,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				Double cczsl = 0.00d;
 				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(recipientsamount));//领用数
 				//trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
-				
-			//	cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
-//				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//返修收货数量  modify 
-//				cczsl = ArithUtil.round(ArithUtil.mul(cczsl, dwyl),2);
-				
+						
 				for(int y=0;y<jsonarray.size();y++){
 					JSONObject json = (JSONObject) jsonarray.get(y);
 					String name = json.getString("name");
@@ -864,53 +798,22 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
 					if(firstls >= 0){//如果找到，表示是接上班工序交接
 						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
-				//		String[] propertyNames = {"processid","afterworkingbill.id","materialCode"};
 						String[] propertyNames = {"processid","afterworkingbill.id","matnr","isdel"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getWorkingbill().getMatnr(),"N"};
-						/*HandOverProcess handoverprocess = null;
-						List<HandOverProcess> handoverprocessList = handoverprocessdao.getList(propertyNames, propertyValues);
-						if(handoverprocessList!=null && handoverprocessList.size()>1){
-							for(HandOverProcess hod : handoverprocessList){
-								if(hod.getAfterworkingbill().getId().equals(hod.getAfterworkingbill().getId())){
-									handoverprocess = hod;
-									break;
-								}
-							}
-						}else{
-							handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
-						}*/
+
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyValues);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-//						if(handoverprocess != null){
-//							zcjjsl = handoverprocess.getAmount();//正常交接数量
-//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
 						if(processHandoverList != null && processHandoverList.size()>0){
-							//BigDecimal amout = new BigDecimal(0);
-							//BigDecimal repairAmout = new BigDecimal(0);
-							//BigDecimal mout = new BigDecimal(0);
-							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									//amout = amout.add(bomAmount).add(cqamount);
-									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
 									if(p.getBomCode().equals(workinginout.getMaterialCode())){
 										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 									}								
 								}
-								//mout = mout.add(amout);
-								//repairMout = repairMout.add(repairAmout);
-								//zcjjsl = mout.doubleValue();
-								//fxjjsl = repairMout.doubleValue();
 							}
-							//map.put("GXJSBZC_"+processid, "0");//正常交接数量
-							//map.put("GXJSBFX_"+processid,  "0");//返修交接数量
 						}
 						map.put("GXJSBZC_"+processid,zcjjsl);//正常交接数量
 						map.put("GXJSBFX_"+processid,fxjjsl);//返修交接数量!=						
@@ -919,43 +822,21 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					}
 					if(firstls00>=0){//交下班
 						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
-			//			String[] propertyNames = {"processid","beforworkingbill.id","materialCode"};
 						String[] propertyNames = {"processid","workingBill.id","matnr","isdel"};
 						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getWorkingbill().getMatnr(),"N"};
-			//			HandOverProcess handoverprocess = handoverprocessdao.get(propertyNames, propertyValues);
 						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyValues);
 						Double zcjjsl = 0.00d;
 						Double fxjjsl = 0.00d;
-//						if(handoverprocess != null){
-//							zcjjsl = handoverprocess.getAmount();//正常交接数量
-//							fxjjsl = handoverprocess.getRepairAmount();//返修交接数量
-//						}
 						if(processHandoverList != null && processHandoverList.size()>0){
-							//BigDecimal amout = new BigDecimal(0);
-							//BigDecimal repairAmout = new BigDecimal(0);
-							//BigDecimal mout = new BigDecimal(0);
-							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
 								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
 								for(ProcessHandoverSon p:processHandoverSon){
-									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									//amout = amout.add(bomAmount).add(cqamount);
-									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
 									if(p.getBomCode().equals(workinginout.getMaterialCode())){
 										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
 									}
 								}
-								//mout = mout.add(amout);
-								//repairMout = repairMout.add(repairAmout);
-								//zcjjsl = mout.doubleValue();
-								//fxjjsl = repairMout.doubleValue();
 							}
-							//map.put("GXJXBZC_"+processid, "0");//正常交接数量
-							//map.put("GXJXBFX_"+processid,  "0");//返修交接数量
 						}
 
 						map.put("GXJXBZC_"+processid,zcjjsl);//正常交接数量
@@ -963,8 +844,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
 						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
 					}
-					//int firstls1 = StringUtils
-					
 				}
 				
 				map.put(strlen[19],trzsl);//投入总数量 = 领用数 + 接上班正常和返修数量
@@ -985,7 +864,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}
 					
-				//cczsl = (cczsl+beforeoddamount+beforeunoddamount+repairAmount-repairinAmount -afteroddamount-afterunoddamount)*dwyl+zjbfs;
 				map.put(strlen[20],cczsl);//产出总数量 = (入库数 + 返修收货数量)*单位用量  保留2位小数  /**modify:产出总数量=入库数**/ 
 				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
 				Double jhdcl = 0d;
@@ -994,9 +872,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				}
 				map.put(strlen[22],jhdcl+"%");//计划达成率 = 当班检验合格数 / 计划数  
 				BigDecimal cost = new BigDecimal(0);
-				//if(cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount())))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(recipientsamount)))!=0 && cost.compareTo(new BigDecimal(ThinkWayUtil.null2o(trzsl)))!=0){
-					
-				//}
 				Double bgs = 0.00d;
 				bgs = ThinkWayUtil.null2o(workingbill.getDailyWorkTotalAmount());
 				map.put(strlen[26],bgs);//当班报工数

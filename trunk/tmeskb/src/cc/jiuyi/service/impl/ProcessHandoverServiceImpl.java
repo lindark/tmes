@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessHandoverDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
@@ -137,17 +139,25 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 			Admin admin = adminService.get(loginid);
 			processHandoverTop.setPhtcreateUser(admin);
 			ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
-			BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
+			BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type","budat","processHandOverSet"});
 			processHandoverTopService.update(processHandoverTopcopy);
+			List<ProcessHandover> phList = new ArrayList<ProcessHandover>(processHandoverTopcopy.getProcessHandOverSet());
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
+					ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
+					for(ProcessHandover ph:phList){
+						if(ph.getId().equals(processHandovercopy.getId())){
+							phList.remove(ph);
+							break;
+						}
+					}
+					if(processHandover.getMatnr()!=null && !"".equals(processHandover.getMatnr()))continue;
 					WorkingBill afterWb = workingBillService.get("workingBillCode", processHandover.getAfterWorkingBillCode()==null?"":processHandover.getAfterWorkingBillCode());
 					if(afterWb==null){
 						throw new RollbackException("找不到下班随工单或填写错误");
 					}
-					ProcessHandover processHandovercopy = processHandoverDao.get(processHandover.getId());
-					BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
+					BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel","budat","ztext","mblnr","xuh","e_type","e_message","processHandoverSonSet"});
 					processHandovercopy.setAfterworkingbill(afterWb);
 					processHandovercopy.setProcessid(processHandoverTopcopy.getProcessid());
 					processHandoverDao.update(processHandovercopy);
@@ -163,6 +173,13 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 						}
 					}
 				}
+			}
+			for(ProcessHandover ph:phList){
+				List<ProcessHandoverSon> phsList = new ArrayList<ProcessHandoverSon>(ph.getProcessHandoverSonSet());
+				for(ProcessHandoverSon phs : phsList){
+					processHandoverSonService.delete(phs);
+				}
+				processHandoverDao.delete(ph);
 			}
 	}
 

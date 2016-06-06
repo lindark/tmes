@@ -161,15 +161,23 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 			List<OddHandOver> OddHandOverList, String loginid) {
 
 		Admin admin = adminService.get(loginid);
-		processHandoverTop.setPhtcreateUser(admin);
+		processHandoverTop.setPhtcreateUser(admin);	
 		ProcessHandoverTop processHandoverTopcopy = processHandoverTopService.get(processHandoverTop.getId());
-		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type"});
+		BeanUtils.copyProperties(processHandoverTop, processHandoverTopcopy, new String[]{"id", "createDate","isdel","state","type","budat","processHandOverSet"});
 		processHandoverTopService.update(processHandoverTopcopy);
+		List<ProcessHandover> phList = new ArrayList<ProcessHandover>(processHandoverTopcopy.getProcessHandOverSet());
 		for(int i=0;i<processHandoverList.size();i++){
 			ProcessHandover processHandover = processHandoverList.get(i);
 			if(processHandover!=null){
 				ProcessHandover processHandovercopy = processHandoverService.get(processHandover.getId());
-				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel"});
+				for(ProcessHandover ph:phList){
+					if(ph.getId().equals(processHandovercopy.getId())){
+						phList.remove(ph);
+						break;
+					}
+				}
+				if(processHandover.getMatnr()!=null && !"".equals(processHandover.getMatnr()))continue;
+				BeanUtils.copyProperties(processHandover, processHandovercopy, new String[]{"id", "createDate","processHandoverTop","workingBill","isdel","budat","ztext","mblnr","xuh","e_type","e_message","oddHandOverSet"});
 				processHandoverService.update(processHandovercopy);
 				for(int j=0;j<OddHandOverList.size();j++){
 					OddHandOver oddHandOver = OddHandOverList.get(j);
@@ -204,7 +212,13 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 			}
 			
 		}
-	
+		for(ProcessHandover ph:phList){
+			List<OddHandOver> oddList = new ArrayList<OddHandOver>(ph.getOddHandOverSet());
+			for(OddHandOver odd : oddList){
+				oddHandOverDao.delete(odd);
+			}
+			processHandoverService.delete(ph);
+		}
 	}
 
 }

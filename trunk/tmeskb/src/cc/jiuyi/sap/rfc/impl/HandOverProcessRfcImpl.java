@@ -147,6 +147,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 			}
 		}
 		tablemodel.setList(arrList);
+		if(arrList.size()==0){
+			return processHandover;
+		}
 		tablemodelList.add(tablemodel);
 		/*******执行******/
 		super.setTable(tablemodelList);

@@ -894,4 +894,164 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		
 		return jsonstr;
 	}
+	
+	/**
+	 * 投入产出报表
+	 */
+	public JSONArray findInoutByJsonData3(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen) {
+		
+		JSONArray jsonstr = new JSONArray();
+		try{
+			List<WorkingInout> workingInoutList=new ArrayList<WorkingInout>();
+			workingInoutList = this.workingInoutDao.findWbinoutput(mapcheck.get("wbid"));
+			for(int i=0;i<workingInoutList.size();i++){
+				JSONObject map = new JSONObject();
+				WorkingInout workinginout = workingInoutList.get(i);
+				WorkingBill workingbill = workinginout.getWorkingbill();
+				String aufnr = workingbill.getAufnr();
+				
+				/** 接上班 */
+				String[] propertyNamesLTJSB={"afterWorkingBillCode","isdel"};
+				String[] propertyValuesLTJSB={workingbill.getWorkingBillCode(),"N"};
+				List<ProcessHandover> processHandoverListLTJSB = processHandoverDao.getList(propertyNamesLTJSB, propertyValuesLTJSB);
+				BigDecimal actualAmountLTJSB = new BigDecimal(0);
+				BigDecimal unAmountLTJSB = new BigDecimal(0);
+				for(int k=0;k<processHandoverListLTJSB.size();k++){
+					ProcessHandover ph = processHandoverListLTJSB.get(k);
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+						actualAmountLTJSB = actualAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
+						unAmountLTJSB = unAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
+					}
+				}
+				
+				/** 交下班 */
+				String[] propertyNamesLTJXB={"workingBillCode","isdel"};
+				String[] propertyValuesLTJXB={workingbill.getWorkingBillCode(),"N"};
+				List<ProcessHandover> processHandoverListLTJXB = processHandoverDao.getList(propertyNamesLTJXB, propertyValuesLTJXB);
+				BigDecimal actualAmountLTJXB = new BigDecimal(0);
+				BigDecimal unAmountLTJXB = new BigDecimal(0);
+				for(int k=0;k<processHandoverListLTJXB.size();k++){
+					ProcessHandover ph = processHandoverListLTJXB.get(k);
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+						actualAmountLTJXB = actualAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
+						unAmountLTJXB = unAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
+					}
+				}
+				
+				List<PickDetail> pickdetailList = pickdetaildao.finddetailByapp(workingbill.getId(), "2");//"2" 表示 确认状态数据
+				Double recipientsamount = 0.00d;
+				for(int y=0;y<pickdetailList.size();y++){
+					PickDetail pickdetail1 = pickdetailList.get(y);
+					if(pickdetail1.getMaterialCode().equals(workinginout.getMaterialCode())){
+						if("261".equals(pickdetail1.getPickType())){//领料
+							recipientsamount = ArithUtil.add(Double.parseDouble(pickdetail1.getPickAmount()), recipientsamount);
+						}else{//退料
+							recipientsamount = ArithUtil.sub(recipientsamount,Double.parseDouble(pickdetail1.getPickAmount()));
+						}
+					}
+				}
+				if(workinginout.getScrapNumber()==null){
+					workinginout.setScrapNumber(0.0d);
+				}
+				List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(), workinginout.getMaterialCode(), workingbill.getWorkingBillCode());
+				Double bomamount = 0.00d;
+				for(Bom bom :bomList){
+					bomamount +=bom.getMaterialAmount();
+				}
+			
+				Double dwyl = 0.0;
+				String s = workinginout.getMaterialCode().substring(0, 1);
+				if("5".equals(s)){
+					List<UnitConversion> unitConversionList = unitConversionService.getList("matnr",workingbill.getMatnr());
+					if(unitConversionList!=null && unitConversionList.size()>0){
+						if(unitConversionList.get(0).getConversationRatio()!=null && !unitConversionList.get(0).getConversationRatio().equals("")){
+							if(new BigDecimal(0).compareTo(new BigDecimal(unitConversionList.get(0).getConversationRatio()))!=0){
+								dwyl = ArithUtil.round(ArithUtil.div(1, unitConversionList.get(0).getConversationRatio()), 4);
+							}
+						}
+					}
+				}else{
+					if(new BigDecimal(0).compareTo(new BigDecimal(workingbill.getPlanCount()))!=0){
+						dwyl = ArithUtil.round(ArithUtil.div(bomamount, workingbill.getPlanCount()), 2);//单位用量
+					}
+				}
+				
+				Double trzsl = 0.00d;
+				Double cczsl = 0.00d;
+				trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(recipientsamount));//领用数
+				for(int y=0;y<jsonarray.size();y++){
+					JSONObject json = (JSONObject) jsonarray.get(y);
+					String name = json.getString("name");
+					int firstls = StringUtils.indexOf(name, "GXJSBZC_");
+					int firstls00 = StringUtils.indexOf(name, "GXJXBZC_");
+					if(firstls >= 0){//如果找到，表示是接上班工序交接
+						String processid = StringUtils.substringAfter(name, "GXJSBZC_");//获取接上班ID
+						String[] propertyNames = {"processid","afterworkingbill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getWorkingbill().getMatnr(),"N"};
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyValues);
+						Double zcjjsl = 0.00d;
+						Double fxjjsl = 0.00d;
+						if(processHandoverList != null && processHandoverList.size()>0){
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									if(p.getBomCode().equals(workinginout.getMaterialCode())){
+										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									}								
+								}
+							}
+						}
+						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+						trzsl = ArithUtil.add(trzsl, ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
+					}
+					if(firstls00>=0){//交下班
+						String processid = StringUtils.substringAfter(name, "GXJXBZC_");//获取交下班ID
+						String[] propertyNames = {"processid","workingBill.id","matnr","isdel"};
+						String[] propertyValues={processid,workinginout.getWorkingbill().getId(),workinginout.getWorkingbill().getMatnr(),"N"};
+						List<ProcessHandover> processHandoverList = processHandoverDao.getList(propertyNames, propertyValues);
+						Double zcjjsl = 0.00d;
+						Double fxjjsl = 0.00d;
+						if(processHandoverList != null && processHandoverList.size()>0){
+							for(ProcessHandover processHandover:processHandoverList){
+								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+								for(ProcessHandoverSon p:processHandoverSon){
+									if(p.getBomCode().equals(workinginout.getMaterialCode())){
+										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+									}
+								}
+							}
+						}
+
+						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(zcjjsl));//投入:正常交接数量
+						trzsl = ArithUtil.sub(trzsl,ThinkWayUtil.null2o(fxjjsl));//投入:返修交接数量
+					}
+				}
+				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+				Double repairAmount = 0.00d;
+				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				Double repairinAmount = 0.00d;
+				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				Double zjbfs = 0.00d;
+				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
+				String str = workinginout.getMaterialCode().substring(0, 1);
+				if(!"5".equals(str)){
+					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+				}else{
+					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+				}
+				map.put(strlen[21],ArithUtil.sub(trzsl, cczsl));//数量差异= 投入总数量 - 产出总数量
+				jsonstr.add(map);
+		}
+		}catch(Exception e){
+			log.error(e);
+			e.printStackTrace();
+		}
+		
+		
+		return jsonstr;
+	}
+	
+	
 }

@@ -62,6 +62,10 @@
 										<i class="ace-icon fa fa-home"></i>
 										刷卡确认
 									</button>
+									<button class="btn btn-white btn-default btn-sm btn-round" id="repealPick" type=button>
+										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										刷卡撤销
+									</button> 
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnHandOver">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -167,6 +171,31 @@
 			 } 
 		});
 		
+	 	/*刷卡撤销*/
+		$("#repealPick").click(function(){
+	//		var loginid = $("#loginid").val();
+			var id = "";
+			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
+			if(id==""){
+				layer.msg("请选择一条记录!", {icon: 5});
+				return false;
+			}
+			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3"){
+					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
+					return false;
+				}else{
+					var url="locat_hand_over_header!creditundo.action?id="+id;
+					credit.creditCard(url,function(data){
+						$.message(data.status,data.message);
+						$("#grid-table").trigger("reloadGrid");
+					});
+				}		
+			}
+		});
+	 	
 		$("#viewHandOver").click(function(){
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -185,6 +214,8 @@
 			window.history.back();
 		});
 	})
+	
+	
 	
 	
 </script>

@@ -41,6 +41,8 @@ jQuery(function($) {
 		colModel:[
 		    {name:'id',index:'id', label:"ID", sorttype:"int", editable: false,hidden:true},
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'productDate',label:"生产日期",width:150,index:'productDate',editable:false},
+			{name:'shift',label:"班次",width:50,index:'shift',editable:false},
 			{name:'createName',index:'createName',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'confirmName',index:'confirmName',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialCode',index:'materialCode',search:false,label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},

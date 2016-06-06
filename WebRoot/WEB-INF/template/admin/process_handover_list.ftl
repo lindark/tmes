@@ -83,10 +83,10 @@
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
 									</button> 
-									<!-- <button class="btn btn-white btn-default btn-sm btn-round" id="allhandover" type=button>
+									 <button class="btn btn-white btn-default btn-sm btn-round" id="allhandover" type=button>
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										创建总体交接
-									</button>  -->
+									</button>  
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnProHO">
 										<i class="ace-icon fa fa-home"></i>
 										返回

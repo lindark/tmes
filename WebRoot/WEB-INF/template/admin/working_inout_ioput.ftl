@@ -18,9 +18,10 @@
 <script type="text/javascript">
 	var jsondata = ${(jsondata)!};
 	$(function(){
-		$("#grid-table_materialName").css("width","150px");
-		$("#grid-table tr td:nth-child(2)").css("width","150px");
+//		$("#grid-table_materialName").css("width","150px");
+//		$("#grid-table").css("width","100%");
 	});
+
 </script>
 <style>
 body {
@@ -67,5 +68,45 @@ body {
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 	<!-- ./ add by welson 0728 -->
 <input type="hidden" id="wbid" value="${wbid }" />
+<script type="text/javascript">
+function endLoad(){
+	var tdNum;//第一行td的值
+	var trNum = 0;//tr的行数
+	var flag = false;
+//		$(".ui-row-ltr").each(function(){
+//			trNum = trNum + 1;
+//		});
+		$("#jqg10").children().each(function(){
+			var tdValue = $(this).text();
+			tdNum = $(this).parents("tr").find("td").index($(this));
+			var tdNum1 = tdNum;
+			if(tdValue == 0 && tdNum>0){
+				$(".ui-row-ltr").each(function(){
+					var tdValue1 = $(this).find("td").eq(tdNum).text();
+					
+					if(tdValue1 != 0){
+						flag = true;
+					}
+				})
+				if(flag == false){
+					$(".ui-jqgrid-labels").find("th").eq(tdNum).hide();
+					$(".ui-row-ltr").each(function(){
+						$(this).find("td").eq(tdNum1).css("display","none");
+					});
+				}
+			}
+		});
+	//	$(".ui-row-ltr").each(function(){
+	//		$(this).find("td").css("width",1/tdNum);
+	//	});
+	$(".jqgfirstrow").remove();
+	$("#grid-table").css("width","100%");
+	var width = $("#grid-table_cb").css("width");
+	$(".ui-row-ltr").each(function(){
+		$(this).find("td").eq(0).css("width",width);
+	});
+		
+}
+</script>
 </body>
 </html>

@@ -463,7 +463,7 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin, String> implements AdminDao
 				detachedCriteria.add(Restrictions.like("post.postName", "%"+map.get("skill")+"%"));
 			}
 		}
-		detachedCriteria.add(Restrictions.eq("isAccountEnabled", true));//已启用的
+		//detachedCriteria.add(Restrictions.eq("isAccountEnabled", true));//已启用的
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未离职的
 		detachedCriteria.add(Restrictions.eq("isDelete", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);

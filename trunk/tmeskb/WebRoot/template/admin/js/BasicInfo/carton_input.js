@@ -1,6 +1,6 @@
 $(function(){
 	//数量输入事件
-	num_event();
+	//num_event();
 	//返回
 	$("#btn_back").click(function(){
 		window.history.back();

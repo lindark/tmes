@@ -166,7 +166,7 @@ jQuery(function($) {
 		//已撤销
 		if(rawObject.state=="3")
 		{
-			return "style='color:red;font-weight:bold;'";
+			return "style='color:purple;font-weight:bold;'";
 		}
 	}
 	//navButtons

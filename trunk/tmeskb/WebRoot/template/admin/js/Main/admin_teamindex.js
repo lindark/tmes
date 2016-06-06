@@ -68,6 +68,7 @@ $(function(){
 		
 		
 		$("#changeTeamButton").bind("click",function(){
+			var loginid = $("#loginid").val();
 			layer.open({
 		        type: 2,
 		        skin: 'layui-layer-lan',
@@ -85,7 +86,7 @@ $(function(){
 		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 		        	var info = iframeWin.getName();
 		        	$.ajax({
-		        		url:"admin!changeTeam.action?loginid="+"${admin.id}"+"&teamId="+info.teamid,
+		        		url:"admin!changeTeam.action?loginid="+loginid+"&teamId="+info.teamid,
 		        		dataType:"json",
 		        		success:function(data)
 		        		{

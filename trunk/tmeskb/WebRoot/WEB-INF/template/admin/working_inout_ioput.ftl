@@ -20,6 +20,31 @@
 	$(function(){
 //		$("#grid-table_materialName").css("width","150px");
 //		$("#grid-table").css("width","100%");
+		//var num = 0;
+		//var $jq_table_h = $(".ui-jqgrid-htable").find("tr").eq(0);
+		//alert($jq_table_h.length);
+		//alert($jq_table_h.get(0).tagName);
+		 //var $jq_table_tr = $("#grid-table tr").length;
+		 //alert($jq_table_tr);
+		//var $jq_table_h_th =$jq_table_h.find("th");
+		// var $jq_table_td = $jq_table_tr.find("td");
+		//alert($jq_table_h_th.length);
+		//$jq_table_h_th.eq(1).css("width","150px");
+		//var tr_length = $jq_table_tr.length;
+		//var td_length = $jq_table_td.length;
+		///var flag = true;
+		/* tdf:for(var i=0;i<td_length;i++){
+			var result = 0;
+			for(var j=0;j<tr_length;j++){
+				result = result + ($jq_table_tr.eq(j).find("td").eq(i).text())*1;
+				if(result！==0){
+					continue tdf;
+				}
+			}
+			if(result==0){
+				$("#grid-table tr td:nth-child("+i+")").css("display","none");
+			}
+		}  */
 	});
 
 </script>
@@ -70,7 +95,7 @@ body {
 <input type="hidden" id="wbid" value="${wbid }" />
 <script type="text/javascript">
 function endLoad(){
-	var tdNum;//第一行td的值
+	 var tdNum;//第一行td的值
 	var flag = false;
 		$("#jqg10").children().each(function(){
 			var tdValue = $(this).text();
@@ -96,7 +121,6 @@ function endLoad(){
 	
 	var width = $("#grid-table_cb").css("width");
 	$(".jqgfirstrow td:first").css("width","25px");
-		
 }
 </script>
 </body>

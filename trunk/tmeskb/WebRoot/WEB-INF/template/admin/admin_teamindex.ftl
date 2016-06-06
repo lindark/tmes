@@ -17,7 +17,36 @@
 
 
  <script src='http://localhost:8000/CLodopfuncs.js'></script>
+<!-- 
+<script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
 
+<script type="text/javascript">
+	/*
+	$(function(){
+		LODOP.PRINT_INIT("打印任务名");
+		LODOP.SET_PRINT_PAGESIZE(2,"80mm","50mm","箱标签");//宽度 49mm 高度 74mm 
+		LODOP.ADD_PRINT_HTM("0mm","5.42mm","31.15mm","6mm","<p>&nbsp;建新赵氏集团</p>");
+		LODOP.ADD_PRINT_TEXT("6mm","0mm","49mm","6mm","桑塔纳NF/前门");
+		LODOP.ADD_PRINT_TEXT("12mm","0mm","49mm","6mm","34D839431A5AP");
+		LODOP.ADD_PRINT_BARCODE("18mm","2mm","27mm","6mm","128Auto","123231231");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("28mm","0mm","49mm","6mm","物料号:40100971");
+		LODOP.ADD_PRINT_BARCODE("34mm","2mm","22mm","6mm","128Auto","160224");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("42mm","0mm","49mm","5mm","包装批次:160224");
+		LODOP.ADD_PRINT_TEXT("47mm","0mm","49mm","5mm","数量:20");
+		LODOP.ADD_PRINT_TEXT("52mm","0mm","49mm","5mm","喷码批次:");
+		LODOP.ADD_PRINT_BARCODE("57mm","2mm","37mm","6mm","128Auto","987654321");
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
+		LODOP.ADD_PRINT_TEXT("65mm","0mm","49mm","5mm","随工单:10015167532");
+		LODOP.SET_PRINT_COPIES(1);//控制打印份数
+		//LODOP.SET_PRINT_STYLEA(0,"Angle",90);
+		LODOP.PREVIEW();
+	})
+	*/
+</script>
+
+  -->
 </head>
 <body class="no-skin">
 
@@ -110,11 +139,11 @@
 														<div class="profile-info-value">
 														      <form id="inputForm" class="validate" action="admin!productupdate.action" method="post">
 								                        <input type="hidden" name="id" value="${(admin.id)!}" />
-								                        <input type="hidden" id="productDate" value="${(admin.productDate)!}"/>
+								                        <input type="hidden" id="productDate" value="${(admin.productDate?date('yyyy-MM-dd'))!}"/>
 								                        <input type="hidden" id="shift" value="${(admin.shift)!}"/>
 								                        
 								                        
-														<input type="text" name="admin.productDate" value="${(admin.productDate)! }" class="datePicker formText {required: true}"/>
+														<input type="text" id="productDate_input"name="admin.productDate" value="${(admin.productDate?date('yyyy-MM-dd'))!}" class="datePicker formText {required: true}"/>
 														 
 														<select name="admin.shift" class="formText {required: true}">
 														<option></option>
@@ -147,6 +176,17 @@
 										<div class="widget-body">
 											<div
 												class="widget-main padding-6 no-padding-left no-padding-right">
+												<!-- 
+												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+													data-access-list="dumpconfirm">
+													<button
+														class="btn btn-green btn-success btn-bold btn-round btn-block"
+														id="dump">
+														<i class="ace-icon fa fa-credit-card bigger-110"></i> <span
+															class="bigger-110 no-text-shadow">转储确认</span>
+													</button>
+												</div>
+												 -->
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="cartonreceiving">
 													<button
@@ -338,7 +378,7 @@
 								<!--按钮组end-->
 							</div>
 							<!-- /section:custom/extra.hr -->
-							<div class="row">
+							<div class="row" id="wbload">
 								<div class="col-sm-12">
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-flat">
@@ -368,13 +408,15 @@
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
 																<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>模具</th>
+																<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>交接状态</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>条码打印</th>
 														</tr>
 													</thead>
 
 													<tbody>
-													<input type="hidden" value="${info}" id="info">
+														<input type="hidden" value="${info}" id="info">
 														<#list workingbillList as list>
 														<tr>
 															<td><input type="checkbox" class="ckbox"
@@ -389,12 +431,18 @@
 															<td class="hidden-480">${list.matnr}</td>
 															<td class="hidden-480">${list.workingBillCode}</td>
 															<td class="hidden-480">${(list.module)!}</td>
+															<td class="hidden-480">
+																<#if list.isHand=="Y">
+																	已交接
+																<#else>
+																	未交接
+																</#if>
+															</td>
 															<td class="hidden-480"><input type="text" class="input-sm col-sm-2 part"/>&nbsp; 
 																<a href="javascript:void(0);" class="barcode">打印</a>
 															</td>
 														</tr>
 														</#list>
-
 													</tbody>
 												</table>
 											</div>
@@ -405,7 +453,7 @@
 									<!-- /.widget-box -->
 								</div>
 								<!-- /.col -->
-
+	
 
 							</div>
 							<!-- /.row -->
@@ -431,19 +479,22 @@
 
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
 
-<script type="text/javascript">
-$(function(){
-	<#if workingbillList==null || workingbillList?size <=0>
-	$.gritter
-			.add({
-				// (string | mandatory) the heading of the notification
-				title : '通知!',
-				// (string | mandatory) the text inside the notification
-				text : '您当前尚未绑定"生产日期"和"班次"信息，无法加载数据,请点击<a href="admin!product.action" class="orange">绑定生产日期和班次</a> 进行绑定，绑定后，随工单将自动加载',
-				class_name : 'gritter-success'
-			});
-	</#if>
-});
-</script>
+	<script type="text/javascript">
+	$(function(){
+		<#if workingbillList==null || workingbillList?size <=0>
+		$.gritter
+				.add({
+					// (string | mandatory) the heading of the notification
+					title : '通知!',
+					// (string | mandatory) the text inside the notification
+					text : '您当前尚未绑定"生产日期"和"班次"信息，无法加载数据,请点击<a href="admin!product.action" class="orange">绑定生产日期和班次</a> 进行绑定，绑定后，随工单将自动加载',
+					class_name : 'gritter-success'
+				});
+		</#if>
+		
+		    //$('#wbload').load('admin!findWorkingBill.action');
+		
+	});
+	</script>
 </body>
 </html>

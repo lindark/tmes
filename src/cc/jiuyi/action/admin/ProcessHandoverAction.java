@@ -68,7 +68,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class ProcessHandoverAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -7711733851456884703L;
-	private static Logger log = Logger.getLogger(AdminAction.class);  
+	private static Logger log = Logger.getLogger(ProcessHandoverAction.class);  
 	
 	
 	private Admin admin;
@@ -684,6 +684,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverService.saveProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (Exception e) {
+			log.info(e);
 			return ajaxJsonErrorMessage(e.getMessage());
 		}
 		
@@ -708,7 +709,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverService.updateProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (Exception e) {
-			System.out.println(e);
+			log.info(e);
 			return ajaxJsonErrorMessage(e.getMessage());
 		}
 		
@@ -733,8 +734,6 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				e.printStackTrace();
 				return ajaxJsonErrorMessage(e.getMsgDes());
 			}
-			
-		
 	}
 	
 	/**

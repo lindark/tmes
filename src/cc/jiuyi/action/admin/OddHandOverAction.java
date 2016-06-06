@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -63,7 +64,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	
 	private static final long serialVersionUID = -4732324994891087871L;
 	
-	
+	private static Logger log = Logger.getLogger(OddHandOverAction.class);  
 	
 	private String[] workingBillIds;
 	private Double[] actualMounts;
@@ -600,7 +601,12 @@ public class OddHandOverAction extends BaseAdminAction {
 	 */
 	
 	public String newCreditsubmit(){
-		oddHandOverService.saveOddHandOverList(processHandoverTop, oddHandOverList, processHandoverList, loginid);
+		try {
+			oddHandOverService.saveOddHandOverList(processHandoverTop, oddHandOverList, processHandoverList, loginid);
+		} catch (Exception e) {
+			log.info(e);
+			e.printStackTrace();
+		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
@@ -612,7 +618,12 @@ public class OddHandOverAction extends BaseAdminAction {
 		//获取当前登录人信息
 //		Admin admin = adminService.getLoginAdmin();
 //		admin = adminService.get(admin.getId());
+		try {
 		oddHandOverService.updateOddHandOver(processHandoverTop,processHandoverList,oddHandOverList,loginid);
+		} catch (Exception e) {
+			log.info(e);
+			e.printStackTrace();
+		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	//刷卡提交

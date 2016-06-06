@@ -34,6 +34,16 @@ $(function(){
 			showOtherMonths: true,
 			selectOtherMonths: true
 			});
+		var productDate = $("input[name='admin.productDate']").val();
+		$("#productDate_input").bind("change",function(){
+			var pd = $(this).val();
+			if(pd.length!=10){
+				alert("日期格式不正确,请重选日期");
+				$(this).val(productDate);
+				$("#productDate").val(productDate);
+				return false;
+			}
+		});
 		$(".matkx").bind("click",function(){
 			var id = $(this).prev().val();
 			var matkx = $(this).text();
@@ -54,17 +64,21 @@ $(function(){
 			moudle_event(id,info);
 		});
 		$("#submitButton").click(function(){
-			$.ajax({
-			url: "admin!productupdate.action",
-			data: $("#inputForm").serialize(),
-			dataType: "json",		
-			success: function(data) {
-				layer.alert(data.message, {icon: 6},function(){
-					window.location.href="admin!index.action";
-				}); 
+			if(productDate.length!=10){
+				alert("日期格式不正确,,请重选日期");
+				return false;
 			}
-		});	
-		})
+			$.ajax({
+				url: "admin!productupdate.action",
+				data: $("#inputForm").serialize(),
+				dataType: "json",		
+				success: function(data) {
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="admin!index.action";
+					}); 
+				}
+			});	
+		});
 		
 		
 		$("#changeTeamButton").bind("click",function(){

@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -26,6 +27,9 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.LocatHandOver;
 import cc.jiuyi.entity.LocatHandOverHeader;
+import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
@@ -373,6 +377,28 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 				result.add(lho);
 		}
 		return result;
+	}
+	
+	/**
+	 *  刷卡撤销
+	 * @return
+	 */
+	public String creditundo() {
+		String[] ids = id.split(",");
+		Admin admin = adminService.getByCardnum(cardnumber);
+		for(String id:ids){
+			locatHandOverHeader = locatHandOverHeaderService.get(id);
+		if(locatHandOverHeader.getState().equals("1")){
+	//		locatHandOverHeader.setIsDel("Y");
+			locatHandOverHeader.setState("3");
+			locatHandOverHeader.setConfirmUser(admin.getName());
+			locatHandOverHeader.setConfirmUserCard(cardnumber);
+			locatHandOverHeaderService.update(locatHandOverHeader);
+			}else{
+				return ajaxJsonSuccessMessage("请选择未确认的记录!");
+			}
+		}
+		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	
 	//刷卡确认

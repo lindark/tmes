@@ -71,8 +71,9 @@ body {
 <script type="text/javascript">
 function endLoad(){
 	var tdNum;//第一行td的值
-	var trNum = 0;//tr的行数
+//	var trNum = 0;//tr的行数
 	var flag = false;
+//	var count = 0;
 //		$(".ui-row-ltr").each(function(){
 //			trNum = trNum + 1;
 //		});
@@ -89,22 +90,29 @@ function endLoad(){
 					}
 				})
 				if(flag == false){
+			//		count = count + 1;
 					$(".ui-jqgrid-labels").find("th").eq(tdNum).hide();
 					$(".ui-row-ltr").each(function(){
 						$(this).find("td").eq(tdNum1).css("display","none");
 					});
+					$(".jqgfirstrow td:first").remove();
 				}
 			}
 		});
 	//	$(".ui-row-ltr").each(function(){
 	//		$(this).find("td").css("width",1/tdNum);
 	//	});
-	$(".jqgfirstrow").remove();
-	$("#grid-table").css("width","100%");
+//	$(".jqgfirstrow").remove();
+//	$("#grid-table").css("width","100%");
+	
 	var width = $("#grid-table_cb").css("width");
-	$(".ui-row-ltr").each(function(){
-		$(this).find("td").eq(0).css("width",width);
-	});
+	if(flag = false){
+		$(".jqgfirstrow td:first").remove();
+	}
+	$(".jqgfirstrow td:first").css("width","25px");
+//	$(".ui-row-ltr").each(function(){
+//		$(this).find("td").eq(0).css("width",width);
+//	});
 		
 }
 </script>

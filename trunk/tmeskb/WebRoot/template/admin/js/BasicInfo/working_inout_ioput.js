@@ -54,6 +54,8 @@ jQuery(function($) {
 				updatePagerIcons(table);
 				enableTooltips(table);
 			}, 0);
+			
+			endLoad();
 		},
 
 		editurl: "",//用它做标准删除动作

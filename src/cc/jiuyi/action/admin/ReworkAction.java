@@ -344,7 +344,9 @@ public class ReworkAction extends BaseAdminAction {
 //							dictService, "isCompeletes", rework.getIsCompelete()));
 //					rework.setProductsCode(rework.getWorkingbill().getMatnr());
 //					rework.setProductsName(rework.getWorkingbill().getMaktx());
+					if(rework.getDuty()!=null){
 					rework.setXduty(rework.getDuty().getName());//责任人名
+					}
 				    rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
 				    if(rework.getConfirmUser()!=null){
 				    	rework.setXconfirmUser(rework.getConfirmUser().getName());
@@ -457,15 +459,15 @@ public class ReworkAction extends BaseAdminAction {
 		if(rework.getRectify()==null||rework.getRectify()==""){
 			return ajaxJsonErrorMessage("调整方案不允许为空!");
 		}
-		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			return ajaxJsonErrorMessage("翻包次数必须为零或正整数!");
-		}
-		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
-		}
-		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
-		}
+//		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+//			return ajaxJsonErrorMessage("翻包次数必须为零或正整数!");
+//		}
+//		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+//			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
+//		}
+//		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+//			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
+//		}
 		admin= adminService.getByCardnum(cardnumber);
 		rework.setCreateUser(admin);
 		rework.setModifyUser(admin);
@@ -503,13 +505,17 @@ public class ReworkAction extends BaseAdminAction {
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		List<Rework> list = reworkService.get(ids);
-		for (int i = 0; i < list.size(); i++) {
-			rework = list.get(i);
-			if (UNDO.equals(rework.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
-			}
-		}
+//		for (int i = 0; i < list.size(); i++) {
+//			ReworkRecord reworkRecord = list.get(i);
+//			if (CHECKED.equals(rework.getState())) {
+//				return ajaxJsonErrorMessage("已确认的无法再撤销!");
+//			}
+//			if (UNDO.equals(rework.getState())) {
+//				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
+//			}
+//		}
 		reworkService.saveRepeal(list, admin, UNDO);
+	//	reworkRecordService.saveRepeal(list, admin, UNDO);
 		return ajaxJsonSuccessMessage("您的操作已成功");
 	}
 

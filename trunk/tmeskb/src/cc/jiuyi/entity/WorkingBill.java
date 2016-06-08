@@ -71,6 +71,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
     private Set<OddHandOver> oddHandOverSet;//零头数交接
     private Set<PumPackHandOver> pumPackHandOverSet;//抽包异常交接
     private Set<ProcessHandover> processHandoverSet;
+    private Set<ProcessHandoverAll> processHandoverAllSet;
     private Set<ProcessHandover> afterprocessHandoverSet;
     
     /*冗余*/
@@ -523,6 +524,14 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	}
 	public void setProcessHandoverSet(Set<ProcessHandover> processHandoverSet) {
 		this.processHandoverSet = processHandoverSet;
+	}
+	@OneToMany(mappedBy = "workingBill", fetch = FetchType.LAZY)
+	public Set<ProcessHandoverAll> getProcessHandoverAllSet() {
+		return processHandoverAllSet;
+	}
+	public void setProcessHandoverAllSet(
+			Set<ProcessHandoverAll> processHandoverAllSet) {
+		this.processHandoverAllSet = processHandoverAllSet;
 	}
 	@OneToMany(mappedBy = "afterworkingbill", fetch = FetchType.LAZY)
 	public Set<ProcessHandover> getAfterprocessHandoverSet() {

@@ -46,11 +46,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 		<!-- 设置连接池初始值 -->
 		<property name="initialSize" value="20" />
 		<!-- 设置连接池最大值 -->
-		<property name="maxActive" value="500" />
+		<property name="maxActive" value="200" />
 		<!-- 设置连接池最小空闲值 -->
 		<property name="minIdle" value="25" />
 		<!-- 设置连接池最大空闲值 -->
-		<property name="maxIdle" value="50" />
+		<property name="maxIdle" value="80" />
 	</bean>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -202,6 +202,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ProcessHandover</value>
 				<value>cc.jiuyi.entity.ProcessHandoverSon</value>
 				<value>cc.jiuyi.entity.FactoryUnitSyn</value>
+				<value>cc.jiuyi.entity.ProcessHandoverAll</value>
 			</list>
 		</property>
 	</bean>

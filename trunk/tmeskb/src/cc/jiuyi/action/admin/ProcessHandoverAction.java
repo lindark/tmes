@@ -33,8 +33,10 @@ import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
+import cc.jiuyi.entity.ReworkRecord;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
@@ -47,6 +49,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverSonService;
 import cc.jiuyi.service.ProcessHandoverTopService;
@@ -124,6 +127,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private OddHandOverService oddHandOverService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	/**
 	 * 列表
@@ -133,6 +138,16 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
 		return LIST;
+	}
+	
+	/**
+	 * 总体工序交接列表
+	 * @return
+	 */
+	public String allList(){
+		admin = adminService.getLoginAdmin();
+		admin = adminService.get(admin.getId());
+		return "all";
 	}
 	/**
 	 * 责任人选择
@@ -275,23 +290,21 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
 		}
-		pager = processHandoverService.jqGrid(pager,admin);
-		List<ProcessHandoverTop> processHandoverTopList = pager.getList();
-		List<ProcessHandoverTop> lst = new ArrayList<ProcessHandoverTop>();
-		for (int i = 0; i < processHandoverTopList.size(); i++) {
-			ProcessHandoverTop processHandoverTop = (ProcessHandoverTop) processHandoverTopList.get(i);
-			processHandoverTop.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "processHandoverTopState",processHandoverTop.getState()));
-			processHandoverTop.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", processHandoverTop.getShift()));
-			processHandoverTop.setXcreateUser(processHandoverTop.getPhtcreateUser()==null?"":processHandoverTop.getPhtcreateUser().getName());
-			processHandoverTop.setXconfirmUser(processHandoverTop.getPhtconfimUser()==null?"":processHandoverTop.getPhtconfimUser().getName());
-			lst.add(processHandoverTop);
+		pager = processHandoverAllService.jqGrid(pager,admin);
+		List<ProcessHandoverAll> processHandoverAllList = pager.getList();
+		for (int i = 0; i < processHandoverAllList.size(); i++) {
+			ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
+			processHandoverAll.setXstate(ThinkWayUtil.getDictValueByDictKey(dictService, "processHandoverAllState",processHandoverAll.getState()));
+			processHandoverAll.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", processHandoverAll.getShift()));
+			processHandoverAll.setXcreateUser(processHandoverAll.getPhaCreateUser()==null?"":processHandoverAll.getPhaCreateUser().getName());
+			processHandoverAll.setXconfirmUser(processHandoverAll.getPhaConfimUser()==null?"":processHandoverAll.getPhaConfimUser().getName());
 		}
-		pager.setList(lst);
+		pager.setList(processHandoverAllList);
 		
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil
-				.getExcludeFields(ProcessHandoverTop.class));// 排除有关联关系的属性字段
+				.getExcludeFields(ProcessHandoverAll.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -857,15 +870,59 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		
 		return "all";
 	}
+	
+	public String saveAllProcess(){
+		try {
+			admin = adminService.get(loginid);
+			processHandoverAllService.saveAllProcess(admin);
+			return ajaxJsonErrorMessage("成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
 	public String allSubmit(){
+		try{
+			admin = adminService.getByCardnum(cardnumber);
+			ids = id.split(",");
+			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
+	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
+			System.out.println(processHandoverAllList);
+			for(int i=0;i<processHandoverAllList.size();i++){
+				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
+				processHandoverAll.setPhaConfimUser(admin);
+				processHandoverAll.setState("2");
+				processHandoverAllService.update(processHandoverAll);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
+		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	public String allapproval(){
-		Admin admin = adminService.get(loginid);
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-		for(WorkingBill workingbill : workingbillList){
-			workingbill.setIsHand("Y");
-			workingbillservice.update(workingbill);
+//		Admin admin = adminService.get(loginid);
+//		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+//		for(WorkingBill workingbill : workingbillList){
+//			workingbill.setIsHand("Y");
+//			workingbillservice.update(workingbill);
+//		}
+		try{
+			admin = adminService.getByCardnum(cardnumber);
+			ids = id.split(",");
+			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
+	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
+			System.out.println(processHandoverAllList);
+			for(int i=0;i<processHandoverAllList.size();i++){
+				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
+				processHandoverAll.setPhaConfimUser(admin);
+				processHandoverAll.setState("3");
+				processHandoverAllService.update(processHandoverAll);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

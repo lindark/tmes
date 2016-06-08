@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -48,7 +49,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class RepairAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5187671258106950991L;
-
+	public static Logger log = Logger.getLogger(RepairAction.class);
 	private static final String CONFIRMED = "1";
 	private static final String UNDO = "3";
 
@@ -395,9 +396,9 @@ public class RepairAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repair = repairService.load(ids[i]);
-			if (UNDO.equals(repair.getState())) {
+			if (UNDO.equals(repair.getState()) || "1".equals(repair.getState())) {
 				// addActionError("已撤销的无法再撤销！");
-				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+				return ajaxJsonErrorMessage("已撤销或已确认的无法再撤销！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
@@ -660,6 +661,10 @@ public class RepairAction extends BaseAdminAction {
 						if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
 						{
 							return r_sapreturn.getE_MESSAGE();
+						}
+						log.info("-------mblnr---"+r_sapreturn.getEX_MBLNR());
+						if(r_sapreturn.getEX_MBLNR()==null || "".equals(r_sapreturn.getEX_MBLNR())){
+							return r_sapreturn.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
 						}
 						/** 与SAP交互没有问题,更新本地数据库 */
 						this.repairService.updateMyData(r_sapreturn, cardnumber,1,workingBillId);

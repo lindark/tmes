@@ -345,9 +345,12 @@ public class ReworkAction extends BaseAdminAction {
 //					rework.setProductsCode(rework.getWorkingbill().getMatnr());
 //					rework.setProductsName(rework.getWorkingbill().getMaktx());
 					if(rework.getDuty()!=null){
-					rework.setXduty(rework.getDuty().getName());//责任人名
+						rework.setXduty(rework.getDuty().getName());//责任人名
 					}
-				    rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
+					 if(rework.getCreateUser()!=null){
+						 rework.setXcreateUser(rework.getCreateUser().getName());//创建人名
+					 }
+				   
 				    if(rework.getConfirmUser()!=null){
 				    	rework.setXconfirmUser(rework.getConfirmUser().getName());
 				    }
@@ -459,15 +462,15 @@ public class ReworkAction extends BaseAdminAction {
 		if(rework.getRectify()==null||rework.getRectify()==""){
 			return ajaxJsonErrorMessage("调整方案不允许为空!");
 		}
-//		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-//			return ajaxJsonErrorMessage("翻包次数必须为零或正整数!");
-//		}
-//		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-//			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
-//		}
-//		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-//			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
-//		}
+		if(rework.getReworkCount()==null||String.valueOf(rework.getReworkCount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("翻包次数必须为零或正整数!");
+		}
+		if(rework.getReworkAmount()==null||String.valueOf(rework.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
+		}
+		if(rework.getDefectAmount()==null||String.valueOf(rework.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
+		}
 		admin= adminService.getByCardnum(cardnumber);
 		rework.setCreateUser(admin);
 		rework.setModifyUser(admin);

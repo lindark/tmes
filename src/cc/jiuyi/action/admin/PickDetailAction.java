@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.collections.comparators.ComparatorChain;
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.entity.Admin;
@@ -54,7 +55,7 @@ public class PickDetailAction extends BaseAdminAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 8353535527507793596L;
-
+	public static Logger log = Logger.getLogger(PickDetailAction.class);
 	private PickDetail pickDetail;
 	// 获取所有状态
 	private List<Dict> allState;
@@ -598,10 +599,10 @@ public class PickDetailAction extends BaseAdminAction {
 						return ajaxJsonErrorMessage(message);
 					else {
 						flag = true;
-						pickRfc = new ArrayList<Pick>();
-						pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
+						List<Pick>pickRfc1 = new ArrayList<Pick>();
+						pickRfc1 = pickRfcImple.BatchMaterialDocumentCrt("", list,
 								pickdetailList);
-						for (Pick pick2 : pickRfc) {
+						for (Pick pick2 : pickRfc1) {
 							String e_type = pick2.getE_type();
 							String e_message = pick2.getE_message();
 							String ex_mblnr = pick2.getEx_mblnr();
@@ -610,15 +611,21 @@ public class PickDetailAction extends BaseAdminAction {
 								flag = false;
 								message += pick2.getE_message();
 							} else {
-								Pick pickReturn = pickService.get(pick2.getId());
-								pickReturn.setE_message(e_message);
-								pickReturn.setEx_mblnr(ex_mblnr);
-								pickReturn.setE_type(e_type);
-								// pickReturn.setMove_type(move_type);
-								pickReturn.setState("2");
-								pickReturn.setConfirmUser(admin);
-								HashMap<String, Object> map = new HashMap<String, Object>();
-								pickDetailService.updatePIckAndWork(pickReturn, map);
+								log.info("ex_mblnr-----"+ex_mblnr);
+								if(ex_mblnr==null || "".equals(ex_mblnr)){
+									flag = false;
+									message += pick2.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
+								}else{
+									Pick pickReturn = pickService.get(pick2.getId());
+									pickReturn.setE_message(e_message);
+									pickReturn.setEx_mblnr(ex_mblnr);
+									pickReturn.setE_type(e_type);
+									// pickReturn.setMove_type(move_type);
+									pickReturn.setState("2");
+									pickReturn.setConfirmUser(admin);
+									HashMap<String, Object> map = new HashMap<String, Object>();
+									pickDetailService.updatePIckAndWork(pickReturn, map);
+								}
 							}
 						}
 						if (!flag)
@@ -713,9 +720,9 @@ public class PickDetailAction extends BaseAdminAction {
 				}
 				else{
 					flag1 = true;
-					pickRfc = new ArrayList<Pick>();
-					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
-					for(Pick pick2 : pickRfc){
+					List<Pick>pickRfc1 = new ArrayList<Pick>();
+					pickRfc1 = pickRfcImple.BatchMaterialDocumentCrt("", pickList, pkList);
+					for(Pick pick2 : pickRfc1){
 						String e_type = pick2.getE_type();
 						String e_message=pick2.getE_message();
 						String ex_mblnr=pick2.getEx_mblnr();
@@ -723,14 +730,20 @@ public class PickDetailAction extends BaseAdminAction {
 							flag1 = false;
 							message +=pick2.getE_message();
 						}else{
-							Pick pickReturn=pickService.get(pk);
-							pickReturn.setE_message(e_message);
-							pickReturn.setEx_mblnr(ex_mblnr);
-							pickReturn.setE_type(e_type);
-							pickReturn.setMove_type(info);
-							pickReturn.setState("2");
-							pickReturn.setConfirmUser(admin);
-							pickService.update(pickReturn);
+							log.info("ex_mblnr-----"+ex_mblnr);
+							if(ex_mblnr==null || "".equals(ex_mblnr)){
+								flag1 = false;
+								message += pick2.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
+							}else{
+								Pick pickReturn=pickService.get(pk);
+								pickReturn.setE_message(e_message);
+								pickReturn.setEx_mblnr(ex_mblnr);
+								pickReturn.setE_type(e_type);
+								pickReturn.setMove_type(info);
+								pickReturn.setState("2");
+								pickReturn.setConfirmUser(admin);
+								pickService.update(pickReturn);
+							}
 						}
 					}
 					if(!flag1)

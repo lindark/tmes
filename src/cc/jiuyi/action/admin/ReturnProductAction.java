@@ -328,19 +328,25 @@ public class ReturnProductAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
-					returnProductCrt = new ArrayList<ReturnProduct>();
-					returnProductCrt = reprfc.returnProductCrt("", returnProductList);
-					for(ReturnProduct epc : returnProductCrt){
+					List<ReturnProduct>returnProductCrt1 = new ArrayList<ReturnProduct>();
+					returnProductCrt1 = reprfc.returnProductCrt("", returnProductList);
+					for(ReturnProduct epc : returnProductCrt1){
 						String e_type = epc.getE_type();
-						String e_message = epc.getE_message();
+						//String e_message = epc.getE_message();
 						String ex_mblnr = epc.getEx_mblnr();
+						log.info("------ex_mblnr="+ex_mblnr);
 						if (e_type.equals("E")) { // 如果有一行发生了错误
 							flag = false;
 							message += epc.getE_message();
 						}else{
-							ReturnProduct ep = returnProductService.get(epc.getId());
-							ep.setMblnr(ex_mblnr);
-							returnProductService.update(ep);
+							if(ex_mblnr==null || "".equals(ex_mblnr)){
+								flag = false;
+								message += epc.getMaterialCode()+"未返回凭证;";
+							}else{
+								ReturnProduct ep = returnProductService.get(epc.getId());
+								ep.setMblnr(ex_mblnr);
+								returnProductService.update(ep);
+							}
 						}
 					}
 					if (!flag)

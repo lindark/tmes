@@ -31,6 +31,8 @@ body {background: #fff;font-family: 微软雅黑;}
 .input-value{width:80px;height:30px;line-height:30px;display:inline;}
 #tb_scraplater a{cursor: pointer;}
 .divbox{margin-top: 20px;}
+.i_plus,.i_minus,.img_azrr{cursor: pointer;}
+.ceshi{margin-top:5px;margin-bottom:5px;}
 </style>
 </head>
 <body class="no-skin input">
@@ -291,13 +293,15 @@ body {background: #fff;font-family: 微软雅黑;}
 																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td >
-																<input type="hidden" class="chosen-input" value="95%">
-																<select id="zrr${num}" data-placeholder=""  multiple class="chosen-select"  >
+																<input id="zrr${num}" type="text" style="width:85%;" readonly/>
+																<img id="img_addpeople${num}" class="img_addzrr" title="添加责任人" alt="添加责任人" src="/template/shop/images/add_bug.gif">
+																<!--<input type="hidden" class="chosen-input" value="95%">
+																 <select id="zrr${num}" data-placeholder=""  multiple class="chosen-select"  >
 																		<option></option>
 																		<#list employeeList as Rlist>
 																		<option value="${(Rlist.name)! }(${(Rlist.workNumber)! })">${(Rlist.name) }(${(Rlist.workNumber) })</option>
 																		</#list>
-																	</select>
+																	</select> -->
 																</td>
 															</tr>
 															<#assign num=num+1 />
@@ -364,6 +368,21 @@ body {background: #fff;font-family: 微软雅黑;}
 								</div>
 							</div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+							<div id="divbox4" style="display: none;">
+								<div class="profile-user-info profile-user-info-striped divbox">
+									<div class="profile-info-row ceshi">
+										<div style="width:100%;">
+											<div class="div-value" style="width:100%;">
+												<input  type="text" style="width:80%;" class="zrr_input" readonly/>
+												<img class="img_azrr" title="添加责任人" alt="添加责任人" src="/template/shop/images/add_bug.gif">&nbsp;&nbsp;&nbsp;&nbsp;
+												<i class="i_plus ace-icon fa fa-plus blue" title="添加" ></i> &nbsp;&nbsp;&nbsp;&nbsp;
+												<i class="i_minus ace-icon fa fa-minus blue" title="删除" ></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 							<!-- add by welson 0728 -->
 						</div>
 						<!-- /.col -->
@@ -385,60 +404,28 @@ body {background: #fff;font-family: 微软雅黑;}
 </body>
 </html>
 <script type="text/javascript">
-/*
+
 $(function(){
-	/*$(".btn_remove").click(
+	/* $(".btn_remove").click(
 		function()
 		{
 			$(this).prv().prv().val("");
 		}
-	);
+	); */
+	//添加责任人-后
+	$(".img_azrr").live("click",function(){
+		azrr_event($(this));
+	});
+	//添加责任人-行
+	$(".i_plus").live("click",function(){
+		addplus_event($(this));
+	});
+	//删除责任人-行
+	$(".i_minus").live("click",function(){
+		delminus_event($(this));
+	});
 
-
-	$(".img_addzrr").click(
-		function()
-		{
-			var textinput=$(this).prev();			
-			layer.open({
-		        type: 2,
-		        skin: 'layui-layer-lan',
-		        shift:2,
-		        title: "添加负责人",
-		        fix: false,
-		        shade: 0.5,
-		        shadeClose: true,
-		        maxmin: true,
-		        scrollbar: false,
-		        btn:['确认','取消'],
-		        area: ["80%", "80%"],//弹出框的高度，宽度
-		        content:"admin!addzrr.action",
-		        yes:function(index,layero){//确定
-		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
-		        	var result = iframeWin.getGridId();		        	
-		        	if(result!="baga")
-		        	{	
-		        		if(textinput.val()!="")
-		        		{
-		        			textinput.val(textinput.val()+","+result);
-		        		}
-		        		else
-		        		{
-		        			textinput.val(result);
-		        		}
-		        		layer.close(index);	
-		        		return false;	        		
-		        	}
-		        	return false;
-		        },
-		        no:function(index)
-		        {
-		        	layer.close(index);
-		        	return false;
-		        }
-		    });
-		}
-	);	
-});*/
+});
 
 
 var number="0";
@@ -485,7 +472,7 @@ function rowtobox_event(index)
 	var rowids_array=rowids.split(",");
 	var rownums_array=rownums.split(",");
 	var i=0;
-	
+	//alert("rowids="+rowids+"---rownums="+rownums+"rowids_array="+rowids_array+"---rownums_array="+rownums_array);
 	
 	<#list list_cause as list>
 		$("#mynum"+i).val("");//先清空
@@ -512,17 +499,21 @@ function rowtobox_event(index)
 		var strList=str.split("; ");		
 		var trList=$("#div_allcause tr.active");
 		//alert(trList);		
+		//alert("strList="+strList+"----trList="+trList);
 		var j=0,k=0;
 		for(j=0;j<trList.length;j++)
 		{
 			var tds=trList.eq(j).children();
 			var strLists=strList[k].split('/');
 			var tdlab=tds.eq(0).children().eq(0).text();
+			//alert("strLists="+strLists+"-------tdlab="+tdlab);
 			if(tdlab==strLists[0])
 			{
 				//alert('已进入');
-				tds.eq(2).children().eq(0).val(strLists[2]);
+				//alert(strLists[2]);
+				/* tds.eq(2).children().eq(0).val(strLists[2]);
 				var zrrList = strLists[3].split(',');
+				alert(zrrList);
 				for(var n=0;n<zrrList.length;n++){
 					var theZrr = zrrList[n];
 					if(theZrr !="" && theZrr != null){
@@ -535,8 +526,11 @@ function rowtobox_event(index)
 					//	tds.eq(3).children().eq(0).find("option[value='"+theZrr+"']").attr("selected","selected");
 					//	tds.eq(3).children().eq(0).chosen("destroy");
 					}
-				}
+				} */
+				tds.eq(2).children().eq(0).val(strLists[2]);
+				tds.eq(3).children().eq(0).val(strLists[3]);
 				k++;
+				
 				if(k>=strList.length) break;
 			}
 		}
@@ -693,5 +687,28 @@ function fuzhi_box3torow(val,txt)
 			"</tr>";
 	$("#tab_scrapmsg").append(xhtml);
 	addbug_event();
+}
+//添加责任人-行
+function addplus_event(t){
+	var $parent_text = t.parents("#divbox4");
+	var zrr_html="<div class=\"profile-user-info profile-user-info-striped divbox\">" +
+			"<div class=\"profile-info-row ceshi\">" +
+			"<div style=\"width:100%;\">" +
+			"<div class=\"div-value\" style=\"width:100%;\">" +
+			"<input  type=\"text\" style=\"width:80%;\" class=\"zrr_input\" readonly/>" +
+			"<img class=\"img_azrr\" title=\"添加责任人\" alt=\"添加责任人\" src=\"/template/shop/images/add_bug.gif\">&nbsp;&nbsp;&nbsp;&nbsp;" +
+			"<i class=\"i_plus ace-icon fa fa-plus blue\" title=\"添加\" ></i> &nbsp;&nbsp;&nbsp;&nbsp;" +
+			"<i class=\"i_minus ace-icon fa fa-minus blue\" title=\"删除\" ></i></div></div></div></div>";
+	$parent_text.append(zrr_html);
+}
+//删除责任人-行
+function delminus_event(t){
+	var $parent_text = t.parents(".divbox");
+	var length = $parent_text.parent().find(".divbox").length;
+	if(length>1){
+		$parent_text.remove();
+	}else{
+		alert("不允许删除");
+	}
 }
 </script>

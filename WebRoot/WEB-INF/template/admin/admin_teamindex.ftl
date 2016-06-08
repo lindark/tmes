@@ -139,11 +139,11 @@
 														<div class="profile-info-value">
 														      <form id="inputForm" class="validate" action="admin!productupdate.action" method="post">
 								                        <input type="hidden" name="id" value="${(admin.id)!}" />
-								                        <input type="hidden" id="productDate" value="${(admin.productDate?date('yyyy-MM-dd'))!}"/>
+								                        <input type="hidden" id="productDate" value="${(admin.productDate)!}"/>
 								                        <input type="hidden" id="shift" value="${(admin.shift)!}"/>
 								                        
 								                        
-														<input type="text" id="productDate_input"name="admin.productDate" value="${(admin.productDate?date('yyyy-MM-dd'))!}" class="datePicker formText {required: true}"/>
+														<input type="text" id="productDate_input"name="admin.productDate" value="${(admin.productDate)!}" class="datePicker formText {required: true}"/>
 														 
 														<select name="admin.shift" class="formText {required: true}">
 														<option></option>

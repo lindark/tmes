@@ -251,8 +251,10 @@
 	    	}if(id==""){
 	    		alert("至少选择一条返工记录");
 	    		return false;
-	    	}else{var rowData = $("#grid-table").jqGrid('getRowData',id);
+	    	}else{
+	    	var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state = rowData.state;
+			alert(row_state);
 			if(row_state == "2" || row_state == "4"){
 				layer.msg("已经确认或已撤销的返工记录无法再编辑!",{icon:5});
 				return false;

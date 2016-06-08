@@ -96,12 +96,13 @@ body {
 <script type="text/javascript">
 function endLoad(){
 	 var tdNum;//第一行td的值
-	var flag = false;
 		$("#jqg10").children().each(function(){
+			var flag = false;
 			var tdValue = $(this).text();
+			var tdValue1 = $.trim(tdValue);
 			tdNum = $(this).parents("tr").find("td").index($(this));
 			var tdNum1 = tdNum;
-			if(tdValue == 0 && tdNum>0){
+			if(tdValue1 == 0 && tdNum>0){
 				$(".ui-row-ltr").each(function(){
 					var tdValue1 = $(this).find("td").eq(tdNum).text();
 					

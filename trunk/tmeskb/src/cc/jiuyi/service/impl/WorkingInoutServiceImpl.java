@@ -116,7 +116,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
 		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
-		/**处理接上班(正常)**/
+		/**处理接上班(正常)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "接上班"+process.getProcessName()+"(正常)";
@@ -126,8 +126,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理接上班 (正常)end**/
-		/**处理接上班(返修)**/
+		*//**处理接上班 (正常)end**//*
+		*//**处理接上班(返修)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "接上班"+process.getProcessName()+"(返修)";
@@ -137,10 +137,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理接上班 (返修)end**/
+		*//**处理接上班 (返修)end**//*
 		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
 		
-		/**处理交下班(正常)**/
+		*//**处理交下班(正常)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "交下班"+process.getProcessName()+"(正常)";
@@ -150,9 +150,9 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理交下班(正常)end**/
+		*//**处理交下班(正常)end**//*
 		
-		/**处理交下班(返修)**/
+		*//**处理交下班(返修)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "交下班"+process.getProcessName()+"(返修)";
@@ -162,7 +162,47 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		/**处理交下班 (返修)end**/
+		*//**处理交下班 (返修)end**/
+		/**处理接上班**/
+		//boolean flagProcess1 = false;//判断工序是否都为0，如不为0，在首页投入产出表中显示
+		//boolean flagProcess2 = false;//判断工序返修是否都为0，如不为0，在首页投入产出表中显示
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "接/"+process.getProcessName();
+			String name ="GXJSBZC_"+process.getId();
+			String index="GXJSBZC_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+			
+			process = processList00.get(i);
+			label = "接/"+process.getProcessName()+"/返";
+			name ="GXJSBFX_"+process.getId();
+			index="GXJSBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理接上班end**/
+		/**处理交下班**/
+		for(int i=0;i<processList00.size();i++){
+			Process process = processList00.get(i);
+			String label = "交/"+process.getProcessName();
+			String name ="GXJXBZC_"+process.getId();
+			String index="GXJXBZC_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+			
+			process = processList00.get(i);
+			label = "交/"+process.getProcessName()+"/返";
+			name ="GXJXBFX_"+process.getId();
+			index="GXJXBFX_"+process.getId();
+			indexobj.add(index);
+			nameobj.add(name);
+			labelobj.add(label);
+		}
+		/**处理交下班end**/
 		nameobj.add(strlen[9]);labelobj.add(lavenlen[9]);indexobj.add(strlen[9]);//报废数
 		nameobj.add(strlen[3]);labelobj.add(lavenlen[3]);indexobj.add(strlen[3]);//接上班零头数
 		nameobj.add(strlen[4]);labelobj.add(lavenlen[4]);indexobj.add(strlen[4]);//接上班异常零头数
@@ -216,8 +256,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[25]);labelobj.add(lavenlen[25]);indexobj.add(strlen[25]);//组件描述
 		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
 		/**处理接上班**/
-		boolean flagProcess1 = false;//判断工序是否都为0，如不为0，在首页投入产出表中显示
-		boolean flagProcess2 = false;//判断工序返修是否都为0，如不为0，在首页投入产出表中显示
+		//boolean flagProcess1 = false;//判断工序是否都为0，如不为0，在首页投入产出表中显示
+		//boolean flagProcess2 = false;//判断工序返修是否都为0，如不为0，在首页投入产出表中显示
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "接/"+process.getProcessName();

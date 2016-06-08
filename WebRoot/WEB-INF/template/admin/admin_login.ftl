@@ -183,11 +183,12 @@ $(function(){
 	});
 	
 	//刷卡登录
-	$btn_creditlogin.click(function(){
+	$btn_creditlogin.click(function(event){
 		var url="admin!creditlogin.action";
 		credit.creditCard(url,function(data){
 			var username = data.username;
 			var cardnumber = credit.cardnumber;
+			 layer.load();
 			window.location.href="${base}/admin/loginVerify?j_card=true&j_username="+username+"&j_password=shuaka-"+cardnumber;
 		})
 	});

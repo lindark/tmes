@@ -131,7 +131,7 @@
 						data = "";
 					var bool = url.indexOf("?");
 					var cardnubmer="";
-					credit.index= layer.msg('请刷卡', {icon: 16,time:30000,shade:0.3,shadeClose:true},function(){
+					credit.index= layer.msg('请刷卡', {icon: 16,time:20000,shade:0.3,shadeClose:true},function(){
 						
 						if(typeof(credit.cardnumber) == "undefined" || credit.cardnumber==""){
 							$('body').stopTime ();

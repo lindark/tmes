@@ -75,10 +75,13 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repair repair = list.get(i);
-			totalamount = repair.getRepairAmount() + totalamount;
-			/*if (statu.equals("3") && repair.getState().equals("1")) {
+			if (statu.equals("1")) {
+				totalamount = repair.getRepairAmount() + totalamount;
+			}
+			if (statu.equals("3")) {
 				totalamount -= repair.getRepairAmount();
-			}*/
+			}
+			repair.setState(statu);
 			repair.setConfirmUser(admin);
 			repairDao.update(repair);
 		}

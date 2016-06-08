@@ -95,6 +95,18 @@ body {
 <input type="hidden" id="wbid" value="${wbid }" />
 <script type="text/javascript">
 function endLoad(){
+//	$("#grid-table_cb").css("width","15px");
+//	$(".jqgfirstrow td:first").css("width","15px");
+//	$("#grid-table_materialName").css("width","80px");
+//	$("#grid-table tr td:nth-child(2)").css("width","80px");
+/* 	var $table_tr = $(".ui-jqgrid-htable tr");
+		var $table_th = $table_tr.find("th");
+		 for(var i=2;i<$table_th.length;i++){
+				 if($table_th.eq(i).width()<60){
+					$table_th.eq(i).css("width","60px");
+					$(".jqgfirstrow td").eq(i).css("width","60px");
+				}
+		} */ 
 	 var tdNum;//第一行td的值
 		$("#jqg10").children().each(function(){
 			var flag = false;
@@ -102,7 +114,7 @@ function endLoad(){
 			var tdValue1 = $.trim(tdValue);
 			tdNum = $(this).parents("tr").find("td").index($(this));
 			var tdNum1 = tdNum;
-			if(tdValue1 == 0 && tdNum>0){
+			if(tdValue1 == 0 && tdNum>2){
 				$(".ui-row-ltr").each(function(){
 					var tdValue1 = $(this).find("td").eq(tdNum).text();
 					
@@ -120,8 +132,12 @@ function endLoad(){
 			}
 		});
 	
-	var width = $("#grid-table_cb").css("width");
-	$(".jqgfirstrow td:first").css("width","25px");
+	//var width = $("#grid-table_cb").css("width");
+	$("#grid-table_cb").css("width","15px");
+	$(".jqgfirstrow td:first").css("width","15px");
+	$("#grid-table_materialName").css("width","80px");
+	$("#grid-table tr td:nth-child(2)").css("width","80px");
+	
 }
 </script>
 </body>

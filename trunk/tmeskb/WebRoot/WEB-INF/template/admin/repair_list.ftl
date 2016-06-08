@@ -212,10 +212,10 @@
 				return false;
 			}
 			var workingBillId = $("#workingBillId").val();
-			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var rowData = $("#grid-table").jqGrid('getRowData',id); 
 			var row_state=rowData.state;
-			if(row_state=="1"){
-				layer.msg("已确认的返修单无法再编辑!", {icon: 5});
+			if(row_state=="1" || row_state=="3"){
+				layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
 			}else{
 				window.location.href="repair!edit.action?workingBillId="+workingBillId+"&id="+id;				
 			}
@@ -234,12 +234,16 @@
 			}
 			else
 			{
-				var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+$("#loginid").val();
-				credit.creditCard(url,function(data){
-					$.message(data.status,data.message);
-					$("#totalAmount").text(data.totalAmount);
-					$("#grid-table").trigger("reloadGrid");
-				});					
+				if(row_state=="1" || row_state=="3"){
+					layer.msg("已确认或已撤销的返修单无法再确认!", {icon: 5});
+				}else{
+					var url = "repair!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+$("#loginid").val();
+					credit.creditCard(url,function(data){
+						$.message(data.status,data.message);
+						$("#totalAmount").text(data.totalAmount);
+						$("#grid-table").trigger("reloadGrid");
+					});				
+				}
 			}
 		});
 		$("#undoCarton").click(function(){
@@ -254,9 +258,9 @@
 			}
 			else
 			{
-				if(row_state=="3")
+				if(row_state=="3" || row_state=="1")
 				{
-					layer.msg("已撤销的无法再撤销！", {icon: 5});
+					layer.msg("已撤销或已确认的无法再撤销！", {icon: 5});
 				}
 				else
 				{

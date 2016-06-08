@@ -27,6 +27,7 @@ body{background:#fff;}
 .div-value2{text-align:right;padding-right:0px;min-width:200px;}
 .input-value{width:80px;height:30px;line-height:30px;}
 .sub-style{float: right;}
+.requireField{color:red;}
 </style>
 </head>
 <body class="no-skin input">
@@ -67,8 +68,7 @@ body{background:#fff;}
 							<div class="col-xs-12">
 								<!-- ./ add by welson 0728 -->
 								
-		<form id="inputForm"
-		name="inputForm" class="validate" action="<#if isAdd??>rework!save.action<#else>rework!update.action</#if><#if show??></#if>"	method="post">
+		<form id="inputForm" name="inputForm" class="validate" enctype="multipart/form-data" action=""	method="post">
 			<input id="rk" type="hidden" name="id" value="${(id)!}" />
 			<input type="hidden" id="workingBillId" class="input input-sm" name="rework.workingbill.id" value="${(workingbill.id)!} ">
 			<input type="hidden" id="reworkId" value="${(rework.id)!''}"/>
@@ -135,7 +135,7 @@ body{background:#fff;}
 												     <#if show??>
 														<span>${isQualified! }</span>
 													<#else>
-													<select name=reworkRecord.isQualified id="form-field-icon-1" class=" {required: true}">
+													<select name=reworkRecord.isQualified id="form-field-icon-1" class="">
 														<#list allCheck as list>
 														<option value="${list.dictkey}"<#if ((isAdd &&list.dictkey =='N') || (isEdit && reworkRecord.isQualified ==list.dictkey))!> selected</#if>>${list.dictvalue}</option>
 														</#list>
@@ -153,7 +153,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(reworkRecord.problem)! }</span>
 												  <#else>
-													<textarea name="reworkRecord.problem" style="width:600px;" class="isZero input input-sm">${(reworkRecord.problem)!}</textarea>
+													<textarea name="reworkRecord.problem" style="width:90%;" class="isZero input input-sm">${(reworkRecord.problem)!}</textarea>
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -168,7 +168,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(reworkRecord.rectify)! }</span>
 												  <#else>
-													<textarea name="reworkRecord.rectify" style="width:600px;" class="isZero input input-sm">${(reworkRecord.rectify)!}</textarea>
+													<textarea name="reworkRecord.rectify" style="width:90%;" class="isZero input input-sm">${(reworkRecord.rectify)!}</textarea>
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -183,7 +183,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(reworkRecord.duty.name)! }</span>
 												 <#else>
-												 <input type="hidden" id="adminId" name="reworkRecord.duty.id" value="${(reworkRecord.duty.id)!}"  class="isZero  input input-sm" readonly="readonly"/>					
+												 <input type="hidden" id="adminId" name="reworkRecord.duty.id" value="${(reworkRecord.duty.id)!}"  class="isZero input input-sm" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="adminName"></span>
@@ -203,7 +203,8 @@ body{background:#fff;}
 													 <span>${(reworkRecord.completeDate)! }</span>
 											  <#else>
 												<div class="input-daterange input-group">
-												<input type="text" class="isZero input-sm form-control datePicker" name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  onchange=out(this); >
+												<input type="text" class="isZero input-sm form-control datePicker productDate" style="width:90%"name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  >
+												<span class="requireField">*</span>
 											</div>
 											</#if>
 											</div>						
@@ -261,8 +262,7 @@ body{background:#fff;}
 $(function(){
 	//必填提示隐藏/显示
 	tip_event();
-});
-$(function(){
+	
 	var $userAddBtn = $("#userAddBtn");//添加用户
 	 var $adminId=$("#adminId");
 	 var $adminName=$("#adminName");
@@ -286,19 +286,25 @@ $(function(){
 	  });
 	 	
 	});
-	
-})
+	 $(".productDate").change(function(){
+		//out($(this));
+		if($(this).val().length!=10){
+			alert("日期格式错误");
+			$(this).val("");
+		}
+	}); 
+});
 
 
-function out(input){
-   var s =input.value;
-   var date1 = new Date(Date.parse(s.replace(/-/g, "/")));
+/* function out(input){
+   var s =input.val();
+   var date1 = new Date(s.replace("-", "/"));
     var date2 = new Date();
-if(date1.getMilliseconds()>date2.getMilliseconds()){
+if(date1>date2){
     alert("不能选择今天之前的日期!");
    return;
   }
-}
+} */
 
 $(function(){
 	var reworkId = $("#reworkId").val();
@@ -323,7 +329,7 @@ $(function(){
 			}
 		});
 		if(flag){
-		 var dt=$("#inputForm").serialize();
+		var dt=$("#inputForm").serialize();
 			var workingBillId = $("#workingBillId").val();
 			var reworkCount = $("#reworkCount").val();
 			var url="rework_record!creditsubmit.action?reworkId="+reworkId+"&workingBillId="+workingBillId+"&reworkCount="+reworkCount;

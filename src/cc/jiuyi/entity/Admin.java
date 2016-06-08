@@ -145,6 +145,9 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<ProcessHandoverTop> phtcreateUser;//创建人
 	private Set<ProcessHandoverTop> phtconfimUser;//创建人
 	
+	private Set<ProcessHandoverAll> phaCreateUser;//创建人
+	private Set<ProcessHandoverAll> phaConfimUser;//确认人
+	
 	//假字段
 	private String xdeptcode;//部门编码
 	private String departName;// 部门名称
@@ -1361,6 +1364,24 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setPhtconfimUser(Set<ProcessHandoverTop> phtconfimUser) {
 		this.phtconfimUser = phtconfimUser;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="phaCreateUser")
+	public Set<ProcessHandoverAll> getPhaCreateUser() {
+		return phaCreateUser;
+	}
+
+	public void setPhaCreateUser(Set<ProcessHandoverAll> phaCreateUser) {
+		this.phaCreateUser = phaCreateUser;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="phaConfimUser")
+	public Set<ProcessHandoverAll> getPhaConfimUser() {
+		return phaConfimUser;
+	}
+
+	public void setPhaConfimUser(Set<ProcessHandoverAll> phaConfimUser) {
+		this.phaConfimUser = phaConfimUser;
 	}
 	
 

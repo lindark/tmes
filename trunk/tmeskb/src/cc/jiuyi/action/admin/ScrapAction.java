@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -52,7 +53,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class ScrapAction extends BaseAdminAction
 {
 	private static final long serialVersionUID = -1318544796737785311L;
-
+	private static Logger log = Logger.getLogger(ScrapAction.class);  
 	/**========================variable,object,interface  start========================*/
 	/**
 	 * 对象或变量
@@ -185,7 +186,7 @@ public class ScrapAction extends BaseAdminAction
 		//获取维护物料信息
 		List<Material> ml= materialservice.getAll();
 		List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
-		employeeList = adminService.getAllList();//员工列表 
+		//employeeList = adminService.getAllList();//员工列表 
 		//System.out.println(employeeList);
 		if(ml!=null && ml.size()>0){
 			for(int y=0;y<bomList.size();y++){
@@ -521,6 +522,9 @@ public class ScrapAction extends BaseAdminAction
 						/**有产后数据,和SAP交互*/
 						//调用SAP，返回一个List数据，判断检索是否通过
 						Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
+						if(s_sapreturn.getMblnr()!=null && !"".equals(s_sapreturn.getMblnr())){
+							log.info("---X----ex_mblnr---"+s_sapreturn.getMblnr());
+						}
 						if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 						{
 							return s_sapreturn.getE_message();
@@ -535,6 +539,9 @@ public class ScrapAction extends BaseAdminAction
 							}
 							else
 							{
+								if(s_sapreturn.getMblnr()==null || "".equals(s_sapreturn.getMblnr())){
+									return "物料凭证未返回";
+								}
 								/**与SAP交互没有问题,更新本地数据库*/
 								this.scrapService.updateMyData(s_sapreturn2,newstate,cardnumber,1);
 							}
@@ -566,6 +573,9 @@ public class ScrapAction extends BaseAdminAction
 							/**有产后数据,和SAP交互*/
 							//调用SAP，返回一个List数据，判断检索是否通过
 							Scrap s_sapreturn=scrapRfc.ScrappedCrt("X",s,list1);
+							if(s_sapreturn.getMblnr()!=null && !"".equals(s_sapreturn.getMblnr())){
+								log.info("---X----ex_mblnr---"+s_sapreturn.getMblnr());
+							}
 							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
 							{
 								return s_sapreturn.getE_message();
@@ -580,6 +590,9 @@ public class ScrapAction extends BaseAdminAction
 								}
 								else
 								{
+									if(s_sapreturn.getMblnr()==null || "".equals(s_sapreturn.getMblnr())){
+										return "物料凭证未返回";
+									}
 									/**与SAP交互没有问题,更新本地数据库*/
 									this.scrapService.updateMyData(s_sapreturn2,newstate,cardnumber,1);
 								}

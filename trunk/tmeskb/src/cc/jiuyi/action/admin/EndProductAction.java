@@ -438,6 +438,9 @@ public class EndProductAction extends BaseAdminAction {
 			endProductCrt = eprfc.EndProductCrt("X", endProductList);
 			boolean flag = true;
 			for (EndProduct epc : endProductCrt) {
+				if(epc.getEx_mblnr()!=null && !"".equals(epc.getEx_mblnr())){
+					log.info("-----X----ex_mblnr---"+epc.getEx_mblnr());
+				}
 				String e_type = epc.getE_type();
 				if (e_type.equals("E")) { // 如果有一行发生了错误
 					flag = false;

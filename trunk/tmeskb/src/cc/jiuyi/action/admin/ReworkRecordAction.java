@@ -315,8 +315,8 @@ public class ReworkRecordAction extends BaseAdminAction {
 	    reworkId = reworkRecordService.saveSubmit(cardnumber, workingBillId, reworkId, reworkCount,reworkRecord);
 		
 	    /**调用短信接口通知副主任确认返工单**/  
-	  /*  try {
-	   * if(reworkRecord.getDuty()!=null){
+	    try {
+	    if(reworkRecord.getDuty()!=null){
 		    	String adminId = reworkRecord.getDuty().getId();
 			    Admin admin = adminService.get(adminId);
 				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(), "您有新的返工单,请马上登陆系统查看并回复！");
@@ -331,7 +331,7 @@ public class ReworkRecordAction extends BaseAdminAction {
 	    	
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 	    HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功!");

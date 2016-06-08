@@ -650,6 +650,9 @@ public class RepairAction extends BaseAdminAction {
 					/**有组件数据,进行SAP交互*/
 					// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
 					Repair r_sapreturn1 = repairrfc.repairCrt("X",r, listrp);
+					if(r_sapreturn1.getEX_MBLNR()!=null && !"".equals(r_sapreturn1.getEX_MBLNR())){
+						log.info("---X----ex_mblnr---"+r_sapreturn1.getEX_MBLNR());
+					}
 					/** 出现问题 */
 					if ("E".equalsIgnoreCase(r_sapreturn1.getE_TYPE()))
 					{

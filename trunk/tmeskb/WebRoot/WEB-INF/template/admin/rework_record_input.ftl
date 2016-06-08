@@ -110,7 +110,7 @@ body{background:#fff;}
 												  <#if show??>
 															<span>${(reworkRecord.reworkAmount)! }</span>
 												  <#else>
-													<input type="text" name="reworkRecord.reworkAmount" value="${(reworkRecord.reworkAmount)!}" class=" input input-sm"/>
+													<input type="text" name="reworkRecord.reworkAmount" value="${(reworkRecord.reworkAmount)!}" class="isZero input input-sm"/>
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
@@ -120,7 +120,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(reworkRecord.defectAmount)!}</span>
 												  <#else>
-													<input type="text" name="reworkRecord.defectAmount" value="${(reworkRecord.defectAmount)!}" class=" input input-sm" />	
+													<input type="text" name="reworkRecord.defectAmount" value="${(reworkRecord.defectAmount)!}" class="isZero input input-sm" />	
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
@@ -153,7 +153,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(reworkRecord.problem)! }</span>
 												  <#else>
-													<textarea name="reworkRecord.problem" style="width:600px;" class="input input-sm">${(reworkRecord.problem)!}</textarea>
+													<textarea name="reworkRecord.problem" style="width:600px;" class="isZero input input-sm">${(reworkRecord.problem)!}</textarea>
 													</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -168,7 +168,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(reworkRecord.rectify)! }</span>
 												  <#else>
-													<textarea name="reworkRecord.rectify" style="width:600px;" class="input input-sm">${(reworkRecord.rectify)!}</textarea>
+													<textarea name="reworkRecord.rectify" style="width:600px;" class="isZero input input-sm">${(reworkRecord.rectify)!}</textarea>
 												</#if>
 												   <label class="requireField">*</label>
 												</div>
@@ -183,7 +183,7 @@ body{background:#fff;}
 												 <#if show??>
 													 <span>${(reworkRecord.duty.name)! }</span>
 												 <#else>
-												 <input type="hidden" id="adminId" name="reworkRecord.duty.id" value="${(reworkRecord.duty.id)!}"  class=" input input-sm" readonly="readonly"/>					
+												 <input type="hidden" id="adminId" name="reworkRecord.duty.id" value="${(reworkRecord.duty.id)!}"  class="isZero  input input-sm" readonly="readonly"/>					
 												    
 												    <#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>				                                    
 				                                     <span id ="adminName"></span>
@@ -203,7 +203,7 @@ body{background:#fff;}
 													 <span>${(reworkRecord.completeDate)! }</span>
 											  <#else>
 												<div class="input-daterange input-group">
-												<input type="text" class="input-sm form-control datePicker" name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  onchange=out(this); >
+												<input type="text" class="isZero input-sm form-control datePicker" name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  onchange=out(this); >
 											</div>
 											</#if>
 											</div>						
@@ -314,6 +314,15 @@ $(function(){
 	});
 
 	$("#completeRework").click(function(){	
+		var flag=true;
+		$(".isZero").each(function(){
+			if($(this).val()==""){		
+				alert("请填写必填项");
+				flag = false;
+				return false;
+			}
+		});
+		if(flag){
 		 var dt=$("#inputForm").serialize();
 			var workingBillId = $("#workingBillId").val();
 			var reworkCount = $("#reworkCount").val();
@@ -330,7 +339,10 @@ $(function(){
 				        skin:'error'
 				   });
 				}		
-			},dt);	 		    		
+			},dt);
+		}else{
+			$("#inputFrom").submit();
+		}
 	});
 	
 	
@@ -354,6 +366,8 @@ $(function(){
 	});
 	
 	$("#confirmRework").click(function(){
+		
+		
 	//	var id=$("#rk").val();
 		var dt=$("#inputForm").serialize();
 		var workingBillId = $("#workingBillId").val();
@@ -370,7 +384,7 @@ $(function(){
 			        skin:'error'
 			   });
 			}		
-		},dt);		
+		},dt);	
 	});
 	
 	

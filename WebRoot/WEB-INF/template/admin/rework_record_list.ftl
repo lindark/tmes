@@ -313,7 +313,7 @@
 					layer.msg("已经确认、返工中或已撤销的返工记录无法再撤销!",{icon:5});
 					return false;
 				}else{
-				var url="rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val();
+				var url="rework_record!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val();
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");

@@ -484,6 +484,9 @@ public class PickAction extends BaseAdminAction {
 			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
 					pickdetailList);
 			for (Pick pick2 : pickRfc) {
+				if(pick2.getEx_mblnr()!=null && !"".equals(pick2.getEx_mblnr())){
+					log.info("---X----ex_mblnr---"+pick2.getEx_mblnr());
+				}
 				String e_type = pick2.getE_type();
 				if (e_type.equals("E")) { // 如果有一行发生了错误
 					flag = false;
@@ -524,7 +527,7 @@ public class PickAction extends BaseAdminAction {
 							List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
 							for (int j = 0; j < lst.size(); j++) {
 								PickDetail pld = lst.get(j);
-								log.info("更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+								log.info("更新类型为:"+pld.getPickType()+"mlnbr="+pickReturn.getEx_mblnr()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
 							}
 						}
 					}
@@ -624,6 +627,9 @@ public class PickAction extends BaseAdminAction {
 				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", listsap,
 						pickdetailList);
 				for (Pick pick2 : pickRfc) {
+					if(pick2.getEx_mblnr()!=null && !"".equals(pick2.getEx_mblnr())){
+						log.info("---X----ex_mblnr---"+pick2.getEx_mblnr());
+					}
 					String e_type = pick2.getE_type();
 					if (e_type.equals("E")) { // 如果有一行发生了错误
 						flag = false;

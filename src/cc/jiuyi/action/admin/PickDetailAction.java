@@ -589,6 +589,9 @@ public class PickDetailAction extends BaseAdminAction {
 					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
 							pickdetailList);
 					for (Pick pick2 : pickRfc) {
+						if(pick2.getEx_mblnr()!=null && !"".equals(pick2.getEx_mblnr())){
+							log.info("---X----ex_mblnr---"+pick2.getEx_mblnr());
+						}
 						String e_type = pick2.getE_type();
 						if (e_type.equals("E")) { // 如果有一行发生了错误
 							flag = false;
@@ -709,6 +712,9 @@ public class PickDetailAction extends BaseAdminAction {
 				Boolean flag1 = true;
 				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList, pkList);
 				for(Pick pick2 : pickRfc){
+					if(pick2.getEx_mblnr()!=null && !"".equals(pick2.getEx_mblnr())){
+						log.info("---X----ex_mblnr---"+pick2.getEx_mblnr());
+					}
 					String e_type = pick2.getE_type();
 					if(e_type.equals("E")){ //如果有一行发生了错误
 						flag1 = false;

@@ -528,6 +528,9 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		try {
 			List<EnteringwareHouse> aufnr1=enteringwareHouseRfc.WarehousingCrt("X",enterList);
 			for(EnteringwareHouse e:aufnr1){
+				if(e.getEx_mblnr()!=null && !"".equals(e.getEx_mblnr())){
+					log.info("----X----ex_mblnr---"+e.getEx_mblnr());
+				}
 				if("E".equalsIgnoreCase(e.getE_type()))
 				{
 					return this.ajaxJsonErrorMessage(e.getE_message());

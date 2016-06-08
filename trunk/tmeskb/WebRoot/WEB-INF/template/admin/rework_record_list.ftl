@@ -243,6 +243,7 @@
 		$("#editRework").click(function(){
 			var index="";
 			var workingBillId = $("#workingBillId").val();
+			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length>1){
 	    		alert("只能选择一条返工记录！");
@@ -250,7 +251,12 @@
 	    	}if(id==""){
 	    		alert("至少选择一条返工记录");
 	    		return false;
-	    	}else{
+	    	}else{var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state = rowData.state;
+			if(row_state == "2" || row_state == "4"){
+				layer.msg("已经确认或已撤销的返工记录无法再编辑!",{icon:5});
+				return false;
+			}else{
 	    		$.ajax({
 					url: "rework_record!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
 					dataType: "json",
@@ -270,7 +276,8 @@
 					$.message("error","系统出现问题，请联系系统管理员");
 				}
 			  });   		
-	    	}	
+	    	}
+	    	}
 		});
 		
 		

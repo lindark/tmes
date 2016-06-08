@@ -202,10 +202,10 @@ body{background:#fff;}
 										      <#if show??>
 													 <span>${(reworkRecord.completeDate)! }</span>
 											  <#else>
-												<div class="input-daterange input-group">
+												<div class="input-group">
 												<input type="text" class="isZero input-sm form-control datePicker productDate" style="width:90%"name="reworkRecord.completeDate" value="${(reworkRecord.completeDate)!}"  >
 												<span class="requireField">*</span>
-											</div>
+												</div>
 											</#if>
 											</div>						
 									    </div>	
@@ -287,24 +287,32 @@ $(function(){
 	 	
 	});
 	 $(".productDate").change(function(){
-		//out($(this));
-		if($(this).val().length!=10){
-			alert("日期格式错误");
-			$(this).val("");
-		}
+		 if($(this).val()!=""){
+			 out($(this));
+		   }
 	}); 
 });
 
 
-/* function out(input){
+ function out(input){
    var s =input.val();
    var date1 = new Date(s.replace("-", "/"));
-    var date2 = new Date();
-if(date1>date2){
-    alert("不能选择今天之前的日期!");
-   return;
-  }
-} */
+    var d = new Date();
+    var vYear = d.getFullYear();
+    var vMon = d.getMonth() + 1;
+    var vDay = d.getDate();
+    var date2 = new Date(vYear+"/"+vMon+"/"+vDay);
+	if(date2>date1){
+    	alert("不能选择今天之前的日期!");
+    	input.val("");
+  		return false;
+  	}
+	if($(this).val().length!=10){
+		alert("日期格式错误");
+		$(this).val("");
+		return false;
+	}
+} 
 
 $(function(){
 	var reworkId = $("#reworkId").val();

@@ -47,7 +47,8 @@ jQuery(function($){
 		    {name:'defectAmount',index:'defectAmount',label:"缺陷数量",search:false,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		    {name:'stateRemark',index:'state',label:"状态",width:200, cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}}, 
 		    {name:'isQualifieds',index:'isQualifieds',width:200,label:"是否合格",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isQualifieds"}},
-		    {name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt}
+		    {name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+		    {name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 
 

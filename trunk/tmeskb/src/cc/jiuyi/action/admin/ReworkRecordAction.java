@@ -192,7 +192,10 @@ public class ReworkRecordAction extends BaseAdminAction {
 					if(reworkRecord.getDuty()!=null){
 						reworkRecord.setXduty(reworkRecord.getDuty().getName());//责任人名
 					}
-				    reworkRecord.setXcreateUser(reworkRecord.getCreateUser().getName());//创建人名
+					if(reworkRecord.getCreateUser()!=null){
+						reworkRecord.setXcreateUser(reworkRecord.getCreateUser().getName());//创建人名
+					}
+				    
 				    if(reworkRecord.getConfirmUser()!=null){
 				    	reworkRecord.setXconfirmUser(reworkRecord.getConfirmUser().getName());
 				    }
@@ -302,39 +305,33 @@ public class ReworkRecordAction extends BaseAdminAction {
 		if(reworkRecord.getRectify()==null||reworkRecord.getRectify()==""){
 			return ajaxJsonErrorMessage("调整方案不允许为空!");
 		}
-//		if(reworkRecord.getReworkAmount()==null||String.valueOf(reworkRecord.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-//			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
-//		}
-//		if(reworkRecord.getDefectAmount()==null||String.valueOf(reworkRecord.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
-//			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
-//		}		
-//		if(reworkRecord.getProblem()==null){
-//			return ajaxJsonErrorMessage("问题描述不能为空!");
-//		}
-//		if(reworkRecord.getRectify()==null){
-//			return ajaxJsonErrorMessage("整改方案不能为空!");
-//		}
-//		if(reworkRecord.getDuty()==null){
-//			return ajaxJsonErrorMessage("责任人不能为空!");
-//		}
+		if(reworkRecord.getReworkAmount()==null||String.valueOf(reworkRecord.getReworkAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("翻包数量必须为零或正整数!");
+		}
+		if(reworkRecord.getDefectAmount()==null||String.valueOf(reworkRecord.getDefectAmount()).matches("^[0-9]*[1-9][0-9]*$ ")){
+			return ajaxJsonErrorMessage("缺陷数量必须为零或正整数!");
+		}		
 		
 	    reworkId = reworkRecordService.saveSubmit(cardnumber, workingBillId, reworkId, reworkCount,reworkRecord);
 		
 	    /**调用短信接口通知副主任确认返工单**/  
-//	    try {
-//	    	String adminId = reworkRecord.getDuty().getId();
-//		    Admin admin = adminService.get(adminId);
-//			String str = SendMsgUtil.SendMsg(admin.getPhoneNo(), "您有新的返工单,请马上登陆系统查看并回复！");
-//			SAXReader reader = new SAXReader(); // 解析返回xml文件
-//			Document doc;
-//			doc = DocumentHelper.parseText(str);
-//			Node stateNode = doc.selectSingleNode("/infos/info/state");
-//			if (!stateNode.getText().equalsIgnoreCase("0")) {// 短信发送失败
-//				ajaxJsonErrorMessage("短信发送失败!");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+	  /*  try {
+	   * if(reworkRecord.getDuty()!=null){
+		    	String adminId = reworkRecord.getDuty().getId();
+			    Admin admin = adminService.get(adminId);
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(), "您有新的返工单,请马上登陆系统查看并回复！");
+				SAXReader reader = new SAXReader(); // 解析返回xml文件
+				Document doc;
+				doc = DocumentHelper.parseText(str);
+				Node stateNode = doc.selectSingleNode("/infos/info/state");
+				if (!stateNode.getText().equalsIgnoreCase("0")) {// 短信发送失败
+					ajaxJsonErrorMessage("短信发送失败!");
+				}
+	    	}
+	    	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
 	    HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功!");
@@ -355,16 +352,18 @@ public class ReworkRecordAction extends BaseAdminAction {
 		
 		/**调用短信接口通知质检查看确认返工单**/
 	    try {
-	    	String adminId = reworkRecord.getDuty().getId();
-		    Admin admin = adminService.get(adminId);
-			String str = SendMsgUtil.SendMsg(admin.getPhoneNo(), "返工单已经返工,请马上登陆系统检查并确认！");
-			SAXReader reader = new SAXReader(); // 解析返回xml文件
-			Document doc;
-			doc = DocumentHelper.parseText(str);
-			Node stateNode = doc.selectSingleNode("/infos/info/state");
-			if (!stateNode.getText().equalsIgnoreCase("0")) {// 短信发送失败
-				ajaxJsonErrorMessage("短信发送失败!");
-			}
+	    	if(reworkRecord.getDuty()!=null){
+	    		String adminId = reworkRecord.getDuty().getId();
+			    Admin admin = adminService.get(adminId);
+				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(), "返工单已经返工,请马上登陆系统检查并确认！");
+				SAXReader reader = new SAXReader(); // 解析返回xml文件
+				Document doc;
+				doc = DocumentHelper.parseText(str);
+				Node stateNode = doc.selectSingleNode("/infos/info/state");
+				if (!stateNode.getText().equalsIgnoreCase("0")) {// 短信发送失败
+					ajaxJsonErrorMessage("短信发送失败!");
+				}
+	    	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

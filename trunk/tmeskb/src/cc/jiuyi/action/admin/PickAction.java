@@ -494,10 +494,10 @@ public class PickAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage(message);
 			else {
 				flag = true;
-				pickRfc = new ArrayList<Pick>();
-				pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", list,
+				List <Pick> pickRfclist = new ArrayList<Pick>();
+				pickRfclist = pickRfcImple.BatchMaterialDocumentCrt("", list,
 						pickdetailList);
-				for (Pick pick2 : pickRfc) {
+				for (Pick pick2 : pickRfclist) {
 					String e_type = pick2.getE_type();
 					String e_message = pick2.getE_message();
 					String ex_mblnr = pick2.getEx_mblnr();
@@ -506,20 +506,26 @@ public class PickAction extends BaseAdminAction {
 						flag = false;
 						message += pick2.getE_message();
 					} else{
-						Pick pickReturn = pickService.get(pick2.getId());
-						pickReturn.setE_message(e_message);
-						pickReturn.setEx_mblnr(ex_mblnr);
-						pickReturn.setE_type(e_type);
-						// pickReturn.setMove_type(move_type);
-						pickReturn.setState(CONFIRMED);
-						pickReturn.setConfirmUser(admin);
-						HashMap<String, Object> map = new HashMap<String, Object>();
-						pickDetailService.updatePIckAndWork(pickReturn, map);
-						/**监听日志**/
-						List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
-						for (int j = 0; j < lst.size(); j++) {
-							PickDetail pld = lst.get(j);
-							log.info("更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+						log.info("ex_mblnr-----------"+ex_mblnr);
+						if(ex_mblnr==null || "".equals(ex_mblnr)){
+							flag = false;
+							message += pick2.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
+						}else{
+							Pick pickReturn = pickService.get(pick2.getId());
+							pickReturn.setE_message(e_message);
+							pickReturn.setEx_mblnr(ex_mblnr);
+							pickReturn.setE_type(e_type);
+							// pickReturn.setMove_type(move_type);
+							pickReturn.setState(CONFIRMED);
+							pickReturn.setConfirmUser(admin);
+							HashMap<String, Object> map = new HashMap<String, Object>();
+							pickDetailService.updatePIckAndWork(pickReturn, map);
+							/**监听日志**/
+							List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
+							for (int j = 0; j < lst.size(); j++) {
+								PickDetail pld = lst.get(j);
+								log.info("更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+							}
 						}
 					}
 				}
@@ -639,19 +645,25 @@ public class PickAction extends BaseAdminAction {
 							flag = false;
 							message += pick2.getE_message();
 						} else {
-							Pick pickReturn = pickService.get(pick2.getId());
-							pickReturn.setE_message(e_message);
-							pickReturn.setEx_mblnr(ex_mblnr+"/"+pickReturn.getEx_mblnr());
-							pickReturn.setE_type(e_type);
-							//pickReturn.setMove_type(move_type);
-							pickReturn.setState(REPEAL);
-							pickReturn.setConfirmUser(admin);
-							pickDetailService.updatePIckAndWork(pickReturn);
-							/**监听日志**/
-							List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
-							for (int j = 0; j < lst.size(); j++) {
-								PickDetail pld = lst.get(j);
-								log.info("撤销!!!!更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+							log.info("ex_mblnr-----------"+ex_mblnr);
+							if(ex_mblnr==null || "".equals(ex_mblnr)){
+								flag = false;
+								message += pick2.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
+							}else{
+								Pick pickReturn = pickService.get(pick2.getId());
+								pickReturn.setE_message(e_message);
+								pickReturn.setEx_mblnr(ex_mblnr+"/"+pickReturn.getEx_mblnr());
+								pickReturn.setE_type(e_type);
+								//pickReturn.setMove_type(move_type);
+								pickReturn.setState(REPEAL);
+								pickReturn.setConfirmUser(admin);
+								pickDetailService.updatePIckAndWork(pickReturn);
+								/**监听日志**/
+								List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());
+								for (int j = 0; j < lst.size(); j++) {
+									PickDetail pld = lst.get(j);
+									log.info("撤销!!!!更新类型为:"+pld.getPickType()+"更新值为:"+pld.getPickAmount());	//modify 2016/3/17	
+								}
 							}
 						}
 					}

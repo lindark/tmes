@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -47,7 +48,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class RepairinAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = -5368121517667092305L;
-
+	public static Logger log = Logger.getLogger(RepairinAction.class);
 	private static final String CONFIRMED = "1";
 	private static final String UNDO = "3";
 
@@ -327,9 +328,9 @@ public class RepairinAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repairin = repairinService.load(ids[i]);
-			if (CONFIRMED.equals(repairin.getState()))
+			if (CONFIRMED.equals(repairin.getState()) || UNDO.equals(repairin.getState()))
 			{
-				return ajaxJsonErrorMessage("已确认的无须再确认!");
+				return ajaxJsonErrorMessage("已确认或已撤销的无须再确认!");
 			}
 		}
 		List<Repairin> list = repairinService.get(ids);
@@ -354,8 +355,8 @@ public class RepairinAction extends BaseAdminAction {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repairin = repairinService.load(ids[i]);
-			if (UNDO.equals(repairin.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
+			if (UNDO.equals(repairin.getState()) || "1".equals(repairin.getState())) {
+				return ajaxJsonErrorMessage("已确认或已撤销的无法再撤销！");
 			}
 		}
 		List<Repairin> list = repairinService.get(ids);
@@ -572,6 +573,10 @@ public class RepairinAction extends BaseAdminAction {
 						if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE()))
 						{
 							return r_sapreturn.getE_MESSAGE();
+						}
+						log.info("-------mblnr---"+r_sapreturn.getEX_MBLNR());
+						if(r_sapreturn.getEX_MBLNR()==null || "".equals(r_sapreturn.getEX_MBLNR())){
+							return r_sapreturn.getWorkingbill().getWorkingBillCode()+"未返回凭证;";
 						}
 						/** 与SAP交互没有问题,更新本地数据库 */
 						this.repairinService.updateMyData(r_sapreturn, cardnumber,1,workingBillId);

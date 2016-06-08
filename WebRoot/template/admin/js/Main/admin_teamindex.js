@@ -42,6 +42,8 @@ $(function(){
 				$(this).val(productDate);
 				$("#productDate").val(productDate);
 				return false;
+			}else{
+				$("#productDate").val(pd);
 			}
 		});
 		$(".matkx").bind("click",function(){
@@ -64,7 +66,8 @@ $(function(){
 			moudle_event(id,info);
 		});
 		$("#submitButton").click(function(){
-			if(productDate.length!=10){
+			var pDate = $("#productDate").val();
+			if(pDate.length!=10){
 				alert("日期格式不正确,,请重选日期");
 				return false;
 			}

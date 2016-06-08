@@ -153,17 +153,19 @@
 									id="showRework">
 									<i class="ace-icon fa fa-book"></i> 查看返工单记录
 								</button>
-                                 
+                                
+                                <button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
+										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										刷卡撤销
+								</button>  
+                                
                                  <button class="btn btn-white btn-default btn-sm btn-round" id="returnRework">
 										<i class="ace-icon fa fa-home"></i>
 										返回上一级
 								</button> 
 
  
-								<!--<button class="btn btn-white btn-default btn-sm btn-round" id="undoRework">
-										<i class="ace-icon glyphicon glyphicon-remove"></i>
-										刷卡撤销
-									</button>  -->
+								
 
 
 									
@@ -236,6 +238,8 @@
 //			}		
 		});
 
+		
+		
 		$("#editRework").click(function(){
 			var index="";
 			var workingBillId = $("#workingBillId").val();
@@ -296,11 +300,18 @@
 				return false;
 			}
 			else{
+				var rowData = $("#grid-table").jqGrid('getRowData',id);
+				var row_state = rowData.state;
+				if(row_state == "2" || row_state =="3" || row_state == "4"){
+					layer.msg("已经确认、返工中或已撤销的返工记录无法再撤销!",{icon:5});
+					return false;
+				}else{
 				var url="rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val();
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
-			})
+				})
+			}
 		 }
 			/*$.ajax({
 				url: "rework!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val(),	

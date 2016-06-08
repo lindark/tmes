@@ -36,6 +36,11 @@ $(function(){
 	$("#btn_addmsg").click(function(){
 		addmsg_event();
 	});
+	//添加责任人-前
+	$(".img_addzrr").bind("click",function(){
+		addzrr_event($(this));
+	});
+	
 });
 //添加报废原因按钮事件
 function btn_addbug_event(index)
@@ -108,6 +113,43 @@ function sladd_event()
 		yes:function(){box2torow_event();}
 	});
 }
+function delDivbox(t_text){
+	var $divbox = $("#divbox4").find(".divbox");
+	if($divbox.length>1){
+		$divbox.eq(1).remove();
+		delDivbox(t_text);
+	}
+	$(".zrr_input").val(t_text);
+}
+function addzrr_event(t){
+	var t_text = t.prev().val();
+	delDivbox(t_text);
+	layer.open({
+		type:1,
+		shade:0.52,
+		title:"添加责任人",
+		area:["800px","500px"],
+		closeBtn:1,
+		shadeClose:false,
+		move:true,//禁止拖拽
+		content:$("#divbox4"),
+		btn:["确定","取消"],
+		yes:function(index,layero){
+			var zrr_text="";
+			$(".zrr_input").each(function(){
+				if(zrr_text==""){
+					zrr_text = $(this).val();
+				}else{
+					zrr_text = zrr_text +","+ $(this).val();
+				}
+			});
+			t.prev().val(zrr_text);
+			layer.close(index);
+		}
+	});
+}
+
+
 
 //报废后产出添加弹框中的输入数量事件
 function slnum_event()
@@ -160,6 +202,44 @@ function box2torow_event()
 	}
 }
 
+function azrr_event(t)
+{
+	var textinput=t.prev();	
+	layer.open({
+        type: 2,
+        skin: 'layui-layer-lan',
+        shift:2,
+        title: "添加负责人",
+        fix: false,
+        shade: 0.5,
+        shadeClose: true,
+        maxmin: true,
+        scrollbar: false,
+        btn:['确认','取消'],
+        area: ["80%", "80%"],//弹出框的高度，宽度
+        content:"admin!addzrr.action",
+        yes:function(index,layero){//确定
+        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+        	var result = iframeWin.getGridId();		        	
+        	if(result!="baga")
+        	{	
+        		textinput.val(result);
+        		layer.close(index);	
+        		return false;	        		
+        	}
+        	return false;
+        },
+        no:function(index)
+        {
+        	layer.close(index);
+        	return false;
+        }
+    });
+
+
+	
+	
+}
 //报废后产出添加框中的值赋给表中
 function fuzhi_box2totable(val,txt,num)
 {
@@ -324,3 +404,8 @@ function delsm_click(num)
 {
 	$("#a_delsm"+num).parent().parent().remove();
 }
+
+
+
+
+

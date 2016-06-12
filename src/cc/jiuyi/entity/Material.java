@@ -22,6 +22,7 @@ public class Material extends BaseEntity{
     private String productmanager;//生产管理员
     private FactoryUnit factoryunit;//单元
     private String cqmultiple;//裁切倍数
+    private String isRepair;//是否返修发货
     
     //假字段
     private String xfactoryunit;//单元名称
@@ -105,6 +106,12 @@ public class Material extends BaseEntity{
 	}
 	public void setCqmultiple(String cqmultiple) {
 		this.cqmultiple = cqmultiple;
+	}
+	public String getIsRepair() {
+		return isRepair;
+	}
+	public void setIsRepair(String isRepair) {
+		this.isRepair = isRepair;
 	}
 	
 	

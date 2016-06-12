@@ -98,6 +98,19 @@ body{background:#fff;}
 									</div>
 									
 									<div class="profile-info-row">	
+										<div class="profile-info-name"> 是否返修发货 </div>					
+										<div class="profile-info-value">
+										<#if isAdd??>
+											<label><input name="material.isRepair" type="radio" checked="checked" value="1" />是 </label> &nbsp;&nbsp;
+											<label><input name="material.isRepair" type="radio" value="2" />否 </label>
+										<#else>
+											<label><input name="material.isRepair" type="radio" value="1" <#if (material.isRepair == "1")!> checked</#if>>是 </label> &nbsp;&nbsp;
+											<label><input name="material.isRepair" type="radio" value="2" <#if (material.isRepair == "2")!> checked</#if>>否 </label>
+										</#if>
+										</div>
+									</div>
+									
+									<div class="profile-info-row">	
 										<div class="profile-info-name"> 裁切倍数 </div>					
 										<div class="profile-info-value">
 											<input type="text" name="material.cqmultiple" value="${(material.cqmultiple)!}" class=" input input-sm formText" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" />

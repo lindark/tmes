@@ -1,5 +1,7 @@
 package cc.jiuyi.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ProcessHandoverAllDao;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
@@ -30,5 +33,12 @@ public class ProcessHandoverAllDaoImpl extends BaseDaoImpl<ProcessHandoverAll, S
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		return super.findByPager(pager, detachedCriteria);
 		
+	}
+
+	@Override
+	public List<ProcessHandoverAll> getListOfAllProcess(String productDate,
+			String shift, String factoryId) {
+		String hql = "From ProcessHandoverAll where productDate=? and shift=? and factoryUnitId=?";
+		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryId).list();
 	}
 }

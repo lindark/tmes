@@ -164,7 +164,6 @@
 	
 	   /*创建工序交接*/
 		$("#btn_add").click(function(){
-			alert("1");
 			var loginid = $("#loginid").val();
 		//	window.location.href="process_handover!saveAllProcess.action?loginid="+loginid;
 		/*

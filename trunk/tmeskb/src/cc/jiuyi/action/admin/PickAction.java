@@ -509,7 +509,7 @@ public class PickAction extends BaseAdminAction {
 						flag = false;
 						message += pick2.getE_message();
 					} else{
-						log.info("ex_mblnr-----------"+ex_mblnr);
+						log.info("id="+pick2.getId()+"---ex_mblnr-----------"+ex_mblnr);
 						if(ex_mblnr==null || "".equals(ex_mblnr)){
 							flag = false;
 							message += pick2.getWorkingbill().getWorkingBillCode()+"未返回凭证;";

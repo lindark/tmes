@@ -162,7 +162,10 @@ public class MaterialAction extends BaseAdminAction {
 				Material material  = (Material)materialList.get(i);
 				
 				if(material.getFactoryunit()!=null)
-				{
+				{	if(material.getIsRepair()!=null){
+					material.setIsRepair(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "materialIsRepair", material.getIsRepair()));
+					}
 					material.setXfactoryunit(material.getFactoryunit().getFactoryUnitName());//单元名称
 					if(material.getFactoryunit().getWorkShop()!=null)
 					{

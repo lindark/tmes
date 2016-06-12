@@ -27,6 +27,7 @@ public class ProcessHandoverAll extends BaseEntity{
 	private String factoryUnitCode;//单元编码
 	private String factoryUnitName;//单元名称
 	private String Teamid;//班次id
+	private String factoryUnitId;//单元id
 	
 	//假字段
 	private String xshift;
@@ -135,8 +136,15 @@ public class ProcessHandoverAll extends BaseEntity{
 	public String getXstate() {
 		return xstate;
 	}
+	
 	public void setXstate(String xstate) {
 		this.xstate = xstate;
+	}
+	public String getFactoryUnitId() {
+		return factoryUnitId;
+	}
+	public void setFactoryUnitId(String factoryUnitId) {
+		this.factoryUnitId = factoryUnitId;
 	}
 	
 	

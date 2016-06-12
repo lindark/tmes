@@ -871,11 +871,28 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		return "all";
 	}
 	
-	public String saveAllProcess(){
+	public String saveAllProcess() throws Exception{
 		try {
-			admin = adminService.get(loginid);
-			processHandoverAllService.saveAllProcess(admin);
-			return ajaxJsonErrorMessage("成功!");
+		//	admin = adminService.get(loginid);
+			admin = adminService.getByCardnum(cardnumber);
+			String productDate = admin.getProductDate();
+			String shift = admin.getShift();
+			if(admin.getTeam()==null){
+				return ajaxJsonSuccessMessage("当前卡号没有相关联的班组!");
+			}
+			String factoryId;
+			if(admin.getTeam().getFactoryUnit()!= null){
+				factoryId = admin.getTeam().getFactoryUnit().getId();
+			}else{
+				return ajaxJsonSuccessMessage("当前卡号没有相关联的单元!");
+			}
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(productDate,shift,factoryId);
+			if(lists.size() == 0){
+				processHandoverAllService.saveAllProcess(admin);
+				return ajaxJsonSuccessMessage("您的操作已成功!");
+			}else{
+				return ajaxJsonErrorMessage("当前班次总体交接已完成!");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
@@ -885,6 +902,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public String allSubmit(){
 		try{
 			admin = adminService.getByCardnum(cardnumber);
+			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+			for(WorkingBill workingbill : workingbillList){
+				workingbill.setIsHand("Y");
+				workingbillservice.update(workingbill);
+			}
 			ids = id.split(",");
 			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
 	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);

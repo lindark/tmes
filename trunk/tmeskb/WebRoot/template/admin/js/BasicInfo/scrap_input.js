@@ -115,11 +115,52 @@ function sladd_event()
 }
 function delDivbox(t_text){
 	var $divbox = $("#divbox4").find(".divbox");
-	if($divbox.length>1){
-		$divbox.eq(1).remove();
-		delDivbox(t_text);
+	var t_val=t_text.split(",");
+	if(t_val.length>0){
+		var zrr_html="<div class=\"profile-user-info profile-user-info-striped divbox\">" +
+		"<div class=\"profile-info-row ceshi\">" +
+		"<div style=\"width:100%;\">" +
+		"<div class=\"div-value\" style=\"width:100%;\">" +
+		"<input  type=\"text\" style=\"width:80%;\" class=\"zrr_input\" readonly/>" +
+		"<img class=\"img_azrr\" title=\"添加责任人\" alt=\"添加责任人\" src=\"/template/shop/images/add_bug.gif\">&nbsp;&nbsp;&nbsp;&nbsp;" +
+		"<i class=\"i_plus ace-icon fa fa-plus blue\" title=\"添加\" ></i> &nbsp;&nbsp;&nbsp;&nbsp;" +
+		"<i class=\"i_minus ace-icon fa fa-minus blue\" title=\"删除\" ></i></div></div></div></div>";
+		if($divbox.length>1){
+			for(var i=1;i<$divbox.length;i++){
+				$divbox.eq(i).remove();
+			}
+		}
+		if(t_val.length==1){
+			$(".zrr_input").val(t_val[0]);
+		}else{
+			for(var i=1;i<t_val.length;i++){
+				 $("#divbox4").append(zrr_html);
+			}
+			var $zrr_input = $(".zrr_input");
+			for(var i=0;i<t_val.length;i++){
+				$zrr_input.eq(i).val(t_val[i]);
+			}
+		}
+		
+		
+		/*if($divbox.length>1){
+			$divbox.eq(1).remove();
+			delDivbox(t_text);
+		}*/
+		
+		
+	}else{
+		if($divbox.length>1){
+			for(var i=1;i<$divbox.length;i++){
+				$divbox.eq(i).remove();
+			}
+		}
+		$(".zrr_input").val(t_text);
 	}
-	$(".zrr_input").val(t_text);
+	
+	
+	
+	
 }
 function addzrr_event(t){
 	var t_text = t.prev().val();

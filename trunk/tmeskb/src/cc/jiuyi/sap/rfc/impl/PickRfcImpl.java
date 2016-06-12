@@ -3,6 +3,7 @@ package cc.jiuyi.sap.rfc.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -93,7 +94,9 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("XUH",p.getId());//ID
 			arrList.add(item);
 		}
-		ET_HEADER.setList(arrList);
+		//去重
+		List<HashMap<String,Object>> arr = new ArrayList<HashMap<String,Object>>(new HashSet<HashMap<String,Object>>(arrList));
+		ET_HEADER.setList(arr);
 		tablemodelList.add(ET_HEADER);
 		List<HashMap<String,Object>> arrList2 = new ArrayList<HashMap<String,Object>>();
 		TableModel ET_ITEM = new TableModel();

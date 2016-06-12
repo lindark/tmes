@@ -107,16 +107,17 @@
 									<div>
 									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_add" type=button>
 										<i class="ace-icon fa fa-folder-open-o"></i>
-										创建总体交接
+										刷卡提交
 									</button>	
 									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_save" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
 									</button>
+									<!--  
 									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_confirm" type=button>
-										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										<i class="ace-icon glyphicon glyphicon-remove"></i>	
 										刷卡撤销
-									</button>  
+									</button>  -->
 									<button class="btn btn-white btn-default btn-sm btn-round" id="btn_back">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -163,8 +164,10 @@
 	
 	   /*创建工序交接*/
 		$("#btn_add").click(function(){
+			alert("1");
 			var loginid = $("#loginid").val();
 		//	window.location.href="process_handover!saveAllProcess.action?loginid="+loginid;
+		/*
 			$.ajax({	
 				url: "process_handover!saveAllProcess.action?",
 				data:{"loginid":loginid},
@@ -178,7 +181,23 @@
 				},error:function(data){
 					layer.msg("发生异常!",{icon:5});
 				}
-			});	
+			});	*/
+			var loginid = $("#loginid").val();
+			var url="process_handover!saveAllProcess.action?loginid="+loginid;
+			credit.creditCard(url,function(data){
+				if(data.status=="success"){
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="process_handover!allList.action";
+					}); 
+				}else if(data.status=="error"){
+					layer.alert(data.message, {
+				        closeBtn: 0,
+				        icon:5,
+				        skin:'error'
+				   });
+				}		
+			})
+			
 		});
 	   
 	   $("#btn_save").click(function(){

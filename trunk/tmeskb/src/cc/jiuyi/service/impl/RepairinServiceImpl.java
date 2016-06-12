@@ -69,22 +69,22 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	public synchronized void updateState(List<Repairin> list, String statu,
 			String workingbillid, String cardnumber) {
 		Admin admin = adminservice.getByCardnum(cardnumber);
-		WorkingBill workingbill = workingbillService.get(workingbillid);
-		Integer totalamount = workingbill.getTotalRepairinAmount();
+		//WorkingBill workingbill = workingbillService.get(workingbillid);
+		//Integer totalamount = workingbill.getTotalRepairinAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repairin repairin = list.get(i);
-			if (statu.equals("1")) {
+			/*if (statu.equals("1")) {
 				totalamount = repairin.getReceiveAmount() + totalamount;
 			}
 			if (statu.equals("3") && repairin.getState().equals("2")) {
 				totalamount -= repairin.getReceiveAmount();
-			}
+			}*/
 			repairin.setConfirmUser(admin);
 			repairin.setState(statu);
 			repairinDao.update(repairin);
 		}
-		workingbill.setTotalRepairinAmount(totalamount);
-		workingbillService.update(workingbill);
+		//workingbill.setTotalRepairinAmount(totalamount);
+		//workingbillService.update(workingbill);
 	}
 
 	@Override

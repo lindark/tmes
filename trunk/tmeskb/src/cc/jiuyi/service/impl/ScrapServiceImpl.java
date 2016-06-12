@@ -268,9 +268,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 			for(int i=0;i<list_sm.size();i++)
 			{
 				ScrapMessage sm=list_sm.get(i);
-				int count=0;
-				Double d=sm.getMenge();
-				count=d.intValue();
+				Double count=sm.getMenge();
+			//	Double d=sm.getMenge();
+			//	count=d.doubleValue();
 				/**投入产出*/
 				if((count>0&&"2".equals(oldstate)&&"3".equals(newstate))||(count>0&&"2".equals(newstate)))
 				{
@@ -313,9 +313,9 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 				ScrapMessage sm=list_sm.get(i);
 				if(sm.getSmreson()!=null&&!"".equals(sm.getSmreson()))
 				{
-					int count=0;
-					Double d=sm.getMenge();
-					count=d.intValue();
+					Double count=sm.getMenge();
+				//	Double d=sm.getMenge();
+				//	count=d.intValue();
 					HashMap<String,Object>map=new HashMap<String,Object>();
 					map.put("smmatterNum", sm.getSmmatterNum());//物料编码
 					map.put("smmatterDes", sm.getSmmatterDes());//物料描述

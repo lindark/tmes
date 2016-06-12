@@ -42,6 +42,7 @@ jQuery(function($){
 		colModel:[
 			{name:'materialCode',index:'materialCode',label:"物料编码", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'materialName',index:'materialName',label:"物料描述", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'isRepair',index:'isRepair',label:"状态",width:200,sortable:"true",sorttype:"text",editable: true,search:true,searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=materialIsRepair"}},
 			{name:'cqmultiple',index:'cqmultiple',label:"裁切倍数", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xfactoryunit',index:'factoryunit.factoryUnitName',label:"单元名称", width:200,editable: true},
 			{name:'xworkshop',index:'factoryunit.workShop.workShopName',label:"车间名称", width:200,editable: true},

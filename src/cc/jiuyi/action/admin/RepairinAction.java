@@ -351,7 +351,7 @@ public class RepairinAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		workingbill = workingBillService.get(workingBillId);
+		//workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			repairin = repairinService.load(ids[i]);
@@ -365,8 +365,7 @@ public class RepairinAction extends BaseAdminAction {
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount()
-				.toString());
+		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount().toString());
 		return ajaxJson(hashmap);
 	}
 

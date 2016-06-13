@@ -453,8 +453,14 @@ function showUnit(num1){
 		layer.close(index); 
 	});
 }
+/*
 $(function(){
 	$(".img_addbug").click( function() {
+		showUnit($(this));
+	});
+});*/
+$(function(){
+	$("#pId").click( function() {
 		showUnit($(this));
 	});
 });

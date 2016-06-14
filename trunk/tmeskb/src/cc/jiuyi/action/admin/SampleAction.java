@@ -423,7 +423,7 @@ public class SampleAction extends BaseAdminAction
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 		//FactoryUnit fu = this.workingbill.getTeam().getFactoryUnit();
 		String  workCenter = this.workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";
@@ -585,7 +585,7 @@ public class SampleAction extends BaseAdminAction
 	{
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 		String  workCenter = this.workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";

@@ -219,7 +219,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 					cs.setProductcode(wb.getMatnr());//产品编号
 					cs.setProductname(wb.getMaktx());//产品名称
 					//cs.setWbcode(wb.getWorkingBillCode());//随工单编码
-					//cs.setWbid(wb.getId());//随工单ID
+					cs.setWbid(wb.getId());//随工单ID
 					cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
 					cslist.add(cs);
 				}
@@ -293,7 +293,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				cs.setProductcode(wb.getMatnr());//产品编号
 				cs.setProductname(wb.getMaktx());//产品名称
 				//cs.setWbcode(wb.getWorkingBillCode());//随工单编码
-				//cs.setWbid(wb.getId());//随工单ID
+				cs.setWbid(wb.getId());//随工单ID
 				//cs.setXcstotal(wb.getCartonTotalAmount()+"");//累计数量
 				xlist.add(cs);
 			}

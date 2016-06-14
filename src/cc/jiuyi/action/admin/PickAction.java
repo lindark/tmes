@@ -640,9 +640,9 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
-					pickRfc = new ArrayList<Pick>();
-					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
-					for (Pick pick2 : pickRfc) {
+					List<Pick> pickRfc1 = new ArrayList<Pick>();
+					pickRfc1 = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
+					for (Pick pick2 : pickRfc1) {
 						String e_type = pick2.getE_type();
 						String e_message = pick2.getE_message();
 						String ex_mblnr = pick2.getEx_mblnr();

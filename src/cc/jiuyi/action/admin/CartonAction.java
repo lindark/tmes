@@ -217,7 +217,7 @@ public class CartonAction extends BaseAdminAction {
 		for (int i = 0; i < list.size(); i++) {
 			Carton carton = list.get(i);
 			if (str.equals("")) {
-				str = carton.getState();
+				str = carton.getState();	
 			} else if (!carton.getState().equals(str)) {
 				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
 			}
@@ -245,7 +245,7 @@ public class CartonAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 			if (CONFIRMED.equals(carton.getState())){
-				if(!carton.getCreateUser().getId().equals(loginid)){
+				if(!carton.getCreateUser().getId().equals(card_admin.getId())){
 					return ajaxJsonErrorMessage("无法撤销非自己创建并已确认收货单!");//已确认的无法撤销！
 				}
 			}

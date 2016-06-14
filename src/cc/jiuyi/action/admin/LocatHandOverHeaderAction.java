@@ -3,9 +3,11 @@ package cc.jiuyi.action.admin;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -385,14 +387,19 @@ public class LocatHandOverHeaderAction extends BaseAdminAction {
 		Admin admin = adminService.getByCardnum(cardnumber);
 		for(String id:ids){
 			locatHandOverHeader = locatHandOverHeaderService.get(id);
-		if(locatHandOverHeader.getState().equals("1")){
+		if(locatHandOverHeader.getState().equals("1")||locatHandOverHeader.getState().equals("2")){
 	//		locatHandOverHeader.setIsDel("Y");
 			locatHandOverHeader.setState("3");
-			locatHandOverHeader.setConfirmUser(admin.getName());
-			locatHandOverHeader.setConfirmUserCard(cardnumber);
+			locatHandOverHeader.setRevokedUser(admin.getName());
+			locatHandOverHeader.setRevokedUserId(admin.getId());
+			locatHandOverHeader.setRevokedUserCard(cardnumber);
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
+			locatHandOverHeader.setRevokedTime(time);
 			locatHandOverHeaderService.update(locatHandOverHeader);
 			}else{
-				return ajaxJsonSuccessMessage("请选择未确认的记录!");
+				return ajaxJsonSuccessMessage("已撤销的记录无法再撤销!");
 			}
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");

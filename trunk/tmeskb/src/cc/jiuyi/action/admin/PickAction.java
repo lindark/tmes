@@ -586,7 +586,7 @@ public class PickAction extends BaseAdminAction {
 			//已确认的调用SAP接口
 			if(CONFIRMED.equals(pick.getState())){
 				str="2";
-				return ajaxJsonErrorMessage("已确认的不可以再撤销!");
+				//return ajaxJsonErrorMessage("已确认的不可以再撤销!");
            }
 		}
 

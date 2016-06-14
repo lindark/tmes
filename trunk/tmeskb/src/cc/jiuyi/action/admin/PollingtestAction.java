@@ -110,7 +110,7 @@ public class PollingtestAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		
 		String  workCenter = workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";
@@ -152,7 +152,7 @@ public class PollingtestAction extends BaseAdminAction {
 			
 			
 			String  workCenter = workingbill.getWorkcenter();
-			FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+			FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 			HashMap<String, String> map = new HashMap<String, String>();
 			String matnr="";
 			String funid="";
@@ -535,10 +535,8 @@ public class PollingtestAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
-		System.out.println("-------ids-------"+Arrays.toString(ids)+"--------------");
 		List<Pollingtest> list = pollingtestService.get(ids);
-		System.out.println("-------size-------"+list.size()+"--------------");
-		pollingtestService.confirm(list, admin, UNDO);
+		pollingtestService.updateConfirm(list, admin, UNDO);
 		/*
 		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +
 		 * pollingtest.getWorkingbill().getId();

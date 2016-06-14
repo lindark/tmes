@@ -139,7 +139,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 		if(WorkingBillList!=null && WorkingBillList.size()>0){
 			if(!"".equals(judgeNull(factoryUnit))){
 				for(WorkingBill wb : WorkingBillList){
-					 FactoryUnit fun = factoryUnitService.get("factoryUnitCode", judgeNull(wb.getWorkcenter()));
+					 FactoryUnit fun = factoryUnitService.get("workCenter", judgeNull(wb.getWorkcenter()));
 					if(fun!=null){
 							if(factory.equals(wb.getWerks()) && workShop.equals(fun.getWorkShop().getWorkShopCode()) &&factoryUnit.equals(fun.getFactoryUnitCode())){
 									Set<DailyWork> dwSet = wb.getDailyWork();
@@ -215,7 +215,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				}
 			}else{
 				for(WorkingBill wb : WorkingBillList){
-					 FactoryUnit fun = factoryUnitService.get("factoryUnitCode", judgeNull(wb.getWorkcenter()));
+					 FactoryUnit fun = factoryUnitService.get("workCenter", judgeNull(wb.getWorkcenter()));
 					if(fun!=null){
 							if(factory.equals(wb.getWerks()) && workShop.equals(fun.getWorkShop().getWorkShopCode())){
 									Set<DailyWork> dwSet = wb.getDailyWork();

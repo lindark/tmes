@@ -183,8 +183,8 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
-				if(row_state == "2" || row_state =="3"){
-					layer.msg("已经确认或已撤销的交接无法再撤销!",{icon:5});
+				if(row_state =="3"){
+					layer.msg("已撤销的记录无法再撤销!",{icon:5});
 					return false;
 				}else{
 					var url="locat_hand_over_header!creditundo.action?id="+id;

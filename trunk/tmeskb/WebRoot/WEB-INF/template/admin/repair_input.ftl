@@ -438,7 +438,7 @@ $(function(){
 	})
 })
 function showUnit(num1){
-	var title = "选择单元";
+	var title = "选择责任人";
 	var width="800px";
 	var height="632px";
 	var content="process_handover!browser.action";

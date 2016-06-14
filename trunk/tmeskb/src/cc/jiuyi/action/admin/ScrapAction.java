@@ -533,13 +533,13 @@ public class ScrapAction extends BaseAdminAction
 						{
 							//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
 							Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
-							if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
+							if("E".equalsIgnoreCase(s_sapreturn2.getE_type()))
 							{
-								return s_sapreturn.getE_message();
+								return s_sapreturn2.getE_message();
 							}
 							else
 							{
-								if(s_sapreturn.getMblnr()==null || "".equals(s_sapreturn.getMblnr())){
+								if(s_sapreturn2.getMblnr()==null || "".equals(s_sapreturn2.getMblnr())){
 									return "物料凭证未返回";
 								}
 								/**与SAP交互没有问题,更新本地数据库*/
@@ -551,6 +551,7 @@ public class ScrapAction extends BaseAdminAction
 					{
 						/**没有产后数据,修改状态*/
 						this.scrapService.updateMyData(s,newstate,cardnumber,2);
+						System.out.println("111");
 					}
 				}
 				/**撤销操作*/
@@ -584,13 +585,13 @@ public class ScrapAction extends BaseAdminAction
 							{
 								//调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
 								Scrap s_sapreturn2=scrapRfc.ScrappedCrt("",s,list1);
-								if("E".equalsIgnoreCase(s_sapreturn.getE_type()))
+								if("E".equalsIgnoreCase(s_sapreturn2.getE_type()))
 								{
-									return s_sapreturn.getE_message();
+									return s_sapreturn2.getE_message();
 								}
 								else
 								{
-									if(s_sapreturn.getMblnr()==null || "".equals(s_sapreturn.getMblnr())){
+									if(s_sapreturn2.getMblnr()==null || "".equals(s_sapreturn2.getMblnr())){
 										return "物料凭证未返回";
 									}
 									/**与SAP交互没有问题,更新本地数据库*/

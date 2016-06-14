@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
@@ -12,6 +13,7 @@ import javax.persistence.Transient;
  * 
  */
 @Entity
+@Table(name = "LocatHandOverHeader")
 public class LocatHandOverHeader extends BaseEntity {
 	
 	private static final long serialVersionUID = -5261188016594706437L;
@@ -29,6 +31,10 @@ public class LocatHandOverHeader extends BaseEntity {
 	private String lgpla;//仓位
 	private String isDel;//是否删除
 	private String state;//状态
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人id
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	private Set<LocatHandOver> locatHandOverSet;//线边仓交接  从表
 	
 	/**
@@ -132,6 +138,32 @@ public class LocatHandOverHeader extends BaseEntity {
 	public void setXstate(String xstate) {
 		Xstate = xstate;
 	}
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
+	}
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+	
+	
 
 	
 	

@@ -121,7 +121,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 		
 		String  workCenter = this.workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";
@@ -263,7 +263,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		
 		
 		String  workCenter = this.workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";

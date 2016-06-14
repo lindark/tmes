@@ -47,6 +47,8 @@ jQuery(function($) {
 			{name:'type',index:'type',search:false,label:"类型", search:true,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xstate',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 

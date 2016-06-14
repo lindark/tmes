@@ -1,6 +1,7 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -526,6 +527,7 @@ public class PollingtestAction extends BaseAdminAction {
 	public String creditundo() {
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
+		System.out.println("-------id-------"+id+"--------------");
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (UNDO.equals(pollingtest.getState())) {
@@ -533,7 +535,9 @@ public class PollingtestAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
+		System.out.println("-------ids-------"+Arrays.toString(ids)+"--------------");
 		List<Pollingtest> list = pollingtestService.get(ids);
+		System.out.println("-------size-------"+list.size()+"--------------");
 		pollingtestService.confirm(list, admin, UNDO);
 		/*
 		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +

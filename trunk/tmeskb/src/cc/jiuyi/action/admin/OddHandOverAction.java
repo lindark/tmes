@@ -356,7 +356,7 @@ public class OddHandOverAction extends BaseAdminAction {
 						
 						WorkingBill wb = workingbillList.get(i);
 						String  workCenter = wb.getWorkcenter();
-						FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+						FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 						HashMap<String, String> map = new HashMap<String, String>();
 						String matnr="";
 						String funid="";
@@ -482,7 +482,7 @@ public class OddHandOverAction extends BaseAdminAction {
 					//////////////////////////////////////////////////////////////
 		//			workingbill = workingBillService.get(workingBillId);
 					String  workCenter = wb.getWorkcenter();
-					FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+					FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 					HashMap<String, String> map = new HashMap<String, String>();
 					String matnr="";
 					String funid="";

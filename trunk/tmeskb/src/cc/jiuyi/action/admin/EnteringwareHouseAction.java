@@ -280,7 +280,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		enteringwareHouse = enteringwareHouseService.load(id);
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";
@@ -316,7 +316,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 		
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
-		FactoryUnit fu = factoryUnitService.get("factoryUnitCode", workCenter);
+		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
 		String matnr="";
 		String funid="";

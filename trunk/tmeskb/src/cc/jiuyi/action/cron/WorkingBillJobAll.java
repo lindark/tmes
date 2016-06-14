@@ -49,13 +49,13 @@ public class WorkingBillJobAll{
 			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
 			unitdistributeproductservice = (UnitdistributeProductService)SpringUtil.getBean("unitdistributeProductServiceImpl");
 			factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
-			FactoryUnit factoryunit = factoryunitservice.get("factoryUnitCode",workcode);
+			FactoryUnit factoryunit = factoryunitservice.get("workCenter",workcode);
 			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
 			String workshopcode = "201";
-			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
+			String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
-			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList);
+			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
 			log.error("同步生产订单出错"+e);
 			e.printStackTrace();
@@ -84,13 +84,13 @@ public class WorkingBillJobAll{
 			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
 			unitdistributeproductservice = (UnitdistributeProductService)SpringUtil.getBean("unitdistributeProductServiceImpl");
 			factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
-			FactoryUnit factoryunit = factoryunitservice.get("factoryUnitCode",workcode[0]);
+			FactoryUnit factoryunit = factoryunitservice.get("workCenter",workcode[0]);
 			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
 			String workshopcode = "201";
-			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
+			String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 			Object[] propertyValues = {workcode[0],"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
-			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList);
+			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode[0]);
 		} catch (IOException e){
 			log.error("同步生产订单出错"+e);
 			e.printStackTrace();

@@ -192,11 +192,11 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 					return m.get("e_message");
 				}
 			}
-			list_return=new ArrayList<HashMap<String,String>>();
-			list_return=this.dumpRfc.updateMaterial("", mlist2);
-			for(int i=0;i<list_return.size();i++)
+			List<HashMap<String,String>>list_return1=new ArrayList<HashMap<String,String>>();
+			list_return1=this.dumpRfc.updateMaterial("", mlist2);
+			for(int i=0;i<list_return1.size();i++)
 			{
-				HashMap<String,String>m=list_return.get(i);
+				HashMap<String,String>m=list_return1.get(i);
 				if("E".equals(m.get("e_type")))
 				{
 					return m.get("e_message");

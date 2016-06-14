@@ -247,7 +247,7 @@ public class WorkingBillAction extends BaseAdminAction {
 			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);
-			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,"",workshopcode,unitdistributeList);
+			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
 			log.error("同步生产订单出错"+e);
 			e.printStackTrace();

@@ -465,7 +465,8 @@ public class DailyWorkAction extends BaseAdminAction {
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
 			for (int i = 0; i < ids.length; i++) {
-				dailyWork = dailyWorkService.load(ids[i]);
+			//	dailyWork = dailyWorkService.load(ids[i]);
+				dailyWork = dailyWorkService.get(ids[i]);
 				if (CONFIRMED.equals(dailyWork.getState())) {
 					return ajaxJsonErrorMessage("已确认的无须再确认!");
 				}
@@ -478,8 +479,13 @@ public class DailyWorkAction extends BaseAdminAction {
 				//String time = ThinkWayUtil.formatdateDate(workingBill.get);
 				List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
 				List<String> ProcessRouteIdList = new ArrayList<String>();
-				for(ProcessRoute pr:processrouteList){
-					ProcessRouteIdList.add(pr.getId());
+				if(processrouteList	!=	null){
+					for(ProcessRoute pr:processrouteList){
+						ProcessRouteIdList.add(pr.getId());
+					}
+				}
+				if(ProcessRouteIdList.size()==0){
+					return ajaxJsonErrorMessage("生产工艺服务器数据出错!");
 				}
 				String process = processRouteService.getProcess(ProcessRouteIdList,steus);
 				if (process == null || process.equals("")) {

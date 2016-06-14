@@ -362,7 +362,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal unAmountLTJSB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJSB.size();k++){
 					ProcessHandover ph = processHandoverListLTJSB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType()) && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJSB = actualAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJSB = unAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -412,7 +412,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			//	}
 				for(int k=0;k<processHandoverListLTJXB.size();k++){
 					ProcessHandover ph = processHandoverListLTJXB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType()) && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJXB = actualAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJXB = unAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -554,18 +554,20 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							//BigDecimal mout = new BigDecimal(0);
 							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									//amout = amout.add(bomAmount).add(cqamount);
-									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-									}								
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+										//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+										//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+										//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+										//amout = amout.add(bomAmount).add(cqamount);
+										//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}								
+									}
 								}
 								//mout = mout.add(amout);
 								//repairMout = repairMout.add(repairAmout);
@@ -599,17 +601,19 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							//BigDecimal mout = new BigDecimal(0);
 							//BigDecimal repairMout = new BigDecimal(0);
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
-									//BigDecimal cqamount = new BigDecimal(p.getCqamount());
-									//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-									//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-									//amout = amout.add(bomAmount).add(cqamount);
-									//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										//BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
+										//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+										//BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
+										//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+										//amout = amout.add(bomAmount).add(cqamount);
+										//repairAmout = repairAmout.add(repairNumber).add(cqrepairamount);
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}
 									}
 								}
 								//mout = mout.add(amout);
@@ -719,7 +723,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal unAmountLTJSB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJSB.size();k++){
 					ProcessHandover ph = processHandoverListLTJSB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType()) && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJSB = actualAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJSB = unAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -735,7 +739,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal unAmountLTJXB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJXB.size();k++){
 					ProcessHandover ph = processHandoverListLTJXB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType()) && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJXB = actualAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJXB = unAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -846,12 +850,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						Double fxjjsl = 0.00d;
 						if(processHandoverList != null && processHandoverList.size()>0){
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-									}								
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}								
+									}
 								}
 							}
 						}
@@ -869,11 +875,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						Double fxjjsl = 0.00d;
 						if(processHandoverList != null && processHandoverList.size()>0){
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}
 									}
 								}
 							}
@@ -958,7 +966,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal unAmountLTJSB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJSB.size();k++){
 					ProcessHandover ph = processHandoverListLTJSB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType())  && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJSB = actualAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJSB = unAmountLTJSB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -972,7 +980,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal unAmountLTJXB = new BigDecimal(0);
 				for(int k=0;k<processHandoverListLTJXB.size();k++){
 					ProcessHandover ph = processHandoverListLTJXB.get(k);
-					if("零头数交接".equals(ph.getProcessHandoverTop().getType())){
+					if("零头数交接".equals(ph.getProcessHandoverTop().getType())  && "2".equals(ph.getProcessHandoverTop().getState())){
 						actualAmountLTJXB = actualAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getActualHOMount())));
 						unAmountLTJXB = unAmountLTJXB.add(new BigDecimal(ThinkWayUtil.null2o(ph.getUnHOMount())));
 					}
@@ -1033,12 +1041,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						Double fxjjsl = 0.00d;
 						if(processHandoverList != null && processHandoverList.size()>0){
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-									}								
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}								
+									}
 								}
 							}
 						}
@@ -1054,11 +1064,13 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 						Double fxjjsl = 0.00d;
 						if(processHandoverList != null && processHandoverList.size()>0){
 							for(ProcessHandover processHandover:processHandoverList){
-								Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
-								for(ProcessHandoverSon p:processHandoverSon){
-									if(p.getBomCode().equals(workinginout.getMaterialCode())){
-										zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
-										fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+								if("2".equals(processHandover.getProcessHandoverTop().getState())){
+									Set<ProcessHandoverSon> processHandoverSon = processHandover.getProcessHandoverSonSet();
+									for(ProcessHandoverSon p:processHandoverSon){
+										if(p.getBomCode().equals(workinginout.getMaterialCode())){
+											zcjjsl = new BigDecimal(zcjjsl).add(new BigDecimal(p.getBomAmount()==null?"0":p.getBomAmount())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+											fxjjsl = new BigDecimal(fxjjsl).add(new BigDecimal(p.getRepairNumber()==null?"0":p.getRepairNumber())).setScale(3, RoundingMode.HALF_UP).doubleValue();
+										}
 									}
 								}
 							}

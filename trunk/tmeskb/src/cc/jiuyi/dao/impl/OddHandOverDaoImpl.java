@@ -38,9 +38,9 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 			detachedCriteria.createAlias("workingBill", "workingBill");
 		}
 		if (map.size() > 0) {
-			if (map.get("materialCode") != null) {
+			if (map.get("bomCode") != null) {
 				detachedCriteria.add(Restrictions.like(
-						"materialCode",
+						"bomCode",
 						"%" + map.get("materialCode") + "%"));
 			}
 			if (map.get("workingBillCode") != null) {
@@ -128,10 +128,10 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 					Date end=sdf.parse(map.get("end"));
 					System.out.println(map.get("start")); 
 					if(ishead==0){
-						hql+=" where mode.createDate between :start and :end";
+						hql+=" where model.createDate between :start and :end";
 						ishead=1;
 					}else{
-						hql+=" and mode.createDate between :start and :end";
+						hql+=" and model.createDate between :start and :end";
 					}
 					parameters.put("start", start);
 					parameters.put("end", end);

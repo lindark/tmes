@@ -39,4 +39,11 @@ public interface ProcessHandoverService extends BaseService<ProcessHandover, Str
 	 * @throws IOException 
 	 */
 	public Map<String,String> saveApproval(String cardnumber,String id,String loginid) throws IOException, CustomerException;
+	
+	/**
+	 * 刷卡撤销
+	 * @throws CustomerException 
+	 * @throws IOException 
+	 */
+	public Map<String,String> saveRevoked(String cardnumber,String id,String loginid) throws IOException, CustomerException;
 }

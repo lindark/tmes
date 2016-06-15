@@ -74,11 +74,11 @@
 								    <button class="btn btn-white btn-default btn-sm btn-round" id="viewChangeNum" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看零头数交接
-									</button>	
+									</button>	  
 									<button class="btn btn-white btn-default btn-sm btn-round" id="allhandover" type=button>
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										创建总体交接
-									</button>
+									</button>	
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmProHO" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
 										刷卡确认
@@ -289,7 +289,7 @@
 		
 		/*刷卡撤销*/
 		$("#repealPick").click(function(){
-	//		var loginid = $("#loginid").val();
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -299,11 +299,11 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
-				if(row_state == "2" || row_state =="3"){
-					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
+				if(row_state =="3"){
+					layer.msg("已撤销的工序交接/零头数交接无法再撤销!",{icon:5});
 					return false;
 				}else{
-					var url="process_handover!creditundo.action?id="+id;
+					var url="process_handover!creditundo.action?id="+id+"&loginid="+loginid;
 							//+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);

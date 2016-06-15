@@ -4,14 +4,22 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.sap.mw.jco.IFunctionTemplate;
+import com.sap.mw.jco.JCO;
+import com.sap.mw.jco.JCO.Client;
+import com.sap.mw.jco.JCO.Function;
 import com.sap.mw.jco.JCO.ParameterList;
+import com.sap.mw.jco.JCO.Repository;
+import com.sap.mw.jco.JCO.Structure;
 import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Admin;
@@ -22,12 +30,13 @@ import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 import cc.jiuyi.util.ThinkWayUtil;
 @Component
 public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOverProcessRfc{
-
+	
 	@Resource
 	private AdminService adminservice;
 	@Override
@@ -171,5 +180,38 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		processHandover1.setMblnr(EX_MBLNR);
 		return processHandover1;
 	}
-
+	
+	
+	@Override
+	public ProcessHandover RevokedProcessHandOver(
+			ProcessHandover processHandover, String testrun, String loginid)
+			throws IOException, CustomerException {
+		Admin admin = adminservice.get(loginid);//获取当前登录身份
+		admin = adminservice.load(admin.getId());
+		super.setProperty("handoverRevoked");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		String year = processHandover.getProcessHandoverTop().getProductDate().substring(0,4);
+		parameter.put("MATERIALDOCUMENT", processHandover.getMblnr());
+		parameter.put("MATDOCUMENTYEAR", year);//testrun
+		/******输入表******/
+		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+		TableModel tablemodel = new TableModel();
+		/*******执行******/
+		super.setTable(tablemodelList);
+		super.setParameter(parameter);
+		SAPModel model = execBapi();//执行 并获取返回值
+		/******执行 end******/
+		ParameterList out = model.getOuts();//返回表
+		String EX_MBLNR=out.getString("EX_MBLNR");
+		String E_TYPE=out.getString("E_TYPE");
+		String E_MESSAGE=out.getString("E_MESSAGE");
+		String EX_MJAHR=out.getString("EX_MJAHR");
+		processHandover.setE_message(E_MESSAGE);
+		processHandover.setE_type(E_TYPE);
+		processHandover.setMblnr(EX_MBLNR+"/");
+		processHandover.setBudat(EX_MJAHR);
+		return processHandover;
+	}
 }

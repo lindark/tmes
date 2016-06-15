@@ -116,8 +116,8 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	@SuppressWarnings("unchecked")
 	public boolean getByCode(String code)
 	{
-		String hql="from Material where materialCode=?";
-		List<Material>list=this.getSession().createQuery(hql).setParameter(0, code).list();
+		String hql="from Material where materialCode=? and isRepair=?";
+		List<Material>list=this.getSession().createQuery(hql).setParameter(0, code).setParameter(1, "1").list();
 		if(list.size()>0)
 		{
 			return true;

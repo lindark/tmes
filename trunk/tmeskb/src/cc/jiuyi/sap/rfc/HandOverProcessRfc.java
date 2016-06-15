@@ -12,4 +12,5 @@ import cc.jiuyi.util.CustomerException;
 public interface HandOverProcessRfc extends BaserfcService {
 	public String BatchHandOver(List<HandOverProcess> list,String testrun,String loginid) throws IOException,CustomerException;
 	public ProcessHandover BatchProcessHandOver(ProcessHandover processHandover,String testrun,String loginid) throws IOException,CustomerException;
+	public ProcessHandover RevokedProcessHandOver(ProcessHandover processHandover,String testrun,String loginid) throws IOException,CustomerException;
 }

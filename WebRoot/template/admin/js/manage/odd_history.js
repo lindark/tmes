@@ -72,8 +72,8 @@ jQuery(function($) {
             {name:'maktx',index:'workingBill.maktx', width:240,sortable:"true",sorttype:"text"},
             {name:'afterWorkingCode',index:'afterWorkingCode', width:80,sortable:"true",sorttype:"text"},
             {name:'productDate',index:'workingBill.productDate', width:60,sortable:"true",sorttype:"text"},
-            {name:'materialCode',index:'materialCode', width:60,sortable:"true",sorttype:"text"},
-          	{name:'materialDesp',index:'materialDesp', width:80,sortable:"true",sorttype:"text"},
+            {name:'bomCode',index:'materialCode', width:60,sortable:"true",sorttype:"text"},
+          	{name:'bomDesp',index:'materialDesp', width:80,sortable:"true",sorttype:"text"},
           	
           	
           	

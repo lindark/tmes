@@ -45,6 +45,7 @@ public class ProcessHandover extends BaseEntity {
 	private String station;//模具组号
 	private String processid;//工序id
 	private String isdel;// 是否删除
+	
 	/**
 	 * 假字段
 	 */

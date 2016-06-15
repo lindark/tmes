@@ -1,11 +1,13 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.persistence.RollbackException;
@@ -24,6 +26,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
+import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverSonService;
 import cc.jiuyi.service.ProcessHandoverTopService;
@@ -204,7 +207,8 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		}
 		for(ProcessHandover p : processHandoverTop.getProcessHandOverSet()){
 			boolean flag =false;
-			if(p.getProductAmount()!=null && p.getProductAmount().equals("")){
+			System.out.println(p.getProductAmount());
+			if(p.getProductAmount()!=null && !p.getProductAmount().equals("")){
 				flag = true;
 			}
 			if(p.getActualHOMount()!=null && !p.getActualHOMount().equals("")){
@@ -286,6 +290,58 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 
 	
 
-
+	@Override
+	public Map<String,String> saveRevoked(String cardnumber, String id, String loginid) throws IOException, CustomerException {
+		HashMap<String,String> map = new HashMap<String,String>();
+		Admin admin = adminService.getByCardnum(cardnumber);
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date);
+//		ProcessHandoverTop processHandoverTop = processHandoverTopService.get(id);
+//		if(processHandoverTop.getState().equals("1")||processHandoverTop.getState().equals("2")){
+//			if(processHandoverTop.getType().equals("工序交接")){
+//			processHandoverTop.setIsdel("Y");
+//			processHandoverTop.setState("3");
+//	//		processHandoverTop.setPhtconfimUser(admin);
+//			processHandoverTop.setRevokedTime(time);
+//			processHandoverTop.setRevokedUser(admin.getName());
+//			processHandoverTop.setRevokedUserCard(cardnumber);
+//			processHandoverTop.setRevokedUserId(admin.getId());
+//			processHandoverTopService.update(processHandoverTop);
+//			Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
+//			for(ProcessHandover p:ProcessHandoverSet){
+//				p.setIsdel("Y");
+//				processHandoverService.update(p);
+//				Set<ProcessHandoverSon> processHandoverSonSet = p.getProcessHandoverSonSet();
+//				for(ProcessHandoverSon ps:processHandoverSonSet){
+//					ps.setIsdel("Y");
+//					processHandoverSonService.update(ps);
+//					}
+//				}
+//			}else{
+//				processHandoverTop.setIsdel("Y");
+//				processHandoverTop.setState("3");
+//		//		processHandoverTop.setPhtconfimUser(admin);
+//				processHandoverTop.setRevokedTime(time);
+//				processHandoverTop.setRevokedUser(admin.getName());
+//				processHandoverTop.setRevokedUserCard(cardnumber);
+//				processHandoverTop.setRevokedUserId(admin.getId());
+//				processHandoverTopService.update(processHandoverTop);
+//				Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
+//				for(ProcessHandover p:ProcessHandoverSet){
+//					p.setIsdel("Y");
+//					processHandoverService.update(p);
+//					Set<OddHandOver> oddHandOverSet = p.getOddHandOverSet();
+//					for(OddHandOver os:oddHandOverSet){
+//						os.setIsdel("Y");
+//						oddHandOverService.update(os);
+//						}
+//					}
+//				}
+//			}
+		map.put("status", "S");
+		map.put("massge","您的操作已成功!");
+		return map;
+	}
 	
 }

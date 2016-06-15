@@ -71,10 +71,15 @@
 						<div class="div_top">
 								<div>
 								下班生产日期:
-                                <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
+								<#if show??>
+                                	        ${(processHandoverTop.afterProductDate)!}
+                                	        <#else>
+                                	         <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
+                                	        </#if>
+                               
                                    &nbsp;&nbsp;
                                  	         班次:
-                                     <select name="processHandoverTop.aftershift"id="sl_sh">
+                                     <select name="processHandoverTop.aftershift"id="sl_sh"<#if show??>disabled</#if>>
                                      	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
                                      	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
 										<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>

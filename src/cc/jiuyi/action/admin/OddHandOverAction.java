@@ -193,9 +193,15 @@ public class OddHandOverAction extends BaseAdminAction {
 				oddHandOver.setWorkingBillCode(oddHandOver.getWorkingBill().getWorkingBillCode());
 				oddHandOver.setMaktx(oddHandOver.getWorkingBill().getMaktx());
 				oddHandOver.setProductDate(oddHandOver.getWorkingBill().getProductDate());
+				ProcessHandover p = oddHandOver.getProcessHandover();
+				oddHandOver.setState(p==null?oddHandOver.getState():p.getProcessHandoverTop().getState());
 				oddHandOver.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "oddStatus", oddHandOver.getState()));
 				oddHandOver.setMatnr(oddHandOver.getWorkingBill().getMatnr());
+				oddHandOver.setMblnr(p==null?oddHandOver.getMblnr():p.getMblnr());
+				oddHandOver.setSubmitName(p==null?oddHandOver.getSubmitName():p.getProcessHandoverTop().getPhtcreateUser().getName());
+				Admin a = p==null?null:p.getProcessHandoverTop().getPhtconfimUser();
+				oddHandOver.setSureName(a==null?oddHandOver.getSureName():a.getName());
 				lst.add(oddHandOver);
 			}
 			pager.setList(lst);
@@ -551,15 +557,20 @@ public class OddHandOverAction extends BaseAdminAction {
 			OddHandOver oddHandOver = (OddHandOver) obj[0];//oddHandOver
         	WorkingBill workingbill = (WorkingBill)obj[1];//workingbill
         	
-        	
+			ProcessHandover p = oddHandOver.getProcessHandover();
+			oddHandOver.setMblnr(p==null?oddHandOver.getMblnr():p.getMblnr());
+			oddHandOver.setSubmitName(p==null?oddHandOver.getSubmitName():p.getProcessHandoverTop().getPhtcreateUser().getName());
+			Admin a = p==null?null:p.getProcessHandoverTop().getPhtconfimUser();
+			oddHandOver.setSureName(a==null?oddHandOver.getSureName():a.getName());
+			oddHandOver.setState(p==null?oddHandOver.getState():p.getProcessHandoverTop().getState());
 			Object[] bodyval = {
 					workingbill.getWorkingBillCode(),
 					workingbill.getMatnr(),
 					workingbill.getMaktx(),
 					oddHandOver.getAfterWorkingCode(),
 					workingbill.getProductDate(),
-					oddHandOver.getMaterialCode(),
-					oddHandOver.getMaterialDesp(),
+					oddHandOver.getBomCode(),
+					oddHandOver.getBomDesp(),
 				
 					oddHandOver.getActualHOMount()==null?0:oddHandOver.getActualHOMount(),
 					oddHandOver.getUnHOMount()==null?0:oddHandOver.getUnHOMount(),

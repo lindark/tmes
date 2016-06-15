@@ -142,6 +142,7 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 								oddHandOver.setProcessHandover(processHandover);
 								oddHandOver.setBeforeWokingCode(processHandover.getWorkingBillCode());
 								oddHandOver.setAfterWorkingCode(processHandover.getAfterWorkingBillCode());
+								oddHandOver.setWorkingBill(wb);
 								oddHandOverDao.save(oddHandOver);
 							}
 						}

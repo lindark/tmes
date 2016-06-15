@@ -1,9 +1,13 @@
 package cc.jiuyi.action.admin;
 
+
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -808,35 +812,53 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String creditundo() {
+		try{
 		String[] ids = id.split(",");
 		admin = adminService.getByCardnum(cardnumber);
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date);
 		for(String id:ids){
 		processHandoverTop = processHandoverTopService.get(id);
-		if(processHandoverTop.getState().equals("1")){
-			if(processHandoverTop.getType().equals("工序交接")){
-			processHandoverTop.setIsdel("Y");
-			processHandoverTop.setState("3");
-			processHandoverTop.setPhtconfimUser(admin);
-			processHandoverTopService.update(processHandoverTop);
+		if(processHandoverTop.getState().equals("1")||processHandoverTop.getState().equals("2")){
+			if(processHandoverTop.getType().equals("工序交接")){		
 			Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
 			for(ProcessHandover p:ProcessHandoverSet){
-				p.setIsdel("Y");
-				processHandoverService.update(p);
+				p.setIsdel("Y");				
+				//如果有物料凭证号,并且之前无撤销标志"/",则调用sap
+				if(p.getMblnr()!=null && p.getMblnr().contains("/") != true){
+					//是否有撤销标记"/"
+					p.getMblnr().contains("/");
+					p = handoverprocessrfc.RevokedProcessHandOver(p, "", loginid);
+					if(p.getE_type().equals("S")){
+						processHandoverService.update(p);
+					}else{
+						return ajaxJsonSuccessMessage(p.getE_message());
+					}
+				}else{
+					processHandoverService.update(p);
+				}
 				Set<ProcessHandoverSon> processHandoverSonSet = p.getProcessHandoverSonSet();
 				for(ProcessHandoverSon ps:processHandoverSonSet){
 					ps.setIsdel("Y");
 					processHandoverSonService.update(ps);
 					}
 				}
-			}else{
-				processHandoverTop.setIsdel("Y");
-				processHandoverTop.setState("3");
-				processHandoverTop.setPhtconfimUser(admin);
-				processHandoverTopService.update(processHandoverTop);
+			}else{			
 				Set<ProcessHandover> ProcessHandoverSet = processHandoverTop.getProcessHandOverSet();
 				for(ProcessHandover p:ProcessHandoverSet){
 					p.setIsdel("Y");
-					processHandoverService.update(p);
+					//如果有物料凭证号,并且之前无撤销标志"/",则调用sap
+					if(p.getMblnr()!=null && p.getMblnr().contains("/") != true){
+						p = handoverprocessrfc.RevokedProcessHandOver(p, "", loginid);
+						if(p.getE_type().equals("S")){
+							processHandoverService.update(p);	
+						}else{
+							return ajaxJsonSuccessMessage(p.getE_message());
+						}
+					}else{
+						processHandoverService.update(p);
+					}
 					Set<OddHandOver> oddHandOverSet = p.getOddHandOverSet();
 					for(OddHandOver os:oddHandOverSet){
 						os.setIsdel("Y");
@@ -844,13 +866,52 @@ public class ProcessHandoverAction extends BaseAdminAction {
 						}
 					}
 				}
-			}
-			else{
-				return ajaxJsonSuccessMessage("请选择未确认的记录!");
+				processHandoverTop.setIsdel("Y");
+				processHandoverTop.setState("3");
+				processHandoverTop.setRevokedTime(time);
+				processHandoverTop.setRevokedUser(admin.getName());
+				processHandoverTop.setRevokedUserCard(cardnumber);
+				processHandoverTop.setRevokedUserId(admin.getId());	
+				processHandoverTopService.update(processHandoverTop);
+			}else{
+				return ajaxJsonSuccessMessage("已撤销的记录不能再次撤销!");
 			}
 		}
-		return ajaxJsonSuccessMessage("您的操作已成功!");
+			return ajaxJsonSuccessMessage("您的操作已成功!");
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e);
+			if(processHandover.getE_message()!=null||processHandover.getE_message().equals("")){
+				return ajaxJsonSuccessMessage(processHandover.getE_message());
+			}
+			return ajaxJsonSuccessMessage("系统异常，请联系管理员!");
+		}
 	}
+	
+	/**
+	 *  刷卡撤销
+	 * @return
+	 */
+//	public String creditundo1() {
+//		try {
+//			String[] ids = id.split(",");
+//			for(String id:ids){
+//				Map<String, String> emsg = processHandoverService.saveRevoked(cardnumber,id,loginid);
+//				if(emsg.get("status").equals("E")){
+//					return ajaxJsonErrorMessage(emsg.get("massge"));
+//				}
+//			}
+//			return ajaxJsonSuccessMessage("您的操作已成功");
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
+//		} catch (CustomerException e) {
+//			e.printStackTrace();
+//			return ajaxJsonErrorMessage(e.getMsgDes());
+//		}
+//	}
+	
 	public String allHandover(){
 		admin = adminService.get(loginid);
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
@@ -871,10 +932,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		return "all";
 	}
 	
-	public String saveAllProcess() throws Exception{
+	public String saveAllProcess(){
 		try {
 		//	admin = adminService.get(loginid);
-			admin = adminService.getByCardnum(cardnumber);
+			Admin admin1 = adminService.getByCardnum(cardnumber);
+			Admin admin = adminService.get(loginid);
 			String productDate = admin.getProductDate();
 			String shift = admin.getShift();
 			if(admin.getTeam()==null){
@@ -887,21 +949,29 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				return ajaxJsonSuccessMessage("当前卡号没有相关联的单元!");
 			}
 			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(productDate,shift,factoryId);
+			log.info("---------------------"+lists.size()+"---------------------");
 			if(lists.size() == 0){
-				processHandoverAllService.saveAllProcess(admin);
+				try{
+				processHandoverAllService.saveAllProcess(admin,admin1);
+				}catch(Exception e){
+					log.info(e);
+				}
 				return ajaxJsonSuccessMessage("您的操作已成功!");
+				
 			}else{
 				return ajaxJsonErrorMessage("当前班次总体交接已完成!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info(e);
 			return ERROR;
 		}
 	}
 	
 	public String allSubmit(){
 		try{
-			admin = adminService.getByCardnum(cardnumber);
+			Admin admin1 = adminService.getByCardnum(cardnumber);
+			admin = adminService.get(loginid);
 			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 			for(WorkingBill workingbill : workingbillList){
 				workingbill.setIsHand("Y");
@@ -913,7 +983,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			System.out.println(processHandoverAllList);
 			for(int i=0;i<processHandoverAllList.size();i++){
 				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
-				processHandoverAll.setPhaConfimUser(admin);
+				processHandoverAll.setPhaConfimUser(admin1);
 				processHandoverAll.setState("2");
 				processHandoverAllService.update(processHandoverAll);
 			}

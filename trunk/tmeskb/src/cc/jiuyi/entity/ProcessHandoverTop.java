@@ -41,7 +41,10 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String type;//类型
 	private String afterProductDate;//下班生产日期
 	private String aftershift;//下班班次
-	
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 
 
 	
@@ -56,6 +59,7 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String xstate;
 	private String xcreateUser;
 	private String xconfirmUser;
+
 	
 	
 	
@@ -207,8 +211,32 @@ public class ProcessHandoverTop extends BaseEntity {
 	public void setProcessid(String processid) {
 		this.processid = processid;
 	}
-
-
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
+	}
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+	
+	
 	
 	
 	

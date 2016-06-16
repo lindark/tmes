@@ -192,7 +192,8 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		String year = processHandover.getProcessHandoverTop().getProductDate().substring(0,4);
-		parameter.put("MATERIALDOCUMENT", processHandover.getMblnr());
+		String oldMblnr = processHandover.getMblnr();
+		parameter.put("MATERIALDOCUMENT", oldMblnr);
 		parameter.put("MATDOCUMENTYEAR", year);//testrun
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
@@ -210,7 +211,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		String EX_MJAHR=out.getString("EX_MJAHR");
 		processHandover.setE_message(E_MESSAGE);
 		processHandover.setE_type(E_TYPE);
-		processHandover.setMblnr(EX_MBLNR+"/");
+		processHandover.setMblnr(oldMblnr+"/"+EX_MBLNR);
 		processHandover.setBudat(EX_MJAHR);
 		return processHandover;
 	}

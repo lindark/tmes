@@ -69,6 +69,8 @@ jQuery(function($) {
 			{name:'teamName',index:'teamName',label:"班组名称", width:100,search:true,editable: true},
 			{name:'classSys',index:'classSys',label:"班制", width:100,search:true,editable: true},
 			{name:'basic',index:'basic',label:"基本", width:100,search:true,editable: true},
+			{name:'fuzhuren',index:'fuzhuren',label:"副主任", width:100,search:true,editable: true},
+			{name:'zhuren',index:'zhuren',label:"主任", width:100,search:true,editable: true},
 			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
 			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},

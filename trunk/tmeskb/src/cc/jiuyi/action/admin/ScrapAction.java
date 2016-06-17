@@ -551,7 +551,6 @@ public class ScrapAction extends BaseAdminAction
 					{
 						/**没有产后数据,修改状态*/
 						this.scrapService.updateMyData(s,newstate,cardnumber,2);
-						System.out.println("111");
 					}
 				}
 				/**撤销操作*/
@@ -595,14 +594,14 @@ public class ScrapAction extends BaseAdminAction
 										return "物料凭证未返回";
 									}
 									/**与SAP交互没有问题,更新本地数据库*/
-									this.scrapService.updateMyData(s_sapreturn2,newstate,cardnumber,1);
+									this.scrapService.updateNewUndo(s_sapreturn2,newstate,cardnumber,1);
 								}
 							}
 						}
 						else
 						{
 							/**没有产后数据,修改状态*/
-							this.scrapService.updateMyData(s,newstate,cardnumber,2);
+							this.scrapService.updateNewUndo(s,newstate,cardnumber,2);
 						}
 					}
 				}

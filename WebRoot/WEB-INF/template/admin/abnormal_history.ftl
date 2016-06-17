@@ -87,8 +87,12 @@
 											class="btn btn-white btn-default btn-sm btn-round"> <i
 											class="ace-icon fa fa-filter blue"></i> 搜索
 										</a>
+										&nbsp;&nbsp;
+										<a id="excelButton"
+											class="btn btn-white btn-default btn-sm btn-round"> <i
+											class="ace-icon fa fa-filter blue"></i> 导出excel
+										</a>
 									</div>
-
 								</div>
 							</form>
 							<div class="row buttons col-md-8 col-sm-4">
@@ -222,7 +226,14 @@
 			}
 		});
 		
-	})
+		
+		$("#excelButton").click(function(){
+			 var $searchform = $("#searchform");
+			 $searchform.attr("action","abnormal!excelhistory.action");
+			  $searchform.submit();
+		});
+		
+	});
 	
 	
 </script>

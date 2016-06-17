@@ -10,7 +10,7 @@ import cc.jiuyi.entity.ProcessHandoverAll;
  * Service接口 - 总体工序交接
  */
 public interface ProcessHandoverAllService extends BaseService<ProcessHandoverAll, String>{
-		public void saveAllProcess(Admin admin);
+		public void saveAllProcess(Admin admin,Admin admin1) throws Exception;
 		
 		public Pager jqGrid(Pager pager,Admin admin);
 		

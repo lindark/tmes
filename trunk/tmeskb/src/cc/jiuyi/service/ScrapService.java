@@ -74,4 +74,6 @@ public interface ScrapService extends BaseService<Scrap, String>
 
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map);
+	
+	public void updateNewUndo(Scrap s,String newstate,String cardnumber,int my_id);
 }

@@ -134,11 +134,15 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
 			String time = dateFormat.format(date); 
 			it.setState(stus);
-	//		it.setConfirmUser(admin);
-			it.setRevokedUser(admin.getName());
-			it.setRevokedTime(time);
-			it.setRevokedUserCard(admin.getCardNumber());
-			it.setRevokedUserId(admin.getId());
+			if(stus.equals("2")){
+				it.setConfirmUser(admin);
+			}
+			if(stus.equals("3")){
+				it.setRevokedUser(admin.getName());
+				it.setRevokedTime(time);
+				it.setRevokedUserCard(admin.getCardNumber());
+				it.setRevokedUserId(admin.getId());
+			}
 			this.itermediateTestDao.update(it);
 		}
 	}

@@ -42,7 +42,6 @@ import cc.jiuyi.entity.LongtimePreventstep;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.ModelLog;
 import cc.jiuyi.entity.Quality;
-import cc.jiuyi.sap.rfc.DeviceRfc;
 import cc.jiuyi.sap.rfc.ModeRfc;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -52,7 +51,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ModelLogService;
 import cc.jiuyi.service.ModelService;
 import cc.jiuyi.util.CommonUtil;
-import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -74,6 +73,9 @@ public class ModelAction extends BaseAdminAction {
 	private String modelType;
 	private String cardnumber;//刷卡卡号
 	private Date replydate; 
+	private String repairName;
+	private String equipmentName;
+	
 	
 	private List<FaultReason> faultReasonSet;
 	private List<HandlemeansResults> handleSet;
@@ -474,11 +476,87 @@ public class ModelAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Model.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
 
+	/**
+	 * excel导出
+	 * @return
+	 */
+	public String excelhistory(){
+
+		//异常历史页面加载
+				Admin admin2 = adminService.getLoginAdmin();
+				admin2 = adminService.get(admin2.getId());
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("repairName",repairName);
+				map.put("equipmentName", equipmentName);
+				List<Object[]> workList = new ArrayList<Object[]>();
+				if(admin2.getTeam()!=null){
+					workList = modelService.historyExcelExport(map,admin2.getId(),admin2.getTeam().getId());
+				}else{
+					workList= modelService.historyExcelExport(map,admin2.getId(),null);
+				}
+			
+				header.add("设备名称");
+				header.add("故障原因");
+				header.add("维修人");
+				header.add("订单号");
+				header.add("状态");
+				
+				for (int i = 0; i < workList.size(); i++) {
+					Object[] obj = workList.get(i);
+					Model model = (Model) obj[0];
+		            model.setTeamName(model.getTeamId().getTeamName());
+					model.setProductName(model.getEquipments().getEquipmentName());
+					model.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "receiptState", model.getState()));
+					model.setRepairName(model.getFixer().getName());
+								
+					List<FaultReason> faultReasonList = new ArrayList<FaultReason>(
+							model.getFaultReasonSet());
+					List<String> strlist = new ArrayList<String>();	
+		            if(model.getFaultReasonSet()==null){
+		            	model.setFaultName("");
+					}else{
+						for (FaultReason faultReason : faultReasonList) {
+							String str = faultReason.getReasonName();
+							strlist.add(str);
+							String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+							model.setFaultName(comlist);}
+					}
+					Object[] bodyval = {
+							model.getProductName(),
+							model.getFaultName(),
+							model.getRepairName(),
+							model.getOrderNo(),
+							model.getStateRemark()};
+					body.add(bodyval);
+				}
+
+			
+
+		try {
+			String fileName = "工模维修清单" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("工模维修清单", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	
+	
+	}
+	
+	
+	
 	// 刷卡提交
 	public String creditsave() {
 		admin = adminService.getByCardnum(cardnumber);
@@ -735,6 +813,22 @@ public class ModelAction extends BaseAdminAction {
 
 	public void setReplydate(Date replydate) {
 		this.replydate = replydate;
+	}
+
+	public String getRepairName() {
+		return repairName;
+	}
+
+	public void setRepairName(String repairName) {
+		this.repairName = repairName;
+	}
+
+	public String getEquipmentName() {
+		return equipmentName;
+	}
+
+	public void setEquipmentName(String equipmentName) {
+		this.equipmentName = equipmentName;
 	}
 
 	

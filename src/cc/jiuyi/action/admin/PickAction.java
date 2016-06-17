@@ -1,8 +1,10 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -586,7 +588,7 @@ public class PickAction extends BaseAdminAction {
 			//已确认的调用SAP接口
 			if(CONFIRMED.equals(pick.getState())){
 				str="2";
-				//return ajaxJsonErrorMessage("已确认的不可以再撤销!");
+//				return ajaxJsonErrorMessage("已确认的不可以再撤销!");
            }
 		}
 
@@ -640,9 +642,9 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 				else {
 					flag = true;
-					List<Pick> pickRfc1 = new ArrayList<Pick>();
-					pickRfc1 = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
-					for (Pick pick2 : pickRfc1) {
+					pickRfc = new ArrayList<Pick>();
+					pickRfc = pickRfcImple.BatchMaterialDocumentCrt("", listsap,pickdetailList);
+					for (Pick pick2 : pickRfc) {
 						String e_type = pick2.getE_type();
 						String e_message = pick2.getE_message();
 						String ex_mblnr = pick2.getEx_mblnr();
@@ -661,8 +663,15 @@ public class PickAction extends BaseAdminAction {
 								pickReturn.setEx_mblnr(ex_mblnr+"/"+pickReturn.getEx_mblnr());
 								pickReturn.setE_type(e_type);
 								//pickReturn.setMove_type(move_type);
+								Date date = new Date(); 
+								SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+								String time = dateFormat.format(date); 
 								pickReturn.setState(REPEAL);
-								pickReturn.setConfirmUser(admin);
+//								pickReturn.setConfirmUser(admin);
+								pickReturn.setRevokedUser(admin.getName());
+								pickReturn.setRevokedTime(time);
+								pickReturn.setRevokedUserCard(admin.getCardNumber());
+								pickReturn.setRevokedUserId(admin.getId());
 								pickDetailService.updatePIckAndWork(pickReturn);
 								/**监听日志**/
 								List<PickDetail> lst = new ArrayList<PickDetail>(pickReturn.getPickDetail());

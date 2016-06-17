@@ -24,10 +24,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
-import org.springframework.beans.BeanUtils;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
 import cc.jiuyi.action.cron.ExtremelyMessage;
 import cc.jiuyi.bean.Pager;
@@ -40,11 +37,6 @@ import cc.jiuyi.entity.Callreason;
 import cc.jiuyi.entity.Craft;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Device;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.EnteringwareHouse;
-import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.FlowingRectify;
-import cc.jiuyi.entity.Member;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.SwiptCard;
@@ -58,6 +50,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.SwiptCardService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.util.CommonUtil;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SendMsgUtil;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -87,6 +80,10 @@ public class AbnormalAction extends BaseAdminAction {
 	private List<Department> list;
 	private List<Admin> adminSet;
 	private List<Callreason> callReasonSet;	
+	
+	private String start;
+	private String end;
+	private String originator;
 	
 	@Resource
 	private AbnormalService abnormalService;
@@ -815,6 +812,199 @@ public class AbnormalAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 
+	public String excelhistory(){
+		//异常历史页面加载
+				Admin admin2 = adminService.getLoginAdmin();
+				admin2 = adminService.get(admin2.getId());
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("start", start);
+				map.put("end", end);
+				map.put("originator", originator);
+				List<Object[]> workList = abnormalService.historyExcelExport(map);
+				
+				header.add("呼叫时间");
+				header.add("应答时间");
+				header.add("结束时间");
+				header.add("响应/分钟");
+				header.add("处理/分钟");
+				header.add("生产日期");
+				header.add("班次");
+				header.add("日志");
+				header.add("短信消息");
+				header.add("发起人");
+				header.add("应答人");
+				header.add("结束人");
+				header.add("状态");
+				
+				for (int i = 0; i < workList.size(); i++) {
+					Object[] obj = workList.get(i);
+					Abnormal abnormal = (Abnormal) obj[0];//oddHandOver
+					//消息处理
+					List<Callreason> callreasonList = new ArrayList<Callreason>(
+							abnormal.getCallreasonSet());// 消息
+					List<String> strlist = new ArrayList<String>();
+					for (Callreason callreason : callreasonList) {
+						String str = callreason.getCallReason();
+						strlist.add(str);
+					}
+					String comlist = CommonUtil.toString(strlist, ",");// 获取问题的字符串
+
+					//应答人处理
+					List<Admin> respon = new ArrayList<Admin>(
+							abnormal.getResponsorSet());
+					
+					
+					List<String> anslist = new ArrayList<String>();
+					
+					for (Admin admin : respon) {
+						String str;
+						str = admin.getName();							
+						anslist.add(str);
+					}
+					String anslist1 = CommonUtil.toString(anslist, ",");// 获取问题的字符串
+				
+					//日志处理
+					String ablists="";			
+					
+					List<AbnormalLog> abLog = new ArrayList<AbnormalLog>(abnormal.getAbnormalLogSet());
+					List<String> ablist = new ArrayList<String>();	
+					List<Quality> qualityList = new ArrayList<Quality>(abnormal.getQualitySet());
+					List<Model> modelList = new ArrayList<Model>(abnormal.getModelSet());
+					List<Craft> craftList = new ArrayList<Craft>(abnormal.getCraftSet());
+			        List<Device> deviceList = new ArrayList<Device>(abnormal.getDeviceSet());
+			 
+					if(abLog.size()>0){	
+						if(qualityList.size()>1){					
+							String str1="已开质量问题单"+"("+qualityList.size()+")";
+							ablist.add(str1);
+						}
+						if(modelList.size()>1){					
+							String str2="已开工模维修单"+"("+modelList.size()+")";
+		           		    ablist.add(str2);
+		           	    }
+						
+						 if(craftList.size()>1){            		
+							 String str3="已开工艺维修单"+"("+craftList.size()+")";
+							 ablist.add(str3);
+		            	 }
+						 if(deviceList.size()>1){    
+							 String str4="已开设备维修单"+"("+deviceList.size()+")";
+							 ablist.add(str4);
+		            	 }
+						String str;
+				
+						for(AbnormalLog ab:abLog){
+							
+							String type = ab.getType();
+							String info= ab.getInfo();
+		                     if(type.equalsIgnoreCase("0") && qualityList.size()==1){                  	                    		
+		                    		 str="已开质量问题单"; 
+							 }
+		                     else  if(type.equalsIgnoreCase("1") && modelList.size()==1){						
+		                    		 str="已开工模维修单";                     	
+							 }else if(type.equalsIgnoreCase("2") && craftList.size()==1){						
+		                    		 str="已开工艺维修单";                     	
+							 }else if(type.equalsIgnoreCase("3") && deviceList.size()==1){						
+		                    		 str="已开设备维修单";                      		 
+							 }else if(type.equalsIgnoreCase("5") && StringUtils.isNotEmpty(info)){
+								 str="已向"+info+"发送短信";
+							 }else{
+								 str="";
+							 }
+		                     if(StringUtils.isNotEmpty(str) && !str.equalsIgnoreCase("")){
+		                    	 ablist.add(str);
+		                     }
+
+						}
+					}else{
+						ablist.add("");
+					}
+
+					if(ablist.size()==0){
+						ablists="";
+					}else{
+						ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串
+					}
+					//ablists = CommonUtil.toString(ablist, ",");// 获取问题的字符串	
+					abnormal.setCallReason(comlist);
+					abnormal.setAnswer(anslist1);
+					abnormal.setLog(ablists);
+					abnormal.setOriginator(abnormal.getIniitiator().getName());
+					
+					//处理时间设置
+					if(abnormal.getState().equalsIgnoreCase("3") || abnormal.getState().equalsIgnoreCase("4")){
+						abnormal.setDisposeTime(String.valueOf(abnormal.getHandlingTime()));
+					}else{
+						Date date = new Date();
+						int time = (int) ((date.getTime() - abnormal.getCreateDate().getTime()) / 1000);
+						abnormal.setDisposeTime(String.valueOf(time));
+					}
+					
+					abnormal.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "abnormalState", abnormal.getState()));
+					
+					//班次
+					if(abnormal.getClasstime()!=null && !"".equals(abnormal.getClasstime())){
+						abnormal.setClasstime(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", abnormal.getClasstime()));
+					}else{
+						abnormal.setClasstime("");
+					}
+					
+					//关闭人或撤销人
+					if(abnormal.getCancelPerson()!=null && !"".equals(abnormal.getCancelPerson())){
+						Admin admin = adminService.get(abnormal.getCancelPerson());
+						abnormal.setCloseOrcancel(admin.getName());
+					}else if(abnormal.getClosePerson()!=null && !"".equals(abnormal.getClosePerson())){
+						Admin admin = adminService.get(abnormal.getClosePerson());
+						abnormal.setCloseOrcancel(admin.getName());
+					}else{
+						abnormal.setCloseOrcancel("");
+					}
+					
+					//关闭人或撤销时间
+					if(abnormal.getCancelTime()!=null){
+						abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCancelTime()));
+					}else if(abnormal.getCloseTime()!=null){
+						abnormal.setCloseOrcancelTime(ThinkWayUtil.formatdateDateTime(abnormal.getCloseTime()));
+					}else{
+						abnormal.setCloseOrcancelTime("");
+					}
+					Object[] bodyval = {
+							abnormal.getCreateDate(),
+							abnormal.getReplyDate(),
+							abnormal.getCloseOrcancelTime(),
+							abnormal.getResponseTime(),
+							abnormal.getDealTime(),
+							abnormal.getProductdate(),
+							abnormal.getClasstime(),
+							abnormal.getLog(),
+							abnormal.getCallReason(),
+							abnormal.getOriginator(),
+							abnormal.getAnswer(),
+							abnormal.getCloseOrcancel(),
+							abnormal.getStateRemark()};
+					body.add(bodyval);
+				}
+
+			
+
+		try {
+			String fileName = "异常清单" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("异常清单", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	
+	}
+	
+	
 	public Abnormal getAbnormal() {
 		return abnormal;
 	}
@@ -937,6 +1127,30 @@ public class AbnormalAction extends BaseAdminAction {
 
 	public void setLoginid(String loginid) {
 		this.loginid = loginid;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getOriginator() {
+		return originator;
+	}
+
+	public void setOriginator(String originator) {
+		this.originator = originator;
 	}
 
 	

@@ -72,6 +72,8 @@ jQuery(function($) {
 			{name:'mblnr',index:'mblnr',label:"物料凭证",width:150,editable: false,search:false},
 			{name:'xcreater',index:'creater.name',label:"提交人",width:150,editable: false,search:false},
 			{name:'xconfirmation',index:'confirmation.name',label:"确认人",width:150,editable: false,search:false},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xstate',index:'state',label:"状态",width:150,editable: false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=scrapState"}},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 

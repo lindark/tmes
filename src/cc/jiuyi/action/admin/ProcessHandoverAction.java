@@ -841,7 +841,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				Set<ProcessHandoverSon> processHandoverSonSet = p.getProcessHandoverSonSet();
 				for(ProcessHandoverSon ps:processHandoverSonSet){
 					ps.setIsdel("Y");
-					processHandoverSonService.update(ps);
+						processHandoverSonService.update(ps);
 					}
 				}
 			}else{			

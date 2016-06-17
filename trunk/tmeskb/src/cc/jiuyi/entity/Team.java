@@ -35,6 +35,8 @@ public class Team extends BaseEntity {
 	private Set<Kaoqin>kaoqinSet;//考勤
 	private String classSys;//班制
 	private String basic;//基本
+	private String zhuren;//主任
+	private String fuzhuren;//副主任
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -282,5 +284,21 @@ public class Team extends BaseEntity {
 	public void setBasic(String basic)
 	{
 		this.basic = basic;
+	}
+
+	public String getZhuren() {
+		return zhuren;
+	}
+
+	public void setZhuren(String zhuren) {
+		this.zhuren = zhuren;
+	}
+
+	public String getFuzhuren() {
+		return fuzhuren;
+	}
+
+	public void setFuzhuren(String fuzhuren) {
+		this.fuzhuren = fuzhuren;
 	}
 }

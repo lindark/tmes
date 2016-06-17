@@ -52,6 +52,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String shift;
 	
 	private Team team;//班组
+	private String teamName;//班组
 	
 	private Set<WorkingInout> workingInoutSet;//投入产出表
 
@@ -547,6 +548,12 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public void setShift(String shift) {
 		this.shift = shift;
 	}
-	
+	public String getTeamName() {
+		return teamName;
+	}
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+
 
 }

@@ -95,7 +95,7 @@ public class RepairRfcImpl extends BaserfcServiceImpl implements RepairRfc{
 	@Override
 	public Repair revokedRepairCrt(Repair repair, String testrun, String cardnumber)throws IOException,CustomerException{
 		Admin admin = adminservice.getByCardnum(cardnumber);
-		super.setProperty("handoverRevoked");//根据配置文件读取到函数名称
+		super.setProperty("repairRevoked");//根据配置文件读取到函数名称
 		/******输入参数******/
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		String year = repair.getWorkingbill().getProductDate().substring(0,4);

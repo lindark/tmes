@@ -258,9 +258,9 @@
 			}
 			else
 			{
-				if(row_state=="3" || row_state=="1")
+				if(row_state=="3")
 				{
-					layer.msg("已撤销或已确认的无法再撤销！", {icon: 5});
+					layer.msg("已撤销的无法再撤销！", {icon: 5});
 				}
 				else
 				{

@@ -200,9 +200,9 @@
 		});
 	   
 	   $("#btn_save").click(function(){
-			//	var loginid = $("#loginid").val();
 				//var $save = $(this);
 		//		var url = "process_handover!allSubmit.action";
+				var loginid = $("#loginid").val();
 				var id = "";
 				id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 				if(id==""){
@@ -215,7 +215,7 @@
 						layer.msg("已经确认或已撤销的记录无法再确认!",{icon:5});
 						return false;
 					}else{
-					var url="process_handover!allSubmit.action?id="+id;
+					var url="process_handover!allSubmit.action?id="+id+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");

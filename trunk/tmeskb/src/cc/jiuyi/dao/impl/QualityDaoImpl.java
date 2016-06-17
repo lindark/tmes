@@ -1,6 +1,11 @@
 package cc.jiuyi.dao.impl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
@@ -23,25 +28,25 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 				.forClass(Quality.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 
-		/*if(!super.existAlias(detachedCriteria, "products", "products")){
-			detachedCriteria.createAlias("products", "products");						
-		}*/
-		
-		if(!super.existAlias(detachedCriteria, "team", "team")){
-			detachedCriteria.createAlias("team", "team");//表名，别名*/							
-		}
-		
+//		/*if(!super.existAlias(detachedCriteria, "products", "products")){
+//			detachedCriteria.createAlias("products", "products");						
+//		}*/
+//		
+//		if(!super.existAlias(detachedCriteria, "team", "team")){
+//			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+//		}
+//		
 		if(!super.existAlias(detachedCriteria, "creater", "creater")){
 			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "receiver", "receiver")){
-			detachedCriteria.createAlias("receiver", "receiver");//表名，别名*/							
-		}
-		
-		if(!super.existAlias(detachedCriteria, "engineer", "engineer")){
-			detachedCriteria.createAlias("engineer", "engineer");						
-		}
+//		
+//		if(!super.existAlias(detachedCriteria, "receiver", "receiver")){
+//			detachedCriteria.createAlias("receiver", "receiver");//表名，别名*/							
+//		}
+//		
+//		if(!super.existAlias(detachedCriteria, "engineer", "engineer")){
+//			detachedCriteria.createAlias("engineer", "engineer");						
+//		}
 		
 		if (map.size() > 0) {
 			if(map.get("founder")!=null){
@@ -94,9 +99,9 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		if(!super.existAlias(detachedCriteria, "creater", "creater")){
 			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
 		}
-		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
-		detachedCriteria.createAlias("abnormal", "abnormal");						
-	    }
+//		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+//		detachedCriteria.createAlias("abnormal", "abnormal");						
+//	    }
 		
 		if (map.size() > 0) {
 			if(map.get("founder")!=null){
@@ -110,6 +115,46 @@ public class QualityDaoImpl extends BaseDaoImpl<Quality, String> implements Qual
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,String id,String teamid) {
+		
+		String hql="from Quality model join model.creater model1";
+		
+		Integer ishead=0;
+		if (map.size() > 0) {
+			if (!map.get("founder").equals("")) {
+				hql+=" where model1.name like '%"+map.get("founder")+"%'";
+				ishead=1;
+			}	
+			if(!map.get("process").equals("")){
+					if(ishead==0){
+						hql+=" where model.process like '%"+map.get("process")+"%'";
+						ishead=1;
+					}else{
+						hql+=" and model.process like '%"+map.get("process")+"%'";
+					}
+			}
+		}
+		if(ishead==0){
+			if(teamid!=null){
+				hql+=" where model.engineer.id = '"+id+"' or model.receiver.id='"+id+"' or model.team.id='"+teamid+"'";
+			}else{
+				hql+=" where model.engineer.id = '"+id+"' or model.receiver.id='"+id+"'";
+			}
+			
+		}else{
+			if(teamid!=null){
+				hql+=" and (model.engineer.id = '"+id+"' or model.receiver.id='"+id+"'  or model.team.id='"+teamid+"')";
+			}else{
+				hql+=" and (model.engineer.id = '"+id+"' or model.receiver.id='"+id+"')";
+			}
+			
+		}
+		
+		return getSession().createQuery(hql).list();
 	}
 	
 }

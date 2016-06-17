@@ -32,19 +32,19 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		if(!super.existAlias(detachedCriteria, "equipments", "equipments")){
 			detachedCriteria.createAlias("equipments", "equipments");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "teamId", "team")){
-			detachedCriteria.createAlias("teamId", "team");//表名，别名*/							
-		}
-		
-		if(!super.existAlias(detachedCriteria, "initiator", "initiator")){
-			detachedCriteria.createAlias("initiator", "initiator");//表名，别名*/							
-		}
-		
-		if(!super.existAlias(detachedCriteria, "insepector", "insepector")){
-			detachedCriteria.createAlias("insepector", "insepector");//表名，别名*/							
-		}
-		
+//		
+//		if(!super.existAlias(detachedCriteria, "teamId", "team")){
+//			detachedCriteria.createAlias("teamId", "team");//表名，别名*/							
+//		}
+//		
+//		if(!super.existAlias(detachedCriteria, "initiator", "initiator")){
+//			detachedCriteria.createAlias("initiator", "initiator");//表名，别名*/							
+//		}
+//		
+//		if(!super.existAlias(detachedCriteria, "insepector", "insepector")){
+//			detachedCriteria.createAlias("insepector", "insepector");//表名，别名*/							
+//		}
+//		
 		if(!super.existAlias(detachedCriteria, "fixer", "fixer")){
 			detachedCriteria.createAlias("fixer", "fixer");//表名，别名*/							
 		}
@@ -62,8 +62,8 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		}
 		
 		Disjunction disjunction = Restrictions.disjunction();  
-		if(team!=null && "".equals(team)){
-			disjunction.add(Restrictions.eq("team.id", team));
+		if(team!=null && !"".equals(team)){
+			disjunction.add(Restrictions.eq("teamId.id", team));
 		}
 		disjunction.add(Restrictions.eq("insepector.id", id));
 		disjunction.add(Restrictions.eq("fixer.id", id));
@@ -96,9 +96,9 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		if(!super.existAlias(detachedCriteria, "fixer", "fixer")){
 			detachedCriteria.createAlias("fixer", "fixer");//表名，别名*/							
 		}
-		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
-		detachedCriteria.createAlias("abnormal", "abnormal");						
-	    }
+//		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+//		detachedCriteria.createAlias("abnormal", "abnormal");						
+//	    }
 		
 		if (map.size() > 0) {
 
@@ -114,6 +114,46 @@ public class ModelDaoImpl extends BaseDaoImpl<Model, String> implements ModelDao
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,
+			String id, String teamid) {
+		
+		String hql="from Model model join model.fixer model1 join model.equipments model2";
+		
+		Integer ishead=0;
+		if (map.size() > 0) {
+			if (!map.get("repairName").equals("")) {
+				hql+=" where model1.name like '%"+map.get("repairName")+"%'";
+				ishead=1;
+			}	
+			if(!map.get("equipmentName").equals("")){
+					if(ishead==0){
+						hql+=" where model2.equipmentName like '%"+map.get("equipmentName")+"%'";
+						ishead=1;
+					}else{
+						hql+=" and  model2.equipmentName like '%"+map.get("equipmentName")+"%'";
+					}
+			}
+		}
+		if(ishead==0){
+			if(teamid!=null){
+				hql+=" where model.insepector.id = '"+id+"' or model1.id='"+id+"' or model.teamId.id='"+teamid+"'";
+			}else{
+				hql+=" where model.insepector.id = '"+id+"' or model1.id='"+id+"'";
+			}
+		}else{
+			if(teamid!=null){
+				hql+=" and (model.insepector.id = '"+id+"' or model1.id='"+id+"' or model.teamId.id='"+teamid+"')";
+			}else{
+				hql+=" and (model.insepector.id = '"+id+"' or model1.id='"+id+"')";
+			}
+		
+		}
+
+		return getSession().createQuery(hql).list();
+	
 	}
   
 }

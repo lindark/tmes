@@ -40,6 +40,10 @@ public class Scrap extends BaseEntity
 	private String factoryUnitName;//单元名称
 	private String matnr;//产品编号
 	private String maktxs;//产品名称
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	
 	//从表
 	private Set<ScrapMessage> scrapMsgSet;//报废信息表
@@ -262,6 +266,30 @@ public class Scrap extends BaseEntity
 	}
 	public void setWorkingBillCode(String workingBillCode) {
 		this.workingBillCode = workingBillCode;
+	}
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 	
 	

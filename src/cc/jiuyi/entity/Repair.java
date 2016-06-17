@@ -48,6 +48,11 @@ public class Repair extends BaseEntity {
 	private String matnr;// 产品编号
 	private String factoryUnitCode;// 单元编码
 	private String factoryUnitName;// 单元编码
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
+	
 	//SAP
 	private String WERKS;//工厂
 	private String LGORT;//库存地点
@@ -424,6 +429,38 @@ public class Repair extends BaseEntity {
 
 	public void setFactoryUnitName(String factoryUnitName) {
 		this.factoryUnitName = factoryUnitName;
+	}
+
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 	
 	

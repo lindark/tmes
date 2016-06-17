@@ -28,6 +28,10 @@ public class Sample extends BaseEntity
 	private WorkingBill workingBill;//随工单
 	private String isDel;
 	private Set<SampleRecord>sapmpleRecordSet;
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	//不在数据库生成的字段，用在查询页面
 	private String xsampler;//抽检人
 	private String xcomfirmation;//确认人
@@ -229,6 +233,38 @@ public class Sample extends BaseEntity
 
 	public void setXmoudle(String xmoudle) {
 		this.xmoudle = xmoudle;
+	}
+
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 	
 	

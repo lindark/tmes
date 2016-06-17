@@ -52,6 +52,10 @@ public class Pick extends BaseEntity{
 	private String e_message;
 	private String ex_mblnr;
 	private String mblnr;
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	
 	private String maktx;//产品描述
 	private String workingbillCode;//随工单编号
@@ -223,6 +227,30 @@ public class Pick extends BaseEntity{
 	public void setWorkingbillCode(String workingbillCode) {
 		this.workingbillCode = workingbillCode;
 	}
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
+	}
 	
-
+	
 }

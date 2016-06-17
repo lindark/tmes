@@ -40,6 +40,10 @@ public class ItermediateTest extends BaseEntity {
 	private String productDate;// 生产日期
 	private String shiftx;//班次描述
 	private String moudle;//模具
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	
 	@Transient
 	public String getShiftx() {
@@ -160,4 +164,37 @@ public class ItermediateTest extends BaseEntity {
 		this.moudle = moudle;
 	}
 
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
+	}
+
+	
 }

@@ -247,10 +247,17 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	{
 		Admin admin=this.adminService.getByCardnum(cardnumber);
 		Scrap s2=this.get(s.getId());
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date); 
 		String oldstate=s2.getState();
 		s2.setState(newstate);//状态
 		s2.setModifyDate(new Date());//修改日期
-		s2.setConfirmation(admin);//撤销/确认人
+		s2.setRevokedUser(admin.getName());
+		s2.setRevokedTime(time);
+		s2.setRevokedUserCard(admin.getCardNumber());
+		s2.setRevokedUserId(admin.getId());
+//		s2.setConfirmation(admin);//撤销/确认人
 		if(my_id==1)
 		{
 			s2.setE_type(s.getE_type());//类型S/E

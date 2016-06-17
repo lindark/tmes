@@ -74,6 +74,8 @@ jQuery(function($) {
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'revokedUser',label:"撤销人",index:'revokedUser', width:100,sortable:"true",sorttype:"text"},
+			{name:'revokedTime',label:"撤销时间",index:'adminName', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',label:"状态",index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=repairinState"}},
 			{name:'state',index:'state', editable: false,hidden:true}
 

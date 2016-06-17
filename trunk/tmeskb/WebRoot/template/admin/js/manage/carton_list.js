@@ -73,6 +73,8 @@ jQuery(function($) {
 			{name:'xteamshift',label:"班次",index:'teamshift', width:80,sortable:"true",sorttype:"text"},
 			{name:'xcreateUser',label:"创建人",index:'createUser.name', width:120,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',label:"确认人",index:'confirmUser.name', width:120,sortable:"true",sorttype:"text"},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'EX_MBLNR',label:"物料凭证",index:'EX_MBLNR', width:120,sortable:"true",sorttype:"text"},
 			{name:'bktxt',label:"单据编号",index:'bktxt', width:120,sortable:"true",sorttype:"text"},
 			{name:'xstate',label:"状态",index:'state', width:120,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=cartonState"}},

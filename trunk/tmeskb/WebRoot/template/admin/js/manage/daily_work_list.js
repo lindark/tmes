@@ -64,7 +64,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '报工数量','报工日期','模具','创建人', '确认人','确认号','计数器','状态','状态-隐藏'],
+		colNames:[ '报工数量','报工日期','模具','创建人', '确认人','撤销人','撤销时间','确认号','计数器','状态','状态-隐藏'],
 		colModel:[
 			
 			{name:'enterAmount',index:'enterAmount', width:100},
@@ -72,6 +72,8 @@ jQuery(function($) {
 			{name:'xmoudle',index:'xmoudle', width:100,sortable:"true",sorttype:"text"},
 			{name:'createName',index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'revokedUser',index:'revokedUser',search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'CONF_NO',index:'CONF_NO', width:100,sortable:"true",sorttype:"text"},
 			{name:'CONF_CNT',index:'CONF_CNT', width:100,sortable:"true",sorttype:"text"},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=dailyWorkState"}},

@@ -65,7 +65,7 @@ jQuery(function($) {
 	    	sort:"pager.orderBy",
 	    	order:"pager.orderType"
 	    },
-		colNames:[ '巡检数量','合格数量','合格率','模具','巡检日期','巡检人', '确认人','状态','状态'],
+		colNames:[ '巡检数量','合格数量','合格率','模具','巡检日期','巡检人', '确认人','撤销人','撤销时间','状态','状态'],
 		colModel:[
 			
 			{name:'pollingtestAmount',index:'pollingtestAmount', width:200,sortable:"true",sorttype:"text"},
@@ -74,7 +74,9 @@ jQuery(function($) {
 			{name:'moudle',index:'moudle', width:200,sortable:"true",sorttype:"text"},
 			{name:'createDate',index:'createDate',width:200,sortable:"true",sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'pollingtestUserName',index:'pollingtestUserName', width:100,sortable:"true",sorttype:"text"},
-			{name:'adminName',index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'confirmUserName',index:'confirmUserName', width:100,sortable:"true",sorttype:"text"},
+			{name:'revokedUser',index:'revokedUser',search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stateRemark',index:'state', width:100,cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pollingtestState"}},
 			{name:'state',index:'state', label:"state", editable: false,hidden:true}
 

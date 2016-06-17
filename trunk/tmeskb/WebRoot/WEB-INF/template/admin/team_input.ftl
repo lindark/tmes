@@ -117,13 +117,29 @@ body{background:#fff;}
 								</div>
 							</div>
 							<div class="profile-info-row">
+								<div class="profile-info-name"> 副主任 </div>					
+								<div class="profile-info-value">
+									<input id="team_fuzhuren" type="text" name="team.fuzhuren" value="${(team.fuzhuren)!}" class=" input input-sm  formText {required: true}" />
+									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_fuzhuren" class="mymust"></span>
+								</div>
+							</div>
+							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 主任 </div>					
+								<div class="profile-info-value">
+									<input id="team_zhuren" type="text" name="team.zhuren" value="${(team.zhuren)!}" class=" input input-sm  formText {required: true}" />
+									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_zhuren" class="mymust"></span>
+								</div>
+							</div>
+									
+						
+							<div class="profile-info-row">
 								<div class="profile-info-name"> 单元名称 </div>					
 								<div class="profile-info-value">
 									<label id="label_xfuname" class="class_label_xfuname">${(team.xfactoryUnitName)!}&nbsp;</label>
 									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_xfuname" class="mymust"></span>
 								</div>
-							</div>
-									
+							</div>		
 							<div class="profile-info-row">
 								<div class="profile-info-name"> 状态</div>					
 								<div class="profile-info-value">

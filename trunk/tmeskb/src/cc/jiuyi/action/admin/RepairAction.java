@@ -395,20 +395,27 @@ public class RepairAction extends BaseAdminAction {
 	public String creditundo() {
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			repair = repairService.load(ids[i]);
-			if (UNDO.equals(repair.getState()) || "1".equals(repair.getState())) {
+	//		repair = repairService.load(ids[i]);
+			repair = repairService.get(ids[i]);
+			if (UNDO.equals(repair.getState())) {
 				// addActionError("已撤销的无法再撤销！");
-				return ajaxJsonErrorMessage("已撤销或已确认的无法再撤销！");
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Repair> list = repairService.get(ids);
-		repairService.updateState(list, UNDO, workingBillId, cardnumber);
+		String msg = repairService.updateState(list, UNDO, workingBillId, cardnumber);	
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
+		if(!msg.equals("您的操作已成功!")){
+			hashmap.put(STATUS, ERROR);
+			hashmap.put(MESSAGE, msg);
+			hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
+					.toString());
+			return ajaxJson(hashmap);
+		}
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
-		hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
-				.toString());
+		hashmap.put("totalAmount", workingbill.getTotalRepairAmount().toString());
 		return ajaxJson(hashmap);
 	}
 

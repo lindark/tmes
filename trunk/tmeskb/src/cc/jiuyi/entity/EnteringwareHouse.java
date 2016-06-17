@@ -49,6 +49,10 @@ public class EnteringwareHouse extends BaseEntity {
 	private String ex_mblnr;//凭证号
 	private String e_message; 
 	private String e_type;
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	
 	private String factory;
 	private String workshop;
@@ -310,6 +314,38 @@ public class EnteringwareHouse extends BaseEntity {
 
 	public void setProductDate(String productDate) {
 		this.productDate = productDate;
+	}
+
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 	
 	

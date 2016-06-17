@@ -45,6 +45,11 @@ public class ReworkRecord extends BaseEntity{
     private Admin createUser;//创建人
     
     private Admin modifyUser;//修改人
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
+    
     
     private String xduty;//责任人名
     private String xcreateUser;//创建人名
@@ -270,6 +275,30 @@ public class ReworkRecord extends BaseEntity{
 	}
 	public void setProductsDate(String productsDate) {
 		this.productsDate = productsDate;
+	}
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 	
 	

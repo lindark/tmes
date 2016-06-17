@@ -38,6 +38,10 @@ public class Pollingtest extends BaseEntity {
 	private Admin pollingtestUser;// 巡检人
 	private Admin confirmUser;// 确认人
 	private String moudle;//模具组号
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 
 	private Set<PollingtestRecord> pollingtestRecord;// 巡检缺陷记录表
 	private WorkingBill workingBill;// 随工单
@@ -335,5 +339,39 @@ public class Pollingtest extends BaseEntity {
 
 	public void setMoudle(String moudle) {
 		this.moudle = moudle;
+	}
+
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}	
+	
+	
 }

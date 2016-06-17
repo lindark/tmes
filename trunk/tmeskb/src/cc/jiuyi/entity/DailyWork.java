@@ -39,6 +39,10 @@ public class DailyWork extends BaseEntity {
 	private String maktx;//产品描述
 	private String processCode;//工序编码
 	private String moudle;//模具
+	private String revokedUser;//撤销人
+	private String revokedUserId;//撤销人
+	private String revokedUserCard;//撤销人卡号
+	private String revokedTime;//撤销时间
 	
 	private String productDate;//生产日期
 	private String matnr;//产品编码
@@ -274,6 +278,38 @@ public class DailyWork extends BaseEntity {
 
 	public void setCnt(String cnt) {
 		this.cnt = cnt;
+	}
+
+	public String getRevokedUser() {
+		return revokedUser;
+	}
+
+	public void setRevokedUser(String revokedUser) {
+		this.revokedUser = revokedUser;
+	}
+
+	public String getRevokedUserId() {
+		return revokedUserId;
+	}
+
+	public void setRevokedUserId(String revokedUserId) {
+		this.revokedUserId = revokedUserId;
+	}
+
+	public String getRevokedUserCard() {
+		return revokedUserCard;
+	}
+
+	public void setRevokedUserCard(String revokedUserCard) {
+		this.revokedUserCard = revokedUserCard;
+	}
+
+	public String getRevokedTime() {
+		return revokedTime;
+	}
+
+	public void setRevokedTime(String revokedTime) {
+		this.revokedTime = revokedTime;
 	}
 
 	

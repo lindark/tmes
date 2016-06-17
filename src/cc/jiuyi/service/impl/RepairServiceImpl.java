@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,8 +8,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.action.admin.RepairinAction;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairDao;
 import cc.jiuyi.entity.Admin;
@@ -16,7 +19,11 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
+import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.RepairInRfc;
+import cc.jiuyi.sap.rfc.RepairRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
@@ -32,6 +39,8 @@ import cc.jiuyi.util.ArithUtil;
 @Service
 public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		implements RepairService,WorkingInoutCalculateBase<RepairPiece> {
+	public static Logger log = Logger.getLogger(RepairService.class);
+	
 	@Resource
 	private RepairDao repairDao;
 	@Resource
@@ -49,6 +58,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	private MaterialService mService;//物料表
 	@Resource
 	private RepairPieceService rpService;//组件表
+	@Resource
+	private RepairRfc repairRfc;
 	//@Resource
 	//private WorkingInoutService wiService;
 
@@ -68,25 +79,47 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 	/**
 	 * 考虑线程同步
 	 */
-	public synchronized void updateState(List<Repair> list, String statu,
+	public synchronized String updateState(List<Repair> list, String statu,
 			String workingbillid,String cardnumber) {
+		try{
 		Admin admin = adminservice.getByCardnum(cardnumber);
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date); 
 		//WorkingBill workingbill = workingbillService.get(workingbillid);
 		//Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repair repair = list.get(i);
+			String oldMblnr = repair.getEX_MBLNR();
 			/*if (statu.equals("1")) {
 				totalamount = repair.getRepairAmount() + totalamount;
 			}
 			if (statu.equals("3")) {
 				totalamount -= repair.getRepairAmount();
 			}*/
+			if(repair.getEX_MBLNR()!=null && repair.getEX_MBLNR().contains("/")!=true){
+				repair = repairRfc.revokedRepairCrt(repair,"",cardnumber);
+				if(repair.getE_TYPE().equals("E")){
+					return repair.getE_MESSAGE();
+				}
+			}
+			repair.setEX_MBLNR(oldMblnr+"/"+repair.getEX_MBLNR());
+			repair.setRevokedTime(time);
+			repair.setRevokedUser(admin.getName());
+			repair.setRevokedUserCard(cardnumber);
+			repair.setRevokedUserId(admin.getId());
 			repair.setState(statu);
-			repair.setConfirmUser(admin);
+		//	repair.setConfirmUser(admin);
 			repairDao.update(repair);
 		}
 		//workingbill.setTotalRepairAmount(totalamount);
 		//workingbillService.update(workingbill);
+		return "您的操作已成功!";
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e);
+			return "系统异常，请联系管理员";
+		}
 	}
 
 	@Override
@@ -371,4 +404,59 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 			}
 		}*/
 	}
+	
+//	public Repair revokedSAP(Repair repair,Admin admin,String workingbillid,String cardnumber){
+//		try{
+//			String oldMblur = repair.getEX_MBLNR()+"/";
+//			if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+//				repair.setLGORT(admin.getTeam().getFactoryUnit().getWarehouse());//库存地点
+//			}else{
+//				repair.setE_TYPE("E");
+//				repair.setE_MESSAGE("无法找到刷卡人的班次或单元信息");
+//				return repair;
+//			}
+//			if(admin.getTeam().getFactoryUnit().getWorkShop()!=null&&admin.getTeam().getFactoryUnit().getWorkShop().getFactory()!=null){
+//				repair.setWERKS(admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+//			}else{
+//				repair.setE_TYPE("E");
+//				repair.setE_MESSAGE("无法找到刷卡人的车间或工厂信息");
+//				return repair;
+//			}
+//			List<RepairPiece> listrp = new ArrayList<RepairPiece>(repair.getRpieceSet());// 取出对应的组件
+//			if (listrp.size() > 0){
+//				/**有组件数据,进行SAP交互*/
+//				// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+//				Repair r_sapreturn1 = repairRfc.revokedRepairCrt("X",repair, listrp);
+//				if(r_sapreturn1.getEX_MBLNR()!=null && !"".equals(r_sapreturn1.getEX_MBLNR())){
+//					log.info("---X----ex_mblnr---"+r_sapreturn1.getEX_MBLNR());
+//				}
+//				/** 出现问题 */
+//				if ("E".equalsIgnoreCase(r_sapreturn1.getE_TYPE()))
+//				{
+//					return r_sapreturn1;
+//				}else{
+//					Repair r_sapreturn = repairRfc.revokedRepairCrt("",repair, listrp);
+//					r_sapreturn.setEX_MBLNR(oldMblur+"/"+r_sapreturn.getEX_MBLNR());
+//					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE())){
+//						return r_sapreturn;
+//					}
+//					log.info("-------mblnr---"+r_sapreturn.getEX_MBLNR());
+//					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE())){
+//						return r_sapreturn;
+//					}
+//					if(r_sapreturn.getEX_MBLNR()==null || oldMblur.equals(r_sapreturn.getEX_MBLNR())){
+//						r_sapreturn.setE_MESSAGE("未返回凭证");
+//					}
+//					/** 与SAP交互没有问题,更新本地数据库 */
+//					this.updateMyData(r_sapreturn, cardnumber,1,workingbillid);
+//				}
+//			}else{
+//				/**没有组件数据,只把状态改为确认*/
+//				this.updateMyData(repair, cardnumber,2,"");
+//			}
+//		return repair;
+//		}catch(Exception e){
+//			return repair;
+//		}
+//	}
 }

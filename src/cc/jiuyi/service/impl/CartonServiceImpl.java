@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -529,7 +530,14 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				c.setEX_MBLNR(str==null?"":str+"/"+c_return.getEX_MBLNR());//凭证号
 				c.setE_MESSAGE(c_return.getE_MESSAGE());//返回消息
 				c.setModifyDate(new Date());
-				c.setConfirmUser(admin);//确认人
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
+//				c.setConfirmUser(admin);//确认人
+				c.setRevokedUser(admin.getName());
+				c.setRevokedTime(time);
+				c.setRevokedUserCard(admin.getCardNumber());
+				c.setRevokedUserId(admin.getId());
 				c.setState("3");
 				this.update(c);
 			}

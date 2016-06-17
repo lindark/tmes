@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -129,8 +130,15 @@ public class ItermediateTestServiceImpl extends BaseServiceImpl<ItermediateTest,
 		Admin admin=this.adminservice.getByCardnum(cardnumber);
 		for (int i = 0; i < list.size(); i++) {
 			ItermediateTest it=list.get(i);
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
 			it.setState(stus);
-			it.setConfirmUser(admin);
+	//		it.setConfirmUser(admin);
+			it.setRevokedUser(admin.getName());
+			it.setRevokedTime(time);
+			it.setRevokedUserCard(admin.getCardNumber());
+			it.setRevokedUserId(admin.getId());
 			this.itermediateTestDao.update(it);
 		}
 	}

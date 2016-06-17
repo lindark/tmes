@@ -207,7 +207,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 		}
 		for(ProcessHandover p : processHandoverTop.getProcessHandOverSet()){
 			boolean flag =false;
-			System.out.println(p.getProductAmount());
+		//	System.out.println(p.getProductAmount());
 			if(p.getProductAmount()!=null && !p.getProductAmount().equals("")){
 				flag = true;
 			}

@@ -1,6 +1,8 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,9 +79,15 @@ public class ReworkRecordServiceImpl extends BaseServiceImpl<ReworkRecord, Strin
 	@Override
 	public void saveRepeal(List<ReworkRecord> list, Admin admin, String stu) {
 		for (int i = 0; i < list.size(); i++) {
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
 			ReworkRecord reworkRecord=list.get(i);
 			reworkRecord.setState(stu);
-			reworkRecord.setConfirmUser(admin);
+			reworkRecord.setRevokedUser(admin.getName());
+			reworkRecord.setRevokedTime(time);
+			reworkRecord.setRevokedUserCard(admin.getCardNumber());
+			reworkRecord.setRevokedUserId(admin.getId());
 			reworkReworkDao.update(reworkRecord);	
 		}
 		

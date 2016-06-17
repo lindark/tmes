@@ -1,4 +1,5 @@
 package cc.jiuyi.service.impl;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,9 +100,20 @@ public class SampleServiceImpl extends BaseServiceImpl<Sample, String> implement
 		Admin admin=this.adminService.getByCardnum(cardnumber);
 		for(int i=0;i<list.size();i++)
 		{
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
 			Sample sample=list.get(i);
 			sample.setState(newstate);
-			sample.setComfirmation(admin);
+			if(newstate.equals("2")){
+				sample.setComfirmation(admin);
+			}
+			if(newstate.equals("3")){
+				sample.setRevokedUser(admin.getName());
+				sample.setRevokedTime(time);
+				sample.setRevokedUserCard(admin.getCardNumber());
+				sample.setRevokedUserId(admin.getId());
+			}
 			this.update(sample);
 		}
 	}

@@ -1,6 +1,8 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,12 +100,18 @@ public class EnteringwareHouseServiceImpl extends
 			for (int i = 0; i < list.size(); i++) {
 				EnteringwareHouse enteringwareHouse = list.get(i);	
 				String exmblnr=enteringwareHouse.getEx_mblnr();
-
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
 				enteringwareHouse=	enteringwareHouseDao.get(enteringwareHouse.getId());
 				totalamount -= enteringwareHouse.getStorageAmount();					
 				enteringwareHouse.setEx_mblnr(enteringwareHouse.getEx_mblnr()+"/"+exmblnr);
-				enteringwareHouse.setConfirmUser(admin);
+//				enteringwareHouse.setConfirmUser(admin);
 				enteringwareHouse.setState(state);
+				enteringwareHouse.setRevokedUser(admin.getName());
+				enteringwareHouse.setRevokedTime(time);
+				enteringwareHouse.setRevokedUserCard(admin.getCardNumber());
+				enteringwareHouse.setRevokedUserId(admin.getId());
 				//enteringwareHouse.setStorageAmount(enteringwareHouse.getStorageAmount()/ratio1);
 				this.update(enteringwareHouse);
 			}

@@ -102,8 +102,10 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				if(repair.getE_TYPE().equals("E")){
 					return repair.getE_MESSAGE();
 				}
+				if(repair.getE_TYPE().equals("S")){
+					repair.setEX_MBLNR(oldMblnr+"/"+repair.getEX_MBLNR());
+				}
 			}
-			repair.setEX_MBLNR(oldMblnr+"/"+repair.getEX_MBLNR());
 			repair.setRevokedTime(time);
 			repair.setRevokedUser(admin.getName());
 			repair.setRevokedUserCard(cardnumber);

@@ -114,8 +114,15 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			DailyWork dailyWork = new DailyWork();
 			dailyWork = list.get(i);
 			if ("2".equals(dailyWork.getState())) {
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
 				dailyWork.setState("3");
-				dailyWork.setConfirmUser(admin);
+//				dailyWork.setConfirmUser(admin);
+				dailyWork.setRevokedUser(admin.getName());
+				dailyWork.setRevokedTime(time);
+				dailyWork.setRevokedUserCard(admin.getCardNumber());
+				dailyWork.setRevokedUserId(admin.getId());
 				this.update(dailyWork);
 			} else {
 				dailyWorkList.add(dailyWork);

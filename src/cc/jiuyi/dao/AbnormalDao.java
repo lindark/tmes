@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Abnormal;
@@ -23,4 +24,5 @@ public interface AbnormalDao extends BaseDao<Abnormal, String> {
 	
 	public Pager getAbnormalAllPager(Pager pager, HashMap<String, String> map,
 			String id);
+	public List<Object[]> historyExcelExport(HashMap<String, String> map);
 }

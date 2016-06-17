@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -109,9 +110,16 @@ public class PollingtestServiceImpl extends
 	@Override
 	public void confirm(List<Pollingtest> list, Admin admin, String stu) {
 		for (int i = 0; i < list.size(); i++) {
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
 			Pollingtest pollingtest = list.get(i);
 			pollingtest.setState(stu);
-			pollingtest.setConfirmUser(admin);
+//			pollingtest.setConfirmUser(admin);
+			pollingtest.setRevokedUser(admin.getName());
+			pollingtest.setRevokedTime(time);
+			pollingtest.setRevokedUserCard(admin.getCardNumber());
+			pollingtest.setRevokedUserId(admin.getId());
 			pollingtestDao.update(pollingtest);
 		}
 	}

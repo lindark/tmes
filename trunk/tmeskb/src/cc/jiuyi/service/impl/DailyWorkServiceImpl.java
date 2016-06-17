@@ -3,7 +3,9 @@ package cc.jiuyi.service.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -207,9 +209,16 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				}
 				
 			//	dailyWork.setEnterAmount(dailyWork.getEnterAmount());
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
 				dailyWork.setCONF_NO(CONF_NO);
 				dailyWork.setCONF_CNT(CONF_CNT);
-				dailyWork.setConfirmUser(admin);
+//				dailyWork.setConfirmUser(admin);
+				dailyWork.setRevokedUser(admin.getName());
+				dailyWork.setRevokedTime(time);
+				dailyWork.setRevokedUserCard(admin.getCardNumber());
+				dailyWork.setRevokedUserId(admin.getId());
 				dailyWork.setState("3");				
 				this.update(dailyWork);
 			}

@@ -63,53 +63,14 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 	public void saveOddHandOverList(ProcessHandoverTop processHandoverTop,
 			List<OddHandOver> OddHandOverList,
 			List<ProcessHandover> processHandoverList, String loginid) {
-
+		try {
 		Admin admin = adminService.get(loginid);
 		processHandoverTop.setPhtcreateUser(admin);
 		processHandoverTop.setState("1");
 		processHandoverTop.setIsdel("N");
 		processHandoverTop.setType("零头数交接");
 		processHandoverTopService.save(processHandoverTop);
-//		for(int i=0;i<processHandoverList.size();i++){
-//			ProcessHandover processHandover = processHandoverList.get(i);
-//			if(processHandover!=null){
-//				WorkingBill wb = workingbillservice.get("workingBillCode", processHandover.getWorkingBillCode());
-//				processHandover.setWorkingBill(wb);
-//				processHandover.setProcessHandoverTop(processHandoverTop);
-//				processHandoverDao.save(processHandover);
-//				for(int j=0;j<OddHandOverList.size();j++){
-//					OddHandOver oddHandOver = OddHandOverList.get(j);
-//					if(oddHandOver!=null){
-//					oddHandOver.setBeforeWokingCode(processHandover.getWorkingBillCode());
-//					oddHandOver.setAfterWorkingCode(processHandover.getAfterWorkingBillCode());
-//					Double actualHOMount = processHandover.getActualHOMount();
-//					Double unHOMount = processHandover.getUnHOMount();
-//						if(oddHandOver.getBeforeWokingCode().equals(processHandover.getWorkingBillCode())){
-//							if(actualHOMount != null){
-//								BigDecimal amount = new BigDecimal(actualHOMount);
-//								BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
-//								BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-//								Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
-//						//		Double mount = amount.setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue();
-//								oddHandOver.setActualBomMount(mount);
-//							}
-//							if(unHOMount != null){
-//								BigDecimal amount = new BigDecimal(unHOMount);
-//								BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
-//								BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-//								Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
-//					//			Double mount = amount.setScale(3,BigDecimal.ROUND_HALF_UP).doubleValue();
-//								oddHandOver.setUnBomMount(mount);
-//							}
-//							oddHandOver.setProcessHandover(processHandover);
-//							oddHandOverDao.save(oddHandOver);
-//						}
-//					}
-//				}
-//			}
-//			
-//		}
-		try {
+		
 			for(int i=0;i<processHandoverList.size();i++){
 				ProcessHandover processHandover = processHandoverList.get(i);
 				if(processHandover!=null){
@@ -127,7 +88,13 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 									BigDecimal amount = new BigDecimal(actualHOMount);
 									BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
 									BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-									Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									Double isZero = plAmount.doubleValue();
+									Double mount;
+									if(isZero==0.0){
+										mount = 0.0;
+									}else{
+										mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									}
 									oddHandOver.setActualHOMount(mount);
 									oddHandOver.setActualBomMount(actualHOMount);
 								}
@@ -135,14 +102,19 @@ public class OddHandOverServiceImpl extends BaseServiceImpl<OddHandOver, String>
 									BigDecimal amount = new BigDecimal(unHOMount);
 									BigDecimal bmAmount = new BigDecimal(oddHandOver.getMaterialAmount());
 									BigDecimal plAmount = new BigDecimal(processHandover.getPlanCount());
-									Double mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									Double isZero = plAmount.doubleValue();
+									Double mount;
+									if(isZero==0.0){
+										mount = 0.0;
+									}else{
+										mount = amount.multiply((bmAmount).divide(plAmount,3,BigDecimal.ROUND_HALF_UP)).doubleValue();
+									}
 									oddHandOver.setUnBomMount(unHOMount);
 									oddHandOver.setUnHOMount(mount);
 								}
 								oddHandOver.setProcessHandover(processHandover);
 								oddHandOver.setBeforeWokingCode(processHandover.getWorkingBillCode());
 								oddHandOver.setAfterWorkingCode(processHandover.getAfterWorkingBillCode());
-								oddHandOver.setWorkingBill(wb);
 								oddHandOverDao.save(oddHandOver);
 							}
 						}

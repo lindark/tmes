@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -381,5 +382,60 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		return scrapDao.historyjqGrid(pager, map);
+	}
+
+	@Override
+	public void updateNewUndo(Scrap s, String newstate, String cardnumber,
+			int my_id) {
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date); 
+		Admin admin=this.adminService.getByCardnum(cardnumber);
+		Scrap s2=this.get(s.getId());
+		String oldstate=s2.getState();
+		s2.setState(newstate);//状态
+		s2.setModifyDate(new Date());//修改日期
+		s2.setRevokedUser(admin.getName());
+		s2.setRevokedTime(time);
+		s2.setRevokedUserCard(admin.getCardNumber());
+		s2.setRevokedUserId(admin.getId());
+	//	s2.setConfirmation(admin);//撤销/确认人
+		if(my_id==1)
+		{
+			s2.setE_type(s.getE_type());//类型S/E
+			s2.setE_message(s.getE_message());//反馈消息
+			String mblnr=s.getMblnr();
+			if("3".equals(newstate))
+			{
+				mblnr=s2.getMblnr()+"/"+mblnr;
+			}
+			s2.setMblnr(mblnr);//物料凭证
+		}
+		List<ScrapMessage>list_sm=new ArrayList<ScrapMessage>(s2.getScrapMsgSet());//信息表
+		/**计算报废缺陷数量保存到主表中*/
+		if(list_sm.size()>0)
+		{
+			for(int i=0;i<list_sm.size();i++)
+			{
+				ScrapMessage sm=list_sm.get(i);
+				Double count=sm.getMenge();
+			//	Double d=sm.getMenge();
+			//	count=d.doubleValue();
+				/**投入产出*/
+				if((count>0&&"2".equals(oldstate)&&"3".equals(newstate))||(count>0&&"2".equals(newstate)))
+				{
+					HashMap<String,Object>map=new HashMap<String,Object>();
+					map.put("smmatterNum", sm.getSmmatterNum().toString());//物料编码
+					map.put("smmatterDes", sm.getSmmatterDes().toString());
+					map.put("wbid", s2.getWorkingBill().getId());//随工单ID
+					map.put("count", count+"");//数量
+					map.put("newstate", newstate);//2确认3撤销
+					updateWorkingInoutCalculate(null,map);
+				}
+			}
+		}
+		this.update(s2);
+	
+		
 	}
 }

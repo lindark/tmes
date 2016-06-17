@@ -1,5 +1,6 @@
 package cc.jiuyi.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,18 +8,24 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Repair;
+import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
+import cc.jiuyi.sap.rfc.RepairInRfc;
+import cc.jiuyi.sap.rfc.RepairRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.RepairService;
 import cc.jiuyi.service.RepairinPieceService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.WorkingBillService;
@@ -32,13 +39,17 @@ import cc.jiuyi.util.ArithUtil;
 @Service
 public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		implements RepairinService,WorkingInoutCalculateBase<RepairinPiece> {
+	public static Logger log = Logger.getLogger(RepairinService.class);
+	
 	@Resource
 	private RepairinDao repairinDao;
 	@Resource
 	private WorkingBillService workingbillService;
 	@Resource
 	private AdminService adminservice;
-
+	@Resource
+	private RepairInRfc repairinRfc;
+	
 	@Resource
 	public void setBaseDao(RepairinDao repairinDao) {
 		super.setBaseDao(repairinDao);
@@ -66,9 +77,12 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 考虑线程同步
 	 */
-	public synchronized void updateState(List<Repairin> list, String statu,
+	public synchronized String updateState(List<Repairin> list, String statu,
 			String workingbillid, String cardnumber) {
 		Admin admin = adminservice.getByCardnum(cardnumber);
+		Date date = new Date(); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+		String time = dateFormat.format(date); 
 		//WorkingBill workingbill = workingbillService.get(workingbillid);
 		//Integer totalamount = workingbill.getTotalRepairinAmount();
 		for (int i = 0; i < list.size(); i++) {
@@ -79,12 +93,22 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			if (statu.equals("3") && repairin.getState().equals("2")) {
 				totalamount -= repairin.getReceiveAmount();
 			}*/
-			repairin.setConfirmUser(admin);
+			if(repairin.getEX_MBLNR()!=null && repairin.getEX_MBLNR().contains("/")!=true){
+				repairin = revokedSAP(repairin,admin,workingbillid,cardnumber);
+				if(repairin.getE_TYPE().equals("E")){
+					return repairin.getE_MESSAGE();
+				}
+			}
+			repairin.setRevokedTime(time);
+			repairin.setRevokedUser(admin.getName());
+			repairin.setRevokedUserCard(cardnumber);
+			repairin.setRevokedUserId(admin.getId());
 			repairin.setState(statu);
 			repairinDao.update(repairin);
 		}
 		//workingbill.setTotalRepairinAmount(totalamount);
 		//workingbillService.update(workingbill);
+		return "您的操作已成功!";
 	}
 
 	@Override
@@ -369,5 +393,61 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return repairinDao.historyExcelExport(map);
+	}
+	
+	public Repairin revokedSAP(Repairin repairin,Admin admin,String workingbillid,String cardnumber){
+		try{
+			String oldMblur = repairin.getEX_MBLNR()+"/";
+			if(admin.getTeam()!=null && admin.getTeam().getFactoryUnit()!=null){
+				repairin.setLGORT(admin.getTeam().getFactoryUnit().getWarehouse());//库存地点
+			}else{
+				repairin.setE_TYPE("E");
+				repairin.setE_MESSAGE("无法找到刷卡人的班次或单元信息");
+				return repairin;
+			}
+			if(admin.getTeam().getFactoryUnit().getWorkShop()!=null&&admin.getTeam().getFactoryUnit().getWorkShop().getFactory()!=null){
+				repairin.setWERKS(admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode());//工厂SAP测试数据 工厂编码
+			}else{
+				repairin.setE_TYPE("E");
+				repairin.setE_MESSAGE("无法找到刷卡人的车间或工厂信息");
+				return repairin;
+			}
+			List<RepairinPiece> listrp = new ArrayList<RepairinPiece>(repairin.getRpieceSet());// 取出对应的组件
+			String oldMblnr = repairin.getEX_MBLNR();
+			if (listrp.size() > 0){
+				/**有组件数据,进行SAP交互*/
+				// 调用SAP，执行数据交互，返回List，并判断数据交互中是否成功，成功的更新本地数据库，失败的则不保存
+				Repairin r_sapreturn1 = repairinRfc.revokedRepairCrt("X",repairin, listrp);
+				if(r_sapreturn1.getEX_MBLNR()!=null && !"".equals(r_sapreturn1.getEX_MBLNR())){
+					log.info("---X----ex_mblnr---"+r_sapreturn1.getEX_MBLNR());
+				}
+				/** 出现问题 */
+				if ("E".equalsIgnoreCase(r_sapreturn1.getE_TYPE()))
+				{
+					return r_sapreturn1;
+				}else{
+					Repairin r_sapreturn = repairinRfc.revokedRepairCrt("",repairin, listrp);
+					r_sapreturn.setEX_MBLNR(oldMblnr+"/"+r_sapreturn.getEX_MBLNR());
+					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE())){
+						return r_sapreturn;
+					}
+					log.info("-------mblnr---"+r_sapreturn.getEX_MBLNR());
+					if ("E".equalsIgnoreCase(r_sapreturn.getE_TYPE())){
+						return r_sapreturn;
+					}
+					if(r_sapreturn.getEX_MBLNR()==null || oldMblur.equals(r_sapreturn.getEX_MBLNR())){
+						r_sapreturn.setE_MESSAGE("未返回凭证");
+					}
+					/** 与SAP交互没有问题,更新本地数据库 */
+					this.updateMyData(r_sapreturn, cardnumber,1,workingbillid);
+				}
+			}else{
+				/**没有组件数据,只把状态改为确认*/
+				this.updateMyData(repairin, cardnumber,2,"");
+			}
+		return repairin;
+		}catch(Exception e){
+			return repairin;
+		}
 	}
 }

@@ -94,7 +94,10 @@ public class ExportExcel {
         
       //让列宽随着导出的列长自动适应  modify by Reece 2016/3/8
         for (int colNum = 0; colNum < header.size(); colNum++) {
-        	if("模具组号".equals(header.get(colNum)) || "工作范围".equals(header.get(colNum)))continue;
+        	if("模具组号".equals(header.get(colNum)) || "工作范围".equals(header.get(colNum)) || "日志".equals(header.get(colNum))){
+        		sheet.setColumnWidth(colNum, (40) * 256);  
+        		continue;
+        	}
             int columnWidth = sheet.getColumnWidth(colNum) / 256;  
             for (int rowNum = 0; rowNum <= sheet.getLastRowNum(); rowNum++) {  
                 HSSFRow currentRow;  

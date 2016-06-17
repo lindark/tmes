@@ -34,7 +34,7 @@ public interface RepairService extends BaseService<Repair, String>{
 	 */
 	public void updateisdel(String[] ids, String oper);
 
-	public void updateState(List<Repair> list, String statu,
+	public String updateState(List<Repair> list, String statu,
 			String workingbillid,String cardnumber);
 
 	/**

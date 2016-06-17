@@ -595,8 +595,15 @@ public class PickAction extends BaseAdminAction {
 		if (str.equals("1")) {
 			for (int i = 0; i < list.size(); i++) {
 				Pick pick = list.get(i);
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
 				pick.setState(REPEAL);
-				pick.setConfirmUser(admin);
+//				pick.setConfirmUser(admin);
+				pick.setRevokedUser(admin.getName());
+				pick.setRevokedTime(time);
+				pick.setRevokedUserCard(admin.getCardNumber());
+				pick.setRevokedUserId(admin.getId());
 				pickService.update(pick);
 				//pickDetailService.updatePIckAndWork(pick);//往投入产出表
 			}

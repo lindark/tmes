@@ -71,15 +71,10 @@
 						<div class="div_top">
 								<div>
 								下班生产日期:
-								<#if show??>
-                                	        ${(processHandoverTop.afterProductDate)!}
-                                	        <#else>
-                                	         <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
-                                	        </#if>
-                               
+                                <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
                                    &nbsp;&nbsp;
                                  	         班次:
-                                     <select name="processHandoverTop.aftershift"id="sl_sh"<#if show??>disabled</#if>>
+                                     <select name="processHandoverTop.aftershift"id="sl_sh">
                                      	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
                                      	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
 										<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>
@@ -157,6 +152,9 @@
 												<#if !(show??)>
 												<th class="center"style="width:5%">操作</th>
 												</#if>
+												<#if show??>
+												<th class="center"style="width:5%">物料凭证号</th>
+												</#if>
 											</tr>
 										</thead>
 	
@@ -222,7 +220,9 @@
 														</td>
 														<td style="width:5%"><a href="javascript:void(0);" class="removeLine">删除</a></td>
 														<#else>
-														<span id="responsibleName">${(list.responsibleName) }</span>		
+														<span id="responsibleName">${(list.responsibleName) }</span>
+														</td>
+														<td class="mblnr">${(list.mblnr)! }</td>		
 														</#if>
 														<#list list.oddHandOverSet as bl>
 														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].id" value="${bl.id }">  

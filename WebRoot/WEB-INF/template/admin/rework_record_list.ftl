@@ -254,7 +254,7 @@
 	    	}else{
 	    	var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state = rowData.state;
-			alert(row_state);
+	//		alert(row_state);
 			if(row_state == "2" || row_state == "4"){
 				layer.msg("已经确认或已撤销的返工记录无法再编辑!",{icon:5});
 				return false;
@@ -311,7 +311,7 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
-				if(row_state == "2" || row_state =="3" || row_state == "4"){
+				if(row_state =="3" || row_state == "4"){
 					layer.msg("已经确认、返工中或已撤销的返工记录无法再撤销!",{icon:5});
 					return false;
 				}else{

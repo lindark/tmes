@@ -261,8 +261,8 @@
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 			}else{
-				if(row_state=="3" || row_state=="1"){
-					layer.msg("已撤销或已确认的无法再撤销！", {icon: 5});
+				if(row_state=="3"){
+					layer.msg("已撤销的无法再撤销！", {icon: 5});
 				}else{
 				var url = "repairin!creditundo.action?id="+id+"&workingBillId="+workingBillId;
 				credit.creditCard(url,function(data){

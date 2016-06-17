@@ -55,6 +55,7 @@ import cc.jiuyi.service.QualityProblemDescriptionService;
 import cc.jiuyi.service.QualityService;
 import cc.jiuyi.service.UnusualLogService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -78,7 +79,7 @@ public class QualityAction extends BaseAdminAction {
 	private String product;
 	private String bomproduct; 
 	private String bomId;
-	
+	private String founder;
 	private String materialCode;
 	
 	private List<Quality>  qualityList;
@@ -327,13 +328,95 @@ public class QualityAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Quality.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
 	
+	/**
+	 * excel导出
+	 * @return
+	 */
+	public String excelhistory(){
+
+		//异常历史页面加载
+				Admin admin2 = adminService.getLoginAdmin();
+				admin2 = adminService.get(admin2.getId());
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("founder",founder);
+				map.put("process", process);
+				List<Object[]> workList = new ArrayList<Object[]>();
+				if(admin2.getTeam()!=null){
+					workList = qualityService.historyExcelExport(map,admin2.getId(),admin2.getTeam().getId());
+				}else{
+					workList= qualityService.historyExcelExport(map,admin2.getId(),null);
+				}
+				
+				header.add("产品名称");
+				header.add("工序");
+				header.add("问题描述");
+				header.add("创建人");
+				header.add("状态");
+				
+				for (int i = 0; i < workList.size(); i++) {
+					Object[] obj = workList.get(i);
+					Quality quality = (Quality) obj[0];
+					if(quality.getProducts()==null){
+						String product=bomService.getMaterialName(quality.getBom());
+						quality.setProductsName(product);
+					}else{
+						Products products=productsService.get("productsCode",quality.getProducts());
+						String product = products.getProductsName();
+						quality.setProductsName(product);
+					}
+					
+					quality.setFounder(quality.getCreater().getName());				
+					quality.setTeamName(quality.getTeam().getTeamName());
+					quality.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "receiptState", quality.getState()));	
+					if(quality.getProcess()!=null && !"".equals(quality.getProcess()))
+					{	
+						String str=getDictValueByDictKey(quality.getProcess(),"process");				
+						quality.setProcessName(str==null ? "":str);
+					}
+					String str1="";
+					if(quality.getQualityProblemDescription()!=null && !quality.getQualityProblemDescription().equals(""))
+					{
+						List<QualityProblemDescription> qList= qualityProblemDescriptionService.get(quality.getQualityProblemDescription().split(", "));
+						
+						for(QualityProblemDescription q:qList)
+						{
+							str1+=q.getProblemDescription()+", ";
+						}
+					}
+					quality.setProblemDescriptionName(str1);
+					Object[] bodyval = {
+						quality.getProductsName(),
+						quality.getProcessName(),
+						quality.getProblemDescriptionName(),
+						quality.getFounder(),
+						quality.getStateRemark()};
+					body.add(bodyval);
+				}
+
+			
+
+		try {
+			String fileName = "质量问题清单" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("质量问题清单", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	
 	
+	}
 	
 	// 列表
 	public String sealist() {	
@@ -769,6 +852,14 @@ public class QualityAction extends BaseAdminAction {
 
 	public void setStateList(List<Dict> stateList) {
 		this.stateList = stateList;
+	}
+
+	public String getFounder() {
+		return founder;
+	}
+
+	public void setFounder(String founder) {
+		this.founder = founder;
 	}
 
 	

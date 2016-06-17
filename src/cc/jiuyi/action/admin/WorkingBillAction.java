@@ -1,8 +1,6 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,14 +9,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import cc.jiuyi.action.cron.WorkingBillJobAll;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Team;
@@ -26,36 +21,26 @@ import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
+import cc.jiuyi.service.TeamService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.Trigger;
-import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -84,7 +69,9 @@ public class WorkingBillAction extends BaseAdminAction {
 	private List<String> moudles;
 	private String info;
 	private String workcode;
-
+	private String teamid;
+	private String teamName;
+	private List<Team> teamList;//班组
 	@Resource
 	private WorkingBillService workingbillService;
 	@Resource
@@ -105,6 +92,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private WorkingBillService workingbillservice;
+	@Resource
+	private TeamService teamservice;
 	
 	//条码打印
 	public String barcodePrint(){
@@ -447,10 +436,38 @@ public class WorkingBillAction extends BaseAdminAction {
 		return SUCCESS;
 	}
 	
-	
-	
-	
-	
+	/**
+	 * 根据单元查找team
+	 */
+	public String findTeam(){
+		FactoryUnit fun = factoryUnitService.get(funid);
+		teamList = new ArrayList<Team>(fun.getTeam());
+		workingbill = workingbillService.get(wbid);
+		return "wk_team";
+	}
+	public String updateWKInTeam(){
+		if(teamid!=null && !"".equals(teamid)){
+			try {
+				WorkingBill wk = workingbillService.get(wbid);
+				Team t = teamservice.get(teamid);
+				wk.setTeam(t);
+				wk.setTeamName(teamName);
+				workingbillService.update(wk);
+				return ajaxJsonSuccessMessage("保存成功");
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info(e);
+				return ajaxJsonErrorMessage("保存失败");
+			}
+		}else{
+			WorkingBill wk = workingbillService.get(wbid);
+			wk.setTeam(null);
+			wk.setTeamName(null);
+			workingbillService.update(wk);
+			return ajaxJsonSuccessMessage("保存成功");
+		}
+		
+	}
 	
 	
 	public WorkingBill getWorkingbill() {
@@ -541,6 +558,30 @@ public class WorkingBillAction extends BaseAdminAction {
 
 	public void setWorkcode(String workcode) {
 		this.workcode = workcode;
+	}
+
+	public String getTeamid() {
+		return teamid;
+	}
+
+	public void setTeamid(String teamid) {
+		this.teamid = teamid;
+	}
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+
+	public List<Team> getTeamList() {
+		return teamList;
+	}
+
+	public void setTeamList(List<Team> teamList) {
+		this.teamList = teamList;
 	}
 
 

@@ -14,9 +14,9 @@
 <script src="${base}/template/admin/assets/js/jquery.gritter.min.js"></script>
 <script src="${base}/template/admin/js/layer/layer.js"></script>
 <script src="${base}/template/admin/js/Main/admin_teamindex.js"></script>
+<!-- <script src="${base}/template/admin/js/Main/echarts.js"></script> -->
 
-
- <script src='http://localhost:8000/CLodopfuncs.js'></script>
+<script src='http://localhost:8000/CLodopfuncs.js'></script>
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
 
@@ -122,7 +122,9 @@
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元：</div>
 														<div class="profile-info-value">
-															${(admin.team.factoryUnit.factoryUnitName)! }</div>										
+															${(admin.team.factoryUnit.factoryUnitName)! }
+															<input type="hidden" id="funid" value="${(admin.team.factoryUnit.id)!}">
+														</div>										
 													</div>
 													
 													<div class="profile-info-row">
@@ -399,14 +401,15 @@
 														<tr>
 															<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
 															</th>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>计划数量
-															</th>
-
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>班组</th>
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>计划数量</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
-																<th class="hidden-480"><i
+																<th class="hidden-480" ><i
 																class="ace-icon fa fa-caret-right blue"></i>模具</th>
 																<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>交接状态</th>
@@ -424,8 +427,10 @@
 																<a href="javascript:void(0);" class="a matkx" <#if list.diffamount??>style="color:red"</#if>>${list.maktx}</a>&nbsp;&nbsp;
 																<a href="javascript:void(0);" class="a moudle" <#if list.moudle=="">style="color:red"</#if>>[添加模具组号]</a>&nbsp;&nbsp;${(list.moudle)!}
 															</td>
-
-															<td><b class="green">${list.planCount}</b>
+															<td class="hidden-480">
+															<a href="javascript:void(0);" class="a teamName" >[添加班组]</a>&nbsp;<span>${(list.teamName)!}</span>
+															</td>
+															<td class="hidden-480"><b class="green">${list.planCount}</b>
 															</td>
 
 															<td class="hidden-480">${list.matnr}</td>
@@ -438,7 +443,7 @@
 																	未交接
 																</#if>
 															</td>
-															<td class="hidden-480"><input type="text" class="input-sm col-sm-2 part"/>&nbsp; 
+														<td class="hidden-480"> <input type="text" style="width:30px" class="input-sm col-sm-2 part"/>&nbsp; 
 																<a href="javascript:void(0);" class="barcode">打印</a>
 															</td>
 														</tr>
@@ -457,7 +462,12 @@
 
 							</div>
 							<!-- /.row -->
-
+							
+							<!-- 为 ECharts 准备一个具备大小（宽高）的Dom 
+    						<div id="main" style="width: 600px;height:400px;"></div> -->
+							
+							
+							
 						</div>
 						<!-- /.col -->
 					</div>
@@ -478,7 +488,52 @@
 	<!-- /.main-container -->
 
 	<#include "/WEB-INF/template/common/include_adm_bottom.ftl">
-
+<!-- <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        
+       var  option = {
+        	    title : {
+        	        text: '某站点用户访问来源',
+        	        subtext: '纯属虚构',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	        orient: 'vertical',
+        	        left: 'left',
+        	        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius : '55%',
+        	            center: ['50%', '60%'],
+        	            data:[
+        	                {value:335, name:'直接访问'},
+        	                {value:310, name:'邮件营销'},
+        	                {value:234, name:'联盟广告'},
+        	                {value:135, name:'视频广告'},
+        	                {value:1548, name:'搜索引擎'}
+        	            ],
+        	            itemStyle: {
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>   -->
 	<script type="text/javascript">
 	$(function(){
 		<#if workingbillList==null || workingbillList?size <=0>
@@ -493,7 +548,63 @@
 		</#if>
 		
 		    //$('#wbload').load('admin!findWorkingBill.action');
+		$(".teamName").click(function(){
+			var t = $(this);
+			var wbid = t.parent().parent().find(".ckbox").val();
+			var funid = $("#funid").val();
+			teamName_event(t,funid,wbid);
+		});
 		
+		/**
+		 * 获取班组
+		 */
+		function teamName_event(t,funid,wbid)
+		{
+			layer.open({
+		        type: 2,
+		        skin: 'layui-layer-lan',
+		        shift:2,
+		        title: "选择班组",
+		        fix: true,
+		        shade: 0.5,
+		        shadeClose: true,
+		        maxmin: true,
+		        scrollbar: false,
+		        btn:['确认','取消'],
+		        area: ["40%", "50%"],//弹出框的高度，宽度
+		        content:"working_bill!findTeam.action?funid="+funid+"&wbid="+wbid,
+		        yes:function(index,layero){//确定
+		        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+		        	var value = iframeWin.getName();
+		        	var arr = value.split(";");
+		        	var teamName=arr[0];
+		        	var teamid=arr[1];
+		        	$.ajax({
+		        		url:"working_bill!updateWKInTeam.action",
+		        		data:{"teamid":teamid,"teamName":teamName,"wbid":wbid},
+		        		dataType:"json",
+		        		success:function(data){
+		        			if(data.status=="success"){
+		        				t.next().text(teamName);
+		        			}else{
+		        				alert(data.message);
+		        			}
+		        		},
+		        		error:function(){
+		        			alert("添加失败");
+		        		}
+		        	});
+		            layer.close(index);
+		        	return false;
+		        },
+		        no:function(index)
+		        {
+		        	layer.close(index);
+		        	return false;
+		        }
+		    });
+			return false;
+		}
 	});
 	</script>
 </body>

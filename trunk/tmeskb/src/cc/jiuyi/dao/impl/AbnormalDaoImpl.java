@@ -3,9 +3,11 @@ package cc.jiuyi.dao.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +15,6 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Factory;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Dao实现类 - 异常
@@ -28,15 +28,15 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
-		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
-			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
-		}
-		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
-			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
-		}
+//		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
+//			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
+//		}
+//		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
+//			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
+//		}
 		
-		detachedCriteria.add(Restrictions.or(Restrictions.eq("admin.id", admin2.getId()), Restrictions.eq("admin1.id", admin2.getId())));
-		detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
+		//detachedCriteria.add(Restrictions.or(Restrictions.eq("iniitiator.id", admin2.getId()), Restrictions.eq("responsorSet.id", admin2.getId())));
+		//detachedCriteria.setResultTransformer(detachedCriteria.DISTINCT_ROOT_ENTITY);//去重
 		/*detachedCriteria.add(Restrictions.eq("classtime", admin2.getShift()));//班次
 		detachedCriteria.add(Restrictions.eq("productdate", admin2.getProductDate()));//生产日期
 */		
@@ -91,5 +91,49 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		}		
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+
+		String hql="from Abnormal model join model.iniitiator model1";
+		Integer ishead=0;
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		if (map.size() > 0) {
+			if (!map.get("originator").equals("")) {
+				hql+=" where model1.name like '%"+map.get("originator")+"%'";
+				ishead=1;
+			}	
+			if(!map.get("start").equals("") && !map.get("end").equals("")){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				try{
+					
+					Date start=sdf.parse(map.get("start"));
+					Date end=sdf.parse(map.get("end"));
+					if(ishead==0){
+						hql+=" where model.createDate between :start and :end";
+						ishead=1;
+					}else{
+						hql+=" and model.createDate between :start and :end";
+					}
+					parameters.put("start", start);
+					parameters.put("end", end);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		Query query = getSession().createQuery(hql);
+		
+		if(parameters.get("start")!=null){
+			query.setParameter("start", parameters.get("start"));
+		}
+		if(parameters.get("end") != null){
+			query.setParameter("end", parameters.get("end"));
+		}
+		
+		return query.list();
+	
 	} 
 }

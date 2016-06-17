@@ -1,6 +1,7 @@
 package cc.jiuyi.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Quality;
@@ -20,4 +21,6 @@ public interface QualityDao extends BaseDao<Quality, String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public Pager findByPager(Pager pager,HashMap<String,String> map,String id);
+	
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,String id,String teamid);
 }

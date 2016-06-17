@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -22,23 +21,20 @@ import cc.jiuyi.dao.HandOverProcessDao;
 import cc.jiuyi.dao.OddHandOverDao;
 import cc.jiuyi.dao.PickDetailDao;
 import cc.jiuyi.dao.ProcessHandoverDao;
-import cc.jiuyi.dao.UnitConversionDao;
 import cc.jiuyi.dao.WorkingInoutDao;
 import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.HandOverProcess;
-import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverSon;
+import cc.jiuyi.entity.Repair;
+import cc.jiuyi.entity.RepairPiece;
+import cc.jiuyi.entity.Repairin;
+import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.BomService;
-import cc.jiuyi.service.HandOverProcessService;
-import cc.jiuyi.service.PickDetailService;
-import cc.jiuyi.service.PickService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingInoutService;
@@ -116,6 +112,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[15]);labelobj.add(lavenlen[15]);indexobj.add(strlen[15]);//组件单位用量
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
 		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
+		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
 		/**处理接上班(正常)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -137,10 +134,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 			nameobj.add(name);
 			labelobj.add(label);
 		}
-		*//**处理接上班 (返修)end**//*
-		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		*//**处理接上班 (返修)end**/
 		
-		*//**处理交下班(正常)**//*
+		
+		/**处理交下班(正常)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
 			String label = "交下班"+process.getProcessName()+"(正常)";
@@ -466,8 +463,41 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 			
 				map.put(strlen[9],workinginout.getScrapNumber());//报废数
-				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
-				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+				Set<Repair> repairSet = workingbill.getRepair();
+				BigDecimal fxfh = new BigDecimal(0);
+				if(repairSet!=null){
+					for(Repair r : repairSet){
+						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+						if(repairPieceSet!=null){
+							for(RepairPiece rp : repairPieceSet){
+								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+				}else{
+					//map.put(strlen[10],workingbill.getTotalRepairAmount());//返修发货数量
+					map.put(strlen[10],fxfh);//返修发货数量
+				}
+				
+				Set<Repairin> repairinSet = workingbill.getRepairin();
+				BigDecimal fxsh = new BigDecimal(0);
+				if(repairinSet!=null){
+					for(Repairin r : repairinSet){
+						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+						if(repairinPieceSet!=null){
+							for(RepairinPiece rp : repairinPieceSet){
+								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+				}else{
+					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+					map.put(strlen[11],fxsh);//返修发货数量
+				}
+				
+				
+				
+				
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
 				map.put(strlen[13],workingbill.getShift());//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号
@@ -785,8 +815,37 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				map.put(strlen[7],workingbill.getTotalSingleAmount());//入库数
 			
 				map.put(strlen[9],workinginout.getScrapNumber());//报废数
-				map.put(strlen[10],workingbill.getTotalRepairAmount());//返修数量
-				map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+				Set<Repair> repairSet = workingbill.getRepair();
+				BigDecimal fxfh = new BigDecimal(0);
+				if(repairSet!=null){
+					for(Repair r : repairSet){
+						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+						if(repairPieceSet!=null){
+							for(RepairPiece rp : repairPieceSet){
+								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+				}else{
+					//map.put(strlen[10],workingbill.getTotalRepairAmount());//返修发货数量
+					map.put(strlen[10],fxfh);//返修发货数量
+				}
+				
+				Set<Repairin> repairinSet = workingbill.getRepairin();
+				BigDecimal fxsh = new BigDecimal(0);
+				if(repairinSet!=null){
+					for(Repairin r : repairinSet){
+						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+						if(repairinPieceSet!=null){
+							for(RepairinPiece rp : repairinPieceSet){
+								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+				}else{
+					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+					map.put(strlen[11],fxsh);//返修发货数量
+				}
 				map.put(strlen[12],workingbill.getProductDate());//生产日期
 				map.put(strlen[13],workingbill.getShift());//班次
 				map.put(strlen[14],workingbill.getAufnr());//生产订单号

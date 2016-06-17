@@ -32,7 +32,6 @@ import cc.jiuyi.entity.DeviceLog;
 import cc.jiuyi.entity.DeviceModlue;
 import cc.jiuyi.entity.DeviceStep;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
@@ -48,7 +47,7 @@ import cc.jiuyi.service.DeviceService;
 import cc.jiuyi.service.DeviceStepService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ReceiptReasonService;
-import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -78,6 +77,8 @@ public class DeviceAction extends BaseAdminAction {
 	private String cardnumber;//刷卡卡号
 	private String reasonName;//故障原因
 	private WorkShop workshop;//车间
+	private String workShopName1;
+	private String repairPerson;
 	
 	// 获取所有类型
 	private List<Dict> allType;
@@ -294,10 +295,12 @@ public class DeviceAction extends BaseAdminAction {
 				device.setRepairName(device.getDisposalWorkers().getName());
 				device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "deviceType", device.getMaintenanceType()));
-
-				ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+				if(device.getFault()!=null){
+					ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+					
 					String name = faultReason.getReasonName();
 					device.setFaultReason(name);
+				}
 				
 				pagerlist.set(i,device);
 			}
@@ -312,6 +315,81 @@ public class DeviceAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
+	
+	/**
+	 * excel导出
+	 * @return
+	 */
+	public String excelhistory(){
+
+		//异常历史页面加载
+				Admin admin2 = adminService.getLoginAdmin();
+				admin2 = adminService.get(admin2.getId());
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("workShopName1",workShopName1);
+				map.put("repairPerson", repairPerson);
+				List<Object[]> workList = new ArrayList<Object[]>();
+				if(admin2.getTeam()!=null){
+					workList = deviceService.historyExcelExport(map,admin2.getId(),admin2.getTeam().getId());
+				}else{
+					workList= deviceService.historyExcelExport(map,admin2.getId(),null);
+				}
+				header.add("设备名称");
+				header.add("车间");
+				header.add("车间联系人");
+				header.add("维修类型");
+				header.add("故障原因");
+				header.add("维修人");
+				header.add("订单号");
+				header.add("状态");
+				
+				for (int i = 0; i < workList.size(); i++) {
+					Object[] obj = workList.get(i);
+					Device device = (Device)obj[0];
+					device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "receiptState", device.getState()));	
+					device.setDeviceName(device.getEquipments().getEquipmentName());
+					device.setContactName(device.getWorkshopLinkman().getName());
+					device.setWorkShopName(device.getWorkShop().getWorkShopName());
+					device.setRepairName(device.getDisposalWorkers().getName());
+					device.setRepairType(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "deviceType", device.getMaintenanceType()));
+					if(device.getFault()!=null){
+						ReceiptReason faultReason = receiptReasonService.load(device.getFault());
+						String name = faultReason.getReasonName();
+						device.setFaultReason(name);
+					}
+					Object[] bodyval = {
+							device.getDeviceName(),
+							device.getWorkShopName(),
+							device.getContactName(),
+							device.getRepairType(),
+							device.getFaultReason(),
+							device.getRepairName(),
+							device.getOrderNo(),
+							device.getStateRemark()};
+					body.add(bodyval);
+				}
+
+			
+
+		try {
+			String fileName = "设备维修清单" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("设备维修清单", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	
+	
+	}
+	
 	
 	// 删除
 	public String delete() throws Exception {	
@@ -806,6 +884,22 @@ public class DeviceAction extends BaseAdminAction {
 
 	public void setWorkshop(WorkShop workshop) {
 		this.workshop = workshop;
+	}
+
+	public String getWorkShopName1() {
+		return workShopName1;
+	}
+
+	public void setWorkShopName1(String workShopName1) {
+		this.workShopName1 = workShopName1;
+	}
+
+	public String getRepairPerson() {
+		return repairPerson;
+	}
+
+	public void setRepairPerson(String repairPerson) {
+		this.repairPerson = repairPerson;
 	}
 	
 	

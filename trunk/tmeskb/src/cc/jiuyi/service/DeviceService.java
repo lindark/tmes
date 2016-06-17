@@ -1,6 +1,7 @@
 package cc.jiuyi.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Device;
@@ -20,4 +21,6 @@ public interface DeviceService extends BaseService<Device, String> {
 	public void updateisdel(String[] ids,String oper);
 	
 	public Pager findByPager(Pager pager,HashMap<String, String> map,String id);
+	
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,String id,String teamid);
 }

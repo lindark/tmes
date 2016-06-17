@@ -74,6 +74,8 @@ jQuery(function($) {
 			{name:'xmoudle',index:'xmoudle',label:"模具",width:100,editable: false},
 			{name:'xsampler',index:'sampler.name',label:"抽检人",width:100,editable: false,search:false},
 			{name:'xcomfirmation',index:'comfirmation.name',label:"确认人",width:100,editable: false,search:false},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'sampleNum',index:'sampleNum',label:"抽检数量",width:90,editable: false,search:false},
 			{name:'qulified',index:'qulified',label:"合格数量",width:90,editable: false,search:false},
 			{name:'qulifiedRate',index:'qulifiedRate',label:"合格率",width:90,editable: false,search:false},

@@ -37,8 +37,6 @@ import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.Quality;
 import cc.jiuyi.entity.ReceiptReason;
-import cc.jiuyi.entity.Rework;
-import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AbnormalLogService;
 import cc.jiuyi.service.AbnormalService;
@@ -50,6 +48,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.ReceiptReasonService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
@@ -71,6 +70,9 @@ public class CraftAction extends BaseAdminAction {
 	private String abnorId;
 	private String machineName;
 	private String cardnumber;//刷卡卡号
+	
+	private String repair;
+	private String productName;
 	
 	private List<Quality>  qualityList;
 	private List<Model> modelList;
@@ -319,11 +321,77 @@ public class CraftAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Craft.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}
 	
+    /**
+	 * excel导出
+	 * @return
+	 */
+	public String excelhistory(){
+
+		//异常历史页面加载
+				Admin admin2 = adminService.getLoginAdmin();
+				admin2 = adminService.get(admin2.getId());
+				List<String> header = new ArrayList<String>();
+				List<Object[]> body = new ArrayList<Object[]>();
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("repair",repair);
+				map.put("productName", productName);
+				List<Object[]> workList = new ArrayList<Object[]>();
+				if(admin2.getTeam()!=null){
+					workList = craftService.historyExcelExport(map,admin2.getId(),admin2.getTeam().getId());
+				}else{
+					workList= craftService.historyExcelExport(map,admin2.getId(),null);
+				}
+				
+				header.add("产品名称");
+				header.add("机台号");
+				header.add("维修员");
+				header.add("状态");
+				
+				for (int i = 0; i < workList.size(); i++) {
+					Object[] obj = workList.get(i);
+					Craft craft  = (Craft)obj[0];
+					craft.setAbnormal(null);
+					craft.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "receiptState", craft.getState()));
+					craft.setCabinetName(ThinkWayUtil.getDictValueByDictKey(
+							dictService, "machineNo", craft.getCabinetCode()));
+					craft.setCraftLogSet(null);
+					craft.setProductsName(craft.getProducts().getProductsName());
+					craft.setTeamName(craft.getRepairName().getName());
+					Object[] bodyval = {
+						craft.getProductsName(),
+						craft.getCabinetName(),
+						craft.getTeamName(),
+						craft.getStateRemark()};
+					body.add(bodyval);
+				}
+
+			
+
+		try {
+			String fileName = "工艺维修清单" + ".xls";
+			setResponseExcel(fileName);
+			ExportExcel.exportExcel("工艺维修清单", header, body, getResponse()
+					.getOutputStream());
+			getResponse().getOutputStream().flush();
+			getResponse().getOutputStream().close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	
+	
+	}
+	
+    
+    
+    
+    
 	// 刷卡提交
 	public String creditsave() {	
 		admin = adminService.getByCardnum(cardnumber);
@@ -561,6 +629,22 @@ public class CraftAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getRepair() {
+		return repair;
+	}
+
+	public void setRepair(String repair) {
+		this.repair = repair;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 	

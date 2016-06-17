@@ -12,11 +12,10 @@ import com.sap.mw.jco.JCO.Table;
 
 import cc.jiuyi.entity.Equipments;
 import cc.jiuyi.sap.rfc.EquipmentRfc;
-import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 @Component
 public class EquipmentRfcImpl extends BaserfcServiceImpl implements EquipmentRfc{
-
+	
 	@Override
 	public List<Equipments> getEquipment() throws IOException{
 		super.setProperty("equipment");//获取函数名称

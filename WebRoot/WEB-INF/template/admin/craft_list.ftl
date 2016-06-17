@@ -86,7 +86,11 @@
 											<a id="searchButton" class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												搜索
-											</a>										
+											</a>		
+											<a id="excelButton" class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												excel导出
+											</a>								
 										</div>
 										
 									</div>
@@ -179,7 +183,12 @@
 			}
 			
 		})
-
+		
+		$("#excelButton").click(function(){
+			var $searchform = $("#searchform");
+			$searchform.attr("action","craft!excelhistory.action");
+			$searchform.submit();
+		});
 
 	})
 	

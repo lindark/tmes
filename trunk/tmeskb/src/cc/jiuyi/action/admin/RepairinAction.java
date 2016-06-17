@@ -354,15 +354,23 @@ public class RepairinAction extends BaseAdminAction {
 		//workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			repairin = repairinService.load(ids[i]);
-			if (UNDO.equals(repairin.getState()) || "1".equals(repairin.getState())) {
-				return ajaxJsonErrorMessage("已确认或已撤销的无法再撤销！");
+		//	repairin = repairinService.load(ids[i]);
+			repairin = repairinService.get(ids[i]);
+			if (UNDO.equals(repairin.getState())) {
+				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
 		}
 		List<Repairin> list = repairinService.get(ids);
-		repairinService.updateState(list, UNDO, workingBillId, cardnumber);
+		String msg = repairinService.updateState(list, UNDO, workingBillId, cardnumber);
 		workingbill = workingBillService.get(workingBillId);
 		HashMap<String, String> hashmap = new HashMap<String, String>();
+		if(!msg.equals("您的操作已成功!")){
+			hashmap.put(STATUS, ERROR);
+			hashmap.put(MESSAGE, msg);
+			hashmap.put("totalAmount", workingbill.getTotalRepairAmount()
+					.toString());
+			return ajaxJson(hashmap);
+		}
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
 		hashmap.put("totalAmount", workingbill.getTotalRepairinAmount().toString());

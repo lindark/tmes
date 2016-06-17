@@ -42,6 +42,8 @@ jQuery(function($) {
 			{name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'ex_mblnr',index:'ex_mblnr',search:false,label:"物料凭证号", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},	
 			{name:'move_type',index:'move_type',search:false,label:"类型", width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stateRemark',index:'state', width:300,label:"状态",cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=pickState"}},		 

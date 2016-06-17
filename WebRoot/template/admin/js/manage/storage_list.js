@@ -48,6 +48,8 @@ jQuery(function($) {
 			{name:'batch',label:"批次",index:'batch', width:80,sortable:"true",sorttype:"text"},
 			{name:'createName',label:"创建人",index:'createName', width:100,sortable:"true",sorttype:"text"},
 			{name:'adminName',label:"确认人",index:'adminName', width:100,sortable:"true",sorttype:"text"},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:100,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'stateRemark',label:"状态",width:100,cellattr:addstyle,index:'state', editable: false,sortable:"true",sorttype:"text",stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=enteringwareState"}},
 			{name:'state',index:'state',label:'', editable: false,hidden:true}
 		], 

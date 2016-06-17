@@ -1,6 +1,7 @@
 package cc.jiuyi.dao.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -29,18 +30,18 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		if(!super.existAlias(detachedCriteria, "workShop", "workShop")){
 			detachedCriteria.createAlias("workShop", "workShop");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "team", "team")){
-			detachedCriteria.createAlias("team", "team");//表名，别名*/							
-		}
-		
+//		
+//		if(!super.existAlias(detachedCriteria, "team", "team")){
+//			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+//		}
+//		
 		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
 			detachedCriteria.createAlias("disposalWorkers", "disposalWorkers");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "workshopLinkman", "workshopLinkman")){
-			detachedCriteria.createAlias("workshopLinkman", "workshopLinkman");//表名，别名*/							
-		}
+//		
+//		if(!super.existAlias(detachedCriteria, "workshopLinkman", "workshopLinkman")){
+//			detachedCriteria.createAlias("workshopLinkman", "workshopLinkman");//表名，别名*/							
+//		}
 
 		if (map.size() > 0) {			
 			
@@ -89,9 +90,9 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		if(!super.existAlias(detachedCriteria, "disposalWorkers", "disposalWorkers")){
 			detachedCriteria.createAlias("disposalWorkers", "disposalWorkers");//表名，别名*/							
 		}
-		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
-		detachedCriteria.createAlias("abnormal", "abnormal");						
-	    }
+//		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+//		detachedCriteria.createAlias("abnormal", "abnormal");						
+//	    }
 		
         if (map.size() > 0) {			
 			
@@ -106,6 +107,46 @@ public class DeviceDaoImpl extends BaseDaoImpl<Device, String> implements Device
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,
+			String id, String teamid) {
+		
+		String hql="from Device model join model.workShop model1 join model.disposalWorkers model2";
+		
+		Integer ishead=0;
+		if (map.size() > 0) {
+			if (!map.get("workShopName1").equals("")) {
+				hql+=" where model1.workShopName like '%"+map.get("workShopName1")+"%'";
+				ishead=1;
+			}	
+			if(!map.get("repairPerson").equals("")){
+					if(ishead==0){
+						hql+=" where model2.name like '%"+map.get("repairPerson")+"%'";
+						ishead=1;
+					}else{
+						hql+=" and model2.name like '%"+map.get("repairPerson")+"%'";
+					}
+			}
+		}
+		if(ishead==0){
+			if(teamid!=null){
+				hql+=" where model.disposalWorkers.id = '"+id+"' or model.workshopLinkman.id='"+id+"' or model.team.id='"+teamid+"'";
+			}else{
+				hql+=" where model.disposalWorkers.id = '"+id+"' or model.workshopLinkman.id='"+id+"'";
+			}
+			
+		}else{
+			if(teamid!=null){
+				hql+=" and (model.disposalWorkers.id = '"+id+"' or model.workshopLinkman.id='"+id+"' or model.team.id='"+teamid+"')";
+			}else{
+				hql+=" and (model.disposalWorkers.id = '"+id+"' or model.workshopLinkman.id='"+id+"')";
+			}
+		}
+		
+		return getSession().createQuery(hql).list();
+	
 	}
 
 }

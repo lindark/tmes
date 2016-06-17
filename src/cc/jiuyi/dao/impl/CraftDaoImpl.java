@@ -33,18 +33,18 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		if(!super.existAlias(detachedCriteria, "products", "products")){
 			detachedCriteria.createAlias("products", "products");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "team", "team")){
-			detachedCriteria.createAlias("team", "team");//表名，别名*/							
-		}
-		
+//		
+//		if(!super.existAlias(detachedCriteria, "team", "team")){
+//			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+//		}
+//		
 		if(!super.existAlias(detachedCriteria, "repairName", "repairName")){
 			detachedCriteria.createAlias("repairName", "repairName");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "creater", "creater")){
-			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
-		}
+//		
+//		if(!super.existAlias(detachedCriteria, "creater", "creater")){
+//			detachedCriteria.createAlias("creater", "creater");//表名，别名*/							
+//		}
 
 		if (map.size() > 0) {			
 			
@@ -88,14 +88,14 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		if(!super.existAlias(detachedCriteria, "products", "products")){
 			detachedCriteria.createAlias("products", "products");//表名，别名*/							
 		}
-		
-		if(!super.existAlias(detachedCriteria, "team", "team")){
-			detachedCriteria.createAlias("team", "team");//表名，别名*/							
-		}
-		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
-		detachedCriteria.createAlias("abnormal", "abnormal");						
-	    }
-		
+//		
+//		if(!super.existAlias(detachedCriteria, "team", "team")){
+//			detachedCriteria.createAlias("team", "team");//表名，别名*/							
+//		}
+//		if(!super.existAlias(detachedCriteria, "abnormal", "abnormal")){
+//		detachedCriteria.createAlias("abnormal", "abnormal");						
+//	    }
+//		
 		if(!super.existAlias(detachedCriteria, "repairName", "repairName")){
 			detachedCriteria.createAlias("repairName", "repairName");//表名，别名*/							
 		}
@@ -113,6 +113,50 @@ public class CraftDaoImpl extends BaseDaoImpl<Craft, String> implements CraftDao
 		detachedCriteria.add(Restrictions.eq("abnormal.id", id));
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager, detachedCriteria);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,
+			String id, String teamid) {
+		
+		String hql="from Craft model join model.repairName model1 join model.products model2";
+		
+		Integer ishead=0;
+		if (map.size() > 0) {
+			if (!map.get("repair").equals("")) {
+				hql+=" where model1.name like '%"+map.get("repair")+"%'";
+				ishead=1;
+			}	
+			if(!map.get("productName").equals("")){
+					if(ishead==0){
+						hql+=" where model2.productsName like '%"+map.get("productName")+"%'";
+						ishead=1;
+					}else{
+						hql+=" and model2.productsName like '%"+map.get("productName")+"%'";
+					}
+			}
+		}
+		if(ishead==0){
+			if(teamid!=null){
+				hql+=" where  model.repairName.id = '"+id+"' or model.creater.id='"+id+"'  or model.team.id='"+teamid+"'";
+			}else{
+				hql+=" where  model.repairName.id = '"+id+"' or model.creater.id='"+id+"'";
+			}
+			
+		}else{
+			if(teamid!=null){
+				hql+=" and  (model.repairName.id = '"+id+"' or model.creater.id='"+id+"'  or model.team.id='"+teamid+"')";
+			}else{
+				hql+=" and  (model.repairName.id = '"+id+"' or model.creater.id='"+id+"')";
+			}
+			
+		}
+		
+		return getSession().createQuery(hql).list();
+	
+		
+		
+		
 	}
 			
 }

@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.AbnormalDao;
-import cc.jiuyi.dao.AdminDao;
 import cc.jiuyi.entity.Abnormal;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.service.AbnormalService;
@@ -44,5 +44,10 @@ public class AbnormalServiceImpl extends BaseServiceImpl<Abnormal, String> imple
 	public Pager getAbnormalAllPager(Pager pager, HashMap<String, String> map,
 			String id) {
 		return abnormalDao.getAbnormalAllPager(pager, map,id);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
+		return abnormalDao.historyExcelExport(map);
 	}
 }

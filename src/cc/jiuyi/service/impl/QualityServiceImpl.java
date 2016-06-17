@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -38,6 +39,11 @@ public class QualityServiceImpl extends BaseServiceImpl<Quality, String> impleme
 
 	public Pager findByPager(Pager pager,HashMap<String,String> map, String id) {
 		return qualityDao.findByPager(pager,map,id);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,String id,String teamid) {
+		return qualityDao.historyExcelExport(map,id,teamid);
 	}
 	
 	

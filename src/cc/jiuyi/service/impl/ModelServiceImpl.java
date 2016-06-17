@@ -1,13 +1,13 @@
 package cc.jiuyi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.AbnormalDao;
 import cc.jiuyi.dao.ModelDao;
 import cc.jiuyi.entity.Model;
 import cc.jiuyi.service.ModelService;
@@ -42,5 +42,11 @@ public class ModelServiceImpl extends BaseServiceImpl<Model, String> implements 
 	public Pager findByPager(Pager pager,HashMap<String, String> map, String id) {
 		// TODO Auto-generated method stub
 		return modelDao.findByPager(pager,map,id);
+	}
+
+	@Override
+	public List<Object[]> historyExcelExport(HashMap<String, String> map,
+			String id, String teamid) {
+		return modelDao.historyExcelExport(map,id,teamid);
 	}
 }

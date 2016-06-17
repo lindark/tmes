@@ -41,6 +41,7 @@ jQuery(function($){
 		colModel:[	
 			{name:'xcreateUser',index:'createUser.name',label:"创建人",search:false, width:150,sortable:"true",sorttype:"text"},
 			{name:'xconfirmUser',index:'confirmUser.name',label:"确认人",search:false, width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'revokedUser',index:'revokedUser',label:"撤销人",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 			{name:'xduty',index:'duty.name',label:"责任人",search:false,width:150,sortable:"true",sorttype:"text"},
 		  //{name:'reworkCount',index:'reworkCount',label:"返工次数",search:false,width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		    {name:'reworkAmount',index:'reworkAmount',label:"翻包数量",search:false, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
@@ -48,6 +49,7 @@ jQuery(function($){
 		    {name:'stateRemark',index:'state',label:"状态",width:200, cellattr:addstyle,sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=reworkState"}}, 
 		    {name:'isQualifieds',index:'isQualifieds',width:200,label:"是否合格",sortable:"true",sorttype:"text",editable: true,search:true,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname=isQualifieds"}},
 		    {name:'createDate',index:'createDate',label:"创建日期",search:false,lwidth:400,abel:"创建日期",editable:true, sorttype:"date",unformat: pickDate,formatter:datefmt},
+			{name:'revokedTime',index:'revokedTime',label:"撤销时间",search:true, width:200,editable: true,editoptions:{size:"20",maxlength:"30"}},
 		    {name:'state',index:'state', label:"state", editable: false,hidden:true}
 		], 
 

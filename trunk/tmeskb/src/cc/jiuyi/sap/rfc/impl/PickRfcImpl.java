@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
@@ -20,7 +21,7 @@ import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 @Component
 public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
-
+	public static Logger log = Logger.getLogger(PickRfcImpl.class);
 	@Override
 	public String MaterialDocumentCrt(String testrun,Pick pick,List<PickDetail> pickdetail) throws IOException, CustomerException {
 		super.setProperty("pick");//根据配置文件读取到函数名称
@@ -79,6 +80,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("GM_CODE", "03");//移动类型
 		parameter.put("IS_COMMIT", testrun);//testrun
+		log.info("-----pick----testrun---------"+testrun);
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();

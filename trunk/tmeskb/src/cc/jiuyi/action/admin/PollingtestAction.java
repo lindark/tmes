@@ -536,7 +536,7 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		pollingtestService.updateConfirm(list, admin, UNDO);
+		pollingtestService.confirm(list, admin, UNDO);
 		/*
 		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +
 		 * pollingtest.getWorkingbill().getId();

@@ -27,6 +27,7 @@ public class NewXssFilter implements Filter {
                 + ":" + request.getServerPort() + path + "/";  
   
         // HTTP 头设置 Referer过滤  
+        /*
         String referer = ((HttpServletRequest) request).getHeader("Referer"); // REFRESH  
         if (referer != null && referer.indexOf(basePath) < 0) {  
             ((HttpServletRequest) request).getRequestDispatcher(  
@@ -34,6 +35,7 @@ public class NewXssFilter implements Filter {
                     ((HttpServletRequest) request), response);  
             System.out.println("referer不为空，referer >>>>>>>>>>>>>> " + referer);  
         }  
+        */
         NewXssHttpServletRequestWrapper xssRequest = new NewXssHttpServletRequestWrapper((HttpServletRequest) request);  
         chain.doFilter(xssRequest, response);  
     }  

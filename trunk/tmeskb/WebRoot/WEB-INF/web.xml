@@ -87,6 +87,19 @@
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 	</filter>
 	
+	
+	<!-- XSS防御过滤 -->
+	<filter>  
+	    <filter-name>XssSqlFilter</filter-name>  
+	    <filter-class>cc.jiuyi.common.NewXssFilter</filter-class>  
+	</filter> 
+	<filter-mapping>  
+	    <filter-name>XssSqlFilter</filter-name>  
+	    <url-pattern>/*</url-pattern>  
+	    <dispatcher>REQUEST</dispatcher>   
+	</filter-mapping>
+	
+	
 	<!-- 监控 -->
 	<filter>
     <filter-name>javamelody</filter-name>

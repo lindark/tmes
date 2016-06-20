@@ -481,6 +481,11 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 					this.csService.update(cs);
 				}
 			}
+			if(listcs.size()==0&&list.size()==0){
+				c.setConfirmUser(admin);//确认人
+				c.setState("1");
+				this.update(c);
+			}
 		}
 		return "S";
 	}
@@ -534,6 +539,17 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
 				String time = dateFormat.format(date); 
 //				c.setConfirmUser(admin);//确认人
+				c.setRevokedUser(admin.getName());
+				c.setRevokedTime(time);
+				c.setRevokedUserCard(admin.getCardNumber());
+				c.setRevokedUserId(admin.getId());
+				c.setState("3");
+				this.update(c);
+			}
+			if(listcs.size()==0&&list.size()==0){
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
 				c.setRevokedUser(admin.getName());
 				c.setRevokedTime(time);
 				c.setRevokedUserCard(admin.getCardNumber());

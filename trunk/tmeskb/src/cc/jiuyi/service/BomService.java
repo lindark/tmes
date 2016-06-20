@@ -39,6 +39,8 @@ public interface BomService extends BaseService<Bom, String> {
 	 * @return
 	 */
 	public List<Bom> getBomList(String aufnr,Integer maxversion);
+	
+	public List<Bom> getBomListRFC(String aufnr,Integer maxversion);
 
 	/**
 	 * jqGrid:(根据:子件编码/名称,随工单)查询

@@ -233,10 +233,10 @@ public class CartonAction extends BaseAdminAction {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
 				String time = dateFormat.format(date); 
 //				carton.setConfirmUser(admin);//确认人
-				carton.setRevokedUser(admin.getName());
+				carton.setRevokedUser(card_admin.getName());
 				carton.setRevokedTime(time);
-				carton.setRevokedUserCard(admin.getCardNumber());
-				carton.setRevokedUserId(admin.getId());
+				carton.setRevokedUserCard(card_admin.getCardNumber());
+				carton.setRevokedUserId(card_admin.getId());
 				cartonService.update(carton);
 				flag = true;
 			}

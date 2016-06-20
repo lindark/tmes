@@ -239,7 +239,7 @@ public class DeviceAction extends BaseAdminAction {
 				Device device = (Device) pagerlist.get(i);
 				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", device.getState()));	
-				str="<a href='device!hview.action?id="+device.getId()+"'>"+device.getEquipments().getEquipmentName()+"</a>"; 
+				str="<a href='device!hview.action?id="+device.getId()+"'>"+device.getEquipments()==null?"":device.getEquipments().getEquipmentName()+"</a>"; 
 				device.setDeviceName(str);
 				device.setContactName(device.getWorkshopLinkman().getName());
 				device.setWorkShopName(device.getWorkShop().getWorkShopName());
@@ -262,7 +262,7 @@ public class DeviceAction extends BaseAdminAction {
 				Device device = (Device) pagerlist.get(i);
 				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", device.getState()));	
-				device.setDeviceName(device.getEquipments().getEquipmentName());
+				device.setDeviceName(device.getEquipments()==null?"":device.getEquipments().getEquipmentName());
 				device.setContactName(device.getWorkshopLinkman().getName());
 				device.setWorkShopName(device.getWorkShop().getWorkShopName());
 				device.setRepairName(device.getDisposalWorkers().getName());
@@ -289,7 +289,7 @@ public class DeviceAction extends BaseAdminAction {
 				Device device = (Device) pagerlist.get(i);
 				device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 						dictService, "receiptState", device.getState()));	
-				device.setDeviceName(device.getEquipments().getEquipmentName());
+				device.setDeviceName(device.getEquipments()==null?"":device.getEquipments().getEquipmentName());
 				device.setContactName(device.getWorkshopLinkman().getName());
 				device.setWorkShopName(device.getWorkShop().getWorkShopName());
 				device.setRepairName(device.getDisposalWorkers().getName());
@@ -350,7 +350,7 @@ public class DeviceAction extends BaseAdminAction {
 					Device device = (Device)obj[0];
 					device.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "receiptState", device.getState()));	
-					device.setDeviceName(device.getEquipments().getEquipmentName());
+					device.setDeviceName(device.getEquipments()==null?"":device.getEquipments().getEquipmentName());
 					device.setContactName(device.getWorkshopLinkman().getName());
 					device.setWorkShopName(device.getWorkShop().getWorkShopName());
 					device.setRepairName(device.getDisposalWorkers().getName());

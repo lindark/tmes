@@ -1,7 +1,9 @@
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -506,6 +508,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			}
 			if(UNCONFIRM.equals(enteringwareHouse.getState())){//未确认的直接撤销
 				enteringwareHouse.setState(UNDO);
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
+				enteringwareHouse.setRevokedTime(time);
+				enteringwareHouse.setRevokedUser(admin.getName());
+				enteringwareHouse.setRevokedUserCard(cardnumber);
+				enteringwareHouse.setRevokedUserId(admin.getId());
 				enteringwareHouseService.update(enteringwareHouse);
 				
 			}

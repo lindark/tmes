@@ -195,7 +195,7 @@ public class WorkingBillServiceImpl extends
 	@Override
 	public  void mergeWorkingBill(List<WorkingBill> workingbillList,
 			List<Orders> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
-		log.info("生产订单:"+orderList.size()+"-----"+"随工单:"+workingbillList.size()+"-----"+"工艺:"+processrouteList.size());
+		log.info("生产订单:"+orderList.size()+"-----"+"随工单:"+workingbillList.size()+"-----"+"工艺:"+processrouteList.size()+"-----"+"BOM:"+bomList.size());
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
 			Orders order = orderList.get(i);
@@ -303,16 +303,15 @@ public class WorkingBillServiceImpl extends
 		if(maxversion == null){//如果没有找到，需要创建版本
 			flag = false;
 		}else{
-			List<Bom> bomList01 = bomservice.getBomList(order.getAufnr(), maxversion);//根据生产订单和版本号获取Bom结合
+			List<Bom> bomList01 = bomservice.getBomListRFC(order.getAufnr(), maxversion);//根据生产订单和版本号获取Bom结合
 			if(bomList00.size() >= bomList01.size()){//SAP 比MES 多
 				for(int y=0;y<bomList00.size();y++){
 					Bom bom00 = bomList00.get(y);
 					boolean flag1 = false;
-					String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList01.size();z++){
 						Bom bom01 = bomList01.get(z);
-						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						
+						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 						if(bom00str.equals(bom01str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
@@ -331,11 +330,10 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<bomList01.size();y++){
 					Bom bom01 = bomList01.get(y);
 					boolean flag1 = false;
-					String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList00.size();z++){
 						Bom bom00 = bomList00.get(z);
-						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						
+						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 						if(bom01str.equals(bom00str)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
@@ -352,7 +350,6 @@ public class WorkingBillServiceImpl extends
 				}
 			}
 		}
-		
 		if(!flag){//升级版本
 			for(int y=0;y<bomList00.size();y++){
 				Bom bom00 = bomList00.get(y);

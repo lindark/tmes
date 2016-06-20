@@ -195,7 +195,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			}			
 			
 			
-			List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
+			/*List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
 			if(wblist!=null&&wblist.size()>0)
 			{
 				for(int i=0;i<wblist.size();i++)
@@ -208,7 +208,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 						this.workingbillservice.update(wb);
 					}
 				}
-			}
+			}*/
 			
 			
 		}		

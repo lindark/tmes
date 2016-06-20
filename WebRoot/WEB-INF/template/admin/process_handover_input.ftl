@@ -212,22 +212,22 @@
 										</div>
 									</div>
 									<#else>
-									 下班生产日期:
+                                	        下班生产日期:
                                 	        <#if show??>
                                 	        ${(processHandoverTop.afterProductDate)!}
                                 	        <#else>
                                 	        <input type="text" id="productDate" name="processHandoverTop.afterProductDate" value="${(processHandoverTop.afterProductDate)!}" class="datePicker formText"/>
                                 	        </#if>
-                                	        
+                                    
                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                 	        班次:
-                                     <select name="processHandoverTop.aftershift"id="sl_sh"	<#if show??>disabled</#if>>>	
-                                     	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
-                                     	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
-										<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>
-										<option value="3" <#if (processHandoverTop.aftershift== 3)!> selected</#if>>晚</option>
-                              	     </select>
-                              	     
+                                	       <select name="processHandoverTop.aftershift"id="sl_sh" <#if show??>disabled</#if>>
+	                                     	<option value="" <#if (processHandoverTop.aftershift == "")!> selected</#if>></option>
+	                                     	<option value="1" <#if (processHandoverTop.aftershift== 1)!> selected</#if>>早</option>
+											<option value="2" <#if (processHandoverTop.aftershift == 2)!> selected</#if>>白</option>
+											<option value="3" <#if (processHandoverTop.aftershift== 3)!> selected</#if>>晚</option>
+	                              	     </select>
+                                     
                                    &nbsp;&nbsp;&nbsp;&nbsp;
 									<div class="widget-header">
 											<h4 class="widget-title lighter">工序类型选择</h4>
@@ -442,8 +442,8 @@
 																<tr class="tableson"  style="display:none;">
 																	<td></td>
 																	<td colspan=9>
-																		<table class="table table-striped table-bordered table-hover" style="width:95%;margin-bottom: 0px; ">
-																		<tr class="ifMaintain">
+																		<table id="son_table" class="table table-striped table-bordered table-hover" style="width:95%;margin-bottom: 0px; ">
+																		<tr>
 																				<th class="">子件名称</th>
 																				<th class="" >需求数量</th>
 																				<th class="" style="display:none">产品数量</th>
@@ -457,7 +457,7 @@
 																				
 																		</tr>
 																		<#list list.processHandoverSonSet as bl>
-																			<tr class="ifMaintain">
+																			<tr>
 																				<td style="width:30%"> 
 																				<input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].id" value="${bl.id }"> 
 																				 <input type="hidden" name="processHandoverSonList[${list_index}${bl_index }].beforeWorkingCode" value="${bl.beforeWorkingCode }"> 
@@ -802,11 +802,18 @@ function showUnit(num1){
 					layer.alert("请至少保留一条数据",{icon: 7});
 					return false;
 				}
-				var ifMaintain=0;
+				/*var ifMaintain=0;
 				$(".ifMaintain").each(function(){
 					ifMaintain=ifMaintain+1;
 				});
 				if(ifMaintain==1){
+					flag = false;
+					layer.alert("请维护物料数据",{icon: 7});
+					return false;
+				}*/
+				var $tb = $("#son_table");
+				var tr_length = $tb.find("tr").length
+				if(tr_length<=1){
 					flag = false;
 					layer.alert("请维护物料数据",{icon: 7});
 					return false;

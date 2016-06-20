@@ -67,7 +67,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	private String cardnumber;//刷卡卡号
 	private Admin admin;
 	private String[] workingCode;
-	private String nowDate;
+	private String nowDate; 
 	private String shift;
 	private String loginid;
 	private List<WorkingBill> workingbillList;//随工单集合

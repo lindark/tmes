@@ -83,16 +83,16 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 		Date date = new Date(); 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
 		String time = dateFormat.format(date); 
-		//WorkingBill workingbill = workingbillService.get(workingbillid);
-		//Integer totalamount = workingbill.getTotalRepairinAmount();
+		WorkingBill workingbill = workingbillService.get(workingbillid);
+		Integer totalamount = workingbill.getTotalRepairinAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repairin repairin = list.get(i);
-			/*if (statu.equals("1")) {
+			if (statu.equals("1")) {
 				totalamount = repairin.getReceiveAmount() + totalamount;
 			}
-			if (statu.equals("3") && repairin.getState().equals("2")) {
+			if (statu.equals("3") && repairin.getState().equals("1")) {
 				totalamount -= repairin.getReceiveAmount();
-			}*/
+			}
 			if(repairin.getEX_MBLNR()!=null && repairin.getEX_MBLNR().contains("/")!=true){
 				repairin = revokedSAP(repairin,admin,workingbillid,cardnumber);
 				if(repairin.getE_TYPE().equals("E")){
@@ -106,8 +106,8 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			repairin.setState(statu);
 			repairinDao.update(repairin);
 		}
-		//workingbill.setTotalRepairinAmount(totalamount);
-		//workingbillService.update(workingbill);
+		workingbill.setTotalRepairinAmount(totalamount);
+		workingbillService.update(workingbill);
 		return "您的操作已成功!";
 	}
 

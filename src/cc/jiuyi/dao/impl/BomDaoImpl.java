@@ -20,37 +20,37 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<Bom> getBomList(String aufnr,Integer version,String shift){
-		String hql="from Bom where orders.aufnr = ? and version = ? and shift = ?";
+		String hql="from Bom where orders.aufnr = ? and version = ? and shift = ? and isDel='N' ";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, shift).list();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Bom> getBomList(String aufnr,Integer version){
-		String hql="from Bom where orders.aufnr = ? and version = ? ";
+		String hql="from Bom where orders.aufnr = ? and version = ? and isDel='N' ";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).list();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Bom> getBomList(String aufnr,Integer version,String materialCode,String shift){
-		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ? and shift = ?";
+		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ? and shift = ? and isDel='N'";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, materialCode).setParameter(3, shift).list();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Bom> getBomList1(String aufnr,Integer version,String materialCode){
-		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ?";
+		String hql="from Bom where orders.aufnr = ? and version = ? and materialCode = ? and isDel='N' ";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, version).setParameter(2, materialCode).list();
 	}
 	
 	public Integer getMaxVersion(String matnr,String productDate){
-		String hql="select max(a.version) from Bom a where a.orders.matnr = ? and a.effectiveDate <= ?";
+		String hql="select max(a.version) from Bom a where a.orders.matnr = ? and a.effectiveDate <= ? and isDel='N' ";
 		return (Integer)getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).uniqueResult();
 	}
 	
 	
 	@Override
 	public Integer getMaxversion(String orderId, String productDate) {
-		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.effectiveDate <= ?";
+		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.effectiveDate <= ? and a.isDel='N' ";
 		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, productDate).uniqueResult();
 	}
 	
@@ -99,7 +99,7 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 
 	@Override
 	public Integer getMaxVersion(String aufnr) {
-		String hql="select max(a.version) from Bom a where a.orders.aufnr = ?";
+		String hql="select max(a.version) from Bom a where a.orders.aufnr = ? and a.isDel='N'";
 		return (Integer)getSession().createQuery(hql).setParameter(0, aufnr).uniqueResult();
 	}
 	
@@ -170,7 +170,7 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	
 	@Override
 	public String getMaterialName(String materialCode) {
-		String hql="select distinct(b.materialName) from Bom b where b.materialCode = ? ";
+		String hql="select distinct(b.materialName) from Bom b where b.materialCode = ? and b.isDel='N' ";
 		return (String)getSession().createQuery(hql).setParameter(0,materialCode).uniqueResult();
 	}
 
@@ -204,7 +204,13 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	@Override
 	public Integer getMaxversion(String shif, String orderId,
 			String materialCode) {
-		String hql="select max(a.version) from Bom a where a.orders.id =? and a.materialCode=?";
+		String hql="select max(a.version) from Bom a where a.orders.id =? and a.materialCode=? and a.isDel='N' ";
 		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, materialCode).uniqueResult();
+	}
+
+	@Override
+	public List<Bom> getBomListRFC(String aufnr, Integer maxversion) {
+		String hql="from Bom where orders.aufnr = ? and version = ? and isDel='N' ";
+		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, maxversion).list();
 	}
 }

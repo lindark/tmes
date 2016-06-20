@@ -525,7 +525,8 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		admin = adminService.getLoginAdmin();
+//		admin = adminService.getLoginAdmin();
+		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		System.out.println("-------id-------"+id+"--------------");
 		for (int i = 0; i < ids.length; i++) {
@@ -536,7 +537,8 @@ public class PollingtestAction extends BaseAdminAction {
 			}
 		}
 		List<Pollingtest> list = pollingtestService.get(ids);
-		pollingtestService.confirm(list, admin, UNDO);
+//		pollingtestService.confirm(list, admin, UNDO);
+		pollingtestService.updateConfirm(list, admin, UNDO);
 		/*
 		 * redirectionUrl = "pollingtest!list.action?workingBillId=" +
 		 * pollingtest.getWorkingbill().getId();

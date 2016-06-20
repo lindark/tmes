@@ -474,6 +474,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							}
 						}
 					}
+					map.put(strlen[10],fxfh);//返修发货数量
 				}else{
 					//map.put(strlen[10],workingbill.getTotalRepairAmount());//返修发货数量
 					map.put(strlen[10],fxfh);//返修发货数量
@@ -490,6 +491,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							}
 						}
 					}
+					map.put(strlen[11],fxsh);//返修发货数量
 				}else{
 					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
 					map.put(strlen[11],fxsh);//返修发货数量
@@ -668,9 +670,11 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
 				Double repairAmount = 0.00d;
-				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				//repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				repairAmount = ArithUtil.add(repairAmount,fxfh.doubleValue());//成型异常表面维修数 -出去
 				Double repairinAmount = 0.00d;
-				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				//repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				repairinAmount = ArithUtil.add(repairinAmount,fxfh.doubleValue());//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				String str = workinginout.getMaterialCode().substring(0, 1);
@@ -1140,10 +1144,45 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 					}
 				}
 				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
+				Set<Repair> repairSet = workingbill.getRepair();
+				BigDecimal fxfh = new BigDecimal(0);
+				if(repairSet!=null){
+					for(Repair r : repairSet){
+						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+						if(repairPieceSet!=null){
+							for(RepairPiece rp : repairPieceSet){
+								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+					map.put(strlen[10],fxfh);//返修发货数量
+				}else{
+					//map.put(strlen[10],workingbill.getTotalRepairAmount());//返修发货数量
+					map.put(strlen[10],fxfh);//返修发货数量
+				}
+				
+				Set<Repairin> repairinSet = workingbill.getRepairin();
+				BigDecimal fxsh = new BigDecimal(0);
+				if(repairinSet!=null){
+					for(Repairin r : repairinSet){
+						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+						if(repairinPieceSet!=null){
+							for(RepairinPiece rp : repairinPieceSet){
+								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+							}
+						}
+					}
+					map.put(strlen[11],fxsh);//返修发货数量
+				}else{
+					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
+					map.put(strlen[11],fxsh);//返修发货数量
+				}
 				Double repairAmount = 0.00d;
-				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				//repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				repairAmount = ArithUtil.add(repairAmount,fxfh.doubleValue());//成型异常表面维修数 -出去
 				Double repairinAmount = 0.00d;
-				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				//repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				repairinAmount = ArithUtil.add(repairinAmount,fxsh.doubleValue());//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				String str = workinginout.getMaterialCode().substring(0, 1);

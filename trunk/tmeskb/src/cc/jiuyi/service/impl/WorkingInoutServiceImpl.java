@@ -210,7 +210,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[10]);labelobj.add(lavenlen[10]);indexobj.add(strlen[10]);//成型异常表面维修数
 		nameobj.add(strlen[11]);labelobj.add(lavenlen[11]);indexobj.add(strlen[11]);//成型维修表面返回数
 		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//当班检验合格数
-		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
+//		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
 		nameobj.add(strlen[18]);labelobj.add(lavenlen[18]);indexobj.add(strlen[18]);//一次合格率
 		nameobj.add(strlen[19]);labelobj.add(lavenlen[19]);indexobj.add(strlen[19]);//投入总数量
 		nameobj.add(strlen[20]);labelobj.add(lavenlen[20]);indexobj.add(strlen[20]);//产出总数量

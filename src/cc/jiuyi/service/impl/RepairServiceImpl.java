@@ -86,17 +86,17 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		Date date = new Date(); 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
 		String time = dateFormat.format(date); 
-		//WorkingBill workingbill = workingbillService.get(workingbillid);
-		//Integer totalamount = workingbill.getTotalRepairAmount();
+		WorkingBill workingbill = workingbillService.get(workingbillid);
+		Integer totalamount = workingbill.getTotalRepairAmount();
 		for (int i = 0; i < list.size(); i++) {
 			Repair repair = list.get(i);
 			String oldMblnr = repair.getEX_MBLNR();
-			/*if (statu.equals("1")) {
+			if (statu.equals("1")) {
 				totalamount = repair.getRepairAmount() + totalamount;
 			}
-			if (statu.equals("3")) {
+			if (statu.equals("3")&&repair.getState().equals("1")) {
 				totalamount -= repair.getRepairAmount();
-			}*/
+			}
 			if(repair.getEX_MBLNR()!=null && repair.getEX_MBLNR().contains("/")!=true){
 				repair = repairRfc.revokedRepairCrt(repair,"",cardnumber);
 				if(repair.getE_TYPE().equals("E")){
@@ -114,8 +114,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		//	repair.setConfirmUser(admin);
 			repairDao.update(repair);
 		}
-		//workingbill.setTotalRepairAmount(totalamount);
-		//workingbillService.update(workingbill);
+		workingbill.setTotalRepairAmount(totalamount);
+		workingbillService.update(workingbill);
 		return "您的操作已成功!";
 		}catch(Exception e){
 			e.printStackTrace();

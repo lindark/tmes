@@ -253,11 +253,15 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 		String oldstate=s2.getState();
 		s2.setState(newstate);//状态
 		s2.setModifyDate(new Date());//修改日期
-		s2.setRevokedUser(admin.getName());
-		s2.setRevokedTime(time);
-		s2.setRevokedUserCard(admin.getCardNumber());
-		s2.setRevokedUserId(admin.getId());
-//		s2.setConfirmation(admin);//撤销/确认人
+		if(newstate.equals("3")){
+			s2.setRevokedUser(admin.getName());
+			s2.setRevokedTime(time);
+			s2.setRevokedUserCard(admin.getCardNumber());
+			s2.setRevokedUserId(admin.getId());
+		}
+		if(newstate.equals("2")){
+			s2.setConfirmation(admin);//撤销/确认人
+		}
 		if(my_id==1)
 		{
 			s2.setE_type(s.getE_type());//类型S/E

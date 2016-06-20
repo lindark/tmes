@@ -164,5 +164,11 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		// TODO Auto-generated method stub
 		return bomDao.findPagerByOrders(pager, map,idList);
 	}
+
+
+	@Override
+	public List<Bom> getBomListRFC(String aufnr, Integer maxversion) {
+		return bomDao.getBomListRFC(aufnr, maxversion);
+	}
 	
 }

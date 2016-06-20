@@ -171,6 +171,12 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			bom.setShift(table04.getString("ABLAD"));//班组
 			bom.setRspos(table04.getString("RSPOS"));//项目
 			bom.setMaterialUnit(table04.getString("MEINS"));//基本单位
+			String isdel = table04.getString("XLOEK");//标记删除
+			if("X".equals(isdel)){
+				bom.setIsDel("Y");
+			}else{
+				bom.setIsDel("N");
+			}
 			bomList.add(bom);
 		}
 		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);

@@ -183,7 +183,8 @@ body{background:#fff;}
 							<span id="span_postname">${(admin.post.postName)! }</span>
 							<input type="hidden" id="input_post" name="admin.post.id" value="${(admin.post.id)! }" class="col-xs-10 col-sm-5" />
 						<#else>
-							${(admin.post.postName)! }
+							<img id="img_post" title="岗位" alt="岗位" style="cursor:pointer" src="/template/shop/images/add_bug.gif" />
+							<span id="span_postname">${(admin.post.postName)! }</span>
 							<input type="hidden" id="input_post" name="admin.post.id" value="${(admin.post.id)! }" />
 						</#if>
 					</div>

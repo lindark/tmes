@@ -125,9 +125,7 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		s.setE_type(t_data.getString("E_TYPE"));
 		s.setE_message(t_data.getString("E_MESSAGE"));
 		s.setId(t_data.getString("XUH"));
-		System.out.println("-----------------------------------------------"+t_data.getDouble("EX_MBLNR"));
-		System.out.println("-----------------------------------------------"+t_data.getString("EX_MBLNR"));
-		s.setMblnr(t_data.getString("EX_MBLNR"));
+		s.setMblnr(t_data.getString("EX_MBLNR")); 
 		return s;
 	}
 }

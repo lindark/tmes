@@ -102,7 +102,18 @@ public class PollingtestServiceImpl extends
 		for (int i = 0; i < list.size(); i++) {
 			Pollingtest pollingtest = list.get(i);
 			pollingtest.setState(stu);
-			pollingtest.setConfirmUser(admin);
+			if(stu.equals("1")){
+				pollingtest.setConfirmUser(admin);
+			}
+			if(stu.equals("3")){
+				Date date = new Date(); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+				String time = dateFormat.format(date); 
+				pollingtest.setRevokedUser(admin.getName());
+				pollingtest.setRevokedTime(time);
+				pollingtest.setRevokedUserCard(admin.getCardNumber());
+				pollingtest.setRevokedUserId(admin.getId());
+			}
 			pollingtestDao.update(pollingtest);
 		}
 	}

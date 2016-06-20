@@ -335,6 +335,12 @@ public class RepairinAction extends BaseAdminAction {
 		}
 		List<Repairin> list = repairinService.get(ids);
 		workingbill = workingBillService.get(workingBillId);
+//		Integer totalamount = workingbill.getTotalRepairinAmount();
+//		for(Repairin r:list){
+//			totalamount = r.getReceiveAmount() + totalamount;
+//		}
+//		workingbill.setTotalRepairinAmount(totalamount);
+//		workingBillService.update(workingbill);
 		String str=toSAP(list);
 		String isSuccess=ERROR;
 		if("S".equals(str))
@@ -351,7 +357,7 @@ public class RepairinAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
-		//workingbill = workingBillService.get(workingBillId);
+		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 		//	repairin = repairinService.load(ids[i]);

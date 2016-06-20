@@ -378,6 +378,12 @@ public class RepairAction extends BaseAdminAction {
 		List<Repair> list = repairService.get(ids);
 		String str=toSAP(list);//与SAP
 		workingbill = workingBillService.get(workingBillId);
+//		Integer totalamount = workingbill.getTotalRepairAmount();
+//		for(Repair r:list){
+//			totalamount = r.getRepairAmount() + totalamount;
+//		}
+//		workingbill.setTotalRepairAmount(totalamount);
+//		workingBillService.update(workingbill);
 		String isSuccess=ERROR;
 		if("S".equals(str))
 		{

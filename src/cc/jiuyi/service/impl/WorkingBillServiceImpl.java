@@ -1,54 +1,33 @@
 package cc.jiuyi.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.management.RuntimeErrorException;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.dao.AdminDao;
-import cc.jiuyi.dao.BrandDao;
-import cc.jiuyi.dao.DictDao;
-import cc.jiuyi.dao.MemberRankDao;
 import cc.jiuyi.dao.WorkingBillDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.Brand;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.MemberRank;
 import cc.jiuyi.entity.Orders;
-import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.sendmsg.Test;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
-import cc.jiuyi.service.BrandService;
-import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.service.WorkingInoutCalculateBase;
-import cc.jiuyi.util.ArithUtil;
-import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 //import org.springmodules.cache.annotations.CacheFlush;
-import org.springmodules.cache.annotations.Cacheable;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
-import freemarker.template.utility.DateUtil;
 
 /**
  * Service实现类 - 随工单
@@ -256,6 +235,11 @@ public class WorkingBillServiceImpl extends
 		 for(int x=0;x<workingbillList00.size();x++){
 			boolean flag = false;
 			WorkingBill WorkingBill00 = workingbillList00.get(x);
+			if(new BigDecimal("0").compareTo(new BigDecimal(WorkingBill00.getPlanCount()==null?"0":WorkingBill00.getPlanCount().toString()))==0){
+				WorkingBill00.setIsdel("Y");
+			}else{
+				WorkingBill00.setIsdel(order.getIsdel());
+			}
 			for(int z=0;z<workingbillList01.size();z++){
 				WorkingBill WorkingBill01 = workingbillList01.get(z);
 				if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
@@ -266,7 +250,11 @@ public class WorkingBillServiceImpl extends
 			}
 			if(!flag){ //没找到
 				String id = this.save(WorkingBill00);
-				WorkingBill00.setId(id);
+				if(new BigDecimal("0").compareTo(new BigDecimal(WorkingBill00.getPlanCount()==null?"0":WorkingBill00.getPlanCount().toString()))==0){
+					WorkingBill00.setIsdel("Y");
+				}else{
+					WorkingBill00.setIsdel(order.getIsdel());
+				}
 				workingbillList01.add(WorkingBill00);
 			}
 		 }
@@ -276,6 +264,11 @@ public class WorkingBillServiceImpl extends
 				WorkingBill WorkingBill01 = workingbillList01.get(x);
 				for(int z=0;z<workingbillList00.size();z++){
 					WorkingBill WorkingBill00 = workingbillList00.get(z);
+					if(new BigDecimal("0").compareTo(new BigDecimal(WorkingBill00.getPlanCount()==null?"0":WorkingBill00.getPlanCount().toString()))==0){
+						WorkingBill00.setIsdel("Y");
+					}else{
+						WorkingBill00.setIsdel(order.getIsdel());
+					}
 					if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
 						this.updateWorkingBill(WorkingBill00);
 						flag = true;

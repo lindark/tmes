@@ -55,7 +55,7 @@ public class WorkingBillJobAll{
 			String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
-			workingbillrfc.updateSyncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
+			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
 			log.error("同步生产订单出错"+e);
 			e.printStackTrace();
@@ -90,7 +90,7 @@ public class WorkingBillJobAll{
 			String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 			Object[] propertyValues = {workcode[0],"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
-			workingbillrfc.updateSyncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode[0]);
+			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode[0]);
 		} catch (IOException e){
 			log.error("同步生产订单出错"+e);
 			e.printStackTrace();

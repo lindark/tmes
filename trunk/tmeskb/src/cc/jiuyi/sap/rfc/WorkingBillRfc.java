@@ -13,5 +13,5 @@ public interface WorkingBillRfc extends BaserfcService {
 	
 	public void syncRepairorder(String startdate,String enddate,String starttime,String endtime) throws IOException, CustomerException;
 	
-	public void updateSyncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList,String workcode) throws IOException, CustomerException;
+	public void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList,String workcode) throws IOException, CustomerException;
 }

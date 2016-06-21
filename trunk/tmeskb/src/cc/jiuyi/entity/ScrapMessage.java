@@ -31,6 +31,8 @@ public class ScrapMessage extends BaseEntity
 	private String item_text;//项目文本
 	private String meins;//单位
 	private Set<ScrapBug>scrapBug;//报废原因表
+	private String cqmultiple;//倍数
+	private Double cqlmenge;//裁切后数量
 	
 	//假字段
 	private String xsmduty;//责任划分描述
@@ -215,6 +217,18 @@ public class ScrapMessage extends BaseEntity
 	}
 	public void setXstate(String xstate) {
 		this.xstate = xstate;
+	}
+	public String getCqmultiple() {
+		return cqmultiple;
+	}
+	public void setCqmultiple(String cqmultiple) {
+		this.cqmultiple = cqmultiple;
+	}
+	public Double getCqlmenge() {
+		return cqlmenge;
+	}
+	public void setCqlmenge(Double cqlmenge) {
+		this.cqlmenge = cqlmenge;
 	}
 	
 	

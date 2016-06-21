@@ -491,10 +491,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							}
 						}
 					}
-					map.put(strlen[11],fxsh);//返修发货数量
+					map.put(strlen[11],fxsh);//返修收货数量
 				}else{
 					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
-					map.put(strlen[11],fxsh);//返修发货数量
+					map.put(strlen[11],fxsh);//返修收货数量
 				}
 				
 				
@@ -539,7 +539,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				
 				
-				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(actualAmountLTJSB.doubleValue(), unAmountLTJSB.doubleValue()),totalsingleamount),actualAmountLTJXB.doubleValue()),unAmountLTJXB.doubleValue());//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+//				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(actualAmountLTJSB.doubleValue(), unAmountLTJSB.doubleValue()),totalsingleamount),actualAmountLTJXB.doubleValue()),unAmountLTJXB.doubleValue());//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+				BigDecimal WarehousingNum = new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));
+				BigDecimal qualifiedNum = WarehousingNum.add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB).add(fxfh).subtract(fxsh);//生产数=入库+交/零头+交/零头/返-接/零头-接/零头/返+返修发货-返修收货
+				Double dbjyhgs = qualifiedNum.doubleValue();
 				map.put(strlen[16],dbjyhgs);//当班检验合格数
 				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
 				
@@ -889,7 +892,10 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				
 				
-				Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(actualAmountLTJSB.doubleValue(), unAmountLTJSB.doubleValue()),totalsingleamount),actualAmountLTJXB.doubleValue()),unAmountLTJXB.doubleValue());//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+		//		Double dbjyhgs = ArithUtil.sub(ArithUtil.sub(ArithUtil.add(ArithUtil.add(actualAmountLTJSB.doubleValue(), unAmountLTJSB.doubleValue()),totalsingleamount),actualAmountLTJXB.doubleValue()),unAmountLTJXB.doubleValue());//当班检验合格数 = 接上班零头数 + 接上班异常零头数 + 入库数 - 交下班零头数 - 交下班异常零头数
+				BigDecimal WarehousingNum = new BigDecimal(ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));
+				BigDecimal qualifiedNum = WarehousingNum.add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB).add(fxfh).subtract(fxsh);//生产数=入库+交/零头+交/零头/返-接/零头-接/零头/返+返修发货-返修收货
+				Double dbjyhgs = qualifiedNum.doubleValue();
 				map.put(strlen[16],dbjyhgs);//当班检验合格数
 				map.put(strlen[18],"");//一次合格率 TODO 此处计算一次合格率，现在无法计算
 				

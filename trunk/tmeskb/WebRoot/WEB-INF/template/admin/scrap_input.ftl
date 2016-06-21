@@ -121,6 +121,8 @@ body {background: #fff;font-family: 微软雅黑;}
 															<th style="width: 15%;">物料编码</th>
 															<th style="width: 30%;">物料描述</th>
 															<th style="width: 20%;">责任划分</th>
+															<!-- <th style="width: 5%;">倍数</th> -->
+															<!-- <th style="width: 5%;">裁切后数量</th> -->
 															<th style="width: 35%;min-width:105px;">报废原因/数量/批次/责任人</th>
 														</tr>
 														<#else>
@@ -128,6 +130,8 @@ body {background: #fff;font-family: 微软雅黑;}
 															<th style="width: 15%;">物料编码</th>
 															<th style="width: 20%;">物料描述</th>
 															<th style="width: 20%;">责任划分</th>
+															<!-- <th style="width: 5%;">倍数</th> -->
+															<!-- <th style="width: 5%;">裁切后数量</th> -->
 															<th style="width: 35%;min-width:105px;">报废原因/数量/批次/责任人</th>
 															<th style="width: 10%;">操作</th>
 														</tr>
@@ -141,6 +145,8 @@ body {background: #fff;font-family: 微软雅黑;}
 																		<td>${(list.smmatterDes)! }</td>
 																		<td>${(list.xsmduty)! }</td>
 																		<td>${(list.smreson)! }</td>
+																		<!-- <td>${(list.cqmultiple)! }</td> -->
+																		<!-- <td>${(list.cqlmenge)! }</td> -->
 																	</tr>
 																	<#assign num=num+1 />
 																</#list>
@@ -160,6 +166,8 @@ body {background: #fff;font-family: 微软雅黑;}
 																				</#list>
 																			</select>
 																		</td>
+																		<!-- <td>${(list.cqmultiple)! }</td> -->
+																		<!-- <td>${(list.cqlmenge)! }</td> -->
 																		<td>
 																			<img id="img_addbug${num}" onclick="btn_addbug_event('${num}')" class="img_addbug" title="添加报废数量" alt="添加报废数量" src="${base}/template/shop/images/add_bug.gif" />
 																			<span id="span_bug${num}">${(list.smreson)!}</span>
@@ -167,7 +175,8 @@ body {background: #fff;font-family: 微软雅黑;}
 																			<input type="hidden"  id="input_msgmenge${num}" name="list_scrapmsg[${num}].menge" value="${(list.menge)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterNum" value="${(list.smmatterNum)! }" />
 																			<input type="hidden" name="list_scrapmsg[${num}].smmatterDes" value="${(list.smmatterDes)! }" />
-																			
+																			<input id="input_cql${num}" type="hidden" name="list_scrapmsg[${num}].cqmultiple" value="${(list.cqmultiple)! }" />
+																			<input id="input_cqlmount${num}" type="hidden" name="list_scrapmsg[${num}].cqlmenge" value="${(list.cqlmenge)! }" />
 																			<input id="input_bugnum${num}" name="list_scrapbug[${num}].xbugnums" type="hidden" value="${(list.xsbnums)! }" />
 																			<input id="input_bugid${num}" name="list_scrapbug[${num}].xbugids" type="hidden" value="${(list.xsbids)! }" />
 																		</td>
@@ -280,8 +289,10 @@ body {background: #fff;font-family: 微软雅黑;}
 													<tr>
 															<th style="width: 15%;">类型</th>
 															<th style="width: 10%;">报废数量</th>
+															<th style="width: 5%;">倍数</th>
+															<th style="width: 10%;">裁切后报废</th>
 															<th style="width: 15%;">批次</th>
-															<th style="width: 60%;min-width:105px;">责任人</th>
+															<th style="width: 45%;min-width:105px;">责任人</th>
 													</tr>
 													
 													
@@ -290,7 +301,9 @@ body {background: #fff;font-family: 微软雅黑;}
 														<#list list_cause as clist>
 															<tr id="div_${num}" >
 																<td><label>${(clist.causeName)! }</label></td>
-																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" /></td>
+																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" readonly/></td>
+																<td  id="cql${num}" >${(clist.cqmultiple)! }</td>
+																<td><input id="cqlmount${num}" onchange="change_cqm_event('${num}')"  type="text" class=" input-value" style="width:100%;" /></td>
 																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td >
 																<input id="zrr${num}" type="text" style="width:85%;" readonly/>
@@ -357,7 +370,7 @@ body {background: #fff;font-family: 微软雅黑;}
 													<#if list_material??>
 														<#assign num2=0 />
 														<#list list_material as list2>
-															<option id="optsm_${(list2.materialCode)! }" value="${(list2.materialCode)! }">${(list2.materialName)! }</option>
+															<option id="optsm_${(list2.materialCode)! }" value="${(list2.materialCode)! }-${(list2.cqmultiple)!'1'}">${(list2.materialName)! }</option>
 															<#assign num2=num2+1 />
 														</#list>
 													</#if>
@@ -473,7 +486,7 @@ function rowtobox_event(index)
 	var rownums_array=rownums.split(",");
 	var i=0;
 	//alert("rowids="+rowids+"---rownums="+rownums+"rowids_array="+rowids_array+"---rownums_array="+rownums_array);
-	
+	var cql = $("#input_cql"+index).val();	
 	<#list list_cause as list>
 		$("#mynum"+i).val("");//先清空
 		$("#ph"+i).val("");
@@ -489,11 +502,11 @@ function rowtobox_event(index)
 				}
 			}
 		}
+		$("#cql"+i).text(cql);
 		i+=1;
 	</#list>
-	
-	
 	var str=$("#input_msgbug"+index).val();	
+	var cqlmount=$("#input_cqlmount"+index).val();
 	if(str!="")
 	{
 		var strList=str.split("; ");		
@@ -527,8 +540,10 @@ function rowtobox_event(index)
 					//	tds.eq(3).children().eq(0).chosen("destroy");
 					}
 				} */
-				tds.eq(2).children().eq(0).val(strLists[2]);
-				tds.eq(3).children().eq(0).val(strLists[3]);
+				tds.eq(2).text(cql);
+				tds.eq(3).children().eq(0).val(floatMul(cql,strLists[1]));
+				tds.eq(4).children().eq(0).val(strLists[2]);
+				tds.eq(5).children().eq(0).val(strLists[3]);
 				k++;
 				
 				if(k>=strList.length) break;
@@ -538,7 +553,22 @@ function rowtobox_event(index)
 	
 	
 }
-
+function change_cqm_event(index){
+	var $mount_index = $("#cqlmount"+index);
+	var cqlmount = $mount_index.val();
+    var p =/^[1-9](\d+(\.\d{1,2})?)?$/; 
+    var p1=/^[0-9](\.\d{1,2})?$/;
+    if(p.test(cqlmount) || p1.test(cqlmount)){
+    	var mount = floatDiv($mount_index.val(),$mount_index.parent().prev().text());
+    	$("#mynum"+index).val(mount);
+    }else{
+    	alert("裁切后报废数量填写错误");
+    	 $mount_index.val(floatMul($("#mynum"+index).val(),$mount_index.parent().prev().text()));
+    }
+	
+	
+	
+}
 //报废原因数量填写好并确定之后把填写的保存起来
 function boxtorow_event(index)
 {
@@ -657,7 +687,7 @@ function showorhide_event(obj)
 }
 
 //添加报废信息
-function fuzhi_box3torow(val,txt)
+function fuzhi_box3torow(val,txt,child_val)
 {
 	//获取表的行数，确定新增的行值
 	var row=$("#tab_scrapmsg tr").length;
@@ -671,6 +701,7 @@ function fuzhi_box3torow(val,txt)
 			"<option value='${(dlist2.dictkey)! }'>${(dlist2.dictvalue)! }</option>"+
 			</#list>
 			"</select></td>" +
+			//"<td>"+child_val+"</td>"+
 			"<td>"+
 			"<img id='img_addbug"+row+"' onclick=btn_addbug_event('"+row+"') class='img_addbug' title='添加报废数量' alt='添加报废数量' src='${base}/template/shop/images/add_bug.gif' />"+
 			"<span id='span_bug"+row+"'></span>"+
@@ -680,6 +711,8 @@ function fuzhi_box3torow(val,txt)
 			"<input type='hidden' name='list_scrapmsg["+row+"].smmatterDes' value='"+txt+"' />"+
 			"<input id='input_bugnum"+row+"' name='list_scrapbug["+row+"].xbugnums' type='hidden' />"+
 			"<input id='input_bugid"+row+"' name='list_scrapbug["+row+"].xbugids' type='hidden' />"+
+			"<input id='input_cql"+row+"' name='list_scrapmsg["+row+"].cqmultiple' type='hidden' value='"+child_val+"'/>"+
+			"<input id='input_cqlmount"+row+"' name='list_scrapmsg["+row+"].cqlmenge' type='hidden' />"+
 			"</td>"+
 			"<td>" +
 			"<a id='a_delsm"+row+"' onclick='delsm_click("+row+")' href='javascript:void(0);'>删除</a>" +

@@ -404,7 +404,7 @@ function selectduty_event(obj)
 function addmsg_event()
 {
 	//给下拉框默认选项
-	$("#sl_bom").val("baga");
+	//$("#sl_bom").val("baga");
 	layer.open({
 		type:1,
 		shade:0.52,
@@ -423,8 +423,11 @@ function addmsg_event()
 function box3torow_event()
 {
 	//下拉框值
-	var select_val=$("#sl_bom").val();
+	var sl_bom = $("#sl_bom").val();
+	var val_v = sl_bom.split("-");
+	var select_val=val_v[0];
 	var select_text=$("#optsm_"+select_val).text();
+	var select_child_val=val_v[1];
 	if(select_val=="baga")
 	{
 		layer.alert("物料不能为空!",{
@@ -435,7 +438,7 @@ function box3torow_event()
 	}
 	else
 	{
-		fuzhi_box3torow(select_val,select_text);
+		fuzhi_box3torow(select_val,select_text,select_child_val);
 		layer.closeAll();
 	}
 }

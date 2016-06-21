@@ -77,7 +77,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 	}
 	
 	@Override
-	public  void syncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList,String workcode) throws IOException, CustomerException {
+	public  void updateSyncRepairorderAll(String startdate,String enddate,String starttime,String endtime,String aufnr,String workshopcode,List<UnitdistributeProduct> unitdistributeList,String workcode) throws IOException, CustomerException {
 		super.setProperty("workingbillall");//根据配置文件读取到函数名称
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("STARTDATE", startdate);
@@ -142,6 +142,10 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			order.setMujuntext(table02.getString("TEXT"));//长文本
 			if(table02.getString("LOEKZ").equals("X")){//删除标记
 				order.setIsdel("Y");
+				List<WorkingBill> workingbillList01 = workingbillservice.getList("aufnr", order.getAufnr());
+				for(WorkingBill wb:workingbillList01){
+					workingbillservice.update(wb);
+				}
 			}else{
 				order.setIsdel("N");
 			}

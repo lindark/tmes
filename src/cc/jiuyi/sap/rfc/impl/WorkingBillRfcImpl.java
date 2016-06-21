@@ -139,9 +139,9 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			order.setGamng(table02.getString("GAMNG"));//订单数量
 			order.setGstrp(table02.getString("GSTRP"));//订单开始日期
 			order.setGltrp(table02.getString("GLTRP"));//订单结束日期
-			order.setSAPDel(table02.getString("LKNOT"));//订单结束日期
 			order.setMujuntext(table02.getString("TEXT"));//长文本
-			if(table02.getString("STATUS").contains("DLID")){//删除标记
+			//System.out.println("-------status-----------"+table02.getString("STATUS")+"----------------");
+			if(table02.getString("STATUS").indexOf("DLID")!=-1){//删除标记
 				order.setIsdel("Y");
 			}else{
 				order.setIsdel("N");

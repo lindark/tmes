@@ -203,10 +203,11 @@ body {
 												<table id="tb_repairinpiece" class="table table-striped table-bordered table-hover">
 													<#if show??>
 														<tr>
-															<th style="width:25%;">组件编码</th>
-															<th style="width:35%;">组件描述</th>
-															<th style="width:20%;">产品数量</th>
-															<th style="width:20%;">组件数量</th>
+															<th style="width:20%;">组件编码</th>
+															<th style="width:30%;">组件描述</th>
+															<th style="width:20%;">计划数量</th>
+															<th style="width:15%;">组件数量</th>
+															<th style="width:15%;">返修总数量</th>
 														</tr>
 														<#if list_rp??>
 															<#list list_rp as rplist>
@@ -215,6 +216,7 @@ body {
 																	<td>${(rplist.rpname)! }</td>
 																	<td>${(rplist.productnum)! }</td>
 																	<td>${(rplist.piecenum)! }</td>
+																	<td>${(rplist.rpcount)! }</td>
 																</tr>
 															</#list>
 														</#if>

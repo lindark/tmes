@@ -200,6 +200,7 @@ public class ScrapAction extends BaseAdminAction
 							}
 						}
 						if(f){
+							bom.setCqmultiple(mt.getCqmultiple());
 							list_material.add(bom);	
 						}
 						break;

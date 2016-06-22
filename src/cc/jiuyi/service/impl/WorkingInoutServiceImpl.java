@@ -467,10 +467,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxfh = new BigDecimal(0);
 				if(repairSet!=null){
 					for(Repair r : repairSet){
-						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
-						if(repairPieceSet!=null){
-							for(RepairPiece rp : repairPieceSet){
-								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+							if(repairPieceSet!=null){
+								for(RepairPiece rp : repairPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){
+										fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}
@@ -484,10 +488,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxsh = new BigDecimal(0);
 				if(repairinSet!=null){
 					for(Repairin r : repairinSet){
-						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
-						if(repairinPieceSet!=null){
-							for(RepairinPiece rp : repairinPieceSet){
-								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+							if(repairinPieceSet!=null){
+								for(RepairinPiece rp : repairinPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){
+										fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}
@@ -826,10 +834,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxfh = new BigDecimal(0);
 				if(repairSet!=null){
 					for(Repair r : repairSet){
-						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
-						if(repairPieceSet!=null){
-							for(RepairPiece rp : repairPieceSet){
-								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+							if(repairPieceSet!=null){
+								for(RepairPiece rp : repairPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){
+										fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}
@@ -843,10 +855,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxsh = new BigDecimal(0);
 				if(repairinSet!=null){
 					for(Repairin r : repairinSet){
-						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
-						if(repairinPieceSet!=null){
-							for(RepairinPiece rp : repairinPieceSet){
-								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+							if(repairinPieceSet!=null){
+								for(RepairinPiece rp : repairinPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){
+										fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}
@@ -1156,10 +1172,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxfh = new BigDecimal(0);
 				if(repairSet!=null){
 					for(Repair r : repairSet){
-						Set<RepairPiece> repairPieceSet = r.getRpieceSet();
-						if(repairPieceSet!=null){
-							for(RepairPiece rp : repairPieceSet){
-								fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairPiece> repairPieceSet = r.getRpieceSet();
+							if(repairPieceSet!=null){
+								for(RepairPiece rp : repairPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){
+										fxfh = fxfh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}
@@ -1173,10 +1193,14 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				BigDecimal fxsh = new BigDecimal(0);
 				if(repairinSet!=null){
 					for(Repairin r : repairinSet){
-						Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
-						if(repairinPieceSet!=null){
-							for(RepairinPiece rp : repairinPieceSet){
-								fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+						if("1".equals(r.getState())){
+							Set<RepairinPiece> repairinPieceSet = r.getRpieceSet();
+							if(repairinPieceSet!=null){
+								for(RepairinPiece rp : repairinPieceSet){
+									if(rp.getRpcode().equals(workinginout.getMaterialCode())){	
+										fxsh = fxsh.add(new BigDecimal(rp.getRpcount()==null?"0":rp.getRpcount()));
+									}
+								}
 							}
 						}
 					}

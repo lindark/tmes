@@ -833,6 +833,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							}
 						}
 					}
+					map.put(strlen[10],fxfh);//返修发货数量
 				}else{
 					//map.put(strlen[10],workingbill.getTotalRepairAmount());//返修发货数量
 					map.put(strlen[10],fxfh);//返修发货数量
@@ -849,6 +850,7 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 							}
 						}
 					}
+					map.put(strlen[11],fxsh);//返修发货数量
 				}else{
 					//map.put(strlen[11],workingbill.getTotalRepairinAmount());//返修收货数量
 					map.put(strlen[11],fxsh);//返修发货数量

@@ -1,7 +1,6 @@
 package cc.jiuyi.common;
 
-import java.io.StringReader;
-import java.io.StringWriter;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -10,8 +9,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.blogspot.radialmind.html.HTMLParser;
-import com.blogspot.radialmind.xss.XSSFilter;
+
 
 public class NewXssHttpServletRequestWrapper extends HttpServletRequestWrapper {  
 	  

@@ -122,9 +122,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 				}
 				BigDecimal bomAmount = new BigDecimal(p.getBomAmount());
 				BigDecimal repairNumber = new BigDecimal(p.getRepairNumber());
-				BigDecimal cqamount = new BigDecimal(p.getCqamount());
-				BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
-				BigDecimal amount = bomAmount.add(repairNumber).add(cqamount).add(cqrepairamount);
+				//BigDecimal cqamount = new BigDecimal(p.getCqamount());
+				//BigDecimal cqrepairamount = new BigDecimal(p.getCqrepairamount());
+				BigDecimal amount = bomAmount.add(repairNumber);//add(cqamount).add(cqrepairamount);
 				if(new BigDecimal(0).compareTo(amount)==0)continue;
 				String mount = amount.toString();
 				item.put("MATNR", p.getBomCode());//物料编码
@@ -141,7 +141,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 				
 				HashMap<String,Object> item = new HashMap<String,Object>();
 				item.put("MATNR", o.getBomCode());//物料编码
-				BigDecimal actualBomMount = new BigDecimal(o.getActualHOMount()==null?0:o.getActualBomMount());
+				BigDecimal actualBomMount = new BigDecimal(o.getActualHOMount()==null?0:o.getActualHOMount());
 				BigDecimal unBomMount = new BigDecimal(o.getUnHOMount()==null?0:o.getUnHOMount());
 				BigDecimal amount = actualBomMount.add(unBomMount);
 				String mount = amount.toString();

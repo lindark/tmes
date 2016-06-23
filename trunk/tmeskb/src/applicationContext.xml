@@ -46,11 +46,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 		<!-- 设置连接池初始值 -->
 		<property name="initialSize" value="20" />
 		<!-- 设置连接池最大值 -->
-		<property name="maxActive" value="200" />
+		<property name="maxActive" value="500" />
 		<!-- 设置连接池最小空闲值 -->
 		<property name="minIdle" value="25" />
 		<!-- 设置连接池最大空闲值 -->
-		<property name="maxIdle" value="80" />
+		<property name="maxIdle" value="50" />
 	</bean>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -278,13 +278,13 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 	
 	<!-- XFire end -->
 	
- <bean id="facadeMonitoringAdvisor"  class="net.bull.javamelody.MonitoringSpringAdvisor"> 
+ <!-- <bean id="facadeMonitoringAdvisor"  class="net.bull.javamelody.MonitoringSpringAdvisor"> 
 		<property name="pointcut">  
 			<bean class="org.springframework.aop.support.JdkRegexpMethodPointcut"> 
 				<property name="pattern" value="cc.jiuyi.action.admin..*.*(..)" /> 
 			</bean> 
 		</property> 
-	</bean>
+	</bean> -->
 	<!-- 重建索引配置 -->
 
 	<!-- <bean id="indexBuilder" class="cc.jiuyi.common.CompassIndexBuilder">

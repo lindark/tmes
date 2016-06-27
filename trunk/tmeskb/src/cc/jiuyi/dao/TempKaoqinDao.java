@@ -49,4 +49,5 @@ public interface TempKaoqinDao extends BaseDao<TempKaoqin, String>
 		
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
+    public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
 }

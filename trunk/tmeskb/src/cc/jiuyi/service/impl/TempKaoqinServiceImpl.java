@@ -657,4 +657,10 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		return tempKqDao.getByTPSA(sameTeamId, productDate, shift, adminId);
 	}
 	
+	@Override
+	public List<TempKaoqin> getWorkNumList(String productDate, String shift,
+			String factoryUnitCode, String workState) {
+		return tempKqDao.getWorkNumList(productDate, shift, factoryUnitCode, workState);
+	}
+	
 }

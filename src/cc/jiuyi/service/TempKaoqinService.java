@@ -84,4 +84,7 @@ public interface TempKaoqinService extends BaseService<TempKaoqin, String>
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
+    
+    public List<TempKaoqin> getWorkNumList(String productDate, String shift,
+			String factoryUnitCode, String workState);
 }

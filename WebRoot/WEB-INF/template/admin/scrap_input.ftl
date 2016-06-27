@@ -303,7 +303,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																<td><label>${(clist.causeName)! }</label></td>
 																<td><input id="mynum${num}" type="text" class=" input-value" style="width:100%;" readonly/></td>
 																<td  id="cql${num}" >${(clist.cqmultiple)! }</td>
-																<td><input id="cqlmount${num}" onchange="change_cqm_event('${num}')"  type="text" class=" input-value" style="width:100%;" /></td>
+																<td><input id="cqlmount${num}" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" type="text" class="CuttingScrap input-value" style="width:100%;" /></td>
 																<td><input id="ph${num}" type="text" class=" input-value" style="width:100%;" /></td>
 																<td >
 																<input id="zrr${num}" type="text" style="width:85%;" readonly/>
@@ -419,6 +419,11 @@ body {background: #fff;font-family: 微软雅黑;}
 <script type="text/javascript">
 
 $(function(){
+	$(".CuttingScrap").change(function(){
+		var cqlmount = $(this).val();
+		var mount = floatDiv(cqlmount,$(this).parent().prev().text());
+		$(this).parent().prev().prev().children().val(mount);
+	});
 	/* $(".btn_remove").click(
 		function()
 		{
@@ -491,6 +496,7 @@ function rowtobox_event(index)
 		$("#mynum"+i).val("");//先清空
 		$("#ph"+i).val("");
 		$("#zrr"+i).val("");
+		$("#cqlmount"+i).val("");
 		for(var j=0;j<rowids_array.length;j++)
 		{
 			if(rowids_array[j]!=null&&rowids_array[j]!="")

@@ -236,13 +236,16 @@ public class KaoqinAction extends BaseAdminAction {
 		header.add("工作范围");
 		header.add("异常小时数");
 		header.add("员工状态");
+		header.add("已上班人数");
 
 		List<Object[]> kqlist = kqService.historyExcelExport(map);
 		for (int i = 0; i < kqlist.size(); i++) {
 			Object[] obj = kqlist.get(i);
 			Kaoqin kaoqin = (Kaoqin) obj[0];//
 			Admin admin = (Admin) obj[1];//
-
+			List<Kaoqin> kqNumlist = kqService.getWorkNumList(admin.getProductDate(), admin.getShift(), admin
+					.getTeam().getFactoryUnit().getFactoryUnitCode(), "2");
+			
 			String mjzh="";
 			if(kaoqin.getModleNum()!=null)
 			{
@@ -276,7 +279,8 @@ public class KaoqinAction extends BaseAdminAction {
 					kaoqin.getPostname(), kaoqin.getStationName(),
 					mjzh, kaoqin.getWorkName(),
 					kaoqin.getTardyHours(), 
-					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState())};
+					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()),
+					kqNumlist.size()};
 			body.add(bodyval);
 		}
 

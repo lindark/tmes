@@ -224,5 +224,9 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		}
 	}
 
-	
+	public List<Kaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState){
+		String hql = "from Kaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
+		return (List<Kaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+				.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
+	}
 }

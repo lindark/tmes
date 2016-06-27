@@ -525,4 +525,10 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			String factoryUnitCode) {
 		return this.kqDao.getKaoqinList(productDate, shift,factoryUnitCode);
 	}
+	
+	@Override
+	public List<Kaoqin> getWorkNumList(String productDate, String shift,
+			String factoryUnitCode, String workState) {
+		return this.kqDao.getWorkNumList(productDate, shift, factoryUnitCode, workState);
+	}
 }

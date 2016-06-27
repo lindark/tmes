@@ -94,4 +94,7 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
     
     
     public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
+    
+    public List<Kaoqin> getWorkNumList(String productDate, String shift,
+			String factoryUnitCode, String workState);
 }

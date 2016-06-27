@@ -118,7 +118,7 @@ public class RepairRfcImpl extends BaserfcServiceImpl implements RepairRfc{
 		repair.setEX_MBLNR(EX_MBLNR);
 		repair.setE_TYPE(E_TYPE);
 		repair.setE_MESSAGE(E_MESSAGE);
-		repair.setBUDAT(EX_MJAHR);
+//		repair.setBUDAT(EX_MJAHR);
 		return repair;
 	}
 

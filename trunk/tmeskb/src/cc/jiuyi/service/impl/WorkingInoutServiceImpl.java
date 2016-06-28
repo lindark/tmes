@@ -31,11 +31,13 @@ import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.RepairinPiece;
+import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.ProcessService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.WorkingInoutService;
 import cc.jiuyi.util.ArithUtil;
@@ -67,7 +69,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	private ProcessHandoverDao processHandoverDao;
 	@Resource
 	private UnitConversionService unitConversionService;
-	
+	@Resource
+	private TempKaoqinService tempKaoqinService;
 	
 	@Resource
 	public void setBaseDao(WorkingInoutDao workingInoutDao){
@@ -113,6 +116,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[2]);labelobj.add(lavenlen[2]);indexobj.add(strlen[2]);//计划数量
 		//nameobj.add(strlen[0]);labelobj.add(lavenlen[0]);indexobj.add(strlen[0]);//随工单编号
 		nameobj.add(strlen[5]);labelobj.add(lavenlen[5]);indexobj.add(strlen[5]);//领用数
+		nameobj.add(strlen[33]);labelobj.add(lavenlen[33]);indexobj.add(strlen[33]);//应出勤人数
+		nameobj.add(strlen[34]);labelobj.add(lavenlen[34]);indexobj.add(strlen[34]);//实出勤人数
 		/**处理接上班(正常)**//*
 		for(int i=0;i<processList00.size();i++){
 			Process process = processList00.get(i);
@@ -219,7 +224,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[27]);labelobj.add(lavenlen[27]);indexobj.add(strlen[27]);//单据状态
 		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
 		nameobj.add(strlen[28]);labelobj.add(lavenlen[28]);indexobj.add(strlen[28]);//校验差异
-		
+		nameobj.add(strlen[33]);labelobj.add(lavenlen[33]);indexobj.add(strlen[33]);//应出勤人数
+		nameobj.add(strlen[34]);labelobj.add(lavenlen[34]);indexobj.add(strlen[34]);//实出勤人数
 		
 		
 		JSONArray jsonarray = new JSONArray();
@@ -309,7 +315,8 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 		nameobj.add(strlen[16]);labelobj.add(lavenlen[16]);indexobj.add(strlen[16]);//生产数
 		nameobj.add(strlen[26]);labelobj.add(lavenlen[26]);indexobj.add(strlen[26]);//当班报工数
 		nameobj.add(strlen[28]);labelobj.add(lavenlen[28]);indexobj.add(strlen[28]);//校验差异
-		
+		nameobj.add(strlen[33]);labelobj.add(lavenlen[33]);indexobj.add(strlen[33]);//应出勤人数
+		nameobj.add(strlen[34]);labelobj.add(lavenlen[34]);indexobj.add(strlen[34]);//实出勤人数
 		
 		JSONArray jsonarray = new JSONArray();
 		for(int i=0;i<nameobj.size();i++){ 
@@ -349,6 +356,22 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				WorkingBill workingbill = workinginout.getWorkingbill();
 				String aufnr = workingbill.getAufnr();
 				
+				String productDate = workingbill.getProductDate();
+				String shift = workingbill.getShift();
+				if(shift.length()>1){
+					shift = shift.substring((shift.length()-1),shift.length());
+				}
+				String factoryUnitCode;
+				if(workingbill.getTeam()==null||workingbill.getTeam().getFactoryUnit()==null){
+					map.put(strlen[33],0);//如果没有相关联的班组或单元，则该投入产出表中，应出勤人数为0
+					map.put(strlen[34],0);//如果没有相关联的班组或单元，则该投入产出表中，实出勤人数为0
+				}else{
+					factoryUnitCode = workingbill.getTeam().getFactoryUnit().getFactoryUnitCode();
+					List<TempKaoqin> needTempKaoqinList = tempKaoqinService.getWorkNumList(productDate, shift, factoryUnitCode, "");//应出勤人数
+					List<TempKaoqin> actualTempKaoqinList = tempKaoqinService.getWorkNumList(productDate, shift, factoryUnitCode, "2");//实出勤人数
+					map.put(strlen[33],needTempKaoqinList.size());
+					map.put(strlen[34],actualTempKaoqinList.size());
+				}
 				/** 接上班 */
 			//	List<OddHandOver> oddHandOverListBefore1 = oddHandOverDao.getList("afterWorkingCode", workingbill.getWorkingBillCode());
 				String[] propertyNamesLTJSB={"afterWorkingBillCode","isdel"};
@@ -760,6 +783,22 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				WorkingBill workingbill = workinginout.getWorkingbill();
 				String aufnr = workingbill.getAufnr();
 				
+				String productDate = workingbill.getProductDate();
+				String shift = workingbill.getShift();
+				if(shift.length()>1){
+					shift = shift.substring((shift.length()-1),shift.length());
+				}
+				String factoryUnitCode;
+				if(workingbill.getTeam()==null||workingbill.getTeam().getFactoryUnit()==null){
+					map.put(strlen[33],0);//如果没有相关联的班组或单元，则该投入产出表中，应出勤人数为0
+					map.put(strlen[34],0);//如果没有相关联的班组或单元，则该投入产出表中，实出勤人数为0
+				}else{
+					factoryUnitCode = workingbill.getTeam().getFactoryUnit().getFactoryUnitCode();
+					List<TempKaoqin> needTempKaoqinList = tempKaoqinService.getWorkNumList(productDate, shift, factoryUnitCode, "");//应出勤人数
+					List<TempKaoqin> actualTempKaoqinList = tempKaoqinService.getWorkNumList(productDate, shift, factoryUnitCode, "2");//实出勤人数
+					map.put(strlen[33],needTempKaoqinList.size());
+					map.put(strlen[34],actualTempKaoqinList.size());
+				}
 				/** 接上班 */
 				String[] propertyNamesLTJSB={"afterWorkingBillCode","isdel"};
 				String[] propertyValuesLTJSB={workingbill.getWorkingBillCode(),"N"};

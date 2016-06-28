@@ -60,8 +60,6 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 	@Resource
 	private BomService bomservice;
 	@Resource
-	private HandOverProcessDao handoverprocessdao;
-	@Resource
 	private OddHandOverDao oddHandOverDao;
 	@Resource
 	private PickDetailDao pickdetaildao;

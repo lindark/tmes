@@ -706,14 +706,18 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				repairAmount = ArithUtil.add(repairAmount,fxfh.doubleValue());//成型异常表面维修数 -出去
 				Double repairinAmount = 0.00d;
 				//repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
-				repairinAmount = ArithUtil.add(repairinAmount,fxfh.doubleValue());//成型维修返回数 -回来
+				repairinAmount = ArithUtil.add(repairinAmount,fxsh.doubleValue());//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				String str = workinginout.getMaterialCode().substring(0, 1);
 				if(!"5".equals(str)){
 					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
-					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
-
+//					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					//产出汇总公式修改=（入库+交/零头+交/零头/返-接/零头-接/零头/返）*组件用量+返修发货-返修收货+组件报废
+//					cczsl = ((new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).doubleValue();
+					cczsl = (new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).doubleValue());
+					cczsl = (new BigDecimal(cczsl).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}else{
 					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}
@@ -1022,16 +1026,22 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				
 				cczsl = ArithUtil.add(cczsl,ThinkWayUtil.null2o(workingbill.getTotalSingleAmount()));//入库数
 				Double repairAmount = 0.00d;
-				repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				//repairAmount = ArithUtil.add(repairAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairAmount()));//成型异常表面维修数 -出去
+				repairAmount = ArithUtil.add(repairAmount,fxfh.doubleValue());//成型异常表面维修数 -出去
 				Double repairinAmount = 0.00d;
-				repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				//repairinAmount = ArithUtil.add(repairinAmount,ThinkWayUtil.null2o(workingbill.getTotalRepairinAmount()));//成型维修返回数 -回来
+				repairinAmount = ArithUtil.add(repairinAmount,fxsh.doubleValue());//成型维修返回数 -回来
 				Double zjbfs = 0.00d;
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				String str = workinginout.getMaterialCode().substring(0, 1);
 				if(!"5".equals(str)){
 					//(成品入库数+交下班零头数+交下班零头返修数+成型异常表面维修数-成型维修返回数-接上班零头数-接上班零头返修数)*单位用量+组件报废数
-					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
-
+//					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					//产出汇总公式修改=（入库+交/零头+交/零头/返-接/零头-接/零头/返）*组件用量+返修发货-返修收货+组件报废
+//					cczsl = ((new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).doubleValue();
+					cczsl = (new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).doubleValue());
+					cczsl = (new BigDecimal(cczsl).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}else{
 					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}
@@ -1256,7 +1266,12 @@ public class WorkingInoutServiceImpl extends BaseServiceImpl<WorkingInout, Strin
 				zjbfs = ArithUtil.add(zjbfs, ThinkWayUtil.null2o(workinginout.getScrapNumber()));//报废数
 				String str = workinginout.getMaterialCode().substring(0, 1);
 				if(!"5".equals(str)){
-					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+//					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).add(new BigDecimal(repairAmount)).subtract(new BigDecimal(repairinAmount)).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(new BigDecimal(zjbfs)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					//产出汇总公式修改=（入库+交/零头+交/零头/返-接/零头-接/零头/返）*组件用量+返修发货-返修收货+组件报废
+//					cczsl = ((new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).multiply(new BigDecimal(dwyl)).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
+					cczsl = (new BigDecimal(cczsl).add(actualAmountLTJXB).add(unAmountLTJXB).subtract(actualAmountLTJSB).subtract(unAmountLTJSB)).doubleValue();
+					cczsl = (new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).doubleValue());
+					cczsl = (new BigDecimal(cczsl).add(fxfh).subtract(fxsh).add(new BigDecimal(zjbfs))).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}else{
 					cczsl = new BigDecimal(cczsl).multiply(new BigDecimal(dwyl)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				}

@@ -252,11 +252,11 @@ public class CartonAction extends BaseAdminAction {
 			if (UNDO.equals(carton.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
-			if (CONFIRMED.equals(carton.getState())){
+			/*if (CONFIRMED.equals(carton.getState())){
 				if(!carton.getCreateUser().getId().equals(card_admin.getId())){
 					return ajaxJsonErrorMessage("无法撤销非自己创建并已确认收货单!");//已确认的无法撤销！
 				}
-			}
+			}*/
 		}
 		String s = this.cartonService.updateToSAPReturn(ids,cardnumber,loginid);
 		String issuccess=ERROR;

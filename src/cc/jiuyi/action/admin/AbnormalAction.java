@@ -26,6 +26,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 
 
+
 import cc.jiuyi.action.cron.ExtremelyMessage;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -63,6 +64,8 @@ public class AbnormalAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 7823213806344131048L;
 	public static Logger log = Logger.getLogger(Abnormal.class);
+	private static String JOB_GROUP_NAME = "EXTJWEB_JOBGROUP_NAME";
+	private static String TRIGGER_GROUP_NAME = "EXTJWEB_TRIGGERGROUP_NAME";
 	private Abnormal abnormal;
 	private String loginUsername;
 	private String callId;
@@ -599,12 +602,12 @@ public class AbnormalAction extends BaseAdminAction {
 	public void quartzMessage(String time,HashMap<String,Object> maps){	
 		String name=(String)maps.get("jobname");
 		removeQuartz(name);//如果存在同名的即先删除定时任务
-		QuartzManagerUtil.addJob(name, ExtremelyMessage.class,time,maps);//创建定时任务			      	      
+		QuartzManagerUtil.addJob(name, ExtremelyMessage.class,time,maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//创建定时任务			      	      
 	}
 	
 	//删除定时任务
 	public void removeQuartz(String job_name){
-		 QuartzManagerUtil.removeJob(job_name);
+		 QuartzManagerUtil.removeJob(job_name,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);
 	}
 	
 	// 删除

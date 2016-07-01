@@ -21,6 +21,7 @@ import org.quartz.impl.StdScheduler;
 import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.action.cron.QuartzManager;
+import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -31,6 +32,7 @@ import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.WorkShopService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -50,6 +52,8 @@ public class FactoryUnitAction extends BaseAdminAction {
 	 * 
 	 */
 	private static final long serialVersionUID = -433964280757192334L;
+	private static String JOB_GROUP_NAME = "WK_JOBGROUP_NAME";
+	private static String TRIGGER_GROUP_NAME = "WK_TRIGGERGROUP_NAME";
 
 	private FactoryUnit factoryUnit;
 	//获取所有状态
@@ -201,7 +205,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(FactoryUnit.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 
 	}
@@ -246,7 +250,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			factoryUnit.setIsspringbean("0");
 			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate","workShop",""});
 			factoryUnitService.update(persistent);
-			reshSyn();//重启quartz 任务
+			reshSyn(factoryUnit);//重启quartz 任务
 			redirectionUrl = "factory_unit!list.action";
 			return SUCCESS;
 		}
@@ -279,7 +283,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 		
 		factoryUnitService.save(factoryUnit);
 		
-		reshSyn();//重启quartz 任务
+		reshSyn(factoryUnit);//重启quartz 任务
 		
 		redirectionUrl="factory_unit!list.action";
 		return SUCCESS;	
@@ -363,11 +367,23 @@ public class FactoryUnitAction extends BaseAdminAction {
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 	
-	public void reshSyn() throws ParseException, Exception{
-		Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
+	public void reshSyn(FactoryUnit factoryUnit) throws ParseException, Exception{
+		if("1".equals(factoryUnit.getIsSync())){
+			if(QuartzManagerUtil.checkJobname(factoryUnit.getWorkCenter(),TRIGGER_GROUP_NAME)){
+				HashMap<String,Object> maps = new HashMap<String,Object>();
+				maps.put("jobname", factoryUnit.getWorkCenter());
+				//maps.put("time", f.getCronexpression());
+				QuartzManagerUtil.addJob(factoryUnit.getWorkCenter(), WorkingBillJob.class,factoryUnit.getCronexpression(),maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//创建定时任务
+			}
+		}else{
+			if(!QuartzManagerUtil.checkJobname(factoryUnit.getWorkCenter(),TRIGGER_GROUP_NAME))
+			QuartzManagerUtil.removeJob(factoryUnit.getWorkCenter(),JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//如果存在同名的即先删除定时任务
+		}
+		
+		//Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");
 		//Scheduler scheduler = schedulerFactoryBean.getScheduler();
-		QuartzManager q = new QuartzManager();
-		q.resh(scheduler);
+		//QuartzManager q = new QuartzManager();
+		//q.resh(scheduler);
 
         // 读取容器中的QUARTZ总管类
        /* Scheduler scheduler = (StdScheduler)SpringUtil.getBean("schedulerManager");

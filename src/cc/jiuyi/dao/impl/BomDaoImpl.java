@@ -43,15 +43,19 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	}
 	
 	public Integer getMaxVersion(String matnr,String productDate){
-		String hql="select max(a.version) from Bom a where a.orders.matnr = ? and a.effectiveDate <= ? and isDel='N' ";
-		return (Integer)getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).uniqueResult();
+		//String hql="select max(a.version) from Bom a where a.orders.matnr = ? and a.effectiveDate <= ? and isDel='N' ";
+		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.isDel='N' ";
+		//return (Integer)getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, productDate).uniqueResult();
+		return (Integer)getSession().createQuery(hql).setParameter(0, matnr).uniqueResult();
 	}
 	
 	
 	@Override
 	public Integer getMaxversion(String orderId, String productDate) {
-		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.effectiveDate <= ? and a.isDel='N' ";
-		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, productDate).uniqueResult();
+		//String hql="select max(a.version) from Bom a where a.orders.id = ? and a.effectiveDate <= ? and a.isDel='N' ";
+		String hql="select max(a.version) from Bom a where a.orders.id = ? and a.isDel='N' ";
+		//return (Integer)getSession().createQuery(hql).setParameter(0, orderId).setParameter(1, productDate).uniqueResult();
+		return (Integer)getSession().createQuery(hql).setParameter(0, orderId).uniqueResult();
 	}
 	
 	@Override

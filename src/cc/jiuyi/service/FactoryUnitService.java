@@ -47,6 +47,8 @@ public interface FactoryUnitService extends BaseService<FactoryUnit, String> {
 
 	//根据ip获取单元
 	public FactoryUnit getById(String ip);
+	//根据ip获取单元
+	public List<FactoryUnit> getByIds(String ip);
 	
 	/**
 	 * 获取team数据,已启用的

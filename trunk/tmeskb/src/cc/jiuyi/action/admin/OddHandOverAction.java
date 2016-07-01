@@ -112,8 +112,8 @@ public class OddHandOverAction extends BaseAdminAction {
 	private HandOverProcessService handOverProcessService;
 	@Resource
 	private ProcessHandoverTopService processHandoverTopService;
-	@Resource
-	private MaterialService materialservice;
+//	@Resource
+//	private MaterialService materialservice;
 	@Resource
 	private ProcessService processservice;
 	@Resource
@@ -420,7 +420,9 @@ public class OddHandOverAction extends BaseAdminAction {
 								for(Bom b : bmls){
 									oddHandOver = new OddHandOver();
 									materialCode = b.getMaterialCode();
-									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+									FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", wb.getWorkcenter());
+									Material mt = materialService.getByNum(materialCode, factoryUnit);
+//									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息						
 									b.setBeforeWorkingCode(wb.getWorkingBillCode());
 									if(mt == null){
 										oddHandOver.setCqsl(1d);

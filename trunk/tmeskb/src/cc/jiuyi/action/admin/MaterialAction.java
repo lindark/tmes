@@ -273,6 +273,10 @@ public String getQualityBomByFactoryunit(){
 	
 	public String update() {
 		Material persistent = materialService.load(id);
+		List<Material> materialList = materialService.getMaterialList(persistent.getMaterialCode(),persistent.getFactoryunit());
+		if(materialList.size()>0){
+			return "error_material";
+		}
 		BeanUtils.copyProperties(material, persistent, new String[] { "id","createDate", "modifyDate"});
 		materialService.update(persistent);
 		redirectionUrl = "material!list.action";
@@ -281,7 +285,11 @@ public String getQualityBomByFactoryunit(){
 		
 	//保存
 	
-	public String save()throws Exception{		
+	public String save()throws Exception{
+		List<Material> materialList = materialService.getMaterialList(material.getMaterialCode(),material.getFactoryunit());
+		if(materialList.size()>0){
+			return "error_material";
+		}
 		materialService.save(material);
 		redirectionUrl="material!list.action";
 		return SUCCESS;	

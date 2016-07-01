@@ -973,52 +973,14 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	}
 	
 	public String allSubmit(){
-		try{
-			Admin admin1 = adminService.getByCardnum(cardnumber);
-			admin = adminService.get(loginid);
-			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-			for(WorkingBill workingbill : workingbillList){
-				workingbill.setIsHand("Y");
-				workingbillservice.update(workingbill);
-			}
-			ids = id.split(",");
-			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-			System.out.println(processHandoverAllList);
-			for(int i=0;i<processHandoverAllList.size();i++){
-				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
-				processHandoverAll.setPhaConfimUser(admin1);
-				processHandoverAll.setState("2");
-				processHandoverAllService.update(processHandoverAll);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
-		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}
 	public String allapproval(){
-//		Admin admin = adminService.get(loginid);
-//		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-//		for(WorkingBill workingbill : workingbillList){
-//			workingbill.setIsHand("Y");
-//			workingbillservice.update(workingbill);
-//		}
-		try{
-			admin = adminService.getByCardnum(cardnumber);
-			ids = id.split(",");
-			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-			System.out.println(processHandoverAllList);
-			for(int i=0;i<processHandoverAllList.size();i++){
-				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
-				processHandoverAll.setPhaConfimUser(admin);
-				processHandoverAll.setState("3");
-				processHandoverAllService.update(processHandoverAll);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
+		Admin admin = adminService.get(loginid);
+		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		for(WorkingBill workingbill : workingbillList){
+			workingbill.setIsHand("Y");
+			workingbillservice.update(workingbill);
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

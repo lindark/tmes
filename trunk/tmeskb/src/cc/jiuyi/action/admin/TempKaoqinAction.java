@@ -429,7 +429,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			header.add("工作范围");
 			header.add("员工状态");
 			header.add("异常小时数");
-			header.add("已上班人数");
+//			header.add("已上班人数");
 			List<Object[]> body = new ArrayList<Object[]>();
 			for (int i = 0; i < list.size(); i++) {
 				TempKaoqin tkq=list.get(i);
@@ -463,7 +463,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 				
 				str[10]=ThinkWayUtil.getDictValueByDictKey(dictService, "adminworkstate", tkq.getWorkState());
 				str[11]=tkq.getTardyHours();
-				str[12]=kqNumlist.size();
+//				str[12]=kqNumlist.size();
 				body.add(str);
 			}
 			/*** Excel 下载 ****/

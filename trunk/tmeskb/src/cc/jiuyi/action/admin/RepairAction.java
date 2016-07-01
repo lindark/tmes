@@ -32,6 +32,7 @@ import cc.jiuyi.sap.rfc.RepairRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.RepairPieceService;
@@ -96,7 +97,6 @@ public class RepairAction extends BaseAdminAction {
 	private RepairRfc repairrfc;
 	@Resource
 	private RepairPieceService repairPieceService;
-	
 	
 	//返修记录列表 @author Reece 2016/03/15
 	public String historylist() {
@@ -536,7 +536,14 @@ public class RepairAction extends BaseAdminAction {
 		pager = this.bomService.getPieceByCondition(pager, map,workingbill);//(根据:子件编码/名称,随工单)查询
 		@SuppressWarnings("unchecked")
 		List<Bom>list1=pager.getList();
-		List<Bom>list2=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
+		String workCenter = workingbill.getWorkcenter();
+		List<Bom>list2 = new ArrayList<Bom>();
+		if(workCenter!=null){
+			FactoryUnit factoryUnit = fuService.get("factoryUnitCode", workCenter); 
+			list2=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount(),factoryUnit);//获取物料表中包含list1中的数据
+		}else{
+			return ajaxJsonErrorMessage("该随工单没有工作中心");
+		}
 		pager.setList(list2);
 		pager.setTotalCount(list2.size());//更新总数量
 		JsonConfig jsonConfig=new JsonConfig();
@@ -716,7 +723,13 @@ public class RepairAction extends BaseAdminAction {
 		String productDate = workingbill.getProductDate();
 		String workingBillCode=workingbill.getWorkingBillCode();
 		List<Bom>list1=this.bomService.findBom(aufnr, productDate, workingBillCode);
-		List<Bom>list_bom=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
+		String workCenter = workingbill.getWorkcenter();
+		List<Bom>list_bom = new ArrayList<Bom>();
+		if(workCenter!=null){
+			FactoryUnit factoryUnit = fuService.get("factoryUnitCode", workCenter); 
+			list_bom=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount(),factoryUnit);//获取物料表中包含list1中的数据
+		}
+//		List<Bom>list_bom=this.repairService.getIncludedByMaterial(list1,workingbill.getPlanCount());//获取物料表中包含list1中的数据
 		return list_bom;
 	}
 	

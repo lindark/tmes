@@ -23,6 +23,7 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
@@ -31,6 +32,7 @@ import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.StationService;
 import cc.jiuyi.service.TeamService;
@@ -103,6 +105,8 @@ public class KaoqinAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private UnitdistributeProductService unitdistributeProductService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	/**
 	 * ========================end
 	 * variable,object,interface==========================
@@ -171,8 +175,12 @@ public class KaoqinAction extends BaseAdminAction {
 						dictService, "kaoqinClasses", kaoqin.getClasstime()));
 				kaoqin.setFactoryUnitName(kaoqin.getEmp().getTeam()
 						.getFactoryUnit().getFactoryUnitName());
-				kaoqin.setFactory(kaoqin.getEmp().getTeam().getFactoryUnit()
-						.getWorkShop().getFactory().getFactoryName());
+				if(kaoqin.getFactoryUnitCode()==null){
+					kaoqin.setFactoryUnitCode(kaoqin.getEmp().getTeam().getFactoryUnit()
+							.getFactoryUnitCode());
+				}
+				FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", kaoqin.getFactoryUnitCode());
+				kaoqin.setFactory(factoryUnit.getFactoryName());
 				kaoqin.setWorkshop(kaoqin.getEmp().getTeam().getFactoryUnit()
 						.getWorkShop().getWorkShopName());
 				if(kaoqin.getWorkState()!=null&&!"".equals(kaoqin.getWorkState()))
@@ -236,15 +244,20 @@ public class KaoqinAction extends BaseAdminAction {
 		header.add("工作范围");
 		header.add("异常小时数");
 		header.add("员工状态");
-		header.add("已上班人数");
-
+//		header.add("已上班人数");
+		
 		List<Object[]> kqlist = kqService.historyExcelExport(map);
 		for (int i = 0; i < kqlist.size(); i++) {
 			Object[] obj = kqlist.get(i);
 			Kaoqin kaoqin = (Kaoqin) obj[0];//
 			Admin admin = (Admin) obj[1];//
-			List<Kaoqin> kqNumlist = kqService.getWorkNumList(admin.getProductDate(), admin.getShift(), admin
-					.getTeam().getFactoryUnit().getFactoryUnitCode(), "2");
+			if(kaoqin.getFactoryUnitCode()==null){
+				kaoqin.setFactoryUnitCode(kaoqin.getEmp().getTeam().getFactoryUnit()
+						.getFactoryUnitCode());
+			}
+			FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", kaoqin.getFactoryUnitCode());
+			List<Kaoqin> kqNumlist = kqService.getWorkNumList(kaoqin.getProductdate(), kaoqin.getClasstime(),
+					kaoqin.getFactoryUnitCode(), "2");
 			
 			String mjzh="";
 			if(kaoqin.getModleNum()!=null)
@@ -270,8 +283,9 @@ public class KaoqinAction extends BaseAdminAction {
 					kaoqin.getEmp().getTeam().getFactoryUnit().getWorkShop()
 							.getWorkShopName(),
 					kaoqin.getProductdate(),
-					kaoqin.getEmp().getTeam().getFactoryUnit()
-							.getFactoryUnitName(),
+//					kaoqin.getEmp().getTeam().getFactoryUnit()
+//							.getFactoryUnitName(),
+					factoryUnit.getFactoryUnitName(),
 					kaoqin.getTeam().getTeamName(),
 					ThinkWayUtil.getDictValueByDictKey(dictService,
 							"kaoqinClasses", kaoqin.getClasstime()),
@@ -279,8 +293,9 @@ public class KaoqinAction extends BaseAdminAction {
 					kaoqin.getPostname(), kaoqin.getStationName(),
 					mjzh, kaoqin.getWorkName(),
 					kaoqin.getTardyHours(), 
-					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()),
-					kqNumlist.size()};
+					ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState())
+//					,kqNumlist.size()
+					};
 			body.add(bodyval);
 		}
 

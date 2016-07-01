@@ -470,6 +470,7 @@ public class UpDownAction extends BaseAdminAction {
 		Admin login_admin = adminService.getLoginAdmin();
 		login_admin = adminService.get(login_admin.getId());
 		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		
 		if(!ThinkWayUtil.isPass(login_admin)){
 			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
@@ -567,7 +568,9 @@ public class UpDownAction extends BaseAdminAction {
 						Bom bom = bomList.get(j);
 						if(matnr.equals(bom.getMaterialCode())){
 							bom.setStockAmount(labst);
-							Material mt = materialService.get("materialCode", bom.getMaterialCode());
+							FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+							Material mt = materialService.getByNum(bom.getMaterialCode(), factoryUnit);
+//							Material mt = materialService.get("materialCode", bom.getMaterialCode());
 							if(mt==null){
 								bom.setCqmultiple("1");
 								bom.setCqhStockAmount(bom.getStockAmount());
@@ -685,7 +688,9 @@ public class UpDownAction extends BaseAdminAction {
 					Bom bom = bomList.get(j);
 					if(matnr.equals(bom.getMaterialCode())){
 						bom.setStockAmount(labst);
-						Material mt = materialService.get("materialCode", bom.getMaterialCode());
+						FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+						Material mt = materialService.getByNum(bom.getMaterialCode(), factoryUnit);
+//						Material mt = materialService.get("materialCode", bom.getMaterialCode());
 						if(mt==null){
 							bom.setCqmultiple("1");
 							bom.setCqhStockAmount(bom.getStockAmount());
@@ -929,7 +934,10 @@ public class UpDownAction extends BaseAdminAction {
 						p.setStockAmount((updown.getAmount()).toString());
 						p.setOrderid(workingBillCode.substring(0,workingBillCode.length()-2));
 						p.setItem_text(workingBillCode.substring(workingBillCode.length()-2));
-						Material mt = materialService.get("materialCode", p.getMaterialCode());
+						workingbill = workingBillService.get("workingBillCode", workingBillCode);
+						FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+						Material mt = materialService.getByNum(p.getMaterialCode(), factoryUnit);
+//						Material mt = materialService.get("materialCode", p.getMaterialCode());
 						if(mt==null){
 							p.setCqmultiple("1");
 							p.setCqhStockAmount(p.getStockAmount());

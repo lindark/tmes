@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 
@@ -62,11 +63,12 @@ public interface MaterialDao extends BaseDao<Material,String> {
      * @param code
      * @return
      */
-	public boolean getByCode(String code);
+	public boolean getByCode(String code,FactoryUnit factoryunit);
 
 	/**
 	 * 根据物料编码查询
 	 */
-	public Material getByNum(String materialCode);
+	public Material getByNum(String materialCode,FactoryUnit factoryunit);
 
+	public List<Material> getMaterialList(String materialCode,FactoryUnit factoryunit);
 }

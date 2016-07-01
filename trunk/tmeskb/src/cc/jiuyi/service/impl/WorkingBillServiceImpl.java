@@ -249,13 +249,20 @@ public class WorkingBillServiceImpl extends
 				
 			}
 			if(!flag){ //没找到
-				String id = this.save(WorkingBill00);
+				/*String id = this.save(WorkingBill00);
 				if(new BigDecimal("0").compareTo(new BigDecimal(WorkingBill00.getPlanCount()==null?"0":WorkingBill00.getPlanCount().toString()))==0){
 					WorkingBill00.setIsdel("Y");
 				}else{
 					WorkingBill00.setIsdel(order.getIsdel());
 				}
-				workingbillList01.add(WorkingBill00);
+				workingbillList01.add(WorkingBill00);*/
+				if(new BigDecimal("0").compareTo(new BigDecimal(WorkingBill00.getPlanCount()==null?"0":WorkingBill00.getPlanCount().toString()))==0){
+					WorkingBill00.setIsdel("Y");
+				}else{
+					WorkingBill00.setIsdel(order.getIsdel());
+				}
+				WorkingBill00.setShift(WorkingBill00.getWorkingBillCode().substring(WorkingBill00.getWorkingBillCode().length()-2,WorkingBill00.getWorkingBillCode().length()));
+				this.save(WorkingBill00);
 			}
 		 }
 		}else if(workingbillList00.size() < workingbillList01.size()){//如果MES比SAP多

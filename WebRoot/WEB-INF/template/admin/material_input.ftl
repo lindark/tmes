@@ -80,7 +80,7 @@ body{background:#fff;}
 										<div class="profile-info-name"> 物料编码 </div>					
 										<div class="profile-info-value">
 										<#if isAdd??>
-											<input type="text" name="material.materialCode" class="formText {digits:true,required: true,minlength:2,maxlength: 100,productsCode:true,remote:'material!checkMaterialCode.action',messages:{remote:'物料编码已存在'}}" />
+											<input type="text" name="material.materialCode"/>
 											<label class="requireField">*</label>
 										<#else>
 										    ${material.materialCode}

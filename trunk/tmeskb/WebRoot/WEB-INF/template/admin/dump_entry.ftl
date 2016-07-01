@@ -85,8 +85,14 @@ body {
 												</div>
 												<div class="profile-info-name">接收库存地点</div>
 												<div class="profile-info-value">
-													<span>${(factoryunit.warehouse)!}</span>
-													<input id="input_jsaddress" type="hidden" value="${(factoryunit.warehouse)!}">
+													<!-- <span>${(factoryunit.warehouse)!}</span>
+													<input id="input_jsaddress" type="hidden" value="${(factoryunit.warehouse)!}"> -->
+													<select id="input_jsaddress">
+														<option value=""></option>
+														<#list factoryunitList as list>
+															<option value="${(list.warehouse)!}">${(list.warehouse)!}</option>
+														</#list>
+													<select>
 												</div>
 											</div>
 										</div>

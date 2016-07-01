@@ -74,10 +74,6 @@
 								    <button class="btn btn-white btn-default btn-sm btn-round" id="viewChangeNum" type=button>
 										<i class="ace-icon glyphicon glyphicon-zoom-in"></i>
 										查看零头数交接
-									</button>	  
-									<button class="btn btn-white btn-default btn-sm btn-round" id="allhandover" type=button>
-										<i class="ace-icon glyphicon glyphicon-remove"></i>
-										创建总体交接
 									</button>	
 									<button class="btn btn-white btn-default btn-sm btn-round" id="confirmProHO" type=button>
 										<i class="ace-icon fa fa-cloud-upload"></i>
@@ -87,6 +83,10 @@
 										<i class="ace-icon glyphicon glyphicon-remove"></i>
 										刷卡撤销
 									</button> 
+									 <button class="btn btn-white btn-default btn-sm btn-round" id="allhandover" type=button>
+										<i class="ace-icon glyphicon glyphicon-remove"></i>
+										创建总体交接
+									</button>  
 									<button class="btn btn-white btn-default btn-sm btn-round" id="returnProHO">
 										<i class="ace-icon fa fa-home"></i>
 										返回
@@ -315,7 +315,7 @@
 		/*总体交接*/
 		$("#allhandover").click(function(){
 			var loginid = $("#loginid").val();
-			window.location.href="process_handover!allList.action?loginid="+loginid;
+			window.location.href="process_handover!allHandover.action?loginid="+loginid;
 		});
 		/*返回*/
 		$("#returnProHO").click(function(){

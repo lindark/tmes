@@ -68,7 +68,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 				.setParameter(6, workingbill.getWorkingBillCode().substring(workingbill.getWorkingBillCode().length()-2,workingbill.getWorkingBillCode().length()))
 				.setParameter(7, workingbill.getIsdel())
 				.setParameter(8, workingbill.getWorkingBillCode())
-				.executeUpdate();
+				.executeUpdate(); 
 	}
 
 	@Override

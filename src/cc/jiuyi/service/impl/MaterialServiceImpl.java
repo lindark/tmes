@@ -11,6 +11,7 @@ import org.springmodules.cache.annotations.Cacheable;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.MaterialDao;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.MaterialService;
@@ -96,7 +97,8 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	public void mergeMaterialList(List<Material> materialList){
 		for(int i = 0; i < materialList.size();i++){
 			Material material = materialList.get(i);
-			Material material1 = this.get("materialCode",material.getMaterialCode());
+//			Material material1 = this.get("materialCode",material.getMaterialCode());
+			Material material1 = this.getByNum(material.getMaterialCode(), material.getFactoryunit());
 			if(material1 == null){
 				this.save(material);
 			}else{
@@ -108,19 +110,26 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 	}
 	
 	/**
-	 * 根据物料id查询是否存在
+	 * 根据物料号查询是否存在
 	 */
-	public boolean getByCode(String code)
+	public boolean getByCode(String code,FactoryUnit factoryunit)
 	{
-		return this.materialDao.getByCode(code);
+		return this.materialDao.getByCode(code,factoryunit);
 	}
 
 
 	/**
 	 * 根据物料编码查询
 	 */
-	public Material getByNum(String materialCode)
+	public Material getByNum(String materialCode,FactoryUnit factoryunit)
 	{
-		return this.materialDao.getByNum(materialCode);
+		return this.materialDao.getByNum(materialCode,factoryunit);
+	}
+
+
+	@Override
+	public List<Material> getMaterialList(String materialCode,
+			FactoryUnit factoryunit) {
+		return this.materialDao.getMaterialList(materialCode,factoryunit);
 	}
 }

@@ -39,13 +39,13 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 	private WorkingBillService workingbillservice;
 	@Resource
 	private AdminService adminservice;
+//	@Resource
+//	private WorkingInoutService workinginoutservice;
 	
-	private WorkingInoutService workinginoutservice;
 	
-	@Resource
-	public void setWorkinginoutservice(WorkingInoutService workinginoutservice) {
-		this.workinginoutservice = workinginoutservice;
-	}
+//	public void setWorkinginoutservice(WorkingInoutService workinginoutservice) {
+//		this.workinginoutservice = workinginoutservice;
+//	}
 
 	@Resource
 	public void setBaseDao(HandOverProcessDao handOverProcessDao){
@@ -127,22 +127,22 @@ public class HandOverProcessServiceImpl extends BaseServiceImpl<HandOverProcess,
 				handoverprocess.setApprovaladmin(admin);
 				handoverprocess.setState("approval");
 				//handoverprocess.setHandover(handOver);
-				boolean flag = workinginoutservice.isExist(handoverprocess.getBeforworkingbill().getId(), handoverprocess.getMaterialCode());
-				if(!flag){//如果不存在，新增  --- 上一随工单信息
-					WorkingInout workinginout = new WorkingInout();
-					workinginout.setWorkingbill(handoverprocess.getBeforworkingbill());
-					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
-					workinginout.setMaterialName(handoverprocess.getMaterialName());
-					workinginoutservice.save(workinginout);
-				}
-				boolean flag1 = workinginoutservice.isExist(handoverprocess.getAfterworkingbill().getId(),handoverprocess.getMaterialCode() );
-				if(!flag1){//如果不存在,新增 --- 下一随工单信息
-					WorkingInout workinginout = new WorkingInout();
-					workinginout.setWorkingbill(handoverprocess.getAfterworkingbill());
-					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
-					workinginout.setMaterialName(handoverprocess.getMaterialName());
-					workinginoutservice.save(workinginout);
-				}
+//				boolean flag = workinginoutservice.isExist(handoverprocess.getBeforworkingbill().getId(), handoverprocess.getMaterialCode());
+//				if(!flag){//如果不存在，新增  --- 上一随工单信息
+//					WorkingInout workinginout = new WorkingInout();
+//					workinginout.setWorkingbill(handoverprocess.getBeforworkingbill());
+//					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
+//					workinginout.setMaterialName(handoverprocess.getMaterialName());
+//					workinginoutservice.save(workinginout);
+//				}
+//				boolean flag1 = workinginoutservice.isExist(handoverprocess.getAfterworkingbill().getId(),handoverprocess.getMaterialCode() );
+//				if(!flag1){//如果不存在,新增 --- 下一随工单信息
+//					WorkingInout workinginout = new WorkingInout();
+//					workinginout.setWorkingbill(handoverprocess.getAfterworkingbill());
+//					workinginout.setMaterialCode(handoverprocess.getMaterialCode());
+//					workinginout.setMaterialName(handoverprocess.getMaterialName());
+//					workinginoutservice.save(workinginout);
+//				}
 				
 			}
 			if(state.equals("creditsave")){//刷卡保存

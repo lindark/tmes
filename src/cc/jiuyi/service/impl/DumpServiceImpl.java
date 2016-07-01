@@ -22,6 +22,7 @@ import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DumpDetailService;
 import cc.jiuyi.service.DumpService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
@@ -40,6 +41,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	private DumpRfcImpl dumpRfc;
 	@Resource
 	private DumpDetailService dumpDetailService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	@Resource
 	private MaterialService materialService;
 	@Resource
@@ -109,7 +112,8 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 	public String saveInfo(List<DumpDetail>list_dd,String fuid,String cardnumber,String materialcode)
 	{
 			Admin admin=this.adminService.getByCardnum(cardnumber);
-			Material m=this.materialService.getByNum(materialcode);//根据物料编码查询
+			FactoryUnit factoryUnit = factoryUnitService.get(fuid);
+			Material m=this.materialService.getByNum(materialcode,factoryUnit);//根据物料编码查询
 			//新增主表信息
 			Dump d=new Dump();
 			d.setCreateDate(new Date());
@@ -267,7 +271,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 			Object[] obj=list.get(i);
 			map.put("materialcode",obj[0].toString());//物料编码
 			map.put("allcount", obj[1].toString());//合计数量
-			Material m=this.materialService.getByNum(obj[0].toString());//根据物料编码查询
+			Material m=this.materialService.getByNum(obj[0].toString(),factoryUnit);//根据物料编码查询
 			if(m!=null)
 			{
 				map.put("materialdes", m.getMaterialName().toString());//物料描述

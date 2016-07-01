@@ -15,6 +15,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 import cc.jiuyi.entity.Repairin;
@@ -149,7 +150,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 	/**
 	 * 获取物料表中包含list1中的数据
 	 */
-	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount)
+	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount,FactoryUnit factoryUnit)
 	{
 		List<Bom>listbom=new ArrayList<Bom>();
 		if(list1.size()>0)
@@ -159,7 +160,7 @@ public class RepairinServiceImpl extends BaseServiceImpl<Repairin, String>
 			{
 				Bom b=list1.get(i);
 				//根据物料id查询是否存在
-				if(this.mService.getByCode(b.getMaterialCode()))
+				if(this.mService.getByCode(b.getMaterialCode(),factoryUnit))
 				{
 					b.setXplancount(plancount);//随工单计划数量
 					listbom.add(b);

@@ -58,8 +58,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	private TeamService teamService;
 	@Resource
 	private KaoqinBrushCardRecordService kqBCRService;
-	@Resource
-	private HandOverService handOverService;
+//	@Resource
+//	private HandOverService handOverService;
 	@Resource
 	private WorkingBillService workingbillservice;
 	@Resource

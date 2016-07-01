@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 
@@ -66,11 +67,12 @@ public interface MaterialService extends BaseService<Material, String> {
 	 * @param materialCode
 	 * @return
 	 */
-	public boolean getByCode(String materialCode);
+	public boolean getByCode(String materialCode,FactoryUnit factoryunit);
 	
 	/**
 	 * 根据物料编码查询
 	 */
-	public Material getByNum(String materialCode);
+	public Material getByNum(String materialCode,FactoryUnit factoryunit);
 
+	public List<Material> getMaterialList(String materialCode,FactoryUnit factoryunit);
 }

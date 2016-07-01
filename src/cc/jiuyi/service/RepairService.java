@@ -6,6 +6,7 @@ import java.util.List;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
 
@@ -47,7 +48,7 @@ public interface RepairService extends BaseService<Repair, String>{
 	 * @param list1
 	 * @return
 	 */
-	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount);
+	public List<Bom> getIncludedByMaterial(List<Bom> list1,int plancount,FactoryUnit factoryunit);
 
 	/**
 	 * 新增

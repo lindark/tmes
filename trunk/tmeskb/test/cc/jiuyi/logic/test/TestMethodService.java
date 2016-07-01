@@ -141,7 +141,7 @@ public class TestMethodService extends BaseTestCase {
 		
 		 try {
 			 String job_name = "动态任务调度";
-		      QuartzManagerUtil.removeJob(job_name);  	 
+		      //QuartzManagerUtil.removeJob(job_name);  	 
 		      //System.out.println("【系统启动】开始(每1秒输出一次)...");  
 		     // QuartzManagerUtil.addJob(job_name, WorkingBillJob.class, "0/1 * * * * ?");  
 		      

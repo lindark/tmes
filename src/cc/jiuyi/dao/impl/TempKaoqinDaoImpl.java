@@ -170,8 +170,14 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 	}
 
 	public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState){
-		String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
-		return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
-				.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
+		if(workState.equals("")){
+			String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=?";
+			return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+					.setParameter(2, factoryUnitCode).list();
+		}else{
+			String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
+			return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+					.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
+		}
 	}
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -116,6 +117,7 @@ public class ItermediateTestDetailDaoImpl extends
 					try {
 						Date start = sdf.parse(map.get("start"));
 						Date end = sdf.parse(map.get("end"));
+						end = DateUtils.addDays(end, 1);
 						detachedCriteria.add(Restrictions.between("createDate",
 								start, end));
 					} catch (Exception e) {

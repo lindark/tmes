@@ -1,6 +1,7 @@
 package cc.jiuyi.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,7 +101,22 @@ public class FactoryUnitServiceImpl extends BaseServiceImpl<FactoryUnit, String>
 		}
 		return null;
 	}
-
+	
+	/**
+	 * 根据ip获取单元
+	 */
+	public List<FactoryUnit> getByIds(String ip)
+	{
+		List<CardManagement> cmList=this.cmdao.getByIps(ip);
+		List<FactoryUnit> funList = new ArrayList<FactoryUnit>();
+		if(cmList!=null&&cmList.size()>0)
+		{
+			for(CardManagement cm : cmList){
+				funList.add(cm.getFactoryunit());
+			}
+		}
+		return funList;
+	}
 	@Override
 	public Pager getAllList(Pager pager, HashMap<String, String> map) {
 		return this.factoryUnitDao.getAllList(pager,map);

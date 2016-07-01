@@ -17,6 +17,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.service.AdminService;
@@ -24,6 +25,7 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CartonService;
 import cc.jiuyi.service.CartonsonService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ArithUtil;
 import cc.jiuyi.util.CustomerException;
@@ -49,6 +51,8 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 	private BomService bomService;
 	@Resource
 	private CartonsonService csService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 
 	@Resource
 	public void setBaseDao(CartonDao cartonDao) {
@@ -431,7 +435,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			throws IOException, CustomerException {
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		Admin a=this.adminservice.get(loginid);
-		String warehouse = a.getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
+		//String warehouse = a.getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
 		String lifnr= ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1");//供应商
 		String werks = a.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
 		for (int i = 0; i < ids.length; i++)
@@ -443,10 +447,12 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			{
 				CartonSon cs=listcs.get(j);
 				//WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
+				WorkingBill wb = workingbillService.get(cs.getWbid());
+				FactoryUnit fun = factoryUnitService.get("workCenter",wb.getWorkcenter());
 				cs.setLIFNR(lifnr);//供应商
 				cs.setWERKS(werks);//工厂
 				cs.setBUDAT(c.getProductDate());//过账日期
-				cs.setLGORT(warehouse);//库存地点
+				cs.setLGORT(fun.getWarehouse());//库存地点
 				cs.setMOVE_TYPE("101");//移动类型
 				list.add(cs);
 				this.csService.update(cs);
@@ -494,7 +500,7 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			String loginid) throws IOException, CustomerException {
 		Admin admin = adminservice.getByCardnum(cardnumber);
 		Admin a=this.adminservice.get(loginid);
-		String warehouse = a.getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
+		//String warehouse = a.getTeam().getFactoryUnit().getWarehouse();// 线边仓(库存地点)
 		String lifnr= ThinkWayUtil.getDictValueByDictKey(dictService,"lifnr", "1");//供应商
 		String werks = a.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂
 		for (int i = 0; i < ids.length; i++)
@@ -506,10 +512,11 @@ public class CartonServiceImpl extends BaseServiceImpl<Carton, String> implement
 			{
 				CartonSon cs=listcs.get(j);
 				WorkingBill wb=this.workingbillService.get(cs.getWbid());//根据id查询一条
+				FactoryUnit fun = factoryUnitService.get("workCenter",wb.getWorkcenter());
 				cs.setLIFNR(lifnr);//供应商
 				cs.setWERKS(werks);//工厂
-				cs.setBUDAT(wb.getProductDate());//过账日期
-				cs.setLGORT(warehouse);//库存地点
+				cs.setBUDAT(c.getProductDate());//过账日期
+				cs.setLGORT(fun.getWarehouse());//库存地点
 				cs.setMOVE_TYPE("102");//移动类型
 				list.add(cs);
 				this.csService.update(cs);

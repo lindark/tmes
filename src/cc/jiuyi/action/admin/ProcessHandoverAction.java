@@ -485,7 +485,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 								for(Bom b : bmls){
 									ProcessHandoverSon processHandoverSon1 = new ProcessHandoverSon();
 									materialCode = b.getMaterialCode();
-									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+									FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", wb.getWorkcenter());
+									Material mt = materialService.getByNum(materialCode, factoryUnit);
+//									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
 									/*uuid = CommonUtil.getUUID();
 									processHandoverSon1.setId(uuid);*/
 									b.setBeforeWorkingCode(wb.getWorkingBillCode());
@@ -629,7 +631,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 								for(Bom b : bmls){
 									OddHandOver oddHandOver = new OddHandOver();
 									materialCode = b.getMaterialCode();
-									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+									FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", wb.getWorkcenter());
+									Material mt = materialService.getByNum(materialCode, factoryUnit);
+//									Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
 									b.setBeforeWorkingCode(wb.getWorkingBillCode());
 									if(mt == null){
 										oddHandOver.setCqsl(1d);

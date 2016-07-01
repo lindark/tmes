@@ -36,4 +36,10 @@ public interface CardManagementDao extends BaseDao<CardManagement,String> {
 	 * @return
 	 */
 	public CardManagement getByIp(String ip);
+	/**
+	 * 根据ip查询
+	 * @param ip
+	 * @return
+	 */
+	public List<CardManagement> getByIps(String ip);
 }

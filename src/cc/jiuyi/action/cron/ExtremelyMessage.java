@@ -43,7 +43,9 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class ExtremelyMessage extends MyDetailQuartzJobBean {
 
 	public static Logger log = Logger.getLogger(ExtremelyMessage.class);
-	
+	private static String JOB_GROUP_NAME = "EXTJWEB_JOBGROUP_NAME";
+	private static String TRIGGER_GROUP_NAME = "EXTJWEB_TRIGGERGROUP_NAME";
+
 	private int timeout;
 	
 	@Resource
@@ -135,7 +137,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 
 	    	 }
 	    	 if(hashmapList.size()==0){//判断是否存在直接上级，不存在就结束任务
-	    		 QuartzManagerUtil.removeJob(jobname);
+	    		 QuartzManagerUtil.removeJob(jobname,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);
 	    	 }
 
 	    	 JSONArray jsonArray = JSONArray.fromObject(hashmapList);
@@ -162,10 +164,10 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 			 maps.put("unit", unit);
 			 if(Integer.parseInt(count)==1){
 				 maps.put("count","2");			 
-				 QuartzManagerUtil.modifyJobTime(jobname,time1,maps);//修改任务30分钟向直属上司发送短信	
+				 QuartzManagerUtil.modifyJobTime(jobname,time1,maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//修改任务30分钟向直属上司发送短信	
 			 }else if(Integer.parseInt(count)==2){
 				 maps.put("count", "3");
-				 QuartzManagerUtil.modifyJobTime(jobname,time2,maps);//修改任务30分钟向直属上司发送短信	
+				 QuartzManagerUtil.modifyJobTime(jobname,time2,maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//修改任务30分钟向直属上司发送短信	
 			 }else{
 				 maps.put("count", "3");//30分钟递归向上级发送	
 				 String time3=ThinkWayUtil.timeAdd(hour, second);
@@ -173,7 +175,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 				 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 				 Date date = sdf.parse(time3);
 				 String time=ThinkWayUtil.getCron(date);
-				 QuartzManagerUtil.modifyJobTime(jobname,time,maps);//修改任务30分钟向直属上司发送短信	
+				 QuartzManagerUtil.modifyJobTime(jobname,time,maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//修改任务30分钟向直属上司发送短信	
 			 }
 			
 			 

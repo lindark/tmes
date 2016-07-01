@@ -3,7 +3,9 @@ package cc.jiuyi.action.cron;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.quartz.JobDetail;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.util.QuartzManagerUtil;
 import cc.jiuyi.util.SpringUtil;
 
 @Component
@@ -25,21 +28,42 @@ public class QuartzManager implements BeanFactoryAware {
 	private Scheduler scheduler;
 	private static BeanFactory beanFactory = null;
 	private FactoryUnitService factoryUnitService;
+	private static String JOB_GROUP_NAME = "WK_JOBGROUP_NAME";
+	private static String TRIGGER_GROUP_NAME = "WK_TRIGGERGROUP_NAME";
 	@SuppressWarnings("unused")
 	public void reScheduleJob() throws Exception, ParseException {
 		// 通过查询数据库里计划任务来配置计划任务
-		System.out.println("reScheduleJob---->"+new Date());
+		//System.out.println("reScheduleJob---->"+new Date());
+		
+		/*factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
+		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
+	
+		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//这里是手动设置了一个
+		for(FactoryUnit f : factoryUnitList){
+			configQuatrz(f);
+		}*/
+		
+		//scheduler.shutdown(true);
+		//System.out.println("reScheduleJob---->关闭");
 		
 		factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
 		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
 	
 		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//这里是手动设置了一个
 		for(FactoryUnit f : factoryUnitList){
-			configQuatrz(f);
+			if("1".equals(f.getIsSync())){
+				if(QuartzManagerUtil.checkJobname(f.getWorkCenter(),TRIGGER_GROUP_NAME)){
+					HashMap<String,Object> maps = new HashMap<String,Object>();
+					maps.put("jobname", f.getWorkCenter());
+					//maps.put("time", f.getCronexpression());
+					QuartzManagerUtil.addJob(f.getWorkCenter(), WorkingBillJob.class,f.getCronexpression(),maps,JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//创建定时任务
+				}
+			}else{
+				if(!QuartzManagerUtil.checkJobname(f.getWorkCenter(),TRIGGER_GROUP_NAME))
+				QuartzManagerUtil.removeJob(f.getWorkCenter(),JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//如果存在同名的即先删除定时任务
+			}
 		}
 		
-		//scheduler.shutdown(true);
-		//System.out.println("reScheduleJob---->关闭");
 	}
 
 	public  boolean configQuatrz(FactoryUnit tbcq) {

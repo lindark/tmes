@@ -119,4 +119,14 @@ public class CardManagementDaoImpl extends BaseDaoImpl<CardManagement, String> i
 		}
 		return null;
 	}
+	/**
+	 * 根据ip查询
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CardManagement> getByIps(String ip)
+	{
+		String hql="from CardManagement where pcIp=? and isDel='N' and state='1'";
+		List<CardManagement>list=this.getSession().createQuery(hql).setParameter(0, ip).list();
+		return list;
+	}
 }

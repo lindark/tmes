@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -79,6 +80,7 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 				try{
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
+					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
@@ -150,10 +152,10 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 					Date end=sdf.parse(map.get("end"));
 					System.out.println(map.get("start")); 
 					if(ishead==0){
-						hql+=" where mode.createDate between :start and :end";
+						hql+=" where model.createDate between :start and :end";
 						ishead=1;
 					}else{
-						hql+=" and mode.createDate between :start and :end";
+						hql+=" and model.createDate between :start and :end";
 					}
 					parameters.put("start", start);
 					parameters.put("end", end);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.MaterialDao;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
 
@@ -111,13 +112,13 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	}
 
 	/**
-	 * 根据物料id查询是否存在
+	 * 根据物料号查询是否存在
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean getByCode(String code)
+	public boolean getByCode(String code,FactoryUnit factoryunit)
 	{
-		String hql="from Material where materialCode=? and isRepair=?";
-		List<Material>list=this.getSession().createQuery(hql).setParameter(0, code).setParameter(1, "1").list();
+		String hql="from Material where materialCode=? and isRepair=? and factoryunit=?";
+		List<Material>list=this.getSession().createQuery(hql).setParameter(0, code).setParameter(1, "1").setParameter(2, factoryunit).list();
 		if(list.size()>0)
 		{
 			return true;
@@ -129,14 +130,19 @@ public class MaterialDaoImpl extends BaseDaoImpl<Material, String> implements
 	 * 根据物料编码查询
 	 */
 	@SuppressWarnings("unchecked")
-	public Material getByNum(String materialCode)
+	public Material getByNum(String materialCode,FactoryUnit factoryunit)
 	{
-		String hql="from Material where materialCode=?";
-		List<Material>list=this.getSession().createQuery(hql).setParameter(0, materialCode).list();
+		String hql="from Material where materialCode=? and factoryunit=?";
+		List<Material>list=this.getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, factoryunit).list();
 		if(list.size()>0)
 		{
 			return list.get(0);
 		}
 		return null;
+	}
+	
+	public List<Material> getMaterialList(String materialCode,FactoryUnit factoryunit){
+		String hql = "from Material where materialCode=? and factoryunit=?";
+		return this.getSession().createQuery(hql).setParameter(0, materialCode).setParameter(1, factoryunit).list();
 	}
 }

@@ -66,6 +66,7 @@ public class DumpAction extends BaseAdminAction {
 	private String isRecord;
 	private List<Material>list_material;
 	private FactoryUnit factoryunit;//单元
+	private List<FactoryUnit> factoryunitList;//单元
 	private String materialcode;//物料编码
 	private List<HashMap<String,String>>list_map;
 	private List<HashMap<String,String>>list_ddmap;
@@ -601,7 +602,7 @@ public class DumpAction extends BaseAdminAction {
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
 		//factoryunit=this.fuservice.getById("192.168.40.40");// 
-		factoryunit=this.fuservice.getById(ip);
+		factoryunitList=this.fuservice.getByIds(ip);
 		
 		//测试时使用
 		//admin=adminService.getLoginAdmin();
@@ -1142,6 +1143,14 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setStart(String start) {
 		this.start = start;
+	}
+
+	public List<FactoryUnit> getFactoryunitList() {
+		return factoryunitList;
+	}
+
+	public void setFactoryunitList(List<FactoryUnit> factoryunitList) {
+		this.factoryunitList = factoryunitList;
 	}
 	
 	

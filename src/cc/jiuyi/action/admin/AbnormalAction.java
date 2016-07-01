@@ -491,100 +491,101 @@ public class AbnormalAction extends BaseAdminAction {
 				String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+" 呼叫时间:"+time;
 				//log.info("调用发送短信接口开始");		
 				
-				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口
-				
-	            Document doc;   
-	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
-	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
-		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
-		      		errormes += admin.getName()+":短信发生失败!";
-		      	}								
-		      	//log.info("调用发送短信接口结束");	
-		      	responsorSet.add(admin);//将短信人加进去
-		      	productSet.add(product);
-		      	callreasonSet.add(call1);//将短信内容加进去
-		      	strLen.add(admin.getName());		   
-		      	map.put("adminid", call.getAdminid());
-		      	map.put("reasonid", call1.getId());
-		      	map.put("productid", product.getId());
-		      	mapList.add(map);
-		      	
-		      	//同时要给添加人的上级发送，所以把添加人加入map中
-		      	//发给几个需要响应的人员，就会给添加人上级发送几次短信，短信内容分别等于各响应人员的内容
-		      	HashMap<String,String> sjmap = new HashMap<String,String>();
-		      	sjmap.put("adminid", loginAdmin.getId());
-		      	sjmap.put("reasonid", call1.getId());
-		      	sjmap.put("productid", product.getId());
-		      	mapList.add(sjmap);
+//				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口
+//				
+//	            Document doc;   
+//	            doc = DocumentHelper.parseText(str); //短信发送后返回内容对其进行解析
+//	            Node stateNode = doc.selectSingleNode("/infos/info/state");//获取状态
+//		      	if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送失败
+//		      		errormes += admin.getName()+":短信发生失败!";
+//		      	}								
+//		      	//log.info("调用发送短信接口结束");	
+//		      	responsorSet.add(admin);//将短信人加进去
+//		      	productSet.add(product);
+//		      	callreasonSet.add(call1);//将短信内容加进去
+//		      	strLen.add(admin.getName());		   
+//		      	map.put("adminid", call.getAdminid());
+//		      	map.put("reasonid", call1.getId());
+//		      	map.put("productid", product.getId());
+//		      	mapList.add(map);
+//		      	
+//		      	//同时要给添加人的上级发送，所以把添加人加入map中
+//		      	//发给几个需要响应的人员，就会给添加人上级发送几次短信，短信内容分别等于各响应人员的内容
+//		      	HashMap<String,String> sjmap = new HashMap<String,String>();
+//		      	sjmap.put("adminid", loginAdmin.getId());
+//		      	sjmap.put("reasonid", call1.getId());
+//		      	sjmap.put("productid", product.getId());
+//		      	mapList.add(sjmap);
+//			}
+//			
+//			/*******定时任务**********/
+//			Date dates = new Date();
+//			String jobname=ThinkWayUtil.formatdateDateTime(dates);
+//			job_name=job_name+jobname;//字符串拼接成唯一的任务名
+//			Abnormal abnormal = new Abnormal();//创建异常
+//			abnormal.setJobname(job_name);
+//			abnormal.setCallDate(new Date());
+//			abnormal.setIniitiator(admin);
+//			abnormal.setIsDel("N");
+//			abnormal.setState("0");
+//			
+//			abnormal.setResponsorSet(new HashSet<Admin>(responsorSet));			
+//			abnormal.setProductSet(new HashSet<UnitdistributeProduct>(productSet));			
+//			abnormal.setCallreasonSet(new HashSet<Callreason>(callreasonSet));
+//			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
+//			
+//			//Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
+//			Admin admin2 = admin;
+//			admin2 = adminService.get(admin2.getId());
+//			
+//			abnormal.setProductdate(admin2.getProductDate());
+//			abnormal.setClasstime(admin2.getShift());
+//			abnormalService.save(abnormal);//保存数据
+//
+//			AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
+//			abnormalLog.setAbnormal(abnormal);
+//			abnormalLog.setType("5");
+//			abnormalLog.setOperator(admin);
+//			abnormalLog.setInfo(comlist);
+//			abnormalLogService.save(abnormalLog);	
+//	
+//			Calendar can = Calendar.getInstance();	//定时任务时间1，计算十分钟后的时间，异常未应答向其再发送一条短信
+//			can.setTime(abnormal.getCreateDate());
+//			can.add(Calendar.MINUTE, 10);
+//			Date date=can.getTime();	
+//			
+//			Calendar can1 = Calendar.getInstance();//定时任务时间2，计算三十分钟后的时间，异常还未应答向其直接上级发送一条短信
+//			can1.setTime(abnormal.getCreateDate());
+//			can1.add(Calendar.MINUTE, 30);
+//			Date date1=can1.getTime();
+//			
+//			Calendar can2 = Calendar.getInstance();//定时任务时间3，计算一小时后的时间，异常还未应答向其直接上级的直接上级发送一条短信，此后如未应答递归向直接上级发送短信
+//			can2.setTime(abnormal.getCreateDate());
+//			can2.add(Calendar.MINUTE, 60);
+//			Date date2=can2.getTime();
+//	
+//			JSONArray jsonArray = JSONArray.fromObject(mapList);//将map类型进行转换
+//			//创建一个map，放入异常，人员，时间，车间单元，任务名，标记符，短信和人员等信息
+//			HashMap<String,Object> maps = new HashMap<String,Object>();
+//			maps.put("id",abnormal.getId());
+//			maps.put("name",admin.getId());
+//			maps.put("date", ThinkWayUtil.getCron(date1));
+//			maps.put("time", ThinkWayUtil.getCron(date2));
+//			maps.put("hour", ThinkWayUtil.formatdateDateTime(date2));
+//			
+//			maps.put("workshop", workshop);
+//			maps.put("unit", unit);
+//			maps.put("jobname", job_name);
+//			maps.put("count","1");
+//			maps.put("list", jsonArray.toString());
+//			//log.info("--------异常结束1--------");
+//				quartzMessage(ThinkWayUtil.getCron(date),maps);	//开启定时任务		
+//			//log.info("--------异常结束2--------");						
+//		}catch(DocumentException e){
+//			e.printStackTrace();
+//			log.info(e);
+//			return ajaxJsonErrorMessage("短信发送失败");
 			}
-			
-			/*******定时任务**********/
-			Date dates = new Date();
-			String jobname=ThinkWayUtil.formatdateDateTime(dates);
-			job_name=job_name+jobname;//字符串拼接成唯一的任务名
-			Abnormal abnormal = new Abnormal();//创建异常
-			abnormal.setJobname(job_name);
-			abnormal.setCallDate(new Date());
-			abnormal.setIniitiator(admin);
-			abnormal.setIsDel("N");
-			abnormal.setState("0");
-			
-			abnormal.setResponsorSet(new HashSet<Admin>(responsorSet));			
-			abnormal.setProductSet(new HashSet<UnitdistributeProduct>(productSet));			
-			abnormal.setCallreasonSet(new HashSet<Callreason>(callreasonSet));
-			String comlist = CommonUtil.toString(strLen, ",");// 获取问题的字符串						
-			
-			//Admin admin2 = adminService.getLoginAdmin();//生产班次和日期
-			Admin admin2 = admin;
-			admin2 = adminService.get(admin2.getId());
-			
-			abnormal.setProductdate(admin2.getProductDate());
-			abnormal.setClasstime(admin2.getShift());
-			abnormalService.save(abnormal);//保存数据
-
-			AbnormalLog abnormalLog = new AbnormalLog();//创建异常日志
-			abnormalLog.setAbnormal(abnormal);
-			abnormalLog.setType("5");
-			abnormalLog.setOperator(admin);
-			abnormalLog.setInfo(comlist);
-			abnormalLogService.save(abnormalLog);	
-	
-			Calendar can = Calendar.getInstance();	//定时任务时间1，计算十分钟后的时间，异常未应答向其再发送一条短信
-			can.setTime(abnormal.getCreateDate());
-			can.add(Calendar.MINUTE, 10);
-			Date date=can.getTime();	
-			
-			Calendar can1 = Calendar.getInstance();//定时任务时间2，计算三十分钟后的时间，异常还未应答向其直接上级发送一条短信
-			can1.setTime(abnormal.getCreateDate());
-			can1.add(Calendar.MINUTE, 30);
-			Date date1=can1.getTime();
-			
-			Calendar can2 = Calendar.getInstance();//定时任务时间3，计算一小时后的时间，异常还未应答向其直接上级的直接上级发送一条短信，此后如未应答递归向直接上级发送短信
-			can2.setTime(abnormal.getCreateDate());
-			can2.add(Calendar.MINUTE, 60);
-			Date date2=can2.getTime();
-	
-			JSONArray jsonArray = JSONArray.fromObject(mapList);//将map类型进行转换
-			//创建一个map，放入异常，人员，时间，车间单元，任务名，标记符，短信和人员等信息
-			HashMap<String,Object> maps = new HashMap<String,Object>();
-			maps.put("id",abnormal.getId());
-			maps.put("name",admin.getId());
-			maps.put("date", ThinkWayUtil.getCron(date1));
-			maps.put("time", ThinkWayUtil.getCron(date2));
-			maps.put("hour", ThinkWayUtil.formatdateDateTime(date2));
-			
-			maps.put("workshop", workshop);
-			maps.put("unit", unit);
-			maps.put("jobname", job_name);
-			maps.put("count","1");
-			maps.put("list", jsonArray.toString());
-			//log.info("--------异常结束1--------");
-				quartzMessage(ThinkWayUtil.getCron(date),maps);	//开启定时任务		
-			//log.info("--------异常结束2--------");						
-		}catch(DocumentException e){
-			e.printStackTrace();
-			log.info(e);
-			return ajaxJsonErrorMessage("短信发送失败");
 		}catch(Exception e){
 			e.printStackTrace();
 			log.info(e);

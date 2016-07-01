@@ -22,6 +22,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
@@ -33,6 +34,7 @@ import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
@@ -84,7 +86,8 @@ public class PickDetailAction extends BaseAdminAction {
 	private BomService bomService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
-	
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	
 	private String productsId;
 	private WorkingBill workingbill;
@@ -185,7 +188,9 @@ public class PickDetailAction extends BaseAdminAction {
 				bom.setMaterialCode(matnr);
 				bom.setStockAmount(labst);
 				bom.setXcharg(charg);
-				Material mt = materialService.get("materialCode", matnr);
+				FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+				Material mt = materialService.getByNum(matnr, factoryUnit);
+//				Material mt = materialService.get("materialCode", matnr);
 				if(mt==null){
 					bom.setCqmultiple("1");
 					bom.setCqhStockAmount(labst);
@@ -296,7 +301,9 @@ public class PickDetailAction extends BaseAdminAction {
 					bom.setMaterialCode(matnr);
 					bom.setStockAmount(labst);
 					bom.setXcharg(charg);
-					Material mt = materialService.get("materialCode", matnr);
+					FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+					Material mt = materialService.getByNum(matnr, factoryUnit);
+//					Material mt = materialService.get("materialCode", matnr);
 					if(mt==null){
 						bom.setCqmultiple("1");
 						bom.setCqhStockAmount(labst);
@@ -446,7 +453,9 @@ public class PickDetailAction extends BaseAdminAction {
 					}
 				}
 				if(pickdetail == null){
-					Material mt = materialService.get("materialCode", bom.getMaterialCode());
+					FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+					Material mt = materialService.getByNum(bom.getMaterialCode(), factoryUnit);
+//					Material mt = materialService.get("materialCode", bom.getMaterialCode());
 					if(mt==null){
 						bom.setCqmultiple("1");
 						bom.setCqhStockAmount(bom.getStockAmount());

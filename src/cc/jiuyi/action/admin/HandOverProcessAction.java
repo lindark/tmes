@@ -19,6 +19,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
@@ -31,6 +32,7 @@ import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.ProcessRouteService;
@@ -101,6 +103,8 @@ public class HandOverProcessAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private FactoryUnitService factoryUnitService;
 	
 	// 添加 工序交接
 	public String add() {
@@ -154,7 +158,9 @@ public class HandOverProcessAction extends BaseAdminAction {
 			
 			/***weitao modify***/
 			//此处处理 裁切倍数,裁切后正常交接数量,裁切后返修交接数量
-			Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
+			FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", workingbill.getWorkcenter());
+			Material mt = materialservice.getByNum(materialCode, factoryUnit);
+//			Material mt = materialservice.get("materialCode", materialCode);//获取物料信息
 			if(mt == null){
 				workingbill.setCqsl(1d);
 			}else{

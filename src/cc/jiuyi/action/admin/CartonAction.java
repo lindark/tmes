@@ -247,16 +247,16 @@ public class CartonAction extends BaseAdminAction {
 			hashmap.put(MESSAGE, "您的操作已成功!");
 			return ajaxJson(hashmap);
 		}
-		for (int i = 0; i < ids.length; i++) {
+		for (int i = 0; i < ids.length; i++) { 
 			carton = cartonService.load(ids[i]);
 			if (UNDO.equals(carton.getState())) {
 				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 			}
-			/*if (CONFIRMED.equals(carton.getState())){
-				if(!carton.getCreateUser().getId().equals(card_admin.getId())){
-					return ajaxJsonErrorMessage("无法撤销非自己创建并已确认收货单!");//已确认的无法撤销！
-				}
-			}*/
+//			if (CONFIRMED.equals(carton.getState())){
+//				if(!carton.getCreateUser().getId().equals(card_admin.getId())){
+//					return ajaxJsonErrorMessage("无法撤销非自己创建并已确认收货单!");//已确认的无法撤销！
+//				}
+//			}
 		}
 		String s = this.cartonService.updateToSAPReturn(ids,cardnumber,loginid);
 		String issuccess=ERROR;

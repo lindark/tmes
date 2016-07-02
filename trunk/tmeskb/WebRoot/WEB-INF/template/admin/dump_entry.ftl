@@ -75,12 +75,12 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">发出库存地点</div>
 												<div class="profile-info-value">
-													<span>${(factoryunit.psaddress)!}</span>
+													<span id="pddname">${(factoryunit.psaddress)!}</span>
 													<input id="input_psaddress" type="hidden" value="${(factoryunit.psaddress)!}">
 												</div>
 												<div class="profile-info-name">配送仓位</div>
 												<div class="profile-info-value">
-													<span>${(factoryunit.psPositionAddress)!}</span>
+													<span id="ppaname">${(factoryunit.psPositionAddress)!}</span>
 													<input id="input_psPositionAddress" type="hidden" value="${(factoryunit.psPositionAddress)!}">
 												</div>
 												<div class="profile-info-name">接收库存地点</div>
@@ -196,6 +196,18 @@ body {
 				$(this).removeClass("open");
 			}
 			
+		});
+		$("#input_jsaddress").change(function(){
+			var wearhouse = $(this).val();
+			<#list factoryunitList as list>
+				if(list.warehouse==wearhouse){
+					$("#input_psPositionAddress").val(${(list.psPositionAddress)!});
+					$("#ppaname").text(${(list.psPositionAddress)!});
+					$("#input_psaddress").val(${(list.psaddress)!});
+					$("#pddname").text(${(list.psaddress)!});
+					<#break>
+				}
+			</#list>
 		});
 	});
 </script>

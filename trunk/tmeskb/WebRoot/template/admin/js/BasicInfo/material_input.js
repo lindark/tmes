@@ -25,5 +25,10 @@ function imgaddfu_event()
 		$("#input_fu").val(id[0]);//单元id
 		$("#span_fu").text(id[1]);//单元名称
 		layer.close(index); 
+		var oldId = $("#oldId").val();
+		var id = $("#input_fu").val();
+		if(oldId != id){
+			$("#isChangeUnit").val("1");
+		}
 	});
 }

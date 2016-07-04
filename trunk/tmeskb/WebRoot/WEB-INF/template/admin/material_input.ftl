@@ -120,6 +120,8 @@ body{background:#fff;}
 						             <div class="profile-info-row">
 										<div class="profile-info-name">单元 </div>			
 										<div class="profile-info-value">
+											<input type="hidden" id="oldId" value="${(material.factoryunit.id)!}"/>
+											<input type="hidden" id="isChangeUnit" name="isChangeUnit" value="0"/>
 											<img id="img_addfu" class="img_addfu" title="添加单元" alt="添加单元" src="${base}/template/shop/images/add_bug.gif" />
 											<span id="span_fu">${(material.factoryunit.factoryUnitName)!}</span>
 											<input type="hidden" id="input_fu" name="material.factoryunit.id" value="${(material.factoryunit.id)!}" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" />

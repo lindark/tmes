@@ -57,7 +57,9 @@ public class MaterialAction extends BaseAdminAction {
 	private String productsid;
 	private List<Material> materialList;
 	private List<Factory> factoryList;
+	private String isChangeUnit;
 	
+
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -273,9 +275,11 @@ public String getQualityBomByFactoryunit(){
 	
 	public String update() {
 		Material persistent = materialService.load(id);
-		List<Material> materialList = materialService.getMaterialList(persistent.getMaterialCode(),persistent.getFactoryunit());
-		if(materialList.size()>0){
-			return "error_material";
+		if(isChangeUnit.equals("1")){
+			List<Material> materialList = materialService.getMaterialList(material.getMaterialCode(),material.getFactoryunit());
+			if(materialList.size()>0){
+				return "error_material";
+			}
 		}
 		BeanUtils.copyProperties(material, persistent, new String[] { "id","createDate", "modifyDate"});
 		materialService.update(persistent);
@@ -286,9 +290,11 @@ public String getQualityBomByFactoryunit(){
 	//保存
 	
 	public String save()throws Exception{
-		List<Material> materialList = materialService.getMaterialList(material.getMaterialCode(),material.getFactoryunit());
-		if(materialList.size()>0){
-			return "error_material";
+		if(isChangeUnit.equals("1")){
+			List<Material> materialList = materialService.getMaterialList(material.getMaterialCode(),material.getFactoryunit());
+			if(materialList.size()>0){
+				return "error_material";
+			}
 		}
 		materialService.save(material);
 		redirectionUrl="material!list.action";
@@ -419,7 +425,13 @@ public String getQualityBomByFactoryunit(){
 		this.factoryList = factoryList;
 	}
 
+	public String getIsChangeUnit() {
+		return isChangeUnit;
+	}
 
+	public void setIsChangeUnit(String isChangeUnit) {
+		this.isChangeUnit = isChangeUnit;
+	}
 	
 	
 	

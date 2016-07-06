@@ -645,7 +645,6 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	@Override
 	public List<TempKaoqin> getByTPS(String sameTeamId, String productDate,
 			String shift) {
-		
 		return tempKqDao.getByTPS(sameTeamId, productDate, shift);
 	}
 
@@ -653,7 +652,6 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	@Override
 	public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,
 			String shift, String adminId) {
-		
 		return tempKqDao.getByTPSA(sameTeamId, productDate, shift, adminId);
 	}
 	
@@ -661,6 +659,12 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	public List<TempKaoqin> getWorkNumList(String productDate, String shift,
 			String factoryUnitCode, String workState) {
 		return tempKqDao.getWorkNumList(productDate, shift, factoryUnitCode, workState);
+	}
+	
+	@Override
+	public List<TempKaoqin> getToWorkList(String productDate, String shift,
+			String factoryUnitCode, String workState,Team team) {
+		return tempKqDao.getToWorkList(productDate, shift, factoryUnitCode, workState,team);
 	}
 	
 }

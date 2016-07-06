@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.TempKaoqinDao;
 
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
 
 /**
@@ -178,6 +179,18 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 			String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
 			return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
 					.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
+		}
+	}
+	
+	public List<TempKaoqin> getToWorkList(String productDate, String shift,String factoryUnitCode, String workState,Team team){
+		if(workState.equals("")){
+			String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and team =?";
+			return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+					.setParameter(2, factoryUnitCode).setParameter(3, team).list();
+		}else{
+			String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=? and team =?";
+			return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+					.setParameter(2, factoryUnitCode).setParameter(3, workState).setParameter(4, team).list();
 		}
 	}
 }

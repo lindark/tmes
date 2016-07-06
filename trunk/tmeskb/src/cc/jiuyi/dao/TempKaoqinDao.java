@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
 
 /**
@@ -50,4 +51,6 @@ public interface TempKaoqinDao extends BaseDao<TempKaoqin, String>
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
     public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
+    
+    public List<TempKaoqin> getToWorkList(String productDate, String shift,String factoryUnitCode, String workState,Team team);
 }

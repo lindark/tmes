@@ -277,5 +277,4 @@ public class TempKaoqin extends BaseEntity{
 		this.factoryUnitCode = factoryUnitCode;
 	}
 	
-	
 }

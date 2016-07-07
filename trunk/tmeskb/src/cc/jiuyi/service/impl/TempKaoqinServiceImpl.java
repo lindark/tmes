@@ -667,4 +667,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		return tempKqDao.getToWorkList(productDate, shift, factoryUnitCode, workState,team);
 	}
 	
+	public List<TempKaoqin> updateWorkHours(String workHours,String productdate,String classtime,Team team){
+		return tempKqDao.updateWorkHours(workHours,productdate,classtime,team);
+	}
 }

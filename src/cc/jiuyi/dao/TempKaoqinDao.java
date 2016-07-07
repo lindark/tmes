@@ -53,4 +53,6 @@ public interface TempKaoqinDao extends BaseDao<TempKaoqin, String>
     public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
     
     public List<TempKaoqin> getToWorkList(String productDate, String shift,String factoryUnitCode, String workState,Team team);
+    
+    public List<TempKaoqin> updateWorkHours(String workHours,String productdate,String classtime,Team team);
 }

@@ -193,4 +193,10 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 					.setParameter(2, factoryUnitCode).setParameter(3, workState).setParameter(4, team).list();
 		}
 	}
+	
+	 public List<TempKaoqin> updateWorkHours(String workHours,String productdate,String classtime,Team team){
+		 String hql = "update TempKaoqin kaoqin set kaoqin.workHours=? where kaoqin.productdate=? and kaoqin.classtime=? and kaoqin.team=?";
+		 return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate)
+				 .setParameter(2, classtime).setParameter(3, team).list();
+	 }
 }

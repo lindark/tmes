@@ -131,7 +131,22 @@ body{background:#fff;}
 									<label class="requireField">*</label>&nbsp;&nbsp;<span id="span_tip_zhuren" class="mymust"></span>
 								</div>
 							</div>
-									
+								
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 部长 </div>					
+								<div class="profile-info-value">
+									<input id="team_minister" type="text" name="team.minister" value="${(team.minister)!}" class=" input input-sm  formText {required: true}" />
+									<label class="requireField"></label>&nbsp;&nbsp;<span id="span_tip_zhuren" class="mymust"></span>
+								</div>
+							</div>
+							
+							<div class="profile-info-row">
+								<div class="profile-info-name"> 副总 </div>					
+								<div class="profile-info-value">
+									<input id="team_deputy" type="text" name="team.deputy" value="${(team.deputy)!}" class=" input input-sm  formText {required: true}" />
+									<label class="requireField"></label>&nbsp;&nbsp;<span id="span_tip_zhuren" class="mymust"></span>
+								</div>
+							</div>		
 						
 							<div class="profile-info-row">
 								<div class="profile-info-name"> 单元名称 </div>					

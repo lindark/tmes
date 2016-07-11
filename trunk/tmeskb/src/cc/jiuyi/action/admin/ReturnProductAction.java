@@ -284,7 +284,7 @@ public class ReturnProductAction extends BaseAdminAction {
 		
 	}
 	//刷卡确认
-	public String creditapproval(){
+	public synchronized String creditapproval(){
 		String message = "";
 		List<ReturnProduct> returnProductCrt = new ArrayList<ReturnProduct>();
 		try {

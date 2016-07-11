@@ -566,7 +566,7 @@ public class RepairinAction extends BaseAdminAction {
 	 * @return
 	 * @author gyf
 	 */
-	public String toSAP(List<Repairin>list)
+	public synchronized String toSAP(List<Repairin>list)
 	{
 		try
 		{

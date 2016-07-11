@@ -653,7 +653,7 @@ public class RepairAction extends BaseAdminAction {
 	 * @return
 	 * @author gyf
 	 */
-	public String toSAP(List<Repair>list)
+	public synchronized String toSAP(List<Repair>list)
 	{
 		try
 		{

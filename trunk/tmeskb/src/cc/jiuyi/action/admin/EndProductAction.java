@@ -404,7 +404,7 @@ public class EndProductAction extends BaseAdminAction {
 
 	}
 
-	public String creditapproval() {
+	public synchronized String creditapproval() {
 		String message = "";
 		List<EndProduct> endProductCrt = new ArrayList<EndProduct>();
 		try {

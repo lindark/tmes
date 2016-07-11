@@ -500,7 +500,7 @@ public class ScrapAction extends BaseAdminAction
 	 * xmyid=1 确认操作=退料  
 	 * xmyid=2 撤销操作=领料
 	 */
-	public String xconfirm(List<Scrap>xlist_scrap,String newstate,int xmyid)
+	public synchronized String xconfirm(List<Scrap>xlist_scrap,String newstate,int xmyid)
 	{
 		try
 		{

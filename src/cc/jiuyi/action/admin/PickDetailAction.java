@@ -580,7 +580,7 @@ public class PickDetailAction extends BaseAdminAction {
 
 	
 	//刷卡确认
-	public String creditapproval(){
+	public synchronized String creditapproval(){
 		if(!"".equals(pickId)&&pickId!=null){
 			try {
 				ids = pickId.split(",");

@@ -478,7 +478,7 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String creditundo() {
+	public synchronized String creditundo() {
 		
 		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
 		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		

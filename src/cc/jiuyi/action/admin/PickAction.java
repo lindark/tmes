@@ -443,7 +443,7 @@ public class PickAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public String creditapproval() {
+	public synchronized String creditapproval() {
 		
 		
 	
@@ -551,7 +551,7 @@ public class PickAction extends BaseAdminAction {
 	}
 
 	// 刷卡撤销
-	public String creditundo() {
+	public synchronized String creditundo() {
 		String str="";
 		admin = adminService.getByCardnum(cardnumber);
 		

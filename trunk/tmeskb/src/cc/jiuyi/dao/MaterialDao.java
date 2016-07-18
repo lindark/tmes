@@ -71,4 +71,16 @@ public interface MaterialDao extends BaseDao<Material,String> {
 	public Material getByNum(String materialCode,FactoryUnit factoryunit);
 
 	public List<Material> getMaterialList(String materialCode,FactoryUnit factoryunit);
+	
+	/**
+     * 根据物料id查询是否存在
+     * @param code
+     * @return
+     */
+	public boolean getByCode(String code);
+
+	/**
+	 * 根据物料编码查询
+	 */
+	public Material getByNum(String materialCode);
 }

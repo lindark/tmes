@@ -41,6 +41,7 @@ public class TempKaoqin extends BaseEntity{
 	private String workName;//工作范围名称
 	
 	private String isdaiban;//是否代班
+	private String workHours;//工作小时
 	
 	private String xteam;//班组假字段
 	//假字段
@@ -49,6 +50,7 @@ public class TempKaoqin extends BaseEntity{
 	private String factory;
 	private String workshop;
 	private String xworkState;//工作状态
+	private String xworkHours;//工作时间
 	
 	private String modelName;//模具组号-名称
 	
@@ -276,5 +278,19 @@ public class TempKaoqin extends BaseEntity{
 	public void setFactoryUnitCode(String factoryUnitCode) {
 		this.factoryUnitCode = factoryUnitCode;
 	}
+	
+	public String getWorkHours() {
+		return workHours;
+	}
+	public void setWorkHours(String workHours) {
+		this.workHours = workHours;
+	}
+	public String getXworkHours() {
+		return xworkHours;
+	}
+	public void setXworkHours(String xworkHours) {
+		this.xworkHours = xworkHours;
+	}
+	
 	
 }

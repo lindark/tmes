@@ -37,6 +37,8 @@ public class Team extends BaseEntity {
 	private String basic;//基本
 	private String zhuren;//主任
 	private String fuzhuren;//副主任
+	private String minister;//部长
+	private String deputy;//副总
 
 	// 虚拟字段
 	private String xfactoryUnitId;//
@@ -301,4 +303,22 @@ public class Team extends BaseEntity {
 	public void setFuzhuren(String fuzhuren) {
 		this.fuzhuren = fuzhuren;
 	}
+
+	public String getMinister() {
+		return minister;
+	}
+
+	public void setMinister(String minister) {
+		this.minister = minister;
+	}
+
+	public String getDeputy() {
+		return deputy;
+	}
+
+	public void setDeputy(String deputy) {
+		this.deputy = deputy;
+	}
+	
+	
 }

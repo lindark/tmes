@@ -167,7 +167,7 @@
 		}); 
 		 
 		 $excelReport.click(function(){
-			 $searchform.attr("action","working_inout!excelexport.action");
+			 $searchform.attr("action","working_inout!excelexport1.action");
 			 $searchform.submit();
 			 
 		 });

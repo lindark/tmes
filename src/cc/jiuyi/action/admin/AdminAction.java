@@ -281,6 +281,58 @@ public class AdminAction extends BaseAdminAction {
 		try{			
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
+			if(admin.getProductDate() != null && admin.getShift() != null)
+			{
+				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+				Collections.sort(workingbillList, new SortChineseName());  
+				
+				info = "";
+				HashMap<String,List<String>> mapcheck = new HashMap<String,List<String>>();
+				List<String> list1 = new ArrayList<String>();
+				List<String> list2 = new ArrayList<String>();
+				List<String> list3 = new ArrayList<String>();
+				for(WorkingBill wb : workingbillList){
+					if("".equals(info)){
+						info = wb.getMoudle()==null?"":wb.getMoudle();
+					}else{
+						info = info + "," + wb.getMoudle()==null?"":wb.getMoudle();
+					}
+					
+					list1.add(wb.getId());
+					
+					list2.add(wb.getWorkingBillCode());
+					list3.add(wb.getAufnr());
+				}
+				mapcheck.put("wbid", list1);
+				mapcheck.put("wbcode", list2);
+				mapcheck.put("aufnr", list3);
+				List<String[]> wblist = workinginoutservice.sumAmountSY(mapcheck);
+				for(WorkingBill wb : workingbillList){
+					for(Object[] s : wblist){
+						Object wbid = s[0]==null?"":s[0];
+						Object slcy = s[1]==null?"0":s[1];
+						if(wb.getWorkingBillCode().equals(wbid)){
+							if(new BigDecimal(0).compareTo(new BigDecimal(slcy.toString()))!=0){
+								wb.setDiffamount(1d);
+								break;
+							}
+						}
+					}
+				}
+				System.out.println("-------------");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error(e);
+		}finally{
+			return "teamindex";
+		}
+	}
+	public String indexBF() {
+
+		try{			
+			admin = adminService.getLoginAdmin();
+			admin = adminService.get(admin.getId());
 			
 			//判定是否是副主任
 			/*fzrFlag=false;
@@ -338,6 +390,7 @@ public class AdminAction extends BaseAdminAction {
 		//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
 		//OneBarcodeUtil.createCode("我就测试一下", path);
 		/**weitao end**/
+	
 	}
 	public String findWorkingBill(){
 		try {

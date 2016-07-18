@@ -202,19 +202,20 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 				String CONF_NO = dailyWork.getCONF_NO();// 确认号
 				String CONF_CNT = dailyWork.getCONF_CNT();// 计数器
 				dailyWork = dailyWorkDao.get(dailyWork.getId());
-				totalamount = totalamount.subtract(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
-				if("1".equalsIgnoreCase(dailyWork.getMoudle())){
-					workingbill.setChecknum1("1");
-				}else if("2".equalsIgnoreCase(dailyWork.getMoudle())){
-					workingbill.setChecknum2("2");
-				}else if("3".equalsIgnoreCase(dailyWork.getMoudle())){
-					workingbill.setChecknum3("3");
-				}else if("4".equalsIgnoreCase(dailyWork.getMoudle())){
-					workingbill.setChecknum4("4");
-				}else{
-					workingbill.setChecknum5("5");
+				if(CONF_NO!=null && !CONF_NO.equals("")){		
+					totalamount = totalamount.subtract(new BigDecimal(dailyWork.getEnterAmount())).setScale(2, RoundingMode.HALF_UP);
+					if("1".equalsIgnoreCase(dailyWork.getMoudle())){
+						workingbill.setChecknum1("1");
+					}else if("2".equalsIgnoreCase(dailyWork.getMoudle())){
+						workingbill.setChecknum2("2");
+					}else if("3".equalsIgnoreCase(dailyWork.getMoudle())){
+						workingbill.setChecknum3("3");
+					}else if("4".equalsIgnoreCase(dailyWork.getMoudle())){
+						workingbill.setChecknum4("4");
+					}else{
+						workingbill.setChecknum5("5");
+					}
 				}
-				
 			//	dailyWork.setEnterAmount(dailyWork.getEnterAmount());
 				Date date = new Date(); 
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式

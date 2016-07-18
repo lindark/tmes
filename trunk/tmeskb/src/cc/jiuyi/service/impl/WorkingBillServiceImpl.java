@@ -243,6 +243,7 @@ public class WorkingBillServiceImpl extends
 			for(int z=0;z<workingbillList01.size();z++){
 				WorkingBill WorkingBill01 = workingbillList01.get(z);
 				if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+					WorkingBill00.setShift(WorkingBill00.getWorkingBillCode().substring(WorkingBill00.getWorkingBillCode().length()-2,WorkingBill00.getWorkingBillCode().length()));
 					this.updateWorkingBill(WorkingBill00);
 					flag = true;
 				}
@@ -277,6 +278,7 @@ public class WorkingBillServiceImpl extends
 						WorkingBill00.setIsdel(order.getIsdel());
 					}
 					if(WorkingBill01.getWorkingBillCode().equals(WorkingBill00.getWorkingBillCode())){
+						WorkingBill00.setShift(WorkingBill00.getWorkingBillCode().substring(WorkingBill00.getWorkingBillCode().length()-2,WorkingBill00.getWorkingBillCode().length()));
 						this.updateWorkingBill(WorkingBill00);
 						flag = true;
 					}

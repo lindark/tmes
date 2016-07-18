@@ -286,4 +286,30 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 		// TODO Auto-generated method stub
 		return dumpDao.historyExcelExport(map);
 	}
+	
+	/**
+	 * 查询明细表当前生产日期和班次下的同物料编码的已确认的领料数量
+	 */
+	public List<HashMap<String,String>> getMengeByConditions(Admin emp,List<FactoryUnit> factoryUnitList)
+	{
+		List<HashMap<String,String>>maplist=new ArrayList<HashMap<String,String>>();
+		for(int i=0;i<factoryUnitList.size();i++){
+			FactoryUnit factoryUnit = factoryUnitList.get(i);
+			List<Object[]>list=this.dumpDao.getMengeByConditions(emp,factoryUnit);
+			for(int j=0;j<list.size();j++)
+			{
+				HashMap<String,String>map=new HashMap<String,String>();
+				Object[] obj=list.get(j);
+				map.put("materialcode",obj[0].toString());//物料编码
+				map.put("allcount", obj[1].toString());//合计数量
+				Material m=this.materialService.getByNum(obj[0].toString(),factoryUnit);//根据物料编码查询
+				if(m!=null)
+				{
+					map.put("materialdes", m.getMaterialName().toString());//物料描述
+				}
+				maplist.add(map);
+			}
+		}
+		return maplist;
+	}
 }

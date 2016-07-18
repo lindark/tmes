@@ -328,7 +328,7 @@ public class UpDownAction extends BaseAdminAction {
 			return ERROR;
 		}
 		if("up".equals(type) || "down".equals(type))
-			materialCode = materialCode == null ?"303":ThinkWayUtil.null2String(materialCode);
+			materialCode = materialCode == null ?"3":ThinkWayUtil.null2String(materialCode);
 		else if("updown".equals(type))
 			materialCode = "";
 		int matnrlen = materialCode.length();

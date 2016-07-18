@@ -14,6 +14,7 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Team;
@@ -24,6 +25,7 @@ import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.TeamService;
@@ -71,6 +73,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	private String workcode;
 	private String teamid;
 	private String teamName;
+	private String mark;
+	private String empid;
 	private List<Team> teamList;//班组
 	@Resource
 	private WorkingBillService workingbillService;
@@ -94,6 +98,8 @@ public class WorkingBillAction extends BaseAdminAction {
 	private WorkingBillService workingbillservice;
 	@Resource
 	private TeamService teamservice;
+	@Resource
+	private KaoqinService kaoqinService;
 	
 	//条码打印
 	public String barcodePrint(){
@@ -449,11 +455,25 @@ public class WorkingBillAction extends BaseAdminAction {
 		if(teamid!=null && !"".equals(teamid)){
 			try {
 				WorkingBill wk = workingbillService.get(wbid);
+				Team oldTeam = wk.getTeam();
 				Team t = teamservice.get(teamid);
-				wk.setTeam(t);
-				wk.setTeamName(teamName);
-				workingbillService.update(wk);
-				return ajaxJsonSuccessMessage("保存成功");
+				if(t != oldTeam){
+					wk.setTeam(t);
+					wk.setTeamName(teamName);
+					wk.setZhuren(t.getZhuren());
+					wk.setFuzhuren(t.getFuzhuren());
+					wk.setMinister(t.getMinister());
+					wk.setDeputy(t.getDeputy());
+					workingbillService.update(wk);
+				}
+				Map<String, String> jsonMap = new HashMap<String, String>();
+				jsonMap.put(STATUS, SUCCESS);
+				jsonMap.put(MESSAGE, "保存成功");
+				jsonMap.put("zhuren", t.getZhuren());
+				jsonMap.put("fuzhuren", t.getFuzhuren());
+				jsonMap.put("isNotSelect", "0");
+				JSONObject jsonObject = JSONObject.fromObject(jsonMap);
+				return ajax(jsonObject.toString(), "text/html");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info(e);
@@ -463,12 +483,41 @@ public class WorkingBillAction extends BaseAdminAction {
 			WorkingBill wk = workingbillService.get(wbid);
 			wk.setTeam(null);
 			wk.setTeamName(null);
+			wk.setZhuren(null);
+			wk.setFuzhuren(null);
+			wk.setMinister(null);
+			wk.setDeputy(null);
 			workingbillService.update(wk);
-			return ajaxJsonSuccessMessage("保存成功");
+//			return ajaxJsonSuccessMessage("保存成功");
+			Map<String, String> jsonMap = new HashMap<String, String>();
+			jsonMap.put(STATUS, SUCCESS);
+			jsonMap.put(MESSAGE, "保存成功");
+			jsonMap.put("zhuren", null);
+			jsonMap.put("fuzhuren", null);
+			jsonMap.put("isNotSelect", "1");
+			JSONObject jsonObject = JSONObject.fromObject(jsonMap);
+			return ajax(jsonObject.toString(), "text/html");
 		}
 		
 	}
 	
+	public String updatePerson(){
+		try {
+			WorkingBill wk = workingbillService.get(wbid);
+			Kaoqin kaoqin = kaoqinService.get(empid);
+			if(mark.equals("1")){
+				wk.setFuzhuren(kaoqin.getEmpname());
+			}else{
+				wk.setZhuren(kaoqin.getEmpname());
+			}
+			workingbillService.update(wk);
+			return ajaxJsonSuccessMessage("保存成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info(e);
+			return ajaxJsonErrorMessage("保存失败");
+		}
+	}
 	
 	public WorkingBill getWorkingbill() {
 		return workingbill;
@@ -584,6 +633,22 @@ public class WorkingBillAction extends BaseAdminAction {
 		this.teamList = teamList;
 	}
 
+	public String getMark() {
+		return mark;
+	}
 
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
+	public String getEmpid() {
+		return empid;
+	}
+
+	public void setEmpid(String empid) {
+		this.empid = empid;
+	}
+
+	
 	
 }

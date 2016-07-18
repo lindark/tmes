@@ -21,6 +21,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Station;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
@@ -73,6 +74,8 @@ public class TempKaoqinAction extends BaseAdminAction {
 	private String classtime;
 	private String factoryUnitName;
 	private String unitdistributeModels;// 工位
+	private String workHours;//工作小时
+	private String teamid;//班组id
 	private List<UnitdistributeModel> unitModelList = new ArrayList<UnitdistributeModel>();
 	/**
 	 * service接口
@@ -161,6 +164,9 @@ public class TempKaoqinAction extends BaseAdminAction {
 				if(kaoqin.getWorkState()!=null&&!"".equals(kaoqin.getWorkState()))
 				{
 					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
+				}
+				if(kaoqin.getWorkHours()!=null&&!"".equals(kaoqin.getWorkHours())){
+					kaoqin.setXworkHours(ThinkWayUtil.getDictValueByDictKey(dictService,"workHours", kaoqin.getWorkHours()));
 				}
 				
 				if(kaoqin.getModelNum()!=null)
@@ -481,6 +487,17 @@ public class TempKaoqinAction extends BaseAdminAction {
 		// return this.ajaxJsonSuccessMessage("s");
 		return null;
 	}
+	
+	public String updateWorkHours(){
+//		System.out.println(workHours);
+//		System.out.println(productdate);
+//		System.out.println(classtime);
+//		System.out.println(teamid);
+		Team team = teamService.get(teamid);
+		tkqService.updateWorkHours(workHours,productdate,classtime,team);
+		kqService.updateWorkHours(workHours,productdate,classtime,team);
+		return this.ajaxJsonSuccessMessage("操作成功!");
+	}
 
 	/** ========================end method====================================== */
 
@@ -638,5 +655,21 @@ public class TempKaoqinAction extends BaseAdminAction {
 		this.unitdistributeModels = unitdistributeModels;
 	}
 
+	public String getWorkHours() {
+		return workHours;
+	}
+
+	public void setWorkHours(String workHours) {
+		this.workHours = workHours;
+	}
+
+	public String getTeamid() {
+		return teamid;
+	}
+
+	public void setTeamid(String teamid) {
+		this.teamid = teamid;
+	}
+	
 	/** ===========================end get/set=============================== */
 }

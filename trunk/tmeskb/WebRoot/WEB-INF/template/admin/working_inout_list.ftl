@@ -104,6 +104,10 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												Excel导出
 											</a>
+											<a  id="excelReportE" style="display:none"class="btn btn-white btn-default btn-sm btn-round">
+												<i class="ace-icon fa fa-filter blue"></i>
+												Excel导出E
+											</a>
 										</div>
 										
 									</div>
@@ -172,6 +176,10 @@
 			 
 		 });
 		
+		$("#excelReportE").click(function(){
+			$searchform.attr("action","working_inout!excelexport.action");
+			 $searchform.submit();
+		});
 		 $(".changeDate").click(function(){
 			 var sd = $("#startDate").val();
 			 var ed = $("#endDate").val();

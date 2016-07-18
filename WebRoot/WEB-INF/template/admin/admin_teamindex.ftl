@@ -398,25 +398,23 @@
 												<table class="table table-bordered table-striped" id="table00">
 													<thead class="thin-border-bottom">
 														<tr>
-															<th style="width:30%"><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															<th style="width:39%"><i class="ace-icon fa fa-caret-right blue"></i>产品名称
 															</th>
-															<th class="hidden-480"><i
+															<th style="width:12%"><i
 																class="ace-icon fa fa-caret-right blue"></i>班组</th>
-															<th class="hidden-480"><i
+															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>副主任</th>
-															<th class="hidden-480"><i
+															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>主任</th>
-															<th class="hidden-480" style="width:6%"><i
-																class="ace-icon fa fa-caret-right blue"></i>计划数量</th>
-															<th class="hidden-480" style="width:7%"><i
+															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
-															<th class="hidden-480" style="width:7%"><i
+															<th style="width:8%"><i
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
-																<th class="hidden-480" ><i
+															<th style="width:6%"><i
 																class="ace-icon fa fa-caret-right blue"></i>模具</th>
-																<th class="hidden-480"><i
-																class="ace-icon fa fa-caret-right blue"></i>交接状态</th>
-															<th class="hidden-480"><i
+															<th style="width:5%"><i
+																class="ace-icon fa fa-caret-right blue"></i>交接</th>
+															<th style="width:9%"><i
 																class="ace-icon fa fa-caret-right blue"></i>条码打印</th>
 														</tr>
 													</thead>
@@ -439,34 +437,31 @@
 															</td>
 															</#if>
 															<#if !list.teamName ??>
-															<td class="hidden-480">
+															<td >
 															<a href="javascript:void(0);" class="a teamName" >[添加班组]</a>&nbsp;
 															</td>
 															<#else>
-															<td class="hidden-480">
+															<td >
 															<a href="javascript:void(0);" class="a teamName" >${(list.teamName)!}</a>&nbsp;
 															</td>
 															</#if>
-															<td class="hidden-480">
-															<a href="javascript:void(0);" class="a fuzhuren" >${(list.fuzhuren)!}</a>&nbsp;
+															<td >
+															<a href="javascript:void(0);" class="a fuzhuren" >${(list.fuzhuren)!}副主任</a>&nbsp;
 															</td>
-															<td class="hidden-480">
-															<a href="javascript:void(0);" class="a zhuren" >${(list.zhuren)!}</a>&nbsp;
+															<td>
+															<a href="javascript:void(0);" class="a zhuren" >${(list.zhuren)!}副主任</a>&nbsp;
 															</td>
-															<td class="hidden-480"><b class="green">${list.planCount}</b>
-															</td>
-
-															<td class="hidden-480">${list.matnr}</td>
-															<td class="hidden-480">${list.workingBillCode}</td>
-															<td class="hidden-480">${(list.module)!}</td>
-															<td class="hidden-480">
+															<td >${list.matnr}</td>
+															<td >${list.workingBillCode}</td>
+															<td >${(list.module)!}副主任</td>
+															<td>
 																<#if list.isHand=="Y">
-																	已交接
+																	是
 																<#else>
-																	未交接
+																	否
 																</#if>
 															</td>
-														<td class="hidden-480"> <input type="text" style="width:30px" class="input-sm col-sm-2 part"/>&nbsp; 
+														<td > <input type="text" style="width:30px" class="input-sm col-sm-2 part"/>&nbsp; 
 																<a href="javascript:void(0);" class="barcode">打印</a>
 															</td>
 														</tr>

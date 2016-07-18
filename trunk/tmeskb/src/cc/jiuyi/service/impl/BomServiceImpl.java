@@ -170,5 +170,20 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 	public List<Bom> getBomListRFC(String aufnr, Integer maxversion) {
 		return bomDao.getBomListRFC(aufnr, maxversion);
 	}
+
+
+	@Override
+	public Object sumAmount(String aufnr, String productDate,
+			String materialCode, String workingBillCode) {
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
+		String type = "0";
+		Object amount = bomDao.sumAmount(aufnr, productDate, materialCode, workingBillCode, workingbilllast,type);
+		if(amount==null){
+			type = "1";
+			amount = bomDao.sumAmount(aufnr, productDate, materialCode, workingBillCode, workingbilllast,type);
+		}
+			
+		return amount;
+	}
 	
 }

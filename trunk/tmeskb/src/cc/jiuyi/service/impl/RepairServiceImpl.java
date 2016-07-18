@@ -318,14 +318,14 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
 					rp.setProductnum(Double.parseDouble("1"));//产品数量
-					rp.setRpcount(""+ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
+					rp.setRpcount(ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
 				}
 				else
 				{
 					double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
 					double d2=ArithUtil.mul(d1, r.getRepairAmount());//乘法
 					double d3=ArithUtil.round(d2, 3);//四舍五入,保留3位
-					rp.setRpcount(""+d3);//组件总数量
+					rp.setRpcount(d3);//组件总数量
 				}
 				rp.setRepair(r);
 				this.rpService.save(rp);
@@ -355,14 +355,14 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 				if(rp.getProductnum()==null||rp.getProductnum()==0)
 				{
 					rp.setProductnum(Double.parseDouble("1"));//产品数量
-					rp.setRpcount(""+ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
+					rp.setRpcount(ArithUtil.mul(r.getRepairAmount(), rp.getPiecenum()));
 				}
 				else
 				{
 					Double d1=ArithUtil.div(rp.getPiecenum(), rp.getProductnum());//除法
 					Double d2=ArithUtil.mul(d1, r.getRepairAmount());//乘法
 					Double d3=ArithUtil.round(d2, 3);//四舍五入,保留3位
-					rp.setRpcount(""+d3);//组件总数量
+					rp.setRpcount(d3);//组件总数量
 				}
 				rp.setRepair(r);
 				this.rpService.save(rp);

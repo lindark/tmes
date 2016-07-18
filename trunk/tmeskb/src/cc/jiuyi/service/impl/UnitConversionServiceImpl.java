@@ -88,6 +88,11 @@ public class UnitConversionServiceImpl extends BaseServiceImpl<UnitConversion, S
 			
 		}
 	}
+
+	@Override
+	public Object sumAmount(String matnr) {
+		return unitConversionDao.sumAmount(matnr);
+	}
 	
 	
 

@@ -378,6 +378,25 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin, String> implements 
 		}
 		return this.adminDao.getAllEmp(pager,map,list_str,my_id);
 	}
+	
+	/**
+	 * 查询所有员工
+	 */
+	public Pager getAllEmp(Pager pager,HashMap<String, String> map,String deptid,int my_id,boolean isName)
+	{
+		List<String> list_str = new ArrayList<String>();
+		if(deptid!=null&&!"".equals(deptid)&&isName==false)
+		{
+			Department department = departmentdao.get(deptid);
+			List<Department> list = departmentdao.getChildrenById(deptid, null);
+			list.add(department);
+			for(Department dt:list)
+			{
+				list_str.add(dt.getId());
+			}
+		}
+		return this.adminDao.getAllEmp(pager,map,list_str,my_id);
+	}
 
 	/**
 	 * 查询所有未离职的,已启用的员工

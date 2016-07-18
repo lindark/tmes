@@ -77,6 +77,7 @@ jQuery(function($) {
 			{name:'modelName',index:'modelNum',label:"模具组号",width:150,editable: false,search:false,sortable:false},
 			{name:'workName',label:"工作范围",width:150,editable: false,search:false,sortable:false},
 			{name:'xworkState',index:'workState',label:"员工状态",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='adminworkstate'"}},
+			{name:'xworkHours',index:'workHours',label:"工作小时",width:80,editable: false,sortable:false,cellattr:addstyle,stype:"select",searchoptions:{dataUrl:"dict!getDict1.action?dict.dictname='workHours'"}},
 			{name:'tardyHours',label:"异常小时数",width:100,editable: false,search:false,sortable:false},
 			{name:'isdaiban',index:'isdaiban',label:"是否代班",width:80,editable: false,sortable:false},			
 			{name:'toedit',label:"操作",width:80,search:false, sortable:false,sortable:false},
@@ -262,6 +263,9 @@ function btn_event()
 	//下班
 	$("#btn_gooffwork").click(function(){
 		gooffwork_event();
+	});
+	$("#submitButton").click(function(){
+		selectWorkHours();
 	});
 }
 
@@ -811,4 +815,23 @@ function remove_daiban(id)
 		}
 	});
 }
+
+function selectWorkHours(){
+	var workHours = $("#workHours option:selected").val();
+	var productdate = $("#productDate").val();
+	var classtime = $("#classtime").val();
+	var teamid = $("#teamid").val();
+	$.ajax({
+		url:"temp_kaoqin!updateWorkHours.action",
+		data:{"workHours":workHours,"productdate":productdate,"classtime":classtime,"teamid":teamid},
+		dataType:"json",
+		success: function(data) {
+			layer.alert(data.message, {icon: 6},function(){
+				var loginid = $("#loginid").val();
+				window.location.href = "kaoqin!list.action?loginid="+loginid;
+			}); 
+		}
+	});
+}
+
 

@@ -163,7 +163,7 @@ public class WorkingInoutAction extends BaseAdminAction {
  		if(bodys!=null && bodys.size()>0){
  			Object[] objs = bodys.get(0);
  			List<String> strList = new ArrayList<String>();
- 			strList.add("单元");strList.add("班组");strList.add("主任");strList.add("副主任");strList.add("生产日期");strList.add("班次");strList.add("生产订单号");
+ 			strList.add("单元");strList.add("班组");strList.add("主任");strList.add("副主任");strList.add("部长");strList.add("副总");strList.add("生产日期");strList.add("班次");strList.add("生产订单号");
  			strList.add("物料编码");strList.add("物料描述");strList.add("子件编码");strList.add("组件描述");strList.add("用量");strList.add("计划数量");strList.add("领用");
  			if(processList!=null&&processList.size()>0){
  	 			int k = processList.size();
@@ -181,19 +181,19 @@ public class WorkingInoutAction extends BaseAdminAction {
  	 			}
  	 			strList.add("报废");strList.add("接/零头");strList.add("接/零头/返");strList.add("入库");strList.add("交/零头");strList.add("交/零头/返");strList.add("返修发货");strList.add("返修收货");
  	 			strList.add("生产数");strList.add("一次合格率");strList.add("投入汇总");strList.add("产出汇总");strList.add("差异");strList.add("计划达成率");strList.add("单据状态");
- 	 			strList.add("报工");strList.add("检验差异");strList.add("应出勤人数");strList.add("实出勤人数");
+ 	 			strList.add("报工");strList.add("检验差异");strList.add("应出勤人数");strList.add("实出勤人数");strList.add("生产时间");
  	 			strarry =  strList.toArray( new String[0] );
  			}else{
  	 			strarry = new String[]{
- 	 	 				"单元","班组","主任","副主任","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废",
+ 	 	 				"单元","班组","主任","副主任","部长","副总","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废",
  	 	 				"接/零头","接/零头/返","入库","交/零头","交/零头/返","返修发货","返修收货","生产数","一次合格率","投入汇总","产出汇总","差异"
- 	 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数"
+ 	 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间"
  	 	 		};
  	 		}
  		}else{
  			strarry = new String[]{
- 	 				"单元","班组","主任","副主任","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废","接/零头","接/零头/返","入库","交/零头","交/零头/返","返修发货","返修收货","生产数","一次合格率","投入汇总","产出汇总","差异"
- 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数"
+ 	 				"单元","班组","主任","副主任","部长","副总","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废","接/零头","接/零头/返","入库","交/零头","交/零头/返","返修发货","返修收货","生产数","一次合格率","投入汇总","产出汇总","差异"
+ 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间"
  	 		};
  		}
  		List<String[]> body = new ArrayList<String[]>();

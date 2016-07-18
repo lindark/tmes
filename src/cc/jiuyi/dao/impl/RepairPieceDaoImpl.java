@@ -148,4 +148,11 @@ public class RepairPieceDaoImpl extends BaseDaoImpl<RepairPiece, String> impleme
 		
 		return query.list();
 	}
+
+
+	@Override
+	public Object sumAmount(String wdid, String wicode) {
+		String sql = "SELECT ROUND(SUM(RPE.RPCOUNT),3) FROM REPAIRPIECE RPE ,(SELECT ID FROM REPAIR  WHERE WORKINGBILL_ID='"+wdid+"' AND STATE='1') RP WHERE RPE.REPAIR_ID=RP.ID AND RPE.RPCODE='"+wicode+"'";
+		return (Object) getSession().createSQLQuery(sql).uniqueResult();
+	}
 }

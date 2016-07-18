@@ -130,4 +130,10 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 		String hql = "select u from UnitConversion u where u.matnr=? and u.unitCode=?";
 		return (UnitConversion) getSession().createQuery(hql).setParameter(0, matnr).setParameter(1, unitCode).uniqueResult();
 	}
+
+	@Override
+	public Object sumAmount(String matnr) {
+		String sql = "SELECT ROUND(1/C.RD,2) RO FROM (SELECT (CASE WHEN TO_NUMBER(CONVERSATIONRATIO) >0 THEN CONVERSATIONRATIO ELSE 1 END) RD  FROM UNITCONVERSION WHERE MATNR='"+matnr+"') C";
+		return (Object)getSession().createSQLQuery(sql).uniqueResult();
+	}
 }

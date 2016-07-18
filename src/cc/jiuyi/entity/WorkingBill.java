@@ -50,6 +50,10 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String moudle;//模具组号
 	private Set<UnitdistributeModel> unitdistributemodelSet;//分配磨具
 	private String shift;
+	private String zhuren;//主任
+	private String fuzhuren;//副主任
+	private String minister;//部长
+	private String deputy;//副总
 	
 	private Team team;//班组
 	private String teamName;//班组
@@ -554,6 +558,30 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
+	public String getZhuren() {
+		return zhuren;
+	}
+	public void setZhuren(String zhuren) {
+		this.zhuren = zhuren;
+	}
+	public String getFuzhuren() {
+		return fuzhuren;
+	}
+	public void setFuzhuren(String fuzhuren) {
+		this.fuzhuren = fuzhuren;
+	}
+	public String getMinister() {
+		return minister;
+	}
+	public void setMinister(String minister) {
+		this.minister = minister;
+	}
+	public String getDeputy() {
+		return deputy;
+	}
+	public void setDeputy(String deputy) {
+		this.deputy = deputy;
+	}
 
-
+	
 }

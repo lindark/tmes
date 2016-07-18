@@ -97,11 +97,11 @@ public class AdminAction extends BaseAdminAction {
 	private String[] strlen = {"workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 			"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","productDate","shift","aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
 			"trzsl","cczsl","slcy","jhdcl","matnr","maktx","materialName","totalAmount","isHand","jycl","xFactoryUnit","teamCode","teamName","bulkProductMount",
-			"needAttendance","actulAttendance","zhuren","fuzhuren"};
+			"needAttendance","actulAttendance","zhuren","fuzhuren","minister","deputy","workHours"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接上班零头数","接上班异常零头数","领用数","倍数","入库数",
 			"交下班零头数","组件报废数","成型异常表面维修数","成型维修返回数","生产日期","班次","生产订单号","单位用量","当班检验合格数","交下班异常零头数","一次合格率",
 			"投入总数量","产出总数量","数量差异","计划达成率","物料编码","物料描述","组件描述","当班报工数","单据状态","校验差异","单元","班组编码","班组名称","待包装数量",
-			"应出勤人数","实出勤人数","主任","副主任"};
+			"应出勤人数","实出勤人数","主任","副主任","部长","副总","工作小时"};
 
 	private String loginUsername;
 	private String parentId; 
@@ -390,7 +390,6 @@ public class AdminAction extends BaseAdminAction {
 		//String path = getRequest().getSession().getServletContext().getRealPath("");//获取路径
 		//OneBarcodeUtil.createCode("我就测试一下", path);
 		/**weitao end**/
-	
 	}
 	public String findWorkingBill(){
 		try {
@@ -1076,6 +1075,7 @@ public class AdminAction extends BaseAdminAction {
 				pager.setGroupOp(pager1.getGroupOp());
 			}
 			
+			boolean isName = false;
 			if (pager.is_search() == true && Param != null) {// 普通搜索功能
 				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 				JSONObject obj = JSONObject.fromObject(Param);
@@ -1083,6 +1083,7 @@ public class AdminAction extends BaseAdminAction {
 					System.out.println("obj=" + obj);
 					String adminName = obj.getString("adminName").toString();
 					map.put("adminName", adminName);
+					isName = true;
 				}
 				if (obj.get("adminDeptName") != null) {
 					String adminDeptName = obj.getString("adminDeptName").toString();
@@ -1090,7 +1091,7 @@ public class AdminAction extends BaseAdminAction {
 				}
 								
 			}
-			if(departid != null){
+			if(departid != null && isName ==false){
 				map.put("departid", departid);
 			}
 			
@@ -1385,35 +1386,38 @@ public class AdminAction extends BaseAdminAction {
 			}
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
+		boolean isName = false;
 		if(pager.is_search() == true && Param != null)
 		{
 			JSONObject obj = JSONObject.fromObject(Param);
-			//工号
-			if (obj.get("workNumber") != null)
-			{
-				String workNumber = obj.getString("workNumber").toString();
-				map.put("workNumber", workNumber);
-			}
 			//姓名
 			if (obj.get("name") != null)
 			{
 				String name = obj.getString("name").toString();
 				map.put("name", name);
-			}
-			//部门
-			if (obj.get("dept") != null)
-			{
-				String dept = obj.getString("dept").toString();
-				map.put("dept", dept);
-			}
-			//是否离职
-			if (obj.get("islizhi") != null)
-			{
-				String islizhi = obj.getString("islizhi").toString();
-				map.put("islizhi", islizhi);
+				isName = true;
+			}else{
+				//工号
+				if (obj.get("workNumber") != null)
+				{
+					String workNumber = obj.getString("workNumber").toString();
+					map.put("workNumber", workNumber);
+				}
+				//部门
+				if (obj.get("dept") != null)
+				{
+					String dept = obj.getString("dept").toString();
+					map.put("dept", dept);
+				}
+				//是否离职
+				if (obj.get("islizhi") != null)
+				{
+					String islizhi = obj.getString("islizhi").toString();
+					map.put("islizhi", islizhi);
+				}
 			}
 		}
-		pager = adminService.getAllEmp(pager,map,deptid,1);
+		pager = adminService.getAllEmp(pager,map,deptid,1,isName);
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin> newlist=getNewAdminList(pagerlist);

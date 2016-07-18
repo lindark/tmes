@@ -453,7 +453,7 @@
 															</td>
 															<td >${list.matnr}</td>
 															<td >${list.workingBillCode}</td>
-															<td >${(list.module)!}副主任</td>
+															<td >${(list.module)!}</td>
 															<td>
 																<#if list.isHand=="Y">
 																	是

@@ -20,4 +20,7 @@ public interface ProcessHandoverDao extends BaseDao<ProcessHandover, String> {
 	public Pager jqGrid(Pager pager,Admin admin);
 	
 //	public List<ProcessHandover> getProcessHandoverList(String[] propertyNames,String[] propertyValues);
+	
+	public Object[] sumAmount(String workingBillCode,String type);
+	public Object[] sumSonAmount(String processid,String wbid,String matnr,String wicode,String type);
 }

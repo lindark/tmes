@@ -39,4 +39,8 @@ public interface WorkingInoutDao extends BaseDao<WorkingInout,String> {
 	public List<WorkingInout> newFindPagerByWorkingBillInout(HashMap<String, String> map) ;
 	
 	public Pager listjqGrid(Pager pager, HashMap<String, String> map);
+	
+	public List<String[]> sumAmount(String unit,String aufnr,String start,String end,List<String[]> processList);
+	public List<String[]> sumAmountSY(HashMap<String,List<String>> map);
+	public List<String[]> findProcess();
 }

@@ -85,6 +85,7 @@ public class KaoqinAction extends BaseAdminAction {
 	private List<UnitdistributeProduct> unitProductList=new ArrayList<UnitdistributeProduct>();
 
 	private String workNumber;
+	private String workHours;
 	private String xFactoryUnit;
 	/**
 	 * service接口
@@ -377,6 +378,10 @@ public class KaoqinAction extends BaseAdminAction {
 		
 		//this.list_station=this.stationService.getStationsByPostid(admin.getPost().getId());
 		//this.list_station=this.stationService.getAll();
+		List<TempKaoqin> needTempKaoqinList = tkqService.getToWorkList(admin.getProductDate(), admin.getShift(),"",t);//应出勤人数
+		if(needTempKaoqinList.size()>0&&needTempKaoqinList.get(0).getWorkHours()!=null){
+			workHours = needTempKaoqinList.get(0).getWorkHours();
+		}
 		return LIST;
 	}
 
@@ -1060,6 +1065,14 @@ public class KaoqinAction extends BaseAdminAction {
 
 	public void setUnitProductList(List<UnitdistributeProduct> unitProductList) {
 		this.unitProductList = unitProductList;
+	}
+
+	public String getWorkHours() {
+		return workHours;
+	}
+
+	public void setWorkHours(String workHours) {
+		this.workHours = workHours;
 	}
 
 	

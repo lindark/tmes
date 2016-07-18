@@ -71,6 +71,8 @@ jQuery(function($) {
 			{name:'basic',index:'basic',label:"基本", width:100,search:true,editable: true},
 			{name:'fuzhuren',index:'fuzhuren',label:"副主任", width:100,search:true,editable: true},
 			{name:'zhuren',index:'zhuren',label:"主任", width:100,search:true,editable: true},
+			{name:'minister',index:'minister',label:"部长", width:100,search:true,editable: true},
+			{name:'deputy',index:'deputy',label:"副总", width:100,search:true,editable: true},
 			{name:'xfactoryUnitName',index:'factoryUnit.factoryUnitName',label:"单元名称",width:100,editable: true},
 			{name:'xworkShopName',index:'factoryUnit.workShop.workShopName',label:"车间名称",width:100,editable: true},
 			{name:'xfactoryName',index:'factoryUnit.workShop.factory.factoryName',label:"工厂名称",width:100,editable: true},

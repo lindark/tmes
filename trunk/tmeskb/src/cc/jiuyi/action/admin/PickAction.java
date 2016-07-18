@@ -462,6 +462,7 @@ public class PickAction extends BaseAdminAction {
 		}
 		
 		List<PickDetail> pickdetailList = new ArrayList<PickDetail>();
+		List<Pick> pickList = new ArrayList<Pick>();
 		for (int i = 0; i < list.size(); i++) {
 			Pick pick = list.get(i);
 			pickId = pick.getId();
@@ -474,6 +475,7 @@ public class PickAction extends BaseAdminAction {
 			if(pick.getEx_mblnr() != null && !"".equals(pick.getEx_mblnr())){
 				continue;
 			}
+			pickList.add(pick);
 			pkList = pickDetailService.getPickDetail(pickId);
 			for (int j = 0; j < pkList.size(); j++) {
 				PickDetail pickDetail = pkList.get(j);
@@ -483,7 +485,7 @@ public class PickAction extends BaseAdminAction {
 		}
 		
 			Boolean flag = true;
-			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", list,
+			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList,
 					pickdetailList);
 			for (Pick pick2 : pickRfc) {
 				if(pick2.getEx_mblnr()!=null && !"".equals(pick2.getEx_mblnr())){
@@ -500,7 +502,7 @@ public class PickAction extends BaseAdminAction {
 			else {
 				flag = true;
 				List <Pick> pickRfclist = new ArrayList<Pick>();
-				pickRfclist = pickRfcImple.BatchMaterialDocumentCrt("", list,
+				pickRfclist = pickRfcImple.BatchMaterialDocumentCrt("", pickList,
 						pickdetailList);
 				for (Pick pick2 : pickRfclist) {
 					String e_type = pick2.getE_type();

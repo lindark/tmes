@@ -98,15 +98,11 @@
 												<div class="profile-user-info profile-user-info-striped">
 													<div class="profile-info-row">
 														<div class="profile-info-name">工厂</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="username">${(admin.team.factoryUnit.workShop.factory.factoryName)!}</span>
 														</div>
-													</div>
-
-													<div class="profile-info-row">
+														
 														<div class="profile-info-name">车间</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="username">${(admin.team.factoryUnit.workShop.workShopName)!}</span>
 														</div>
@@ -114,29 +110,47 @@
 
 													<div class="profile-info-row">
 														<div class="profile-info-name">单元</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.team.factoryUnit.factoryUnitName)!}</span>
 														</div>
-													</div>
-
-													<div class="profile-info-row">
+														
 														<div class="profile-info-name">班次</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.xshift)!}</span>
 															&nbsp;&nbsp; <span class="editable editable-click"
 																id="age">${(admin.team.classSys)!}</span> &nbsp;&nbsp; <span
 																class="editable editable-click" id="age">${(admin.team.basic)!}</span>
+															<input type="hidden" id="classtime" value="${admin.shift}" />
 														</div>
 													</div>
+													
 													<div class="profile-info-row">
 														<div class="profile-info-name">生产日期</div>
-
 														<div class="profile-info-value">
 															<span class="editable editable-click" id="age">${(admin.productDate)!}</span>
+															<input type="hidden" id="productDate" value="${admin.productDate}" />
 														</div>
 													</div>
+													
+													<div class="profile-info-row">
+														<div class="profile-info-name">班组</div>
+														<div class="profile-info-value">
+															<span class="editable editable-click" id="age">${(admin.team.teamName)!}</span>
+															<input type="hidden" id="teamid" value="${admin.team.id}" />
+														</div>
+													</div>
+													
+													<div class="profile-info-row">
+													<div class="profile-info-name">工作小时</div>
+													<div class="profile-info-value">
+														<select id="workHours" class="formText {required: true}">
+														<option></option>
+														<option value="1" <#if (workHours == 1)!> selected</#if>>4</option>
+														<option value="2" <#if (workHours == 2)!> selected</#if>>8</option> 
+														<option value="3" <#if (workHours == 3)!> selected</#if>>12</option>
+														</select>&nbsp;&nbsp;&nbsp; <button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>	
+													</div>
+												</div>
 												</div>
 											</div>
 										</div>

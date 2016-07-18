@@ -608,22 +608,7 @@
 
 								<b class="arrow"></b>
 							</li>
-							<li class="#" ">
-								<a href="scrap_message!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									报废记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							<li class="#" ">
-								<a href="scrap_later!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									报废产出记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
+							
 							<li class="">
 								<a href="enteringware_house!history.action" > 
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -696,17 +681,6 @@
 								<b class="arrow"></b>
 							</li>
 							
-							
-							<li class="">
-								<a href="rework!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									返工记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							
-							
 							<li class="" >
 								<a href="up_down!history.action?isud=UD">
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -725,33 +699,6 @@
 								<b class="arrow"></b>
 							</li>
 							
-							
-							<li class="" >
-								<a href="sample!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									抽检记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							
-							<li class="" >
-								<a href="itermediate_test!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									半成品巡检记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							
-							<li class="" >
-								<a href="pollingtest!history.action">
-									<i class="menu-icon fa fa-caret-right"></i>
-									成品巡检记录
-								</a>
-
-								<b class="arrow"></b>
-							</li>
 						</ul>
 					</li>
 					<li class="">
@@ -805,6 +752,7 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
+						<!--
 							<li class="">
 								<a href="#" >
 									<i class="menu-icon fa fa-caret-right"></i>
@@ -829,12 +777,67 @@
 
 								<b class="arrow"></b>
 							</li>
+							 
 							<li class="">
 								<a href="#" >
 									<i class="menu-icon fa fa-caret-right"></i>
 									返工记录
 								</a>
 
+								<b class="arrow"></b>
+							</li>	-->
+							
+							<li class="#" ">
+								<a href="scrap_message!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									报废记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="#" ">
+								<a href="scrap_later!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									报废产出记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="">
+								<a href="rework!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									返工记录
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="sample!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									抽检记录
+								</a>
+	
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="itermediate_test!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									半成品巡检记录
+								</a>
+	
+								<b class="arrow"></b>
+							</li>
+							
+							<li class="" >
+								<a href="pollingtest!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									成品巡检记录
+								</a>
+	
 								<b class="arrow"></b>
 							</li>
 						</ul>

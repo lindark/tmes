@@ -398,15 +398,19 @@
 												<table class="table table-bordered table-striped" id="table00">
 													<thead class="thin-border-bottom">
 														<tr>
-															<th><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															<th style="width:30%"><i class="ace-icon fa fa-caret-right blue"></i>产品名称
 															</th>
 															<th class="hidden-480"><i
 																class="ace-icon fa fa-caret-right blue"></i>班组</th>
 															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>副主任</th>
+															<th class="hidden-480"><i
+																class="ace-icon fa fa-caret-right blue"></i>主任</th>
+															<th class="hidden-480" style="width:6%"><i
 																class="ace-icon fa fa-caret-right blue"></i>计划数量</th>
-															<th class="hidden-480"><i
+															<th class="hidden-480" style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
-															<th class="hidden-480"><i
+															<th class="hidden-480" style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>随工单编号</th>
 																<th class="hidden-480" ><i
 																class="ace-icon fa fa-caret-right blue"></i>模具</th>
@@ -421,13 +425,33 @@
 														<input type="hidden" value="${info}" id="info">
 														<#list workingbillList as list>
 														<tr>
+															<#if !list.moudle ??>
 															<td><input type="checkbox" class="ckbox"
 																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
 																<a href="javascript:void(0);" class="a matkx" <#if list.diffamount??>style="color:red"</#if>>${list.maktx}</a>&nbsp;&nbsp;
 																<a href="javascript:void(0);" class="a moudle" <#if list.moudle=="">style="color:red"</#if>>[添加模具组号]</a>&nbsp;&nbsp;${(list.moudle)!}
 															</td>
+															<#else>
+															<td><input type="checkbox" class="ckbox"
+																name="WorkingBill.workingBillCode" value="${list.id}" />&nbsp;
+																<a href="javascript:void(0);" class="a matkx" <#if list.diffamount??>style="color:red"</#if>>${list.maktx}</a>&nbsp;&nbsp;
+																<a href="javascript:void(0);" class="a moudle" <#if list.moudle=="">style="color:red"</#if>>${(list.moudle)!}</a>&nbsp;&nbsp;
+															</td>
+															</#if>
+															<#if !list.teamName ??>
 															<td class="hidden-480">
-															<a href="javascript:void(0);" class="a teamName" >[添加班组]</a>&nbsp;<span>${(list.teamName)!}</span>
+															<a href="javascript:void(0);" class="a teamName" >[添加班组]</a>&nbsp;
+															</td>
+															<#else>
+															<td class="hidden-480">
+															<a href="javascript:void(0);" class="a teamName" >${(list.teamName)!}</a>&nbsp;
+															</td>
+															</#if>
+															<td class="hidden-480">
+															<a href="javascript:void(0);" class="a fuzhuren" >${(list.fuzhuren)!}</a>&nbsp;
+															</td>
+															<td class="hidden-480">
+															<a href="javascript:void(0);" class="a zhuren" >${(list.zhuren)!}</a>&nbsp;
 															</td>
 															<td class="hidden-480"><b class="green">${list.planCount}</b>
 															</td>
@@ -534,7 +558,16 @@
 		        		dataType:"json",
 		        		success:function(data){
 		        			if(data.status=="success"){
-		        				t.next().text(teamName);
+		        				var zhuren = data.zhuren;
+		        				var fuzhuren = data.fuzhuren;
+		        				var isNotSelect = data.isNotSelect;
+		        				if(isNotSelect == 1){
+		        					t.text("[添加班组]");
+		        				}else{
+		        					t.text(teamName);
+		        				}
+		        				t.parent().next().children().text(fuzhuren);
+		        				t.parent().next().next().children().text(zhuren);
 		        			}else{
 		        				alert(data.message);
 		        			}
@@ -555,6 +588,66 @@
 			return false;
 		}
 	});
+	$(".fuzhuren").click(function(){
+		var t = $(this);
+		var wbid = t.parent().parent().find(".ckbox").val();
+		var mark = 1;
+		PersonSelect(t,wbid,mark);
+	});
+	$(".zhuren").click(function(){
+		var t = $(this);
+		var wbid = t.parent().parent().find(".ckbox").val();
+		var mark = 0;
+		PersonSelect(t,wbid,mark);
+	});
+	function PersonSelect(t,wbid,mark){
+		layer.open({
+	        type: 2,
+	        skin: 'layui-layer-lan',
+	        shift:2,
+	        title: "选择人员",
+	        fix: true,
+	        shade: 0.5,
+	        shadeClose: true,
+	        maxmin: true,
+	        scrollbar: false,
+	        btn:['确认','取消'],
+	        area: ["40%", "50%"],//弹出框的高度，宽度
+	        content:"process_handover!browser.action",
+	        yes:function(index,layero){//确定
+	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
+	        	var work=iframeWin.getGridId();
+	    		var id=work.split(",");
+	    		var empid=id[0];
+	        	var emp_name=id[1];
+	    		$.ajax({
+	        		url:"working_bill!updatePerson.action",
+	        		data:{"wbid":wbid,"mark":mark,"empid":empid},
+	        		dataType:"json",
+	        		success:function(data){
+	        			if(data.status=="success"){
+	        				var zhuren = data.zhuren;
+	        				var fuzhuren = data.fuzhuren;
+	        				t.text(emp_name);
+	        			}else{
+	        				alert(data.message);
+	        			}
+	        		},
+	        		error:function(){
+	        			alert("添加失败");
+	        		}
+	        	});
+	    		
+	            layer.close(index);
+	        	return false;
+	        },
+	        no:function(index){
+	        	layer.close(index);
+	        	return false;
+	        }
+	    });
+		return false;
+	}
 	</script>
 </body>
 </html>

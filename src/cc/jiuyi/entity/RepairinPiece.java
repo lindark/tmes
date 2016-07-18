@@ -18,7 +18,7 @@ public class RepairinPiece extends BaseEntity
 	private String rpname;//物料名称
 	private Double productnum;//产品数量
 	private Double piecenum;//组件数量
-	private String rpcount;//组件总数量
+	private Double rpcount;//组件总数量
 	private String ITEM_TEXT;//项目文本
 	private Repairin repairin;//主表
 	private String CHARG;//批次
@@ -38,11 +38,11 @@ public class RepairinPiece extends BaseEntity
 	{
 		this.rpname = rpname;
 	}
-	public String getRpcount()
+	public Double getRpcount()
 	{
 		return rpcount;
 	}
-	public void setRpcount(String rpcount)
+	public void setRpcount(Double rpcount)
 	{
 		this.rpcount = rpcount;
 	}

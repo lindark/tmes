@@ -117,6 +117,22 @@ public class MaterialServiceImpl extends BaseServiceImpl<Material, String>implem
 		return this.materialDao.getByCode(code,factoryunit);
 	}
 
+	/**
+	 * 根据物料id查询是否存在
+	 */
+	public boolean getByCode(String code)
+	{
+		return this.materialDao.getByCode(code);
+	}
+
+
+	/**
+	 * 根据物料编码查询
+	 */
+	public Material getByNum(String materialCode)
+	{
+		return this.materialDao.getByNum(materialCode);
+	}
 
 	/**
 	 * 根据物料编码查询

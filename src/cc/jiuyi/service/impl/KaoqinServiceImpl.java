@@ -531,4 +531,8 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			String factoryUnitCode, String workState) {
 		return this.kqDao.getWorkNumList(productDate, shift, factoryUnitCode, workState);
 	}
+	
+	public void updateWorkHours(String workHours,String productdate,String classtime,Team team){
+		this.kqDao.updateWorkHours(workHours,productdate,classtime,team);
+	}
 }

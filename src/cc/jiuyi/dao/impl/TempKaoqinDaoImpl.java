@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -194,9 +195,20 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 		}
 	}
 	
-	 public List<TempKaoqin> updateWorkHours(String workHours,String productdate,String classtime,Team team){
-		 String hql = "update TempKaoqin kaoqin set kaoqin.workHours=? where kaoqin.productdate=? and kaoqin.classtime=? and kaoqin.team=?";
-		 return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate)
-				 .setParameter(2, classtime).setParameter(3, team).list();
+	 public void updateWorkHours(String workHours,String productdate,String classtime,Team team){
+		 String hql = "update TempKaoqin set workHours=? where productdate=? and classtime=? and team=?";
+		 this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate).setParameter(2, classtime).setParameter(3, team).executeUpdate();
 	 }
+	 
+	 public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team){
+			if(workState.equals("")){
+				String hql = "from TempKaoqin where productdate=? and classtime=? and team =?";
+				return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+						.setParameter(2, team).list();
+			}else{
+				String hql = "from TempKaoqin where productdate=? and classtime=? and workState=? and team =?";
+				return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+						.setParameter(2, workState).setParameter(3, team).list();
+			}
+		}
 }

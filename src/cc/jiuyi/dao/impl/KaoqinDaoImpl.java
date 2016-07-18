@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Team;
 
 /**
  * 考勤
@@ -229,4 +230,9 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 		return (List<Kaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
 				.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
 	}
+	
+	public void updateWorkHours(String workHours,String productdate,String classtime,Team team){
+		 String hql = "update Kaoqin set workHours=? where productdate=? and classtime=? and team=?";
+		 this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate).setParameter(2, classtime).setParameter(3, team).executeUpdate();
+	 }
 }

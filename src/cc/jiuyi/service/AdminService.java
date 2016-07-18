@@ -162,6 +162,16 @@ public interface AdminService extends BaseService<Admin, String> {
 	 * @return
 	 */
 	public Pager getAllEmp(Pager pager,HashMap<String, String> map, String deptid,int my_id);
+	
+	/**
+	 * 
+	 * @param pager
+	 * @param deptid 
+	 * @param map
+	 * @param my_id 1:查询所有  2:查询已维护过登录等权限的人员  3:查询未维护过的人员
+	 * @return
+	 */
+	public Pager getAllEmp(Pager pager,HashMap<String, String> map, String deptid,int my_id,boolean isName);
 
 	/**
 	 * 查询所有未离职的,已启用的员工

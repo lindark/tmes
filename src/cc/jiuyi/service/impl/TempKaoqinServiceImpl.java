@@ -666,7 +666,6 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			String factoryUnitCode, String workState,Team team) {
 		return tempKqDao.getToWorkList(productDate, shift, factoryUnitCode, workState,team);
 	}
-	
 	public void updateWorkHours(String workHours,String productdate,String classtime,Team team){
 		tempKqDao.updateWorkHours(workHours,productdate,classtime,team);
 	}
@@ -674,5 +673,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	@Override
 	public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team) {
 		return tempKqDao.getToWorkList(productDate, shift, workState,team);
+	}
+	public Object[] sumAmount(String productDate, String shift,String workState,String teamid){
+		return tempKqDao.sumAmount(productDate, shift, workState, teamid);
 	}
 }

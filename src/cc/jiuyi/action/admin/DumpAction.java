@@ -66,7 +66,7 @@ public class DumpAction extends BaseAdminAction {
 	private String isRecord;
 	private List<Material>list_material;
 	private FactoryUnit factoryunit;//单元
-	private List<FactoryUnit> factoryunitList;//单元
+	private List<FactoryUnit> factoryUnitList;//单元list
 	private String materialcode;//物料编码
 	private List<HashMap<String,String>>list_map;
 	private List<HashMap<String,String>>list_ddmap;
@@ -80,7 +80,7 @@ public class DumpAction extends BaseAdminAction {
 	private String materialCode;
 	private String end;
 	private String start;
-
+	
 	@Resource
 	private TempKaoqinService tempKaoqinService;
 	@Resource
@@ -523,9 +523,11 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		factoryunit=this.fuservice.getById(ip);
+//		factoryunit=this.fuservice.getById(ip);
+		factoryUnitList = this.fuservice.getByIds(ip);
 		list_map=new ArrayList<HashMap<String,String>>();
-		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
+//		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
+		list_map=this.dumpService.getMengeByConditions(emp,factoryUnitList);
 		return "all";
 	}
 	
@@ -602,7 +604,7 @@ public class DumpAction extends BaseAdminAction {
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
 		//factoryunit=this.fuservice.getById("192.168.40.40");// 
-		factoryunitList=this.fuservice.getByIds(ip);
+		factoryUnitList=this.fuservice.getByIds(ip);
 		
 		//测试时使用
 		//admin=adminService.getLoginAdmin();
@@ -612,9 +614,17 @@ public class DumpAction extends BaseAdminAction {
 		//System.out.println(ip);
 		
 		//根据单元获取物料
-		if(factoryunit!=null)
+		if(factoryUnitList!=null)
 		{
-			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
+//			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
+			list_material=new ArrayList<Material>();
+			for(int i=0;i<factoryUnitList.size();i++){
+				FactoryUnit factoryUnit = factoryUnitList.get(i);
+				Set<Material> materialSet = factoryUnit.getMaterialSet();
+				for(Material m:materialSet){
+					list_material.add(m);
+				}
+			}
 		}
 		return "entry";
 	}
@@ -907,6 +917,27 @@ public class DumpAction extends BaseAdminAction {
 		return mlist;
 	}
 	
+	public String ajGetFactoryUnit(){
+		factoryunit = fuservice.get(fuid);
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		if(factoryunit!=null&&!factoryunit.equals("")){
+			String psaddress = factoryunit.getPsaddress();
+			String psaddressdes = factoryunit.getPsaddressdes();
+			String warehouse = factoryunit.getWarehouse();
+			jsonMap.put("psaddress", psaddress);
+			jsonMap.put("psaddressdes", psaddressdes);
+			jsonMap.put("warehouse", warehouse);
+		}else{
+			jsonMap.put("psaddress", "");
+			jsonMap.put("psaddressdes", "");
+			jsonMap.put("warehouse", "");
+		}
+		jsonMap.put(STATUS, SUCCESS);
+		jsonMap.put(MESSAGE, "保存成功");
+		JSONObject jsonObject = JSONObject.fromObject(jsonMap);
+		return ajax(jsonObject.toString(), "text/html");
+	}
+	
 	/**============================================*/
 	
 	public Dump getDump() {
@@ -1145,13 +1176,12 @@ public class DumpAction extends BaseAdminAction {
 		this.start = start;
 	}
 
-	public List<FactoryUnit> getFactoryunitList() {
-		return factoryunitList;
+	public List<FactoryUnit> getFactoryUnitList() {
+		return factoryUnitList;
 	}
 
-	public void setFactoryunitList(List<FactoryUnit> factoryunitList) {
-		this.factoryunitList = factoryunitList;
-	}
-	
+	public void setFactoryUnitList(List<FactoryUnit> factoryUnitList) {
+		this.factoryUnitList = factoryUnitList;
+	}	
 	
 }

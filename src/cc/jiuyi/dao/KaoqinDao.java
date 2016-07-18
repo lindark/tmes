@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Team;
 
 /**
  * 考勤
@@ -50,4 +51,6 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
     public List<Kaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
+    
+    public void updateWorkHours(String workHours,String productdate,String classtime,Team team);
 }

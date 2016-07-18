@@ -6,6 +6,7 @@ import java.util.List;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Kaoqin;
+import cc.jiuyi.entity.Team;
 
 
 /**
@@ -97,4 +98,6 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
     
     public List<Kaoqin> getWorkNumList(String productDate, String shift,
 			String factoryUnitCode, String workState);
+    
+    public void updateWorkHours(String workHours,String productdate,String classtime,Team team);
 }

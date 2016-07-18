@@ -64,4 +64,7 @@ public interface BomDao extends BaseDao<Bom, String> {
 	/*根据组件编码获取组件名称
 	 * */
 	public String getMaterialName(String materialCode);
+	
+	
+	public Object sumAmount(String aufnr,String productDate,String materialCode,String workingBillCode,String shift,String type);
 }

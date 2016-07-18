@@ -17,4 +17,6 @@ public interface RepairPieceDao extends BaseDao<RepairPiece, String>
     public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
 	public List<Object[]> historyExcelExport(HashMap<String,String> map);
+	
+	public Object sumAmount(String wdid,String wicode);
 }

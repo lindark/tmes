@@ -47,4 +47,6 @@ public interface UnitConversionDao extends BaseDao<UnitConversion, String> {
 	
 	/*根据物料编码查询对应比例*/
 	public UnitConversion getRatioByMatnr(String matnr,String unitCode);
+	
+	public Object sumAmount(String matnr);
 }

@@ -50,4 +50,6 @@ public interface PickDetailDao extends BaseDao<PickDetail,String> {
 	 * @return
 	 */
 	public List<PickDetail> finddetailByapp(String workingbillid,String state);
+	
+	public Object[] sumAmount(String wbid,String pkstate ,String wicode);
 }

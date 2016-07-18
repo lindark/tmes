@@ -9,5 +9,5 @@ import cc.jiuyi.entity.RepairinPiece;
  */
 public interface RepairinPieceDao extends BaseDao<RepairinPiece, String>
 {
-
+	public Object[] sumAmount(String wdid,String wicode);
 }

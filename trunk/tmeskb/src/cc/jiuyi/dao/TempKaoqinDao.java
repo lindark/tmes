@@ -57,4 +57,6 @@ public interface TempKaoqinDao extends BaseDao<TempKaoqin, String>
     public void updateWorkHours(String workHours,String productdate,String classtime,Team team);
     
     public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team);
+    
+    public Object[] sumAmount(String productDate, String shift,String workState,String teamid);
 }

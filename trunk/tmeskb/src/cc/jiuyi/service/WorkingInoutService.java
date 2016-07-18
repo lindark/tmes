@@ -48,4 +48,7 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 
 	//public List<WorkingInout> findWbinoutput(String wbid);
 	public JSONArray findInoutByJsonData3(JSONArray jsonarray,HashMap<String,String> mapcheck,String[] strlen);
+	public List<String[]> sumAmount(String unit,String aufnr,String start,String end,List<String[]> processList);
+	public List<String[]> sumAmountSY(HashMap<String,List<String>> map);
+	public List<String[]> findProcess();
 }

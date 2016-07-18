@@ -45,5 +45,8 @@ public interface UnitConversionService extends BaseService<UnitConversion, Strin
 	public UnitConversion getRatioByMatnr(String matnr,String unitCode);
 	
 	public void saveorupdate(List<UnitConversion> unitConversionList);
+	
+	public Object sumAmount(String matnr);
+	
 
 }

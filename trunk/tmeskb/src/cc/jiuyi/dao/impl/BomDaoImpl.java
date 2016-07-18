@@ -217,4 +217,20 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 		String hql="from Bom where orders.aufnr = ? and version = ? and isDel='N' ";
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, maxversion).list();
 	}
+
+	@Override
+	public Object sumAmount(String aufnr, String productDate,
+			String materialCode, String workingBillCode,String shift,String type) {
+		String sql = "";
+		if("0".equals(type)){
+			sql = "SELECT TRUNC(SUM(BM.MATERIALAMOUNT),3) FROM BOM BM,(SELECT MAX(B. VERSION) V,ORD.ID FROM BOM B,(SELECT ID FROM ORDERS WHERE AUFNR = '"+aufnr+"') ORD "
+					+ " WHERE B.ORDERS_ID = ORD. ID AND B.ISDEL = 'N' AND B.MATERIALCODE = '"+materialCode+"' GROUP BY ORD.ID) BR"+
+				" WHERE VERSION = BR.V AND ORDERS_ID = BR. ID AND BM.ISDEL='N' AND BM.MATERIALCODE = '"+materialCode+"' AND BM.SHIFT = '"+shift+"'";
+		}else{
+			sql = "SELECT TRUNC(SUM(BM.MATERIALAMOUNT),3) FROM BOM BM,(SELECT MAX(B. VERSION) V,ORD.ID FROM BOM B,(SELECT ID FROM ORDERS WHERE AUFNR = '"+aufnr+"') ORD "
+					+ " WHERE B.ORDERS_ID = ORD. ID AND B.ISDEL = 'N' AND B.MATERIALCODE = '"+materialCode+"' GROUP BY ORD.ID) BR"+
+				" WHERE VERSION = BR.V AND ORDERS_ID = BR. ID AND BM.ISDEL='N' AND BM.MATERIALCODE = '"+materialCode+"'";
+		}
+		return (Object)getSession().createSQLQuery(sql).uniqueResult();
+	}
 }

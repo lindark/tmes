@@ -200,6 +200,14 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 		 this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate).setParameter(2, classtime).setParameter(3, team).executeUpdate();
 	 }
 	 
+	 public Object[] sumAmount(String productDate, String shift,String workState,String teamid){
+		 //String hql = "SELECT COUN(*) FROM TEMPKAOQIN WHERE PRODUCTDATE='"+productDate+"' AND CLASSTIME='"+shift+"' AND TEAM_ID ='"+teamid+"'";
+		 String sql = "SELECT * FROM "
+		 		+ "(SELECT COUNT(*) ALS FROM TEMPKAOQIN WHERE PRODUCTDATE='"+productDate+"' AND CLASSTIME='"+shift+"' AND TEAM_ID ='"+teamid+"' ),"
+		 		+ "(SELECT COUNT(*) AL FROM TEMPKAOQIN WHERE PRODUCTDATE='"+productDate+"' AND CLASSTIME='"+shift+"' AND TEAM_ID ='"+teamid+"' AND WORKSTATE='"+workState+"')";
+		 return (Object[])getSession().createSQLQuery(sql).uniqueResult();
+	 }
+	 
 	 public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team){
 			if(workState.equals("")){
 				String hql = "from TempKaoqin where productdate=? and classtime=? and team =?";

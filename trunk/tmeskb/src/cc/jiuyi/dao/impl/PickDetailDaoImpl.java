@@ -228,5 +228,10 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 		String hql="from PickDetail model where model.pick.workingbill.id = ? and model.pick.state = ?";
 		return getSession().createQuery(hql).setParameter(0, workingbillid).setParameter(1, state).list();
 	}
+	
+	public Object[] sumAmount(String wbid,String pkstate ,String wicode){
+		String sql = "SELECT TRUNC(SUM(CASE WHEN PD.PICKTYPE='261' THEN TO_NUMBER(PD.PICKAMOUNT) ELSE 0 END),3) ,TRUNC(SUM(CASE WHEN PD.PICKTYPE='262' THEN TO_NUMBER(PD.PICKAMOUNT) ELSE 0 END),3) FROM PICKDETAIL PD ,PICK PK WHERE PD.ID='"+wbid+"' AND PD.MATERIALCODE='"+wicode+"' AND PD.PICK_ID=PK.ID AND PK.STATE='"+pkstate+"'";
+		return (Object[])getSession().createSQLQuery(sql).uniqueResult();
+	}
 
 }

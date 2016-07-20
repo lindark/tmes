@@ -443,11 +443,7 @@ public class PickAction extends BaseAdminAction {
 	}
 
 	// 刷卡确认
-	public synchronized String creditapproval() {
-		
-		
-	
-		
+	public String creditapproval() {
 		
 		try {
 		ids = id.split(",");

@@ -171,6 +171,39 @@ public class AbnormalAction extends BaseAdminAction {
         
 		for (int i = 0; i < pagerlist.size(); i++) {//对取到的对象进行重新封装
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
+			String newType = "0";
+			//本单元可见
+			if(abnormal.getState().equals("0") || abnormal.getState().equals("2")){
+				newType = "1";
+			}
+			//本单元本班次可见
+			if(abnormal.getState().equals("3") || abnormal.getState().equals("4")){
+				newType = "2";
+			}
+			if(newType.equals("1")){
+				if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null&&abnormal.getIniitiator()!=null&&
+						abnormal.getIniitiator().getTeam()!=null&&abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
+					if(admin2.getTeam().getFactoryUnit()==abnormal.getIniitiator().getTeam().getFactoryUnit()){
+						continue;
+					}
+				}
+			}
+			if(newType.equals("2")){
+				boolean isSave = true;
+				if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null&&abnormal.getIniitiator()!=null&&
+						abnormal.getIniitiator().getTeam()!=null&&abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
+					if(admin2.getTeam().getFactoryUnit()!=abnormal.getIniitiator().getTeam().getFactoryUnit()){
+						isSave = false;
+					}
+					if(!admin2.getShift().equals(abnormal.getIniitiator().getShift())){
+						isSave = false;
+					}
+					if(isSave == false){
+						continue;
+					}
+				}
+			}
+			
 			List<Admin> adminList = null;
 			
 			//消息处理，消息与异常多对多，将对象描述以字符串的形式进行拼接显示到页面上

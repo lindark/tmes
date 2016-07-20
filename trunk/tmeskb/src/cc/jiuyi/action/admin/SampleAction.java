@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -242,40 +243,69 @@ public class SampleAction extends BaseAdminAction
 		
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
-        header.add("ID");
-        header.add("日期");
-        header.add("产品编号");
-        header.add("产品名称");
+		header.add("单元");
+		header.add("班组名称");
+		header.add("部长");
+		header.add("主任");
+		header.add("副主任");
+		header.add("生产日期");
+		header.add("产品名称");
+		header.add("抽检数量");
+		header.add("合格数量");
+        header.add("合格率");
+        header.add("缺陷明细");
         header.add("抽检人");
         header.add("确认人");
-        header.add("抽检数量");
-        header.add("合格数量");
-        header.add("合格率");
+        header.add("状态");
+        header.add("日期");
+        header.add("产品编号");
         header.add("抽检类型");
 //        header.add("状态");
-        header.add("状态");
+        
         
         List<Object[]> sampleList = sampleService.historyExcelExport(map);
         for (int i = 0; i < sampleList.size(); i++) {
 			Object[] obj = sampleList.get(i);
 			Sample sample = (Sample) obj[0];//oddHandOver
+			Set<SampleRecord> sapmpleRecordSet = sample.getSapmpleRecordSet();
         	WorkingBill workingbill = (WorkingBill)obj[1];//workingbill
-        	
-        	
+        	String factoryName;
+			if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
+				factoryName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+			}else{
+				factoryName = "";
+			}
+			String teamName;
+			if(workingbill.getTeam()!=null){
+				teamName = workingbill.getTeam().getTeamName();
+			}else{
+				teamName = "";
+			}
+        	String defect = "";
+        	for(SampleRecord sampleRecord:sapmpleRecordSet){
+        		defect = defect+sampleRecord.getRecordDescription()+";";
+        	}
+			
 			Object[] bodyval = {
-					sample.getId(),
-					sample.getModifyDate()==null?"":sample.getModifyDate(),
-					workingbill.getMatnr()==null?"":workingbill.getMatnr(),
-					workingbill.getMaktx()==null?"":workingbill.getMaktx(),
+					factoryName,//单元
+					teamName,//班组名称
+					workingbill.getMinister(),//部长
+					workingbill.getZhuren(),//主任
+					workingbill.getFuzhuren(),//副主任
+					workingbill.getProductDate(),//生产日期
+					workingbill.getMaktx()==null?"":workingbill.getMaktx(),//产品名称
+					sample.getSampleNum()==null?"":sample.getSampleNum(),//抽检数量
+					sample.getQulified()==null?"":sample.getQulified(),//合格数量
+					sample.getQulifiedRate()==null?"":sample.getQulifiedRate(),//合格率
+					defect,
 					sample.getSampler()==null?"":sample.getSampler().getName(),
 					sample.getComfirmation()==null?"":sample.getComfirmation().getName(),
-					sample.getSampleNum()==null?"":sample.getSampleNum(),
-					sample.getQulified()==null?"":sample.getQulified(),
-					sample.getQulifiedRate()==null?"":sample.getQulifiedRate(),
+					ThinkWayUtil.getDictValueByDictKey(dictService,"sampleState", sample.getState()),
+					sample.getModifyDate()==null?"":sample.getModifyDate(),
+					workingbill.getMatnr()==null?"":workingbill.getMatnr(),
 					sample.getSampleType()==null?"":sample.getSampleType(),
 //					sample.getState()==null?"":sample.getState(),
-					ThinkWayUtil.getDictValueByDictKey(dictService,
-							"sampleState", sample.getState())};
+					};
 			body.add(bodyval);
 		}
 

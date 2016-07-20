@@ -166,29 +166,70 @@ public class ScrapMessageAction extends BaseAdminAction
 		
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
-        header.add("随工单号");
+		header.add("单元");
+		header.add("班组名称");
+		header.add("部长");
+		header.add("主任");
+		header.add("副主任");
+        header.add("生产日期");
         header.add("产品名称");
-        header.add("产品编码");
-        header.add("物料编码");
         header.add("物料描述");
-        header.add("报废日期");
+        
         header.add("责任划分");
         header.add("报废原因");
+        header.add("报废数量");
+        header.add("责任人");
+        header.add("报废日期");
         header.add("状态");
+        header.add("随工单号");
+        header.add("产品编码");
+        header.add("物料编码");
         
         List<Object[]> workList = scrapMessageService.historyExcelExport(map);
         for(int i=0;i<workList.size();i++){
         	Object[] obj = workList.get(i);
         	ScrapMessage scrapMessage = (ScrapMessage) obj[0];
         	Scrap scrap = (Scrap)obj[1];
-        	
-        	Object[] bodyval = {scrap.getWorkingBill().getWorkingBillCode(),scrap.getWorkingBill().getMaktx(),scrap.getWorkingBill().getMatnr()
-        			            ,scrapMessage.getSmmatterNum(),scrapMessage.getSmmatterDes()
-        						,scrapMessage.getCreateDate()
-        						,ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", scrapMessage.getSmduty())
-        						,scrapMessage.getSmreson()
+        	String factoryUnitName;
+			if(scrap.getWorkingBill()!=null&&scrap.getWorkingBill().getTeam()!=null
+					&&scrap.getWorkingBill().getTeam().getFactoryUnit()!=null){
+				factoryUnitName = scrap.getWorkingBill().getTeam().getFactoryUnit().getFactoryUnitName();
+			}else{
+				factoryUnitName = "";
+			}
+			String[] str = scrapMessage.getSmreson().split(";");
+			String duty = "";
+			for(int j=0;j<str.length;j++){
+				String[] str1 = str[j].split("/",4);
+				duty = duty + str1[str1.length-1] + " ";
+			}
+			String teamName;
+			if(scrap.getWorkingBill()!=null&&scrap.getWorkingBill().getTeam()!=null){
+				teamName = scrap.getWorkingBill().getTeam().getTeamName();
+			}else{
+				teamName = "";
+			}
+        	Object[] bodyval = {
+        			factoryUnitName,//单元
+        			teamName,//班组
+        			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getMinister(),//部长
+        			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getZhuren(),//主任
+        			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getFuzhuren(),//副主任
+        			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getProductDate(),//生产日期
+        			scrap.getWorkingBill().getMaktx(),//产品名称
+        			scrapMessage.getSmmatterDes(),//物料描述
+        			ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", scrapMessage.getSmduty()),//责任划分
+        			scrapMessage.getSmreson(),//报废原因
+        			scrapMessage.getMenge(),//报废数量
+        			duty,//责任人
+        			scrapMessage.getCreateDate(),//报废日期
+        			ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrap.getState()),//状态
+        			scrap.getWorkingBill().getWorkingBillCode(),//随工单号
+        			scrap.getWorkingBill().getMatnr(),//产品编码
+        			scrapMessage.getSmmatterNum()//物料编码
+        			
         						//,dailywork.getCreateDate(),dailywork.getCreateUser()==null?"":dailywork.getCreateUser().getName()
-        						,ThinkWayUtil.getDictValueByDictKey(dictService, "scrapState", scrap.getState())};
+        			};
         	body.add(bodyval);
         }
 		

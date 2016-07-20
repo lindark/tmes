@@ -475,6 +475,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	// excel导出
 	public String excelexport() {
+//		admin = adminService.getLoginAdmin();
+//		admin = adminService.get(admin.getId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("materialName", materialName);
 		map.put("materialCode", materialCode);
@@ -485,10 +487,17 @@ public class ItermediateTestAction extends BaseAdminAction {
 		map.put("xconfirmUser", xconfirmUser);
 		List<String> header = new ArrayList<String>();
 		List<Object[]> body = new ArrayList<Object[]>();
-		header.add("组件编码");
+		header.add("单元");
+		header.add("班组名称");
+		header.add("部长");
+		header.add("主任");
+		header.add("副主任");
+		header.add("生产日期");		
 		header.add("组件名称");
 		header.add("抽检数量");
 		header.add("合格数量");
+		header.add("缺陷明细");
+		header.add("组件编码");
 		header.add("确认人");
 		header.add("创建人");
 		header.add("创建时间");
@@ -503,23 +512,42 @@ public class ItermediateTestAction extends BaseAdminAction {
 			ItermediateTest itermediateTest = (ItermediateTest) obj[1];
 			// Admin confirmUser=(Admin) obj[2];
 			// Admin createUser=(Admin) obj[3];
-
+			String factoryName;
+			if(itermediateTest.getWorkingbill()!=null&&itermediateTest.getWorkingbill().getTeam()!=null
+					&&itermediateTest.getWorkingbill().getTeam().getFactoryUnit()!=null){
+				factoryName = itermediateTest.getWorkingbill().getTeam().getFactoryUnit().getFactoryUnitName();
+			}else{
+				factoryName = "";
+			}
+			String teamName;
+			if(itermediateTest.getWorkingbill()!=null&&itermediateTest.getWorkingbill().getTeam()!=null){
+				teamName = itermediateTest.getWorkingbill().getTeam().getTeamName();
+			}else{
+				teamName = "";
+			}
 			Object[] bodyval = {
-					itermediateTestDetail.getMaterialCode(),
-					itermediateTestDetail.getMaterialName(),
-					(itermediateTestDetail.getTestAmount()).intValue(),
+					factoryName,//单元
+					teamName,//班组名称
+					itermediateTest.getWorkingbill() == null ? "":itermediateTest.getWorkingbill().getMinister(),//部长
+					itermediateTest.getWorkingbill() == null ? "":itermediateTest.getWorkingbill().getZhuren(),//主任
+					itermediateTest.getWorkingbill() == null ? "":itermediateTest.getWorkingbill().getFuzhuren(),//副主任
+					itermediateTest.getWorkingbill() == null ? "":itermediateTest.getWorkingbill().getProductDate(),//生产日期					
+					itermediateTestDetail.getMaterialName(),//组件名称
+					(itermediateTestDetail.getTestAmount()).intValue(),//抽检数量
 					itermediateTestDetail.getFailAmount() == null ? itermediateTestDetail
 							.getTestAmount().intValue() : itermediateTestDetail
 							.getTestAmount().intValue()
-							- itermediateTestDetail.getFailAmount().intValue(),
-					itermediateTest.getConfirmUser() == null ? ""
+							- itermediateTestDetail.getFailAmount().intValue(),//合格数量
+					itermediateTestDetail.getFailReason(),//缺陷明细
+					itermediateTestDetail.getMaterialCode(),//组件编码
+					itermediateTest.getConfirmUser() == null ? ""//确认人
 							: itermediateTest.getConfirmUser().getName(),
-					itermediateTest.getCreateUser() == null ? ""
+					itermediateTest.getCreateUser() == null ? ""//创建人
 							: itermediateTest.getCreateUser().getName(),
-					itermediateTestDetail.getCreateDate(),
-					itermediateTestDetail.getModifyDate(),
+					itermediateTestDetail.getCreateDate(),//创建时间
+					itermediateTestDetail.getModifyDate(),//修改时间
 					ThinkWayUtil.getDictValueByDictKey(dictService,
-							"itermediateTestState", itermediateTest.getState()) };
+							"itermediateTestState", itermediateTest.getState()) };//状态
 			body.add(bodyval);
 		}
 

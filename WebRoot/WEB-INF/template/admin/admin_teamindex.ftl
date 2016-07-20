@@ -398,7 +398,7 @@
 												<table class="table table-bordered table-striped" id="table00">
 													<thead class="thin-border-bottom">
 														<tr>
-															<th style="width:39%"><i class="ace-icon fa fa-caret-right blue"></i>产品名称
+															<th style="width:26%"><i class="ace-icon fa fa-caret-right blue"></i>产品名称
 															</th>
 															<th style="width:12%"><i
 																class="ace-icon fa fa-caret-right blue"></i>班组</th>
@@ -406,6 +406,8 @@
 																class="ace-icon fa fa-caret-right blue"></i>副主任</th>
 															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>主任</th>
+															<th class="hidden-480" style="width:5%"><i
+																class="ace-icon fa fa-caret-right blue"></i>数量</th>
 															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>
 															<th style="width:8%"><i
@@ -446,11 +448,12 @@
 															</td>
 															</#if>
 															<td >
-															<a href="javascript:void(0);" class="a fuzhuren" >${(list.fuzhuren)!}副主任</a>&nbsp;
+															<a href="javascript:void(0);" class="a fuzhuren" >${(list.fuzhuren)!}</a>&nbsp;
 															</td>
 															<td>
-															<a href="javascript:void(0);" class="a zhuren" >${(list.zhuren)!}副主任</a>&nbsp;
+															<a href="javascript:void(0);" class="a zhuren" >${(list.zhuren)!}</a>&nbsp;
 															</td>
+															<td >${list.planCount}</td>
 															<td >${list.matnr}</td>
 															<td >${list.workingBillCode}</td>
 															<td >${(list.module)!}</td>

@@ -197,22 +197,32 @@ public class RepairAction extends BaseAdminAction {
 			
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();
-	        header.add("随工单号");
+			header.add("单元");
+			header.add("班组名称");
+			header.add("部长");
+			header.add("主任");
+			header.add("副主任");
 	        header.add("生产日期");
-	        header.add("产品编码");
 	        header.add("产品名称");
 	        header.add("产品数量");
-	        
+	        header.add("返修部位");
+//	        header.add("责任划分");
+	        header.add("返修数量");
+	        header.add("责任人");
+	        header.add("批次");
+	        header.add("随工单号");
+	        header.add("产品编码");
+	        header.add("物料凭证号");
 /*	        header.add("组件编码");
 	        header.add("组件名称");
 	        header.add("组件数量");
 	        header.add("组件总数量");*/
 	        
-	        header.add("返修部位");
-	        header.add("返修数量");
-	        header.add("责任人");
-	        header.add("批次");
-	        header.add("物料凭证号");
+	        
+	        
+	        
+	        
+	        
 	        
 	        header.add("返修日期");
 	        header.add("创建人");
@@ -225,32 +235,42 @@ public class RepairAction extends BaseAdminAction {
 			RepairPiece repairPiece = (RepairPiece) obj[0];
 			Repair repair = (Repair) obj[1];
 			WorkingBill workingbill = (WorkingBill) obj[2];// workingbill
-
+			String factoryUnitName;
+			if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
+				factoryUnitName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+			}else{
+				factoryUnitName = "";
+			}
 			Object[] bodyval = {
-					workingbill.getWorkingBillCode(),
-					workingbill.getProductDate(),
-					workingbill.getMatnr(),
-					workingbill.getMaktx(),
-					repairPiece.getProductnum()
+					factoryUnitName,//单元
+					workingbill.getTeam() == null ? "" : workingbill.getTeam().getTeamName(),//班组名称
+					workingbill.getMinister(),//部长
+					workingbill.getZhuren(),//主任
+					workingbill.getFuzhuren(),//副主任
+					workingbill.getProductDate(),//生产日期
+					workingbill.getMaktx(),//产品名称
+					repairPiece.getProductnum(),//产品数量
+					repair.getRepairPart(),//返修部位
+					//责任划分
 					/*
 					 * ,repairPiece.getRpcode(),
 					 * repairPiece.getRpname(),
 					 * repairPiece.getPiecenum(),
 					 * repairPiece.getRpcount()
 					 */
-					,
-					repair.getRepairPart(),
-					repair.getRepairAmount(),
-					repair.getDuty(),
-					repair.getCharg(),
-					repair.getEX_MBLNR(),
-					repairPiece.getCreateDate(),
+					repair.getRepairAmount(),//返修数量
+					repair.getDuty(),//责任人
+					repair.getCharg(),//批次
+					workingbill.getWorkingBillCode(),//随工单号
+					workingbill.getMatnr(),//产品编码
+					repair.getEX_MBLNR(),//物料凭证号
+					repairPiece.getCreateDate(),//返修日期
 					repair.getCreateUser() == null ? "" : repair
-							.getCreateUser().getName(),
+							.getCreateUser().getName(),//创建人
 					repair.getConfirmUser() == null ? "" : repair
-							.getConfirmUser().getName(),
+							.getConfirmUser().getName(),//确认人
 					ThinkWayUtil.getDictValueByDictKey(dictService,
-							"repairState", repair.getState()) };
+							"repairState", repair.getState()) };//状态
 			body.add(bodyval);
 		}
 

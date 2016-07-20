@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -441,13 +442,20 @@ public class PollingtestAction extends BaseAdminAction {
 
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();
-			header.add("随工单号");
-			header.add("产品编号");
+			header.add("单元");
+			header.add("班组名称");
+			header.add("部长");
+			header.add("主任");
+			header.add("副主任");
+			header.add("生产日期");
 			header.add("产品名称");
 			header.add("巡检数量");
 			header.add("合格数量");
 			header.add("合格率");
+			header.add("缺陷明细");
 			header.add("工艺确认");
+			header.add("随工单号");
+			header.add("产品编号");
 			header.add("巡检日期");
 			header.add("巡检人");
 			header.add("确认人");
@@ -461,14 +469,39 @@ public class PollingtestAction extends BaseAdminAction {
 	        	Admin pollingtestUser = (Admin)obj[2];//pollingtestUser
 	        	Admin confirmUser = (Admin)obj[3];//ponfirmUser	        	
 	        	
+	        	String factoryName;
+				if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
+					factoryName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+				}else{
+					factoryName = "";
+				}
+				String teamName;
+				if(workingbill.getTeam()!=null){
+					teamName = workingbill.getTeam().getTeamName();
+				}else{
+					teamName = "";
+				}
+				Set<PollingtestRecord> pollingtestRecordSet = pollingtest.getPollingtestRecord();
+				String defect = "";
+				for(PollingtestRecord pollingtestRecord:pollingtestRecordSet){
+					defect = defect + pollingtestRecord.getRecordDescription()+" ";
+				}
+				
 				Object[] bodyval = {
+						factoryName,//单元
+						teamName,//班组名称
+						workingbill.getMinister(),//部长
+						workingbill.getZhuren(),//主任
+						workingbill.getFuzhuren(),//副主任
+						workingbill.getProductDate(),//生产日期
+						workingbill.getMaktx() == null ? "" : workingbill.getMaktx(),//产品名称
+						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),//巡检数量
+						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),//合格数量
+						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),//合格率
+						defect,
+						getCraftWorkString(pollingtest.getCraftWork()),
 						workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode(),
 						workingbill.getMatnr() == null ? "" : workingbill.getMatnr(),
-						workingbill.getMaktx() == null ? "" : workingbill.getMaktx(),
-						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),					
-						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),
-						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),
-						getCraftWorkString(pollingtest.getCraftWork()),
 						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
 						pollingtestUser == null ? "" : pollingtestUser.getName(),
 						confirmUser == null ? "" : confirmUser.getName(),							

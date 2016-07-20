@@ -406,7 +406,7 @@
 																class="ace-icon fa fa-caret-right blue"></i>副主任</th>
 															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>主任</th>
-															<th class="hidden-480" style="width:5%"><i
+															<th style="width:5%"><i
 																class="ace-icon fa fa-caret-right blue"></i>数量</th>
 															<th style="width:7%"><i
 																class="ace-icon fa fa-caret-right blue"></i>产品编号</th>

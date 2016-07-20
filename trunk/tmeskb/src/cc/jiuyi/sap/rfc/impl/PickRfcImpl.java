@@ -80,7 +80,6 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("GM_CODE", "03");//移动类型
 		parameter.put("IS_COMMIT", testrun);//testrun
-		log.info("-----pick----testrun---------"+testrun);
 		/******输入表******/
 		List<TableModel> tablemodelList = new ArrayList<TableModel>();
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
@@ -94,6 +93,7 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 			item.put("ZTEXT",p.getZtext());//文本
 			item.put("MOVE_TYPE",p.getMove_type());//移动类型
 			item.put("XUH",p.getId());//ID
+			log.info("-----pick----testrun---------"+testrun+"---p.getId()-"+p.getId());
 			arrList.add(item);
 		}
 		//去重

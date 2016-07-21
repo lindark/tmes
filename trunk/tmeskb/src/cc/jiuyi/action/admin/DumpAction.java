@@ -942,10 +942,15 @@ public class DumpAction extends BaseAdminAction {
 //		while(i<2){
 //			Thread1 mTh1=new Thread1("A"+i);
 //			Thread1 mTh2=new Thread1("B"+i);
-//			Thread1 mTh3=new Thread1("c"+i);
+//			Thread1 mTh3=new Thread1("C"+i);
 //			//Thread1 mTh4=new Thread1("d"+i);
 //			//Thread1 mTh5=new Thread1("e"+i);
 //			mTh1.start();
+//			 try {
+//		            Thread.sleep(300);
+//		        } catch (InterruptedException e) {
+//		            e.printStackTrace(); 
+//		        }
 //			mTh2.start();
 //			mTh3.start();
 //			//mTh4.start();
@@ -954,6 +959,7 @@ public class DumpAction extends BaseAdminAction {
 //		}
 //		return null;
 //	}
+//
 //	class Thread1 extends Thread{
 //		private String name;
 //	    public Thread1(String name) {
@@ -963,18 +969,18 @@ public class DumpAction extends BaseAdminAction {
 //			int i=0;
 //			String str = "test"+name;
 //			try {
-//				DumpRfcImpl d = new DumpRfcImpl();
-//				d.testSAP("X",str);
-//				try {
-//					sleep(300);
+//				//DumpRfcImpl d = new DumpRfcImpl();
+//				dumpRfc.testSAP("X",str);
+////				try {
+////					sleep(300);
 ////					for(int k=0;k<100;k++){
 ////						
 ////					}
-////					System.out.println("---------------");
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				d.testSAP("",str);
+//					System.out.println("---------------");
+////				} catch (InterruptedException e) {
+////					e.printStackTrace();
+////				}
+//				dumpRfc.testSAP("",str);
 //			} catch (IOException e) {
 //				e.printStackTrace();
 //			}

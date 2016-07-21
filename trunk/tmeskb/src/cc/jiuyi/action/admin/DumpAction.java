@@ -24,13 +24,12 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Deptpick;
-import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.DumpRfc;
+import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpDetailService;
@@ -938,8 +937,49 @@ public class DumpAction extends BaseAdminAction {
 		return ajax(jsonObject.toString(), "text/html");
 	}
 	
-	/**============================================*/
-	
+//	public String testSAP(){
+//		int i=0;
+//		while(i<2){
+//			Thread1 mTh1=new Thread1("A"+i);
+//			Thread1 mTh2=new Thread1("B"+i);
+//			Thread1 mTh3=new Thread1("c"+i);
+//			//Thread1 mTh4=new Thread1("d"+i);
+//			//Thread1 mTh5=new Thread1("e"+i);
+//			mTh1.start();
+//			mTh2.start();
+//			mTh3.start();
+//			//mTh4.start();
+//			//mTh5.start();
+//			i++;
+//		}
+//		return null;
+//	}
+//	class Thread1 extends Thread{
+//		private String name;
+//	    public Thread1(String name) {
+//	       this.name=name;
+//	    }
+//		public void run() {
+//			int i=0;
+//			String str = "test"+name;
+//			try {
+//				DumpRfcImpl d = new DumpRfcImpl();
+//				d.testSAP("X",str);
+//				try {
+//					sleep(300);
+////					for(int k=0;k<100;k++){
+////						
+////					}
+////					System.out.println("---------------");
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				d.testSAP("",str);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	public Dump getDump() {
 		return dump;
 	}

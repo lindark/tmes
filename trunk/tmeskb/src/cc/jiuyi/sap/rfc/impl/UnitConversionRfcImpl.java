@@ -18,7 +18,7 @@ public class UnitConversionRfcImpl extends BaserfcServiceImpl implements UnitCon
 
 	public List<UnitConversion> findUnitConeversion() throws IOException {
 		super.setProperty("unitsync");//根据配置文件读取到函数名称
-		SAPModel model = execBapi();//执行 并获取返回值;
+		SAPModel model = execBapi(null,null,null);//执行 并获取返回值;
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("IT_ITEM");//列表
 		List<UnitConversion> unitConversionList = new ArrayList<UnitConversion>();

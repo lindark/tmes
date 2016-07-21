@@ -222,6 +222,9 @@ public class CartonAction extends BaseAdminAction {
 			} else if (!carton.getState().equals(str)) {
 				return ajaxJsonErrorMessage("请选择同一状态的记录进行撤销!");
 			}
+			if (UNDO.equals(carton.getState())) {
+				return ajaxJsonErrorMessage("已撤销的无法再确认！");
+			}
 		}
 		boolean flag = false;
 		for (int i = 0; i < ids.length; i++) {

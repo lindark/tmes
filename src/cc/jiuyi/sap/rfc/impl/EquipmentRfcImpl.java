@@ -23,10 +23,10 @@ public class EquipmentRfcImpl extends BaserfcServiceImpl implements EquipmentRfc
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		//parameter.put("IM_EQUNR", equipmentNo);//设备编码
 		//parameter.put("IM_EQKTU", equipmentName);//设备名称
-		super.setParameter(parameter);//输入参数
-		super.setStructure(null);
-		super.setTable(null);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		//super.setStructure(null);
+		//super.setTable(null);
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
 		Table et_item = outs.getTable("ET_ITEM");//返回表

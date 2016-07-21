@@ -2,7 +2,6 @@ package cc.jiuyi.sap.rfc.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sap.mw.jco.IFunctionTemplate;
 import com.sap.mw.jco.JCO;
@@ -20,20 +18,18 @@ import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Repository;
 import com.sap.mw.jco.JCO.Structure;
 import com.sap.mw.jco.JCO.Table;
-import com.sun.xml.internal.ws.api.PropertySet.Property;
 
 import cc.jiuyi.sap.rfc.BaserfcService;
 import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
-import cc.jiuyi.util.SAPUtil;
 import cc.jiuyi.util.SystemConfigUtil;
 import cc.jiuyi.util.TableModel;
 
 public class BaserfcServiceImpl implements BaserfcService {
 	private String property;
-	private HashMap<String, Object> parameter = null;
-	private Mapping mapping = null;
-	private List<TableModel> tablemodelList = null;
+	//private HashMap<String, Object> parameter = null;
+	//private Mapping mapping = null;
+	//private List<TableModel> tablemodelList = null;
 
 	/**
 	 * 从属性文件中读取
@@ -92,32 +88,32 @@ public class BaserfcServiceImpl implements BaserfcService {
 	 * @param parameter
 	 *            输入参数的 hashmap 集合
 	 */
-	protected void setParameter(HashMap<String, Object> parameter) {
-		this.parameter = parameter;
-	}
+//	protected void setParameter(HashMap<String, Object> parameter) {
+//		this.parameter = parameter;
+//	}
 
 	/**
 	 * 输入结构
 	 */
-	protected void setStructure(Mapping mapping) {
-		this.mapping = mapping;
-	}
+//	protected void setStructure(Mapping mapping) {
+//		this.mapping = mapping;
+//	}
 
 	/**
 	 * 输入表
 	 * 
 	 * @param tablemodelList
 	 */
-	protected void setTable(List<TableModel> tablemodelList) {
-		this.tablemodelList = tablemodelList;
-	}
+//	protected void setTable(List<TableModel> tablemodelList) {
+//		this.tablemodelList = tablemodelList;
+//	}
 
 	/**
 	 * 执行BAPI
 	 * 
 	 * @throws IOException
 	 */
-	protected SAPModel execBapi() throws IOException {
+	protected SAPModel execBapi(HashMap<String, Object> parameter,Mapping mapping,List<TableModel> tablemodelList) throws IOException {
 		SAPModel mode = new SAPModel();
 		Client myConnection = null;
 		myConnection = getSAPConnection();// 获取SAP链接
@@ -129,8 +125,8 @@ public class BaserfcServiceImpl implements BaserfcService {
 		ParameterList parameterList = bapi.getImportParameterList();// 获得输入参数
 		JCO.ParameterList inputtable = bapi.getTableParameterList();// 输入表的处理
 
-		if (this.parameter != null) {
-			Set set = this.parameter.entrySet();
+		if (parameter != null) {
+			Set set = parameter.entrySet();
 			for (Iterator it = set.iterator(); it.hasNext();) {
 				Map.Entry<String, Object> entry = (Map.Entry) it.next();
 				parameterList.setValue((String) entry.getValue(),
@@ -138,10 +134,10 @@ public class BaserfcServiceImpl implements BaserfcService {
 			}
 		}
 
-		if (this.mapping != null) {
-			Structure Structure01 = parameterList.getStructure(this.mapping
+		if (mapping != null) {
+			Structure Structure01 = parameterList.getStructure(mapping
 					.getStrutName());
-			Map map = this.mapping.getMap();
+			Map map = mapping.getMap();
 			Set set = map.entrySet();
 			for (Iterator it = set.iterator(); it.hasNext();) {
 				Map.Entry entry = (Map.Entry) it.next();
@@ -150,9 +146,9 @@ public class BaserfcServiceImpl implements BaserfcService {
 			}
 		}
 
-		if (this.tablemodelList != null) {
-			for (int i = 0; i < this.tablemodelList.size(); i++) {
-				TableModel table = (TableModel) this.tablemodelList.get(i);
+		if (tablemodelList != null) {
+			for (int i = 0; i < tablemodelList.size(); i++) {
+				TableModel table = (TableModel) tablemodelList.get(i);
 				Table IT_ITEM = inputtable.getTable(table.getData());
 				List tablelist = table.getList();
 				for (int j = 0; j < tablelist.size(); j++) {
@@ -173,7 +169,7 @@ public class BaserfcServiceImpl implements BaserfcService {
 		mode.setOuts(bapi);
 		mode.setOuttab(bapi);
 		if (null != myConnection) {
-			this.releaseClient(myConnection);
+			releaseClient(myConnection);
 		}
 		return mode;
 	}

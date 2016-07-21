@@ -26,8 +26,8 @@ public class MatnrRfcImpl extends BaserfcServiceImpl implements MatnrRfc{
 		parameter.put("WERKS", werks);//工厂
 		parameter.put("DESCRIPTION", maktx);//物料描述
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
 		Table T_DATA = outs.getTable("T_DATA");//列表

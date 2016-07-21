@@ -6,20 +6,25 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.sap.rfc.DumpRfc;
 import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
 @Component
+//@Scope("prototype")
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
-	
+	public static Logger log = Logger.getLogger(BaserfcServiceImpl.class);
 	public List<Dump> findMaterialDocument(String lgort, String bgdat,
 			String eddat) throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
@@ -28,8 +33,8 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		parameter.put("IM_LGORT", lgort);//库存地点
 		parameter.put("IM_BUDAT_B", bgdat);//开始时间
 		parameter.put("IM_BUDAT_E", eddat);//结束时间
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
+		//setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回参数
 		ParameterList outs = model.getOuttab();//返回表
@@ -66,8 +71,8 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("IM_MBLNR", mblnr);//物料凭证号
 		parameter.put("IM_LGORT", warehouse);
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回参数
 		ParameterList outs = model.getOuttab();//返回表
@@ -95,7 +100,23 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		}
 		return materialitem;
 	}
-
+	public void testSAP(String s,String str) throws IOException{
+		log.debug("--输入--s="+s+"-----"+str);
+		super.setProperty("testrfc");//根据配置文件读取到函数名称
+		/******输入参数******/
+		HashMap<String,Object> parameter = new HashMap<String,Object>();
+		Mapping mapping = null;
+		List<TableModel> tablemodelList = null;
+		parameter.put("I_INPUT", str);//物料凭证号
+		//super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,mapping,tablemodelList);//执行 并获取返回值
+		//SAPModel model = new SAPModel();
+		/******执行 end******/
+		ParameterList out = model.getOuts();//返回参数
+		//ParameterList outs = model.getOuttab();//返回表
+		//System.out.println("--输出--"+str+"------"+out.getString("E_OUTPUT"));
+		log.debug("--输出--s="+s+"-----"+str+"------"+out.getString("E_OUTPUT"));
+	}
 	@Override
 	public List<HashMap<String, String>> findMaterial(String werks,
 			String lgort, String matnr,String lgpla,String maktx) throws IOException {
@@ -108,9 +129,9 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			parameter.put("S_MATNR", matnr);//物料
 			parameter.put("S_LGPLA", lgpla);//库位
 			parameter.put("S_MAKTX", maktx);//物料描述
-			super.setParameter(parameter);//输入参数
-			super.setTable(null);
-			SAPModel model = execBapi();//执行 并获取返回值
+			//super.setParameter(parameter);//输入参数
+			//super.setTable(null);
+			SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 			ParameterList out = model.getOuts();//返回参数
 			ParameterList outs = model.getOuttab();//返回表
 			/******执行 end******/
@@ -157,11 +178,11 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		GT_LQUA.setData("GT_LQUA");
 		GT_LQUA.setList(arrList);
 		tablemodelList.add(GT_LQUA);
-		super.setParameter(parameter);
-		super.setStructure(null);
-		super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		//super.setStructure(null);
+		//super.setTable(tablemodelList);
 		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		ParameterList out = model.getOuts();//返回参数
 		ParameterList outs = model.getOuttab();//返回表
 		//Table t_data = outs.getTable("");//列表
@@ -172,16 +193,14 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			throw new CustomerException("1400001", message);
 		}
 		
-		
-		
 		return lenum;
 	}
 
 	public List<HashMap<String,String>> updateMaterial(String testrun,List<HashMap<String,String>> maplist)
 			throws IOException, CustomerException {
 			super.setProperty("pickbatch");//根据配置文件读取到函数名称
-			super.setParameter(null);
-			super.setStructure(null);
+			//super.setParameter(null);
+			//super.setStructure(null);
 			/******输入参数******/
 			HashMap<String,Object> parameter = new HashMap<String,Object>();
 			parameter.put("GM_CODE", "04");//MB1B
@@ -220,10 +239,10 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 			}
 			ET_ITEM.setList(arrList2);
 			tablemodelList.add(ET_ITEM);
-			super.setParameter(parameter);
-			super.setTable(tablemodelList);
+			//super.setParameter(parameter);
+			//super.setTable(tablemodelList);
 			/******执行 end******/
-			SAPModel model = execBapi();//执行 并获取返回值
+			SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 			ParameterList outs = model.getOuttab();//返回表
 			Table t_data = outs.getTable("ET_HEADER");//列表
 			List<HashMap<String,String>> mlist = new ArrayList<HashMap<String,String>>();

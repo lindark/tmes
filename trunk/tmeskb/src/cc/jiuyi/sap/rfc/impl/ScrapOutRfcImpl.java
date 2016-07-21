@@ -27,9 +27,9 @@ public class ScrapOutRfcImpl extends BaserfcServiceImpl implements ScrapOutRfc{
 		parameter.put("GROUT", grout);
 		parameter.put("MAKTX", maktx);
 		parameter.put("GNAME", ganme);
-		super.setParameter(parameter);
+		//super.setParameter(parameter);
 		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_ITEM");//列表
 		List<ScrapOut> list=new ArrayList<ScrapOut>();

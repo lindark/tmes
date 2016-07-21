@@ -160,8 +160,8 @@
 				 else{
 					 var rowData = $("#grid-table").jqGrid('getRowData',id);
 						var row_state = rowData.state;
-						if(row_state == "2" || row_state =="3"){
-							layer.msg("已经确认或已经撤销的领料单无法再确认!",{icon:5});
+						if(row_state == "undone" || row_state =="approval"){
+							layer.msg("已经确认或已经撤销的领料单无法再撤销!",{icon:5});
 							return false;
 						}else{
 							//var loginId = $("#loginid").val();//当前登录人的id
@@ -229,8 +229,8 @@
 			else{
 				var rowData = $("#grid-table").jqGrid('getRowData',id);
 				var row_state = rowData.state;
-				if(row_state == "2" || row_state =="3"){
-					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
+				if(row_state == "undone" || row_state =="approval"){
+					layer.msg("已经确认或已经撤销的领料单无法再撤销!",{icon:5});
 					return false;
 				}else{
 					window.location.href="deptpick!edit.action?id="+id;

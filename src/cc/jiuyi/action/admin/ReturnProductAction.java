@@ -303,6 +303,12 @@ public class ReturnProductAction extends BaseAdminAction {
 			String[] ids = id.split(","); 
 			for(int i=0;i<ids.length;i++){
 				ReturnProduct rp = returnProductService.get(ids[i]);
+				if ("2".equals(rp.getState())) {
+					return ajaxJsonErrorMessage("已确认的无须再确认!");
+				}
+				if ("3".equals(rp.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
+				}
 				if( rp!=null){
 					if(rp.getMblnr()!=null && !"".equals(rp.getMblnr()))
 						continue;

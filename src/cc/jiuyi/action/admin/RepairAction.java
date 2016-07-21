@@ -390,10 +390,10 @@ public class RepairAction extends BaseAdminAction {
 			{
 				return ajaxJsonErrorMessage("已确认的无须再确认!");
 			}
-			/*if (UNDO.equals(repair.getState())) 
+			if (UNDO.equals(repair.getState())) 
 			{
 				return ajaxJsonErrorMessage("已撤销的无法再确认！");
-			}*/
+			}
 		}
 		List<Repair> list = repairService.get(ids);
 		String str=toSAP(list);//与SAP

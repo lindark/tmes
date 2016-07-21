@@ -461,7 +461,9 @@ public class DeptpickAction extends BaseAdminAction {
 				String id = ids[i];
 				HashMap<String,String> map = new HashMap<String,String>();
 				Deptpick deptpick = deptpickservice.get(id);
-				
+				if(ThinkWayUtil.null2String(deptpick.getState()).equals("approval") || ThinkWayUtil.null2String(deptpick.getState()).equals("undone")){
+					return ajaxJsonErrorMessage("已确认或者已撤销的无法再确认");
+				}
 				if(ThinkWayUtil.null2String(deptpick.getE_type()).equals("S")){
 					continue;
 				}

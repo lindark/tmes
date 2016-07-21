@@ -77,9 +77,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);
 		/*******执行******/
-		super.setTable(tablemodelList);
-		super.setParameter(parameter);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回表
 		String EX_MBLNR=out.getString("EX_MBLNR");
@@ -161,9 +161,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		}
 		tablemodelList.add(tablemodel);
 		/*******执行******/
-		super.setTable(tablemodelList);
-		super.setParameter(parameter);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回表
 		String EX_MBLNR=out.getString("EX_MBLNR");
@@ -200,9 +200,9 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
 		TableModel tablemodel = new TableModel();
 		/*******执行******/
-		super.setTable(tablemodelList);
-		super.setParameter(parameter);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回表
 		String EX_MBLNR=out.getString("EX_MBLNR");

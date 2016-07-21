@@ -71,10 +71,10 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		//super.setTable(tablemodelList);
 		/****** 执行 end ******/
-		SAPModel model = execBapi();// 执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,tablemodelList);// 执行 并获取返回值
 		ParameterList outs = model.getOuttab();// 返回表
 		Table t_data = outs.getTable("ET_HEADER");// 列表
 		t_data.setRow(0);
@@ -130,10 +130,10 @@ public class RepairInRfcImpl extends BaserfcServiceImpl implements RepairInRfc
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		//super.setTable(tablemodelList);
 		/****** 执行 end ******/
-		SAPModel model = execBapi();// 执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,tablemodelList);// 执行 并获取返回值
 		ParameterList outs = model.getOuttab();// 返回表
 		Table t_data = outs.getTable("ET_HEADER");// 列表
 		t_data.setRow(0);

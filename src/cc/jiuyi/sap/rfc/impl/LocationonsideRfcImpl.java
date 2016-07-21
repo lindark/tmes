@@ -30,9 +30,9 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		parameter.put("WERKS", werks);
 		/******输入参数 end**/
 		/******输入表******/
-		List<TableModel> tablemodelList = new ArrayList<TableModel>();
-		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
-		TableModel tablemodel = new TableModel();
+//		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+//		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+//		TableModel tablemodel = new TableModel();
 //		tablemodel.setData("IT_ITEM");//表名
 //		for(String material : materialCodeList){
 //			HashMap<String,Object> item = new HashMap<String,Object>();
@@ -44,9 +44,9 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		/******输入表 end**/
 		
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
+		//super.setParameter(parameter);//输入参数
 //		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		
 		ParameterList out = model.getOuts();//返回参数
@@ -81,9 +81,9 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		parameter.put("WERKS", werks);
 		/******输入参数 end**/
 		/******输入表******/
-		List<TableModel> tablemodelList = new ArrayList<TableModel>();
-		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
-		TableModel tablemodel = new TableModel();
+//		List<TableModel> tablemodelList = new ArrayList<TableModel>();
+//		List<HashMap<String,Object>> arrList = new ArrayList<HashMap<String,Object>>();
+//		TableModel tablemodel = new TableModel();
 //		tablemodel.setData("IT_ITEM");//表名
 //		for(String material : materialCodeList){
 //			HashMap<String,Object> item = new HashMap<String,Object>();
@@ -95,9 +95,9 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 		/******输入表 end**/
 		
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
+		//super.setParameter(parameter);//输入参数
 //		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		
 		ParameterList out = model.getOuts();//返回参数
@@ -135,9 +135,9 @@ public class LocationonsideRfcImpl extends BaserfcServiceImpl implements Locatio
 			parameter.put("S_MATNR", matnr);//物料
 			parameter.put("S_LGPLA", lgpla);//库位
 			parameter.put("S_MAKTX", maktx);//物料描述
-			super.setParameter(parameter);//输入参数
-			super.setTable(null);
-			SAPModel model = execBapi();//执行 并获取返回值
+			//super.setParameter(parameter);//输入参数
+			//super.setTable(null);
+			SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 			ParameterList out = model.getOuts();//返回参数
 			ParameterList outs = model.getOuttab();//返回表
 			/******执行 end******/

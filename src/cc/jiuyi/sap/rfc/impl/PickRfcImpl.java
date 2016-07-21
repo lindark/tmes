@@ -57,10 +57,10 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
-		super.setStructure(mapping);//输入结构
-		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		//super.setStructure(mapping);//输入结构
+		//super.setTable(tablemodelList);
+		SAPModel model = execBapi(parameter,mapping,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回参数
 		String type =  out.getString("E_TYPE");//返回类型
@@ -116,10 +116,10 @@ public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 		}
 		ET_ITEM.setList(arrList2);
 		tablemodelList.add(ET_ITEM);
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
+		//super.setParameter(parameter);
+		//super.setTable(tablemodelList);
 		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表
 		List<Pick> list = new ArrayList<Pick>();

@@ -238,12 +238,17 @@
 		
 		$("#confirmPick").click(function(){
 			var id = "";
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}	
-				else{
+			}else if(row_state=="2"){
+				layer.msg("已确认的不需要再次确认!", {icon: 5});
+			}else if(row_state=="3"){
+				layer.msg("已撤销的无法再确认!", {icon: 5});
+			}else{
 					var url="pick!creditapproval.action?id="+id+"&matnr="+${(workingbill.matnr)!};
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
@@ -254,12 +259,15 @@
 		
 		$("#repealPick").click(function(){
 			var id = "";
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state=rowData.state;
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
-			}
-			else{
+			}else if(row_state=="3"){
+				layer.msg("已撤销的无法再撤销!", {icon: 5});
+			}else{
 				var url="pick!creditundo.action?id="+id;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);

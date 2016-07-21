@@ -50,10 +50,10 @@ public class UpDownRfcImpl extends BaserfcServiceImpl implements UpDownRfc{
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);
 		/*******执行******/
-		super.setParameter(parameter);//输入参数
-		super.setStructure(null);//输入结构
-		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		//super.setStructure(null);//输入结构
+		//super.setTable(tablemodelList);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回参数
 		ParameterList outs = model.getOuttab();//返回表

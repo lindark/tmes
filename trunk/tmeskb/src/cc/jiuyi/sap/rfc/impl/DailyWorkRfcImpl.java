@@ -32,8 +32,8 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 		map.put("YIELD", menge);//数量
 		mapping.setMap(map);
 		/*******执行******/
-		super.setStructure(mapping);//输入结构
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setStructure(mapping);//输入结构
+		SAPModel model = execBapi(null,mapping,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList out = model.getOuts();//返回参数
 		String type =  out.getString("E_TYPE");//返回类型
@@ -63,9 +63,9 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 		}
 		ET_HEADER.setList(arrList);
 		tablemodelList.add(ET_HEADER);
-		super.setTable(tablemodelList);
+		//super.setTable(tablemodelList);
 		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(null,null,tablemodelList);//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//报工列表
 		List<DailyWork> list = new ArrayList<DailyWork>();
@@ -107,9 +107,9 @@ public class DailyWorkRfcImpl  extends BaserfcServiceImpl implements DailyWorkRf
 		}
 		IT_ITEM.setList(arrList);
 		tablemodelList.add(IT_ITEM);
-		super.setTable(tablemodelList);
+		//super.setTable(tablemodelList);
 		/******执行 end******/
-		SAPModel model = execBapi();//执行 并获取返回值
+		SAPModel model = execBapi(null,null,tablemodelList);//执行 并获取返回值
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("IT_ITEM");//报工列表
 		List<DailyWork> list = new ArrayList<DailyWork>();

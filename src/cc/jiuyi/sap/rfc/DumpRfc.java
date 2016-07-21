@@ -48,4 +48,6 @@ public interface DumpRfc extends BaserfcService{
 	 * @return
 	 */
 	public List<HashMap<String,String>> updateMaterial(String testrun,List<HashMap<String,String>> maplist)throws IOException, CustomerException;
+	
+	public void testSAP(String s,String str) throws IOException;
 }

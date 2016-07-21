@@ -88,9 +88,9 @@ public class ModeRfcImpl extends BaserfcServiceImpl implements ModeRfc{
 		IT_ITEM_ZJ.setList(arrList2);
 		tablemodelList.add(IT_ITEM_ZJ);
 		/*******执行******/
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
-		SAPModel mod = execBapi();//执行 并获取返回值;
+		//super.setParameter(parameter);
+		//super.setTable(tablemodelList);
+		SAPModel mod = execBapi(parameter,null,tablemodelList);//执行 并获取返回值;
 		ParameterList out = mod.getOuts();//返回参数
 		String type =  out.getString("E_TYPE");//返回类型
 		String message = out.getString("E_MESSAGE");//返回消息

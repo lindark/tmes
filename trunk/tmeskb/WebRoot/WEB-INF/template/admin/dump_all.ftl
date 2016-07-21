@@ -60,7 +60,7 @@
 														<div class="profile-info-name">当前状态</div>
 														<div class="profile-info-value">
 															<#list list_map as mlist>
-																<span class="txttype">${(mlist.materialdes)! }：<span>${(mlist.allcount)! }</span></span><br/>
+																<span class="txttype">${(mlist.materialdes)! }:<span>${(mlist.allcount)! }</span></span><br/>
 															</#list>
 														</div>			
 													</div>
@@ -98,6 +98,7 @@
 										<i class="ace-icon fa fa-home"></i>
 										返回
 									</button>
+									<#-- <button type="button" id="testSap">testSap</button> -->
 								   </div>
 							
 								<!-- PAGE CONTENT BEGINS -->
@@ -169,6 +170,9 @@
 			}
 			
 		});
+		//$("#testSap").click(function(){
+		//	window.location.href = "dump!testSAP.action";
+		//});
 		
 		
 	});

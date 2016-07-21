@@ -24,8 +24,8 @@ public class MaterialRfcImpl extends BaserfcServiceImpl implements MaterialRfc{
 		HashMap<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("MTNRV", matnr);//物料编码
 		parameter.put("WERKS", werks);//工厂
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
 		Table T_DATA = outs.getTable("T_DATA");//BOM列表

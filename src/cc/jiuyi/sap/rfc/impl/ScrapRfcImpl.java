@@ -114,9 +114,9 @@ public class ScrapRfcImpl extends BaserfcServiceImpl implements ScrapRfc{
 		ET_HEADER.setList(arrList1);
 		tablemodelList.add(ET_HEADER);
 		/*******执行******/
-		super.setParameter(parameter);
-		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值;
+		//super.setParameter(parameter);
+		//super.setTable(tablemodelList);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值;
 		
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_HEADER");//列表

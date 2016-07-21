@@ -41,9 +41,9 @@ public class MatStockRfcImpl extends BaserfcServiceImpl implements MatStockRfc{
 		}
 		tablemodel.setList(arrList);
 		tablemodelList.add(tablemodel);
-		super.setParameter(parameter);//输入参数
-		super.setTable(tablemodelList);
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		//super.setTable(tablemodelList);
+		SAPModel model = execBapi(parameter,null,tablemodelList);//执行 并获取返回值
 		/******执行 end******/
 		ParameterList outs = model.getOuttab();//返回表
 		Table t_data = outs.getTable("ET_ITEM");//列表

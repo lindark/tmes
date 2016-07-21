@@ -281,6 +281,12 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state = rowData.state;
+			if(row_state == "1" || row_state =="3"){
+				layer.msg("已经确认或已经撤销的领料单无法再确认!",{icon:5});
+				return false;
+			}
 			var url="carton!creditapproval.action?info="+info+"&my_id=1&loginid="+$("#loginid").val();
 			sub_event(url);
 		}
@@ -289,6 +295,12 @@ function btn_event()
 	$("#btn_cancel").click(function(){
 		if(getId())
 		{
+			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var row_state = rowData.state;
+			if(row_state == "1" || row_state =="3"){
+				layer.msg("已经撤销的领料单无法再撤销!",{icon:5});
+				return false;
+			}
 			var url="carton!creditundo.action?info="+info+"&my_id=2&loginid="+$("#loginid").val();
 			sub_event(url);
 		}

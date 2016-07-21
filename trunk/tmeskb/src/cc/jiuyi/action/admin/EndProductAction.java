@@ -421,6 +421,12 @@ public class EndProductAction extends BaseAdminAction {
 			String[] ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {
 				EndProduct ed = endProductService.get(ids[i]);
+				if ("2".equals(ed.getState())) {
+					return ajaxJsonErrorMessage("已确认的无须再确认!");
+				}
+				if ("3".equals(ed.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再确认！");
+				}
 				if (ed != null) {
 					if (ed.getMblnr() != null && !"".equals(ed.getMblnr()))
 						continue;
@@ -508,11 +514,11 @@ public class EndProductAction extends BaseAdminAction {
 			
 			for (int i = 0; i < ids.length; i++) {
 				endProduct = endProductService.load(ids[i]);
-				if ("3".equals(endProduct.getState())) {
-					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
-				}
 				if ("2".equals(endProduct.getState())){
 					return ajaxJsonErrorMessage("已确认的无法撤销！");
+				}
+				if ("3".equals(endProduct.getState())) {
+					return ajaxJsonErrorMessage("已撤销的无法再撤销！");
 				}
 			}
 			endProductService.updateCancel(list, cardnumber);

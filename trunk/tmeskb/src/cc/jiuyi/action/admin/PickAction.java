@@ -463,7 +463,7 @@ public class PickAction extends BaseAdminAction {
 			Pick pick = list.get(i);
 			pickId = pick.getId();
 			if (REPEAL.equals(pick.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再撤销!");
+				return ajaxJsonErrorMessage("已撤销的无法再确认!");
 			}
 			if (CONFIRMED.equals(pick.getState())) {
 				return ajaxJsonErrorMessage("已确认的不需要再次确认!");

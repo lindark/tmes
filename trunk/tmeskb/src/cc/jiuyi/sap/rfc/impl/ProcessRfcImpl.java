@@ -26,8 +26,8 @@ public class ProcessRfcImpl extends BaserfcServiceImpl implements ProcessRfc{
 		parameter.put("MATERIAL", matnr);//物料编码
 		parameter.put("PLANT", werks);//工厂
 		parameter.put("DATE", date);//日期
-		super.setParameter(parameter);//输入参数
-		SAPModel model = execBapi();//执行 并获取返回值
+		//super.setParameter(parameter);//输入参数
+		SAPModel model = execBapi(parameter,null,null);//执行 并获取返回值
 		/******执行 end******/
 		//ParameterList out = model.getOuts();//返回参数
 		ParameterList outs = model.getOuttab();//返回表

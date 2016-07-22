@@ -117,7 +117,7 @@ public class WorkingBillAction extends BaseAdminAction {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println(json.toString());
+		//System.out.println(json.toString());
 		return ajaxJson(json.toString());
 	}
 	

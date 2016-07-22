@@ -488,7 +488,7 @@ public class PickAction extends BaseAdminAction {
 					log.info("---X----ex_mblnr---"+pick2.getEx_mblnr());
 				}
 				String e_type = pick2.getE_type();
-				if (e_type.equals("E")) { // 如果有一行发生了错误
+				if ("E".equals(e_type)) { // 如果有一行发生了错误
 					flag = false;
 					message += pick2.getE_message();
 				}
@@ -505,7 +505,7 @@ public class PickAction extends BaseAdminAction {
 					String e_message = pick2.getE_message();
 					String ex_mblnr = pick2.getEx_mblnr();
 					// String move_type = pick2.getMove_type();
-					if (e_type.equals("E")) { // 如果有一行发生了错误
+					if ("E".equals(e_type)) { // 如果有一行发生了错误
 						flag = false;
 						message += pick2.getE_message();
 					} else{
@@ -536,11 +536,11 @@ public class PickAction extends BaseAdminAction {
 					return ajaxJsonErrorMessage(message);
 			}
 		} catch (IOException e) {
-			LOG.equals(e);
+			log.info(e);
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
 		} catch (Exception e) {
-			LOG.equals(e);
+			log.info(e);
 			e.printStackTrace();
 			return ajaxJsonErrorMessage("系统出现问题，请联系系统管理员");
 		}

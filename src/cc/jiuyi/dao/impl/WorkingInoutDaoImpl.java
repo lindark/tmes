@@ -35,10 +35,9 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 	@Override
 	public boolean isExist(String workingBillId, String materialCode) {
 		String hql = "from WorkingInout a where a.workingbill.id=? and materialCode=?";
-		WorkingInout workingInout = (WorkingInout) getSession()
-				.createQuery(hql).setParameter(0, workingBillId)
-				.setParameter(1, materialCode).uniqueResult();
-		if (workingInout == null) {
+		List<WorkingInout> workingInoutlist = (List<WorkingInout>) getSession()
+				.createQuery(hql).setParameter(0, workingBillId).setParameter(1, materialCode).list();
+		if (workingInoutlist == null && workingInoutlist.size()==0) {
 			return false;
 		} else {
 			return true;
@@ -74,9 +73,12 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 	public WorkingInout findWorkingInout(String workingBillId,
 			String materialCode) {
 		String hql = "from WorkingInout a where workingbill.id=? and materialCode=?";
-		return (WorkingInout) getSession().createQuery(hql)
-				.setParameter(0, workingBillId).setParameter(1, materialCode)
-				.uniqueResult();
+		List<WorkingInout> workingInoutlist = (List<WorkingInout>) getSession().createQuery(hql)
+				.setParameter(0, workingBillId).setParameter(1, materialCode).list();
+		if(workingInoutlist==null && workingInoutlist.size()==0)
+			return null;
+		else
+		return workingInoutlist.get(0);
 	}
 
 	@SuppressWarnings("unchecked")

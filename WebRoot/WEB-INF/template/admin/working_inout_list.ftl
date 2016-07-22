@@ -106,7 +106,7 @@
 											</a>
 											<#-- <a  id="excelReportE"class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
-												Excel导出E
+												Excel导出New
 											</a> -->
 										</div>
 										
@@ -171,13 +171,13 @@
 		}); 
 		 
 		 $excelReport.click(function(){
-			 $searchform.attr("action","working_inout!excelexport1.action");
+			 $searchform.attr("action","working_inout!excelexport.action");
 			 $searchform.submit();
 			 
 		 });
 		
 		$("#excelReportE").click(function(){
-			$searchform.attr("action","working_inout!excelexport.action");
+			$searchform.attr("action","working_inout!excelexport1.action");
 			 $searchform.submit();
 		});
 		 $(".changeDate").click(function(){

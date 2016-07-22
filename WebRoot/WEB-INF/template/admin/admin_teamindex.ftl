@@ -241,6 +241,7 @@
 															class="bigger-110 no-text-shadow">成品检验</span>
 													</button>
 												</div>
+												<!--
 												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
 													data-access-list="endproduct">
 													<button                                               
@@ -249,6 +250,7 @@
 															class="bigger-110 no-text-shadow">成品入库</span>
 													</button>
 												</div>
+												-->
 												<div class="col-md-3 col-sm-4 " style="padding:2px;"
 													data-access-list="quickresponse">
 													<button

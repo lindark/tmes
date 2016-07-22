@@ -203,6 +203,7 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.ProcessHandoverSon</value>
 				<value>cc.jiuyi.entity.FactoryUnitSyn</value>
 				<value>cc.jiuyi.entity.ProcessHandoverAll</value>
+				<value>cc.jiuyi.entity.ProductStorage</value>
 			</list>
 		</property>
 	</bean>

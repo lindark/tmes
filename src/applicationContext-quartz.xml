@@ -48,6 +48,7 @@
 	   		<ref local="cronTriggerCA_DocBM"/> 
 	   		 <ref local="cronTriggerEquipment"/>
 	   		 <ref local="cronTriggerdeleteCardJob"/>
+	   		 <ref local="cronTriggerdProductStorageJob"/>
             </list>   
         </property>   
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
@@ -111,4 +112,44 @@
 		  <!-- <value>0 0/1 * * * ?</value> -->
 		  </property>
 	</bean>
+	
+	
+	<!-- 定时任务  生产入库自动同步 -->
+	<bean name="productStorageJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="cc.jiuyi.action.cron.ProductStorageJob"></property>
+	</bean>
+	<!-- 任务的执行 -->
+	<bean id="cronTriggerdProductStorageJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	 <property name="jobDetail">
+		   <ref bean="productStorageJob"/>
+		  </property>
+		  <property name="cronExpression">
+		  <value>0 0/10 * * * ?</value> 
+		  </property>
+	</bean>
+<!-- <bean id="autoSyncProStoBean" class="cc.jiuyi.action.admin.ProductStorageAction"></bean>
+	<bean id="autoSyncProStoJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		  <property name="targetObject" ref="autoSyncProStoBean"></property>  
+          <property name="targetMethod" value="syncByQuartz"></property>  
+          <property name="concurrent" value="false"></property>  
+	</bean> -->
+	<!-- 任务的执行 -->
+<!-- 	<bean id="autoSyncProStoTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	      <property name="jobDetail">
+		      <ref bean="autoSyncProStoJob"/>
+		  </property>
+		  <property name="cronExpression">
+		      <value>0 0/10 * * * ?</value>  每隔十分钟执行一次
+		  </property>
+	</bean> -->
+	
+	<!-- 调度工厂  -->  
+   <!--  <bean id="autoSyncProSto_jobScheduler"  
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                <ref bean="autoSyncProStoTrigger" />  
+            </list>  
+        </property>  
+    </bean>   -->
 </beans>

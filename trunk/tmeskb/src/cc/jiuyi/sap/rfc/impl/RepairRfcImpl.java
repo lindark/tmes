@@ -69,7 +69,7 @@ public class RepairRfcImpl extends BaserfcServiceImpl implements RepairRfc{
 			HashMap<String,Object> item2 = new HashMap<String,Object>();
 			//物料凭证明细
 			item2.put("MATNR", rp.getRpcode());//物料编码
-			item2.put("ZSFSL", rp.getRpcount());//数量
+			item2.put("ZSFSL", rp.getRpcount().toString());//数量
 			item2.put("ITEM_TEXT", rp.getITEM_TEXT());//项目文本 选填
 			item2.put("XUH", rp.getRepair().getId());//序号 必填
 			item2.put("ORDERID", rp.getRepair().getWorkingbill().getAufnr());

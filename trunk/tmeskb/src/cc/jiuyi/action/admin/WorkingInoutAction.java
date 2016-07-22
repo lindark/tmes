@@ -43,11 +43,11 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private String[] strlen = {"workingbill.workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","workingbill.productDate","shift","workingbill.aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
 								"trzsl","cczsl","slcy","jhdcl","workingbill.matnr","workingbill.maktx","materialName","totalAmount","isHand","jycl","workingbill.workcenter","teamCode","teamName",
-								"bulkProductMount","needAttendance","actulAttendance","zhuren","fuzhuren","minister","deputy","workHours"};
-	private String[] lavenlen={"随工单编号","子件编码","计划数量","接/零头","接/零头/返","领用","倍数","入库",
+								"bulkProductMount","needAttendance","actulAttendance","zhuren","fuzhuren","minister","deputy","workHours","storage","offset"};
+	private String[] lavenlen={"随工单编号","子件编码","计划数量","接/零头","接/零头/返","领用","倍数","包装数",
 								"交/零头","报废","返修发货","返修收货","生产日期","班次","生产订单号","用量","生产数","交/零头/返","一次合格率",
 								"投入汇总","产出汇总","差异","计划达成率","物料编码","物料描述","组件描述","报工","单据状态","校验差异","单元",
-								"班组编码","班组名称","待包装数量","应出勤人数","实出勤人数","主任","副主任","部长","副总","工作小时"};
+								"班组编码","班组名称","待包装数量","应出勤人数","实出勤人数","主任","副主任","部长","副总","工作小时","入库数","偏差"};
 	public String list(){
 		
 		Integer[] sunxulen={};

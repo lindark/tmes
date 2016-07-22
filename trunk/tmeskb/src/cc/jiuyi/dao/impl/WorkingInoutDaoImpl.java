@@ -1,22 +1,19 @@
 package cc.jiuyi.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-
-
-
-
-
-
 
 
 
@@ -45,6 +42,31 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 			return false;
 		} else {
 			return true;
+		}
+	}
+	
+	public double getStorageByAufnr(String aufnr){
+		try {
+			Connection conn = getSession().connection();
+			PreparedStatement pre=conn.prepareStatement("select sum(decode(bwart,'101',menge,'102',(-1)*menge,0)) from productstorage where aufnr||SGTXT=?");
+			if(aufnr==null || aufnr.equals("")){
+				aufnr="";
+			}else if(aufnr.startsWith("0")){
+				
+			}else{
+				aufnr="000"+aufnr;
+			}
+			pre.setString(1, aufnr);
+			ResultSet rs=pre.executeQuery();
+			if(rs.next() && rs.getDouble(1)!=0){
+				return rs.getDouble(1);
+			}else{
+				return 0;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return 0;
 		}
 	}
 
@@ -216,7 +238,6 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		return (List<String>)getSession().createQuery(hql).list();
 
 	}
-	
 	@Override
 	public List<String[]> sumAmount(String aufnr,String unit,String start,String end,List<String[]> processList) {
 		//String unit = "3110";

@@ -31,6 +31,11 @@ public interface WorkingInoutDao extends BaseDao<WorkingInout,String> {
 	public List<WorkingInout> findPagerByWorkingBillInout(HashMap<String,String> map);
 
 	/**
+	 * 根据生产订单号加班次得到入库数
+	 */
+	public double getStorageByAufnr(String aufnr);
+	
+	/**
 	 * 获取数据
 	 * 首页中点击其中一个随工单后显示其投入产出数据
 	 */

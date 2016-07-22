@@ -37,7 +37,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		String hql = "from WorkingInout a where a.workingbill.id=? and materialCode=?";
 		List<WorkingInout> workingInoutlist = (List<WorkingInout>) getSession()
 				.createQuery(hql).setParameter(0, workingBillId).setParameter(1, materialCode).list();
-		if (workingInoutlist == null && workingInoutlist.size()==0) {
+		if (workingInoutlist == null || workingInoutlist.size()==0) {
 			return false;
 		} else {
 			return true;
@@ -75,7 +75,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 		String hql = "from WorkingInout a where workingbill.id=? and materialCode=?";
 		List<WorkingInout> workingInoutlist = (List<WorkingInout>) getSession().createQuery(hql)
 				.setParameter(0, workingBillId).setParameter(1, materialCode).list();
-		if(workingInoutlist==null && workingInoutlist.size()==0)
+		if(workingInoutlist==null || workingInoutlist.size()==0)
 			return null;
 		else
 		return workingInoutlist.get(0);

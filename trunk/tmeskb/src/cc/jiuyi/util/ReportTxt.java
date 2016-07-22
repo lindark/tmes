@@ -39,7 +39,7 @@ public class ReportTxt {
 	//导出excel
 	public InputStream  doExport(List<String[]> list) throws Exception {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		 CsvWriter wr =new CsvWriter(output,',',Charset.forName("UTF-8"));
+		 CsvWriter wr =new CsvWriter(output,',',Charset.forName("GB18030"));
 		 for(int i=0;i<list.size();i++){
 			 	Object[] objs = list.get(i);
 			 	String[] strs = Arrays.asList( objs ).toArray( new String[0] );

@@ -522,11 +522,9 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-//		factoryunit=this.fuservice.getById(ip);
-		factoryUnitList = this.fuservice.getByIds(ip);
+		factoryunit=this.fuservice.getById(ip);
 		list_map=new ArrayList<HashMap<String,String>>();
-//		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
-		list_map=this.dumpService.getMengeByConditions(emp,factoryUnitList);
+		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
 		return "all";
 	}
 	
@@ -603,7 +601,7 @@ public class DumpAction extends BaseAdminAction {
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
 		//factoryunit=this.fuservice.getById("192.168.40.40");// 
-		factoryUnitList=this.fuservice.getByIds(ip);
+		factoryunit=this.fuservice.getById(ip);
 		
 		//测试时使用
 		//admin=adminService.getLoginAdmin();
@@ -613,17 +611,9 @@ public class DumpAction extends BaseAdminAction {
 		//System.out.println(ip);
 		
 		//根据单元获取物料
-		if(factoryUnitList!=null)
+		if(factoryunit!=null)
 		{
-//			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
-			list_material=new ArrayList<Material>();
-			for(int i=0;i<factoryUnitList.size();i++){
-				FactoryUnit factoryUnit = factoryUnitList.get(i);
-				Set<Material> materialSet = factoryUnit.getMaterialSet();
-				for(Material m:materialSet){
-					list_material.add(m);
-				}
-			}
+			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
 		}
 		return "entry";
 	}

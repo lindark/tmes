@@ -1164,6 +1164,17 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
+				
+				
+					<li class="">
+						<a href="product_storage!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							生产入库同步
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+					
 					<li class="">
 						<a href="working_bill!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

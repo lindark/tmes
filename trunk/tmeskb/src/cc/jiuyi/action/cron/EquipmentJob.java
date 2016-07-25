@@ -35,7 +35,7 @@ public class EquipmentJob extends MyDetailQuartzJobBean {
    
    log.info("同步设备主数据结束>........");
   }catch(Exception e){
-   log.error("同步设备主数据出错",e);
+   log.info("同步设备主数据出错",e);
   }
  }
  

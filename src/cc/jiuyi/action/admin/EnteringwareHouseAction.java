@@ -22,6 +22,8 @@ import org.springframework.beans.BeanUtils;
 
 
 
+
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
@@ -385,234 +387,43 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 
 	// 刷卡确认
-	public String creditapproval() {
-		
-		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
-		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
-		if(!ThinkWayUtil.isPass(card_admin)){
-			
-			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
-		}*/
-		
+	public String creditapproval() {		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		log.info("入库刷卡确认开始"+workingbill.getTotalSingleAmount());
-		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
-		if(unitconversion==null){
-			return ajaxJsonErrorMessage("未找到该物料对应的单位!");
-		}
-		ratio = unitconversion.getConversationRatio().intValue();		
-		if (ratio == null || ratio.equals("")) {
-           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-		}*/
-		Admin admin1 = adminService.getByCardnum(cardnumber);
-		Admin admin=adminService.get(loginid);
-		
-		String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
-		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
-		ThinkWayUtil util = new ThinkWayUtil();
-		String budat = util.SystemDate();// 过账日期
-		ids = id.split(",");
-		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		for (int i = 0; i < list.size(); i++) {
-			EnteringwareHouse enteringwareHouse = list.get(i);
-			if (CONFIRMED.equals(enteringwareHouse.getState())) {
-				return ajaxJsonErrorMessage("已确认的无须再确认!");
-			}
-			if (UNDO.equals(enteringwareHouse.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再确认！");
-			}
-		}	
-		String charg = enteringwareHouseService.getCharg(workingbill);
-		Double totalamount = workingbill.getTotalSingleAmount();
-		//List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
-		for(EnteringwareHouse e:list){
-//			String ex_mblnr = e.getEx_mblnr();
-//			if(!"".equals(ex_mblnr) && ex_mblnr != null){//weitao modify
-//				continue;
-//			}
-			e.setBudat(budat);
-			e.setWerks(werks);
-			e.setLgort(warehouse);
-			e.setMoveType("101");
-			e.setBatch(charg);
-			e.setState(CONFIRMED);
-			e.setConfirmUser(admin1);
-			enteringwareHouseService.update(e);
-			//enteringwareHouse = enteringwareHouseService.get(e.getId());
-			totalamount = e.getStorageAmount()+totalamount;
-			//e.setStorageAmount(e.getStorageAmount());
-			//enterList.add(e);
-		}
-		workingbill.setTotalSingleAmount(totalamount);
-		workingBillService.update(workingbill);
-		/* 	去掉与SAP交互的代码
 		try {
-			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
-			for(EnteringwareHouse e:aufnr){
-				if("E".equalsIgnoreCase(e.getE_type())){
-					return this.ajaxJsonErrorMessage(e.getE_message());
-				}
-				
-			}	
-
-			enteringwareHouseService.updateState(aufnr, CONFIRMED, workingbill,
-					cardnumber);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			log.info(e1);
-			return ajaxJsonErrorMessage("IO出现异常");
-		} catch (CustomerException e1) {
-			e1.printStackTrace();
-			log.info(e1);
-			return ajaxJsonErrorMessage(e1.getMsgDes());
-		}catch (Exception e) {
-			e.printStackTrace();
+			enteringwareHouseService.updateApproval(cardnumber,loginid,id,CONFIRMED,UNDO,workingbill);
+		} catch (Exception e) {
 			log.info(e);
-			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMessage());
 		}
-		*/
-		
 		workingbill = workingBillService.get(workingBillId);
-		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
-				.getByBill(workingBillId);
-		for (int i = 0; i < enteringwares.size(); i++) {
-			totalAmount += enteringwares.get(i).getStorageAmount();
-		}*/
+
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount()
 				.toString());
-		//hashmap.put("total", totalAmount.toString());
 		log.info("入库刷卡确认结束"+workingbill.getTotalSingleAmount());
 		return ajaxJson(hashmap);
 	}
 
 	// 刷卡撤销
 	public  String creditundo() {
-		
-		/*Admin  card_admin= adminService.getByCardnum(cardnumber);
-		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
-		if(!ThinkWayUtil.isPass(card_admin)){
-			
-			return ajaxJsonErrorMessage("您当前未上班,不能进行入库操作!");
-		}*/
-		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
-		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
-		ratio = unitconversion.getConversationRatio().intValue();		
-		if (ratio == null || ratio.equals("")) {
-	           return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
-			}*/
 		log.info("入库刷卡确认撤销开始"+workingbill.getTotalSingleAmount());
-		Admin admin = adminService.getByCardnum(cardnumber);
-		
-		String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
-		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
-		ThinkWayUtil util = new ThinkWayUtil();
-		String budat = util.SystemDate();// 过账日期
-		ids = id.split(",");
-		Date date = new Date(); 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
-		String time = dateFormat.format(date); 
-		Double totalamount = workingbill.getTotalSingleAmount();
-		String charg = enteringwareHouseService.getCharg(workingbill);
-		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-		for (int i = 0; i < list.size(); i++) {
-			EnteringwareHouse enteringwareHouse = enteringwareHouseService.load(ids[i]);
-			if (UNDO.equals(enteringwareHouse.getState())) {
-				return ajaxJsonErrorMessage("已撤销的无法再撤销！");
-			}
-		}
-		for(EnteringwareHouse e:list){
-			if(UNCONFIRM.equals(e.getState())){//未确认直接撤销
-				e.setState(UNDO);
-				e.setRevokedTime(time);
-				e.setRevokedUser(admin.getName());
-				e.setRevokedUserCard(cardnumber);
-				e.setRevokedUserId(admin.getId());
-				enteringwareHouseService.update(e);
-			}else if(CONFIRMED.equals(e.getState())){//已确认直接撤销
-				e.setState(UNDO);
-				e.setBudat(budat);
-				e.setWerks(werks);
-				e.setLgort(warehouse);
-				e.setMoveType("102");
-				e.setBatch(charg);
-				e.setRevokedTime(time);
-				e.setRevokedUser(admin.getName());
-				e.setRevokedUserCard(cardnumber);
-				e.setRevokedUserId(admin.getId());
-				enteringwareHouseService.update(e);
-				totalamount -= e.getStorageAmount();	
-				
-			}
-		}
-		workingbill.setTotalSingleAmount(totalamount);
-		workingBillService.update(workingbill);
-//		List<EnteringwareHouse> list = enteringwareHouseService.get(ids);
-//		String charg = enteringwareHouseService.getCharg(workingbill);
-//		List<EnteringwareHouse> enterList = new ArrayList<EnteringwareHouse>();
-//		for(EnteringwareHouse e:list){
-//			e.setBudat(budat);
-//			e.setWerks(werks);
-//			e.setLgort(warehouse);
-//			e.setMoveType("102");
-//			e.setBatch(charg);
-//			if(CONFIRMED.equals(e.getState())){//将已确认的放进去
-//				enterList.add(e);
-//			}		
-//		}
-		/*	if(enterList.size()>0){//已确认的数据调sap接口
-			
-		 try {
-			List<EnteringwareHouse> aufnr1=enteringwareHouseRfc.WarehousingCrt("X",enterList);
-			for(EnteringwareHouse e:aufnr1){
-				if(e.getEx_mblnr()!=null && !"".equals(e.getEx_mblnr())){
-					log.info("----X----ex_mblnr---"+e.getEx_mblnr());
-				}
-				if("E".equalsIgnoreCase(e.getE_type()))
-				{
-					return this.ajaxJsonErrorMessage(e.getE_message());
-				}
-				
-			}
-			List<EnteringwareHouse> aufnr=enteringwareHouseRfc.WarehousingCrt("",enterList);
-			for(EnteringwareHouse e:aufnr){
-				if("E".equalsIgnoreCase(e.getE_type()))
-				{
-					return this.ajaxJsonErrorMessage(e.getE_message());
-				}
-			}
-			
-			enteringwareHouseService.updateState(aufnr, UNDO, workingbill,cardnumber);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			log.info(e1);
-			return ajaxJsonErrorMessage("IO出现异常");
-		} catch (CustomerException e1) {
-			e1.printStackTrace();
-			log.info(e1);
-			return ajaxJsonErrorMessage(e1.getMsgDes());
-		}catch (Exception e) {
-			e.printStackTrace();
+		try {
+			enteringwareHouseService.updateUndo(cardnumber,loginid,id,UNCONFIRM,CONFIRMED,UNDO,workingbill);
+		} catch (Exception e) {
 			log.info(e);
-			return ajaxJsonErrorMessage("系统出现错误，请联系系统管理员");
-		}   
-		
-		}*/
-		
+			e.printStackTrace();
+			return ajaxJsonErrorMessage(e.getMessage());
+		}
 		workingbill = workingBillService.get(workingBillId);
-		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
-				.getByBill(workingBillId);
-		for (int i = 0; i < enteringwares.size(); i++) {
-			totalAmount += enteringwares.get(i).getStorageAmount();
-		}*/
 		HashMap<String, String> hashmap = new HashMap<String, String>();
 		hashmap.put(STATUS, SUCCESS);
 		hashmap.put(MESSAGE, "您的操作已成功");
 		hashmap.put("totalSingleAmount", workingbill.getTotalSingleAmount().toString());
-		//hashmap.put("total", totalAmount.toString());
 		log.info("入库刷卡确认撤销结束"+workingbill.getTotalSingleAmount());
 		return ajaxJson(hashmap);
 	}

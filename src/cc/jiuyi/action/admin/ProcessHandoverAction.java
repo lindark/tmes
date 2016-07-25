@@ -540,7 +540,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 		}
 		return INPUT;
 	}
@@ -675,7 +675,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 		}
 		return INPUT;
 	}

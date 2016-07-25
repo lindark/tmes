@@ -517,7 +517,7 @@ public class ReturnProductAction extends BaseAdminAction {
 				return ajaxJson(jsonArray.get(0).toString());
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error(e.getMessage());
+				log.info(e.getMessage());
 			}
 			return null;
 			

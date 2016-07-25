@@ -244,13 +244,13 @@ public class WorkingBillAction extends BaseAdminAction {
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);
 			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (CustomerException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (Exception e){
-			log.error("错误"+e);
+			log.info("错误"+e);
 			e.printStackTrace();
 		}
 		

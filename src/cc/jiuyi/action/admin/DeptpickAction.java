@@ -438,7 +438,7 @@ public class DeptpickAction extends BaseAdminAction {
 			return ajaxJsonSuccessMessage("保存成功!"); 
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error(e.getMessage());
+			log.info(e.getMessage());
 			return ajaxJsonErrorMessage("保存失败，请重试");
 		}
 		
@@ -500,11 +500,11 @@ public class DeptpickAction extends BaseAdminAction {
 			}
 		}catch(IOException e){
 			e.printStackTrace();
-			log.error(e.getMessage());
+			log.info(e.getMessage());
 			return ajaxJsonErrorMessage("IO操作失败");
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error(e.getMessage());
+			log.info(e.getMessage());
 			return ajaxJsonErrorMessage("确认失败");
 		}
 		

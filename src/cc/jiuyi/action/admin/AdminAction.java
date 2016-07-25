@@ -323,7 +323,7 @@ public class AdminAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 		}finally{
 			return "teamindex";
 		}
@@ -379,7 +379,7 @@ public class AdminAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 		}finally{
 			return "teamindex";
 		}

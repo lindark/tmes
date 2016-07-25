@@ -104,10 +104,10 @@
 												<i class="ace-icon fa fa-filter blue"></i>
 												Excel导出
 											</a>
-											<#-- <a  id="excelReportE"class="btn btn-white btn-default btn-sm btn-round">
+											 <a  id="excelReportE"class="btn btn-white btn-default btn-sm btn-round">
 												<i class="ace-icon fa fa-filter blue"></i>
 												Excel导出New
-											</a> -->
+											</a>
 										</div>
 										
 									</div>

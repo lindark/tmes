@@ -83,7 +83,7 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 //			
 //			log.info("WorkingBillJob任务结束");
 //		} catch (Exception e) {
-//			log.error("WorkingBillJob任务出错", e);
+//			log.info("WorkingBillJob任务出错", e);
 //		}
 	}
 	
@@ -110,13 +110,13 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 				List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
 				workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 			} catch (IOException e){
-				log.error("同步生产订单出错"+e);
+				log.info("同步生产订单出错"+e);
 				e.printStackTrace();
 			} catch (CustomerException e){
-				log.error("同步生产订单出错"+e);
+				log.info("同步生产订单出错"+e);
 				e.printStackTrace();
 			} catch (Exception e){
-				log.error("错误"+e);
+				log.info("错误"+e);
 				e.printStackTrace();
 			}
 			

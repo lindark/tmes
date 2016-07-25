@@ -51,4 +51,8 @@ public interface EnteringwareHouseService extends
 	 * @return
 	 */
 	public List<Object[]> historyExcelExport(HashMap<String, String> map);
+	
+	public void updateApproval(String cardnumber,String loginid,String id,String confirmed,String undo,WorkingBill workingbill) throws Exception ;
+	
+	public void updateUndo(String cardnumber,String loginid,String id,String unconfirm,String confirmed,String undo,WorkingBill workingbill) throws Exception ;
 }

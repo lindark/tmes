@@ -254,21 +254,23 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			boolean flag = workingInoutService.isExist(workingBillId, materialCode);
 			/**如果不存在就保存一条进去**/
 			if(!flag){
-				WorkingInout workingInout = new WorkingInout();				
+//				WorkingInout workingInout = new WorkingInout();				
 				/**如果退料的情况**/
 				if(pickDetail.getPickType().equals("262")){
 					//workingInout.setMultiple(0-multiple);//投入产出减
-					workingInout.setRecipientsAmount(0-recipientsAmount);//领用数减
+//					workingInout.setRecipientsAmount(0-recipientsAmount);//领用数减
+					workingInoutService.saveWorkinginout(workingBillService.get(workingBillId),0-recipientsAmount, materialCode, materialName);
 				}
 				/**如果是领料的情况**/
 				else{				
 					//workingInout.setMultiple(multiple);//投入产出加
-					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
+//					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
+					workingInoutService.saveWorkinginout(workingBillService.get(workingBillId),recipientsAmount, materialCode, materialName);
 				}
-				workingInout.setMaterialCode(materialCode);//保存物料号
-				workingInout.setMaterialName(materialName);//保存物料描述
-				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
-				workingInoutService.save(workingInout);//投入产出表保存
+//				workingInout.setMaterialCode(materialCode);//保存物料号
+//				workingInout.setMaterialName(materialName);//保存物料描述
+//				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
+//				workingInoutService.save(workingInout);//投入产出表保存
 							
 			}
 			else{

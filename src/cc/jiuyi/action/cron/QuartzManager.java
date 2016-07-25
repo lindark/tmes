@@ -46,7 +46,7 @@ public class QuartzManager implements BeanFactoryAware {
 		//scheduler.shutdown(true);
 		//System.out.println("reScheduleJob---->关闭");
 		
-		/*factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
+		factoryUnitService = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
 		List<FactoryUnit> factoryUnitList = factoryUnitService.getAll();
 	
 		List<FactoryUnit> quartzList = new ArrayList<FactoryUnit>();//这里是手动设置了一个
@@ -62,7 +62,7 @@ public class QuartzManager implements BeanFactoryAware {
 				if(!QuartzManagerUtil.checkJobname(f.getWorkCenter(),TRIGGER_GROUP_NAME))
 				QuartzManagerUtil.removeJob(f.getWorkCenter(),JOB_GROUP_NAME,TRIGGER_GROUP_NAME);//如果存在同名的即先删除定时任务
 			}
-		}*/
+		}
 		
 	}
 

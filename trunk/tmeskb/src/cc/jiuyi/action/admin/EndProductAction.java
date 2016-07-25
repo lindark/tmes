@@ -483,7 +483,7 @@ public class EndProductAction extends BaseAdminAction {
 			}
 			return ajaxJsonSuccessMessage("保存成功!");
 		} catch (Exception e) {
-			log.error(e);
+			log.info(e);
 			return ajaxJsonErrorMessage("确认失败，请重试");
 		}
 
@@ -622,7 +622,7 @@ public class EndProductAction extends BaseAdminAction {
 			return ajaxJson(jsonArray.get(0).toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error(e.getMessage());
+			log.info(e.getMessage());
 		}
 		return null;
 		

@@ -149,7 +149,7 @@ public class ProductStorageAction extends BaseAdminAction {
 			log.info("定时生产入库同步结束");
 		} catch (Exception e) {
 			// TODO: handle exception
-			log.error("定时生产入库同步错误"+e.getMessage());
+			log.info("定时生产入库同步错误"+e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -270,7 +270,8 @@ public class ProductStorageAction extends BaseAdminAction {
 			// TODO: handle exception
 			log.info("生产入库同步错误"+e);
 			e.printStackTrace();
-			return "failed";
+			addActionError("生产入库同步失败");
+			return "ERROR";
 		}
 		return SUCCESS;
 	}

@@ -370,12 +370,12 @@ public class UpDownAction extends BaseAdminAction {
 			Collections.sort(locationonsideList); 
 		}catch(IOException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError("IO操作失败");
 			return ERROR;
 		}catch(CustomerException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError(e.getMsgDes());
 			return ERROR;
 		}
@@ -449,12 +449,12 @@ public class UpDownAction extends BaseAdminAction {
 			Collections.sort(locationonsideList); 
 		}catch(IOException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError("IO操作失败");
 			return ERROR;
 		}catch(CustomerException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError(e.getMsgDes());
 			return ERROR;
 		}
@@ -643,12 +643,12 @@ public class UpDownAction extends BaseAdminAction {
 				Collections.sort(locationonsideList); 
 			}catch(IOException e){
 				e.printStackTrace();
-				log.error(e);
+				log.info(e);
 				addActionError("IO操作失败");
 				return ERROR;
 			}catch(CustomerException e){
 				e.printStackTrace();
-				log.error(e);
+				log.info(e);
 				addActionError(e.getMsgDes());
 				return ERROR;
 			}
@@ -758,12 +758,12 @@ public class UpDownAction extends BaseAdminAction {
 			Collections.sort(locationonsideList); 
 		}catch(IOException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError("IO操作失败");
 			return ERROR;
 		}catch(CustomerException e){
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			addActionError(e.getMsgDes());
 			return ERROR;
 		}
@@ -973,11 +973,11 @@ public class UpDownAction extends BaseAdminAction {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error(e);
+			log.info(e);
 			return ajaxJsonErrorMessage("IO操作失败!");
 		} catch (CustomerException e) {
 			e.printStackTrace();
-			log.error(e.getMsgDes());
+			log.info(e.getMsgDes());
 			return ajaxJsonErrorMessage(e.getMsgDes());
 		}
 		

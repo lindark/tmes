@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import cc.jiuyi.bean.Pager;
@@ -32,6 +33,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 public class EnteringwareHouseServiceImpl extends
 		BaseServiceImpl<EnteringwareHouse, String> implements
 		EnteringwareHouseService {
+	public static Logger log = Logger.getLogger(EnteringwareHouseServiceImpl.class);
 	@Resource
 	private EnteringwareHouseDao enteringwareHouseDao;
 	@Resource
@@ -152,6 +154,123 @@ public class EnteringwareHouseServiceImpl extends
 	public List<Object[]> historyExcelExport(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return enteringwareHouseDao.historyExcelExport(map);
+	}
+
+	@Override
+	public void updateApproval(String cardnumber,String loginid, String id, String confirmed,
+			String undo, WorkingBill workingbill) throws Exception {
+		try {
+			Admin admin1 = adminservice.getByCardnum(cardnumber);
+			//Admin admin=adminservice.get(loginid);		
+			//String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
+			//String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+			ThinkWayUtil util = new ThinkWayUtil();
+			String budat = util.SystemDate();// 过账日期
+			String[] ids = id.split(",");
+			List<EnteringwareHouse> list = get(ids);
+			for (int i = 0; i < list.size(); i++) {
+				EnteringwareHouse enteringwareHouse = list.get(i);
+				if (confirmed.equals(enteringwareHouse.getState())) {
+					throw new Exception("1");
+				}
+				if (undo.equals(enteringwareHouse.getState())) {
+					throw new Exception("2");
+				}
+			}	
+			String charg = getCharg(workingbill);
+			Double totalamount = workingbill.getTotalSingleAmount();
+			for(EnteringwareHouse e:list){
+				e.setBudat(budat);
+				//e.setWerks(werks);
+				//e.setLgort(warehouse);
+				e.setMoveType("101");
+				e.setBatch(charg);
+				e.setState(confirmed);
+				e.setConfirmUser(admin1);
+				update(e);
+				//enteringwareHouse = enteringwareHouseService.get(e.getId());
+				totalamount = e.getStorageAmount()+totalamount;
+				//e.setStorageAmount(e.getStorageAmount());
+				//enterList.add(e);
+			}
+			workingbill.setTotalSingleAmount(totalamount);
+			workingbillService.update(workingbill);
+		} catch (Exception e) {
+			log.info(e);
+			if("1".equals(e.getMessage())){
+				throw new Exception("已确认的无须再确认!");
+			}else if("2".equals(e.getMessage())){
+				throw new Exception("已撤消的无须再确认!");
+			}else{
+				throw new Exception("数据更新失败，请重试");
+			}
+			
+		}
+		
+
+		
+	}
+
+	@Override
+	public void updateUndo(String cardnumber, String loginid, String id,
+			String unconfirm, String confirmed, String undo,
+			WorkingBill workingbill) throws Exception {
+		try {
+			Admin admin1 = adminservice.getByCardnum(cardnumber);
+			//Admin admin=adminservice.get(loginid);
+			//String warehouse = admin.getTeam().getFactoryUnit().getWarehouse();// 线边仓
+			//String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();// 工厂		
+			ThinkWayUtil util = new ThinkWayUtil();
+			String budat = util.SystemDate();// 过账日期
+			String[] ids = id.split(",");
+			Date date = new Date(); 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//可以方便地修改日期格式
+			String time = dateFormat.format(date); 
+			Double totalamount = workingbill.getTotalSingleAmount();
+			String charg = getCharg(workingbill);
+			List<EnteringwareHouse> list = get(ids);
+			for (int i = 0; i < list.size(); i++) {
+				EnteringwareHouse enteringwareHouse = get(ids[i]);
+				if (undo.equals(enteringwareHouse.getState())) {
+					throw new Exception("1");
+				}
+			}
+			for(EnteringwareHouse e:list){
+				if(unconfirm.equals(e.getState())){//未确认直接撤销
+					e.setState(undo);
+					e.setRevokedTime(time);
+					e.setRevokedUser(admin1.getName());
+					e.setRevokedUserCard(cardnumber);
+					e.setRevokedUserId(admin1.getId());
+					update(e);
+				}else if(confirmed.equals(e.getState())){//已确认直接撤销
+					e.setState(undo);
+					e.setBudat(budat);
+					//e.setWerks(werks);
+					//e.setLgort(warehouse);
+					e.setMoveType("102");
+					e.setBatch(charg);
+					e.setRevokedTime(time);
+					e.setRevokedUser(admin1.getName());
+					e.setRevokedUserCard(cardnumber);
+					e.setRevokedUserId(admin1.getId());
+					update(e);
+					totalamount -= e.getStorageAmount();	
+					
+				}
+			}
+			workingbill.setTotalSingleAmount(totalamount);
+			workingbillService.update(workingbill);
+			
+		} catch (Exception e) {
+			log.info(e);
+			if("1".equals(e.getMessage())){
+				throw new Exception("已撤销的无法再撤销！");
+			}else{
+				throw new Exception("数据更新失败，请重试");
+			}
+			
+		}
 	}
 
 }

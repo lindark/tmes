@@ -237,19 +237,21 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				boolean flag1 = workinginoutservice.isExist(p.getWorkingBill().getId(), ps.getBomCode());
 				if("工序交接".equals(p.getProcessHandoverTop().getType())){
 					if(!flag1){//如果不存在，新增  --- 上一随工单信息
-						WorkingInout workinginout = new WorkingInout();
-						workinginout.setWorkingbill(p.getWorkingBill());
-						workinginout.setMaterialCode(ps.getBomCode());
-						workinginout.setMaterialName(ps.getBomDesp());
-						workinginoutservice.save(workinginout);
+//						WorkingInout workinginout = new WorkingInout();
+//						workinginout.setWorkingbill(p.getWorkingBill());
+//						workinginout.setMaterialCode(ps.getBomCode());
+//						workinginout.setMaterialName(ps.getBomDesp());
+//						workinginoutservice.save(workinginout);
+						workinginoutservice.saveWorkinginout(p.getWorkingBill(),0.0, ps.getBomCode(), ps.getBomDesp());
 					}
 					boolean flag2 = workinginoutservice.isExist(AfterWorkingbill.getId(),ps.getBomCode());
 					if(!flag2){//如果不存在,新增 --- 下一随工单信息
-						WorkingInout workinginout = new WorkingInout();
-						workinginout.setWorkingbill(AfterWorkingbill);
-						workinginout.setMaterialCode(ps.getBomCode());
-						workinginout.setMaterialName(ps.getBomDesp());
-						workinginoutservice.save(workinginout);
+//						WorkingInout workinginout = new WorkingInout();
+//						workinginout.setWorkingbill(AfterWorkingbill);
+//						workinginout.setMaterialCode(ps.getBomCode());
+//						workinginout.setMaterialName(ps.getBomDesp());
+//						workinginoutservice.save(workinginout);
+						workinginoutservice.saveWorkinginout(AfterWorkingbill,0.0,ps.getBomCode(), ps.getBomDesp());
 					}
 				}
 			}

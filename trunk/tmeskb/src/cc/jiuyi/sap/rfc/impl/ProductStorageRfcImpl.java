@@ -82,7 +82,6 @@ public class ProductStorageRfcImpl  extends BaserfcServiceImpl implements Produc
 				ps.setZEILE(table01.getString("ZEILE"));
 				ps.setCPUDT(table01.getString("CPUDT"));
 			} catch (Exception e) {
-				// TODO: handle exception
 				e.printStackTrace();
 			}
 			ps.setCPUTM(table01.getString("CPUTM"));

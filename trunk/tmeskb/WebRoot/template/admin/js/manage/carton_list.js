@@ -281,7 +281,7 @@ function btn_event()
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var rowData = $("#grid-table").jqGrid('getRowData',info);
 			var row_state = rowData.state;
 			if(row_state == "1" || row_state =="3"){
 				layer.msg("已经确认或已经撤销的领料单无法再确认!",{icon:5});
@@ -295,7 +295,7 @@ function btn_event()
 	$("#btn_cancel").click(function(){
 		if(getId())
 		{
-			var rowData = $("#grid-table").jqGrid('getRowData',id);
+			var rowData = $("#grid-table").jqGrid('getRowData',info);
 			var row_state = rowData.state;
 			if(row_state == "1" || row_state =="3"){
 				layer.msg("已经撤销的领料单无法再撤销!",{icon:5});

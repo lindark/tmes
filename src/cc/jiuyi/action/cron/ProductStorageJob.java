@@ -24,7 +24,7 @@ public class ProductStorageJob extends MyDetailQuartzJobBean {
 			productstoragerfc.sysnProductStorage(null);
 			log.info("定时生产入库同步结束");
 		} catch (Exception e) {
-			log.error("定时生产入库同步错误"+e.getMessage());
+			log.info("定时生产入库同步错误"+e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -125,7 +125,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 		                 Node stateNode = doc.selectSingleNode("/infos/info/state");
 		                 
 		                 if(!stateNode.getText().equalsIgnoreCase("0")){//短信发送不成功	
-		                	log.error("向"+phoneNo+"手机发送短信失败");		             	
+		                	log.info("向"+phoneNo+"手机发送短信失败");		             	
 		                 }
 		                 
 		    			}catch(Exception e){
@@ -180,7 +180,7 @@ public class ExtremelyMessage extends MyDetailQuartzJobBean {
 			
 			 
 	     }catch(Exception e){
-		      log.error("ExtremelyMessage任务出错",e);
+		      log.info("ExtremelyMessage任务出错",e);
 		  }
 	}
 }

@@ -84,7 +84,7 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			log.error("KaoqinMonitor任务出错", e);
+			log.info("KaoqinMonitor任务出错", e);
 		}
 	}
 }

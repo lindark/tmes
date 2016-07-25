@@ -40,7 +40,7 @@ public class DocBmServiceJob extends MyDetailQuartzJobBean {
    //dictService.updateDictValue("DOCBM","chejianBm","0000");
    log.info("DocBmServiceJob任务结束");
   }catch(Exception e){
-   log.error("DocBmServiceJob任务出错",e);
+   log.info("DocBmServiceJob任务出错",e);
   }
  }
  

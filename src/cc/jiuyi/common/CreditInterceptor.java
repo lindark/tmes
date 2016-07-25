@@ -112,7 +112,7 @@ public class CreditInterceptor extends MethodFilterInterceptor {
 				return null;
 			}
 		}catch(Exception e){
-			log.error(e);
+			log.info(e);
 			HashMap<String, String> jsonmap = new HashMap<String, String>();
 			jsonmap.put("status", "error");
 			jsonmap.put("message", "对不起,您无权限访问,系统异常");

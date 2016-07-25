@@ -57,13 +57,13 @@ public class WorkingBillJobAll{
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
 			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (CustomerException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (Exception e){
-			log.error("错误"+e);
+			log.info("错误"+e);
 			e.printStackTrace();
 		}
 		
@@ -92,13 +92,13 @@ public class WorkingBillJobAll{
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);
 			workingbillrfc.syncRepairorderAll(startdate, enddate,starttime,endtime,"",workshopcode,unitdistributeList,workcode[0]);
 		} catch (IOException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (CustomerException e){
-			log.error("同步生产订单出错"+e);
+			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
 		} catch (Exception e){
-			log.error("错误"+e);
+			log.info("错误"+e);
 			e.printStackTrace();
 		}
 		

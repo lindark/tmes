@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.sf.json.JSONArray;
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 
 /**
@@ -51,4 +52,6 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	public List<String[]> sumAmount(String unit,String aufnr,String start,String end,List<String[]> processList);
 	public List<String[]> sumAmountSY(HashMap<String,List<String>> map);
 	public List<String[]> findProcess();
+	
+	public void saveWorkinginout(WorkingBill WorkingBill,Double RecipientsAmount,String MaterialCode,String MaterialName);
 }

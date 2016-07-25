@@ -15,7 +15,7 @@
 <script src="${base}/template/admin/js/layer/layer.js"></script>
 <script src="${base}/template/admin/js/Main/admin_teamindex.js"></script>
 
-<script src='http://localhost:8000/CLodopfuncs.js'></script>
+
 <!-- 
 <script type="text/javascript" src="${base }/template/admin/js/LodopFuncs.js"></script>
 
@@ -649,5 +649,18 @@
 		return false;
 	}
 	</script>
+	<script type="text/javascript">
+		function downloadJSAtOnload() {
+		var element = document.createElement("script");
+		element.src = "http://localhost:8000/CLodopfuncs.js";
+		document.body.appendChild(element);
+		}
+		if (window.addEventListener)
+		window.addEventListener("load", downloadJSAtOnload, false);
+		else if (window.attachEvent)
+		window.attachEvent("onload", downloadJSAtOnload);
+		else window.onload = downloadJSAtOnload;
+	</script>
 </body>
+
 </html>

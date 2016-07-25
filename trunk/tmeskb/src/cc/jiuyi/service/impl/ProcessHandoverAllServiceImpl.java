@@ -33,29 +33,17 @@ public class ProcessHandoverAllServiceImpl extends BaseServiceImpl<ProcessHandov
 	@Override
 	public void saveAllProcess(Admin admin,Admin admin1) throws Exception{
 		try {
-			ProcessHandoverAll processHandoverAll = new ProcessHandoverAll();
-			
+			ProcessHandoverAll processHandoverAll = new ProcessHandoverAll();		
 			processHandoverAll.setIsdel("N");
-			System.out.println("---------------------1---------------------");
 			processHandoverAll.setProductDate(admin.getProductDate());
-			System.out.println("---------------------2---------------------");
 			processHandoverAll.setShift(admin.getShift());
-			System.out.println("---------------------3---------------------");
 			processHandoverAll.setState("1");
-			System.out.println("---------------------4---------------------");
-			processHandoverAll.setPhaCreateUser(admin1);
-			System.out.println("---------------------5---------------------");
-			System.out.println("team---------"+admin.getTeam()+"----");
-			System.out.println("FactoryUnit---------"+admin.getTeam().getFactoryUnit()+"----");
-			System.out.println("FactoryUnit---------"+admin.getTeam().getFactoryUnit().getId()+"----");
+			processHandoverAll.setPhaCreateUser(admin1); 
 			processHandoverAll.setFactoryUnitId(admin.getTeam().getFactoryUnit().getId());
-			System.out.println("---------------------6---------------------");
 			if(admin.getTeam()!=null){
 				processHandoverAll.setTeamid(admin.getTeam().getId());
 			}
-			System.out.println("---------------------7---------------------");
 			processHandoverAllDao.save(processHandoverAll);
-			System.out.println("---------------------8---------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);

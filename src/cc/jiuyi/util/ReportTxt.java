@@ -39,7 +39,12 @@ public class ReportTxt {
 	//导出excel
 	public InputStream  doExport(List<String[]> list) throws Exception {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		 //byte[] utf8Bom =  new byte[]{(byte) 0xef, (byte) 0xbb, (byte) 0xbf};  
+		
 		 CsvWriter wr =new CsvWriter(output,',',Charset.forName("GB18030"));
+		 //output.write(utf8Bom);
+		 //String utf8BomStr = new String(utf8Bom,"GB18030"); 
+		 //wr.write(utf8BomStr); 
 		 for(int i=0;i<list.size();i++){
 			 	Object[] objs = list.get(i);
 			 	String[] strs = Arrays.asList( objs ).toArray( new String[0] );
@@ -47,6 +52,7 @@ public class ReportTxt {
 	        	//list.toArray(a)
 	        	wr.writeRecord(strs);
 	        }
+		 
 		 wr.close();
 		 output.flush();
 		 output.close();

@@ -17,7 +17,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
-public class ProductStorage extends BaseEntity implements Comparable<ProductStorage> {
+public class ProductStorage extends BaseEntity{
 
 	private static final long serialVersionUID = 2547239998033961001L;
 
@@ -85,10 +85,10 @@ public class ProductStorage extends BaseEntity implements Comparable<ProductStor
 	}
 	
 	
-	@Override
-	public int compareTo(ProductStorage o) {
-		return this.getMaktx().compareTo(o.getMaktx());
-	}
+	//@Override
+	//public int compareTo(ProductStorage o) {
+	//	return this.getMaktx().compareTo(o.getMaktx());
+	//}
 	
 	@Column(name="CPUTM")
 	public String getCPUTM() {

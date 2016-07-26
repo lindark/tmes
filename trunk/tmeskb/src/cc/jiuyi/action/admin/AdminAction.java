@@ -277,7 +277,7 @@ public class AdminAction extends BaseAdminAction {
 	
 	// 后台首页
 	@SuppressWarnings("finally")
-	public String indexBF() {
+	public String index() {
 		try{			
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
@@ -318,6 +318,10 @@ public class AdminAction extends BaseAdminAction {
 							}
 						}
 					}
+					Orders order = ordersservice.get("aufnr",wb.getAufnr());
+					if(order!=null){
+						wb.setModule(order.getMujuntext());
+					} 
 				}
 				//System.out.println("-------------");
 			}
@@ -328,7 +332,7 @@ public class AdminAction extends BaseAdminAction {
 			return "teamindex";
 		}
 	}
-	public String index() {
+	public String indexBF() {
 
 		try{			
 			admin = adminService.getLoginAdmin();

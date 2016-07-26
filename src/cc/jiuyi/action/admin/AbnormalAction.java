@@ -168,7 +168,8 @@ public class AbnormalAction extends BaseAdminAction {
 		pager = abnormalService.getAbnormalPager(pager, map, admin2);//分页查询语句
 
 		List pagerlist = pager.getList();  
-        
+		List<Abnormal> abList = new ArrayList<Abnormal>();
+		
 		for (int i = 0; i < pagerlist.size(); i++) {//对取到的对象进行重新封装
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
 			String newType = "0";
@@ -347,8 +348,15 @@ public class AbnormalAction extends BaseAdminAction {
 			}else{
 				abnormal.setCloseOrcancelTime("");
 			}
-			
-			pagerlist.set(i, abnormal);//封装后重新放入pager对象中
+			abList.add(abnormal);
+//			pagerlist.set(i, abnormal);//封装后重新放入pager对象中
+		}
+		
+		pagerlist.clear();
+		
+		for(int i=0;i<abList.size();i++){
+			Abnormal abnormal = abList.get(i);
+			pagerlist.add(i, abnormal);//封装后重新放入pager对象中
 		}
 
 		JsonConfig jsonConfig = new JsonConfig();
@@ -838,6 +846,7 @@ public class AbnormalAction extends BaseAdminAction {
 			}else{
 				abnormal.setCloseOrcancelTime("");
 			}
+			
 			pagerlist.set(i, abnormal);
 		}
 
@@ -1188,6 +1197,7 @@ public class AbnormalAction extends BaseAdminAction {
 	public void setOriginator(String originator) {
 		this.originator = originator;
 	}
+
 
 	
 }

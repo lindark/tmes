@@ -28,9 +28,9 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		DetachedCriteria detachedCriteria = DetachedCriteria
 				.forClass(Abnormal.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);		
-//		if(!super.existAlias(detachedCriteria, "iniitiator", "admin")){
-//			detachedCriteria.createAlias("iniitiator", "admin");//表名，别名*/							
-//		}
+		if(!super.existAlias(detachedCriteria, "iniitiator", "iniitiator")){
+			detachedCriteria.createAlias("iniitiator", "iniitiator");//表名，别名*/							
+		}
 //		if(!super.existAlias(detachedCriteria, "responsorSet", "admin1")){
 //			detachedCriteria.createAlias("responsorSet", "admin1");//表名，别名*/			
 //		}
@@ -42,6 +42,10 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 */		
 //		if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null)
 //		detachedCriteria.add(Restrictions.or(Restrictions.or(Restrictions.eq("state", "0"),Restrictions.eq("state", "2")),Restrictions.and(Restrictions.eq("classtime", admin2.getShift()), Restrictions.eq("productdate", admin2.getProductDate()))));
+		if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null)
+		Restrictions.or(Restrictions.and(Restrictions.or(Restrictions.eq("state", "0"),Restrictions.eq("state", "2")),Restrictions.eq("iniitiator.team.factoryUnit", admin2.getTeam().getFactoryUnit())), Restrictions.and(Restrictions.or(Restrictions.eq("state", "3"),Restrictions.eq("state", "4")),Restrictions.eq("iniitiator.team", admin2.getTeam())));
+		
+		
 		/*Disjunction disjunction = Restrictions.disjunction();  
 		disjunction.add(Restrictions.eq("state", "0"));
 		disjunction.add(Restrictions.eq("state", "1"));

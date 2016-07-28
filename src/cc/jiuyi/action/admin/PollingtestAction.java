@@ -561,7 +561,7 @@ public class PollingtestAction extends BaseAdminAction {
 //		admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
-		System.out.println("-------id-------"+id+"--------------");
+		//System.out.println("-------id-------"+id+"--------------");
 		for (int i = 0; i < ids.length; i++) {
 			pollingtest = pollingtestService.load(ids[i]);
 			if (UNDO.equals(pollingtest.getState())) {

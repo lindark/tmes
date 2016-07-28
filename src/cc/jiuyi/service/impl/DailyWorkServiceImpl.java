@@ -84,13 +84,13 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 		for (int i = 0; i < dailyWorkList.size(); i++) {
 			DailyWork dailyWork = dailyWorkList.get(i);
 			if ("S".equals(dailyWork.getE_type())) {
-				System.out.println("SAP同步成功");
-				System.out.println(dailyWork.getE_message());
+				//System.out.println("SAP同步成功");
+				//System.out.println(dailyWork.getE_message());
 			} else if ("E".equals(dailyWork.getE_type())) {
-				System.out.println("SAP同步失败");
+				//System.out.println("SAP同步失败");
 				throw new CustomerException(dailyWork.getE_message());
 			}
-			System.out.println(dailyWork.getCONF_NO());
+			//System.out.println(dailyWork.getCONF_NO());
 		}
 				
 		HashMap<String,Object> maps = new HashMap<String,Object>();
@@ -133,10 +133,10 @@ public class DailyWorkServiceImpl extends BaseServiceImpl<DailyWork, String>
 			for (int i = 0; i < dailyWorkList.size(); i++) {
 				DailyWork dailyWork = dailyWorkList.get(i);
 				if ("S".equals(dailyWork.getE_type())) {
-					System.out.println("SAP同步成功");
-					System.out.println(dailyWork.getE_message());
+					//System.out.println("SAP同步成功");
+					//System.out.println(dailyWork.getE_message());
 				} else if ("E".equals(dailyWork.getE_type())) {
-					System.out.println("SAP同步失败");
+					//System.out.println("SAP同步失败");
 					throw new CustomerException(dailyWork.getE_message());
 				}
 			}

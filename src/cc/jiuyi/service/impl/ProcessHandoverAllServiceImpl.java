@@ -46,7 +46,7 @@ public class ProcessHandoverAllServiceImpl extends BaseServiceImpl<ProcessHandov
 			processHandoverAllDao.save(processHandoverAll);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e);
+			//System.out.println(e);
 			throw new Exception();
 		}
 		

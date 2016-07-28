@@ -57,7 +57,7 @@ public class ProductGroupDaoImpl extends BaseDaoImpl<ProductGroup, String> imple
 			}
 
 		}
-		System.out.println("wheresql:" + wheresql);
+		//System.out.println("wheresql:" + wheresql);
 		return wheresql;
 	}
 	@Override

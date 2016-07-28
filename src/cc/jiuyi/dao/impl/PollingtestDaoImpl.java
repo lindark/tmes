@@ -159,7 +159,7 @@ public class PollingtestDaoImpl extends BaseDaoImpl<Pollingtest, String>
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
 					end = DateUtils.addDays(end, 1);
-					System.out.println(map.get("start")); 
+					//System.out.println(map.get("start")); 
 					if(ishead==0){
 						hql+=" where model.createDate between :start and :end";
 						ishead=1;

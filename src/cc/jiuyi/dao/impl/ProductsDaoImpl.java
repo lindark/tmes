@@ -121,7 +121,7 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	public boolean isExistByProductsCode(String productsCode) {
 		String hql="from Products products where lower(products.productsCode)=lower(?)";
 		Products products=(Products)getSession().createQuery(hql).setParameter(0, productsCode).uniqueResult();
-		System.out.println(hql);
+		//System.out.println(hql);
 		if(products !=null){
 			return true;
 		}else{
@@ -133,7 +133,7 @@ public class ProductsDaoImpl extends BaseDaoImpl<Products, String> implements
 	public boolean isExistByMaterialGroup(String materialGroup) {
 		String hql="from Products products where lower(products.materialGroup)=lower(?)";
 		Products products=(Products)getSession().createQuery(hql).setParameter(0, materialGroup).uniqueResult();
-		System.out.println(hql);
+		//System.out.println(hql);
 		if(products !=null){
 			return true;
 		}else{

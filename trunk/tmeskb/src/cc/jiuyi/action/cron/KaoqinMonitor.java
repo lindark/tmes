@@ -69,7 +69,7 @@ public class KaoqinMonitor extends MyDetailQuartzJobBean
 			}
 
 			int differ=Integer.parseInt(String.valueOf((can2.getTimeInMillis()-can.getTimeInMillis())/(60*1000)));
-			System.out.println(differ+"===="+miao+"====="+n+"====startdate="+startdate+"=========enddate="+enddate);
+			//System.out.println(differ+"===="+miao+"====="+n+"====startdate="+startdate+"=========enddate="+enddate);
 			if(differ>=n){
 				teamService=(TeamService) SpringUtil.getBean("teamServiceImpl");
 				Team t=teamService.get(teamid);

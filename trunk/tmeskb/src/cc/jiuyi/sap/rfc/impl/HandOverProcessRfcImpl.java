@@ -213,7 +213,7 @@ public class HandOverProcessRfcImpl extends BaserfcServiceImpl implements HandOv
 		processHandover.setE_message(E_MESSAGE);
 		processHandover.setE_type(E_TYPE);
 		processHandover.setMblnr(oldMblnr+"/"+EX_MBLNR);
-		System.out.println(processHandover.getMblnr());
+		//System.out.println(processHandover.getMblnr());
 //		processHandover.setBudat(EX_MJAHR);
 		return processHandover;
 	}

@@ -157,7 +157,7 @@ public class FactoryUnitAction extends BaseAdminAction {
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("factoryUnitCode") != null)
 			{
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String factoryUnitCode = obj.getString("factoryUnitCode").toString();
 				map.put("factoryUnitCode", factoryUnitCode);
 			}

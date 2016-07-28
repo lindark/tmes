@@ -143,7 +143,7 @@ public class DictAction extends BaseAdminAction {
 		
 		pager = dictService.getDictPager(pager,map);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}

@@ -168,10 +168,12 @@ public class AbnormalAction extends BaseAdminAction {
 		pager = abnormalService.getAbnormalPager(pager, map, admin2);//分页查询语句
 
 		List pagerlist = pager.getList();  
-		List<Abnormal> abList = new ArrayList<Abnormal>();
-		
+        
 		for (int i = 0; i < pagerlist.size(); i++) {//对取到的对象进行重新封装
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
+
+			List<Admin> adminList = null;
+			
 			String newType = "0";
 			//本单元可见
 			if(abnormal.getState().equals("0") || abnormal.getState().equals("2")){
@@ -181,31 +183,35 @@ public class AbnormalAction extends BaseAdminAction {
 			if(abnormal.getState().equals("3") || abnormal.getState().equals("4")){
 				newType = "2";
 			}
-			if(newType.equals("1")){
-				if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null&&abnormal.getIniitiator()!=null&&
-						abnormal.getIniitiator().getTeam()!=null&&abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
-					if(admin2.getTeam().getFactoryUnit()==abnormal.getIniitiator().getTeam().getFactoryUnit()){
-						continue;
-					}
-				}
+			
+			String fatoryUnit = "";
+			String shift = "";
+			String abFatoryUnit = "";
+			String abShift = abnormal.getClasstime();
+			if(abnormal.getIniitiator()!=null && abnormal.getIniitiator().getTeam()!=null 
+					&& abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
+//				abShift = abnormal.getIniitiator().getShift();
+				abFatoryUnit = abnormal.getIniitiator().getTeam().getFactoryUnit().getFactoryUnitCode();
 			}
-			if(newType.equals("2")){
-				boolean isSave = true;
-				if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null&&abnormal.getIniitiator()!=null&&
-						abnormal.getIniitiator().getTeam()!=null&&abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
-					if(admin2.getTeam().getFactoryUnit()!=abnormal.getIniitiator().getTeam().getFactoryUnit()){
-						isSave = false;
-					}
-					if(!admin2.getShift().equals(abnormal.getIniitiator().getShift())){
-						isSave = false;
-					}
-					if(isSave == false){
-						continue;
-					}
+			
+			if(admin2.getTeam()!=null){
+				shift = admin2.getShift();
+				if(admin2.getTeam().getFactoryUnit()!=null){
+					fatoryUnit = admin2.getTeam().getFactoryUnit().getFactoryUnitCode();
 				}
 			}
 			
-			List<Admin> adminList = null;
+			if(newType.equals("1")){
+				if(!fatoryUnit.equals(abFatoryUnit)){
+					continue;
+				}
+			}
+			
+			if(newType.equals("2")){
+				if(!fatoryUnit.equals(abFatoryUnit)||!shift.equals(abShift)){
+					continue;
+				}
+			}
 			
 			//消息处理，消息与异常多对多，将对象描述以字符串的形式进行拼接显示到页面上
 			List<Callreason> callreasonList = new ArrayList<Callreason>(
@@ -348,15 +354,8 @@ public class AbnormalAction extends BaseAdminAction {
 			}else{
 				abnormal.setCloseOrcancelTime("");
 			}
-			abList.add(abnormal);
-//			pagerlist.set(i, abnormal);//封装后重新放入pager对象中
-		}
-		
-		pagerlist.clear();
-		
-		for(int i=0;i<abList.size();i++){
-			Abnormal abnormal = abList.get(i);
-			pagerlist.add(i, abnormal);//封装后重新放入pager对象中
+			
+			pagerlist.set(i, abnormal);//封装后重新放入pager对象中
 		}
 
 		JsonConfig jsonConfig = new JsonConfig();

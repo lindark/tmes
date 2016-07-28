@@ -102,7 +102,7 @@ public class QuartzManager implements BeanFactoryAware {
 				scheduler.rescheduleJob(tbcq.getTriggername(),
 						Scheduler.DEFAULT_GROUP, trigger);
 				log.info(new Date() + ": 更新" + tbcq.getTriggername() + "计划任务");
-				System.out.println(new Date() + ": 更新" + tbcq.getTriggername() + "计划任务");
+				//System.out.println(new Date() + ": 更新" + tbcq.getTriggername() + "计划任务");
 			}
 		} else {
 			// 不可用
@@ -111,7 +111,7 @@ public class QuartzManager implements BeanFactoryAware {
 			scheduler.deleteJob(trigger.getJobName(), trigger.getJobGroup());// 删除任务
 			log.info(new Date() + ": 删除" + tbcq.getTriggername() + "计划任务");
 			
-			System.out.println(new Date() + ": 删除" + tbcq.getTriggername() + "计划任务");
+			//System.out.println(new Date() + ": 删除" + tbcq.getTriggername() + "计划任务");
 		}
 
 	}
@@ -156,7 +156,7 @@ public class QuartzManager implements BeanFactoryAware {
 		scheduler.rescheduleJob(tbcq.getTriggername(), Scheduler.DEFAULT_GROUP,
 				c);// 刷新管理类
 		log.info(new Date() + ": 新建" + tbcq.getTriggername() + "计划任务");
-		System.out.println(new Date() + ": 新建" + tbcq.getTriggername() + "计划任务");
+		//System.out.println(new Date() + ": 新建" + tbcq.getTriggername() + "计划任务");
 	}
 
 	public void resh(Scheduler scheduler) throws ParseException, Exception{

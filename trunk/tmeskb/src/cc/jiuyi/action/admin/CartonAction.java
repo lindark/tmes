@@ -337,7 +337,7 @@ public class CartonAction extends BaseAdminAction {
 					mapcheck.put("unitId", unitId);
 				}
 				pager = cartonService.findCartonByPager(pager,mapcheck);
-				System.out.println(pager.getList().size());
+				//System.out.println(pager.getList().size());
 				// 需要查询条件
 //				JSONObject filt = JSONObject.fromObject(filters);
 //				Pager pager1 = new Pager();

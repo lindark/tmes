@@ -313,7 +313,7 @@ public class SampleAction extends BaseAdminAction
 			bodyval[11+leng] = ThinkWayUtil.getDictValueByDictKey(dictService,"sampleState", sample.getState());
 			bodyval[12+leng] = sample.getModifyDate()==null?"":sample.getModifyDate();
 			bodyval[13+leng] = workingbill.getMatnr()==null?"":workingbill.getMatnr();
-			bodyval[14+leng] = sample.getSampleType()==null?"":sample.getSampleType();
+			bodyval[14+leng] = sample.getSampleType()==null?"":ThinkWayUtil.getDictValueByDictKey(dictService,"sampleType", sample.getSampleType());
 					
 //			Object[] bodyval = {
 //					factoryName,//单元

@@ -29,7 +29,7 @@ public class QualityProblemDescriptionDaoImpl extends BaseDaoImpl<QualityProblem
 		if (map.size() > 0) {
 			if(map.get("problemDescription") != null){
 			    detachedCriteria.add(Restrictions.like("problemDescription", "%"+map.get("problemDescription")+"%"));
-			    System.out.println(map.get("problemDescription"));
+			    //System.out.println(map.get("problemDescription"));
 			}		
 		
 			if(map.get("state")!=null){

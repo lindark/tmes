@@ -92,7 +92,7 @@ public class SAPUtil {
 						IT_ITEM.appendRow();
 						Map.Entry entry=(Map.Entry)it.next();
 						IT_ITEM.setValue((String) entry.getValue(), (String)entry.getKey());
-						System.out.println(entry.getKey()+"-----------"+ (String) entry.getValue());
+						//System.out.println(entry.getKey()+"-----------"+ (String) entry.getValue());
 					}
 				}
 			}
@@ -143,7 +143,7 @@ public class SAPUtil {
 			JCO.Structure Structure01 = null;
 			if(pp!=null){
 				Structure01 = parameterList.getStructure(pp.getStrutName());
-				System.out.println("Structure:");
+				//System.out.println("Structure:");
 				Map map=pp.getMap();
 				Set set=map.entrySet();
 				for(Iterator it=set.iterator();it.hasNext();){
@@ -167,7 +167,7 @@ public class SAPUtil {
 						for(Iterator it=set.iterator();it.hasNext();){
 							
 							Map.Entry entry=(Map.Entry)it.next();
-							System.out.println(entry.getKey()+"-----------"+ (String) entry.getValue());
+							//System.out.println(entry.getKey()+"-----------"+ (String) entry.getValue());
 							IT_ITEM.setValue((String) entry.getValue(), (String)entry.getKey());
 							
 						}

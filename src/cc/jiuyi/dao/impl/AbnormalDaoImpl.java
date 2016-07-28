@@ -40,8 +40,8 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 		/*detachedCriteria.add(Restrictions.eq("classtime", admin2.getShift()));//班次
 		detachedCriteria.add(Restrictions.eq("productdate", admin2.getProductDate()));//生产日期
 */		
-		if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null)
-		detachedCriteria.add(Restrictions.or(Restrictions.or(Restrictions.eq("state", "0"),Restrictions.eq("state", "2")),Restrictions.and(Restrictions.eq("classtime", admin2.getShift()), Restrictions.eq("productdate", admin2.getProductDate()))));
+//		if(admin2.getTeam()!=null&&admin2.getTeam().getFactoryUnit()!=null)
+//		detachedCriteria.add(Restrictions.or(Restrictions.or(Restrictions.eq("state", "0"),Restrictions.eq("state", "2")),Restrictions.and(Restrictions.eq("classtime", admin2.getShift()), Restrictions.eq("productdate", admin2.getProductDate()))));
 		/*Disjunction disjunction = Restrictions.disjunction();  
 		disjunction.add(Restrictions.eq("state", "0"));
 		disjunction.add(Restrictions.eq("state", "1"));

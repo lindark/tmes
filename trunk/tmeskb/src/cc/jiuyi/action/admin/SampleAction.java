@@ -249,11 +249,17 @@ public class SampleAction extends BaseAdminAction
 		header.add("主任");
 		header.add("副主任");
 		header.add("生产日期");
-		header.add("产品名称");
+		header.add("物料描述");
 		header.add("抽检数量");
 		header.add("合格数量");
         header.add("合格率");
-        header.add("缺陷明细");
+        //header.add("缺陷明细");
+        this.list_cause=this.causeService.getBySample("1");//获取缺陷表中关于抽检的缺陷内容
+//        List<String> casetiopList = new ArrayList<String>();
+        for(Cause cause : list_cause){
+        	header.add(cause.getCauseName());
+//        	casetiopList.add(cause.getCauseName());
+        }
         header.add("抽检人");
         header.add("确认人");
         header.add("状态");
@@ -262,7 +268,7 @@ public class SampleAction extends BaseAdminAction
         header.add("抽检类型");
 //        header.add("状态");
         
-        
+        int leng = list_cause.size()+1;
         List<Object[]> sampleList = sampleService.historyExcelExport(map);
         for (int i = 0; i < sampleList.size(); i++) {
 			Object[] obj = sampleList.get(i);
@@ -281,31 +287,54 @@ public class SampleAction extends BaseAdminAction
 			}else{
 				teamName = "";
 			}
-        	String defect = "";
-        	for(SampleRecord sampleRecord:sapmpleRecordSet){
-        		defect = defect+sampleRecord.getRecordDescription()+";";
+//        	String defect = "";
+//        	for(SampleRecord sampleRecord:sapmpleRecordSet){
+//        		defect = defect+sampleRecord.getRecordDescription()+";";
+//        	}
+			Object[] bodyval = new Object[header.size()];
+			bodyval[0] = factoryName;//单元
+			bodyval[1] = teamName;
+			bodyval[2] = workingbill.getMinister();
+			bodyval[3] = workingbill.getZhuren();
+			bodyval[4] = workingbill.getFuzhuren();
+			bodyval[5] = workingbill.getProductDate();
+			bodyval[6] = workingbill.getMaktx()==null?"":workingbill.getMaktx();
+			bodyval[7] = sample.getSampleNum()==null?"":sample.getSampleNum();
+			bodyval[8] = sample.getQulified()==null?"":sample.getQulified();
+			bodyval[9] = sample.getQulifiedRate()==null?"":sample.getQulifiedRate();
+			for(SampleRecord sampleRecord:sapmpleRecordSet){
+				if(header.contains(sampleRecord.getRecordDescription())){
+					int num1 = header.indexOf(sampleRecord.getRecordDescription());
+					bodyval[num1]=sampleRecord.getRecordNum();
+				}
         	}
-			
-			Object[] bodyval = {
-					factoryName,//单元
-					teamName,//班组名称
-					workingbill.getMinister(),//部长
-					workingbill.getZhuren(),//主任
-					workingbill.getFuzhuren(),//副主任
-					workingbill.getProductDate(),//生产日期
-					workingbill.getMaktx()==null?"":workingbill.getMaktx(),//产品名称
-					sample.getSampleNum()==null?"":sample.getSampleNum(),//抽检数量
-					sample.getQulified()==null?"":sample.getQulified(),//合格数量
-					sample.getQulifiedRate()==null?"":sample.getQulifiedRate(),//合格率
-					defect,
-					sample.getSampler()==null?"":sample.getSampler().getName(),
-					sample.getComfirmation()==null?"":sample.getComfirmation().getName(),
-					ThinkWayUtil.getDictValueByDictKey(dictService,"sampleState", sample.getState()),
-					sample.getModifyDate()==null?"":sample.getModifyDate(),
-					workingbill.getMatnr()==null?"":workingbill.getMatnr(),
-					sample.getSampleType()==null?"":sample.getSampleType(),
-//					sample.getState()==null?"":sample.getState(),
-					};
+			bodyval[9+leng] = sample.getSampler()==null?"":sample.getSampler().getName();
+			bodyval[10+leng] = sample.getComfirmation()==null?"":sample.getComfirmation().getName();
+			bodyval[11+leng] = ThinkWayUtil.getDictValueByDictKey(dictService,"sampleState", sample.getState());
+			bodyval[12+leng] = sample.getModifyDate()==null?"":sample.getModifyDate();
+			bodyval[13+leng] = workingbill.getMatnr()==null?"":workingbill.getMatnr();
+			bodyval[14+leng] = sample.getSampleType()==null?"":sample.getSampleType();
+					
+//			Object[] bodyval = {
+//					factoryName,//单元
+//					teamName,//班组名称
+//					workingbill.getMinister(),//部长
+//					workingbill.getZhuren(),//主任
+//					workingbill.getFuzhuren(),//副主任
+//					workingbill.getProductDate(),//生产日期
+//					workingbill.getMaktx()==null?"":workingbill.getMaktx(),//产品名称
+//					sample.getSampleNum()==null?"":sample.getSampleNum(),//抽检数量
+//					sample.getQulified()==null?"":sample.getQulified(),//合格数量
+//					sample.getQulifiedRate()==null?"":sample.getQulifiedRate(),//合格率
+//					defect,
+//					sample.getSampler()==null?"":sample.getSampler().getName(),
+//					sample.getComfirmation()==null?"":sample.getComfirmation().getName(),
+//					ThinkWayUtil.getDictValueByDictKey(dictService,"sampleState", sample.getState()),
+//					sample.getModifyDate()==null?"":sample.getModifyDate(),
+//					workingbill.getMatnr()==null?"":workingbill.getMatnr(),
+//					sample.getSampleType()==null?"":sample.getSampleType(),
+////					sample.getState()==null?"":sample.getState(),
+//					};
 			body.add(bodyval);
 		}
 

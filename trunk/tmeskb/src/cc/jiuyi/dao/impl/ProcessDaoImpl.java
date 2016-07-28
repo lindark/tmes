@@ -107,7 +107,7 @@ public class ProcessDaoImpl extends BaseDaoImpl<Process, String> implements
 		String hql = "from Process process where lower(process.processCode)=lower(?)";
 		Process process = (Process) getSession().createQuery(hql)
 				.setParameter(0, processCode).uniqueResult();
-		System.out.println(hql);
+		//System.out.println(hql);
 		if (process != null) {
 			return true;
 		} else {

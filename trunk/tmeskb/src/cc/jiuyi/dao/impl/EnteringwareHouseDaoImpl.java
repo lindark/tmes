@@ -152,7 +152,7 @@ public class EnteringwareHouseDaoImpl extends BaseDaoImpl<EnteringwareHouse, Str
 					
 					Date start=sdf.parse(map.get("start"));
 					Date end=sdf.parse(map.get("end"));
-					System.out.println(map.get("start")); 
+					//System.out.println(map.get("start")); 
 					if(ishead==0){
 						hql+=" where model.createDate between :start and :end";
 						ishead=1;

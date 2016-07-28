@@ -469,7 +469,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		jsonConfig.setExcludes(ThinkWayUtil
 				.getExcludeFields(ItermediateTestDetail.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 

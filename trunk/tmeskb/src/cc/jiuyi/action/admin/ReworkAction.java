@@ -195,7 +195,7 @@ public class ReworkAction extends BaseAdminAction {
 				if(reworkRecord.getRework().getWorkingbill()!=null){
 					reworkRecord.setProductsDate(reworkRecord.getRework().getWorkingbill().getProductDate());
 				}
-				System.out.println(reworkRecord.getCreateDate());
+				//System.out.println(reworkRecord.getCreateDate());
 				lst.add(reworkRecord);
 			}
 			
@@ -334,7 +334,7 @@ public class ReworkAction extends BaseAdminAction {
 				List<Rework> reworkList = pager.getList();
 				List<Rework> lst = new ArrayList<Rework>();
 				for (int i = 0; i < reworkList.size(); i++) {
-					System.out.println(reworkList.size());
+					//System.out.println(reworkList.size());
 					Rework rework = (Rework) reworkList.get(i);
 					rework.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "reworkState", rework.getState()));

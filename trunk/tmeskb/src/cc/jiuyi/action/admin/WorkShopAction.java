@@ -112,7 +112,7 @@ public class WorkShopAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("workShopCode") != null) {
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String workShopCode = obj.getString("workShopCode").toString();
 				map.put("workShopCode", workShopCode);
 			}
@@ -154,7 +154,7 @@ public class WorkShopAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(WorkShop.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}

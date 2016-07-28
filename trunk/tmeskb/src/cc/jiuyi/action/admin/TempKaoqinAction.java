@@ -240,7 +240,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			str=str.replace(" ","");
 			DBkaoqin.setStationCode(str);
 			String[] strs=str.split(",");
-			System.out.println(strs.length);
+			//System.out.println(strs.length);
 			String stationName="";
 			for(String code:strs)
 			{

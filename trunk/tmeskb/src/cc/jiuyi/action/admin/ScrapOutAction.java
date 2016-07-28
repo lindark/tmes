@@ -175,7 +175,7 @@ public class ScrapOutAction extends BaseAdminAction {
 			
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("productsCode") != null) {
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String productsCode = obj.getString("productsCode").toString();
 				map.put("productsCode", productsCode);
 			}

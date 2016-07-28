@@ -93,7 +93,7 @@ public class ResourceAction extends BaseAdminAction {
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Resources.class));//排除有关联关系的属性字段  
 		JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 		
 	}
@@ -102,7 +102,7 @@ public class ResourceAction extends BaseAdminAction {
 	public String delete(){
 		ids = ids[0].split(",");
 		for(int i=0;i<ids.length;i++){
-			System.out.println(ids[i]);
+			//System.out.println(ids[i]);
 			Resources resource = resourceService.load(ids[i]);
 			if(resource.getIsSystem()){
 				return ajaxJsonErrorMessage("系统内置不允许删除");

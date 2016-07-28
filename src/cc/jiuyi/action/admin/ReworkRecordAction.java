@@ -179,7 +179,7 @@ public class ReworkRecordAction extends BaseAdminAction {
 				List<ReworkRecord> reworkRecordList = pager.getList();
 				List<ReworkRecord> lst = new ArrayList<ReworkRecord>();
 				for (int i = 0; i < reworkRecordList.size(); i++) {
-					System.out.println(reworkRecordList.size());
+					//System.out.println(reworkRecordList.size());
 					ReworkRecord reworkRecord = (ReworkRecord) reworkRecordList.get(i);
 					reworkRecord.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 							dictService, "reworkState", reworkRecord.getState()));

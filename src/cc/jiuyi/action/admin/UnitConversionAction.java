@@ -104,7 +104,7 @@ public class UnitConversionAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("unitCode") != null) {
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String unitConversionCode = obj.getString("unitCode").toString();
 				map.put("unitCode", unitConversionCode);
 			}
@@ -135,7 +135,7 @@ public class UnitConversionAction extends BaseAdminAction {
 			}
 		pager.setList(lst);
 		JSONArray jsonArray = JSONArray.fromObject(pager);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		 return ajaxJson(jsonArray.get(0).toString());
 		
 	}

@@ -117,7 +117,7 @@ public class TeamAction extends BaseAdminAction {
 				JSONObject obj = JSONObject.fromObject(Param);
 				// 班组编码
 				if (obj.get("teamCode") != null) {
-					System.out.println("obj=" + obj);
+					//System.out.println("obj=" + obj);
 					String teamCode = obj.getString("teamCode").toString();
 					map.put("teamCode", teamCode);
 				}

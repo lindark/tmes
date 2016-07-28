@@ -89,7 +89,7 @@ public class DepartmentAction extends BaseAdminAction {
 		JsonConfig jsonConfig=new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含
 		JSONArray jsonArray = JSONArray.fromObject(list,jsonConfig);
-		System.out.println(jsonArray.toString());
+		//System.out.println(jsonArray.toString());
 		return ajaxJson(jsonArray.toString());
 	}
 	

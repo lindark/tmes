@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
@@ -55,7 +56,7 @@ import cc.jiuyi.util.ThinkWayUtil;
 
 @ParentPackage("admin")
 public class DailyWorkAction extends BaseAdminAction {
-
+	private static Logger log = Logger.getLogger(DailyWorkAction.class);  
 	private static final long serialVersionUID = 352880047222902914L;
 
 	private static final String CONFIRMED = "1";
@@ -279,7 +280,8 @@ public class DailyWorkAction extends BaseAdminAction {
 		workingbill = workingBillService.get(workingBillId);
 		}catch(RuntimeException e){
 			e.printStackTrace();
-			System.out.println("运行错误");
+			//System.out.println("运行错误");
+			log.info(e);
 		}
 		return LIST;
 	}
@@ -423,7 +425,8 @@ public class DailyWorkAction extends BaseAdminAction {
 		 */
 		}catch(Exception e){
 			e.printStackTrace();
-			System.out.println("运行异常");
+			//System.out.println("运行异常");
+			log.info(e);
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
 	}

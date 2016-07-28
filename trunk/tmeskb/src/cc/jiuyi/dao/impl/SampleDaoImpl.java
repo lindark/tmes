@@ -180,7 +180,7 @@ public class SampleDaoImpl extends BaseDaoImpl<Sample, String> implements Sample
 				}
 			}
 		}
-		
+		hql += " ORDER BY model1.productDate,model1.workcenter,model1.teamName ";
 		Query query = getSession().createQuery(hql);
 		
 		if(parameters.get("start")!=null){

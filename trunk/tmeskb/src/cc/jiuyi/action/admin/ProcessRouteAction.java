@@ -119,7 +119,7 @@ public class ProcessRouteAction extends BaseAdminAction {
 				// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 				JSONObject obj = JSONObject.fromObject(Param);
 				if (obj.get("processCode") != null) {
-					System.out.println("obj=" + obj);
+					//System.out.println("obj=" + obj);
 					String processCode = obj.getString("processCode")
 							.toString();
 					map.put("processCode", processCode);

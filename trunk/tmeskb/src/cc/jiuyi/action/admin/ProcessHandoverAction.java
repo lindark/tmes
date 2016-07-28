@@ -884,7 +884,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		}catch(Exception e){
 			e.printStackTrace();
-			System.out.println(e);
+			log.info(e);
 			if(processHandover.getE_message()!=null||processHandover.getE_message().equals("")){
 				return ajaxJsonSuccessMessage(processHandover.getE_message());
 			}
@@ -953,7 +953,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				return ajaxJsonSuccessMessage("当前卡号没有相关联的单元!");
 			}
 			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(productDate,shift,factoryId);
-			log.info("---------------------"+lists.size()+"---------------------");
+			//log.info("---------------------"+lists.size()+"---------------------");
 			if(lists.size() == 0){
 				try{
 				processHandoverAllService.saveAllProcess(admin,admin1);
@@ -984,7 +984,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			ids = id.split(",");
 			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
 	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-			System.out.println(processHandoverAllList);
+			//System.out.println(processHandoverAllList);
 			for(int i=0;i<processHandoverAllList.size();i++){
 				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
 				processHandoverAll.setPhaConfimUser(admin1);
@@ -993,6 +993,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -1009,7 +1010,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			ids = id.split(",");
 			List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
 	//		List<ProcessHandoverAll> processHandoverAllList = processHandoverAllService.get(ids);
-			System.out.println(processHandoverAllList);
+			//System.out.println(processHandoverAllList);
 			for(int i=0;i<processHandoverAllList.size();i++){
 				ProcessHandoverAll processHandoverAll = processHandoverAllList.get(i);
 				processHandoverAll.setPhaConfimUser(admin);
@@ -1018,6 +1019,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			log.info(e);
 			return ajaxJsonSuccessMessage("IO异常，请联系管理员!");
 		}
 		return ajaxJsonSuccessMessage("您的操作已成功!");

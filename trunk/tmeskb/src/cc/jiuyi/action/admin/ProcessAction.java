@@ -162,7 +162,7 @@ public class ProcessAction extends BaseAdminAction {
 			jsonConfig.setExcludes(new String[]{"products"});
 			jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Process.class)); 
 			JSONArray jsonArray = JSONArray.fromObject(pager,jsonConfig);
-			System.out.println(jsonArray.get(0).toString());
+			//System.out.println(jsonArray.get(0).toString());
 			return ajaxJson(jsonArray.get(0).toString());
 		}
 		catch(Exception e)
@@ -311,7 +311,7 @@ public class ProcessAction extends BaseAdminAction {
 															// 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("productsCode") != null) {
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String productsCode = obj.getString("productsCode").toString();
 				map.put("productsCode", productsCode);
 			}
@@ -384,7 +384,7 @@ public class ProcessAction extends BaseAdminAction {
 															// 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("productsCode") != null) {
-				System.out.println("obj=" + obj);
+				//System.out.println("obj=" + obj);
 				String productsCode = obj.getString("productsCode").toString();
 				map.put("productsCode", productsCode);
 			}

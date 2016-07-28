@@ -120,7 +120,8 @@ public class RepairServiceImpl extends BaseServiceImpl<Repair, String>
 		return "您的操作已成功!";
 		}catch(Exception e){
 			e.printStackTrace();
-			System.out.println(e);
+			//System.out.println(e);
+			log.info(e);
 			return "系统异常，请联系管理员";
 		}
 	}

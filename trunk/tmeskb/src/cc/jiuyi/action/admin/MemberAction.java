@@ -325,7 +325,7 @@ public class MemberAction extends BaseAdminAction {
 		}
 		member.setMemberAttributeMap(memberAttributeMap);
 		//member.setIsAccountLocked(isAccountLocked);
-		System.out.println("member.isAccountLocked:"+member.getIsAccountLocked());
+		//System.out.println("member.isAccountLocked:"+member.getIsAccountLocked());
 		Member persistent = memberService.load(id);
 		persistent.setIsAccountLocked(member.getIsAccountLocked());
 		BigDecimal previousDeposit = persistent.getDeposit();

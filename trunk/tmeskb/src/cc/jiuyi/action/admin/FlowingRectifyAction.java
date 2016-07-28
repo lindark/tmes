@@ -69,7 +69,7 @@ public class FlowingRectifyAction extends BaseAdminAction {
     		jsonMap.put(STATUS, SUCCESS);
     		jsonMap.put(MESSAGE, "保存成功");
     		jsonMap.put(ID, flowingRectify1.getId());
-    		System.out.println(flowingRectify1.getId());
+    		//System.out.println(flowingRectify1.getId());
     		return ajaxJson(jsonMap);
         }
 	    

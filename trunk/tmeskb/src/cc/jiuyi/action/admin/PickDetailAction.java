@@ -396,7 +396,7 @@ public class PickDetailAction extends BaseAdminAction {
 		HashMap map1 = new HashMap();
 		map1.put("list", list);
 		JSONArray jsonArray = JSONArray.fromObject(map1);
-		System.out.println(jsonArray.get(0).toString());
+		//System.out.println(jsonArray.get(0).toString());
 		return ajaxJson(jsonArray.get(0).toString());
 	}
 

@@ -123,7 +123,7 @@ public class ModelAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		model = modelService.load(id);
-		System.out.println(model.getConfirmTime());
+		//System.out.println(model.getConfirmTime());
 		abnormal=model.getAbnormal();
 		if(abnormal.getReplyDate()!=null && !"".equals(abnormal.getReplyDate())){
 			replydate=abnormal.getReplyDate();

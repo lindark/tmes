@@ -41,7 +41,7 @@ public interface TempKaoqinService extends BaseService<TempKaoqin, String>
 	/**
 	 * 添加新代班员工
 	 */
-	public void saveNewEmp(String[] ids,String sameteamid,Admin	admin);
+	public void saveNewEmp(String[] ids,String sameteamid,Admin admin,String workHours);
 	
 	
 	/**

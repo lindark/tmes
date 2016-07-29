@@ -106,7 +106,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	/**
 	 * 添加新代班员工
 	 */
-	public void saveNewEmp(String[] ids,String sameteamid,Admin admin)
+	public void saveNewEmp(String[] ids,String sameteamid,Admin admin,String workHours)
 	{
 		admin=adminService.get(admin.getId());
 		Team team=admin.getTeam();
@@ -126,7 +126,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			}			
 		}
 		//先存储临时，再存储记录
-		saveKqListByTkqList( saveTkqList(adminList,team,admin));
+		saveKqListByTkqList( saveTkqList(adminList,team,admin,workHours));
 		for(Admin a :adminList){
 			a.setIsdaiban("N");
 		}
@@ -191,7 +191,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			else
 			{			
 				//开启考勤后存到临时记录表里,同时存储到记录表里
-				saveKqListByTkqList(saveTkqList(adminList, t, admin)); 
+				saveKqListByTkqList(saveTkqList(adminList, t, admin, null)); 
 			}			
 			
 			
@@ -288,7 +288,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	/**
 	 * 添加临时考勤记录
 	 */
-	public List<TempKaoqin> saveTkqList(List<Admin>list,Team t,Admin admin)
+	public List<TempKaoqin> saveTkqList(List<Admin>list,Team t,Admin admin,String workHours)
 	{
 		List<TempKaoqin> tkqList=new ArrayList<TempKaoqin>();
 		String procutdate=admin.getProductDate();
@@ -422,6 +422,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				tkq.setFactoryUnit(fu.getFactoryUnitName());
 				tkq.setFactoryUnitCode(fu.getFactoryUnitCode());
 			}
+			tkq.setWorkHours(workHours);
 			this.save(tkq);
 			tkqList.add(tkq);
 			
@@ -616,7 +617,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			kq.setStationName(tkq.getStationName());
 			kq.setWorkName(tkq.getWorkName());
 			kq.setIsdaiban(tkq.getIsdaiban());						
-			
+			kq.setWorkHours(tkq.getWorkHours());
 			kqDao.save(kq);
 			kqList.add(kq);
 		}

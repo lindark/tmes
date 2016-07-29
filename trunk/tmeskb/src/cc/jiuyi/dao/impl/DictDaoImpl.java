@@ -96,4 +96,12 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 		return d.getDictvalue();
 	}
 	
+	//获取dict的html标签,状态
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Dict> getDict(String dictname)
+	{
+		String hql="from Dict as a where a.dictname=? order by a.dictkey";
+		return this.getSession().createQuery(hql).setParameter(0, dictname).list();
+	}
 }

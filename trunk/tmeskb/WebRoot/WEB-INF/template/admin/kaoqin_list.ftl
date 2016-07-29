@@ -145,10 +145,13 @@
 													<div class="profile-info-value">
 														<select id="workHours" class="formText {required: true}">
 														<option></option>
-														<option value="1" <#if (workHours == 1)!> selected</#if>>4</option>
-														<option value="2" <#if (workHours == 2)!> selected</#if>>8</option> 
-														<option value="3" <#if (workHours == 3)!> selected</#if>>12</option>
-														</select>&nbsp;&nbsp;&nbsp; <button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>	
+														<#list list_workHours as whlist>
+														<option value="${(whlist.dictkey)! }"<#if (whlist.dictkey== workHours)!>selected</#if>>${(whlist.dictvalue)!}
+														</option> 
+														</#list>
+														</select> 
+														&nbsp;&nbsp;&nbsp; 
+														<button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>	
 													</div>
 												</div>
 												</div>

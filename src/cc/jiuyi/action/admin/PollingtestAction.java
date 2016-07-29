@@ -442,17 +442,21 @@ public class PollingtestAction extends BaseAdminAction {
 
 			List<String> header = new ArrayList<String>();
 			List<Object[]> body = new ArrayList<Object[]>();
+			list_cause = causeService.getBySample("2");// 获取缺陷表中关于巡检的内容
 			header.add("单元");
 			header.add("班组名称");
 			header.add("部长");
 			header.add("主任");
 			header.add("副主任");
 			header.add("生产日期");
-			header.add("产品名称");
+			header.add("物料描述");
 			header.add("巡检数量");
 			header.add("合格数量");
 			header.add("合格率");
-			header.add("缺陷明细");
+			for(int i=0;i<list_cause.size();i++){
+				Cause cause = list_cause.get(i);
+				header.add(cause.getCauseName());
+			}
 			header.add("工艺确认");
 			header.add("随工单号");
 			header.add("产品编号");
@@ -469,11 +473,11 @@ public class PollingtestAction extends BaseAdminAction {
 	        	Admin pollingtestUser = (Admin)obj[2];//pollingtestUser
 	        	Admin confirmUser = (Admin)obj[3];//ponfirmUser	        	
 	        	
-	        	String factoryName;
+	        	String factoryCode;
 				if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
-					factoryName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+					factoryCode = workingbill.getTeam().getFactoryUnit().getFactoryUnitCode();
 				}else{
-					factoryName = "";
+					factoryCode = "";
 				}
 				String teamName;
 				if(workingbill.getTeam()!=null){
@@ -482,33 +486,61 @@ public class PollingtestAction extends BaseAdminAction {
 					teamName = "";
 				}
 				Set<PollingtestRecord> pollingtestRecordSet = pollingtest.getPollingtestRecord();
-				String defect = "";
-				for(PollingtestRecord pollingtestRecord:pollingtestRecordSet){
-					defect = defect + pollingtestRecord.getRecordDescription()+" ";
-				}
+//				String defect = "";
+//				for(PollingtestRecord pollingtestRecord:pollingtestRecordSet){
+//					defect = defect + pollingtestRecord.getRecordDescription()+" ";
+//				}
 				
-				Object[] bodyval = {
-						factoryName,//单元
-						teamName,//班组名称
-						workingbill.getMinister(),//部长
-						workingbill.getZhuren(),//主任
-						workingbill.getFuzhuren(),//副主任
-						workingbill.getProductDate(),//生产日期
-						workingbill.getMaktx() == null ? "" : workingbill.getMaktx(),//产品名称
-						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),//巡检数量
-						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),//合格数量
-						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),//合格率
-						defect,
-						getCraftWorkString(pollingtest.getCraftWork()),
-						workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode(),
-						workingbill.getMatnr() == null ? "" : workingbill.getMatnr(),
-						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
-						pollingtestUser == null ? "" : pollingtestUser.getName(),
-						confirmUser == null ? "" : confirmUser.getName(),							
-						ThinkWayUtil.getDictValueByDictKey(dictService,
-								"pollingtestState", pollingtest.getState())
-						};
-				body.add(bodyval);
+				Object[] bodyval1=new Object[header.size()];
+				bodyval1[0] = factoryCode;//单元
+				bodyval1[1] = teamName;//班组名称
+				bodyval1[2] = workingbill.getMinister();//部长
+				bodyval1[3] = workingbill.getZhuren();//主任
+				bodyval1[4] = workingbill.getFuzhuren();//副主任
+				bodyval1[5] = workingbill.getProductDate();//生产日期
+				bodyval1[6] = workingbill.getMaktx() == null ? "" : workingbill.getMaktx();//产品名称
+				bodyval1[7] = pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount();//巡检数量
+				bodyval1[8] = pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount();//合格数量
+				bodyval1[9] = pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent();//合格率
+				//缺陷明细
+				for(int j=0;j<list_cause.size();j++){
+					Cause cause = list_cause.get(j);
+					for(PollingtestRecord pollingtestRecord:pollingtestRecordSet){
+						if(cause.getCauseName().equals(pollingtestRecord.getRecordDescription().replace(" ", ""))){
+							bodyval1[10+j] = pollingtestRecord.getRecordNum();
+						}
+					}
+				}
+				bodyval1[10+list_cause.size()] = getCraftWorkString(pollingtest.getCraftWork());//工艺确认
+				bodyval1[11+list_cause.size()] = workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode();//随工单号
+				bodyval1[12+list_cause.size()] = workingbill.getMatnr() == null ? "" : workingbill.getMatnr();//产品编号
+				bodyval1[13+list_cause.size()] = pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate();//巡检日期
+				bodyval1[14+list_cause.size()] = pollingtestUser == null ? "" : pollingtestUser.getName();//巡检人
+				bodyval1[15+list_cause.size()] = confirmUser == null ? "" : confirmUser.getName();//确认人
+				bodyval1[16+list_cause.size()] = ThinkWayUtil.getDictValueByDictKey(dictService,
+						"pollingtestState", pollingtest.getState());//状态
+//				Object[] bodyval = {
+//						factoryCode,//单元
+//						teamName,//班组名称
+//						workingbill.getMinister(),//部长
+//						workingbill.getZhuren(),//主任
+//						workingbill.getFuzhuren(),//副主任
+//						workingbill.getProductDate(),//生产日期
+//						workingbill.getMaktx() == null ? "" : workingbill.getMaktx(),//产品名称
+//						pollingtest.getPollingtestAmount() == null ? "" : pollingtest.getPollingtestAmount(),//巡检数量
+//						pollingtest.getQualifiedAmount() == null ? "" : pollingtest.getQualifiedAmount(),//合格数量
+//						pollingtest.getPassedPercent() == null ? "" : pollingtest.getPassedPercent(),//合格率
+//						defect,
+//						getCraftWorkString(pollingtest.getCraftWork()),
+//						workingbill.getWorkingBillCode() == null ? "" : workingbill.getWorkingBillCode(),
+//						workingbill.getMatnr() == null ? "" : workingbill.getMatnr(),
+//						pollingtest.getCreateDate() == null ? "" : pollingtest.getCreateDate(),
+//						pollingtestUser == null ? "" : pollingtestUser.getName(),
+//						confirmUser == null ? "" : confirmUser.getName(),							
+//						ThinkWayUtil.getDictValueByDictKey(dictService,
+//								"pollingtestState", pollingtest.getState())
+//						};
+				body.add(bodyval1);
 			}
 
 			try {

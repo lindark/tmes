@@ -35,4 +35,6 @@ public interface DictService extends BaseService<Dict, String> {
 	 * 根据状态获取抽检类型
 	 */
 	public String getByState(String dictname,String state);
+	
+	public List<Dict> getDict(String dictname);
 }

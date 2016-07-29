@@ -65,6 +65,7 @@ public class KaoqinAction extends BaseAdminAction {
 	private TempKaoqin tempkaoqin;
 	private Admin admin;
 	private List<Dict> list_dict;// 员工状态
+	private List<Dict> list_workHours;//数字字典，工作小时
 	private List<Kaoqin> list_kq;
 	private List<Admin> list_emp;
 	private String info;
@@ -349,6 +350,7 @@ public class KaoqinAction extends BaseAdminAction {
 		admin.setXshift(ThinkWayUtil.getDictValueByDictKey(dictService,
 				"kaoqinClasses", admin.getShift()));
 		this.list_dict = this.dictService.getState("adminworkstate");// list中员工的状态
+		this.list_workHours = this.dictService.getDict("workHours");// list中工作小时
 		this.sameTeamId = this.admin.getTeam().getId();// 班组ID
 		// 读取员工到记录表中
 		/*
@@ -1073,6 +1075,14 @@ public class KaoqinAction extends BaseAdminAction {
 
 	public void setWorkHours(String workHours) {
 		this.workHours = workHours;
+	}
+
+	public List<Dict> getList_workHours() {
+		return list_workHours;
+	}
+
+	public void setList_workHours(List<Dict> list_workHours) {
+		this.list_workHours = list_workHours;
 	}
 
 	

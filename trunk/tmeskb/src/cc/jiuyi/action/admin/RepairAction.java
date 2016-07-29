@@ -203,10 +203,10 @@ public class RepairAction extends BaseAdminAction {
 			header.add("主任");
 			header.add("副主任");
 	        header.add("生产日期");
-	        header.add("产品名称");
+	        header.add("物料描述");
 	        header.add("产品数量");
 	        header.add("返修部位");
-//	        header.add("责任划分");
+	        header.add("责任划分");
 	        header.add("返修数量");
 	        header.add("责任人");
 	        header.add("批次");
@@ -235,14 +235,14 @@ public class RepairAction extends BaseAdminAction {
 			RepairPiece repairPiece = (RepairPiece) obj[0];
 			Repair repair = (Repair) obj[1];
 			WorkingBill workingbill = (WorkingBill) obj[2];// workingbill
-			String factoryUnitName;
+			String factoryUnitCode;
 			if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
-				factoryUnitName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+				factoryUnitCode = workingbill.getTeam().getFactoryUnit().getFactoryUnitCode();
 			}else{
-				factoryUnitName = "";
+				factoryUnitCode = "";
 			}
 			Object[] bodyval = {
-					factoryUnitName,//单元
+					factoryUnitCode,//单元
 					workingbill.getTeam() == null ? "" : workingbill.getTeam().getTeamName(),//班组名称
 					workingbill.getMinister(),//部长
 					workingbill.getZhuren(),//主任
@@ -258,6 +258,8 @@ public class RepairAction extends BaseAdminAction {
 					 * repairPiece.getPiecenum(),
 					 * repairPiece.getRpcount()
 					 */
+					repair.getProcessCode() == null ? "" :ThinkWayUtil.getDictValueByDictKey(dictService,
+							"process", repair.getProcessCode()),
 					repair.getRepairAmount(),//返修数量
 					repair.getDuty(),//责任人
 					repair.getCharg(),//批次

@@ -33,4 +33,7 @@ public interface DictDao extends BaseDao<Dict, String> {
 	 * 根据状态获取抽检类型
 	 */
 	public String getByState(String dictname,String state);
+	
+	//获取dict的html标签,状态
+	public List<Dict> getDict(String dictname);
 }

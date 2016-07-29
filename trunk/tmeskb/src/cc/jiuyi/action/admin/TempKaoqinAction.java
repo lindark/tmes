@@ -336,7 +336,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 			}
 			if (ids != null) {
 				ids = ids[0].split(",");
-				this.tkqService.saveNewEmp(ids, sameTeamId, admin);
+				this.tkqService.saveNewEmp(ids, sameTeamId, admin,workHours);
 			}
 			return this.ajaxJsonSuccessMessage("1");// 添加成功
 		} catch (Exception e) {

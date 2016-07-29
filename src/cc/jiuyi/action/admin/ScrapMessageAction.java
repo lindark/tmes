@@ -172,7 +172,7 @@ public class ScrapMessageAction extends BaseAdminAction
 		header.add("主任");
 		header.add("副主任");
         header.add("生产日期");
-        header.add("产品名称");
+        header.add("物料描述");
         header.add("物料描述");
         
         header.add("责任划分");
@@ -190,18 +190,22 @@ public class ScrapMessageAction extends BaseAdminAction
         	Object[] obj = workList.get(i);
         	ScrapMessage scrapMessage = (ScrapMessage) obj[0];
         	Scrap scrap = (Scrap)obj[1];
-        	String factoryUnitName;
+        	String factoryUnitCode;
 			if(scrap.getWorkingBill()!=null&&scrap.getWorkingBill().getTeam()!=null
 					&&scrap.getWorkingBill().getTeam().getFactoryUnit()!=null){
-				factoryUnitName = scrap.getWorkingBill().getTeam().getFactoryUnit().getFactoryUnitName();
+				factoryUnitCode = scrap.getWorkingBill().getTeam().getFactoryUnit().getFactoryUnitCode();
 			}else{
-				factoryUnitName = "";
+				factoryUnitCode = "";
 			}
 			String[] str = scrapMessage.getSmreson().split(";");
+			String ReasonScrapped = "";
+			String charg = "";
 			String duty = "";
 			for(int j=0;j<str.length;j++){
 				String[] str1 = str[j].split("/",4);
-				duty = duty + str1[str1.length-1] + " ";
+				ReasonScrapped = ReasonScrapped + str1[0] + "  ";
+				charg = str1[2] + "  ";
+				duty = duty+ charg + str1[str1.length-1] + ";  ";
 			}
 			String teamName;
 			if(scrap.getWorkingBill()!=null&&scrap.getWorkingBill().getTeam()!=null){
@@ -210,7 +214,7 @@ public class ScrapMessageAction extends BaseAdminAction
 				teamName = "";
 			}
         	Object[] bodyval = {
-        			factoryUnitName,//单元
+        			factoryUnitCode,//单元
         			teamName,//班组
         			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getMinister(),//部长
         			scrap.getWorkingBill() == null ? "":scrap.getWorkingBill().getZhuren(),//主任
@@ -219,7 +223,7 @@ public class ScrapMessageAction extends BaseAdminAction
         			scrap.getWorkingBill().getMaktx(),//产品名称
         			scrapMessage.getSmmatterDes(),//物料描述
         			ThinkWayUtil.getDictValueByDictKey(dictService, "scrapMessageType", scrapMessage.getSmduty()),//责任划分
-        			scrapMessage.getSmreson(),//报废原因
+        			ReasonScrapped,//报废原因
         			scrapMessage.getMenge(),//报废数量
         			duty,//责任人
         			scrapMessage.getCreateDate(),//报废日期

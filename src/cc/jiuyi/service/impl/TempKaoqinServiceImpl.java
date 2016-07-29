@@ -241,13 +241,14 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 					//已上班，无需重新刷卡
 					return 2;
 				}
-				
+				tqk.setWorkHours(tqk.getWorkHours());
 				tqk.setWorkState("2");
 				tqk.setModifyDate(new Date());
 				tempKqDao.update(tqk);				
 				List<Kaoqin> kqs=kqDao.getByTPSA(team.getFactoryUnit().getId(), a_login.getProductDate(), a_login.getShift(), a.getId());
 				if(kqs!=null && kqs.size()>0) 
 				{
+					tqk.setWorkHours(tqk.getWorkHours());
 					Kaoqin qk=kqs.get(0);
 					qk.setWorkState("2");
 					qk.setModifyDate(new Date());

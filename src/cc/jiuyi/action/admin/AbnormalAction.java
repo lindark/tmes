@@ -171,47 +171,8 @@ public class AbnormalAction extends BaseAdminAction {
         
 		for (int i = 0; i < pagerlist.size(); i++) {//对取到的对象进行重新封装
 			Abnormal abnormal = (Abnormal) pagerlist.get(i);
-
+			
 			List<Admin> adminList = null;
-			
-			String newType = "0";
-			//本单元可见
-			if(abnormal.getState().equals("0") || abnormal.getState().equals("2")){
-				newType = "1";
-			}
-			//本单元本班次可见
-			if(abnormal.getState().equals("3") || abnormal.getState().equals("4")){
-				newType = "2";
-			}
-			
-			String fatoryUnit = "";
-			String shift = "";
-			String abFatoryUnit = "";
-			String abShift = abnormal.getClasstime();
-			if(abnormal.getIniitiator()!=null && abnormal.getIniitiator().getTeam()!=null 
-					&& abnormal.getIniitiator().getTeam().getFactoryUnit()!=null){
-//				abShift = abnormal.getIniitiator().getShift();
-				abFatoryUnit = abnormal.getIniitiator().getTeam().getFactoryUnit().getFactoryUnitCode();
-			}
-			
-			if(admin2.getTeam()!=null){
-				shift = admin2.getShift();
-				if(admin2.getTeam().getFactoryUnit()!=null){
-					fatoryUnit = admin2.getTeam().getFactoryUnit().getFactoryUnitCode();
-				}
-			}
-			
-			if(newType.equals("1")){
-				if(!fatoryUnit.equals(abFatoryUnit)){
-					continue;
-				}
-			}
-			
-			if(newType.equals("2")){
-				if(!fatoryUnit.equals(abFatoryUnit)||!shift.equals(abShift)){
-					continue;
-				}
-			}
 			
 			//消息处理，消息与异常多对多，将对象描述以字符串的形式进行拼接显示到页面上
 			List<Callreason> callreasonList = new ArrayList<Callreason>(

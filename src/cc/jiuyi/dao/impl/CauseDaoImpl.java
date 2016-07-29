@@ -87,7 +87,7 @@ public class CauseDaoImpl extends BaseDaoImpl<Cause, String> implements
 	@SuppressWarnings("unchecked")
 	public List<Cause> getBySample(String type)
 	{
-		String hql="from Cause where isDel='N' and causeType=?";
+		String hql="from Cause where isDel='N' and causeType=? order by causeCode";
 		return this.getSession().createQuery(hql).setParameter(0, type).list();
 	}
 }

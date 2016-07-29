@@ -275,11 +275,11 @@ public class SampleAction extends BaseAdminAction
 			Sample sample = (Sample) obj[0];//oddHandOver
 			Set<SampleRecord> sapmpleRecordSet = sample.getSapmpleRecordSet();
         	WorkingBill workingbill = (WorkingBill)obj[1];//workingbill
-        	String factoryName;
+        	String factoryCode;
 			if(workingbill.getTeam()!=null&&workingbill.getTeam().getFactoryUnit()!=null){
-				factoryName = workingbill.getTeam().getFactoryUnit().getFactoryUnitName();
+				factoryCode = workingbill.getTeam().getFactoryUnit().getFactoryUnitCode();
 			}else{
-				factoryName = "";
+				factoryCode = "";
 			}
 			String teamName;
 			if(workingbill.getTeam()!=null){
@@ -292,7 +292,7 @@ public class SampleAction extends BaseAdminAction
 //        		defect = defect+sampleRecord.getRecordDescription()+";";
 //        	}
 			Object[] bodyval = new Object[header.size()];
-			bodyval[0] = factoryName;//单元
+			bodyval[0] = factoryCode;//单元
 			bodyval[1] = teamName;
 			bodyval[2] = workingbill.getMinister();
 			bodyval[3] = workingbill.getZhuren();

@@ -75,4 +75,11 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements Di
 	{
 		return this.dictDao.getByState(dictname,state);
 	}
+	
+	//获取dict的html标签,状态
+	@Override
+	public List<Dict> getDict(String dictname)
+	{
+		return this.dictDao.getDict(dictname);
+	}
 }

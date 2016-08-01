@@ -250,6 +250,7 @@ function cause_event()
 	<#list list_cause as list>
 		$("#sr_num"+i).change(function(){
 			var idval=$(this).attr("id");
+			var count = i;
 			i=idval.substring(idval.length-1,idval.length);
 			var samplenum=$("#sample_num").val();//抽检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
@@ -261,7 +262,12 @@ function cause_event()
 				{	
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
+					if(count>10){
+						var the_sr_num2 = count-1;
+						$("#sr_num2"+the_sr_num2).val(num_qx);
+					}else{
 					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
+					}
 					if(num_qx>=0&&(samplenum!=null&&samplenum!=""))
 					{
 						if(num_bt>0&&num_bt!=null&&num_bt!="")

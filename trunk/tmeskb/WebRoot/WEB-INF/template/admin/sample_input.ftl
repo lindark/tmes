@@ -182,7 +182,7 @@ body {
 																	<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
 																		<label>${(list.causeName)! }</label>
 																		<input id="sr_num${num}" type="text" value="${(list.causeNum)! }" class=" input-value" />
-																		<input id="sr_num2${num}" type="hidden" value="${(list.causeNum)! }" />
+																		<input id="sr_num2${num}" type="text" value="${(list.causeNum)! }" />
 																	</div>
 																	<#assign num=num+1 />
 																</#list>
@@ -255,49 +255,42 @@ function cause_event()
 			var samplenum=$("#sample_num").val();//抽检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
 			var num_qx=$(this).val().replace(/\s+/g,"");//缺陷
-			if(num_qx!=null&&num_qx!="")
-			{
+			if(num_qx!=null&&num_qx!=""){
 				var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
-				if(reg.test(num_qx))
-				{	
+				if(reg.test(num_qx)){	
 					num_qx=setScale(num_qx,0,"");//精度--去小数
 					$(this).val(num_qx);
-					if(count>10){
-						var the_sr_num2 = count-1;
-						$("#sr_num2"+the_sr_num2).val(num_qx);
+					$(this).next().val(num_qx);
+					var id = $(this).next().attr('id');
+					var the_sr_num2 = id.substring(7);
+					if(num_qx>=0&&(samplenum!=null&&samplenum!="")){
+						if(the_sr_num2>9){
+							if(num_bt>0&&num_bt!=null&&num_bt!=""){
+								tocalc(samplenum,num_qx,"");
+							}else{
+								tocalc(samplenum,num_qx,num_bt);
+							}
+						}else{
+							if(num_bt>0&&num_bt!=null&&num_bt!=""){
+								tocalc(samplenum,num_qx,num_bt);
+							}else{
+								tocalc(samplenum,num_qx,"");
+							}
+						}
 					}else{
-					$("#sr_num2"+i).val(num_qx);//备胎，防止第一次输入正确第二次不正确时无法获取原数据--合格数量无法重新计算
-					}
-					if(num_qx>=0&&(samplenum!=null&&samplenum!=""))
-					{
-						if(num_bt>0&&num_bt!=null&&num_bt!="")
-						{
-							tocalc(samplenum,num_qx,num_bt);
-						}
-						else
-						{
-							tocalc(samplenum,num_qx,"");
-						}
-					}
-					else
-					{
 						$("#span_tip").text("");
 					}
-				}
-				else
-				{
+				}else{
 					layer.alert("输入不合法!",false);
 					$(this).val("");//缺陷数量
 					$("#sr_num2"+i).val("");//缺陷数量--备胎
-					if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))
-					{
+					if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!="")){
 						tocalc(samplenum,"",num_bt);
 					}
 				}
-			}
-			else
-			{
-				$("#sr_num2"+i).val("");//缺陷数量--备胎
+			}else{
+//				$("#sr_num2"+i).val("");//缺陷数量--备胎
+				$(this).next().val("");
 				//alert(samplenum);
 				if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))
 				{

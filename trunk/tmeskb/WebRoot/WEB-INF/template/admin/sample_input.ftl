@@ -182,7 +182,7 @@ body {
 																	<div class="col-md-2 col-xs-6 col-sm-3 div-value2">
 																		<label>${(list.causeName)! }</label>
 																		<input id="sr_num${num}" type="text" value="${(list.causeNum)! }" class=" input-value" />
-																		<input id="sr_num2${num}" type="text" value="${(list.causeNum)! }" />
+																		<input id="sr_num2${num}" type="hidden" value="${(list.causeNum)! }" />
 																	</div>
 																	<#assign num=num+1 />
 																</#list>
@@ -250,7 +250,6 @@ function cause_event()
 	<#list list_cause as list>
 		$("#sr_num"+i).change(function(){
 			var idval=$(this).attr("id");
-			var count = i;
 			i=idval.substring(idval.length-1,idval.length);
 			var samplenum=$("#sample_num").val();//抽检数量
 			var num_bt=$("#sr_num2"+i).val();//备胎
@@ -290,6 +289,7 @@ function cause_event()
 				}
 			}else{
 //				$("#sr_num2"+i).val("");//缺陷数量--备胎
+				num_bt = $(this).next().val();
 				$(this).next().val("");
 				//alert(samplenum);
 				if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))

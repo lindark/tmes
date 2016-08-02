@@ -294,7 +294,10 @@ public class LocationonsideAction extends BaseAdminAction {
 				if(locasideListMap!=null && locasideListMap.size()>0){
 					for (HashMap<String, String> los : locasideListMap) {
 						if(los.get("verme")!=null && !"".equals(los.get("verme"))){
-							if(bg.compareTo(new BigDecimal(los.get("verme")))!=0){
+							BigDecimal bd = new BigDecimal(los.get("verme"));
+							if(bg.compareTo(bd)!=0){
+								los.remove("verme");
+								los.put("verme",bd.toString());
 								locasideListMaps.add(los);
 							}
 						}

@@ -14,7 +14,7 @@ import cc.jiuyi.entity.WorkingBill;
  */
 
 public interface EnteringwareHouseService extends
-		BaseService<EnteringwareHouse, String> ,WorkingInoutCalculateBase<EnteringwareHouse> {
+		BaseService<EnteringwareHouse, String>{
 	/**
 	 * 分页查询
 	 * 
@@ -38,8 +38,8 @@ public interface EnteringwareHouseService extends
 
 	public List<EnteringwareHouse> getByBill(String workingBillId);
 
-	public void updateState(List<EnteringwareHouse> list, String statu,
-			WorkingBill workingbill,String cardnumber);
+	/*public void updateState(List<EnteringwareHouse> list, String statu,
+			WorkingBill workingbill,String cardnumber);*/
 	
 	public String getCharg(WorkingBill workingbill);
 	

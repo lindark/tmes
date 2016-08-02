@@ -119,9 +119,9 @@ jQuery(function($) {
 //			},
 			editicon : 'ace-icon fa fa-pencil blue',
 			//add: true,
-			addfunc:function(rowId){
-				window.location.href="working_bill!add.action";
-			},
+//			addfunc:function(rowId){
+//				window.location.href="working_bill!add.action";
+//			},
 			addicon : 'ace-icon fa fa-plus-circle purple',
 			del: false,
 			delicon : 'ace-icon fa fa-trash-o red',

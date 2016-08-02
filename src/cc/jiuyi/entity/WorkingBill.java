@@ -10,13 +10,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.apache.log4j.Logger;
+
 /**
  * 实体类 - 随工单
  */
 
 @Entity
 public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
-
+	  public static Logger log = Logger.getLogger(WorkingBill.class);
 	private static final long serialVersionUID = 2547319998033961001L;
 
 	private String workingBillCode;// 随工单编号
@@ -259,6 +261,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 		if (totalSingleAmount == null) {
 			totalSingleAmount = 0d;
 		}
+		log.info("---------totalSingleAmount=-------"+totalSingleAmount);
 		this.totalSingleAmount = totalSingleAmount;
 	}
 

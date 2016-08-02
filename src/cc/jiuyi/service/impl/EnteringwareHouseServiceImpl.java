@@ -57,7 +57,7 @@ public class EnteringwareHouseServiceImpl extends
 		return enteringwareHouseDao.getByBill(workingBillId);
 	}
 
-	@Override
+	/*@Override
 	public synchronized void updateState(List<EnteringwareHouse> list,
 			String state, WorkingBill workingbill,String cardnumber) {
 		HashMap<String,Object> maps = new HashMap<String,Object>();
@@ -68,13 +68,13 @@ public class EnteringwareHouseServiceImpl extends
 		updateWorkingInoutCalculate(list,maps);
 
 	}
-
+*/
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
 		return enteringwareHouseDao.historyjqGrid(pager, map);
 	}
 
-	@Override
+	/*@Override
 	public void updateWorkingInoutCalculate(
 		List<EnteringwareHouse> list,HashMap<String,Object> maps) {
 		String card=(String)maps.get("cardno");
@@ -122,7 +122,7 @@ public class EnteringwareHouseServiceImpl extends
 		workingbill.setTotalSingleAmount(totalamount);
 		workingbillService.update(workingbill);
 
-	}
+	}*/
 	
 	/**
 	 * 获取批次号

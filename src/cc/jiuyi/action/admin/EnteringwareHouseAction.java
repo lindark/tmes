@@ -263,11 +263,11 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 			return ERROR;
 		}*/
 		workingbill = workingBillService.get(workingBillId);
-		/*List<EnteringwareHouse> enteringwares = enteringwareHouseService
+		List<EnteringwareHouse> enteringwares = enteringwareHouseService
 				.getByBill(workingBillId);
 		for (int i = 0; i < enteringwares.size(); i++) {
 			totalAmount += enteringwares.get(i).getStorageAmount();
-		}*/
+		}
 		return LIST;
 	}
 	

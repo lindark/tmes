@@ -120,7 +120,7 @@
 														<div class="profile-info-name">累计入库根数</div>
 
 														<div class="profile-info-value">
-															<span class="editable editable-click" id="totalSingleAmount">${workingbill.totalSingleAmount}</span>
+															<span class="editable editable-click" id="totalSingleAmount">${totalAmount}</span>
 														</div>
 													</div>
 

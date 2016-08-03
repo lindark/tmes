@@ -4,10 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
@@ -261,7 +259,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 		if (totalSingleAmount == null) {
 			totalSingleAmount = 0d;
 		}
-		log.info("---------totalSingleAmount=-------"+totalSingleAmount);
+		//log.info("---------totalSingleAmount=-------"+totalSingleAmount);
 		this.totalSingleAmount = totalSingleAmount;
 	}
 

@@ -227,76 +227,30 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 			PickDetail pickDetail = paramaterList.get(i);
 			
 			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
-			String workingBillId = pickDetail.getPick().getWorkingbill().getId();// 随工单号			
+	//		String workingBillId = workingBill.getId();// 随工单号			
 			String materialCode = pickDetail.getMaterialCode();// 物料号
 			String materialName = pickDetail.getMaterialName();//物料描述
 					
 						
-			List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
-			Double d = 0.0;
-			Double p = 0.0;
-			for (int j = 0; j < bomList.size(); j++) {
-				Bom bom = bomList.get(j);
-				d += bom.getMaterialAmount();// Bom数量
-				p = bom.getProductAmount();// 产品数量
-			}
-			Double unitChange=0.0d;
-			if(p.intValue() != 0){
-				unitChange = d/p ;//(兑换比例)一个产品需要几个子件
-			}
-			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
-			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
+	//		List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
+	//		Double d = 0.0;
+			//Double p = 0.0;
+	//		for (int j = 0; j < bomList.size(); j++) { 
+	//			Bom bom = bomList.get(j);
+	//			d += bom.getMaterialAmount();// Bom数量
+		//		p = bom.getProductAmount();// 产品数量
+	//		}
+			//Double unitChange=0.0d;
+			//if(p.intValue() != 0){
+			//	unitChange = d/p ;//(兑换比例)一个产品需要几个子件
+		//	}
+			//Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
+			//Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
-			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
-			Double recipientsAmount = pickAmount;//领用数
-			
-			/**根据随工单号查询投入产出表中是否已经有数据**/			
-			boolean flag = workingInoutService.isExist(workingBillId, materialCode);
-			/**如果不存在就保存一条进去**/
-			if(!flag){
-//				WorkingInout workingInout = new WorkingInout();				
-				/**如果退料的情况**/
-				if(pickDetail.getPickType().equals("262")){
-					//workingInout.setMultiple(0-multiple);//投入产出减
-//					workingInout.setRecipientsAmount(0-recipientsAmount);//领用数减
-					workingInoutService.saveWorkinginout(workingBillService.get(workingBillId),0-recipientsAmount, materialCode, materialName);
-				}
-				/**如果是领料的情况**/
-				else{				
-					//workingInout.setMultiple(multiple);//投入产出加
-//					workingInout.setRecipientsAmount(recipientsAmount);//添加领用数
-					workingInoutService.saveWorkinginout(workingBillService.get(workingBillId),recipientsAmount, materialCode, materialName);
-				}
-//				workingInout.setMaterialCode(materialCode);//保存物料号
-//				workingInout.setMaterialName(materialName);//保存物料描述
-//				workingInout.setWorkingbill(workingBillService.get(workingBillId));//保存随工单
-//				workingInoutService.save(workingInout);//投入产出表保存
-							
-			}
-			else{
-				/**如果不存在就更新一条进去**/
-				WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
-				/**如果退料的情况**/
-				if (pickDetail.getPickType().equals("262")) {
-					//workingInout.setMultiple(workingInout.getMultiple()- multiple);//投入产出减
-					Double reAmount = 0.0d;//领用数
-					if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
-						reAmount = workingInout.getRecipientsAmount();//领用数
-					}
-					workingInout.setRecipientsAmount(reAmount-recipientsAmount);//领用数减少
-				}
-				/**如果是领料的情况**/
-				else{					
-					//workingInout.setMultiple(workingInout.getMultiple() + multiple); //投入产出加
-					Double reAmount = 0.0d;//领用数
-					if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
-						reAmount = workingInout.getRecipientsAmount();//领用数
-					}
-					
-					workingInout.setRecipientsAmount(reAmount+recipientsAmount);//领用数增加
-				}
-				workingInoutService.update(workingInout);
-			}
+			//Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
+			//Double recipientsAmount = pickAmount;//领用数
+			workingInoutService.saveWorkinginout1(workingBill,materialCode, materialName,pickAmount,pickDetail.getPickType());
+		
 		}
 	}
 
@@ -305,46 +259,45 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 	public void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList) {
 		for (int i = 0; i < paramaterList.size(); i++) {
 			PickDetail pickDetail = paramaterList.get(i);
-			
 			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
-			String workingBillId = pickDetail.getPick().getWorkingbill().getId();// 随工单号			
+			String workingBillId = workingBill.getId();// 随工单号			
 			String materialCode = pickDetail.getMaterialCode();// 物料号
 						
-			List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
-			Double d = 0.0;
-			Double p = 0.0;
-			for (int j = 0; j < bomList.size(); j++) {
-				Bom bom = bomList.get(j);
-				d += bom.getMaterialAmount();// Bom数量
-				p = bom.getProductAmount();// 产品数量
-			}
-			Double unitChange = d/p ;//(兑换比例)一个产品需要几个子件
+		//	List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());
+		//	Double d = 0.0;
+			//Double p = 0.0;
+		//	for (int j = 0; j < bomList.size(); j++) {
+		//		Bom bom = bomList.get(j);
+		//		d += bom.getMaterialAmount();// Bom数量
+			//	p = bom.getProductAmount();// 产品数量
+		//	}
+		//	Double unitChange = d/p ;//(兑换比例)一个产品需要几个子件
 		
-			Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
-			Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
+			//Double workingBillPlanCount = workingBill.getPlanCount().doubleValue();// 找到随工单订单数量
+			//Double planCount = workingBillPlanCount * unitChange;//计算出随工单产品对应的子件数量
 			Double pickAmount = Double.parseDouble(pickDetail.getPickAmount());// 领料数量
-			Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
-			Double recipientsAmount = pickAmount;//领用数
-		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
-		   /**如果退料的情况**/
-		   if (pickDetail.getPickType().equals("262")) {
-				//workingInout.setMultiple(workingInout.getMultiple() + multiple);//投入加
-			   Double reAmount = 0.0d;//领用数
-				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
-					reAmount = workingInout.getRecipientsAmount();//领用数
-				}
-				workingInout.setRecipientsAmount(reAmount+recipientsAmount);//领用数增加
-			}
-		   /**如果是领料的情况**/
-		   else{			
-			   Double reAmount = 0.0d;//领用数
-				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
-					reAmount = workingInout.getRecipientsAmount();//领用数
-				}
-				//workingInout.setMultiple(workingInout.getMultiple() - multiple); //投入减
-				workingInout.setRecipientsAmount(reAmount-recipientsAmount);//领用数减少
-			}
-				workingInoutService.update(workingInout);
+			//Double multiple = this.Calculate(planCount, pickAmount);//计算倍数
+//			Double recipientsAmount = pickAmount;//领用数
+//		   WorkingInout workingInout = workingInoutService.findWorkingInout(workingBillId, materialCode);
+//		   /**如果退料的情况**/
+//		   if (pickDetail.getPickType().equals("262")) {
+//			   Double reAmount = 0.0d;//领用数
+//				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+//					reAmount = workingInout.getRecipientsAmount();//领用数
+//				}
+//				workingInout.setRecipientsAmount(reAmount+recipientsAmount);//领用数增加
+//			}
+//		   /**如果是领料的情况**/
+//		   else{			
+//			   Double reAmount = 0.0d;//领用数
+//				if(workingInout.getRecipientsAmount()!=null && !"".equals(workingInout.getRecipientsAmount())){
+//					reAmount = workingInout.getRecipientsAmount();//领用数
+//				}
+//				workingInout.setRecipientsAmount(reAmount-recipientsAmount);//领用数减少
+//			}
+//				workingInoutService.update(workingInout);
+				
+				workingInoutService.saveWorkinginout1(workingBill,materialCode, null,pickAmount,pickDetail.getPickType());
 		}
 	}
 

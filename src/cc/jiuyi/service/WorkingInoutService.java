@@ -54,4 +54,6 @@ public interface WorkingInoutService extends BaseService<WorkingInout, String>{
 	public List<String[]> findProcess();
 	
 	public void saveWorkinginout(WorkingBill WorkingBill,Double RecipientsAmount,String MaterialCode,String MaterialName);
+	
+	public void saveWorkinginout1(WorkingBill workingBill,String materialCode,String materialName,Double recipientsAmount,String type);
 }

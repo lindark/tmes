@@ -244,7 +244,7 @@ body {
 														style="cursor:pointer"
 														src="/template/shop/images/add_bug.gif"> </a> 
 														<#if add??> 
-													<span id="departmentcontext" >返修组/10008431</span>
+													<span id="departmentcontext" ></span>
 													<input type="hidden" id="departmentName"
 														name="repair.departmentName" value="${(departmentName)! }" />
 													<input type="hidden" id="costcenter"

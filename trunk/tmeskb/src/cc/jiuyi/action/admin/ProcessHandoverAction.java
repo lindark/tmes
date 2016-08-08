@@ -555,6 +555,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			bomList = new ArrayList<Bom>();
 			admin = adminService.getLoginAdmin();
 			admin = adminService.get(admin.getId());
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
 			processHandoverTop = new ProcessHandoverTop();
 			/*String uuid = CommonUtil.getUUID();
 			processHandoverTop.setId(uuid);*/
@@ -687,6 +692,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	public String edit(){
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		pagerMapList = new ArrayList<HashMap<String,Pager>>();
 		if(admin.getProductDate() != null && admin.getShift() != null){
 			workingbillList = workingbillservice.getListWorkingBillByDate(admin);
@@ -744,6 +754,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			}
 		}*/
 		try {
+			Admin admin1 = adminService.get(loginid);
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				return ajaxJsonErrorMessage("当前班次总体交接已完成!");
+			}
 			processHandoverService.saveProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (Exception e) {
@@ -769,6 +784,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		}*/
 		//processHandoverTop = processHandoverTopService.get(id);
 		try {
+			Admin admin1 = adminService.get(loginid);
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				return ajaxJsonErrorMessage("当前班次总体交接已完成!");
+			}
 			processHandoverService.updateProcessHandover(processHandoverTop,processHandoverList,processHandoverSonList,loginid);
 			return ajaxJsonSuccessMessage("您的操作已成功!");
 		} catch (Exception e) {
@@ -817,6 +837,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String creditundo() {
 		try{
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			return ajaxJsonErrorMessage("当前班次总体交接已完成!");
+		}
+			
 		String[] ids = id.split(",");
 		admin = adminService.getByCardnum(cardnumber);
 		Date date = new Date(); 
@@ -918,20 +944,20 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	
 	public String allHandover(){
 		admin = adminService.get(loginid);
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行部门工序交接操作!");
 			return ERROR;
-		}
-		workingbillList = workingbillservice.getListWorkingBillByDate(admin);
+		}*/
+		/*workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 		for(WorkingBill workingbill : workingbillList){
 			if("Y".equals(workingbill.getIsHand())){
 				addActionError("当日总体交接已完成");
 				return ERROR;
 			}
-		}
+		}*/
 		
 		return "all";
 	}

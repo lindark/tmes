@@ -37,8 +37,8 @@ public class ProcessHandoverAllDaoImpl extends BaseDaoImpl<ProcessHandoverAll, S
 
 	@Override
 	public List<ProcessHandoverAll> getListOfAllProcess(String productDate,
-			String shift, String factoryId) {
-		String hql = "From ProcessHandoverAll where productDate=? and shift=? and factoryUnitId=?";
+			String shift, String factoryId) { 
+		String hql = "From ProcessHandoverAll where productDate=? and shift=? and factoryUnitId=? and state='2'";
 		return getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryId).list();
 	}
 }

@@ -221,7 +221,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 
 	@Override
 	//刷卡确认向投入产出表更新数据
-	public void updateWorkingInoutCalculate(List<PickDetail> paramaterList,
+	public synchronized void updateWorkingInoutCalculate(List<PickDetail> paramaterList,
 			HashMap<String, Object> maps) {
 		for (int i = 0; i < paramaterList.size(); i++) {
 			PickDetail pickDetail = paramaterList.get(i);
@@ -256,11 +256,11 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 
 	@Override
 	//刷卡撤销向投入产出表更新数据
-	public void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList) {
+	public synchronized void updateWorkingInoutCalculateBack(List<PickDetail> paramaterList) {
 		for (int i = 0; i < paramaterList.size(); i++) {
 			PickDetail pickDetail = paramaterList.get(i);
 			WorkingBill workingBill = pickDetail.getPick().getWorkingbill();//随工单对象
-			String workingBillId = workingBill.getId();// 随工单号			
+			//String workingBillId = workingBill.getId();// 随工单号			
 			String materialCode = pickDetail.getMaterialCode();// 物料号
 						
 		//	List<Bom> bomList = bomService.findBom(workingBill.getAufnr(), workingBill.getProductDate(),materialCode, workingBill.getWorkingBillCode());

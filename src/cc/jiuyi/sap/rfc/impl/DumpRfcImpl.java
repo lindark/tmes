@@ -24,7 +24,7 @@ import cc.jiuyi.util.TableModel;
 @Component
 //@Scope("prototype")
 public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
-	public static Logger log = Logger.getLogger(BaserfcServiceImpl.class);
+	public static Logger log = Logger.getLogger(DumpRfcImpl.class);
 	public List<Dump> findMaterialDocument(String lgort, String bgdat,
 			String eddat) throws IOException, CustomerException {
 		super.setProperty("materialdocument");//根据配置文件读取到函数名称
@@ -169,7 +169,7 @@ public class DumpRfcImpl extends BaserfcServiceImpl implements DumpRfc {
 		parameter.put("S_LGORT", map.get("lgort"));//库存地点
 		//parameter.put("S_MATNR", "03");//移动类型
 		//parameter.put("S_LGPLA", "03");//移动类型
-		
+		log.info("--中转仓   S_LGORT="+map.get("lgort"));
 		/******输入表******/
 		//super.setParameter(null);
 		//super.setStructure(null);

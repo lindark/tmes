@@ -809,6 +809,7 @@ public class DumpAction extends BaseAdminAction {
 					this.dumpDetailService.update(dd);
 				}
 			}
+			ddlist=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
 			str = this.dumpService.updateToSAP(d,ddlist,emp);
 		}
 		catch (IOException e)

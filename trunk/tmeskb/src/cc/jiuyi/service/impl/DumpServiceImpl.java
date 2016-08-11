@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,8 @@ import cc.jiuyi.util.CustomerException;
 @Service
 @Transactional
 public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements DumpService {
+	
+	public static Logger log = Logger.getLogger(DumpServiceImpl.class);
 	@Resource
 	private DumpDao dumpDao;
 	@Resource
@@ -240,6 +243,7 @@ public class DumpServiceImpl extends BaseServiceImpl<Dump, String> implements Du
 			map.put("CHARG", dd.getCharg());//批次
 			map.put("MOVE_STLOC", dd.getJsaddress());//收货库存地点
 			mlist.add(map);
+			log.info("物流配送---WERKS="+dd.getWerks()+"--LGORT="+dd.getPsaddress()+"--dtId()="+dd.getId()+"--MATNR="+dd.getMatnr()+"--ZSFSL="+dd.getMenge()+"--MOVE_STLOC="+dd.getJsaddress());
 		}
 		return mlist;
 	}

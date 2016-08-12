@@ -22,10 +22,8 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairinPiece;
 import cc.jiuyi.entity.Repairin;
 import cc.jiuyi.entity.WorkingBill;
@@ -34,6 +32,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.RepairinService;
 import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
@@ -95,6 +94,8 @@ public class RepairinAction extends BaseAdminAction {
 	private FactoryUnitService fuService;//单元
 	@Resource
 	private RepairInRfc repairinRfc;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	
 	//返修收货记录列表 @author Reece 2016/3/17
@@ -256,16 +257,18 @@ public class RepairinAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
-		
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修收货操作!");
 			return ERROR;
 		}
-		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		workingbill = workingBillService.get(workingBillId);
 		this.add="add";
 		return INPUT;
@@ -273,15 +276,18 @@ public class RepairinAction extends BaseAdminAction {
 	// 编辑
 	public String edit() 
 	{
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修收货操作!");
 			return ERROR;
 		}
-		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		repairin = repairinService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairinPiece>(repairin.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
@@ -315,6 +321,12 @@ public class RepairinAction extends BaseAdminAction {
 	// 刷卡确认
 	public String creditapproval() {
 		// workingbill = workingBillService.get(workingBillId);
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
 		admin = adminService.getByCardnum(cardnumber);		
 		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
@@ -357,6 +369,13 @@ public class RepairinAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		workingbill = workingBillService.get(workingBillId);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {

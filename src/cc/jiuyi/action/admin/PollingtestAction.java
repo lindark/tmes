@@ -25,6 +25,7 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.PollingtestRecord;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -33,6 +34,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.PollingtestRecordService;
 import cc.jiuyi.service.PollingtestService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
@@ -64,8 +66,8 @@ public class PollingtestAction extends BaseAdminAction {
 	private String edit;
 	private String show;
 	private String cardnumber;// 刷卡卡号
-
 	
+	private String loginid;
 	private String workingBillCode;
 	private String maktx;
 	private String end;
@@ -99,6 +101,8 @@ public class PollingtestAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	public String list() {
 		admin = adminService.getLoginAdmin();
@@ -108,6 +112,13 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		workingbill = workingBillService.get(workingBillId);
 		
 		String  workCenter = workingbill.getWorkcenter();
@@ -146,7 +157,13 @@ public class PollingtestAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		try {
-
+			Admin admin = adminService.get(loginid);
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
+			
 			pollingtest = pollingtestService.load(id);
 			workingbill = workingBillService.get(workingBillId);
 			
@@ -564,6 +581,13 @@ public class PollingtestAction extends BaseAdminAction {
 	
 	// 刷卡确认
 	public String creditapproval() {
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
@@ -590,6 +614,13 @@ public class PollingtestAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 //		admin = adminService.getLoginAdmin();
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
@@ -810,5 +841,13 @@ public class PollingtestAction extends BaseAdminAction {
 	public void setConfirmUserName(String confirmUserName) {
 		this.confirmUserName = confirmUserName;
 	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	} 
 	
 }

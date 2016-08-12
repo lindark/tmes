@@ -28,15 +28,16 @@ import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -81,6 +82,8 @@ public class PickAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private PickRfcImpl pickRfcImple;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 
 	private String workingBillId;
 	private WorkingBill workingbill;
@@ -96,6 +99,7 @@ public class PickAction extends BaseAdminAction {
 	private String materialCode;//物料编码
 	private String charg;//批次
 	private String type;//类型
+	private String loginid;
 
 	//领退料记录 @author Reece 2016/3/3
 	public String history(){
@@ -457,6 +461,13 @@ public class PickAction extends BaseAdminAction {
 			return ajaxJsonErrorMessage("您当前未上班,不能进行退领料操作!");			
 		}
 		
+		Admin admin1 =  adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		List<PickDetail> pickdetailList = new ArrayList<PickDetail>();
 		List<Pick> pickList = new ArrayList<Pick>();
 		for (int i = 0; i < list.size(); i++) {
@@ -556,6 +567,13 @@ public class PickAction extends BaseAdminAction {
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
 		if(!ThinkWayUtil.isPass(admin)){
 			return ajaxJsonErrorMessage("您当前未上班,不能进行退领料操作!");			
+		}
+		
+		Admin admin1 =  adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
 		}
 		
 		ids = id.split(",");
@@ -870,6 +888,14 @@ public class PickAction extends BaseAdminAction {
 		this.type = type;
 	}
 
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
+ 
 	
 	
 	

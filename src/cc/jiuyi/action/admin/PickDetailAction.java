@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 
-import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
@@ -26,10 +25,9 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
-import cc.jiuyi.entity.Products;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.MatStockRfc;
-import cc.jiuyi.sap.rfc.impl.MatStockRfcImpl;
 import cc.jiuyi.sap.rfc.impl.PickRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
@@ -38,6 +36,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PickService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.WorkingBillService;
@@ -88,6 +87,8 @@ public class PickDetailAction extends BaseAdminAction {
 	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	private String productsId;
 	private WorkingBill workingbill;
@@ -118,19 +119,19 @@ public class PickDetailAction extends BaseAdminAction {
 
 	// 列表
 	public String list() {
-		
-		Admin login_admin = adminService.getLoginAdmin();
-		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
-		if(!ThinkWayUtil.isPass(login_admin)){
+		Admin admin = adminService.get(loginId);
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+		if(!ThinkWayUtil.isPass(admin)){
 			addActionError("您当前未上班,不能进行退领料操作!");
 			return ERROR;
 		}
 		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		workingbill = workingBillService.get(workingBillId);
-		Admin admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		
 		String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 		String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 		String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
@@ -231,19 +232,21 @@ public class PickDetailAction extends BaseAdminAction {
 	
 	// 列表
 		public String editList() {
+			Admin admin = adminService.get(loginId);
 			
-			Admin login_admin = adminService.getLoginAdmin();
-			login_admin = adminService.get(login_admin.getId());
-			login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
-			if(!ThinkWayUtil.isPass(login_admin)){
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+			if(!ThinkWayUtil.isPass(admin)){
 				addActionError("您当前未上班,不能进行退领料操作!");
 				return ERROR;
 			}
 			
-			workingbill = workingBillService.get(workingBillId);
-			Admin admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
 			
+			workingbill = workingBillService.get(workingBillId);
 			String lgort = admin.getTeam().getFactoryUnit().getWarehouse();//库存地点
 			String lgpla = admin.getTeam().getFactoryUnit().getDelivery();//仓位
 			String werks = admin.getTeam().getFactoryUnit().getWorkShop().getFactory().getFactoryCode();
@@ -580,7 +583,7 @@ public class PickDetailAction extends BaseAdminAction {
 
 	
 	//刷卡确认
-	public synchronized String creditapproval(){
+	public String creditapproval(){
 		if(!"".equals(pickId)&&pickId!=null){
 			try {
 				ids = pickId.split(",");

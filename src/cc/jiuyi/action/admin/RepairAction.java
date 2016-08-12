@@ -24,6 +24,7 @@ import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessRoute;
 import cc.jiuyi.entity.Repair;
 import cc.jiuyi.entity.RepairPiece;
@@ -32,8 +33,8 @@ import cc.jiuyi.sap.rfc.RepairRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.RepairPieceService;
 import cc.jiuyi.service.RepairService;
@@ -97,6 +98,8 @@ public class RepairAction extends BaseAdminAction {
 	private RepairRfc repairrfc;
 	@Resource
 	private RepairPieceService repairPieceService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	//返修记录列表 @author Reece 2016/03/15
 	public String historylist() {
@@ -305,12 +308,16 @@ public class RepairAction extends BaseAdminAction {
 	// 添加
 	public String add() 
 	{
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修操作!");
+			return ERROR;
+		}
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
 			return ERROR;
 		}
 		this.list_dict=dictService.getList("dictname", "moudleType");
@@ -335,21 +342,24 @@ public class RepairAction extends BaseAdminAction {
 	// 编辑
 	public String edit() 
 	{
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
 		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行返修操作!");
 			return ERROR;
 		}
-		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		this.list_dict=dictService.getList("dictname", "moudleType");
 		repair = repairService.get(id);//根据id查询
 		list_rp=new ArrayList<RepairPiece>(repair.getRpieceSet());//获取组件数据
 		workingbill = workingBillService.get(workingBillId);//当前随工单
-		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
-		String productDate = workingbill.getProductDate();
+		//String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
+		//String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
 		processList = dictService.getList("dictname", "process");
 //		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
@@ -377,6 +387,12 @@ public class RepairAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
 		admin = adminService.getByCardnum(cardnumber);		
 		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
@@ -421,6 +437,12 @@ public class RepairAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		} 
 		ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 	//		repair = repairService.load(ids[i]);

@@ -361,12 +361,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String add(){
 		try{
-			bomList = new ArrayList<Bom>();
-			admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
-			processHandoverTop = new ProcessHandoverTop();
-			pagerMapList = new ArrayList<HashMap<String,Pager>>();
-			
+			admin = adminService.get(loginid);
 			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 			
 			boolean flag = ThinkWayUtil.isPass(admin);
@@ -374,6 +369,16 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				addActionError("您当前未上班,不能进行部门工序交接操作!");
 				return ERROR;
 			}
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
+			
+			bomList = new ArrayList<Bom>();
+			processHandoverTop = new ProcessHandoverTop();
+			pagerMapList = new ArrayList<HashMap<String,Pager>>();
+			
 			
 			//判断当前登录人是否已经创建过工序交接
 			List<ProcessHandoverTop> phtlist = processHandoverTopService.getPHT(admin);
@@ -391,12 +396,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 			processHandoverSonList = new ArrayList<ProcessHandoverSon>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-				for (int i = 0; i < workingbillList.size(); i++) {
+				/*for (int i = 0; i < workingbillList.size(); i++) {
 					if("Y".equals(workingbillList.get(i).getIsHand())){
 						addActionError("当日交接已完成，不可再次交接");
 						return ERROR;
 					}
-				}
+				}*/
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
 					/*for(int i=0;i<workingbillList.size();i++){
@@ -458,6 +463,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 						processHandover1.setPlanCount(wb.getPlanCount()==null?"":wb.getPlanCount().toString());
 						processHandover1.setMatnr(wb.getMatnr());
 						processHandover1.setMaktx(wb.getMaktx());
+						
+						processHandover1.setResponsibleName(admin.getName());
+						processHandover1.setResponsibleId(admin.getId());
 //						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
 //						if(wbnext!=null){
 //							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
@@ -690,8 +698,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String edit(){
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		admin = adminService.get(loginid); 
 		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
 		if(lists!=null && lists.size() != 0){
 			addActionError("当前班次总体交接已完成!");
@@ -804,6 +811,12 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	 */
 	public String creditapproval(){
 			try {
+				Admin admin = adminService.get(loginid);
+				List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+				if(lists!=null && lists.size() != 0){
+					addActionError("当前班次总体交接已完成!");
+					return ERROR;
+				}
 				Map<String, String> emsg = processHandoverService.saveApproval(cardnumber,id,loginid);
 				if(emsg.get("status").equals("E")){
 					return ajaxJsonErrorMessage(emsg.get("massge"));

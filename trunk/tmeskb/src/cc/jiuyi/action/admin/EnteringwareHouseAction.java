@@ -32,6 +32,7 @@ import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.EnteringwareHouseRfc;
@@ -40,12 +41,12 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.EnteringwareHouseService;
 import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -101,6 +102,8 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private UnitdistributeModelService unitdistributeModelService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 
 	
 	// 历史入库记录 @author Reece 2016/3/10
@@ -274,15 +277,18 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
 		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行入库操作!");
 			return ERROR;
 		}*/
-		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		enteringwareHouse = enteringwareHouseService.load(id);
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
@@ -309,16 +315,18 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	}	
 
 	public String add() {
-		
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
 		/*admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行入库操作!");
 			return ERROR;
 		}*/
-		
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
@@ -387,7 +395,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 	
 
 	// 刷卡确认
-	public String creditapproval() {		
+	public String creditapproval() {	
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		log.info("入库刷卡确认开始"+workingbill.getTotalSingleAmount());
 		try {
@@ -410,6 +424,13 @@ public class EnteringwareHouseAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public  String creditundo() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		WorkingBill workingbill = workingBillService.get(workingBillId);
 		log.info("入库刷卡确认撤销开始"+workingbill.getTotalSingleAmount());
 		try {

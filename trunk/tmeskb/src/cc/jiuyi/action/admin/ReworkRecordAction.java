@@ -24,11 +24,13 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.ReworkRecord;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ReworkRecordService;
 import cc.jiuyi.service.ReworkService;
 import cc.jiuyi.service.WorkingBillService;
@@ -71,6 +73,7 @@ public class ReworkRecordAction extends BaseAdminAction {
 	private Integer reworkCount;//前台隐藏传的翻包次数
 	private String xedit;
 	private String xadd;
+	private String loginid;
 	
 
 	private List<Dict> allCheck;
@@ -88,9 +91,17 @@ public class ReworkRecordAction extends BaseAdminAction {
 	private AdminService adminService;
 	@Resource
 	private ReworkService reworkService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	//添加
 	public String add(){
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		rework = reworkService.get(reworkId);
 		workingbill=workingBillService.get(workingBillId);
 		xadd = "xadd";
@@ -228,6 +239,11 @@ public class ReworkRecordAction extends BaseAdminAction {
 	
 	//编辑检查
 		public String checkEdit(){
+			Admin admin = adminService.get(loginid);
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				return ajaxJsonErrorMessage("当前班次总体交接已完成!");
+			}
 	    workingbill = workingBillService.get(workingBillId);
 		reworkRecord = reworkRecordService.get(id);
 		if(reworkRecord.getState().equals("2")){
@@ -391,6 +407,12 @@ public class ReworkRecordAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		workingbill = workingBillService.get(workingBillId);
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
@@ -567,5 +589,13 @@ public class ReworkRecordAction extends BaseAdminAction {
 	public void setXedit(String xedit) {
 		this.xedit = xedit;
 	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	} 
 
 }

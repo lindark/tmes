@@ -1,15 +1,13 @@
 package cc.jiuyi.action.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Resources;
-import cc.jiuyi.entity.Role;
-import cc.jiuyi.service.ResourcesService;
-import cc.jiuyi.service.RoleService;
-import cc.jiuyi.util.ThinkWayUtil;
+import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -18,6 +16,15 @@ import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
+
+import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Menu;
+import cc.jiuyi.entity.Resources;
+import cc.jiuyi.entity.Role;
+import cc.jiuyi.service.MenuService;
+import cc.jiuyi.service.ResourcesService;
+import cc.jiuyi.service.RoleService;
+import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -37,11 +44,18 @@ public class RoleAction extends BaseAdminAction {
 	private Role role;
 	private String[] resourceIds;
 	private List<Resources> allResource;
+	private List<HashMap<String,Object>> mapList;
+	private JSONArray jsonArray;
+	private String roledata;
+	private String[] roleMenus;
+	private String type;
 
-	@javax.annotation.Resource
+	@Resource
 	private RoleService roleService;
-	@javax.annotation.Resource
+	@Resource
 	private ResourcesService resourceService;
+	@Resource
+	private MenuService menuService;
 
 	// 是否已存在 ajax验证
 	public String checkName() {
@@ -119,12 +133,75 @@ public class RoleAction extends BaseAdminAction {
 
 	// 添加
 	public String add() {
+		List<Menu> menuList = menuService.getNoParentAll();
+		List<HashMap<String,Object>> mapList = new ArrayList<HashMap<String,Object>>();
+		if(menuList!=null && menuList.size()>0){
+			for(int i=0,k=menuList.size();i<k;i++){
+				Menu m = menuList.get(i);
+					HashMap<String,Object> map = new HashMap<String,Object>();
+					map.put("id",m.getId());
+					map.put("name",m.getName());
+					if(!"生产首页".equals(m.getName())){
+						map.put("checked", false);
+						map.put("chkDisabled",false);
+					}else{
+						map.put("checked", true);
+						map.put("chkDisabled",true);
+					}
+					if(m.getChilren()!=null){
+						List<HashMap<String,Object>> mapList2 = getChildren(m);
+						map.put("children",mapList2.size()>0?mapList2:"");
+					}
+					mapList.add(map);
+			}
+		}
+		jsonArray = jsonArray.fromObject(mapList);
 		return INPUT;
 	}
-
+	private List<HashMap<String,Object>> getChildren(Menu menu){
+		List<HashMap<String,Object>> mapList1 = new ArrayList<HashMap<String,Object>>();
+		if(menu.getChilren()!=null && menu.getChilren().size()>0){
+			for(Menu ms : menu.getChilren()){
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("id", ms.getId());
+				map.put("name", ms.getName());
+				map.put("checked",false);
+				map.put("chkDisabled", false);
+				List<HashMap<String,Object>> mapList2 = getChildren(ms);
+				map.put("children",mapList2.size()>0?mapList2:"");
+				mapList1.add(map);
+			}
+		}
+		//JSONArray jsonArray = JSONArray.fromObject(mapList.toString());
+		//return jsonArray;
+		return mapList1;
+	}
 	// 编辑
 	public String edit() {
 		role = roleService.load(id);
+		List<Menu> menuList = menuService.getNoParentAll();
+		List<HashMap<String,Object>> mapList = new ArrayList<HashMap<String,Object>>();
+		if(menuList!=null && menuList.size()>0){
+			for(int i=0,k=menuList.size();i<k;i++){
+				Menu m = menuList.get(i);
+					HashMap<String,Object> map = new HashMap<String,Object>();
+					map.put("id",m.getId());
+					map.put("name",m.getName());
+					if(!"生产首页".equals(m.getName())){
+						map.put("checked", false);
+						map.put("chkDisabled",false);
+					}else{
+						map.put("checked", true);
+						map.put("chkDisabled",true);
+					}
+					if(m.getChilren()!=null){
+						List<HashMap<String,Object>> mapList2 = getChildren(m);
+						map.put("children",mapList2.size()>0?mapList2:"");
+					}
+					mapList.add(map);
+			}
+		}
+		jsonArray = jsonArray.fromObject(mapList);
 		return INPUT;
 	}
 
@@ -148,6 +225,14 @@ public class RoleAction extends BaseAdminAction {
 			role.setResourcesSet(resourcesSet);
 		} else {
 			role.setResourcesSet(null);
+			
+		}
+		if(roleMenus!=null && roleMenus.length>0){
+			Set<Menu> menuSet = new HashSet<Menu>(menuService.get(roleMenus));
+			role.setMenuSet(menuSet);
+		}else{
+			Set<Menu> menuSet = new HashSet<Menu>(menuService.getList("code", "000000"));
+			role.setMenuSet(null);
 		}
 		roleService.save(role);
 		redirectionUrl = "role!list.action";
@@ -180,6 +265,14 @@ public class RoleAction extends BaseAdminAction {
 		} else {
 			role.setResourcesSet(null);
 		}
+		if(roleMenus!=null && roleMenus.length>0){
+			roleMenus = roleMenus[0].split(",");
+			Set<Menu> menuSet = new HashSet<Menu>(menuService.get(roleMenus));
+			role.setMenuSet(menuSet);
+		}else{
+			Set<Menu> menuSet = new HashSet<Menu>(menuService.getList("code", "000000"));
+			role.setMenuSet(null);
+		}
 		BeanUtils.copyProperties(role, persistent, new String[] {"id", "createDate", "modifyDate", "isSystem", "adminSet"});
 		roleService.update(persistent);
 		redirectionUrl = "role!list.action";
@@ -209,6 +302,46 @@ public class RoleAction extends BaseAdminAction {
 
 	public void setAllResource(List<Resources> allResource) {
 		this.allResource = allResource;
+	}
+
+	public List<HashMap<String, Object>> getMapList() {
+		return mapList;
+	}
+
+	public void setMapList(List<HashMap<String, Object>> mapList) {
+		this.mapList = mapList;
+	}
+
+	public JSONArray getJsonArray() {
+		return jsonArray;
+	}
+
+	public void setJsonArray(JSONArray jsonArray) {
+		this.jsonArray = jsonArray;
+	}
+
+	public String getRoledata() {
+		return roledata;
+	}
+
+	public void setRoledata(String roledata) {
+		this.roledata = roledata;
+	}
+
+	public String[] getRoleMenus() {
+		return roleMenus;
+	}
+
+	public void setRoleMenus(String[] roleMenus) {
+		this.roleMenus = roleMenus;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

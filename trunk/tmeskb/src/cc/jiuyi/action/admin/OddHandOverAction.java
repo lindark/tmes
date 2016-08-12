@@ -31,6 +31,7 @@ import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessHandoverTop;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
@@ -41,6 +42,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.TempKaoqinService;
@@ -124,6 +126,8 @@ public class OddHandOverAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
@@ -300,9 +304,21 @@ public class OddHandOverAction extends BaseAdminAction {
 	 */
 	public String addChangeNum(){
 		try{
+			
+			admin = adminService.get(loginid);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+			
+			boolean flag = ThinkWayUtil.isPass(admin);
+			if(!flag){
+				addActionError("您当前未上班,不能进行零头数交接操作!");
+				return ERROR;
+			}
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
 			bomList = new ArrayList<Bom>();
-			admin = adminService.getLoginAdmin();
-			admin = adminService.get(admin.getId());
 			processHandoverTop = new ProcessHandoverTop();
 			/*String uuid = CommonUtil.getUUID();
 			processHandoverTop.setId(uuid);*/
@@ -311,23 +327,15 @@ public class OddHandOverAction extends BaseAdminAction {
 			//获取维护物料信息
 			List<Material> materialList = materialService.getAll();
 			
-			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
-			
-			boolean flag = ThinkWayUtil.isPass(admin);
-			if(!flag){
-				addActionError("您当前未上班,不能进行零头数交接操作!");
-				return ERROR;
-			}
-			
 			oddHandOverList = new ArrayList<OddHandOver>();
 			if(admin.getProductDate() != null && admin.getShift() != null){
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
-				for (int i = 0; i < workingbillList.size(); i++) {
+				/*for (int i = 0; i < workingbillList.size(); i++) {
 					if("Y".equals(workingbillList.get(i).getIsHand())){
 						addActionError("当日交接已完成，不可再次交接");
 						return ERROR;
 					}
-				}
+				}*/
 				
 				if(workingbillList!=null && workingbillList.size()>0){
 					Set<ProcessHandover> processHandoverSet = new HashSet<ProcessHandover>();
@@ -474,8 +482,13 @@ public class OddHandOverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String edit(){
-		admin = adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		 
 		pagerMapList = new ArrayList<HashMap<String,Pager>>();
 		if(admin.getProductDate() != null && admin.getShift() != null){
 			workingbillList = workingbillservice.getListWorkingBillByDate(admin);

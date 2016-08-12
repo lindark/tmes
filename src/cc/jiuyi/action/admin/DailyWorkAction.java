@@ -23,20 +23,17 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.Process;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DailyWorkService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProcessService;
 import cc.jiuyi.service.ProductsService;
@@ -78,6 +75,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	private String start;
 	private String end;
 	private String matnr;
+	private String loginid;
 
 	@Resource
 	private DailyWorkService dailyWorkService;
@@ -107,6 +105,9 @@ public class DailyWorkAction extends BaseAdminAction {
 	private UnitdistributeModelService unitdistributeModelService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
+	
 	//报工记录表 @author Reece 2016/3/8
 	public String history() {
 		return "history";
@@ -299,14 +300,18 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public String add() {
 		
-		Admin login_admin = adminService.getLoginAdmin();
-		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
-		if(!ThinkWayUtil.isPass(login_admin)){
+		Admin admin = adminService.get(loginid);
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+		if(!ThinkWayUtil.isPass(admin)){
 			addActionError("您当前未上班,不能进行报工操作!");
 			return ERROR;
 		}
 		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
 		workingbill = workingBillService.get(workingBillId);
 		String  workCenter = workingbill.getWorkcenter();
@@ -346,14 +351,18 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 编辑
 	public String edit() {
 		
-		Admin login_admin = adminService.getLoginAdmin();
-		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
-		if(!ThinkWayUtil.isPass(login_admin)){
+		Admin admin = adminService.get(loginid);
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);			
+		if(!ThinkWayUtil.isPass(admin)){
 			addActionError("您当前未上班,不能进行报工操作!");
 			return ERROR;
 		}
 		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
 		dailyWork = dailyWorkService.load(id);
 		workingbill = workingBillService.get(workingBillId);
@@ -398,7 +407,7 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 保存
 	public String creditsave() throws Exception {
 		try{
-		WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
+		//WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
 		//Products products = productsService.getByPcode(workingBill.getMatnr());
 		//String time = ThinkWayUtil.formatdateDate(workingBill.get);
 		/*List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
@@ -450,7 +459,6 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
-		WorkingBill workingbill = workingBillService.get(workingBillId);
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();		
 		if (ratio == null || ratio.equals("")) {
@@ -465,6 +473,22 @@ public class DailyWorkAction extends BaseAdminAction {
 		}
 		*/
 		try {
+			Admin admin = adminService.get(loginid);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+			if(!ThinkWayUtil.isPass(admin)){
+				
+				return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
+			}
+			
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
+			
+			WorkingBill workingbill = workingBillService.get(workingBillId);
+			
+			
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
 			for (int i = 0; i < ids.length; i++) {
@@ -531,21 +555,28 @@ public class DailyWorkAction extends BaseAdminAction {
 	// 刷卡撤销
 	public String creditundo() {
 		
-		Admin  card_admin= adminService.getByCardnum(cardnumber);
-		card_admin = tempKaoqinService.getAdminWorkStateByAdmin(card_admin);		
-		if(!ThinkWayUtil.isPass(card_admin)){
-			
-			return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
-		}
-		
-		
-		WorkingBill workingbill = workingBillService.get(workingBillId);
+	
 		/*UnitConversion unitconversion = unitConversionService.getRatioByMatnr(workingbill.getMatnr(),UNITCODE);
 		ratio = unitconversion.getConversationRatio().intValue();
 		if (ratio == null || ratio.equals("")) {
            return ajaxJsonErrorMessage("请在计量单位转换表中维护物料编码对应的换算数据!");
 		}*/
 		try {
+			Admin admin = adminService.get(loginid);
+			admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
+			if(!ThinkWayUtil.isPass(admin)){
+				
+				return ajaxJsonErrorMessage("您当前未上班,不能进行报工操作!");
+			}
+			
+			List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+			if(lists!=null && lists.size() != 0){
+				addActionError("当前班次总体交接已完成!");
+				return ERROR;
+			}
+			
+			WorkingBill workingbill = workingBillService.get(workingBillId);
+			
 			ids = id.split(",");
 			List<DailyWork> dailyList = new ArrayList<DailyWork>();
 			for (int i = 0; i < ids.length; i++) {
@@ -728,6 +759,14 @@ public class DailyWorkAction extends BaseAdminAction {
 
 	public void setMatnr(String matnr) {
 		this.matnr = matnr;
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 	
 	

@@ -27,12 +27,8 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.IpRecord;
 import cc.jiuyi.entity.ItermediateTest;
 import cc.jiuyi.entity.ItermediateTestDetail;
-import cc.jiuyi.entity.Material;
-import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.Pollingtest;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.Rework;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -42,6 +38,7 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.ItermediateTestDetailService;
 import cc.jiuyi.service.ItermediateTestService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
@@ -49,7 +46,6 @@ import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
 /**
@@ -82,6 +78,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private List<ItermediateTestDetail> list_itmesg;// 巡检从表不合格信息
 	private List<IpRecord> list_itbug;// 不合格原因
 	private String cardnumber;// 卡号
+	private String loginid;
 
 	@Resource
 	private ItermediateTestService itermediateTestService;
@@ -105,6 +102,8 @@ public class ItermediateTestAction extends BaseAdminAction {
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	
 	private String xcreateUser;// 创建人员
@@ -117,9 +116,14 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	// 添加 ----modify weitao
 	public String add() {
-		this.workingbill = this.workingBillService.load(workingBillId);
-
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		
+		this.workingbill = this.workingBillService.load(workingBillId);
 		String  workCenter = this.workingbill.getWorkcenter();
 		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -258,6 +262,13 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	// 编辑
 	public String edit() {
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		this.list_material = new ArrayList<Bom>();
 		this.workingbill = this.workingBillService.load(workingBillId);
 		
@@ -355,6 +366,12 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	// 刷卡确认
 	public String creditapproval() {
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		admin = adminService.getByCardnum(cardnumber);
 		ids = id.split(",");
 		List<ItermediateTest> list = itermediateTestService.get(ids);
@@ -610,6 +627,13 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	// 刷卡撤销
 	public String creditundo() {
+		Admin admin1 = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin1.getProductDate(),admin1.getShift(),admin1.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		admin = adminService.getLoginAdmin();
 		ids = id.split(",");
 		List<ItermediateTest> list = itermediateTestService.get(ids);
@@ -852,6 +876,14 @@ public class ItermediateTestAction extends BaseAdminAction {
 
 	public void setCardnumber(String cardnumber) {
 		this.cardnumber = cardnumber;
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 
 }

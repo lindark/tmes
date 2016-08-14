@@ -33,7 +33,7 @@
 </style>
 	</head>
 <body class="no-skin list">
-	
+ 		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />	
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -225,10 +225,11 @@
 		
 		
 		$("#addRework").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var reworkId = $("#reworkId").val();
 //			if(reworkId ==null){
-			     window.location.href="rework_record!add.action?workingBillId="+$("#workingBillId").val()+"&reworkId="+reworkId;				
+			     window.location.href="rework_record!add.action?workingBillId="+$("#workingBillId").val()+"&reworkId="+reworkId+"&loginid="+loginid;				
 //			}else{
 //				layer.alert("已经确认的不能再次增加返工记录,重新添加返工单请返回上一层!", {
 //			        closeBtn: 0,
@@ -241,6 +242,7 @@
 		
 		
 		$("#editRework").click(function(){
+			var loginid = $("#loginid").val();
 			var index="";
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
@@ -260,7 +262,7 @@
 				return false;
 			}else{
 	    		$.ajax({
-					url: "rework_record!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val(),	
+					url: "rework_record!checkEdit.action?id=" + id+"&workingBillId="+$("#workingBillId").val()+"&loginid="+loginid,	
 					dataType: "json",
 					async: false,
 					beforeSend: function(data) {
@@ -301,6 +303,7 @@
 		
 		
 		$("#undoRework").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -315,7 +318,7 @@
 					layer.msg("已经确认、返工中或已撤销的返工记录无法再撤销!",{icon:5});
 					return false;
 				}else{
-				var url="rework_record!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val();
+				var url="rework_record!creditundo.action?id="+id+"&workingBillId="+$("#workingBillId").val()+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");

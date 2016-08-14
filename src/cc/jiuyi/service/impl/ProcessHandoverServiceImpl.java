@@ -190,7 +190,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 
 
 	@Override
-	public Map<String,String> saveApproval(String cardnumber, String id1, String loginid) throws IOException, CustomerException {
+	public synchronized Map<String,String> saveApproval(String cardnumber, String id1, String loginid) throws IOException, CustomerException {
 		HashMap<String,String> map = new HashMap<String,String>();
 		Admin admin = adminService.getByCardnum(cardnumber);
 		String[] ids = id1.split(",");
@@ -243,6 +243,7 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				
 				//try {
 				ProcessHandover ProcessHandover = handoverprocessrfc.BatchProcessHandOver(p, "",loginid);
+//				ProcessHandover ProcessHandover = new ProcessHandover();
 			/*	} catch (IOException e) {
 					e.printStackTrace();
 					map.put("staus", "E");
@@ -260,6 +261,8 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				p.setE_message(ProcessHandover.getE_message());
 				p.setE_type(ProcessHandover.getE_type());
 				p.setMblnr(ProcessHandover.getMblnr());
+//				p.setReceiveName(admin.getName());
+//				p.setReceiveId(admin.getId());
 				processHandoverDao.update(p);
 			}
 		}

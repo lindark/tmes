@@ -72,9 +72,9 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 				try {
 					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
 					Date start=sd.parse(map.get("start"));
-					Date now=sd.parse(sd.format(new Date()));
-					now = DateUtils.addDays(now, 1);
-					detachedCriteria.add(Restrictions.between("createDate", start, now));
+ 					//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.ge("createDate", start));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,18 +83,19 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 				try {
 					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
 					Date end=sd.parse(map.get("end"));
-					Date now=sd.parse(sd.format(new Date()));
-					now = DateUtils.addDays(now, 1);
-					detachedCriteria.add(Restrictions.between("createDate", end, now));
+					end = DateUtils.addDays(end, 1);
+					//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.le("createDate", end));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
@@ -134,11 +135,10 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 				}
 			}	
 			if(!map.get("start").equals("") && !map.get("end").equals("")){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
-					
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
 					//System.out.println(map.get("start")); 
 					if(ishead==0){
 						hql+=" where model.createDate between :start and :end";

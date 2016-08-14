@@ -20,6 +20,7 @@
 		
 	</head>
 	<body class="no-skin list">
+	<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -225,18 +226,21 @@
 			
 		})
 		$("#addPick").click(function(){
+			var loginid = $("#loginid").val();
 			var id = $("#workingbill").val();
-			window.location.href="up_down!trim.action?materialCode1=1,2,5,&type=down&workingBillId="+ id+"&lgpla=R-00";
+			window.location.href="up_down!trim.action?materialCode1=1,2,5,&type=down&workingBillId="+ id+"&lgpla=R-00"+"&loginid="+loginid;
 			
 		});
 		
 		$("#addBackPick").click(function(){
-			window.location.href="pick_detail!list.action?type=back&matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
+			var loginid = $("#loginid").val();
+			window.location.href="pick_detail!list.action?type=back&matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}"+"&loginId="+loginid;
 			
 		});
 		
 		
 		$("#confirmPick").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
@@ -249,7 +253,7 @@
 			}else if(row_state=="3"){
 				layer.msg("已撤销的无法再确认!", {icon: 5});
 			}else{
-					var url="pick!creditapproval.action?id="+id+"&matnr="+${(workingbill.matnr)!};
+					var url="pick!creditapproval.action?id="+id+"&matnr="+${(workingbill.matnr)!}+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#grid-table").trigger("reloadGrid");
@@ -258,6 +262,7 @@
 		});
 		
 		$("#repealPick").click(function(){
+ 			var loginid = $("#loginid").val();
 			var id = "";
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
 			var row_state=rowData.state;
@@ -268,7 +273,7 @@
 			}else if(row_state=="3"){
 				layer.msg("已撤销的无法再撤销!", {icon: 5});
 			}else{
-				var url="pick!creditundo.action?id="+id;
+				var url="pick!creditundo.action?id="+id+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
@@ -277,6 +282,7 @@
 		});
 
 		$("#editPick").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -294,7 +300,7 @@
 					layer.msg("已经确认或已经撤销的领料单无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="pick_detail!editList.action?id="+id+"&workingBillId=${workingbill.id}&matnr=${(workingbill.matnr)!}";
+					window.location.href="pick_detail!editList.action?id="+id+"&workingBillId=${workingbill.id}&matnr=${(workingbill.matnr)!}"+"&loginId="+loginid;;
 				}				
 			}		
 		});

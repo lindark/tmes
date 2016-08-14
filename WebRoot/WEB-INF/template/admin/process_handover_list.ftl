@@ -164,11 +164,12 @@
 		})
 		/*创建工序交接*/
 		$("#addProHO").click(function(){
-			window.location.href="process_handover!add.action";
-			
+			var loginid = $("#loginid").val();
+			window.location.href="process_handover!add.action?loginid="+loginid;
 		});
 		/*编辑工序交接*/
 		$("#editProHO").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
@@ -190,7 +191,7 @@
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="process_handover!edit.action?id="+id;
+					window.location.href="process_handover!edit.action?id="+id+"&loginid="+loginid;
 				}				
 			}		
 		});
@@ -214,10 +215,12 @@
 		});
 		/*创建零头数交接*/
 		$("#addChangeNum").click(function(){
-			window.location.href="odd_hand_over!addChangeNum.action";
+			var loginid = $("#loginid").val();
+			window.location.href="odd_hand_over!addChangeNum.action?loginid="+loginid;
 		});
 		/*编辑零头数交接*/
 		$("#editChangeNum").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			var rowData = $("#grid-table").jqGrid('getRowData',id);
@@ -240,7 +243,7 @@
 					layer.msg("已经确认或已撤销的工序交接/零头数交接无法再编辑!",{icon:5});
 					return false;
 				}else{
-					window.location.href="odd_hand_over!edit.action?id="+id;
+ 					window.location.href="odd_hand_over!edit.action?id="+id+"&loginid="+loginid;
 				}				
 			}		
 		});

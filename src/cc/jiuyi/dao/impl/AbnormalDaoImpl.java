@@ -92,10 +92,10 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 			}
 			
 			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+ 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();
@@ -120,11 +120,10 @@ public class AbnormalDaoImpl  extends BaseDaoImpl<Abnormal, String> implements A
 				ishead=1;
 			}	
 			if(!map.get("start").equals("") && !map.get("end").equals("")){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
-					
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
 					if(ishead==0){
 						hql+=" where model.createDate between :start and :end";
 						ishead=1;

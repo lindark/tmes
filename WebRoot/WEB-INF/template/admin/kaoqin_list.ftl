@@ -143,6 +143,7 @@
 													<div class="profile-info-row">
 													<div class="profile-info-name">工作小时</div>
 													<div class="profile-info-value">
+ 														<input type="hidden" id="workHourss" value="${workHours}">
 														<select id="workHours" class="formText {required: true}">
 														<option></option>
 														<#list list_workHours as whlist>

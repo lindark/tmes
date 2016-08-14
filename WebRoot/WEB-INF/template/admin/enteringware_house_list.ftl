@@ -24,7 +24,7 @@
 			} catch (e) {
 			}
 		</script>
-		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
+	 	<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 		<#include "/WEB-INF/template/admin/admin_sidebar.ftl">
 		<div class="main-content">
 			<#include "/WEB-INF/template/admin/admin_acesettingbox.ftl">
@@ -202,12 +202,14 @@
 		});
 		
 		$("#addCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="enteringware_house!add.action?workingBillId="+workingBillId;
+			window.location.href="enteringware_house!add.action?workingBillId="+workingBillId+"&loginid="+loginid;
 			
 		});
 		
 		$("#btn_edit").click(function(){
+			var loginid = $("#loginid").val();
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length > 1||id.length < 1){
 				layer.msg("请选择一条记录!", {icon: 5});
@@ -220,7 +222,7 @@
 				layer.msg("已确认或已撤销的报工单无法再编辑!", {icon: 5});
 				return false;
 			}else{
-				window.location.href="enteringware_house!edit.action?workingBillId="+workingBillId+"&id="+id;				
+				window.location.href="enteringware_house!edit.action?workingBillId="+workingBillId+"&id="+id+"&loginid="+loginid;				
 			}
 			
 		});

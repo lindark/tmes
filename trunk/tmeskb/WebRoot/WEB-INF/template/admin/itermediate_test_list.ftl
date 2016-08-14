@@ -19,6 +19,7 @@
 		
 	</head>
 	<body class="no-skin list">
+ 			<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 <!-- add by welson 0728 -->	
 <#include "/WEB-INF/template/admin/admin_navbar.ftl">
 <div class="main-container" id="main-container">
@@ -213,19 +214,21 @@
 		})
 		
 		$("#addIt").click(function(){
-			window.location.href="itermediate_test!add.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}";
+			var loginid = $("#loginid").val();
+			window.location.href="itermediate_test!add.action?matnr=${(workingbill.matnr)!}&workingBillId=${workingbill.id}"+"&loginid="+loginid;
 			
 		});
 		
 		
 		$("#confirmIt").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
 				layer.msg("请选择一条记录!", {icon: 5});
 				return false;
 			}else{
-				var url="itermediate_test!creditapproval.action?id="+id;
+				var url="itermediate_test!creditapproval.action?id="+id+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
@@ -234,6 +237,7 @@
 		});
 		
 		$("#repealIt").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -241,7 +245,7 @@
 				return false;
 			}
 			else{
-				var url="itermediate_test!creditundo.action?id="+id;
+				var url="itermediate_test!creditundo.action?id="+id+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
@@ -284,6 +288,7 @@
 		
 		
 		$("#editIt").click(function(){
+			var loginid = $("#loginid").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id==""){
@@ -301,7 +306,7 @@
 					layer.msg("已确认或已撤销的巡检单无法再编辑!", {icon: 5});
 					return false;
 				}else{
-					window.location.href="itermediate_test!edit.action?id="+id+"&workingBillId=${workingbill.id}";			
+					window.location.href="itermediate_test!edit.action?id="+id+"&workingBillId=${workingbill.id}"+"&loginid="+loginid;			
 				}		
 			}
 		});		

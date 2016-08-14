@@ -14,7 +14,7 @@
 		<#include "/WEB-INF/template/common/include_adm_top.ftl">
 	</head>
 	<body class="no-skin list">
-
+ 		<input type="hidden" id="loginid" value="<@sec.authentication property='principal.id' />" />
 	<!-- add by welson 0728 -->
 	<#include "/WEB-INF/template/admin/admin_navbar.ftl">
 	<div class="main-container" id="main-container">
@@ -196,11 +196,13 @@
 		});
 		
 		$("#addCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="daily_work!add.action?workingBillId="+workingBillId;
+			window.location.href="daily_work!add.action?workingBillId="+workingBillId+"&loginid="+loginid;
 			
 		});
 		$("#btn_edit").click(function(){
+			var loginid = $("#loginid").val();
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length > 1||id.length < 1){
 				layer.msg("请选择一条记录!", {icon: 5});
@@ -213,11 +215,12 @@
 				layer.msg("已确认或已撤销的报工单无法再编辑!", {icon: 5});
 				return false;
 			}else{
-				window.location.href="daily_work!edit.action?workingBillId="+workingBillId+"&id="+id;				
+				window.location.href="daily_work!edit.action?workingBillId="+workingBillId+"&id="+id+"&loginid="+loginid;				
 			}
 			
 		});
 		$("#confirmCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -231,7 +234,7 @@
 				}else if(row_state=="3"){
 					layer.msg("已撤销的无法再确认！", {icon: 5});
 				}else{
-				var url = "daily_work!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "daily_work!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);
@@ -264,6 +267,7 @@
 			
 		});
 		$("#undoCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -275,7 +279,7 @@
 				if(row_state=="3"){
 					layer.msg("已撤销的无法再撤销！", {icon: 5});
 				}else{
-				var url = "daily_work!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "daily_work!creditundo.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);

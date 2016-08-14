@@ -384,7 +384,7 @@ function addemp()
 		{
 			layer.closeAll();
 			$.ajax({
-				url:"temp_kaoqin!addnewemp.action?ids="+info+"&sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val()+"&workHours="+$("#workHours").val(),
+ 				url:"temp_kaoqin!addnewemp.action?ids="+info+"&sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val()+"&workHours="+$("#workHourss").val(),
 				dataType:"json",
 				type:"post",
 				data:{},

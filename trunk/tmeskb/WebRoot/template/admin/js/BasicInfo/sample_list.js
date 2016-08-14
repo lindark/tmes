@@ -218,15 +218,16 @@ function addstyle(rowId, val, rowObject, cm, rdata)
 function btn_event()
 {
 	var wbId=$("#wbId").val();
+ 	var loginid = $("#loginid").val();
 	//创建抽检单
 	$("#btn_creat").click(function(){
-		window.location.href="sample!add.action?wbId="+wbId;
+		window.location.href="sample!add.action?wbId="+wbId+"&loginid="+loginid;
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
 		if(getId())
 		{
-			var url="sample!creditapproval.action?info="+info+"&wbId="+wbId+"&my_id=1";
+			var url="sample!creditapproval.action?info="+info+"&wbId="+wbId+"&my_id=1"+"&loginid="+loginid;
 			sub_event(url);
 		}
 	});
@@ -234,7 +235,7 @@ function btn_event()
 	$("#btn_revoke").click(function(){
 		if(getId())
 		{
-			var url="sample!creditundo.action?info="+info+"&wbId="+wbId+"&my_id=2";
+			var url="sample!creditundo.action?info="+info+"&wbId="+wbId+"&my_id=2"+"&loginid="+loginid;
 			sub_event(url);
 		}
 	});
@@ -254,7 +255,7 @@ function btn_event()
 			}
 			else
 			{
-				window.location.href="sample!edit.action?id="+info+"&wbId="+wbId;
+				window.location.href="sample!edit.action?id="+info+"&wbId="+wbId+"&loginid="+loginid;
 			}
 		}
 	});

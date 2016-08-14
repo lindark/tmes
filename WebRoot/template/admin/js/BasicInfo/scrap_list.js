@@ -212,9 +212,10 @@ function addstyle(rowId, val, rowObject, cm, rdata)
 function btn_event()
 {
 	var wbId=$("#wbId").val();
+	var loginid = $("#loginid").val();
 	//创建报废单
 	$("#btn_creat").click(function(){
-		window.location.href="scrap!add.action?wbId="+wbId;
+ 		window.location.href="scrap!add.action?wbId="+wbId+"&loginid="+loginid;
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
@@ -248,7 +249,7 @@ function btn_event()
 			}
 			else
 			{
-				window.location.href="scrap!edit.action?id="+info+"&wbId="+wbId;
+				window.location.href="scrap!edit.action?id="+info+"&wbId="+wbId+"&loginid="+loginid;
 			}
 		}
 	});

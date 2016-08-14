@@ -22,6 +22,7 @@ import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessRouteService;
 import cc.jiuyi.service.ProductsService;
 import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import org.springframework.stereotype.Service;
@@ -191,7 +192,13 @@ public class WorkingBillServiceImpl extends
 		}
 
 }
-	
+	@Override
+	public void mergeWorkingBillNew(List<WorkingBill> workingbillList,
+			List<Orders> orderList, List<ProcessRoute> processrouteList,
+			List<Bom> bomList, List<WorkingBill> workingbillListDel)
+			throws CustomerException {
+		
+	}
 	//订单处理
 	public void mergeorderdeal(Orders order){
 		Orders order1 = orderservice.get("aufnr",order.getAufnr());//生产订单号
@@ -211,11 +218,12 @@ public class WorkingBillServiceImpl extends
 			Products products1 = new Products();
 			products1.setProductsCode(order.getMatnr());
 			products1.setProductsName(order.getMaktx());
-			products1.setIsDel("N");
+			products1.setIsDel(order.getIsdel());
 			products1.setState("1");
 			productsservice.save(products1);
 		}else{
 			products.setProductsName(order.getMaktx());
+			products.setIsDel(order.getIsdel());
 			productsservice.update(products);
 		}
 		
@@ -302,28 +310,30 @@ public class WorkingBillServiceImpl extends
 		}
 		boolean flag = true;
 		Integer maxversion = bomservice.getMaxVersion(order.getAufnr());//根据生产订单获取最高版本号
+		//log.info("maxversion:"+maxversion);
 		if(maxversion == null){//如果没有找到，需要创建版本
 			flag = false;
 		}else{
-			List<Bom> bomList01 = bomservice.getBomListRFC(order.getAufnr(), maxversion);//根据生产订单和版本号获取Bom结合
+			List<Bom> bomList01 = bomservice.getBomListRFC(order.getAufnr(), maxversion,"sys");//根据生产订单和版本号获取Bom结合
 			if(bomList00.size() >= bomList01.size()){//SAP 比MES 多
 				for(int y=0;y<bomList00.size();y++){
 					Bom bom00 = bomList00.get(y);
 					boolean flag1 = false;
-					String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel());//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList01.size();z++){
 						Bom bom01 = bomList01.get(z);
-						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						if(bom00str.equals(bom01str)){//如果找到.flag1 设置为true,停止
+						String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel());//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						//log.info("多bom00str:"+bom01str);
+						if(bom00str.equals(bom01str) && (new BigDecimal(ThinkWayUtil.null2o(bom00.getMaterialAmount())).compareTo(new BigDecimal(ThinkWayUtil.null2o(bom01.getMaterialAmount())))==0)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
 						}
-						if(z==bomList01.size() -1 && flag1 == false){
-							log.info("bom01str:"+bom01str);
-						}
+						//if(z==bomList01.size() -1 && flag1 == false){
+							//log.info("多bom01str:"+bom01str+"多bom00str："+bom00str);
+						//}
 					}
 					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
-						log.info("bom00str:"+bom00str);
+						log.info("多bom00str:"+bom00str);
 						flag = false;
 						break;
 					}
@@ -332,20 +342,20 @@ public class WorkingBillServiceImpl extends
 				for(int y=0;y<bomList01.size();y++){
 					Bom bom01 = bomList01.get(y);
 					boolean flag1 = false;
-					String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2o(bom01.getMaterialAmount()+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel()));//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+					String bom01str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(bom01.getMaterialCode())+ThinkWayUtil.null2String(bom01.getShift())+ThinkWayUtil.null2String(bom01.getIsDel());//+bom01.getMaterialUnit();//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
 					for(int z=0;z<bomList00.size();z++){
 						Bom bom00 = bomList00.get(z);
-						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(order.getGamng())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2o(bom00.getMaterialAmount()+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel()));//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
-						if(bom01str.equals(bom00str)){//如果找到.flag1 设置为true,停止
+						String bom00str = ThinkWayUtil.null2String(order.getMatnr())+ThinkWayUtil.null2String(bom00.getMaterialCode())+ThinkWayUtil.null2String(bom00.getShift())+ThinkWayUtil.null2String(bom00.getIsDel());//+ThinkWayUtil.null2String(bom00.getMaterialUnit());//产品编码+产品数量+BOM物料编码+BOM物料缩量+BOM物料单位
+						if(bom01str.equals(bom00str) && (new BigDecimal(ThinkWayUtil.null2o(bom00.getMaterialAmount())).compareTo(new BigDecimal(ThinkWayUtil.null2o(bom01.getMaterialAmount())))==0)){//如果找到.flag1 设置为true,停止
 							flag1 = true;
 							break;
 						}
-						if(z==bomList00.size() -1 && flag1 == false){
-							log.info("bom00str:"+bom00str);
-						}
+						//if(z==bomList00.size() -1 && flag1 == false){
+							//log.info("少bom00str:"+bom00str);
+						//}
 					}
 					if(!flag1){//如果 SAP 在MES中有一条未匹配上，直接停止循环，BOM升级
-						log.info("bom01str:"+bom01str);
+						log.info("少bom01str:"+bom01str);
 						flag = false;
 						break;
 					}
@@ -475,6 +485,8 @@ public class WorkingBillServiceImpl extends
 			String enddate, String workcode) {
 		return workingbilldao.getListWorkingBillByProductDate(startdate, enddate, workcode);
 	}
+
+
 
 
 }

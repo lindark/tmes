@@ -213,8 +213,14 @@ public class BomDaoImpl  extends BaseDaoImpl<Bom, String> implements BomDao {
 	}
 
 	@Override
-	public List<Bom> getBomListRFC(String aufnr, Integer maxversion) {
-		String hql="from Bom where orders.aufnr = ? and version = ? and isDel='N' ";
+	public List<Bom> getBomListRFC(String aufnr, Integer maxversion,String type) {
+		String hql=  "";
+		if(type!=null){ 
+			hql = "from Bom where orders.aufnr = ? and version = ?";
+		}else{
+			hql = "from Bom where orders.aufnr = ? and version = ? and isDel='N' ";
+		}
+		
 		return getSession().createQuery(hql).setParameter(0, aufnr).setParameter(1, maxversion).list();
 	}
 

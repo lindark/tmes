@@ -27,6 +27,8 @@ public interface WorkingBillService extends BaseService<WorkingBill, String>,Wor
 	public Pager findPagerByjqGrid(Pager pager,Map map);
 	
 	public void mergeWorkingBill(List<WorkingBill> workingbillList,List<Orders> orderList,List<ProcessRoute> processrouteList,List<Bom> bomList) throws CustomerException ;
+ 	
+	public void mergeWorkingBillNew(List<WorkingBill> workingbillList,List<Orders> orderList,List<ProcessRoute> processrouteList,List<Bom> bomList,List<WorkingBill> workingbillListDel) throws CustomerException ;
 
 	/**
 	 * 标记删除

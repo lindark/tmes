@@ -23,10 +23,10 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Products;
-import cc.jiuyi.entity.Scrap;
 import cc.jiuyi.entity.ScrapBug;
 import cc.jiuyi.entity.ScrapLater;
 import cc.jiuyi.entity.ScrapMessage;
@@ -38,6 +38,7 @@ import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.MaterialService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ScrapOutService;
 import cc.jiuyi.service.ScrapService;
 import cc.jiuyi.service.TempKaoqinService;
@@ -103,6 +104,9 @@ public class ScrapAction extends BaseAdminAction
 	private ScrapOutService soService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
+	
 	/**========================end  variable,object,interface==========================*/
 	
 	/**========================method  start======================================*/
@@ -112,14 +116,21 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String list()
 	{
-		this.admin=this.adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
-		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
+		
+		//this.admin=this.adminService.getLoginAdmin();
+		//admin = adminService.get(admin.getId());
+		//admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		/*boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
 			addActionError("您当前未上班,不能进行报废操作!");
 			return ERROR;
 		}*/
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		this.workingbill=this.wbService.get(wbId);
 		return LIST;
 	}
@@ -278,6 +289,13 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String edit()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
 		this.list_material=new ArrayList<Bom>();
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
@@ -445,6 +463,12 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String creditapproval()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		ids = info.split(",");
 		for (int i = 0; i < ids.length; i++)
 		{
@@ -475,6 +499,12 @@ public class ScrapAction extends BaseAdminAction
 	 */
 	public String creditundo()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		ids = info.split(",");
 		for (int i = 0; i < ids.length; i++)
 		{

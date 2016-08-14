@@ -201,11 +201,13 @@
 		});
 		
 		$("#addCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="repair!add.action?workingBillId="+workingBillId;
+			window.location.href="repair!add.action?workingBillId="+workingBillId+"&loginid="+loginid;
 			
 		});
 		$("#btn_edit").click(function(){
+			var loginid = $("#loginid").val();
 			var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 			if(id.length > 1||id==""||id==null){
 				layer.msg("请选择一条记录!", {icon: 5});
@@ -217,7 +219,7 @@
 			if(row_state=="1" || row_state=="3"){
 				layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
 			}else{
-				window.location.href="repair!edit.action?workingBillId="+workingBillId+"&id="+id;				
+				window.location.href="repair!edit.action?workingBillId="+workingBillId+"&id="+id+"&loginid="+loginid;				
 			}
 			
 		});
@@ -247,6 +249,7 @@
 			}
 		});
 		$("#undoCarton").click(function(){
+ 			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -264,7 +267,7 @@
 				}
 				else
 				{
-					var url = "repair!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+					var url = "repair!creditundo.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
 						$("#totalAmount").text(data.totalAmount);

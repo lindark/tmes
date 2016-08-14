@@ -201,8 +201,9 @@
 		});
 		
 		$("#addCarton").click(function(){
+			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
-			window.location.href="repairin!add.action?workingBillId="+workingBillId;
+			window.location.href="repairin!add.action?workingBillId="+workingBillId+"&loginid="+loginid;
 			
 		});
 		$("#confirmCarton").click(function(){
@@ -253,6 +254,7 @@
 				//window.location.href="repairin!confirms.action?id="+id+"&workingBillId="+workingBillId;			
 		});
 		$("#undoCarton").click(function(){
+ 			var loginid = $("#loginid").val();
 			var workingBillId = $("#workingBillId").val();
 			var id = "";
 			id=$("#grid-table").jqGrid('getGridParam','selarrrow');
@@ -264,7 +266,7 @@
 				if(row_state=="3"){
 					layer.msg("已撤销的无法再撤销！", {icon: 5});
 				}else{
-				var url = "repairin!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "repairin!creditundo.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#totalAmount").text(data.totalAmount);

@@ -145,10 +145,10 @@ body {
 													<#else>
 														<img id="img_costcenter" class="img_costcenter" title="添加成本中心" alt="添加成本中心" src="${base}/template/shop/images/add_bug.gif" />
 														<#if add??>
-															<span id="span_departName">返修组</span>/
-															<span id="span_costcenter">10008431</span>
-															<input type="hidden" id="input_departName" name="repairin.departName" value="返修组" />
-															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="10008431" />
+		 													<span id="span_departName"></span>/
+															<span id="span_costcenter"></span>
+															<input type="hidden" id="input_departName" name="repairin.departName" value="" />
+															<input type="hidden" id="input_costcenter" name="repairin.costcenter" value="" />
 														<#else>
 															<span id="span_departName">${(repairin.departName)!}</span>/
 															<span id="span_costcenter">${(repairin.costcenter)!}</span>

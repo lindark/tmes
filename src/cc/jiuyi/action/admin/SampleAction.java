@@ -21,9 +21,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Cause;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.PickDetail;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.SampleRecord;
 import cc.jiuyi.entity.UnitdistributeProduct;
@@ -32,6 +30,7 @@ import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.CauseService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.SampleRecordService;
 import cc.jiuyi.service.SampleService;
 import cc.jiuyi.service.UnitdistributeModelService;
@@ -78,6 +77,7 @@ public class SampleAction extends BaseAdminAction
 	private String xcomfirmation;//确认人
 	private String xproductname;//产品名称
 	private String xproductnum;//产品编号
+	private String loginid;
 	/**
 	 * service接口
 	 */
@@ -99,6 +99,8 @@ public class SampleAction extends BaseAdminAction
 	private UnitdistributeProductService unitdistributeProductService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
 	
 	
 	
@@ -479,6 +481,12 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String add()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 		//FactoryUnit fu = this.workingbill.getTeam().getFactoryUnit();
 		String  workCenter = this.workingbill.getWorkcenter();
@@ -595,6 +603,12 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String creditapproval()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		ids = info.split(",");
 		for (int i = 0; i < ids.length; i++)
 		{
@@ -621,6 +635,12 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String creditundo()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		ids = info.split(",");
 		for (int i = 0; i < ids.length; i++)
 		{
@@ -642,6 +662,12 @@ public class SampleAction extends BaseAdminAction
 	 */
 	public String edit()
 	{
+		Admin admin = adminService.get(loginid);
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
 		this.workingbill=this.workingBillService.get(wbId);//获取随工单的信息
 		String  workCenter = this.workingbill.getWorkcenter();
 		FactoryUnit fu = factoryUnitService.get("workCenter", workCenter);
@@ -878,6 +904,14 @@ public class SampleAction extends BaseAdminAction
 	
 	public List<Dict> getAllMoudle() {
 		return dictService.getList("dictname", "moudleType");
+	}
+
+	public String getLoginid() {
+		return loginid;
+	}
+
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
 	}
 	
 	/**==========================end "get/set"====================================*/

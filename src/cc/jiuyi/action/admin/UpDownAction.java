@@ -28,15 +28,13 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.Factory;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Locationonside;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.PositionManagement;
-import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.UpDown;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.sap.rfc.MatStockRfc;
@@ -44,11 +42,11 @@ import cc.jiuyi.sap.rfc.UpDownRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
 import cc.jiuyi.service.DictService;
-import cc.jiuyi.service.FactoryService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.PickDetailService;
 import cc.jiuyi.service.PositionManagementService;
+import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UpDownServcie;
 import cc.jiuyi.service.WorkingBillService;
@@ -92,6 +90,9 @@ public class UpDownAction extends BaseAdminAction {
 	private FactoryUnitService factoryUnitService;
 	@Resource
 	private TempKaoqinService tempKaoqinService;
+	@Resource
+	private ProcessHandoverAllService processHandoverAllService;
+	
 	
 	private Pager pager;
 	private UpDown updown;
@@ -467,25 +468,27 @@ public class UpDownAction extends BaseAdminAction {
 	 */
 	public String trim(){
 		
-		Admin login_admin = adminService.getLoginAdmin();
-		login_admin = adminService.get(login_admin.getId());
-		login_admin = tempKaoqinService.getAdminWorkStateByAdmin(login_admin);		
+		Admin admin  = adminService.get(loginid);
+		admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);		
 		
-		if(!ThinkWayUtil.isPass(login_admin)){
+		if(!ThinkWayUtil.isPass(admin)){
 			addActionError("您当前未上班,不能进行领料操作!");
 			return ERROR;
 		}
 		
-		
 		//检查数据完整性
-		workingbill = workingBillService.get(workingBillId);
-		Admin admin = adminservice.getLoginAdmin();
-		admin = adminservice.get(admin.getId());
 		if(admin.getProductDate() == null || admin.getShift() == null){
 			addActionError("生产日期和班次必须绑定后才可以使用");
 			return ERROR;
 		}
 		
+		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+		if(lists!=null && lists.size() != 0){
+			addActionError("当前班次总体交接已完成!");
+			return ERROR;
+		}
+		
+		workingbill = workingBillService.get(workingBillId);
 //		if("up".equals(type)){//上架
 //			String delivery = admin.getTeam().getFactoryUnit().getDelivery();
 //			if(ThinkWayUtil.null2String(delivery).equals("")){

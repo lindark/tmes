@@ -167,8 +167,8 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 
 
 	@Override
-	public List<Bom> getBomListRFC(String aufnr, Integer maxversion) {
-		return bomDao.getBomListRFC(aufnr, maxversion);
+ 	public List<Bom> getBomListRFC(String aufnr, Integer maxversion,String type) {
+		return bomDao.getBomListRFC(aufnr, maxversion,type);
 	}
 
 

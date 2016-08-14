@@ -244,9 +244,10 @@ function addstyle(rowId, val, rowObject, cm, rdata)
 function btn_event()
 {
 	var workingBillId = $("#workingBillId").val();
+	var loginid = $("#loginid").val();
 	//创建巡检单
 	$("#btn_creat").click(function(){
-		window.location.href="pollingtest!add.action?workingBillId="+workingBillId;
+		window.location.href="pollingtest!add.action?workingBillId="+workingBillId+"&loginid="+loginid;
 	});
 	//刷卡确认
 	$("#btn_confirm").click(function(){
@@ -259,7 +260,7 @@ function btn_event()
 			}else if(row_state=="3"){
 				layer.msg("已撤销的无法再确认！", {icon: 5});
 			}else{
-				var url = "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "pollingtest!creditapproval.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
@@ -294,7 +295,7 @@ function btn_event()
 			if(row_state=="3"){
 				layer.msg("已撤销的无法再撤销！", {icon: 5});
 			}else{
-				var url = "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId;
+				var url = "pollingtest!creditundo.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 				credit.creditCard(url,function(data){
 					$.message(data.status,data.message);
 					$("#grid-table").trigger("reloadGrid");
@@ -337,7 +338,7 @@ function btn_event()
 			}
 			else
 			{
-				window.location.href="pollingtest!edit.action?id="+id+"&workingBillId="+workingBillId;
+ 				window.location.href="pollingtest!edit.action?id="+id+"&workingBillId="+workingBillId+"&loginid="+loginid;
 			}
 		}
 	});

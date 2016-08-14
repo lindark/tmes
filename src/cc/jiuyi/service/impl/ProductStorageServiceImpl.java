@@ -211,7 +211,7 @@ public class ProductStorageServiceImpl extends
 		if(maxversion == null){//如果没有找到，需要创建版本
 			flag = false;
 		}else{
-			List<Bom> bomList01 = bomservice.getBomListRFC(order.getAufnr(), maxversion);//根据生产订单和版本号获取Bom结合
+ 			List<Bom> bomList01 = bomservice.getBomListRFC(order.getAufnr(), maxversion,"sys");//根据生产订单和版本号获取Bom结合
 			if(bomList00.size() >= bomList01.size()){//SAP 比MES 多
 				for(int y=0;y<bomList00.size();y++){
 					Bom bom00 = bomList00.get(y);

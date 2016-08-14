@@ -274,6 +274,7 @@ function btn_event()
 {
 	//编辑
 	$("#btn_edit").click(function(){
+		var loginid = $("#loginid").val();
 		var id=$("#grid-table").jqGrid('getGridParam','selarrrow');
 		if(id.length > 1||id==""||id==null){
 			layer.msg("请选择一条记录!", {icon: 5});
@@ -285,7 +286,7 @@ function btn_event()
 		if(row_state=="1"||row_state=="3"){
 			layer.msg("已确认或已撤销的返修单无法再编辑!", {icon: 5});
 		}else{
-			window.location.href="repairin!edit.action?workingBillId="+workingBillId+"&id="+id;				
+ 			window.location.href="repairin!edit.action?workingBillId="+workingBillId+"&id="+id+"&loginid="+loginid;				
 		}
 		
 	});

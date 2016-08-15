@@ -113,7 +113,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="dailyWork.enterAmount"
 														value="${(dailyWork.enterAmount)!}"
-														class=" input input-sm formText {required: true,min: 1}" />
+														class=" input input-sm formText {required: true,min: 1} enterAmount" />
 													<label class="requireField">*</label>
 												</div>
 											</div>
@@ -181,28 +181,41 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		//$("#inputForm").submit();
+		//$("#inputForm").submit();	
 		var dt = $("#inputForm").serialize();
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var isNum = true;
 		<#if isAdd??>
 			var url = "daily_work!creditsave.action";		
 		<#else>
 			var url = "daily_work!creditupdate.action";
 		</#if>
-		credit.creditCard(url,function(data){
-			var workingbillid = $("#wkid").val();
-			//$.message(data.status,data.message);
-			if(data.status=="success"){
-	    		layer.alert(data.message, {icon: 6},function(){
-				window.location.href = "daily_work!list.action?workingBillId="+ workingbillid;
-	    	});
-	    	}else if(data.status=="error"){
-	    		layer.alert(data.message,{
-	    			closeBtn: 0,
-	    			icon: 5,
-	    			skin:'error'
-	    		});
-	    	}
-		},dt)
+		$(".enterAmount").each(function(){
+			if($(this).val!=null&&$(this).val()!=""){
+				isNum = regx.test($(this).val());
+				if(isNum == false){
+					layer.msg("输入不合法!", {icon: 5});
+					return false;
+				}
+			}
+		})
+		if(isNum == true){
+			credit.creditCard(url,function(data){
+				var workingbillid = $("#wkid").val();
+				//$.message(data.status,data.message);
+				if(data.status=="success"){
+		    		layer.alert(data.message, {icon: 6},function(){
+					window.location.href = "daily_work!list.action?workingBillId="+ workingbillid;
+		    	});
+		    	}else if(data.status=="error"){
+		    		layer.alert(data.message,{
+		    			closeBtn: 0,
+		    			icon: 5,
+		    			skin:'error'
+		    		});
+		    	}
+			},dt)
+		}
 	});
 	
 	//返回

@@ -176,7 +176,7 @@ inupt.stockMout{
 															<td>${(deptpick.materialName)! }</td>
 															<td>${(deptpick.materialBatch)! }</td>
 															<td>${(deptpick.actualMaterialMount)! }</td>
-															<td><input type="text"  name="deptpickList[0].stockMount" value="${(deptpick.stockMount)!}" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
+															<td><input type="text" class="stockMount" name="deptpickList[0].stockMount" value="${(deptpick.stockMount)!}" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
 															<input type="hidden" name="deptpickList[0].id" value="${(deptpick.id)! }"/>
 															</td>
 															</tr>
@@ -192,8 +192,8 @@ inupt.stockMout{
 																	<td>${(lns.charg)! }</td>
 																	<input type="hidden"  name="deptpickList[${lns_index}].materialBatch" value="${(lns.charg)!}">
 																	<td>${(lns.amount)! }</td>
-																	<input type="hidden"  name="deptpickList[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td  style="width:150px"><input style="width:95%"type="text" name="deptpickList[${lns_index}].stockMount" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
+																	<input type="hidden" name="deptpickList[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
+																	<td  style="width:150px"><input style="width:95%"type="text" class="stockMount" name="deptpickList[${lns_index}].stockMount" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 																</tr>
 															</#list>
 															</#if>
@@ -296,6 +296,8 @@ $(function(){
 	$subm.click(function(){
 		var costcenter = $("#costcenter").val();
 		var type = $("#type").val();
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var isNum = true;
 		if(costcenter == ""){
 			//layer.alert("请填写成本中心");
 			$.message("error","请填写成本中心");
@@ -305,14 +307,24 @@ $(function(){
 			$.message("error","请选择类型");
 			return false;
 		}
-		
-		var dt = $("#inputForm").serialize();
-		var url = "deptpick!creditsubmit.action";
-		credit.creditCard(url,function(data){
-			if(data.status=="success"){
-				window.location.href="deptpick!list.action";
+		$(".stockMount").each(function(){
+			if($(this).val!=null&&$(this).val()!=""){
+				isNum = regx.test($(this).val());
+				if(isNum == false){
+					layer.msg("输入不合法!", {icon: 5});
+					return false;
+				}
 			}
-		},dt);
+		})
+		if(isNum == true){
+			var dt = $("#inputForm").serialize();
+			var url = "deptpick!creditsubmit.action";
+			credit.creditCard(url,function(data){
+				if(data.status=="success"){
+					window.location.href="deptpick!list.action";
+				}
+			},dt);
+		}
 	});
 	//刷卡确认
 	/* $sure.click(function(){

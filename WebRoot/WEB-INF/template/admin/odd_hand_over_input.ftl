@@ -419,6 +419,7 @@ function showUnit(num1){
 		//	var loginId = $("#loginid").val();
 			var productDate = $("#productDate").val();
 			var select = $("#sl_sh").val();
+			var regx = /^(\+|-)?\d+($|\.\d+$)/;
 			
 			if(productDate == ""){
 				layer.alert("请选择下班生产日期",{icon: 7});
@@ -430,6 +431,26 @@ function showUnit(num1){
 				return false;
 			}
 			var flag = true;
+			$(".unhandOverMount").each(function(){
+				if($(this).val!=null&&$(this).val()!=""){
+					flag = regx.test($(this).val());
+					if(flag == false){
+						layer.msg("输入不合法!", {icon: 5});
+						return false;
+					}
+				}
+			});
+			if(flag==true){
+				$(".oddhandOverMount").each(function(){
+					if($(this).val!=null&&$(this).val()!=""){
+						flag = regx.test($(this).val());
+						if(flag == false){
+							layer.msg("输入不合法!", {icon: 5});
+							return false;
+						}
+					}
+				});
+			}
 			$(".afterWork").each(function(){
 				if($(this).val() == $(this).parent().prev().children().val()){
 					flag = false;
@@ -459,7 +480,6 @@ function showUnit(num1){
 						layer.alert("请填写下班随工单",{icon: 7});
 						return false;
 					} */
-					
 					if($("#station").val()==""){
 						flag = false;
 						layer.alert("请选择模具",{icon: 7});

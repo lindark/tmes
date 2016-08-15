@@ -103,7 +103,7 @@ body {
 												<div class="profile-info-value">
 													<input type="text" name="enteringwareHouse.storageAmount"
 														value="${(enteringwareHouse.storageAmount)!}"
-														class=" input input-sm formText {required: true,min: 1}" />
+														class=" input input-sm formText {required: true,min: 1} storageAmount" />
 													<label class="requireField">*</label>
 												</div>
 											</div>
@@ -172,27 +172,40 @@ $(function(){
 	//刷卡保存
 	$("#btn_save").click(function(){
 		//提交
-		//$("#inputForm").submit();
+		//$("#inputForm").submit();		
 		var workingbillid = $("#wkid").val();
 		var dt = $("#inputForm").serialize();
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var isNum = true;
 		<#if isAdd??>
 			var url = "enteringware_house!creditsave.action";		
 		<#else>
 			var url = "enteringware_house!creditupdate.action";
 		</#if>
-		credit.creditCard(url,function(data){
-			if(data.status == "success"){
-				layer.alert(data.message, {icon: 6},function(){
-					window.location.href="enteringware_house!list.action?workingBillId="+ workingbillid;
-				}); 
-			}else if(data.status=="error"){
-				layer.alert(data.message, {
-			        closeBtn: 0,
-			        icon:5,
-			        skin:'error'
-			   });
-			}		
-		},dt)
+		$(".storageAmount").each(function(){
+			if($(this).val!=null&&$(this).val()!=""){
+				isNum = regx.test($(this).val());
+				if(isNum == false){
+					layer.msg("输入不合法!", {icon: 5});
+					return false;
+				}
+			}
+		})
+		if(isNum == true){
+			credit.creditCard(url,function(data){
+				if(data.status == "success"){
+					layer.alert(data.message, {icon: 6},function(){
+						window.location.href="enteringware_house!list.action?workingBillId="+ workingbillid;
+					}); 
+				}else if(data.status=="error"){
+					layer.alert(data.message, {
+				        closeBtn: 0,
+				        icon:5,
+				        skin:'error'
+				   });
+				}		
+			},dt)
+		}
 	});
 	
 	//返回

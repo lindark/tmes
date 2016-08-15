@@ -753,6 +753,7 @@ function showUnit(num1){
 				var loginId = $("#loginid").val();
 				var productDate = $("#productDate").val();
 				var select = $("#sl_sh").val();
+				var regx = /^(\+|-)?\d+($|\.\d+$)/;
 				
 				if(productDate == ""){
 					layer.alert("请选择下班生产日期",{icon: 7});
@@ -764,6 +765,37 @@ function showUnit(num1){
 					return false;
 				}
 				var flag = true;
+				$(".productAmount").each(function(){
+					if($(this).val!=null&&$(this).val()!=""){
+						flag = regx.test($(this).val());
+						if(flag == false){
+							layer.msg("输入不合法!", {icon: 5});
+							return false;
+						}
+					}
+				});
+				if(flag){
+					$(".cqamount").each(function(){
+						if($(this).val!=null&&$(this).val()!=""){
+							flag = regx.test($(this).val());
+							if(flag == false){
+								layer.msg("输入不合法!", {icon: 5});
+								return false;
+							}
+						}
+					});
+				}
+				if(flag){
+					$(".cqrepairamount").each(function(){
+						if($(this).val!=null&&$(this).val()!=""){
+							flag = regx.test($(this).val());
+							if(flag == false){
+								layer.msg("输入不合法!", {icon: 5});
+								return false;
+							}
+						}
+					});
+				}
 				$(".workingCode1").each(function(){
 					if($(this).val() == $(this).parent().next().children().val()){
 						flag = false;

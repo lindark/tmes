@@ -281,11 +281,12 @@ $(function() {
 	 * 报废
 	 */
 	$scrap.click(function(){
+		var loginid=$("#loginid").val();//当前登录人的id
 		var istrue=init.isCheck();
 		if(istrue)
 		{
 			var id = getCKboxById();
-			window.location.href = "scrap!list.action?wbId=" + id;
+			window.location.href = "scrap!list.action?wbId=" + id+"&loginid="+loginid;
 		} 
 	});
 	

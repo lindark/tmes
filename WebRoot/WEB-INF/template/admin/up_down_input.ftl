@@ -355,13 +355,14 @@ $(function() {
 		$("#search_btn").click(function() {
 			var workId = $("#workId").val();
 			var cardnumber = $("#cardnumber1").val();
+			var loginid= $("#loginid").val();
 			if(cardnumber != ""){
-				$("#inputForm").attr("action","up_down!addForWuliu.action");
+				$("#inputForm").attr("action","up_down!addForWuliu.action?loginid="+loginid);
 			}else{
 				if( workId != ""){
-					$("#inputForm").attr("action","up_down!trim.action");
+					$("#inputForm").attr("action","up_down!trim.action?loginid="+loginid);
 				}else{
-				$("#inputForm").attr("action", "up_down!add.action");
+				$("#inputForm").attr("action", "up_down!add.action?loginid="+loginid);
 				}
 			}
 			

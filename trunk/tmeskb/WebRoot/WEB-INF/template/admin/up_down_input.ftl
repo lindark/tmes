@@ -298,6 +298,7 @@ inupt.stockMout {
 <script type="text/javascript">
 $(function() {
 		var $select1 = $("#select1");
+		var isNum = true;
 		$select1.change(function(){
 			var warehouse = $(this).val();
 			$("#select2").children().remove();
@@ -319,20 +320,35 @@ $(function() {
 		var $subm = $("#btn_subm");
 		var $sure = $("#btn_subm");
 		//刷卡提交
+		
 		$subm.click(function() {
 			var dt = $("#inputForm").serialize();
 			var loginid = $("#loginid").val();
 			var url = "up_down!creditsave.action?loginid="+loginid;
-			credit.creditCard(url, function(data) {
-				if (data.status == "success") {
-					//window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
-					var workId = $("#workId").val();
-					if( workId != ""){
-					window.location.href = "pick!list.action?workingBillId="+'${(workingbill.id)!}';
-					}	
+			var regx = /^(\+|-)?\d+($|\.\d+$)/;
+			isNum = true;
+			$(".dwnum").each(function(){
+				if($(this).val!=null&&$(this).val()!=""){
+					isNum = regx.test($(this).val());
+					if(isNum == false){
+						layer.msg("输入不合法!", {icon: 5});
+						return false;
+					}
 				}
-			}, dt);
+			})
+			if(isNum == true){
+				credit.creditCard(url, function(data) {
+					if (data.status == "success") {
+						//window.location.href="end_product!list.action?productDate="+productDate+"&shift="+shift;
+						var workId = $("#workId").val();
+						if( workId != ""){
+						window.location.href = "pick!list.action?workingBillId="+'${(workingbill.id)!}';
+						}	
+					}
+				}, dt);
+			}
 		});
+		
 		//刷卡确认
 		/* $sure.click(function(){
 			var dt = $("#inputForm").serialize();
@@ -370,6 +386,15 @@ $(function() {
 		});
 		
 		$(".dwnum").change(function(){
+			if($(this).val()!=null && $(this).val()!=""){
+				if($(this).val!=null&&$(this).val()!=""){
+					isNum = regx.test($(this).val());
+					if(isNum == false){
+						layer.msg("输入不合法!", {icon: 5});
+						return false;
+					}
+				}
+			}
 			var $cqmultiple_input = $(this).parent().next().find(".cqmultiple");
 			if($cqmultiple_input.length>0){
 				var cqmultiple = $cqmultiple_input.val();

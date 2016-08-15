@@ -110,7 +110,7 @@ body{background:#fff;}
 												  <#if show??>
 															<span>${(reworkRecord.reworkAmount)! }</span>
 												  <#else>
-													<input type="text" name="reworkRecord.reworkAmount" value="${(reworkRecord.reworkAmount)!}" class="isZero input input-sm"/>
+													<input type="text" name="reworkRecord.reworkAmount" value="${(reworkRecord.reworkAmount)!}" class="theAmount isZero input input-sm"/>
 												 </#if>
 												<label class="requireField">*</label>
 												</div>
@@ -120,7 +120,7 @@ body{background:#fff;}
 												<#if show??>
 													 <span>${(reworkRecord.defectAmount)!}</span>
 												  <#else>
-													<input type="text" name="reworkRecord.defectAmount" value="${(reworkRecord.defectAmount)!}" class="isZero input input-sm" />	
+													<input type="text" name="reworkRecord.defectAmount" value="${(reworkRecord.defectAmount)!}" class="theAmount isZero input input-sm" />	
 												</#if>
 												<label class="requireField">*</label>												
 											 </div>
@@ -329,6 +329,16 @@ $(function(){
 
 	$("#completeRework").click(function(){	
 		var flag=true;
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		$(".theAmount").each(function(){
+			if($(this).val!=null&&$(this).val()!=""){
+				flag = regx.test($(this).val());
+				if(flag == false){
+					layer.msg("输入不合法!", {icon: 5});
+					return false;
+				}
+			}
+		})
 		$(".isZero").each(function(){
 			if($(this).val()==""){		
 				alert("请填写必填项");

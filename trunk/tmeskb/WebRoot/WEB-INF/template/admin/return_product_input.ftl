@@ -122,7 +122,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="returnProduct.materialBatch" value="${(returnProduct.materialBatch)!}">
 																	<td>${(returnProduct.actualMaterialMount)! }</td>
 																	<input type="hidden"  name="returnProduct.actualMaterialMount" value="${(returnProduct.actualMaterialMount)!}">
-																	<td><input type="text"  name="returnProduct.stockMout" value="${(returnProduct.stockMout)!}"onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
+																	<td><input type="text" class="stockMout" name="returnProduct.stockMout" value="${(returnProduct.stockMout)!}"onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 															</tr>
 														<#else>
 															<#list locationonsideList as lns>
@@ -138,7 +138,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="returnProducts[${lns_index}].materialBatch" value="${(lns.charg)!}">
 																	<td>${(lns.amount)! }</td>
 																	<input type="hidden"  name="returnProducts[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td><input type="text"  name="returnProducts[${lns_index}].stockMout" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
+																	<td><input type="text" class="stockMout" name="returnProducts[${lns_index}].stockMout" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
 																</tr>
 															</#list>
 															</#if>
@@ -191,16 +191,29 @@ $(function(){
 	$subm.click(function(){
 		var dt = $("#inputForm").serialize();
 		var loginId = $("#loginid").val();//当前登录人的id
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var isNum = true;
 		if($ep==""){
 			var url = "return_product!creditsubmit.action?loginId="+loginId;
 		}else{
 			var url = "return_product!update.action?loginId="+loginId;
 		}
-		credit.creditCard(url,function(data){
-			if(data.status=="success"){
-				window.location.href="return_product!list.action";
+		$(".stockMout").each(function(){
+			if($(this).val!=null&&$(this).val()!=""){
+				isNum = regx.test($(this).val());
+				if(isNum == false){
+					layer.msg("输入不合法!", {icon: 5});
+					return false;
+				}
 			}
-		},dt);
+		})
+		if(isNum == true){
+			credit.creditCard(url,function(data){
+				if(data.status=="success"){
+					window.location.href="return_product!list.action";
+				}
+			},dt);
+		}
 	});
 	//刷卡确认
 	/* $sure.click(function(){

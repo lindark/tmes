@@ -331,8 +331,12 @@ $(function () {
 		var num = $(this).val();
 		var noNum = $(this).parent().parent().find(".noNum").val();
 		var passNum = num-noNum;
-		
-		
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var isNum = regx.test($(this).val());
+		if(isNum == false){
+			layer.msg("输入不合法!", {icon: 5});
+			return false;
+		}
 		$(this).parent().parent().find(".pass_num").val(passNum);
 		if(passNum<0){
 			alert("请输入正确数量!");
@@ -524,7 +528,12 @@ function sub_event(my_id)
 	for(i=0;i<nums.length;i++)
 	{
 		var num=nums.eq(i).val();
-		if(num<0){
+		var isNum = true;
+		if(num!=null&&num!=""){
+			var regx = /^(\+|-)?\d+($|\.\d+$)/;
+			isNum = regx.test($(num).val());	
+		}
+		if(num<0||isNum==false){
 			layer.msg("请确认输入的数量", {icon: 5});
 			return false;
 		}

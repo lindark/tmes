@@ -117,8 +117,8 @@ public class ScrapAction extends BaseAdminAction
 	public String list()
 	{
 		
-		this.admin=this.adminService.getLoginAdmin();
-		admin = adminService.get(admin.getId());
+		//this.admin=this.adminService.getLoginAdmin();
+		//admin = adminService.get(admin.getId());
 		//admin = tempKaoqinService.getAdminWorkStateByAdmin(admin);
 		/*boolean flag = ThinkWayUtil.isPass(admin);
 		if(!flag){
@@ -126,11 +126,11 @@ public class ScrapAction extends BaseAdminAction
 			return ERROR;
 		}*/
 //		Admin admin = adminService.get(loginid);
-		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
-		if(lists!=null && lists.size() != 0){
-			addActionError("当前班次总体交接已完成!");
-			return ERROR;
-		}
+//		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
+//		if(lists!=null && lists.size() != 0){
+//			addActionError("当前班次总体交接已完成!");
+//			return ERROR;
+//		}
 		this.workingbill=this.wbService.get(wbId);
 		return LIST;
 	}
